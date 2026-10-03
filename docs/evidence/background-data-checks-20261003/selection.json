@@ -1,0 +1,64 @@
+{
+  "priorReceiptSHA256": "3b479fb5cb023306c5edba3f35e0a9db57fd23a204be0a167e57acd98559bc90",
+  "selected": [
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-task-output.ts",
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/background-task-output.ts",
+        "blob": "6347c530a157192dc680a71c367700318df0bfa1",
+        "normalizedSha256": "d212da0fbab1c883d2b3d3a82b70d9de8eb4d5e993b80f1aadba548fc7b8e79d",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/tool/executor/background-task-output.ts"
+        ]
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "exactEvidenceOccurrences": [
+        [
+          "docs/evidence/knorvia-bash-results-owners-20261003.json",
+          "/boundedRemainingInventory/0/path",
+          "value"
+        ]
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/workflow-artifact.ts",
+        "blob": "64ec568e171b970bd3bdddd9b4821059c4bf0888",
+        "normalizedSha256": "f52a454060d8bfa576a10d8633bf3b050149ff525ca646fb3e40d2187045a075",
+        "contentMatchedPaths": []
+      },
+      "history": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "exactEvidenceOccurrences": [
+        [
+          "docs/evidence/knorvia-get-workflow-run-snapshot-fast-checks-20261001.json",
+          "/protectedInputs/66/path",
+          "value"
+        ],
+        [
+          "docs/evidence/knorvia-list-saved-workflows-model-fast-checks-20261001.json",
+          "/protectedInputs/68/path",
+          "value"
+        ],
+        [
+          "docs/evidence/knorvia-bash-results-owners-20261003.json",
+          "/boundedRemainingInventory/2/path",
+          "value"
+        ],
+        [
+          "docs/evidence/knorvia-workflow-run-summary-fast-checks-20261001.json",
+          "/protectedInputs/69/path",
+          "value"
+        ]
+      ]
+    }
+  ],
+  "interpretation": "Exact occurrences inspected as protected dependency/negative selection, not accepted whole candidate. Missing review alone not proof; latest parent explicit priority plus source-only bounded allocation. Recorded publisher facts are inventory binding, not new publisher download/authorship verification."
+}
