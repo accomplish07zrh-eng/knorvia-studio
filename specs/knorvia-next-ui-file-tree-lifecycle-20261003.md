@@ -53,14 +53,24 @@ source-exposed；不声称 clean-room、行为已验收或文件已可授 MIT。
 
 保留 root/expanded/loaded 集合、错误和 Git/ignored 投影接口。非 force 已加载
 或正在加载时返回 loaded；目录请求按 workspace 世代、全局请求世代及每路径
-票据判接受权。成功清错误、映射原 entry shape 并预取单一普通子目录；失败保留
+票据判接受权。票据对象不会复用，prune 可以移除票据但不能让旧票据复活。
+成功清错误、映射原 entry shape 并预取单一普通子目录；失败保留
 旧 children 和原日志。watch 刷新失败才 prune subtree 并刷新 parent，手工失败
 不 prune。ignore 回包只能写入同一有效目录请求。原超时、debounce、并发、bulk
 threshold、重入屏障和 Git 可用性行为不改。
 
 全 scope cleanup 必须撤销目录/Git/ignore/refresh 接受权并清除 debounce timer；
-旧 hook cleanup 仅撤销 refresh batch 的缺口需显式修复。目录序号在 prune 后
-不能重复，超时请求不能在重建同路径后复活。不修改 host、数据库或存储格式。
+旧 hook cleanup 仅撤销 refresh batch 的缺口需显式修复。超时请求不能在重建
+同路径后复活。不修改 host、数据库或存储格式。loaded ref 是同一 snapshot 的
+读写入口，公开 setExpandedPaths/setLoadedDirectoryPaths 继续接受值或 updater。
+
+修复边界：root watcher 回调旧闭包可能在 bulk flush 使用注册时的 expanded
+集合；新 owner flush 读取当前 snapshot 的展开集合。手工 refresh 路径也读取
+当前集合而非旧 callback 闭包。原去重顺序、阈值和并发数保持。scope 含 remote
+session，即便服务对象未替换也撤销旧 scope。异常和 timeout 不新增 UI 消息。
+数据 hook 给 registry 的稳定回调桥在 scope effect 中指向当前 owner；保留相同
+watch service/path 的已安装订阅时，不得因 file/Git owner 替换而把事件送往已关闭
+owner。桥只保存 owner 指针，不保存第二份目录状态；旧路径事件仍经当前 root 检查。
 
 ## 验收限制
 
