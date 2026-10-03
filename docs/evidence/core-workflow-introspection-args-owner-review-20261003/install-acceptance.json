@@ -1,0 +1,63 @@
+{
+  "baseline": "02ad30c7539e8f0967dde9349e6fd676292dc0b1",
+  "installed": [
+    {
+      "scope": "introspection",
+      "target": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "archive": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/workflow-run-introspection.ts.txt",
+      "receipt": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/author-record.json",
+      "sourceSha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+      "sourceBytes": 3385,
+      "sourceLines": 95,
+      "receiptSha256": "811e97a2223ff67b75254ce2db83b565070d20c522c322c84db5b2c79c1fabdd",
+      "freezeCommit": "db8a406a",
+      "proofs": [
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-review-20261003/introspection-static.json",
+          "sha256": "d3747c8d5c3dc11b5207c581767e873be94855e08a598aaef6aa9330f9935a3d"
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-review-20261003/introspection-retained-data.json",
+          "sha256": "e40ae38c08c096aa6258d71106735770587f5c29736cc8e4e08068ac8b2147ae"
+        }
+      ],
+      "exactInstalled": true
+    },
+    {
+      "scope": "args",
+      "target": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+      "archive": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/args.ts.txt",
+      "receipt": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/author-record.json",
+      "sourceSha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b",
+      "sourceBytes": 2651,
+      "sourceLines": 98,
+      "receiptSha256": "cfd6249e07be0dde38cfd5e9196a9dff330c465c19059d414823a25de9fdb031",
+      "freezeCommit": "d5437ba7",
+      "proofs": [
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-review-20261003/args-static.json",
+          "sha256": "b1a9211efa5a6a5a02d107581863f7622370abbeda5a3d9defb20f6379995aba"
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-review-20261003/args-retained-data.json",
+          "sha256": "30526ba4c688881410d83ad22df1126cd03f284e9e4ae1a3456147212e3e6bc7"
+        }
+      ],
+      "exactInstalled": true
+    }
+  ],
+  "originalLines": 253,
+  "newLines": 193,
+  "outsideBoundaries": {
+    "checked": 619,
+    "unchanged": 619,
+    "failures": []
+  },
+  "changedCorePaths": [
+    "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+    "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts"
+  ],
+  "distinctMinimumGroups": 4,
+  "passed": true,
+  "qualification": "Complete author sources installed byte-exact; no curator source patch. All complete archives/full receipts committed before body review. Original complete drafts pass four distinct minimum groups; retained common expressions/schema/native formatting remain qualified without novelty credit. Static/public-data/proof and 619 outside bindings only; no semantic/project checks, native activity, full functionality proof, license/rights closure or OS audit. Curator/source-derived data/historical exposure/repaired scratch breach qualifications retained. HOLD root/local graph fold/bounds/summary/roster/read-state/registry remain untouched; expert parsers A PR11 excluded; all21 material obligations OPEN."
+}

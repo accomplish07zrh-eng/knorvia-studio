@@ -1,0 +1,26 @@
+{
+  "sourceBindings": {
+    "introspection": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+    "args": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b"
+  },
+  "retainedExpressionsAndPolicies": [
+    "Exact exported steering array of two long strings joined newline, with precise string annotation; retained public production expression, not new logic credit.",
+    "Timestamp native Number.isFinite gate, new Date(epochMs).toISOString and String fallback; substantial common operations and control-flow pattern retained.",
+    "Duration finite-positive clamp, standard1000/60000/3600000/86400000 units, strict thresholds, floor/remainder/padding; common formulas and broad control flow retained. Inline constants/helper rename/comment removal are not originality evidence.",
+    "Age missing/nonfinite gates, duration subtraction, instant age then timestamp, count sign/trunc(abs)/String/grouping regex and attribute whitespace/nativeString/original escapeXml reexport identity retained.",
+    "Fresh failure literal fields/codes/exact required unavailable and raw missing-run text retained.",
+    "Argument native keys/entries and inherited lookup, unknown-error phase before own declarations, explicit undefined/default-read/required/identity/ordinary assignment semantics retained.",
+    "Authoritative schema type union and exact typeof/finite-number/json/default-validation policy, common validation case flow and value-description prose retained. No new schema/security/config/grant assertion.",
+    "Two complete body-free-contract author files and full receipts document the reconstruction process, not automatically an independent production-expression or whole-file rights clearance. Technical API/minimum evidence only; parent retains release/license decision."
+  ],
+  "sourceExposure": [
+    "Curator deliberately read both originals to prepare public contracts and later read both authored bodies only after complete archive commits db8a406a/d5437ba7.",
+    "Introspection was also exposed to curator in an earlier formatter/helper context; public source-derived strings/native algorithms/schema facts are retained honestly.",
+    "Fresh authors self-report only six named public inputs plus their own source/receipt IO, source1write/1manualread each, full receipts before curator review.",
+    "Shared executor instructions/self-report are not OS isolation or an access audit; historical broader exposures and prior repaired scratch-write breach remain qualified."
+  ],
+  "scope": "Only allocated introspection/args; graph folds/bounds root technical HOLD/local older sources remain, expert parsers all A PR11 excluded. Prior local no-receipt screen was not permission.",
+  "ordinaryChecks": "Deferred by parent, no ordinary suite/build/lint/project/semantic/source-emitted matrices; existing missing-TypeScript architecture failure preserved and not repeated/bypassed.",
+  "materialObligationsOpen": 21,
+  "rightsOrMitClosure": false
+}

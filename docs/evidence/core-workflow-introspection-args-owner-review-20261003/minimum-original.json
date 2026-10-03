@@ -1,0 +1,39 @@
+{
+  "bindings": {
+    "introspection": {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/workflow-run-introspection.ts.txt",
+      "bytes": 3385,
+      "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9"
+    },
+    "args": {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/args.ts.txt",
+      "bytes": 2651,
+      "sha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b"
+    }
+  },
+  "groups": [
+    {
+      "scope": "introspection",
+      "name": "fresh failures/exact steering and original normalized attribute/reexport/error port identity",
+      "passed": true
+    },
+    {
+      "scope": "introspection",
+      "name": "numeric duration thresholds/native UTC fallback/unknown ages and signed truncation/exponent counts",
+      "passed": true
+    },
+    {
+      "scope": "args",
+      "name": "ordered fresh results/default read and nested identity/undefined/inherited and ordinary-prototype projection",
+      "passed": true
+    },
+    {
+      "scope": "args",
+      "name": "aggregate exact unknown/default/type errors and native getter/json/no-new-policy error boundaries",
+      "passed": true
+    }
+  ],
+  "distinctGroups": 4,
+  "passed": true,
+  "qualification": "Four distinct minimum synthetic groups (introspection2/args2), candidate isolated-transpilation only, fake original escapeXml identity/error and supplied fictional native primitive/object/time values. No predecessor/helper/schema/workflow/provider/IO execution, project/semantic/suite/build/lint/source-emitted matrix, OS access audit/rights/grant closure. Common/native/required prose/schema/export expression retained honestly."
+}

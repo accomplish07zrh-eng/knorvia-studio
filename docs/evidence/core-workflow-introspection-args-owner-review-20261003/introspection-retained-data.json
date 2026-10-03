@@ -1,0 +1,30 @@
+{
+  "scope": "introspection",
+  "binding": {
+    "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/workflow-run-introspection.ts.txt",
+    "bytes": 3385,
+    "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9"
+  },
+  "proseChecks": [
+    {
+      "text": "workflow_introspection_unavailable: this session cannot read workflow runs — workflow execution is not available here, so no run history is reachable. This is a capability gap, not an empty project.",
+      "exact": true
+    },
+    {
+      "text": "Runs this session starts settle on their own: you receive a completion notification carrying the final output. Do NOT poll this tool while waiting for one — continue with other work.",
+      "exact": true
+    },
+    {
+      "text": "Reach for it when: (a) the user asks how a workflow is going, (b) you want to review this project's earlier runs, including ones other sessions started, (c) a completion notification was truncated and you need the run's full record by ID.",
+      "exact": true
+    }
+  ],
+  "exportedExpressions": [
+    {
+      "name": "WORKFLOW_RUN_INTROSPECTION_STEERING",
+      "exact": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Exact required long prose/template paragraph fragments and exported steering initializer topology retained. Other exact short formatting/validation fragments/ordered fields checked in minimum exact synthetic projections; may compose from public values, no lexical originality credit. Opaque schema/type/dependency data remain original unchanged byte owners. No original/runtime/schema/workflow execution or semantic/project/license claim."
+}
