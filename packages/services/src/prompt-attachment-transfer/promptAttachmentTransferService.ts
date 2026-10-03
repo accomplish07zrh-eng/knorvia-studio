@@ -2,33 +2,23 @@ import { stat } from "node:fs/promises";
 import { Emitter } from "@knorvia/rpc";
 import type {
   IPromptAttachmentTransferService,
+  PromptAttachmentStageParams,
+  PromptAttachmentStageResult,
   PromptAttachmentTransferProgress,
 } from "./promptAttachmentTransfer.js";
 
-/** 本地 workspace 保持 localPath 零拷贝，不伪造上传进度。 */
 export function createLocalPromptAttachmentTransferService(): IPromptAttachmentTransferService {
-  const emitters = new Map<string, Emitter<PromptAttachmentTransferProgress>>();
-  const getEmitter = (operationId: string) => {
-    const existing = emitters.get(operationId);
-    if (existing) return existing;
-    const emitter = new Emitter<PromptAttachmentTransferProgress>({
-      onDidRemoveLastListener: () => {
-        emitters.delete(operationId);
-        emitter.dispose();
-      },
-    });
-    emitters.set(operationId, emitter);
-    return emitter;
-  };
+  const progressEmitters = new Map<string, Emitter<PromptAttachmentTransferProgress>>();
 
   return {
-    async stage(params) {
+    async stage(params: PromptAttachmentStageParams): Promise<PromptAttachmentStageResult> {
       const bytes =
         typeof params.sizeBytes === "number" && params.sizeBytes > 0
           ? params.sizeBytes
           : await stat(params.localPath)
-              .then((value) => value.size)
+              .then((stats) => stats.size)
               .catch(() => 0);
+
       return {
         operationId: params.operationId,
         ref: params.localPath,
@@ -39,6 +29,20 @@ export function createLocalPromptAttachmentTransferService(): IPromptAttachmentT
     async adopt() {},
     async cancel() {},
     async cleanup() {},
-    onDynamicProgress: (operationId) => getEmitter(operationId).event,
+    onDynamicProgress(operationId: string) {
+      const existingEmitter = progressEmitters.get(operationId);
+      if (existingEmitter) {
+        return existingEmitter.event;
+      }
+
+      const emitter = new Emitter<PromptAttachmentTransferProgress>({
+        onDidRemoveLastListener: () => {
+          progressEmitters.delete(operationId);
+          emitter.dispose();
+        },
+      });
+      progressEmitters.set(operationId, emitter);
+      return emitter.event;
+    },
   };
 }
