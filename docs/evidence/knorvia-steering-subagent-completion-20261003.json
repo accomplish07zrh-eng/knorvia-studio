@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "candidateCommit": "8282aa588541f7656757d55df406afa4a231e8d3",
+  "freezeCommit": "f64bc46b6a98cfcf94ed059f57a1f4f39cd07e11",
+  "draftAndRedProofCommit": "1401a770871e2817b287d583381a2473f52daf90",
+  "scope": [
+    "complete runtime/methods/steering.ts public methods and seven private steering modules",
+    "complete runtime/methods/subagent.ts creation callback and two private child authority/skill modules"
+  ],
+  "originalSourceSha256": {
+    "steering.ts": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab",
+    "subagent.ts": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7"
+  },
+  "currentEntries": {
+    "steering.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+        "sha256": "be59286696246b42f8b96aee308f52e6b98f2447a259746d3505474608dfe8ba"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering.js",
+        "sha256": "2b8015e134b6c3a45cc67e9483d8ad71b74e3fc6fac94cfd1bc462207b73d7c6"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering.d.ts",
+        "sha256": "9eb829e0473e5c2c4f41b9b4e08185ce77a92ad49a1d8ba397d0a70c3ba7cbde"
+      }
+    },
+    "subagent.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+        "sha256": "8558f73356011c319c8228e7570d7b9ee690daee8efaf795771c03941ec547e0"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent.js",
+        "sha256": "5abf06e968b5ee199f830bfe2b86261bd089efcf1a3c189d6eac45ac3a659980"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent.d.ts",
+        "sha256": "70bc53eb28aaf65bb838378c9795fb16ede623b85432facf55810ab25b691838"
+      }
+    }
+  },
+  "strictCurrentManifest": {
+    "path": "docs/evidence/knorvia-steering-subagent-current-20261003.json",
+    "sha256": "ee7919ddfb7cc62e7a6c68e0baa55c2c400a1f785d9471e13bd0348b103ba960",
+    "sourceFiles": 11,
+    "pins": 33
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/steering-subagent-baseline-20261003.json",
+    "sha256": "ca03acb0d6b1510c32235ddc78921e27ef74bff19dba54e0bd3eab246b131151",
+    "frozenSourceEmittedDeclarationAndAssertionsUnchanged": true
+  },
+  "authorship": {
+    "curatorSourceExposed": true,
+    "authors": "Two fresh native agents with no inherited conversation, restricted by instructions to their three body-free source-derived packet inputs and recorded subagent clarifications. Shared executor access was not an enforced filesystem isolation. Initial and formatted complete drafts sealed before curator review.",
+    "seals": {
+      "steering": {
+        "path": "docs/evidence/steering-subagent-author-20261003/steering/draft-01/seal.json",
+        "sha256": "4d8b52d62476eddbd5436303d61b51c316f26e5b02a1a3e0b1095fcb845ae6a0"
+      },
+      "subagent": {
+        "path": "docs/evidence/steering-subagent-author-20261003/subagent/draft-01/seal.json",
+        "sha256": "8aa60c05df4cd8241902ce34f25657a5af0a626121ee57880f63a80453ecddaf"
+      }
+    },
+    "corrections": {
+      "path": "docs/evidence/steering-subagent-author-20261003/corrections.json",
+      "sha256": "dbac16dc6d8813fbc8d130799472c8ece3acf875092f394ce75a526144f0b94e"
+    },
+    "sourceCorrectedDraftsPreserved": true,
+    "inputIssue": "Markdown formatting changed unquoted punctuation in packets; raw forms and literal clarifications retained. Final correction is source-exposed, not unchanged restricted authorship.",
+    "rightsDecision": "Unresolved. Strong correspondence in admission/event/configuration/helper combinations remains for independent review; no whole-body/file/MIT or clean-room claim."
+  },
+  "design": [
+    "Runtime retains active turn, reservations, drain exclusion, queue and permission state. Public methods re-export direct functions; no wrapper/cache/retry layer. Admission, durable edits/reservations, guides, draining and configuration are separate cohesive private owners.",
+    "The subagent port captures the same parent and dependencies; request callback owns preparation, child persistence/startup, model selection, event sink and execute/finally lifetime. Authority and skill projections use unchanged lower policies. Native async helper/no-op gates correspond to existing helper boundaries."
+  ],
+  "retainedExpression": [
+    "Fixed protocol/event/log/error strings and enum values, ordered output/configuration fields, erased brand casts, standard imports and re-export/type glue remain.",
+    "Reservation rollback, durable-write-before-mutation, guide/attachment/history/event sequencing and child permission/MCP/model/config/cleanup combinations remain closely constrained and in several places strongly correspond. These are not counted as independent expression merely because moved or renamed.",
+    "Existing lower helpers, runner/profile, held registry, permission/recovery and E boundaries stay exact; no licence header or shared inventory changed."
+  ],
+  "validation": {
+    "actualEmittedSafetyGroups": {
+      "baseline": 8,
+      "current": 8
+    },
+    "concreteFocusedProbes": {
+      "baseline": 6,
+      "initialDraftExpectedFailures": 6,
+      "current": 6
+    },
+    "detachedSkillReceiverProof": {
+      "baseline": 1,
+      "initialDraftExpectedFailures": 1,
+      "current": 1
+    },
+    "countsOverlap": "Safety groups include fake runtime-method and child-factory consumers; those consumers are not additional cases. The focused probes are separately appended concrete red proofs. No source behavior replay.",
+    "compiler": {
+      "typescript": "6.0.2",
+      "finalDiagnostics": 0,
+      "publicMethodsEqual": 28,
+      "actualSelectedEmissions": 22,
+      "unselectedWrites": 0,
+      "initialDraftDiagnostics": 15,
+      "intermediateCorrectionDiagnostics": 6,
+      "committedReproducerSeparatelyRun": false
+    },
+    "artifactProof": {
+      "currentPins": 33,
+      "wrongEmissionFailsClosed": true,
+      "missingDeclarationFailsClosed": true,
+      "unchangedHistoricalOracle": true,
+      "currentEntriesDifferFromOracle": 2,
+      "protectedSources": 47,
+      "priorCounts": {
+        "runtime-tooling": 24,
+        "runtime-permission": 15,
+        "subagent-owners": 33
+      },
+      "priorUniquePaths": 72,
+      "authorSealMatches": 32
+    },
+    "ownedLint": {
+      "files": 18,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 2,
+      "warningFacts": [
+        "Captured parent this alias is intentional for callback identity.",
+        "Unused fake listSessionInputs parameter is retained to preserve frozen fixture expression."
+      ]
+    },
+    "format": {
+      "files": 20,
+      "passed": true,
+      "initialNewScriptFormattingFailurePreserved": true
+    },
+    "architecture": {
+      "violations": 0,
+      "cliManagedCoverage": "CLI modules remain outside managed module policy; this pass is not complete architecture acceptance."
+    },
+    "diffCheck": true,
+    "realRuntimeOperations": 0
+  },
+  "evidenceFiles": {
+    "docs/evidence/steering-subagent-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/steering-subagent-checks-20261003/artifact-proof.log": "65618f6f117936a37ea5bdbdbb823d86c81fe2b6aa244ba8dc5e87ba2f714f64",
+    "docs/evidence/steering-subagent-checks-20261003/baseline-focused.log": "4f65c73ffc38ea397a2d1afef130fe08fe08cd878546102b4053863a348c2e3b",
+    "docs/evidence/steering-subagent-checks-20261003/baseline-port-receiver.log": "3e88b71a3e16b933173c0beeb9be745cab7b5fa033cd1d466ad7ad902cff4fae",
+    "docs/evidence/steering-subagent-checks-20261003/baseline-safety.log": "1449c53881018b7885eae61254c46d0ace943f03182420802a4249db514096db",
+    "docs/evidence/steering-subagent-checks-20261003/correction-script-compiler-failure.json": "9cd2470090cc9b2402139cf50776313f1e26a9d6fbe562cf6f90c11c08152b95",
+    "docs/evidence/steering-subagent-checks-20261003/current-compiler.json": "34c3bd4c1e914a8e1cca1568a7726815c14bd1353570660bccd641d3f29e5d4c",
+    "docs/evidence/steering-subagent-checks-20261003/current-focused.log": "bf1c5be8869f9fde01ab1d35735356d67fcab3693d54602bdd0e652776d32a72",
+    "docs/evidence/steering-subagent-checks-20261003/current-port-receiver.log": "ce4a41ccf1a3229c3129cb615a33af16d8565936d69f9a2f762f1d58977af23c",
+    "docs/evidence/steering-subagent-checks-20261003/current-safety.log": "016800313fc0c9d2a9efd6fd9bc839c48c26de203a77aba6b3adb45ef12c0ee0",
+    "docs/evidence/steering-subagent-checks-20261003/draft-focused-red.log": "97ca5e96f78f512f836f7987ee238cc3af7d31a1398d06877e2103f3e0a811ac",
+    "docs/evidence/steering-subagent-checks-20261003/draft-port-receiver-red.log": "d66efd97837d0557f5da758b869030f0c65088c1880902c8e2fb75d26c3e9903",
+    "docs/evidence/steering-subagent-checks-20261003/fixture-split-proof.json": "a1e027377c3fdb49b914e1330bd50efbbc311b909ed9ed369c4e935ed793920c",
+    "docs/evidence/steering-subagent-checks-20261003/format-failure.json": "2fe37847d20764e082fb6f2187f45731d77e740a474182f4383013dac2f52083",
+    "docs/evidence/steering-subagent-checks-20261003/initial-compiler.json": "5b32cd6d4b2e63e43558aca65a610e4ce98f82c8091d635059c1330673037743",
+    "docs/evidence/steering-subagent-checks-20261003/owned-format.log": "2469585001217dfd59f7134d7b32383461c2025911b343a753c81a0dd4c4c9ad",
+    "docs/evidence/steering-subagent-checks-20261003/owned-lint.log": "ea5c01c06cf1b61ab5a65aea88dc236bbccc3dd97dc9ce9eb1b4d0e923aa8022",
+    "docs/evidence/steering-subagent-checks-20261003/rejected-draft-emission.json": "516e978c3c98422cb7f7642edc143798bab8989a726bd47aa744b312a7b22c8d"
+  },
+  "deferred": [
+    "Ordinary source/full regression suites, broad root type/lint/builds and native acceptance per speed-first instruction.",
+    "Integrated real AgentRuntime, real permission/runner/MCP/provider/process/file ports and actual user data were not executed.",
+    "Synthetic coverage is bounded; parent independently reviews production expression and full supported behavior."
+  ]
+}
