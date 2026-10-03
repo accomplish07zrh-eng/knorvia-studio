@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed independent candidate, 2026-10-03; prior attribution remains in Git/NOTICE.
 interface ParsedAssistantDirective {
   end: number;
   name: string;
@@ -28,12 +30,11 @@ function createDirectiveStartPattern(
   directiveName: string,
   options: AssistantDirectiveSyntaxOptions = {},
 ): RegExp {
-  // 模型偶尔把文件引用的双冒号输出成单/三冒号；不能全局放宽，否则
-  // code-comment 等协议也会被意外兼容。opt-in 时同时拒绝从连续冒号中间起匹配。
-  const minimumColonCount = options.allowSingleColon ? 1 : 2;
-  const maximumColonCount = options.allowTripleColon ? 3 : 2;
-  const prefix = `(?<!:):{${minimumColonCount},${maximumColonCount}}`;
-  return new RegExp(`${prefix}${escapeRegExp(directiveName)}\\s*\\{`, "g");
+  // 单/三冒号只允许现有消费者 opt-in，且拒绝从连续冒号的中间起读。
+  return new RegExp(
+    `(?<!:):{${options.allowSingleColon ? 1 : 2},${options.allowTripleColon ? 3 : 2}}${escapeRegExp(directiveName)}\\s*\\{`,
+    "g",
+  );
 }
 
 interface DirectiveQuoteState {
@@ -45,78 +46,54 @@ function getDirectiveQuoteState(
   character: string | undefined,
   options: AssistantDirectiveSyntaxOptions,
 ): DirectiveQuoteState | null {
-  if (character === '"' || character === "'") {
-    return { open: character, close: character };
-  }
-  // 中文模型输出可能使用成对智能引号；未识别时会退化为未加引号值，
-  // 使空格截断路径或把引号字符带入后续文件解析。仅由 citation opt-in，保持其它 directive 严格。
+  if (character === '"' || character === "'") return { open: character, close: character };
   if (!options.allowSmartQuotes) return null;
   if (character === "“") return { open: character, close: "”" };
   if (character === "‘") return { open: character, close: "’" };
   return null;
 }
 
-function findDirectiveClosingBrace(
-  content: string,
-  openBraceIndex: number,
-  options: AssistantDirectiveSyntaxOptions,
-): number {
-  let quote: DirectiveQuoteState | null = null;
-  let escaped = false;
-
-  for (let index = openBraceIndex + 1; index < content.length; index += 1) {
-    const character = content[index];
-    if (quote !== null) {
-      if (escaped) {
-        escaped = false;
-      } else if (character === "\\") {
-        escaped = true;
-      } else if (character === quote.close) {
-        quote = null;
-      }
-      continue;
-    }
-
-    const quoteState = getDirectiveQuoteState(character, options);
-    if (quoteState) {
-      quote = quoteState;
-    } else if (character === "}") {
-      return index;
-    }
-  }
-
-  return -1;
-}
-
-function parseQuotedValue(
+/** 一个 quoted span reader；闭合扫描、参数与流式尾部共享同一转义边界。 */
+function readQuotedSpan(
   source: string,
   start: number,
   quote: DirectiveQuoteState,
-): { nextIndex: number; value: string } | null {
-  let value = "";
-  for (let index = start + 1; index < source.length; index += 1) {
-    const character = source[index]!;
-    if (character === quote.close) return { nextIndex: index + 1, value };
-    if (character !== "\\" || index + 1 >= source.length) {
-      value += character;
-      continue;
+): { end: number; value: string } | null {
+  const boundaries = new RegExp(`[\\\\${escapeRegExp(quote.close)}]`, "g");
+  const pieces: string[] = [];
+  let cursor = start + 1;
+  boundaries.lastIndex = cursor;
+  for (let boundary = boundaries.exec(source); boundary; boundary = boundaries.exec(source)) {
+    pieces.push(source.slice(cursor, boundary.index));
+    if (boundary[0] === quote.close) {
+      return { end: boundary.index + 1, value: pieces.join("") };
     }
-
-    const escapedCharacter = source[index + 1]!;
-    if (
-      escapedCharacter === quote.open ||
-      escapedCharacter === quote.close ||
-      escapedCharacter === "\\"
-    ) {
-      value += escapedCharacter;
-    } else {
-      // Directive 不是 JSON；未知转义必须保留反斜杠，避免把 Windows 路径改坏。
-      value += `\\${escapedCharacter}`;
-    }
-    index += 1;
+    const escaped = source[boundary.index + 1];
+    if (escaped === undefined) return null;
+    // Directive 不是 JSON；未知转义必须保持原字符，尤其不能破坏 Windows 路径。
+    pieces.push([quote.open, quote.close, "\\"].includes(escaped) ? escaped : `\\${escaped}`);
+    cursor = boundary.index + 2;
+    boundaries.lastIndex = cursor;
   }
-
   return null;
+}
+
+function scanDirectiveBoundary(
+  source: string,
+  bodyStart: number,
+  options: AssistantDirectiveSyntaxOptions,
+): { brace: number; unfinishedQuote: boolean } {
+  const markers = /["'“‘}]/g;
+  markers.lastIndex = bodyStart;
+  for (let marker = markers.exec(source); marker; marker = markers.exec(source)) {
+    if (marker[0] === "}") return { brace: marker.index, unfinishedQuote: false };
+    const quote = getDirectiveQuoteState(marker[0], options);
+    if (!quote) continue;
+    const span = readQuotedSpan(source, marker.index, quote);
+    if (!span) return { brace: -1, unfinishedQuote: true };
+    markers.lastIndex = span.end;
+  }
+  return { brace: -1, unfinishedQuote: false };
 }
 
 function parseDirectiveParameters(
@@ -124,41 +101,31 @@ function parseDirectiveParameters(
   options: AssistantDirectiveSyntaxOptions,
 ): Record<string, string> | null {
   const parameters: Record<string, string> = {};
-  let index = 0;
-
-  while (index < source.length) {
-    while (index < source.length && /[\s,]/.test(source[index] ?? "")) index += 1;
-    if (index >= source.length) return parameters;
-
-    const nameMatch = /^[a-zA-Z_][a-zA-Z\d_-]*/.exec(source.slice(index));
-    if (!nameMatch) return null;
-    const name = nameMatch[0];
-    index += name.length;
-
-    while (index < source.length && /\s/.test(source[index] ?? "")) index += 1;
-    if (source[index] !== "=") return null;
-    index += 1;
-    while (index < source.length && /\s/.test(source[index] ?? "")) index += 1;
-    if (index >= source.length) return null;
-
+  const binding = /[\s,]*([a-zA-Z_][a-zA-Z\d_-]*)\s*=\s*/y;
+  const bareValue = /[^\s,]+/y;
+  let cursor = 0;
+  while (cursor < source.length) {
+    binding.lastIndex = cursor;
+    const token = binding.exec(source);
+    if (!token) return /^[\s,]*$/.test(source.slice(cursor)) ? parameters : null;
+    cursor = binding.lastIndex;
+    const quote = getDirectiveQuoteState(source[cursor], options);
     let value: string;
-    const quote = getDirectiveQuoteState(source[index], options);
     if (quote) {
-      const parsedValue = parseQuotedValue(source, index, quote);
-      if (!parsedValue) return null;
-      value = parsedValue.value;
-      index = parsedValue.nextIndex;
+      const span = readQuotedSpan(source, cursor, quote);
+      if (!span) return null;
+      value = span.value;
+      cursor = span.end;
     } else {
-      const valueStart = index;
-      while (index < source.length && !/[\s,]/.test(source[index] ?? "")) index += 1;
-      value = source.slice(valueStart, index);
-      if (!value) return null;
+      bareValue.lastIndex = cursor;
+      const tokenValue = bareValue.exec(source);
+      if (!tokenValue) return null;
+      value = tokenValue[0];
+      cursor = bareValue.lastIndex;
     }
-
-    if (index < source.length && !/[\s,]/.test(source[index] ?? "")) return null;
-    parameters[name] = value;
+    if (cursor < source.length && !/[\s,]/.test(source[cursor]!)) return null;
+    parameters[token[1]!] = value;
   }
-
   return parameters;
 }
 
@@ -168,32 +135,23 @@ export function extractAssistantDirectives(
   options: AssistantDirectiveSyntaxOptions = {},
 ): ParsedAssistantDirective[] {
   if (!content.trim() || !directiveName.trim()) return [];
-
-  const startPattern = createDirectiveStartPattern(directiveName, options);
+  const candidates = createDirectiveStartPattern(directiveName, options);
   const directives: ParsedAssistantDirective[] = [];
-  let consumedUntil = 0;
-  for (const match of content.matchAll(startPattern)) {
-    const start = match.index ?? 0;
-    if (start < consumedUntil) continue;
-    const openBraceIndex = start + (match[0]?.lastIndexOf("{") ?? -1);
-    if (openBraceIndex < start) continue;
-
-    const closingBraceIndex = findDirectiveClosingBrace(content, openBraceIndex, options);
-    if (closingBraceIndex < 0) continue;
-    const end = closingBraceIndex + 1;
-    consumedUntil = end;
+  for (let match = candidates.exec(content); match; match = candidates.exec(content)) {
+    const bodyStart = candidates.lastIndex;
+    const { brace } = scanDirectiveBoundary(content, bodyStart, options);
+    if (brace < 0) continue;
+    const end = brace + 1;
     directives.push({
-      start,
+      start: match.index,
       end,
       name: directiveName,
-      raw: content.slice(start, end),
-      parameters: parseDirectiveParameters(
-        content.slice(openBraceIndex + 1, closingBraceIndex),
-        options,
-      ),
+      raw: content.slice(match.index, end),
+      parameters: parseDirectiveParameters(content.slice(bodyStart, brace), options),
     });
+    // 只有完整 span 才消费内部候选；坏参数仍保留 raw，而未闭合 span 不撤销后续候选。
+    candidates.lastIndex = end;
   }
-
   return directives;
 }
 
@@ -212,54 +170,34 @@ function mergeRanges(ranges: AssistantTextRange[]): AssistantTextRange[] {
 }
 
 export function findMarkdownCodeRanges(content: string): AssistantTextRange[] {
-  const ranges: Array<[number, number]> = [];
-  const fencedRanges: Array<[number, number]> = [];
-  let fence: { character: "`" | "~"; length: number; start: number } | null = null;
-  let lineStart = 0;
-
-  while (lineStart < content.length) {
-    const newlineIndex = content.indexOf("\n", lineStart);
-    const lineEnd = newlineIndex < 0 ? content.length : newlineIndex + 1;
-    const line = content.slice(lineStart, newlineIndex < 0 ? content.length : newlineIndex);
-    const marker = /^ {0,3}(`{3,}|~{3,})/.exec(line)?.[1];
-    if (marker) {
-      if (!fence) {
-        fence = {
-          character: marker[0] as "`" | "~",
-          length: marker.length,
-          start: lineStart,
-        };
-      } else if (marker[0] === fence.character && marker.length >= fence.length) {
-        fencedRanges.push([fence.start, lineEnd]);
-        fence = null;
-      }
+  const fences: Array<[number, number]> = [];
+  let opener: { marker: string; start: number } | null = null;
+  // 仅以 \n 作行边界；不能把 JS multiline regex 额外识别的 Unicode separator 当作换行。
+  for (const line of content.matchAll(/(^|\n) {0,3}(`{3,}|~{3,})[^\n]*/g)) {
+    const marker = line[2]!;
+    if (!opener) {
+      opener = { marker, start: line.index + line[1]!.length };
+    } else if (marker[0] === opener.marker[0] && marker.length >= opener.marker.length) {
+      const end = line.index + line[0].length;
+      fences.push([opener.start, end + (content[end] === "\n" ? 1 : 0)]);
+      opener = null;
     }
-    lineStart = lineEnd;
   }
-  if (fence) fencedRanges.push([fence.start, content.length]);
-  ranges.push(...fencedRanges);
-
-  for (const match of content.matchAll(/<(code|pre)(?:\s[^>]*)?>[\s\S]*?<\/\1\s*>/gi)) {
-    const start = match.index ?? 0;
-    ranges.push([start, start + (match[0]?.length ?? 0)]);
+  if (opener) fences.push([opener.start, content.length]);
+  const ranges: AssistantTextRange[] = [...fences];
+  for (const element of content.matchAll(/<(code|pre)(?:\s[^>]*)?>[\s\S]*?<\/\1\s*>/gi)) {
+    ranges.push([element.index, element.index + element[0].length]);
   }
-
-  const isFenced = (index: number) =>
-    fencedRanges.some(([start, end]) => index >= start && index < end);
-  for (let index = 0; index < content.length; index += 1) {
-    if (content[index] !== "`" || isFenced(index)) continue;
-    let markerLength = 1;
-    while (content[index + markerLength] === "`") markerLength += 1;
-    const marker = "`".repeat(markerLength);
-    const closingIndex = content.indexOf(marker, index + markerLength);
-    if (closingIndex < 0 || isFenced(closingIndex)) {
-      index += markerLength - 1;
-      continue;
-    }
-    ranges.push([index, closingIndex + markerLength]);
-    index = closingIndex + markerLength - 1;
+  const inFence = (index: number) => fences.some(([start, end]) => start <= index && index < end);
+  const inlineMarkers = /`+/g;
+  for (let marker = inlineMarkers.exec(content); marker; marker = inlineMarkers.exec(content)) {
+    if (inFence(marker.index)) continue;
+    const close = content.indexOf(marker[0], inlineMarkers.lastIndex);
+    // 保留首个闭合 marker 落在 fence 内就放弃该 opener 的既有呈现规则。
+    if (close < 0 || inFence(close)) continue;
+    inlineMarkers.lastIndex = close + marker[0].length;
+    ranges.push([marker.index, inlineMarkers.lastIndex]);
   }
-
   return mergeRanges(ranges);
 }
 
@@ -277,92 +215,62 @@ export function findUnclosedAssistantDirectiveStart(
   protectedRanges: readonly AssistantTextRange[] = [],
   options: AssistantDirectiveSyntaxOptions = {},
 ): number | null {
-  const startPattern = createDirectiveStartPattern(directiveName, options);
-  let unclosedStart: number | null = null;
-  for (const match of content.matchAll(startPattern)) {
-    const start = match.index ?? 0;
-    const openBraceIndex = start + (match[0]?.lastIndexOf("{") ?? -1);
+  let result: number | null = null;
+  const candidates = createDirectiveStartPattern(directiveName, options);
+  for (const match of content.matchAll(candidates)) {
+    const bodyStart = match.index + match[0].length;
+    if (overlapsAssistantTextRanges(match.index, bodyStart, protectedRanges)) continue;
+    const boundary = scanDirectiveBoundary(content, bodyStart, options);
+    if (boundary.brace >= 0) continue;
+    const tail = content.slice(bodyStart);
+    // 末词/等号兼容规则保留：不把 source-exposed 重写顺手变成已保存消息的显示迁移。
+    const pendingBinding = /(?:^|[\s,])[a-zA-Z_][a-zA-Z\d_-]*\s*(?:=\s*)?$/.test(tail);
     if (
-      openBraceIndex < start ||
-      overlapsAssistantTextRanges(start, openBraceIndex + 1, protectedRanges)
+      boundary.unfinishedQuote ||
+      pendingBinding ||
+      parseDirectiveParameters(tail, options) !== null
     ) {
-      continue;
-    }
-    if (findDirectiveClosingBrace(content, openBraceIndex, options) < 0) {
-      // 只有仍然符合“参数前缀”的半截 directive 才隐藏。闭合引号后又出现
-      // 普通正文时，参数解析会失败，于是保留原文，避免缺失 `}` 把后文吞掉。
-      const parameterPrefix = content.slice(openBraceIndex + 1);
-      let quote: DirectiveQuoteState | null = null;
-      let escaped = false;
-      for (const character of parameterPrefix) {
-        if (quote !== null) {
-          if (escaped) escaped = false;
-          else if (character === "\\") escaped = true;
-          else if (character === quote.close) quote = null;
-        } else {
-          quote = getDirectiveQuoteState(character, options);
-        }
-      }
-      const isParameterPrefix =
-        parseDirectiveParameters(parameterPrefix, options) !== null ||
-        quote !== null ||
-        /(?:^|[\s,])[a-zA-Z_][a-zA-Z\d_-]*\s*(?:=\s*)?$/.test(parameterPrefix);
-      if (isParameterPrefix) unclosedStart = start;
+      result = match.index;
     }
   }
-  return unclosedStart;
+  return result;
 }
 
-/**
- * 流式尾部可能刚开始输出特化 directive 时，先把仍然匹配协议名称前缀的内容暂存。
- * 只检查文末连续尾部，且跳过 Markdown 代码范围；一旦前缀分叉，返回 null 让正文照常显示。
- */
 export function findAssistantDirectivePrefixStart(
   content: string,
   directiveNames: readonly string[],
   protectedRanges: readonly AssistantTextRange[] = [],
   options: AssistantDirectivePrefixOptions = {},
 ): number | null {
-  const singleColonNames = new Set(options.singleColonDirectiveNames ?? []);
-  const tripleColonNames = new Set(options.tripleColonDirectiveNames ?? []);
-  const minimumSingleColonPrefixLength = options.minimumSingleColonPrefixLength ?? 2;
-
-  for (let index = content.length - 1; index >= 0; index -= 1) {
-    if (content[index] !== ":") continue;
-    if (content[index - 1] === ":") continue;
-    if (overlapsAssistantTextRanges(index, index + 1, protectedRanges)) continue;
-
-    const suffix = content.slice(index);
-    const isPrefix = directiveNames.some((directiveName) => {
-      const canonicalName = `::${directiveName}`;
-      const tripleColonName = `:::${directiveName}`;
-      if (
-        tripleColonNames.has(directiveName) &&
-        suffix.startsWith(":::") &&
-        (tripleColonName.startsWith(suffix) ||
-          (suffix.startsWith(tripleColonName) &&
-            /^\s*$/.test(suffix.slice(tripleColonName.length))))
-      ) {
-        return true;
-      }
-      if (
-        suffix.startsWith("::") &&
-        (canonicalName.startsWith(suffix) ||
-          (suffix.startsWith(canonicalName) && /^\s*$/.test(suffix.slice(canonicalName.length))))
-      ) {
-        return true;
-      }
-
-      if (!singleColonNames.has(directiveName) || suffix.length < minimumSingleColonPrefixLength) {
-        return false;
-      }
-      const compatibilityName = `:${directiveName}`;
-      if (compatibilityName.startsWith(suffix)) return true;
-      return (
-        suffix.startsWith(compatibilityName) && /^\s*$/.test(suffix.slice(compatibilityName.length))
-      );
-    });
-    if (isPrefix) return index;
+  const forms = directiveNames.flatMap((name) => {
+    const entries = [{ spelling: `::${name}`, colons: "::", minimumLength: 0 }];
+    if (options.tripleColonDirectiveNames?.includes(name)) {
+      entries.push({ spelling: `:::${name}`, colons: ":::", minimumLength: 0 });
+    }
+    if (options.singleColonDirectiveNames?.includes(name)) {
+      entries.push({
+        spelling: `:${name}`,
+        colons: ":",
+        minimumLength: options.minimumSingleColonPrefixLength ?? 2,
+      });
+    }
+    return entries;
+  });
+  let result: number | null = null;
+  for (const candidate of content.matchAll(/(?<!:):/g)) {
+    const start = candidate.index;
+    if (overlapsAssistantTextRanges(start, start + 1, protectedRanges)) continue;
+    const suffix = content.slice(start);
+    if (
+      forms.some(
+        ({ spelling, colons, minimumLength }) =>
+          suffix.startsWith(colons) &&
+          suffix.length >= minimumLength &&
+          (spelling.startsWith(suffix) ||
+            (suffix.startsWith(spelling) && /^\s*$/.test(suffix.slice(spelling.length)))),
+      )
+    )
+      result = start;
   }
-  return null;
+  return result;
 }
