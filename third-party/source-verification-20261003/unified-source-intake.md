@@ -215,3 +215,48 @@ Linux **8261/8253 pass/0 fail/8 skip**，Windows **8261/8259 pass/0 fail/2 skip*
 新的统一 head 必须取得自身完整 CI，旧失败不转为通过。若 native 正在构建 bcb 的
 物理归档，其实际 source stamp 继续是 bcb，文档变更与产品输入的字节关系另行核对，
 不擅自改标为新提交产物，也不因此要求各路重复全量验证。
+
+## 最终完整归档与 Linux 原生实测证据接收
+
+PR27 的证据 head `1d201988cdbcfeda54bc2fa80119e78cd15901e0` 已以普通 merge
+`e38c01bb5f34835c3ac97c300c39ea6611865486` 接收，无冲突、无生产改动。
+实际产品输入继续是 `bcb82c184de740c2cd9571c115eafa3bd04480cf`，tree
+`3c10f3a238fd6f7b82e3e139cb81a1c648f90b7d`。二十四个具名输入的 Git blob、
+bytes/SHA256 与当前整合输入相同；原根 smoke 摘要与九个 assert 文本也逐项相同。
+文档和来源投影更新不改变实际产品 stamp，不把 bcb 产物改标为证据或整合提交。
+
+新完整 CLI/TUI/server/Web 归档为 **90495472 字节**，SHA256
+`75a77e374b9c12b40e49a35e8867405a7a3fe96751d0dbf25b5ff0595da06f11`。
+原 `scripts/distribution-smoke.mjs` 实际 exit0，保留九个 assert 调用、无跳过：
+help/version、原生 TUI import/initialized render/键盘退出0，真实 Web server-info/
+workspace、HTML200、artifact-resolved WebSocket 和 SIGTERM 退出0均完成。
+接收的是作者的完整实际命令、原日志和结果绑定，整合者没有重跑包或全套源码检查；
+大产物位于 native 任务环境，本整合环境没有物理产物，因此没有声称重新计算其文件摘要。
+
+新 Linux x64 AppImage 为 **188674891 字节**，SHA256
+`f63774b7aeaff27e18df68e7f86e3061f9188214871519829b95ee1c39cb1175`。
+实际提取的可执行文件、ASAR、CLI、PTY 与新目录包的摘要一致；未改的 canonical probe
+六组实测 exit0，包括 Electron Node 中的 CLI、真实 PTY、SQLite sentinel 的两次
+正常 storage preparation 保留，以及 Unicode/spaced 路径上的实际 rg/ugrep/bfs。
+既有安装 probe 只改报告的 inputSha 字面量，原命令和断言字节相同；两次实际 loopback
+下载、隔离安装/重装、launcher/version/help/安装字节与同一合成 profile sentinel 通过。
+安装器自身没有校验 sha256.txt，报告中的 checksum 对比来自外部 probe，二者不混称。
+
+原材料见 `docs/evidence/native-final-package-bcb82c18-20261003/README.md`。
+二十七份材料实际 bytes/hash 与二十六项交付 checksum 已核对；新登记 **339703 字节**。
+旧 **5916** 个对象及原始字节、baseline/roots 保留，当前冻结登记为
+**5943 文件 / 67853494 字节**，相对稳定 main 新增 **227** 份。根 Apache-2.0、
+逐文件/组件许可、NOTICE、来源历史及未解决权利义务不改；用户已取消 MIT 迁移。
+
+bcb 的 CI37127601364 两平台文档格式失败仍保留；修正后的 d555 在 CI37127960564
+两平台已实际通过。共同受检 SHA `f814b4fe7cd42bcb8ea9fa3bee93f17ed380d5b1` 的
+Git tree 与 d555 相同：Linux **8264 tests / 8256 pass / 0 fail / 8 skip**，Windows
+**8264 tests / 8262 pass / 0 fail / 2 skip**。本次只接收证据/文档及准确来源登记，
+最终合并使用该登记后 head 的实际必需 CI，不把此前受检 SHA 的通过转记为新 head
+已检查。Native 原始交付中的旧 CI 指针保留为交付时的记录，本说明给出当前跟踪状态。
+
+这是有边界的 Linux 产品实测，未接受 Electron GUI、真实 Windows/macOS 安装/GUI、
+完整旧用户数据迁移或活动 tool/MCP 后代关闭，也未新增 SSH/WSL 验收。指定 deb/rpm/
+pacman 仍缺事实公开维护邮箱，原 targets 保留；不从 Git 作者推断邮箱。它们不阻塞
+已完成的 AppImage/归档或正常源码 main 合并。新 CI 通过后按既有授权正常合 PR24，
+保留各输入祖先、原始失败和来源分支，不宣称100%全支持或全仓独立权利接受。

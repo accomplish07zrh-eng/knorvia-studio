@@ -11101,6 +11101,168 @@
       "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
     },
     {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/README.md",
+      "sha256": "d7cd122b124a49bfb2d3ce21d84b53ab4aa9f716f497bf4816581b32d7a528ca",
+      "bytes": 5380,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/SHA256SUMS",
+      "sha256": "37ebdb9630c1404016447d063651bcb888c632cbed75851ce9c65d80f5b5da29",
+      "bytes": 2289,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/appimage-extraction.log",
+      "sha256": "87d33562af30fbd4fe898df7c8cccca12be0b946239b8c6367d7c0644f927c12",
+      "bytes": 14427,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/appimage-package.log",
+      "sha256": "a6f95ae2d09bb1f9674920635f09f4854da5cdadcbba3521d1bb98566e2e0080",
+      "bytes": 4574,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/artifact-native-probe.json",
+      "sha256": "699fa74243b6937445bbcf06fef6c118d914dcafcbaba54bf2a6e18c007bb890",
+      "bytes": 24676,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/artifact-native-probe.log",
+      "sha256": "24a430134a06f871040daf2de21c17ef26f1e1862a82e2f2b31cd558415140d1",
+      "bytes": 589,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/commands.json",
+      "sha256": "2d9aa31b5ba7e75a039af70dd3b35ce58816d5b4e8b2de89ed24606db4864ed2",
+      "bytes": 9659,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/desktop-artifact-bindings.json",
+      "sha256": "b0d444ceb6455da2ce9f5a2084a706f6c3ed8933b4803ddc60eb224b1f67270f",
+      "bytes": 3359,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/desktop-build-binding.json",
+      "sha256": "f9294b3e80a7d28d51fde9ddee96c249ac70827f234103f78adb30a54a71a47c",
+      "bytes": 412,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/desktop-build.log",
+      "sha256": "cf2f5c7987f3aaae292fd5807f6e12b909a27c930959cea908c69f697e70eed7",
+      "bytes": 123671,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/distribution-artifact-bindings.json",
+      "sha256": "40df0d033214ff9078b2e3a0a2da8571491d4f342ccd49786e67faf065f4357e",
+      "bytes": 2321,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/distribution-build.log",
+      "sha256": "1948ab2b4c7948dfa67ff86d974e71dc25c57ef4a214b5f25c6c51e8f33dad58",
+      "bytes": 112302,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/distribution-latest.json",
+      "sha256": "52623c00e2e81f9ef58258a7aae9d19e8b051f5228f62d26f221a49d46986dae",
+      "bytes": 261,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/distribution-sha256.txt",
+      "sha256": "663733b766542b75d9ae549409348ae0cd89dc098c08f821cd7159eb44e36c38",
+      "bytes": 97,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/distribution-smoke.log",
+      "sha256": "bd60cc95adfbbc1b02ec36a5875078daa9fe6aa5ebb001069c92873871c43a04",
+      "bytes": 207,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/freshness.log",
+      "sha256": "0b0cc801cc52b82685658ab671b7bccc31e89aa016f830f507bf2db035919330",
+      "bytes": 229,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/frozen-install.log",
+      "sha256": "0bf9bd705f0644b2a666dec0fb3d2fda12d494f3c5cbfaa49459d002f0814111",
+      "bytes": 385,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/generated-install.sh",
+      "sha256": "4537c48b4853b15758d78a84280ca9aa250a241eea64e079158464694de29d1d",
+      "bytes": 1539,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/installer-probe-binding.json",
+      "sha256": "e2a39bd3a132250f3f35e3bb9430a6ae67263756d9afa91ec89d2b33f68eedfc",
+      "bytes": 457,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/installer-probe.json",
+      "sha256": "78c13dd2bcc4572b4aa4c88700e1fd405df5e20b0f605c3217b038c4bd20981e",
+      "bytes": 4794,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/installer-probe.log",
+      "sha256": "7f13732526f5d78f2a36d52ea09b8f6bc8920a8dc8e43f72daf7f7195cb7257c",
+      "bytes": 497,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/installer-probe.py",
+      "sha256": "aa014344b6c86408840343ac96a7938113f653cd02090c0c1d0b7aaba5331ef1",
+      "bytes": 6111,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/result.json",
+      "sha256": "7d888c66b18233e8a292deca02fff98ed4f6b150c2e00b450b830da6ff3e8039",
+      "bytes": 5738,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/runtime-bindings.json",
+      "sha256": "a5879cdbb93ca27a86528c1c2a9c613a20179de527f788323f62add3a4fba430",
+      "bytes": 4331,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/runtime-preparation.log",
+      "sha256": "aecb00019546adef60cfa49111d68ab6477c7d80651685cac54b1a0e3b81b97c",
+      "bytes": 5416,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/source-input.json",
+      "sha256": "f91f23741305adc8a6f764361e733ced73d9a9ed39c78a2b360a50e5747af174",
+      "bytes": 4424,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
+      "path": "docs/evidence/native-final-package-bcb82c18-20261003/source-preservation.json",
+      "sha256": "f927d8c9af236b0aac114afeecc79bd212362573809d1cee68bc328357b57c9e",
+      "bytes": 1558,
+      "sourceCommit": "1d201988cdbcfeda54bc2fa80119e78cd15901e0"
+    },
+    {
       "path": "docs/evidence/native-four-inherited-20261003/architecture.log",
       "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
       "bytes": 197,
