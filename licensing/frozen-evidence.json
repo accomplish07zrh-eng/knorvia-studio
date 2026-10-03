@@ -9130,6 +9130,31 @@
       "bytes": 6851
     },
     {
+      "path": "docs/evidence/installer-branding-format-20261003/README.md",
+      "sha256": "fec6ca350122c9138c9f99577b83ec4b58ecda107d0561501f3832815d4b5a61",
+      "bytes": 661
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/SHA256SUMS",
+      "sha256": "b8716ef1bdd8c81917feca00d00e81a186c19cc66d728c98b8df9a86610d2757",
+      "bytes": 333
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/format-receipt.json",
+      "sha256": "b87be8f6c11b598641329a7af7283d6279a8f71deec0c10835e83976503945b0",
+      "bytes": 1199
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/sources-after.json",
+      "sha256": "17157d430f457cbc3ab8a4fb07480a5138fa7567424a847c5af5a4976a7a1e03",
+      "bytes": 1736
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/sources-before.json",
+      "sha256": "41feeb65592a1d1d0a5e20c4bd97a383885c3714daa8a14135dd51d9cc913d7d",
+      "bytes": 1898
+    },
+    {
       "path": "docs/evidence/installer-branding-ui-20261003/DESIGN.md",
       "sha256": "11d669a02d68aa23afd782c4b10150c6d99a8287d01c87dd327d475be16231ab",
       "bytes": 3800,
@@ -11435,6 +11460,24 @@
       "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
       "bytes": 523,
       "sourceCommit": "5d826c0312d1edf4bef8959bf24ca0b0d6f0ccc4"
+    },
+    {
+      "path": "docs/evidence/native-installer-variants-20261003/README.md",
+      "sha256": "dc223350972606d3e010b564a9978bc079f32c65dd89e54031beb4912eb036bd",
+      "bytes": 6455,
+      "sourceCommit": "54af931e1a17f13bf39c67d48291e8b03fc42d9e"
+    },
+    {
+      "path": "docs/evidence/native-installer-variants-20261003/SHA256SUMS",
+      "sha256": "be2fc8f5966c519e0baea14f8b8afd1d6bd4148f81f5c59f70c3556cfaf63648",
+      "bytes": 163,
+      "sourceCommit": "54af931e1a17f13bf39c67d48291e8b03fc42d9e"
+    },
+    {
+      "path": "docs/evidence/native-installer-variants-20261003/source-bindings.json",
+      "sha256": "04908492962f35f5aa8fce1dc6eb123669edbda4c5205864cf77f7b5e904fcc0",
+      "bytes": 7564,
+      "sourceCommit": "54af931e1a17f13bf39c67d48291e8b03fc42d9e"
     },
     {
       "path": "docs/evidence/native-linux-maintainer-20261003/README.md",

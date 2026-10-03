@@ -17,7 +17,11 @@ test("installed defaults retain all four Linux targets and only NSIS on Windows"
     assert.deepEqual(variant.windowsTargets, ["nsis"]);
     assert.deepEqual(variant.linuxTargets, ["AppImage", "deb", "rpm", "pacman"]);
     assert.doesNotThrow(() =>
-      assertDesktopPackageTargets({ portable: false, platform: "linux", targets: variant.linuxTargets }),
+      assertDesktopPackageTargets({
+        portable: false,
+        platform: "linux",
+        targets: variant.linuxTargets,
+      }),
     );
   }
 });
@@ -51,14 +55,23 @@ test("portable trees cannot be consumed by Windows/Linux installer targets", () 
     );
   }
   assert.throws(
-    () => assertDesktopPackageTargets({ portable: false, platform: "win32", targets: ["portable"] }),
+    () =>
+      assertDesktopPackageTargets({ portable: false, platform: "win32", targets: ["portable"] }),
     /requires KNORVIA_PORTABLE_BUILD=1/,
   );
   assert.doesNotThrow(() =>
-    assertDesktopPackageTargets({ portable: true, platform: "linux", targets: ["appImage", "tar.gz"] }),
+    assertDesktopPackageTargets({
+      portable: true,
+      platform: "linux",
+      targets: ["appImage", "tar.gz"],
+    }),
   );
   assert.doesNotThrow(() =>
-    assertDesktopPackageTargets({ portable: true, platform: "win32", targets: ["portable", "zip"] }),
+    assertDesktopPackageTargets({
+      portable: true,
+      platform: "win32",
+      targets: ["portable", "zip"],
+    }),
   );
 });
 

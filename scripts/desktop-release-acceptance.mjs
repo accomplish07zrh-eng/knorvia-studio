@@ -9,10 +9,14 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { artifactIdentity, validatePlatformManifest } from "./desktop-release-manifest.mjs";
 import { probePackagedRuntime } from "./desktop-release-runtime-probe.mjs";
+import { acceptPortableVariant } from "./desktop-release-portable-acceptance.mjs";
+import { probePortableLaunch } from "./desktop-release-portable-launch.mjs";
+import { acceptOwnedCleanup } from "./desktop-release-nsis-acceptance.mjs";
 
 const exec = promisify(execFile);
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const [outputArg, deliveredSha] = process.argv.slice(2);
+const [outputArg, deliveredSha, variant = "installed"] = process.argv.slice(2);
+assert.ok(["installed", "portable"].includes(variant));
 const output = resolve(outputArg);
 const dist = join(repository, "packages/desktop/dist");
 const { version } = JSON.parse(await readFile(join(repository, "package.json"), "utf8"));
@@ -30,6 +34,7 @@ const report = {
   deliveredSha,
   version,
   platform,
+  variant,
   checks: [],
   limits: [
     "No human installer GUI acceptance",
@@ -45,31 +50,59 @@ const ps = (script, env) =>
     ["-NoProfile", "-NonInteractive", "-Command", "$ErrorActionPreference='Stop'; " + script],
     { env, timeout: 180000, maxBuffer: 8 * 1024 * 1024 },
   );
-const runtime = (executable, profileBase) =>
+const runtime = (executable, profileBase, expectedPortable = false) =>
   probePackagedRuntime({
     repository,
     suppliedExecutable: executable,
     fixtureParent: fixture,
     deliveredSha,
     profileBase,
+    expectedPortable,
   });
 let artifacts = [];
 let ownedDefaultProfile;
 
 try {
-  if (platform === "linux-x64") {
+  if (variant === "portable") {
+    const accepted = await acceptPortableVariant({
+      repository,
+      dist,
+      output,
+      deliveredSha,
+      version,
+      platform,
+      fixture,
+    });
+    artifacts = accepted.artifacts;
+    report.portableVariant = accepted.report;
+    report.checks.push(...accepted.report.checks);
+    report.limits.push(...accepted.report.limits);
+  } else if (platform === "linux-x64") {
     const metadataRoot = join(fixture, "extractions");
-    const result = await exec(
-      "python3",
-      [
-        join(import.meta.dirname, "desktop-release-linux-metadata.py"),
-        repository,
-        dist,
-        metadataRoot,
-        deliveredSha,
-      ],
-      { timeout: 780000, maxBuffer: 8 * 1024 * 1024 },
-    );
+    let result;
+    try {
+      result = await exec(
+        "python3",
+        [
+          join(import.meta.dirname, "desktop-release-linux-metadata.py"),
+          repository,
+          dist,
+          metadataRoot,
+          deliveredSha,
+        ],
+        { timeout: 780000, maxBuffer: 8 * 1024 * 1024 },
+      );
+    } catch (error) {
+      // Python 失败仍会写原始命令/格式记录；在清理临时目录前收入失败报告。
+      try {
+        report.metadata = JSON.parse(
+          await readFile(join(metadataRoot, "linux-metadata.json"), "utf8"),
+        );
+      } catch (receiptError) {
+        report.metadataReceiptError = receiptError.stack || String(receiptError);
+      }
+      throw error;
+    }
     report.metadataSummary = JSON.parse(result.stdout);
     report.metadata = JSON.parse(await readFile(join(metadataRoot, "linux-metadata.json"), "utf8"));
     assert.equal(report.metadata.status, "passed");
@@ -91,6 +124,10 @@ try {
       "Linux packages are not signed",
     );
   } else {
+    report.ownershipCleanup = await acceptOwnedCleanup(repository);
+    report.checks.push(
+      "Pinned native makensis compiles and executes all four ordinary/update ownership fixtures without dropping their assertions",
+    );
     const setupName = `Knorvia-Studio-${version}-win-x64-setup.exe`;
     const portableName = `Knorvia-Studio-${version}-win-x64-portable.zip`;
     artifacts = await Promise.all(
@@ -109,10 +146,18 @@ try {
     report.portable = await runtime(
       join(portableRoot, "Knorvia Studio.exe"),
       join(portableRoot, "data"),
+      true,
     );
+    report.portableLaunch = await probePortableLaunch({
+      executable: join(portableRoot, "Knorvia Studio.exe"),
+      expectedBase: join(portableRoot, "data"),
+      fixture,
+      version,
+    });
     report.checks.push(
       "Actual ZIP extracts outside repository, includes the canonical portable marker and no preexisting user data",
       ...report.portable.checks,
+      ...report.portableLaunch.checks,
     );
 
     const installed = join(fixture, "installation with spaces");
@@ -160,6 +205,8 @@ try {
     const sentinel = join(profile, "release-upgrade-sentinel.txt");
     const sentinelBytes = Buffer.from("isolated hosted runner data preserved\n");
     await writeFile(sentinel, sentinelBytes);
+    const unownedFile = join(installed, "release-user-file.txt");
+    await writeFile(unownedFile, sentinelBytes);
     const defaultSentinel = join(ownedDefaultProfile, "release-uninstall-sentinel.txt");
     const defaultDatabase = join(ownedDefaultProfile, "release-uninstall-sentinel.sqlite");
     await writeFile(defaultSentinel, sentinelBytes);
@@ -171,6 +218,7 @@ try {
     const databaseBefore = await artifactIdentity(defaultDatabase);
     await install();
     assert.deepEqual(await readFile(sentinel), sentinelBytes);
+    assert.deepEqual(await readFile(unownedFile), sentinelBytes);
     assert.deepEqual(await readFile(defaultSentinel), sentinelBytes);
     assert.equal((await artifactIdentity(defaultDatabase)).sha256, databaseBefore.sha256);
     const verify = await exec(
@@ -202,12 +250,18 @@ try {
     assert.deepEqual(await readFile(defaultSentinel), sentinelBytes);
     assert.equal((await artifactIdentity(defaultDatabase)).sha256, databaseBefore.sha256);
     await assert.rejects(stat(exe), { code: "ENOENT" });
+    assert.deepEqual(await readFile(unownedFile), sentinelBytes);
     report.signature = JSON.parse(
       (
         await ps(
           `$s=Get-AuthenticodeSignature -LiteralPath ${psQuote(setup)}; [ordered]@{status=[string]$s.Status; signer=if($s.SignerCertificate){$s.SignerCertificate.Subject}else{$null}} | ConvertTo-Json -Compress`,
         )
       ).stdout,
+    );
+    assert.notEqual(
+      report.signature.status,
+      "HashMismatch",
+      "Actual setup signature reports changed signed bytes",
     );
     report.checks.push(
       ...report.installed.checks,
@@ -220,6 +274,7 @@ try {
   const manifest = {
     schemaVersion: 1,
     platform,
+    variant,
     deliveredSha,
     version,
     artifacts,
@@ -227,7 +282,7 @@ try {
   };
   validatePlatformManifest(manifest, deliveredSha, version);
   await writeFile(
-    join(output, `${platform}-manifest.json`),
+    join(output, `${platform}-${variant}-manifest.json`),
     JSON.stringify(manifest, null, 2) + "\n",
   );
 } catch (error) {
@@ -237,7 +292,7 @@ try {
   process.exitCode = 1;
 } finally {
   await writeFile(
-    join(output, `${platform}-acceptance.json`),
+    join(output, `${platform}-${variant}-acceptance.json`),
     JSON.stringify(report, null, 2) + "\n",
   );
   await rm(fixture, { recursive: true, force: true });

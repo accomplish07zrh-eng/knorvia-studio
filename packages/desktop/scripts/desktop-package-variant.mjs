@@ -32,7 +32,9 @@ export function assertDesktopPackageTargets({ portable, platform, targets }) {
   const rejected = names.filter((name) => !allowed.has(name));
   if (rejected.length > 0) {
     // 同一 appOutDir 共用便携标记；把它装进 NSIS/deb/rpm 会让安装版也写旁边的 data。
-    throw new Error(`portable desktop build cannot contain installer targets: ${rejected.join(", ")}`);
+    throw new Error(
+      `portable desktop build cannot contain installer targets: ${rejected.join(", ")}`,
+    );
   }
 }
 

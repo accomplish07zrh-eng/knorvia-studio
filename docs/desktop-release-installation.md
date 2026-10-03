@@ -1,7 +1,7 @@
 # Knorvia Studio desktop installation
 
-Version: **0.8.0-preview.4**. This is a published preview release for **Windows
-x64** and **Linux x64**. The exact checked source commit, package hashes,
+Version: **0.8.0-preview.4**. These instructions accompany the preview packages
+for **Windows x64** and **Linux x64**. The exact checked source commit, package hashes,
 signature status and bounded acceptance results are in `release-metadata.json`.
 Verify downloads against `SHA256SUMS` or the corresponding `.sha256` attachment.
 
@@ -19,6 +19,10 @@ and run `Knorvia Studio.exe`. Keep the included portable marker; portable data
 is saved beside the executable in `data/`. Back up that directory before
 moving or replacing the portable installation. Setup and portable profiles
 are distinct by their existing storage rules.
+
+The additional `Knorvia-Studio-0.8.0-preview.4-win-x64-portable.exe` is a
+self-extracting portable launcher. Keep it in a writable folder; its persistent
+`data/` is beside the original EXE, outside the temporary application extraction.
 
 No signing credentials were created for this release. Check the recorded
 Authenticode status before assuming an installer is signed. Unsigned preview
@@ -42,6 +46,13 @@ The Linux executable is `knorvia-studio`. Normal profiles use
 format and uses this normal user-data directory. Replacing the program or
 ordinary package removal preserves the existing profile. No package-manager
 signature is claimed; `SHA256SUMS` records integrity, not signer identity.
+
+For an adjacent portable profile instead, use
+`Knorvia-Studio-0.8.0-preview.4-linux-x64-portable.AppImage` or extract
+`Knorvia-Studio-0.8.0-preview.4-linux-x64-portable.tar.gz`. These separately marked
+products keep `data/` beside the original AppImage or extracted executable.
+Keep that directory when upgrading or moving the portable package. The ordinary
+AppImage and native deb/rpm/pacman packages retain normal system-user storage.
 
 ## Scope and retained notices
 

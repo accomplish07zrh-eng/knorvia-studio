@@ -2,7 +2,10 @@
   "sourceBaseline": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
   "source": {
     "path": "packages/ui/src/assets/knorvia-logo.png",
-    "size": [1254, 1254],
+    "size": [
+      1254,
+      1254
+    ],
     "mode": "RGBA",
     "sha256": "f4a0f03e2ed3ee349e541a78fbfd605066085db43ab9ad54dea3cbcde2d1b783",
     "existingProvenance": "docs/knorvia-icon-provenance.md",
@@ -16,23 +19,41 @@
   "outputs": [
     {
       "path": "packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
-      "size": [164, 314],
+      "size": [
+        164,
+        314
+      ],
       "mode": "RGB",
       "bitsPerPixel": 24,
       "compression": "BI_RGB (0)",
-      "markSize": [124, 124],
-      "markTopLeft": [20, 90],
+      "markSize": [
+        124,
+        124
+      ],
+      "markTopLeft": [
+        20,
+        90
+      ],
       "bytes": 154542,
       "sha256": "c084abf2a55e855dd74ed0a6a0706212a741468131b20dcff83c8e9aea1f2032"
     },
     {
       "path": "packages/desktop/build/installer-branding-20261003/installerHeader.bmp",
-      "size": [150, 57],
+      "size": [
+        150,
+        57
+      ],
       "mode": "RGB",
       "bitsPerPixel": 24,
       "compression": "BI_RGB (0)",
-      "markSize": [46, 46],
-      "markTopLeft": [96, 5],
+      "markSize": [
+        46,
+        46
+      ],
+      "markTopLeft": [
+        96,
+        5
+      ],
       "bytes": 25818,
       "sha256": "5c3e16cc4a3ac368d247fa8031d7ab70d2f5eb30193e5acb6910a5a00ab935a0"
     }

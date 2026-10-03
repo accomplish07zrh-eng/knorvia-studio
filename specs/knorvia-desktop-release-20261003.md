@@ -3,11 +3,16 @@
 ## Behavior and ownership
 
 Publish a new, non-draft GitHub Release for Windows x64 setup and portable ZIP,
-and Linux x64 AppImage, deb, rpm and pacman packages. Keep the preview channel
+plus the native self-extracting portable EXE; publish Linux x64 AppImage, deb,
+rpm and pacman packages plus a separately marked portable AppImage and tar.gz.
+Keep the preview channel
 until its acceptance boundaries warrant a stable version. Existing tags,
 releases and attachment bytes remain immutable. Root `package.json` is the
-single version source. The public maintainer email is
-`accomplish07zrh@gmail.com`, authorized by the user on 2026-10-03.
+single version source. The requested maintainer email is
+`accomplish07zrh@gmail.com`. Its direct user authorization for public PR/Release
+disclosure is pending after automatic approval review rejected delegated
+authorization. Preserve the prepared source and original refusal receipts;
+hold related public writes until the parent receives direct user approval.
 
 The existing native task owns Desktop builder configuration, packaging hooks
 and installation scripts. The existing UI task owns installer brand images and
@@ -46,6 +51,27 @@ failed acceptance or a manifest whose current bytes differ from its hashes.
 The existing `scripts/release-immutability.mjs` remains the only authority for
 create/upload/skip/reject. Upload only its named assets, without overwrite or
 tag deletion. Read-only validation also runs for dry runs.
+
+Native source head `1836f419aa2ac41117e21b1ba01e196d66227a2a` adds the
+variant/profile and guided shortcut contracts. Its source batch is unverified;
+the earlier Linux package receipts do not establish its acceptance. Build
+installed and marked-portable variants in separate matrix jobs/output trees.
+The existing Windows staging helper still owns the compatible setup/portable
+ZIP filenames. The additional native portable EXE and Linux portable packages
+are accepted and named separately, without a second profile-selection owner.
+Aggregate all four required platform/variant manifests; the same immutable
+publication decision applies to every attachment.
+
+For marked portable products, launch the actual artifact twice in a hosted
+runner fixture, without explicit Knorvia profile-root overrides. Read actual
+packaged Main paths through its localhost Node inspector, require a created
+Electron window and the data root beside the original launcher, then request
+normal application quit. Check fixture-file and SQLite sentinel persistence
+across launches. Linux uses a private Xvfb display and documented AppImage
+extract-and-run when FUSE is unavailable. These are bounded actual startup and
+path checks, not human GUI, model-task or full legacy-migration acceptance.
+Every process/display/profile created by this probe has a recorded owner;
+terminate only those processes on failure, and never remove preexisting data.
 
 ## Installation and acceptance boundaries
 

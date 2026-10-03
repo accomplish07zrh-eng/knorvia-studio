@@ -16,6 +16,7 @@ export async function probePackagedRuntime({
   fixtureParent,
   deliveredSha,
   profileBase,
+  expectedPortable,
 }) {
   const exec = promisify(execFile);
   const executable = resolve(suppliedExecutable);
@@ -158,6 +159,8 @@ export async function probePackagedRuntime({
 
   try {
     report.package = await packagedRuntimeEvidence(executable);
+    const portableMarker = join(root, "resources/knorvia-portable.json");
+    if (expectedPortable !== undefined) assert.equal(existsSync(portableMarker), expectedPortable);
     report.checks.push("Canonical package identity measured outside repository");
     const listing = await command(
       process.execPath,

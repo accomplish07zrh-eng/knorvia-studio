@@ -8,7 +8,8 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 // 必须在云端原生 Windows 显式运行；普通离线测试 glob 不收集 .acceptance.mjs。
-if (process.platform !== "win32") throw new Error("Owned cleanup acceptance requires native Windows");
+if (process.platform !== "win32")
+  throw new Error("Owned cleanup acceptance requires native Windows");
 const compiler = process.env.KNORVIA_NSIS_COMPILER;
 assert.ok(compiler && isAbsolute(compiler), "Set KNORVIA_NSIS_COMPILER to the actual makensis.exe");
 await access(compiler);
@@ -34,7 +35,9 @@ async function digests(root) {
   return Promise.all(
     preservedFiles.map(async (path) => ({
       path,
-      sha256: createHash("sha256").update(await readFile(join(root, path))).digest("hex"),
+      sha256: createHash("sha256")
+        .update(await readFile(join(root, path)))
+        .digest("hex"),
     })),
   );
 }
@@ -73,15 +76,19 @@ for (const updated of [false, true]) {
       }
       const before = await digests(target);
       const output = join(root, "cleanup-fixture.exe");
-      const compiled = run(compiler, [
-        "/INPUTCHARSET",
-        "UTF8",
-        `/DKNORVIA_FIXTURE_OUTPUT=${output}`,
-        `/DKNORVIA_FIXTURE_TARGET=${target}`,
-        `/DKNORVIA_FIXTURE_RESOURCES=${resources}`,
-        `/DKNORVIA_FIXTURE_UPDATED=${updated ? "1" : "0"}`,
-        source,
-      ], root);
+      const compiled = run(
+        compiler,
+        [
+          "/INPUTCHARSET",
+          "UTF8",
+          `/DKNORVIA_FIXTURE_OUTPUT=${output}`,
+          `/DKNORVIA_FIXTURE_TARGET=${target}`,
+          `/DKNORVIA_FIXTURE_RESOURCES=${resources}`,
+          `/DKNORVIA_FIXTURE_UPDATED=${updated ? "1" : "0"}`,
+          source,
+        ],
+        root,
+      );
       assert.equal(
         compiled.status,
         0,
@@ -101,7 +108,9 @@ for (const updated of [false, true]) {
       }
       if (hasManifest && !updated) {
         await assert.rejects(access(join(target, manifestName)), { code: "ENOENT" });
-        await assert.rejects(access(join(target, "Uninstall Knorvia Studio.exe")), { code: "ENOENT" });
+        await assert.rejects(access(join(target, "Uninstall Knorvia Studio.exe")), {
+          code: "ENOENT",
+        });
         await assert.rejects(access(join(target, "resources/runtime")), { code: "ENOENT" });
       }
     });

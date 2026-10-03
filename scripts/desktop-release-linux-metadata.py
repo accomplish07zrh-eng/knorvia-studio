@@ -111,6 +111,7 @@ try:
             candidates = [p for p in extracted.glob("opt/*") if (p / "resources/app.asar").is_file()]
         assert len(candidates) == 1, candidates
         app = candidates[0]
+        assert not (app / "resources/knorvia-portable.json").exists(), "Installed product must not carry a portable marker"
         result["applicationRoot"] = str(app)
         result["payload"] = {}
         for name in payload_names:

@@ -305,3 +305,66 @@ actual release-package acceptance, which remain pending. New probe helpers
 adapt the frozen canonical native probe and Linux metadata probe without
 editing the original files or their failure history. No source-origin claim
 is promoted merely because a new packaging helper passes a check.
+
+## Native guided installation, portable variants and format correction
+
+Native heads `1836f419aa2ac41117e21b1ba01e196d66227a2a` and
+`b03bb9d25b71ac07b7c8d510c4fc2d34ac966ff7` were normally merged from their
+retained branch. They add the actual bitmap/shortcuts integration, separate
+portable targets and stable launcher-origin profile selection, and limit both
+upgrade and ordinary uninstall cleanup to owned program files. Source fixtures
+are authored but were not executed in that implementation lane. Earlier b5fbc3d8
+Linux product results remain bound to that older input; they do not validate
+these later runtime/installer changes. Integration's fresh release matrix covers
+both platform/variant combinations and requires actual package acceptance.
+
+CI37136506776 at PR29 head 162477ddabc04dbb4df0606578ddbf98a9e6da2b really
+failed both platforms at the UI production sources.json formatting rule.
+Provenance, types and lint passed; architecture/build/offline regression did not
+run. The targeted formatter changed only JSON layout, with identical values and
+unchanged bitmaps. Five new raw records (5827 bytes) retain original/formatted
+bytes and their exact relationship in docs/evidence/installer-branding-format-20261003.
+The historical UI packet/checksum stays unchanged and continues to describe
+its original exact commit. No original failure was replaced with a success.
+All 6004 previous frozen rows remain; current registration is 6009 files /
+68572184 bytes. These formatting records were created by integration, not
+falsely attributed as files committed at the UI source head.
+
+Native's final source-only packet at
+`54af931e1a17f13bf39c67d48291e8b03fc42d9e` was normally merged. Its 23
+explicit source/blob/hash bindings were verified at their own recorded source
+commits, including the separate UI resource sourceCommit. Three raw files /
+14182 bytes were appended exactly; frozen registration is 6012 files /
+68586366 bytes. Native's authored tests remain described as unrun in that packet.
+The temporary intake reader first looked up UI resource rows at the native
+commit, then resolved a packet-relative README checksum at the repo root; both
+failed before registration and were corrected using explicit row sourceCommit
+and packet-relative paths. These were metadata reader failures, not product
+checks. Four native production/spec/fixture files received formatter-only
+layout corrections after a genuine targeted format failure; their original
+bytes remain at b03 and in the unchanged source binding. Source semantics and
+all existing raw evidence are retained.
+
+The packet also preserves that native's own draft PR creation was rejected by
+automatic approval review because its delegated context did not establish
+direct trusted authorization to disclose the maintainer address. Native created
+no PR and did not bypass its rejection. This historical operation remains a
+failure; it is not changed by integration intake or the existing public branch.
+Integration publication must follow the authorization and actual write result
+of this task, without fabricating approval, signatures or disclosure authority.
+
+The integration lane subsequently ran the three focused native unit files once
+on Linux with pinned Node 24.14.0: 17 tests passed, zero failed/cancelled/skipped,
+covering the ten new scenarios plus seven retained scenarios. The input was
+local HEAD 7583d1a2e51291445b8bfe78c9476dc8ab5604fb with its explicitly dirty
+integration working tree; this is not final source CI or packaged Windows proof.
+The four Windows NSIS cleanup scenarios and fresh actual release packages
+remain unrun. The original native packet remains unchanged and describes only
+its own earlier source-only operation.
+
+After one direct-authorization evidence retry, native's PR creation was again
+rejected because review still saw delegated context. The parent is waiting
+for the end user's direct public-email authorization. Integration preserves
+all prepared local source and receipts, and pauses public pushes, related PR
+writes, tags and Release publication. Existing public history does not grant
+permission to bypass this rejection. No v0.8.0-preview.4 publication occurred.

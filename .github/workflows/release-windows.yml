@@ -25,7 +25,6 @@ concurrency:
 
 env:
   KNORVIA_ENV: production
-  KNORVIA_PORTABLE_BUILD: "0"
   KNORVIA_SKIP_REMOTE_ASSETS: "1"
   KNORVIA_ELECTRON_RUNTIME_MIRROR: https://github.com/electron/electron/releases/download/
   ELECTRON_BUILDER_BINARIES_MIRROR: https://github.com/electron-userland/electron-builder-binaries/releases/download/
@@ -82,12 +81,28 @@ jobs:
         include:
           - os: win
             platform: win-x64
+            variant: installed
+            portable: "0"
+            runner: windows-latest
+          - os: win
+            platform: win-x64
+            variant: portable
+            portable: "1"
             runner: windows-latest
           - os: linux
             platform: linux-x64
+            variant: installed
+            portable: "0"
+            runner: ubuntu-latest
+          - os: linux
+            platform: linux-x64
+            variant: portable
+            portable: "1"
             runner: ubuntu-latest
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 100
+    env:
+      KNORVIA_PORTABLE_BUILD: ${{ matrix.portable }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -116,42 +131,48 @@ jobs:
         if: matrix.os == 'linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd
+          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd xvfb xauth
       - name: Install frozen dependencies
         run: pnpm install --frozen-lockfile
       - name: Build fresh Desktop x64 packages
         run: node packages/desktop/scripts/bundle.mjs --os ${{ matrix.os }} --arch x64
       - name: Stage Windows setup and portable ZIP
-        if: matrix.os == 'win'
+        if: matrix.os == 'win' && matrix.variant == 'installed'
         shell: pwsh
         env:
           DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
-        run: ./scripts/package-windows-release.ps1 -DistPath packages/desktop/dist -OutputDirectory dist-release/win-x64 -DeliveredSha $env:DELIVERED_SHA
+        run: ./scripts/package-windows-release.ps1 -DistPath packages/desktop/dist -OutputDirectory dist-release/win-x64-installed -DeliveredSha $env:DELIVERED_SHA
       - name: Accept actual extracted or installed packages
         env:
           DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
         shell: bash
-        run: node scripts/desktop-release-acceptance.mjs dist-release/${{ matrix.platform }} "$DELIVERED_SHA"
+        run: |
+          if [ "${{ matrix.os }}" = linux ]; then
+            xvfb-run --auto-servernum -s "-screen 0 1280x800x24" node scripts/desktop-release-acceptance.mjs dist-release/${{ matrix.platform }}-${{ matrix.variant }} "$DELIVERED_SHA" "${{ matrix.variant }}"
+          else
+            node scripts/desktop-release-acceptance.mjs dist-release/${{ matrix.platform }}-${{ matrix.variant }} "$DELIVERED_SHA" "${{ matrix.variant }}"
+          fi
       - name: Preserve accepted package assets and manifest
         uses: actions/upload-artifact@v4
         with:
-          name: knorvia-${{ matrix.platform }}-release
+          name: knorvia-${{ matrix.platform }}-${{ matrix.variant }}-release
           path: |
-            dist-release/${{ matrix.platform }}/*.exe
-            dist-release/${{ matrix.platform }}/*.zip
-            dist-release/${{ matrix.platform }}/*.AppImage
-            dist-release/${{ matrix.platform }}/*.deb
-            dist-release/${{ matrix.platform }}/*.rpm
-            dist-release/${{ matrix.platform }}/*.pkg.tar.zst
-            dist-release/${{ matrix.platform }}/${{ matrix.platform }}-manifest.json
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.exe
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.zip
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.AppImage
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.deb
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.rpm
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.pkg.tar.zst
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.tar.gz
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-manifest.json
           if-no-files-found: error
           compression-level: 0
       - name: Preserve bounded acceptance reports even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: knorvia-${{ matrix.platform }}-acceptance
-          path: dist-release/${{ matrix.platform }}/${{ matrix.platform }}-acceptance.json
+          name: knorvia-${{ matrix.platform }}-${{ matrix.variant }}-acceptance
+          path: dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-acceptance.json
           if-no-files-found: warn
 
   validate-release:

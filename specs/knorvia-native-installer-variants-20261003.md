@@ -77,10 +77,10 @@ root `scripts/package-windows-release.ps1` consumer; that integration-owned
 staging script already publishes it as `-setup.exe`. Portable builder outputs
 carry `-portable`, so neither the existing consumer nor EXE names collide.
 
-| Mode | Default Windows targets | Default Linux targets | Data root |
-| --- | --- | --- | --- |
-| Installed | NSIS | Existing AppImage/deb/rpm/pacman | Existing appData/Knorvia Studio (or explicit KNORVIA_DATA_BASE_DIR) |
-| Portable | NSIS portable EXE + ZIP | AppImage + tar.gz | Original portable file/folder beside `data/` |
+| Mode      | Default Windows targets | Default Linux targets            | Data root                                                           |
+| --------- | ----------------------- | -------------------------------- | ------------------------------------------------------------------- |
+| Installed | NSIS                    | Existing AppImage/deb/rpm/pacman | Existing appData/Knorvia Studio (or explicit KNORVIA_DATA_BASE_DIR) |
+| Portable  | NSIS portable EXE + ZIP | AppImage + tar.gz                | Original portable file/folder beside `data/`                        |
 
 The afterPack hook writes `resources/knorvia-portable.json` for portable Windows
 and Linux; installed packaging removes a stale marker from its own output tree.

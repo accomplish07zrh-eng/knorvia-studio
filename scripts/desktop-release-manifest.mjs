@@ -6,8 +6,10 @@ import { basename, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const formats = {
-  "win-x64": ["-setup.exe", "-portable.zip"],
-  "linux-x64": [".AppImage", ".deb", ".rpm", ".pkg.tar.zst"],
+  "win-x64-installed": ["-setup.exe", "-portable.zip"],
+  "win-x64-portable": ["-portable.exe"],
+  "linux-x64-installed": [".AppImage", ".deb", ".rpm", ".pkg.tar.zst"],
+  "linux-x64-portable": ["-portable.AppImage", "-portable.tar.gz"],
 };
 const json = async (path) => JSON.parse(await readFile(path, "utf8"));
 
@@ -24,16 +26,24 @@ export function validatePlatformManifest(manifest, deliveredSha, version) {
     throw new Error("Release SHA must match the full checked source SHA");
   if (!/^\d+\.\d+\.\d+(?:-[a-zA-Z0-9.-]+)?$/.test(version) || manifest.version !== version)
     throw new Error("Release version differs from the checked root version");
-  if (manifest.schemaVersion !== 1 || !Object.hasOwn(formats, manifest.platform))
+  const key = `${manifest.platform}-${manifest.variant}`;
+  if (manifest.schemaVersion !== 1 || !Object.hasOwn(formats, key))
     throw new Error("Invalid release platform manifest");
   if (manifest.acceptance?.status !== "passed" || !manifest.acceptance.checks?.length)
     throw new Error("Actual package acceptance is required before release");
+  if (
+    manifest.acceptance.deliveredSha !== deliveredSha ||
+    manifest.acceptance.version !== version ||
+    manifest.acceptance.platform !== manifest.platform ||
+    manifest.acceptance.variant !== manifest.variant
+  )
+    throw new Error("Package acceptance source/version/platform binding differs");
   const names = new Set();
   for (const asset of manifest.artifacts ?? []) {
     if (names.has(asset.name.toLowerCase())) throw new Error(`Duplicate asset: ${asset.name}`);
     if (
       !/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(asset.name) ||
-      !asset.name.startsWith(`Knorvia-Studio-${version}-`) ||
+      !asset.name.startsWith(`Knorvia-Studio-${version}-${manifest.platform}`) ||
       !/^[a-f0-9]{64}$/.test(asset.sha256) ||
       !Number.isSafeInteger(asset.bytes) ||
       asset.bytes <= 0
@@ -41,22 +51,24 @@ export function validatePlatformManifest(manifest, deliveredSha, version) {
       throw new Error(`Invalid asset identity: ${asset.name}`);
     names.add(asset.name.toLowerCase());
   }
-  for (const suffix of formats[manifest.platform]) {
+  for (const suffix of formats[key]) {
     if (!(manifest.artifacts ?? []).some((asset) => asset.name.endsWith(suffix)))
       throw new Error(`Required package format is missing: ${manifest.platform} ${suffix}`);
   }
-  if (manifest.artifacts.length !== formats[manifest.platform].length)
+  if (manifest.artifacts.length !== formats[key].length)
     throw new Error("Unexpected package formats in release manifest");
 }
 
 export async function aggregateRelease({ root, manifests, deliveredSha, version, legalFiles }) {
-  const platforms = new Set(manifests.map((manifest) => manifest.platform));
+  const platforms = new Set(
+    manifests.map((manifest) => `${manifest.platform}-${manifest.variant}`),
+  );
   if (
-    manifests.length !== 2 ||
-    platforms.size !== 2 ||
+    manifests.length !== 4 ||
+    platforms.size !== 4 ||
     !Object.keys(formats).every((p) => platforms.has(p))
   )
-    throw new Error("Both checked release platforms are required exactly once");
+    throw new Error("All checked platform/variant combinations are required exactly once");
   const packages = [];
   const names = new Set();
   for (const manifest of manifests) {
@@ -67,7 +79,7 @@ export async function aggregateRelease({ root, manifests, deliveredSha, version,
       const actual = await artifactIdentity(join(root, asset.name));
       if (actual.sha256 !== asset.sha256 || actual.bytes !== asset.bytes)
         throw new Error(`Actual package bytes differ from accepted artifact: ${asset.name}`);
-      packages.push({ ...actual, platform: manifest.platform });
+      packages.push({ ...actual, platform: manifest.platform, variant: manifest.variant });
     }
   }
   packages.sort((a, b) => a.name.localeCompare(b.name));
@@ -79,7 +91,11 @@ export async function aggregateRelease({ root, manifests, deliveredSha, version,
     applicationLicense: "Apache-2.0",
     maintainer: "Knorvia Studio <accomplish07zrh@gmail.com>",
     packages,
-    platforms: manifests.map(({ platform, acceptance }) => ({ platform, acceptance })),
+    platforms: manifests.map(({ platform, variant, acceptance }) => ({
+      platform,
+      variant,
+      acceptance,
+    })),
     limits: [
       "Preview channel",
       "No real model-task or full legacy-user migration acceptance",
@@ -117,7 +133,7 @@ async function main() {
   const root = resolve(rootArg);
   const { version } = await json("package.json");
   const manifests = await Promise.all(
-    Object.keys(formats).map((platform) => json(join(root, `${platform}-manifest.json`))),
+    Object.keys(formats).map((key) => json(join(root, `${key}-manifest.json`))),
   );
   const result = await aggregateRelease({
     root,
