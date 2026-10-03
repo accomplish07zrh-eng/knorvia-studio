@@ -1,0 +1,39 @@
+
+> knorvia-studio@0.8.0-preview.3 lint /workspace/knorvia-studio
+> node scripts/run-quality.mjs lint
+
+file:///workspace/knorvia-studio/scripts/check-evidence-integrity.mjs:92
+    throw new Error(
+          ^
+
+Error: Frozen evidence inconsistent (25):
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/appimage-extract.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/appimage-target.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/architecture-after.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/architecture-before.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/artifact-bindings.json
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/artifact-native-child.cjs
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.json
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.mjs
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/changed-lint.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/commands.json
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/desktop-context.md
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/distribution-build-failure.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/frozen-install-native-hook-failure.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/frozen-install-no-hooks.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/linux-configured-targets-failure.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/linux-desktop-build.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/linux-prepare-before-dependencies.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/linux-prepare.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/manifest.json
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/result.json
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/retry-after.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/retry-before.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/root-lint-frozen-evidence-failure.log
+Unregistered frozen evidence: docs/evidence/native-packaged-acceptance-20261003/typecheck.log
+    at checkEvidenceIntegrity (file:///workspace/knorvia-studio/scripts/check-evidence-integrity.mjs:92:11)
+    at async file:///workspace/knorvia-studio/scripts/run-quality.mjs:21:18
+
+Node.js v24.14.0
+ ELIFECYCLE  Command failed with exit code 1.

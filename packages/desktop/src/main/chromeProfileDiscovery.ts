@@ -77,49 +77,48 @@ function execFileText(command: string, args: string[]): Promise<string> {
   });
 }
 
-function uniquePaths(paths: Array<string | undefined>): string[] {
-  const result: string[] = [];
-  const seen = new Set<string>();
-  for (const path of paths) {
-    const normalized = path?.trim();
-    if (!normalized || seen.has(normalized)) continue;
-    seen.add(normalized);
-    result.push(normalized);
-  }
-  return result;
-}
-
 function expandWindowsPolicyPath(value: string, options: ChromeProfileDiscoveryOptions): string {
   const env = options.env ?? process.env;
-  const homeDir = options.homeDir ?? homedir();
-  const variables: Record<string, string> = {
-    local_app_data: options.localAppData ?? env.LOCALAPPDATA ?? join(homeDir, "AppData", "Local"),
-    profile: env.USERPROFILE ?? homeDir,
-    program_files: options.programFiles ?? env.PROGRAMFILES ?? "C:\\Program Files",
-  };
-  return value
-    .replace(/\$\{([^}]+)\}/g, (match, name: string) => variables[name.toLowerCase()] ?? match)
-    .replace(/%([^%]+)%/g, (match, name: string) => env[name] ?? env[name.toUpperCase()] ?? match);
+  const home = options.homeDir ?? homedir();
+  const variables = new Map([
+    ["local_app_data", options.localAppData ?? env.LOCALAPPDATA ?? join(home, "AppData", "Local")],
+    ["profile", env.USERPROFILE ?? home],
+    ["program_files", options.programFiles ?? env.PROGRAMFILES ?? "C:\\Program Files"],
+  ]);
+  const substituted = value.replace(
+    /\$\{([^}]+)\}/g,
+    (original, name: string) => variables.get(name.toLowerCase()) ?? original,
+  );
+  // 先替换 Chrome 策略变量，再展开其中可能携带的环境变量；未知变量保持原文本。
+  return substituted.replace(
+    /%([^%]+)%/g,
+    (original, name: string) => env[name] ?? env[name.toUpperCase()] ?? original,
+  );
 }
 
 async function readWindowsPolicyUserDataDirs(
   options: ChromeProfileDiscoveryOptions,
 ): Promise<string[]> {
-  const keys = [
-    "HKCU\\Software\\Policies\\Google\\Chrome",
-    "HKLM\\Software\\Policies\\Google\\Chrome",
-  ];
-  const values: string[] = [];
-  for (const key of keys) {
+  const paths = new Set<string>();
+  for (const hive of ["HKCU", "HKLM"]) {
+    let output: string;
     try {
-      const output = await execFileText("reg.exe", ["query", key, "/v", "UserDataDir"]);
-      const value = output.match(/UserDataDir\s+REG_(?:EXPAND_)?SZ\s+(.+)$/im)?.[1]?.trim();
-      if (value) values.push(expandWindowsPolicyPath(value, options));
+      output = await execFileText("reg.exe", [
+        "query",
+        `${hive}\\Software\\Policies\\Google\\Chrome`,
+        "/v",
+        "UserDataDir",
+      ]);
     } catch {
-      // 没有企业策略是正常状态。
+      // 企业策略缺失或查询受限，不阻断下一 hive 与标准目录。
+      continue;
     }
+    const captured = /UserDataDir\s+REG_(?:EXPAND_)?SZ\s+(.+)$/im.exec(output)?.[1]?.trim();
+    if (!captured) continue;
+    const path = expandWindowsPolicyPath(captured, options).trim();
+    if (path) paths.add(path);
   }
-  return uniquePaths(values);
+  return [...paths];
 }
 
 async function resolveFirstExistingPath(paths: string[]): Promise<string | undefined> {
@@ -129,152 +128,122 @@ async function resolveFirstExistingPath(paths: string[]): Promise<string | undef
   return undefined;
 }
 
-async function readProfileDirectoryCandidates(userDataDir: string): Promise<{
-  lastUsed?: string;
-  profiles: string[];
-}> {
+interface ProfileOffer {
+  directory: string;
+  preference: number;
+}
+
+async function importableProfileOffers(userDataDir: string): Promise<ProfileOffer[]> {
   let localState: ChromeLocalState = {};
   try {
     localState = JSON.parse(
       await readFile(join(userDataDir, "Local State"), "utf8"),
     ) as ChromeLocalState;
   } catch {
-    // Local State 损坏或暂时不可读时，仍允许通过目录 fallback 发现 Profile。
+    // 文件不可读或 JSON 损坏时，仅使用实际目录证据；不向源 Profile 写入恢复数据。
   }
-
-  const names = new Set<string>(Object.keys(localState.profile?.info_cache ?? {}));
+  const metadata = localState.profile;
+  const names = new Set(Object.keys(metadata?.info_cache ?? {}));
   try {
-    for (const entry of await readdir(userDataDir, { withFileTypes: true })) {
+    const entries = await readdir(userDataDir, { withFileTypes: true });
+    entries.forEach((entry) => {
       if (entry.isDirectory() && PROFILE_DIRECTORY_PATTERN.test(entry.name)) names.add(entry.name);
-    }
+    });
   } catch {
-    return { profiles: [] };
+    return [];
   }
-
-  const profiles: string[] = [];
+  const present: string[] = [];
   for (const name of names) {
-    if (await pathExists(join(userDataDir, name))) profiles.push(name);
+    if (await pathExists(join(userDataDir, name))) present.push(name);
   }
-  return {
-    lastUsed: localState.profile?.last_used,
-    profiles: profiles.sort((a, b) => a.localeCompare(b)),
-  };
-}
-
-async function hasImportableProfileData(profilePath: string): Promise<boolean> {
-  const candidates = [
-    join(profilePath, "Network", "Cookies"),
-    join(profilePath, "Cookies"),
-    join(profilePath, "Local Storage", "leveldb"),
-  ];
-  for (const candidate of candidates) {
-    if (await pathExists(candidate)) return true;
-  }
-  return false;
-}
-
-async function filterImportableProfiles(
-  userDataDir: string,
-  profiles: string[],
-): Promise<string[]> {
-  const availability = await Promise.all(
-    profiles.map(async (profile) => ({
-      profile,
-      importable: await hasImportableProfileData(join(userDataDir, profile)),
-    })),
+  present.sort((left, right) => left.localeCompare(right));
+  const offers = await Promise.all(
+    present.map(async (directory): Promise<ProfileOffer | undefined> => {
+      for (const components of [
+        ["Network", "Cookies"],
+        ["Cookies"],
+        ["Local Storage", "leveldb"],
+      ]) {
+        if (!(await pathExists(join(userDataDir, directory, ...components)))) continue;
+        return {
+          directory,
+          preference:
+            metadata?.last_used && metadata.last_used === directory
+              ? 0
+              : directory === "Default"
+                ? 1
+                : 2,
+        };
+      }
+      return undefined;
+    }),
   );
-  return availability.filter(({ importable }) => importable).map(({ profile }) => profile);
+  // 空 Default 没有 offer，不能遮蔽真实 Profile 或后续 Snap/Flatpak；优先级只作用于可导入数据。
+  return offers
+    .filter((offer): offer is ProfileOffer => offer !== undefined)
+    .sort((left, right) => left.preference - right.preference);
 }
 
-function selectProfileDirectory(
-  profiles: string[],
-  lastUsed?: string,
-): { profileDirectory?: string; ambiguous: boolean } {
-  if (lastUsed && profiles.includes(lastUsed)) {
-    return { profileDirectory: lastUsed, ambiguous: false };
+async function* orderedInstallations(
+  options: ChromeProfileDiscoveryOptions,
+): AsyncGenerator<ChromeInstallationCandidate> {
+  const platform = options.platform ?? process.platform;
+  const env = options.env ?? process.env;
+  const standard = options.installations ?? buildStandardChromeInstallations(options);
+  const fromDirectory = (userDataDir: string): ChromeInstallationCandidate => ({
+    browser: "chrome",
+    userDataDir,
+    executablePaths: standard[0]?.executablePaths ?? [],
+  });
+  const environment =
+    !options.installations && platform === "linux" && env.CHROME_USER_DATA_DIR
+      ? [fromDirectory(env.CHROME_USER_DATA_DIR)]
+      : [];
+  const lines =
+    options.processCommandLines ??
+    (options.installations ? [] : await readRunningChromeProcessCommandLines(platform));
+  const running = parseRunningChromeInstallations(
+    lines,
+    platform === "linux" ? [...environment, ...standard] : [],
+  );
+  const policy =
+    platform === "win32" && !options.installations
+      ? (await readWindowsPolicyUserDataDirs(options)).map(fromDirectory)
+      : [];
+  const visited = new Set<string>();
+  for (const group of [running, environment, policy, standard]) {
+    for (const candidate of group) {
+      const userDataDir = candidate.userDataDir.trim();
+      if (!userDataDir || visited.has(userDataDir)) continue;
+      visited.add(userDataDir);
+      yield { ...candidate, userDataDir };
+    }
   }
-  if (profiles.includes("Default")) {
-    return { profileDirectory: "Default", ambiguous: false };
-  }
-  if (profiles.length === 1) {
-    return { profileDirectory: profiles[0], ambiguous: false };
-  }
-  return { ambiguous: profiles.length > 1 };
-}
-
-function dedupeInstallations(
-  installations: ChromeInstallationCandidate[],
-): ChromeInstallationCandidate[] {
-  const result: ChromeInstallationCandidate[] = [];
-  const seen = new Set<string>();
-  for (const installation of installations) {
-    const userDataDir = installation.userDataDir.trim();
-    if (!userDataDir || seen.has(userDataDir)) continue;
-    seen.add(userDataDir);
-    result.push({ ...installation, userDataDir });
-  }
-  return result;
 }
 
 export async function discoverChromeProfile(
   options: ChromeProfileDiscoveryOptions = {},
 ): Promise<ChromeProfileDiscoveryResult> {
-  const platform = options.platform ?? process.platform;
-  const env = options.env ?? process.env;
-  const standardInstallations = options.installations ?? buildStandardChromeInstallations(options);
-  const environmentInstallations =
-    !options.installations && platform === "linux" && env.CHROME_USER_DATA_DIR
-      ? [
-          {
-            browser: "chrome" as const,
-            userDataDir: env.CHROME_USER_DATA_DIR,
-            executablePaths: standardInstallations[0]?.executablePaths ?? [],
-          },
-        ]
-      : [];
-  const commandLines =
-    options.processCommandLines ??
-    (options.installations ? [] : await readRunningChromeProcessCommandLines(platform));
-  const runningInstallations = parseRunningChromeInstallations(
-    commandLines,
-    platform === "linux" ? [...environmentInstallations, ...standardInstallations] : [],
-  );
-  const policyInstallations =
-    platform === "win32" && !options.installations
-      ? (await readWindowsPolicyUserDataDirs(options)).map((userDataDir) => ({
-          browser: "chrome" as const,
-          userDataDir,
-          executablePaths: standardInstallations[0]?.executablePaths ?? [],
-        }))
-      : [];
-  const installations = dedupeInstallations([
-    ...runningInstallations,
-    ...environmentInstallations,
-    ...policyInstallations,
-    ...standardInstallations,
-  ]);
-
-  for (const installation of installations) {
-    if (!(await pathExists(installation.userDataDir))) continue;
-    const { lastUsed, profiles } = await readProfileDirectoryCandidates(installation.userDataDir);
-    // 过去只要标准 Default 目录存在就立即返回，即使里面没有 Cookie/LocalStorage，
-    // 从而遮蔽同安装的真实 Profile 以及后续 Snap/Flatpak 候选。发现阶段先过滤空 Profile。
-    const importableProfiles = await filterImportableProfiles(installation.userDataDir, profiles);
-    if (importableProfiles.length === 0) continue;
-    const selected = selectProfileDirectory(importableProfiles, lastUsed);
-    if (selected.ambiguous) return { success: false, error: "chrome_profile_ambiguous" };
-    if (!selected.profileDirectory) continue;
+  for await (const candidate of orderedInstallations(options)) {
+    if (!(await pathExists(candidate.userDataDir))) continue;
+    const offers = await importableProfileOffers(candidate.userDataDir);
+    const selected = offers[0];
+    if (!selected) continue;
+    if (selected.preference === 2 && offers.length > 1) {
+      return { success: false, error: "chrome_profile_ambiguous" };
+    }
+    if (!selected.directory) continue;
     const executablePath =
-      installation.executablePath ?? (await resolveFirstExistingPath(installation.executablePaths));
+      candidate.executablePath ?? (await resolveFirstExistingPath(candidate.executablePaths));
     return {
       success: true,
       source: {
-        browser: installation.browser,
+        browser: candidate.browser,
         executablePath,
-        passwordStore: installation.passwordStore,
-        profileDirectory: selected.profileDirectory,
-        profilePath: join(installation.userDataDir, selected.profileDirectory),
-        userDataDir: installation.userDataDir,
+        passwordStore: candidate.passwordStore,
+        profileDirectory: selected.directory,
+        profilePath: join(candidate.userDataDir, selected.directory),
+        userDataDir: candidate.userDataDir,
       },
     };
   }

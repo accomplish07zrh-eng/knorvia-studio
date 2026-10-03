@@ -1,0 +1,100 @@
+{
+  "stage": "four-bounded-native-implementation-replacements",
+  "branch": "rewrite/native-20261003",
+  "inputCommit": "3418776c6d90b3a205e312a115948a280e91309d",
+  "sourceFactsCommit": "1128e11a98a47d16ad19e9b3e60e65fc8b470cd7",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.14.0",
+    "pnpm": "10.33.2"
+  },
+  "spec": "specs/knorvia-native-four-inherited-modules-20261003.md",
+  "completedUnits": [
+    {
+      "path": "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "replacement": "Six-row product catalog materializes platform topology; process matching builds a first-wins normalized executable index and emits command evidence in order."
+    },
+    {
+      "path": "packages/desktop/src/main/chromeExecutableDiscovery.ts",
+      "replacement": "Lazy ordered executable search plan; shared failure-isolating directory iterator feeds Mac registration and Linux desktop-entry collectors."
+    },
+    {
+      "path": "packages/desktop/src/main/chromeProfileDiscovery.ts",
+      "replacement": "First-wins ordered installation iterator; one read-only inventory emits importable profile offers ranked by last_used, Default and sole/ambiguous rules; sequential policy query/expansion preserves the Windows contract."
+    },
+    {
+      "path": "packages/desktop/src/main/crashDumpAnnotations.ts",
+      "replacement": "Length-prefixed bounded decoder and single forward byte scan with per-prefix first-value maps; fixed metric schema, diagnostic reduction and priority OOM policy build the existing public summary."
+    }
+  ],
+  "validation": {
+    "baselineContracts": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "evidence": "contracts-before.log"
+    },
+    "candidateContractsAndExistingRedaction": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "evidence": "contracts-after.log"
+    },
+    "identicalFixtureAndProtectedConsumerLicenseBytes": "source-bindings.json",
+    "typecheck": {
+      "exitCode": 0,
+      "evidence": "typecheck.log"
+    },
+    "architecture": {
+      "exitCode": 0,
+      "violations": 0,
+      "baselineViolations": 0,
+      "newViolations": 0,
+      "evidence": "architecture.log"
+    },
+    "changedLint": {
+      "exitCode": 0,
+      "warnings": 0,
+      "errors": 0,
+      "files": 5,
+      "evidence": "changed-lint.log"
+    },
+    "changedFormat": {
+      "exitCode": 0,
+      "evidence": "changed-format.log"
+    },
+    "rootLint": {
+      "exitCode": 1,
+      "evidence": "root-lint-frozen-evidence-failure.log",
+      "reason": "Integrity prerequisite rejected the 25 new native packaged acceptance files before actual lint. The inherited source-notice files are now registered by the integrator. This attempt preceded adding this source-batch evidence, which also requires shared registration."
+    }
+  },
+  "initialFailure": {
+    "evidence": "initial-crash-test-isolation-failure.log",
+    "passed": 20,
+    "failed": 1,
+    "qualification": "Initial harness omitted a startup KNORVIA_DATA_BASE_DIR override. Existing archive/config imports cached the unavailable /home/agent path before its second test changed env. Rerun supplies task-local data/storage paths before module import; both unchanged redaction/startup tests pass. No production code or existing test was changed to accommodate the environment."
+  },
+  "scope": {
+    "sourceExposed": true,
+    "cleanRoomClaim": false,
+    "wholeProjectOriginalClaim": false,
+    "mitGrantClaim": false,
+    "rootConfigurationOrSharedRegistryEdited": false,
+    "uiEdited": false,
+    "sharedProtocolOrDataSchemaEdited": false,
+    "realUserDataOperated": false,
+    "freshPackagedCandidateProduced": false
+  },
+  "retainedBoundary": "Interfaces, product/system names and paths, exact process/flag grammar, public field ordering, ordinary IO/command/admission wrappers and standard byte/numeric conversions remain. Exact retained function bodies are listed in source-bindings.json; none is counted as new independent authorship. This completes the assigned substantial implementation units, not a whole-repository residual audit.",
+  "remaining": [
+    "Integrator must register packaged and this source-batch evidence, refresh shared current-input/source metadata and rerun whole quality gates.",
+    "Four-file candidates have source-contract checks only; the earlier AppImage measured runtime input ede8382435ed91e9d62300599e925f6fb90532c0, not these new production candidates.",
+    "Real Windows/macOS Chrome policy/registration and installer/portable/CUA acceptance remain unexecuted.",
+    "Linux release metadata and CLI-owned CUA SEA collection blockers from the packaging batch remain.",
+    "GUI/model/complete legacy-data migration and full repository tests/audit were not performed by this lane."
+  ]
+}

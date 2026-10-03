@@ -1,0 +1,34 @@
+(node:18665) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ catalog callers cannot mutate the next discovery's candidate arrays (5.741162ms)
+✔ product catalog retains all platform roots and channel order (19.449094ms)
+✔ running installation evidence retains every explicit directory and first fallback (1.140251ms)
+✔ process executable spelling, Mac spaces and existing parse boundaries remain (0.504962ms)
+✔ executable tiers preserve overrides, process and registration priority (5.856536ms)
+✔ regular-file and execute-permission admission continue to later candidates (3.548884ms)
+✔ registered Linux desktop entries precede PATH and retain env token handling (12.110773ms)
+✔ Linux PATH name order dominates directory order and installation tier (3.35414ms)
+✔ Mac Spotlight ignores stale applications and keeps the same query (3.079546ms)
+✔ process enumeration keeps command options, filtering and failure continuation (1.123556ms)
+✔ profile last_used precedes Default and explicit executable keeps existence-only semantics (13.531806ms)
+✔ empty Default and stale last_used do not hide cached nonstandard importable profile (12.31416ms)
+✔ malformed Local State falls back and earliest ambiguity blocks later installation (4.650907ms)
+✔ empty standard and environment profiles fall through to running Snap data (8.53665ms)
+✔ empty cache names retain sole-profile rejection and ambiguity semantics (4.864249ms)
+✔ policy query failure continues to HKLM and preserves unknown placeholder text (2.948949ms)
+✔ a direct executable hit keeps operating-system registration collection lazy (1.170607ms)
+✔ Windows policy roots expand placeholders in order and keep HKCU priority (3.026727ms)
+✔ profile absence and valid JSON null retain distinct bad-input results (3.032005ms)
+✔ Crashpad known prefixes preserve first valid values and prefix-group output order (2.088561ms)
+✔ Crashpad length bounds, controls, truncation and trailing NUL remain safe (4.188909ms)
+✔ Crashpad alignment is absolute and invalid text does not hide a later valid record (1.675297ms)
+✔ V8 summary keeps every field, conversions and diagnostics bounds (0.790162ms)
+✔ OOM classification preserves precedence, exact thresholds and nullable bad values (0.346132ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 500.503641

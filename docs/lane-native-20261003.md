@@ -722,3 +722,77 @@ commits behind merged main at observation time. A draft against that base theref
 contains already merged baseline changes. Review this batch through its own commit
 and the exact main595 comparison; those inherited changes are not native lane work.
 Retargeting the PR or moving the integration base belongs to the integrator.
+
+## Four bounded Desktop inherited implementation replacements
+
+Packaging fix/evidence was committed and pushed as
+`3e8dbeb75baa1d58285ec638e513e40a60c00da0`. Integration subsequently advanced;
+this same branch normally merged exact PR19 source-facts head
+`1128e11a98a47d16ad19e9b3e60e65fc8b470cd7` in
+`3418776c6d90b3a205e312a115948a280e91309d`. Draft
+[PR21](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/21) remains based on
+`integration/backlog-20261003`, now with the current evidence base rather than the
+previously stale166-commit base. No main merge or new task/branch.
+
+The integrator explicitly assigned four exact inherited files, after the bounded
+upstream comparison. The [behavior spec](../specs/knorvia-native-four-inherited-modules-20261003.md)
+was written before source replacement. Public APIs/consumers remain:
+
+- `chromeInstallationCandidates.ts`: one six-product platform catalog replaces
+  separate per-channel switch families. Running matching indexes the first
+  slash/case-normalized fallback, then emits explicit directory/password-store
+  evidence in command order; child-process exclusion remains conditional on no
+  explicit user-data-dir.
+- `chromeExecutableDiscovery.ts`: one lazy tier plan retains environment/process,
+  registered, PATH and installation priority. A shared directory iterator feeds
+  Mac Spotlight and Linux desktop entries while isolating stale/unreadable sources.
+- `chromeProfileDiscovery.ts`: ordered installation iteration owns deduplication;
+  one read-only inventory emits only importable profile offers, with last_used/
+  Default ranking before sole/ambiguity selection. Windows policy reads and staged
+  placeholder expansion retain HKCU/HKLM order, failure continuation and unknown
+  variables. Empty/malformed-cache behavior is retained rather than silently fixed.
+- `crashDumpAnnotations.ts`: bounded declared-length decoding and a single forward
+  scan retain known prefix groups, first valid value, absolute alignment and bad
+  record skipping. A fixed metric schema and priority rule table feed the existing
+  OOM summary, including field order and diagnostic text limits.
+
+This is a source-exposed candidate implementation, not a clean-room claim. Fixed
+interfaces, product/system data, command/flag grammar, short IO/admission wrappers
+and ordinary conversions remain. Their exact retained bodies are disclosed in
+[source bindings](evidence/native-four-inherited-20261003/source-bindings.json),
+without independent-authorship credit for those expressions. No new SPDX/MIT
+grant or blanket whole-file/project-original conclusion. Original license/NOTICE
+and source history remain; global current-source decisions are integrator-owned.
+
+The identical expanded fixture passes **24/24** on the exact four prior Git blobs
+loaded only from disposable `/tmp`, and **24/24** on the candidates. Together with
+the two unchanged archived-crash redaction/default-capture tests, the final
+candidate run is **26 passed,0 failed,0 skipped**. Coverage includes platform
+catalog/order/mutable-array isolation, executable tier laziness/permission and
+registration failure, running flags/first fallback, profile importability/ambiguity/
+policy/empty cache, invalid/truncated/unaligned/limit Crashpad records, Unicode/
+controls/first values, all summary fields/order and OOM threshold precedence.
+
+An initial combined run passed20/21; its unchanged default-capture test tried the
+unavailable `/home/agent` because the harness had omitted the startup data override
+before cached config import. Supplying task-local data/storage paths before import
+then passes both unchanged security tests. That failure is retained and classified
+as harness isolation, not a production bug or weakened assertion. Synthetic
+profiles/startup data were cleaned; no real browser, system commands, models,
+credentials, GUI or user data were used.
+
+Final root typecheck, architecture check, direct five-file oxlint and owned-file
+format check pass. Root lint still fails before lint because25 new packaging
+snapshots are unregistered; the earlier24 source-notice snapshots were already
+registered in synced PR19. This source batch adds12 own snapshots, also needing
+the integrator's shared frozen-registry/current-input update. Original logs, source/
+fixture digests, commands and limitations are in the
+[result](evidence/native-four-inherited-20261003/result.json).
+
+The earlier AppImage's runtime input is still `ede8382435ed91e9d62300599e925f6fb90532c0`;
+it does not contain these new four-file candidates. No fresh package, full suite,
+GUI/model/complete legacy migration or real Windows/macOS Chrome/installer/CUA
+acceptance is claimed for this source batch. Linux metadata and CLI-owned SEA
+collection requirements remain as previously handed off. The four assigned
+substantial units are complete as bounded source candidates; integrator review,
+shared evidence/source projection and final platform/package acceptance remain.
