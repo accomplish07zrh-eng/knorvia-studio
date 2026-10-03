@@ -38,6 +38,8 @@ are retained. They already have installed-candidate receipts, so they are not
 selected again solely because licensing classification remains pending.
 ProtocolClient origin and creation/studio-runtime ownership evidence remain
 unresolved; no independent/MIT completion is inferred from the directory.
+The complete protocol-client candidate is recorded separately in batch 3 below;
+creation/studio-runtime still require bounded owner selection and reconstruction.
 
 ## Batch 1 — session lifecycle
 
@@ -96,6 +98,34 @@ The source-exposed authoring and unresolved rights/expression restrictions from
 batch 1 also apply here; historical HOLD records stay intact. Neither candidate
 has whole-file independent-expression or MIT acceptance.
 
+## Batch 3 — protocol client request lifetime
+
+The [contract](../specs/knorvia-next-services-protocol-client-20261003.md)
+was committed first as `366227552305c709e1c735b6cbef0546ed9a2c51`.
+Reconstructed the complete protocol client with a private request book owning
+pending identity, operation count, watchdog, abort listener and settlement. The
+facade retains transport listeners, startup gate, public event routing and
+disposal. The former per-method pending cleanup and repeated operation scans are
+replaced by one resource-release path and an owned operation count; response
+parsing is a per-request settlement callback. Public factory/class/error/event,
+wire/value/diagnostic and imported port expression retains its lineage.
+
+Request allocation still follows the startup barrier and abort check. Observation
+timeouts remain outside runtime-health/idle extension; cleanup/drained precedes
+response parsing and timeout events. Accepted startup transitions pause or fully
+restart current watchdogs; transport close rejects requests and emits close
+without claiming process disposal. Local disposal remains idempotent, and
+disposeAndWait retains the transport's supported asynchronous disposal behavior.
+No cancellation wire request or alternate runtime owner is introduced.
+
+Historical protocol-client nonmatches do not establish original authorship.
+Whole-expression and source/rights review remain pending. The startup gate is
+consumed without modification and its exact retained binding is recorded in
+[source-bindings.json](evidence/backlog-services-protocol-client-20261003/source-bindings.json).
+Its parent accepted-hash HOLD remains integrator-owned. **UNVERIFIED:** source
+and differences were read; no additional test files or executable validation
+were added/run in this source-focused batch.
+
 ## Integrator dependencies and remaining acceptance
 
 - Confirm any parent accepted/historical sessionService/taskIndexSyncer binding
@@ -104,7 +134,9 @@ has whole-file independent-expression or MIT acceptance.
 - Preserve the separate startup/commitMessageFileScope accepted-hash holds;
   this lane does not substitute or reauthor them.
 - Final combination must verify Agent/runtime → task-index/session → Host/Main
-  and UI, including continuous Desktop and replayable mobile behavior. Shared
+  and UI, including continuous Desktop and replayable mobile behavior, plus
+  protocol timeout/abort/response/close races and process-manager health/idle
+  boundaries. Shared
   contracts/root configuration/CI/global provenance are integrator-owned.
 - No tests, lint, typecheck, formatting/architecture checks, builds, full audit
   or CI rerun run here. Historical missing dependencies and RPC/CUA diagnostics
