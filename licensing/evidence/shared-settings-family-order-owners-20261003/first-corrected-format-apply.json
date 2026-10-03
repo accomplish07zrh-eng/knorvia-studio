@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/agent-model-state.ts",
+    "packages/shared/src/model-provider-family.ts",
+    "packages/shared/src/pluginStoreOrdering.ts"
+  ],
+  "stdout": "Finished in 18ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

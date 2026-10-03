@@ -1,0 +1,6 @@
+{
+  "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-unsplit-formatted.mjs",
+  "sha256": "1c7e90336c3420348588668b4fb978efd173702e0f43488d17eea8cc788e6832",
+  "bytes": 15664,
+  "reason": "Preserve exact passing final-fake fixture that failed max-lines lint before split; product owners unchanged"
+}

@@ -1,9 +1,5 @@
 import type { KnorviaPlanStep } from "./task-types-core.js";
 
-const TODO_TOOL_NAME_PATTERN =
-  /(?:^|[_\s-])(?:todo[_\s-]*(?:read|write)|update[_\s-]*plan)(?:$|[_\s-])/i;
-const PLAN_COLLECTION_KEYS = ["todos", "plan", "steps", "items"] as const;
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -12,7 +8,7 @@ function readString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
 }
 
-function normalizePlanStatus(value: unknown): KnorviaPlanStep["status"] | null {
+function readStatus(value: unknown): KnorviaPlanStep["status"] | null {
   const status = readString(value)?.replace(/-/g, "_").toLowerCase();
   if (status === "pending" || status === "in_progress" || status === "completed") {
     return status;
@@ -22,103 +18,67 @@ function normalizePlanStatus(value: unknown): KnorviaPlanStep["status"] | null {
 
 function parsePlanStep(value: unknown, index: number): KnorviaPlanStep | null {
   if (typeof value === "string") {
-    const title = value.trim();
-    return title ? { id: title, title, status: index === 0 ? "in_progress" : "pending" } : null;
-  }
-  if (!isRecord(value)) {
-    return null;
+    const title = readString(value);
+    if (title === undefined) return null;
+    return {
+      id: title,
+      title,
+      status: index === 0 ? "in_progress" : "pending",
+    };
   }
 
+  if (!isRecord(value)) return null;
   const title =
-    readString(value.content) ??
-    readString(value.step) ??
-    readString(value.title) ??
-    readString(value.text) ??
+    readString(value.content) ||
+    readString(value.step) ||
+    readString(value.title) ||
+    readString(value.text) ||
     readString(value.activeForm);
-  const status = normalizePlanStatus(value.status);
-  if (!title || !status) {
-    return null;
-  }
-
-  return {
-    id: readString(value.id) ?? title,
-    title,
-    status,
-  };
+  if (title === undefined) return null;
+  const status = readStatus(value.status);
+  if (status === null) return null;
+  const id = readString(value.id) || title;
+  return { id, title, status };
 }
 
-function parseJsonValue(value: string): unknown {
+function parseJson(value: string): unknown {
   try {
-    return JSON.parse(value) as unknown;
+    return JSON.parse(value);
   } catch {
     return undefined;
   }
 }
 
-function readPlanCollection(input: unknown): unknown[] | null {
-  const value = typeof input === "string" ? parseJsonValue(input) : input;
-  if (!isRecord(value)) {
-    return null;
+function readCollection(value: unknown): unknown[] | undefined {
+  const record = typeof value === "string" ? parseJson(value) : value;
+  if (!isRecord(record)) return undefined;
+  for (const key of ["todos", "plan", "steps", "items"]) {
+    const collection = record[key];
+    if (Array.isArray(collection)) return collection;
   }
-  for (const key of PLAN_COLLECTION_KEYS) {
-    const collection = value[key];
-    if (Array.isArray(collection)) {
-      return collection;
-    }
-  }
-  return null;
+  return undefined;
 }
 
-function extractPlanStepsFromValue(value: unknown): KnorviaPlanStep[] | null {
-  const collection = readPlanCollection(value);
-  if (!collection || collection.length === 0) {
-    return null;
-  }
-
+function extractPlanSteps(value: unknown): KnorviaPlanStep[] | null {
+  const collection = readCollection(value);
+  if (collection === undefined || collection.length === 0) return null;
   const steps = collection
-    .map((item, index) => parsePlanStep(item, index))
+    .map(parsePlanStep)
     .filter((step): step is KnorviaPlanStep => step !== null);
-
   return steps.length === collection.length ? steps : null;
 }
 
-function collectOutputCandidates(output: unknown): unknown[] {
-  const candidates: unknown[] = [output];
-  const parsedOutput = typeof output === "string" ? parseJsonValue(output) : undefined;
-  if (parsedOutput !== undefined) {
-    candidates.push(parsedOutput);
-  }
-
-  if (isRecord(output)) {
-    for (const key of ["content", "output", "result"] as const) {
-      const value = output[key];
-      candidates.push(value);
-      if (typeof value === "string") {
-        const parsedValue = parseJsonValue(value);
-        if (parsedValue !== undefined) {
-          candidates.push(parsedValue);
-        }
-      }
-    }
-  }
-
-  return candidates;
-}
-
 export function isTodoPlanToolName(value: string | null | undefined): boolean {
-  return typeof value === "string" && TODO_TOOL_NAME_PATTERN.test(value.trim());
+  return (
+    typeof value === "string" &&
+    /(?:^|[_\s-])(?:todo[_\s-]*(?:read|write)|update[_\s-]*plan)(?:$|[_\s-])/i.test(value.trim())
+  );
 }
 
 export function isMainAgentToolProjectionSource(...candidates: unknown[]): boolean {
   for (const candidate of candidates) {
-    if (!isRecord(candidate)) {
-      continue;
-    }
-    // subagent / workflow 会把子工具镜像进父 session；这些 TodoWrite
-    // 只属于对应父工具树，不能覆盖主任务顶部 todo 摘要。
-    if (readString(candidate.source) === "subagent") {
-      return false;
-    }
+    if (!isRecord(candidate)) continue;
+    if (readString(candidate.source) === "subagent") return false;
     if (readString(candidate.parentToolCallId) || readString(candidate.parentToolUseId)) {
       return false;
     }
@@ -132,11 +92,8 @@ export function extractPlanStepsFromToolInput(params: {
   input: unknown;
 }): KnorviaPlanStep[] | null {
   const fingerprint = [params.title, params.kind].filter(Boolean).join(" ");
-  if (!isTodoPlanToolName(fingerprint)) {
-    return null;
-  }
-
-  return extractPlanStepsFromValue(params.input);
+  if (!isTodoPlanToolName(fingerprint)) return null;
+  return extractPlanSteps(params.input);
 }
 
 export function extractPlanStepsFromToolOutput(params: {
@@ -145,16 +102,28 @@ export function extractPlanStepsFromToolOutput(params: {
   output: unknown;
 }): KnorviaPlanStep[] | null {
   const fingerprint = [params.title, params.kind].filter(Boolean).join(" ");
-  if (!isTodoPlanToolName(fingerprint)) {
-    return null;
-  }
+  if (!isTodoPlanToolName(fingerprint)) return null;
 
-  for (const candidate of collectOutputCandidates(params.output)) {
-    const steps = extractPlanStepsFromValue(candidate);
-    if (steps) {
-      return steps;
+  const output = params.output;
+  const candidates: unknown[] = [output];
+  if (typeof output === "string") {
+    const parsed = parseJson(output);
+    if (parsed !== undefined) candidates.push(parsed);
+  }
+  if (isRecord(output)) {
+    for (const key of ["content", "output", "result"]) {
+      const value = output[key];
+      candidates.push(value);
+      if (typeof value === "string") {
+        const parsed = parseJson(value);
+        if (parsed !== undefined) candidates.push(parsed);
+      }
     }
   }
 
+  for (const candidate of candidates) {
+    const steps = extractPlanSteps(candidate);
+    if (steps !== null) return steps;
+  }
   return null;
 }

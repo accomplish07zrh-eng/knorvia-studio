@@ -1,0 +1,19 @@
+[
+  {
+    "kind": "read path typo",
+    "path": "packages/desktop/src/main/host",
+    "exitCode": 2,
+    "reason": "Actual existing path is packages/desktop/src/host; no environment/action bypass"
+  },
+  {
+    "kind": "read before asynchronous metadata download completion",
+    "path": "/tmp/knorvia-pr11-files48.json",
+    "error": "JSONDecodeError on partial file",
+    "reason": "GH session86425 had not completed; waited through write_stdin, then parsed completed response successfully; failure not product/runtime test."
+  },
+  {
+    "kind": "bounded receipt search no matches",
+    "exitCode": 1,
+    "reason": "rg finding no exact selected name in narrow prior receipt/spec sets is absence evidence only; not a runtime/environment failure."
+  }
+]

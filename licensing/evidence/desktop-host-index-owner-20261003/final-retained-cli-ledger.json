@@ -1,0 +1,174 @@
+{
+  "remainingCount": 33,
+  "allAdapterSourcesHashUnchanged": 243,
+  "parentReceipt": "licensing/evidence/cli-config-behavior-owners-20261003/selection-and-remainder.json",
+  "retainedPaths": [
+    {
+      "path": "apps/cli/packages/adapters/src/commands/roots.ts",
+      "sha256": "88be0a0a358a356cb9a2d51d7309d6688bb956d96f27692f034e2b7f66e1c731",
+      "classification": "retained-root-resolution-config-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/env-config.adapter.ts",
+      "sha256": "6ac6a0969f494a55b04893e360c1062e705ed25719cd7d8f0f5acc93c6dbc518",
+      "classification": "retained-config-authority-unallocated"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/index.ts",
+      "sha256": "2dc4c25ffd46e9bf3fde987bcee0c16a95c33742c9dc0f707c84e8f40dd9ab96",
+      "classification": "retained-config-authority-unallocated"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/schema.ts",
+      "sha256": "aa1dbde89a562e53a09c2eb110e2c70662f8bcf490bda0d4faa090d7bf8bc2f0",
+      "classification": "retained-config-authority-unallocated"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sha256": "f9f454a08293e596396afd7be627697ad8b9a6b7e4bf084f14f81dddd898ed8d",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-darwin.ts",
+      "sha256": "641f94d35fe1d480236cec325ce82a214b7aec731dbb185487251879f4fda825",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-linux.ts",
+      "sha256": "8e2a8250f7cf72c78d6ed08aed4f59f7d92751619c14b56e2cc08a1b974e6150",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-shared.ts",
+      "sha256": "fc3fbfa68530e3414b7ae3d6af03074b0892737848e8b37a8231fd21585da628",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-windows.ts",
+      "sha256": "45779634c871853f812fdf16268c9b9e7332714c1064eca74dc557bf5a2aadc8",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe.ts",
+      "sha256": "f1130eaf748b97813b9c79b78114f429f2f7a757e5578e6f901256831270b446",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/file-search-paths.ts",
+      "sha256": "4015e277b2691f9dce271068280a6573a428d2c509b7423f280f4fc904349a79",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/index.ts",
+      "sha256": "ab1658bcbbf793c87848d948fc9b4eb468fa6c1d324cad2447efbafa0ceb0ce1",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-file-io.ts",
+      "sha256": "29670cb2854bfa92a1830474c31817111b574401fb21d6188e181c3d9a56c1bd",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-file-policy.ts",
+      "sha256": "dbc561f40490585bb28260580bc2a043282188614b7612b682f5a19a399f3b53",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-search.ts",
+      "sha256": "1d2ab46efc39c1f586aebb9203416326e9da29f74b435f35bc5e73b000c29d92",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/ripgrep-plan.ts",
+      "sha256": "f636078fe41b4d2ca4a7d7f4d039ae4f36f3670a8c076f3a71f9994f3190cc79",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/ripgrep-worker.ts",
+      "sha256": "ebf78cae1f2ad385c98422f30a9ae49720afb1c44ed287c12f3e8ef0eb4199be",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-line-window.ts",
+      "sha256": "936390c8fee4112d243610bbba4220b20161c7468e45be40b93a55c8208e25e9",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+      "sha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+      "sha256": "df90936480261ab01d925e9ebda672113b7fdf9eb0d2b9a1b062abc42085cf9d",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-search-lines.ts",
+      "sha256": "f58f07fe5acd70b938377bc4852bc8015187326037afa2a501fc237ba9abe6eb",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-search-results.ts",
+      "sha256": "a36023e637e282c200a6cb26e60fe7140bc483ff5db30f190134ef79b0c81b6e",
+      "classification": "retained-completed-prior-candidate-not-new-acceptance"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/image-budget.ts",
+      "sha256": "cbd550474128d060d670f747b1fa9a07a22359db49459a6ea7702b31d99a6619",
+      "classification": "retained-constrained-image-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/jimp-media.ts",
+      "sha256": "c79d143f9725f0fd5d69b3fe24503d74386ffd343cd7ac61bebefc68d3393dbc",
+      "classification": "retained-constrained-image-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/webp-passthrough.ts",
+      "sha256": "2764c88a0beb1843761916a66d7583dd1c9a72531c5468bedba20a5d67535cbe",
+      "classification": "retained-constrained-image-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/index.ts",
+      "sha256": "367ad9b80d3996cd402d4fb5e43ec4fe213c3e9253662fb81ecb54dbc998b1ef",
+      "classification": "retained-thin-barrel"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/entry.ts",
+      "sha256": "586e95dd02fcae4a973dd47effec5c12a19092e4a45b71819424ca5559d756e5",
+      "classification": "retained-prior-logging-candidate-or-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/file-sink.ts",
+      "sha256": "42ccac644aa422f3159e1011735708679c07c2d1303d81fa3f933cd61b892aa1",
+      "classification": "retained-prior-logging-candidate-or-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/index.ts",
+      "sha256": "7a18c42c83eae8a0e7488c894d1086d53d1769dd72ee61b473ccd05c72fbe29a",
+      "classification": "retained-prior-logging-candidate-or-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/retention.ts",
+      "sha256": "893398776b0f4b0d9e2dc705e365a36678f91d24ec6257ea5620628eef279c4c",
+      "classification": "retained-prior-logging-candidate-or-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/serialize.ts",
+      "sha256": "cee5b0c174f97f90b4fb17dd79206eb8adbde18826d8f7a46b2b1c804de292eb",
+      "classification": "retained-prior-logging-candidate-or-helper"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/provider/index.ts",
+      "sha256": "7080b763772ce012282b519ae6face4934f7f9c3db3a90611a3d224c84c56281",
+      "classification": "retained-thin-barrel"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/skills/roots.ts",
+      "sha256": "a5b4684c84633f034db79f3c9290b302c82e440fc3481a27a0f8e1db673875f1",
+      "classification": "retained-root-resolution-config-helper"
+    }
+  ],
+  "noRepeatedAuthors": true,
+  "batch39SourceUnchanged": true
+}

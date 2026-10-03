@@ -1,0 +1,446 @@
+{
+  "baseHead": "a99b8e784cd2526b8a232b67a59765d99f8b7c19",
+  "scope": "253 current desktop TS/TSX product sources +38 current server remote TS sources; excludes assets/HTML/generated JS/d.ts/tests/config and unintegrated other branch bodies",
+  "categoryDefinitions": {
+    "UNCOVERED": "Not covered by PR9/local prior candidate lookup; includes root/B/D/A scopes and unverified small files; not asserted globally unimplemented",
+    "GLUE": "Bounded known protocol/declaration/config/forwarding surfaces, including tiny conventional helpers; not blanket assertion of fully implementation-free file",
+    "CANDIDATE": "Existing technical candidates requiring expression/provenance review; not independent or MIT accepted",
+    "HOLD": "Explicit private accepted, parent accepted adjacent, dormant/excluded or ambiguous allocation hold; subtype detailed below"
+  },
+  "counts": {
+    "UNCOVERED": 197,
+    "CANDIDATE": 64,
+    "HOLD": 18,
+    "GLUE": 12
+  },
+  "desktopCount": 253,
+  "remoteCount": 38,
+  "localCandidateChangedDesktopCount": 34,
+  "privateAndOtherHolds": [
+    {
+      "path": "packages/desktop/src/main/broadcastHub.ts",
+      "reason": "private-accepted-HOLD; accepted historical SHA952483102919545cdc33a4aa839f947614f909e8d139d9218596cbb4ffb53d05",
+      "currentLocalSHA": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+      "parentReportedAcceptedSHA": "952483102919545cdc33a4aa839f947614f909e8d139d9218596cbb4ffb53d05",
+      "currentLocalEqualsAcceptedSHA": false,
+      "acceptedBytesAccessOrEqualityNotEstablished": true
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "reason": "private-accepted-HOLD",
+      "currentLocalSHA": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55"
+    },
+    {
+      "path": "packages/desktop/src/main/taskRealtimeBus.ts",
+      "reason": "private-accepted-HOLD",
+      "currentLocalSHA": "21ff17c445ecff554d377a20ef072923f609f3aa24c73224d26049f7ce850b90"
+    },
+    {
+      "path": "packages/desktop/src/main/networkTelemetryAggregator.ts",
+      "reason": "parent bounded accepted retain; SHA f3baa2a776cbd7976ae1a6a0f4e128b8636500f2adbc6451421e506d1e708b6c",
+      "currentLocalSHA": "fcd289d337b39a403a9ec0f4ff1dbaf1068169cfdbf0915c0ce2b3c070353857",
+      "parentReportedAcceptedSHA": "f3baa2a776cbd7976ae1a6a0f4e128b8636500f2adbc6451421e506d1e708b6c",
+      "currentLocalEqualsAcceptedSHA": false,
+      "acceptedBytesAccessOrEqualityNotEstablished": true
+    },
+    {
+      "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+      "reason": "private-accepted-HOLD; accepted SHA a777a064c6cbfe84c4ff45b2b191ab18f00a7134d5b207f2e2cde2b14b5e72d6; current local equality unverified",
+      "currentLocalSHA": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+      "parentReportedAcceptedSHA": "a777a064c6cbfe84c4ff45b2b191ab18f00a7134d5b207f2e2cde2b14b5e72d6",
+      "currentLocalEqualsAcceptedSHA": false,
+      "acceptedBytesAccessOrEqualityNotEstablished": true
+    },
+    {
+      "path": "packages/desktop/src/host/databaseStartupCoordinator.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "d2b27354ef1f6cd2911a5e77c73a7cef71200ee96f755c98b13e40680a85363b"
+    },
+    {
+      "path": "packages/desktop/src/host/hostDatabaseStartup.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "5622e1d91de0a29433fe4cdeabcae571e557034338354e628e0fee3581f7468d"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostAttachmentRegistry.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "9ce91f68277fe785c1326d62cdecb5cd795e79151f8f917bd003b8f137d750b0"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostControllerProjection.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "9fed0b6e7fdc5852d9b73ffe0e9189a3b47cf082b586e9bdc416cc4e53ef5395"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostControllerService.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "a7ea7ce20468ca71692ca6cc960d2edb302870350e1cea5e8f65d289241a3879"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostSessionsIndexObserver.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "650e6346e6300730b5b9aab9c36fe374e7109764e48111762085cacf5846dd56"
+    },
+    {
+      "path": "packages/desktop/src/host/remoteMediaPreviewProxy.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "9398f2fb356c39cec7394a8a4c5a8c562e4574d7dba22f9c6326081c2f2b2c4d"
+    },
+    {
+      "path": "packages/desktop/src/host/remoteMediaPreviewProxyHelpers.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "5b06e094218c5e9f5d41ed23e538e6c6df4ad5d6aca86d4dfb6a8b1e09847b26"
+    },
+    {
+      "path": "packages/desktop/src/host/taskRealtimeBridge.ts",
+      "reason": "parent accepted adjacent owner excluded",
+      "currentLocalSHA": "022571bef2930001b595aa2ce85c6b3045a64df242b846c231e00b7342b36d65"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+      "reason": "dormant technical candidate; no activation or active completion",
+      "currentLocalSHA": "fb626c4ce574b584a2f2ac5b187b5edf2b8dc29ef4e0c2292ec5179e185cf75b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserGuestManager.ts",
+      "reason": "explicit parent exclusion; root orchestration, not asserted private accepted",
+      "currentLocalSHA": "5f36a48cbaa3d29500209d7c845e276717fc49486acc92679374dc00a42df515"
+    },
+    {
+      "path": "packages/desktop/src/host/studioScheduleOutcome.ts",
+      "reason": "ambiguous prior feature origin; allocation HOLD, not asserted inherited or private accepted",
+      "currentLocalSHA": "32bcc46002bca19b3dbc58a4731ea7629c4b1add6ae05cb66f86e0595b43ad52"
+    },
+    {
+      "path": "packages/desktop/src/host/studioWorkflowSchedule.ts",
+      "reason": "ambiguous prior feature origin; allocation HOLD, not asserted inherited or private accepted",
+      "currentLocalSHA": "62711d1acae4767ba34b0bb8d8eb87d2ee2ad27a85bc52e495271fbafc4460eb"
+    }
+  ],
+  "priorRemoteExactHashesAllRetained": true,
+  "PRScope": [
+    {
+      "pr": 8,
+      "filenameCount": 1711,
+      "metadataMode": "GitHub filenames-only; no patch/body/private data",
+      "localMappedOverlaps": 0
+    },
+    {
+      "pr": 10,
+      "filenameCount": 451,
+      "metadataMode": "GitHub filenames-only; no patch/body/private data",
+      "localMappedOverlaps": 0
+    },
+    {
+      "pr": 11,
+      "filenameCount": 2183,
+      "metadataMode": "GitHub filenames-only; no patch/body/private data",
+      "localMappedOverlaps": 0
+    },
+    {
+      "pr": 12,
+      "filenameCount": 555,
+      "metadataMode": "GitHub filenames-only; no patch/body/private data",
+      "localMappedOverlaps": 28
+    }
+  ],
+  "rootUnintegratedFilenamesOnly": [
+    "packages/desktop/src/main/desktopHostProcess/lifecycle.ts",
+    "packages/desktop/src/main/desktopHostProcess/messages.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/attachments.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/common.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/connections.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/controls.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/lifecycle.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/types.ts",
+    "packages/desktop/src/main/desktopWindowChrome/guest.ts",
+    "packages/server/src/remote/remoteAssetCacheComponents.ts",
+    "packages/server/src/remote/remoteAssetCacheFiles.ts",
+    "packages/server/src/remote/remoteAssetCacheModel.ts"
+  ],
+  "noncoveredHostSmallFiles": [
+    {
+      "path": "packages/desktop/src/host/automationModelSelection.ts",
+      "lines": 28
+    },
+    {
+      "path": "packages/desktop/src/host/e2eCoverage.ts",
+      "lines": 18
+    },
+    {
+      "path": "packages/desktop/src/host/hostAgentResourceTelemetry.ts",
+      "lines": 35
+    },
+    {
+      "path": "packages/desktop/src/host/hostInitialization.ts",
+      "lines": 35
+    },
+    {
+      "path": "packages/desktop/src/host/hostLog.ts",
+      "lines": 57
+    },
+    {
+      "path": "packages/desktop/src/host/hostMcpResourceTelemetry.ts",
+      "lines": 23
+    },
+    {
+      "path": "packages/desktop/src/host/hostMcpTelemetry.ts",
+      "lines": 24
+    },
+    {
+      "path": "packages/desktop/src/host/hostMemoryDiagnosticsLog.ts",
+      "lines": 114
+    },
+    {
+      "path": "packages/desktop/src/host/hostMessagePortGuard.ts",
+      "lines": 41
+    },
+    {
+      "path": "packages/desktop/src/host/hostNetworkTelemetry.ts",
+      "lines": 54
+    },
+    {
+      "path": "packages/desktop/src/host/hostResourceUsage.ts",
+      "lines": 101
+    },
+    {
+      "path": "packages/desktop/src/host/hostSelfResourceTelemetry.ts",
+      "lines": 66
+    },
+    {
+      "path": "packages/desktop/src/host/hostServiceResourceTelemetry.ts",
+      "lines": 105
+    },
+    {
+      "path": "packages/desktop/src/host/hostSessionCreateTelemetry.ts",
+      "lines": 40
+    },
+    {
+      "path": "packages/desktop/src/host/hostShutdownPhases.ts",
+      "lines": 65
+    },
+    {
+      "path": "packages/desktop/src/host/hostToolExecResourceTelemetry.ts",
+      "lines": 21
+    },
+    {
+      "path": "packages/desktop/src/host/hostUncaughtExceptionGuard.ts",
+      "lines": 33
+    },
+    {
+      "path": "packages/desktop/src/host/hostWorkspaceTaskTracker.ts",
+      "lines": 86
+    },
+    {
+      "path": "packages/desktop/src/host/tasksStorageWorker.ts",
+      "lines": 33
+    }
+  ],
+  "candidateReceiptLookupUnresolved": [],
+  "priority": {
+    "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "lines": 700,
+    "sha256": "08736fcc524e2eca3ea1be79446214d52308b6ce1065b0c7c102bb3b6f77e2d5",
+    "status": "existing complete technical candidate, not new uncovered owner",
+    "action": "One complete behavior-to-expression design review before any further authoring/install; no review or reimplementation in this metadata batch",
+    "priorNormalizedCorrespondence": {
+      "bodyPairs": 53,
+      "uniqueBodies": 5,
+      "expressions": 241
+    },
+    "basis": "Existing root process/identity rules plus batch38 functional spec and source-bound correspondence receipt; original function bodies not reopened in this batch",
+    "mustReject": "Synonym/helper changes or mostly same expression; keep future whole draft uninstalled pending expression review"
+  },
+  "newSubstantiveOwnerAuthorizedAndQualified": false,
+  "freshAuthors": 0,
+  "newProductionEdits": 0,
+  "newTests": 0,
+  "fullsuiteBuildNativeRun": false,
+  "retainedSubmissionsNotReverted": true,
+  "sourceExposure": "Hash/line counts of mapped local source bytes only; visible receipt/spec/instruction metadata. No production bodies/private data/credentials/native operations forwarded or authored; prior curator source exposure persists.",
+  "metadataLookupMisses": [
+    "Attempted non-existent final-source-hashes.json; used known listed final-source-bindings.json instead. No private-source alternate route."
+  ],
+  "freshness": {
+    "aheadOriginMain": 256,
+    "behindOriginMain": 0,
+    "remoteTrackingCheck": "branch has no tracking ref; checker skipped; ordinary PR9 push already verified"
+  },
+  "acceptedIndependentCredit": 0,
+  "MITClaim": false,
+  "mainIntegration": false,
+  "metadataTsvSHA256": "13344b388b37ad813937c7bd30973f7a2112493dd568ccafe0f0b84e6749e72a",
+  "uncoveredByOwnership": {
+    "G-small-unallocated": 19,
+    "root-active-PR12": 28,
+    "root-Main": 123,
+    "root/excluded-browser": 4,
+    "root/B-native-facade": 3,
+    "B/renderer-platform-unallocated": 13,
+    "A/scheduler-excluded": 5,
+    "shared/bootstrap-unallocated": 2
+  },
+  "noncoveredLargeFiles": [
+    {
+      "path": "packages/server/src/remote/remoteAssetCache.ts",
+      "lines": 1930,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/index.ts",
+      "lines": 1642,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "lines": 1271,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopStabilityTelemetry.ts",
+      "lines": 978,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopRemoteSessions.ts",
+      "lines": 808,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "lines": 714,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/chromeLocalStorageManager.ts",
+      "lines": 711,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/editors.ts",
+      "lines": 661,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/cuaAccessibilitySettings.ts",
+      "lines": 654,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lines": 536,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCuaPermissionIpc.ts",
+      "lines": 529,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "lines": 502,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+      "lines": 496,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopResourceTelemetry.ts",
+      "lines": 491,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/windowsChromeAppBoundKey.ts",
+      "lines": 482,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/chromeCookieManager.ts",
+      "lines": 480,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCrashCapture.ts",
+      "lines": 456,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopDataSizeTelemetry.ts",
+      "lines": 431,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/mcpUserDirectory/index.ts",
+      "lines": 425,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "lines": 423,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "lines": 418,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/openInEditor.ts",
+      "lines": 411,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/windowsCuaOperationIndicator.ts",
+      "lines": 403,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcRemote.ts",
+      "lines": 359,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "lines": 343,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopLinuxDeepLinkRegistration.ts",
+      "lines": 338,
+      "ownership": "root-Main"
+    },
+    {
+      "path": "packages/desktop/src/scheduler/index.ts",
+      "lines": 337,
+      "ownership": "A/scheduler-excluded"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/main.tsx",
+      "lines": 330,
+      "ownership": "B/renderer-platform-unallocated"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "lines": 320,
+      "ownership": "root-active-PR12"
+    },
+    {
+      "path": "packages/desktop/src/main/localTtftExporter.ts",
+      "lines": 300,
+      "ownership": "root-Main"
+    }
+  ],
+  "holdSubtypes": {
+    "explicitPrivateAccepted": 4,
+    "acceptedAdjacentRetain": 10,
+    "dormantOrExplicitOrAmbiguousHold": 4
+  },
+  "threeOutsideMapProtectedSharedHashesRetained": true,
+  "currentLocalSHAMismatchesParentReportedAccepted": [
+    "packages/desktop/src/main/broadcastHub.ts",
+    "packages/desktop/src/main/networkTelemetryAggregator.ts",
+    "packages/desktop/src/host/promptAttachmentTransferService.ts"
+  ]
+}

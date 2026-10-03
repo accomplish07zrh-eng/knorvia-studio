@@ -1,0 +1,59 @@
+{
+  "batch": 34,
+  "baselineCommit": "48895b36b5346f1321990954278e2b6c0defbc07",
+  "branch": "recovery/server-lifecycle-20261002",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "target": "recovery/independent-logging-20260930-0456",
+  "selectedPaths": [
+    "apps/cli/packages/adapters/src/skills/index.ts",
+    "apps/cli/packages/adapters/src/skills/scan.ts"
+  ],
+  "rootAllocation": "Explicit whole skill index/scan allocation, verified parent SHA matches; roots.ts and actual trust/config/grants/permissions excluded and untouched",
+  "selectedAcceptedReviewRecords": 0,
+  "acceptedIndependentReplacementCredit": 0,
+  "newMITDecisions": 0,
+  "curatorExposure": "Selected predecessor bodies and public skill DTOs read; curator authored requirements/tests and source comparison. Fresh authors saw external behavior/public ports only, no predecessor private helper/state/decomposition/bodies.",
+  "authoring": "Two fresh Sol/high fork-none whole-literal authors. Three full raw drafts frozen before inspection; whole selected files installed with formatting only.",
+  "accessLimit": "Author-reported instructional restrictions on shared filesystem, not OS-enforced clean room or legal acceptance. Saved Fast inherited, no separate speed verification.",
+  "checks": {
+    "baseline": "Originalscan/load pass, discovery fixture corrected after two exact failed assertions then1/1; added error and manifest cases1/1 each",
+    "initialCandidate": "3/3 original cases pass, two added error-boundary cases0/1 each fail",
+    "correctedCandidate": "3/3 affected discovery cases pass; unchanged scan/load not rerun; five unique cases covered across scoped runs",
+    "api": "2 AST exported/API shapes match, not semantic types",
+    "syntax": "initial2 and correctedindex-only pass",
+    "lint": "final0warnings/errors",
+    "formatAndFreeze": "pass, whole independent formatted freezes equal installed",
+    "architecture": "baseline/new0/0, existing unmanaged cli unchanged",
+    "whitespace": "pass"
+  },
+  "failuresRetained": [
+    "baseline-synthetic.json",
+    "baseline-corrected-discovery-fixture.json",
+    "initial-error-admission.json",
+    "initial-manifest-error.json"
+  ],
+  "syntheticScope": "All product fs/path/root/shared scan ports virtual, synthetic text/paths/Buffer/abort/errors and proxy rejection only. No real skill corpus/HOME/credentials/filesystem/userdata/provider/network/media/native process or permission operation.",
+  "notExecuted": [
+    "ordinary suites/builds/semantic project types/declaration emit/native acceptance/composed consumer audit",
+    "real skills/HOME/credential files or actual trust/config/grant/permission changes",
+    "cross-lane combination/main merge",
+    "Library403 alternate access/cancelled upload retry"
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "pinnedNode": "24.14.0",
+    "contractsDistPresent": false,
+    "dependencyInstallation": false
+  },
+  "remainder": {
+    "count": 37,
+    "priorDeviceFilesystem": 18,
+    "priorLogging": 5,
+    "configUnallocated": 7,
+    "imageHelpers": 3,
+    "rootHelpers": 2,
+    "barrels": 2
+  },
+  "otherAdapterSourcesHashUnchanged": 241,
+  "protected": "Root holds hash-only unchanged; root/global license/provenance/inventory/reviews/manifests/dependencies/security/settings/permissions untouched."
+}

@@ -1,0 +1,248 @@
+import type { IRemoteBackend, RemoteUploadOptions } from "@knorvia/server/remote";
+
+import { quotePosixPathArg } from "@knorvia/server/remote/posixShell.js";
+
+import type { TraceId, KnorviaPromptAttachment } from "@knorvia/shared";
+
+import { randomUUID } from "node:crypto";
+
+interface RemotePromptAttachmentMaterializeInput {
+    taskId?: string;
+    content: string;
+    traceId: TraceId | string;
+    attachments?: KnorviaPromptAttachment[];
+}
+
+interface RemotePromptAttachmentMaterializeResult {
+    content: string;
+    attachments?: KnorviaPromptAttachment[];
+    uploadedCount: number;
+}
+
+const stagingAlias = "~/.knorvia-studio/tmp/prompt-attachments";
+
+type CommandBackend = Pick<IRemoteBackend, "exec">;
+type AttachmentPreparer = (params: RemotePromptAttachmentMaterializeInput & {
+    taskId: string;
+}) => Promise<Pick<RemotePromptAttachmentMaterializeResult, "content" | "attachments">>;
+
+async function runCommand(backend: CommandBackend, command: string): Promise<void> {
+    const handle = await backend.exec(command);
+    await new Promise<void>((resolve, reject) => {
+        handle.onClose((code) => {
+            if (code === 0) {
+                resolve();
+            } else {
+                reject(new Error(`remote command failed with exit code ${code}: ${command}`));
+            }
+        });
+    });
+}
+
+async function resolveStagingRoot(backend: CommandBackend): Promise<string> {
+    const command = 'printf %s "$HOME"';
+    const handle = await backend.exec(command);
+    let stdout = "";
+    let stderr = "";
+    handle.stdout.on("data", (chunk) => {
+        stdout += chunk.toString();
+    });
+    handle.stderr.on("data", (chunk) => {
+        stderr += chunk.toString();
+    });
+    await new Promise<void>((resolve, reject) => {
+        handle.onClose((code) => {
+            if (code === 0) {
+                resolve();
+            } else {
+                reject(new Error(
+                    `remote command failed with exit code ${code}: ${command}${stderr ? `: ${stderr}` : ""}`,
+                ));
+            }
+        });
+    });
+    const home = stdout.trim().replace(/\/+$/, "");
+    if (!home.startsWith("/")) {
+        throw new Error("remote HOME is not an absolute path");
+    }
+    return `${home}/.knorvia-studio/tmp/prompt-attachments`;
+}
+
+function containsPath(root: string, path: string): boolean {
+    return path === root || path.startsWith(`${root}/`);
+}
+
+function cleanSegment(value: string): string {
+    return value
+        .replace(/\0/g, "-")
+        .replace(/[^A-Za-z0-9._-]+/g, "-")
+        .replace(/^-+|-+$/g, "") || "attachment";
+}
+
+function uploadDestination(root: string, traceId: TraceId | string, index: number, filename: string): string {
+    const trace = cleanSegment(String(traceId)).slice(0, 80) || "trace";
+    const nonce = cleanSegment(randomUUID()).slice(0, 64);
+    const parts = filename.split(/[\\/]/).filter((part) => part.length > 0);
+    const leaf = cleanSegment(parts[parts.length - 1] || filename).slice(0, 160) || "attachment";
+    return `${root}/${trace}/${nonce}/${String(index + 1).padStart(2, "0")}-${leaf}`;
+}
+
+function parentPath(path: string): string {
+    const separator = path.lastIndexOf("/");
+    return separator > 0 ? path.slice(0, separator) : stagingAlias;
+}
+
+function prepareDirectoryCommand(root: string, parent: string): string {
+    const directories = [root];
+    let cursor = root;
+    for (const segment of parent.slice(root.length).split("/")) {
+        if (segment) {
+            cursor += `/${segment}`;
+            directories.push(cursor);
+        }
+    }
+    return `mkdir -p ${quotePosixPathArg(parent)} && command chmod 700 ${directories.map((path) => quotePosixPathArg(path)).join(" ")}`;
+}
+
+export async function materializeRemotePromptAttachments(input: RemotePromptAttachmentMaterializeInput, options: {
+    backend: Pick<IRemoteBackend, "exec" | "upload">;
+    uploadOptions?: RemoteUploadOptions;
+}): Promise<RemotePromptAttachmentMaterializeResult> {
+    const attachments = input.attachments;
+    if (!attachments || attachments.length === 0) {
+        return { ...input, uploadedCount: 0 };
+    }
+
+    let root: string | undefined;
+    let uploadedCount = 0;
+    const staged: KnorviaPromptAttachment[] = [];
+    const substitutions = new Map<string, string>();
+
+    for (let index = 0; index < attachments.length; index += 1) {
+        const attachment = attachments[index];
+        const localPath = attachment.localPath;
+        if (!localPath?.trim() || containsPath(stagingAlias, localPath)) {
+            staged.push(attachment);
+            continue;
+        }
+        if (root === undefined) {
+            root = await resolveStagingRoot(options.backend);
+        }
+        if (containsPath(root, localPath)) {
+            staged.push(attachment);
+            continue;
+        }
+
+        const remotePath = uploadDestination(root, input.traceId, index, attachment.filename);
+        const parent = parentPath(remotePath);
+        try {
+            await runCommand(options.backend, prepareDirectoryCommand(root, parent));
+            if (options.uploadOptions) {
+                await options.backend.upload(localPath, remotePath, options.uploadOptions);
+            } else {
+                await options.backend.upload(localPath, remotePath);
+            }
+            await runCommand(options.backend, `command chmod 600 ${quotePosixPathArg(remotePath)}`);
+        } catch (error) {
+            try {
+                await cleanupRemotePromptAttachment(options.backend, remotePath);
+            } catch {
+                // Cleanup is best-effort; the upload failure remains the reported cause.
+            }
+            throw new Error(`远端附件上传失败：${attachment.filename}`, { cause: error });
+        }
+        staged.push({ ...attachment, localPath: remotePath });
+        substitutions.set(localPath, remotePath);
+        uploadedCount += 1;
+    }
+
+    let content = input.content;
+    const replacementOrder = Array.from(substitutions.entries()).sort(([left], [right]) => right.length - left.length);
+    for (const [oldPath, newPath] of replacementOrder) {
+        content = content.split(oldPath).join(newPath);
+    }
+    return {
+        content,
+        attachments: uploadedCount === 0 ? attachments : staged,
+        uploadedCount,
+    };
+}
+
+export async function cleanupRemotePromptAttachment(backend: Pick<IRemoteBackend, "exec">, remotePath: string): Promise<void> {
+    const root = await resolveStagingRoot(backend);
+    if (!containsPath(stagingAlias, remotePath) && !containsPath(root, remotePath)) {
+        return;
+    }
+    const parent = parentPath(remotePath);
+    await runCommand(backend, `rm -f ${quotePosixPathArg(remotePath)} && rmdir ${quotePosixPathArg(parent)} 2>/dev/null || true`);
+}
+
+export async function cleanupStaleRemotePromptAttachments(backend: Pick<IRemoteBackend, "exec">, olderThanMinutes = 24 * 60): Promise<void> {
+    const root = await resolveStagingRoot(backend);
+    const minutes = Math.max(1, Math.floor(olderThanMinutes));
+    const quotedRoot = quotePosixPathArg(root);
+    await runCommand(backend, `if [ -d ${quotedRoot} ]; then find ${quotedRoot} -type f -mmin +${minutes} -delete; find ${quotedRoot} -mindepth 1 -depth -type d -empty -delete; fi`);
+}
+
+function interceptPrompts<T extends object>(service: T, materialize: AttachmentPreparer, scope: "task" | "session"): T {
+    return new Proxy(service, {
+        get(target, property, receiver) {
+            const value = Reflect.get(target, property, receiver);
+            const selected = typeof property === "string" && (
+                property === "sendPrompt" || (scope === "task" && property === "enqueueTaskCommand")
+            );
+            if (!selected || typeof value !== "function") {
+                return value;
+            }
+            return async (...args: unknown[]) => {
+                const first = args[0];
+                if (first === null || typeof first !== "object") {
+                    return value.apply(target, args);
+                }
+                const params = first as Record<string, unknown>;
+                const content = params.content;
+                const taskId = scope === "task" ? params.taskId : params.sessionId;
+                let traceId: unknown;
+                if (scope === "task") {
+                    traceId = params.traceId;
+                } else {
+                    const inputId = params.inputId;
+                    traceId = (typeof inputId === "string" ? inputId : undefined)
+                        ?? (typeof taskId === "string" ? taskId : undefined);
+                }
+                if (typeof content !== "string" || typeof taskId !== "string" || !taskId
+                    || typeof traceId !== "string" || !traceId) {
+                    return value.apply(target, args);
+                }
+                const originalAttachments = params.attachments;
+                const prepared = await materialize({
+                    taskId,
+                    traceId,
+                    content,
+                    attachments: Array.isArray(originalAttachments) ? originalAttachments : undefined,
+                });
+                const nextParams: Record<string, unknown> = { ...params, content: prepared.content };
+                if ("attachments" in params || prepared.attachments !== undefined) {
+                    nextParams.attachments = prepared.attachments;
+                }
+                return value.call(target, nextParams);
+            };
+        },
+    });
+}
+
+export function createRemotePromptAttachmentTaskService<T extends object>(service: T, options: {
+    materializePromptAttachments: (params: RemotePromptAttachmentMaterializeInput & {
+        taskId: string;
+    }) => Promise<Pick<RemotePromptAttachmentMaterializeResult, "content" | "attachments">>;
+}): T {
+    return interceptPrompts(service, options.materializePromptAttachments, "task");
+}
+
+export function createRemotePromptAttachmentSessionService<T extends object>(service: T, options: {
+    materializePromptAttachments: (params: RemotePromptAttachmentMaterializeInput & {
+        taskId: string;
+    }) => Promise<Pick<RemotePromptAttachmentMaterializeResult, "content" | "attachments">>;
+}): T {
+    return interceptPrompts(service, options.materializePromptAttachments, "session");
+}

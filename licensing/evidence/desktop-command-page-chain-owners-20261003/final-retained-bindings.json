@@ -1,0 +1,63 @@
+{
+  "baseHead": "748b910f5b562de5cee1b368265a14d9561a2233",
+  "selected": [
+    {
+      "owner": "navigation",
+      "selectedVersion": "initial",
+      "rawSha256": "7590384d61d427db13f5f60e30f30b53683811e2d564af28f033963de37a5699",
+      "installedSha256": "631a24e3c605a9bf1008bf78174d42713e0a2e0e523b27497336771de246e2eb",
+      "installedBytes": 2080,
+      "installedLines": 91,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "retry",
+      "selectedVersion": "initial",
+      "rawSha256": "664caed50b8f31424657bb5a9708e987f39c5bcf1c0c7a5850f357b9bd4a60ff",
+      "installedSha256": "b403405e26744ba44f01bc97ca847f878837eab309fa6a34a4a08a94f65199bf",
+      "installedBytes": 1656,
+      "installedLines": 65,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "scripts",
+      "selectedVersion": "correction-3",
+      "rawSha256": "224c631aec9b672e6030323f65ec1b85e080b308413939b82b4c0dfbea89d3fd",
+      "installedSha256": "93adde82eb002473b1afd2d53dac591dfe978873d456acc45b27fadc2c05ea17",
+      "installedBytes": 13418,
+      "installedLines": 319,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "paste",
+      "selectedVersion": "correction-1",
+      "rawSha256": "2a067bbe0cdb4e9b5e7df09b40160a72012e30e793434fca613ba773b443262f",
+      "installedSha256": "090b3dc9283e91e0518531cd30a823059f470eb0865a69e13e93404fb9b12a07",
+      "installedBytes": 4581,
+      "installedLines": 123,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    }
+  ],
+  "rawVersionsVerified": 8,
+  "unchangedRetainedPaths": 4767,
+  "retentionCountsAreNotCompletionCounts": true,
+  "authorInputsAndSpecFreezeVerified": true,
+  "consumerPublicApiMatches": true,
+  "compilerRawApiMatches": false,
+  "rawTypeDifferences": [
+    {
+      "owner": "paste",
+      "export": "VIRTUAL_PASTE_PAGE_FUNCTION"
+    }
+  ],
+  "productionScopeExactlyFourExplicitlyAuthorizedOwners": true,
+  "minimalSyntheticGroupsRun": 4,
+  "ordinaryAggregateTestsRun": false,
+  "nativeRuntimePassed": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITClaim": false
+}

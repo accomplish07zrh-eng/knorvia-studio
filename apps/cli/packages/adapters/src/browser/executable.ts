@@ -1,4 +1,4 @@
-import { constants, accessSync, existsSync, statSync } from "node:fs";
+import { accessSync, constants, existsSync, statSync } from "node:fs";
 import { isAbsolute, join } from "node:path";
 import type { BrowserType, ChromiumBrowser } from "playwright-core";
 
@@ -12,34 +12,31 @@ export interface PlaywrightChromiumModule {
   chromium: BrowserType<ChromiumBrowser>;
 }
 
-const LINUX_BROWSER_PATHS = [
+const appleLocations = [
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+];
+const unixLocations = [
   "/usr/bin/google-chrome-stable",
   "/usr/bin/google-chrome",
   "/usr/bin/chromium",
   "/usr/bin/chromium-browser",
   "/snap/bin/chromium",
 ];
-
-const MAC_BROWSER_PATHS = [
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-  "/Applications/Chromium.app/Contents/MacOS/Chromium",
-  "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+const windowsSuffixes = [
+  ["Google", "Chrome", "Application", "chrome.exe"],
+  ["Chromium", "Application", "chrome.exe"],
+  ["Microsoft", "Edge", "Application", "msedge.exe"],
 ];
+const unavailableMessage =
+  "No installed Chrome or Chromium executable was found. Install Chromium or pass --browser-executable <absolute-path>.";
 
-function windowsBrowserPaths(env: NodeJS.ProcessEnv): string[] {
-  return [env.PROGRAMFILES, env["PROGRAMFILES(X86)"], env.LOCALAPPDATA]
-    .filter((root): root is string => Boolean(root?.trim()))
-    .flatMap((root) => [
-      join(root, "Google", "Chrome", "Application", "chrome.exe"),
-      join(root, "Chromium", "Application", "chrome.exe"),
-      join(root, "Microsoft", "Edge", "Application", "msedge.exe"),
-    ]);
-}
-
-function isUsableExecutable(path: string, platform: NodeJS.Platform | string): boolean {
+function canUse(location: string, targetPlatform: NodeJS.Platform | string): boolean {
   try {
-    if (!existsSync(path) || !statSync(path).isFile()) return false;
-    if (platform !== "win32") accessSync(path, constants.X_OK);
+    if (!existsSync(location)) return false;
+    if (!statSync(location).isFile()) return false;
+    if (targetPlatform !== "win32") accessSync(location, constants.X_OK);
     return true;
   } catch {
     return false;
@@ -54,40 +51,47 @@ export function validateExplicitBrowserExecutable(
   if (!isAbsolute(path)) {
     throw new Error(`Browser executable path must be absolute: ${path}`);
   }
-  const absolutePath = path;
-  if (!isUsableExecutable(absolutePath, platform)) {
-    throw new Error(`Browser executable is missing or not executable: ${absolutePath}`);
+  if (!canUse(path, platform)) {
+    throw new Error(`Browser executable is missing or not executable: ${path}`);
   }
-  return absolutePath;
+  return path;
 }
 
 export function resolveInstalledBrowserExecutable(
   playwright: PlaywrightChromiumModule,
   options: BrowserExecutableResolutionOptions = {},
 ): string {
-  const platform = options.platform ?? process.platform;
-  const explicit = validateExplicitBrowserExecutable(options.executablePath, platform);
-  if (explicit) return explicit;
+  const targetPlatform = options.platform ?? process.platform;
+  const chosen = validateExplicitBrowserExecutable(options.executablePath, targetPlatform);
+  if (chosen) return chosen;
 
-  const playwrightPath = playwright.chromium.executablePath();
-  const candidates = [
-    ...(playwrightPath ? [playwrightPath] : []),
-    ...(platform === "darwin"
-      ? MAC_BROWSER_PATHS
-      : platform === "win32"
-        ? windowsBrowserPaths(options.env ?? process.env)
-        : LINUX_BROWSER_PATHS),
-  ];
-  const resolved = candidates.find((candidate) => isUsableExecutable(candidate, platform));
-  if (resolved) return resolved;
+  const supplied = playwright.chromium.executablePath();
+  const searchOrder: string[] = supplied ? [supplied] : [];
+  if (targetPlatform === "darwin") {
+    searchOrder.push(...appleLocations);
+  } else if (targetPlatform === "win32") {
+    const environment = options.env ?? process.env;
+    const bases = [
+      environment.PROGRAMFILES,
+      environment["PROGRAMFILES(X86)"],
+      environment.LOCALAPPDATA,
+    ];
+    for (const base of bases) {
+      if (!base?.trim()) continue;
+      for (const suffix of windowsSuffixes) {
+        searchOrder.push(join(base as string, ...suffix));
+      }
+    }
+  } else {
+    searchOrder.push(...unixLocations);
+  }
 
-  throw new Error(
-    "No installed Chrome or Chromium executable was found. " +
-      "Install Chromium or pass --browser-executable <absolute-path>.",
-  );
+  for (const location of searchOrder) {
+    if (canUse(location, targetPlatform)) return location;
+  }
+  throw new Error(unavailableMessage);
 }
 
 export async function loadPlaywrightChromium(): Promise<PlaywrightChromiumModule> {
-  // 延迟加载很关键：Desktop/app-server 路径不会启用 CLI headless，不能因外置依赖缺失而启动失败。
   return (await import("playwright-core")) as PlaywrightChromiumModule;
 }

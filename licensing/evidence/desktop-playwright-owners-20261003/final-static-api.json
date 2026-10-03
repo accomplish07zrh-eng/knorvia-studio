@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-playwright-owners-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_PUBLIC_SHAPE_OUT": "licensing/evidence/desktop-playwright-owners-20261003/final-public-shape.json",
+    "KNORVIA_PUBLIC_SHAPE_COMPARE": "licensing/evidence/desktop-playwright-owners-20261003/baseline-public-shape.json"
+  },
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/scoped-static.mjs",
+      "sha256": "72c24f1ec90750be44177728a8e2cd6f4dfc9940e3da3e667ea7ecc680402e51"
+    }
+  ],
+  "stdout": "\nRestricted synthetic public-port semantic diagnostics: 0. Imported product/declaration/native acceptance NOT certified.\ncaptureBrowserDomSnapshot: (view: ControlledView, signal?: AbortSignal | undefined): Promise<string>\nexecuteIabPlaywrightLocator: (view: ControlledView, action: { name: \"locator\"; selector: string; operation: \"fill\" | \"count\" | \"click\" | \"dblclick\" | \"innerText\" | \"getAttribute\" | \"textContent\" | \"evaluate\" | \"allTextContents\" | \"downloadMedia\" | \"isEnabled\" | \"isVisible\" | \"press\" | \"selectOption\" | \"setChecked\" | \"waitFor\"; value?: unknown; arg?: unknown; expression?: string | undefined; expressionKind?: \"string\" | \"function\" | undefined; attribute?: string | undefined; checked?: boolean | undefined; replace?: boolean | undefined; force?: boolean | undefined; button?: \"left\" | \"right\" | \"middle\" | undefined; modifiers?: BrowserPlaywrightModifier[] | undefined; state?: \"detached\" | \"hidden\" | \"visible\" | \"attached\" | undefined; selections?: { value?: string | undefined; label?: string | undefined; index?: number | undefined; }[] | undefined; } & Timeout, timeoutMs: number, signal?: AbortSignal | undefined): Promise<Outcome>\nhandlePlaywrightAction: (view: ControlledView, action: BrowserPlaywrightAction, done: Done, signal?: AbortSignal | undefined): Promise<BrowserCommandResult>\n",
+  "stderr": "",
+  "exitCode": 0
+}

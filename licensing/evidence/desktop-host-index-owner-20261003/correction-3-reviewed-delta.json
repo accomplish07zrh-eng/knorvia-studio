@@ -1,0 +1,11 @@
+{
+  "command": [
+    "diff",
+    "-u",
+    "/tmp/knorvia-host-index-correction-2-installed.ts",
+    "packages/desktop/src/host/index.ts"
+  ],
+  "stdout": "--- /tmp/knorvia-host-index-correction-2-installed.ts\t2026-10-03 00:50:18.788254462 +0000\n+++ packages/desktop/src/host/index.ts\t2026-10-03 00:52:45.332614727 +0000\n@@ -271,19 +271,19 @@\n   else logger[level](message, ...args);\n }\n console.log = (...args: unknown[]) => {\n-  const safe = args.map(redactDiagnosticValue);\n+  const safe = args.map((arg) => redactDiagnosticValue(arg));\n   originals.info(...safe);\n   reportLog(\"info\", safe);\n   progress.report(\"info\", safe);\n };\n console.warn = (...args: unknown[]) => {\n-  const safe = args.map(redactDiagnosticValue);\n+  const safe = args.map((arg) => redactDiagnosticValue(arg));\n   originals.warn(...safe);\n   reportLog(\"warn\", safe);\n   progress.report(\"warn\", safe);\n };\n console.error = (...args: unknown[]) => {\n-  const safe = args.map(redactDiagnosticValue);\n+  const safe = args.map((arg) => redactDiagnosticValue(arg));\n   originals.error(...safe);\n   if (!shouldReportHostConsoleError(safe)) return;\n   reportLog(\"error\", safe);\n",
+  "stderr": "",
+  "exitCode": 1
+}

@@ -1,34 +1,21 @@
-/* eslint-disable max-lines, @typescript-eslint/no-explicit-any -- 该函数会序列化后在隔离的浏览器页面上下文执行，不能引用 host 闭包。 */
 import type { BrowserCommandResult, BrowserPlaywrightAction } from "@knorvia/shared";
-import { buildViewportScreenshotParams } from "./browserCommandPageHandlers.js";
 import type { ControlledView } from "./browserCommandTypes.js";
+import { buildViewportScreenshotParams } from "./browserCommandPageHandlers.js";
 import { captureScreenshotWithCssPixelCorrection } from "./browserScreenshotCapture.js";
 import { captureBrowserDomSnapshot } from "./browserPlaywrightDomSnapshot.js";
 import { executeIabPlaywrightLocator } from "./browserPlaywrightLocatorExecutor.js";
 import { normalizePlaywrightTimeout } from "./browserPlaywrightTimeout.js";
 
 type Done = (partial: Omit<BrowserCommandResult, "elapsedMs">) => BrowserCommandResult;
+type PollResult = "matched" | "cancelled" | "timeout";
 
-const POLL_INTERVAL_MS = 50;
-
-function serializeRuntimeCall(fn: (...args: any[]) => unknown, ...args: unknown[]): string {
-  return `(${fn.toString()})(${args.map((arg) => JSON.stringify(arg)).join(",")})`;
-}
-
-function elementInfoRuntime(options: { x: number; y: number; includeNonInteractable?: boolean }) {
-  const cssEscape = (value: string) =>
-    globalThis.CSS?.escape?.(value) ?? value.replace(/[^\w-]/g, "\\$&");
-  const candidatesFor = (element: Element) => {
-    const values: string[] = [];
-    if (element.id) values.push(`#${cssEscape(element.id)}`);
-    const testId = element.getAttribute("data-testid");
-    if (testId) values.push(`[data-testid=${JSON.stringify(testId)}]`);
-    const aria = element.getAttribute("aria-label");
-    if (aria) values.push(`[aria-label=${JSON.stringify(aria)}]`);
-    values.push(element.tagName.toLowerCase());
-    return [...new Set(values)];
+const POINT_INSPECTION = (options: { x: number; y: number; includeNonInteractable?: boolean }) => {
+  const escapeId = (value: string): string => {
+    const css = (globalThis as typeof globalThis & { CSS?: { escape?: (text: string) => string } })
+      .CSS;
+    return css?.escape?.(value) ?? value.replace(/[^\w-]/g, (character) => `\\${character}`);
   };
-  const role = (element: Element) =>
+  const roleFor = (element: Element): string | null =>
     element.getAttribute("role") ??
     (element.matches("button,input[type=button],input[type=submit]")
       ? "button"
@@ -37,31 +24,44 @@ function elementInfoRuntime(options: { x: number; y: number; includeNonInteracta
         : element.matches("input:not([type]),input[type=text],textarea")
           ? "textbox"
           : null);
-  const interactable = (element: Element) =>
-    Boolean(role(element) || element.matches("input,select,textarea,[tabindex],[contenteditable]"));
-  return document
+  const admitted = document
     .elementsFromPoint(options.x, options.y)
-    .filter((element) => options.includeNonInteractable || interactable(element))
-    .map((element) => {
-      const rect = element.getBoundingClientRect();
-      const candidates = candidatesFor(element);
-      const visibleText =
-        (element as HTMLElement).innerText?.trim() || (element as HTMLInputElement).value || null;
-      const ariaName = element.getAttribute("aria-label") || visibleText;
-      return {
-        tagName: element.tagName.toLowerCase(),
-        role: role(element),
-        visibleText,
-        ariaName,
-        testId: element.getAttribute("data-testid"),
-        boundingBox: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
-        preview: element.outerHTML.slice(0, 300),
-        selector: { primary: candidates[0] ?? null, candidates },
-      };
-    });
-}
+    .filter(
+      (element) =>
+        options.includeNonInteractable ||
+        Boolean(roleFor(element)) ||
+        element.matches("input,select,textarea,[tabindex],[contenteditable]"),
+    );
+  return admitted.map((element) => {
+    const rect = element.getBoundingClientRect();
+    const id = element.id ? `#${escapeId(element.id)}` : null;
+    const testIdSelector = element.getAttribute("data-testid");
+    const ariaLabelSelector = element.getAttribute("aria-label");
+    const candidates = Array.from(
+      new Set([
+        ...(id ? [id] : []),
+        ...(testIdSelector ? [`[data-testid=${JSON.stringify(testIdSelector)}]`] : []),
+        ...(ariaLabelSelector ? [`[aria-label=${JSON.stringify(ariaLabelSelector)}]`] : []),
+        element.tagName.toLowerCase(),
+      ]),
+    );
+    const visibleText =
+      (element as HTMLElement).innerText?.trim() || (element as HTMLInputElement).value || null;
+    const ariaName = element.getAttribute("aria-label") || visibleText;
+    return {
+      tagName: element.tagName.toLowerCase(),
+      role: roleFor(element),
+      visibleText,
+      ariaName,
+      testId: element.getAttribute("data-testid"),
+      boundingBox: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+      preview: element.outerHTML.slice(0, 300),
+      selector: { primary: candidates[0] ?? null, candidates },
+    };
+  });
+};
 
-function overlayRuntime(options: { x: number; y: number; remove?: boolean }): void {
+const SCREENSHOT_OVERLAY = (options: { x: number; y: number; remove?: boolean }) => {
   const id = "__knorvia-playwright-element-screenshot-overlay";
   document.getElementById(id)?.remove();
   if (options.remove) return;
@@ -78,12 +78,9 @@ function overlayRuntime(options: { x: number; y: number; remove?: boolean }): vo
   point.style.cssText = `position:absolute;left:${options.x - 4}px;top:${options.y - 4}px;width:8px;height:8px;border-radius:50%;background:#ff2d55`;
   root.append(point);
   document.documentElement.append(root);
-}
+};
 
-async function evaluateInPlaywrightIsolatedWorld(
-  view: ControlledView,
-  expression: string,
-): Promise<unknown> {
+async function evaluateInHelperWorld(view: ControlledView, expression: string): Promise<unknown> {
   const tree = (await view.cdp.send("Page.getFrameTree")) as {
     frameTree?: { frame?: { id?: string } };
   };
@@ -93,131 +90,122 @@ async function evaluateInPlaywrightIsolatedWorld(
     frameId,
     grantUniveralAccess: false,
     worldName: "knorvia-playwright-helper",
-  })) as { executionContextId?: number };
+  })) as { executionContextId?: unknown };
   if (typeof world.executionContextId !== "number") {
     throw new Error("Playwright isolated world was not created");
   }
-  const result = (await view.cdp.send("Runtime.evaluate", {
+  const evaluated = (await view.cdp.send("Runtime.evaluate", {
     expression,
     contextId: world.executionContextId,
     awaitPromise: true,
     returnByValue: true,
   })) as {
     result?: { value?: unknown };
-    exceptionDetails?: { text?: string; exception?: { description?: string } };
+    exceptionDetails?: { exception?: { description?: string }; text?: string };
   };
-  if (result.exceptionDetails) {
+  if (evaluated.exceptionDetails) {
     throw new Error(
-      result.exceptionDetails.exception?.description ??
-        result.exceptionDetails.text ??
+      evaluated.exceptionDetails.exception?.description ??
+        evaluated.exceptionDetails.text ??
         "Playwright isolated-world evaluation failed",
     );
   }
-  return result.result?.value;
+  return evaluated.result?.value;
 }
 
-async function poll(
-  predicate: () => Promise<boolean>,
-  timeoutMs: number,
-  signal?: AbortSignal,
-): Promise<"matched" | "timeout" | "cancelled"> {
-  const deadline = Date.now() + timeoutMs;
-  for (;;) {
-    if (signal?.aborted) return "cancelled";
-    if (await predicate()) return "matched";
-    const remaining = deadline - Date.now();
-    if (remaining <= 0) return "timeout";
-    await new Promise<void>((resolve) =>
-      setTimeout(resolve, Math.min(POLL_INTERVAL_MS, remaining)),
-    );
-  }
+function cancelled(done: Done): BrowserCommandResult {
+  return done({
+    ok: false,
+    error: { code: "cancelled", message: "browser request cancelled", sideEffect: "none" },
+  });
 }
 
-function timeoutResult(done: Done, description: string): BrowserCommandResult {
+function timedOut(done: Done, description: string): BrowserCommandResult {
   return done({
     ok: false,
     error: { code: "timeout", message: `Timeout waiting for ${description}` },
   });
 }
 
-function locatorTimeoutResult(done: Done, description: string): BrowserCommandResult {
-  return done({
-    ok: false,
-    error: {
-      code: "timeout",
-      message:
-        `Timeout waiting for ${description}. ` +
-        "Do not retry the same locator. Take a fresh domSnapshot(), rebuild from snapshot-proven facts, " +
-        "and check count()/isVisible() before the next action.",
-    },
-  });
+async function poll(
+  predicate: () => Promise<boolean>,
+  timeoutMs: number,
+  signal?: AbortSignal,
+): Promise<PollResult> {
+  const deadline = Date.now() + timeoutMs;
+  for (;;) {
+    if (signal?.aborted) return "cancelled";
+    if (await predicate()) return "matched";
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) return "timeout";
+    await new Promise<void>((resolve) => setTimeout(resolve, Math.min(50, remaining)));
+  }
 }
 
-function urlMatches(pattern: string, url: string): boolean {
-  if (!pattern.includes("*")) return url === pattern;
+function matchesUrl(actual: string, pattern: string): boolean {
+  if (!pattern.includes("*")) return actual === pattern;
   const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*");
-  return new RegExp(`^${escaped}$`).test(url);
+  return new RegExp(`^${escaped}$`).test(actual);
 }
 
 async function waitForDocumentState(
   view: ControlledView,
-  state: "load" | "domcontentloaded" | "networkidle",
+  state: string,
   timeoutMs: number,
   signal?: AbortSignal,
-): Promise<"matched" | "timeout" | "cancelled"> {
-  if (state === "networkidle") {
+): Promise<PollResult> {
+  if (state === "networkidle")
     throw new Error("playwright_wait_for_load_state does not support networkidle");
-  }
   return poll(
     async () => {
-      const pageState = (await view.webContents.executeJavaScript(`(() => ({
-        readyState: document.readyState,
-        resourceCount: 0
-      }))()`)) as { readyState?: string; resourceCount?: number };
-      const ready =
-        state === "domcontentloaded"
-          ? pageState.readyState !== "loading"
-          : pageState.readyState === "complete";
-      return ready;
+      const documentState = (await view.webContents.executeJavaScript(
+        "({ readyState: document.readyState, resourceCount: 0 })",
+      )) as { readyState?: string };
+      return state === "domcontentloaded"
+        ? documentState.readyState !== "loading"
+        : documentState.readyState === "complete";
     },
     timeoutMs,
     signal,
   );
 }
 
-async function evaluateWithCdp(
+async function evaluateExpression(
   view: ControlledView,
-  expression: string,
-  timeoutMs: number,
+  action: Extract<BrowserPlaywrightAction, { name: "evaluate" }>,
   signal?: AbortSignal,
 ): Promise<unknown> {
-  const terminate = () => {
+  const arg = JSON.stringify(action.arg);
+  const expression =
+    action.expressionKind === "function"
+      ? `(${action.expression})(${arg})`
+      : `(() => { const arg = ${arg}; return (${action.expression}); })()`;
+  const timeout = normalizePlaywrightTimeout(action.timeoutMs);
+  if (signal?.aborted) throw new DOMException("aborted", "AbortError");
+  const onAbort = () => {
     void view.cdp.send("Runtime.terminateExecution").catch(() => undefined);
   };
-  if (signal?.aborted) throw new DOMException("aborted", "AbortError");
-  signal?.addEventListener("abort", terminate, { once: true });
+  signal?.addEventListener("abort", onAbort, { once: true });
   try {
-    const raw = (await view.cdp.send("Runtime.evaluate", {
+    const evaluated = (await view.cdp.send("Runtime.evaluate", {
       expression,
       awaitPromise: true,
       returnByValue: true,
-      timeout: timeoutMs,
+      timeout,
     })) as {
       result?: { value?: unknown };
-      exceptionDetails?: { text?: string; exception?: { description?: string } };
+      exceptionDetails?: { exception?: { description?: string }; text?: string };
     };
-    if (raw.exceptionDetails) {
-      throw new Error(
-        `playwright.evaluate failed: ${
-          raw.exceptionDetails.exception?.description ??
-          raw.exceptionDetails.text ??
-          "Playwright evaluate failed"
-        }`,
-      );
+    if (evaluated.exceptionDetails) {
+      const description =
+        evaluated.exceptionDetails.exception?.description ??
+        evaluated.exceptionDetails.text ??
+        "Playwright evaluate failed";
+      throw new Error(`playwright.evaluate failed: ${description}`);
     }
-    return raw.result?.value;
+    return evaluated.result?.value;
   } finally {
-    signal?.removeEventListener("abort", terminate);
+    signal?.removeEventListener("abort", onAbort);
   }
 }
 
@@ -227,120 +215,86 @@ export async function handlePlaywrightAction(
   done: Done,
   signal?: AbortSignal,
 ): Promise<BrowserCommandResult> {
-  if (action.name === "domSnapshot") {
-    // 只 clone documentElement 返回的 outerHTML 噪声较多，缺少交互语义。
-    // 通过隔离环境中的 Playwright 生成 AI/ARIA 快照，再展开 iframe 并归一化结果。
-    const value = await captureBrowserDomSnapshot(view, signal);
-    return done({ ok: true, value });
-  }
-  if (action.name === "elementInfo") {
-    // DOM 探测必须在 isolated world 执行，避免页面覆写全局对象或 getter 改变结果。
-    const value = await evaluateInPlaywrightIsolatedWorld(
-      view,
-      serializeRuntimeCall(elementInfoRuntime, action),
-    );
-    return done({ ok: true, value });
-  }
-  if (action.name === "elementScreenshot") {
-    await evaluateInPlaywrightIsolatedWorld(view, serializeRuntimeCall(overlayRuntime, action));
-    try {
-      const raw = await captureScreenshotWithCssPixelCorrection(
-        view,
-        await buildViewportScreenshotParams(view),
-      );
-      if (!raw.data) throw new Error("CDP Page.captureScreenshot returned no data");
-      return done({ ok: true, image: { base64: raw.data, mimeType: "image/png" } });
-    } finally {
-      await evaluateInPlaywrightIsolatedWorld(
-        view,
-        serializeRuntimeCall(overlayRuntime, { x: action.x, y: action.y, remove: true }),
-      );
+  switch (action.name) {
+    case "domSnapshot": {
+      const value = await captureBrowserDomSnapshot(view, signal);
+      return done({ ok: true, value });
     }
-  }
-  if (action.name === "evaluate") {
-    const arg = JSON.stringify(action.arg);
-    const expression =
-      action.expressionKind === "function"
-        ? `(${action.expression})(${arg})`
-        : `(() => { const arg = ${arg}; return (${action.expression}); })()`;
-    const value = await evaluateWithCdp(
-      view,
-      expression,
-      normalizePlaywrightTimeout(action.timeoutMs),
-      signal,
-    );
-    return done({ ok: true, value });
-  }
-  if (action.name === "waitForURL") {
-    const pattern = action.url;
-    const timeoutMs = normalizePlaywrightTimeout(action.timeoutMs);
-    const startedAt = Date.now();
-    const status = await poll(
-      async () => urlMatches(pattern, view.webContents.getURL()),
-      timeoutMs,
-      signal,
-    );
-    if (status === "cancelled")
-      return done({
-        ok: false,
-        error: { code: "cancelled", message: "browser request cancelled", sideEffect: "none" },
-      });
-    if (status !== "matched") return timeoutResult(done, `URL ${pattern}`);
-    const waitUntil = action.waitUntil ?? "load";
-    if (waitUntil !== "commit") {
-      const loadStatus = await waitForDocumentState(
-        view,
-        waitUntil,
-        Math.max(1, timeoutMs - (Date.now() - startedAt)),
+    case "elementInfo": {
+      const expression = `(${POINT_INSPECTION.toString()})(${JSON.stringify(action)})`;
+      const value = await evaluateInHelperWorld(view, expression);
+      return done({ ok: true, value });
+    }
+    case "elementScreenshot": {
+      const script = (options: unknown) =>
+        `(${SCREENSHOT_OVERLAY.toString()})(${JSON.stringify(options)})`;
+      await evaluateInHelperWorld(view, script(action));
+      try {
+        const params = await buildViewportScreenshotParams(view);
+        const screenshot = await captureScreenshotWithCssPixelCorrection(view, params);
+        if (!screenshot.data) throw new Error("CDP Page.captureScreenshot returned no data");
+        return done({ ok: true, image: { base64: screenshot.data, mimeType: "image/png" } });
+      } finally {
+        await evaluateInHelperWorld(view, script({ x: action.x, y: action.y, remove: true }));
+      }
+    }
+    case "evaluate": {
+      const value = await evaluateExpression(view, action, signal);
+      return done({ ok: true, value });
+    }
+    case "waitForURL": {
+      const timeout = normalizePlaywrightTimeout(action.timeoutMs);
+      const started = Date.now();
+      const url = await poll(
+        async () => matchesUrl(view.webContents.getURL(), action.url),
+        timeout,
         signal,
       );
-      if (loadStatus === "cancelled") {
+      if (url === "cancelled") return cancelled(done);
+      if (url === "timeout") return timedOut(done, `URL ${action.url}`);
+      const state = action.waitUntil ?? "load";
+      if (state !== "commit") {
+        const readiness = await waitForDocumentState(
+          view,
+          state,
+          Math.max(1, timeout - (Date.now() - started)),
+          signal,
+        );
+        if (readiness === "cancelled") return cancelled(done);
+        if (readiness === "timeout") return timedOut(done, `URL ${action.url} to reach ${state}`);
+      }
+      return done({ ok: true, value: view.webContents.getURL() });
+    }
+    case "waitForLoadState": {
+      const state = action.state ?? "load";
+      const timeout = normalizePlaywrightTimeout(action.timeoutMs);
+      const readiness = await waitForDocumentState(view, state, timeout, signal);
+      if (readiness === "cancelled") return cancelled(done);
+      if (readiness === "timeout") return timedOut(done, `load state ${state}`);
+      return done({ ok: true });
+    }
+    case "locator": {
+      const timeout = normalizePlaywrightTimeout(action.timeoutMs);
+      const result = await executeIabPlaywrightLocator(view, action, timeout, signal);
+      if (result.kind === "cancelled") return cancelled(done);
+      if (result.kind === "timeout") {
         return done({
           ok: false,
-          error: { code: "cancelled", message: "browser request cancelled", sideEffect: "none" },
+          error: {
+            code: "timeout",
+            message: `Timeout waiting for ${result.reason}. Do not retry the same locator. Take a fresh domSnapshot(), rebuild from snapshot-proven facts, and check count()/isVisible() before the next action.`,
+          },
         });
       }
-      if (loadStatus === "timeout")
-        return timeoutResult(done, `URL ${pattern} to reach ${waitUntil}`);
+      return done({ ok: true, value: result.value });
     }
-    return done({ ok: true, value: view.webContents.getURL() });
-  }
-  if (action.name === "waitForLoadState") {
-    const state = action.state ?? "load";
-    const status = await waitForDocumentState(
-      view,
-      state,
-      normalizePlaywrightTimeout(action.timeoutMs),
-      signal,
-    );
-    if (status === "cancelled")
+    default:
       return done({
         ok: false,
-        error: { code: "cancelled", message: "browser request cancelled", sideEffect: "none" },
+        error: {
+          code: "capability_unsupported",
+          message: `playwright.${action.name} is handled by the IAB manager`,
+        },
       });
-    return status === "matched" ? done({ ok: true }) : timeoutResult(done, `load state ${state}`);
   }
-  if (action.name === "locator") {
-    const execution = await executeIabPlaywrightLocator(
-      view,
-      action,
-      normalizePlaywrightTimeout(action.timeoutMs),
-      signal,
-    );
-    if (execution.kind === "cancelled") {
-      return done({
-        ok: false,
-        error: { code: "cancelled", message: "browser request cancelled", sideEffect: "none" },
-      });
-    }
-    if (execution.kind === "timeout") return locatorTimeoutResult(done, execution.reason);
-    return done({ ok: true, value: execution.value });
-  }
-  return done({
-    ok: false,
-    error: {
-      code: "capability_unsupported",
-      message: `playwright.${action.name} is handled by the IAB manager`,
-    },
-  });
 }

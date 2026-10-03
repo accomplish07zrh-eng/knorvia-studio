@@ -1,0 +1,7 @@
+{
+  "initialStagedWhitespaceCheck": {
+    "exitCode": 2,
+    "output": "licensing/evidence/deployment-orchestration-owners-20261003/baseline-synthetic-safety.txt:6: trailing whitespace.\n+[synthetic-deploy] selected remote resource packages: \nlicensing/evidence/deployment-orchestration-owners-20261003/candidate-synthetic-safety.txt:6: trailing whitespace.\n+[synthetic-deploy] selected remote resource packages: \n",
+    "resolution": "Raw outputs losslessly encoded in JSON; no test rerun or stdout alteration."
+  }
+}

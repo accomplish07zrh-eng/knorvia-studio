@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--owner=collection"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=collection\n✔ collection: ordered registry preserves local/remote authority and wrapper placement (80.323448ms)\n✔ collection: runtime preferences retain settings authority and response failure identity (16.567569ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 101.624603\n",
+  "stderr": "",
+  "exitCode": 0
+}

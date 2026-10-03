@@ -1,0 +1,27 @@
+{
+  "installedAndEveryRawDraftRecords": 7,
+  "installed": [
+    {
+      "owner": "recording",
+      "matchingBodyPairs": 1,
+      "uniqueBodyHashes": 1,
+      "identicalExpressionCount": 78,
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "proxy",
+      "matchingBodyPairs": 0,
+      "uniqueBodyHashes": 0,
+      "identicalExpressionCount": 31,
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "registry",
+      "matchingBodyPairs": 53,
+      "uniqueBodyHashes": 5,
+      "identicalExpressionCount": 241,
+      "acceptedCredit": 0
+    }
+  ],
+  "limit": "All function/arrow/method/getter/setter bodies and expressions; identifiers retained. Normalized matches and static vocabulary zero new credit. Identifier/control-flow/format differences are not proof of independence."
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/indexOwner.test.mjs",
+    "--baseline"
+  ],
+  "stdout": "✔ startup (180.711091ms)\n✖ remote (83.972893ms)\n✔ task-flow (54.326513ms)\n✔ dispatch-shutdown (50.369206ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 385.722535\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/indexOwner.test.mjs:17:65\n✖ remote (83.972893ms)\n  Error: remote Browser recording materialization requires workspaceIdentity\n      at Object.materializeRecording (/tmp/knorvia-host-index-baseline/index.ts:141:23)\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/indexOwner.test.mjs:356:49)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)\n",
+  "stderr": "",
+  "exitCode": 1
+}

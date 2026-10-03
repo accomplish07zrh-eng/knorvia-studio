@@ -1,0 +1,36 @@
+{
+  "baselineCommit": "00ab9ef65fa988ca5dc6e654f57937b0088a889b",
+  "batch": 37,
+  "selectedCompleteOwnerCandidates": 3,
+  "rawWholeDrafts": 8,
+  "uniqueMinimalSyntheticCases": 6,
+  "latestAffectedEvidence": {
+    "browser": [
+      "correction-2-browser-synthetic.json",
+      2
+    ],
+    "attachments": [
+      "correction-2-attachments-synthetic.json",
+      2
+    ],
+    "collection": [
+      "correction-1-collection-synthetic.json",
+      2
+    ]
+  },
+  "retainedDesktopTrackedFiles": 1496,
+  "allTrackedCliAdapterFilesUnchanged": 295,
+  "retainedCliLedger": 33,
+  "ordinarySuitesBuildsSemanticTypesNativeAcceptance": false,
+  "typeEvidence": "AST public signatures plus isolated individual syntax/transpile only; no semantic imported typecheck, declaration emit or fully composed host acceptance",
+  "architecture": "desktop unmanaged/unassigned; direct checked-in scripts baseline/new0/0. Pnpm wrappers failed ENOENT attempting outside-workspace store creation before check, no install/settings/permissions change or escalation. Separate direct-script result not a claimed pnpm wrapper success.",
+  "nodeActual": "v24.19.0",
+  "nodePinned": "24.14.0",
+  "syntheticOnly": "VM product imports entirely provided fake ports, synthetic schemas/registry/streams/timers/UUID/data. Node fs only selected repo source and frozen baseline reads; shell commands just recorded strings, no actual exec/upload/browser/network/provider/settings or permissions.",
+  "callbackReceiver": "Owner-owned stable opaque object with captured callback property; public receiver/capture facts tested, reflective predecessor-private helper fields not certified",
+  "protectedGlobalsRootHoldsAndAcceptedAdjacentOwnersUnchanged": true,
+  "mainCrossLaneIntegration": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITDecision": false,
+  "restrictions": "No Library403 alternate access or cancelled-upload retry; no real user/production/SSH/credential/browser/data/media/transfer/permission operations"
+}

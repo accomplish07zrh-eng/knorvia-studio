@@ -1,0 +1,195 @@
+/* eslint-disable max-lines -- 远程 workspace 服务注册需集中维护，以保持依赖注入顺序 */
+import {
+    IBroadcastService,
+    ICommandsService,
+    ICredentialService,
+    IFileService,
+    IFileWatcherService,
+    IGitCheckpointService,
+    IGitService,
+    IHooksService,
+    IMcpSyncService,
+    IMemoryService,
+    IModelSelectionService,
+    IPluginManagementService,
+    IPluginsService,
+    IPluginSyncService,
+    IPromptAttachmentTransferService,
+    IProviderSettingsService,
+    ISettingService,
+    IStudioRuntimeService,
+    ISettingsSyncService,
+    ISkillsService,
+    ISkillSyncService,
+    ISubagentsService,
+    ISystemService,
+    ITerminalService,
+    IUsageStatsService,
+    IKnorviaAgentService,
+    IKnorviaSessionService,
+    IKnorviaTaskService,
+    ServiceCollection,
+    type IServiceAccessor,
+} from "@knorvia/services";
+import {
+    createBroadcastService,
+    createCredentialService,
+    createHostApiNetworkTransport,
+    createMemoryService,
+    createServiceLogger,
+    createSettingService,
+    createSettingsSyncService,
+    createSubagentsService,
+    createUsageStatsService,
+    registerHostApiNetworkTransportForDispose,
+} from "@knorvia/services/node";
+import {
+    DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY,
+    type KnorviaSessionRuntimePreferencesResult,
+} from "@knorvia/shared";
+import { assertLegacyRemoteWorkspaceRpcContract } from "./legacyRemoteWorkspaceRpcContract.js";
+
+const preferenceRequestLogger = createServiceLogger("remote-runtime-preferences");
+
+function describeFailure(error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
+}
+
+export function createRemoteWorkspaceServiceCollection(params: {
+    connectionServices: IServiceAccessor;
+    sourceServices?: ServiceCollection;
+    parentPort: Parameters<typeof createBroadcastService>[0];
+    createReportingRemoteKnorviaTaskService: <T extends object>(service: T) => T;
+    createRemotePromptAttachmentTaskService: <T extends object>(service: T) => T;
+    createRemotePromptAttachmentSessionService: <T extends object>(service: T) => T;
+    promptAttachmentTransferService: IPromptAttachmentTransferService;
+    runtimePreferencesBridge: {
+        onError: (error: unknown) => void;
+    };
+}): ServiceCollection {
+    const { connectionServices } = params;
+    assertLegacyRemoteWorkspaceRpcContract(connectionServices);
+
+    const settingsOwner = createSettingService();
+    const credentialOwner = createCredentialService();
+    const networkTransport = createHostApiNetworkTransport(async () => {
+        const settings = await settingsOwner.get();
+        return {
+            httpProxy: settings.httpProxy,
+            noProxy: settings.httpProxyNoProxy,
+            caCertPath: settings.httpProxyCaCertPath,
+        };
+    });
+    const broadcastOwner = createBroadcastService(params.parentPort);
+    const reportingTask = params.createReportingRemoteKnorviaTaskService(connectionServices.taskService);
+    const attachmentTask = params.createRemotePromptAttachmentTaskService(reportingTask);
+    const attachmentSession = params.createRemotePromptAttachmentSessionService(connectionServices.sessionService);
+    const onError = params.runtimePreferencesBridge.onError;
+
+    connectionServices.agentService.onDynamicSessionRuntimePreferencesRequest((request) => {
+        const arrivedAt = Date.now();
+        const context = {
+            event: "knorvia_protocol.runtime_preferences.host_request_received",
+            module: "desktop.host.remote_workspace",
+            requestId: request.requestId,
+            scope: request.scope,
+            sessionId: request.sessionId,
+        };
+        preferenceRequestLogger.info(undefined, "runtime preferences host request received", context);
+
+        void (async () => {
+            let resolution: KnorviaSessionRuntimePreferencesResult;
+            try {
+                const settingsPromise = settingsOwner.get();
+                const settingsStartedAt = Date.now();
+                const settings = await settingsPromise.then(
+                    (value) => {
+                        preferenceRequestLogger.debug(undefined, "runtime preferences host stage completed", {
+                            ...context,
+                            durationMs: Math.max(0, Date.now() - settingsStartedAt),
+                            stage: "settings",
+                        });
+                        return value;
+                    },
+                    (error: unknown) => {
+                        preferenceRequestLogger.warn(undefined, "runtime preferences host stage failed", {
+                            ...context,
+                            durationMs: Math.max(0, Date.now() - settingsStartedAt),
+                            error: describeFailure(error),
+                            stage: "settings",
+                        });
+                        throw error;
+                    },
+                );
+                resolution = {
+                    status: "resolved",
+                    preferences: {
+                        askUserQuestionAutoResolutionEnabled: settings.askUserQuestionAutoResolutionEnabled !== false,
+                        nativeSearchEnhancementsEnabled: settings.nativeSearchEnhancementsEnabled !== false,
+                        memoryEnabled: settings.memoryEnabled === true,
+                        modelContextBudgetStrategy: DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY,
+                        ...(request.scope === "user-execution" && settings.integratedTerminalShell
+                            ? { integratedTerminalShell: settings.integratedTerminalShell }
+                            : {}),
+                    },
+                };
+            } catch (error) {
+                resolution = { status: "failed", message: describeFailure(error) };
+                preferenceRequestLogger.warn(undefined, "runtime preferences host resolution failed", {
+                    ...context,
+                    durationMs: Math.max(0, Date.now() - arrivedAt),
+                    error: resolution.message,
+                });
+            }
+
+            await connectionServices.agentService.respondSessionRuntimePreferences({
+                requestId: request.requestId,
+                resolution,
+            });
+            preferenceRequestLogger.info(undefined, "runtime preferences host response sent", {
+                ...context,
+                durationMs: Math.max(0, Date.now() - arrivedAt),
+                resolutionStatus: resolution.status,
+            });
+        })().catch((error: unknown) => {
+            preferenceRequestLogger.warn(undefined, "runtime preferences host response failed", {
+                ...context,
+                durationMs: Math.max(0, Date.now() - arrivedAt),
+                error: describeFailure(error),
+            });
+            onError(error);
+        });
+    });
+
+    const collection = new ServiceCollection();
+    collection.set(IStudioRuntimeService, connectionServices.studioRuntimeService!);
+    collection.set(IFileService, connectionServices.fileService);
+    collection.set(IGitService, connectionServices.gitService);
+    collection.set(IGitCheckpointService, connectionServices.gitCheckpointService);
+    collection.set(ISystemService, connectionServices.systemService);
+    collection.set(ITerminalService, connectionServices.terminalService);
+    collection.set(ISettingService, settingsOwner);
+    collection.set(ICredentialService, credentialOwner);
+    collection.set(IBroadcastService, broadcastOwner);
+    collection.set(IKnorviaTaskService, attachmentTask);
+    collection.set(IKnorviaAgentService, connectionServices.agentService);
+    collection.set(IKnorviaSessionService, attachmentSession);
+    collection.set(IFileWatcherService, connectionServices.fileWatcherService);
+    collection.set(IModelSelectionService, connectionServices.modelSelectionService);
+    collection.set(IProviderSettingsService, connectionServices.providerSettingsService);
+    collection.set(IUsageStatsService, createUsageStatsService({ agentService: connectionServices.agentService }));
+    collection.set(ISkillsService, connectionServices.skillsService);
+    collection.set(ISkillSyncService, connectionServices.skillSyncService);
+    collection.set(IMcpSyncService, connectionServices.mcpSyncService);
+    collection.set(IPluginSyncService, connectionServices.pluginSyncService);
+    collection.set(IPluginsService, connectionServices.pluginsService);
+    collection.set(IPluginManagementService, connectionServices.pluginManagementService);
+    collection.set(ICommandsService, connectionServices.commandsService);
+    collection.set(ISubagentsService, createSubagentsService({ isDesktopRuntime: true }));
+    collection.set(IHooksService, connectionServices.hooksService);
+    collection.set(IMemoryService, createMemoryService());
+    collection.set(ISettingsSyncService, createSettingsSyncService({ settingService: settingsOwner }));
+    collection.set(IPromptAttachmentTransferService, params.promptAttachmentTransferService);
+    registerHostApiNetworkTransportForDispose(collection, networkTransport);
+    return collection;
+}

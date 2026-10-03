@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2714 unknown errors retain wrapped candidate and message/code fallback without leaking unrelated fields (13.910071ms)\n\u2714 version requirement admits shorthand and exact prerelease ordering without an update action (12.250142ms)\n\u2714 subagent storage import respects own current-map authority without reviving legacy identity (6.821268ms)\n\u2714 MCP DTO conversion preserves fake-platform wrapping and existing optional config admission (4.593075ms)\n\u2716 hook digest preserves canonical payload order, optional distinctions and owned snapshot freezing (7.687373ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 4\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 51.280409\n\n\u2716 failing tests:\n\ntest at packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs:222:1\n\u2716 hook digest preserves canonical payload order, optional distinctions and owned snapshot freezing (7.687373ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    [\n  +   'hash',\n      'time',\n  -   'hash'\n    ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs:307:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [Array],\n    expected: [Array],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

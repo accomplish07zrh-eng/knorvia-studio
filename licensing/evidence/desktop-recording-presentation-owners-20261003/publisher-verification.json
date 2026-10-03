@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "repository": "zai-org/ZCode",
+      "returnedBlob": "1bf7ee2a45e080b6e1dc1990f6ea2978a8882dc8",
+      "recomputedBlob": "1bf7ee2a45e080b6e1dc1990f6ea2978a8882dc8",
+      "normalizedSha256": "8674cd75313850c63b77a6458ca8784848bde87c6044e6ecbe9d23f31ead2d54",
+      "matchesInventory": true,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+      "authorSourceAccess": false,
+      "licenseAcceptance": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "repository": "zai-org/ZCode",
+      "returnedBlob": "8331b416f788247956c456dd7785d1ea687dad43",
+      "recomputedBlob": "8331b416f788247956c456dd7785d1ea687dad43",
+      "normalizedSha256": "eb96ce18b986420640f71f0c61c97aef0091e4a57228f3772cc62fa2376e0970",
+      "matchesInventory": true,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+      "authorSourceAccess": false,
+      "licenseAcceptance": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "repository": "zai-org/ZCode",
+      "returnedBlob": "3b7611b4e2fb2b953cc31ed9aa113d39d2e34ab6",
+      "recomputedBlob": "3b7611b4e2fb2b953cc31ed9aa113d39d2e34ab6",
+      "normalizedSha256": "ae65cd2c4e482ffb23aabf13f7b216c15890c81c186d43d1ed4db4afaea12b73",
+      "matchesInventory": true,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+      "authorSourceAccess": false,
+      "licenseAcceptance": false
+    }
+  ],
+  "qualification": "Three exact existing-connector reads; byte mapping, not rights/expression acceptance."
+}

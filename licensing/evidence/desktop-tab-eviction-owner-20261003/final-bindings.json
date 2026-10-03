@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs",
+      "sha256": "271346b44800ba2ccace3497092c7d4c6c9c8ec1539653873f5d26fe6193b0b7"
+    }
+  ],
+  "stdout": "",
+  "stderr": "node:fs:484\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\n                   ^\n\nError: ENOENT: no such file or directory, open 'licensing/evidence/desktop-tab-eviction-owner-20261003/candidate-public-api.json'\n    at Object.readFileSync (node:fs:484:20)\n    at read (file:///workspace/knorvia-studio/licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs:8:38)\n    at file:///workspace/knorvia-studio/licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs:46:52\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: 'licensing/evidence/desktop-tab-eviction-owner-20261003/candidate-public-api.json'\n}\n\nNode.js v24.19.0\n",
+  "exitCode": 1
+}

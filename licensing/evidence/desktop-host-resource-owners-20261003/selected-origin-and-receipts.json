@@ -1,0 +1,266 @@
+[
+  {
+    "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "sha256": "f57927bc1d8059759e2e3a6493a7018993c4960e429532ccb7410d8e74df7219",
+    "bytes": 28530,
+    "excluded": null,
+    "metadata": {
+      "licensing/current-files.json": [
+        {
+          "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+          "kind": "file",
+          "sha256": "f57927bc1d8059759e2e3a6493a7018993c4960e429532ccb7410d8e74df7219",
+          "normalizedSha256": "f57927bc1d8059759e2e3a6493a7018993c4960e429532ccb7410d8e74df7219",
+          "encoding": "utf8-lf",
+          "bytes": 28530,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+            "blob": "b946fbf3e7b5f63456f876b09c61b2203de7c566",
+            "normalizedSha256": "1f15fb2cb47bd7e3625cb5e3c113a6316f7cea8dfddb0b04a8e0028e5b44cf65",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        }
+      ],
+      "licensing/upstream-baseline.json": [
+        {
+          "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+          "mode": "100644",
+          "blob": "b946fbf3e7b5f63456f876b09c61b2203de7c566",
+          "kind": "file",
+          "sha256": "1f15fb2cb47bd7e3625cb5e3c113a6316f7cea8dfddb0b04a8e0028e5b44cf65",
+          "normalizedSha256": "1f15fb2cb47bd7e3625cb5e3c113a6316f7cea8dfddb0b04a8e0028e5b44cf65",
+          "encoding": "utf8-lf",
+          "bytes": 28528
+        }
+      ],
+      "licensing/reviews.json": [],
+      "licensing/evidence/repository-migration-scope-20260930.json": [
+        {
+          "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+          "sha256": "f57927bc1d8059759e2e3a6493a7018993c4960e429532ccb7410d8e74df7219",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        }
+      ]
+    },
+    "inventoryHashMatches": true,
+    "boundedReceiptFiles": [],
+    "receiptSearchExitCode": 1,
+    "history": {
+      "command": [
+        "git",
+        "log",
+        "--format=%H %s",
+        "--",
+        "packages/desktop/src/host/windowRemoteConnectionRegistry.ts"
+      ],
+      "stdout": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    "exactHashReceiptSearch": {
+      "command": [
+        "rg",
+        "-l",
+        "-F",
+        "f57927bc1d8059759e2e3a6493a7018993c4960e429532ccb7410d8e74df7219",
+        "licensing/evidence",
+        "specs",
+        "--glob",
+        "!remaining-host-inventory.json",
+        "--glob",
+        "!initial-retained-desktop-bindings.json",
+        "--glob",
+        "!final-retained-desktop-bindings.json",
+        "--glob",
+        "!repository-migration-scope-20260930.json"
+      ],
+      "stdout": "",
+      "stderr": "",
+      "exitCode": 1
+    }
+  },
+  {
+    "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "sha256": "28693ae370e7f73ff887d76c904a3717de30b431fd100061fcca09949aa9727f",
+    "bytes": 3411,
+    "excluded": null,
+    "metadata": {
+      "licensing/current-files.json": [
+        {
+          "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+          "kind": "file",
+          "sha256": "28693ae370e7f73ff887d76c904a3717de30b431fd100061fcca09949aa9727f",
+          "normalizedSha256": "28693ae370e7f73ff887d76c904a3717de30b431fd100061fcca09949aa9727f",
+          "encoding": "utf8-lf",
+          "bytes": 3411,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+            "blob": "ef41007c17a09dc69f263a1945514335b11aa6c5",
+            "normalizedSha256": "a3666d507221c94a3f15b00a933b021fb044b9e93ea41c2fd487b77d4b11f11d",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        }
+      ],
+      "licensing/upstream-baseline.json": [
+        {
+          "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+          "mode": "100644",
+          "blob": "ef41007c17a09dc69f263a1945514335b11aa6c5",
+          "kind": "file",
+          "sha256": "a3666d507221c94a3f15b00a933b021fb044b9e93ea41c2fd487b77d4b11f11d",
+          "normalizedSha256": "a3666d507221c94a3f15b00a933b021fb044b9e93ea41c2fd487b77d4b11f11d",
+          "encoding": "utf8-lf",
+          "bytes": 3407
+        }
+      ],
+      "licensing/reviews.json": [],
+      "licensing/evidence/repository-migration-scope-20260930.json": [
+        {
+          "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+          "sha256": "28693ae370e7f73ff887d76c904a3717de30b431fd100061fcca09949aa9727f",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        }
+      ]
+    },
+    "inventoryHashMatches": true,
+    "boundedReceiptFiles": [],
+    "receiptSearchExitCode": 1,
+    "history": {
+      "command": [
+        "git",
+        "log",
+        "--format=%H %s",
+        "--",
+        "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts"
+      ],
+      "stdout": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    "exactHashReceiptSearch": {
+      "command": [
+        "rg",
+        "-l",
+        "-F",
+        "28693ae370e7f73ff887d76c904a3717de30b431fd100061fcca09949aa9727f",
+        "licensing/evidence",
+        "specs",
+        "--glob",
+        "!remaining-host-inventory.json",
+        "--glob",
+        "!initial-retained-desktop-bindings.json",
+        "--glob",
+        "!final-retained-desktop-bindings.json",
+        "--glob",
+        "!repository-migration-scope-20260930.json"
+      ],
+      "stdout": "",
+      "stderr": "",
+      "exitCode": 1
+    }
+  },
+  {
+    "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+    "sha256": "a904c53b31cc9694e1ce06c1b03ea4ddba42ed415f37378fdc2e7422634b7b33",
+    "bytes": 3030,
+    "excluded": null,
+    "metadata": {
+      "licensing/current-files.json": [
+        {
+          "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+          "kind": "file",
+          "sha256": "a904c53b31cc9694e1ce06c1b03ea4ddba42ed415f37378fdc2e7422634b7b33",
+          "normalizedSha256": "a904c53b31cc9694e1ce06c1b03ea4ddba42ed415f37378fdc2e7422634b7b33",
+          "encoding": "utf8-lf",
+          "bytes": 3030,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+            "blob": "e090f0b908c99e80e82466c6731466a9ea973c97",
+            "normalizedSha256": "8c935e62e0c500200c67107292b909cb78e479d25898135e4db98fc13e95276a",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        }
+      ],
+      "licensing/upstream-baseline.json": [
+        {
+          "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+          "mode": "100644",
+          "blob": "e090f0b908c99e80e82466c6731466a9ea973c97",
+          "kind": "file",
+          "sha256": "8c935e62e0c500200c67107292b909cb78e479d25898135e4db98fc13e95276a",
+          "normalizedSha256": "8c935e62e0c500200c67107292b909cb78e479d25898135e4db98fc13e95276a",
+          "encoding": "utf8-lf",
+          "bytes": 3017
+        }
+      ],
+      "licensing/reviews.json": [],
+      "licensing/evidence/repository-migration-scope-20260930.json": [
+        {
+          "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+          "sha256": "a904c53b31cc9694e1ce06c1b03ea4ddba42ed415f37378fdc2e7422634b7b33",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        }
+      ]
+    },
+    "inventoryHashMatches": true,
+    "boundedReceiptFiles": [],
+    "receiptSearchExitCode": 1,
+    "history": {
+      "command": [
+        "git",
+        "log",
+        "--format=%H %s",
+        "--",
+        "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts"
+      ],
+      "stdout": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    "exactHashReceiptSearch": {
+      "command": [
+        "rg",
+        "-l",
+        "-F",
+        "a904c53b31cc9694e1ce06c1b03ea4ddba42ed415f37378fdc2e7422634b7b33",
+        "licensing/evidence",
+        "specs",
+        "--glob",
+        "!remaining-host-inventory.json",
+        "--glob",
+        "!initial-retained-desktop-bindings.json",
+        "--glob",
+        "!final-retained-desktop-bindings.json",
+        "--glob",
+        "!repository-migration-scope-20260930.json"
+      ],
+      "stdout": "",
+      "stderr": "",
+      "exitCode": 1
+    }
+  }
+]

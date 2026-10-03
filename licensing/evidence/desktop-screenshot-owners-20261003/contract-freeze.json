@@ -1,0 +1,42 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/common-contract.md",
+      "sha256": "bcef15b71a72c4680a8b9e032b5820ecee956399982fad8e97b4b7db16a2f8b1"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/surface-owner-contract.md",
+      "sha256": "47ec61f61892a11cfdb343f29f2bc2ef1126532cbf512bd8ae60b6c1a929dd81"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/activity-owner-contract.md",
+      "sha256": "2072996613d1870cee6dc5cac32dc75b455237f52611104cd43b8efa5c538f12"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/ports/bootstrap.d.ts",
+      "sha256": "c0a25ce65a561209eef67ba8e74a4b0d8e6c0ea0f497527ce6b48b36b7649ee7"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/ports/contracts.d.ts",
+      "sha256": "09215c1409a49cdc800ea5ba407e6337411b6bf250ff054c0dd98b8ce5d878fa"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/ports/retry.d.ts",
+      "sha256": "3c807c27d54ccc45a58858e040c40c8569a0395a230cc8f182b53b2d44f42b20"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/ports/shared.d.ts",
+      "sha256": "78a6cf8a4907294859be6a17d479d3ac5ea29b2fc7ceb9a88a2010fe7adde71e"
+    },
+    {
+      "path": "specs/knorvia-desktop-screenshot-owners-20261003.md",
+      "sha256": "025f19bcb9513a0829b2511cb9f224623183256b43883f265d9afd5c7e7058cf"
+    }
+  ],
+  "curatorSourceExposed": true,
+  "authorsMayReadOnlyAssignedContractAndAllowedDeclarations": true,
+  "freshForkTurns": "none",
+  "requestedModel": "gpt-6-sol",
+  "requestedReasoning": "high",
+  "FastVerified": false
+}

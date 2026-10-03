@@ -1,0 +1,11 @@
+✔ client close rejects pending calls by identity and blocks late initialization; cancel owns its frame (20.469534ms)
+✔ server admits only registered channel and retains caller context/cancellation ownership (6.020843ms)
+✔ replay bounds preserve strict edges, full-frame ACK admission and owned socket replacement (6.012922ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.473645

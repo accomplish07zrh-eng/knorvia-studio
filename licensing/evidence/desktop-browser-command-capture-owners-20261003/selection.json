@@ -1,0 +1,73 @@
+{
+  "baseHead": "a8a2305a55719b900556f0c50fbdadf7f1ac48b4",
+  "selected": [
+    {
+      "owner": "command",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserCommandExecutor.ts",
+        "kind": "file",
+        "sha256": "e7d47fd9a0b6b7434879aec1eda3de67b2fe62c08f555c29e864dd41da7a14aa",
+        "normalizedSha256": "e7d47fd9a0b6b7434879aec1eda3de67b2fe62c08f555c29e864dd41da7a14aa",
+        "encoding": "utf8-lf",
+        "bytes": 4995,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserCommandExecutor.ts",
+          "blob": "bd29578028b9e2c4ba711d9646dfa03b5e91bd88",
+          "normalizedSha256": "fb5d0206e73083b427dc07c19beedd85643ab8ff2757faa0be5408d8d3f207e2",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 134,
+      "currentSha256": "e7d47fd9a0b6b7434879aec1eda3de67b2fe62c08f555c29e864dd41da7a14aa",
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "priorReceipt": "command only unchanged consumer in batch40; no accepted whole-owner receipt"
+    },
+    {
+      "owner": "capture",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserScreenshotCapture.ts",
+        "kind": "file",
+        "sha256": "8c82ee5005a64e878104ae36359881d00d3f7481439b46ad63c567af95bc4b7b",
+        "normalizedSha256": "8c82ee5005a64e878104ae36359881d00d3f7481439b46ad63c567af95bc4b7b",
+        "encoding": "utf8-lf",
+        "bytes": 7696,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserScreenshotCapture.ts",
+          "blob": "9d699dd1cf525c2e3d7c1e2f972e54f1a0454387",
+          "normalizedSha256": "8c82ee5005a64e878104ae36359881d00d3f7481439b46ad63c567af95bc4b7b",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserScreenshotCapture.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 215,
+      "currentSha256": "8c82ee5005a64e878104ae36359881d00d3f7481439b46ad63c567af95bc4b7b",
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "priorReceipt": "no exact-path receipt found beyond inherited inventory"
+    }
+  ],
+  "otherLanePRs": {
+    "8": [],
+    "10": [],
+    "11": [],
+    "12": []
+  },
+  "privateHistoryAbsenceProven": false,
+  "scopeAnnouncedBeforeAuthoring": true
+}

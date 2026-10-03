@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern=residency:",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "c3f3ffb455c135aa5cd3624a0f81cf41c98023a7152928d3b9f7497d3dad3098"
+    }
+  ],
+  "stdout": "✖ residency: per-window serialized eviction, stale restoration generation and copied observations (34.634429ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 309.427095\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:37:1\n✖ residency: per-window serialized eviction, stale restoration generation and copied observations (34.634429ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  0 !== 1\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:51:9)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 0,\n    expected: 1,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

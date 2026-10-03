@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-screenshot-owners-20261003/scoped-static.mjs",
+    "--drafts"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/scoped-static.mjs",
+      "sha256": "ed4e18cd2fafb45edd2222dae812608a485e05760ed22976a198d369c48f67eb"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"./browserScreenshotSurfaceContracts.js\": \"contracts\",\n    \"./browserScreenshotTransientRetry.js\": \"retry\",\n    \"./browserTransparentWindowBootstrap.js\": \"bootstrap\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": false,\n  \"syntaxFiles\": [\n    \"licensing/evidence/desktop-screenshot-owners-20261003/drafts/surface-initial.ts\",\n    \"licensing/evidence/desktop-screenshot-owners-20261003/drafts/activity-initial.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 1
+}

@@ -1,0 +1,27 @@
+{
+  "baselineCommit": "0ce9d9b13405e17f39fa8c3e73d51b8c0cee4544",
+  "files": [
+    {
+      "path": "packages/server/src/remote/closeEvent.ts",
+      "baselineSha256": "deac063a400a1a3f8844993eaf18e16f389556240708a6e5de517fa27529b1aa",
+      "baselineBlob": "2e9dfffcfc956c4bd321b5a773aba7789be4c4d3",
+      "authorOutputSha256": "167a26e14a6649c5aa606c88381deebafa00b3d2400c8bbd6e5080947c177ef2",
+      "candidateSha256": "481399223c1faca8e03fc981317a25e888477f1d9134b9971291694eb30d5445"
+    },
+    {
+      "path": "packages/server/src/remote/stdio-socket.ts",
+      "baselineSha256": "2ecfadd9fff651dc9c70006e6c6bca0881ec774b4d4f748b3d9cf32e5270574c",
+      "baselineBlob": "80a106dfbec07bf5326bf473bf9c21a59cd61b8c",
+      "authorOutputSha256": "3fa5b3a64804a6f2f4619b04d28be37826f846d5a36827232475f05784e9d6ce",
+      "candidateSha256": "afe41ca29e68c810c3afd320a49f6b66b56e6464dc16c2832dece3c00f268f6f"
+    },
+    {
+      "path": "packages/server/src/remote/handshake.ts",
+      "baselineSha256": "b5b11cf743507bbb6b71ac03f560ea298f367ffe5427dca48fb0ccbe767e9af9",
+      "baselineBlob": "d30e86362e51159437f2dffc3bd661231e31cce5",
+      "authorOutputSha256": "6a6210d4b417894262ccdc64118d22d3723d11045e00400b3a70ebd8c697bda4",
+      "candidateSha256": "36d611af1d08b790e5bf91d7ba49a13ec1ff9cd087ecb22353b5b7cb5a151b3c"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Integrated three complete authored files and applied oxfmt only. Fresh author made the bounded handshake failure-order correction before integration."
+}

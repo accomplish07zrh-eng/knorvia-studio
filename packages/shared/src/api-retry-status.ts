@@ -1,37 +1,45 @@
 import type { KnorviaApiRetryStatus } from "./task-types-core.js";
 
+function recordFrom(value: unknown): Record<string, unknown> {
+  if (value !== null && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return {};
+}
+
+function integerFrom(value: unknown, minimum: number): number | undefined {
+  return typeof value === "number" && Number.isInteger(value) && value >= minimum
+    ? value
+    : undefined;
+}
+
+function stringFrom(value: unknown): string | undefined {
+  return typeof value === "string" ? value : undefined;
+}
+
 export function normalizeKnorviaApiRetryStatus(
   value: unknown,
 ): KnorviaApiRetryStatus | null | undefined {
-  if (value === null) {
-    return null;
-  }
-  const record = asRecord(value);
-  if (Object.keys(record).length === 0) {
-    return undefined;
-  }
+  if (value === null) return null;
+
+  const fields = recordFrom(value);
+  if (Object.keys(fields).length === 0) return undefined;
+
   const attempt =
-    positiveIntegerValue(record.attempt) ??
-    Math.max((positiveIntegerValue(record.nextAttempt) ?? 2) - 1, 1);
-  const maxRetries = Math.max(
-    nonNegativeIntegerValue(record.maxRetries) ??
-      (positiveIntegerValue(record.maxAttempts) ?? attempt + 1) - 1,
-    attempt,
-  );
+    integerFrom(fields.attempt, 1) ?? Math.max((integerFrom(fields.nextAttempt, 1) ?? 2) - 1, 1);
+  const retryLimit =
+    integerFrom(fields.maxRetries, 0) ?? (integerFrom(fields.maxAttempts, 1) ?? attempt + 1) - 1;
+
   return {
     kind: "api_retry",
     attempt,
-    maxRetries,
-    retryDelayMs:
-      nonNegativeIntegerValue(record.retryDelayMs) ?? nonNegativeIntegerValue(record.delayMs) ?? 0,
-    errorStatus:
-      nonNegativeIntegerValue(record.errorStatus) ??
-      nonNegativeIntegerValue(record.statusCode) ??
-      null,
+    maxRetries: Math.max(retryLimit, attempt),
+    retryDelayMs: integerFrom(fields.retryDelayMs, 0) ?? integerFrom(fields.delayMs, 0) ?? 0,
+    errorStatus: integerFrom(fields.errorStatus, 0) ?? integerFrom(fields.statusCode, 0) ?? null,
     error:
-      stringValue(record.error) ??
-      stringValue(record.message) ??
-      stringValue(record.reason) ??
+      stringFrom(fields.error) ??
+      stringFrom(fields.message) ??
+      stringFrom(fields.reason) ??
       "Model retry scheduled",
   };
 }
@@ -39,84 +47,62 @@ export function normalizeKnorviaApiRetryStatus(
 export function knorviaApiRetryFromModelNetworkStatusPayload(
   payload: Record<string, unknown>,
 ): KnorviaApiRetryStatus | null | undefined {
-  const type = stringValue(payload.type);
-  if (type === "model_retry_scheduled") {
-    return normalizeKnorviaApiRetryStatus(payload);
-  }
-  if (type === "model_request_started") {
-    const streamRecoveryRetry = knorviaApiRetryFromStreamRecoveryPayload(payload.streamRecovery);
-    if (streamRecoveryRetry !== undefined) {
-      return streamRecoveryRetry;
+  switch (payload.type) {
+    case "model_retry_scheduled":
+      return normalizeKnorviaApiRetryStatus(payload);
+    case "model_request_started": {
+      const recovery = knorviaApiRetryFromStreamRecoveryPayload(payload.streamRecovery);
+      if (recovery !== undefined) return recovery;
+
+      // 兼容普通适配器重试：下一次请求开始不代表恢复成功，需等待有效进度再清除重试状态。
+      return (integerFrom(payload.attempt, 1) ?? 1) <= 1 ? null : undefined;
     }
-    if ((positiveIntegerValue(payload.attempt) ?? 1) <= 1) {
+    case "model_request_completed":
       return null;
-    }
-    // 普通 adapter retry 的 request_started 只代表下一次请求开始，
-    // 不代表已经恢复成功；这里保持 undefined，让投影层等首个有效模型进展再清理重试态。
+    case "model_request_failed":
+      return payload.retryable === true ? undefined : null;
+    default:
+      return undefined;
   }
-  if (type === "model_request_completed") {
-    return null;
-  }
-  if (type === "model_request_failed" && payload.retryable !== true) {
-    return null;
-  }
-  return undefined;
 }
 
 export function isKnorviaModelRetryRecoveryProgressPayload(
   payload: Record<string, unknown>,
 ): boolean {
-  const kind = stringValue(payload.kind);
-  if (kind === "text_delta" || kind === "reasoning_delta") {
-    return Boolean(stringValue(payload.delta));
+  switch (payload.kind) {
+    case "text_delta":
+    case "reasoning_delta":
+      return typeof payload.delta === "string" && Boolean(payload.delta);
+    case "tool_input_start":
+    case "tool_input_end":
+    case "tool_call":
+      return typeof payload.toolCallId === "string" && Boolean(payload.toolCallId);
+    case "tool_input_delta":
+      return (
+        typeof payload.toolCallId === "string" &&
+        Boolean(payload.toolCallId) &&
+        typeof payload.delta === "string" &&
+        Boolean(payload.delta)
+      );
+    default:
+      return false;
   }
-  const toolCallId = stringValue(payload.toolCallId);
-  if (!toolCallId) {
-    return false;
-  }
-  if (kind === "tool_input_start" || kind === "tool_input_end" || kind === "tool_call") {
-    return true;
-  }
-  if (kind === "tool_input_delta") {
-    return Boolean(stringValue(payload.delta));
-  }
-  return false;
 }
 
 export function knorviaApiRetryFromStreamRecoveryPayload(
   value: unknown,
 ): KnorviaApiRetryStatus | undefined {
-  const record = asRecord(value);
-  const attempt = positiveIntegerValue(record.retryNumber);
-  if (attempt === undefined) {
-    return undefined;
-  }
-  // core stream recovery 每次新请求都是 adapter attempt=1，
-  // 旧 UI 会误清空重试状态；这里改用 streamRecovery.retryNumber 展示 1/10、2/10。
+  const fields = recordFrom(value);
+  const attempt = integerFrom(fields.retryNumber, 1);
+  if (attempt === undefined) return undefined;
+
+  // 流恢复有独立的 retryNumber 计数，不能使用适配器的 attempt 推断流恢复次数。
   return {
     kind: "api_retry",
     attempt,
-    maxRetries: Math.max(nonNegativeIntegerValue(record.maxRetries) ?? attempt, attempt),
+    maxRetries: Math.max(integerFrom(fields.maxRetries, 0) ?? attempt, attempt),
     retryDelayMs: 0,
     errorStatus: null,
-    error: stringValue(record.message) ?? "Model stream recovery retry started",
+    error: stringFrom(fields.message) ?? "Model stream recovery retry started",
   };
-}
-
-function asRecord(value: unknown): Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : {};
-}
-
-function stringValue(value: unknown): string | undefined {
-  return typeof value === "string" ? value : undefined;
-}
-
-function nonNegativeIntegerValue(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : undefined;
-}
-
-function positiveIntegerValue(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isInteger(value) && value > 0 ? value : undefined;
 }

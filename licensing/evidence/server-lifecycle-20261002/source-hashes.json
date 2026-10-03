@@ -1,0 +1,55 @@
+{
+  "baselineCommit": "f25b931164ee6287167e965e9da7a7586131b264",
+  "files": [
+    {
+      "path": "packages/server/src/stdio-lifecycle.ts",
+      "baselineSha256": "ca136b2fe704cd74831c78c53d80e0128b187ef55c52ff85e8b907dd864185ae",
+      "baselineBlob": "8f10b762056439f35f1f2ed66d594804ef37f7c7",
+      "authorOutputSha256": "b1c8696cad67cd378c88657203f1fcc04a6d3399d669c15101465f8c1aa9f5f8",
+      "candidateSha256": "d11805729dc2bb2b3defc158c014df768c8a74b49e5950f6faec4e3a1943ec24"
+    },
+    {
+      "path": "packages/server/src/stdio.ts",
+      "baselineSha256": "7c723693f883975c0f55fb929e6a7c9bd3e489c3815828653e875a09c06da636",
+      "baselineBlob": "b5437d8ac4d9c6617a8a37600707f11f8fce0c12",
+      "authorOutputSha256": "ba60233a6eaba2ea9742d7e0e92ad4ee6528ce4e4252f4bb566983d2fe7ff36f",
+      "candidateSha256": "2339efa61fd55b45743c223a9726e89ab2da66e791afb36a29d488ac319c1887"
+    },
+    {
+      "path": "packages/server/src/stdioServices.ts",
+      "baselineSha256": "5f9a0370ca4ec7de70d334b54d03d98f103865f08f20aff484d03db8a6ed359f",
+      "baselineBlob": "a2f4a3421bd9e647b85dba015b9b8088abc59269",
+      "authorOutputSha256": "2b84cda94f49e554f041e3f33e26379fbf994fb851fd9168ec7efa99d999973a",
+      "candidateSha256": "3aa752394a5e1df507e4b56b349077b073f383fca6d1ac7215281c1e9550aa0c"
+    },
+    {
+      "path": "packages/server/src/entry-stdio.ts",
+      "baselineSha256": "9b04c9d3844aac11495e36e51ba4f60ba5e53e8f43098d741b5414e47096eb00",
+      "baselineBlob": "26ce8f2107a881d1d70912cb8ceb6f3def3d6ee0",
+      "authorOutputSha256": "3770147fc080662e24ae59f0b8297a48c4d62bbb8993f994a70db1e6759d6068",
+      "candidateSha256": "f146b1e31266a79cd72b0f5c8a608f14fb19d550977a1111c5a76599368ab96a"
+    },
+    {
+      "path": "packages/server/src/http.ts",
+      "baselineSha256": "50fec20271c3b50d37b53257eb5cd6448cbf5d3aea92c6a5eab302571522c283",
+      "baselineBlob": "72200265198d5d19f10368e84d4ec971abbce22a",
+      "authorOutputSha256": "44917042aa314f746e4a1583f5d0bc1fbb494a6be837e6b5d9ad17c9ed278250",
+      "candidateSha256": "3945e6e3d42e904f15792a6c240a98302c6add4b398bb84ddd3b7aad152dbdce"
+    },
+    {
+      "path": "packages/server/src/entry-http.ts",
+      "baselineSha256": "ed58c1fd3489691a4fc776979f6da4c3da35fb9fcdf889c359c92f6676b79105",
+      "baselineBlob": "16438fdc58d88426d489e11ca46a218914c4d1c7",
+      "authorOutputSha256": "60aaadc7ceef2b54a83a1894b84643f135ea6f1f26ef251336a1fd991fa42718",
+      "candidateSha256": "7e17a999f415edf3e048a5101e1d2cfa306a7ec7fca0ce5a5210585ffde9d5f0"
+    },
+    {
+      "path": "packages/server/src/hostCapability.ts",
+      "baselineSha256": "db458825e082083e615687e951e6a4652e0fbfeebd92be6c13a8cec69855b163",
+      "baselineBlob": "94904e391b43e805d818936249604df83f5e1225",
+      "authorOutputSha256": "d76c714e6e0d040ce3e905b2d5ed47df2dd6d466032ef14e4fe615c2c9d567cc",
+      "candidateSha256": "33ba59366619a8a01eb002b627af69108e04a76772372593f17e04e5524b2c20"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Copied all seven complete authored files to the owner paths; oxfmt formatting only. Compatibility clarifications were made by the fresh author before integration."
+}

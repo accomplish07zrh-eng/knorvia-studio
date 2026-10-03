@@ -1,0 +1,72 @@
+{
+  "baseHead": "6470e414fe38044fc68dd6c16be4cb6a753d3079",
+  "originBaseline": {
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+  },
+  "selected": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+      "kind": "file",
+      "sha256": "3011c792ec6d1268a8ec513dbd7c1d75cdcdadbdbd98f849ccc01ddb0cbd4419",
+      "normalizedSha256": "3011c792ec6d1268a8ec513dbd7c1d75cdcdadbdbd98f849ccc01ddb0cbd4419",
+      "encoding": "utf8-lf",
+      "bytes": 15306,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+        "blob": "76c23a30b8f08ad06223d45ec85b2926c03c9a53",
+        "normalizedSha256": "842be95410b29c6e912369cfd24e70419b08229499d746512c152105ba302ba5",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+      "kind": "file",
+      "sha256": "970a3f3babfe50a10a91c3be5f28ab309da4e877b566eaa040604c4f4c49b460",
+      "normalizedSha256": "970a3f3babfe50a10a91c3be5f28ab309da4e877b566eaa040604c4f4c49b460",
+      "encoding": "utf8-lf",
+      "bytes": 12864,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+        "blob": "6339e64b0a2091fcb5dc3e32ff793e5e877fde55",
+        "normalizedSha256": "42ef9c3bf3a6077edce94db69e02d576015fa4510a9741ecffdd0f8d87c38adb",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts",
+      "kind": "file",
+      "sha256": "a098f9001c5577c9db478123543aab0aa463aee447bc0d22b1a7bbe760e2543a",
+      "normalizedSha256": "a098f9001c5577c9db478123543aab0aa463aee447bc0d22b1a7bbe760e2543a",
+      "encoding": "utf8-lf",
+      "bytes": 42518,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts",
+        "blob": "45bac6f350385ed77195d8ff535a10547f08a12c",
+        "normalizedSha256": "6563f341df5aba7036f301f6acb4baf547077ad3e1b7b9c0c67345920cfd8bb8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  ],
+  "allocation": "Parent confirmed all three paths and no unpublished other-lane ownership; source record pending verification.",
+  "receiptSearch": "Paths/hash/symbol search in docs/specs/licensing: inventory/migration/hash retention only; no accepted technical receipt; PR8-12 file lists have no browserView paths.",
+  "sourceObjectLimit": "git ls-tree pinned upstream commit failed128: fatal: not a tree object. No upstream access retry or private403 alternate route."
+}

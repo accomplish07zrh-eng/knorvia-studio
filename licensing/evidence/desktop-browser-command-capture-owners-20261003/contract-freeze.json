@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/common-contract.md",
+      "sha256": "398e5a1d26e274ed52c9c0d84ab68e10354587232d5c254f2fa7e2d1b09f3ebc"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/command-owner-contract.md",
+      "sha256": "e7cdf8d3de0933cbfb2cf9bec0e350cfda8a7fb21b294f95fb5fa9675433ef92"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/capture-owner-contract.md",
+      "sha256": "92688f850fe3a3044c78abe55ab45b16c2bd2b1da2ac0fadbd10a037d508e9f3"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/ports/interaction.d.ts",
+      "sha256": "d44cb15157303969431ca48d4d292637d4c1c90a90de32ed6c1bbc0ea0c719f8"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/ports/page.d.ts",
+      "sha256": "f881139ccbe7bd1e3d3b2c393e56254aa119bca0cd0b96770fe6ee580e9fdfa4"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/ports/playwright.d.ts",
+      "sha256": "0dfe86dce09012512eb6c8d33abdb1f679e83035631e8f94aad303df7b8b56d9"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/ports/shared.d.ts",
+      "sha256": "ed778b0aec80cff4b01c202e348d36bb05abb68ee3bedd54572629798c26d103"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/ports/state.d.ts",
+      "sha256": "dabe90725fa0d761ceea768c9e1f6a596af7594285ba19f0e656a191f0caa421"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/ports/view.d.ts",
+      "sha256": "8f9ed7597cee726425d5d5533f274e5c7026a3402af2b685b640263ab9e53a58"
+    },
+    {
+      "path": "specs/knorvia-desktop-browser-command-capture-owners-20261003.md",
+      "sha256": "8e642f4f939f5cad7d1e4fce1414862e169d100c1eefcab6cd8d31eca9e43244"
+    }
+  ],
+  "curatorSourceExposed": true,
+  "forkTurns": "none",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "FastVerified": false,
+  "portsAreSyntheticTypeBoundaryNotActualProductSemanticClosure": true
+}

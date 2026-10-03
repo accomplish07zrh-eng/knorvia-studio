@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+    "--baseline"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+      "sha256": "b508dbfc2112861ee3823b137e812bfc5c63a46ca8a75553d07280db37e1d209"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": true,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"electron\": \"electron\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"syntaxFiles\": [\n    \"/tmp/knorvia-recording-presentation-baseline/video.ts\",\n    \"/tmp/knorvia-recording-presentation-baseline/webm.ts\",\n    \"/tmp/knorvia-recording-presentation-baseline/bootstrap.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotActivityController.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

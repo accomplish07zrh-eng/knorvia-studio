@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "log",
+    "--format=%H %s",
+    "--",
+    "packages/desktop/src/host/studioScheduleOutcome.ts"
+  ],
+  "stdout": "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI\n6e86738bbb43c3df206fc25080214bca77cd6b81 feat(studio): schedule saved workflows through Automations\n",
+  "stderr": "",
+  "exitCode": 0
+}

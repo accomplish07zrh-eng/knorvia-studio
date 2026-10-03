@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/media-owner-compatibility/owners.test.mjs",
+    "--baseline",
+    "--only=PDF temporal"
+  ],
+  "stdout": "✔ PDF temporal options preserve signal replacement across availability and temp admission (13.938002ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 17.507165\n",
+  "stderr": "",
+  "exitCode": 0
+}

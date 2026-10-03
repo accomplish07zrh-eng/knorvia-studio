@@ -1,0 +1,173 @@
+{
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "apps/cli/package.json",
+      "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/package.json",
+      "sha256": "4503a9c39646b5dd9a7db7ed7758e647f01d629d45d2840244bc7099822842b8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/package.json",
+      "sha256": "78bb72724f1d9de95bf6ddd48deac7fd3514967a16fef12ca7117a2d78f2061f"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/package.json",
+      "sha256": "6d4e1a8f575b1560759be458e91f69403b293b3dd5bfa610fc4ec9edd56e894f"
+    },
+    {
+      "path": "apps/cli/packages/browser-use-plugin/package.json",
+      "sha256": "bf6c3e0458209355aa3800297752e34eed045e942eb03d6e29b68fbb2d1a22ab"
+    },
+    {
+      "path": "apps/cli/packages/cli/package.json",
+      "sha256": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6"
+    },
+    {
+      "path": "apps/cli/packages/contracts/package.json",
+      "sha256": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6"
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+    },
+    {
+      "path": "apps/cli/packages/cua-plugin/package.json",
+      "sha256": "b77584f7f813db4db8d0e5ced5fb63dcb41ff430dac86d4c6e9f2e7e32670d2a"
+    },
+    {
+      "path": "apps/cli/packages/debug/package.json",
+      "sha256": "3b5b96be74cb6c7b7ee1cf1755eca81d5a11f047678b858a7c747549f1053fe6"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow-runtime/package.json",
+      "sha256": "af2852f725f7b2071409b036338471017850d150c3da20ebbe268c3dce133e6a"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/package.json",
+      "sha256": "1e7fd9a0c5c6bf5d7e355dae6120a65d962886cee529cce889c93688862aff88"
+    },
+    {
+      "path": "apps/cli/packages/i18n/package.json",
+      "sha256": "c3f2d695910bc61a5e3118cad905dd698965d78e7862bb913843bc9d7dcae544"
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/package.json",
+      "sha256": "a0badbddd5e47a78c7c495c1be63272589ae7b7238a051742d82cacbd22c136a"
+    },
+    {
+      "path": "apps/cli/packages/shared-types/package.json",
+      "sha256": "83400d8619bec20ae00604446c4711e7e594157423bf564da95044d2c2444f2f"
+    },
+    {
+      "path": "apps/cli/packages/swift-bridge/package.json",
+      "sha256": "1fbbd04b512e20a5ce8a2d94597a7cc6089461c55bec8d0a1dbfed29d13a3f46"
+    },
+    {
+      "path": "apps/cli/packages/telemetry/package.json",
+      "sha256": "c2f9ed20ba847da30368b845bc03c7e1bd72739b68cda5488cda13b6b23f307c"
+    },
+    {
+      "path": "apps/cli/packages/tui/package.json",
+      "sha256": "21b0fad40d639049e32ef085147a9088e984685defb8103bcdd108ffddf12d33"
+    },
+    {
+      "path": "apps/cli/tools/prompt-trajectory/package.json",
+      "sha256": "b94c825a9e0206dd850ea554e5aeb9600b45e9fadb92213f1da28f3a89a26622"
+    },
+    {
+      "path": "apps/cli/tools/typescript/package.json",
+      "sha256": "f8f1bfc985c6c6aae279f1b20bc1281924ef92f216644334743a8562aed11147"
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "package.json",
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "packages/client/package.json",
+      "sha256": "7c9033202e18a27694962072497397cee2d4aaac77e12d47ed2c2456a58325b2"
+    },
+    {
+      "path": "packages/cua/package.json",
+      "sha256": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9"
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    {
+      "path": "packages/formal-proof/package.json",
+      "sha256": "00710ad9b4142467f4718f0efbb1b5b3b4be6e4c45b2a17e87023dec5a301731"
+    },
+    {
+      "path": "packages/model-option-map/package.json",
+      "sha256": "47d8876d4e60f5029002815dc43c3fcbea68f8a58d90b336e6123394b924f87a"
+    },
+    {
+      "path": "packages/provider-node/package.json",
+      "sha256": "33b60a6227b931f8cb6b85ac70a35b15743f24481c4ee381a29fcdb7b2159eab"
+    },
+    {
+      "path": "packages/provider/package.json",
+      "sha256": "37166cc52e8863ec7987bc465422201aac7fcc6b7547c61371533e02111f97e6"
+    },
+    {
+      "path": "packages/rpc/package.json",
+      "sha256": "d45f6e1cbdb8218a91f18ecf276aa0d7fa3dcc6cb5a98ac1e60438f33297c95b"
+    },
+    {
+      "path": "packages/server-cli/package.json",
+      "sha256": "725cc830cc3adf9610e3484ff91f4a25f078a15f020cee1dda1b375b3a007f5a"
+    },
+    {
+      "path": "packages/server/package.json",
+      "sha256": "e56d2f2bc155038cc5e33bc2c2481c1a10ad2d186e3046c26364785162d84a40"
+    },
+    {
+      "path": "packages/services/package.json",
+      "sha256": "377ce3f4bd08c61de4b81ea726185be37847d7a98612627bc014962dc3ba39b8"
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "sha256": "d9569afc3ec1c6d3bb58a134593d722c8aae46637175416c4cfe13947bb97d01"
+    },
+    {
+      "path": "packages/web/package.json",
+      "sha256": "5b5d4b077434d897d29484bd99bd98b8ae1b22e94e7f0934a6c938cdf59497b1"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    }
+  ],
+  "unchanged": true
+}

@@ -1,0 +1,30 @@
+# CLI custom command complete-owner candidate — PR9 batch33
+
+From8588e3734557b9357a125990e4000529f7589e66, this batch installs only apps/cli/packages/adapters/src/commands/index.ts. It owns recursive command discovery/diagnostics, metadata projection, per-instance disabled-path snapshot, first-name selection and bounded load handle cleanup. The exported class/options/factory and both methods keep their API shapes. Existing root ports, symlink handling, metadata policies, path matching and command text remain unchanged in behavior; no command content is executed.
+
+One fresh GPT-6.1 Sol/high fork-none author received the frozen body-free external behavior/public-port packet plus root/CLI AGENTS and architecture-governance instructions. The author reported one whole literal heredoc then SHA only; no candidate inspection, transformation, assembly, extraction, runtime/test/build/format/network/repository operation. Saved Fast inherited; no separate speed verification. The curator read selected predecessor plus root/skill adapter bodies during screening and the public command contract module, and wrote requirements/tests. Shared filesystem restrictions are instructional, not an OS-enforced clean room. No predecessor private helper/state/decomposition/body names went to the fresh author; private design was free.
+
+The full raw draft remains verbatim in drafts/index-initial.ts.txt; freeze/hash preceded curator inspection. It was not formatted/imported/built. Whole-draft-bindings.json binds raw archive to author freeze; final-source-bindings.json proves separately formatted whole freeze equals installed bytes. Source syntax changes, extraction/refactor or changed identifiers do not establish independent provenance. Three normalized body matches (cancellation, ENOENT predicate, factory) and289 expression matches receive zero new credit. Entire candidate accepted independence and new MIT decisions remain0 pending parent review.
+
+## Minimal verification
+
+Two unique synthetic cases pass before and after whole installation, covering priority/stable first-name selection, recursive scan-before-parse order, parser/unknown/invalid diagnostics, construction disabled snapshot, explicit empty-root admission, root-options/plugin reference propagation, public discovery override dispatch, bounded byte projection and owned handle read/close/error identity. Read rejection followed by close rejection intentionally retains existing close-error precedence. Aborted admission performs no virtual file/dispatch work.
+
+baseline-synthetic.json ran the unchanged installed predecessor before candidate installation, rather than using the available --baseline option. baseline-source-binding.json proves that tested source equals the frozen predecessor bytes. initial-candidate-synthetic.json is2/2 pass; no product correction or subsequent runtime rerun. All fs/root/path imports are virtual, fixed synthetic paths/markdown/Buffer/abort objects only. No actual command, skill, filesystem/userdata, provider/network/media/native operation. esbuild and source-work/Git tooling are ordinary scoped processes, not product execution.
+
+Scoped lint0 warnings/errors, source syntax, TypeScript AST exported/API shape, source/test/helper formatting, whole-freeze equality, architecture baseline/new0/0 and whitespace pass. AST API checks are not semantic project types, declaration emit or consumer integration. Existing unmanaged CLI boundary unchanged. Node24.19.0 differs from pinned24.14.0, contracts dist is absent; semantic project types/builds/native acceptance/full audit remain deferred. Existing root lint rules are copied with CLI ignore removed and test-only MJS line exemption equivalent to existing TS-test exemption; source max-lines stays enforced.
+
+Preparation failures are retained verbatim: initial functions.exec orchestration parse SyntaxError (no tool execution); receipt collector KeyError then schema TypeError (historical record shapes differ), corrected finite metadata collection succeeds. These are evidence-preparation failures, not passing product/runtime checks. No frozen historical test/build/failure claim was rerun or rewritten.
+
+## Precise remainder and allocation
+
+selection-and-remainder.json binds all40 screened paths/receipts and leaves39 unchanged. It records18 current-exact prior device/filesystem candidate/source bindings: device identity/process probes6 plus filesystem12. Earlier authored source exposure, initial process-probe source hashes and later repaired hashes are retained; matching candidate receipts are not acceptance. Logging5 similarly retain previous packets/sparse repair/helper receipts.
+
+The rest are config7, constrained image helpers3, thin barrels2, root-resolution helpers2 and these2 allocation questions:
+
+- apps/cli/packages/adapters/src/skills/index.ts: plugin scan trust admission, canonical disabled-path matching and invocation metadata policy embedded in the complete owner.
+- apps/cli/packages/adapters/src/skills/scan.ts: plugin directory/file/root symlink and scan-error trust boundary.
+
+Their allocation request is a conservative inference from ongoing settings/security scope exclusions, not an invented historical HOLD. No source rework was made there. Exact seven config paths, eighteen prior candidate paths and all other retained paths/hashes are in the bounded ledger; root allocation/classification should precede additional work. Root helpers and barrels are not manufactured substantial owners.
+
+final-retained-scope-bindings.json proves other242 adapter sources unchanged, including completed browser/model/media/accepted scopes, plus the root-reserved shared files and reducer HOLD. Protected bodies were not inspected/imported. Root LICENSE/global provenance/inventory/reviews/dependencies/manifests/settings/permissions/security unchanged; no cross-lane integration/main merge, force-push, real credentials/SSH/auth/production/deployment, Library403 alternate access, cancelled-upload retry or raw bundle upload. Continue existing draft PR9 only.

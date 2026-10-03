@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "--baseline",
+    "--owner=factory"
+  ],
+  "stdout": "sourceMode=frozen-baseline; selectedOwner=factory\n✔ factory: source precedence, metadata refs, hook tagging and logger order (80.202349ms)\n✔ factory: diagnostic errors stop composition and storage nullish precedence (23.547418ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 108.333426\n",
+  "stderr": "",
+  "exitCode": 0
+}

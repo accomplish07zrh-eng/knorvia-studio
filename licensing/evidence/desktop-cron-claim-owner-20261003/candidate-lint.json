@@ -1,0 +1,45 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/desktop/src/host/cronRunLifecycle.ts",
+    "packages/desktop/src/host/cronClaimOwner.test.mjs",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/record-run.mjs",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+      "sha256": "770caf6291821f0b8f46f964567d5a4c8cce306a95b30ceff013a0918318093b"
+    },
+    {
+      "path": "packages/desktop/src/host/cronClaimOwner.test.mjs",
+      "sha256": "bb10b1160757529615cfbbe09ca7387d487044f98868be24ec3fc7bd3216f9e9"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/record-run.mjs",
+      "sha256": "f7a14dc04339f31d4b3c99c117d2af467f1451f6d6dcb8b346ef5a89897d581c"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/scoped-static.mjs",
+      "sha256": "34d0f3aa5132d4917b284771c9b403b9cffbe6eb8a17c0bb078c2aa8235b1acb"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/final-bindings.mjs",
+      "sha256": "c376b87c4cd44556058263b8ddc0a28c7ec591fa54d895903e2f5914647c9a9b"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/retained-shapes.mjs",
+      "sha256": "4a87878f58a3163e4699a9755822f67c8ecbbf2c0ab65ab6cd89e55cb49cafbd"
+    }
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 19ms on 6 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "7f30b5",
+    "wall_time_seconds": 0.220739615,
+    "exit_code": 0,
+    "original_token_count": 79,
+    "output": "# Architecture context: desktop\nowner: unassigned\nmanaged: false\nrequires: none\n\n## Files\n- module.ts: missing\n\n## Direct dependency contracts\n- none discovered\n\n## Boundaries\n- Cross-module imports must use declared requirements and public entrypoints.\n- Add a contract example before exposing a new capability.\n"
+  }
+}

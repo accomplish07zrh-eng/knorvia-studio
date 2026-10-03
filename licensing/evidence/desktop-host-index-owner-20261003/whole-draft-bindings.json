@@ -1,0 +1,108 @@
+{
+  "baseline": {
+    "path": "packages/desktop/src/host/index.ts",
+    "sha256": "fef90ea4f8057372f31b6af1f5f4a24bfaabf3083d8717ad480d73b5678d4d15",
+    "bytes": 94116,
+    "gitPredecessor": "255db51ca1bdcabe3508ad2105b685daf1f1dae2"
+  },
+  "rawWholeDrafts": [
+    {
+      "raw": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-1.ts.txt",
+      "sha256": "e05a5dbaebaeecb76aa20004e993d8e4b6291d1dc375fdcdb3435144ad399555",
+      "bytes": 62801,
+      "frozenBeforeCuratorReview": true,
+      "notImportedOrBuilt": true
+    },
+    {
+      "raw": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-2.ts.txt",
+      "sha256": "554fd6fab968821edbabc127ada86c9b72a65f8030fb4f383ee81c8c10af6bf9",
+      "bytes": 62927,
+      "frozenBeforeCuratorReview": true,
+      "notImportedOrBuilt": true
+    },
+    {
+      "raw": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-3.ts.txt",
+      "sha256": "dd82b10f8b1e0584874fa0da6691df8775b10809111ac8680616a429de724517",
+      "bytes": 62969,
+      "frozenBeforeCuratorReview": true,
+      "notImportedOrBuilt": true
+    },
+    {
+      "raw": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-initial.ts.txt",
+      "sha256": "4b62d7d871906f31124376eb00b6dd5a7c80166987d2a3dbbdfb940c4ff7e63b",
+      "bytes": 66601,
+      "frozenBeforeCuratorReview": true,
+      "notImportedOrBuilt": true
+    }
+  ],
+  "selectedRaw": "drafts/index-correction-3.ts.txt",
+  "installed": {
+    "path": "packages/desktop/src/host/index.ts",
+    "sha256": "020aaef083b63631e008d0d002f692e53657a3ba6ec2d7923061177b76fdbcab",
+    "bytes": 68442
+  },
+  "formatProof": "final-frozen-format.json",
+  "packets": [
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-author-packet-v2.md",
+      "sha256": "b2817d756c644b2e7143136e5f21ba9163e2f0b71ac38ef68a5177d8af14d2c2",
+      "bytes": 58535,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-author-packet-v3-evidence.md",
+      "sha256": "3c7dc84da7bc953d95e767ab574d4120e9b440e6ae4a010e787cb50820729f2f",
+      "bytes": 59703,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-author-packet.md",
+      "sha256": "12ecaee715fa648deb0afae7f0df706cec14297adf0f6c28895a276c7ee8e1bc",
+      "bytes": 48954,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-contract-core.md",
+      "sha256": "9cee4218a588a82384a3fd51f019297b77acd5dbe5c06cadb66768e2f4fda1d9",
+      "bytes": 36423,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-correction-1-packet.md",
+      "sha256": "43248224b6458a6510fab005288a185a83bd0d97c99957c8e47a17e15a01f5ec",
+      "bytes": 67138,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-correction-2-packet.md",
+      "sha256": "bc299a62502adec3401f9dfb565be56791ce608d2294748e58fb1b609222c49c",
+      "bytes": 69225,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/index-correction-3-packet.md",
+      "sha256": "a14b4eb4176f0a67dba3f3b7d5c3e8ab4055ac5f4a741a4352303ce8598a6be8",
+      "bytes": 71049,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/public-callback-clarifications.md",
+      "sha256": "642b3c4d832ca82a2b368ac0a35b8c139683507a45ee69e714d179da89baa9da",
+      "bytes": 1167,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/public-correction-1-addendum.md",
+      "sha256": "d294bcf9cce81866c62af030bdef3c367b415ff78bd88d006f2558a895801046",
+      "bytes": 1625,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    },
+    {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/public-port-addendum.md",
+      "sha256": "2f9ed04e9997d143d1e90c0e546382c82803eefa550f39fcce68c21b1172673f",
+      "bytes": 9580,
+      "bodyFreePublicFactsOrRetainedStaticCatalog": true
+    }
+  ],
+  "acceptedCredit": 0
+}

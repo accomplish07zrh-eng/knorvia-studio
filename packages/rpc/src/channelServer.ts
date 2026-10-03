@@ -1,32 +1,32 @@
-import { VSBuffer } from "./buffer.js";
-import { type IDisposable, CancellationTokenSource, toDisposable } from "./foundation.js";
+import type { VSBuffer } from "./buffer.js";
+import { CancellationTokenSource, toDisposable, type IDisposable } from "./foundation.js";
 import { BufferReader, BufferWriter, deserialize, serialize } from "./serialization.js";
 import type { IMessagePassingProtocol } from "./protocol.js";
 import {
+  RequestType,
+  ResponseType,
   type IChannelServer,
   type IRawResponse,
   type IServerChannel,
-  RequestType,
-  ResponseType,
 } from "./channels.shared.js";
 
 export class ChannelServer<TContext = string> implements IChannelServer<TContext>, IDisposable {
-  private channels = new Map<string, IServerChannel<TContext>>();
-  private activeRequests = new Map<number, IDisposable>();
-  private pendingRequests = new Map<
+  private readonly channels = new Map<string, IServerChannel<TContext>>();
+  private readonly activeRequests = new Map<number, IDisposable>();
+  private readonly pendingRequests = new Map<
     string,
-    { request: any; timer: ReturnType<typeof setTimeout> }[]
+    Array<{ request: any; timer: ReturnType<typeof setTimeout> }>
   >();
   private protocolListener: IDisposable | null;
 
   constructor(
-    private protocol: IMessagePassingProtocol,
-    private ctx: TContext,
-    private timeoutDelay = 1000,
-    private deferInit = false,
+    private readonly protocol: IMessagePassingProtocol,
+    private readonly ctx: TContext,
+    private readonly timeoutDelay = 1000,
+    deferInit = false,
   ) {
-    this.protocolListener = this.protocol.onMessage((msg) => this.onRawMessage(msg));
-    if (!this.deferInit) {
+    this.protocolListener = protocol.onMessage((message) => this.onRawMessage(message));
+    if (!deferInit) {
       this.sendResponse({ type: ResponseType.Initialize });
     }
   }
@@ -35,22 +35,22 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
     this.sendResponse({ type: ResponseType.Initialize });
   }
 
-  registerChannel(channelName: string, channel: IServerChannel<TContext>): void {
-    this.channels.set(channelName, channel);
-    setTimeout(() => this.flushPendingRequests(channelName), 0);
+  registerChannel(name: string, channel: IServerChannel<TContext>): void {
+    this.channels.set(name, channel);
+    setTimeout(() => this.flushPendingRequests(name), 0);
   }
 
   private sendResponse(response: IRawResponse): void {
     switch (response.type) {
       case ResponseType.Initialize:
         this.send([response.type]);
-        return;
+        break;
       case ResponseType.PromiseSuccess:
       case ResponseType.PromiseError:
-      case ResponseType.EventFire:
       case ResponseType.PromiseErrorObj:
+      case ResponseType.EventFire:
         this.send([response.type, response.id], response.data);
-        return;
+        break;
     }
   }
 
@@ -61,7 +61,7 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
     try {
       this.protocol.send(writer.buffer);
     } catch {
-      /* noop */
+      // Transport send failures are intentionally ignored.
     }
   }
 
@@ -69,71 +69,57 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
     const reader = new BufferReader(message);
     const header = deserialize(reader);
     const body = deserialize(reader);
-    const type = header[0] as RequestType;
-
-    switch (type) {
+    switch (header[0]) {
       case RequestType.Promise:
         this.onPromise({
-          type,
+          type: header[0],
           id: header[1],
           channelName: header[2],
           name: header[3],
           arg: body,
         });
-        return;
+        break;
       case RequestType.EventListen:
         this.onEventListen({
-          type,
+          type: header[0],
           id: header[1],
           channelName: header[2],
           name: header[3],
           arg: body,
         });
-        return;
+        break;
       case RequestType.PromiseCancel:
       case RequestType.EventDispose:
         this.disposeActiveRequest(header[1]);
-        return;
+        break;
     }
   }
 
-  private onPromise(request: {
-    type: RequestType.Promise;
-    id: number;
-    channelName: string;
-    name: string;
-    arg: any;
-  }): void {
+  private onPromise(request: any): void {
     const channel = this.channels.get(request.channelName);
     if (!channel) {
       this.collectPendingRequest(request);
       return;
     }
 
-    const cts = new CancellationTokenSource();
+    const cancellation = new CancellationTokenSource();
     let promise: Promise<any>;
-
     try {
-      promise = channel.call(this.ctx, request.name, request.arg, cts.token);
+      promise = channel.call(this.ctx, request.name, request.arg, cancellation.token);
     } catch (error) {
       promise = Promise.reject(error);
     }
 
-    const disposable = toDisposable(() => cts.cancel());
+    const disposable = toDisposable(() => cancellation.cancel());
     this.activeRequests.set(request.id, disposable);
-
     promise
       .then(
         (data) => {
-          this.sendResponse({
-            id: request.id,
-            data,
-            type: ResponseType.PromiseSuccess,
-          });
+          this.sendResponse({ type: ResponseType.PromiseSuccess, id: request.id, data });
         },
         (error) => {
           if (error instanceof Error) {
-            const rpcErrorPayload: {
+            const data: {
               message: string;
               name: string;
               stack: string[] | undefined;
@@ -151,8 +137,7 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
               name: error.name,
               stack: error.stack ? error.stack.split("\n") : undefined,
             };
-            const errorRecord = error as Error & Record<string, unknown>;
-            const passthroughKeys = [
+            const metadataKeys = [
               "code",
               "kind",
               "status",
@@ -163,25 +148,17 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
               "taskId",
               "traceId",
             ] as const;
-            for (const key of passthroughKeys) {
-              const value = errorRecord[key];
+            const extendedError = error as Error & Record<string, unknown>;
+            for (const key of metadataKeys) {
+              const value = extendedError[key];
               if (value !== undefined) {
-                rpcErrorPayload[key] = value;
+                data[key] = value;
               }
             }
-            this.sendResponse({
-              id: request.id,
-              data: rpcErrorPayload,
-              type: ResponseType.PromiseError,
-            });
+            this.sendResponse({ type: ResponseType.PromiseError, id: request.id, data });
             return;
           }
-
-          this.sendResponse({
-            id: request.id,
-            data: error,
-            type: ResponseType.PromiseErrorObj,
-          });
+          this.sendResponse({ type: ResponseType.PromiseErrorObj, id: request.id, data: error });
         },
       )
       .finally(() => {
@@ -190,13 +167,7 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
       });
   }
 
-  private onEventListen(request: {
-    type: RequestType.EventListen;
-    id: number;
-    channelName: string;
-    name: string;
-    arg: any;
-  }): void {
+  private onEventListen(request: any): void {
     const channel = this.channels.get(request.channelName);
     if (!channel) {
       this.collectPendingRequest(request);
@@ -208,11 +179,7 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
       request.name,
       request.arg,
     )((data) => {
-      this.sendResponse({
-        id: request.id,
-        data,
-        type: ResponseType.EventFire,
-      });
+      this.sendResponse({ type: ResponseType.EventFire, id: request.id, data });
     });
     this.activeRequests.set(request.id, disposable);
   }
@@ -227,38 +194,34 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
   }
 
   private collectPendingRequest(request: any): void {
-    const pendingRequests = this.pendingRequests.get(request.channelName) ?? [];
-    if (pendingRequests.length === 0) {
-      this.pendingRequests.set(request.channelName, pendingRequests);
+    const pending = this.pendingRequests.get(request.channelName) ?? [];
+    if (pending.length === 0) {
+      this.pendingRequests.set(request.channelName, pending);
     }
-
     const timer = setTimeout(() => {
       console.error(`Unknown channel: ${request.channelName}`);
       if (request.type !== RequestType.Promise) {
         return;
       }
-
       this.sendResponse({
+        type: ResponseType.PromiseError,
         id: request.id,
         data: {
           name: "Unknown channel",
           message: `Channel name '${request.channelName}' timed out after ${this.timeoutDelay}ms`,
           stack: undefined,
         },
-        type: ResponseType.PromiseError,
       });
     }, this.timeoutDelay);
-
-    pendingRequests.push({ request, timer });
+    pending.push({ request, timer });
   }
 
-  private flushPendingRequests(channelName: string): void {
-    const requests = this.pendingRequests.get(channelName);
-    if (!requests) {
+  private flushPendingRequests(name: string): void {
+    const pending = this.pendingRequests.get(name);
+    if (!pending) {
       return;
     }
-
-    for (const { request, timer } of requests) {
+    for (const { request, timer } of pending) {
       clearTimeout(timer);
       switch (request.type) {
         case RequestType.Promise:
@@ -269,7 +232,7 @@ export class ChannelServer<TContext = string> implements IChannelServer<TContext
           break;
       }
     }
-    this.pendingRequests.delete(channelName);
+    this.pendingRequests.delete(name);
   }
 
   dispose(): void {

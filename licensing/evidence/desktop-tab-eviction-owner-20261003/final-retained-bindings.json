@@ -1,0 +1,26 @@
+{
+  "baseHead": "b6f2526ebac93c7df8284008791b214574733215",
+  "selected": [
+    {
+      "owner": "residency",
+      "selectedVersion": "initial",
+      "rawSha256": "abe124a7d14cfaa2cd2a187ba8e388b2283268a30db58db0d7ae94f75397763a",
+      "installedSha256": "b5e0bab2418a2fcab8406d675b4e401a4db06ec2186b0a1ff604c3fa931a423d",
+      "installedBytes": 2260,
+      "installedLines": 90,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    }
+  ],
+  "rawVersionsVerified": 1,
+  "unchangedRetainedPaths": 4729,
+  "retentionCountsAreNotCompletionCounts": true,
+  "authorInputFreezeVerified": true,
+  "publicApiMatches": true,
+  "productionScopeExactlyOneOwner": true,
+  "minimalSyntheticGroupsRun": 1,
+  "ordinaryAggregateTestsRun": false,
+  "nativeRuntimePassed": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITClaim": false
+}

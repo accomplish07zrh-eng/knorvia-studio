@@ -1,0 +1,19 @@
+# CLI browser executable, action and snapshot owner candidates
+
+Continue original branch recovery/server-lifecycle-20261002 and draft PR9 from 3df52de3e9441894a875963d63b480ede6156c15. Of the prior46 unresolved adapters, select only browser/executable.ts, browser/playwright-command.ts and browser/snapshot.ts, current hashes unchanged and no accepted receipts. Exclude completed browser runtime/session/page owners, all accepted/model files, other-lane scopes and existing holds. Leave43 unresolved for separate receipt/owner screening; no repeat/cosmetic authoring.
+
+Executable owner preserves explicit-path validation, candidate/platform/env precedence, permission probes and lazy pinned runtime loading. Action owner preserves locator/public CDP evaluation behavior, exact timeouts/modifiers/argument bytes, screenshot marker ownership/cleanup and error identity. Snapshot owner preserves serialized DOM extraction, output order/text/selector/geometry contracts, page-local handle ownership, replacement/disposal ordering and connected-ref resolution. Each remains a single owner behind existing public exports; no parallel cache or policy path.
+
+```text
+resolution → explicit admission → pinned/OS candidates → virtual filesystem probes
+Playwright action → locator/page/CDP ports → exact result/error → owned marker cleanup
+snapshot → closure-free page collection → snapshot/element handles → replace page-local refs
+new refs → dispose previous refs → dispose evaluation handles → return snapshot
+resolve ref → connected check → scroll → bounding box center
+```
+
+Three fresh Sol/high fork-none authors receive body-free external behavior/public-port contracts. No predecessor private helper names/state layouts/decomposition/bodies are supplied; authors choose implementation, including private collection representation. Freeze/hash whole drafts/corrections before source-exposed inspection; install whole with formatting only, prove independently formatted freeze equality. Retained protocol literals stay explicit; normalized identical expressions/bodies have zero new independence credit. No novelty requirement, independent provenance/MIT acceptance or OS-enforced clean-room claim.
+
+Before installation, minimum synthetic checks cover explicit executable authority/selection/lazy import, CDP argument/error/detach and unavailable action boundaries, screenshot cleanup and page-local snapshot ownership/replacement/disposal/DOM data. All filesystem/env/native imports/page/DOM/browser/CDP ports virtual and synthetic only. No real browser/provider/network/userdata, production/auth/SSH/deployment, permission policy change, Library alternate access or cancelled-upload retry. Scoped syntax/AST API/dispatch/lint/format/architecture/whitespace only; full suites/semantic project types/builds/native and cross-lane/main integration deferred. Preserve exact failures and rerun only materially affected cases.
+
+Verification outcome: baseline executable/action cases passed; initial snapshot fixture had a VM-prototype comparison error, preserved and corrected only in that comparator (affected baseline1/1 passes). Initial drafts2/3 pass; screenshot append fails. Added snapshot id-property/disposal-fanout regressions baseline2/2 pass, initialdraft0/2. Whole corrections yield action1/1 and snapshot3/3 passing; executable already-passed runtime case is not rerun for type binding/equivalent coercion correction. Corrected public imported-symbol/API AST shapes, scoped lint/syntax/dispatch/format/frozen binding/architecture/whitespace pass. Five scoped cases pass across affected-only runs, not a full suite/native validation. Six whole initial/corrected raw drafts remain under scoped evidence/drafts as review-only text, bound to author hashes. All three candidates have zero accepted independence/MIT credit pending parent classification. Remaining43 unresolved; other240 adapters/holds/completed scopes unchanged.

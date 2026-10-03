@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-shared-presentation-control-api-shape.mjs"
+  ],
+  "stdout": "assistant-presentation.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nbackground-task-controls.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nmemoryDiagnostics.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nprotocol-v4/sessions-index-workflow-activity.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\ntool-projection-memory.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n",
+  "stderr": "",
+  "exitCode": 0
+}

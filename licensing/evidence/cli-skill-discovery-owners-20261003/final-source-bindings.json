@@ -1,0 +1,24 @@
+[
+  {
+    "owner": "index",
+    "installedPath": "apps/cli/packages/adapters/src/skills/index.ts",
+    "installedSha256": "87f9943a34ef63171c05c59c0d3dacb546064be67dfe99f4680105929d435446",
+    "formattedFreezeSha256": "87f9943a34ef63171c05c59c0d3dacb546064be67dfe99f4680105929d435446",
+    "frozenBaselineSha256": "a106e04cc9e2e1e03df7fee020b89548869a08a5da5438d913cb8bba5a24d814",
+    "rawArtifact": "licensing/evidence/cli-skill-discovery-owners-20261003/drafts/index-correction-1.ts.txt",
+    "rawSha256": "e4c9cebadac6b97abb96949345ca3c935df2d248f6aa562b738741007c7af6bd",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "48895b36b5346f1321990954278e2b6c0defbc07"
+  },
+  {
+    "owner": "scan",
+    "installedPath": "apps/cli/packages/adapters/src/skills/scan.ts",
+    "installedSha256": "b2b6c65cb15cbf4ee6f4baf11b857da01f112ca255ff1d12c30da2f62413b0c5",
+    "formattedFreezeSha256": "b2b6c65cb15cbf4ee6f4baf11b857da01f112ca255ff1d12c30da2f62413b0c5",
+    "frozenBaselineSha256": "bebb3cec8db0674a2cc807260bd4f7a4ebfe4cfda1e772bddbf0f26058cdcc4c",
+    "rawArtifact": "licensing/evidence/cli-skill-discovery-owners-20261003/drafts/scan-initial.ts.txt",
+    "rawSha256": "f26c7987370d97a388fe5d5d091dadd2ecc9bd2482fe47c8d6a22954a70401d9",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "48895b36b5346f1321990954278e2b6c0defbc07"
+  }
+]

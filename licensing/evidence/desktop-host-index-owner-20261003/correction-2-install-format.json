@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/host/index.ts"
+  ],
+  "stdout": "Finished in 21ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,13 @@
+{
+  "initialFrozenSha256": "0ebb0a2d6638e7a6ae86a4bf82a0a4991908679c5f0959904c9d21ddf8595825",
+  "correctedFrozenSha256": "ec9497e74d6b507532ce887f410418bfa08a79f1d6bf2509bf9612924390c891",
+  "frozenBeforeOpening": true,
+  "cause": "Curator body-free packet omitted default clock/final-hash ordering; test proves actual candidate regression.",
+  "clarification": "Evaluate discoveredAt = input.discoveredAt ?? new Date().toISOString() after entries/sourceFiles prepared but before final bundle hash; empty supplied timestamp remains accepted, empty bundle returns before clock/hash. Digest payload still excludes discoveredAt. No source/test/output/config reads.",
+  "authorCommands": [
+    "cat > /tmp/knorvia-shared-digest-config-authored/workspace-hook-digest.ts with whole literal heredoc",
+    "sha256sum /tmp/knorvia-shared-digest-config-authored/workspace-hook-digest.ts"
+  ],
+  "reviewedDelta": "Only introduced local discoveredAt before bundleDigest and returned that binding. No curator runtime change.",
+  "runtimeRecheck": "corrected-digest-safety.json: only digest case 1/1, unchanged other four not rerun"
+}

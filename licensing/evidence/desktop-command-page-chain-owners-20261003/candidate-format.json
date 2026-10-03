@@ -1,0 +1,86 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/main/browserView/browserCommandState.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+    "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+    "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+    "packages/desktop/src/main/browserView/commandChainOwnerTestPorts.mjs",
+    "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+    "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+    "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/embedded-shapes.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/README.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+      "sha256": "631a24e3c605a9bf1008bf78174d42713e0a2e0e523b27497336771de246e2eb"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+      "sha256": "b403405e26744ba44f01bc97ca847f878837eab309fa6a34a4a08a94f65199bf"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+      "sha256": "93adde82eb002473b1afd2d53dac591dfe978873d456acc45b27fadc2c05ea17"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+      "sha256": "090b3dc9283e91e0518531cd30a823059f470eb0865a69e13e93404fb9b12a07"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandChainOwnerTestPorts.mjs",
+      "sha256": "87d53b04e0a39866a83ee15a8db4fe671616a410cbad4e3cb00954f03799e78f"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+      "sha256": "649748e8adeffbeb959b73192e9805b5d315fe2076cccc4fef9e9ee77f70523b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+      "sha256": "81db26cecc0f727736f590875628fe4c89b8913a404422aee9c77d17c49f740c"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+      "sha256": "5ef9f43a72955997d90f8ff6cb322132e9d78ef515c77421ab8b90c71b51f70c"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/record-run.mjs",
+      "sha256": "f5320fc40ec3c29d1fe2ccd0668a95b20431a2bd7fa859a570b1110b6e94f58b"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+      "sha256": "da55688b17cd245d9c61ddb07978199b9084b8bea500f754e25806c02df2be0e"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs",
+      "sha256": "6176bf4bb41e551f6d3e8fc7e6163e2bde002805089945f09a364357ef3fb783"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs",
+      "sha256": "130b6bf66194d33847d46aa5425ba72e6228b38c9a0c7c330c74502e60615826"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/embedded-shapes.mjs",
+      "sha256": "e773987ddc9519f18c31a5bf33b6774275a409a4b2bdfbe5b6c5d698407cc46f"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/README.md",
+      "sha256": "9c27d6fa7896ec031f656da6f65a225a478c356b2c81e64186c6dd1485a0b2c7"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nlicensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs (0ms)\n\nFormat issues found in above 1 files. Run without `--check` to fix.\nFinished in 111ms on 14 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

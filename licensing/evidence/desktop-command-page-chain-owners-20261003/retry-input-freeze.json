@@ -1,0 +1,18 @@
+{
+  "owner": "retry",
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/common-contract.md",
+      "sha256": "f56b5cf9fa04cd7a9989740b6bd84cdcad4cfa461e18f74d4dbee7610fbb1e57"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/retry-owner-contract.md",
+      "sha256": "2648d9ab812c3b8295760e398c11a0d74a30a174cecba652684ed4a940a42443"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/ports/retry.d.ts",
+      "sha256": "18d6154ff93aad0222f19d43f90588ba25410a98c52970ee5cd2b21536e5422b"
+    }
+  ],
+  "beforeAuthoring": true
+}

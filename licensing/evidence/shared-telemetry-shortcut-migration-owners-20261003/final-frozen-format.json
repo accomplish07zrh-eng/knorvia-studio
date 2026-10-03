@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/formatted-telemetry.ts",
+    "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/formatted-processResourceTelemetry.ts",
+    "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/formatted-remoteUsageTelemetry.ts",
+    "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/formatted-shortcutCommands.ts",
+    "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/formatted-node_subagentMarkdownMigration.ts"
+  ],
+  "stdout": "Finished in 20ms on 5 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

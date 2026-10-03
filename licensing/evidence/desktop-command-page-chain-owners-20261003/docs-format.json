@@ -1,0 +1,21 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/README.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/README.md",
+      "sha256": "b1ce88f70f8627ff3e4a2cf84440948f9f741bc264780f2846eae64cc6cfdf6b"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 103ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

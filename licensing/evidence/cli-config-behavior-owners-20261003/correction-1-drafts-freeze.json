@@ -1,0 +1,14 @@
+[
+  {
+    "owner": "merger",
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-correction-1.ts.txt",
+    "sha256": "d2fd6ecd6c1262051516695a4d5c9553c386a8b9f5480db27fd6c962c59d25e2",
+    "bytes": 4103
+  },
+  {
+    "owner": "factory",
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-correction-1.ts.txt",
+    "sha256": "5dcda76f2a60593cd7969d2d1fa8c3ae037b28a88688ce9170725584e617dca9",
+    "bytes": 13376
+  }
+]

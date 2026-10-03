@@ -1,0 +1,81 @@
+[
+  {
+    "agent": "/root/browser_runtime_author",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "forkTurns": "none",
+    "initialSha256": "b3e569525630474bae7b6ee2c57f9ae905fd458539f93858a775b71c5cb67c20",
+    "correction1Sha256": "18e084ec5dc76f1ddb83e8b7ece1910333aeb28db12172b87cb00e9fcc1495c0",
+    "initialReads": [
+      "index-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "correction1Reads": [
+      "index-correction-1-packet.md"
+    ],
+    "reportedWriteMethod": "one whole literal heredoc then SHA only",
+    "reportedExcludedActions": [
+      "output/source/test/dependency/history/config/env/other-author reads",
+      "runtime/native/network probes",
+      "repository writes",
+      "tests/builds/formatters"
+    ],
+    "accessEvidenceLimit": "Author-reported conversation/tool access, shared filesystem accessible; no OS-enforced clean room; curator source-exposed.",
+    "correction2Sha256": "b5447e038cf6968e71a59c1866e5d85b6b253c67f3f0f15545fab266077a94a2",
+    "correction2Reads": [
+      "index-correction-2-packet.md"
+    ]
+  },
+  {
+    "agent": "/root/browser_tab_author",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "forkTurns": "none",
+    "initialSha256": "7f04921ddc8e609c24746d3945de2853d961ab057fbfd147572b912037c93888",
+    "correction1Sha256": "b657986aa53c34e98c772ca9d99d1b65eddde8af53228ea421e2dcb091b4a730",
+    "initialReads": [
+      "session-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "correction1Reads": [
+      "session-correction-1-packet.md"
+    ],
+    "reportedWriteMethod": "one whole literal heredoc then SHA only",
+    "reportedExcludedActions": [
+      "output/source/test/dependency/history/config/env/other-author reads",
+      "runtime/native/network probes",
+      "repository writes",
+      "tests/builds/formatters"
+    ],
+    "accessEvidenceLimit": "Author-reported conversation/tool access, shared filesystem accessible; no OS-enforced clean room; curator source-exposed."
+  },
+  {
+    "agent": "/root/browser_page_author",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "forkTurns": "none",
+    "initialSha256": "0f2bbf7806220a52f8b65ef4d2cee0a96eee3700a3014b81fa7bc7500ac49d87",
+    "correction1Sha256": "16d48cca6a17edc4c29ff3c358054d6d1290403262de21ddad2a63c834fa06df",
+    "initialReads": [
+      "page-command-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "correction1Reads": [
+      "page-command-correction-1-packet.md"
+    ],
+    "reportedWriteMethod": "one whole literal heredoc then SHA only",
+    "reportedExcludedActions": [
+      "output/source/test/dependency/history/config/env/other-author reads",
+      "runtime/native/network probes",
+      "repository writes",
+      "tests/builds/formatters"
+    ],
+    "accessEvidenceLimit": "Author-reported conversation/tool access, shared filesystem accessible; no OS-enforced clean room; curator source-exposed."
+  }
+]

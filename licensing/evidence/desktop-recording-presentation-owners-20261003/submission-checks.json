@@ -1,0 +1,21 @@
+{
+  "checks": {
+    "final-fake-split": 0,
+    "final-static": 0,
+    "final-lint-split": 0,
+    "final-architecture": 0,
+    "final-format": 0,
+    "final-bindings": 0
+  },
+  "validationSnapshotsVerified": true,
+  "frozenFailures": [
+    "baseline-static TS1470",
+    "baseline-fake alias fixture assumption",
+    "initial-fake stale output directory",
+    "correction2-webm-live-message callback mutation",
+    "final-lint unsplit test max-lines"
+  ],
+  "production_source_no_semantic_edits": true,
+  "real_runtime_or_full_build_passed": false,
+  "MIT_claim": false
+}

@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern=locator: iframe fill",
+    "packages/desktop/src/main/browserView/playwrightOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-playwright-initial"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+      "sha256": "a3a82ef0087091feb55182c852f0ef5956527632b21733446dd2294a438e0008"
+    }
+  ],
+  "stdout": "✖ locator: iframe fill token/paste and press authority precede trusted dispatch (144.330658ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 380.469078\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/playwrightOwners.test.mjs:153:1\n✖ locator: iframe fill token/paste and press authority precede trusted dispatch (144.330658ms)\n  AssertionError [ERR_ASSERTION]: Missing expected rejection.\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/playwrightOwners.test.mjs:175:3)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    operator: 'rejects',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

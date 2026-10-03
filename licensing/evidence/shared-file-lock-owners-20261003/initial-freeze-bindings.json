@@ -1,0 +1,14 @@
+[
+  {
+    "path": "packages/shared/src/node/atomicFileLock.ts",
+    "authorOutput": "/tmp/knorvia-lock-atomicFileLock-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-file-lock-freezes/initial-atomicFileLock.ts",
+    "sha256": "6a7b1d3d14bbc0a62f98612570ee440bca9cde907237f54259bd7e9fc23f53f4"
+  },
+  {
+    "path": "packages/shared/src/node/privateFilePersistence.ts",
+    "authorOutput": "/tmp/knorvia-lock-privateFilePersistence-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-file-lock-freezes/initial-privateFilePersistence.ts",
+    "sha256": "b645eea9dd293a66ad4f72ee47564e00a8989764cc26dcf1428145372e8bdcdc"
+  }
+]

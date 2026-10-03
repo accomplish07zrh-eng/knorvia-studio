@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "--baseline",
+    "--case=reply observation"
+  ],
+  "stdout": "sourceMode=frozen-baseline; owner=all\n✔ dialog: reply observation fallback and frame-load raw error boundary (58.258813ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 62.418735\n",
+  "stderr": "",
+  "exitCode": 0
+}

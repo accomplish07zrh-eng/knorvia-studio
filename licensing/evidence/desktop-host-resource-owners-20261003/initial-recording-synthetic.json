@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "--owner=recording"
+  ],
+  "stdout": "✔ recording: local staging order, live artifact and original failure identity (63.977803ms)\n✔ recording: remote upload authority, bounded paths and live result identity (9.966573ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 80.466375\n",
+  "stderr": "",
+  "exitCode": 0
+}

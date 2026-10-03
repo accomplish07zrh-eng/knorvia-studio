@@ -1,0 +1,13 @@
+const fs=require('fs'),ts=require('/workspace/knorvia-studio/node_modules/typescript');
+const printer=ts.createPrinter({removeComments:true});
+for(const name of ['browserControlMainBridge','remotePromptAttachments','remoteWorkspaceServiceCollection']){
+ const sf=ts.createSourceFile(name,fs.readFileSync('/tmp/knorvia-host-baseline/'+name+'.ts','utf8'),ts.ScriptTarget.Latest,true);
+ const pieces=[];
+ for(const node of sf.statements){
+  let n=node;
+  if(ts.isFunctionDeclaration(n)&&n.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword))n=ts.factory.updateFunctionDeclaration(n,n.modifiers,n.asteriskToken,n.name,n.typeParameters,n.parameters,n.type,undefined);
+  else if(!ts.isImportDeclaration(n)&&!(ts.isInterfaceDeclaration(n)&&n.name.text!=='PendingEntry'))continue;
+  pieces.push(printer.printNode(ts.EmitHint.Unspecified,n,sf));
+ }
+ fs.writeFileSync('/tmp/knorvia-host-baseline/'+name+'-public.txt',pieces.join('\n\n')+'\n',{flag:'wx'});
+}

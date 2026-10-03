@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/workspace-hook-digest.ts"
+  ],
+  "stdout": "packages/shared/src/workspace-hook-digest.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

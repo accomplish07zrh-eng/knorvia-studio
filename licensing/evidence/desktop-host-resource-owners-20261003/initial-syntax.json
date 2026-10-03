@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/host-resource-syntax.cjs"
+  ],
+  "stdout": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts: scoped syntax/transpile pass; no semantic/native acceptance\npackages/desktop/src/host/hostRemoteWorkspaceProxyState.ts: scoped syntax/transpile pass; no semantic/native acceptance\npackages/desktop/src/host/windowRemoteConnectionRegistry.ts: scoped syntax/transpile pass; no semantic/native acceptance\n",
+  "stderr": "",
+  "exitCode": 0
+}

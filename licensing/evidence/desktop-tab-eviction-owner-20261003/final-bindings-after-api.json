@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs",
+      "sha256": "271346b44800ba2ccace3497092c7d4c6c9c8ec1539653873f5d26fe6193b0b7"
+    }
+  ],
+  "stdout": "{\n  \"baseHead\": \"b6f2526ebac93c7df8284008791b214574733215\",\n  \"selected\": [\n    {\n      \"owner\": \"residency\",\n      \"selectedVersion\": \"initial\",\n      \"rawSha256\": \"abe124a7d14cfaa2cd2a187ba8e388b2283268a30db58db0d7ae94f75397763a\",\n      \"installedSha256\": \"b5e0bab2418a2fcab8406d675b4e401a4db06ec2186b0a1ff604c3fa931a423d\",\n      \"installedBytes\": 2260,\n      \"installedLines\": 90,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    }\n  ],\n  \"rawVersionsVerified\": 1,\n  \"unchangedRetainedPaths\": 4729,\n  \"retentionCountsAreNotCompletionCounts\": true,\n  \"authorInputFreezeVerified\": true,\n  \"publicApiMatches\": true,\n  \"productionScopeExactlyOneOwner\": true,\n  \"minimalSyntheticGroupsRun\": 1,\n  \"ordinaryAggregateTestsRun\": false,\n  \"nativeRuntimePassed\": false,\n  \"acceptedIndependentReplacementCredit\": 0,\n  \"MITClaim\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

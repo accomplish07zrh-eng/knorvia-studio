@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/commands/index.ts",
+    "apps/cli/packages/adapters/test/custom-command-owner-compatibility/owners.test.mjs"
+  ],
+  "stdout": "Finished in 22ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

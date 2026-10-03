@@ -1,0 +1,11 @@
+{
+  "label": "final-apply-lint",
+  "cmd": "node_modules/.bin/oxlint packages/shared/src/protocol-v4/apply.ts",
+  "result": {
+    "chunk_id": "2f4496",
+    "wall_time_seconds": 0.00002639,
+    "exit_code": 0,
+    "original_token_count": 23,
+    "output": "Found 0 warnings and 0 errors.\nFinished in 20ms on 1 file with 94 rules using 4 threads.\n"
+  }
+}

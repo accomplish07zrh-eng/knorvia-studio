@@ -1,0 +1,21 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern",
+    "WebM",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_RECORDING_BASELINE": "/tmp/knorvia-recording45-correction1-fixture"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "9dfe75dfbf15c0ede36c0fe8bba6db99691f9b60471fa8cf9cfeb7361b3f0d27"
+    }
+  ],
+  "stdout": "✔ WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (70.123478ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 300.689721\n",
+  "stderr": "",
+  "exitCode": 0
+}

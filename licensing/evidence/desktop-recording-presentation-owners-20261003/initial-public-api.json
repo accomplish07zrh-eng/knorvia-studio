@@ -1,0 +1,1381 @@
+{
+  "video": [
+    {
+      "export": "BrowserWebmRecorderFactory",
+      "kind": "type",
+      "shape": {
+        "calls": [
+          {
+            "parameters": [
+              {
+                "optional": false,
+                "type": {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "fps",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "outputPath",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "signal",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "AbortSignal"
+                    },
+                    {
+                      "name": "targetFrame",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "unknown"
+                    },
+                    {
+                      "name": "viewport",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "height",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "width",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "returns": {
+              "promise": [
+                {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "cancel",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    },
+                    {
+                      "name": "stop",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "properties": []
+      }
+    },
+    {
+      "export": "BrowserWebmRecorderFactoryInput",
+      "kind": "interface",
+      "shape": {
+        "calls": [],
+        "properties": [
+          {
+            "name": "fps",
+            "optional": false,
+            "readonly": false,
+            "type": "number"
+          },
+          {
+            "name": "outputPath",
+            "optional": false,
+            "readonly": false,
+            "type": "string"
+          },
+          {
+            "name": "signal",
+            "optional": false,
+            "readonly": false,
+            "type": "AbortSignal"
+          },
+          {
+            "name": "targetFrame",
+            "optional": false,
+            "readonly": false,
+            "type": "unknown"
+          },
+          {
+            "name": "viewport",
+            "optional": false,
+            "readonly": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "height",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "width",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "export": "BrowserWebmRecorderSession",
+      "kind": "interface",
+      "shape": {
+        "calls": [],
+        "properties": [
+          {
+            "name": "cancel",
+            "optional": false,
+            "readonly": false,
+            "type": {
+              "calls": [
+                {
+                  "parameters": [],
+                  "returns": {
+                    "promise": [
+                      "void"
+                    ]
+                  }
+                }
+              ],
+              "properties": []
+            }
+          },
+          {
+            "name": "stop",
+            "optional": false,
+            "readonly": false,
+            "type": {
+              "calls": [
+                {
+                  "parameters": [],
+                  "returns": {
+                    "promise": [
+                      "void"
+                    ]
+                  }
+                }
+              ],
+              "properties": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "export": "recordBrowserVideo",
+      "kind": "value",
+      "shape": {
+        "calls": [
+          {
+            "parameters": [
+              {
+                "optional": false,
+                "type": {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "createRecorder",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [
+                              {
+                                "optional": false,
+                                "type": {
+                                  "calls": [],
+                                  "properties": [
+                                    {
+                                      "name": "fps",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "number"
+                                    },
+                                    {
+                                      "name": "outputPath",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "string"
+                                    },
+                                    {
+                                      "name": "signal",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "AbortSignal"
+                                    },
+                                    {
+                                      "name": "targetFrame",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "unknown"
+                                    },
+                                    {
+                                      "name": "viewport",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": {
+                                        "calls": [],
+                                        "properties": [
+                                          {
+                                            "name": "height",
+                                            "optional": false,
+                                            "readonly": false,
+                                            "type": "number"
+                                          },
+                                          {
+                                            "name": "width",
+                                            "optional": false,
+                                            "readonly": false,
+                                            "type": "number"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "returns": {
+                              "promise": [
+                                {
+                                  "calls": [],
+                                  "properties": [
+                                    {
+                                      "name": "cancel",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": {
+                                        "calls": [
+                                          {
+                                            "parameters": [],
+                                            "returns": {
+                                              "promise": [
+                                                "void"
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        "properties": []
+                                      }
+                                    },
+                                    {
+                                      "name": "stop",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": {
+                                        "calls": [
+                                          {
+                                            "parameters": [],
+                                            "returns": {
+                                              "promise": [
+                                                "void"
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        "properties": []
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    },
+                    {
+                      "name": "executeScenario",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    },
+                    {
+                      "name": "fps",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "now",
+                      "optional": true,
+                      "readonly": false,
+                      "type": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "number"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "onCaptureComplete",
+                      "optional": true,
+                      "readonly": false,
+                      "type": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "onPhase",
+                      "optional": true,
+                      "readonly": false,
+                      "type": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": [
+                                    "\"capturing\"",
+                                    "\"finalizing\""
+                                  ]
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "recordingId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "signal",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "AbortSignal"
+                    },
+                    {
+                      "name": "targetFrame",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "unknown"
+                    },
+                    {
+                      "name": "tempRoot",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "viewport",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "height",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "width",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "returns": {
+              "promise": [
+                {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "durationMs",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "fps",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "frameCount",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "height",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "mimeType",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "\"video/webm\""
+                    },
+                    {
+                      "name": "path",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "width",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "properties": []
+      }
+    }
+  ],
+  "webm": [
+    {
+      "export": "createElectronBrowserWebmRecorder",
+      "kind": "value",
+      "shape": {
+        "calls": [
+          {
+            "parameters": [
+              {
+                "optional": false,
+                "type": {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "fps",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "outputPath",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "signal",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "AbortSignal"
+                    },
+                    {
+                      "name": "targetFrame",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "unknown"
+                    },
+                    {
+                      "name": "viewport",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "height",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "width",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "optional": false,
+                "type": [
+                  "undefined",
+                  {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": "string"
+                          }
+                        ],
+                        "returns": "void"
+                      }
+                    ],
+                    "properties": []
+                  }
+                ]
+              }
+            ],
+            "returns": {
+              "promise": [
+                {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "cancel",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    },
+                    {
+                      "name": "stop",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "properties": []
+      }
+    },
+    {
+      "export": "defaultElectronBrowserWebmRecorder",
+      "kind": "value",
+      "shape": {
+        "calls": [
+          {
+            "parameters": [
+              {
+                "optional": false,
+                "type": {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "fps",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "outputPath",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "signal",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "AbortSignal"
+                    },
+                    {
+                      "name": "targetFrame",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "unknown"
+                    },
+                    {
+                      "name": "viewport",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "height",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "width",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "returns": {
+              "promise": [
+                {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "cancel",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    },
+                    {
+                      "name": "stop",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": {
+                              "promise": [
+                                "void"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": []
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "properties": []
+      }
+    }
+  ],
+  "bootstrap": [
+    {
+      "export": "BrowserWindowForTransparentBootstrap",
+      "kind": "interface",
+      "shape": {
+        "calls": [],
+        "properties": [
+          {
+            "name": "getOpacity",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [],
+                    "returns": "number"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "hide",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [],
+                    "returns": "void"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "isDestroyed",
+            "optional": false,
+            "readonly": false,
+            "type": {
+              "calls": [
+                {
+                  "parameters": [],
+                  "returns": "boolean"
+                }
+              ],
+              "properties": []
+            }
+          },
+          {
+            "name": "isFocused",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [],
+                    "returns": "boolean"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "isMinimized",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [],
+                    "returns": "boolean"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "isVisible",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [],
+                    "returns": "boolean"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "on",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": "\"focus\""
+                      },
+                      {
+                        "optional": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      }
+                    ],
+                    "returns": "void"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "removeListener",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": "\"focus\""
+                      },
+                      {
+                        "optional": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      }
+                    ],
+                    "returns": "void"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "setOpacity",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": "number"
+                      }
+                    ],
+                    "returns": "void"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "setSkipTaskbar",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": "boolean"
+                      }
+                    ],
+                    "returns": "void"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          },
+          {
+            "name": "showInactive",
+            "optional": true,
+            "readonly": false,
+            "type": [
+              "undefined",
+              {
+                "calls": [
+                  {
+                    "parameters": [],
+                    "returns": "void"
+                  }
+                ],
+                "properties": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "export": "startBrowserScreenshotTransparentWindowBootstrap",
+      "kind": "value",
+      "shape": {
+        "calls": [
+          {
+            "parameters": [
+              {
+                "optional": false,
+                "type": {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "enabled",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "hideTaskbarDuringBootstrap",
+                      "optional": true,
+                      "readonly": false,
+                      "type": [
+                        "false",
+                        "true",
+                        "undefined"
+                      ]
+                    },
+                    {
+                      "name": "log",
+                      "optional": true,
+                      "readonly": false,
+                      "type": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "requestId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "webContentsId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "win",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "getOpacity",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [],
+                                    "returns": "number"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "hide",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [],
+                                    "returns": "void"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "isDestroyed",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "calls": [
+                                {
+                                  "parameters": [],
+                                  "returns": "boolean"
+                                }
+                              ],
+                              "properties": []
+                            }
+                          },
+                          {
+                            "name": "isFocused",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [],
+                                    "returns": "boolean"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "isMinimized",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [],
+                                    "returns": "boolean"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "isVisible",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [],
+                                    "returns": "boolean"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "on",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "\"focus\""
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [
+                                            {
+                                              "parameters": [],
+                                              "returns": "void"
+                                            }
+                                          ],
+                                          "properties": []
+                                        }
+                                      }
+                                    ],
+                                    "returns": "void"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "removeListener",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "\"focus\""
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [
+                                            {
+                                              "parameters": [],
+                                              "returns": "void"
+                                            }
+                                          ],
+                                          "properties": []
+                                        }
+                                      }
+                                    ],
+                                    "returns": "void"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "setOpacity",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "number"
+                                      }
+                                    ],
+                                    "returns": "void"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "setSkipTaskbar",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "boolean"
+                                      }
+                                    ],
+                                    "returns": "void"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          },
+                          {
+                            "name": "showInactive",
+                            "optional": true,
+                            "readonly": false,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [
+                                  {
+                                    "parameters": [],
+                                    "returns": "void"
+                                  }
+                                ],
+                                "properties": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "windowId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    }
+                  ]
+                }
+              }
+            ],
+            "returns": [
+              "false",
+              "undefined",
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "release",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "properties": []
+      }
+    },
+    {
+      "export": "TRANSPARENT_WINDOW_PRESENTATION_GRACE_MS",
+      "kind": "value",
+      "shape": "100"
+    },
+    {
+      "export": "TransparentWindowBootstrap",
+      "kind": "interface",
+      "shape": {
+        "calls": [],
+        "properties": [
+          {
+            "name": "release",
+            "optional": false,
+            "readonly": false,
+            "type": {
+              "calls": [
+                {
+                  "parameters": [],
+                  "returns": "void"
+                }
+              ],
+              "properties": []
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

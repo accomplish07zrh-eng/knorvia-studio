@@ -1,262 +1,253 @@
 import type { BrowserSnapshot } from "@knorvia/contracts";
 import type { ElementHandle, Page } from "playwright-core";
 
-const DEFAULT_MAX_ELEMENTS = 200;
-const DEFAULT_MAX_DOM_NODES = 300;
-
-type SnapshotOptions = { includeHidden: boolean; maxDomNodes: number; maxElements: number };
-type SnapshotCollection = { refElements: Element[]; snapshot: BrowserSnapshot };
-
-const pageRefs = new WeakMap<Page, Map<string, ElementHandle<Element>>>();
-
-/**
- * 这段函数由 Playwright 序列化到页面执行，不能引用模块闭包。Element ref 不写入页面
- * globalThis，而由 adapter 从返回的 handle collection 接管，避免不可信页面脚本替换 ref map。
- */
-function collectSnapshot(options: SnapshotOptions): SnapshotCollection {
-  const actionSelector =
-    "a[href],button,input,textarea,select,[role],[onclick],[tabindex],summary,label,[contenteditable]";
-  const domSelector =
-    "body,main,nav,header,footer,aside,section,article,h1,h2,h3,h4,h5,h6,p,ul,ol,li,dl,dt,dd,blockquote,pre,code,table,caption,thead,tbody,tfoot,tr,th,td,form,fieldset,legend,figure,figcaption,img,canvas,svg,a[href],button,input,textarea,select,option,summary,label,[role],[aria-label],[contenteditable]";
-  const refElements: Element[] = [];
-  const reverseRefs = new WeakMap<Element, string>();
-  const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
-  const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-
-  const hidden = (element: Element): boolean => {
-    const style = window.getComputedStyle(element);
-    const rect = element.getBoundingClientRect();
-    return (
-      style.display === "none" ||
-      style.visibility === "hidden" ||
-      style.opacity === "0" ||
-      (rect.width <= 0 && rect.height <= 0)
-    );
-  };
-  const text = (value: string | null | undefined, max: number): string =>
-    String(value ?? "")
-      .trim()
-      .replace(/\s+/g, " ")
-      .slice(0, max);
-  const implicitRole = (element: Element, tag: string): string => {
-    if (tag === "a" && element.hasAttribute("href")) return "link";
-    if (tag === "button") return "button";
-    if (tag === "select") return "combobox";
-    if (tag === "textarea") return "textbox";
-    if (tag !== "input") return "";
-    const type = (element.getAttribute("type") || "text").toLowerCase();
-    if (type === "checkbox") return "checkbox";
-    if (type === "radio") return "radio";
-    if (["button", "submit", "reset"].includes(type)) return "button";
-    if (type === "search") return "searchbox";
-    return "textbox";
-  };
-  const accessibleName = (element: Element): string =>
-    text(
-      element.getAttribute("aria-label") ||
-        element.getAttribute("alt") ||
-        element.getAttribute("title") ||
-        element.getAttribute("placeholder") ||
-        (element as HTMLElement).innerText ||
-        element.textContent,
-      120,
-    );
-  const attributes = (element: Element): Record<string, string> => {
-    const result: Record<string, string> = {};
-    for (const key of [
-      "id",
-      "href",
-      "name",
-      "type",
-      "placeholder",
-      "title",
-      "alt",
-      "role",
-      "aria-label",
-      "data-testid",
-      "data-test",
-      "data-qa",
-    ]) {
-      const value = text(element.getAttribute(key), 240);
-      if (value) result[key] = value;
-    }
-    return result;
-  };
-  const selector = (element: Element): string => {
-    if (element.id && /^[A-Za-z][A-Za-z0-9_-]*$/.test(element.id)) return `#${element.id}`;
-    const parts: string[] = [];
-    let current: Element | null = element;
-    for (let depth = 0; current && depth < 6; depth += 1) {
-      const tag = current.tagName.toLowerCase();
-      const siblings = current.parentElement
-        ? [...current.parentElement.children].filter(
-            (candidate) => candidate.tagName === current?.tagName,
-          )
-        : [];
-      parts.unshift(`${tag}:nth-of-type(${siblings.indexOf(current) + 1})`);
-      current = current.parentElement;
-    }
-    return parts.join(" > ");
-  };
-  const xpath = (element: Element): string => {
-    const parts: string[] = [];
-    let current: Element | null = element;
-    while (current) {
-      const tag = current.tagName.toLowerCase();
-      const siblings = current.parentElement
-        ? [...current.parentElement.children].filter(
-            (candidate) => candidate.tagName === current?.tagName,
-          )
-        : [];
-      parts.unshift(`${tag}[${siblings.indexOf(current) + 1}]`);
-      current = current.parentElement;
-    }
-    return `/${parts.join("/")}`;
-  };
-  const inViewport = (rect: DOMRect): boolean =>
-    rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0;
-
-  const actionNodes = [...document.querySelectorAll(actionSelector)].filter(
-    (element) => options.includeHidden || !hidden(element),
-  );
-  const elements = actionNodes.slice(0, options.maxElements).map((element, index) => {
-    const ref = `e${index + 1}`;
-    refElements.push(element);
-    reverseRefs.set(element, ref);
-    const rect = element.getBoundingClientRect();
-    const tag = element.tagName.toLowerCase();
-    const role = element.getAttribute("role") || implicitRole(element, tag);
-    const name = accessibleName(element);
-    const elementText = text((element as HTMLElement).innerText, 100);
-    const attrs = attributes(element);
-    const value = "value" in element ? text(String((element as HTMLInputElement).value), 240) : "";
-    let parent = element.parentElement;
-    let parentRef: string | undefined;
-    while (parent && !parentRef) {
-      parentRef = reverseRefs.get(parent);
-      parent = parent.parentElement;
-    }
-    return {
-      ref,
-      tag,
-      ...(role ? { role } : {}),
-      ...(name ? { name } : {}),
-      ...(elementText ? { text: elementText } : {}),
-      ...(value ? { value } : {}),
-      ...("disabled" in element && (element as HTMLInputElement).disabled
-        ? { disabled: true }
-        : {}),
-      ...("checked" in element ? { checked: Boolean((element as HTMLInputElement).checked) } : {}),
-      selector: selector(element),
-      xpath: xpath(element),
-      rect: {
-        x: Math.round(rect.x),
-        y: Math.round(rect.y),
-        width: Math.round(rect.width),
-        height: Math.round(rect.height),
-      },
-      inViewport: inViewport(rect),
-      ...(parentRef ? { parentRef } : {}),
-      ...(Object.keys(attrs).length > 0 ? { attributes: attrs } : {}),
-    };
-  });
-
-  const domNodes = [...document.querySelectorAll(domSelector)].filter(
-    (element) => options.includeHidden || !hidden(element),
-  );
-  const dom = domNodes.slice(0, options.maxDomNodes).map((element) => {
-    const rect = element.getBoundingClientRect();
-    const tag = element.tagName.toLowerCase();
-    const role = element.getAttribute("role") || implicitRole(element, tag);
-    const name = accessibleName(element);
-    const semanticText =
-      /^(h[1-6]|p|li|dt|dd|blockquote|pre|code|caption|th|td|label|summary|button|a|option|legend|figcaption)$/.test(
-        tag,
-      )
-        ? text((element as HTMLElement).innerText || element.textContent, 300)
-        : "";
-    let depth = 0;
-    for (
-      let parent = element.parentElement;
-      parent && parent !== document.body;
-      parent = parent.parentElement
-    )
-      depth += 1;
-    const ref = reverseRefs.get(element);
-    const attrs = attributes(element);
-    return {
-      tag,
-      depth,
-      inViewport: inViewport(rect),
-      ...(ref ? { ref } : {}),
-      ...(role ? { role } : {}),
-      ...(name ? { name } : {}),
-      ...(semanticText ? { text: semanticText } : {}),
-      ...(Object.keys(attrs).length > 0 ? { attributes: attrs } : {}),
-    };
-  });
-
-  return {
-    refElements,
-    snapshot: {
-      url: location.href,
-      title: document.title,
-      elements,
-      truncated: actionNodes.length > options.maxElements,
-      dom,
-      domTruncated: domNodes.length > options.maxDomNodes,
-    },
-  };
-}
+const pageBindings = new WeakMap<Page, Map<string, ElementHandle<Element>>>();
 
 export async function captureManagedCdpSnapshot(
   page: Page,
-  maxElements = DEFAULT_MAX_ELEMENTS,
+  maxElements = 200,
   includeHidden = false,
 ): Promise<BrowserSnapshot> {
-  const collection = await page.evaluateHandle(collectSnapshot, {
-    includeHidden,
-    maxDomNodes: DEFAULT_MAX_DOM_NODES,
-    maxElements: Math.max(1, Math.floor(maxElements)),
-  });
-  const snapshotHandle = await collection.getProperty("snapshot");
-  const refElementsHandle = await collection.getProperty("refElements");
-  const snapshot = (await snapshotHandle.jsonValue()) as BrowserSnapshot;
-  const nextRefs = new Map<string, ElementHandle<Element>>();
-  for (const [index, handle] of await refElementsHandle.getProperties()) {
-    const element = handle.asElement() as ElementHandle<Element> | null;
+  const envelope = await page.evaluateHandle(
+    ({ includeHidden, maxDomNodes, maxElements }) => {
+      const actionQuery =
+        "a[href],button,input,textarea,select,[role],[onclick],[tabindex],summary,label,[contenteditable]";
+      const structureQuery =
+        "body,main,nav,header,footer,aside,section,article,h1,h2,h3,h4,h5,h6,p,ul,ol,li,dl,dt,dd,blockquote,pre,code,table,caption,thead,tbody,tfoot,tr,th,td,form,fieldset,legend,figure,figcaption,img,canvas,svg,a[href],button,input,textarea,select,option,summary,label,[role],[aria-label],[contenteditable]";
+      const attributeKeys = [
+        "id",
+        "href",
+        "name",
+        "type",
+        "placeholder",
+        "title",
+        "alt",
+        "role",
+        "aria-label",
+        "data-testid",
+        "data-test",
+        "data-qa",
+      ];
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      const labels = new Map<Element, string>();
+      const clean = (value: unknown, limit: number): string =>
+        String(value ?? "")
+          .trim()
+          .replace(/\s+/g, " ")
+          .slice(0, limit);
+      const hidden = (node: Element): boolean => {
+        const style = window.getComputedStyle(node);
+        const box = node.getBoundingClientRect();
+        return (
+          style.display === "none" ||
+          style.visibility === "hidden" ||
+          style.opacity === "0" ||
+          (box.width <= 0 && box.height <= 0)
+        );
+      };
+      const withinViewport = (box: DOMRect): boolean =>
+        box.top < viewportHeight && box.bottom > 0 && box.left < viewportWidth && box.right > 0;
+      const roleOf = (node: Element): string => {
+        const explicit = node.getAttribute("role");
+        if (explicit) return explicit;
+        const tag = node.tagName.toLowerCase();
+        if (tag === "a" && node.hasAttribute("href")) return "link";
+        if (tag === "button") return "button";
+        if (tag === "select") return "combobox";
+        if (tag === "textarea") return "textbox";
+        if (tag !== "input") return "";
+        const inputKind = (node.getAttribute("type") || "text").toLowerCase();
+        if (inputKind === "checkbox" || inputKind === "radio") return inputKind;
+        if (inputKind === "button" || inputKind === "submit" || inputKind === "reset") {
+          return "button";
+        }
+        return inputKind === "search" ? "searchbox" : "textbox";
+      };
+      const nameOf = (node: Element): string =>
+        clean(
+          node.getAttribute("aria-label") ||
+            node.getAttribute("alt") ||
+            node.getAttribute("title") ||
+            node.getAttribute("placeholder") ||
+            (node as HTMLElement).innerText ||
+            node.textContent,
+          120,
+        );
+      const attributesOf = (node: Element): Record<string, string> => {
+        const attributes: Record<string, string> = {};
+        for (const key of attributeKeys) {
+          const value = clean(node.getAttribute(key), 240);
+          if (value) attributes[key] = value;
+        }
+        return attributes;
+      };
+      const siblingPosition = (node: Element): number => {
+        const siblings = node.parentElement
+          ? Array.from(node.parentElement.children).filter(
+              (sibling) => sibling.tagName === node.tagName,
+            )
+          : [];
+        return siblings.indexOf(node) + 1;
+      };
+      const selectorOf = (node: Element): string => {
+        const id = node.id;
+        if (/^[A-Za-z][A-Za-z0-9_-]*$/.test(id)) return `#${id}`;
+        const steps: string[] = [];
+        let cursor: Element | null = node;
+        const levelLimit = 6;
+        while (cursor && steps.length < levelLimit) {
+          steps.unshift(`${cursor.tagName.toLowerCase()}:nth-of-type(${siblingPosition(cursor)})`);
+          cursor = cursor.parentElement;
+        }
+        return steps.join(" > ");
+      };
+      const xpathOf = (node: Element): string => {
+        const steps: string[] = [];
+        let cursor: Element | null = node;
+        while (cursor) {
+          steps.unshift(`${cursor.tagName.toLowerCase()}[${siblingPosition(cursor)}]`);
+          cursor = cursor.parentElement;
+        }
+        return `/${steps.join("/")}`;
+      };
+      const actionPool = Array.from(document.querySelectorAll(actionQuery)).filter(
+        (node) => includeHidden || !hidden(node),
+      );
+      const candidates = actionPool.slice(0, maxElements);
+      const elements: BrowserSnapshot["elements"] = [];
+      for (let index = 0; index < candidates.length; index += 1) {
+        const node = candidates[index];
+        const ref = `e${index + 1}`;
+        labels.set(node, ref);
+        const role = roleOf(node);
+        const name = nameOf(node);
+        const text = clean((node as HTMLElement).innerText, 100);
+        const value = "value" in node ? clean(String(node.value), 240) : "";
+        const disabled = "disabled" in node && Boolean(node.disabled);
+        const checked = "checked" in node ? Boolean(node.checked) : undefined;
+        const selector = selectorOf(node);
+        const xpath = xpathOf(node);
+        const box = node.getBoundingClientRect();
+        let ancestor = node.parentElement;
+        let parentRef: string | undefined;
+        while (ancestor) {
+          parentRef = labels.get(ancestor);
+          if (parentRef) break;
+          ancestor = ancestor.parentElement;
+        }
+        const attributes = attributesOf(node);
+        elements.push({
+          ref,
+          tag: node.tagName.toLowerCase(),
+          ...(role ? { role } : {}),
+          ...(name ? { name } : {}),
+          ...(text ? { text } : {}),
+          ...(value ? { value } : {}),
+          ...(disabled ? { disabled: true } : {}),
+          ...(checked !== undefined ? { checked } : {}),
+          selector,
+          xpath,
+          rect: {
+            x: Math.round(box.x),
+            y: Math.round(box.y),
+            width: Math.round(box.width),
+            height: Math.round(box.height),
+          },
+          inViewport: withinViewport(box),
+          ...(parentRef ? { parentRef } : {}),
+          ...(Object.keys(attributes).length ? { attributes } : {}),
+        });
+      }
+      const structurePool = Array.from(document.querySelectorAll(structureQuery)).filter(
+        (node) => includeHidden || !hidden(node),
+      );
+      const dom: NonNullable<BrowserSnapshot["dom"]> = [];
+      const textTags =
+        /^(h[1-6]|p|li|dt|dd|blockquote|pre|code|caption|th|td|label|summary|button|a|option|legend|figcaption)$/;
+      for (const node of structurePool.slice(0, maxDomNodes)) {
+        const tag = node.tagName.toLowerCase();
+        let depth = 0;
+        let ancestor = node.parentElement;
+        while (ancestor && ancestor !== document.body) {
+          depth += 1;
+          ancestor = ancestor.parentElement;
+        }
+        const box = node.getBoundingClientRect();
+        const ref = labels.get(node);
+        const role = roleOf(node);
+        const name = nameOf(node);
+        const text = textTags.test(tag)
+          ? clean((node as HTMLElement).innerText || node.textContent, 300)
+          : "";
+        const attributes = attributesOf(node);
+        dom.push({
+          tag,
+          depth,
+          inViewport: withinViewport(box),
+          ...(ref ? { ref } : {}),
+          ...(role ? { role } : {}),
+          ...(name ? { name } : {}),
+          ...(text ? { text } : {}),
+          ...(Object.keys(attributes).length ? { attributes } : {}),
+        });
+      }
+      const report: BrowserSnapshot = {
+        url: location.href,
+        title: document.title,
+        elements,
+        truncated: actionPool.length > maxElements,
+        dom,
+        domTruncated: structurePool.length > maxDomNodes,
+      };
+      return { report, candidates };
+    },
+    { includeHidden, maxDomNodes: 300, maxElements: Math.max(1, Math.floor(maxElements)) },
+  );
+  const reportHandle = await envelope.getProperty("report");
+  const candidatesHandle = await envelope.getProperty("candidates");
+  const report = await reportHandle.jsonValue();
+  const properties = await candidatesHandle.getProperties();
+  const nextBindings = new Map<string, ElementHandle<Element>>();
+  for (const [index, handle] of properties) {
+    const element = handle.asElement();
     if (!element || !/^\d+$/u.test(index)) {
       await handle.dispose();
       continue;
     }
-    nextRefs.set(`e${Number(index) + 1}`, element);
+    nextBindings.set(`e${Number(index) + 1}`, element as ElementHandle<Element>);
   }
-  const previousRefs = pageRefs.get(page);
-  pageRefs.set(page, nextRefs);
-  await Promise.all([...(previousRefs?.values() ?? [])].map(async (handle) => handle.dispose()));
-  await Promise.all([snapshotHandle.dispose(), refElementsHandle.dispose(), collection.dispose()]);
-  return snapshot;
+  const previousBindings = pageBindings.get(page);
+  pageBindings.set(page, nextBindings);
+  await Promise.all(
+    Array.from(previousBindings?.values() ?? [], async (handle) => {
+      await handle.dispose();
+    }),
+  );
+  await Promise.all([reportHandle.dispose(), candidatesHandle.dispose(), envelope.dispose()]);
+  return report;
 }
 
 export async function resolveSnapshotElement(
   page: Page,
   ref: string,
 ): Promise<ElementHandle<Element> | undefined> {
-  const element = pageRefs.get(page)?.get(ref);
-  if (!element) return undefined;
-  const connected = await element.evaluate((node) => node.isConnected).catch(() => false);
-  return connected ? element : undefined;
+  if (!page || !ref) return undefined;
+  const handle = pageBindings.get(page)?.get(ref);
+  if (!handle) return undefined;
+  const connected = await handle.evaluate((node) => node.isConnected).catch(() => false);
+  return connected ? handle : undefined;
 }
 
 export async function resolveSnapshotRef(
   page: Page,
   ref: string,
 ): Promise<{ x: number; y: number } | undefined> {
-  const element = await resolveSnapshotElement(page, ref);
-  if (!element) return undefined;
-  await element.scrollIntoViewIfNeeded();
-  const rect = await element.boundingBox();
-  return rect
-    ? { x: Math.round(rect.x + rect.width / 2), y: Math.round(rect.y + rect.height / 2) }
+  const handle = await resolveSnapshotElement(page, ref);
+  if (!handle) return undefined;
+  await handle.scrollIntoViewIfNeeded();
+  const box = await handle.boundingBox();
+  return box
+    ? { x: Math.round(box.x + box.width / 2), y: Math.round(box.y + box.height / 2) }
     : undefined;
 }

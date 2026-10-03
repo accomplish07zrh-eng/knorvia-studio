@@ -1,0 +1,22 @@
+{
+  "initialWholeDrafts": 3,
+  "wholeCorrections": {
+    "registry": 1
+  },
+  "curatorSourceChanges": "Whole literal author file copies and formatting only; no manual product patch/extraction. Synthetic evidence helpers are curator-authored/reused tooling, no independence credit.",
+  "syntheticHarnessCorrection": "Three initial baseline assertion failures were VM cross-realm data-prototype mismatch; JSON normalization used only for data assertions, while service/artifact/error identity assertions remain direct.",
+  "registryCorrection": "Rapid same-session bind compares live ownership state, preserves generation-zero/missing-path/reuse/cancellation/scope boundaries and required-path key inference. Whole correction from original fresh author, retaining own prior conversation without reading prior draft files.",
+  "typeHarnessCorrection": "Restricted compiler host first returned wrong-length module resolution array and triggered TypeScript Debug Failure; corrected to same-length undefined resolution entries. All product imports now exclusively virtual ambient declarations; source graph restricted to3 selected files/virtual ports/TypeScript stdlib. Initial default-host synthetic pass was checked separately, not rerun mislabeled. Initial stricter source guard also rejected TypeScript package metadata lookup before reading; package/config metadata is now hidden by returning undefined/false, without reading it.",
+  "frozenFailures": [
+    "baseline-focused.json",
+    "initial-registry-rapid-binding.json",
+    "initial-registry-ownership-boundaries.json",
+    "initial-synthetic-types.json",
+    "baseline-restricted-synthetic-types.json",
+    "baseline-restricted-synthetic-types-corrected.json",
+    "final-lint.json"
+  ],
+  "syntheticTypesLimit": "Strict owner-local checks against virtual synthetic public declarations only, no imported product types/config/declaration emit or aggregate native acceptance.",
+  "acceptedCredit": 0,
+  "evidenceHelperLintCorrection": "Unused fs import in synthetic-port type helper removed; final-lint-corrected0 warnings/errors. No production correction or policy change."
+}

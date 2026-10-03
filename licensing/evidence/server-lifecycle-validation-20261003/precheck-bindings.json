@@ -1,0 +1,80 @@
+{
+  "baselineCommit": "f25b931164ee6287167e965e9da7a7586131b264",
+  "candidateCheckpoint": "d9318cde0eccd553440408ebde42d28118e7ee18",
+  "files": [
+    {
+      "path": "packages/server/src/stdio-lifecycle.ts",
+      "candidateSha256": "d11805729dc2bb2b3defc158c014df768c8a74b49e5950f6faec4e3a1943ec24",
+      "baselineSha256": "ca136b2fe704cd74831c78c53d80e0128b187ef55c52ff85e8b907dd864185ae",
+      "bytes": 2753
+    },
+    {
+      "path": "packages/server/src/stdio.ts",
+      "candidateSha256": "2339efa61fd55b45743c223a9726e89ab2da66e791afb36a29d488ac319c1887",
+      "baselineSha256": "7c723693f883975c0f55fb929e6a7c9bd3e489c3815828653e875a09c06da636",
+      "bytes": 2183
+    },
+    {
+      "path": "packages/server/src/stdioServices.ts",
+      "candidateSha256": "3aa752394a5e1df507e4b56b349077b073f383fca6d1ac7215281c1e9550aa0c",
+      "baselineSha256": "5f9a0370ca4ec7de70d334b54d03d98f103865f08f20aff484d03db8a6ed359f",
+      "bytes": 1270
+    },
+    {
+      "path": "packages/server/src/entry-stdio.ts",
+      "candidateSha256": "f146b1e31266a79cd72b0f5c8a608f14fb19d550977a1111c5a76599368ab96a",
+      "baselineSha256": "9b04c9d3844aac11495e36e51ba4f60ba5e53e8f43098d741b5414e47096eb00",
+      "bytes": 3467
+    },
+    {
+      "path": "packages/server/src/http.ts",
+      "candidateSha256": "3945e6e3d42e904f15792a6c240a98302c6add4b398bb84ddd3b7aad152dbdce",
+      "baselineSha256": "50fec20271c3b50d37b53257eb5cd6448cbf5d3aea92c6a5eab302571522c283",
+      "bytes": 10271
+    },
+    {
+      "path": "packages/server/src/entry-http.ts",
+      "candidateSha256": "7e17a999f415edf3e048a5101e1d2cfa306a7ec7fca0ce5a5210585ffde9d5f0",
+      "baselineSha256": "ed58c1fd3489691a4fc776979f6da4c3da35fb9fcdf889c359c92f6676b79105",
+      "bytes": 1250
+    },
+    {
+      "path": "packages/server/src/hostCapability.ts",
+      "candidateSha256": "33ba59366619a8a01eb002b627af69108e04a76772372593f17e04e5524b2c20",
+      "baselineSha256": "db458825e082083e615687e951e6a4652e0fbfeebd92be6c13a8cec69855b163",
+      "bytes": 1407
+    }
+  ],
+  "frozenEarlierEvidence": [
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/README.md",
+      "sha256": "688e20a47c82fca318c569a3e3ab156805cf5f9e871df600d851e1f0e859e9d2"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/baseline-capability.txt",
+      "sha256": "6eed2eb837d515343cbac4e084bd76058c82e57a0f25b385d7a86ba73cdd75e6"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/candidate-capability.txt",
+      "sha256": "8552cf9e29288678da6f6fa8040d4303b8a1454eeb1b8d87b3f0fc599d0b2a07"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/changed-architecture.txt",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/changed-lint.txt",
+      "sha256": "fe7d7f6c21e84cb51f2b17d7ad78752feebddaf2df00331ef4ae4497f4a64176"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/source-hashes.json",
+      "sha256": "f2ede1274603b5987c96e10bcaf941cfbb00f3e0398977e007e20519c6b7fc16"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-20261002/syntax.txt",
+      "sha256": "2a7d4d7eebab688f8135cbb7c450b1606e731a7dce04298d6af18abbfa88d7b6"
+    }
+  ],
+  "fixtureSha256": "9dd19a761041e04cdf49099b5ff61d6e92adf5b70aec6215a19025e5bcb5ff24",
+  "sourceChanges": false
+}

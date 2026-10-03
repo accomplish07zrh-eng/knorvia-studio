@@ -1,0 +1,47 @@
+{
+  "queueBaseline": "00e7224b2167672e7cc509d3edbd11b6a0c49033",
+  "interimCommit": "1fd4c415127bb1dcc024110d8a53f0af7527d1f2",
+  "changedTrackedPaths": [
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/baseline-digest-order.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/baseline-safety.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/error-author-packet.md",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/initial-api.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/initial-candidate-safety.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/initial-lint.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/initial-syntax.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/interim-architecture.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/interim-pair-evidence.json",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/version-author-packet.md",
+    "packages/shared/src/errors.ts",
+    "packages/shared/src/forceUpdate.ts",
+    "packages/shared/src/mcp.ts",
+    "packages/shared/src/subagent-state-migration.ts",
+    "packages/shared/src/workspace-hook-digest.ts",
+    "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs",
+    "specs/knorvia-shared-error-version-config-digest-owners-20261003.md"
+  ],
+  "changedScopeOnly": true,
+  "sourceInsertions": 353,
+  "sourceDeletions": 440,
+  "sourceNetLines": -87,
+  "heldReducer": {
+    "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+    "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+    "unchanged": true,
+    "acceptance": "HOLD pending parent historical reconciliation; no historical WIP imported"
+  },
+  "rootReservedSourcesUnchanged": true,
+  "rootLicenceGlobalInventoryReviewsDependencyManifestsUnchanged": true,
+  "remainingInventoryCount": 40,
+  "remainingIsEligibilityDecision": false,
+  "nativeAndIntegrationLimits": "Only synthetic in-memory values and virtual retained ports. No native hash/path/clock/platform/hook/MCP/server/credential/auth/trust/security/settings actions, native transports, user-data or Library access. Existing ordinary Git source push/PR update only authorized remote action. No other-lane/main integration.",
+  "deferred": [
+    "ordinary suites",
+    "semantic project typechecking",
+    "builds",
+    "retained dependency/consumer integration",
+    "aggregate final audit",
+    "provenance/licence classification"
+  ],
+  "provenanceLimit": "Source-exposed precise compatibility packets, whole fresh drafts, limited differences and recurring expressions/structures do not establish independent provenance or MIT. Public schemas/types/constants/facades retained uncounted."
+}

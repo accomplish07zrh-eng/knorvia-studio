@@ -1,0 +1,18 @@
+{
+  "owner": "paste",
+  "version": "initial",
+  "file": "/tmp/knorvia-paste47-initial.ts",
+  "rawPath": "licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/paste-initial.ts",
+  "sha256": "75c117c4d3f68f5db5479575c9b8fead37cadba1a5f676b9cac602d6ebab9551",
+  "bytes": 4753,
+  "author": "/root/virtual_paste_page_owner_author47",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Only common/paste full contract/body-free public string port; one own output write, then stat/hash only; no output/source/history/tests/evidence/sibling/native/browser/data/network/permission access",
+  "fixedTokenCredit": 0,
+  "rawSourceLiteralTypeDifferenceDisclosed": true,
+  "authorFastIndependentlyVerified": false
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/cli-skill-discovery-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "[{\"owner\":\"index\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"isNotFoundError\",\"candidate\":\"missingFile\",\"bodyHash\":\"289e582ffe6ee9d35323c315a495687792d385d3d6b09bda0ce4ea3d45ff6db3\"},{\"baseline\":\"createNodeSkillAdapter\",\"candidate\":\"createNodeSkillAdapter\",\"bodyHash\":\"39f44f7ab5808d695cc68c5b2272ef8d0229b489a92c4b07a703ccfd30d0bbd6\"}],\"identicalExpressionCount\":297},{\"owner\":\"scan\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"isSymbolicLink\",\"candidate\":\"isLink\",\"bodyHash\":\"49727acbcee0d6fe03e4bdfc07ded4d8f3863dab0e22dfa80317e70afe0a2559\"},{\"baseline\":\"isSymbolicLinkSync\",\"candidate\":\"isLinkSync\",\"bodyHash\":\"e9ef0d724109096d54e564a495ff80fb3e563fd9e5716f8a678a817266429f5b\"}],\"identicalExpressionCount\":74}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

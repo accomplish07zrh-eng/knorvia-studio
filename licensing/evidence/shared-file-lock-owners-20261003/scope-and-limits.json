@@ -1,0 +1,232 @@
+{
+  "baselineCommit": "c4a76d69da0a0ac0f91c2966a7ce7c4fd179f097",
+  "selected": [
+    "packages/shared/src/node/atomicFileLock.ts",
+    "packages/shared/src/node/privateFilePersistence.ts"
+  ],
+  "sourceNumstat": {
+    "command": [
+      "git",
+      "diff",
+      "--numstat",
+      "--",
+      "packages/shared/src/node/atomicFileLock.ts",
+      "packages/shared/src/node/privateFilePersistence.ts"
+    ],
+    "stdout": "114\t133\tpackages/shared/src/node/atomicFileLock.ts\n38\t16\tpackages/shared/src/node/privateFilePersistence.ts\n",
+    "stderr": "",
+    "exitCode": 0
+  },
+  "sourceDelta": [
+    {
+      "path": "packages/shared/src/node/atomicFileLock.ts",
+      "added": 114,
+      "deleted": 133,
+      "net": -19
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "added": 38,
+      "deleted": 16,
+      "net": 22
+    }
+  ],
+  "sourceNetLines": 3,
+  "unchangedRemainingMetadata": [
+    {
+      "path": "packages/shared/src/conversation-share.ts",
+      "sha256": "d8305dad21e8d447480940e4ca0cfc81079c29867860bba749cb0ce0a4e1f6cd",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "sha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "sha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "sha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/model-provider-types.ts",
+      "sha256": "7136b3e33dc7274e747e14f6c66cb4acf908dc6f2d8cf2b28adfc569bee218e8",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
+      "sha256": "cf8babd4c8459994f019ed5dca1d7106512118ec82be60844d2239cb00df2468",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/off-peak-types.ts",
+      "sha256": "036c20ca841739950842ef698843754706bece4986b776da38b6f011d1a8951b",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/official-mcp-auth.ts",
+      "sha256": "3098a640719bafc8db5f2f96990e9353e57b75c2e113f6764ffff04bcab0e4dc",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol/index.ts",
+      "sha256": "55974ca1690c48363f55d1c1d5726c5b0a42ed2a32ec4794d92236e1e98aa470",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-legacy-types.ts",
+      "sha256": "8ef4c7f4722da0381e78cb1c8c3c625813e6c082d2e3cf932a0749f650924633",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/command.ts",
+      "sha256": "cd82b10c9d5b50e1081b66087f63733a6e664326f146a17c3478697be83284c7",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/controller.ts",
+      "sha256": "080082083ca856acc0958befcb57f567318bc401fa24a85030e5efa33d8176a3",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/telemetry.ts",
+      "sha256": "3c97cfe05eb30bef1134fc8c638797298588c2105606ae218422b0716cf51e09",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/transport.ts",
+      "sha256": "aab777faa85d5cb930da3185ef25a69b69ed0cbbf155d6103c11a26fd57a113c",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+      "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workspace-hook-review.ts",
+      "sha256": "ff8b264a361862e5575145e635c0fa108a2ac7d82091764713e0a40b17a36ce7",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/remoteResourcePackages.ts",
+      "sha256": "941cd1d1e7333b072136fd3ffc66c3ddb5b4e03d283176896d9fb0e8dec33d4d",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/runtimeEnv.ts",
+      "sha256": "9dce22428cc26c2a676e1f0a295d62f836780c5645477f6cd82bea7358622a84",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/storage.ts",
+      "sha256": "bb23cb4eafa1c85361709e6e1e11680b4aa634b4f9ccaf0f93a0474904a5dedb",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/subagents-types.ts",
+      "sha256": "5957bd4ef51fadea0daeea99ef9055a0b3417fcea3bf14a0b60d3a04f8ce61e4",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/task-realtime-core.ts",
+      "sha256": "3295d0b48101e4d9a8904684489d203cb5db15f3ca8aae418d4839b3de673b02",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/task-types.ts",
+      "sha256": "e6fc68bcf0667e7ad6c9d1602151b5a1682d34062d9bd6cb2f15fe71295cd97a",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/tool-identity.ts",
+      "sha256": "87e579fc34e9f0816a7a023a54e7243162d7784f3012b1e07babbfee61a08c44",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "sha256": "0f31497b00bdf6877deb045037295c24fc36df4e25e4496cb6162b1113025df3",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-config.ts",
+      "sha256": "c51ee2c57050f495d8cb72606b95240c2faa1130fcbef021fa5af22194b83044",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-mutation.ts",
+      "sha256": "d660748c673c1b33bce6a85c39fba7f7fabf2ef0a4c19604425e450c3af135c6",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
+      "sha256": "131f05e01058acf4466af1bc654d28fb8c87955bcc5eee936420c78a84011ebf",
+      "unchanged": true,
+      "bodyInspectedByThisCheck": false
+    }
+  ],
+  "remainingMetadataCount": 28,
+  "remainingEligibleOwnerCount": "Not asserted; five unresolved routes plus one historical HOLD, twenty-two retained uncounted",
+  "latestFiveFilesIndependentReplacementCredit": 0,
+  "selectedCandidateIndependentReplacementCredit": 0,
+  "syntheticPorts": [
+    "filesystem",
+    "path",
+    "sleep",
+    "clock",
+    "random",
+    "process pid/kill",
+    "lock-instance observer",
+    "OS lock acquisition for persistence cases",
+    "crypto digest",
+    "timeout-code import"
+  ],
+  "notVerified": [
+    "native file/lock/rename/permissions/crypto/process/timer behavior",
+    "retained observer algorithm",
+    "integration of the two changed owners together",
+    "consumer integration",
+    "semantic project types",
+    "ordinary suites",
+    "build",
+    "independent provenance or MIT clearance"
+  ],
+  "excluded": "Root preview/merge, other lanes/settings/desktop release-notification-cron, held reducer source and private WIP remain unchanged. No main/cross-lane integration, global licence/inventory/review/manifest changes or real-user/runtime operations."
+}

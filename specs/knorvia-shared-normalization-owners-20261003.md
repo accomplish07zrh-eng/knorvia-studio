@@ -1,0 +1,9 @@
+# Shared endpoint, privacy and workspace data normalization owners
+
+Scope: complete endpoint.ts, feedbackPrivacy.ts, telemetryRedaction.ts, workspaceFileEntriesCodec.ts and workspaceFileSearch.ts in packages/shared/src. Selection follows inventory of current decisions and reconstruction receipts. Exclude twelve previously reconstructed browser-use files, nine receipt-backed protocol/identity helpers, root conversation-preview-artifacts.ts/persistedMessageMerge.ts and all declaration/schema/config/facade-only surfaces. No PR #12 integration.
+
+Endpoint owns explicit environment selection and URL origin admission. Feedback owns structured/mixed diagnostic text redaction. Telemetry owns text/URL/model/provider admission before reporting. Codec owns escaped file-entry wire rows and reconstruction; search owns candidate normalization, fuzzy scores and bounded ordered selection. No business queue, source identity, storage, network, UI or service ownership changes.
+
+Preserve exported signatures, URL/protocol acceptance/errors, privacy pattern order and recursive depth behavior, legacy identity mapping, byte/text escape forms, file path/data identity and fuzzy-order/limit compatibility. Existing schemas, declarations, environment/name lists and dependency ports remain. No hardening or silent policy change.
+
+Fresh nofork authors receive whole body-free behavior contracts, then drafts/corrections freeze and hash before source-exposed comparison. Fixed policy literals/expressions and shared-filesystem access limits remain explicitly qualified; no provenance/MIT grant. Minimal synthetic positive/negative endpoint/redaction/data-boundary checks; no actual environment credentials, network, files/user data, ordinary suites/builds/native validation. Scoped lint, syntax-only/API shape, architecture and whitespace checks. Same recovery branch and PR #9, no cross-lane/main integration or global inventory/licence edits.

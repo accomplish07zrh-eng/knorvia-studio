@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-playwright-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+    "licensing/evidence/desktop-playwright-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-playwright-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-playwright-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 13ms on 4 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

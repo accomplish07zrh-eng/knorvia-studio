@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-playwright-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/final-bindings.mjs",
+      "sha256": "7a91ccd401222b7f75fc085f32d0cfb53f29891be965ab1836651043b07c641e"
+    }
+  ],
+  "stdout": "{\"retainedTrackedFiles\":10187,\"unselectedDesktopFiles\":1499,\"unselectedCliFiles\":2482,\"frozenEvidenceFiles\":62,\"outputs\":[{\"owner\":\"snapshot\",\"raw\":\"licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-correction-2.ts.txt\",\"rawSha256\":\"270703513e317eebc3d6775627433bec11c48bae1a6e4782103241833c019322\",\"installed\":\"packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts\",\"installedSha256\":\"63df0150106bd1b17e84fe0d43ea2de7c1a519b4e26191d7986f475ebf9dcc8c\",\"formattedFrozenEqualsInstalled\":true},{\"owner\":\"locator\",\"raw\":\"licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-correction-2.ts.txt\",\"rawSha256\":\"f675cadb4c98f216bbca45544f68d027f1f623e094a21ed35e2cbcf3cdd0341a\",\"installed\":\"packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts\",\"installedSha256\":\"e444335f4a3673b35144396c176d618ccd2816ee189f2fa1b880bdfbceedc09c\",\"formattedFrozenEqualsInstalled\":true},{\"owner\":\"executor\",\"raw\":\"licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-4.ts.txt\",\"rawSha256\":\"c2391ba861c4e5cf94f4a197fd3bb2066d098154ac525da4ea6cf11f033c96cd\",\"installed\":\"packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts\",\"installedSha256\":\"cb6dccfc403744cc7cbb40f8f0b121724aa0335142fe04b1555416dce0baed14\",\"formattedFrozenEqualsInstalled\":true}],\"curatorProductionEdits\":\"Complete literal copies and formatting only\"}\n",
+  "stderr": "",
+  "exitCode": 0
+}

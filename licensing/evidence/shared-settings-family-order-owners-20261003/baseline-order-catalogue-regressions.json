@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^(settings projection|family classification|plugin ordering)",
+    "packages/shared/test/shared-settings-family-order-boundaries.test.mjs",
+    "/tmp/knorvia-shared-settings-family-order-baseline"
+  ],
+  "stdout": "\u2714 settings projection preserves identity bytes, owned choices and empty/default admission (11.816759ms)\n\u2714 family classification preserves catalogue identity and exact domain boundaries without account access (5.567721ms)\n\u2714 plugin ordering preserves configured duplicate ranks, exact official IDs and stable item references (8.959037ms)\n\u2139 tests 3\n\u2139 suites 0\n\u2139 pass 3\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 30.572232\n",
+  "stderr": "",
+  "exitCode": 0
+}

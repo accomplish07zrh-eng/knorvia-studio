@@ -1,0 +1,27 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+    "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+    "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+      "sha256": "649748e8adeffbeb959b73192e9805b5d315fe2076cccc4fef9e9ee77f70523b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+      "sha256": "81db26cecc0f727736f590875628fe4c89b8913a404422aee9c77d17c49f740c"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+      "sha256": "5ef9f43a72955997d90f8ff6cb322132e9d78ef515c77421ab8b90c71b51f70c"
+    }
+  ],
+  "stdout": "✔ generated command programs preserve synthetic DOM refs, schemas, actions and errors (98.702729ms)\n✔ navigation injected authority, race identity and cleanup ordering (106.768494ms)\n✔ transient retry live options, clock budget and lazy bound logging (11.191195ms)\n✔ virtual paste own-realm focus, live data, selection and event authority (68.042308ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 780.419965\n",
+  "stderr": "",
+  "exitCode": 0
+}

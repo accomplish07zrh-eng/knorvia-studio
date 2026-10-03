@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/host/browserControlMainBridge.ts",
+      "added": 191,
+      "removed": 186,
+      "net": 5
+    },
+    {
+      "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+      "added": 205,
+      "removed": 282,
+      "net": -77
+    },
+    {
+      "path": "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+      "added": 109,
+      "removed": 129,
+      "net": -20
+    }
+  ],
+  "net": -92,
+  "credit": 0
+}

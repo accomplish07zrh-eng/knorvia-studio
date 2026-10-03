@@ -1,0 +1,8 @@
+{
+  "orchestration": "initial-fake.json used drafts directory but test loader expects owner.ts; ENOENT preserved, copied frozen exact whole versions into /tmp/knorvia-storage50-initial-fixtures then initial-fake-corrected-fixture-location passed.",
+  "review": "Session duplicate-path branch must construct and throw fresh transport_closed even when earlier failure retained. Candidate initial short-circuit skipped Error construction. Added tracked Error fake to existing session logical group, no extra native/ordinary suite.",
+  "authorCorrection": "Same preparation author asked to deliver whole correction from memory and bounded fact only; no rereads.",
+  "expandedTestSha256": "e88651bdb3d7c84936b92725de2c2971ef9cce2487614fecccd191d8a8fdbcf8",
+  "curatorSourceExposure": true,
+  "independenceCredit": 0
+}

@@ -1,0 +1,147 @@
+import type {
+  HookEventName,
+  HookMatcherConfig,
+  PluginOptionValues,
+  RuntimeConfigPatch,
+} from "@knorvia/contracts";
+import { ConfigScope, ConfigScopePriority } from "@knorvia/contracts";
+
+interface PrioritizedConfig {
+  config: RuntimeConfigPatch;
+  scope: ConfigScope;
+  priority: number;
+}
+
+export function getScopePriority(scope: ConfigScope): number {
+  return ConfigScopePriority[scope];
+}
+
+export function createPrioritizedConfig(
+  config: RuntimeConfigPatch,
+  scope: ConfigScope,
+): PrioritizedConfig {
+  return { config, scope, priority: getScopePriority(scope) };
+}
+
+export function mergeConfigs(
+  ...configs: PrioritizedConfig[]
+): RuntimeConfigPatch {
+  const ordered = [...configs].sort((a, b) => a.priority - b.priority);
+  const result: RuntimeConfigPatch = {};
+
+  for (const entry of ordered) {
+    const patch = entry.config;
+    const previousPlugins = result.plugins;
+    const previousHooks = result.hooks;
+    Object.assign(result, patch);
+
+    if (patch.modelStream) {
+      result.modelStream = { ...patch.modelStream };
+    }
+    if (patch.permission) {
+      result.permission = { ...patch.permission };
+    }
+    if (patch.storage) {
+      result.storage = { ...patch.storage };
+    }
+    if (patch.network) {
+      result.network = { ...patch.network };
+    }
+    if (patch.features) {
+      result.features = { ...patch.features };
+    }
+    if (patch.memory) {
+      result.memory = { ...patch.memory };
+    }
+    if (patch.mcp) {
+      result.mcp = {
+        ...patch.mcp,
+        servers: { ...patch.mcp.servers },
+      };
+    }
+    if (patch.skills) {
+      result.skills = { ...patch.skills };
+    }
+    if (patch.skillOverrides) {
+      result.skillOverrides = { ...patch.skillOverrides };
+    }
+    if (patch.commandOverrides) {
+      result.commandOverrides = { ...patch.commandOverrides };
+    }
+    if (patch.logging) {
+      result.logging = { ...patch.logging };
+    }
+    if (patch.toolConcurrency) {
+      result.toolConcurrency = { ...patch.toolConcurrency };
+    }
+    if (patch.modelAnomalyGuard) {
+      result.modelAnomalyGuard = { ...patch.modelAnomalyGuard };
+    }
+    if (patch.ui) {
+      result.ui = { ...patch.ui };
+    }
+
+    if (patch.plugins) {
+      let incoming = patch.plugins;
+      if (entry.scope === ConfigScope.Project) {
+        incoming = { ...incoming };
+        delete incoming.extraKnownMarketplaces;
+      }
+      const plugins = { ...previousPlugins, ...incoming };
+      if (incoming.dirs) {
+        plugins.dirs = [
+          ...new Set([...(previousPlugins?.dirs ?? []), ...incoming.dirs]),
+        ];
+      }
+      if (incoming.enabledPlugins) {
+        plugins.enabledPlugins = {
+          ...previousPlugins?.enabledPlugins,
+          ...incoming.enabledPlugins,
+        };
+      }
+      if (incoming.extraKnownMarketplaces) {
+        plugins.extraKnownMarketplaces = {
+          ...previousPlugins?.extraKnownMarketplaces,
+          ...incoming.extraKnownMarketplaces,
+        };
+      }
+      if (incoming.options) {
+        const options: Record<string, PluginOptionValues> = {
+          ...previousPlugins?.options,
+        };
+        for (const [plugin, values] of Object.entries(incoming.options)) {
+          options[plugin] = { ...options[plugin], ...values };
+        }
+        plugins.options = options;
+      }
+      result.plugins = plugins;
+    }
+
+    if (patch.hooks) {
+      const incoming = patch.hooks;
+      const hooks = {
+        ...previousHooks,
+        ...incoming,
+        enabled: previousHooks?.enabled === true || incoming.enabled === true,
+        events: { ...previousHooks?.events },
+      };
+      if (incoming.enabled !== false && incoming.events) {
+        const entries = Object.entries(incoming.events) as [
+          HookEventName,
+          HookMatcherConfig[] | undefined,
+        ][];
+        for (const [event, matchers] of entries) {
+          if (matchers) {
+            hooks.events[event] = [
+              ...(hooks.events[event] ?? []),
+              ...matchers,
+            ];
+          }
+        }
+      }
+      result.hooks = hooks;
+    }
+  }
+
+  return result;
+}

@@ -1,0 +1,24 @@
+{
+  "initial": "initial-author-access.json",
+  "correction1": "correction-1-author-access.json",
+  "correction2": "correction-2-author-access.json",
+  "correction3": {
+    "agent": "/root/host_index_owner_author",
+    "modelRequested": "gpt-6.1-sol",
+    "reasoningRequested": "high",
+    "forkTurns": "none",
+    "declaredRead": "licensing/evidence/desktop-host-index-owner-20261003/index-correction-3-packet.md",
+    "wholeLiteralOutput": "/tmp/knorvia-host-index-author-correction-3.ts",
+    "declaredSha256": "dd82b10f8b1e0584874fa0da6691df8775b10809111ac8680616a429de724517",
+    "postWrite": "SHA only; no prior draft reads/transforms/source/dependency bodies/tests/compile/format/execution/repo edits/network/native",
+    "missingPublicFacts": "None declared",
+    "curatorInstallation": "Frozen whole draft, whole copy, formatting only; independent frozen formatting matches",
+    "curatorFinalReview": "Complete correction2 installed owner read through EOF; correction3 formatted delta contains ONLY three console redaction callback changes, fully reviewed. diff exit1 means expected differences, not a failed product validation."
+  },
+  "curatorExposure": "Complete frozen inherited index and first draft bodies; correction1 selected source regions; complete correction2 body and correction3 delta; public specs/root instructions/bounded Git/inventory/prior evidence metadata and root lint/formatter metadata. Additional export signature-only redactDiagnosticValue and stringifyHostLogArg lookup, NO dependency function bodies. No root main/B UI source or unrelated production body inspection in this batch.",
+  "authorCorrectionMemory": "Same initial fresh author retains its own authoring conversation, no new reset claim",
+  "sharedFilesystem": "Procedural instruction limits only, not OS enforced isolation",
+  "fast": "Requested saved/inherited mode, not independently verified",
+  "acceptedCredit": 0,
+  "license": "Deferred parent classification, no MIT claim"
+}

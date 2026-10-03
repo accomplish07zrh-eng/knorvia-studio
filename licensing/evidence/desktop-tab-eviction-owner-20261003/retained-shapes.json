@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-shapes.mjs",
+      "sha256": "5ea6f33b26cc87318b6a7bd9e1da86e2da072ec66033470249867e3fb8b2ff8b"
+    }
+  ],
+  "stdout": "[{\"owner\":\"residency\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"b8ee9d3ad3e06124553644e82f8030e4b09f8dbb904bd6d6c9f060998c3a5ed3\"}],\"identicalExpressionCount\":93},{\"owner\":\"residency\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"b8ee9d3ad3e06124553644e82f8030e4b09f8dbb904bd6d6c9f060998c3a5ed3\"}],\"identicalExpressionCount\":93}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

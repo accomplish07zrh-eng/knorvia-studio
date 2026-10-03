@@ -1,0 +1,19 @@
+{
+  "command": [
+    "env",
+    "KNORVIA_CRON_BASELINE=/tmp/knorvia-cron49-baseline.ts",
+    "node",
+    "--test",
+    "packages/desktop/src/host/cronClaimOwner.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/cronClaimOwner.test.mjs",
+      "sha256": "7ab743ea1848e7b15257dd7e3b27c870c06ba6f4337c8d8ae4b5ba003c65dac3"
+    }
+  ],
+  "stdout": "✔ Cron claim injected authority, live await identities and heartbeat lifetime (52.594103ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 280.556421\n",
+  "stderr": "",
+  "exitCode": 0
+}

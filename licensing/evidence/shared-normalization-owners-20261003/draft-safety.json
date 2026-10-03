@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-normalization-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "exitCode": 1,
+  "stdout": "✔ endpoint admits explicit web origins and denies empty/nonweb origins without real environment data (11.690648ms)\n✔ file-entry wire boundary preserves escaped data and skips malformed rows without introducing path policy (4.625092ms)\n✔ search data boundary retains candidate identity/order and excludes absent or query-required matches (3.571537ms)\n✔ feedback privacy denies structured/mixed secrets and diagnostic bodies while retaining benign content (5.957398ms)\n✖ telemetry boundary rejects local/private identities and secrets while admitting synthetic stable IDs (8.093073ms)\nℹ tests 5\nℹ suites 0\nℹ pass 4\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 38.335317\n\n✖ failing tests:\n\ntest at packages/shared/test/shared-normalization-boundaries.test.mjs:160:1\n✖ telemetry boundary rejects local/private identities and secrets while admitting synthetic stable IDs (8.093073ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + '{email}'\n  - '({email})'\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-normalization-boundaries.test.mjs:174:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: '{email}',\n    expected: '({email})',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": ""
+}

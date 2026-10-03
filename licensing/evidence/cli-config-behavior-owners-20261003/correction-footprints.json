@@ -1,0 +1,17 @@
+{
+  "initialDrafts": 4,
+  "wholeCorrections": 4,
+  "factory": [
+    "exact internal source/priority clarification",
+    "map-shaped events and actual plugin config keys"
+  ],
+  "merger": [
+    "public ConfigScope.Project member instead of guessed string"
+  ],
+  "project": [
+    "diagnostic getter/output key ordering"
+  ],
+  "file": [],
+  "curatorSourceEdits": "whole candidate copies + formatter only; no manual implementation patch or extraction",
+  "failedEvidence": "initial baseline fixture assertions, harness argument filter, wrapper trailing escape, tool-script parse/interpolation attempts, initial factory/project synthetic failures and correction-1 factory failures all retained"
+}

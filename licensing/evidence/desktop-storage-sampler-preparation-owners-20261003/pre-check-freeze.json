@@ -1,0 +1,27 @@
+[
+  {
+    "originalPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/record-run.mjs",
+    "snapshotPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/pre-check-snapshots/record-run.mjs",
+    "sha256": "6f40cd5f3ec063d32fb8af242cd66a2d67c6347d63373c5e4cb1537c46726f78"
+  },
+  {
+    "originalPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+    "snapshotPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/pre-check-snapshots/scoped-static.mjs",
+    "sha256": "fbd67e63d03cc353571868e6591add7c3600499f57339aa0e3f6dec24ab27f0c"
+  },
+  {
+    "originalPath": "packages/desktop/src/host/storageOwnerTestPorts.mjs",
+    "snapshotPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/pre-check-snapshots/storageOwnerTestPorts.mjs",
+    "sha256": "0bf1ba33f4d2f6c0afca8506e5daaff47b748400d24eb1471220f2b251e8f62e"
+  },
+  {
+    "originalPath": "packages/desktop/src/host/startupDiskOwner.test.mjs",
+    "snapshotPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/pre-check-snapshots/startupDiskOwner.test.mjs",
+    "sha256": "a73fadc46052426d7b0277d2440a8a765835836a0c98b09809ba5c9be61b1747"
+  },
+  {
+    "originalPath": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+    "snapshotPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/pre-check-snapshots/storagePreparationOwner.test.mjs",
+    "sha256": "08534deec59986d3821b5df3309c82a46774833610ed11681c23fd6af1884c7c"
+  }
+]

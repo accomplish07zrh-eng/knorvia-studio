@@ -1,0 +1,149 @@
+import type {
+  HookEventName,
+  HookMatcherConfig,
+  PluginOptionValues,
+  RuntimeConfigPatch,
+} from "@knorvia/contracts";
+import { ConfigScope, ConfigScopePriority } from "@knorvia/contracts";
+
+interface PrioritizedConfig {
+  config: RuntimeConfigPatch;
+  scope: ConfigScope;
+  priority: number;
+}
+
+const projectScope = "project" as ConfigScope;
+
+export function getScopePriority(scope: ConfigScope): number {
+  return ConfigScopePriority[scope];
+}
+
+export function createPrioritizedConfig(
+  config: RuntimeConfigPatch,
+  scope: ConfigScope,
+): PrioritizedConfig {
+  return { config, scope, priority: getScopePriority(scope) };
+}
+
+export function mergeConfigs(
+  ...configs: PrioritizedConfig[]
+): RuntimeConfigPatch {
+  const ordered = [...configs].sort((left, right) => left.priority - right.priority);
+  const merged: RuntimeConfigPatch = {};
+
+  for (const { config, scope } of ordered) {
+    const previousPlugins = merged.plugins;
+    const previousHooks = merged.hooks;
+    Object.assign(merged, config);
+
+    if (config.modelStream) {
+      merged.modelStream = { ...config.modelStream };
+    }
+    if (config.permission) {
+      merged.permission = { ...config.permission };
+    }
+    if (config.storage) {
+      merged.storage = { ...config.storage };
+    }
+    if (config.network) {
+      merged.network = { ...config.network };
+    }
+    if (config.features) {
+      merged.features = { ...config.features };
+    }
+    if (config.memory) {
+      merged.memory = { ...config.memory };
+    }
+    if (config.mcp) {
+      merged.mcp = {
+        ...config.mcp,
+        servers: { ...config.mcp.servers },
+      };
+    }
+    if (config.skills) {
+      merged.skills = { ...config.skills };
+    }
+    if (config.skillOverrides) {
+      merged.skillOverrides = { ...config.skillOverrides };
+    }
+    if (config.commandOverrides) {
+      merged.commandOverrides = { ...config.commandOverrides };
+    }
+    if (config.logging) {
+      merged.logging = { ...config.logging };
+    }
+    if (config.toolConcurrency) {
+      merged.toolConcurrency = { ...config.toolConcurrency };
+    }
+    if (config.modelAnomalyGuard) {
+      merged.modelAnomalyGuard = { ...config.modelAnomalyGuard };
+    }
+    if (config.ui) {
+      merged.ui = { ...config.ui };
+    }
+
+    if (config.plugins) {
+      let nextPlugins = config.plugins;
+      if (scope === projectScope) {
+        nextPlugins = { ...nextPlugins };
+        delete nextPlugins.extraKnownMarketplaces;
+      }
+
+      const plugins = { ...previousPlugins, ...nextPlugins };
+      if (nextPlugins.dirs) {
+        plugins.dirs = [
+          ...new Set([
+            ...(previousPlugins?.dirs ?? []),
+            ...nextPlugins.dirs,
+          ]),
+        ];
+      }
+      if (nextPlugins.enabledPlugins) {
+        plugins.enabledPlugins = {
+          ...previousPlugins?.enabledPlugins,
+          ...nextPlugins.enabledPlugins,
+        };
+      }
+      if (nextPlugins.extraKnownMarketplaces) {
+        plugins.extraKnownMarketplaces = {
+          ...previousPlugins?.extraKnownMarketplaces,
+          ...nextPlugins.extraKnownMarketplaces,
+        };
+      }
+      if (nextPlugins.options) {
+        const options: Record<string, PluginOptionValues> = {
+          ...previousPlugins?.options,
+        };
+        for (const [pluginId, values] of Object.entries(nextPlugins.options)) {
+          options[pluginId] = { ...options[pluginId], ...values };
+        }
+        plugins.options = options;
+      }
+      merged.plugins = plugins;
+    }
+
+    if (config.hooks) {
+      const nextHooks = config.hooks;
+      const events = { ...previousHooks?.events };
+      if (nextHooks.enabled !== false && nextHooks.events) {
+        const nextEvents = Object.entries(nextHooks.events) as [
+          HookEventName,
+          HookMatcherConfig[] | undefined,
+        ][];
+        for (const [event, matchers] of nextEvents) {
+          if (matchers) {
+            events[event] = [...(events[event] ?? []), ...matchers];
+          }
+        }
+      }
+      merged.hooks = {
+        ...previousHooks,
+        ...nextHooks,
+        enabled: previousHooks?.enabled === true || nextHooks.enabled === true,
+        events,
+      };
+    }
+  }
+
+  return merged;
+}

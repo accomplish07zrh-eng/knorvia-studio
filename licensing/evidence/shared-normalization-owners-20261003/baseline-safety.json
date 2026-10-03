@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-normalization-boundaries.test.mjs",
+    "/tmp/knorvia-shared-normalization-baseline"
+  ],
+  "exitCode": 0,
+  "stdout": "✔ endpoint admits explicit web origins and denies empty/nonweb origins without real environment data (11.226369ms)\n✔ file-entry wire boundary preserves escaped data and skips malformed rows without introducing path policy (4.082044ms)\n✔ search data boundary retains candidate identity/order and excludes absent or query-required matches (3.595222ms)\n✔ feedback privacy denies structured/mixed secrets and diagnostic bodies while retaining benign content (5.708493ms)\n✔ telemetry boundary rejects local/private identities and secrets while admitting synthetic stable IDs (6.767798ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 36.064288\n",
+  "stderr": ""
+}

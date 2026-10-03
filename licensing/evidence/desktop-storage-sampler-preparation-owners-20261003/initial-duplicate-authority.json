@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/host/storagePreparationOwner.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_STORAGE_BASELINE": "/tmp/knorvia-storage50-initial-fixtures"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+      "sha256": "e88651bdb3d7c84936b92725de2c2971ef9cce2487614fecccd191d8a8fdbcf8"
+    }
+  ],
+  "stdout": "✖ storage preparation fake Worker control authority, canonical reuse and exit lifetime (67.536399ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 170.165697\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/storagePreparationOwner.test.mjs:18:1\n✖ storage preparation fake Worker control authority, canonical reuse and exit lifetime (67.536399ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n  + []\n  - [\n  -   'Storage preparation failed: transport_closed'\n  - ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/storagePreparationOwner.test.mjs:40:521)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [],\n    expected: [ 'Storage preparation failed: transport_closed' ],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

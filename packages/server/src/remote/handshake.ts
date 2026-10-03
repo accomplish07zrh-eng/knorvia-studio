@@ -1,159 +1,109 @@
-import type { HelloMessage, HelloAckMessage } from "@knorvia/shared";
-import { KNORVIA_VERSION, formatZodError, helloMessageSchema } from "@knorvia/shared";
+import {
+  KNORVIA_VERSION,
+  formatZodError,
+  helloMessageSchema,
+  type HelloAckMessage,
+  type HelloMessage,
+} from "@knorvia/shared";
 import type { StdioStream } from "./backend.js";
-
-const MAX_HANDSHAKE_DIAGNOSTIC_CHARS = 2048;
 
 export interface HandshakeResult {
   hello: HelloMessage;
-  /** Remaining data after the handshake line (to be fed into RPC) */
   remaining: Buffer | null;
 }
 
-/**
- * Perform the client-side handshake:
- * 1. Read lines from stdout until we find a knorvia-hello JSON
- *    (skip SSH banner/motd lines)
- * 2. Send a knorvia-hello-ack to stdin
- * 3. Return the hello info and any remaining data
- */
 export function performHandshake(
   stream: StdioStream,
   clientId: string,
-  timeoutMs = 10_000,
+  timeoutMs = 10000,
 ): Promise<HandshakeResult> {
-  return new Promise((resolve, reject) => {
-    let buffer = "";
-    let stdoutText = "";
-    let stderrText = "";
+  return new Promise<HandshakeResult>((resolve, reject) => {
     let settled = false;
+    let pending = "";
+    let stdoutHistory = "";
+    let stderrHistory = "";
 
-    const rejectWithDiagnostics = (message: string, exitCode?: number) => {
-      if (settled) {
-        return;
-      }
+    function failureText(prefix: string, code?: number): string {
+      const parts: string[] = [];
+      if (code !== undefined) parts.push(`exit code ${code}`);
+      const stderr = stderrHistory.trim();
+      const stdout = stdoutHistory.trim();
+      if (stderr) parts.push(`stderr: ${JSON.stringify(stderr)}`);
+      if (stdout) parts.push(`stdout: ${JSON.stringify(stdout)}`);
+      return parts.length ? `${prefix} (${parts.join("; ")})` : prefix;
+    }
+
+    function fail(prefix: string, code?: number): void {
+      if (settled) return;
       settled = true;
       cleanup();
-      reject(
-        new Error(
-          formatHandshakeFailure(message, {
-            exitCode,
-            stdout: stdoutText,
-            stderr: stderrText,
-          }),
-        ),
-      );
-    };
+      reject(new Error(failureText(prefix, code)));
+    }
 
-    const timeout = setTimeout(() => {
-      rejectWithDiagnostics("Handshake timeout: no knorvia-hello received within timeout");
-    }, timeoutMs);
+    function receiveStderr(chunk: Buffer): void {
+      stderrHistory = (stderrHistory + chunk.toString("utf-8")).slice(-2048);
+    }
 
-    const onData = (chunk: Buffer) => {
+    function receiveStdout(chunk: Buffer): void {
       const text = chunk.toString("utf-8");
-      buffer += text;
-      stdoutText = appendLimited(stdoutText, text);
+      pending += text;
+      stdoutHistory = (stdoutHistory + text).slice(-2048);
 
-      // Process line by line
       while (true) {
-        const newlineIdx = buffer.indexOf("\n");
-        if (newlineIdx === -1) break;
+        const newline = pending.indexOf("\n");
+        if (newline === -1) return;
+        const line = pending.slice(0, newline).trim();
+        pending = pending.slice(newline + 1);
+        if (!line.startsWith("{")) continue;
 
-        const line = buffer.slice(0, newlineIdx).trim();
-        buffer = buffer.slice(newlineIdx + 1);
-
-        // Try to parse as hello message
-        if (line.startsWith("{")) {
-          try {
-            const rawValue = JSON.parse(line);
-            const result = helloMessageSchema.safeParse(rawValue);
-            if (result.success) {
-              if (settled) {
-                return;
-              }
-              settled = true;
-              cleanup();
-
-              // Send ack
-              const ack: HelloAckMessage = {
-                type: "knorvia-hello-ack",
-                version: KNORVIA_VERSION,
-                clientId,
-              };
-              stream.stdin.write(JSON.stringify(ack) + "\n");
-
-              resolve({
-                hello: result.data as HelloMessage,
-                remaining: buffer.length > 0 ? Buffer.from(buffer, "utf-8") : null,
-              });
-              return;
-            }
-            if (
-              rawValue &&
-              typeof rawValue === "object" &&
-              "type" in rawValue &&
-              (rawValue as { type?: unknown }).type === "knorvia-hello"
-            ) {
-              rejectWithDiagnostics(`Invalid knorvia-hello: ${formatZodError(result.error)}`);
-              return;
-            }
-          } catch {
-            // Not JSON, skip (SSH banner line)
+        try {
+          const message: unknown = JSON.parse(line);
+          const parsed = helloMessageSchema.safeParse(message);
+          if (parsed.success) {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            const ack: HelloAckMessage = {
+              type: "knorvia-hello-ack",
+              version: KNORVIA_VERSION,
+              clientId,
+            };
+            stream.stdin.write(`${JSON.stringify(ack)}\n`);
+            resolve({
+              hello: parsed.data,
+              remaining: pending ? Buffer.from(pending, "utf-8") : null,
+            });
+            return;
           }
+
+          if (
+            typeof message === "object" &&
+            message !== null &&
+            "type" in message &&
+            message.type === "knorvia-hello"
+          ) {
+            fail(`Invalid knorvia-hello: ${formatZodError(parsed.error)}`);
+            return;
+          }
+        } catch {
+          // The compatibility boundary also swallows cleanup and ACK errors here.
         }
-        // Non-JSON lines are treated as SSH banner/motd — skip
       }
-    };
+    }
 
-    const onStderrData = (chunk: Buffer) => {
-      stderrText = appendLimited(stderrText, chunk.toString("utf-8"));
-    };
-
-    stream.stdout.on("data", onData);
-    stream.stderr.on("data", onStderrData);
-
-    const closeDisposable = stream.onClose((code) => {
-      rejectWithDiagnostics("Stream closed before handshake completed", code);
+    const timer = setTimeout(() => {
+      fail("Handshake timeout: no knorvia-hello received within timeout");
+    }, timeoutMs);
+    stream.stdout.on("data", receiveStdout);
+    stream.stderr.on("data", receiveStderr);
+    const closeSubscription = stream.onClose((code) => {
+      fail("Stream closed before handshake completed", code);
     });
-
-    const cleanup = () => {
-      clearTimeout(timeout);
-      stream.stdout.removeListener("data", onData);
-      stream.stderr.removeListener("data", onStderrData);
-      closeDisposable.dispose();
+    const cleanup = (): void => {
+      clearTimeout(timer);
+      stream.stdout.removeListener("data", receiveStdout);
+      stream.stderr.removeListener("data", receiveStderr);
+      closeSubscription.dispose();
     };
   });
-}
-
-function appendLimited(current: string, next: string): string {
-  const combined = current + next;
-  if (combined.length <= MAX_HANDSHAKE_DIAGNOSTIC_CHARS) {
-    return combined;
-  }
-  return combined.slice(combined.length - MAX_HANDSHAKE_DIAGNOSTIC_CHARS);
-}
-
-function formatHandshakeFailure(
-  message: string,
-  diagnostics: {
-    exitCode?: number;
-    stdout: string;
-    stderr: string;
-  },
-): string {
-  const parts = [message];
-  if (diagnostics.exitCode !== undefined) {
-    parts.push(`exit code ${diagnostics.exitCode}`);
-  }
-  const stderr = diagnostics.stderr.trim();
-  if (stderr.length > 0) {
-    parts.push(`stderr: ${JSON.stringify(stderr)}`);
-  }
-  const stdout = diagnostics.stdout.trim();
-  if (stdout.length > 0) {
-    // 远端 server 在 hello 前退出时，真正原因只存在 stdout/stderr。
-    // 如果错误只保留“握手关闭”，SSH 启动失败会在 host/main 日志中被压成无上下文的 {}。
-    parts.push(`stdout: ${JSON.stringify(stdout)}`);
-  }
-  return parts.length === 1 ? message : `${message} (${parts.slice(1).join("; ")})`;
 }

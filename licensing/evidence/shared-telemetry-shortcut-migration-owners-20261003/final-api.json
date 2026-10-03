@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "telemetry.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nprocessResourceTelemetry.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nremoteUsageTelemetry.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nshortcutCommands.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nnode/subagentMarkdownMigration.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n",
+  "stderr": "",
+  "exitCode": 0
+}

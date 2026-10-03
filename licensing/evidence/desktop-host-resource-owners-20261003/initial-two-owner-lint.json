@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-host-resource-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+    "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 15ms on 5 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

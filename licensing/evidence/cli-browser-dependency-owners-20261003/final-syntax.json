@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/esbuild",
+    "apps/cli/packages/adapters/src/browser/executable.ts",
+    "apps/cli/packages/adapters/src/browser/playwright-command.ts",
+    "apps/cli/packages/adapters/src/browser/snapshot.ts",
+    "--outdir=/tmp/knorvia-cli-browser-dependency-final-syntax",
+    "--platform=node",
+    "--format=esm",
+    "--log-level=warning"
+  ],
+  "stdout": "",
+  "stderr": "",
+  "exitCode": 0
+}

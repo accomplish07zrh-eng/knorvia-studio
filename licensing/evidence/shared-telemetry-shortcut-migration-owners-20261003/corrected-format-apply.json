@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/telemetry.ts",
+    "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/retained-static-body-shapes.mjs"
+  ],
+  "stdout": "Finished in 19ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

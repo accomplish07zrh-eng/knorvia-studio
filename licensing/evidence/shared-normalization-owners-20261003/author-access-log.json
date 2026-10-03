@@ -1,0 +1,92 @@
+{
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "allAuthorsAllowedReads": [
+    "designated body-free packet",
+    "/workspace/knorvia-studio/AGENTS.md",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+  ],
+  "authors": [
+    {
+      "agent": "/root/shared_endpoint_owner_author",
+      "packet": "endpoint-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-endpoint-authored/endpoint.ts",
+      "accesses": [
+        "cat packet",
+        "parallel cats root AGENTS and architecture skill",
+        "mkdir own tmp directory",
+        "quoted heredoc whole output",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_codec_owner_author",
+      "packet": "codec-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-codec-authored/workspaceFileEntriesCodec.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "apply_patch whole output",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_search_owner_author",
+      "packet": "search-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-search-authored/workspaceFileSearch.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "apply_patch whole output",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_feedback_privacy_author",
+      "packet": "feedback-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-feedback-authored/feedbackPrivacy.ts",
+      "accesses": [
+        "cat packet",
+        "parallel cats root AGENTS and architecture skill",
+        "apply_patch whole output",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_telemetry_redaction_author",
+      "packet": "telemetry-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-telemetry-authored/telemetryRedaction.ts",
+      "accesses": [
+        "single cat packet/root AGENTS/architecture skill",
+        "apply_patch whole output",
+        "sha256sum own output"
+      ],
+      "secondFreezeAccesses": [
+        "quoted heredoc whole output",
+        "sha256sum own output"
+      ],
+      "secondFreezeSha256": "7925d0b927b58bedebf1455bdbbdb454e83395250560030fdbc8ebe15f35d5fd",
+      "thirdFreezeAccesses": [
+        "quoted literal heredoc whole output",
+        "sha256sum own output"
+      ],
+      "thirdFreezeSha256": "ae09b3b5a3e557de5ed1779aa30ab914255f387c96ce893b788b8d8cb7466288"
+    }
+  ],
+  "prohibitedAccessesReportedAbsent": "Source/dependencies/tests/history/other outputs/other guidance/repository edits/runtime/network/user data/credentials.",
+  "curatorSourceExposed": true,
+  "sharedFilesystemNotOsIsolation": true,
+  "curatorInstallation": "Whole frozen outputs followed only by explicit formatting; semantic corrections by fresh author only.",
+  "curatorAdditionalPublicPortsRead": [
+    "WorkspaceFileEntry declaration in protocol.ts",
+    "custom-model-value.ts",
+    "legacy-model-provider-identity.ts",
+    "official-glm-model-id.ts",
+    "model-provider-types.ts exported predicate name"
+  ],
+  "independentProvenanceAcceptance": false,
+  "mitClaim": false
+}

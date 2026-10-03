@@ -1,0 +1,17 @@
+[
+  {
+    "owner": "executable",
+    "wholeRawCorrectionDiff": "--- executable-initial\n+++ executable-correction-1\n@@ -1,6 +1,6 @@\n import { accessSync, constants, existsSync, statSync } from 'node:fs';\n import { isAbsolute, join } from 'node:path';\n-import type { Browser as ChromiumBrowser, BrowserType } from 'playwright-core';\n+import type { BrowserType, ChromiumBrowser } from 'playwright-core';\n \n export interface BrowserExecutableResolutionOptions {\n   env?: NodeJS.ProcessEnv;\n@@ -77,7 +77,7 @@\n       environment.LOCALAPPDATA,\n     ];\n     for (const base of bases) {\n-      if (!Boolean(base?.trim())) continue;\n+      if (!base?.trim()) continue;\n       for (const suffix of windowsSuffixes) {\n         searchOrder.push(join(base as string, ...suffix));\n       }\n",
+    "runtimeRerun": "none; type import and equivalent Boolean coercion only"
+  },
+  {
+    "owner": "playwright-command",
+    "wholeRawCorrectionDiff": "--- playwright-command-initial\n+++ playwright-command-correction-1\n@@ -213,7 +213,7 @@\n             width: `${rect.width}px`,\n             zIndex: '2147483647',\n           });\n-          document.documentElement.appendChild(marker);\n+          document.documentElement.append(marker);\n           added += 1;\n         }\n         return added;\n",
+    "runtimeRerun": "only affected owner cases"
+  },
+  {
+    "owner": "snapshot",
+    "wholeRawCorrectionDiff": "--- snapshot-initial\n+++ snapshot-correction-1\n@@ -91,7 +91,7 @@\n         return siblings.indexOf(node) + 1;\n       };\n       const selectorOf = (node: Element): string => {\n-        const id = node.getAttribute('id') || '';\n+        const id = node.id;\n         if (/^[A-Za-z][A-Za-z0-9_-]*$/.test(id)) return `#${id}`;\n         const steps: string[] = [];\n         let cursor: Element | null = node;\n@@ -218,7 +218,11 @@\n   }\n   const previousBindings = pageBindings.get(page);\n   pageBindings.set(page, nextBindings);\n-  await Promise.all(Array.from(previousBindings?.values() ?? [], (handle) => handle.dispose()));\n+  await Promise.all(\n+    Array.from(previousBindings?.values() ?? [], async (handle) => {\n+      await handle.dispose();\n+    }),\n+  );\n   await Promise.all([reportHandle.dispose(), candidatesHandle.dispose(), envelope.dispose()]);\n   return report;\n }\n",
+    "runtimeRerun": "only affected owner cases"
+  }
+]

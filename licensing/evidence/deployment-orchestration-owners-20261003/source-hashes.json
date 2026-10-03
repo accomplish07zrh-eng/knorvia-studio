@@ -1,0 +1,26 @@
+{
+  "queueBaseline": "60c3b1c544067b753b9476ace3698683c3714428",
+  "freshAuthor": "/root/deploy_orchestration_owner_author",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none",
+  "inputs": {
+    "/tmp/knorvia-deploy-orchestration-author-packet.md": "21901cbb3fecebd2a70e427817f300a800bca1dae50855907e18c84f3c0427cf",
+    "/workspace/knorvia-studio/AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "owners": [
+    {
+      "path": "packages/server/src/remote/deploy.ts",
+      "baselineSha256": "44c2015ac079c2ab434afb2be0b80cce0242f286798b65a71210c3b37a7ba1bf",
+      "rawAuthorSha256": "077dd357772c85f64acc74cfe6fddd199ae24b4dba44105b887822ee53626500",
+      "formattedCandidateSha256": "c722682ad8957d4e6f5f322455b72c3d6034c02d5711750c7f5103597f8d95f4"
+    },
+    {
+      "path": "packages/server/src/remote/deployShared.ts",
+      "baselineSha256": "3ad344414f32c687f2d8921defbd81c9b91ccc1ac161407c1bede6fcc75f14a2",
+      "rawAuthorSha256": "77852e8265406e0a244685b3da1501d4671aab231e97e7d4e3c6d5ca54d68f97",
+      "formattedCandidateSha256": "c23b8ac1083e667574e907f363e60303300eacaa238ac5a0078e3b9fd7c5d86a"
+    }
+  ]
+}

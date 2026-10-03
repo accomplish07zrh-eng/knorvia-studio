@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "/tmp/knorvia-cli-browser-scoped-oxlint-corrected.json",
+    "--disable-nested-config",
+    "--deny-warnings",
+    "apps/cli/packages/adapters/src/browser/executable.ts",
+    "apps/cli/packages/adapters/src/browser/playwright-command.ts",
+    "apps/cli/packages/adapters/src/browser/snapshot.ts",
+    "apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs"
+  ],
+  "stdout": "\n  ! eslint(no-extra-boolean-cast): Redundant Boolean call\n    ,-[apps/cli/packages/adapters/src/browser/executable.ts:80:12]\n 79 |     for (const base of bases) {\n 80 |       if (!Boolean(base?.trim())) continue;\n    :            ^^^^^^^^^^^^^^^^^^^^^\n 81 |       for (const suffix of windowsSuffixes) {\n    `----\n  help: Remove the Boolean call as it will already be coerced to a boolean\n\nFound 1 warning and 0 errors.\nFinished in 22ms on 4 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

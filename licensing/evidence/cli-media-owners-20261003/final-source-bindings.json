@@ -1,0 +1,35 @@
+[
+  {
+    "owner": "image-index",
+    "frozenBaselineSha256": "4773e0c0fdc946e8d5507fdb7384c5408f4388cae731a58faac12fc0bdb51f28",
+    "rawSha256": "0abd9fefe42d9ef5a74556a57ae2633a2b19074be1f756c1f718087a507db804",
+    "rawArtifact": "licensing/evidence/cli-media-owners-20261003/drafts/image-index-initial.ts.txt",
+    "formattedFreezeSha256": "72408786678f814c5771a7ff45b652e3b33ef1d71cf3dfde87e92ab25dfaf547",
+    "installedPath": "apps/cli/packages/adapters/src/image/index.ts",
+    "installedSha256": "72408786678f814c5771a7ff45b652e3b33ef1d71cf3dfde87e92ab25dfaf547",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "de46e4f9555dd2781d12a6b17ebeddd2330da01e"
+  },
+  {
+    "owner": "image-compression",
+    "frozenBaselineSha256": "e7b9256c1ce96d5891f8ffb65fdd82aa430bf057509a37326cfceb04de6a3647",
+    "rawSha256": "e6347a47f55086f4b00574215d0c8cf36d51f923edd17becf27429782e7cf0dc",
+    "rawArtifact": "licensing/evidence/cli-media-owners-20261003/drafts/image-compression-initial.ts.txt",
+    "formattedFreezeSha256": "6d2e22751405a6b74c884e761731474f3918bd682af23e0af7f006b5cfca001b",
+    "installedPath": "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+    "installedSha256": "6d2e22751405a6b74c884e761731474f3918bd682af23e0af7f006b5cfca001b",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "de46e4f9555dd2781d12a6b17ebeddd2330da01e"
+  },
+  {
+    "owner": "pdf-index",
+    "frozenBaselineSha256": "9daaa313beba34f198c09badf7fc719331c2f80a879e6efadf6adef2f0f677ae",
+    "rawSha256": "4ee0b16a0c36597c586844e20879f0cba3b1758aa263f6dbee337f719b5a59dc",
+    "rawArtifact": "licensing/evidence/cli-media-owners-20261003/drafts/pdf-index-correction-1.ts.txt",
+    "formattedFreezeSha256": "f8883fddd331a6d3aa8cad4679b834340f38d812391bff96a1b7acf598afedb1",
+    "installedPath": "apps/cli/packages/adapters/src/pdf/index.ts",
+    "installedSha256": "f8883fddd331a6d3aa8cad4679b834340f38d812391bff96a1b7acf598afedb1",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "de46e4f9555dd2781d12a6b17ebeddd2330da01e"
+  }
+]

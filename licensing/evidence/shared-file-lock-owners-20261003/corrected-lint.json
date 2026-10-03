@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/node/privateFilePersistence.ts"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 28ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

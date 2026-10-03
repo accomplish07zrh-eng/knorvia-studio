@@ -1,0 +1,230 @@
+{
+  "baseHead": "b6bd05af4ff1f33f972fb0b57a6c64b124398df4",
+  "files": [
+    {
+      "path": "packages/server/src/bundledBuiltinProviderConfig.ts",
+      "sha256": "9efad6dd52e08d4f6aff9326f0ae144f371cbd34d65442ee4d190d1fe457d0b2"
+    },
+    {
+      "path": "packages/server/src/entry-http.ts",
+      "sha256": "7e17a999f415edf3e048a5101e1d2cfa306a7ec7fca0ce5a5210585ffde9d5f0"
+    },
+    {
+      "path": "packages/server/src/entry-stdio.ts",
+      "sha256": "f146b1e31266a79cd72b0f5c8a608f14fb19d550977a1111c5a76599368ab96a"
+    },
+    {
+      "path": "packages/server/src/hostCapability.ts",
+      "sha256": "33ba59366619a8a01eb002b627af69108e04a76772372593f17e04e5524b2c20"
+    },
+    {
+      "path": "packages/server/src/http.ts",
+      "sha256": "3945e6e3d42e904f15792a6c240a98302c6add4b398bb84ddd3b7aad152dbdce"
+    },
+    {
+      "path": "packages/server/src/index.ts",
+      "sha256": "827240e9515f54e07390069e2e1250405282c9f1e5f34038457d4c373558bb76"
+    },
+    {
+      "path": "packages/server/src/remote/agentBundleWrapper.ts",
+      "sha256": "a667291a06322f1fd29f4cf7a3d8308de372d20619a858f411c64ab7ed91f0ae"
+    },
+    {
+      "path": "packages/server/src/remote/agentDeploy.ts",
+      "sha256": "1b842fc168bbb313005c6ff0342815732a4f7891b7fa7a1cff08db0ef614514d"
+    },
+    {
+      "path": "packages/server/src/remote/agentDevDeploy.ts",
+      "sha256": "913954f82ebf313352dbd55e9bcbab058b7faba2915157ac7598072c21235a01"
+    },
+    {
+      "path": "packages/server/src/remote/agentOfficialPluginAssets.ts",
+      "sha256": "1153bcf21a3dc19c99d46d28d255ae42106d3967726816efd167739a69203bff"
+    },
+    {
+      "path": "packages/server/src/remote/agentOfficialPluginPermissionRepair.ts",
+      "sha256": "c70f72809c7cd4405ac1e4324315a234b606a74cbe6dceb913c4634239f6ac9f"
+    },
+    {
+      "path": "packages/server/src/remote/agentWrapperDeploy.ts",
+      "sha256": "05d6c238813f4e700df27aab756d6d52aeb1d7be654dbbe94679fd4f2ba7a923"
+    },
+    {
+      "path": "packages/server/src/remote/backend.ts",
+      "sha256": "64fc593f0b977c4788bf5c68ed9439c8b7e94768c33827621b280bdccdca4779"
+    },
+    {
+      "path": "packages/server/src/remote/closeEvent.ts",
+      "sha256": "481399223c1faca8e03fc981317a25e888477f1d9134b9971291694eb30d5445"
+    },
+    {
+      "path": "packages/server/src/remote/connect.ts",
+      "sha256": "547b60cda3c081905d916e87bdd8b8d017f8b2a8af886810487a8527677a9e07"
+    },
+    {
+      "path": "packages/server/src/remote/create-backend.ts",
+      "sha256": "29d70c36ecde3db2e9b80a2dc8fc52629cf7a0c6afa2ae288da7b818d02e78a9"
+    },
+    {
+      "path": "packages/server/src/remote/deploy.ts",
+      "sha256": "c722682ad8957d4e6f5f322455b72c3d6034c02d5711750c7f5103597f8d95f4"
+    },
+    {
+      "path": "packages/server/src/remote/deployShared.ts",
+      "sha256": "c23b8ac1083e667574e907f363e60303300eacaa238ac5a0078e3b9fd7c5d86a"
+    },
+    {
+      "path": "packages/server/src/remote/detectEnv.ts",
+      "sha256": "9cf97377c7b0877b2d6aa29c5c7eba8f759c21b44024bb0935dc78fb55f7f40c"
+    },
+    {
+      "path": "packages/server/src/remote/docker-backend.ts",
+      "sha256": "86a425f3f644d58b82e010b9f75101f7fc923982ad668bb88f03d21ba0c8b73c"
+    },
+    {
+      "path": "packages/server/src/remote/docker-detect.ts",
+      "sha256": "631ac46b6b5545c12db376cce95043351364d25d1ce64f8ebc8034a1bf076c39"
+    },
+    {
+      "path": "packages/server/src/remote/handshake.ts",
+      "sha256": "36d611af1d08b790e5bf91d7ba49a13ec1ff9cd087ecb22353b5b7cb5a151b3c"
+    },
+    {
+      "path": "packages/server/src/remote/index.ts",
+      "sha256": "acb6be39c838c5245aa868a5a719be1b09d144927c31ebd61cdc83b974d46b7c"
+    },
+    {
+      "path": "packages/server/src/remote/localTarGz.ts",
+      "sha256": "918d333f3af9e78ac1e4fcf3fae401baf50da4cd3ad64bf12cae793a0b7e027c"
+    },
+    {
+      "path": "packages/server/src/remote/posixShell.ts",
+      "sha256": "8e33335dfc4ea05618b62fbdcaf96e180da74c42adad185591350e8899c9ba85"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetCache.ts",
+      "sha256": "28d4d2f5d323c49a866832f3233df4dbdfff5cf4c9ec145586077c44a06ced98"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetCdn.ts",
+      "sha256": "6a81f481fafa55be55fcbe3bc1d14172e66938390002ffd0d51ccff2f1bf9db9"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetDeployDecision.ts",
+      "sha256": "ecca04fbdba5ad03c0d2211e017ec22c123a391d455131b7a2e339fedb83bd28"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetInstaller.ts",
+      "sha256": "b1cf127fcba98f7e9ebd04446db4f6247d849e25cfc14b28a3d1079182cb36f2"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetLiveIdentity.ts",
+      "sha256": "83a49990d50438accd61815c6ac56fa1fa3906327d6a80acc096740039250525"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetNetwork.ts",
+      "sha256": "242a6c493e341edafa5fc63e090921add37ee25795de108a21b741620b45d613"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetPreflight.ts",
+      "sha256": "e0d92d009d681554b80a3f737c6d5c03a527f19db12c038282b18e0daecc9d94"
+    },
+    {
+      "path": "packages/server/src/remote/remoteConnectionProgressContext.ts",
+      "sha256": "af8e9a677ed73bbf874bc5756f91831062323f07aa355a978e832dfaf3f425a4"
+    },
+    {
+      "path": "packages/server/src/remote/remoteDeployLock.ts",
+      "sha256": "703e89111590b4e1e9070f710ec228d52a8bf872bdf4d391df5e30be3a06e24b"
+    },
+    {
+      "path": "packages/server/src/remote/remotePlatformSupport.ts",
+      "sha256": "a3e89d8b79cd24324b330e6ef53c7d7076b19e2f923605a5fd8471e91fb12a63"
+    },
+    {
+      "path": "packages/server/src/remote/runtimeToolDeploy.ts",
+      "sha256": "d91572b5ab545d8fea6c45ed1d5050939c52f232743f609cdb4265a45cfd71a2"
+    },
+    {
+      "path": "packages/server/src/remote/serverBundleDeployCheck.ts",
+      "sha256": "2d82793cf797f1e2f0731617751443e7b5360ebf5498b2a85bfb002db22f3504"
+    },
+    {
+      "path": "packages/server/src/remote/ssh-backend.ts",
+      "sha256": "7e5e5fbb8a6c8c75b287d44753de51c39440d2de5676978574c30d343eec47a1"
+    },
+    {
+      "path": "packages/server/src/remote/sshAuth.ts",
+      "sha256": "fb33e8bb7ddaf22064a1eb341063cc9db07eb11914b2578cd000a86fafecf3db"
+    },
+    {
+      "path": "packages/server/src/remote/sshUploadProgress.ts",
+      "sha256": "90810512ac42c2b2a795685d5f494c3827123d1f55f9107a9787127a8fb27941"
+    },
+    {
+      "path": "packages/server/src/remote/stdio-socket.ts",
+      "sha256": "afe41ca29e68c810c3afd320a49f6b66b56e6464dc16c2832dece3c00f268f6f"
+    },
+    {
+      "path": "packages/server/src/remote/wsl-backend.ts",
+      "sha256": "cd9b36191c7b3895a952242ce0cb8958293a63c79bcaee18aba40e35f001360e"
+    },
+    {
+      "path": "packages/server/src/remote/wsl-detect.ts",
+      "sha256": "b61734913096b7f6259e68a06533354d107c4d7898606f39cd62579f41c5ea8d"
+    },
+    {
+      "path": "packages/server/src/remote/wslProxy.ts",
+      "sha256": "b68d3e73777995da4396fef5ab3944bcf486e164ff9bab7659517e9eada4adaf"
+    },
+    {
+      "path": "packages/server/src/stdio-lifecycle.ts",
+      "sha256": "d11805729dc2bb2b3defc158c014df768c8a74b49e5950f6faec4e3a1943ec24"
+    },
+    {
+      "path": "packages/server/src/stdio.ts",
+      "sha256": "2339efa61fd55b45743c223a9726e89ab2da66e791afb36a29d488ac319c1887"
+    },
+    {
+      "path": "packages/server/src/stdioServices.ts",
+      "sha256": "3aa752394a5e1df507e4b56b349077b073f383fca6d1ac7215281c1e9550aa0c"
+    },
+    {
+      "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+      "sha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539"
+    },
+    {
+      "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+      "sha256": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "package.json",
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51"
+    }
+  ],
+  "unchangedRetentionIsNotCompletion": true
+}

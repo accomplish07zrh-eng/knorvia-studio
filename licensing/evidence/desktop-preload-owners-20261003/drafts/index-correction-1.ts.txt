@@ -1,0 +1,597 @@
+import {
+  databaseStartupControlSchema,
+  databaseStartupStateSchema,
+  databaseStartupPortPayloadSchema,
+  InternalChannels,
+  PlatformChannels,
+  formatKnorviaRendererProcessName,
+  shouldEnableE2ETestBridge,
+} from "@knorvia/shared";
+import { contextBridge, ipcRenderer, webFrame, webUtils } from "electron";
+import type {
+  AppSettings,
+  ApplicationIconRequest,
+  BrowserViewOperationPayload,
+  BrowserGuestAttachResult,
+  BrowserViewScreenshotSurfacePreparePayload,
+  BrowserViewScreenshotSurfaceReadyPayload,
+  BrowserViewScreenshotSurfaceReleasePayload,
+  BrowserViewViewportChangedPayload,
+  BrowserViewCloseTabNotification,
+  BrowserViewCloseTabRequest,
+  BrowserViewResidencyReportPayload,
+  BrowserViewResidencyTransitionPayload,
+  BrowserViewRestoredTabShell,
+  BrowserViewRestoreTabsRequest,
+  BrowserViewportSize,
+  DesktopZoomState,
+  DesktopWindowChromeState,
+  DesktopCommandId,
+  DesktopTitleBarTheme,
+  EmbeddedBrowserOpenUrlRequest,
+  Locale,
+  OpenInEditorOptions,
+  RemoteTarget,
+  TaskNotificationPayload,
+  TelemetryRendererContext,
+  RendererActionTraceBatchV1,
+  RendererActionTraceConfigV1,
+  RendererHeapSample,
+  PostUpdateReleaseNotesPayload,
+  RemoteSessionClosedEvent,
+  UpdateCheckResultPayload,
+  UpdateStatePayload,
+  KnorviaStdioTapDevState,
+  LoadCliMcpFromUserDirectoryRequest,
+  MigrateLegacyCommonMcpRequest,
+  SaveCliMcpToUserDirectoryRequest,
+  SaveFileRequest,
+  SaveFileResult,
+  PrintPageToPdfResult,
+  SSHConfigAliasOption,
+  RemoteConnectionRuntimeLog,
+  WindowControlsOverlayMetrics,
+  WindowControlsOverlayReadyPayload,
+  CreateTempTextAttachmentRequest,
+  OpenCuaPermissionOnboardingOptions,
+  ConfigureFinalArmsCustomEventE2ERequest,
+  FinalArmsCustomEventE2EEntry,
+} from "@knorvia/shared";
+
+if (shouldEnableE2ETestBridge(process.env)) {
+  contextBridge.exposeInMainWorld("__knorviaFinalArmsCustomEventsE2E", {
+    read(): Promise<FinalArmsCustomEventE2EEntry[]> {
+      return ipcRenderer.invoke(PlatformChannels.ReadFinalArmsCustomEventsE2E);
+    },
+    clear(): Promise<void> {
+      return ipcRenderer.invoke(PlatformChannels.ClearFinalArmsCustomEventsE2E);
+    },
+    configure(request: ConfigureFinalArmsCustomEventE2ERequest): Promise<void> {
+      return ipcRenderer.invoke(PlatformChannels.ConfigureFinalArmsCustomEventsE2E, request);
+    },
+  });
+}
+
+function boundZoom(level: number): number {
+  return Math.min(5, Math.max(-3, level));
+}
+
+function zoomFromFactor(factor: number): number {
+  return Number.isFinite(factor) && factor > 0
+    ? boundZoom(Math.round(Math.log(factor) / Math.log(1.1)))
+    : 0;
+}
+
+function metricsForZoom(level: number): WindowControlsOverlayMetrics {
+  const factor = 1.1 ** level;
+  if (process.platform === "darwin") {
+    return { leftPaddingPx: Math.round(96 / factor) };
+  }
+  if (process.platform === "win32") {
+    return {
+      rightPaddingPx: Math.round(136 / factor),
+      titleBarHeightPx: Math.round(48 * factor),
+    };
+  }
+  return {};
+}
+
+function currentMetrics(): WindowControlsOverlayMetrics {
+  return metricsForZoom(zoomFromFactor(webFrame.getZoomFactor()));
+}
+
+function subscribe<T>(channel: string, callback: (payload: T) => void): () => void {
+  const handler = (_event: unknown, payload: T) => callback(payload);
+  ipcRenderer.on(channel, handler);
+  return () => ipcRenderer.removeListener(channel, handler);
+}
+
+function subscribeSignal(channel: string, callback: () => void): () => void {
+  const handler = () => callback();
+  ipcRenderer.on(channel, handler);
+  return () => ipcRenderer.removeListener(channel, handler);
+}
+
+let zoomLevel = zoomFromFactor(webFrame.getZoomFactor());
+let overlayMetrics: WindowControlsOverlayMetrics | null | undefined = metricsForZoom(zoomLevel);
+const workspacePathSubscribers = new Set<(path: string) => void>();
+const pendingWorkspacePaths: string[] = [];
+const overlayReady: WindowControlsOverlayReadyPayload = { zoomLevel, metrics: overlayMetrics };
+ipcRenderer.send(PlatformChannels.WindowControlsOverlayReady, overlayReady);
+
+ipcRenderer.on(PlatformChannels.WindowControlsOverlayChanged, (_event, metrics) => {
+  overlayMetrics = metrics;
+});
+ipcRenderer.on(PlatformChannels.DesktopZoomLevelChanged, (_event, state) => {
+  if (Number.isFinite(state.zoomLevel)) {
+    zoomLevel = boundZoom(state.zoomLevel);
+  }
+});
+ipcRenderer.on(PlatformChannels.OpenWorkspacePath, (_event, path) => {
+  if (workspacePathSubscribers.size === 0) {
+    pendingWorkspacePaths.push(path);
+  } else {
+    for (const callback of workspacePathSubscribers) {
+      callback(path);
+    }
+  }
+});
+
+function updateProcessTitle(): void {
+  process.title = formatKnorviaRendererProcessName(document.title);
+}
+updateProcessTitle();
+window.addEventListener("DOMContentLoaded", updateProcessTitle, { once: true });
+
+contextBridge.exposeInMainWorld("knorvia", {
+  connectRemote(options: RemoteTarget, requestId?: string, context?: {
+    workspacePath: string;
+    workspaceIdentity?: string;
+    connectTrigger?: import("@knorvia/shared").RemoteWorkspaceConnectTrigger;
+  }) {
+    return ipcRenderer.invoke(PlatformChannels.ConnectRemote, {
+      target: options,
+      requestId,
+      ...(context ? context : {}),
+    });
+  },
+  cancelPendingRemoteConnection(requestId?: string): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.CancelPendingRemoteConnection, { requestId });
+  },
+  bindRemoteWorkspaceSessionContext(context: {
+    remoteSessionId: string;
+    workspacePath: string;
+    workspaceIdentity?: string;
+  }): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BindRemoteWorkspaceSessionContext, context);
+  },
+  disposeRemoteSession(sessionId: string): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.DisposeRemoteSession, sessionId);
+  },
+  isDockerAvailable(): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.IsDockerAvailable);
+  },
+  listWSLDistros() {
+    return ipcRenderer.invoke(PlatformChannels.ListWSLDistros);
+  },
+  listDockerContainers() {
+    return ipcRenderer.invoke(PlatformChannels.ListDockerContainers);
+  },
+  listSSHConfigAliases(): Promise<SSHConfigAliasOption[]> {
+    return ipcRenderer.invoke(PlatformChannels.ListSSHConfigAliases);
+  },
+  loadMcpFromUserDirectory(payload?: LoadCliMcpFromUserDirectoryRequest) {
+    return ipcRenderer.invoke(PlatformChannels.LoadMcpFromUserDirectory, payload ?? {});
+  },
+  saveMcpToUserDirectory(payload: SaveCliMcpToUserDirectoryRequest) {
+    return ipcRenderer.invoke(PlatformChannels.SaveMcpToUserDirectory, payload);
+  },
+  migrateLegacyCommonMcp(payload?: MigrateLegacyCommonMcpRequest) {
+    return ipcRenderer.invoke(PlatformChannels.MigrateLegacyCommonMcp, payload ?? {});
+  },
+  log(level: "info" | "warn" | "error", args: unknown[]) {
+    return ipcRenderer.send(PlatformChannels.Log, { level, args });
+  },
+  selectDirectory(): Promise<string | null> {
+    return ipcRenderer.invoke(PlatformChannels.SelectDirectory);
+  },
+  selectFile(): Promise<string | null> {
+    return ipcRenderer.invoke(PlatformChannels.SelectFile);
+  },
+  selectFiles(): Promise<string[]> {
+    return ipcRenderer.invoke(PlatformChannels.SelectFiles);
+  },
+  saveFile(payload: SaveFileRequest): Promise<SaveFileResult> {
+    return ipcRenderer.invoke(PlatformChannels.SaveFile, payload);
+  },
+  printPageToPdf(): Promise<PrintPageToPdfResult> {
+    return ipcRenderer.invoke(PlatformChannels.PrintToPdf);
+  },
+  getPathForFile(file: File): string | null {
+    const path = webUtils.getPathForFile(file).trim();
+    return path.length > 0 ? path : null;
+  },
+  createTempTextAttachment(payload: CreateTempTextAttachmentRequest) {
+    return ipcRenderer.invoke(PlatformChannels.CreateTempTextAttachment, payload);
+  },
+  onRemoteConnectionLog(callback: (entry: RemoteConnectionRuntimeLog) => void) {
+    return subscribe(PlatformChannels.RemoteConnectionLog, callback);
+  },
+  onRemoteSessionClosed(callback: (event: RemoteSessionClosedEvent) => void) {
+    return subscribe(PlatformChannels.RemoteSessionClosed, callback);
+  },
+  activateOrSetWorkspace(path: string): Promise<{ activated: boolean }> {
+    return ipcRenderer.invoke(PlatformChannels.ActivateOrSetWorkspace, path);
+  },
+  syncWindowTabs(paths: string[]) {
+    return ipcRenderer.send(PlatformChannels.SyncWindowTabs, paths);
+  },
+  syncWindowUnreadCount(count: number) {
+    return ipcRenderer.send(PlatformChannels.SyncWindowUnreadCount, count);
+  },
+  syncActiveTaskSession(sessionId: string | null) {
+    return ipcRenderer.send(PlatformChannels.SyncActiveTaskSession, sessionId);
+  },
+  syncAppSettings(patch: Partial<AppSettings>) {
+    return ipcRenderer.send(PlatformChannels.SyncAppSettings, patch);
+  },
+  setShortcutRecordingActive(active: boolean) {
+    return ipcRenderer.send(PlatformChannels.SetShortcutRecordingActive, active);
+  },
+  onFocusTab(callback: (path: string) => void): () => void {
+    return subscribe(PlatformChannels.FocusTab, callback);
+  },
+  onNewTab(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.NewTab, callback);
+  },
+  onCloseActiveContextRequest(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.CloseActiveContextRequest, callback);
+  },
+  onOpenBrowserUrl(callback: (request: EmbeddedBrowserOpenUrlRequest) => void): () => void {
+    return subscribe(PlatformChannels.OpenBrowserUrl, callback);
+  },
+  onBrowserViewReady(callback: (payload: {
+    workspaceKey: string;
+    remoteSessionId?: string;
+    sessionId: string;
+    tabId: string;
+    browserId: string;
+    browserGeneration: number;
+  }) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewReady, callback);
+  },
+  onBrowserViewOperation(callback: (payload: BrowserViewOperationPayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewOperation, callback);
+  },
+  onBrowserViewViewportChanged(callback: (payload: BrowserViewViewportChangedPayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewViewportChanged, callback);
+  },
+  onBrowserViewScreenshotSurfacePrepare(callback: (payload: BrowserViewScreenshotSurfacePreparePayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewScreenshotSurfacePrepare, callback);
+  },
+  onBrowserViewScreenshotSurfaceRelease(callback: (payload: BrowserViewScreenshotSurfaceReleasePayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewScreenshotSurfaceRelease, callback);
+  },
+  browserViewScreenshotSurfaceReady(payload: BrowserViewScreenshotSurfaceReadyPayload): void {
+    ipcRenderer.send(PlatformChannels.BrowserViewScreenshotSurfaceReady, payload);
+  },
+  onBrowserViewVisibility(callback: (payload: {
+    visible: boolean;
+    workspaceKey: string;
+    remoteSessionId: string | undefined;
+    sessionId: string;
+    tabId?: string;
+    browserId: string;
+    browserGeneration: number;
+  }) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewVisibility, callback);
+  },
+  onBrowserViewCloseTab(callback: (payload: BrowserViewCloseTabNotification) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewCloseTab, callback);
+  },
+  onBrowserViewSuspend(callback: (payload: BrowserViewResidencyTransitionPayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewSuspend, callback);
+  },
+  onBrowserViewRestore(callback: (payload: BrowserViewResidencyTransitionPayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewRestore, callback);
+  },
+  onNewTask(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.NewTask, callback);
+  },
+  onOpenWorkspace(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.OpenWorkspace, callback);
+  },
+  onOpenWorkspacePath(callback: (path: string) => void): () => void {
+    workspacePathSubscribers.add(callback);
+    while (pendingWorkspacePaths.length > 0) {
+      const path = pendingWorkspacePaths.shift();
+      if (path) callback(path);
+    }
+    return () => workspacePathSubscribers.delete(callback);
+  },
+  onOpenFeedbackDialog(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.OpenFeedbackDialog, callback);
+  },
+  onOpenTicketsPanel(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.OpenTicketsPanel, callback);
+  },
+  onWindowFullscreenChanged(callback: (isFullscreen: boolean) => void): () => void {
+    return subscribe(PlatformChannels.WindowFullscreenChanged, callback);
+  },
+  getDesktopWindowChromeState(): Promise<DesktopWindowChromeState> {
+    return ipcRenderer.invoke(PlatformChannels.GetDesktopWindowChromeState);
+  },
+  onDesktopWindowChromeStateChanged(callback: (state: DesktopWindowChromeState) => void): () => void {
+    return subscribe(PlatformChannels.DesktopWindowChromeStateChanged, callback);
+  },
+  getWindowControlsOverlayMetrics(): WindowControlsOverlayMetrics {
+    return overlayMetrics ?? currentMetrics();
+  },
+  onWindowControlsOverlayChanged(callback: (metrics: WindowControlsOverlayMetrics) => void): () => void {
+    callback(overlayMetrics ?? currentMetrics());
+    return subscribe(PlatformChannels.WindowControlsOverlayChanged, callback);
+  },
+  async getDesktopZoomLevel(): Promise<DesktopZoomState> {
+    const state = await ipcRenderer.invoke(PlatformChannels.GetDesktopZoomLevel);
+    if (Number.isFinite(state?.zoomLevel)) {
+      zoomLevel = boundZoom(state.zoomLevel);
+    }
+    return { zoomLevel };
+  },
+  onDesktopZoomLevelChanged(callback: (state: DesktopZoomState) => void): () => void {
+    callback({ zoomLevel });
+    const handler = (_event: unknown, state: DesktopZoomState) => {
+      if (!Number.isFinite(state.zoomLevel)) return;
+      zoomLevel = boundZoom(state.zoomLevel);
+      callback({ zoomLevel });
+    };
+    ipcRenderer.on(PlatformChannels.DesktopZoomLevelChanged, handler);
+    return () => ipcRenderer.removeListener(PlatformChannels.DesktopZoomLevelChanged, handler);
+  },
+  onTaskNotificationClick(callback: (taskId: string) => void): () => void {
+    return subscribe(PlatformChannels.TaskNotificationClick, callback);
+  },
+  openExternal(url: string) {
+    return ipcRenderer.send(PlatformChannels.OpenExternal, url);
+  },
+  canOpenCommunity(locale: Locale): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.CanOpenCommunity, locale);
+  },
+  openInFileManager(path: string) {
+    return ipcRenderer.invoke(PlatformChannels.OpenInFileManager, path);
+  },
+  openExternalFile(path: string) {
+    return ipcRenderer.invoke(PlatformChannels.OpenExternalFile, path);
+  },
+  openCuaPermissionOnboarding(options?: OpenCuaPermissionOnboardingOptions) {
+    return ipcRenderer.invoke(PlatformChannels.OpenCuaPermissionOnboarding, options);
+  },
+  cancelCuaPermissionOnboarding(operationId: string) {
+    return ipcRenderer.send(PlatformChannels.CancelCuaPermissionOnboarding, { operationId });
+  },
+  prepareCuaHelperPermissionDrag() {
+    return ipcRenderer.invoke(PlatformChannels.PrepareCuaHelperPermissionDrag);
+  },
+  startCuaHelperPermissionDrag() {
+    return ipcRenderer.send(PlatformChannels.StartCuaHelperPermissionDrag);
+  },
+  notifyRendererReady() {
+    return ipcRenderer.send(PlatformChannels.RendererReady);
+  },
+  syncTelemetryContext(_context: TelemetryRendererContext) {},
+  reportTelemetryEvent(_payload: {
+    context: TelemetryRendererContext;
+    elementName: string;
+    eventRegion: string;
+    eventType: string;
+    eventText?: string;
+    eventExtraDetail: Record<string, string>;
+    userId?: string;
+    talkId?: string;
+    messageId?: string;
+  }) {
+    return Promise.resolve(undefined);
+  },
+  reportArmsCustomEvent(_payload: {
+    name: string;
+    group: string;
+    value?: number;
+    properties?: Record<string, string | number | boolean | undefined>;
+  }) {
+    return Promise.resolve(undefined);
+  },
+  getRendererActionTraceConfig(): Promise<RendererActionTraceConfigV1> {
+    return ipcRenderer.invoke(PlatformChannels.GetRendererActionTraceConfig);
+  },
+  onRendererActionTraceConfigChanged(callback: (config: RendererActionTraceConfigV1) => void): () => void {
+    return subscribe(PlatformChannels.RendererActionTraceConfigChanged, callback);
+  },
+  reportLocalTtftBatch: (batch: import("@knorvia/shared").LocalTtftBatch): void =>
+    ipcRenderer.send(PlatformChannels.ReportLocalTtftBatch, batch),
+  reportRendererActionTraceBatch: (batch: RendererActionTraceBatchV1): void =>
+    ipcRenderer.send(PlatformChannels.ReportRendererActionTraceBatch, batch),
+  reportRendererHeapSample: (sample: RendererHeapSample): void =>
+    ipcRenderer.send(PlatformChannels.ReportRendererHeapSample, sample),
+  showTaskNotification(payload: TaskNotificationPayload) {
+    return ipcRenderer.send(PlatformChannels.ShowTaskNotification, payload);
+  },
+  exportLogs(): Promise<{ success: boolean; path?: string; error?: string }> {
+    return ipcRenderer.invoke(PlatformChannels.ExportLogs);
+  },
+  previewLocalDiagnostics(request: import("@knorvia/shared").LocalDiagnosticRequest): Promise<import("@knorvia/shared").LocalDiagnosticPreview> {
+    return ipcRenderer.invoke(PlatformChannels.PreviewLocalDiagnostics, request);
+  },
+  exportLocalDiagnostics(id: string): Promise<import("@knorvia/shared").LocalDiagnosticExportResult> {
+    return ipcRenderer.invoke(PlatformChannels.ExportLocalDiagnostics, id);
+  },
+  checkReleaseUpdate(): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> {
+    return ipcRenderer.invoke(PlatformChannels.CheckReleaseUpdate);
+  },
+  captureWindowScreenshot() {
+    return ipcRenderer.invoke(PlatformChannels.CaptureWindowScreenshot);
+  },
+  browserViewAttachGuest(payload: {
+    key: string;
+    webContentsId: number;
+    active?: boolean;
+    workspaceKey?: string;
+    remoteSessionId?: string;
+    sessionId?: string;
+    residencyGeneration?: number;
+  }): Promise<BrowserGuestAttachResult> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewAttachGuest, payload);
+  },
+  browserViewDetachGuest(payload: { key: string; webContentsId: number }): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewDetachGuest, payload);
+  },
+  browserViewCloseTab(payload: BrowserViewCloseTabRequest): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewCloseTabFromRenderer, payload);
+  },
+  browserViewReportResidency(payload: BrowserViewResidencyReportPayload): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewReportResidency, payload);
+  },
+  browserViewSuspendReady(payload: { tabId: string; generation: number }): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewSuspendReady, payload);
+  },
+  browserViewEnsureResident(payload: BrowserViewCloseTabRequest): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewEnsureResident, payload);
+  },
+  browserViewRestoreTabs(payload: BrowserViewRestoreTabsRequest): Promise<BrowserViewRestoredTabShell[]> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewRestoreTabs, payload);
+  },
+  browserViewUpdateViewport(payload: { tabId: string; viewport: BrowserViewportSize | null }) {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewUpdateViewport, payload);
+  },
+  importChromeBrowserData(options?: import("@knorvia/shared").ChromeBrowserDataImportOptions) {
+    return ipcRenderer.invoke(PlatformChannels.ImportChromeBrowserData, options);
+  },
+  clearEmbeddedBrowserData(mode: "cache" | "all") {
+    return ipcRenderer.invoke(PlatformChannels.ClearEmbeddedBrowserData, mode);
+  },
+  getKnorviaStdioTapDevState(): Promise<KnorviaStdioTapDevState> {
+    return ipcRenderer.invoke(PlatformChannels.GetKnorviaStdioTapDevState);
+  },
+  onSettingsChanged(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.SettingsChanged, callback);
+  },
+  onApplicationLocaleChanged(callback: (locale: Locale) => void): () => void {
+    return subscribe(PlatformChannels.ApplicationLocaleChanged, callback);
+  },
+  onUpdateCheckResult(_callback: (payload: UpdateCheckResultPayload) => void) {
+    return () => {};
+  },
+  getUpdateState(): Promise<UpdateStatePayload> {
+    return Promise.resolve({ kind: "idle", enabled: false });
+  },
+  onUpdateStateChanged(_callback: (payload: UpdateStatePayload) => void) {
+    return () => {};
+  },
+  onUpdateReady(_callback: (version: string) => void) {
+    return () => {};
+  },
+  onPostUpdateReleaseNotes(_callback: (payload: PostUpdateReleaseNotesPayload) => void) {
+    return () => {};
+  },
+  getAutoUpdatePreferences() {
+    return Promise.resolve({ autoDownloadAndInstallUpdates: false });
+  },
+  setAutoDownloadAndInstallUpdates(_enabled: boolean) {
+    return Promise.resolve(undefined);
+  },
+  downloadUpdate() {
+    return Promise.resolve(undefined);
+  },
+  cancelUpdateDownload() {
+    return Promise.resolve(undefined);
+  },
+  openUpdateStatusWindow() {
+    return Promise.resolve(undefined);
+  },
+  acknowledgePostUpdateReleaseNotes(_version: string) {
+    return Promise.resolve(undefined);
+  },
+  skipUpdateVersion(_version: string) {
+    return Promise.resolve(undefined);
+  },
+  quitAndInstallUpdate() {
+    return Promise.resolve(undefined);
+  },
+  getDesktopSessionActivity() {
+    return ipcRenderer.invoke(PlatformChannels.GetDesktopSessionActivity);
+  },
+  getInstalledEditors() {
+    return ipcRenderer.invoke(PlatformChannels.GetInstalledEditors);
+  },
+  getApplicationIcon(request: string | ApplicationIconRequest) {
+    return ipcRenderer.invoke(PlatformChannels.GetApplicationIcon, request);
+  },
+  openInEditor(editorId: string, path: string, options?: OpenInEditorOptions) {
+    return ipcRenderer.invoke(PlatformChannels.OpenInEditor, { editorId, path, options });
+  },
+  executeDesktopCommand(command: DesktopCommandId) {
+    return ipcRenderer.invoke(PlatformChannels.ExecuteDesktopCommand, command);
+  },
+  setApplicationLocale(locale: Locale) {
+    return ipcRenderer.invoke(PlatformChannels.SetApplicationLocale, locale);
+  },
+  getSystemLocale(): Promise<Locale> {
+    return ipcRenderer.invoke(PlatformChannels.GetSystemLocale);
+  },
+  setTitleBarTheme(theme: DesktopTitleBarTheme) {
+    return ipcRenderer.invoke(PlatformChannels.SetTitleBarTheme, theme);
+  },
+  setWindowGlass(enabled: boolean): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.SetWindowGlass, enabled);
+  },
+  getDeviceId() {
+    return ipcRenderer.invoke(PlatformChannels.GetDeviceId);
+  },
+});
+
+ipcRenderer.on(InternalChannels.ServicePort, (event, payload) => {
+  const [port] = event.ports;
+  const parsed = databaseStartupPortPayloadSchema.safeParse(payload);
+  if (port && parsed.success) {
+    window.postMessage({ type: InternalChannels.ServicePort, ...parsed.data }, "*", [port]);
+  } else {
+    port?.close();
+  }
+});
+ipcRenderer.on(InternalChannels.ScopedServicePort, (event, payload) => {
+  const [port] = event.ports;
+  if (port) {
+    window.postMessage({
+      type: InternalChannels.ScopedServicePort,
+      attachmentId: payload.attachmentId,
+      sessionId: payload.sessionId,
+      target: payload.target,
+    }, "*", [port]);
+  }
+});
+window.addEventListener("message", (event) => {
+  if (event.source !== window || typeof event.data !== "object" || event.data === null) return;
+  const payload = event.data;
+  if (payload.type !== InternalChannels.ScopedServicePortReady) return;
+  if (typeof payload.attachmentId !== "string" || !payload.attachmentId) return;
+  if (typeof payload.sessionId !== "string" || !payload.sessionId) return;
+  ipcRenderer.send(InternalChannels.ScopedServicePortReady, {
+    attachmentId: payload.attachmentId,
+    sessionId: payload.sessionId,
+  });
+});
+ipcRenderer.on(PlatformChannels.TaskNotificationSound, () => {
+  window.postMessage(InternalChannels.TaskNotificationSound, "*");
+});
+ipcRenderer.on(InternalChannels.DatabaseStartupState, (_event, raw) => {
+  const parsed = databaseStartupStateSchema.safeParse(raw);
+  if (parsed.success) {
+    window.postMessage({ type: InternalChannels.DatabaseStartupState, state: parsed.data }, "*");
+  }
+});
+window.addEventListener("message", (event) => {
+  if (event.source !== window || event.data?.type !== InternalChannels.DatabaseStartupControl) return;
+  const parsed = databaseStartupControlSchema.safeParse(event.data.control);
+  if (parsed.success) {
+    ipcRenderer.send(InternalChannels.DatabaseStartupControl, parsed.data);
+  }
+});

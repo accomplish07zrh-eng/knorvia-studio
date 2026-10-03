@@ -1,0 +1,10 @@
+{
+  "authorOutput": "/tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts",
+  "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/corrected-lineChangeStat.ts",
+  "sha256": "856d949024700615e814671793321eba131de3fd972c22e1e01963f20f1a49bc",
+  "exactCommands": [
+    "cat > /tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts <<'EOF' (whole internal draft)",
+    "sha256sum /tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts"
+  ],
+  "otherReadsWritesChecks": "None"
+}

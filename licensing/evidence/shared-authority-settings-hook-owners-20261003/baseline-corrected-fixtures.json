@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^(settings owner|hook mutation owner)",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs",
+    "/tmp/knorvia-shared-authority-settings-hook-baseline"
+  ],
+  "stdout": "\u2714 settings owner preserves legacy migration and tolerant reads versus strict patches (36.664611ms)\n\u2714 hook mutation owner denies unreviewed writes and preserves flushed cleanup order (6.336138ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 47.051567\n",
+  "stderr": "",
+  "exitCode": 0
+}

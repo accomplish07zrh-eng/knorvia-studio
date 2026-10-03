@@ -1,0 +1,11 @@
+{
+  "label": "final-whitespace",
+  "cmd": "git diff --check",
+  "result": {
+    "chunk_id": "e41d02",
+    "wall_time_seconds": 0.000028172,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts",
+    "licensing/evidence/desktop-screenshot-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-screenshot-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-screenshot-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-screenshot-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-screenshot-owners-20261003/README.md",
+    "licensing/evidence/desktop-screenshot-owners-20261003/corrections-and-access.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+      "sha256": "594b592f81e485b788f781d28fba7f2657e54332554714021ec89cc77212fce9"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+      "sha256": "df8e32d4826318aaf87a982e2eb5709650a50e6f8653b4e861360d8b7a726cc4"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts",
+      "sha256": "f0e97b187e62f8d10690d5a72976acc7883dee90fdf5f6fc04ff18a1f6f6efe9"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/scoped-static.mjs",
+      "sha256": "ed4e18cd2fafb45edd2222dae812608a485e05760ed22976a198d369c48f67eb"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/record-run.mjs",
+      "sha256": "7ae3fef86d68253d27db89693ee896c112c160c8596f247a67b49bb9990a32d1"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/retained-shapes.mjs",
+      "sha256": "3e1728d445ac4bacf3da463d9729c020f36998c70330e09da9b3d12dabab4e88"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/final-bindings.mjs",
+      "sha256": "eba540dcb6932bff7f762f821c952698a47da76a767bc047d848dc6d280466b5"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/README.md",
+      "sha256": "bdf8047f56d21897b55078299f06c040b679e3aca8c416bb8c5a9b1331b3c286"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/corrections-and-access.md",
+      "sha256": "81c840d8d3853efd8b429ddf6219f299c33cb31187aa48da5637eebc922cdc05"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 103ms on 9 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

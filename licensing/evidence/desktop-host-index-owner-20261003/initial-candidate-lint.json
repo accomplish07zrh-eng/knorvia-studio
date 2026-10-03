@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-host-index-owner-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/host/index.ts"
+  ],
+  "stdout": "\n  x eslint(max-lines): File has too many lines (1919).\n      ,-[packages/desktop/src/host/index.ts:1947:4]\n 1946 |   await databaseStartup.coordinator.start();\n 1947 | });\n      :    ^\n      `----\n  help: Maximum allowed is 400.\n\n  ! eslint(no-unassigned-vars): 'notifyConnectionClose' is always 'undefined' because it's never assigned.\n     ,-[packages/desktop/src/host/index.ts:508:5]\n 507 | \n 508 | let notifyConnectionClose: ((event: WindowRemoteConnectionCloseEvent) => void) | undefined;\n     :     ^^^^^^^^^^^^^^^^^^^^^\n 509 | \n     `----\n  help: Variable declared without assignment. Either assign a value or remove the declaration.\n\n  ! eslint(no-unused-vars): Function 'connectBackend' is declared but never used.\n     ,-[packages/desktop/src/host/index.ts:462:16]\n 461 | \n 462 | async function connectBackend(\n     :                ^^^^^^^|^^^^^^\n     :                       `-- 'connectBackend' is declared here\n 463 |   target: RemoteTarget,\n     `----\n  help: Consider removing this declaration.\n\nFound 2 warnings and 1 error.\nFinished in 26ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

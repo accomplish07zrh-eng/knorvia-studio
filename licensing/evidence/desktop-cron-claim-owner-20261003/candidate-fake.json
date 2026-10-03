@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/host/cronClaimOwner.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/cronClaimOwner.test.mjs",
+      "sha256": "bb10b1160757529615cfbbe09ca7387d487044f98868be24ec3fc7bd3216f9e9"
+    }
+  ],
+  "stdout": "✔ Cron claim injected authority, live await identities and heartbeat lifetime (66.973842ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 357.248936\n",
+  "stderr": "",
+  "exitCode": 0
+}

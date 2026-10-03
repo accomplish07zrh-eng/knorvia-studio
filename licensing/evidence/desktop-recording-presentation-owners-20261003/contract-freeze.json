@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/common-contract.md",
+      "sha256": "55afeb2a6a691879479939132052051e9ccec589386bdc5d1867f49598e98e0d"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/video-owner-contract.md",
+      "sha256": "9dd8c5477670701f2c0ffdaddd6c366768a2386a7722cac5c5a81d03902b9796"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/webm-owner-contract.md",
+      "sha256": "80ea46cd66805cc9e3cce0b23f08efc479d748514cd151a5fba9a23fdaf43203"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/bootstrap-owner-contract.md",
+      "sha256": "e939587c81ad6dfc483e017a9595487dd4a118abeb27253ea51cc5ef2b28e069"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/ports/bootstrap.d.ts",
+      "sha256": "c0a25ce65a561209eef67ba8e74a4b0d8e6c0ea0f497527ce6b48b36b7649ee7"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/ports/electron.d.ts",
+      "sha256": "c6fcff7b4d7bd9fb0f63575198066d27ddbdce5695715668a024edf4c2a2748f"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/ports/shared.d.ts",
+      "sha256": "c4e42d0635ad1fa2a4666ac1670dfd8ddd28364b5f552a7a0a7361ec707c2af7"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/ports/video.d.ts",
+      "sha256": "11407e7d3397b9a492d37f101f8a1232e79bcef20581cfa72a22f56f5e8bfd4a"
+    },
+    {
+      "path": "specs/knorvia-desktop-recording-presentation-owners-20261003.md",
+      "sha256": "284af69223a0e93bf80c6ed5c477f606fb0c018325a01a48aece696c983ea9a7"
+    }
+  ],
+  "curatorSourceExposed": true,
+  "forkTurns": "none",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "FastVerified": false,
+  "portsNotActualDependencySemanticClosure": true
+}

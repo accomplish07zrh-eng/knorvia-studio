@@ -1,0 +1,77 @@
+[
+  {
+    "owner": "executable",
+    "agent": "/root/browser_executable_author",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "forkTurns": "none",
+    "initialSha256": "2c50f0dd41ca92f902d4bf93fea9f7ffa392af95d9cffcacce9532c2eda866da",
+    "correction1Sha256": "2fb2a34122308dd174d1ff9c1790d61e23dbd9dea5a95b3af589b5f81ed20019",
+    "initialReads": [
+      "executable-author-packet.md",
+      "/workspace/knorvia-studio/AGENTS.md",
+      "/workspace/knorvia-studio/apps/cli/AGENTS.md",
+      "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+    ],
+    "correctionReads": [
+      "executable-correction-1-packet.md"
+    ],
+    "reportedWriting": "one whole literal heredoc then SHA only",
+    "reportedExcludedActions": [
+      "self/output/source/test/dependency/history/config/env/other-author inspection",
+      "native/network/runtime/test/build/formatter calls",
+      "repository writes"
+    ],
+    "limit": "Self-reported access on shared filesystem, not an OS-enforced clean room; curator source-exposed."
+  },
+  {
+    "owner": "playwright-command",
+    "agent": "/root/browser_playwright_author",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "forkTurns": "none",
+    "initialSha256": "5344c17a737fead43b87f4ee7d3e1496bbafd8071718739ab6eda8886e89348a",
+    "correction1Sha256": "4790c2fe391847c9382a0ccf8a845b4b95bb3f5221083b3ca9ca7d193ade5582",
+    "initialReads": [
+      "playwright-command-author-packet.md",
+      "/workspace/knorvia-studio/AGENTS.md",
+      "/workspace/knorvia-studio/apps/cli/AGENTS.md",
+      "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+    ],
+    "correctionReads": [
+      "playwright-command-correction-1-packet.md"
+    ],
+    "reportedWriting": "one whole literal heredoc then SHA only",
+    "reportedExcludedActions": [
+      "self/output/source/test/dependency/history/config/env/other-author inspection",
+      "native/network/runtime/test/build/formatter calls",
+      "repository writes"
+    ],
+    "limit": "Self-reported access on shared filesystem, not an OS-enforced clean room; curator source-exposed."
+  },
+  {
+    "owner": "snapshot",
+    "agent": "/root/browser_snapshot_author",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "forkTurns": "none",
+    "initialSha256": "973fdd43dda9af92bcaaeb8a32b511eb025b178ba3a400a1b9a83b10ce1c0328",
+    "correction1Sha256": "1cb98396a5e08d72d0f4688225b5c43e441e55a45c8ddb3c3c91300131f29a02",
+    "initialReads": [
+      "snapshot-author-packet.md",
+      "/workspace/knorvia-studio/AGENTS.md",
+      "/workspace/knorvia-studio/apps/cli/AGENTS.md",
+      "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+    ],
+    "correctionReads": [
+      "snapshot-correction-1-packet.md"
+    ],
+    "reportedWriting": "one whole literal heredoc then SHA only",
+    "reportedExcludedActions": [
+      "self/output/source/test/dependency/history/config/env/other-author inspection",
+      "native/network/runtime/test/build/formatter calls",
+      "repository writes"
+    ],
+    "limit": "Self-reported access on shared filesystem, not an OS-enforced clean room; curator source-exposed."
+  }
+]

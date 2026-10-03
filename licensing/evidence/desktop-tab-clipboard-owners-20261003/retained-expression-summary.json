@@ -1,0 +1,82 @@
+[
+  {
+    "owner": "residency",
+    "kind": "installed",
+    "source": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+    "sourceSha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8",
+    "bodyPairs": 9,
+    "uniqueBodies": 9,
+    "expressions": 222,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "recovery",
+    "kind": "installed",
+    "source": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+    "sourceSha256": "fb626c4ce574b584a2f2ac5b187b5edf2b8dc29ef4e0c2292ec5179e185cf75b",
+    "bodyPairs": 43,
+    "uniqueBodies": 18,
+    "expressions": 278,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "clipboard",
+    "kind": "installed",
+    "source": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+    "sourceSha256": "9476d0876f408a2d5dfb3e90884b3f8b2eeeb648c04610f6eef09a3ceb82ffec",
+    "bodyPairs": 23,
+    "uniqueBodies": 8,
+    "expressions": 216,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "clipboard",
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/clipboard-correction-1.ts.txt",
+    "sourceSha256": "2e020fd1746cf5bf694cfb13fce7829446d2c0fbab5eddfb14db67c945942d54",
+    "bodyPairs": 23,
+    "uniqueBodies": 8,
+    "expressions": 215,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "clipboard",
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/clipboard-initial.ts.txt",
+    "sourceSha256": "a91e431c3daee914dfad6e4958bb5e2954c9bb098ca34f6d9b2de1c4d3e92c88",
+    "bodyPairs": 23,
+    "uniqueBodies": 8,
+    "expressions": 216,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "recovery",
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/recovery-initial.ts.txt",
+    "sourceSha256": "75e1895e91a4e74dcdd271f3aa17798394383facb635a940d074179b333aebc1",
+    "bodyPairs": 43,
+    "uniqueBodies": 18,
+    "expressions": 278,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "residency",
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/residency-correction-1.ts.txt",
+    "sourceSha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8",
+    "bodyPairs": 9,
+    "uniqueBodies": 9,
+    "expressions": 222,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "residency",
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/residency-initial.ts.txt",
+    "sourceSha256": "a0f187308273eec1b822e27262171533d2308f2a8edb4943341a9fa299e70c75",
+    "bodyPairs": 8,
+    "uniqueBodies": 8,
+    "expressions": 218,
+    "acceptedIndependentReplacementCredit": 0
+  }
+]

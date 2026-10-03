@@ -1,0 +1,17 @@
+{
+  "owner": "browserVirtualClipboard.ts",
+  "readPaths": [
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/clipboard-owner-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-policy.d.ts",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-view.d.ts"
+  ],
+  "writePaths": [
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/author-output/clipboard/browserVirtualClipboard.ts",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/author-output/clipboard/access.json"
+  ],
+  "accessExceptions": [],
+  "sourceHashSha256": "a91e431c3daee914dfad6e4958bb5e2954c9bb098ca34f6d9b2de1c4d3e92c88",
+  "sourceBytes": 10029,
+  "verification": "Authored literal only; no production, git, test, lint, compilation, runtime, native, or network action. Shared filesystem boundary was instructional rather than an OS cleanroom."
+}

@@ -1,0 +1,162 @@
+{
+  "files": {
+    "packages/rpc/src/protocol.ts": {
+      "baselineCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "baselineBlob": "836350b45ee70b8d78f7fd711c74287ba735d661",
+      "baseline": {
+        "sha256": "1c26b9adb7edf661aa7ec9347aa009bd9fcb29b98e07ccf606714fe9ae018d56",
+        "bytes": 12702
+      },
+      "initialFreeze": {
+        "sha256": "32fe0aabb9a32582238400486c00056c81e611ccd2220fcfc34191e5c132baba",
+        "bytes": 8100
+      },
+      "installedFreeze": {
+        "sha256": "32fe0aabb9a32582238400486c00056c81e611ccd2220fcfc34191e5c132baba",
+        "bytes": 8100
+      },
+      "candidate": {
+        "sha256": "02e5815d8e109dd3f85d53452d73480272569f9d3f4f7a5f8fadbda76f00b592",
+        "bytes": 8100
+      },
+      "packet": {
+        "sha256": "4891edd89972d80ac8f09c136d0ab7fc3b051459c436ab02055e00e52973c93f",
+        "bytes": 6632
+      }
+    },
+    "packages/rpc/src/proxy-channel.ts": {
+      "baselineCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "baselineBlob": "c9ea76ee185a02f8ccfbf269ab9d6d0dfd5dc95b",
+      "baseline": {
+        "sha256": "1f81da70701f1ae95856c3a94abca456fd8352e7860013609d19f567bfdc94fb",
+        "bytes": 7059
+      },
+      "initialFreeze": {
+        "sha256": "c44aa025615f0809e43299ac3efb8096b56312e42f242623bfc1ff8c6d4246c2",
+        "bytes": 3814
+      },
+      "installedFreeze": {
+        "sha256": "c44aa025615f0809e43299ac3efb8096b56312e42f242623bfc1ff8c6d4246c2",
+        "bytes": 3814
+      },
+      "candidate": {
+        "sha256": "cceb7734ed1c11a3135939341acedca2916e4f0eeaa06ed2e2c54e39f28cbe01",
+        "bytes": 3770
+      },
+      "packet": {
+        "sha256": "4afdb3530e69fb159954011cb904e3582bad0dd7db67c0623959e4aaae13b3b6",
+        "bytes": 4730
+      }
+    },
+    "packages/rpc/src/buffer.ts": {
+      "baselineCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "baselineBlob": "f5945d12b5e1a07d14ce24345406cc96842458ea",
+      "baseline": {
+        "sha256": "6bc6a44e6abd088f72d57616d9556d78ce078b6f3813bf75402dde386781492c",
+        "bytes": 2423
+      },
+      "initialFreeze": {
+        "sha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+        "bytes": 1866
+      },
+      "installedFreeze": {
+        "sha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+        "bytes": 1866
+      },
+      "candidate": {
+        "sha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+        "bytes": 1866
+      },
+      "packet": {
+        "sha256": "a9919c9dad7d51277626e2118c5d9427d64f18d2c4d6b9d198b3cac2ab5ceb47",
+        "bytes": 2691
+      }
+    },
+    "packages/rpc/src/foundation.ts": {
+      "baselineCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "baselineBlob": "19b78c3f84266f5cb9e14621984d5cb1c04e3a8d",
+      "baseline": {
+        "sha256": "84ccf6231582d652bb30facc7c525279f927d3ba26fb315ac8c377e43acd87d8",
+        "bytes": 6812
+      },
+      "initialFreeze": {
+        "sha256": "b9d3ec194e1e0cb6b74049a81fc9aa275504e546f37375fc5d2de0324801a9b6",
+        "bytes": 4655
+      },
+      "installedFreeze": {
+        "sha256": "b9d3ec194e1e0cb6b74049a81fc9aa275504e546f37375fc5d2de0324801a9b6",
+        "bytes": 4655
+      },
+      "candidate": {
+        "sha256": "fc2d655c586b91f9326adf2ab3e1649c1b3aaaa02ac69e60ac1fb8dcb193c140",
+        "bytes": 4675
+      },
+      "packet": {
+        "sha256": "a07744a36da8aa9de1787814aee0e7ef3c1b5e09e3598164bc9fc5f07eb2fd3d",
+        "bytes": 5036
+      }
+    },
+    "packages/rpc/src/serialization.ts": {
+      "baselineCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "baselineBlob": "65d2d2fae85ae92f3eefb909af11e94e402d7b1b",
+      "baseline": {
+        "sha256": "a73fc4911723036a9c47a4d5a4dfe8860d5eaee649fd1541c3b051d9a9c866e7",
+        "bytes": 8744
+      },
+      "initialFreeze": {
+        "sha256": "0abdd657ea24cd3cb8ff76f9de4b781e6ab64102b3d7e6e3e68bbf2523f46f0b",
+        "bytes": 5634
+      },
+      "installedFreeze": {
+        "sha256": "a848cc8f2cc1b29b40801551b148761225221452135766601dcfd8012e100f79",
+        "bytes": 5639
+      },
+      "candidate": {
+        "sha256": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
+        "bytes": 5892
+      },
+      "packet": {
+        "sha256": "5b43224bdff066a440b86aa1036ff6234954c495889c6e870d0d0b2278984d03",
+        "bytes": 4770
+      }
+    }
+  },
+  "inputBindings": {
+    "AGENTS.md": {
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "bytes": 10384
+    },
+    ".agents/skills/architecture-governance/SKILL.md": {
+      "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+      "bytes": 5026
+    },
+    "licensing/current-files.json": {
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff",
+      "bytes": 9510569
+    },
+    "licensing/reviews.json": {
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "bytes": 3446188
+    },
+    "packages/rpc/src/channels.ts": {
+      "sha256": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
+      "bytes": 199
+    },
+    "packages/rpc/src/channels.shared.ts": {
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+      "bytes": 1723
+    }
+  },
+  "test": {
+    "sha256": "ac245f194cc73f6d551bace3063bd63b385541f11d8724c4ef6b2e4bc9c1557d",
+    "bytes": 10349
+  },
+  "spec": {
+    "sha256": "87226c0d65823ab16db062f0cd738ab07426059c1001cbf885ee85c0864aa2a4",
+    "bytes": 1816
+  },
+  "apiShapeHelper": {
+    "sha256": "5c4acd11b1ce22e65f8007c4e8dea005dd8108463173cc018f9e4a3e27ccb273",
+    "bytes": 5188
+  }
+}

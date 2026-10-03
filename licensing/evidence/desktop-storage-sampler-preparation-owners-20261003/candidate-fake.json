@@ -1,0 +1,22 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/host/startupDiskOwner.test.mjs",
+    "packages/desktop/src/host/storagePreparationOwner.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/startupDiskOwner.test.mjs",
+      "sha256": "fb77de4b9733a20ca6f1957f11bb495fdc8a317a0bbd1dd498d9d891be94dd3b"
+    },
+    {
+      "path": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+      "sha256": "1489506ec16a635b774fcbb395c6c90982741f65e2d3d504a94a7460cd05f2d3"
+    }
+  ],
+  "stdout": "✔ disk sampler synthetic probe authority, migration and stopped lifetime (55.357054ms)\n✔ storage preparation fake Worker control authority, canonical reuse and exit lifetime (166.017413ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 313.284408\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-owners-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_PUBLIC_SHAPE_OUT": "licensing/evidence/desktop-command-owners-20261003/final-public-shape.json",
+    "KNORVIA_PUBLIC_SHAPE_COMPARE": "licensing/evidence/desktop-command-owners-20261003/baseline-public-shape.json"
+  },
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/scoped-static.mjs",
+      "sha256": "3e66b315596a554c28d4ae513cef89fc766356decafcfdade14c48358dfcf1e6"
+    }
+  ],
+  "stdout": "\nRestricted synthetic public-port semantic diagnostics: 0. Imported product/declaration/native acceptance NOT certified.\nPublic owner exports: 27; directly affected consumer syntax: 3.\n",
+  "stderr": "",
+  "exitCode": 0
+}

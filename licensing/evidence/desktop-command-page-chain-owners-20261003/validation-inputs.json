@@ -1,0 +1,47 @@
+[
+  {
+    "path": "packages/desktop/src/main/browserView/commandChainOwnerTestPorts.mjs",
+    "sha256": "87d53b04e0a39866a83ee15a8db4fe671616a410cbad4e3cb00954f03799e78f",
+    "bytes": 1023
+  },
+  {
+    "path": "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+    "sha256": "649748e8adeffbeb959b73192e9805b5d315fe2076cccc4fef9e9ee77f70523b",
+    "bytes": 5796
+  },
+  {
+    "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+    "sha256": "81db26cecc0f727736f590875628fe4c89b8913a404422aee9c77d17c49f740c",
+    "bytes": 8741
+  },
+  {
+    "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+    "sha256": "5ef9f43a72955997d90f8ff6cb322132e9d78ef515c77421ab8b90c71b51f70c",
+    "bytes": 6679
+  },
+  {
+    "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+    "sha256": "df83856fc4ec5e250b26ae0d0d304c1b48f2dcbdee7ca2b463886c351f143eeb",
+    "bytes": 8563
+  },
+  {
+    "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/record-run.mjs",
+    "sha256": "f5320fc40ec3c29d1fe2ccd0668a95b20431a2bd7fa859a570b1110b6e94f58b",
+    "bytes": 1023
+  },
+  {
+    "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs",
+    "sha256": "6176bf4bb41e551f6d3e8fc7e6163e2bde002805089945f09a364357ef3fb783",
+    "bytes": 4275
+  },
+  {
+    "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs",
+    "sha256": "130b6bf66194d33847d46aa5425ba72e6228b38c9a0c7c330c74502e60615826",
+    "bytes": 5166
+  },
+  {
+    "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/embedded-shapes.mjs",
+    "sha256": "e773987ddc9519f18c31a5bf33b6774275a409a4b2bdfbe5b6c5d698407cc46f",
+    "bytes": 5746
+  }
+]

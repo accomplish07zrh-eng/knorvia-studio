@@ -1,49 +1,38 @@
-import { SocketProtocol, ChannelClient } from "@knorvia/rpc";
-import type { IServiceAccessor } from "@knorvia/services";
 import { RemoteServiceAccess } from "@knorvia/client";
+import { ChannelClient, SocketProtocol } from "@knorvia/rpc";
+import { assertSupportedRemoteEnvironment } from "@knorvia/server/remote/remotePlatformSupport.js";
+import type { IServiceAccessor } from "@knorvia/services";
 import {
-  SERVICE_AUTHORITY_MODE_ENV,
+  formatLogPrefix,
   KNORVIA_APP_VERSION_ENV,
   KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV,
   KNORVIA_DYNAMIC_WORKFLOW_MODE_ENV,
-  formatLogPrefix,
   KNORVIA_REMOTE_HTTP_PROXY_ENV_KEY,
   KNORVIA_REMOTE_NO_PROXY_ENV_KEY,
   KNORVIA_REMOTE_RUNTIME_NETWORK_AUTHORITY_ENV_KEY,
+  SERVICE_AUTHORITY_MODE_ENV,
 } from "@knorvia/shared";
 import type { IRemoteBackend } from "./backend.js";
-import { wrapStdioStream } from "./stdio-socket.js";
+import { deployServer, type DeployOptions } from "./deploy.js";
 import { performHandshake } from "./handshake.js";
-import { deployServer } from "./deploy.js";
-import type { DeployOptions } from "./deploy.js";
-import { assertSupportedRemoteEnvironment } from "@knorvia/server/remote/remotePlatformSupport.js";
 import { quotePosixShellArg } from "./posixShell.js";
+import { wrapStdioStream } from "./stdio-socket.js";
 import { formatWslProxyForLog } from "./wslProxy.js";
-
-const BACKEND_DISCONNECT_EXIT_CODE = -1;
-
-export interface ConnectOptions extends DeployOptions {
-  /** Client identifier for handshake */
-  clientId?: string;
-  /** Handshake timeout in ms (default: 10000) */
-  handshakeTimeout?: number;
-  /** Skip deploy step (assume server is already deployed) */
-  skipDeploy?: boolean;
-  /** 桌面 app 版本；用于透传给远端 agent，让模型请求 header 能标识发起方版本 */
-  appVersion?: string;
-  /** 远端 server/agent 需要继承的非敏感产品环境变量；调用方可传较宽的 env，server 侧会按白名单过滤。 */
-  remoteRuntimeEnv?: Record<string, string | undefined>;
-  /** Desktop Host 为 desktop-attached WSL server 提供的显式 Agent 网络配置。 */
-  remoteRuntimeNetwork?: RemoteRuntimeNetworkOptions;
-  /** 远端 stdio 关闭后的回调（用于上层感知断连并触发回收） */
-  onDidRemoteClose?: (event: { code: number }) => void;
-}
 
 export interface RemoteRuntimeNetworkOptions {
   httpProxy?: string;
   noProxy?: string;
-  /** 只允许 Host 设置权威值覆盖远端自身的旧设置。 */
   authoritative?: boolean;
+}
+
+export interface ConnectOptions extends DeployOptions {
+  clientId?: string;
+  handshakeTimeout?: number;
+  skipDeploy?: boolean;
+  appVersion?: string;
+  remoteRuntimeEnv?: Record<string, string | undefined>;
+  remoteRuntimeNetwork?: RemoteRuntimeNetworkOptions;
+  onDidRemoteClose?: (event: { code: number }) => void;
 }
 
 export interface RemoteConnection {
@@ -53,32 +42,33 @@ export interface RemoteConnection {
   disposeAndWait(options?: { timeoutMs?: number }): Promise<void>;
 }
 
-const REMOTE_RUNTIME_ENV_KEYS = [
+const remoteRuntimeEnvKeys = [
   "KNORVIA_ENV",
   "KNORVIA_BASE_URL",
   "KNORVIA_ENDPOINT_ORIGIN",
-  // 由 Desktop Main 计算并下发；远端 server 只消费，不重新计算。
   KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV,
-  // 同上：本地覆盖由 Desktop Main 按构建档位写定（buildHostProcessEnv），
-  // 透传后 SSH/WSL/Docker 远端 Host 与本地 Host 得到同一档位。
   KNORVIA_DYNAMIC_WORKFLOW_MODE_ENV,
 ] as const;
 
-export type RemoteRuntimeEnvKey = (typeof REMOTE_RUNTIME_ENV_KEYS)[number];
+export type RemoteRuntimeEnvKey = (typeof remoteRuntimeEnvKeys)[number];
 export type RemoteRuntimeEnv = Partial<Record<RemoteRuntimeEnvKey, string>>;
 
 export function pickRemoteRuntimeEnv(env: Record<string, string | undefined>): RemoteRuntimeEnv {
-  const picked: RemoteRuntimeEnv = {};
-  for (const key of REMOTE_RUNTIME_ENV_KEYS) {
+  const selected: RemoteRuntimeEnv = {};
+  for (const key of remoteRuntimeEnvKeys) {
     const value = env[key]?.trim();
     if (value) {
-      picked[key] = value;
+      selected[key] = value;
     }
   }
-  return picked;
+  return selected;
 }
 
-function createRemoteConnectAbortError(signal: AbortSignal): Error {
+function log(...args: unknown[]): void {
+  console.log(formatLogPrefix("connectRemote", process.pid), ...args);
+}
+
+function abortError(signal: AbortSignal): Error {
   if (signal.reason instanceof Error) {
     return signal.reason;
   }
@@ -87,53 +77,42 @@ function createRemoteConnectAbortError(signal: AbortSignal): Error {
   return error;
 }
 
-function throwIfRemoteConnectAborted(signal: AbortSignal | undefined): void {
+function checkAbort(signal: AbortSignal | undefined): void {
   if (signal?.aborted) {
-    throw createRemoteConnectAbortError(signal);
+    throw abortError(signal);
   }
 }
 
-/**
- * Connect to a remote knorvia server via an IRemoteBackend.
- *
- * Steps:
- * 1. detect() → { platform, arch }
- * 2. Deploy if needed (upload node + server bundle + node-pty)
- * 3. exec server command
- * 4. Handshake (read hello, send ack)
- * 5. Wrap stdio → ISocket → SocketProtocol → ChannelClient → RemoteServiceAccess
- */
 export async function connectRemote(
   backend: IRemoteBackend,
   options?: ConnectOptions,
 ): Promise<RemoteConnection> {
   const signal = options?.signal;
   let backendDisposed = false;
-  const disposeBackendOnce = () => {
+  const disposeBackendOnce = (): void => {
     if (backendDisposed) {
       return;
     }
     backendDisposed = true;
     backend.dispose();
   };
+
   if (signal?.aborted) {
     disposeBackendOnce();
-    throw createRemoteConnectAbortError(signal);
+    throw abortError(signal);
   }
 
-  let removeAbortListener: () => void = () => undefined;
+  let removeAbortListener = (): void => {};
   try {
     const connecting = connectRemoteUnchecked(backend, options);
     if (!signal) {
       return await connecting;
     }
+
     const aborted = new Promise<never>((_resolve, reject) => {
-      const onAbort = () => {
-        // 窗口 Host 合并后不能再通过杀独立 SSH Host 进程来取消连接；如果这里只
-        // 结束 logical waiter，detect/deploy/upload 会继续占用旧凭据和连接。连接初始化尚未
-        // 对外发布，可以安全释放它独占的 backend，并让调用方立即结束等待。
+      const onAbort = (): void => {
         disposeBackendOnce();
-        reject(createRemoteConnectAbortError(signal));
+        reject(abortError(signal));
       };
       signal.addEventListener("abort", onAbort, { once: true });
       removeAbortListener = () => signal.removeEventListener("abort", onAbort);
@@ -141,13 +120,12 @@ export async function connectRemote(
     const guardedConnecting = connecting.then((connection) => {
       if (signal.aborted) {
         connection.dispose();
-        throw createRemoteConnectAbortError(signal);
+        throw abortError(signal);
       }
       return connection;
     });
     return await Promise.race([guardedConnecting, aborted]);
   } catch (error) {
-    // detect/deploy/handshake 任一步失败时尚未返回 RemoteConnection，调用方无从 dispose backend。
     disposeBackendOnce();
     throw error;
   } finally {
@@ -155,196 +133,28 @@ export async function connectRemote(
   }
 }
 
-async function connectRemoteUnchecked(
-  backend: IRemoteBackend,
-  options?: ConnectOptions,
-): Promise<RemoteConnection> {
-  const clientId = options?.clientId ?? `desktop-${Date.now()}`;
-
-  const log = (...args: unknown[]) =>
-    console.log(formatLogPrefix("connectRemote", process.pid), ...args);
-
-  // 1. Detect remote environment
-  log("detecting remote env...");
-  const env = await backend.detect();
-  throwIfRemoteConnectAborted(options?.signal);
-  log("detected:", env);
-  assertSupportedRemoteEnvironment(env);
-
-  const remoteRuntimeNetwork = await resolveRemoteRuntimeNetwork(
-    backend,
-    options?.remoteRuntimeNetwork,
-    log,
-  );
-
-  // 2. Deploy server if needed
-  if (!options?.skipDeploy) {
-    log("deploying server...");
-    await deployServer(backend, env, options);
-    throwIfRemoteConnectAborted(options?.signal);
-    log("deploy complete");
-  }
-
-  // 3. Launch server
-  log("launching remote server...");
-  const stream = await backend.exec(buildRemoteServerCommand(options, remoteRuntimeNetwork));
-  throwIfRemoteConnectAborted(options?.signal);
-  log("remote server exec started");
-
-  // Forward stderr for debugging
-  stream.stderr.on("data", (chunk: Buffer) => {
-    // 远端 knorvia-server 的服务日志走 stderr，直接写 host stderr 时可能被结构化日志中继吞掉。
-    // 这里转成 host 的 console 日志，让 remote sqlite 初始化/锁冲突日志能稳定出现在连接日志面板和启动终端。
-    console.log(`[remote] ${chunk.toString().trimEnd()}`);
-  });
-
-  // 4. Handshake
-  log("performing handshake...");
-  const { hello, remaining } = await performHandshake(stream, clientId, options?.handshakeTimeout);
-  throwIfRemoteConnectAborted(options?.signal);
-  log("handshake done, server version:", hello.version);
-
-  // 5. Wrap into RPC channel
-  // If there's remaining data from handshake, push it back to the stream
-  // so it gets picked up by wrapStdioStream's data listener
-  if (remaining && remaining.length > 0) {
-    (stream.stdout as NodeJS.ReadableStream & { unshift(chunk: Buffer): void }).unshift(remaining);
-  }
-
-  const socket = wrapStdioStream(stream);
-  const protocol = new SocketProtocol(socket);
-  const client = new ChannelClient(protocol);
-  const services = new RemoteServiceAccess(client);
-  let hasReportedRemoteClose = false;
-  let hasStreamClosed = false;
-  let resolveStreamClosed!: () => void;
-  const streamClosed = new Promise<void>((resolve) => {
-    resolveStreamClosed = resolve;
-  });
-  const reportRemoteClose = (code: number) => {
-    if (hasReportedRemoteClose) {
-      return;
-    }
-    hasReportedRemoteClose = true;
-    options?.onDidRemoteClose?.({ code });
-  };
-
-  const backendDisconnectDisposable = backend.onDidDisconnect?.((event) => {
-    // SSH keepalive 发现半开连接时，远端 server stdio channel 未必立刻 close。
-    // 这里把 backend 断连并入同一条关闭上报链路，让 host/main/UI 复用既有 session-close 收口。
-    const errorMessage = event.error?.message;
-    log(
-      errorMessage
-        ? `remote backend disconnected: ${event.reason}: ${errorMessage}`
-        : `remote backend disconnected: ${event.reason}`,
-    );
-    reportRemoteClose(BACKEND_DISCONNECT_EXIT_CODE);
-  });
-  const streamCloseDisposable = stream.onClose((code) => {
-    hasStreamClosed = true;
-    resolveStreamClosed();
-    reportRemoteClose(code);
-  });
-
-  let disposalStarted = false;
-  let backendDisposed = false;
-  let disposeAndWaitInFlight: Promise<void> | null = null;
-  const beginDisposal = () => {
-    if (disposalStarted) {
-      return;
-    }
-    disposalStarted = true;
-    backendDisconnectDisposable?.dispose();
-    client.dispose();
-    protocol.dispose();
-    // stdin.end 必须在任何 await 之前同步触发，让远端 stdio server 立即收到 EOF。
-    socket.dispose();
-  };
-  const disposeBackend = () => {
-    if (backendDisposed) {
-      return;
-    }
-    backendDisposed = true;
-    streamCloseDisposable.dispose();
-    backend.dispose();
-  };
-  const disposeBackendAndWait = async () => {
-    if (backendDisposed) {
-      return;
-    }
-    backendDisposed = true;
-    streamCloseDisposable.dispose();
-    if (backend.disposeAndWait) {
-      await backend.disposeAndWait();
-      return;
-    }
-    backend.dispose();
-  };
-
-  return {
-    services,
-    client,
-    dispose() {
-      beginDisposal();
-      disposeBackend();
-    },
-    disposeAndWait(disposeOptions) {
-      if (disposeAndWaitInFlight) {
-        return disposeAndWaitInFlight;
-      }
-      beginDisposal();
-      if (backendDisposed || hasStreamClosed) {
-        disposeBackend();
-        return Promise.resolve();
-      }
-
-      const timeoutMs = Math.max(disposeOptions?.timeoutMs ?? 5_000, 0);
-      disposeAndWaitInFlight = (async () => {
-        let timeout: ReturnType<typeof setTimeout> | undefined;
-        const deadline = new Promise<"timed-out">((resolve) => {
-          timeout = setTimeout(() => resolve("timed-out"), timeoutMs);
-        });
-        const result = await Promise.race([streamClosed.then(() => "closed" as const), deadline]);
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-        if (result === "timed-out") {
-          log(`remote stdio close timed out after ${timeoutMs}ms`);
-        }
-        await disposeBackendAndWait();
-      })();
-      return disposeAndWaitInFlight;
-    },
-  };
-}
-
-async function resolveRemoteRuntimeNetwork(
+async function resolveRuntimeNetwork(
   backend: IRemoteBackend,
   network: RemoteRuntimeNetworkOptions | undefined,
-  log: (...args: unknown[]) => void,
 ): Promise<RemoteRuntimeNetworkOptions | undefined> {
   if (!network || !backend.resolveRuntimeProxy) {
-    // 只有实现了远端代理解析能力的 WSL backend 才接收这条权威网络边界；
-    // SSH/Docker 即使误传 options 也保持原有启动命令。
     return undefined;
   }
   if (!network.httpProxy?.trim()) {
     return network;
   }
-
   try {
-    const resolvedProxy = await backend.resolveRuntimeProxy(network.httpProxy);
-    if (resolvedProxy !== network.httpProxy) {
+    const resolved = await backend.resolveRuntimeProxy(network.httpProxy);
+    if (resolved !== network.httpProxy) {
       log(
         "resolved remote runtime proxy via wsl-host-gateway",
         formatWslProxyForLog(network.httpProxy),
         "->",
-        formatWslProxyForLog(resolvedProxy),
+        formatWslProxyForLog(resolved),
       );
     }
-    return { ...network, httpProxy: resolvedProxy };
+    return { ...network, httpProxy: resolved };
   } catch (error) {
-    // 代理解析只是运行时增强；解析失败时沿用设置页原值，避免把 WSL 本地工作区变成不可连接。
     log(
       "remote runtime proxy resolution failed; using configured endpoint",
       error instanceof Error ? error.message : String(error),
@@ -353,9 +163,9 @@ async function resolveRemoteRuntimeNetwork(
   }
 }
 
-function buildRemoteServerCommand(
+function launchCommand(
   options: ConnectOptions | undefined,
-  remoteRuntimeNetwork: RemoteRuntimeNetworkOptions | undefined,
+  network: RemoteRuntimeNetworkOptions | undefined,
 ): string {
   const envParts = [
     `${SERVICE_AUTHORITY_MODE_ENV}="desktop-attached-remote"`,
@@ -368,22 +178,154 @@ function buildRemoteServerCommand(
   }
   const appVersion = options?.appVersion?.trim();
   if (appVersion) {
-    // 远端 server 是通过 SSH/WSL/Docker 单独启动的，不会继承桌面 host env。
-    // 这里显式把 app 版本作为远端进程 env 注入，远端 agent 才能在模型请求 header 中带上版本。
     envParts.push(`${KNORVIA_APP_VERSION_ENV}=${quotePosixShellArg(appVersion)}`);
   }
-  if (remoteRuntimeNetwork?.authoritative) {
+  if (network?.authoritative) {
     envParts.push(`${KNORVIA_REMOTE_RUNTIME_NETWORK_AUTHORITY_ENV_KEY}='1'`);
-    if (remoteRuntimeNetwork.httpProxy !== undefined) {
+    if (network.httpProxy !== undefined) {
       envParts.push(
-        `${KNORVIA_REMOTE_HTTP_PROXY_ENV_KEY}=${quotePosixShellArg(remoteRuntimeNetwork.httpProxy)}`,
+        `${KNORVIA_REMOTE_HTTP_PROXY_ENV_KEY}=${quotePosixShellArg(network.httpProxy)}`,
       );
     }
-    if (remoteRuntimeNetwork.noProxy !== undefined) {
-      envParts.push(
-        `${KNORVIA_REMOTE_NO_PROXY_ENV_KEY}=${quotePosixShellArg(remoteRuntimeNetwork.noProxy)}`,
-      );
+    if (network.noProxy !== undefined) {
+      envParts.push(`${KNORVIA_REMOTE_NO_PROXY_ENV_KEY}=${quotePosixShellArg(network.noProxy)}`);
     }
   }
   return `${envParts.join(" ")} ~/.knorvia-studio/server/node ~/.knorvia-studio/server/knorvia-server.cjs`;
+}
+
+async function connectRemoteUnchecked(
+  backend: IRemoteBackend,
+  options: ConnectOptions | undefined,
+): Promise<RemoteConnection> {
+  const clientId = options?.clientId ?? `desktop-${Date.now()}`;
+  log("detecting remote env...");
+  const env = await backend.detect();
+  checkAbort(options?.signal);
+  log("detected:", env);
+  assertSupportedRemoteEnvironment(env);
+
+  const network = await resolveRuntimeNetwork(backend, options?.remoteRuntimeNetwork);
+  if (!options?.skipDeploy) {
+    log("deploying server...");
+    await deployServer(backend, env, options);
+    checkAbort(options?.signal);
+    log("deploy complete");
+  }
+
+  log("launching remote server...");
+  const stream = await backend.exec(launchCommand(options, network));
+  checkAbort(options?.signal);
+  log("remote server exec started");
+  stream.stderr.on("data", (chunk: Buffer) => {
+    console.log(`[remote] ${chunk.toString().trimEnd()}`);
+  });
+  log("performing handshake...");
+  const { hello, remaining } = await performHandshake(stream, clientId, options?.handshakeTimeout);
+  checkAbort(options?.signal);
+  log("handshake done, server version:", hello.version);
+  if (remaining && remaining.length > 0) {
+    (stream.stdout as NodeJS.ReadableStream & { unshift(chunk: Buffer): void }).unshift(remaining);
+  }
+  const socket = wrapStdioStream(stream);
+  const protocol = new SocketProtocol(socket);
+  const client = new ChannelClient(protocol);
+  const services = new RemoteServiceAccess(client);
+
+  let hasReportedRemoteClose = false;
+  let hasStreamClosed = false;
+  let resolveStreamClosed!: () => void;
+  const streamClosed = new Promise<void>((resolve) => {
+    resolveStreamClosed = resolve;
+  });
+  const reportRemoteClose = (code: number): void => {
+    if (hasReportedRemoteClose) {
+      return;
+    }
+    hasReportedRemoteClose = true;
+    options?.onDidRemoteClose?.({ code });
+  };
+  const backendDisconnectSubscription = backend.onDidDisconnect?.((event) => {
+    const message = event.error?.message;
+    log(
+      message
+        ? `remote backend disconnected: ${event.reason}: ${message}`
+        : `remote backend disconnected: ${event.reason}`,
+    );
+    reportRemoteClose(-1);
+  });
+  const streamCloseSubscription = stream.onClose((code) => {
+    hasStreamClosed = true;
+    resolveStreamClosed();
+    reportRemoteClose(code);
+  });
+
+  let disposalStarted = false;
+  let backendDisposed = false;
+  let inFlight: Promise<void> | null = null;
+  const beginDisposal = (): void => {
+    if (disposalStarted) {
+      return;
+    }
+    disposalStarted = true;
+    backendDisconnectSubscription?.dispose();
+    client.dispose();
+    protocol.dispose();
+    socket.dispose();
+  };
+  const disposeBackend = (): void => {
+    if (backendDisposed) {
+      return;
+    }
+    backendDisposed = true;
+    streamCloseSubscription.dispose();
+    backend.dispose();
+  };
+  const disposeBackendAndWait = async (): Promise<void> => {
+    if (backendDisposed) {
+      return;
+    }
+    backendDisposed = true;
+    streamCloseSubscription.dispose();
+    if (backend.disposeAndWait) {
+      await backend.disposeAndWait();
+      return;
+    }
+    backend.dispose();
+  };
+
+  return {
+    services,
+    client,
+    dispose(): void {
+      beginDisposal();
+      disposeBackend();
+    },
+    disposeAndWait(disposeOptions?: { timeoutMs?: number }): Promise<void> {
+      if (inFlight) {
+        return inFlight;
+      }
+      beginDisposal();
+      if (backendDisposed || hasStreamClosed) {
+        disposeBackend();
+        return Promise.resolve();
+      }
+      const timeoutMs = Math.max(disposeOptions?.timeoutMs ?? 5000, 0);
+      inFlight = (async () => {
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const deadline = new Promise<"timed-out">((resolve) => {
+          timer = setTimeout(() => resolve("timed-out"), timeoutMs);
+        });
+        const outcome = await Promise.race([streamClosed.then(() => "closed"), deadline]);
+        if (timer) {
+          clearTimeout(timer);
+        }
+        if (outcome === "timed-out") {
+          log(`remote stdio close timed out after ${timeoutMs}ms`);
+        }
+        await disposeBackendAndWait();
+      })();
+      return inFlight;
+    },
+  };
 }

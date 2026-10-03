@@ -1,0 +1,20 @@
+{
+  "owner": "desktop Playwright locator executor correction 1",
+  "readPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/common-author-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/locator-owner-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/public-view.d.ts"
+  ],
+  "accessExceptions": [],
+  "writtenPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/locator/browserPlaywrightLocatorExecutor-correction-1.ts",
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/locator/access-correction-1.json"
+  ],
+  "intermediateDraftExplanation": "After the initial 406e7414... write, before final notification, I revised mapModifiers typing and attached a rejection handler to an early-aborted probe promise, then changed append-fill focus detection to element.matches(':focus'). These edits were made from my own authored text; I did not read or transform the output file from disk. The final notification reported the later f1d73847... hash. Neither prior output was rolled back.",
+  "limitations": [
+    "Correction 1 was authored as a complete new literal from the allowed contracts, my own author memory, and the curator's behavior-only correction packet.",
+    "No previous output file, inherited implementation, helper, test body, repository history, sibling output, global instruction, or skill was read for this correction.",
+    "The candidate was not installed, compiled, linted, tested, or run in a browser.",
+    "No claim is made that this draft is MIT, clean room, or verified Fast."
+  ]
+}

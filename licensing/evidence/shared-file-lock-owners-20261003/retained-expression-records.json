@@ -1,0 +1,40 @@
+{
+  "files": {
+    "atomicFileLock.ts": {
+      "retainedUncounted": [
+        "public imports/API/metadata contracts",
+        "MAX_LOCK_METADATA_CLOCK_SKEW_MS fixed value",
+        "retained lockInstanceObserver port and algorithm",
+        "FS flags/owner/error/syscall vocabulary and permissions policy"
+      ],
+      "requiredRecurrence": [
+        "unique pid/clock/random token and owner JSON field order",
+        "device/inode/unique owner verification",
+        "bounded nonnegative timestamps and positive safe PID admission",
+        "dead process ESRCH classification and ownerless grace",
+        "deadline before stale removal and exact permission-error/timeout cause identity",
+        "per-owner cleanup and retry cap sequence"
+      ],
+      "limit": "No same-name normalized function-body matches in bounded lexical receipt; acquisition/reclamation guards and domain ordering recur. This absence is not novelty evidence or independent provenance. Whole selected file is a pending candidate with zero accepted independent-replacement credit."
+    },
+    "privateFilePersistence.ts": {
+      "retainedUncounted": [
+        "public interface/imports and unchanged defaults",
+        "processFileLockTails Map data initializer",
+        "private mode 0600, retry errno vocabulary, sha256/hex and backup/temp naming policy"
+      ],
+      "requiredRecurrence": [
+        "per-path previous/current FIFO promise barrier",
+        "nested finally releases FIFO even after lock release errors",
+        "read unknown error.code once",
+        "admitted rename retries and original failure identity after cleanup",
+        "same backup bytes via wx and chmod"
+      ],
+      "limit": "withFileLock and isRetryableRenameError normalized bodies are identical. Other retry/write/backup control structures remain close. Entire file is not counted as an independent replacement; no forced cosmetic difference cycle."
+    }
+  },
+  "matchingReceipt": "retained-static-body-shapes.json and retained-shapes.mjs; lexical normalization including string whitespace/numeric separators, not semantic equivalence",
+  "latestFiveFilesIndependentReplacementCredit": 0,
+  "latestFiveReceipt": "../shared-telemetry-shortcut-migration-owners-20261003/retained-static-body-shapes.json",
+  "globalLimits": "Fresh whole authoring/shared filesystem/source-exposed curator contracts are bounded evidence only. Retained declarations/schema/static tables/short adapters have zero rewrite credit and no licence grant. Global provenance decisions deferred."
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs",
+    "--only=runtime cached"
+  ],
+  "stdout": "✖ runtime cached browser regression retains connected-cache fast return under injected abort (17.605662ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 21.197628\n\n✖ failing tests:\n\ntest at apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs:9:39\n✖ runtime cached browser regression retains connected-cache fast return under injected abort (17.605662ms)\n  DOMException [AbortError]: Browser command cancelled\n      at new DOMException (node:internal/per_context/domexception:76:18)\n      at abortError (file:///workspace/knorvia-studio/apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs:272:28)\n      at acquireBrowser (index-virtual.cjs:156:13)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Object.list (index-virtual.cjs:326:5)\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs:560:20)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n",
+  "stderr": "",
+  "exitCode": 1
+}

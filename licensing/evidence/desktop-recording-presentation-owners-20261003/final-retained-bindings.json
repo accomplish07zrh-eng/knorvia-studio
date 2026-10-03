@@ -1,0 +1,46 @@
+{
+  "baseHead": "327a2d773c9735c8b60c20ba7a1a99f23cbf5c67",
+  "selected": [
+    {
+      "owner": "video",
+      "selectedVersion": "initial",
+      "rawSha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1",
+      "installedSha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1",
+      "installedBytes": 2495,
+      "installedLines": 87,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "webm",
+      "selectedVersion": "correction-3",
+      "rawSha256": "293e471ea11221a383e509d0ab0790f9a23b26e129a0171f0d00445f4f1d9a13",
+      "installedSha256": "39cbad782488afef3a3d162bad5e4ad950e8c8501ba3c495e16143bfc1b7e0f2",
+      "installedBytes": 16471,
+      "installedLines": 473,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "bootstrap",
+      "selectedVersion": "initial",
+      "rawSha256": "17bbabd3bb1538d6a95c82441746c29a44ca42c3068e0c4e91de99185305b426",
+      "installedSha256": "815ad4d580dc2b1160e1e01a18173c26eecd8064f953e9c2d2ef12acf8b25ce9",
+      "installedBytes": 3519,
+      "installedLines": 127,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    }
+  ],
+  "rawVersionsVerified": 6,
+  "unchangedRetainedPaths": 4314,
+  "retentionCountsAreNotCompletionCounts": true,
+  "authorInputFreezeVerified": true,
+  "publicApiMatches": true,
+  "productionScopeExactlyThreeOwners": true,
+  "minimalSyntheticGroupsRun": 3,
+  "ordinaryAggregateTestsRun": false,
+  "nativeRuntimePassed": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITClaim": false
+}

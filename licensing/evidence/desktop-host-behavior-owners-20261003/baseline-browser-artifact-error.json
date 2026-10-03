@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--baseline",
+    "--owner=browser"
+  ],
+  "stdout": "sourceMode=frozen-baseline; owner=browser\n✔ browser: captured authority, duplicate correlation and dispose settlement (70.899861ms)\n✔ browser: timeout cancellation and detached recording identity (15.730901ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 92.055679\n",
+  "stderr": "",
+  "exitCode": 0
+}

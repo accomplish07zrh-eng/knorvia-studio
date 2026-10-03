@@ -1,0 +1,253 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-initial-freeze.json",
+      "sha256": "d6eefcafcfa75a2e221e4a95eece33e7ef852df7795ef32536ce905ddc090c62"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-2-access.json",
+      "sha256": "d33c5466a5133037cf4e7bfa8be606502b0208d09dae15a1d73bb38335f1e5a6"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/snapshot-correction-2-access.json",
+      "sha256": "93c2b485f65ffa59892aeeb0a598972bae4e6d1c0301dc692d0de1c28858413a"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/snapshot-initial-access.json",
+      "sha256": "dcb192d1c3daf5597f3c230b4fb8dca0696f41ebba583fc7436deaf0a97e4d5e"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-correction-1-freeze.json",
+      "sha256": "292bea0d3dcac67ea65aa1f7cc4ed4972dcc537c6cb93320a48561f2ef11a047"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-initial-freeze-qualification.json",
+      "sha256": "ef2859bb0152b8c2cada134f8ff280f0e14363c6faf3c5f14371fc7ffa697592"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-correction-2-access.json",
+      "sha256": "c2fffca86660aa9a8c90b1ed8b5235b0d23af461048f9f9628a77f4a7db328f9"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-initial-access.json",
+      "sha256": "1e1c18cc3074a634a72d155d3ef9a6dfb3567321d703043d95e45cf01403b11f"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/correction-2-partial-focused.json",
+      "sha256": "e36533e59f33897436c77b36bba8295206527e81653730203ace7adff575b83f"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-1-access.json",
+      "sha256": "6bb8b47cccf47d131d9a4a3f475122600929c23c855a45d4d0215eac75c9340a"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-4-freeze.json",
+      "sha256": "73fa5b3e8a39a6710b601279025fdcccc78686d5f0805253063155c106589668"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/scoped-static-helper-syntax-failure.mjs.txt",
+      "sha256": "a27c21606a1ae49c8576b46cd47cdb300d38fb719a1c6488efd2329b8b3c2636"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-3-freeze.json",
+      "sha256": "5b1f3030e30efc078cc52d8efbbc43c6fa9bb025b2b8ffae4214336b831b63ad"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/snapshot-correction-1-access.json",
+      "sha256": "f1b7fff611ea3e2399abfa4a6253b8cc7ee99384070d2abc9a2e569689a7f808"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/initial-context.json",
+      "sha256": "f39f05f8aba4230cce612a6a16f52a506b8ca324e43c60e410d598440f053430"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/pnpm-architecture-blocked.json",
+      "sha256": "d6c3394a98700069dbe7a3427f664cfd75c54ea0041b1e2bd9903e89baa6fb37"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-public-shape.json",
+      "sha256": "8eb0bac958be7a8ffe7ae7238e2077bfdfca53925f4ca61e297e06cf5f107a84"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-1-freeze.json",
+      "sha256": "050ae58d0d7929f7cead479f34cd318e806080b6f67391238c26d802019d45ee"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/focused-harness-boundaries.mjs.txt",
+      "sha256": "73c6efcc31b33a224806cd03c35198405d07a337236ac491026c4a07c49b7998"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-4-access.json",
+      "sha256": "1cf987e8f9c2be84bbed8759c3713c21727b78d1fb647b160e2fc1bfd20cdafe"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/corrected-complete-focused.json",
+      "sha256": "4bef5368074234c1891dfc10d4b1d40591dc65c0f692bd5484e3a265631cca52"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-static.json",
+      "sha256": "a9cf789371b3442602e6bd8242dbce872b69b7cccd94db07c9527a46f83049b9"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/selection.json",
+      "sha256": "c469aa969a0a7c702259661a16b518094963e16a125796f78edb5a67e9babb5b"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/snapshot-initial-freeze.json",
+      "sha256": "cbc577f15c06c9106d8bd2a18cddf81646cb1c0fb7f58c6c05587c2080d38140"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-public-api-corrected.json",
+      "sha256": "a9cf789371b3442602e6bd8242dbce872b69b7cccd94db07c9527a46f83049b9"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-final-boundaries.json",
+      "sha256": "27a0799099bb3cea78540ed92026f980e8d2f2936c740111eaeae5df2ae71c39"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-3-access.json",
+      "sha256": "05b302bbcd214d9529ee2bb92e8b6245a7821d9a870c8cab6408d20554110bf9"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-author-completion-access.json",
+      "sha256": "1e1c18cc3074a634a72d155d3ef9a6dfb3567321d703043d95e45cf01403b11f"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/initial-partial-focused.json",
+      "sha256": "6b19ed01cac4f3c1804181ee1d5fda4ba03251227c23249a03fdc7676e636b82"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-initial-freeze.json",
+      "sha256": "f10b7da7b0f4782f51d57d7029fd8bec289b003b43beafb4b31ceef8410745f1"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/initial-architecture.json",
+      "sha256": "877ded52d57c2bb91159dd396c447f4a46db0757ac6921f2b3778b52c5c54b48"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-initial-access.json",
+      "sha256": "6035ee5c21a0f9af6aed85d8a8f59fa0f9d62cdde6181ff5289851b5577d4966"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/executor-correction-2-freeze.json",
+      "sha256": "8b57696fa063c990598163325fb0e8ef00769a44844adec733d2b6f446d0eb59"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/scoped-lint-config.json",
+      "sha256": "e5ca5035fa5319094bb9f116923ac83152a57cb8632cf72fbafcad417e5cd43a"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/snapshot-correction-2-freeze.json",
+      "sha256": "223c63694d8e4f29eec7c5b78b7901523d59fc90ff941c51ee1de27e9a5fde7f"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-author-completion-freeze.json",
+      "sha256": "85c5382d86b7f34b896fb7ad3057b9886e38def95d756ac18a680c00914dd37a"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/correction-2-partial-static.json",
+      "sha256": "4be209b3b20d93f8b0fc878936e7e484b42dd75be231453ad39d7d9f78c895ae"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/snapshot-correction-1-freeze.json",
+      "sha256": "1b4f3c2ae75c9d034b64948cad4c2b932adf1206fa561e7ca7ef31f05fec4021"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-public-api.json",
+      "sha256": "7c87f3628be749b3725f99aa19e457e40707c0465ae9a0df52e72ae673c419b7"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/correction-1-fill-abort-red.json",
+      "sha256": "5f91bcba16b17b778247a0d7195a93f9cf3ca2cb68a0a05512d749b89e8a524f"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/focused-harness-initial.mjs.txt",
+      "sha256": "490ad0ec933959fd57c81ca2e5ac0510816859dc7d20a44a84219f0b6a2b150d"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/initial-helper-lint.json",
+      "sha256": "9468d3ef6a8357189acb653feee64da148a126cd0c74481f0fd049775b2d7259"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-correction-1-access.json",
+      "sha256": "77a9cbba35e1c763407a3d3de4c22e94c74267c5e6e25fad8cf38f8034b697e8"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/initial-retained-bindings.json",
+      "sha256": "7db449bd31048618335af395ef3679df6eb96df0c9e4f7120e5051dd77c8da24"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-focused-boundaries.json",
+      "sha256": "f928d77dbe1981820fc43b82ccfb9fe96596c8cb2f1dfd5b1db202a93676c868"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/locator-correction-2-freeze.json",
+      "sha256": "ad959c52df873af54a1712c9b08cd09c1d10cf801df52a49a7267a72d690c203"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/freshness.json",
+      "sha256": "b3e75226dafafe466a2a6e4829e671df0589fa9f4765a8cc986f65c023936365"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/corrected-complete-static.json",
+      "sha256": "261a9f8e572c62864246989d05befbac4b7288ed6c1113b4354568b204e8f4b7"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/baseline-focused.json",
+      "sha256": "0ac75200029f8795bde1ae297b86ef2eaf69aa2138137f2c8ae6bac9efc7bc67"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/initial-complete-focused.json",
+      "sha256": "81eade29e1ce20399c7fb2f4ea108de258fb52a12061bfbb2e21d77d046c26b7"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-3.ts.txt",
+      "sha256": "94070be6004a558c4c39545ec535d6046c0e0c130d7ffdf6f2caa45a0b55f20d"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-initial.ts.txt",
+      "sha256": "406e7414c29d817dfdede72a60e31ec4fe3ff1cd50b13192f48d2731f01d2285"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-1.ts.txt",
+      "sha256": "657bfbdc7df15b78cf72d65604e297e1896f0ce8e58c7f45a93c77c09ea347ec"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-correction-1.ts.txt",
+      "sha256": "6130ff0b6e66029124a5166c9b8e87de11cb86afca0f86b5c47ceb01080a4567"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-correction-1.ts.txt",
+      "sha256": "6379aa3e4a38f15d706fbb73153b9b26baca79cc585fdd58180cb138ebfeadcd"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-correction-2.ts.txt",
+      "sha256": "270703513e317eebc3d6775627433bec11c48bae1a6e4782103241833c019322"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-author-completion.ts.txt",
+      "sha256": "f1d73847bbaaa96d09769cd95d7c70888192481d7523076bfce213d17367108e"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-4.ts.txt",
+      "sha256": "c2391ba861c4e5cf94f4a197fd3bb2066d098154ac525da4ea6cf11f033c96cd"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-correction-2.ts.txt",
+      "sha256": "f675cadb4c98f216bbca45544f68d027f1f623e094a21ed35e2cbcf3cdd0341a"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-initial.ts.txt",
+      "sha256": "4f81b4d088fbffd3ef2430529dece0dadc430c6b7da6a502f1d1723d8252d5d4"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-2.ts.txt",
+      "sha256": "08c96c0e3160b99b7701981ef5ac4e5da43efda8ad8e33289af9e8e66b2acbba"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-initial.ts.txt",
+      "sha256": "1f85cb1ad27451affe66665b58335533c371c382b384bcf16eea2b0655a88e61"
+    }
+  ],
+  "reason": "Existing raw drafts, original/corrected outputs and receipts stay byte-identical through final formatting and staging."
+}

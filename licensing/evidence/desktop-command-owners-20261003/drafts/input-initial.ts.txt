@@ -1,0 +1,235 @@
+import type { BrowserKeyModifier, BrowserMouseButton } from '@knorvia/shared';
+import { RESOLVE_SCRIPT } from './browserCommandScripts.js';
+import type { BrowserPoint, ControlledView } from './browserCommandTypes.js';
+
+const platformControlOrMeta = process.platform === 'darwin' ? 4 : 2;
+const modifierBits: Record<BrowserKeyModifier, number> = {
+  Alt: 1,
+  Control: 2,
+  ControlOrMeta: platformControlOrMeta,
+  Meta: 4,
+  Shift: 8,
+};
+
+type KeyDefinition = {
+  key: string;
+  code?: string;
+  windowsVirtualKeyCode?: number;
+};
+
+const namedKeys: Record<string, KeyDefinition> = {
+  Enter: { key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 },
+  Tab: { key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 },
+  Escape: { key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 },
+  Backspace: { key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8 },
+  Delete: { key: 'Delete', code: 'Delete', windowsVirtualKeyCode: 46 },
+  ArrowUp: { key: 'ArrowUp', code: 'ArrowUp', windowsVirtualKeyCode: 38 },
+  ArrowDown: { key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 },
+  ArrowLeft: { key: 'ArrowLeft', code: 'ArrowLeft', windowsVirtualKeyCode: 37 },
+  ArrowRight: { key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 },
+  Space: { key: ' ', code: 'Space', windowsVirtualKeyCode: 32 },
+};
+
+const modifierKeys: Record<string, KeyDefinition> = {
+  Alt: { key: 'Alt', code: 'AltLeft', windowsVirtualKeyCode: 18 },
+  Control: { key: 'Control', code: 'ControlLeft', windowsVirtualKeyCode: 17 },
+  Meta: { key: 'Meta', code: 'MetaLeft', windowsVirtualKeyCode: 91 },
+  Shift: { key: 'Shift', code: 'ShiftLeft', windowsVirtualKeyCode: 16 },
+};
+
+const aliases: Record<string, string> = {
+  alt: 'Alt',
+  option: 'Alt',
+  control: 'Control',
+  ctrl: 'Control',
+  cmd: 'Meta',
+  meta: 'Meta',
+  super: 'Meta',
+  win: 'Meta',
+  shift: 'Shift',
+  esc: 'Escape',
+  return: 'Enter',
+  space: 'Space',
+  left: 'ArrowLeft',
+  right: 'ArrowRight',
+  up: 'ArrowUp',
+  down: 'ArrowDown',
+};
+
+export function modifiersBitmask(mods?: readonly BrowserKeyModifier[]): number {
+  let mask = 0;
+  for (const mod of mods ?? []) mask |= modifierBits[mod];
+  return mask;
+}
+
+export async function resolveRefCenter(view: ControlledView, ref: string): Promise<BrowserPoint | null> {
+  const raw = await view.webContents.executeJavaScript(RESOLVE_SCRIPT(ref));
+  if (!raw || typeof (raw as BrowserPoint).cx !== 'number' || typeof (raw as BrowserPoint).cy !== 'number') {
+    return null;
+  }
+  return { cx: (raw as BrowserPoint).cx, cy: (raw as BrowserPoint).cy };
+}
+
+export async function dispatchClickAt(
+  view: ControlledView,
+  center: BrowserPoint,
+  button: BrowserMouseButton,
+  doubleClick: boolean,
+  modifiers = 0,
+): Promise<void> {
+  const optionalModifiers = modifiers > 0 ? { modifiers } : {};
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseMoved', x: center.cx, y: center.cy, ...optionalModifiers,
+  });
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mousePressed', x: center.cx, y: center.cy,
+    button, clickCount: doubleClick ? 2 : 1, ...optionalModifiers,
+  });
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseReleased', x: center.cx, y: center.cy,
+    button, clickCount: doubleClick ? 2 : 1, ...optionalModifiers,
+  });
+}
+
+export async function dispatchDrag(
+  view: ControlledView,
+  from: BrowserPoint,
+  to: BrowserPoint,
+  modifiers = 0,
+): Promise<void> {
+  const optionalModifiers = modifiers > 0 ? { modifiers } : {};
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseMoved', x: from.cx, y: from.cy, ...optionalModifiers,
+  });
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mousePressed', x: from.cx, y: from.cy,
+    button: 'left', clickCount: 1, ...optionalModifiers,
+  });
+  for (let i = 1; i <= 10; i++) {
+    await view.cdp.send('Input.dispatchMouseEvent', {
+      type: 'mouseMoved',
+      x: Math.round(from.cx + ((to.cx - from.cx) * i) / 10),
+      y: Math.round(from.cy + ((to.cy - from.cy) * i) / 10),
+      button: 'left', buttons: 1, ...optionalModifiers,
+    });
+  }
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseReleased', x: to.cx, y: to.cy,
+    button: 'left', clickCount: 1, ...optionalModifiers,
+  });
+}
+
+export async function dispatchDragPath(
+  view: ControlledView,
+  path: readonly { x: number; y: number }[],
+  modifiers = 0,
+): Promise<void> {
+  const [first, ...rest] = path;
+  if (!first) throw new Error('cua_drag requires a non-empty path');
+  const optionalModifiers = modifiers > 0 ? { modifiers } : {};
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseMoved', x: first.x, y: first.y, ...optionalModifiers,
+  });
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mousePressed', x: first.x, y: first.y,
+    button: 'left', clickCount: 1, ...optionalModifiers,
+  });
+  let last = first;
+  try {
+    for (const point of rest) {
+      last = point;
+      await view.cdp.send('Input.dispatchMouseEvent', {
+        type: 'mouseMoved', x: point.x, y: point.y,
+        button: 'left', buttons: 1, ...optionalModifiers,
+      });
+    }
+  } finally {
+    await view.cdp.send('Input.dispatchMouseEvent', {
+      type: 'mouseReleased', x: last.x, y: last.y,
+      button: 'left', clickCount: 1, ...optionalModifiers,
+    });
+  }
+}
+
+export async function dispatchScrollGesture(
+  view: ControlledView,
+  point: BrowserPoint,
+  scrollX: number,
+  scrollY: number,
+  modifiers = 0,
+): Promise<void> {
+  const optionalModifiers = modifiers > 0 ? { modifiers } : {};
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseMoved', x: point.cx, y: point.cy, ...optionalModifiers,
+  });
+  await view.cdp.send('Input.dispatchMouseEvent', {
+    type: 'mouseWheel', x: point.cx, y: point.cy,
+    deltaX: scrollX, deltaY: scrollY, ...optionalModifiers,
+  });
+}
+
+function normalizeCuaKey(value: string): string {
+  const trimmed = value.trim();
+  const lower = trimmed.toLowerCase();
+  if (lower === 'controlormeta') return process.platform === 'darwin' ? 'Meta' : 'Control';
+  return Object.prototype.hasOwnProperty.call(aliases, lower) ? aliases[lower] : trimmed;
+}
+
+function cuaDefinition(key: string): KeyDefinition {
+  if (Object.prototype.hasOwnProperty.call(namedKeys, key)) return namedKeys[key];
+  if (Object.prototype.hasOwnProperty.call(modifierKeys, key)) return modifierKeys[key];
+  if (/^[a-z]$/iu.test(key)) {
+    const upper = key.toUpperCase();
+    return { key, code: `Key${upper}`, windowsVirtualKeyCode: upper.charCodeAt(0) };
+  }
+  if (/^[0-9]$/u.test(key)) {
+    return { key, code: `Digit${key}`, windowsVirtualKeyCode: key.charCodeAt(0) };
+  }
+  return { key };
+}
+
+export async function dispatchKeyPress(view: ControlledView, keys: readonly string[]): Promise<void> {
+  const normalized = keys.flatMap((key) => key.split('+')).filter(Boolean).map(normalizeCuaKey);
+  const final = normalized.at(-1);
+  if (!final) throw new Error('keypress requires at least one key');
+
+  const held = normalized.slice(0, -1);
+  const active = new Set<string>();
+  const sendKey = async (type: 'keyDown' | 'keyUp', key: string): Promise<void> => {
+    if (Object.prototype.hasOwnProperty.call(modifierKeys, key)) {
+      if (type === 'keyDown') active.add(key);
+      else active.delete(key);
+    }
+    const modifiers = modifiersBitmask([...active] as BrowserKeyModifier[]);
+    const optionalModifiers = modifiers > 0 ? { modifiers } : {};
+    await view.cdp.send('Input.dispatchKeyEvent', {
+      type, ...cuaDefinition(key), ...optionalModifiers,
+    });
+  };
+
+  for (const key of held) await sendKey('keyDown', key);
+  await sendKey('keyDown', final);
+  await sendKey('keyUp', final);
+  for (let i = held.length - 1; i >= 0; i--) await sendKey('keyUp', held[i]);
+}
+
+export async function dispatchKey(
+  view: ControlledView,
+  keyName: string,
+  modifiers = 0,
+  sessionId?: string,
+): Promise<void> {
+  const definition = Object.prototype.hasOwnProperty.call(namedKeys, keyName)
+    ? namedKeys[keyName]
+    : { key: keyName };
+  const optionalModifiers = modifiers > 0 ? { modifiers } : {};
+  const down = { type: 'keyDown', ...definition, ...optionalModifiers };
+  const up = { type: 'keyUp', ...definition, ...optionalModifiers };
+  if (sessionId == null) {
+    await view.cdp.send('Input.dispatchKeyEvent', down);
+    await view.cdp.send('Input.dispatchKeyEvent', up);
+  } else {
+    await view.cdp.send('Input.dispatchKeyEvent', down, sessionId);
+    await view.cdp.send('Input.dispatchKeyEvent', up, sessionId);
+  }
+}

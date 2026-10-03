@@ -1,0 +1,18 @@
+{
+  "owner": "preparation",
+  "version": "initial",
+  "file": "/tmp/knorvia-storage50-preparation-initial.ts",
+  "rawPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/preparation-initial.ts",
+  "sha256": "3ffeba83982db08deea329b249401c9a4e3f312e90064841992db1454966e48a",
+  "bytes": 7763,
+  "author": "/root/storage_preparation_owner_author50",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "authorStoppedEditing": true,
+  "completedBeforeCuratorInspection": true,
+  "access": "Only frozen common/owner/public declaration packet files listed in input freeze; whole literal once then own stat/hash. No source/history/dependencies/tests/siblings/artifacts/runtime reads.",
+  "authorActualModelIndependentlyVerified": false,
+  "authorFastIndependentlyVerified": false,
+  "boundedFacts": "Resolver module @knorvia/services/storage-startup"
+}

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+    "packages/desktop/src/main/browserView/recordingOwnerTestPorts.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "e6bcceae74761350c788a97adc4744e0d58f25bb45fc58c795618a237460913b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+      "sha256": "292b5473f15edd270084954c0eab3e10240d240d0b7185d7b6a3035e132f5863"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwnerTestPorts.mjs",
+      "sha256": "87582a4d3853dc54ab10bdaf7bcc001fd1b60d95fd4dbd2c5f0e7daeada4a4e1"
+    }
+  ],
+  "stdout": "Finished in 21ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,13 @@
+{
+  "file": "/tmp/knorvia-command44-correction-1.ts",
+  "bytes": 4176,
+  "sha256": "e40ce6866829f57edc8c932e73f343ee08125e1f60212f43e021363331a1c3fc",
+  "author": "/root/browser_command_owner_author44",
+  "access": "Clarified import paths and own memory; no output or source reread.",
+  "rawPath": "licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/command-correction-1.ts",
+  "version": "correction-1",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "completeLiteral": true,
+  "curatorSemanticEdits": false
+}

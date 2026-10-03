@@ -1,0 +1,25 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/README.md",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/review-notes.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/README.md",
+      "sha256": "942b4bac0518b81759875f4b9990ea0de94103a2ae0eef35c607ab0b5e9a85a0"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/review-notes.md",
+      "sha256": "e17bba1ecb2afdfe1d48a123a235504473dcb6997bfa3be9848b00c9297ebead"
+    }
+  ],
+  "stdout": "Finished in 96ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,8 +1,7 @@
-/* eslint-disable max-lines -- SSH backend 集中维护连接、exec、SFTP 上传和 fallback 进度链路；集中维护以避免拆分引入远端连接回归。 */
-import { Client as SSHClient } from "ssh2";
-import type { ConnectConfig } from "ssh2";
+/* eslint-disable max-lines -- This class owns the complete SSH connection and transfer lifecycle. */
 import { createReadStream } from "node:fs";
 import { posix } from "node:path";
+import { Client as SSHClient, type ConnectConfig } from "ssh2";
 import { Emitter } from "@knorvia/rpc";
 import { resolveKnorviaRuntimeEnv } from "@knorvia/shared";
 import type {
@@ -47,36 +46,19 @@ export interface SSHBackendOptions {
   agent?: string;
 }
 
-type SSHUploadFailureKind = "sftp-session" | "sftp-write" | "local-read" | "aborted";
+type UploadFailureKind = "sftp-session" | "sftp-write" | "local-read" | "aborted";
+type UploadError = Error & { uploadFailureKind?: UploadFailureKind };
+type DestroyableWritable = NodeJS.WritableStream & { destroy?: (error?: Error) => void };
 
-type SSHUploadFailure = Error & {
-  uploadFailureKind?: SSHUploadFailureKind;
-};
-
-function normalizeUnknownError(error: unknown, fallbackMessage: string): Error {
-  if (error instanceof Error) {
-    return error;
-  }
-
-  if (typeof error === "string" && error.length > 0) {
-    return new Error(error);
-  }
-
-  return new Error(fallbackMessage);
+function normalizeError(error: unknown, fallback: string): Error {
+  if (error instanceof Error) return error;
+  return new Error(typeof error === "string" && error.length > 0 ? error : fallback);
 }
 
-function markSSHUploadFailure(
-  error: unknown,
-  kind: SSHUploadFailureKind,
-  fallbackMessage: string,
-): SSHUploadFailure {
-  const normalizedError = normalizeUnknownError(error, fallbackMessage) as SSHUploadFailure;
-  normalizedError.uploadFailureKind = kind;
-  return normalizedError;
-}
-
-function shouldLogSSHDebugMessage(message: string): boolean {
-  return !/\bCHANNEL_(?:DATA|EXTENDED_DATA|WINDOW_ADJUST)\b/u.test(message);
+function markUploadFailure(error: unknown, kind: UploadFailureKind, fallback: string): UploadError {
+  const marked = normalizeError(error, fallback) as UploadError;
+  marked.uploadFailureKind = kind;
+  return marked;
 }
 
 function createUploadAbortError(): Error {
@@ -90,9 +72,9 @@ function throwIfUploadAborted(signal?: AbortSignal): void {
 }
 
 export class SSHBackend implements IRemoteBackend {
-  private client: SSHClient;
-  private connected = false;
+  private readonly client: SSHClient;
   private readonly config: ConnectConfig;
+  private connected = false;
   private homeDirPromise: Promise<string> | null = null;
   private execUploadOnly = false;
   private disposed = false;
@@ -102,17 +84,10 @@ export class SSHBackend implements IRemoteBackend {
   readonly onDidDisconnect = this.disconnectEmitter.event;
 
   private readonly onClientError = (error: unknown): void => {
-    if (this.disposed) {
-      // ssh2 在 ready timeout 后销毁 socket 时，close/end 阶段可能再次发出 error。
-      // dispose 期间保留监听器只为吸收这类迟到事件，不能再向上层重复报告或触发未捕获异常。
-      return;
-    }
-    const normalizedError = normalizeSSHConnectError(error);
-    // ready 之后如果底层连接抖动，ssh2 仍会发出 "error" 事件。
-    // 若没有常驻监听，Node 会把它当成未捕获异常直接抛出，可能导致 host 进程崩溃。
-    // 这里先记录错误详情再上报断连；上层收到断连后会退出 host，反过来会丢掉真实 error 文案。
-    console.error("[ssh] client error:", normalizedError);
-    this.reportDisconnect("error", normalizedError);
+    if (this.disposed) return;
+    const normalized = normalizeSSHConnectError(error);
+    console.error("[ssh] client error:", normalized);
+    this.reportDisconnect("error", normalized);
   };
 
   private readonly onClientClose = (): void => {
@@ -138,49 +113,41 @@ export class SSHBackend implements IRemoteBackend {
       agent: options.agent,
     });
     if (resolveKnorviaRuntimeEnv(process.env) === "development") {
-      this.config.debug = (message: string) => {
-        // SSH ready 超时只暴露 client-timeout 时无法判断卡在 TCP、协商还是认证。
-        // 仅开发环境输出 ssh2 握手细节；CHANNEL_DATA / EXTENDED_DATA 是命令 stdout/stderr 数据包，
-        // 下载阶段会按 chunk 高频刷屏，过滤掉它们，避免连接窗口和 electron 日志被底层传输事件淹没。
-        if (!shouldLogSSHDebugMessage(message)) {
-          return;
-        }
+      this.config.debug = (message: string): void => {
+        if (/\bCHANNEL_(?:DATA|EXTENDED_DATA|WINDOW_ADJUST)\b/u.test(message)) return;
         console.debug(`[ssh2] ${message}`);
       };
     }
     if (typeof options.password === "string" && options.password.length > 0) {
-      // `ssh2` 类型定义遗漏了 keyboard-interactive 事件，但运行时确实支持。
-      // 这里局部转成 EventEmitter 接口，避免为了一个事件把整段代码降级到 any。
-      (
-        this.client as unknown as {
-          on(event: string, listener: (...args: unknown[]) => void): void;
-        }
-      ).on(
-        "keyboard-interactive",
-        createKeyboardInteractiveResponder(options.password) as unknown as (
-          ...args: unknown[]
-        ) => void,
-      );
+      const listener = createKeyboardInteractiveResponder(options.password);
+      const keyboardClient = this.client as unknown as {
+        on(event: "keyboard-interactive", handler: typeof listener): void;
+      };
+      keyboardClient.on("keyboard-interactive", listener);
     }
+  }
+
+  private reportDisconnect(reason: RemoteDisconnectReason, error?: Error): void {
+    const shouldReport =
+      !this.disposed && !this.disconnectReported && (this.connected || this.hasEverConnected);
+    this.connected = false;
+    this.homeDirPromise = null;
+    if (!shouldReport) return;
+    this.disconnectReported = true;
+    this.disconnectEmitter.fire(error ? { reason, error } : { reason });
   }
 
   private assertNotDisposed(): void {
-    if (this.disposed) {
-      throw new Error("SSH backend 已释放，无法重新建立连接");
-    }
+    if (this.disposed) throw new Error("SSH backend 已释放，无法重新建立连接");
   }
 
   private async ensureConnected(): Promise<void> {
-    // 连接取消会先释放 backend，但迟到的 deploy/cleanup continuation 仍可能
-    // 调用 ensureConnected。ssh2 Client 支持 end 后再次 connect，必须在 backend 边界阻止旧凭据复活。
     this.assertNotDisposed();
     if (this.connected) return;
-    return new Promise((resolve, reject) => {
-      const handleReady = () => {
-        this.client.off("error", handleConnectError);
+    return new Promise<void>((resolve, reject) => {
+      const onReady = (): void => {
+        this.client.off("error", onError);
         if (this.disposed) {
-          // dispose 与 ssh2 ready 可能交错；迟到的 ready 若重新标记 connected，
-          // 后续 detect 会继续使用已取消连接的旧凭据。再次关闭 socket，并让原调用失败。
           this.client.end();
           reject(new Error("SSH backend 已释放，无法重新建立连接"));
           return;
@@ -190,29 +157,117 @@ export class SSHBackend implements IRemoteBackend {
         this.disconnectReported = false;
         resolve();
       };
-      const handleConnectError = (error: unknown) => {
-        this.client.off("ready", handleReady);
+      const onError = (error: unknown): void => {
+        this.client.off("ready", onReady);
         reject(normalizeSSHConnectError(error));
       };
-      this.client.once("ready", handleReady);
-      this.client.once("error", handleConnectError);
+      this.client.once("ready", onReady);
+      this.client.once("error", onError);
       this.client.connect(this.config);
     });
   }
 
-  private reportDisconnect(reason: RemoteDisconnectReason, error?: Error): void {
-    const shouldReport =
-      !this.disposed && !this.disconnectReported && (this.connected || this.hasEverConnected);
+  async exec(command: string): Promise<StdioStream> {
+    await this.ensureConnected();
+    this.assertNotDisposed();
+    return new Promise<StdioStream>((resolve, reject) => {
+      this.client.exec(buildPosixShellExecCommand(command), (error, channel) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        const close = createCloseEventController();
+        let fired = false;
+        const fireOnce = (code: number): void => {
+          if (fired) return;
+          fired = true;
+          if (code !== 0) console.warn(`[ssh] exec channel failed: code=${code}`);
+          close.fire(code ?? 0);
+        };
+        channel.on("exit", (code: number | null | undefined) => fireOnce(code ?? 0));
+        channel.on("close", () => fireOnce(0));
+        resolve({
+          stdin: channel.stdin,
+          stdout: channel,
+          stderr: channel.stderr,
+          onClose: close.event,
+        });
+      });
+    });
+  }
 
-    this.connected = false;
-    this.homeDirPromise = null;
+  private execSimple(command: string): Promise<string> {
+    this.assertNotDisposed();
+    return new Promise<string>((resolve, reject) => {
+      this.client.exec(buildPosixShellExecCommand(command), (error, channel) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        let stdout = "";
+        let stderr = "";
+        let done = false;
+        let exitCode: number | null = null;
+        const finish = (code: number): void => {
+          if (done) return;
+          done = true;
+          if (code !== 0) {
+            reject(new Error(`Command failed (code ${code}): ${stderr || stdout}`));
+          } else {
+            resolve(stdout);
+          }
+        };
+        channel.on("data", (chunk: Buffer) => {
+          stdout += chunk.toString();
+        });
+        channel.stderr.on("data", (chunk: Buffer) => {
+          stderr += chunk.toString();
+        });
+        channel.on("exit", (code: number | null | undefined) => {
+          exitCode = code ?? 0;
+        });
+        channel.on("close", (code: number | null | undefined) => {
+          finish(exitCode ?? code ?? 0);
+        });
+      });
+    });
+  }
 
-    if (!shouldReport) {
-      return;
+  private async resolveHomeDir(): Promise<string> {
+    if (this.homeDirPromise) return this.homeDirPromise;
+    this.homeDirPromise = this.execSimple('printf %s "$HOME"').then((text) => text.trim());
+    return this.homeDirPromise;
+  }
+
+  private async resolveRemotePath(remotePath: string): Promise<string> {
+    const home = await this.resolveHomeDir();
+    return resolvePosixHomePath(remotePath, home);
+  }
+
+  async exists(remotePath: string): Promise<boolean> {
+    try {
+      const resolved = await this.resolveRemotePath(remotePath);
+      const result = await this.execSimple(`test -f ${quotePosixShellArg(resolved)} && printf OK`);
+      return result.trim() === "OK";
+    } catch {
+      return false;
     }
+  }
 
-    this.disconnectReported = true;
-    this.disconnectEmitter.fire(error ? { reason, error } : { reason });
+  async readFile(remotePath: string): Promise<string> {
+    const resolved = await this.resolveRemotePath(remotePath);
+    return this.execSimple(`cat ${quotePosixShellArg(resolved)}`);
+  }
+
+  private async readKernelOstype(): Promise<string> {
+    try {
+      const value = await this.execSimple(
+        "if [ -r /proc/sys/kernel/ostype ]; then cat /proc/sys/kernel/ostype; fi",
+      );
+      return value.trim();
+    } catch {
+      return "";
+    }
   }
 
   async detect(): Promise<RemoteEnvironment> {
@@ -221,13 +276,11 @@ export class SSHBackend implements IRemoteBackend {
     const arch = normalizeRemoteArch(await this.execSimple("uname -m"));
     const kernelOstype = await this.readKernelOstype();
     const platform = resolveRemotePlatform(reportedPlatform, kernelOstype);
-
     if (platform !== reportedPlatform) {
       console.warn(
         `[ssh] detect: uname reported ${reportedPlatform}, but kernel ostype is ${kernelOstype}; fallback to ${platform}`,
       );
     }
-
     return { platform, arch };
   }
 
@@ -242,171 +295,25 @@ export class SSHBackend implements IRemoteBackend {
     const resolved = await this.resolveRemotePath(remotePath);
     throwIfUploadAborted(options?.signal);
     this.assertNotDisposed();
-    const uploadLabel = formatSSHUploadLabel(resolved);
-    console.log(`[ssh] upload: resolved ${uploadLabel} to ${resolved}`);
-    const dir = posix.dirname(resolved);
-    await this.execSimple(`mkdir -p ${quotePosixShellArg(dir)}`);
-
+    const label = formatSSHUploadLabel(resolved);
+    console.log(`[ssh] upload: resolved ${label} to ${resolved}`);
+    await this.execSimple(`mkdir -p ${quotePosixShellArg(posix.dirname(resolved))}`);
     if (this.execUploadOnly) {
-      // exec-only 只缓存传输能力，不能丢掉每次上传独立的取消信号与进度回调；
-      // 否则首次 SFTP 降级后的后续资源会脱离连接取消流程，并让 UI 停止更新进度。
       await this.uploadViaExec(localPath, resolved, options);
       return;
     }
-
     try {
       await this.uploadViaSftp(localPath, resolved, options);
     } catch (error) {
-      if (!this.shouldFallbackToExecUpload(error)) {
-        throw error;
-      }
-
-      // 某些网关 / 跳板 SSH 会把 exec 与 SFTP 落到不同的文件系统视图。
-      // 这类场景下，前面的 `mkdir -p` 已经证明 shell 视图可写，但 SFTP 往同一路径写文件仍会报 NO_SUCH_FILE。
-      // 这里回退到 `cat > file`，强制复用已验证可用的 shell 通道，避免把“网关不支持 SFTP 直写”误判成连接失败。
-      // 同一个 backend 后续继续试 SFTP 只会重复失败并刷日志，因此在首次能力失败后记住 exec-only 状态；
-      // 新连接会创建新的 backend，自然会重新探测 SFTP 能力。
+      const kind = (error as UploadError | null | undefined)?.uploadFailureKind;
+      if (kind !== "sftp-session" && kind !== "sftp-write") throw error;
       this.execUploadOnly = true;
-      console.warn(
-        `[ssh] upload: switching ${uploadLabel} from sftp to exec pipe after ${this.describeUploadFailure(error)}`,
-      );
+      const descriptionKind = (error as UploadError | null | undefined)?.uploadFailureKind;
+      const formatted = formatSSHUploadError(error);
+      const description = descriptionKind ? `${descriptionKind} failure (${formatted})` : formatted;
+      console.warn(`[ssh] upload: switching ${label} from sftp to exec pipe after ${description}`);
       await this.uploadViaExec(localPath, resolved, options);
     }
-  }
-
-  async exec(command: string): Promise<StdioStream> {
-    await this.ensureConnected();
-    // ensureConnected 的 await 与真正创建 channel 之间允许取消屏障插入，必须再次校验。
-    this.assertNotDisposed();
-    return new Promise((resolve, reject) => {
-      // SSH exec 会先交给远端用户的默认 shell；fish 会把部署脚本里的 `download=` 等 POSIX 语法当成错误。
-      // 在 SSH 边界统一进入 /bin/sh，保证 remote deploy、preflight 和 server 启动脚本都按项目声明的 POSIX shell 语义执行。
-      this.client.exec(buildPosixShellExecCommand(command), (err, channel) => {
-        if (err) return reject(err);
-
-        const onClose = createCloseEventController();
-        let fired = false;
-        const fireOnce = (code: number) => {
-          if (fired) return;
-          fired = true;
-          // remote deploy 会执行大量短命令，成功退出的 code=0 日志没有排查价值且会刷屏。
-          // 这里只保留失败退出码，正常流程由上层的阶段日志和进度日志表达。
-          if (code !== 0) {
-            console.warn(`[ssh] exec channel failed: code=${code}`);
-          }
-          onClose.fire(code ?? 0);
-        };
-
-        // ssh2 channels may fire 'exit' before 'close', or sometimes
-        // only one of them. Listen to both to be safe.
-        channel.on("exit", (code: number | null) => {
-          fireOnce(code ?? 0);
-        });
-        channel.on("close", () => {
-          fireOnce(0);
-        });
-
-        resolve({
-          stdin: channel.stdin,
-          stdout: channel,
-          stderr: channel.stderr,
-          onClose: onClose.event,
-        });
-      });
-    });
-  }
-
-  async exists(remotePath: string): Promise<boolean> {
-    try {
-      const resolvedRemotePath = await this.resolveRemotePath(remotePath);
-      const result = await this.execSimple(
-        `test -f ${quotePosixShellArg(resolvedRemotePath)} && printf OK`,
-      );
-      return result.trim() === "OK";
-    } catch {
-      return false;
-    }
-  }
-
-  async readFile(remotePath: string): Promise<string> {
-    const resolvedRemotePath = await this.resolveRemotePath(remotePath);
-    return this.execSimple(`cat ${quotePosixShellArg(resolvedRemotePath)}`);
-  }
-
-  /** Execute a simple command and return stdout as string */
-  private execSimple(command: string): Promise<string> {
-    this.assertNotDisposed();
-    return new Promise((resolve, reject) => {
-      // execSimple 同样会执行 POSIX 片段（例如 `[ -r ... ]`、变量展开）。
-      // 这里和 exec 保持同一层 shell 策略，避免 detect/exists/readFile 在 fish 默认 shell 下先于部署失败。
-      this.client.exec(buildPosixShellExecCommand(command), (err, channel) => {
-        if (err) return reject(err);
-        let stdout = "";
-        let stderr = "";
-        let done = false;
-        let exitCode: number | null = null;
-
-        channel.on("data", (chunk: Buffer) => {
-          stdout += chunk.toString();
-        });
-        channel.stderr.on("data", (chunk: Buffer) => {
-          stderr += chunk.toString();
-        });
-
-        const finish = (code: number) => {
-          if (done) return;
-          done = true;
-          if (code !== 0) {
-            reject(new Error(`Command failed (code ${code}): ${stderr || stdout}`));
-          } else {
-            resolve(stdout);
-          }
-        };
-
-        // ssh2 在短命令场景下可能先发 exit，再异步派发 stdout data。
-        // 不能在 exit 事件直接 finish：会把后续 data 丢掉，导致 platform/arch 偶发识别为空。
-        // 这里改为只在 close 统一收尾，并优先使用 exit 记录的真实退出码，避免误判成功。
-        channel.on("exit", (code: number | null) => {
-          exitCode = code ?? 0;
-        });
-        channel.on("close", (code: number | null) => {
-          const resolvedCode = exitCode ?? code ?? 0;
-          finish(resolvedCode);
-        });
-      });
-    });
-  }
-
-  private async resolveHomeDir(): Promise<string> {
-    if (this.homeDirPromise) {
-      return this.homeDirPromise;
-    }
-
-    this.homeDirPromise = this.execSimple('printf %s "$HOME"').then((homeDir) => homeDir.trim());
-    return this.homeDirPromise;
-  }
-
-  private async readKernelOstype(): Promise<string> {
-    try {
-      return (
-        await this.execSimple(
-          "if [ -r /proc/sys/kernel/ostype ]; then cat /proc/sys/kernel/ostype; fi",
-        )
-      ).trim();
-    } catch {
-      return "";
-    }
-  }
-
-  private shouldFallbackToExecUpload(error: unknown): boolean {
-    const uploadFailureKind = (error as SSHUploadFailure | undefined)?.uploadFailureKind;
-    return uploadFailureKind === "sftp-session" || uploadFailureKind === "sftp-write";
-  }
-
-  private describeUploadFailure(error: unknown): string {
-    const uploadFailureKind = (error as SSHUploadFailure | undefined)?.uploadFailureKind;
-    const errorLabel = formatSSHUploadError(error);
-    return uploadFailureKind ? `${uploadFailureKind} failure (${errorLabel})` : errorLabel;
   }
 
   private async uploadViaSftp(
@@ -416,100 +323,74 @@ export class SSHBackend implements IRemoteBackend {
   ): Promise<void> {
     throwIfUploadAborted(options?.signal);
     this.assertNotDisposed();
-    const uploadLabel = formatSSHUploadLabel(resolvedRemotePath);
-    const totalBytes = await readLocalFileSize(localPath);
-    const progressReporter = createSSHUploadProgressReporter("sftp", uploadLabel, totalBytes);
-    const reportProgress = (uploadedBytes: number, force: boolean) => {
-      progressReporter(uploadedBytes, force);
-      options?.onProgress?.({ uploadedBytes, totalBytes: totalBytes ?? 0 });
+    const label = formatSSHUploadLabel(resolvedRemotePath);
+    const total = await readLocalFileSize(localPath);
+    const reporter = createSSHUploadProgressReporter("sftp", label, total);
+    const report = (bytes: number, force: boolean): void => {
+      reporter(bytes, force);
+      options?.onProgress?.({ uploadedBytes: bytes, totalBytes: total ?? 0 });
     };
-
-    return new Promise((resolve, reject) => {
-      this.client.sftp((err, sftp) => {
-        if (err) {
-          // session/write 失败会由 upload() 统一降级并记录一次 warn；这里若先记 error，
-          // 同一个可恢复事件会同时出现 error + warn，误导为部署失败。
-          reject(markSSHUploadFailure(err, "sftp-session", "Failed to open SFTP session"));
+    return new Promise<void>((resolve, reject) => {
+      this.client.sftp((error, sftp) => {
+        if (error) {
+          reject(markUploadFailure(error, "sftp-session", "Failed to open SFTP session"));
           return;
         }
         console.log(
-          `[ssh] upload: started via sftp for ${uploadLabel} (${localPath} -> ${resolvedRemotePath})`,
+          `[ssh] upload: started via sftp for ${label} (${localPath} -> ${resolvedRemotePath})`,
         );
-
-        const readStream = createReadStream(localPath);
-        const writeStream = sftp.createWriteStream(resolvedRemotePath);
-        let transferredBytes = 0;
+        const read = createReadStream(localPath);
+        const write = sftp.createWriteStream(resolvedRemotePath);
+        let transferred = 0;
         let settled = false;
-        let suppressFollowupStreamErrors = false;
-
-        const resolveOnce = () => {
-          if (settled) {
-            return;
-          }
+        let suppressFollowup = false;
+        const removeAbort = (): void => options?.signal?.removeEventListener("abort", onAbort);
+        const resolveOnce = (): void => {
+          if (settled) return;
           settled = true;
-          options?.signal?.removeEventListener("abort", abortOnce);
-          reportProgress(transferredBytes, true);
-          console.log(`[ssh] upload: completed via sftp for ${uploadLabel}`);
+          removeAbort();
+          report(transferred, true);
+          console.log(`[ssh] upload: completed via sftp for ${label}`);
           sftp.end();
           resolve();
         };
-
-        const rejectOnce = (error: unknown, kind: SSHUploadFailureKind, message: string) => {
-          if (settled) {
-            return;
-          }
+        const rejectOnce = (failure: unknown, kind: UploadFailureKind, fallback: string): void => {
+          if (settled) return;
           settled = true;
-          options?.signal?.removeEventListener("abort", abortOnce);
-          suppressFollowupStreamErrors = true;
-          // SFTP 失败后如果不立刻停掉本地 read stream，它仍会继续把文件读到 100%，
-          // UI 就会在已经切到 exec pipe 之后还刷出一串虚假的 `[sftp] upload progress`。
-          // 这里在失败瞬间主动停掉两端 stream，保证第一种上传方式的进度日志立即停止。
-          // 注意不要把原始 error 再次喂给 destroy，否则清理路径本身会再冒出一轮重复 error 日志。
-          readStream.unpipe(writeStream);
-          readStream.destroy();
-          const destroyableWriteStream = writeStream as NodeJS.WritableStream & {
-            destroy?: (error?: Error) => void;
-          };
-          if (typeof destroyableWriteStream.destroy === "function") {
-            destroyableWriteStream.destroy();
-          }
+          removeAbort();
+          suppressFollowup = true;
+          read.unpipe(write);
+          read.destroy();
+          if (typeof write.destroy === "function") write.destroy();
           sftp.end();
-          reject(markSSHUploadFailure(error, kind, message));
+          reject(markUploadFailure(failure, kind, fallback));
         };
-
-        const abortOnce = () => {
+        const onAbort = (): void => {
           rejectOnce(createUploadAbortError(), "aborted", "Remote upload canceled");
         };
         if (options?.signal?.aborted) {
-          abortOnce();
+          onAbort();
           return;
         }
-        options?.signal?.addEventListener("abort", abortOnce, { once: true });
-
-        readStream.on("data", (chunk: Buffer) => {
-          if (settled) {
-            return;
-          }
-          transferredBytes += chunk.length;
-          reportProgress(transferredBytes, false);
+        options?.signal?.addEventListener("abort", onAbort, { once: true });
+        read.on("data", (chunk: Buffer) => {
+          if (settled) return;
+          transferred += chunk.length;
+          report(transferred, false);
         });
-        writeStream.on("close", resolveOnce);
-        writeStream.on("error", (error: Error) => {
-          if (settled || suppressFollowupStreamErrors) {
-            return;
-          }
-          rejectOnce(error, "sftp-write", `Failed to write ${resolvedRemotePath} over SFTP`);
+        write.on("close", resolveOnce);
+        write.on("error", (failure: Error) => {
+          if (settled || suppressFollowup) return;
+          rejectOnce(failure, "sftp-write", `Failed to write ${resolvedRemotePath} over SFTP`);
         });
-        readStream.on("error", (error: Error) => {
-          if (settled || suppressFollowupStreamErrors) {
-            return;
-          }
+        read.on("error", (failure: Error) => {
+          if (settled || suppressFollowup) return;
           console.error(
-            `[ssh] upload: local read failed for ${uploadLabel}: ${formatSSHUploadError(error)}`,
+            `[ssh] upload: local read failed for ${label}: ${formatSSHUploadError(failure)}`,
           );
-          rejectOnce(error, "local-read", `Failed to read local file ${localPath}`);
+          rejectOnce(failure, "local-read", `Failed to read local file ${localPath}`);
         });
-        readStream.pipe(writeStream);
+        read.pipe(write);
       });
     });
   }
@@ -519,91 +400,67 @@ export class SSHBackend implements IRemoteBackend {
     resolvedRemotePath: string,
     options?: RemoteUploadOptions,
   ): Promise<void> {
-    const uploadLabel = formatSSHUploadLabel(resolvedRemotePath);
-    const totalBytes = await readLocalFileSize(localPath);
-    const progressReporter = createSSHUploadProgressReporter("exec", uploadLabel, totalBytes);
-    const reportProgress = (uploadedBytes: number, force: boolean) => {
-      progressReporter(uploadedBytes, force);
-      options?.onProgress?.({ uploadedBytes, totalBytes: totalBytes ?? 0 });
+    const label = formatSSHUploadLabel(resolvedRemotePath);
+    const total = await readLocalFileSize(localPath);
+    const reporter = createSSHUploadProgressReporter("exec", label, total);
+    const report = (bytes: number, force: boolean): void => {
+      reporter(bytes, force);
+      options?.onProgress?.({ uploadedBytes: bytes, totalBytes: total ?? 0 });
     };
     throwIfUploadAborted(options?.signal);
-    const parentDir = posix.dirname(resolvedRemotePath);
-    const command = `mkdir -p ${quotePosixShellArg(parentDir)} && cat > ${quotePosixShellArg(resolvedRemotePath)}`;
+    const parent = posix.dirname(resolvedRemotePath);
+    const command = `mkdir -p ${quotePosixShellArg(parent)} && cat > ${quotePosixShellArg(resolvedRemotePath)}`;
     console.log(
-      `[ssh] upload: started via exec pipe for ${uploadLabel} (${localPath} -> ${resolvedRemotePath})`,
+      `[ssh] upload: started via exec pipe for ${label} (${localPath} -> ${resolvedRemotePath})`,
     );
     const stream = await this.exec(command);
-
     await new Promise<void>((resolve, reject) => {
-      const readStream = createReadStream(localPath);
-      const stdin = stream.stdin;
-      let transferredBytes = 0;
+      const read = createReadStream(localPath);
+      const stdin = stream.stdin as DestroyableWritable;
+      let transferred = 0;
       let settled = false;
-
-      const finishWithError = (error: Error) => {
-        if (settled) {
-          return;
-        }
+      const removeAbort = (): void => options?.signal?.removeEventListener("abort", onAbort);
+      const finishError = (error: Error): void => {
+        if (settled) return;
         settled = true;
-        options?.signal?.removeEventListener("abort", abortOnce);
-        readStream.destroy();
-        const destroyableStdin = stdin as NodeJS.WritableStream & {
-          destroy?: (reason?: Error) => void;
-        };
-        if (typeof destroyableStdin.destroy === "function") {
-          destroyableStdin.destroy(error);
-        } else {
-          stdin.end();
-        }
+        removeAbort();
+        read.destroy();
+        if (typeof stdin.destroy === "function") stdin.destroy(error);
+        else stdin.end();
         reject(error);
       };
-
-      const abortOnce = () => finishWithError(createUploadAbortError());
+      const onAbort = (): void => finishError(createUploadAbortError());
       if (options?.signal?.aborted) {
-        abortOnce();
+        onAbort();
         return;
       }
-      options?.signal?.addEventListener("abort", abortOnce, { once: true });
-
-      readStream.on("error", (error) => finishWithError(error));
-      readStream.on("data", (chunk: Buffer) => {
-        transferredBytes += chunk.length;
-        reportProgress(transferredBytes, false);
+      options?.signal?.addEventListener("abort", onAbort, { once: true });
+      read.on("error", finishError);
+      read.on("data", (chunk: Buffer) => {
+        transferred += chunk.length;
+        report(transferred, false);
       });
-      stdin.on("error", (error: Error) => finishWithError(error));
-      readStream.pipe(stdin);
+      stdin.on("error", finishError);
+      read.pipe(stdin);
       stream.onClose((code) => {
-        if (settled) {
-          return;
-        }
+        if (settled) return;
         settled = true;
-        options?.signal?.removeEventListener("abort", abortOnce);
-        reportProgress(transferredBytes, true);
+        removeAbort();
+        report(transferred, true);
         if (code !== 0) {
-          console.error(`[ssh] upload: exec pipe failed for ${uploadLabel}: exit code ${code}`);
+          console.error(`[ssh] upload: exec pipe failed for ${label}: exit code ${code}`);
           reject(new Error(`SSH exec upload failed with exit code ${code}`));
-          return;
+        } else {
+          console.log(`[ssh] upload: completed via exec pipe for ${label}`);
+          resolve();
         }
-        console.log(`[ssh] upload: completed via exec pipe for ${uploadLabel}`);
-        resolve();
       });
     });
   }
 
-  private async resolveRemotePath(remotePath: string): Promise<string> {
-    const homeDir = await this.resolveHomeDir();
-    return resolvePosixHomePath(remotePath, homeDir);
-  }
-
   dispose(): void {
-    if (this.disposed) {
-      return;
-    }
+    if (this.disposed) return;
     this.disposed = true;
-    // 首次握手失败后，ssh2 可能在 socket end/close 之后继续发出 error。
-    // dispose 后保留 onClientError 作为 no-op sink，不能按 end/close 事件时序提前移除，
-    // 否则迟到事件会逃逸为 uncaughtException，让共享 Window Host 连带退出其它 workspace。
-    // client 只由当前 backend 持有，监听器会随 client 一起回收；此处优先保证退役阶段不崩溃。
     this.client.off("close", this.onClientClose);
     this.client.off("end", this.onClientEnd);
     this.client.end();

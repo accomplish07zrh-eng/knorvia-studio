@@ -1,0 +1,9 @@
+{
+  "owner": "clipboard",
+  "version": "correction-1",
+  "completeReportedBeforeFreeze": true,
+  "reportedSha256": "2e020fd1746cf5bf694cfb13fce7829446d2c0fbab5eddfb14db67c945942d54",
+  "actualSha256": "2e020fd1746cf5bf694cfb13fce7829446d2c0fbab5eddfb14db67c945942d54",
+  "bytes": 10195,
+  "reviewBeforeFreeze": false
+}

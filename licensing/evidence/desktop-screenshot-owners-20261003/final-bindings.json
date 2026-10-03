@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-screenshot-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/final-bindings.mjs",
+      "sha256": "eba540dcb6932bff7f762f821c952698a47da76a767bc047d848dc6d280466b5"
+    }
+  ],
+  "stdout": "{\n  \"baseHead\": \"42bccd729bf2fef1b5d874ef8c3bdc90df29ebcf\",\n  \"selected\": [\n    {\n      \"owner\": \"surface\",\n      \"selectedVersion\": \"correction-1\",\n      \"rawSha256\": \"07c5a3a10ee7c138445dbbbe0462558927a78e11c6172fcd2874c9ee2a91cd6d\",\n      \"installedSha256\": \"594b592f81e485b788f781d28fba7f2657e54332554714021ec89cc77212fce9\",\n      \"installedBytes\": 13264,\n      \"installedLines\": 361,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    },\n    {\n      \"owner\": \"activity\",\n      \"selectedVersion\": \"correction-1\",\n      \"rawSha256\": \"3eca2d93766c3ab86e075fcc896c0ac175b59825e5720fca2d5077826c94f4d6\",\n      \"installedSha256\": \"df8e32d4826318aaf87a982e2eb5709650a50e6f8653b4e861360d8b7a726cc4\",\n      \"installedBytes\": 12494,\n      \"installedLines\": 381,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    }\n  ],\n  \"rawVersionsVerified\": 4,\n  \"unchangedRetainedPaths\": 4233,\n  \"retentionCountsAreNotCompletionCounts\": true,\n  \"authorInputFreezeVerified\": true,\n  \"publicApiMatches\": true,\n  \"productionScopeExactlyTwoOwners\": true,\n  \"ordinaryTestsRun\": false,\n  \"nativeRuntimePassed\": false,\n  \"acceptedIndependentReplacementCredit\": 0,\n  \"MITClaim\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/api-retry-status.ts",
+    "packages/shared/src/background-task-notifications.ts",
+    "packages/shared/src/network-debug-status.ts",
+    "packages/shared/src/subagent-markdown-selection.ts",
+    "packages/shared/src/lineChangeStat.ts",
+    "packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs",
+    "licensing/evidence/shared-retry-notification-migration-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "\n  ! eslint-plugin-unicorn(no-new-array): Do not use `new Array(singleArgument)`.\n    ,-[packages/shared/src/lineChangeStat.ts:52:19]\n 51 |   // \u6bcf\u8f6e\u4ec5\u4fdd\u7559\u4e00\u4e2a\u52a8\u6001\u89c4\u5212\u884c\uff0c\u5de6\u4e0a\u89d2\u7684\u65e7\u503c\u7531\u5c40\u90e8\u53d8\u91cf\u643a\u5e26\u3002\n 52 |   const matches = new Array<number>(addedSpan + 1).fill(0);\n    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n 53 |   for (let row = 0; row < removedSpan; row += 1) {\n    `----\n  help: It's not clear whether the argument is meant to be the length of the array or the only element. If the argument is the array's length, consider using `Array.from({ length: n })`. If the argument is the only element, use `[element]`.\n\nFound 1 warning and 0 errors.\nFinished in 22ms on 7 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

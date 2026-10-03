@@ -1,0 +1,14 @@
+[
+  {
+    "path": "licensing/evidence/cli-browser-dependency-owners-20261003/executable-correction-1-packet.md",
+    "sha256": "f5fd4df7f54689a2cd38ee2f8a19e6bb62bde5a732641d928828b520cad300da"
+  },
+  {
+    "path": "licensing/evidence/cli-browser-dependency-owners-20261003/playwright-command-correction-1-packet.md",
+    "sha256": "cd2026a1bba067630589bae363f1f84484cd36b4c7f8b4cf4d9840c4ce286aa1"
+  },
+  {
+    "path": "licensing/evidence/cli-browser-dependency-owners-20261003/snapshot-correction-1-packet.md",
+    "sha256": "3bc06113c277d3cea39934c9750181197c7f8ad7b21c10cc51be87fbb07eecc3"
+  }
+]

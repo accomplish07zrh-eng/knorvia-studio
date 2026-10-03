@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/indexOwner.test.mjs"
+  ],
+  "stdout": "✔ startup (179.934057ms)\n✔ remote (66.288507ms)\n✔ task-flow (49.834418ms)\n✔ dispatch-shutdown (46.237684ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 350.614401\n",
+  "stderr": "",
+  "exitCode": 0
+}

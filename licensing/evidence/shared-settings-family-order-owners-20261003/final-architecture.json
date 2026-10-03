@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "scripts/architecture/architecture-check.mjs",
+    "check",
+    "--changed"
+  ],
+  "stdout": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n",
+  "stderr": "",
+  "exitCode": 0
+}

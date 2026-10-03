@@ -1,0 +1,16 @@
+{
+  "owner": "scripts",
+  "version": "correction-2",
+  "file": "/tmp/knorvia-scripts47-correction-2.ts",
+  "rawPath": "licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/scripts-correction-2.ts",
+  "sha256": "b2ca94822ce08db6217b6f7eb32e4ba17954ebb6a121c0e26573560a3c26e498",
+  "bytes": 13374,
+  "author": "/root/command_page_scripts_owner_author47",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "This correction used only author memory and bounded behavior facts; no inherited implementation, source, contract, draft, sibling, tests or artifact rereads; own new output write then stat/hash only.",
+  "authorFastIndependentlyVerified": false
+}

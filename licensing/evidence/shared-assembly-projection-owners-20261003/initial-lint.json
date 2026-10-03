@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "10aaf9",
+    "wall_time_seconds": 0.000021072,
+    "exit_code": 0,
+    "original_token_count": 191,
+    "output": "\n  ! eslint-plugin-unicorn(no-new-array): Do not use `new Array(singleArgument)`.\n     ,-[packages/shared/src/protocol-v4/wire-assembler.ts:448:20]\n 447 |         checksum: { algorithm: \"crc32\", value: wire.checksum.value },\n 448 |         fragments: new Array<Uint8Array | undefined>(wire.fragmentCount),\n     :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n 449 |         receivedCount: 0,\n     `----\n  help: It's not clear whether the argument is meant to be the length of the array or the only element. If the argument is the array's length, consider using `Array.from({ length: n })`. If the argument is the only element, use `[element]`.\n\nFound 1 warning and 0 errors.\nFinished in 17ms on 8 files with 94 rules using 4 threads.\n"
+  }
+}

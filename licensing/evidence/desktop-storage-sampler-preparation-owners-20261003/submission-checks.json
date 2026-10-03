@@ -1,0 +1,38 @@
+{
+  "checks": {
+    "baseline-fake": 0,
+    "baseline-duplicate-authority": 0,
+    "baseline-static-corrected": 0,
+    "initial-static-corrected": 0,
+    "candidate-fake": 0,
+    "candidate-static": 0,
+    "candidate-lint": 0,
+    "candidate-architecture": 0,
+    "retained-normalized-shapes": 0,
+    "candidate-byte-proof": 0,
+    "candidate-format": 0
+  },
+  "finalSyntheticGroups": 2,
+  "publicAndSerializedRawExports": {
+    "disk": [
+      "StartupDiskSampler"
+    ],
+    "preparation": [
+      "prepareHostStorage",
+      "prepareSessionStorage"
+    ]
+  },
+  "SetRepresentation": "Actual installed builtin Set type name and type arguments; method expansion omitted equally",
+  "frozenFailures": [
+    "initial-fake.json: fixture path ENOENT",
+    "baseline-static.json and initial-static.json: SIGTERM expensive Set expansion",
+    "baseline-static-builtin-set.json: TS2307 zod /tmp resolution",
+    "initial-duplicate-authority.json: fresh error construction mismatch"
+  ],
+  "lintWarnings": 1,
+  "lintWarning": "Unicorn no-useless-spread in fake PortEmitter: intentional listener snapshot preserves mutation/once event semantics; no production warning",
+  "fullProductTypecheckPassed": false,
+  "nativeRuntimePassed": false,
+  "ordinarySuiteBuildRun": false,
+  "MITClaim": false
+}

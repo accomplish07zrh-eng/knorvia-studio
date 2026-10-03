@@ -1,0 +1,1 @@
+{"reason": "Snapshot listener arrays for deterministic emitter lifetime; use .slice() instead of spread to satisfy no-useless-spread warning. Equivalent runtime test helper only.", "productChanges": false}

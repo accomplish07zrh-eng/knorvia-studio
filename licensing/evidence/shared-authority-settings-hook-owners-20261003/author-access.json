@@ -1,0 +1,104 @@
+{
+  "authors": [
+    {
+      "author": "/root/shared_origin_trust_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "exactReads": [
+        "cat /tmp/knorvia-authority-official-mcp-auth-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "write": "One whole literal quoted heredoc; no output-body inspection reported",
+      "hashRead": "sha256sum /tmp/knorvia-authority-official-mcp-auth-authored.ts",
+      "accessDeviation": "None reported",
+      "correction": {
+        "boundary": "falsy optional headers returns[] (including JavaScript null); initial baseline1/1pass and candidate fails preserved",
+        "contractSource": "Source-exposed behavior-only falsy guard clarification; no body excerpt",
+        "write": "One whole literal quoted heredoc; no additional reads or output-body inspection reported",
+        "postWrite": "sha256sum only"
+      }
+    },
+    {
+      "author": "/root/shared_runtime_env_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "exactReads": [
+        "cat /tmp/knorvia-authority-runtimeEnv-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "write": "One whole literal quoted heredoc; no output-body inspection reported",
+      "hashRead": "sha256sum /tmp/knorvia-authority-runtimeEnv-authored.ts",
+      "accessDeviation": "None reported"
+    },
+    {
+      "author": "/root/shared_settings_migration_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "exactReads": [
+        "cat /tmp/knorvia-authority-validationAppSettings-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "write": "One whole literal quoted heredoc; no output-body inspection reported",
+      "hashRead": "sha256sum /tmp/knorvia-authority-validationAppSettings-authored.ts",
+      "accessDeviation": "None reported",
+      "correction": {
+        "boundary": "Restore exact existing max-lines comment waiver only; lint failure retained",
+        "contractSource": "Exact pre-existing non-behavior lint comment supplied; no implementation body",
+        "write": "One whole literal quoted heredoc; no additional reads or output-body inspection reported",
+        "postWrite": "sha256sum only"
+      }
+    },
+    {
+      "author": "/root/shared_hook_config_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "exactReads": [
+        "cat /tmp/knorvia-authority-workspace-hook-config-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "write": "One whole literal quoted heredoc; no output-body inspection reported",
+      "hashRead": "sha256sum /tmp/knorvia-authority-workspace-hook-config-authored.ts",
+      "accessDeviation": "None reported",
+      "correction": {
+        "boundary": "Preserve two short-circuit live runtimeHooksEnabled reads; retained isNodeError requires Error instance and code in guard; baseline1/1pass/candidate gate failure retained",
+        "contractSource": "Body-free negative authority/getter behavior and conventional predicate clarification; non-Error safety check passes baseline, candidate stopped at preceding gate assertion",
+        "write": "One whole literal quoted heredoc; no additional reads or output-body inspection reported",
+        "postWrite": "sha256sum only"
+      }
+    },
+    {
+      "author": "/root/shared_hook_mutation_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "exactReads": [
+        "cat /tmp/knorvia-authority-workspace-hook-mutation-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "write": "One whole literal quoted heredoc; no output-body inspection reported",
+      "hashRead": "sha256sum /tmp/knorvia-authority-workspace-hook-mutation-authored.ts",
+      "accessDeviation": "None reported",
+      "correction": {
+        "boundary": "Exact sourceFiles/sourceFileIndex/configFileKind/hookDeclarationDigest dependency names restored; initial candidate failure retained",
+        "contractSource": "Body-free dependency field names omitted/ambiguous in initial contract; no imported implementation/types body supplied",
+        "write": "One whole literal quoted heredoc; no additional reads or output-body inspection reported",
+        "postWrite": "sha256sum only"
+      }
+    }
+  ],
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "curatorAccess": "Selected five whole source owners exposed; existing scoped synthetic harness/AST utilities and source declarations read. Fixed schema/static callbacks supplied as retained material, substantive named function/class bodies omitted. Shared filesystem not OS isolation. No actual env/source-reserved/reducer/history/userdata access.",
+  "limit": "Bounded fresh author candidates, no independent-provenance/MIT grant. Pre-author summary-key clarification preserved."
+}

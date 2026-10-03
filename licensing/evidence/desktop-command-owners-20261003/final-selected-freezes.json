@@ -1,0 +1,14 @@
+{
+  "input": [
+    "browserCommandInput",
+    "correction-1"
+  ],
+  "interaction": [
+    "browserCommandInteractionHandlers",
+    "correction-2"
+  ],
+  "page": [
+    "browserCommandPageHandlers",
+    "correction-1"
+  ]
+}

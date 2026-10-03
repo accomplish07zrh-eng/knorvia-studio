@@ -1,0 +1,1 @@
+a848cc8f2cc1b29b40801551b148761225221452135766601dcfd8012e100f79  /tmp/knorvia-rpc-primitives-freeze-2/serialization.ts

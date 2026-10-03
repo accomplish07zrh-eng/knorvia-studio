@@ -1,6 +1,9 @@
-const MAX_LCS_CELLS = 400_000;
+export interface LineChangeStat {
+  added: number;
+  removed: number;
+}
 
-function splitIntoLogicalLines(content: string | null): string[] {
+function logicalLines(content: string | null): string[] {
   if (!content) {
     return [];
   }
@@ -12,76 +15,57 @@ function splitIntoLogicalLines(content: string | null): string[] {
   return lines;
 }
 
-export interface LineChangeStat {
-  added: number;
-  removed: number;
-}
-
 export function computeLineChangeStat(
   beforeContent: string | null,
   afterContent: string,
 ): LineChangeStat {
-  const beforeLines = splitIntoLogicalLines(beforeContent);
-  const afterLines = splitIntoLogicalLines(afterContent);
+  const before = logicalLines(beforeContent);
+  const after = logicalLines(afterContent);
+  let start = 0;
+  let beforeEnd = before.length;
+  let afterEnd = after.length;
 
-  let prefixIndex = 0;
-  while (
-    prefixIndex < beforeLines.length &&
-    prefixIndex < afterLines.length &&
-    beforeLines[prefixIndex] === afterLines[prefixIndex]
-  ) {
-    prefixIndex += 1;
+  while (start < beforeEnd && start < afterEnd && before[start] === after[start]) {
+    start += 1;
+  }
+  while (beforeEnd > start && afterEnd > start && before[beforeEnd - 1] === after[afterEnd - 1]) {
+    beforeEnd -= 1;
+    afterEnd -= 1;
   }
 
-  let beforeTailIndex = beforeLines.length - 1;
-  let afterTailIndex = afterLines.length - 1;
-  while (
-    beforeTailIndex >= prefixIndex &&
-    afterTailIndex >= prefixIndex &&
-    beforeLines[beforeTailIndex] === afterLines[afterTailIndex]
-  ) {
-    beforeTailIndex -= 1;
-    afterTailIndex -= 1;
+  const removedSpan = beforeEnd - start;
+  const addedSpan = afterEnd - start;
+  if (removedSpan === 0) {
+    return { added: addedSpan, removed: 0 };
+  }
+  if (addedSpan === 0) {
+    return { added: 0, removed: removedSpan };
   }
 
-  const trimmedBefore = beforeLines.slice(prefixIndex, beforeTailIndex + 1);
-  const trimmedAfter = afterLines.slice(prefixIndex, afterTailIndex + 1);
-
-  if (trimmedBefore.length === 0) {
-    return { added: trimmedAfter.length, removed: 0 };
+  // 先排除相同首尾，再限制比较量；超大变更保守计数，避免阻塞界面。
+  if (removedSpan * addedSpan > 400000) {
+    return { added: addedSpan, removed: removedSpan };
   }
 
-  if (trimmedAfter.length === 0) {
-    return { added: 0, removed: trimmedBefore.length };
-  }
-
-  // UI 的 edit 卡片和任务摘要都需要“真实改动行数”，
-  // 不能把 before/after 总行数直接当成 +/-。这里统一做一次行级 LCS 统计，
-  // 再由各端复用同一份结果，避免不同入口展示出不同计数。
-  //
-  // 另外超大文件如果强行算完整 LCS，会让列表和消息面板明显卡顿，
-  // 所以超过阈值时退回到保守估算，优先保证交互流畅。
-  if (trimmedBefore.length * trimmedAfter.length > MAX_LCS_CELLS) {
-    return { added: trimmedAfter.length, removed: trimmedBefore.length };
-  }
-
-  const lcs = Array.from({ length: trimmedAfter.length + 1 }, () => 0);
-  for (let beforeIndex = 1; beforeIndex <= trimmedBefore.length; beforeIndex += 1) {
-    let previousDiagonal = 0;
-    for (let afterIndex = 1; afterIndex <= trimmedAfter.length; afterIndex += 1) {
-      const previousRow = lcs[afterIndex]!;
-      if (trimmedBefore[beforeIndex - 1] === trimmedAfter[afterIndex - 1]) {
-        lcs[afterIndex] = previousDiagonal + 1;
+  // 卡片与汇总共用真实增删行数：有序公共行不计入变更，重复行按出现次数匹配。
+  // 每轮仅保留一个动态规划行，左上角的旧值由局部变量携带。
+  const matches = Array.from({ length: addedSpan + 1 }, () => 0);
+  for (let row = 0; row < removedSpan; row += 1) {
+    let diagonal = 0;
+    for (let column = 1; column <= addedSpan; column += 1) {
+      const previousRow = matches[column]!;
+      if (before[start + row] === after[start + column - 1]) {
+        matches[column] = diagonal + 1;
       } else {
-        lcs[afterIndex] = Math.max(lcs[afterIndex]!, lcs[afterIndex - 1]!);
+        matches[column] = Math.max(previousRow, matches[column - 1]!);
       }
-      previousDiagonal = previousRow;
+      diagonal = previousRow;
     }
   }
 
-  const unchangedLineCount = lcs[trimmedAfter.length] ?? 0;
+  const sharedCount = matches[addedSpan] ?? 0;
   return {
-    added: trimmedAfter.length - unchangedLineCount,
-    removed: trimmedBefore.length - unchangedLineCount,
+    added: addedSpan - sharedCount,
+    removed: removedSpan - sharedCount,
   };
 }

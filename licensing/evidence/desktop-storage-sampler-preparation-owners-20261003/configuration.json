@@ -1,0 +1,13 @@
+{
+  "parentVerifiedPrimaryLaneUI": {
+    "time": "02:39",
+    "model": "GPT-6.1 Sol",
+    "reasoning": "high",
+    "FastValue": 1,
+    "source": "parent directly opened G original task UI; already ON, no setting change"
+  },
+  "executorIndependentlySawUI": false,
+  "freshAuthorModelRequested": "gpt-6.1-sol",
+  "freshAuthorReasoningRequested": "high",
+  "freshAuthorFastIndependentlyVerified": false
+}

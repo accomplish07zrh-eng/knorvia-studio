@@ -1,0 +1,7 @@
+[
+  {
+    "command": "rg --files licensing | rg prompt-transfer-owner-replacement-20261001|cron-run|cronRun",
+    "exitCode": 1,
+    "kind": "Visible private receipt filename absent; parent-reported accepted record retained HOLD; no alternate read route"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+    "/tmp/knorvia-shared-presentation-control-baseline"
+  ],
+  "stdout": "\u2714 assistant presentation preserves root tool identity and ordered partial/settled content (12.846358ms)\n\u2714 background control validates aliases and keeps cancel task identity without executing (5.18816ms)\n\u2714 memory gate snapshots only write admissions and registry isolates provider/replacement disposal (3.207138ms)\n\u2714 workflow activity bounds snapshot projection and validates summary fields through fake ports (11.957822ms)\n\u2714 tool projection preserves explicit undefined and cached input identity while releasing partial raw data (3.591486ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 41.274815\n",
+  "stderr": "",
+  "exitCode": 0
+}

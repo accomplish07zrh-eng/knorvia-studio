@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "originalPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-first.mjs",
+      "retainedPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-first.mjs",
+      "sha256": "0a905baf86b568cb91e1045b85b1cc148e462bdbe75ff45c61b1545b7c0a2a36"
+    },
+    {
+      "originalPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-preformat.mjs",
+      "retainedPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-preformat.mjs",
+      "sha256": "9dfe75dfbf15c0ede36c0fe8bba6db99691f9b60471fa8cf9cfeb7361b3f0d27"
+    },
+    {
+      "originalPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static-first.mjs",
+      "retainedPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static-first.mjs",
+      "sha256": "cea0015afec1fd557c4b774ac74c53e8622174d62a584f9f1b5a57401e77f76b"
+    },
+    {
+      "originalPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+      "retainedPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static-preformat.mjs",
+      "sha256": "b508dbfc2112861ee3823b137e812bfc5c63a46ca8a75553d07280db37e1d209",
+      "reason": "original preformat validator restored exactly from retained first validator using the two documented ESM configuration substitutions; hash verifies against prior freeze; active helper formatted only"
+    },
+    {
+      "originalPath": "/tmp/knorvia-recording-presentation-baseline/video.ts",
+      "retainedPath": "/tmp/knorvia-recording-presentation-baseline/video.ts",
+      "sha256": "7836ca8d48298e5b5370115408e65a30b00b2995c1693b4de0a7d0530be8e9bc"
+    },
+    {
+      "originalPath": "/tmp/knorvia-recording-presentation-baseline/webm.ts",
+      "retainedPath": "/tmp/knorvia-recording-presentation-baseline/webm.ts",
+      "sha256": "460d0d5d4fd8be8e915cae67f7401e66097e8d9c906757fb2d7d2eaa26e466ab"
+    },
+    {
+      "originalPath": "/tmp/knorvia-recording-presentation-baseline/bootstrap.ts",
+      "retainedPath": "/tmp/knorvia-recording-presentation-baseline/bootstrap.ts",
+      "sha256": "ae65cd2c4e482ffb23aabf13f7b216c15890c81c186d43d1ed4db4afaea12b73"
+    }
+  ]
+}

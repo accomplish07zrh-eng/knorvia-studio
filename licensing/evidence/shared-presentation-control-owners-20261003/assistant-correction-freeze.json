@@ -1,0 +1,6 @@
+{
+  "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/corrected-assistant-presentation.ts",
+  "authorOutput": "/tmp/knorvia-shared-assistant-next-authored/assistant-presentation.ts",
+  "sha256": "aafbd706c1371410f2dc2a2e718fb5cced0e24e90748481d2a52ecbceb3d87f9",
+  "access": "Whole heredoc overwrite then sha256sum only; no additional file reads/tests/format/repo edits"
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "rg",
+    "-n",
+    "noUncheckedIndexedAccess|strict|exactOptionalPropertyTypes|extends",
+    "tsconfig.json",
+    "apps/cli/tsconfig.json",
+    "apps/cli/packages/adapters/tsconfig.json"
+  ],
+  "combinedOutput": "rg: tsconfig.json: No such file or directory (os error 2)\nrg: apps/cli/tsconfig.json: No such file or directory (os error 2)\napps/cli/packages/adapters/tsconfig.json:11:    \"strict\": true,\n",
+  "exitCode": 0,
+  "limit": "Metadata query only; two assumed root configs are absent. Actual adapter config reports strict; no semantic typecheck or build was run/claimed."
+}

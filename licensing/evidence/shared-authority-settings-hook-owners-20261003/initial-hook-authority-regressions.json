@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^hook discovery owner",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2716 hook discovery owner keeps worktree order, duplicate ownership and per-source errors (25.981923ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 0\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 31.066317\n\n\u2716 failing tests:\n\ntest at packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs:285:1\n\u2716 hook discovery owner keeps worktree order, duplicate ownership and per-source errors (25.981923ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  true !== false\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs:354:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: true,\n    expected: false,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

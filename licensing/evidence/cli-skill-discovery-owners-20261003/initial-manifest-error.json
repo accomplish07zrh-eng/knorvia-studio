@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs",
+    "--only=discovery manifest"
+  ],
+  "stdout": "✖ discovery manifest preserves path-port rejection identity and retained pending failure (14.864327ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18.443546\n\n✖ failing tests:\n\ntest at apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs:8:39\n✖ discovery manifest preserves path-port rejection identity and retained pending failure (14.864327ms)\n  AssertionError [ERR_ASSERTION]: Missing expected rejection.\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs:377:2)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: [Function (anonymous)],\n    operator: 'rejects',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

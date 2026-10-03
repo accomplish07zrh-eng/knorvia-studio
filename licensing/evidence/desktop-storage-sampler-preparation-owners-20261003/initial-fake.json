@@ -1,0 +1,24 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/host/startupDiskOwner.test.mjs",
+    "packages/desktop/src/host/storagePreparationOwner.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_STORAGE_BASELINE": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/startupDiskOwner.test.mjs",
+      "sha256": "a73fadc46052426d7b0277d2440a8a765835836a0c98b09809ba5c9be61b1747"
+    },
+    {
+      "path": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+      "sha256": "08534deec59986d3821b5df3309c82a46774833610ed11681c23fd6af1884c7c"
+    }
+  ],
+  "stdout": "✖ disk sampler synthetic probe authority, migration and stopped lifetime (1.120997ms)\n✖ storage preparation fake Worker control authority, canonical reuse and exit lifetime (4.765384ms)\nℹ tests 2\nℹ suites 0\nℹ pass 0\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 108.798184\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/startupDiskOwner.test.mjs:7:1\n✖ disk sampler synthetic probe authority, migration and stopped lifetime (1.120997ms)\n  Error: ENOENT: no such file or directory, open 'licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/disk.ts'\n      at Object.readFileSync (node:fs:484:20)\n      at load (file:///workspace/knorvia-studio/packages/desktop/src/host/storageOwnerTestPorts.mjs:19:32)\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/startupDiskOwner.test.mjs:11:12)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    errno: -2,\n    code: 'ENOENT',\n    syscall: 'open',\n    path: 'licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/disk.ts'\n  }\n\ntest at packages/desktop/src/host/storagePreparationOwner.test.mjs:17:1\n✖ storage preparation fake Worker control authority, canonical reuse and exit lifetime (4.765384ms)\n  Error: ENOENT: no such file or directory, open 'licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/preparation.ts'\n      at Object.readFileSync (node:fs:484:20)\n      at load (file:///workspace/knorvia-studio/packages/desktop/src/host/storageOwnerTestPorts.mjs:19:32)\n      at fixture (file:///workspace/knorvia-studio/packages/desktop/src/host/storagePreparationOwner.test.mjs:13:12)\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/storagePreparationOwner.test.mjs:18:13)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    errno: -2,\n    code: 'ENOENT',\n    syscall: 'open',\n    path: 'licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/preparation.ts'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

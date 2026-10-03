@@ -1,0 +1,7 @@
+{
+  "action": "Receipt metadata collector initial attempt",
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 12, in <module>\nKeyError: 'source'\n",
+  "exitCode": 1,
+  "cause": "Historical buildProof record schema differs; no product source or receipt changed. Follow-up handles only finite named source bindings."
+}

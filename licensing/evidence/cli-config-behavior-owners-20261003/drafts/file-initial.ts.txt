@@ -1,0 +1,286 @@
+import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
+import { existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
+import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { basename, dirname, join, resolve } from "node:path";
+import type { RuntimeConfigPatch, UiLocale } from "@knorvia/contracts";
+import { z } from "zod";
+import {
+    CANONICAL_CUA_PLUGIN_ID,
+    canonicalizePluginId,
+    LEGACY_CUA_PLUGIN_ID,
+    parseConfigFileToRuntimePatchWithDiagnostics,
+    pluginIdAliases,
+    type ConfigDiagnostic,
+} from "./schema.js";
+
+interface FileConfigOptions {
+    baseDir?: string;
+    configFileName?: string;
+}
+export interface LoadedConfig {
+    config: RuntimeConfigPatch;
+    diagnostics: ConfigDiagnostic[];
+    path: string;
+    loaded: boolean;
+}
+export interface UiLocalePatchResult {
+    locale: UiLocale;
+    path: string;
+}
+export interface PluginEnabledPatchResult {
+    enabled: boolean;
+    path: string;
+    pluginId: string;
+}
+export interface PluginOptionsPatchResult {
+    clearedOptionKeys: string[];
+    options: Record<string, string | number | boolean>;
+    path: string;
+    pluginId: string;
+}
+export interface PluginRemovePatchResult {
+    path: string;
+    pluginId: string;
+    removedEnabled: boolean;
+    removedOptions: boolean;
+}
+export interface SuppressedBuiltinPatchResult {
+    path: string;
+    pluginId: string;
+    suppressed: boolean;
+}
+
+type JsonObject = Record<string, unknown>;
+const defaultBase = join(resolveKnorviaDataRoot(), "cli");
+const defaultFilename = "config.json";
+const fileEncoding = "utf-8";
+const fileMode = 0o600;
+const missingFileCode = "ENOENT";
+
+function isRecord(value: unknown): value is JsonObject {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+function record(value: unknown): JsonObject {
+    return isRecord(value) ? value : {};
+}
+function owns(value: JsonObject, key: string): boolean {
+    return Object.prototype.hasOwnProperty.call(value, key);
+}
+function deleteAliases(value: JsonObject, aliases: readonly string[]): JsonObject {
+    const copy = { ...value };
+    for (const alias of aliases) delete copy[alias];
+    return copy;
+}
+function stringList(value: unknown): string[] {
+    return Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
+}
+
+export function resolvePath(path: string): string {
+    return path.startsWith("~/") ? join(homedir(), path.slice(2)) : resolve(path);
+}
+export function getDefaultConfigPath(): string {
+    return join(resolvePath(defaultBase), defaultFilename);
+}
+export function hasDefaultConfigFile(): boolean {
+    return existsSync(getDefaultConfigPath());
+}
+
+function migration(value: unknown): JsonObject | undefined {
+    if (!isRecord(value) || !isRecord(value.plugins)) return undefined;
+    const plugins = { ...value.plugins };
+    let changed = false;
+    for (const field of ["enabledPlugins", "options"] as const) {
+        const original = plugins[field];
+        if (!isRecord(original) || !owns(original, LEGACY_CUA_PLUGIN_ID)) continue;
+        const replacement = { ...original };
+        if (replacement[CANONICAL_CUA_PLUGIN_ID] === undefined) {
+            replacement[CANONICAL_CUA_PLUGIN_ID] = replacement[LEGACY_CUA_PLUGIN_ID];
+        }
+        delete replacement[LEGACY_CUA_PLUGIN_ID];
+        plugins[field] = replacement;
+        changed = true;
+    }
+    const suppressed = plugins.suppressedBuiltins;
+    if (Array.isArray(suppressed)) {
+        const replacement = suppressed.map((entry) => entry === LEGACY_CUA_PLUGIN_ID ? CANONICAL_CUA_PLUGIN_ID : entry);
+        if (JSON.stringify(replacement) !== JSON.stringify(suppressed)) {
+            plugins.suppressedBuiltins = replacement;
+            changed = true;
+        }
+    }
+    return changed ? { ...value, plugins } : undefined;
+}
+function saveMigration(path: string, value: JsonObject): void {
+    const temp = path + ".migrate." + process.pid + "." + Date.now() + ".tmp";
+    try {
+        writeFileSync(temp, JSON.stringify(value, null, 2) + "\n", { encoding: fileEncoding, mode: fileMode });
+        renameSync(temp, path);
+    } catch {
+        try { unlinkSync(temp); } catch { /* Migration persistence is best effort. */ }
+    }
+}
+function invalidMessage(error: unknown): string {
+    if (error instanceof z.ZodError) {
+        return error.issues.map((issue) => (issue.path.length ? issue.path.join(".") : "<config>") + ": " + issue.message).join("; ");
+    }
+    return error instanceof Error ? error.message : "Unable to parse config file.";
+}
+export function loadFileConfig(filePath?: string, options: FileConfigOptions = {}): LoadedConfig {
+    const path = filePath ? resolvePath(filePath) : join(resolvePath(options.baseDir ?? defaultBase), options.configFileName ?? defaultFilename);
+    if (!existsSync(path)) return { config: {}, diagnostics: [], path, loaded: false };
+    try {
+        const original: unknown = JSON.parse(readFileSync(path, fileEncoding));
+        const migrated = migration(original);
+        if (migrated !== undefined) saveMigration(path, migrated);
+        const result = parseConfigFileToRuntimePatchWithDiagnostics(original);
+        return {
+            config: result.config,
+            diagnostics: result.diagnostics.map((diagnostic) => ({ ...diagnostic, filePath: diagnostic.filePath ?? path })),
+            path,
+            loaded: true,
+        };
+    } catch (error) {
+        return {
+            config: {},
+            diagnostics: [{ code: "config_file_invalid", filePath: path, message: invalidMessage(error), severity: "error" }],
+            path,
+            loaded: false,
+        };
+    }
+}
+
+async function readJson(path: string): Promise<JsonObject> {
+    let text: string;
+    try {
+        text = await readFile(path, fileEncoding);
+    } catch (cause) {
+        throw new Error("Unable to read config file: " + path, { cause });
+    }
+    let value: unknown;
+    try {
+        value = JSON.parse(text);
+    } catch (cause) {
+        throw new Error("Unable to parse config file as JSON: " + path, { cause });
+    }
+    if (!isRecord(value)) throw new Error("Config file must contain a JSON object: " + path);
+    return value;
+}
+async function readJsonOrEmpty(path: string): Promise<JsonObject> {
+    try {
+        return await readJson(path);
+    } catch (error) {
+        if (error instanceof Error && error.cause instanceof Error && "code" in error.cause && error.cause.code === missingFileCode) return {};
+        throw error;
+    }
+}
+async function saveJson(path: string, value: JsonObject): Promise<void> {
+    const dir = dirname(path);
+    await mkdir(dir, { recursive: true });
+    const temp = join(dir, "." + basename(path) + "." + process.pid + "." + Date.now() + "." + Math.random().toString(16).slice(2) + ".tmp");
+    const content = JSON.stringify(value, null, 2) + "\n";
+    try {
+        await writeFile(temp, content, { mode: fileMode });
+        await rename(temp, path);
+    } catch (cause) {
+        await unlink(temp).catch(() => undefined);
+        throw new Error("Unable to write config file: " + path, { cause });
+    }
+}
+
+export async function updateUiLocaleInFileConfig(filePath: string, locale: UiLocale): Promise<UiLocalePatchResult> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    await saveJson(path, { ...value, ui: { ...record(value.ui), locale } });
+    return { locale, path };
+}
+export async function updatePluginEnabledInFileConfig(filePath: string, pluginId: string, enabled: boolean): Promise<PluginEnabledPatchResult> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const canonical = canonicalizePluginId(pluginId);
+    const enabledPlugins = deleteAliases(record(plugins.enabledPlugins), pluginIdAliases(canonical));
+    enabledPlugins[canonical] = enabled;
+    await saveJson(path, { ...value, plugins: { ...plugins, enabledPlugins } });
+    return { enabled, path, pluginId };
+}
+export async function enablePluginsByDefaultInFileConfig(filePath: string, pluginIds: readonly string[]): Promise<{ enabledIds: string[]; path: string }> {
+    const path = resolvePath(filePath);
+    if (pluginIds.length === 0) return { enabledIds: [], path };
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const current = record(plugins.enabledPlugins);
+    const enabledIds = pluginIds.filter((id) => !owns(current, id));
+    if (enabledIds.length > 0) {
+        const enabledPlugins = { ...current, ...Object.fromEntries(enabledIds.map((id) => [id, true])) };
+        await saveJson(path, { ...value, plugins: { ...plugins, enabledPlugins } });
+    }
+    return { enabledIds, path };
+}
+export async function updatePluginOptionsInFileConfig(filePath: string, pluginId: string, options: Record<string, string | number | boolean>, clearOptionKeys: string[] = []): Promise<PluginOptionsPatchResult> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const canonical = canonicalizePluginId(pluginId);
+    const aliases = pluginIdAliases(canonical);
+    const outer = record(plugins.options);
+    const canonicalOptions = outer[canonical];
+    const fallback = aliases[1] === undefined ? undefined : outer[aliases[1]];
+    const current = isRecord(canonicalOptions) ? canonicalOptions : record(fallback);
+    const clear = new Set(clearOptionKeys);
+    const retained = Object.fromEntries(Object.entries(current).filter(([key]) => !clear.has(key)));
+    const next = deleteAliases(outer, aliases);
+    next[canonical] = { ...retained, ...options };
+    await saveJson(path, { ...value, plugins: { ...plugins, options: next } });
+    return { clearedOptionKeys: clearOptionKeys, options, path, pluginId };
+}
+export async function removePluginFromFileConfig(filePath: string, pluginId: string): Promise<PluginRemovePatchResult> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const aliases = pluginIdAliases(pluginId);
+    const enabled = record(plugins.enabledPlugins);
+    const options = record(plugins.options);
+    const removedEnabled = aliases.some((alias) => alias in enabled);
+    const removedOptions = aliases.some((alias) => alias in options);
+    if (removedEnabled || removedOptions) {
+        await saveJson(path, {
+            ...value,
+            plugins: { ...plugins, enabledPlugins: deleteAliases(enabled, aliases), options: deleteAliases(options, aliases) },
+        });
+    }
+    return { path, pluginId, removedEnabled, removedOptions };
+}
+export async function removePluginEnabledFromFileConfig(filePath: string, pluginId: string): Promise<{ path: string; pluginId: string; removedEnabled: boolean }> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const aliases = pluginIdAliases(pluginId);
+    const current = record(plugins.enabledPlugins);
+    const removedEnabled = aliases.some((alias) => owns(current, alias));
+    if (removedEnabled) await saveJson(path, { ...value, plugins: { ...plugins, enabledPlugins: deleteAliases(current, aliases) } });
+    return { path, pluginId, removedEnabled };
+}
+export async function addSuppressedBuiltinInFileConfig(filePath: string, pluginId: string): Promise<SuppressedBuiltinPatchResult> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const canonical = canonicalizePluginId(pluginId);
+    const aliases = pluginIdAliases(canonical);
+    const current = stringList(plugins.suppressedBuiltins);
+    const retained = current.filter((id) => !aliases.includes(id));
+    if (!(retained.length === current.length && current.includes(canonical))) {
+        await saveJson(path, { ...value, plugins: { ...plugins, suppressedBuiltins: [...retained, canonical] } });
+    }
+    return { path, pluginId, suppressed: true };
+}
+export async function removeSuppressedBuiltinInFileConfig(filePath: string, pluginId: string): Promise<SuppressedBuiltinPatchResult> {
+    const path = resolvePath(filePath);
+    const value = await readJsonOrEmpty(path);
+    const plugins = record(value.plugins);
+    const aliases = pluginIdAliases(pluginId);
+    const current = stringList(plugins.suppressedBuiltins);
+    const next = current.filter((id) => !aliases.includes(id));
+    if (next.length !== current.length) await saveJson(path, { ...value, plugins: { ...plugins, suppressedBuiltins: next } });
+    return { path, pluginId, suppressed: false };
+}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/config/config-factory.ts",
+    "apps/cli/packages/adapters/src/config/config-merger.ts",
+    "apps/cli/packages/adapters/src/config/file-config.adapter.ts",
+    "apps/cli/packages/adapters/src/config/project-config.adapter.ts",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "licensing/evidence/cli-config-behavior-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-config-behavior-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 33ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

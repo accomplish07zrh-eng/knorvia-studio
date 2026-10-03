@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/cli-command-owner-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "index: public declarations/reexports and structural return DTOs match; private names/parameter identifiers excluded\nAST syntax/API comparison only; no semantic typecheck, declaration emit or native consumer integration.\n",
+  "stderr": "",
+  "exitCode": 0
+}

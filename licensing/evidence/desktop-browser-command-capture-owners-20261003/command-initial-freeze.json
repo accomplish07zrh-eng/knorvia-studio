@@ -1,0 +1,15 @@
+{
+  "file": "/tmp/knorvia-command44-initial.ts",
+  "bytes": 4159,
+  "sha256": "7d0973d6ed0e4a2ec8585fba4856bbbfa953f1cb4cf312982ec3afb155688430",
+  "author": "/root/browser_command_owner_author44",
+  "access": "Only assigned contracts and six permitted port declaration files; no output inspection.",
+  "rawPath": "licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/command-initial.ts",
+  "version": "initial",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "boundary": "Shared fs instruction separation, no OS isolation/Fast claim"
+}

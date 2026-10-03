@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/host/browserControlMainBridge.ts",
+    "packages/desktop/src/host/remotePromptAttachments.ts",
+    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "licensing/evidence/desktop-host-behavior-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/desktop-host-behavior-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 49ms on 6 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

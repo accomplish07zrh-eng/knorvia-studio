@@ -1,0 +1,51 @@
+{
+  "batch": 33,
+  "baselineCommit": "8588e3734557b9357a125990e4000529f7589e66",
+  "branch": "recovery/server-lifecycle-20261002",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "target": "recovery/independent-logging-20260930-0456",
+  "selectedPaths": [
+    "apps/cli/packages/adapters/src/commands/index.ts"
+  ],
+  "acceptedIndependentReplacementCredit": 0,
+  "newMITDecisions": 0,
+  "syntheticCases": 2,
+  "baselineRoute": "unchanged installed predecessor before installation; frozen equality proven",
+  "checks": {
+    "synthetic": "baseline2/2 and wholecandidate2/2; no rerun or correction",
+    "lint": "initial-lint.json is final source lint0warnings/errors; only helper formatting afterward",
+    "api": "exported class/interface/factory/method structural shapes match, TypeScript AST only",
+    "syntax": "pass",
+    "architecture": "0 baseline/new, unmanaged cli unchanged",
+    "formatAndWholeFreeze": "whole independently formatted freeze equals installed",
+    "whitespace": "pass"
+  },
+  "curatorExposure": "Selected command and retained roots/skills source bodies and public command contract module seen; curator requirements/tests source-exposed. Author received body-free external facts only.",
+  "authoring": "fresh Sol/high fork-none wholeliteral draft, full raw archive before inspection; author reported read limits, no OS-enforced clean-room assertion",
+  "failures": [
+    "tool-draft-preparation-failure.json",
+    "receipt-screen-collector-failure.json",
+    "receipt-screen-corrected.json"
+  ],
+  "remainderCount": 39,
+  "otherAdapterHashesUnchanged": 242,
+  "rootAllocationQuestions": [
+    "apps/cli/packages/adapters/src/skills/index.ts",
+    "apps/cli/packages/adapters/src/skills/scan.ts"
+  ],
+  "allocationLimit": "Conservative scope inference, not new historical HOLD. Config7 root authority unallocated; prior device/fs18/logging5 retained with no reauthorship/acceptance. Helpers/barrels constrained.",
+  "notExecuted": [
+    "real custom command/skill/text/userdata execution or access",
+    "native product fs/path/provider/network/media/browser/process/credentials/auth/SSH/deployment",
+    "ordinary suites/builds/semantic project types/declaration emit/native acceptance/composed consumers",
+    "cross-lane integration/main merge",
+    "Library403 alternate access/cancelled upload retry"
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "pinnedNode": "24.14.0",
+    "contractsDistPresent": false,
+    "dependenciesInstalled": false
+  },
+  "historicalEvidence": "Original receipts/failures unmodified; current hash relation verified only, historical test/build outcomes not freshly asserted."
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/scoped-static.mjs",
+    "--stable-symbols"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/scoped-static.mjs",
+      "sha256": "34d0f3aa5132d4917b284771c9b403b9cffbe6eb8a17c0bb078c2aa8235b1acb"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": true,\n  \"compilerRawMatchesBaseline\": true,\n  \"sourceLiteralProjection\": \"No source-literal projection applies to this owner; raw and public contracts must both match.\",\n  \"syntaxFiles\": [\n    \"packages/desktop/src/host/cronRunLifecycle.ts\",\n    \"packages/desktop/src/host/index.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

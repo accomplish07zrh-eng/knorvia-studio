@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "/tmp/knorvia-shared-settings-family-order-freezes/formatted-agent-model-state.ts",
+    "/tmp/knorvia-shared-settings-family-order-freezes/formatted-model-provider-family.ts",
+    "/tmp/knorvia-shared-settings-family-order-freezes/formatted-pluginStoreOrdering.ts",
+    "/tmp/knorvia-shared-settings-family-order-freezes/formatted-remoteAppConfig.ts",
+    "/tmp/knorvia-shared-settings-family-order-freezes/formatted-plan-identity.ts"
+  ],
+  "stdout": "Finished in 16ms on 5 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

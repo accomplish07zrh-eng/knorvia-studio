@@ -1,0 +1,19 @@
+{
+  "command1": [
+    "rg",
+    "-n",
+    "^export function redactDiagnosticValue|^export function stringifyHostLogArg|^export const redactDiagnosticValue",
+    "packages/shared/src",
+    "packages/desktop/src/host/hostLog.ts"
+  ],
+  "output1": "packages/desktop/src/host/hostLog.ts:12:export function stringifyHostLogArg(arg: unknown): string {\npackages/shared/src/diagnosticSecrets.ts:26:export function redactDiagnosticValue(\n",
+  "command2": [
+    "sed",
+    "-n",
+    "26,30p",
+    "packages/shared/src/diagnosticSecrets.ts"
+  ],
+  "output2": "export function redactDiagnosticValue(\n  value: unknown,\n  seen = new WeakSet<object>(),\n  depth = 0,\n): unknown {\n",
+  "scope": "Public signature-only lookup, no body read or dependency change. Curator exposure updated.",
+  "result": "Direct Array.map supplies numeric index and array into traversal-state fields; original caller supplies one value per independent call."
+}

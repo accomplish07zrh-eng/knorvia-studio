@@ -1,0 +1,21 @@
+{
+  "beforeAuthoring": true,
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/common-contract.md",
+      "sha256": "15820a567636544cfa493f91364c00647c01404c7a5b6b7e44337f579f7f6c4b"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/owner-contract.md",
+      "sha256": "2187737f002e546aa1435b0b1a1bc5b653b1d9bacc8b54584211b2fbea089b3a"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/ports/cron.d.ts",
+      "sha256": "564cc0e63f7e918b8fe6452a38ac953deda6ca8a09ff6e1b2b4baf61d24a1403"
+    },
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/ports/shared.d.ts",
+      "sha256": "63496af9d59850b64a706d6cb09d75be9a3ceadf0b223c6820ebfb5c0d3c9776"
+    }
+  ]
+}

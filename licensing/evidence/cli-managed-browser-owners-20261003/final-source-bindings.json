@@ -1,0 +1,38 @@
+[
+  {
+    "owner": "index",
+    "selectedWholeOutput": "/tmp/knorvia-cli-managed-browser-freezes/index-correction-2.ts",
+    "rawSha256": "b5447e038cf6968e71a59c1866e5d85b6b253c67f3f0f15545fab266077a94a2",
+    "formattedFreezeSha256": "660cf906ab308d835ca4b9935d02c61e2067059a14d5807980f27351e69b494b",
+    "installedPath": "apps/cli/packages/adapters/src/browser/index.ts",
+    "installedSha256": "660cf906ab308d835ca4b9935d02c61e2067059a14d5807980f27351e69b494b",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "frozenBaselinePath": "/tmp/knorvia-cli-managed-browser-baseline/index.ts",
+    "frozenBaselineSha256": "83f76a0c8ce8fd98c53737f17ad8b7fce44cfe2f322a0bd699122d067427e698",
+    "baselineCommit": "9b6b31a525cae783ffb1a0eb709f23e5ba5a9e57"
+  },
+  {
+    "owner": "session",
+    "selectedWholeOutput": "/tmp/knorvia-cli-managed-browser-freezes/session-correction-1.ts",
+    "rawSha256": "b657986aa53c34e98c772ca9d99d1b65eddde8af53228ea421e2dcb091b4a730",
+    "formattedFreezeSha256": "206e52b697d59718715097d886ebcdfab416ae58303cb8f3ae39981aef3a7bed",
+    "installedPath": "apps/cli/packages/adapters/src/browser/session.ts",
+    "installedSha256": "206e52b697d59718715097d886ebcdfab416ae58303cb8f3ae39981aef3a7bed",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "frozenBaselinePath": "/tmp/knorvia-cli-managed-browser-baseline/session.ts",
+    "frozenBaselineSha256": "307d07459b72c69f4e3d6e98e5f242fed1130d3e387ecb4bda65f6d341b610fe",
+    "baselineCommit": "9b6b31a525cae783ffb1a0eb709f23e5ba5a9e57"
+  },
+  {
+    "owner": "page-command",
+    "selectedWholeOutput": "/tmp/knorvia-cli-managed-browser-freezes/page-command-correction-1.ts",
+    "rawSha256": "16d48cca6a17edc4c29ff3c358054d6d1290403262de21ddad2a63c834fa06df",
+    "formattedFreezeSha256": "74b809845876e77402f1c3c1c34797ee5c61efec3b6b75febfe74412b9b1edad",
+    "installedPath": "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "installedSha256": "74b809845876e77402f1c3c1c34797ee5c61efec3b6b75febfe74412b9b1edad",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "frozenBaselinePath": "/tmp/knorvia-cli-managed-browser-baseline/page-command.ts",
+    "frozenBaselineSha256": "7cdbd60c1e0d0a7db18c0579c4e177139415f47eb9d9920396446cac28db731c",
+    "baselineCommit": "9b6b31a525cae783ffb1a0eb709f23e5ba5a9e57"
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "authors": [
+    {
+      "author": "/root/shared_settings_projection_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-settings-agent-model-state-packet.md",
+      "packetSha256": "10d46dc0ab043ca06e417641e8b64cd3bbe606139792c6cf027571f45d6c390c",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-settings-agent-model-state-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-settings-agent-model-state-authored.ts; no patches",
+      "initialHashRead": "sha256sum /tmp/knorvia-settings-agent-model-state-authored.ts",
+      "otherAccess": "None reported; no source/tests/history/deps/config/environment/other outputs/runtime/format/network/repository write. Shared filesystem is not OS isolation."
+    },
+    {
+      "author": "/root/shared_family_classification_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-settings-model-provider-family-packet.md",
+      "packetSha256": "5169281a0c1ab852b4957e18285928311e309d8502447331b4893fde81d214fd",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-settings-model-provider-family-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-settings-model-provider-family-authored.ts; no patches",
+      "initialHashRead": "sha256sum /tmp/knorvia-settings-model-provider-family-authored.ts",
+      "otherAccess": "None reported; no source/tests/history/deps/config/environment/other outputs/runtime/format/network/repository write. Shared filesystem is not OS isolation."
+    },
+    {
+      "author": "/root/shared_plugin_ordering_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-settings-pluginStoreOrdering-packet.md",
+      "packetSha256": "c8920c6c2e94cfca36a0ff03ef6d3d5d36a1d72408b17234b053a7b6d426f304",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-settings-pluginStoreOrdering-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-settings-pluginStoreOrdering-authored.ts; no patches",
+      "initialHashRead": "sha256sum /tmp/knorvia-settings-pluginStoreOrdering-authored.ts",
+      "otherAccess": "None reported; no source/tests/history/deps/config/environment/other outputs/runtime/format/network/repository write. Shared filesystem is not OS isolation."
+    },
+    {
+      "author": "/root/shared_remote_config_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-settings-remoteAppConfig-packet.md",
+      "packetSha256": "cd50d954f39f85b30365f6313508f6d2d8a3b247d28062f8bfaa994bcd3c3707",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-settings-remoteAppConfig-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-settings-remoteAppConfig-authored.ts; no patches",
+      "initialHashRead": "sha256sum /tmp/knorvia-settings-remoteAppConfig-authored.ts",
+      "otherAccess": "None reported; no source/tests/history/deps/config/environment/other outputs/runtime/format/network/repository write. Shared filesystem is not OS isolation."
+    },
+    {
+      "author": "/root/shared_plan_identity_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-settings-plan-identity-packet.md",
+      "packetSha256": "101ba9927defd245c99216ed8e1e3e6ba9b619a704c19b3ac5da7a710b9f40a4",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-settings-plan-identity-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-settings-plan-identity-authored.ts; no patches",
+      "initialHashRead": "sha256sum /tmp/knorvia-settings-plan-identity-authored.ts",
+      "otherAccess": "None reported; no source/tests/history/deps/config/environment/other outputs/runtime/format/network/repository write. Shared filesystem is not OS isolation."
+    }
+  ],
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "initialProjectionClarification": "Packet prose says five exported functions from stale original header; actual supplied declarations have four functions, imported picker is not re-exported. Curator confirms exactly four; no added author reads.",
+  "curatorAccess": "Curator source-exposed to selected bodies, eligibility-screened remoteResourcePackages.ts (retained/static unselected), and scoped public port declarations/schema snippets in task-types-core/protocol/index/usage-stats/model-provider-types/oauth/model-selection/plugin-marketplaces/pluginStoreOrder. Model-provider-types snippet also includes existing isBuiltin helper body; no claims of curator body-free access. Prior receipt metadata read; root-reserved preview/merge and reducer body not read."
+}

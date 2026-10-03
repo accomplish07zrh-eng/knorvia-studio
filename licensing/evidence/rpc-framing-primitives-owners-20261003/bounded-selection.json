@@ -1,0 +1,111 @@
+{
+  "rpcSourceInventoryRecords": 16,
+  "records": [
+    {
+      "path": "packages/rpc/src/buffer.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/channels.shared.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/channels.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/delayedChannel.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/foundation.ts",
+      "classification": "upstream-modified",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/index.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "classification": "upstream-modified",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/logging-middleware.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-middleware.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/protocol.ts",
+      "classification": "upstream-modified",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/proxy-channel.ts",
+      "classification": "upstream-modified",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "classification": "upstream-unchanged",
+      "review": null
+    },
+    {
+      "path": "packages/rpc/src/serialization.ts",
+      "classification": "upstream-modified",
+      "review": null
+    }
+  ],
+  "rpcReviewEntries": [],
+  "selected": [
+    "packages/rpc/src/protocol.ts",
+    "packages/rpc/src/proxy-channel.ts",
+    "packages/rpc/src/buffer.ts",
+    "packages/rpc/src/foundation.ts",
+    "packages/rpc/src/serialization.ts"
+  ],
+  "retained": [
+    "packages/rpc/src/channels.ts",
+    "packages/rpc/src/channels.shared.ts",
+    "packages/rpc/src/delayedChannel.ts",
+    "packages/rpc/src/index.ts"
+  ],
+  "otherSubstantiveNotSelected": [
+    "packages/rpc/src/ipc.ts",
+    "packages/rpc/src/remote.ts",
+    "packages/rpc/src/logging-middleware.ts",
+    "packages/rpc/src/network-telemetry-middleware.ts"
+  ],
+  "alreadyCompleted": [
+    "packages/rpc/src/channelClient.ts",
+    "packages/rpc/src/channelServer.ts",
+    "packages/rpc/src/persistent-protocol.ts"
+  ],
+  "classificationAuthority": "Parent audit; snapshots may predate owner commits; no global review/inventory changed"
+}

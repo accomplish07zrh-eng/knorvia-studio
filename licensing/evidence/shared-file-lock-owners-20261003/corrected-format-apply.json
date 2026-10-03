@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/node/privateFilePersistence.ts"
+  ],
+  "stdout": "Finished in 19ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

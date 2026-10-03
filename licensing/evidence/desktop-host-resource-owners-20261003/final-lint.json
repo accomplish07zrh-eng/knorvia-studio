@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-host-resource-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+    "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs"
+  ],
+  "stdout": "\n  ! eslint(no-unused-vars): Identifier 'fs' is imported but never used.\n   ,-[licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs:1:8]\n 1 | import fs from \"node:fs\";\n   :        ^|\n   :         `-- 'fs' is imported here\n 2 | import path from \"node:path\";\n   `----\n  help: Consider removing this import.\n\nFound 1 warning and 0 errors.\nFinished in 32ms on 7 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

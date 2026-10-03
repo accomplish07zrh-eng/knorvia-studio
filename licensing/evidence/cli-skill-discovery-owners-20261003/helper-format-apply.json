@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-skill-discovery-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-skill-discovery-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Finished in 20ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

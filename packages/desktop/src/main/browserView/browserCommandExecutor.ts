@@ -1,28 +1,28 @@
 import type { BrowserCommand, BrowserCommandResult } from "@knorvia/shared";
+import type { ControlledView } from "./browserCommandTypes.js";
+import { now, readState } from "./browserCommandState.js";
 import {
-  handleCheck,
   handleClick,
-  handleCuaDrag,
+  handleType,
+  handlePress,
   handleCuaKeypress,
+  handleScroll,
   handleCuaScroll,
   handleDomCuaScroll,
-  handleDrag,
-  handleElementInfo,
   handleHover,
-  handlePress,
-  handleScroll,
   handleSelect,
-  handleType,
+  handleCheck,
+  handleDrag,
+  handleCuaDrag,
+  handleElementInfo,
 } from "./browserCommandInteractionHandlers.js";
 import {
-  handleEvaluate,
-  handleGetState,
   handleNavigate,
+  handleGetState,
   handleScreenshot,
   handleSnapshot,
+  handleEvaluate,
 } from "./browserCommandPageHandlers.js";
-import { now, readState } from "./browserCommandState.js";
-import type { ControlledView } from "./browserCommandTypes.js";
 import { handlePlaywrightAction } from "./browserPlaywrightExecutor.js";
 
 export { isAllowedBrowserUrl } from "./browserCommandState.js";
@@ -33,12 +33,6 @@ export type {
   ControlledViewWebContents,
 } from "./browserCommandTypes.js";
 
-/**
- * 核心子集：navigate / getState / screenshot / snapshot / click / type / press / scroll；
- * 其余（fill/waitFor/capabilities）返回 capability_unsupported；playwrightWaitForTimeout 由
- * BrowserGuestManager 在校验 scope/tab 后处理，不进入页面 executor。
- * 抛错结构化返回，不 throw（保证 host↔main 桥能拿到结果）。
- */
 export async function executeBrowserCommandOnView(
   view: ControlledView,
   command: BrowserCommand,
@@ -56,19 +50,12 @@ export async function executeBrowserCommandOnView(
         return await handleNavigate(view, command, done, opts);
       case "getState":
         return await handleGetState(view, done);
-      case "back":
-        view.webContents.goBack();
-        return done({ ok: true, state: readState(view.webContents) });
-      case "forward":
-        view.webContents.goForward();
-        return done({ ok: true, state: readState(view.webContents) });
-      case "reload":
-        view.webContents.reload();
-        return done({ ok: true, state: readState(view.webContents) });
       case "screenshot":
         return await handleScreenshot(view, command, done);
       case "snapshot":
         return await handleSnapshot(view, command, done);
+      case "evaluate":
+        return await handleEvaluate(view, command, done);
       case "click":
         return await handleClick(view, command, done);
       case "type":
@@ -95,13 +82,18 @@ export async function executeBrowserCommandOnView(
         return await handleCuaDrag(view, command, done);
       case "elementInfo":
         return await handleElementInfo(view, command, done);
-      case "evaluate":
-        return await handleEvaluate(view, command, done);
       case "playwright":
         return await handlePlaywrightAction(view, command.action, done, opts?.signal);
+      case "back":
+        view.webContents.goBack();
+        return done({ ok: true, state: readState(view.webContents) });
+      case "forward":
+        view.webContents.goForward();
+        return done({ ok: true, state: readState(view.webContents) });
+      case "reload":
+        view.webContents.reload();
+        return done({ ok: true, state: readState(view.webContents) });
       default:
-        // fill/waitFor/capabilities/getDialog/handleDialog/close/list/playwrightWaitForTimeout
-        // 未在本 executor 实现（由 manager 层或后续增量处理）。
         return done({
           ok: false,
           error: {
@@ -111,8 +103,6 @@ export async function executeBrowserCommandOnView(
         });
     }
   } catch (error) {
-    // AbortError 表示调用方主动终止当前 generation。过去统一包装成 execution_error，
-    // 会让上层误判为页面或 Playwright 执行失败，无法按取消生命周期清理请求。
     const cancelled =
       opts?.signal?.aborted === true || (error instanceof Error && error.name === "AbortError");
     const timedOut =

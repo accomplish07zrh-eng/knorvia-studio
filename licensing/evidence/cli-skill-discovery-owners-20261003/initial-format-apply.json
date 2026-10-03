@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/skills/index.ts",
+    "apps/cli/packages/adapters/src/skills/scan.ts",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs"
+  ],
+  "stdout": "Finished in 29ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

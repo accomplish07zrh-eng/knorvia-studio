@@ -1,0 +1,103 @@
+{
+  "baseHead": "327a2d773c9735c8b60c20ba7a1a99f23cbf5c67",
+  "selected": [
+    {
+      "owner": "video",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+        "kind": "file",
+        "sha256": "7836ca8d48298e5b5370115408e65a30b00b2995c1693b4de0a7d0530be8e9bc",
+        "normalizedSha256": "7836ca8d48298e5b5370115408e65a30b00b2995c1693b4de0a7d0530be8e9bc",
+        "encoding": "utf8-lf",
+        "bytes": 3373,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+          "blob": "1bf7ee2a45e080b6e1dc1990f6ea2978a8882dc8",
+          "normalizedSha256": "8674cd75313850c63b77a6458ca8784848bde87c6044e6ecbe9d23f31ead2d54",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 99,
+      "currentSha256": "7836ca8d48298e5b5370115408e65a30b00b2995c1693b4de0a7d0530be8e9bc",
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "acceptedReceiptFound": false
+    },
+    {
+      "owner": "webm",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+        "kind": "file",
+        "sha256": "460d0d5d4fd8be8e915cae67f7401e66097e8d9c906757fb2d7d2eaa26e466ab",
+        "normalizedSha256": "460d0d5d4fd8be8e915cae67f7401e66097e8d9c906757fb2d7d2eaa26e466ab",
+        "encoding": "utf8-lf",
+        "bytes": 18181,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+          "blob": "8331b416f788247956c456dd7785d1ea687dad43",
+          "normalizedSha256": "eb96ce18b986420640f71f0c61c97aef0091e4a57228f3772cc62fa2376e0970",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 480,
+      "currentSha256": "460d0d5d4fd8be8e915cae67f7401e66097e8d9c906757fb2d7d2eaa26e466ab",
+      "history": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "acceptedReceiptFound": false
+    },
+    {
+      "owner": "bootstrap",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+        "kind": "file",
+        "sha256": "ae65cd2c4e482ffb23aabf13f7b216c15890c81c186d43d1ed4db4afaea12b73",
+        "normalizedSha256": "ae65cd2c4e482ffb23aabf13f7b216c15890c81c186d43d1ed4db4afaea12b73",
+        "encoding": "utf8-lf",
+        "bytes": 4504,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+          "blob": "3b7611b4e2fb2b953cc31ed9aa113d39d2e34ab6",
+          "normalizedSha256": "ae65cd2c4e482ffb23aabf13f7b216c15890c81c186d43d1ed4db4afaea12b73",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 139,
+      "currentSha256": "ae65cd2c4e482ffb23aabf13f7b216c15890c81c186d43d1ed4db4afaea12b73",
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "acceptedReceiptFound": false
+    }
+  ],
+  "otherLanePRs": {
+    "8": [],
+    "10": [],
+    "11": [],
+    "12": []
+  },
+  "privateHistoryAbsenceProven": false,
+  "scopeAnnouncedBeforeAuthoring": true
+}

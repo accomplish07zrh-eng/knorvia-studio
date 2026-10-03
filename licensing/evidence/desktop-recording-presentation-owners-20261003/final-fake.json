@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "1c7e90336c3420348588668b4fb978efd173702e0f43488d17eea8cc788e6832"
+    }
+  ],
+  "stdout": "✔ video transaction retains phase order, live dimensions and failure identity (63.170978ms)\n✔ transparent bootstrap releases presentation once and yields focus ownership (9.98564ms)\n✔ WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (26.126396ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 350.798195\n",
+  "stderr": "",
+  "exitCode": 0
+}

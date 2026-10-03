@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/commandOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-command-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+      "sha256": "5bbd09b48bdbf72fac876a66edae53fb7e79f0831f24e951f3ad3a728af95109"
+    }
+  ],
+  "stdout": "✔ input: live coordinates, held-key ordering, arity and owned path release (71.650774ms)\n✔ interaction: ref and clipboard authority, schema identity, short circuits and optional arity (22.484758ms)\n✖ navigation: admission, committed redirect recovery, abort and error identity with fake clock (19.14446ms)\n✔ page: screenshot authority, CSS metric branches and schema/value/state projection (14.759669ms)\n✔ composed interaction input: forwarded ref focus and failure stop at same trusted boundary (23.672407ms)\nℹ tests 5\nℹ suites 0\nℹ pass 4\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 389.73443\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/commandOwners.test.mjs:86:1\n✖ navigation: admission, committed redirect recovery, abort and error identity with fake clock (19.14446ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  false !== true\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandOwners.test.mjs:101:150)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: false,\n    expected: true,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

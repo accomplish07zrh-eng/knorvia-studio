@@ -1,0 +1,333 @@
+{
+  "baselineCommit": "c4a76d69da0a0ac0f91c2966a7ce7c4fd179f097",
+  "selectedBeforeAuthoring": [
+    "packages/shared/src/node/atomicFileLock.ts",
+    "packages/shared/src/node/privateFilePersistence.ts"
+  ],
+  "counts": {
+    "unresolved-routing": 5,
+    "retained-contract-or-conventional-adapter": 22,
+    "selected-substantive-owner": 2,
+    "historical-HOLD": 1
+  },
+  "files": [
+    {
+      "path": "packages/shared/src/conversation-share.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Wire contracts and short URL/decode/capability adapters; preserve schema and known vocabulary.",
+      "sha256": "d8305dad21e8d447480940e4ca0cfc81079c29867860bba749cb0ce0a4e1f6cd",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Startup schemas plus compact fixed classification/detail/retry predicates; retain, do not reproduce constrained bodies.",
+      "sha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Diagnostic schemas/constants with conventional clock formula/time facade; retain.",
+      "sha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Model schemas and option-map validation facade; retain.",
+      "sha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/model-provider-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Builtin ID mapping and compact membership predicates; retain.",
+      "sha256": "7136b3e33dc7274e747e14f6c66cb4acf908dc6f2d8cf2b28adfc569bee218e8",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/node/atomicFileLock.ts",
+      "category": "selected-substantive-owner",
+      "reason": "Complete stale lock/acquisition/release lifecycle",
+      "sha256": "0eb08dc10262b78e5ae8e66047e576b6630c392ce9aaeb1031c0203787fd5961",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Short conventional counter-difference sampler/rounding adapter; retain, no real sampling.",
+      "sha256": "cf8babd4c8459994f019ed5dca1d7106512118ec82be60844d2239cb00df2468",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "category": "selected-substantive-owner",
+      "reason": "Complete process-local FIFO/lock cleanup and atomic persistence/retry owner",
+      "sha256": "7698ee250ffd3710be3e6d0db3f4207954e1e0d12f1d87f30fce6187f0ee2f9b",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/off-peak-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Declarations and three trivial predicates; retain.",
+      "sha256": "036c20ca841739950842ef698843754706bece4986b776da38b6f011d1a8951b",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/official-mcp-auth.ts",
+      "category": "unresolved-routing",
+      "reason": "Origin trust/auth boundary; parent auth routing, no policy/security change authorized by this screening.",
+      "sha256": "3098a640719bafc8db5f2f96990e9353e57b75c2e113f6764ffff04bcab0e4dc",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Platform contracts with small preview/remote-target adapters; retain.",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol/index.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Large protocol schema/declaration surface with tiny envelope factory; retain.",
+      "sha256": "55974ca1690c48363f55d1c1d5726c5b0a42ed2a32ec4794d92236e1e98aa470",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-legacy-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Legacy schemas plus short text projection; retain.",
+      "sha256": "8ef4c7f4722da0381e78cb1c8c3c625813e6c082d2e3cf932a0749f650924633",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/command.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Command schemas with compact schema-version decoder/validation facade; retain.",
+      "sha256": "cd82b10c9d5b50e1081b66087f63733a6e664326f146a17c3478697be83284c7",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/controller.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Controller contracts/schema construction and compact membership/gap predicates; retain.",
+      "sha256": "080082083ca856acc0958befcb57f567318bc401fa24a85030e5efa33d8176a3",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/telemetry.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Telemetry schemas/contracts; retain.",
+      "sha256": "3c97cfe05eb30bef1134fc8c638797298588c2105606ae218422b0716cf51e09",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/transport.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Transport schemas/topic/capability/base64 validation adapters; retain.",
+      "sha256": "aab777faa85d5cb930da3185ef25a69b69ed0cbbf155d6103c11a26fd57a113c",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+      "category": "historical-HOLD",
+      "reason": "Body not read; historical parent reconciliation, not accepted/superseded.",
+      "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workspace-hook-review.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Hook review schemas and duplicate validation facade; retain.",
+      "sha256": "ff8b264a361862e5575145e635c0fa108a2ac7d82091764713e0a40b17a36ce7",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/remoteResourcePackages.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Static resource mapping and thin set/selection predicates; retain.",
+      "sha256": "941cd1d1e7333b072136fd3ffc66c3ddb5b4e03d283176896d9fb0e8dec33d4d",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/runtimeEnv.ts",
+      "category": "unresolved-routing",
+      "reason": "Environment/credential capture and sanitization boundary; parent security/env routing, no real environment read.",
+      "sha256": "9dce22428cc26c2a676e1f0a295d62f836780c5645477f6cd82bea7358622a84",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/storage.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Storage contracts and conventional short map grouping adapter; retain.",
+      "sha256": "bb23cb4eafa1c85361709e6e1e11680b4aa634b4f9ccaf0f93a0474904a5dedb",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/subagents-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Declarations, ID constructors and schema admission facade; retain.",
+      "sha256": "5957bd4ef51fadea0daeea99ef9055a0b3417fcea3bf14a0b60d3a04f8ce61e4",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/task-realtime-core.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Schema surface and workspace-key nullish fallback; retain.",
+      "sha256": "3295d0b48101e4d9a8904684489d203cb5db15f3ca8aae418d4839b3de673b02",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/task-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Declarations, UUID facades and small flag predicates; retain.",
+      "sha256": "e6fc68bcf0667e7ad6c9d1602151b5a1682d34062d9bd6cb2f15fe71295cd97a",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/tool-identity.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Fixed tool mapping and short normalization/family predicates; retain.",
+      "sha256": "87e579fc34e9f0816a7a023a54e7243162d7784f3012b1e07babbfee61a08c44",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "category": "unresolved-routing",
+      "reason": "Substantial legacy settings migration mixed with schema/release configuration; original other settings lane/root release exclusion, parent routing.",
+      "sha256": "0f31497b00bdf6877deb045037295c24fc36df4e25e4496cb6162b1113025df3",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-config.ts",
+      "category": "unresolved-routing",
+      "reason": "Read/discovery/normalization implementation mixed with hook gates/schema; paired hook-policy owner routing before further author cycle.",
+      "sha256": "c51ee2c57050f495d8cb72606b95240c2faa1130fcbef021fa5af22194b83044",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-mutation.ts",
+      "category": "unresolved-routing",
+      "reason": "Atomic config writer and reviewed hook toggle guard; hook settings/policy mutation route for parent, no live write.",
+      "sha256": "d660748c673c1b33bce6a85c39fba7f7fabf2ef0a4c19604425e450c3af135c6",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Trust-store schema plus compact parser facade; retain without altering policy.",
+      "sha256": "131f05e01058acf4466af1bc654d28fb8c87955bcc5eee936420c78a84011ebf",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    }
+  ],
+  "selectedSnapshotRecords": [
+    {
+      "path": "packages/shared/src/node/atomicFileLock.ts",
+      "kind": "file",
+      "sha256": "0eb08dc10262b78e5ae8e66047e576b6630c392ce9aaeb1031c0203787fd5961",
+      "normalizedSha256": "0eb08dc10262b78e5ae8e66047e576b6630c392ce9aaeb1031c0203787fd5961",
+      "encoding": "utf8-lf",
+      "bytes": 10082,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/node/atomicFileLock.ts",
+        "blob": "9d56fd86d85fd6bcbf47bfbc13d77835c7bab2fc",
+        "normalizedSha256": "6d8262cac1ee95c0fb6843b774ce195733ede7075589a258266e709953333040",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "kind": "file",
+      "sha256": "7698ee250ffd3710be3e6d0db3f4207954e1e0d12f1d87f30fce6187f0ee2f9b",
+      "normalizedSha256": "7698ee250ffd3710be3e6d0db3f4207954e1e0d12f1d87f30fce6187f0ee2f9b",
+      "encoding": "utf8-lf",
+      "bytes": 4271,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/node/privateFilePersistence.ts",
+        "blob": "ca7de9263e89866b959431dc6b9119e7bf287a2f",
+        "normalizedSha256": "7698ee250ffd3710be3e6d0db3f4207954e1e0d12f1d87f30fce6187f0ee2f9b",
+        "contentMatchedPaths": [
+          "packages/shared/src/node/privateFilePersistence.ts"
+        ]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  ],
+  "selectedReferences": {
+    "packages/shared/src/node/atomicFileLock.ts": [
+      "licensing/evidence/repository-migration-scope-20260930.json",
+      "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-error-version-config-digest-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-presentation-control-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-settings-family-order-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-retry-notification-migration-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/selection-and-remaining-inventory.json"
+    ],
+    "packages/shared/src/node/privateFilePersistence.ts": [
+      "licensing/evidence/auth-ci-diagnostic-root-review-20261001.json",
+      "licensing/evidence/repository-migration-scope-20260930.json",
+      "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-error-version-config-digest-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-presentation-control-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-settings-family-order-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-retry-notification-migration-owners-20261003/selection-and-remaining-inventory.json",
+      "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/selection-and-remaining-inventory.json"
+    ]
+  },
+  "privatePersistenceDiagnosticReceipt": "auth-ci-diagnostic-root-review-20261001 unchangedFiles entry: unchanged diagnostic boundary only, not accepted independent replacement",
+  "latestFiveOwnerFilesIndependentReplacementCredit": 0,
+  "latestNormalizedBodyReceipt": "shared-telemetry-shortcut-migration-owners-20261003/retained-static-body-shapes.json; resource BOTH funcs, remote scope/result, shortcut normalize/validity, telemetry redaction, JSON migration identical after normalization. Entire latest five files not counted as independent replacements.",
+  "remainingMetadataAfterSelected": 28,
+  "retentionLimit": "Retention describes necessary contract/adapters and avoids pointless reauthor cycles; it grants no licence clearance or accepted provenance. No cosmetic novelty requirement.",
+  "heldReducer": {
+    "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+    "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+    "reason": "pending parent historical reconciliation; held unchanged"
+  },
+  "rootExclusions": "Root preview/merge/other-lane/desktop release-notification-cron and initial settings lane; no bodies/imports/integration or main merge."
+}

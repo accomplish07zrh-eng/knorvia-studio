@@ -1,12 +1,12 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+
 import { KNORVIA_VERSION } from "@knorvia/shared";
-import type { IRemoteBackend } from "@knorvia/server/remote/backend.js";
-import type { RemoteEnvironment } from "@knorvia/server/remote/backend.js";
+import type { IRemoteBackend, RemoteEnvironment } from "@knorvia/server/remote/backend.js";
 import {
   REMOTE_BASE,
-  type DeployLoggers,
   waitForClose,
+  type DeployLoggers,
 } from "@knorvia/server/remote/deployShared.js";
 import {
   buildWriteLiteralFileCommand,
@@ -23,8 +23,6 @@ import {
 } from "@knorvia/server/remote/remoteAssetCdn.js";
 import type { RemoteAssetNetworkPort } from "@knorvia/server/remote/remoteAssetNetwork.js";
 
-const REMOTE_ASSET_COMPONENT_META_DIR = `${REMOTE_BASE}/.asset-components`;
-
 export interface RemoteAssetIdentityResolverOptions {
   mockCdnDir?: string;
   remoteCdnBaseUrl?: string;
@@ -32,18 +30,6 @@ export interface RemoteAssetIdentityResolverOptions {
   remoteCacheDir?: string;
   manifestRequestTimeoutMs?: number;
   remoteAssetNetwork?: RemoteAssetNetworkPort;
-}
-
-export function createFreshRemoteAssetManifestRefResolver(
-  options: RemoteAssetIdentityResolverOptions,
-  env: RemoteEnvironment,
-  loggers: DeployLoggers,
-): () => Promise<RemoteAssetManifestRef | null> {
-  let manifestPromise: Promise<RemoteAssetManifestRef | null> | null = null;
-  return () => {
-    manifestPromise ??= resolveFreshComponentManifest(options, env, loggers);
-    return manifestPromise;
-  };
 }
 
 export interface RemoteAssetComponentIdentity {
@@ -62,51 +48,77 @@ export type RemoteAssetComponentIdentityDecision =
   | { shouldDeploy: false }
   | { shouldDeploy: true; reason: string };
 
-export async function checkRemoteAssetComponentIdentity(
-  backend: IRemoteBackend,
-  options: {
-    componentId: string;
-    platformArch: string;
-    expectedIdentity: RemoteAssetComponentIdentity;
-  },
-): Promise<RemoteAssetComponentIdentityDecision> {
-  const remoteMeta = await readRemoteAssetComponentMeta(backend, options.componentId);
-  if (!remoteMeta) {
-    return {
-      shouldDeploy: true,
-      reason: `remote component meta missing expected=${formatIdentity(options.expectedIdentity)}`,
-    };
-  }
-  if (remoteMeta.id !== options.componentId) {
-    return {
-      shouldDeploy: true,
-      reason: `remote component id mismatch remote=${remoteMeta.id} expected=${options.componentId}`,
-    };
-  }
-  if (remoteMeta.platformArch !== options.platformArch) {
-    return {
-      shouldDeploy: true,
-      reason: `remote platform mismatch remote=${remoteMeta.platformArch} expected=${options.platformArch}`,
-    };
-  }
-  if (!remoteMeta.sha256) {
-    // 旧 live marker 只记录 version，无法证明运行目录来自当前 manifest 制品。
-    // 首次读取旧 marker 时必须重新部署并写入 SHA，不能继续按语义版本跳过。
-    return {
-      shouldDeploy: true,
-      reason: `remote component SHA missing expected=${options.expectedIdentity.sha256}`,
-    };
-  }
-  if (
-    remoteMeta.sha256.trim().toLowerCase() !== options.expectedIdentity.sha256.trim().toLowerCase()
-  ) {
-    return {
-      shouldDeploy: true,
-      reason: `remote SHA mismatch remote=${remoteMeta.sha256} expected=${options.expectedIdentity.sha256}`,
-    };
+const COMPONENT_META_DIRECTORY = `${REMOTE_BASE}/.asset-components`;
+
+function componentMetaPath(componentId: string): string {
+  return `${COMPONENT_META_DIRECTORY}/${componentId}.json`;
+}
+
+export function createFreshRemoteAssetManifestRefResolver(
+  options: RemoteAssetIdentityResolverOptions,
+  env: RemoteEnvironment,
+  loggers: DeployLoggers,
+): () => Promise<RemoteAssetManifestRef | null> {
+  let pinnedManifest: Promise<RemoteAssetManifestRef | null> | undefined;
+
+  async function requestManifest(): Promise<RemoteAssetManifestRef | null> {
+    const platformArch = `${env.platform}-${env.arch}`;
+
+    if (options.mockCdnDir) {
+      try {
+        const manifestPath = join(
+          options.mockCdnDir,
+          "releases",
+          KNORVIA_VERSION,
+          `manifest-${platformArch}.json`,
+        );
+        const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as RemoteAssetManifest;
+        return {
+          manifest,
+          releaseBaseCandidatesForComponents: buildReleaseBaseCandidates(
+            resolveRemoteCdnBaseUrls(options),
+            KNORVIA_VERSION,
+          ),
+        };
+      } catch (error) {
+        loggers.logWarn(
+          `[remote-assets] mock component manifest unavailable, fallback to release checks: ${String(error)}`,
+        );
+        return null;
+      }
+    }
+
+    try {
+      const ref = await fetchRemoteAssetManifestRefFromCdn(
+        {
+          remoteCdnBaseUrl: options.remoteCdnBaseUrl,
+          remoteCdnBaseUrls: options.remoteCdnBaseUrls,
+          remoteCacheDir: options.remoteCacheDir,
+          version: KNORVIA_VERSION,
+          platformArch,
+          manifestRequestTimeoutMs: options.manifestRequestTimeoutMs,
+          remoteAssetNetwork: options.remoteAssetNetwork,
+          refreshManifest: true,
+        },
+        loggers,
+      );
+      const hasConfiguredManifestSource =
+        Boolean(options.remoteCacheDir?.trim()) &&
+        (Boolean(options.remoteCdnBaseUrl?.trim()) ||
+          Boolean(options.remoteCdnBaseUrls?.some((base) => base.trim().length > 0)));
+      if (!ref && hasConfiguredManifestSource) {
+        throw new Error(
+          `[remote-assets] manifest not found for ${platformArch}: manifest-${platformArch}.json`,
+        );
+      }
+      return ref;
+    } catch (error) {
+      loggers.logWarn(`[remote-assets] component manifest request failed: ${String(error)}`);
+      throw error;
+    }
   }
 
-  return { shouldDeploy: false };
+  return () => (pinnedManifest ??= requestManifest());
 }
 
 export async function readRemoteAssetComponentMeta(
@@ -114,9 +126,11 @@ export async function readRemoteAssetComponentMeta(
   componentId: string,
 ): Promise<RemoteAssetComponentMeta | null> {
   try {
-    const content = await backend.readFile(buildRemoteAssetComponentMetaPath(componentId));
-    const parsed = JSON.parse(content) as Partial<RemoteAssetComponentMeta>;
+    const parsed = JSON.parse(
+      await backend.readFile(componentMetaPath(componentId)),
+    ) as RemoteAssetComponentMeta | null;
     if (
+      !parsed ||
       typeof parsed.id !== "string" ||
       typeof parsed.platformArch !== "string" ||
       (parsed.version !== undefined && typeof parsed.version !== "string") ||
@@ -144,29 +158,20 @@ export async function writeRemoteAssetComponentMeta(
   backend: IRemoteBackend,
   meta: RemoteAssetComponentMeta,
 ): Promise<void> {
-  // 其它资源包保持既有语义：无法解析版本时不写一个会永久失配的 unknown marker。
   if (meta.version === "unknown" && !meta.sha256) {
     return;
   }
-  const stream = await backend.exec(
-    [
-      `mkdir -p ${quotePosixPathArg(REMOTE_ASSET_COMPONENT_META_DIR)}`,
-      buildWriteLiteralFileCommand(
-        buildRemoteAssetComponentMetaPath(meta.id),
-        `${JSON.stringify(meta)}\n`,
-      ),
-    ].join(" && "),
-  );
+  const command = [
+    `mkdir -p ${quotePosixPathArg(COMPONENT_META_DIRECTORY)}`,
+    buildWriteLiteralFileCommand(componentMetaPath(meta.id), `${JSON.stringify(meta)}\n`),
+  ].join(" && ");
+  const stream = await backend.exec(command);
   await waitForClose(stream);
 }
 
 export async function markRemoteAssetComponentRefreshPending(
   backend: IRemoteBackend,
-  options: {
-    componentId: string;
-    platformArch: string;
-    appVersion: string;
-  },
+  options: { componentId: string; platformArch: string; appVersion: string },
 ): Promise<void> {
   await writeRemoteAssetComponentMeta(backend, {
     id: options.componentId,
@@ -188,73 +193,32 @@ export async function hasRemoteAssetComponentRefreshPending(
   );
 }
 
-function buildRemoteAssetComponentMetaPath(componentId: string): string {
-  return `${REMOTE_ASSET_COMPONENT_META_DIR}/${componentId}.json`;
-}
+export async function checkRemoteAssetComponentIdentity(
+  backend: IRemoteBackend,
+  options: {
+    componentId: string;
+    platformArch: string;
+    expectedIdentity: RemoteAssetComponentIdentity;
+  },
+): Promise<RemoteAssetComponentIdentityDecision> {
+  const remoteMeta = await readRemoteAssetComponentMeta(backend, options.componentId);
+  let reason: string;
 
-function formatIdentity(identity: RemoteAssetComponentIdentity): string {
-  return identity.sha256;
-}
-
-async function resolveFreshComponentManifest(
-  options: RemoteAssetIdentityResolverOptions,
-  env: RemoteEnvironment,
-  loggers: DeployLoggers,
-): Promise<RemoteAssetManifestRef | null> {
-  const platformArch = `${env.platform}-${env.arch}`;
-  if (options.mockCdnDir) {
-    try {
-      const content = await readFile(
-        join(options.mockCdnDir, "releases", KNORVIA_VERSION, `manifest-${platformArch}.json`),
-        "utf8",
-      );
-      return {
-        manifest: JSON.parse(content) as RemoteAssetManifest,
-        releaseBaseCandidatesForComponents: buildReleaseBaseCandidates(
-          resolveRemoteCdnBaseUrls(options),
-          KNORVIA_VERSION,
-        ),
-      };
-    } catch (error) {
-      loggers.logWarn(
-        `[remote-assets] mock component manifest unavailable, fallback to release checks: ${String(error)}`,
-      );
-      return null;
-    }
+  if (!remoteMeta) {
+    reason = `remote component meta missing expected=${options.expectedIdentity.sha256}`;
+  } else if (remoteMeta.id !== options.componentId) {
+    reason = `remote component id mismatch remote=${remoteMeta.id} expected=${options.componentId}`;
+  } else if (remoteMeta.platformArch !== options.platformArch) {
+    reason = `remote platform mismatch remote=${remoteMeta.platformArch} expected=${options.platformArch}`;
+  } else if (!remoteMeta.sha256) {
+    reason = `remote component SHA missing expected=${options.expectedIdentity.sha256}`;
+  } else if (
+    remoteMeta.sha256.trim().toLowerCase() !== options.expectedIdentity.sha256.trim().toLowerCase()
+  ) {
+    reason = `remote SHA mismatch remote=${remoteMeta.sha256} expected=${options.expectedIdentity.sha256}`;
+  } else {
+    return { shouldDeploy: false };
   }
 
-  try {
-    const manifestRef = await fetchRemoteAssetManifestRefFromCdn(
-      {
-        remoteCdnBaseUrl: options.remoteCdnBaseUrl,
-        remoteCdnBaseUrls: options.remoteCdnBaseUrls,
-        remoteCacheDir: options.remoteCacheDir,
-        version: KNORVIA_VERSION,
-        platformArch,
-        manifestRequestTimeoutMs: options.manifestRequestTimeoutMs,
-        remoteAssetNetwork: options.remoteAssetNetwork,
-        // server-bundle/Knorvia Agent 允许在 app/version 不变时重发制品，每次部署必须重新取
-        // manifest，不能复用进程内旧 SHA；promise 保证本次部署只刷新一次。
-        refreshManifest: true,
-      },
-      loggers,
-    );
-    const hasConfiguredManifestSource =
-      Boolean(options.remoteCacheDir?.trim()) &&
-      (Boolean(options.remoteCdnBaseUrl?.trim()) ||
-        Boolean(options.remoteCdnBaseUrls?.some((baseUrl) => baseUrl.trim().length > 0)));
-    if (!manifestRef && hasConfiguredManifestSource) {
-      // server-bundle 的身份判断与安装必须来自同一 manifest；404 后
-      // 不能继续走 installer 再请求一次，否则发布切换时可能部署另一份制品。
-      throw new Error(
-        `[remote-assets] manifest not found for ${platformArch}: manifest-${platformArch}.json`,
-      );
-    }
-    return manifestRef;
-  } catch (error) {
-    loggers.logWarn(`[remote-assets] component manifest request failed: ${String(error)}`);
-    // 这是内容寻址组件在本次 deploy transaction 的 pinned identity 输入。网络超时/解析失败
-    // 不能降级为“manifest 缺失”后再请求一次，否则会丢失原始诊断并翻倍 deadline。
-    throw error;
-  }
+  return { shouldDeploy: true, reason };
 }

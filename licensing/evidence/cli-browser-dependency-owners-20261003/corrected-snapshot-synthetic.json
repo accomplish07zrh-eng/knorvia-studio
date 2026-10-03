@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs",
+    "--only=snapshot"
+  ],
+  "stdout": "✔ snapshot ownership preserves synthetic DOM data, page isolation and replacement before failed disposal (17.958664ms)\n✔ snapshot regression preserves DOM id property as selector authority (4.86918ms)\n✔ snapshot regression attempts all previous disposals when one port throws synchronously (6.553816ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 33.403524\n",
+  "stderr": "",
+  "exitCode": 0
+}

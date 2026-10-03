@@ -1,0 +1,1854 @@
+{
+  "command": {
+    "functions": [
+      {
+        "export": "executeBrowserCommandOnView",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "captureViewportScreenshot",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "promise": [
+                              [
+                                "string",
+                                "undefined"
+                              ]
+                            ]
+                          }
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                },
+                {
+                  "name": "cdp",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "send",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": [
+                                    "string",
+                                    "undefined"
+                                  ]
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "unknown"
+                                ]
+                              }
+                            }
+                          ],
+                          "properties": []
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "normalizeScreenshotToCssPixels",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "false",
+                    "true",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "resizeScreenshotToCssPixels",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            },
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "properties": [
+                                  {
+                                    "name": "height",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "width",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": [
+                            "string",
+                            "undefined",
+                            {
+                              "promise": [
+                                [
+                                  "string",
+                                  "undefined"
+                                ]
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                },
+                {
+                  "name": "webContents",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "canGoBack",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "canGoForward",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "executeJavaScript",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "unknown"
+                                ]
+                              }
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getTitle",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getURL",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "goBack",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "goForward",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "loadURL",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "void"
+                                ]
+                              }
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "reload",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "optional": false,
+            "type": [
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "action",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"playwright\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "button",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "\"left\"",
+                      "\"middle\"",
+                      "\"right\"",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "doubleClick",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "false",
+                      "true",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"click\""
+                  },
+                  {
+                    "name": "modifiers",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "array": [
+                          [
+                            "\"Alt\"",
+                            "\"Control\"",
+                            "\"ControlOrMeta\"",
+                            "\"Meta\"",
+                            "\"Shift\""
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "ref",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "x",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "y",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "checked",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "false",
+                      "true",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"check\""
+                  },
+                  {
+                    "name": "ref",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "clip",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "height",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "width",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "x",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "y",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "fullPage",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "false",
+                      "true",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"screenshot\""
+                  },
+                  {
+                    "name": "ref",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "expression",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"evaluate\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "from",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "x",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "y",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "fromRef",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"drag\""
+                  },
+                  {
+                    "name": "modifiers",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "array": [
+                          [
+                            "\"Alt\"",
+                            "\"Control\"",
+                            "\"ControlOrMeta\"",
+                            "\"Meta\"",
+                            "\"Shift\""
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "to",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "calls": [],
+                        "properties": [
+                          {
+                            "name": "x",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "y",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "toRef",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "includeHidden",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "false",
+                      "true",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "maxElements",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"snapshot\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "key",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"press\""
+                  },
+                  {
+                    "name": "modifiers",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "array": [
+                          [
+                            "\"Alt\"",
+                            "\"Control\"",
+                            "\"ControlOrMeta\"",
+                            "\"Meta\"",
+                            "\"Shift\""
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "ref",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "keys",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "array": [
+                        "string"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"cuaKeypress\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"back\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"cuaDrag\""
+                  },
+                  {
+                    "name": "modifiers",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "array": [
+                          [
+                            "\"Alt\"",
+                            "\"Control\"",
+                            "\"ControlOrMeta\"",
+                            "\"Meta\"",
+                            "\"Shift\""
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "path",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "array": [
+                        {
+                          "calls": [],
+                          "properties": [
+                            {
+                              "name": "x",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "number"
+                            },
+                            {
+                              "name": "y",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "number"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"cuaScroll\""
+                  },
+                  {
+                    "name": "modifiers",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "array": [
+                          [
+                            "\"Alt\"",
+                            "\"Control\"",
+                            "\"ControlOrMeta\"",
+                            "\"Meta\"",
+                            "\"Shift\""
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "scrollX",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "scrollY",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "x",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "y",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"domCuaScroll\""
+                  },
+                  {
+                    "name": "nodeId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "scrollX",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "scrollY",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"elementInfo\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "x",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "y",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"forward\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"getState\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"hover\""
+                  },
+                  {
+                    "name": "modifiers",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "undefined",
+                      {
+                        "array": [
+                          [
+                            "\"Alt\"",
+                            "\"Control\"",
+                            "\"ControlOrMeta\"",
+                            "\"Meta\"",
+                            "\"Shift\""
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "ref",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "x",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "y",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"navigate\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "url",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"reload\""
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"scroll\""
+                  },
+                  {
+                    "name": "ref",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "x",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "y",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"select\""
+                  },
+                  {
+                    "name": "ref",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "values",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "array": [
+                        "string"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "\"type\""
+                  },
+                  {
+                    "name": "ref",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "text",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "method",
+                    "optional": false,
+                    "readonly": false,
+                    "type": [
+                      "\"capabilities\"",
+                      "\"close\"",
+                      "\"fill\"",
+                      "\"getDialog\"",
+                      "\"handleDialog\"",
+                      "\"list\"",
+                      "\"playwrightWaitForTimeout\"",
+                      "\"waitFor\""
+                    ]
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "optional": true,
+            "type": [
+              "undefined",
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "navigateSettleMs",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "number",
+                      "undefined"
+                    ]
+                  },
+                  {
+                    "name": "signal",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "AbortSignal",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "returns": {
+          "promise": [
+            {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "elapsedMs",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "element",
+                  "optional": true,
+                  "readonly": false,
+                  "type": "unknown"
+                },
+                {
+                  "name": "error",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [],
+                      "properties": [
+                        {
+                          "name": "code",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "message",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "sideEffect",
+                          "optional": true,
+                          "readonly": false,
+                          "type": [
+                            "string",
+                            "undefined"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "image",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [],
+                      "properties": [
+                        {
+                          "name": "base64",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "mimeType",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "ok",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "snapshot",
+                  "optional": true,
+                  "readonly": false,
+                  "type": "unknown"
+                },
+                {
+                  "name": "state",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [],
+                      "properties": [
+                        {
+                          "name": "scrollX",
+                          "optional": true,
+                          "readonly": false,
+                          "type": [
+                            "number",
+                            "undefined"
+                          ]
+                        },
+                        {
+                          "name": "scrollY",
+                          "optional": true,
+                          "readonly": false,
+                          "type": [
+                            "number",
+                            "undefined"
+                          ]
+                        },
+                        {
+                          "name": "url",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "viewportHeight",
+                          "optional": true,
+                          "readonly": false,
+                          "type": [
+                            "number",
+                            "undefined"
+                          ]
+                        },
+                        {
+                          "name": "viewportWidth",
+                          "optional": true,
+                          "readonly": false,
+                          "type": [
+                            "number",
+                            "undefined"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "value",
+                  "optional": true,
+                  "readonly": false,
+                  "type": "unknown"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "reexports": [
+      {
+        "module": "./browserCommandState.js",
+        "typeOnly": false,
+        "names": [
+          {
+            "name": "isAllowedBrowserUrl",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "module": "./browserCommandTypes.js",
+        "typeOnly": true,
+        "names": [
+          {
+            "name": "BrowserPoint",
+            "typeOnly": false
+          },
+          {
+            "name": "ControlledView",
+            "typeOnly": false
+          },
+          {
+            "name": "ControlledViewCdp",
+            "typeOnly": false
+          },
+          {
+            "name": "ControlledViewWebContents",
+            "typeOnly": false
+          }
+        ]
+      }
+    ]
+  },
+  "capture": {
+    "functions": [
+      {
+        "export": "captureScreenshotWithCssPixelCorrection",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "captureViewportScreenshot",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "promise": [
+                              [
+                                "string",
+                                "undefined"
+                              ]
+                            ]
+                          }
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                },
+                {
+                  "name": "cdp",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "send",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": [
+                                    "string",
+                                    "undefined"
+                                  ]
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "unknown"
+                                ]
+                              }
+                            }
+                          ],
+                          "properties": []
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "normalizeScreenshotToCssPixels",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "false",
+                    "true",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "resizeScreenshotToCssPixels",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            },
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "properties": [
+                                  {
+                                    "name": "height",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "width",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": [
+                            "string",
+                            "undefined",
+                            {
+                              "promise": [
+                                [
+                                  "string",
+                                  "undefined"
+                                ]
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                },
+                {
+                  "name": "webContents",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "canGoBack",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "canGoForward",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "executeJavaScript",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "unknown"
+                                ]
+                              }
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getTitle",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getURL",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "goBack",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "goForward",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "loadURL",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "void"
+                                ]
+                              }
+                            }
+                          ],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "reload",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "void"
+                            }
+                          ],
+                          "properties": []
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": []
+            }
+          }
+        ],
+        "returns": {
+          "promise": [
+            {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "data",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "string",
+                    "undefined"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "reexports": []
+  }
+}

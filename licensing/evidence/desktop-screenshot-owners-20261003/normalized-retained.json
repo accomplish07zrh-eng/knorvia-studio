@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-screenshot-owners-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/retained-shapes.mjs",
+      "sha256": "e7ac989e450802f31ea1593f711fef7876e298db12b3aad14fb709f1e7acc974"
+    }
+  ],
+  "stdout": "[{\"owner\":\"surface\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"onAbort\",\"candidate\":\"onAbort\",\"bodyHash\":\"80f8eafb06027f23a1b5088e96827e3dafeaeb0a2c058a1f21228e0aded9bc90\"}],\"identicalExpressionCount\":319},{\"owner\":\"activity\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"3632b9329b3dd70e9f135b3de67a13ed333a1a8d3078f8949ddd17faf3d37d72\"},{\"baseline\":\"finish\",\"candidate\":\"finish\",\"bodyHash\":\"f6bc2fda05a29fce2672b02a894eda5f4a2a66e484faefd8f9aa62a9b71eb8de\"}],\"identicalExpressionCount\":216},{\"owner\":\"activity\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"3632b9329b3dd70e9f135b3de67a13ed333a1a8d3078f8949ddd17faf3d37d72\"},{\"baseline\":\"finish\",\"candidate\":\"finish\",\"bodyHash\":\"f6bc2fda05a29fce2672b02a894eda5f4a2a66e484faefd8f9aa62a9b71eb8de\"}],\"identicalExpressionCount\":216},{\"owner\":\"activity\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"3632b9329b3dd70e9f135b3de67a13ed333a1a8d3078f8949ddd17faf3d37d72\"},{\"baseline\":\"finish\",\"candidate\":\"finish\",\"bodyHash\":\"f6bc2fda05a29fce2672b02a894eda5f4a2a66e484faefd8f9aa62a9b71eb8de\"}],\"identicalExpressionCount\":216},{\"owner\":\"surface\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"onAbort\",\"candidate\":\"onAbort\",\"bodyHash\":\"80f8eafb06027f23a1b5088e96827e3dafeaeb0a2c058a1f21228e0aded9bc90\"}],\"identicalExpressionCount\":319},{\"owner\":\"surface\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"onAbort\",\"candidate\":\"onAbort\",\"bodyHash\":\"80f8eafb06027f23a1b5088e96827e3dafeaeb0a2c058a1f21228e0aded9bc90\"}],\"identicalExpressionCount\":309}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

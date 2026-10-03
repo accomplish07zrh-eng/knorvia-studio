@@ -1,0 +1,50 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts",
+    "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+    "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/record-run.mjs",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts",
+      "sha256": "b5e0bab2418a2fcab8406d675b4e401a4db06ec2186b0a1ff604c3fa931a423d"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+      "sha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs",
+      "sha256": "0c913096e5fd059a29afc35bf62c656bd1914e853655285cf8b6df2f542c6ee8"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static.mjs",
+      "sha256": "4fd93494131e59705c7d0ad2df485dcbc83fd4408b86bebb7e09842c10938f3b"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/record-run.mjs",
+      "sha256": "722ca01899f90fa5db5f57e65699770b9908023f0ad932d194a51f7c65cf6c46"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/final-bindings.mjs",
+      "sha256": "271346b44800ba2ccace3497092c7d4c6c9c8ec1539653873f5d26fe6193b0b7"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-shapes.mjs",
+      "sha256": "5ea6f33b26cc87318b6a7bd9e1da86e2da072ec66033470249867e3fb8b2ff8b"
+    }
+  ],
+  "stdout": "\n  ! typescript-eslint(no-useless-empty-export): Empty exports do nothing in module files\n    ,-[packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts:90:1]\n 89 | \n 90 | export {};\n    : ^^^^^^^^^^\n    `----\n  help: Remove this empty export.\n\nFound 1 warning and 0 errors.\nFinished in 22ms on 7 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

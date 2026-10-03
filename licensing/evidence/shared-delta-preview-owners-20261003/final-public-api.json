@@ -1,0 +1,11 @@
+{
+  "label": "final-public-api",
+  "cmd": "node /tmp/knorvia-shared-delta-preview-api-shape.mjs",
+  "result": {
+    "chunk_id": "ee545b",
+    "wall_time_seconds": 0.230885307,
+    "exit_code": 0,
+    "original_token_count": 186,
+    "output": "protocol-v4/apply.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nprotocol-v4/coalesce.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nstreaming-tool-input-preview.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\ntool-call-summary.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\npermission-request-preview.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n"
+  }
+}

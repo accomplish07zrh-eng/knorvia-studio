@@ -1,0 +1,24 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/host/startupDiskOwner.test.mjs",
+    "packages/desktop/src/host/storagePreparationOwner.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_STORAGE_BASELINE": "/tmp/knorvia-storage50-initial-fixtures"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/startupDiskOwner.test.mjs",
+      "sha256": "a73fadc46052426d7b0277d2440a8a765835836a0c98b09809ba5c9be61b1747"
+    },
+    {
+      "path": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+      "sha256": "08534deec59986d3821b5df3309c82a46774833610ed11681c23fd6af1884c7c"
+    }
+  ],
+  "stdout": "✔ disk sampler synthetic probe authority, migration and stopped lifetime (60.89563ms)\n✔ storage preparation fake Worker control authority, canonical reuse and exit lifetime (75.019272ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 172.093941\n",
+  "stderr": "",
+  "exitCode": 0
+}

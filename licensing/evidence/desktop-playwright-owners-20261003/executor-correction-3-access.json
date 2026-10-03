@@ -1,0 +1,12 @@
+{
+  "readPaths": [],
+  "writtenPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/executor/browserPlaywrightExecutor-correction-3.ts",
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/executor/access-correction-3.json"
+  ],
+  "accessExceptions": [],
+  "contextLimits": [
+    "Complete literal correction authored from the behavior contracts in authoring context and the correction packet; no earlier draft or inherited source was read.",
+    "No tests, lint, candidate, browser, network, or repository history was accessed or run."
+  ]
+}

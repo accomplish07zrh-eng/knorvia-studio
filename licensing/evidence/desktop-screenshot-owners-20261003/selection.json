@@ -1,0 +1,79 @@
+{
+  "baseHead": "42bccd729bf2fef1b5d874ef8c3bdc90df29ebcf",
+  "selected": [
+    {
+      "owner": "surface",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+        "kind": "file",
+        "sha256": "900d03d2b8d261994358e94207399da63dfc374b5982d5160f576a12f10a43f3",
+        "normalizedSha256": "900d03d2b8d261994358e94207399da63dfc374b5982d5160f576a12f10a43f3",
+        "encoding": "utf8-lf",
+        "bytes": 15256,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+          "blob": "4d7fb42e05bffa7b00c030d1bce24eb9d8b91717",
+          "normalizedSha256": "92ca3ae1333672ea2777d9860fedb4688f1658933b8cd12a005f10c6f79b0409",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 424,
+      "bytes": 15256,
+      "currentSha256": "900d03d2b8d261994358e94207399da63dfc374b5982d5160f576a12f10a43f3",
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "owner": "activity",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+        "kind": "file",
+        "sha256": "f35ec99d96497b98587a4c4e52321df80b34c4740183b3dc6b8f55bbed106d51",
+        "normalizedSha256": "f35ec99d96497b98587a4c4e52321df80b34c4740183b3dc6b8f55bbed106d51",
+        "encoding": "utf8-lf",
+        "bytes": 18811,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+          "blob": "76c8f8a7485d02a5fa5aaca160c7dbfe636c776b",
+          "normalizedSha256": "f35ec99d96497b98587a4c4e52321df80b34c4740183b3dc6b8f55bbed106d51",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 475,
+      "bytes": 18811,
+      "currentSha256": "f35ec99d96497b98587a4c4e52321df80b34c4740183b3dc6b8f55bbed106d51",
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "publicReceiptScreen": "No accepted exact-path replacement in current review/spec/scoped-receipt search; inaccessible private history not excluded.",
+  "otherLanePRs": {
+    "8": [],
+    "10": [],
+    "11": [],
+    "12": []
+  },
+  "heldPaths": [
+    "broadcastHub.ts",
+    "databaseStartupRelay.ts",
+    "taskRealtimeBus.ts",
+    "networkTelemetryAggregator.ts"
+  ],
+  "noGlobalLicenseDecision": true
+}

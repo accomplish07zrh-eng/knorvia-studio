@@ -1,0 +1,50 @@
+[
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-correction-1.ts.txt",
+    "sha256": "5dcda76f2a60593cd7969d2d1fa8c3ae037b28a88688ce9170725584e617dca9",
+    "bytes": 13376,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-correction-2.ts.txt",
+    "sha256": "a2018e9a3e25763686a54c8f484d9c805ae5b0dd66e9523d5233d24fa8725aeb",
+    "bytes": 12871,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-initial.ts.txt",
+    "sha256": "d1a0e0648cdfb8387997ec9e15f36884fa5bf883c5c6b460452d3b6384ffa066",
+    "bytes": 13036,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/file-initial.ts.txt",
+    "sha256": "ec1be5aab23afd9d12aaf6c8a7142d4da8b3f5bf2f8a857a49dc0ce40030723c",
+    "bytes": 12797,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-correction-1.ts.txt",
+    "sha256": "d2fd6ecd6c1262051516695a4d5c9553c386a8b9f5480db27fd6c962c59d25e2",
+    "bytes": 4103,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-initial.ts.txt",
+    "sha256": "f27c94ffdf7f7245f1cfad8ea4042062d6298d5cb2f825bcc10943242a47e276",
+    "bytes": 4200,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/project-correction-1.ts.txt",
+    "sha256": "9a38180ace3cea5b9e6661087f8c95affecdb399f6d4dccb563396d7bce51d65",
+    "bytes": 5336,
+    "neverFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/project-initial.ts.txt",
+    "sha256": "3aff48555d1f956131b181936e141d69b137c1e3ed159c5b5d9a5e7c5bf867d2",
+    "bytes": 5375,
+    "neverFormattedImportedExecutedOrBuilt": true
+  }
+]

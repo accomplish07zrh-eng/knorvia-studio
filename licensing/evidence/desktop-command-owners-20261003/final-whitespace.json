@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [],
+  "stdout": "",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/factory-correction-1-packet.md",
+    "sha256": "69428b7b6b2de8bb7a7f6a71fc915fc309cdd05dcd313cd8ee375dd9eea94db8"
+  },
+  {
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/merger-correction-1-packet.md",
+    "sha256": "f460382b184861a651f231b0a4a94199b351a10f87eaeb1a7193e3db662f1819"
+  }
+]

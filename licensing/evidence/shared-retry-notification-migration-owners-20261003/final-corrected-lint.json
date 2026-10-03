@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/api-retry-status.ts",
+    "packages/shared/src/subagent-markdown-selection.ts",
+    "packages/shared/src/lineChangeStat.ts",
+    "licensing/evidence/shared-retry-notification-migration-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 37ms on 4 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

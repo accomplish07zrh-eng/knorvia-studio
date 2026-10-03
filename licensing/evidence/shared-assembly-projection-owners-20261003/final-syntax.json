@@ -1,0 +1,11 @@
+{
+  "label": "final-syntax",
+  "cmd": "node /tmp/knorvia-scoped-syntax.mjs packages/shared/src/protocol-v4/wire-assembler.ts packages/shared/src/protocol-v4/workflow-runs-artifacts.ts packages/shared/src/conversation-message-projection-policy.ts packages/shared/src/session-visible-content.ts packages/shared/src/tool-plan-adapter.ts",
+  "result": {
+    "chunk_id": "26bf26",
+    "wall_time_seconds": 0.29824568,
+    "exit_code": 0,
+    "original_token_count": 99,
+    "output": "packages/shared/src/protocol-v4/wire-assembler.ts: 0 syntax-only diagnostics\npackages/shared/src/protocol-v4/workflow-runs-artifacts.ts: 0 syntax-only diagnostics\npackages/shared/src/conversation-message-projection-policy.ts: 0 syntax-only diagnostics\npackages/shared/src/session-visible-content.ts: 0 syntax-only diagnostics\npackages/shared/src/tool-plan-adapter.ts: 0 syntax-only diagnostics\n"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "--owner=index"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=index\n✖ index: public facade, promise/cancellation identity and buffered callback lifetime (86.087491ms)\n✖ index: exact sender/channel/schema admission and first-port closure/transfer (29.733085ms)\nℹ tests 2\nℹ suites 0\nℹ pass 0\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 120.531296\n\n✖ failing tests:\n\ntest at packages/desktop/src/preload/owners.test.mjs:24:124\n✖ index: public facade, promise/cancellation identity and buffered callback lifetime (86.087491ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + undefined\n  - 'sentinel-send'\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/preload/owners.test.mjs:90:10)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: 'sentinel-send',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at packages/desktop/src/preload/owners.test.mjs:24:124\n✖ index: exact sender/channel/schema admission and first-port closure/transfer (29.733085ms)\n  TypeError: Cannot read properties of undefined (reading 'slice')\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/preload/owners.test.mjs:124:69)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)\n      at Test.postRun (node:internal/test_runner/test:1522:19)\n      at Test.run (node:internal/test_runner/test:1447:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n",
+  "stderr": "",
+  "exitCode": 1
+}

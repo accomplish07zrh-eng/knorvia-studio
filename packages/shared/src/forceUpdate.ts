@@ -5,114 +5,88 @@ export interface ForceUpdateRequirement {
   minimalVersion: string;
 }
 
-interface ParsedSemver {
-  major: number;
-  minor: number;
-  patch: number;
-  prerelease: string[];
+interface VersionParts {
+  numbers: [number, number, number];
+  prerelease: string[] | null;
 }
 
-function parseSemver(version: string): ParsedSemver | null {
-  const normalized = version.trim().replace(/^v/i, "");
-
-  // 远端配置可能只传主版本号（如 "45"）或主次版本号（如 "4.5"），
-  // 严格 semver（X.Y.Z）解析会返回 null，导致 resolveForceUpdateRequirement
-  // 永远不触发。这里依次尝试标准版本和补齐版本，兼容服务端简写格式。
-  const strictMatch = normalized.match(
-    /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/,
+function parseVersion(input: string): VersionParts | null {
+  const version = input.trim().replace(/^v/i, "");
+  const complete = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/.exec(
+    version,
   );
-  if (strictMatch) {
+  if (complete) {
     return {
-      major: Number(strictMatch[1]!),
-      minor: Number(strictMatch[2]!),
-      patch: Number(strictMatch[3]!),
-      prerelease: strictMatch[4]?.split(".") ?? [],
+      numbers: [Number(complete[1]), Number(complete[2]), Number(complete[3])],
+      prerelease: complete[4] === undefined ? null : complete[4].split("."),
     };
   }
 
-  // 补全：只有主版本号（"45" → "45.0.0"）
-  const majorOnly = normalized.match(/^(\d+)$/);
+  // 兼容只写主版本或主次版本的配置；简写不接受预发布标识和构建信息。
+  const majorOnly = /^([0-9]+)$/.exec(version);
   if (majorOnly) {
-    return {
-      major: Number(majorOnly[1]!),
-      minor: 0,
-      patch: 0,
-      prerelease: [],
-    };
+    return { numbers: [Number(majorOnly[1]), 0, 0], prerelease: null };
   }
-
-  // 补全：主版本号.次版本号（"4.5" → "4.5.0"）
-  const majorMinor = normalized.match(/^(\d+)\.(\d+)$/);
+  const majorMinor = /^([0-9]+)\.([0-9]+)$/.exec(version);
   if (majorMinor) {
     return {
-      major: Number(majorMinor[1]!),
-      minor: Number(majorMinor[2]!),
-      patch: 0,
-      prerelease: [],
+      numbers: [Number(majorMinor[1]), Number(majorMinor[2]), 0],
+      prerelease: null,
     };
   }
-
   return null;
 }
 
-function comparePrerelease(left: string[], right: string[]): number {
-  if (left.length === 0 && right.length === 0) {
-    return 0;
+function comparePrerelease(left: string[] | null, right: string[] | null): number {
+  if (left === null) {
+    return right === null ? 0 : 1;
   }
-  if (left.length === 0) {
-    return 1;
-  }
-  if (right.length === 0) {
+  if (right === null) {
     return -1;
   }
 
-  const length = Math.max(left.length, right.length);
-  for (let index = 0; index < length; index += 1) {
-    const leftPart = left[index];
-    const rightPart = right[index];
-    if (leftPart === undefined) {
+  for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
+    const leftEntry = left[index];
+    const rightEntry = right[index];
+    if (leftEntry === undefined) {
       return -1;
     }
-    if (rightPart === undefined) {
+    if (rightEntry === undefined) {
       return 1;
     }
 
-    const leftNumeric = /^\d+$/.test(leftPart);
-    const rightNumeric = /^\d+$/.test(rightPart);
+    const leftNumeric = /^\d+$/.test(leftEntry);
+    const rightNumeric = /^\d+$/.test(rightEntry);
     if (leftNumeric && rightNumeric) {
-      const delta = Number(leftPart) - Number(rightPart);
+      const delta = Number(leftEntry) - Number(rightEntry);
       if (delta !== 0) {
         return delta > 0 ? 1 : -1;
       }
-      continue;
-    }
-    if (leftNumeric !== rightNumeric) {
+    } else if (leftNumeric !== rightNumeric) {
       return leftNumeric ? -1 : 1;
-    }
-
-    const delta = leftPart.localeCompare(rightPart);
-    if (delta !== 0) {
-      return delta > 0 ? 1 : -1;
+    } else {
+      const delta = leftEntry.localeCompare(rightEntry);
+      if (delta !== 0) {
+        return delta > 0 ? 1 : -1;
+      }
     }
   }
-
   return 0;
 }
 
 export function compareSemverVersions(leftVersion: string, rightVersion: string): number | null {
-  const left = parseSemver(leftVersion);
-  const right = parseSemver(rightVersion);
-  if (!left || !right) {
+  const left = parseVersion(leftVersion);
+  const right = parseVersion(rightVersion);
+  if (left === null || right === null) {
     return null;
   }
 
-  for (const key of ["major", "minor", "patch"] as const) {
-    const delta = left[key] - right[key];
+  for (const index of [0, 1, 2] as const) {
+    const delta = left.numbers[index] - right.numbers[index];
     if (delta !== 0) {
       return delta > 0 ? 1 : -1;
     }
   }
-
   return comparePrerelease(left.prerelease, right.prerelease);
 }
 
@@ -129,9 +103,5 @@ export function resolveForceUpdateRequirement(params: {
   if (comparison === null || comparison >= 0) {
     return null;
   }
-
-  return {
-    currentVersion: params.currentVersion,
-    minimalVersion,
-  };
+  return { currentVersion: params.currentVersion, minimalVersion };
 }

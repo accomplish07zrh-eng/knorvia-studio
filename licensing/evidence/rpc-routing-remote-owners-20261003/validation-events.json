@@ -1,0 +1,71 @@
+{
+  "baselineInitial": {
+    "exit": 1,
+    "pass": 0,
+    "fail": 2,
+    "cause": "synthetic loader banner duplicate state identifier before owner assertions",
+    "raw": "baseline-synthetic-safety-initial.json",
+    "action": "timer-only banner variable renamed without source change"
+  },
+  "baselineCombined": {
+    "exit": 0,
+    "pass": 2,
+    "fail": 0
+  },
+  "candidateCombinedBeforeCoercionRegression": {
+    "exit": 0,
+    "pass": 2,
+    "fail": 0
+  },
+  "baselineCoercionRegression": {
+    "exit": 0,
+    "pass": 1,
+    "fail": 0
+  },
+  "candidateCoercionRegressionInitial": {
+    "exit": 1,
+    "pass": 0,
+    "fail": 1,
+    "raw": "candidate-formatting-regression-initial.json",
+    "cause": "concatenation default hint changed admitted custom valueOf error representation",
+    "action": "author restored template coercion, third freeze before review"
+  },
+  "candidateCoercionRegressionFinal": {
+    "exit": 0,
+    "pass": 1,
+    "fail": 0
+  },
+  "lint": {
+    "exit": 0,
+    "warnings": 0,
+    "errors": 0,
+    "initialFiles": 3,
+    "remoteOnlyRecheck": 1,
+    "testAndApiHelperRecheck": 2
+  },
+  "syntax": {
+    "exit": 0,
+    "diagnostics": 0,
+    "semanticTypes": false,
+    "initialOwners": 2,
+    "remoteOnlyRecheck": 1
+  },
+  "apiShape": {
+    "exit": 0,
+    "semanticTypes": false,
+    "initialOwners": 2,
+    "remoteOnlyRecheck": 1,
+    "exportOrderExcluded": true
+  },
+  "architecture": {
+    "exit": 0,
+    "baseline": 0,
+    "new": 0,
+    "finalAfterRemoteCorrection": true
+  },
+  "whitespace": {
+    "exit": 0
+  },
+  "ordinarySuitesBuildsNative": false,
+  "focusedSafetyFinalCoverage": "unchanged IPC case from combined pass plus amended remote case focused pass; no unnecessary full rerun"
+}

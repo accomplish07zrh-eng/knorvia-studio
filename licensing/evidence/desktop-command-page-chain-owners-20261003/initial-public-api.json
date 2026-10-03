@@ -1,0 +1,3037 @@
+{
+  "compilerRaw": {
+    "navigation": [
+      {
+        "export": "BrowserNavigationTimeoutError",
+        "kind": "value",
+        "shape": {
+          "calls": [],
+          "constructs": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": [
+                    "string",
+                    "undefined"
+                  ]
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "cause",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "message",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "name",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "stack",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": [
+                    "string",
+                    "undefined"
+                  ]
+                },
+                {
+                  "optional": true,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [],
+                      "constructs": [],
+                      "properties": [
+                        {
+                          "name": "cause",
+                          "optional": true,
+                          "readonly": false,
+                          "type": "unknown"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "cause",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "message",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "name",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "stack",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [
+            {
+              "name": "captureStackTrace",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "optional": true,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [],
+                            "constructs": [],
+                            "properties": [
+                              {
+                                "name": "__@hasInstance@125",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        }
+                                      ],
+                                      "returns": "boolean"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "apply",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        },
+                                        {
+                                          "optional": true,
+                                          "type": "any"
+                                        }
+                                      ],
+                                      "returns": "any"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "arguments",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "any"
+                              },
+                              {
+                                "name": "bind",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        },
+                                        {
+                                          "optional": false,
+                                          "type": {
+                                            "array": [
+                                              "any"
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "returns": "any"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "call",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        },
+                                        {
+                                          "optional": false,
+                                          "type": {
+                                            "array": [
+                                              "any"
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "returns": "any"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "caller",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "recursive"
+                              },
+                              {
+                                "name": "length",
+                                "optional": false,
+                                "readonly": true,
+                                "type": "number"
+                              },
+                              {
+                                "name": "name",
+                                "optional": false,
+                                "readonly": true,
+                                "type": "string"
+                              },
+                              {
+                                "name": "prototype",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "any"
+                              },
+                              {
+                                "name": "toString",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [],
+                                      "returns": "string"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "returns": "void"
+                  }
+                ],
+                "constructs": [],
+                "properties": []
+              }
+            },
+            {
+              "name": "prepareStackTrace",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "cause",
+                              "optional": true,
+                              "readonly": false,
+                              "type": "unknown"
+                            },
+                            {
+                              "name": "message",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "string"
+                            },
+                            {
+                              "name": "name",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "string"
+                            },
+                            {
+                              "name": "stack",
+                              "optional": true,
+                              "readonly": false,
+                              "type": [
+                                "string",
+                                "undefined"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "optional": false,
+                        "type": {
+                          "array": [
+                            {
+                              "calls": [],
+                              "constructs": [],
+                              "properties": [
+                                {
+                                  "name": "getColumnNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getEnclosingColumnNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getEnclosingLineNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getEvalOrigin",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getFileName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getFunction",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "undefined",
+                                          {
+                                            "calls": [],
+                                            "constructs": [],
+                                            "properties": [
+                                              {
+                                                "name": "__@hasInstance@125",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        }
+                                                      ],
+                                                      "returns": "boolean"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "apply",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        },
+                                                        {
+                                                          "optional": true,
+                                                          "type": "any"
+                                                        }
+                                                      ],
+                                                      "returns": "any"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "arguments",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "any"
+                                              },
+                                              {
+                                                "name": "bind",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        },
+                                                        {
+                                                          "optional": false,
+                                                          "type": {
+                                                            "array": [
+                                                              "any"
+                                                            ]
+                                                          }
+                                                        }
+                                                      ],
+                                                      "returns": "any"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "call",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        },
+                                                        {
+                                                          "optional": false,
+                                                          "type": {
+                                                            "array": [
+                                                              "any"
+                                                            ]
+                                                          }
+                                                        }
+                                                      ],
+                                                      "returns": "any"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "caller",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "recursive"
+                                              },
+                                              {
+                                                "name": "length",
+                                                "optional": false,
+                                                "readonly": true,
+                                                "type": "number"
+                                              },
+                                              {
+                                                "name": "name",
+                                                "optional": false,
+                                                "readonly": true,
+                                                "type": "string"
+                                              },
+                                              {
+                                                "name": "prototype",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "any"
+                                              },
+                                              {
+                                                "name": "toString",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [],
+                                                      "returns": "string"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getFunctionName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getLineNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getMethodName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getPosition",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "number"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getPromiseIndex",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getScriptHash",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "string"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getScriptNameOrSourceURL",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getThis",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "unknown"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getTypeName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isAsync",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isConstructor",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isEval",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isNative",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isPromiseAll",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isToplevel",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "returns": "any"
+                  }
+                ],
+                "constructs": [],
+                "properties": []
+              }
+            },
+            {
+              "name": "prototype",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "cause",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "message",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "name",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "stack",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "name": "stackTraceLimit",
+              "optional": false,
+              "readonly": false,
+              "type": "number"
+            }
+          ]
+        }
+      },
+      {
+        "export": "DEFAULT_NAVIGATE_SETTLE_MS",
+        "kind": "value",
+        "shape": "10000"
+      },
+      {
+        "export": "isAllowedBrowserUrl",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                }
+              ],
+              "returns": "boolean"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "now",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [],
+              "returns": "number"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "readState",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "canGoBack",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "canGoForward",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getTitle",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getURL",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "canGoBack",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "canGoForward",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "title",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "url",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "settleNavigation",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "promise": [
+                      "void"
+                    ]
+                  }
+                },
+                {
+                  "optional": false,
+                  "type": "number"
+                },
+                {
+                  "optional": true,
+                  "type": [
+                    "AbortSignal",
+                    "undefined"
+                  ]
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ],
+    "retry": [
+      {
+        "export": "DesktopBrowserScreenshotTransientRetry",
+        "kind": "value",
+        "shape": {
+          "calls": [],
+          "constructs": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "budgetMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "delayMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "log",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": "void"
+                              }
+                            ],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "reset",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "retryDelayMs",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "number"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "schedule",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "target",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"guest\"",
+                                      "\"owner\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "webContentsId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "windowId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": "boolean"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [
+            {
+              "name": "prototype",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "reset",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "retryDelayMs",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "number"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "schedule",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "target",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"guest\"",
+                                      "\"owner\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "webContentsId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "windowId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": "boolean"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "export": "isTransientScreenshotCaptureError",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "unknown"
+                }
+              ],
+              "returns": "boolean"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ],
+    "scripts": [
+      {
+        "export": "CHECK_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                },
+                {
+                  "optional": false,
+                  "type": "boolean"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "ELEMENT_AT_POINT_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "number"
+                },
+                {
+                  "optional": false,
+                  "type": "number"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "EVALUATE_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "RESOLVE_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "SELECT_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                },
+                {
+                  "optional": false,
+                  "type": {
+                    "array": [
+                      "string"
+                    ]
+                  }
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "SNAPSHOT_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": [
+                    "number",
+                    "undefined"
+                  ]
+                },
+                {
+                  "optional": true,
+                  "type": [
+                    "false",
+                    "true",
+                    "undefined"
+                  ]
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "VIEWPORT_SCRIPT",
+        "kind": "value",
+        "shape": "\"(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()\""
+      }
+    ],
+    "paste": [
+      {
+        "export": "IAB_INPUT_TARGET_TOKEN_PROPERTY",
+        "kind": "value",
+        "shape": "\"__knorviaIabInputTargetToken\""
+      },
+      {
+        "export": "VIRTUAL_PASTE_PAGE_FUNCTION",
+        "kind": "value",
+        "shape": {
+          "stringLiteralSha256": "dccd6fc9ddbec0c9a1d117ad81ff17f5edd5ece582520e61fe3b47204142bf1e",
+          "bytes": 4626
+        }
+      }
+    ]
+  },
+  "consumerStringContract": {
+    "navigation": [
+      {
+        "export": "BrowserNavigationTimeoutError",
+        "kind": "value",
+        "shape": {
+          "calls": [],
+          "constructs": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": [
+                    "string",
+                    "undefined"
+                  ]
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "cause",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "message",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "name",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "stack",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": [
+                    "string",
+                    "undefined"
+                  ]
+                },
+                {
+                  "optional": true,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [],
+                      "constructs": [],
+                      "properties": [
+                        {
+                          "name": "cause",
+                          "optional": true,
+                          "readonly": false,
+                          "type": "unknown"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "cause",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "message",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "name",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "stack",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [
+            {
+              "name": "captureStackTrace",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "optional": true,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [],
+                            "constructs": [],
+                            "properties": [
+                              {
+                                "name": "__@hasInstance@125",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        }
+                                      ],
+                                      "returns": "boolean"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "apply",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        },
+                                        {
+                                          "optional": true,
+                                          "type": "any"
+                                        }
+                                      ],
+                                      "returns": "any"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "arguments",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "any"
+                              },
+                              {
+                                "name": "bind",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        },
+                                        {
+                                          "optional": false,
+                                          "type": {
+                                            "array": [
+                                              "any"
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "returns": "any"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "call",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": "any"
+                                        },
+                                        {
+                                          "optional": false,
+                                          "type": {
+                                            "array": [
+                                              "any"
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "returns": "any"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "caller",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "recursive"
+                              },
+                              {
+                                "name": "length",
+                                "optional": false,
+                                "readonly": true,
+                                "type": "number"
+                              },
+                              {
+                                "name": "name",
+                                "optional": false,
+                                "readonly": true,
+                                "type": "string"
+                              },
+                              {
+                                "name": "prototype",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "any"
+                              },
+                              {
+                                "name": "toString",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [],
+                                      "returns": "string"
+                                    }
+                                  ],
+                                  "constructs": [],
+                                  "properties": []
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "returns": "void"
+                  }
+                ],
+                "constructs": [],
+                "properties": []
+              }
+            },
+            {
+              "name": "prepareStackTrace",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [
+                  {
+                    "parameters": [
+                      {
+                        "optional": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "cause",
+                              "optional": true,
+                              "readonly": false,
+                              "type": "unknown"
+                            },
+                            {
+                              "name": "message",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "string"
+                            },
+                            {
+                              "name": "name",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "string"
+                            },
+                            {
+                              "name": "stack",
+                              "optional": true,
+                              "readonly": false,
+                              "type": [
+                                "string",
+                                "undefined"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "optional": false,
+                        "type": {
+                          "array": [
+                            {
+                              "calls": [],
+                              "constructs": [],
+                              "properties": [
+                                {
+                                  "name": "getColumnNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getEnclosingColumnNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getEnclosingLineNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getEvalOrigin",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getFileName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getFunction",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "undefined",
+                                          {
+                                            "calls": [],
+                                            "constructs": [],
+                                            "properties": [
+                                              {
+                                                "name": "__@hasInstance@125",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        }
+                                                      ],
+                                                      "returns": "boolean"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "apply",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        },
+                                                        {
+                                                          "optional": true,
+                                                          "type": "any"
+                                                        }
+                                                      ],
+                                                      "returns": "any"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "arguments",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "any"
+                                              },
+                                              {
+                                                "name": "bind",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        },
+                                                        {
+                                                          "optional": false,
+                                                          "type": {
+                                                            "array": [
+                                                              "any"
+                                                            ]
+                                                          }
+                                                        }
+                                                      ],
+                                                      "returns": "any"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "call",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [
+                                                        {
+                                                          "optional": false,
+                                                          "type": "any"
+                                                        },
+                                                        {
+                                                          "optional": false,
+                                                          "type": {
+                                                            "array": [
+                                                              "any"
+                                                            ]
+                                                          }
+                                                        }
+                                                      ],
+                                                      "returns": "any"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              },
+                                              {
+                                                "name": "caller",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "recursive"
+                                              },
+                                              {
+                                                "name": "length",
+                                                "optional": false,
+                                                "readonly": true,
+                                                "type": "number"
+                                              },
+                                              {
+                                                "name": "name",
+                                                "optional": false,
+                                                "readonly": true,
+                                                "type": "string"
+                                              },
+                                              {
+                                                "name": "prototype",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "any"
+                                              },
+                                              {
+                                                "name": "toString",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": {
+                                                  "calls": [
+                                                    {
+                                                      "parameters": [],
+                                                      "returns": "string"
+                                                    }
+                                                  ],
+                                                  "constructs": [],
+                                                  "properties": []
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getFunctionName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getLineNumber",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getMethodName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getPosition",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "number"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getPromiseIndex",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "number"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getScriptHash",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "string"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getScriptNameOrSourceURL",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getThis",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "unknown"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "getTypeName",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": [
+                                          "null",
+                                          "string"
+                                        ]
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isAsync",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isConstructor",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isEval",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isNative",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isPromiseAll",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                },
+                                {
+                                  "name": "isToplevel",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "constructs": [],
+                                    "properties": []
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "returns": "any"
+                  }
+                ],
+                "constructs": [],
+                "properties": []
+              }
+            },
+            {
+              "name": "prototype",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "cause",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "unknown"
+                  },
+                  {
+                    "name": "message",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "name",
+                    "optional": true,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "stack",
+                    "optional": true,
+                    "readonly": false,
+                    "type": [
+                      "string",
+                      "undefined"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "name": "stackTraceLimit",
+              "optional": false,
+              "readonly": false,
+              "type": "number"
+            }
+          ]
+        }
+      },
+      {
+        "export": "DEFAULT_NAVIGATE_SETTLE_MS",
+        "kind": "value",
+        "shape": "10000"
+      },
+      {
+        "export": "isAllowedBrowserUrl",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                }
+              ],
+              "returns": "boolean"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "now",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [],
+              "returns": "number"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "readState",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "canGoBack",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "canGoForward",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "boolean"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getTitle",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "getURL",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": "string"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "canGoBack",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "canGoForward",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "title",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "url",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "settleNavigation",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "promise": [
+                      "void"
+                    ]
+                  }
+                },
+                {
+                  "optional": false,
+                  "type": "number"
+                },
+                {
+                  "optional": true,
+                  "type": [
+                    "AbortSignal",
+                    "undefined"
+                  ]
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ],
+    "retry": [
+      {
+        "export": "DesktopBrowserScreenshotTransientRetry",
+        "kind": "value",
+        "shape": {
+          "calls": [],
+          "constructs": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "budgetMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "delayMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "log",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": "void"
+                              }
+                            ],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "reset",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "retryDelayMs",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "number"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "schedule",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "target",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"guest\"",
+                                      "\"owner\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "webContentsId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "windowId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": "boolean"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [
+            {
+              "name": "prototype",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "reset",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "retryDelayMs",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "number"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "schedule",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "target",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"guest\"",
+                                      "\"owner\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "webContentsId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "windowId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": "boolean"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "export": "isTransientScreenshotCaptureError",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "unknown"
+                }
+              ],
+              "returns": "boolean"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ],
+    "scripts": [
+      {
+        "export": "CHECK_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                },
+                {
+                  "optional": false,
+                  "type": "boolean"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "ELEMENT_AT_POINT_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "number"
+                },
+                {
+                  "optional": false,
+                  "type": "number"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "EVALUATE_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "RESOLVE_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "SELECT_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                },
+                {
+                  "optional": false,
+                  "type": {
+                    "array": [
+                      "string"
+                    ]
+                  }
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "SNAPSHOT_SCRIPT",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": [
+                    "number",
+                    "undefined"
+                  ]
+                },
+                {
+                  "optional": true,
+                  "type": [
+                    "false",
+                    "true",
+                    "undefined"
+                  ]
+                }
+              ],
+              "returns": "string"
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "VIEWPORT_SCRIPT",
+        "kind": "value",
+        "shape": "string"
+      }
+    ],
+    "paste": [
+      {
+        "export": "IAB_INPUT_TARGET_TOKEN_PROPERTY",
+        "kind": "value",
+        "shape": "\"__knorviaIabInputTargetToken\""
+      },
+      {
+        "export": "VIRTUAL_PASTE_PAGE_FUNCTION",
+        "kind": "value",
+        "shape": "string"
+      }
+    ]
+  }
+}

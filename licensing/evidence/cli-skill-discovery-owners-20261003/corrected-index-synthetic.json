@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs",
+    "--only=discovery"
+  ],
+  "stdout": "✔ discovery identity preserves canonical disable, plugin pending cache, folded data and path dedup (26.8015ms)\n✔ discovery error admission preserves absent-code property observation before diagnostics (8.163608ms)\n✔ discovery manifest preserves path-port rejection identity and retained pending failure (7.326628ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 46.136403\n",
+  "stderr": "",
+  "exitCode": 0
+}

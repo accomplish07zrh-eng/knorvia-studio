@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "--owner=wheel"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=wheel\n✔ wheel: axis consumption, RTL, modes and bounded pixel forwarding (52.256307ms)\n✔ wheel: deferred preventDefault, captured payload and uncancelled queued send (9.385257ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 66.248579\n",
+  "stderr": "",
+  "exitCode": 0
+}

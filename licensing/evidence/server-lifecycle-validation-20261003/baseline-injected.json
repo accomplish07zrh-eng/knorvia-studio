@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/server/test/lifecycle-injected-compatibility.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_LIFECYCLE_BASELINE": "f25b931164ee6287167e965e9da7a7586131b264"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+      "sha256": "9dd19a761041e04cdf49099b5ff61d6e92adf5b70aec6215a19025e5bcb5ff24"
+    }
+  ],
+  "stdout": "✔ EOF stops admission immediately; later signals raise severity without duplicate disposal (53.706934ms)\n✔ phase failures preserve error identity and still advance through cleanup (12.936873ms)\n✔ independent phase deadlines use explicit budgets and observe late rejections (11.800822ms)\n✔ stdio copies input bytes, honors drain and preserves repeated close/end ordering (19.474068ms)\n✔ stdio stop memoizes its promise, removes admission first and disposes socket after scope failure (11.990358ms)\n✔ HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cleanup (53.400608ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 411.165251\n",
+  "stderr": "",
+  "exitCode": 0
+}

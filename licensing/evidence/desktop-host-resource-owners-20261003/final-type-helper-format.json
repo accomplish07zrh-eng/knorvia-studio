@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 21ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,167 @@
+import { basename, dirname, isAbsolute, resolve } from "node:path";
+import type { McpServerConfig, RuntimeConfigPatch } from "@knorvia/contracts";
+import {
+    createWorkspaceHookSourceInput,
+    discoverWorkspaceHookConfigPaths,
+    workspaceHooksConfigSchema,
+    type WorkspaceHookSourceInput,
+} from "@knorvia/shared/workspace-hook-discovery";
+import { loadFileConfig, type LoadedConfig } from "./file-config.adapter.js";
+
+export interface ProjectConfigFile {
+    baseDir: string;
+    config: RuntimeConfigPatch;
+    diagnostics: LoadedConfig["diagnostics"];
+    hookCandidate?: WorkspaceHookSourceInput;
+    loaded: boolean;
+    path: string;
+}
+
+export interface ProjectConfigDiscovery {
+    files: ProjectConfigFile[];
+    diagnostics: LoadedConfig["diagnostics"];
+    hookCandidates: WorkspaceHookSourceInput[];
+    loaded: boolean;
+    paths: string[];
+    mcpServerNames: string[];
+}
+
+const PROJECT_CONFIG_DIRECTORY = ".knorvia-studio";
+const STDIO_TYPE = "stdio";
+const DEFAULT_CWD = ".";
+const INITIAL_ORDER = 0;
+const TRUST_WARNING_CODE = "config_project_hooks_pending_trust";
+const TRUST_WARNING_MESSAGE =
+    "Project hooks are pending workspace trust and remain blocked";
+const TRUST_WARNING_PATH = "hooks";
+const TRUST_WARNING_SEVERITY = "warning";
+
+function resolveProjectServer(
+    server: McpServerConfig,
+    baseDir: string,
+): McpServerConfig {
+    if (server.type !== STDIO_TYPE) {
+        return server;
+    }
+    const directory = server.cwd ?? DEFAULT_CWD;
+    return {
+        ...server,
+        cwd: isAbsolute(directory) ? directory : resolve(baseDir, directory),
+    };
+}
+
+function projectPatch(
+    source: RuntimeConfigPatch,
+    baseDir: string,
+): RuntimeConfigPatch {
+    const patch = { ...source };
+    if (patch.hooks) {
+        delete patch.hooks;
+    }
+    if (patch.mcp?.servers) {
+        patch.mcp = {
+            ...patch.mcp,
+            servers: Object.fromEntries(
+                Object.entries(patch.mcp.servers).map(([name, server]) => [
+                    name,
+                    resolveProjectServer(server, baseDir),
+                ]),
+            ),
+        };
+    }
+    return patch;
+}
+
+export function loadProjectConfigs(
+    workingDirectory?: string,
+    explicitProjectConfigPath?: string,
+): ProjectConfigDiscovery {
+    const directory = resolve(workingDirectory ?? process.cwd());
+    const references = discoverWorkspaceHookConfigPaths({
+        workingDirectory: directory,
+        ...(explicitProjectConfigPath ? { explicitProjectConfigPath } : {}),
+    });
+    const files = references.map((reference, index) =>
+        loadProjectConfigFile(reference.path, {
+            discoveryOrder: index,
+            explicitProjectConfig: reference.explicitProjectConfig,
+            workingDirectory: directory,
+        }),
+    );
+    return summarizeProjectConfigs(files);
+}
+
+export function loadProjectConfigFile(
+    path: string,
+    options: {
+        discoveryOrder?: number;
+        explicitProjectConfig?: boolean;
+        workingDirectory?: string;
+    } = {},
+): ProjectConfigFile {
+    const result = loadFileConfig(path);
+    const parentDirectory = dirname(result.path);
+    const baseDir =
+        basename(parentDirectory) === PROJECT_CONFIG_DIRECTORY
+            ? dirname(parentDirectory)
+            : parentDirectory;
+    const diagnostics = [...result.diagnostics];
+    const hooks = result.loaded ? result.config.hooks : undefined;
+    if (hooks) {
+        diagnostics.push({
+            code: TRUST_WARNING_CODE,
+            filePath: result.path,
+            message: TRUST_WARNING_MESSAGE,
+            path: TRUST_WARNING_PATH,
+            severity: TRUST_WARNING_SEVERITY,
+        });
+    }
+    const config: RuntimeConfigPatch = result.loaded
+        ? projectPatch(result.config, baseDir)
+        : {};
+    let hookCandidate: WorkspaceHookSourceInput | undefined;
+    if (hooks) {
+        const validatedHooks = workspaceHooksConfigSchema.parse(hooks);
+        hookCandidate = createWorkspaceHookSourceInput({
+            path: result.path,
+            workingDirectory: resolve(options.workingDirectory ?? baseDir),
+            hooks: validatedHooks,
+            discoveryOrder: options.discoveryOrder ?? INITIAL_ORDER,
+            explicitProjectConfig: options.explicitProjectConfig,
+        });
+    }
+    return {
+        baseDir,
+        config,
+        diagnostics,
+        ...(hookCandidate ? { hookCandidate } : {}),
+        loaded: result.loaded,
+        path: result.path,
+    };
+}
+
+export function summarizeProjectConfigs(
+    files: ProjectConfigFile[],
+): ProjectConfigDiscovery {
+    const loadedFiles = files.filter((file) => file.loaded);
+    const serverNames = new Set<string>();
+    for (const file of loadedFiles) {
+        for (const name of Object.keys(file.config.mcp?.servers ?? {})) {
+            serverNames.add(name);
+        }
+    }
+    const diagnostics = files.flatMap((file) => file.diagnostics);
+    const hookCandidates = loadedFiles.flatMap((file) => {
+        const candidate = file.hookCandidate;
+        return candidate ? [candidate] : [];
+    });
+    const paths = loadedFiles.map((file) => file.path);
+    return {
+        diagnostics,
+        files: loadedFiles,
+        hookCandidates,
+        loaded: loadedFiles.length > INITIAL_ORDER,
+        paths,
+        mcpServerNames: [...serverNames],
+    };
+}

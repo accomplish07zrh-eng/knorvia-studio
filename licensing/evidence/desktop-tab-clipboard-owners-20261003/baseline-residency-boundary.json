@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern=residency:",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-tab-clipboard-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "c3f3ffb455c135aa5cd3624a0f81cf41c98023a7152928d3b9f7497d3dad3098"
+    }
+  ],
+  "stdout": "✔ residency: per-window serialized eviction, stale restoration generation and copied observations (36.84007ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 321.156027\n",
+  "stderr": "",
+  "exitCode": 0
+}

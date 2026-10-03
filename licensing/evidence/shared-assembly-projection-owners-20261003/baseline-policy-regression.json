@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern=^message policy",
+    "packages/shared/test/shared-assembly-projection-boundaries.test.mjs",
+    "/tmp/knorvia-shared-assembly-projection-baseline"
+  ],
+  "exitCode": 0,
+  "stdout": "\u2714 message policy admits visible assistant/user data and excludes model-only/synthetic carriers from visible input (10.290832ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 14.172646\n",
+  "stderr": ""
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "owner": "wheel",
+    "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/wheel-initial.ts.txt",
+    "sha256": "bce711e6f45871493d3025a2dc95e74258af57ea755bd8dfc582c58d9ad826aa",
+    "bytes": 3329
+  },
+  {
+    "owner": "dialog",
+    "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/dialog-initial.ts.txt",
+    "sha256": "4a83912f52623b814f0d80fdb9f2ff83bbc899af0c1dadb31a935ac1837cc2a7",
+    "bytes": 4764
+  }
+]

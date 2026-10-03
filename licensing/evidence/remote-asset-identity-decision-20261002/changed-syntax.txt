@@ -1,0 +1,3 @@
+packages/server/src/remote/remoteAssetDeployDecision.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/remoteAssetLiveIdentity.ts: 0 syntax/transpile diagnostics
+Syntax/transpile diagnostics only: no semantic typecheck or package build.

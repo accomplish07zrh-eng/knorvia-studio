@@ -1,0 +1,42 @@
+{
+  "baselineSafety": {
+    "exit": 0,
+    "pass": 3,
+    "fail": 0
+  },
+  "candidateSafety": {
+    "exit": 0,
+    "pass": 3,
+    "fail": 0
+  },
+  "initialLint": {
+    "exit": 0,
+    "warnings": 1,
+    "errors": 0,
+    "warning": "test helper direct spread snapshot in for-of",
+    "action": "named identical snapshot; test-file-only lint recheck"
+  },
+  "testLintRecheck": {
+    "exit": 0,
+    "warnings": 0,
+    "errors": 0
+  },
+  "syntax": {
+    "exit": 0,
+    "diagnostics": 0,
+    "semanticTypes": false
+  },
+  "architecture": {
+    "exit": 0,
+    "violations": 0
+  },
+  "whitespace": {
+    "exit": 0
+  },
+  "readDiscoveryFailure": {
+    "exit": 1,
+    "operation": "attempted cat of non-existent packages/server/src/remote/ssh-backend.owner-safety.test.ts after discovery",
+    "result": "reported missing; used discovered packages/server/test/deploy-refresh-admission-safety.test.mjs instead; no environment bypass"
+  },
+  "runtimeSafetyBeforeFinalTestFormatting": true
+}

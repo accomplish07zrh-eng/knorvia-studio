@@ -1,4 +1,4 @@
-import { writeFile, rm } from "node:fs/promises";
+import { rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { IRemoteBackend } from "@knorvia/server/remote/backend.js";
@@ -18,18 +18,16 @@ export async function deployRemoteAgentWrapper(params: {
   remoteWrapperPath: string;
 }): Promise<void> {
   const remoteWrapperTempPath = `${params.remoteWrapperPath}.new`;
+
   if (isWslBackend(params.backend)) {
     const localTempPath = join(tmpdir(), `agent-wrapper-${process.pid}-${Date.now()}.sh`);
     try {
-      // WSL 的 `wsl.exe -- bash -lc <command>` 会让多行 shell 参数里的
-      // `$HOME`、`$runtime_root`、`$@` 提前展开，生成 `exec "/node" ...` 的坏 wrapper。
-      // 仅 WSL 按字节上传临时文件，SSH 仍走远端 shell 写入路径。
       await writeFile(localTempPath, params.content, "utf8");
       await params.backend.upload(localTempPath, remoteWrapperTempPath);
-      const replaceStream = await params.backend.exec(
+      const stream = await params.backend.exec(
         buildRemoteExecutableReplaceCommand(remoteWrapperTempPath, params.remoteWrapperPath),
       );
-      await waitForClose(replaceStream);
+      await waitForClose(stream);
     } finally {
       await rm(localTempPath, { force: true });
     }

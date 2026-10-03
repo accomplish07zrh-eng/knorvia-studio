@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "--owner=factory"
+  ],
+  "stdout": "sourceMode=installed-candidate; selectedOwner=factory\n✔ factory: source precedence, metadata refs, hook tagging and logger order (96.921506ms)\n✔ factory: diagnostic errors stop composition and storage nullish precedence (21.367963ms)\n✔ factory: internal hook sources keep exact payloads and existing source references (16.700167ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 140.549135\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-shared-retry-notification-migration-api-shape.mjs"
+  ],
+  "stdout": "api-retry-status.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nbackground-task-notifications.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nnetwork-debug-status.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nsubagent-markdown-selection.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nlineChangeStat.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,8 +1,8 @@
-/** 仅用于用户反馈的排障材料；不得应用到模型请求或认证载荷。 */
-const REDACTED = "[REDACTED]";
-const sensitiveKey =
-  /(?:password|passwd|passphrase|secret|token|apikey|accesskey|privatekey|authorization|cookie|credential)/i;
-const diagnosticBodyKey =
+const REDACTION = "[REDACTED]";
+
+const sensitiveName =
+  /password|passwd|passphrase|secret|token|apikey|accesskey|privatekey|authorization|cookie|credential/i;
+const diagnosticName =
   /^(?:content|messages?|prompt|systemprompt|request|response|body|payload|input|output|toolinput|tooloutput|arguments|args|env|environment|headers|text|completion|result|stdout|stderr|data|params)$/i;
 
 function normalizeKey(key: string): string {
@@ -11,20 +11,19 @@ function normalizeKey(key: string): string {
 
 function shouldRedactKey(key: string, diagnostic: boolean): boolean {
   const normalized = normalizeKey(key);
-  return sensitiveKey.test(normalized) || (diagnostic && diagnosticBodyKey.test(normalized));
+  return sensitiveName.test(normalized) || (diagnostic && diagnosticName.test(normalized));
 }
 
-// 与 JSON 对象共用键名判定；带引号、转义和分隔符的字段不能走另一份精简名单。
 function fieldKeys(text: string): Array<{ key: string; quoted: boolean; end: number }> {
-  const fields = [];
-  const pattern = /(?:"((?:\\.|[^"\\])*)"|'([^']*)'|([\w.-]+))\s*[:=]\s*/g;
-  for (const match of text.matchAll(pattern)) {
+  const fields: Array<{ key: string; quoted: boolean; end: number }> = [];
+  const scanner = /(?:"((?:\\.|[^"\\])*)"|'([^']*)'|([\w.-]+))\s*[:=]\s*/g;
+  for (const match of text.matchAll(scanner)) {
     let key = match[1] ?? match[2] ?? match[3] ?? "";
     if (match[1] !== undefined) {
       try {
-        key = JSON.parse(`"${key}"`) as string;
+        key = JSON.parse(`"${key}"`);
       } catch {
-        // 无法解码时仍按字面键名检查。
+        // Keep the scanned spelling when a quoted key is not valid JSON.
       }
     }
     fields.push({ key, quoted: match[3] === undefined, end: match.index + match[0].length });
@@ -32,81 +31,91 @@ function fieldKeys(text: string): Array<{ key: string; quoted: boolean; end: num
   return fields;
 }
 
-function shouldRedactUrlPath(url: URL, diagnostic: boolean): boolean {
-  if (diagnostic || url.username || url.password || url.hostname === "hooks.slack.com") return true;
-  // 签名下载的对象路径也可能是凭据；必须在删除 query 前判定。
+function redactUrlPath(url: URL, diagnostic: boolean): boolean {
+  if (diagnostic || url.username || url.password || url.hostname === "hooks.slack.com") {
+    return true;
+  }
+
+  const queryNames = Array.from(url.searchParams.keys());
   if (
-    [...url.searchParams.keys()].some(
+    queryNames.some(
       (key) => shouldRedactKey(key, false) || /^(?:.*signature|sig|code)$/i.test(normalizeKey(key)),
     )
-  )
+  ) {
     return true;
+  }
+
   try {
     return decodeURIComponent(url.pathname)
       .split("/")
       .some((segment) => {
         const normalized = normalizeKey(segment);
         return (
-          sensitiveKey.test(normalized) ||
-          /^(?:webhook\w*|(?:password)?reset(?:password)?|invites?|invitations?|callback|downloads?|signed|verify|verification|activate|magiclink)$/.test(
+          sensitiveName.test(normalized) ||
+          /^(?:webhook\w*|(?:password)?reset(?:password)?|invites?|invitations?|callback|downloads?|signed|verify|verification|activate|magiclink)$/i.test(
             normalized.toLowerCase(),
           )
         );
       });
   } catch {
-    // 无法解码的路径不能证明安全，避免编码形式绕过识别。
     return true;
   }
 }
 
 function redactValues(text: string, diagnostic: boolean): string {
-  let result = text
-    .replace(/\b((?:Proxy-)?Authorization|Cookie|Set-Cookie)\s*:\s*[^\r\n]+/gi, `$1: ${REDACTED}`)
-    .replace(
-      /-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----[\s\S]*?(?:-----END [A-Z0-9 ]*PRIVATE KEY-----|$)/g,
-      REDACTED,
-    )
-    .replace(/\bBearer\s+[^\s"'\\,;]+/gi, `Bearer ${REDACTED}`)
-    .replace(
-      /([\w.-]+)(\s*[=:]\s*)(?:"(?:\\.|[^"\\])*"|'[^']*'|[^\s,;"'<>]+)/g,
-      (match, key: string, separator: string) =>
-        shouldRedactKey(key, false) ? `${key}${separator}${REDACTED}` : match,
-    )
-    .replace(/\b[a-z][a-z0-9+.-]*:\/\/[^\s"'<>\\]+/gi, (raw) => {
-      try {
-        const url = new URL(raw);
-        // URL 凭据并不只在 userinfo/query 中，webhook 和重置链接常将秘密放在路径里。
-        if (shouldRedactUrlPath(url, diagnostic) && url.pathname && url.pathname !== "/") {
-          url.pathname = `/${REDACTED}`;
-        }
-        url.username = "";
-        url.password = "";
-        url.search = "";
-        url.hash = "";
-        return url.toString();
-      } catch {
-        return REDACTED;
+  let output = text.replace(
+    /\b((?:Proxy-)?Authorization|Cookie|Set-Cookie)\s*:\s*[^\r\n]+/gi,
+    (_match, name: string) => `${name}: ${REDACTION}`,
+  );
+
+  output = output.replace(
+    /-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----[\s\S]*?(?:-----END [A-Z0-9 ]*PRIVATE KEY-----|$)/g,
+    REDACTION,
+  );
+
+  output = output.replace(/\bBearer\s+[^\s"'\\,;]+/gi, `Bearer ${REDACTION}`);
+
+  output = output.replace(
+    /([\w.-]+)(\s*[=:]\s*)("(?:\\.|[^"\\])*"|'[^']*'|[^\s,;"'<>]+)/g,
+    (match, key: string, separator: string) =>
+      shouldRedactKey(key, false) ? `${key}${separator}${REDACTION}` : match,
+  );
+
+  output = output.replace(/\b[a-z][a-z0-9+.-]*:\/\/[^\s"'<>\\]+/gi, (raw) => {
+    try {
+      const url = new URL(raw);
+      if (redactUrlPath(url, diagnostic) && url.pathname && url.pathname !== "/") {
+        url.pathname = `/${REDACTION}`;
       }
-    })
-    .replace(/(?:\/(?:Users|home)\/|[a-z]:\\Users\\)[^\s"'<>]+/gi, "[USER_PATH]");
+      url.username = "";
+      url.password = "";
+      url.search = "";
+      url.hash = "";
+      return url.toString();
+    } catch {
+      return REDACTION;
+    }
+  });
+
+  output = output.replace(/(?:\/Users\/|\/home\/|[a-z]:\\Users\\)[^\s"'<>]+/gi, "[USER_PATH]");
+
   if (diagnostic) {
-    result = result.replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "[EMAIL]");
+    output = output.replace(/\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/gi, "[EMAIL]");
   }
-  return result;
+  return output;
 }
 
 function scrubValue(value: unknown, diagnostic: boolean, depth = 0): unknown {
-  if (depth > 32) return REDACTED;
-  if (typeof value === "string") {
-    // 字符串也可能包含日志前缀或多个 JSON 片段，必须走同一条完整脱敏路径。
-    return redactText(value, diagnostic, depth + 1);
+  if (depth > 32) return REDACTION;
+  if (typeof value === "string") return redactText(value, diagnostic, depth + 1);
+  if (Array.isArray(value)) {
+    return value.map((item) => scrubValue(item, diagnostic, depth + 1));
   }
-  if (Array.isArray(value)) return value.map((item) => scrubValue(item, diagnostic, depth + 1));
   if (value && typeof value === "object") {
     return Object.fromEntries(
       Object.entries(value).map(([key, item]) => [
         key,
-        shouldRedactKey(key, diagnostic) ? REDACTED : scrubValue(item, diagnostic, depth + 1),
+        shouldRedactKey(key, diagnostic) ? REDACTION : scrubValue(item, diagnostic, depth + 1),
       ]),
     );
   }
@@ -117,13 +126,12 @@ function redactPlainText(text: string, diagnostic: boolean): string {
   return redactValues(text, diagnostic)
     .split(/\r?\n/)
     .map((line) => {
-      // 非结构化正文的长度和换行边界不可靠；已知敏感字段无法安全解析时舍弃该行。
       const unsafe = fieldKeys(line).some(
         ({ key, quoted, end }) =>
           shouldRedactKey(key, diagnostic) &&
-          (quoted || diagnostic || !line.slice(end).startsWith(REDACTED)),
+          (quoted || diagnostic || !line.slice(end).startsWith(REDACTION)),
       );
-      return unsafe ? REDACTED : line;
+      return unsafe ? REDACTION : line;
     })
     .join("\n");
 }
@@ -132,68 +140,70 @@ function jsonFragmentEnd(text: string, start: number): number {
   let nesting = 0;
   let quoted = false;
   let escaped = false;
-  for (let index = start; index < text.length; index += 1) {
-    const character = text[index];
+  for (let position = start; position < text.length; position += 1) {
+    const character = text[position];
     if (quoted) {
       if (escaped) escaped = false;
       else if (character === "\\") escaped = true;
       else if (character === '"') quoted = false;
-    } else if (character === '"') quoted = true;
-    else if (character === "{" || character === "[") nesting += 1;
-    else if ((character === "}" || character === "]") && --nesting === 0) return index + 1;
+    } else if (character === '"') {
+      quoted = true;
+    } else if (character === "{" || character === "[") {
+      nesting += 1;
+    } else if (character === "}" || character === "]") {
+      nesting -= 1;
+      if (nesting === 0) return position + 1;
+    }
   }
   return text.length;
 }
 
 function redactText(text: string, diagnostic: boolean, depth: number): string {
-  if (depth > 32) return REDACTED;
+  if (depth > 32) return REDACTION;
   try {
     const parsed: unknown = JSON.parse(text);
     if (parsed && typeof parsed === "object") {
       return JSON.stringify(scrubValue(parsed, diagnostic, depth + 1));
     }
   } catch {
-    // 混合日志继续逐片段处理，不能只清洗可解析的最后一个 JSON。
+    // A non-JSON input continues through the same mixed-text privacy policy.
   }
-  // 私钥和普通凭据可能跨行或含括号，先按整体清洗，避免片段切分后残留值的后半段。
+
   const source = redactValues(text, diagnostic);
   const chunks: string[] = [];
   let cursor = 0;
-  for (let index = 0; index < source.length; index += 1) {
-    if (source.startsWith(REDACTED, index)) {
-      index += REDACTED.length - 1;
+  for (let position = 0; position < source.length; position += 1) {
+    if (source.startsWith(REDACTION, position)) {
+      position += REDACTION.length - 1;
       continue;
     }
-    if (source[index] !== "{" && source[index] !== "[") continue;
-    const prefix = source.slice(cursor, index);
-    let end = jsonFragmentEnd(source, index);
+    if (source[position] !== "{" && source[position] !== "[") continue;
+
+    const prefix = source.slice(cursor, position);
+    let end = jsonFragmentEnd(source, position);
     const linePrefix = prefix.slice(prefix.lastIndexOf("\n") + 1);
     const sensitiveValue = fieldKeys(linePrefix).some(({ key }) =>
       shouldRedactKey(key, diagnostic),
     );
     if (sensitiveValue) {
-      // 普通字段值可能由文本和对象混合组成；不能只删对象而留下同行尾部。
       const lineEnd = source.indexOf("\n", end);
       end = lineEnd < 0 ? source.length : lineEnd;
     }
-    const fragment = source.slice(index, end);
+    const fragment = source.slice(position, end);
     chunks.push(redactPlainText(prefix, diagnostic));
     try {
       chunks.push(
         sensitiveValue
-          ? REDACTED
+          ? REDACTION
           : JSON.stringify(scrubValue(JSON.parse(fragment), diagnostic, depth + 1)),
       );
     } catch {
-      // 多行或截断对象不能只丢弃键名所在行，否则下一行的值仍会泄露。
-      chunks.push(
-        sensitiveValue || fieldKeys(fragment).some(({ key }) => shouldRedactKey(key, diagnostic))
-          ? REDACTED
-          : redactPlainText(fragment, diagnostic),
-      );
+      const unsafe =
+        sensitiveValue || fieldKeys(fragment).some(({ key }) => shouldRedactKey(key, diagnostic));
+      chunks.push(unsafe ? REDACTION : redactPlainText(fragment, diagnostic));
     }
     cursor = end;
-    index = end - 1;
+    position = end - 1;
   }
   chunks.push(redactPlainText(source.slice(cursor), diagnostic));
   return chunks.join("");

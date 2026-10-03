@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "--case=reply observation"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=all\n✖ dialog: reply observation fallback and frame-load raw error boundary (55.698728ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 60.12993\n\n✖ failing tests:\n\ntest at packages/desktop/src/preload/owners.test.mjs:24:124\n✖ dialog: reply observation fallback and frame-load raw error boundary (55.698728ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    {\n  +   handled: true,\n  +   value: true\n  -   handled: false\n    }\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/preload/owners.test.mjs:208:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [Object],\n    expected: [Object],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

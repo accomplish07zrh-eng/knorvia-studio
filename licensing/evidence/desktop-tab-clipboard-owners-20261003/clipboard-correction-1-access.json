@@ -1,0 +1,19 @@
+{
+  "owner": "browserVirtualClipboard.ts",
+  "correction": 1,
+  "readPathsThisCorrection": [],
+  "contractPathsReadEarlier": [
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/clipboard-owner-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-policy.d.ts",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-view.d.ts"
+  ],
+  "writePathsThisCorrection": [
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/author-output/clipboard/browserVirtualClipboard-correction-1.ts",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/author-output/clipboard/access-correction-1.json"
+  ],
+  "accessExceptions": [],
+  "sourceHashSha256": "2e020fd1746cf5bf694cfb13fce7829446d2c0fbab5eddfb14db67c945942d54",
+  "sourceBytes": 10195,
+  "verification": "Complete fresh literal from remembered contract; own SHA and byte count only. No source or previous output read; no tests, compilation, lint, runtime, native, network, production, or git action. Shared filesystem boundary was instructional rather than an OS cleanroom."
+}

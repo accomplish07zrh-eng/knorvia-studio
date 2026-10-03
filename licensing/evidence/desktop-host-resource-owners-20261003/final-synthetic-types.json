@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs"
+  ],
+  "stdout": "Strict synthetic-port owner diagnostics: 0; no imported product types/config, declaration emit, native or full-project acceptance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

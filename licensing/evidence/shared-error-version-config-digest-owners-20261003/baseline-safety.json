@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs",
+    "/tmp/knorvia-shared-error-version-config-digest-baseline"
+  ],
+  "stdout": "\u2714 unknown errors retain wrapped candidate and message/code fallback without leaking unrelated fields (11.072979ms)\n\u2714 version requirement admits shorthand and exact prerelease ordering without an update action (9.961226ms)\n\u2714 subagent storage import respects own current-map authority without reviving legacy identity (5.996412ms)\n\u2714 MCP DTO conversion preserves fake-platform wrapping and existing optional config admission (3.289732ms)\n\u2714 hook digest preserves canonical payload order, optional distinctions and owned snapshot freezing (5.362142ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 43.26764\n",
+  "stderr": "",
+  "exitCode": 0
+}

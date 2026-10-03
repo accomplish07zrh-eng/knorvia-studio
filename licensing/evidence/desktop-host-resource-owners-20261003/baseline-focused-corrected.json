@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "--baseline"
+  ],
+  "stdout": "✔ recording: local staging order, live artifact and original failure identity (65.490018ms)\n✔ recording: remote upload authority, bounded paths and live result identity (10.337833ms)\n✔ proxy: identity, duplicate subscription and synchronous/stale ready callbacks (9.556967ms)\n✔ proxy: workspace disposal errors preserve state; metadata identity stays live (6.898325ms)\n✔ registry: SSH pending cancellation retires reuse slot; scope and event identities (44.431978ms)\n✔ registry: WSL ownership generations, task deferral, release barrier and idle clock (31.059677ms)\n✔ registry: dedicated Docker handles, registry shutdown and error identity (49.852318ms)\nℹ tests 7\nℹ suites 0\nℹ pass 7\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 225.994751\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,27 @@
+{
+  "owner": "webm",
+  "version": "correction-1",
+  "path": "/tmp/knorvia-webm45-correction-1.ts",
+  "bytes": 16969,
+  "sha256": "d7a828b6f9c090d274a042737c5d6288b8e81de76118d9a829e05cf3ac49d949",
+  "author": "/root/electron_webm_owner_author45",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "fork_turns": "none",
+  "fast_service_independently_verified": false,
+  "access_statement": "Prior contract memory plus seven bounded facts; no reread of draft or other files; after write only stat and sha256sum on own output",
+  "curator_inspected_after_freeze": true,
+  "scope": "complete replacement literal; curator no semantic patch",
+  "corrections": [
+    "truthy/type only message gate",
+    "chunk-value empty diagnostic",
+    "empty string fallback",
+    "video/canvas remove method boundary",
+    "body.append API",
+    "live dirname after mkdir await",
+    "direct cancel cleanup promise"
+  ],
+  "rawPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/webm-correction-1.ts",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true
+}

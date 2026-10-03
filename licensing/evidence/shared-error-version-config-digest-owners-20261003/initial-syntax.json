@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/errors.ts",
+    "packages/shared/src/forceUpdate.ts",
+    "packages/shared/src/subagent-state-migration.ts",
+    "packages/shared/src/mcp.ts",
+    "packages/shared/src/workspace-hook-digest.ts"
+  ],
+  "stdout": "packages/shared/src/errors.ts: 0 syntax-only diagnostics\npackages/shared/src/forceUpdate.ts: 0 syntax-only diagnostics\npackages/shared/src/subagent-state-migration.ts: 0 syntax-only diagnostics\npackages/shared/src/mcp.ts: 0 syntax-only diagnostics\npackages/shared/src/workspace-hook-digest.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

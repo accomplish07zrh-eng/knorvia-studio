@@ -1,0 +1,62 @@
+{
+  "owners": [
+    {
+      "path": "packages/shared/src/assistant-presentation.ts",
+      "baselineSha256": "ff54a4522ddbb6ad169d540d802fe43fc88212469d7ccd69fae0fd67aa6bdb04",
+      "initialFrozenSha256": "90e48380c8d1f29875e90896365f9520837cc5cc8b332472f48904305a521cc9",
+      "selectedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/corrected-assistant-presentation.ts",
+      "selectedRawSha256": "aafbd706c1371410f2dc2a2e718fb5cced0e24e90748481d2a52ecbceb3d87f9",
+      "formattedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/formatted-assistant-presentation.ts",
+      "formattedSha256": "3129654b0bd38cb8d987431529951fdb45c71524396247c07febe8f5afcfec05",
+      "installedSha256": "3129654b0bd38cb8d987431529951fdb45c71524396247c07febe8f5afcfec05",
+      "formattedFreezeExactlyMatchesInstalled": true
+    },
+    {
+      "path": "packages/shared/src/background-task-controls.ts",
+      "baselineSha256": "9e215b216982d227bc2cf75f36b0792112a0c646463895b37777d9fce0e95973",
+      "initialFrozenSha256": "1b84ab8e2f946b5b2aed68756026c1bbce23869f08a00200f9666f4c672e5195",
+      "selectedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/corrected-background-task-controls.ts",
+      "selectedRawSha256": "ec856486ef3e9691096d5ca4781053cf9627d6b2d6a2550fbccc1890040120de",
+      "formattedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/formatted-background-task-controls.ts",
+      "formattedSha256": "28eac329aada697552b7166ef79ac5703d5695fe77a5ae8310d1afe0dfbfbbf2",
+      "installedSha256": "28eac329aada697552b7166ef79ac5703d5695fe77a5ae8310d1afe0dfbfbbf2",
+      "formattedFreezeExactlyMatchesInstalled": true
+    },
+    {
+      "path": "packages/shared/src/memoryDiagnostics.ts",
+      "baselineSha256": "6f7881b27e0c146788af6290dfdf35cf9b2713273310560a992c7ea9c5a65b77",
+      "initialFrozenSha256": "497fed4309fa15e42397101299637420e4c4e26102a984982a799f305a1140a9",
+      "selectedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/initial-memoryDiagnostics.ts",
+      "selectedRawSha256": "497fed4309fa15e42397101299637420e4c4e26102a984982a799f305a1140a9",
+      "formattedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/formatted-memoryDiagnostics.ts",
+      "formattedSha256": "68678f92f79c5816b357a4857e78baa07f81a389f6b1fae39c1c2c42c893bd75",
+      "installedSha256": "68678f92f79c5816b357a4857e78baa07f81a389f6b1fae39c1c2c42c893bd75",
+      "formattedFreezeExactlyMatchesInstalled": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts",
+      "baselineSha256": "2602d89235e78cbd145c8af1b0a06a59e97f0986242c28b94c7a6885d6aeadb4",
+      "initialFrozenSha256": "bc43844a9f08f2eff3fa19c9bfa20040668bf5590264ad9f8a89a7d6a8a85b89",
+      "selectedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/corrected-sessions-index-workflow-activity.ts",
+      "selectedRawSha256": "b376342a13f3fc4a64e9ab90f1bdf2fc7c4e89ceab181966cbc5cf896c821da5",
+      "formattedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/formatted-sessions-index-workflow-activity.ts",
+      "formattedSha256": "1670b325f8451114807502e5abb9a57269342bbf16a38d6c085e100b00474384",
+      "installedSha256": "1670b325f8451114807502e5abb9a57269342bbf16a38d6c085e100b00474384",
+      "formattedFreezeExactlyMatchesInstalled": true
+    },
+    {
+      "path": "packages/shared/src/tool-projection-memory.ts",
+      "baselineSha256": "7d36e65cbb3a5c71c02889e251ad6df25e4e7636d07ec310bdbba37ae9e7e0e2",
+      "initialFrozenSha256": "286f5c954e8d054dd4a38f0c7b1af7bee0ee7905746fb47d24e9bf326e6da974",
+      "selectedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/initial-tool-projection-memory.ts",
+      "selectedRawSha256": "286f5c954e8d054dd4a38f0c7b1af7bee0ee7905746fb47d24e9bf326e6da974",
+      "formattedFrozenFile": "/tmp/knorvia-shared-presentation-control-freezes/formatted-tool-projection-memory.ts",
+      "formattedSha256": "fb45a2ede889901c28121a914301355e59e134172bf061206333e05cba853786",
+      "installedSha256": "fb45a2ede889901c28121a914301355e59e134172bf061206333e05cba853786",
+      "formattedFreezeExactlyMatchesInstalled": true
+    }
+  ],
+  "testSha256": "51b095aa6630eb4316d56f52381c5d8f2c3c18d59116ec527207b7f5ba497476",
+  "apiHelperSha256": "f732275465b260e24105d508073d2035ee75fb57f0ee5ff2b567315b57e6331c",
+  "heldReducerSha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6"
+}

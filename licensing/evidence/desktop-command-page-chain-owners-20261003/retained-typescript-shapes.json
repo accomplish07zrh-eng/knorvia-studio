@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs",
+      "sha256": "130b6bf66194d33847d46aa5425ba72e6228b38c9a0c7c330c74502e60615826"
+    }
+  ],
+  "stdout": "[{\"owner\":\"navigation\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"now\",\"candidate\":\"now\",\"bodyHash\":\"65577e87ca46779d3d2271b482f34732c9361783732442bd6a0d52d45d76090f\"}],\"identicalExpressionCount\":63},{\"owner\":\"retry\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"isTransientScreenshotCaptureError\",\"candidate\":\"isTransientScreenshotCaptureError\",\"bodyHash\":\"8fb05ae49f2e2203ecf11a20e2440e958519a8a5844d2f567575a978552ba770\"},{\"baseline\":\"reset\",\"candidate\":\"reset\",\"bodyHash\":\"a0f5bb36c2a08f986b9e616499703160483a4cddc9b54327e35d9967465d4381\"}],\"identicalExpressionCount\":52},{\"owner\":\"scripts\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":33},{\"owner\":\"paste\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":1},{\"owner\":\"navigation\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"now\",\"candidate\":\"now\",\"bodyHash\":\"65577e87ca46779d3d2271b482f34732c9361783732442bd6a0d52d45d76090f\"}],\"identicalExpressionCount\":63},{\"owner\":\"paste\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":1},{\"owner\":\"paste\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":1},{\"owner\":\"retry\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"isTransientScreenshotCaptureError\",\"candidate\":\"isTransientScreenshotCaptureError\",\"bodyHash\":\"8fb05ae49f2e2203ecf11a20e2440e958519a8a5844d2f567575a978552ba770\"},{\"baseline\":\"reset\",\"candidate\":\"reset\",\"bodyHash\":\"a0f5bb36c2a08f986b9e616499703160483a4cddc9b54327e35d9967465d4381\"}],\"identicalExpressionCount\":52},{\"owner\":\"scripts\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":33},{\"owner\":\"scripts\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":33},{\"owner\":\"scripts\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":33},{\"owner\":\"scripts\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":33}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

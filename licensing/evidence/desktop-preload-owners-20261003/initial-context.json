@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    ".agents/skills/architecture-governance/scripts/context-package.mjs",
+    "desktop"
+  ],
+  "stdout": "# Architecture context: desktop\nowner: unassigned\nmanaged: false\nrequires: none\n\n## Files\n- module.ts: missing\n\n## Direct dependency contracts\n- none discovered\n\n## Boundaries\n- Cross-module imports must use declared requirements and public entrypoints.\n- Add a contract example before exposing a new capability.\n",
+  "stderr": "",
+  "exitCode": 0
+}

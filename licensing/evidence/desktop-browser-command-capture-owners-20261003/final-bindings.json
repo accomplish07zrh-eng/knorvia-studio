@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/final-bindings.mjs",
+      "sha256": "1a4a521556b67ffc09fc2cbc3f9a2bea79f8c2597d9e1907c4e29c7f02bcc689"
+    }
+  ],
+  "stdout": "{\n  \"baseHead\": \"a8a2305a55719b900556f0c50fbdadf7f1ac48b4\",\n  \"selected\": [\n    {\n      \"owner\": \"command\",\n      \"selectedVersion\": \"correction-1\",\n      \"rawSha256\": \"e40ce6866829f57edc8c932e73f343ee08125e1f60212f43e021363331a1c3fc\",\n      \"installedSha256\": \"8e38357510ccb82ea43d57de7f5c105e31b815b926d7adad65946a5e2839fae1\",\n      \"installedBytes\": 4232,\n      \"installedLines\": 124,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    },\n    {\n      \"owner\": \"capture\",\n      \"selectedVersion\": \"correction-1\",\n      \"rawSha256\": \"8b3477d91d861f55d85487c896d7f210a93555977ce69c2358566d71a38f1ddb\",\n      \"installedSha256\": \"468311e0eb4881fe131d828f03c5c98ab5dc6dfcee373ea50980dc0390e32104\",\n      \"installedBytes\": 5127,\n      \"installedLines\": 153,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    }\n  ],\n  \"rawVersionsVerified\": 4,\n  \"unchangedRetainedPaths\": 4274,\n  \"retentionCountsAreNotCompletionCounts\": true,\n  \"authorInputFreezeVerified\": true,\n  \"publicApiMatches\": true,\n  \"productionScopeExactlyTwoOwners\": true,\n  \"ordinaryTestsRun\": false,\n  \"nativeRuntimePassed\": false,\n  \"acceptedIndependentReplacementCredit\": 0,\n  \"MITClaim\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,7 @@
+# Complete-owner author access boundary
+
+Author exactly one complete TypeScript owner matching the body-free public declaration and full behavior contract. No inherited source, tests, history/patch, dependency implementation, sibling owner, parent evidence or prior author-file reads. No novelty requirement; fixed strings, protocol data and conventional glue are compatibility contracts with zero new independence credit. Shared-filesystem separation is instructional, not an OS cleanroom. Do not claim MIT/provenance acceptance.
+
+Read only this file, owner-contract.md, ports/cron.d.ts and ports/shared.d.ts under this packet. Do not enumerate other files or inspect AGENTS/history: the curator has already checked repository guidance and bounded this task. Preserve A core scheduler/runtime and all auth/identity/lease/terminal/cancellation policies. Prompt attachment transfer, GuestManager, root HOLD and other owners are outside scope. No real timer/task/database/network/process/file/credential/permission/Library/browser/native operation, tests or builds.
+
+Write one complete literal once at /tmp/knorvia-cron49-initial.ts. No code generation/transformation from existing files. Then stat/hash only your own output and report exact path, byte count, SHA256, all paths/actions accessed, requested model/high and separately unverified Fast; stop editing. Curator freezes raw bytes before reading/review. Any correction is a new complete literal from your own memory plus bounded behavior facts, without rereading files/contracts/drafts/tests/artifacts.

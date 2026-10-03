@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "scripts/check-workspace-freshness.mjs"
+  ],
+  "stdout": "[freshness] \u57fa\u7ebf\u65b0\u9c9c\uff1arecovery/server-lifecycle-20261002\uff0c\u76f8\u5bf9 origin/main\uff1aahead 244 / behind 0\uff08\u9608\u503c 50\uff09\n",
+  "stderr": "[freshness] recovery/server-lifecycle-20261002 \u6ca1\u6709\u8fdc\u7aef\u8ddf\u8e2a\u5206\u652f\uff0c\u8df3\u8fc7 behind-remote \u68c0\u67e5\uff08\u662f\u5426\u5fd8\u4e86 push -u\uff1f\uff09\n",
+  "exitCode": 0
+}

@@ -1,0 +1,4 @@
+packages/server/src/remote/runtimeToolDeploy.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/agentBundleWrapper.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/agentWrapperDeploy.ts: 0 syntax/transpile diagnostics
+Syntax/transpile diagnostics only, no semantic typecheck or package build.

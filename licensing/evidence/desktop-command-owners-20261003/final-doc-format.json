@@ -1,0 +1,30 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "licensing/evidence/desktop-command-owners-20261003/README.md",
+    "licensing/evidence/desktop-command-owners-20261003/corrections-and-access.md",
+    "specs/knorvia-desktop-command-owners-20261003.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/README.md",
+      "sha256": "add4836eac594ae6dca3e3ab55eb164777f91c8c0dcd86fa213457908934c02e"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/corrections-and-access.md",
+      "sha256": "bc178c7c7ab3b70a6e693b0c19a053d9972121f2e68a169c4d119fc4380de65d"
+    },
+    {
+      "path": "specs/knorvia-desktop-command-owners-20261003.md",
+      "sha256": "b37ce8275c89682f3b2cfd3617e28092a71309ee0484a198c245425f1619a215"
+    }
+  ],
+  "stdout": "Finished in 101ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

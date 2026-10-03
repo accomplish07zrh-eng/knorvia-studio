@@ -1,0 +1,149 @@
+{
+  "curatorSourceExposed": true,
+  "sharedFilesystemNotOsIsolation": true,
+  "authorModel": "gpt-6.1-sol",
+  "authorReasoning": "high",
+  "fork": "none",
+  "authorReadsAllowed": [
+    "designated /tmp body-free packet",
+    "/workspace/knorvia-studio/AGENTS.md",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+  ],
+  "authors": [
+    {
+      "key": "assistant",
+      "agent": "/root/shared_assistant_presentation_author",
+      "commands": [
+        "cat designated packet",
+        "cat root AGENTS",
+        "cat exact architecture SKILL",
+        "mkdir tmp directory + whole literal heredoc",
+        "sha256sum authored output"
+      ],
+      "clarifications": [
+        "No numeric similarity threshold or novelty requirement. Required expressions/structure recurrence reported without source comparison.",
+        "Long supplied partial parts 140000 must copy without function-call argument spread; initial native RangeError preserved. Corrected whole output separately frozen."
+      ],
+      "packetSha256": "6d7f441bf96afbf4d50085aa9ba88c31358eb31ec220838500c2c23c8ce9eff0",
+      "packet": "/tmp/knorvia-shared-assistant-next-packet.md",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-assistant-next-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialOutputHashReadCommand": "sha256sum /tmp/knorvia-shared-assistant-next-authored/assistant-presentation.ts",
+      "correctionCommands": [
+        "cat > /tmp/knorvia-shared-assistant-next-authored/assistant-presentation.ts <<'EOF' (whole internal draft literal)",
+        "sha256sum /tmp/knorvia-shared-assistant-next-authored/assistant-presentation.ts"
+      ]
+    },
+    {
+      "key": "background",
+      "agent": "/root/shared_background_controls_author",
+      "commands": [
+        "cat designated packet",
+        "cat root AGENTS",
+        "cat exact architecture SKILL",
+        "mkdir tmp directory",
+        "whole literal heredoc tmp target",
+        "sha256sum authored output"
+      ],
+      "clarifications": [
+        "BackgroundTaskControlKind is local nonexported KnorviaBackgroundTaskControlItem[taskKind] alias, no imports.",
+        "Agent display fallback and direct-command/input fallback must preserve lazy evaluation; initial unused synthetic input getter failure preserved."
+      ],
+      "packetSha256": "fb24437494d95198ee24fdce068504b89d8ce5bd411b6eb4114edc33e0a2470c",
+      "packet": "/tmp/knorvia-shared-background-next-packet.md",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-background-next-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialOutputHashReadCommand": "sha256sum /tmp/knorvia-shared-background-next-authored/background-task-controls.ts",
+      "correctionCommands": [
+        "cat > /tmp/knorvia-shared-background-next-authored/background-task-controls.ts <<'EOF' (whole internal draft literal)",
+        "sha256sum /tmp/knorvia-shared-background-next-authored/background-task-controls.ts"
+      ]
+    },
+    {
+      "key": "memory",
+      "agent": "/root/shared_memory_diagnostics_author",
+      "commands": [
+        "cat designated packet",
+        "cat root AGENTS",
+        "cat exact architecture SKILL",
+        "mkdir tmp directory",
+        "apply_patch create whole target",
+        "apply_patch refine native-ratio reuse/comparison sequencing before initial hash and curator freeze",
+        "sha256sum authored output"
+      ],
+      "clarifications": [
+        "Exact four public constant identifiers supplied with their retained numeric values."
+      ],
+      "packetSha256": "7a63f7a93f6b3e28634cf89b23d137df49071f6187bb83e47aaa15e1a8cbada1",
+      "packet": "/tmp/knorvia-shared-memory-next-packet.md",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-memory-next-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialOutputHashReadCommand": "sha256sum /tmp/knorvia-shared-memory-next-authored/memoryDiagnostics.ts"
+    },
+    {
+      "key": "activity",
+      "agent": "/root/shared_workflow_activity_author",
+      "commands": [
+        "cat designated packet",
+        "cat root AGENTS and exact architecture SKILL concurrently",
+        "mkdir tmp directory",
+        "whole literal heredoc tmp target",
+        "sha256sum authored output"
+      ],
+      "clarifications": [
+        "WorkflowRunState individual run; WorkflowRunNode individual nodes entry.",
+        "Current/entered phase exact equality; prefix only active node stamps.",
+        "Native runs array hole visitation: forEach skips holes, visits explicit undefined, length captured once; initial sparse-data failure preserved."
+      ],
+      "packetSha256": "b91ad776890c8a15ed53abf0eb6d8dccef4d21e2c25b764c0820ef4d47dd5e2a",
+      "packet": "/tmp/knorvia-shared-activity-next-packet.md",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-activity-next-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialOutputHashReadCommand": "sha256sum /tmp/knorvia-shared-activity-next-authored/sessions-index-workflow-activity.ts",
+      "correctionCommands": [
+        "cat > /tmp/knorvia-shared-activity-next-authored/sessions-index-workflow-activity.ts <<'EOF' (whole internal draft literal)",
+        "sha256sum /tmp/knorvia-shared-activity-next-authored/sessions-index-workflow-activity.ts"
+      ]
+    },
+    {
+      "key": "projection",
+      "agent": "/root/shared_tool_projection_memory_author",
+      "commands": [
+        "cat designated packet",
+        "cat root AGENTS",
+        "cat exact architecture SKILL",
+        "mkdir tmp directory + whole literal heredoc target",
+        "sha256sum authored output"
+      ],
+      "clarifications": [],
+      "packetSha256": "4638b1ab2b933fed190b624b5dbfe25f86d758e436ed030cceb9b9b3f3bae848",
+      "packet": "/tmp/knorvia-shared-projection-next-packet.md",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-projection-next-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialOutputHashReadCommand": "sha256sum /tmp/knorvia-shared-projection-next-authored/tool-projection-memory.ts"
+    }
+  ],
+  "authorNegativeAccessReports": "No implementation/dependency/test/history/other-output/repo-write/test/format/env/network/credential/userdata access reported; output read only by SHA command. No enforceable filesystem isolation.",
+  "curatorReads": "selected five implementations and scoped public ports; metadata receipt and mechanical inventory scans; eligibility source reads also included workspace-hook-review schema and task-realtime-core schema (not selected); initial combined output truncated, selected bodies completed through bounded reads. Root preview/merge and held reducer body not opened.",
+  "noActualRuntime": "synthetic in-memory fixture outputs only, no source process/sample/timer/native/file/listener/auth/permission execution",
+  "provenanceLimit": "Fresh whole-owner authoring, precise source-exposed contracts, limited diffs and checks do not establish independence/MIT. Required public schema/API, fixed aliases/constants/expression/algorithm shapes recur; parent classification outstanding.",
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  }
+}

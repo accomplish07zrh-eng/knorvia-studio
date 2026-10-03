@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/official-mcp-auth.ts",
+    "packages/shared/src/runtimeEnv.ts",
+    "packages/shared/src/validationAppSettings.ts",
+    "packages/shared/src/workspace-hook-config.ts",
+    "packages/shared/src/workspace-hook-mutation.ts"
+  ],
+  "stdout": "packages/shared/src/official-mcp-auth.ts: 0 syntax-only diagnostics\npackages/shared/src/runtimeEnv.ts: 0 syntax-only diagnostics\npackages/shared/src/validationAppSettings.ts: 0 syntax-only diagnostics\npackages/shared/src/workspace-hook-config.ts: 0 syntax-only diagnostics\npackages/shared/src/workspace-hook-mutation.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

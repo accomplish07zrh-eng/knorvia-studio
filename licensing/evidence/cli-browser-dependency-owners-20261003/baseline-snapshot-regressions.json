@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs",
+    "--baseline",
+    "--only=snapshot regression"
+  ],
+  "stdout": "✔ snapshot regression preserves DOM id property as selector authority (12.862132ms)\n✔ snapshot regression attempts all previous disposals when one port throws synchronously (8.041666ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26.667725\n",
+  "stderr": "",
+  "exitCode": 0
+}

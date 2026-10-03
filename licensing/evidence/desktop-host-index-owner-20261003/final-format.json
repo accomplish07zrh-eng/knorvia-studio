@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/host/index.ts",
+    "packages/desktop/src/host/indexOwner.test.mjs",
+    "licensing/evidence/desktop-host-index-owner-20261003/public-surface.mjs",
+    "licensing/evidence/desktop-host-index-owner-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-host-index-owner-20261003/retained-bindings.mjs",
+    "licensing/evidence/desktop-host-index-owner-20261003/frozen-format-proof.mjs",
+    "specs/knorvia-desktop-host-index-owner-20261003.md",
+    "licensing/evidence/desktop-host-index-owner-20261003/README.md"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 110ms on 8 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

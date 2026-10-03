@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "c8a67bc50c58fc138bb0d37ba490431fb4bf465c452cb7fcb4d688e0f4314369"
+    }
+  ],
+  "stdout": "Finished in 27ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

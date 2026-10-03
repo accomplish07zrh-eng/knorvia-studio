@@ -1,0 +1,15 @@
+{
+  "file": "/tmp/knorvia-capture44-initial.ts",
+  "bytes": 5035,
+  "sha256": "ac1a462875a03eb3d76ccd4f31ecd67191b39a460ff2e5e08f3a8dfec830f855",
+  "author": "/root/browser_capture_owner_author44",
+  "access": "Only common/capture contract and ports/view.d.ts; only requested output written, no other reads declared.",
+  "rawPath": "licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/capture-initial.ts",
+  "version": "initial",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "boundary": "Shared fs instruction separation, no OS isolation/Fast claim"
+}

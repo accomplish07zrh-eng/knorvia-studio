@@ -1,0 +1,10 @@
+{
+  "path": "packages/shared/src/telemetry.ts",
+  "initialFrozenSha256": "210517081c80beb32ef84cee5a5da91e6568022396dc83ac3c8dca83cbd562c4",
+  "correctedFrozenSha256": "bf130182966bfe8151c43bbe9fbf4ff231199f05ae413a9fd134b894dcf121df",
+  "copiedAndHashBoundBeforeReview": true,
+  "clarification": "Retain explicitly typed optional screen port via (globalThis as { screen?: TelemetryScreenLike }).screen instead of assuming ambient DOM declaration. Manual source boundary observation; no compiler failure or semantic typechecking claimed.",
+  "authorAccess": "No new reads or output inspection; one complete literal-heredoc rewrite then sha256sum; no patches/tests/runtime/format/network/repository access.",
+  "reviewedWholeDraftDelta": "Only one type assertion at same globalThis screen read; no runtime change",
+  "runtimeRerun": "Not repeated: five initial cases pass, correction type-only. Scoped changed syntax/lint/API/format checks pass."
+}

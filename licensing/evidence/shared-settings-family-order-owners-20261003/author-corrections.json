@@ -1,0 +1,35 @@
+{
+  "corrections": [
+    {
+      "path": "packages/shared/src/agent-model-state.ts",
+      "author": "shared_settings_projection_author",
+      "clarifications": [
+        "Exactly four supplied export signatures; old count five stale",
+        "Compute reasoning map/valid model default before per-option picker",
+        "Retain eager thought available value-map/Set preparation when enabled",
+        "Top-level option insertion order id/name/category/type/currentValue/options"
+      ],
+      "access": "No new reads. Two complete literal-heredoc writes (second incorporates arriving key-order clarification), then sha256sum only; intermediate unreported correction not curator-frozen. No patches/runtime/tests/format/repository/network."
+    },
+    {
+      "path": "packages/shared/src/model-provider-family.ts",
+      "author": "shared_family_classification_author",
+      "clarifications": [
+        "Catch only URL parse/hostname lowercase evaluation; catalogue iteration outside catch, sentinel errors propagate unchanged"
+      ],
+      "access": "No new reads. One whole literal heredoc then sha256sum only. No patches/runtime/tests/format/repository/network."
+    },
+    {
+      "path": "packages/shared/src/pluginStoreOrdering.ts",
+      "author": "shared_plugin_ordering_author",
+      "clarifications": [
+        "Default category comparison reads current exported table, not cached module-init ranks",
+        "Projected row item/index then all enumerable projection fields then normalized category; existing override semantics preserved"
+      ],
+      "access": "No new reads. One whole literal heredoc then sha256sum only. No patches/runtime/tests/format/repository/network."
+    }
+  ],
+  "allReportedCorrectedFilesFrozenBeforeOpening": true,
+  "curatorContractLimit": "Packets omitted exact reasoning/picker sequence, URL-vs-catalogue catch scope and exported category table mutability. Original drafts retained; compatibility clarifications do not add source exposure to fresh authors.",
+  "validation": "Initial candidate 2/5 pass, three failures preserved. Added baseline checks3/3 and empty-model-default baseline1/1 pass; final corrected three pass3/3. Unchanged config/plan not rerun."
+}

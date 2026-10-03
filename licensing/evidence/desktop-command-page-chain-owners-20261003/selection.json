@@ -1,0 +1,185 @@
+{
+  "baseHead": "748b910f5b562de5cee1b368265a14d9561a2233",
+  "selected": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+      "sha256": "84a53a67847f57a7674512ec7c281f58f9288ee733a5ce86677a7164cf4a638c",
+      "bytes": 2293,
+      "lines": 74,
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+        "kind": "file",
+        "sha256": "84a53a67847f57a7674512ec7c281f58f9288ee733a5ce86677a7164cf4a638c",
+        "normalizedSha256": "84a53a67847f57a7674512ec7c281f58f9288ee733a5ce86677a7164cf4a638c",
+        "encoding": "utf8-lf",
+        "bytes": 2293,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+          "blob": "1acae683548a236593d867224b38c77ad4c88977",
+          "normalizedSha256": "27c4c94ffe254a2fab350def3b3336e0a2c280c1f9306ca36dd6bdf47835608d",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviews": [],
+      "history": [
+        "7619e41 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "receiptMetadata": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "owner": "navigation",
+      "acceptedExactReceiptFound": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+      "sha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+      "bytes": 2336,
+      "lines": 62,
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+        "kind": "file",
+        "sha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+        "normalizedSha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+        "encoding": "utf8-lf",
+        "bytes": 2336,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+          "blob": "5aca2e950d27029b42bead83f7ba8b0132ce67d2",
+          "normalizedSha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviews": [],
+      "history": [
+        "7619e41 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "receiptMetadata": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "owner": "retry",
+      "acceptedExactReceiptFound": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+      "sha256": "6a22b7c65c50bdb7527ebf3bdc8a8798bb1d50dda109a561880badef7944ab8a",
+      "bytes": 16768,
+      "lines": 211,
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+        "kind": "file",
+        "sha256": "6a22b7c65c50bdb7527ebf3bdc8a8798bb1d50dda109a561880badef7944ab8a",
+        "normalizedSha256": "6a22b7c65c50bdb7527ebf3bdc8a8798bb1d50dda109a561880badef7944ab8a",
+        "encoding": "utf8-lf",
+        "bytes": 16768,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+          "blob": "0ec9f8a88ca28806a02614a335028178ef467602",
+          "normalizedSha256": "8058bf6a96cfa689abb67c13f7543bd182ee3fed62f45b2ad6f6d1204eb980f2",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviews": [],
+      "history": [
+        "7619e41 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "receiptMetadata": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/desktop-tab-eviction-owner-20261003/publisher-verification.json"
+      ],
+      "owner": "scripts",
+      "acceptedExactReceiptFound": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+      "sha256": "01919854d4de5f139e85683345af0d8dae99d188d3183d2b736ce7ebdf43cb58",
+      "bytes": 4627,
+      "lines": 101,
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+        "kind": "file",
+        "sha256": "01919854d4de5f139e85683345af0d8dae99d188d3183d2b736ce7ebdf43cb58",
+        "normalizedSha256": "01919854d4de5f139e85683345af0d8dae99d188d3183d2b736ce7ebdf43cb58",
+        "encoding": "utf8-lf",
+        "bytes": 4627,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+          "blob": "8a1c314a15505228d06bac1095384c4c0109a042",
+          "normalizedSha256": "961d8acdd0ca7b2ec000a6cbbde255a43cbfaea587b609ab07a7b0b7276b9bf8",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviews": [],
+      "history": [
+        "7619e41 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "receiptMetadata": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/desktop-tab-eviction-owner-20261003/publisher-verification.json"
+      ],
+      "owner": "paste",
+      "acceptedExactReceiptFound": false
+    }
+  ],
+  "otherPRs": [
+    {
+      "pr": 8,
+      "error": false,
+      "matched": []
+    },
+    {
+      "pr": 10,
+      "error": false,
+      "matched": []
+    },
+    {
+      "pr": 11,
+      "error": false,
+      "matched": []
+    },
+    {
+      "pr": 12,
+      "error": false,
+      "matched": []
+    }
+  ],
+  "privateHistoryAbsenceProven": false,
+  "scopeAnnouncedBeforeAuthoring": true,
+  "explicitFourOwnerCohesiveBatchAuthorization": true,
+  "excluded": [
+    "BrowserGuestManager/root orchestration",
+    "all prior owners/root HOLD",
+    "dormant recovery",
+    "third-party injected loader",
+    "declarations/wiring",
+    "D provider/config/resolver/personal repository",
+    "A core/runtime",
+    "B UI/Library403",
+    "E global provenance"
+  ]
+}

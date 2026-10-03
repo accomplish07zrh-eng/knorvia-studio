@@ -1,0 +1,155 @@
+{
+  "records": [
+    {
+      "owner": "snapshot",
+      "kind": "installed",
+      "source": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+      "sourceSha256": "63df0150106bd1b17e84fe0d43ea2de7c1a519b4e26191d7986f475ebf9dcc8c",
+      "matchingBodyPairs": 1,
+      "uniqueMatchingBodies": 1,
+      "matchingExpressionKinds": 205,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "locator",
+      "kind": "installed",
+      "source": "packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts",
+      "sourceSha256": "e444335f4a3673b35144396c176d618ccd2816ee189f2fa1b880bdfbceedc09c",
+      "matchingBodyPairs": 19,
+      "uniqueMatchingBodies": 9,
+      "matchingExpressionKinds": 430,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "executor",
+      "kind": "installed",
+      "source": "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+      "sourceSha256": "cb6dccfc403744cc7cbb40f8f0b121724aa0335142fe04b1555416dce0baed14",
+      "matchingBodyPairs": 5,
+      "uniqueMatchingBodies": 5,
+      "matchingExpressionKinds": 342,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "executor",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-1.ts.txt",
+      "sourceSha256": "657bfbdc7df15b78cf72d65604e297e1896f0ce8e58c7f45a93c77c09ea347ec",
+      "matchingBodyPairs": 2,
+      "uniqueMatchingBodies": 2,
+      "matchingExpressionKinds": 320,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "executor",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-2.ts.txt",
+      "sourceSha256": "08c96c0e3160b99b7701981ef5ac4e5da43efda8ad8e33289af9e8e66b2acbba",
+      "matchingBodyPairs": 2,
+      "uniqueMatchingBodies": 2,
+      "matchingExpressionKinds": 335,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "executor",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-3.ts.txt",
+      "sourceSha256": "94070be6004a558c4c39545ec535d6046c0e0c130d7ffdf6f2caa45a0b55f20d",
+      "matchingBodyPairs": 3,
+      "uniqueMatchingBodies": 3,
+      "matchingExpressionKinds": 335,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "executor",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-4.ts.txt",
+      "sourceSha256": "c2391ba861c4e5cf94f4a197fd3bb2066d098154ac525da4ea6cf11f033c96cd",
+      "matchingBodyPairs": 3,
+      "uniqueMatchingBodies": 3,
+      "matchingExpressionKinds": 335,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "executor",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-initial.ts.txt",
+      "sourceSha256": "1f85cb1ad27451affe66665b58335533c371c382b384bcf16eea2b0655a88e61",
+      "matchingBodyPairs": 2,
+      "uniqueMatchingBodies": 2,
+      "matchingExpressionKinds": 310,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "locator",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-author-completion.ts.txt",
+      "sourceSha256": "f1d73847bbaaa96d09769cd95d7c70888192481d7523076bfce213d17367108e",
+      "matchingBodyPairs": 24,
+      "uniqueMatchingBodies": 9,
+      "matchingExpressionKinds": 411,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "locator",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-correction-1.ts.txt",
+      "sourceSha256": "6130ff0b6e66029124a5166c9b8e87de11cb86afca0f86b5c47ceb01080a4567",
+      "matchingBodyPairs": 24,
+      "uniqueMatchingBodies": 9,
+      "matchingExpressionKinds": 426,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "locator",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-correction-2.ts.txt",
+      "sourceSha256": "f675cadb4c98f216bbca45544f68d027f1f623e094a21ed35e2cbcf3cdd0341a",
+      "matchingBodyPairs": 19,
+      "uniqueMatchingBodies": 9,
+      "matchingExpressionKinds": 430,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "locator",
+      "kind": "in-progress author literal, not completion",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-initial.ts.txt",
+      "sourceSha256": "406e7414c29d817dfdede72a60e31ec4fe3ff1cd50b13192f48d2731f01d2285",
+      "matchingBodyPairs": 19,
+      "uniqueMatchingBodies": 9,
+      "matchingExpressionKinds": 411,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "snapshot",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-correction-1.ts.txt",
+      "sourceSha256": "6379aa3e4a38f15d706fbb73153b9b26baca79cc585fdd58180cb138ebfeadcd",
+      "matchingBodyPairs": 1,
+      "uniqueMatchingBodies": 1,
+      "matchingExpressionKinds": 207,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "snapshot",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-correction-2.ts.txt",
+      "sourceSha256": "270703513e317eebc3d6775627433bec11c48bae1a6e4782103241833c019322",
+      "matchingBodyPairs": 1,
+      "uniqueMatchingBodies": 1,
+      "matchingExpressionKinds": 205,
+      "acceptedIndependentCredit": 0
+    },
+    {
+      "owner": "snapshot",
+      "kind": "frozen-whole-draft",
+      "source": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-initial.ts.txt",
+      "sourceSha256": "4f81b4d088fbffd3ef2430529dece0dadc430c6b7da6a502f1d1723d8252d5d4",
+      "matchingBodyPairs": 1,
+      "uniqueMatchingBodies": 1,
+      "matchingExpressionKinds": 181,
+      "acceptedIndependentCredit": 0
+    }
+  ],
+  "limitations": "AST normalizer includes function/arrow/method/accessor bodies and host expressions, retains identifiers; embedded page-source strings compared as literal values, not complete embedded-JavaScript semantic proof. Static protocol/errors/CSS/public vocabulary and all matching expressions receive zero new independence/MIT credit. Name/control-flow/format changes and net lines are not provenance evidence."
+}

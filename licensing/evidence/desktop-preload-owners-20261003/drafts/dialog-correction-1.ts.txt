@@ -1,0 +1,139 @@
+import { contextBridge, ipcRenderer } from "electron";
+import { PlatformChannels } from "@knorvia/shared";
+import { installEmbeddedBrowserWheelForwarding } from "./embeddedBrowserWheel.js";
+
+interface DialogBridgeResult {
+    handled: boolean;
+    value?: boolean;
+}
+
+const BRIDGE_KEY = "__knorviaEmbeddedBrowserJavaScriptDialog__";
+
+if (typeof window !== "undefined") {
+    installEmbeddedBrowserWheelForwarding(window, (channel, payload) => {
+        ipcRenderer.sendToHost(channel, payload);
+    });
+}
+
+contextBridge.exposeInMainWorld(BRIDGE_KEY, {
+    show(type: "alert" | "confirm", message: string): DialogBridgeResult {
+        try {
+            const response: unknown = ipcRenderer.sendSync(
+                PlatformChannels.EmbeddedBrowserJavaScriptDialog,
+                { type, message },
+            );
+            if (response !== null && typeof response === "object") {
+                const result = response as { handled?: unknown; value?: unknown };
+                if (result.handled === true) {
+                    return typeof result.value === "boolean"
+                        ? { handled: true, value: result.value }
+                        : { handled: true };
+                }
+            }
+            return { handled: false };
+        } catch {
+            return { handled: false };
+        }
+    },
+});
+
+contextBridge.executeInMainWorld({
+    func: (bridgeKey: string) => {
+        type BrowserWindow = Window & typeof globalThis;
+        type DialogBridge = {
+            show(
+                type: "alert" | "confirm",
+                message: string,
+            ): { handled: boolean; value?: boolean };
+        };
+
+        const bridge = (window as unknown as Record<string, DialogBridge>)[bridgeKey];
+        if (!bridge) {
+            return;
+        }
+
+        const windowConfirmations = new WeakMap<
+            BrowserWindow,
+            BrowserWindow["confirm"]
+        >();
+        const registeredFrames = new WeakSet<HTMLIFrameElement>();
+
+        function installDialogs(target: BrowserWindow): void {
+            try {
+                if (windowConfirmations.get(target) === target.confirm) {
+                    return;
+                }
+
+                const nativeAlert = target.alert.bind(target);
+                const nativeConfirm = target.confirm.bind(target);
+                target.alert = (message?: unknown): void => {
+                    const text = message === undefined ? "" : String(message);
+                    const answer = bridge.show("alert", text);
+                    if (!answer.handled) {
+                        nativeAlert(text);
+                    }
+                };
+                const confirmation = (message?: unknown): boolean => {
+                    const text = message === undefined ? "" : String(message);
+                    const answer = bridge.show("confirm", text);
+                    return answer.handled
+                        ? answer.value === true
+                        : nativeConfirm(text);
+                };
+                target.confirm = confirmation;
+                windowConfirmations.set(target, confirmation);
+            } catch {
+                // Window installation can be blocked by an origin or property boundary.
+            }
+        }
+
+        function installTree(target: BrowserWindow): void {
+            installDialogs(target);
+            try {
+                const descendants = target.document.querySelectorAll("iframe");
+                for (const frame of descendants) {
+                    if (!registeredFrames.has(frame)) {
+                        registeredFrames.add(frame);
+                        frame.addEventListener(
+                            "load",
+                            () => {
+                                if (frame.contentWindow) {
+                                    installTree(frame.contentWindow as BrowserWindow);
+                                }
+                            },
+                            true,
+                        );
+                    }
+                    if (frame.contentWindow) {
+                        installTree(frame.contentWindow as BrowserWindow);
+                    }
+                }
+            } catch {
+                // Stop this traversal when the document or a frame cannot be read.
+            }
+        }
+
+        installTree(window);
+
+        const beginObservation = (): void => {
+            installTree(window);
+            const root = window.document?.documentElement;
+            if (!root) {
+                return;
+            }
+            new window.MutationObserver(() => installTree(window)).observe(root, {
+                childList: true,
+                subtree: true,
+            });
+        };
+
+        if (window.document?.documentElement) {
+            beginObservation();
+        } else {
+            window.addEventListener?.("DOMContentLoaded", beginObservation, {
+                once: true,
+            });
+        }
+    },
+    args: [BRIDGE_KEY],
+});

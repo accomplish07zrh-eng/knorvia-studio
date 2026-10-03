@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "--baseline",
+    "--owner=merger"
+  ],
+  "stdout": "✔ merger: stable scope priority, ordinary replacement, plugin keys and hook append (61.802477ms)\n✔ project: base directory, stdio cwd, blocked schema candidate and failed diagnostics (13.271489ms)\n✔ project: discovery order and normalization errors precede hook parsing (9.702957ms)\n✔ file: virtual paths, missing/invalid loads and best-effort alias migration (27.269852ms)\n✔ file: key preservation, aliases, caller identity and exact no-op writes (24.564209ms)\n✔ file: save order, raw mkdir failure and wrapped write/read causes (25.875383ms)\n✔ factory: source precedence, metadata refs, hook tagging and logger order (28.539603ms)\n✔ factory: diagnostic errors stop composition and storage nullish precedence (22.106359ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 446.748472\n",
+  "stderr": "",
+  "exitCode": 0
+}

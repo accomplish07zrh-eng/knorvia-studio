@@ -1,0 +1,2098 @@
+[
+  {
+    "owner": "image-index",
+    "commandCases": [],
+    "identicalBodies": [
+      {
+        "baseline": "prepareForModel",
+        "candidate": "prepareForModel",
+        "bodyHash": "c1ccfbe1b78339b3df0104185c8d1bcddb3892f822680ed63f79ae31c076d0c4"
+      }
+    ],
+    "identicalExpressions": [
+      {
+        "hash": "f643daf51fc54680a7d6e2202857fe07f614c19af6e5d8c73540b8eb66af3abc",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "84a381bf7e73835f0bbe6edfc56c9ccbe85ecac6af9b05c5ef61288294383663",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "bf823a2a9336c152e357832d9bbeccdaf0bf30d8678bfdb6a24ce6f3e8e4fede",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "6d5f91e3b2e71b487842c86bff69d244052c188ac30d5406abf14b046458eef4",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "c23515de4192c80aebe925daab1581b21f409dde260ac11cd6f76514907a052e",
+        "kind": "CallExpression",
+        "occurrences": 4
+      },
+      {
+        "hash": "34aed104e5ae7a41db7114f8f3d76a555d94dde5928ff5e3d33de3d7b6b9a199",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "4ff4ffa0f2affde1a35f368f0b3f4dd9cdd8b09968442a84bd1c3b81658336d4",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 4
+      },
+      {
+        "hash": "094a1342affa1c13e546b73e26ac5619624436a1618dd6f8787e8b46fa8b211f",
+        "kind": "Identifier",
+        "occurrences": 5
+      },
+      {
+        "hash": "5c363fe9a24648cb327bd54df503e2563fa27d507ee27176ebb05809070429d5",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "ed11f9e0434e46bcdd738f197eb2742e2fb2390897dfa4847f97c2c342f78a3d",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "ab1c0ffa166d486bf4d99bd475401b49b4b7510437638c6d0df385a29eafbb34",
+        "kind": "Identifier",
+        "occurrences": 7
+      },
+      {
+        "hash": "fb6efa52d243dc837cf73e3f2d154895bcc57e28224d2538a33c06cc1e2835f2",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "c83a5380d77ee567a70bbd9f2af7544477ebb7995638bb6048248b3281490bfd",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "db59d7e11820da3eb9da8054e596d2240190070e1449a79701753df93c51cda2",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "b3039c7b7b05214101f20feebdbf8d3238c989c5613e02b44fa50b5d6d4358d8",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "fc1a3723493de311ea654d8bbfc5156bbdfe1fe4eb8c835cbe48374f0e240566",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "aa2fdca7573f20cebf4f99180871985081eed5432f0b2d5cf6221a57ca3cbcff",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "19c2e6a54783369185538d6edb72c7f1da795e2affff3e77573f5028c0c4bd82",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "ea90e55f41f12e86b443503508da3bd3e6d081b459d52cb97f68ed682ef64d27",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "92547a33f129ae891338bdc1bd395f3d01e01c72823547bde344d722ab6415c1",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "cf3524ea4ec338ad08a65b57c2c578409b70094a26c2fc4ac296109cc3e1f475",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "35ddb650366261f1ac68da0f7a35020e0930ecbf72366f378abc8eead60be7c0",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "175c60ee080d2806dcb72b621d5fa9923fb9a2d09045ff76ad1d19dd0ffc7d56",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 4
+      },
+      {
+        "hash": "b599d90b20c393c4cb615adadc59f95e6985fa85f79424ca6a374b418def109a",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "013682f003d09b6f1466d9060e03e5d9875b6f585d3f06d68ee0fbddbb036add",
+        "kind": "FalseKeyword",
+        "occurrences": 2
+      },
+      {
+        "hash": "0909dab6cd582d9db55e5be2165637cf00aa35f9d56f8b0e24394403a0fd59d4",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "dc78bbdf19d8c1b91f555d363dcf242bb9ce18eef1d801d09af994f176790895",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "461c7b568af8c26589e45e8e7f2dd8c1c97af5c080a439475b7153e8cfa13b41",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "d9832a875e945fe61ce262b755cd53831c5f3337d53cf8b8f1599fac350b2be3",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "9b823e4d76f69b69ae28de4af2640c0fe89e8a73c57199d93d1bd8438d66d250",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "5428540fa5732e5182bb9e2470e4474f5f88703e37f0fd52f4e314c55854a307",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "6fb767ffc728f23743908ccc9ad8aff6fa7db39f5e802a67f08d8eee3f10fcbc",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "07256fe8665b78bbedeb1f4f676b43d45d123fc2c438a8e244d8cf2ea2c3d126",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "5d14332694031c8685e97c2e90ede9949f6545c7c2e4c93693f764b2083a163e",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "6264aad6e543f1f830e2808a2cf0234717f0282a081122be08b93b49340829ba",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "611350ab9396188eedead7692cb39d1e3b4e6cad1274c34522b3fc1f23a3f1a5",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "91b35d720853aa030e75db05d3345051b73d9f9c316c51c76848d6454b45165d",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "a5611b811e9e2ab492774baf66d318844ac48396194a5592bd39777c2e59dd2d",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "9d19c788ac377042b23868b04876f3a310126f33cc49a414c37ad608f67b9520",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "d26184a876c7225e4bce7b598718355709bd372494b505f80907afe2aa42e6ee",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "6e33c42dc357c843ca985926e7e72048b5eef8a292e00d737b78b523a60cac77",
+        "kind": "TrueKeyword",
+        "occurrences": 1
+      },
+      {
+        "hash": "d66f0822de799943c7e05614af672e392c3c8a8dea50a6747225e87abf5999d6",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "91a6167dcbe572f5f5d2aa25900c049837a0d53a0a3dddfefb7830df20da8dd9",
+        "kind": "Identifier",
+        "occurrences": 1
+      }
+    ],
+    "expressionLimit": "Identifiers retained; comments/format/quote style/numeric separators/runtime-erased assertions and parentheses normalized. Atomic and contract expressions are included. Changed identifiers/control flow are not proof of independence.",
+    "acceptedIndependentReplacementCredit": 0,
+    "licenseDecision": "deferred to parent; no new MIT claim"
+  },
+  {
+    "owner": "image-compression",
+    "commandCases": [],
+    "identicalBodies": [],
+    "identicalExpressions": [
+      {
+        "hash": "0909dab6cd582d9db55e5be2165637cf00aa35f9d56f8b0e24394403a0fd59d4",
+        "kind": "FirstNode",
+        "occurrences": 2
+      },
+      {
+        "hash": "dc78bbdf19d8c1b91f555d363dcf242bb9ce18eef1d801d09af994f176790895",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "461c7b568af8c26589e45e8e7f2dd8c1c97af5c080a439475b7153e8cfa13b41",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "a5611b811e9e2ab492774baf66d318844ac48396194a5592bd39777c2e59dd2d",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "1c08627b3c01a47fa651cef2d0425745104e6b1faa0a2b180cc10f25d53d0071",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "f092a582b70f1ef24d1221f2fc2e19f812b6fab81452ce62b2a618e9f0898c76",
+        "kind": "AsExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "8a130201ba89fddcfdd410e9bda861701e74ca68d68d70a3e44e5ac123b31ec3",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "722678d84feaff854f747a992137fe06fe2e8d89f4cf44611ac22fe2a7d3255d",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "330d57d64590506ea3c7c7e665023b16cb01459b8c4e7ca6f59d81d8c0377133",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "56340a7aef535b5553a73350df6f8ed2f7806d7eb80aebe0650eb98ae7fc0940",
+        "kind": "FirstLiteralToken",
+        "occurrences": 2
+      },
+      {
+        "hash": "541b4ebd82acea88d1b07aa428471dfa4bcf861ea208b861b64d902ea405388c",
+        "kind": "AsExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "7dd1e3de6e808e3e20304264f7ea154d53279993e55be8147b194506546a7366",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "26fad34daec07681d39772680e0e7ca26ca83b5db2f491a3da0a79893ab3d275",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "c74b9e2a82ab1c7186e1dc7b5b1d76f09536afca3f8549eff3d760f18806844f",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "31fc0dea7a298c6f7e697934f72aeb5bbee84a1b3fc4951a2bb5a7c18ff1c359",
+        "kind": "AsExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "dfd8b5e02577f03af8a3da3eb212e64d89384fb51703fb8d1d4af1f869bc34f0",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "b1eadc613fb01590c7da8f2895594ccb68a506cada9548223e487a568555202d",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "38769e12b1c9b14e72a0cc6c318ebaf9102b8a22e3f2076b6a5db0d4dbe29067",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "312acda6099eacf6896fa88dccec90fd8586c115fadeb28eb25a9465e020b12e",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "afb22a26b2253a6bd511b5973550faa4301d7f1e8ac7f7631de91ebb07b0a27c",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "f3c932d51219a37e214979b232a5c590866210e888c4709885e3e24c3311ef99",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "6015022214f9888730f80014a1f4c231143bb2783ef524a4062a59948daccd2d",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "699d2c7d9ed57a36b29f2ca6c438c3e0f64215bac22b2dbe5ef46b95098e328e",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "2d02f69c364e5c129a3371623f9a880247b3cddaa0359aa39478de449acc661b",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "ce6252badbcd8555d89cbcfe5c6effe0a5ee769225287fbb58e371e40047d4f8",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "975d3b691f8158114ecc57d80fd1eec1262e05a85e97b7f7d62b1e923ccd6507",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "d57ca1a61258760afa0b1a53318c9c45ec37652e9e95d34c36942068a335c1c3",
+        "kind": "Identifier",
+        "occurrences": 17
+      },
+      {
+        "hash": "e2a3f2d1b1609977a5cca36dadc4db613ffc3dcc5bfbe423a91cc13bfe54d042",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "11c2d49379f3f01557510345b634602692a2aaf6bcc3ef4d231a30757ca3fd8d",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "2d93a810062a995edb03fecab348e85728b6a60da196d4a021faf503667c4d5c",
+        "kind": "Identifier",
+        "occurrences": 5
+      },
+      {
+        "hash": "ad6988bdda0d9b1b2fcc0cadd36f0c0aac149f60dbda4437f75f51612a33e873",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "d9832a875e945fe61ce262b755cd53831c5f3337d53cf8b8f1599fac350b2be3",
+        "kind": "Identifier",
+        "occurrences": 10
+      },
+      {
+        "hash": "9b823e4d76f69b69ae28de4af2640c0fe89e8a73c57199d93d1bd8438d66d250",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "5428540fa5732e5182bb9e2470e4474f5f88703e37f0fd52f4e314c55854a307",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "5d14332694031c8685e97c2e90ede9949f6545c7c2e4c93693f764b2083a163e",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "6264aad6e543f1f830e2808a2cf0234717f0282a081122be08b93b49340829ba",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "611350ab9396188eedead7692cb39d1e3b4e6cad1274c34522b3fc1f23a3f1a5",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "91b35d720853aa030e75db05d3345051b73d9f9c316c51c76848d6454b45165d",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "6d9b4b2b634355ddc2287376240ec7071d45b5770e0ad6a25f8dda2644f228d4",
+        "kind": "CallExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "34aed104e5ae7a41db7114f8f3d76a555d94dde5928ff5e3d33de3d7b6b9a199",
+        "kind": "Identifier",
+        "occurrences": 5
+      },
+      {
+        "hash": "5c363fe9a24648cb327bd54df503e2563fa27d507ee27176ebb05809070429d5",
+        "kind": "Identifier",
+        "occurrences": 17
+      },
+      {
+        "hash": "d06b9ce52402a7ec1a845393cda15688f142295982e3ce5f73fee54207c37115",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "6cade2b5c5fd7902e2c0df2f2fe27297bcbdd4de549fd00262b1f58bc8979200",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "d26184a876c7225e4bce7b598718355709bd372494b505f80907afe2aa42e6ee",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "b599d90b20c393c4cb615adadc59f95e6985fa85f79424ca6a374b418def109a",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "44acb31546f023fc67664a88276fa771d434a6c20bbdcaaef70dfa57fb250483",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "0e9aacf24e90e74e05016b2d33d0058e918a106e63acbb1c8567219314e6198b",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 4
+      },
+      {
+        "hash": "697703168399c53226511de312e92680120556cee3460ca47f5b7b5208c3920a",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "e73f1fb6b0f329a38900a3fe018d5531bde3647c43e5ce454d92847f9c2d7a92",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "cbb4e66ebd02a1906d14c19adb7ca7956e6986f05499ad55ca5d3c11e42bf0a3",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "4ac821ebc65482f332b480e4977a996d1d1453f064dd51085a15ad3f0934911e",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "e3d2485681438e643d80fce5549a6462d13aedec2d51e548301f0ae54e4e71ad",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "8e93545ccd8056fb0a844aec46f981fb04e68feb2f58a13f40ea5766d62caed8",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "6505d7f1e03e1b29b84bb81510d9473d555ce17421a82bcd9ba1082fd5fbf520",
+        "kind": "Identifier",
+        "occurrences": 6
+      },
+      {
+        "hash": "35ddb650366261f1ac68da0f7a35020e0930ecbf72366f378abc8eead60be7c0",
+        "kind": "Identifier",
+        "occurrences": 9
+      },
+      {
+        "hash": "aab23bfd9f726083a4b48919e467986f06242fb39a2ff8f16cdd84cf703de4de",
+        "kind": "Identifier",
+        "occurrences": 13
+      },
+      {
+        "hash": "6f1702d0008c564360235ac6fa56a2a012aa95ea23b76dc0ad4e11f52b688087",
+        "kind": "Identifier",
+        "occurrences": 11
+      },
+      {
+        "hash": "a941eb8948312068e9ce765c665210db461809996d45c779f46c53aa7b5b0a75",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "ebe4a7b70b7130fc166acc0cb43de8f47bdf703440243681565ca54611cf7ee8",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "cee923757fd7a37105b0be59ba9366e89a0b0123b8db121093e561cfccf22534",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "bb4eb2880179bc9d2dce6c6526b98dd9f2c72032c0f2a54582051ac4bae00bd9",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "9d19c788ac377042b23868b04876f3a310126f33cc49a414c37ad608f67b9520",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "eb1726868085390f7d9d94e751b24b21e7c764645675e998a3330b85ec3f2b38",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "6fb767ffc728f23743908ccc9ad8aff6fa7db39f5e802a67f08d8eee3f10fcbc",
+        "kind": "Identifier",
+        "occurrences": 6
+      },
+      {
+        "hash": "fb6efa52d243dc837cf73e3f2d154895bcc57e28224d2538a33c06cc1e2835f2",
+        "kind": "Identifier",
+        "occurrences": 7
+      },
+      {
+        "hash": "07256fe8665b78bbedeb1f4f676b43d45d123fc2c438a8e244d8cf2ea2c3d126",
+        "kind": "Identifier",
+        "occurrences": 6
+      },
+      {
+        "hash": "df210db81ad90a8c48a55c4ef0faab64fc480528cbbb4cdada44c3ed159adac4",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "269c14f04af7e001899b43130a45ee81240f07eb41145f612946e87205156503",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "764e9a2f90adc579c614def43643a0b477f77bb406befb28974450a4cf9ceccd",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "e18f9e0ca2f488180155ca04e93e78d07d42cb9f9efaf1fa2525ae9f6b8e0d49",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "464a21eb6b543956783894cbb136b38e56290af7ee7bbf2a4d5a75de1bc03f84",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "1fbbe3cfc078e85b46e60d85570d019f8002191fb78883f3c62cf85cf24d2923",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "bf5fb3dadb630494dd88f88e127d066a58070f65b7e69efa9a5dca0dd4281522",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "6d5f91e3b2e71b487842c86bff69d244052c188ac30d5406abf14b046458eef4",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "c23515de4192c80aebe925daab1581b21f409dde260ac11cd6f76514907a052e",
+        "kind": "CallExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "4ff4ffa0f2affde1a35f368f0b3f4dd9cdd8b09968442a84bd1c3b81658336d4",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "094a1342affa1c13e546b73e26ac5619624436a1618dd6f8787e8b46fa8b211f",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "686ff8e0ec1db7ec24fc1739b22924aaabc831cb5e32e8b9db34b42992bc7c54",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "12c12808e6b1acd0dc244bcd1038a1b8944f3d6174069427b3d9c0c7c69b25a4",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "ab1c0ffa166d486bf4d99bd475401b49b4b7510437638c6d0df385a29eafbb34",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "aa2fdca7573f20cebf4f99180871985081eed5432f0b2d5cf6221a57ca3cbcff",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "19c2e6a54783369185538d6edb72c7f1da795e2affff3e77573f5028c0c4bd82",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "ea90e55f41f12e86b443503508da3bd3e6d081b459d52cb97f68ed682ef64d27",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "92547a33f129ae891338bdc1bd395f3d01e01c72823547bde344d722ab6415c1",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "cf3524ea4ec338ad08a65b57c2c578409b70094a26c2fc4ac296109cc3e1f475",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e0bdd4bf4c3ea5550f665a9f41bd5693edc58f8719aeb12d7b85f7a66e7fe3f5",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0e1a44068bdc9ed37fe48d586baa31d7c6213c849b205ec5d4d98573e6d6d50d",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 6
+      },
+      {
+        "hash": "a07c166612bacba886ab4a0e124fc2df8c3fcd034e3d68c5989320092acdda98",
+        "kind": "Identifier",
+        "occurrences": 11
+      },
+      {
+        "hash": "214f94b8017787e756223e49300a8b8845efec1a5819ca32e468c7cc76fb2f4c",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "84a381bf7e73835f0bbe6edfc56c9ccbe85ecac6af9b05c5ef61288294383663",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "f6c9683501aae7cb7a8c1eb902b7108948d8d8acc939a0dfcbfad6b17adec3f8",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "99c4e212b6a52746a3264ec7bb230dfc4f8eba821e692829f10e65652f91c3e2",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "7b6db68b74a5d6f1441bba635a100753095a842adcbe54a429c53a4c26afccb7",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "8793f11c9c4cf27796c936da36656b27b6704c3d44b7ebc00615b4ce204363f5",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "885e9a3e3005bf336658d6dd0ad9a30576c5abec0158b5fd375cab55e4b63423",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "cf078efb5a12058e6c570f4dd5609272a802f94572500ac99c5186d918a7b0c6",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "c14e8f2fc2e2eb20813ae6d3029a6a4eac894bf3332b8f0bd303fe674820bb6e",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "d7942638e852ef1d508323120be822661ab3583fc2c817e9bdc20c7a727c81c8",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "281247d1abdd085e7cc0b213a815f6ba522547d85417d223cf80b2c07652e87e",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "7827b4a056e45af56be2f927f79ac24fb3d94f79f3706c77b1106b3d9442e8af",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "175c60ee080d2806dcb72b621d5fa9923fb9a2d09045ff76ad1d19dd0ffc7d56",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "f643daf51fc54680a7d6e2202857fe07f614c19af6e5d8c73540b8eb66af3abc",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "0a7625cb044f199b605330cf1353ed6015803bae7b766800119f77318f508b5c",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e58c378f7dad6660beebe2ef65ad6d97b15559dca9ed3d64e757a5f46cae18bd",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "3d689b3e3b7932fcf1c6fadb02d3f4244f019008d82b8b91e1dfba787c3a93ee",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "9ed0ea5ea71ce7f84855fa9a9d7a7b378d95fd93f5414a9e109fc89d6ed473e1",
+        "kind": "AwaitExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "c75b183f4a335d26eb0b6eafd202336555440f993eba737ffa3f14cdbb8a3619",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "2ea4fd235595b54be0cc3a3ef1b2de2b28d4aa6ab49a4ddd83f74e17d74a32cf",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b5af56f50797dc653d442482b99d0622c095b705e0e4fe6a2d9cf68302c28c0b",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "1a3411f286c76606941371d03846c24a5f36646eb564e2bca32a16d7cb5fa114",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "d0d35265db936e02b8ccbe98665e438e3d9afab7f89952cbcf121b834caeba57",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "cac669be9c8d55eaa90baf94d2ae2b0881858cc8d5472ab03046bde1d87e1eab",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "1658cc05ece362a4a150b93eacd9be3f916001f196d9c49cf3d239e03a0f3e74",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "2cbc535350b24f12c6f7054ce87a85766307d55da701b53416638eadef06efeb",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "10bb17d70adf94ffae238bddda6db95cc141bae661472dde72699cbb24b7409a",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "ed11f9e0434e46bcdd738f197eb2742e2fb2390897dfa4847f97c2c342f78a3d",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "0f9c21e052b77b0ba15dda257b1585aeb70221761d570cbc1ef40bc4f1bf8c20",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "195ce16212ad127cdfb5cc2bb246d949b7fd4ae268ace5ac717487e6bcefb7f6",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a360d3875134925d80ea41fb8c942aaabc18d56dc50fb091f0ec6dfb81d379a1",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "013682f003d09b6f1466d9060e03e5d9875b6f585d3f06d68ee0fbddbb036add",
+        "kind": "FalseKeyword",
+        "occurrences": 2
+      },
+      {
+        "hash": "31da1f4135fbe3b36368fc3ee37201c9344cf28162d0a77c304717aeee2bb894",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "88c446469e2395d926e050ca10749b0c2e06ded2b69333c74cdb0303701c0150",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "d5364635bfe112729922b4d5c7b424958d8c297e7e957dd8eb312a88fd8d1ccc",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "df1573e493135c79562673a258f42e009d7e490f861c06e6d607d130d8933709",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "898cb947ce3b26dc09e7a07028778d201690a81f5e257d6f5a694141849d98f5",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a954873fbabbd736e25706f2489dd5508ae6dd983c5fa99710900da44333ece9",
+        "kind": "Identifier",
+        "occurrences": 1
+      }
+    ],
+    "expressionLimit": "Identifiers retained; comments/format/quote style/numeric separators/runtime-erased assertions and parentheses normalized. Atomic and contract expressions are included. Changed identifiers/control flow are not proof of independence.",
+    "acceptedIndependentReplacementCredit": 0,
+    "licenseDecision": "deferred to parent; no new MIT claim"
+  },
+  {
+    "owner": "pdf-index",
+    "commandCases": [],
+    "identicalBodies": [],
+    "identicalExpressions": [
+      {
+        "hash": "032c65259c1f429938bc1a95e6e7d3fadad12d6873264e18c798690aa01d7a8b",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "8f5bdbbf2c66b22adc4cb077ac5bcde0b7d65c0880079de809b6f6ee69d8ce17",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "d50e248684638242e53caacd1dea3a034fea573d379915fcddfa00249b001f28",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "356dc873625729a0f66eb847cf095f6afae43b992740eb9de46fbf15dc414364",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "de6b666d56c6f3d442a0ba5dd7e8c7334b929d11ab397e0edd4ff7846fe5d9bc",
+        "kind": "AsExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "c6d35798606a44a80212720305752cb5ec4fc9e842a3c6427502313904edff23",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "5c363fe9a24648cb327bd54df503e2563fa27d507ee27176ebb05809070429d5",
+        "kind": "Identifier",
+        "occurrences": 15
+      },
+      {
+        "hash": "07133bf35f6b9223b3a971eec034a5800a7a68407b9ae4b81107a7a1a41d3263",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "021912f9e40fae3b17d0325cc49d5717377b10b7e0b6752df59bb9ba5b4c1241",
+        "kind": "Identifier",
+        "occurrences": 16
+      },
+      {
+        "hash": "25ac861e96633e69b367c67b570a2576aaafe6c842a2b6793d706a046f295930",
+        "kind": "StringLiteral",
+        "occurrences": 4
+      },
+      {
+        "hash": "1f938087f41dfd14c95e5d886db85671d229d2266e325b5cbaf74f5a429e84de",
+        "kind": "StringLiteral",
+        "occurrences": 2
+      },
+      {
+        "hash": "b9b7ec5edc396bd879e7fb2e94c9d939e2c7df92fee5aa863aa02c81d5b37a7f",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "105ef1c03498c7d773fce52371c736453ef663f0f6f599cf38a6a0d877dbdc2b",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "1057565f24fd8f399deb301baab3687fda125dc6957371366a26108917bb3507",
+        "kind": "Identifier",
+        "occurrences": 24
+      },
+      {
+        "hash": "7014f11f2379371e2c66ac0a8fea452e35be0c6a358d5baff797c4aa02861178",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "376712f096948bd7f3ba6b851c9412dba04bb7e8dc0016b98e28983ca653dd4b",
+        "kind": "BinaryExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "6c1b3d66b22c3d650814599d8812d5c8b674c1d9245ab594be472de60f1e27b1",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "e1dbd069b8b81fa8ee18db32b2ee7400482dc772458932dcc7a1267cb34d99b6",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "d241d3acbbea1748a0284971e6a637ff10e4fd29d6c361ed75b57a47b07b0b64",
+        "kind": "BinaryExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "be95111f16901a1d87a1ef653c4dbd57b0da764c2d5e2bbff00045818c14b099",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 6
+      },
+      {
+        "hash": "f3cf78ddd10e3cad88308c3c5cd1950d5502a3fcbadf22b3564b0feded221a25",
+        "kind": "Identifier",
+        "occurrences": 6
+      },
+      {
+        "hash": "a491ebae2ebba12edf2eae14638cbb3a10e996e9074f3eccc12fa40c1ad1c790",
+        "kind": "StringLiteral",
+        "occurrences": 2
+      },
+      {
+        "hash": "98a93138e7cc6b2aa2853e10fae35bb401b9753daf16868437d961999371c492",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0146566e65f478cd18ab3ae8e828938594b7199cb47cade1c5298fe3a86f2a38",
+        "kind": "StringLiteral",
+        "occurrences": 2
+      },
+      {
+        "hash": "057ede9d948a025b35cd9fde2a7754e1a95226c2be05c4967fe2b5a17f226336",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "8acf76c66c8ba2c653d9d6792cbb8015e19bd5b63be24e5b88942285eb71793b",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "abd3528e1db04f25603982a93a90f16026c14b0430e7a43c6af3ac6aae06e76e",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "061128d5b1098d5b04b203cf6e9200546aea464de844fee2a12c6f9bcac1ad1e",
+        "kind": "BinaryExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "573a0ce4087026a1932e469ebfffd7b48a5c37257bd8eb7a76fdf061a359c034",
+        "kind": "StringLiteral",
+        "occurrences": 3
+      },
+      {
+        "hash": "6d4dcfc2be6301d6474ce8276b7be6bf059432b1f46d4d178514c6eefea367c1",
+        "kind": "BinaryExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "3f12c6229b2296f9ce2f18501418dbc23d637a643c713bc90b67bb0cc86b4118",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 5
+      },
+      {
+        "hash": "77a2f572a823291e2cf976e64ae9255c5c34609c38353706569390bf930ef34b",
+        "kind": "Identifier",
+        "occurrences": 5
+      },
+      {
+        "hash": "84a381bf7e73835f0bbe6edfc56c9ccbe85ecac6af9b05c5ef61288294383663",
+        "kind": "FirstLiteralToken",
+        "occurrences": 10
+      },
+      {
+        "hash": "9b76b62b42f9b6e4dda9b86ba8be9ad9ad1583fab2669aa889ae97a416d1f2d5",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "2cff80a078dcf667a1b3c1b7cf8bc5fcd3fd41ae09733f7bbf6690e03d229887",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "d00f96fae57b0490ce10de83dedfd97b2e676254a288d52f238670207bf2bf52",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "e2827cd873657c5b86c10fd9781f5d96c79134441d988799cea23764fca62eb4",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "a69218acad80e7532c4396cab34110ba7216b64eee58aad2fd0400eff9a48a90",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "4791b2d31b1c3eff7683b68326a6d8188569191b9ae9eed526c2a5b3c4b3280b",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b599911772cf0138e68c2066dead2a4a3240ea9bde68c340fb146c913221121a",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "309c1bb2358c34da867b6fd1934e6545f87b59741969a15217b2fe5713c017ca",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "166f76eeab9a7c514368906781e03fd44e2463b73b674c62088bf489f2dc920d",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e742a391091b98b908d244ab25ddd5a9a53f0f640a8f724ffb6baab777a323d4",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "9c193fce5cef04bd1d22bc9bbf6bf86c0535f30830bca50233b5b33e161bfc47",
+        "kind": "ArrayLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e5c33ab5b63491716496172cc48a1a409ae03a370b38f22cf3fe2aeb67988200",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "0a7de58101c84dcf9ba56abf20bf64458d69622922a01a448f44430f86edc9c3",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "bf094a21a4be1c9462801331f0de12051cbb510960f0f603338921c9705e0bcd",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "f152e22e4d9a70ad1c901df5465713aa26733fc52667f8930d0bcad283f868ce",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b795686af1f5a5907d35a98aacee84fb90d10e8ab9c3f8886211696da6183399",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "f26d1b4ed1c9409aea4bcf503263fdbff699d489f206875bedd0306dfcc34840",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "369a9b36f22b1a1de802df38fb1c01b9d0faeb2983a747820d83575b4915e417",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "3f8cad78cda35246f6e818e04bf74ccd5b48abd390c72c5bcb8c9ab2afbbbe89",
+        "kind": "ArrowFunction",
+        "occurrences": 1
+      },
+      {
+        "hash": "162e7dbb42a1d04427f00cd5c37312a30ca0844f24acd9b1a32f3b5017d73e94",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a1daca442cc59455bdbc1c547fa74af21f99274b84e01724463164540dcce98c",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "44091f82f2f69761a86b18ffe6d08f1c8905f1e524144962163d608823aa71e5",
+        "kind": "TypeOfExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "3cbd05217eead5df5c8e9303c6bafbb7cd29782a838e7261396dd30b81eec7ff",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "63e1a53b85d9c2075199a5ed7a3de21d5250400905761a02634438cb782d218f",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "bd19a473346ed77f86b7872401eb6a173609e3325e1f18e80efa8f667f34104a",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a1a49748713f20838ab88bfbb62b923e1dac9303b25b54042e4600b25c0dac7b",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "18d71f0cec9391dc1d6317315f6228bbeed934ed8d59d8154c80623fb65d54f2",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "73495cc3f8ead0633d3d6fe435bf742746158ffc9f29102961098e477e363230",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "26643d2b907b1b2d813c681889aff2309bb8319d7966c6592ecdf79887dbc344",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "3351dbccc6176abd04f305b7091cd90c0e67703c5c925e9c78ed7a290be5f06b",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "0360c7a8723f8237b36be60f2dfd12165234af80f59359bd8d3294f688e03587",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "d65eba6e84d1e8f520f9f33d82d7beb0c17975887232894eca5198d210ec56c1",
+        "kind": "StringLiteral",
+        "occurrences": 2
+      },
+      {
+        "hash": "06e63573dae939197ad7ca63007ef28900faad65b4c67cdbd2e759cbe40c5662",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "1987c9175e85c4964ee5f3e82e2313ff8d4ad6266b3e508da73b7d0639005ad0",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e4594b9b1f7c1ebe6c98d0651867f0f7fe03cad2cbc6d4c94a3c7c9b7c7a624a",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "fc6b21cc08c9ee74d8a6baf3833a1d9e74f456ecf5c5de87369a8099f4c15732",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "65fbc1656505ffd0d982a0ff559044849f547732a5fad6f017f526e28c445f1a",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "2acd2b30a12521c4e17c546875114961473302cb02b9826157ba38d6f7d53556",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "809084874e3fbb193197594aa16000f05aa338edbbafb83b2e2389807a0aef15",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "e625a4ffc1954aed5491e4f9f56209bcac143e2111b8f5361087f2edcc83bc6f",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "429f712d8972bd91087fc73f40061e02edeba73e53e5cad468cbad7b02df65e9",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "5493e6fe4223b7565c4c0958169e3f7873bbb225a777920c05e9c655ab9b3c36",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "dce3c69ec24b8428d9759ae373bf53e074ae3c4e05488c953909c79850aaa23a",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "db59d7e11820da3eb9da8054e596d2240190070e1449a79701753df93c51cda2",
+        "kind": "Identifier",
+        "occurrences": 6
+      },
+      {
+        "hash": "6015022214f9888730f80014a1f4c231143bb2783ef524a4062a59948daccd2d",
+        "kind": "FirstLiteralToken",
+        "occurrences": 6
+      },
+      {
+        "hash": "4dd223067a398c080c937ab10d01e4c270d4057d4b3b39352e381a967fbef179",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "5ca87a33074f3265931b2b18b7b90014dc6d8ae04ea1906276e05efb3894b147",
+        "kind": "StringLiteral",
+        "occurrences": 3
+      },
+      {
+        "hash": "f6eb638dbb2eef3ee363ea61ffebc89dd7390f437a029ced501ee770887b4626",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "dad2412739229b52e9d6410d799e6079db90c886bfc4e856ea9eeaa36b4dde87",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "777c2efc91842ea56384022bb2ab3c4304db565b6d4ca411bdaae1e22138e04e",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "216d79b67cdfc4f18441dffd09133f13137f795823d8374e412cf63a1ce1643a",
+        "kind": "ConditionalExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "245fd31fe53b8fd3d5c97ef8e6879111aeaaf438470f1eae062ef8256f3665f7",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "7b66af125e7a92344265e43c4894dfbfdd1db6b5641d85d94bc632b4b436e2dd",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 4
+      },
+      {
+        "hash": "ab1c0ffa166d486bf4d99bd475401b49b4b7510437638c6d0df385a29eafbb34",
+        "kind": "Identifier",
+        "occurrences": 15
+      },
+      {
+        "hash": "779761bf1e2ab4bc52dce49fadf3e8e7703092c981f3cd6412fe547a027bc422",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "4804d3edb72b056902165b9b70215d5d26492698780a75e1679e3bac5e4126d3",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "e8c7050188d1c4690e6be116764973bf166a278240181b771a373ec3b096d9fa",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "91ad414376582c27c3c0f1a18210a55336a442c230d738466aa2742e999df692",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b024328cfe7816eb8fbbe9c16177c434a6826bfa708a286cee46dc4515ae0015",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "8e2896753ff57b85c7a98ea6abfef9b7b8ca86338835011eb515a495d5233d8d",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "a0b9439e6094b0af3056e0c8c3d8754cb666dca1b39151cffc31f25d7c3db9d4",
+        "kind": "StringLiteral",
+        "occurrences": 2
+      },
+      {
+        "hash": "52d03b9dc3498ffe0ddbb9be20dd140dcf4e36898b42e5060cc9ec35e8fce45d",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "0a22b400114af14c5ef8f31b430c856e3bdad443c727f77c49fc95c058e04a4a",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "464a21eb6b543956783894cbb136b38e56290af7ee7bbf2a4d5a75de1bc03f84",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "2d93a810062a995edb03fecab348e85728b6a60da196d4a021faf503667c4d5c",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "1fbbe3cfc078e85b46e60d85570d019f8002191fb78883f3c62cf85cf24d2923",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "6c9abaab53235c2518ff248d833750d820cf92c81f02feb3513f1d72f97bc1a8",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "60c82cbb3ad2bd6b5065fbac0d910be594ce49856916d18dc46036f47b5be8cf",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "9ea9795a522b620edc22ae6a20af4f94b488cb7496d5aa8d2d91fbe6a649bf5c",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "b5ad10e69a0512c0eeeddbccda5254c8c7e57cb701acc248e5c88f5254b7807a",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "3e9669ba7f6de42514ae228cd399303b52e3b0221254ebaf651961a8b41095be",
+        "kind": "ElementAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b656c9bdd68a3e646c9f511230ee453d603c934d10f7b34653b6495cec4f9878",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "1b2d0cd6f9d22f5783c411fa027b97704350fef0086e2a81dc26cb32fdb336ea",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "c914c5787cb529ae053baae3f69bfd174219992c9cdcee85986daf1393439b73",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "8c012e95669d32b9cf27aee80ecb643431626fd4e4aaf0f31f35128c47157ffc",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "143d8526639910c050c0ac81643b67419601831bb31765914d1f4729bf2f31c6",
+        "kind": "ArrowFunction",
+        "occurrences": 1
+      },
+      {
+        "hash": "50c71446f8b84901b1b73d214ae0ac6baec3e4307c491805fc99788e5a281c32",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "132b903fe8a64ba2d888e5411a9f811fe1d8c321964694f1a2b779c02273cc9f",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0e9a7cdda13a865d0992e631aba52528543dd0006299845b23d322e1799c3924",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "020c7045bc4584a6b3689c56f80fb3bf562665eeb352ae37dd265e7174583026",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "c70b9f430a28edf734eb2471e6b8c126f56c9997b21559e5c6d9b2892235ad41",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "3aa7ec1e1a995ece7ac639ed1a860b4b0939078c3a1a62c2d07c81360bfa64dd",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "1ba9c75f2981eca3a64d668b5e645605caca3e2e4ac6796a089e6fb990bb6dd4",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "ae6a755800f2fd607064d84888feb511e54e4fb766383e4480a72536494a4eb1",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "3959c9d25e8c186bb0b1d1ab44f75ed999ffe39b0ba33b84974a2f733f0621f2",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "44f565fd5e1be25cac4f0f20d75e238458c3ce4e5685d83802c425eca955c6d1",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "491eab62c8f8e6c402efdfab13f0db21b99edcfb32f5ce54e1cfde4cd5214ac0",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "0c7f02a7957d88909e5639d6cf82cee2b2e773c2e35078cad9e1145225641073",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "58fe0c1b2d03961dd7d01c336fa5d1a5fd55cc6f8f45bbb4207ad73840d31e14",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "1202dd60d8a7256ee99a130c2b4ca037b3bf20d03de630292272386488a2846b",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a8eb8afe7f71f056fa21b615984f28d728bcc74fcbcee491d65e7797b04481e4",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "2850994180211aad6d310c4a6d52da27bb9bed7d049d02c240549f3a89ca398f",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "4bff237a47577cc206d682f7836234b127bbbc95c333f0bbfacd1399c1e8dd17",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "10e4bfcf425daa7625c4d00b28d5f3dd10c07cec4f6ea27198c66861f59a2800",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "4f0fd527f495bc7481d410edee41b7c015cc17dfe18202dd3c0085aeb417e36e",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b1ac07c0f76c83efba18633472f3853d91a56782bf196dd29943052b8ccf4109",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "cc60d6fd9cc204b9f688298d435f894843030cce9f1cacaf56657f7e15ef6474",
+        "kind": "ConditionalExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0c0c30eb394bd1660ea9be0664325a567d1ddd1a7125555d9e8f994e862bc4d7",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "c01c8f4509951060459947cc3a25466e9df3b5f58d73fa638f18517d720b9ae0",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "6cd1cbe184067bb4770cc2f5faf1cc29aa47a56abc4a815122923462adad3f66",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "7fe5290474219b711efe2719113abc4788a71aa47fc86dc96793b26bf77c535a",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "c5922b15882665b34dce77fd327162c1576090f2a91b7bf6aa6420bc46cb8bd4",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "87235c0b59fe1ee95bae212446d06953a005e58b3d629c5ff4b40e96bd554c20",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "25a7e2708741a283b7aa60a88585d51f219d26848476045aeb5f6453b45dc5cc",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "df133fcbcdc8d149c63f00b8282723f3a09cce2cfc9fbdb2ab2ea94f6f53314e",
+        "kind": "Identifier",
+        "occurrences": 7
+      },
+      {
+        "hash": "6f3057aaca4fc21eb28dd0e12e400656a3046e5487f84450d216bcb634e0d91e",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "aae3195784856270a424df22080d7c1083012d819f551c97b1a5ebb9e859d524",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "bcf1d99aece8f12af3199a1f63e918956a702a1c65578d3ae6a2ebc19df6c7da",
+        "kind": "AwaitExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "f68a0eb9df3f14b38de64198f8d859c7b290103f8bd97d29cfd68269f06a0c88",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "86bdb072dd7f698ed899809cc8da45379ef347f744fb1ca821d5f64b9f5c1c77",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "bff2212945b3b81d82a0a11a85aa648423ee15242de183af89ccf0ecc2d4d93f",
+        "kind": "Identifier",
+        "occurrences": 6
+      },
+      {
+        "hash": "ece6d8d8292857f366e8bb891adfb22dd0d84d7479677fbf8a7b1d0f977dea47",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "33ff7dcf79ca72f1317917b3eefe38cb50d02c5b6a62b4770050ab5d713222dc",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b8e19f02729925580d8d84fdea3c88ffe0be6d0c6ae1c9858068abaf381abc6f",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0642f2dab9c5ec5908a624608b6614d2c375a28f64d8d48d0fddfca0ef31a116",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "5fbff4b5e0026045beaeeeb11a7158ef94dcdf28713cca6ea4c5d3becd7b6d0f",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "46b94873df7db63116556ed62da3520c7ea8b3ef9c99a5c968e3c372e385dc47",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "ce035dcfc8f789ac7dc7754303334ec886ad6939178695127d87033eaaf0eff8",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "54c891f473d73eb6c57a34d18385c8d217ee7cde997648686e7e43f30388d66c",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "72ca0ef35519a1fe066d2104f258d389b676d26c0e2bbd12414715805cff8f6a",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "47bc49ee6bbdb6d3889cf964ee9aacfee17162578072b0f60d318315061c320f",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "688226cab1011179c561d71edf899ee15e46aed5a14408ce523d762185834bb4",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "43c38091b472131548781aba97c1c32b9e37fdfeae766a4ce15e7b5d74270b9c",
+        "kind": "ArrowFunction",
+        "occurrences": 1
+      },
+      {
+        "hash": "89245328b016edb6b9948bf12a638ea81c433f03b2eae77df59d471d21785a2a",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "817475ff0192ed75a8d916f022a3a6411d163ee58273b8001e11eede9e40aff6",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "bad16287eba5bf4c7064f14adb4fb5db067896c27f6706d8cc027b37b71685fd",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "61865fbdc5bc11450ada8fddee89cf17bf71acb74088474870ebd858279cff48",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a4409efff6510fd55efb59894481f11699fa4741982b09ee767386ae984ca637",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "a39600c70dc639370408bb32cef719285471e7a7b67e2142463571810147c4d2",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "df146cc5225910671a708cf72ad52fc9b70e02188e11b4f7429d747b2c8bf96c",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "224de608e93d70b4149594107b5f653a4cb320a37b058b34886390d2359bea02",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "ec1a7f4beed7b2ce9aa6521931d944c461d112849532fb332c300babfb52ca30",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "cfec5fd83299b3ac9685f2f3081b40559414035a6616089c8b3c24e6b003a768",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "cc71b35e2ac6c76fcb0a994e3a709451aa0d75d37359b1fe0be7eff603067df1",
+        "kind": "AwaitExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e9e06042569cc78605a65aa953f9163ac437f7d1b5b3bc5819e2d273edcaa037",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "956d85fc709fcfa631e8173cc999c6a53ac6a5455a1329cc7a6f7c9358033621",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "2b6a63ed2c825a6feb0f76eabcfe7a81e0161cb491f1b6c5b0f214a2f84df8fc",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0225a5d39b9e790be801eed80a7cec15aabfb530a8a1c7f9e2c78c63583444c6",
+        "kind": "ConditionalExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "f84f192f448cdd698a763ee597eef761fa057e89045eaeddde2feb3bdf6a737e",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "d06b9ce52402a7ec1a845393cda15688f142295982e3ce5f73fee54207c37115",
+        "kind": "Identifier",
+        "occurrences": 8
+      },
+      {
+        "hash": "999b613cfbc09d2ff4d43ad0312c97be8912559eee9ef2f8f7cd808dc1fbef96",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "8446c15fbadd3dcd05f809b302365e0cbea8eca84f6f3f4c0356920f6be745ce",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "e65e8403da791fb3837190d00f56e863e15d4fa95ac88e006a4f5171dfa15904",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "087791054189360c7d2733e51ad8000d89e691a10bb430ca16cc9f016828b3b7",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "3df5cb95311032e45dfb1bcbc81f346de7879fa4d9639bd5fc874d38c72d5f31",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "013682f003d09b6f1466d9060e03e5d9875b6f585d3f06d68ee0fbddbb036add",
+        "kind": "FalseKeyword",
+        "occurrences": 2
+      },
+      {
+        "hash": "094a1342affa1c13e546b73e26ac5619624436a1618dd6f8787e8b46fa8b211f",
+        "kind": "Identifier",
+        "occurrences": 4
+      },
+      {
+        "hash": "c4d3f6ab0545c6f2f4cdea1fca00946abea7af9f935fe84a8df6c5d75a4a8a0a",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "33d0e9dc5c64293c98a2040868d9f2353ba7f61371b1906771dce3463d674b8f",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "942d2bb1e71de20b6bf5c77d628acacf9b69f34c5f313be3afa9ec24aad4c0ee",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "94e46108615d6d4779b6b43e022c119407f195ca5db659011b7cee355c9a2ba0",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "18028c3723ed51304d88227deccd0ffc477782e48879a83fca7d5eb4d6d1c492",
+        "kind": "StringLiteral",
+        "occurrences": 3
+      },
+      {
+        "hash": "80cf8ba356996705adbb262132c483ce9959cb2343f97ee8e60e70a06ebb00de",
+        "kind": "StringLiteral",
+        "occurrences": 2
+      },
+      {
+        "hash": "7c8fabcca198129d331f7801761dc47a6b55b31e3e1ad7d951ce972fe41a20ce",
+        "kind": "ArrayLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b113bec5bcfcb219459c4d0755af95f712ebd731dcb328d8b47c7d6f5259aed4",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "2a613537031f9ecbe29f686685f39b3eb7b2f51ebd80d9513f093cf476943067",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "72f7922805fcc6e8412c82f3e4e0afd6b67c50e62e4940744702122640aeddfe",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 3
+      },
+      {
+        "hash": "f4088cfc379000e2df8d62255c8ce8b0818baf1e3769464e549023982ffa46df",
+        "kind": "Identifier",
+        "occurrences": 3
+      },
+      {
+        "hash": "ed69873a43b7ccbf6adf091835b5b2b10715aa9645e2669ee013d4cc5e664584",
+        "kind": "ConditionalExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "0c73f127b4d027195c2918d5bd5b1e05c81fd629c1e2fbdcca7e300d3beed668",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "ae47e67b9bfcb839287df0f6b5c6e6f3020d6b2c1981ba7fa3318041879b6a0d",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "ff026a472fd263c1b80e93d24d5290d7c172d12a89569f7279f4bbc70598e568",
+        "kind": "TemplateExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "7ddc42a1e9a296be11eb2aae342da8df74d5695660bfab621a0b6a0dcc94e9c2",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "32f7777316868ea3aced7c84fcf6871e5061393d161d936c5d76229f2a8bbee5",
+        "kind": "ParenthesizedExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "9106dda1e5534f2c9a4d454d38d5ed31829df5e820d4ac073ec019642a23ebdb",
+        "kind": "ParenthesizedExpression",
+        "occurrences": 2
+      },
+      {
+        "hash": "fc4ec4bb633feb08b1a24e325d6c6149b8f33f85c29728ee088a6750e3379336",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "d2b7793a0fbe93637630e26d6309bd94b34426071849095a2caa0c81a86626a7",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "893fb718618ab4d0d97bbc048d3825d6147b5150a19fc423fde513b412297a6a",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "25f2942a3d1c9a12e2d44936e87cf938d4a93e42245ff60f0c930443125b3d61",
+        "kind": "FirstLiteralToken",
+        "occurrences": 1
+      },
+      {
+        "hash": "6847cd14beddc8dad6198705142c5b79e3e9eb9d454aa1899b5f5f0cf40dfd18",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "6eeb667b07e250b37a9c12647c36d0d92ac3fe5aae627524ddf8d202e8a9c320",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "00a2c4f10b5d391dd21f7926f64f72936135ff0e2f503571dd43fda1fabdbaf1",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "6e33c42dc357c843ca985926e7e72048b5eef8a292e00d737b78b523a60cac77",
+        "kind": "TrueKeyword",
+        "occurrences": 4
+      },
+      {
+        "hash": "2d168126daa6dc53e12a8f22d929efdb78852101d51067bc31f5c896d936fc50",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "5b1f48a32df7f104ce18d4c62843a52d4f152bf0bf97824e99d08c99a969272d",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "90857904e73655883f41740c08d1b8c737dc76af3b58ae0e1aec21e28d881123",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "3b5b0ed145c5f8329ae6fe918eee658b5338ba305c8fbcb7b3e1f6f7668ebfbc",
+        "kind": "ArrayLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "1fc285c5370eea9538831fb92adcb669a261b2f9aaf9f9532aa0acbbfa993bfe",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "ffafa2531a5b1b73eec1e5263d992d0080d90ced447d84e2195153f1d6c5626d",
+        "kind": "NewExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b1d317d091d175c30f9730c345598f193ac2d0e9f8a108ce53b5b36766a12d2f",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "c51714e467b500ba58c9b49091246db8580b76833c426ce883bee6e7f1cc6591",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "01e4806d9ea866a536586636fbdaf196c3542ce7be94e3fcd439848d3bc3b1b3",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "6bd6a6bc6b3dfc6062c9e0e6f0313a762894c798feeb771bf30b5c959c6bc4ad",
+        "kind": "BinaryExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "6e5f68a5d6e5872053973e828362e0531218221147c976c1a0d4f791f6e1eaaa",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "750b33f1e825777ad3e4f838c69c7588015a4280643e41cb3c65c57f94f634ed",
+        "kind": "PropertyAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "130c109ff864a5f45d9df7d6bf25210261cdaeac6181b8ee80bb57da05d65c66",
+        "kind": "RegularExpressionLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "c1c5dc58148003c5a54b02e8b0fdc128fd520b6d91c495ec91d5c9fed1ca7867",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "0908b4c8e477d73c0a8f9bbde781369e2729bd8bfcb3664795189dc921635dbc",
+        "kind": "ElementAccessExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "44a506628c9ca483737f91cde0bd181766b81d47e677cb4a9826523eaec7fc32",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "aa7c6467769ab183f44f729c46d78b31a62e529a90b0220a239193e62aa5c910",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "fa886a527fc9b7ac01cb1964996f9283e696400b9b1a9fee8a63230f4d9d0d8c",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "34702913fd312398a4c60b6e8a7aa3392463019f37ed033bd74be7c521607c5a",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "1ed6300f09b752321f1b4c866ca225dd8ac2897daf0d9b66cabf8ba3d8a2f032",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "56ef12d746ebc2be48da336716a6641e4fd9fa74a0a0a67a13af4924ff1b0a1b",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "f8bf63cf1411b86ffbaae40d316fba995c525e4ebc85731a3d1574f5de9ea0bb",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "03642ed945cac8a2b5799d8f804e6f972d3a0e5496ed0b4c655df4dcbdc77689",
+        "kind": "ArrayLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "b0518b1ed9064cd37d79b63fa00214e1ef9a068f5021b821b7b31bf6bca7acc3",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "e890ecaf015dd2c8485c49c987c462df98d87cff68cffb5ee8d09c7d1d9bd125",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "460f2fa4227851a111805fb8b6f56ea543d22014c72a8cae2c55b0cc98395063",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "dd99d41c299ece8870dd49b3802d66ebd7fad7813fd1df22032fd6705d6c2b57",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "5fb8bba0aef7c05317c9c1919d043adf5f830395f8e4636da69d032e6855d5ab",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "740bc1da4dc6b85e38d501883f448d341cff01a1cccfd2d0e509edced337db48",
+        "kind": "Identifier",
+        "occurrences": 2
+      },
+      {
+        "hash": "52984d47dccddf495355c6a34773b1f26cc707584161fed33b6549d80ccd4964",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      },
+      {
+        "hash": "756dd1672bdfc54ef3b963ede375606b71a97b67114583dea5496a6b1b383c50",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "a1a8474d12a75366fa165eaa06e19c321203a9bdffdb0bcc840abdf25c002cc8",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "b78d723fb7756bbb8ffb013e6bafabe9366048e29ce891fda5e48079e553f04b",
+        "kind": "AwaitExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "d287914d0e400019eede1a3549ac6c3d5567d30932625843ed13b0b572bcd75a",
+        "kind": "CallExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "85f42c51c9c3ebd8e71c02736c5c3db4a8989a4e163653394a06f104b0aca54e",
+        "kind": "Identifier",
+        "occurrences": 1
+      },
+      {
+        "hash": "06964f7e5ce09fbcd5077d03dafb6fb480902ed1a0cece7dbe9522d2307e15de",
+        "kind": "ObjectLiteralExpression",
+        "occurrences": 1
+      },
+      {
+        "hash": "874f7cd41dcf8b3ac2f86a836f47507b1d019c907f1eca97988dce4afc2aac49",
+        "kind": "StringLiteral",
+        "occurrences": 1
+      }
+    ],
+    "expressionLimit": "Identifiers retained; comments/format/quote style/numeric separators/runtime-erased assertions and parentheses normalized. Atomic and contract expressions are included. Changed identifiers/control flow are not proof of independence.",
+    "acceptedIndependentReplacementCredit": 0,
+    "licenseDecision": "deferred to parent; no new MIT claim"
+  }
+]

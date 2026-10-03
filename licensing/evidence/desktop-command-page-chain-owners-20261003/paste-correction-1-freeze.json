@@ -1,0 +1,16 @@
+{
+  "owner": "paste",
+  "version": "correction-1",
+  "file": "/tmp/knorvia-paste47-correction-1.ts",
+  "rawPath": "licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/paste-correction-1.ts",
+  "sha256": "2a067bbe0cdb4e9b5e7df09b40160a72012e30e793434fca613ba773b443262f",
+  "bytes": 4581,
+  "author": "/root/virtual_paste_page_owner_author47",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "This correction used only author memory and bounded behavior facts; no inherited implementation, source, contract, draft, sibling, tests or artifact rereads; own new output write then stat/hash only.",
+  "authorFastIndependentlyVerified": false
+}

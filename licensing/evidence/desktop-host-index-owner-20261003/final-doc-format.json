@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "specs/knorvia-desktop-host-index-owner-20261003.md",
+    "licensing/evidence/desktop-host-index-owner-20261003/README.md"
+  ],
+  "stdout": "Finished in 101ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

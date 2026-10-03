@@ -1,0 +1,7 @@
+import fs from "node:fs";
+import {spawnSync} from "node:child_process";
+const [name,command,...args]=process.argv.slice(2);
+const result=spawnSync(command,args,{cwd:"/workspace/knorvia-studio",encoding:"utf8"});
+const record={command:[command,...args],stdout:result.stdout??"",stderr:result.stderr??"",exitCode:result.status,error:result.error?String(result.error):undefined};
+fs.writeFileSync("/workspace/knorvia-studio/licensing/evidence/desktop-host-behavior-owners-20261003/"+name+".json",JSON.stringify(record,null,2)+"\n",{flag:"wx"});
+console.log(JSON.stringify(record));process.exitCode=result.status??1;

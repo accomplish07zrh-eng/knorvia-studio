@@ -1,0 +1,7 @@
+{
+  "command": "cat .oxfmtignore (within combined read of root formatter/lint metadata)",
+  "observedDiagnostic": "cat: .oxfmtignore: No such file or directory",
+  "shellExitCode": 0,
+  "individualExitCode": "Not independently captured",
+  "resolution": "Existing .oxfmtrc metadata read by bounded rg; no such ignore file assumed, no root config modified. No failed product execution/permission change."
+}

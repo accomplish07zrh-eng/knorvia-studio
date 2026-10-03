@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/indexOwner.test.mjs",
+    "--case=startup"
+  ],
+  "stdout": "✖ startup (146.258825ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 150.799109\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/indexOwner.test.mjs:23:39\n✖ startup (146.258825ms)\n  AssertionError [ERR_ASSERTION]: redaction public call must receive exactly one original value\n  \n  3 !== 1\n  \n      at redactDiagnosticValue (file:///workspace/knorvia-studio/packages/desktop/src/host/indexOwner.test.mjs:543:14)\n      at Array.map (<anonymous>)\n      at console.log (/workspace/knorvia-studio/packages/desktop/src/host/index.ts:187:23)\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/indexOwner.test.mjs:1010:69)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: 3,\n    expected: 1,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

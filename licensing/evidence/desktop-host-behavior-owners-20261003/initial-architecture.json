@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "1cc126",
+    "wall_time_seconds": 0.49303929,
+    "exit_code": 0,
+    "original_token_count": 13,
+    "output": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n"
+  }
+}

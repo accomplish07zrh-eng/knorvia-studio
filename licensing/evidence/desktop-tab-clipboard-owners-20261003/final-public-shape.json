@@ -1,0 +1,4422 @@
+[
+  {
+    "name": "BrowserTabResidencyCoordinator",
+    "kind": "class",
+    "constructors": [
+      {
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "properties": [
+                {
+                  "name": "now",
+                  "optional": true,
+                  "readonly": false,
+                  "type": {
+                    "union": [
+                      "undefined",
+                      {
+                        "calls": [
+                          {
+                            "parameters": [],
+                            "returns": "number"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "onEvict",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": {
+                              "properties": [
+                                {
+                                  "name": "audible",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "captureActive",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "currentTask",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "downloadActive",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "generation",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "guestAttached",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "lastActivityAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "lastSelectedAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "loading",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "mediaActive",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "openedAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "operationActive",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "preferred",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "residency",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "\"live-background\"",
+                                      "\"live-visible\"",
+                                      "\"restoring\"",
+                                      "\"suspend-pending\"",
+                                      "\"suspended\""
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "selected",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "sessionId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "tabId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "visible",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "false",
+                                      "true"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "windowId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "returns": {
+                          "promise": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "tabLimit",
+                  "optional": true,
+                  "readonly": false,
+                  "type": {
+                    "union": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "instance": {
+      "properties": [
+        {
+          "name": "commitCancelledSuspend",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  },
+                  {
+                    "optional": false,
+                    "type": "number"
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "null",
+                    {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "generation",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"live-background\"",
+                              "\"live-visible\"",
+                              "\"restoring\"",
+                              "\"suspend-pending\"",
+                              "\"suspended\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "completeRestore",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  },
+                  {
+                    "optional": false,
+                    "type": "number"
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "false",
+                    "true"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "dispose",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [],
+                "returns": "void"
+              }
+            ]
+          }
+        },
+        {
+          "name": "failRestore",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  },
+                  {
+                    "optional": false,
+                    "type": "number"
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "null",
+                    {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "generation",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"live-background\"",
+                              "\"live-visible\"",
+                              "\"restoring\"",
+                              "\"suspend-pending\"",
+                              "\"suspended\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "get",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "null",
+                    {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "generation",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"live-background\"",
+                              "\"live-visible\"",
+                              "\"restoring\"",
+                              "\"suspend-pending\"",
+                              "\"suspended\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "isTransitionCurrent",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  },
+                  {
+                    "optional": false,
+                    "type": "number"
+                  },
+                  {
+                    "optional": false,
+                    "type": {
+                      "union": [
+                        "\"live-background\"",
+                        "\"live-visible\"",
+                        "\"restoring\"",
+                        "\"suspend-pending\"",
+                        "\"suspended\""
+                      ]
+                    }
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "false",
+                    "true"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [],
+                "returns": {
+                  "array": [
+                    {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "generation",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"live-background\"",
+                              "\"live-visible\"",
+                              "\"restoring\"",
+                              "\"suspend-pending\"",
+                              "\"suspended\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "markAttached",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  },
+                  {
+                    "optional": false,
+                    "type": {
+                      "union": [
+                        "false",
+                        "true"
+                      ]
+                    }
+                  },
+                  {
+                    "optional": true,
+                    "type": {
+                      "union": [
+                        "number",
+                        "undefined"
+                      ]
+                    }
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "false",
+                    "true"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "markDetached",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": "void"
+              }
+            ]
+          }
+        },
+        {
+          "name": "markRestoring",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": {
+                  "union": [
+                    "null",
+                    {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "generation",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"live-background\"",
+                              "\"live-visible\"",
+                              "\"restoring\"",
+                              "\"suspend-pending\"",
+                              "\"suspended\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "remove",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": "void"
+              }
+            ]
+          }
+        },
+        {
+          "name": "report",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  },
+                  {
+                    "optional": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "visible",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true",
+                              "undefined"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "returns": "void"
+              }
+            ]
+          }
+        },
+        {
+          "name": "upsert",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"live-background\"",
+                              "\"live-visible\"",
+                              "\"restoring\"",
+                              "\"suspend-pending\"",
+                              "\"suspended\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "false",
+                              "true"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "returns": {
+                  "properties": [
+                    {
+                      "name": "audible",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "captureActive",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "currentTask",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "downloadActive",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "generation",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "guestAttached",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "lastActivityAt",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "lastSelectedAt",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "null",
+                          "number"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "loading",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "mediaActive",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "openedAt",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    },
+                    {
+                      "name": "operationActive",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "preferred",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "residency",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "\"live-background\"",
+                          "\"live-visible\"",
+                          "\"restoring\"",
+                          "\"suspend-pending\"",
+                          "\"suspended\""
+                        ]
+                      }
+                    },
+                    {
+                      "name": "selected",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "sessionId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "tabId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "visible",
+                      "optional": false,
+                      "readonly": false,
+                      "type": {
+                        "union": [
+                          "false",
+                          "true"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "windowId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "whenIdle",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [],
+                "returns": {
+                  "promise": "void"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "BrowserTabResidencyRecord",
+    "kind": "interface",
+    "type": {
+      "properties": [
+        {
+          "name": "audible",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "captureActive",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "currentTask",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "downloadActive",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "generation",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        },
+        {
+          "name": "guestAttached",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "lastActivityAt",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        },
+        {
+          "name": "lastSelectedAt",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "null",
+              "number"
+            ]
+          }
+        },
+        {
+          "name": "loading",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "mediaActive",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "openedAt",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        },
+        {
+          "name": "operationActive",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "preferred",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "residency",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "\"live-background\"",
+              "\"live-visible\"",
+              "\"restoring\"",
+              "\"suspend-pending\"",
+              "\"suspended\""
+            ]
+          }
+        },
+        {
+          "name": "selected",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "sessionId",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        },
+        {
+          "name": "tabId",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        },
+        {
+          "name": "visible",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "windowId",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        }
+      ]
+    }
+  },
+  {
+    "name": "BrowserTabNavigationEntry",
+    "kind": "interface",
+    "type": {
+      "properties": [
+        {
+          "name": "pageState",
+          "optional": true,
+          "readonly": false,
+          "type": {
+            "union": [
+              "string",
+              "undefined"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "optional": true,
+          "readonly": false,
+          "type": {
+            "union": [
+              "string",
+              "undefined"
+            ]
+          }
+        },
+        {
+          "name": "url",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  {
+    "name": "BrowserTabPageStateRecord",
+    "kind": "interface",
+    "type": {
+      "properties": [
+        {
+          "name": "activeIndex",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        },
+        {
+          "name": "entries",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "array": [
+              {
+                "properties": [
+                  {
+                    "name": "pageState",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "string",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "title",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "string",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "url",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "schemaVersion",
+          "optional": false,
+          "readonly": false,
+          "type": "1"
+        },
+        {
+          "name": "tabId",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        }
+      ]
+    }
+  },
+  {
+    "name": "BrowserTabRecoveryStore",
+    "kind": "class",
+    "constructors": [
+      {
+        "parameters": [
+          {
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "optional": true,
+            "type": {
+              "properties": [
+                {
+                  "name": "maxHistoryEntries",
+                  "optional": true,
+                  "readonly": false,
+                  "type": {
+                    "union": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                },
+                {
+                  "name": "maxPageStates",
+                  "optional": true,
+                  "readonly": false,
+                  "type": {
+                    "union": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                },
+                {
+                  "name": "maxTotalBytes",
+                  "optional": true,
+                  "readonly": false,
+                  "type": {
+                    "union": [
+                      "number",
+                      "undefined"
+                    ]
+                  }
+                },
+                {
+                  "name": "onWarning",
+                  "optional": true,
+                  "readonly": false,
+                  "type": {
+                    "union": [
+                      "undefined",
+                      {
+                        "calls": [
+                          {
+                            "parameters": [
+                              {
+                                "optional": false,
+                                "type": "string"
+                              }
+                            ],
+                            "returns": "void"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "instance": {
+      "properties": [
+        {
+          "name": "getPageState",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": {
+                  "promise": {
+                    "union": [
+                      "null",
+                      {
+                        "properties": [
+                          {
+                            "name": "activeIndex",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "entries",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "array": [
+                                {
+                                  "properties": [
+                                    {
+                                      "name": "pageState",
+                                      "optional": true,
+                                      "readonly": false,
+                                      "type": {
+                                        "union": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "name": "title",
+                                      "optional": true,
+                                      "readonly": false,
+                                      "type": {
+                                        "union": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "name": "url",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "name": "schemaVersion",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "1"
+                          },
+                          {
+                            "name": "tabId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          },
+                          {
+                            "name": "updatedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "getShell",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": {
+                  "promise": {
+                    "union": [
+                      "null",
+                      {
+                        "properties": [
+                          {
+                            "name": "browserGeneration",
+                            "optional": true,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "number",
+                                "undefined"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "browserId",
+                            "optional": true,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "string",
+                                "undefined"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "faviconUrl",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "string"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "lastSelectedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "number"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "lifecycle",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "\"active\"",
+                                "\"deliverable\"",
+                                "\"handoff\""
+                              ]
+                            }
+                          },
+                          {
+                            "name": "openedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "origin",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "\"agent\"",
+                                "\"user\""
+                              ]
+                            }
+                          },
+                          {
+                            "name": "remoteSessionId",
+                            "optional": true,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "string",
+                                "undefined"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "restoreUrl",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "string"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "schemaVersion",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "1"
+                          },
+                          {
+                            "name": "sessionId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          },
+                          {
+                            "name": "tabId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          },
+                          {
+                            "name": "title",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "string"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "updatedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "viewport",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                {
+                                  "properties": [
+                                    {
+                                      "name": "height",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "number"
+                                    },
+                                    {
+                                      "name": "width",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "number"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "name": "windowBindingId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "null"
+                          },
+                          {
+                            "name": "workspaceKey",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "listShells",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "remoteSessionId",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "string",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "string",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "workspaceKey",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "returns": {
+                  "promise": {
+                    "array": [
+                      {
+                        "properties": [
+                          {
+                            "name": "browserGeneration",
+                            "optional": true,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "number",
+                                "undefined"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "browserId",
+                            "optional": true,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "string",
+                                "undefined"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "faviconUrl",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "string"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "lastSelectedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "number"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "lifecycle",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "\"active\"",
+                                "\"deliverable\"",
+                                "\"handoff\""
+                              ]
+                            }
+                          },
+                          {
+                            "name": "openedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "origin",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "\"agent\"",
+                                "\"user\""
+                              ]
+                            }
+                          },
+                          {
+                            "name": "remoteSessionId",
+                            "optional": true,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "string",
+                                "undefined"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "restoreUrl",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "string"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "schemaVersion",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "1"
+                          },
+                          {
+                            "name": "sessionId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          },
+                          {
+                            "name": "tabId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          },
+                          {
+                            "name": "title",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                "string"
+                              ]
+                            }
+                          },
+                          {
+                            "name": "updatedAt",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number"
+                          },
+                          {
+                            "name": "viewport",
+                            "optional": false,
+                            "readonly": false,
+                            "type": {
+                              "union": [
+                                "null",
+                                {
+                                  "properties": [
+                                    {
+                                      "name": "height",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "number"
+                                    },
+                                    {
+                                      "name": "width",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "number"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "name": "windowBindingId",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "null"
+                          },
+                          {
+                            "name": "workspaceKey",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "readSnapshot",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [],
+                "returns": {
+                  "promise": {
+                    "properties": [
+                      {
+                        "name": "pageStates",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "array": [
+                            {
+                              "properties": [
+                                {
+                                  "name": "activeIndex",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "entries",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "array": [
+                                      {
+                                        "properties": [
+                                          {
+                                            "name": "pageState",
+                                            "optional": true,
+                                            "readonly": false,
+                                            "type": {
+                                              "union": [
+                                                "string",
+                                                "undefined"
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "name": "title",
+                                            "optional": true,
+                                            "readonly": false,
+                                            "type": {
+                                              "union": [
+                                                "string",
+                                                "undefined"
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "name": "url",
+                                            "optional": false,
+                                            "readonly": false,
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "schemaVersion",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "1"
+                                },
+                                {
+                                  "name": "tabId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "updatedAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "schemaVersion",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "1"
+                      },
+                      {
+                        "name": "shells",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "array": [
+                            {
+                              "properties": [
+                                {
+                                  "name": "browserGeneration",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "number",
+                                      "undefined"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "browserId",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "string",
+                                      "undefined"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "faviconUrl",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "null",
+                                      "string"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "lastSelectedAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "lifecycle",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "\"active\"",
+                                      "\"deliverable\"",
+                                      "\"handoff\""
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "openedAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "origin",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "\"agent\"",
+                                      "\"user\""
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "remoteSessionId",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "string",
+                                      "undefined"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "restoreUrl",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "null",
+                                      "string"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "schemaVersion",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "1"
+                                },
+                                {
+                                  "name": "sessionId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "tabId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "title",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "null",
+                                      "string"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "updatedAt",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "viewport",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "union": [
+                                      "null",
+                                      {
+                                        "properties": [
+                                          {
+                                            "name": "height",
+                                            "optional": false,
+                                            "readonly": false,
+                                            "type": "number"
+                                          },
+                                          {
+                                            "name": "width",
+                                            "optional": false,
+                                            "readonly": false,
+                                            "type": "number"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "windowBindingId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "null"
+                                },
+                                {
+                                  "name": "workspaceKey",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "remove",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": {
+                  "promise": "void"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "removePageState",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": "string"
+                  }
+                ],
+                "returns": {
+                  "promise": "void"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "upsert",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "browserGeneration",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "number",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "browserId",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "string",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "faviconUrl",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "string"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "number"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "lifecycle",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"active\"",
+                              "\"deliverable\"",
+                              "\"handoff\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "origin",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "\"agent\"",
+                              "\"user\""
+                            ]
+                          }
+                        },
+                        {
+                          "name": "remoteSessionId",
+                          "optional": true,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "string",
+                              "undefined"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "restoreUrl",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "string"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "schemaVersion",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "1"
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "title",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              "string"
+                            ]
+                          }
+                        },
+                        {
+                          "name": "updatedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "viewport",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "union": [
+                              "null",
+                              {
+                                "properties": [
+                                  {
+                                    "name": "height",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "width",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "windowBindingId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "null"
+                        },
+                        {
+                          "name": "workspaceKey",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "returns": {
+                  "promise": "void"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "upsertPageState",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [
+                  {
+                    "optional": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "activeIndex",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "entries",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "array": [
+                              {
+                                "properties": [
+                                  {
+                                    "name": "pageState",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": {
+                                      "union": [
+                                        "string",
+                                        "undefined"
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "name": "title",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": {
+                                      "union": [
+                                        "string",
+                                        "undefined"
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "name": "url",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "schemaVersion",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "1"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "updatedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "returns": {
+                  "promise": "void"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "whenIdle",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "calls": [
+              {
+                "parameters": [],
+                "returns": {
+                  "promise": "void"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "BrowserTabShellRecord",
+    "kind": "interface",
+    "type": {
+      "properties": [
+        {
+          "name": "browserGeneration",
+          "optional": true,
+          "readonly": false,
+          "type": {
+            "union": [
+              "number",
+              "undefined"
+            ]
+          }
+        },
+        {
+          "name": "browserId",
+          "optional": true,
+          "readonly": false,
+          "type": {
+            "union": [
+              "string",
+              "undefined"
+            ]
+          }
+        },
+        {
+          "name": "faviconUrl",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        {
+          "name": "lastSelectedAt",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "null",
+              "number"
+            ]
+          }
+        },
+        {
+          "name": "lifecycle",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "\"active\"",
+              "\"deliverable\"",
+              "\"handoff\""
+            ]
+          }
+        },
+        {
+          "name": "openedAt",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        },
+        {
+          "name": "origin",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "\"agent\"",
+              "\"user\""
+            ]
+          }
+        },
+        {
+          "name": "remoteSessionId",
+          "optional": true,
+          "readonly": false,
+          "type": {
+            "union": [
+              "string",
+              "undefined"
+            ]
+          }
+        },
+        {
+          "name": "restoreUrl",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        {
+          "name": "schemaVersion",
+          "optional": false,
+          "readonly": false,
+          "type": "1"
+        },
+        {
+          "name": "sessionId",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        },
+        {
+          "name": "tabId",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "readonly": false,
+          "type": "number"
+        },
+        {
+          "name": "viewport",
+          "optional": false,
+          "readonly": false,
+          "type": {
+            "union": [
+              "null",
+              {
+                "properties": [
+                  {
+                    "name": "height",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "width",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "windowBindingId",
+          "optional": false,
+          "readonly": false,
+          "type": "null"
+        },
+        {
+          "name": "workspaceKey",
+          "optional": false,
+          "readonly": false,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  {
+    "name": "assertFocusedInputTarget",
+    "kind": "value",
+    "type": {
+      "calls": [
+        {
+          "parameters": [
+            {
+              "optional": false,
+              "type": {
+                "properties": [
+                  {
+                    "name": "captureViewportScreenshot",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": {
+                                "promise": {
+                                  "union": [
+                                    "string",
+                                    "undefined"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "cdp",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "send",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "optional": true,
+                                    "type": "unknown"
+                                  },
+                                  {
+                                    "optional": true,
+                                    "type": {
+                                      "union": [
+                                        "string",
+                                        "undefined"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": "unknown"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "normalizeScreenshotToCssPixels",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "false",
+                        "true",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "resizeScreenshotToCssPixels",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": {
+                                    "properties": [
+                                      {
+                                        "name": "height",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      },
+                                      {
+                                        "name": "width",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "returns": {
+                                "union": [
+                                  "string",
+                                  "undefined",
+                                  {
+                                    "promise": {
+                                      "union": [
+                                        "string",
+                                        "undefined"
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "webContents",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "canGoBack",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": {
+                                  "union": [
+                                    "false",
+                                    "true"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "canGoForward",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": {
+                                  "union": [
+                                    "false",
+                                    "true"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "executeJavaScript",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": "unknown"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "getTitle",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "string"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "getURL",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "string"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "goBack",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "void"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "goForward",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "void"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loadURL",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": "void"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "reload",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "void"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "optional": false,
+              "type": {
+                "properties": [
+                  {
+                    "name": "contextId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "number",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "sessionId",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "string",
+                        "undefined"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "optional": false,
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "promise": "void"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "createInputTargetToken",
+    "kind": "value",
+    "type": {
+      "calls": [
+        {
+          "parameters": [],
+          "returns": "string"
+        }
+      ]
+    }
+  },
+  {
+    "name": "IAB_INPUT_TARGET_TOKEN_PROPERTY",
+    "kind": "value",
+    "type": "string"
+  },
+  {
+    "name": "pasteTextIntoFocusedTarget",
+    "kind": "value",
+    "type": {
+      "calls": [
+        {
+          "parameters": [
+            {
+              "optional": false,
+              "type": {
+                "properties": [
+                  {
+                    "name": "captureViewportScreenshot",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [],
+                              "returns": {
+                                "promise": {
+                                  "union": [
+                                    "string",
+                                    "undefined"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "cdp",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "send",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "optional": true,
+                                    "type": "unknown"
+                                  },
+                                  {
+                                    "optional": true,
+                                    "type": {
+                                      "union": [
+                                        "string",
+                                        "undefined"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": "unknown"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "normalizeScreenshotToCssPixels",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "false",
+                        "true",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "resizeScreenshotToCssPixels",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "undefined",
+                        {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": {
+                                    "properties": [
+                                      {
+                                        "name": "height",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      },
+                                      {
+                                        "name": "width",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "returns": {
+                                "union": [
+                                  "string",
+                                  "undefined",
+                                  {
+                                    "promise": {
+                                      "union": [
+                                        "string",
+                                        "undefined"
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "webContents",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "properties": [
+                        {
+                          "name": "canGoBack",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": {
+                                  "union": [
+                                    "false",
+                                    "true"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "canGoForward",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": {
+                                  "union": [
+                                    "false",
+                                    "true"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "executeJavaScript",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": "unknown"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "getTitle",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "string"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "getURL",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "string"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "goBack",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "void"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "goForward",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "void"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "loadURL",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": "void"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "reload",
+                          "optional": false,
+                          "readonly": false,
+                          "type": {
+                            "calls": [
+                              {
+                                "parameters": [],
+                                "returns": "void"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "optional": false,
+              "type": "string"
+            },
+            {
+              "optional": true,
+              "type": {
+                "properties": [
+                  {
+                    "name": "includeRichText",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "false",
+                        "true",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "initialTarget",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "undefined",
+                        {
+                          "properties": [
+                            {
+                              "name": "contextId",
+                              "optional": true,
+                              "readonly": false,
+                              "type": {
+                                "union": [
+                                  "number",
+                                  "undefined"
+                                ]
+                              }
+                            },
+                            {
+                              "name": "sessionId",
+                              "optional": true,
+                              "readonly": false,
+                              "type": {
+                                "union": [
+                                  "string",
+                                  "undefined"
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "inputTargetToken",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "string",
+                        "undefined"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "replaceInputValue",
+                    "optional": true,
+                    "readonly": false,
+                    "type": {
+                      "union": [
+                        "false",
+                        "true",
+                        "undefined"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "returns": {
+            "promise": "void"
+          }
+        }
+      ]
+    }
+  }
+]

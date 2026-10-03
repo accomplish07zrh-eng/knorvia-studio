@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+    "--drafts",
+    "--stable-symbols"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+      "sha256": "442a81303f3853a78453a95317cb9ac9204c17cb441e4b17bff3f979b846c503"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"./browserCommandTypes.js\": \"view\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": true,\n  \"compilerRawMatchesBaseline\": false,\n  \"sourceLiteralProjection\": \"Only opaque generated source-string exports project to consumer string contract; raw comparison retained. Fixed VIEWPORT value separately checked.\",\n  \"syntaxFiles\": [\n    \"licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/navigation-initial.ts\",\n    \"licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/retry-initial.ts\",\n    \"licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/scripts-initial.ts\",\n    \"licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/paste-initial.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandPageHandlers.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandInput.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts\",\n    \"packages/desktop/src/main/browserView/browserVirtualClipboard.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotActivityController.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

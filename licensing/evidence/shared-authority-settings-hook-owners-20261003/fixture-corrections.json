@@ -1,0 +1,9 @@
+{
+  "initialBaseline": "baseline-safety.json: three pass, two fail due fixture errors; original stdout/stderr/exitCode preserved",
+  "corrections": [
+    "Endpoint normalization virtual port must accept its own normalized output because retained schema preprocess runs again",
+    "Loader must retain supplied fixture identity so current rejection/digest flags reach ports"
+  ],
+  "affectedBaselineOnly": "baseline-corrected-fixtures.json settings/mutation2/2, other original3 not rerun",
+  "split": "Pure load/ports moved unchanged to shared-authority-fixture.mjs; three authority/env/settings cases remain in original entry, two hook cases moved to shared-hook-write-boundaries.test.mjs to satisfy unchanged max-lines rule. No extra cases or authority/state policy changes."
+}

@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "baseline-fake": 0,
+    "baseline-return-authority": 0,
+    "baseline-static": 0,
+    "initial-static": 0,
+    "candidate-fake": 0,
+    "candidate-static": 0,
+    "candidate-lint": 0,
+    "candidate-architecture": 0,
+    "retained-normalized-shapes": 0,
+    "candidate-byte-proof": 0,
+    "candidate-format": 0
+  },
+  "finalSyntheticGroups": 1,
+  "publicAndRawExportsMatched": 4,
+  "initialReturnAuthorityFailurePreserved": true,
+  "productFullTypecheckPassed": false,
+  "nativeRuntimePassed": false,
+  "ordinarySuiteBuildRun": false,
+  "MITClaim": false,
+  "promptTransferHOLD": true
+}

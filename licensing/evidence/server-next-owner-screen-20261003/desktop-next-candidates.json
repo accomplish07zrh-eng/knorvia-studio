@@ -1,0 +1,191 @@
+{
+  "baseHead": "b6bd05af4ff1f33f972fb0b57a6c64b124398df4",
+  "maxTwoReportOnly": true,
+  "files": [
+    {
+      "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+      "sha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+      "bytes": 4023,
+      "lines": 131,
+      "inventory": {
+        "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+        "kind": "file",
+        "sha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+        "normalizedSha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+        "encoding": "utf8-lf",
+        "bytes": 4023,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+          "blob": "c003ecce1d750543ac8a1e0e09cbf7ac5ecce16d",
+          "normalizedSha256": "f838d4f5fab11de37cc13ad8b2166da557785cea83ba2281b1bd6778876ec54e",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "exactReviews": [],
+      "previousBoundedRemainingMetadata": "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+      "matchesPreviousBoundedHash": true,
+      "receiptSearch": {
+        "command": [
+          "rg",
+          "-l",
+          "-F",
+          "-e",
+          "packages/desktop/src/host/cronRunLifecycle.ts",
+          "-e",
+          "cronRunLifecycle.ts",
+          "-e",
+          "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+          "licensing/evidence",
+          "specs",
+          "docs",
+          "--glob",
+          "*.json",
+          "--glob",
+          "*.md"
+        ],
+        "exitCode": 0,
+        "matchingPaths": [
+          "licensing/evidence/repository-migration-scope-20260930.json",
+          "licensing/evidence/desktop-tab-clipboard-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-playwright-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-command-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/selection-and-remainder.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-screenshot-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/final-retained-desktop-bindings.json"
+        ],
+        "nonGenericMatches": []
+      },
+      "history": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "owner": "Manual automation claim heartbeat, outcome write sequencing and claim release lifecycle",
+      "substantive": "Owns interval lifetime and ordered asynchronous claim/outcome/dispatch-failure/release flows through repository ports.",
+      "preserve": [
+        "60s default heartbeat and live identity/options reads; bound repo and logger calls",
+        "ensure claim then mark outcome; manual terminal release only after outcome path",
+        "dispatch error conversion before guarded dispatch recording; subsequent release ordering",
+        "existing log/throw and rejection behavior; no authentication, authority, lease policy or scheduler change"
+      ],
+      "minimalFutureFake": "One injected repo/timer/clock group for heartbeat disposal, manual versus scheduled terminal release, sequential writes, error/log identity and claim ownership; no real timer/database/scheduler.",
+      "scopeCaution": "A owns core scheduler/runtime; this is host lifecycle port glue/state, allocation must preserve that boundary.",
+      "status": "report-only next candidate; not allocated/authored/validated or independently accepted this batch",
+      "upstreamStatus": "Exact old inventory same-path blob/hash recorded; no fresh publisher source response fetched this report",
+      "curatorReadCurrentCompleteBodyForQualification": true,
+      "noAcceptedExactOwnerReceiptLocatedWithinBoundedSearch": true,
+      "privateAbsenceClaim": false
+    },
+    {
+      "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+      "sha256": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+      "bytes": 6182,
+      "lines": 175,
+      "inventory": {
+        "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+        "kind": "file",
+        "sha256": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+        "normalizedSha256": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+        "encoding": "utf8-lf",
+        "bytes": 6182,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+          "blob": "eef5acb044ff3eda94a3c0a6d33909d3c7980968",
+          "normalizedSha256": "0966d944142bffba09827b6558f6633a60318256db58af28efc2e39727c248ab",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "exactReviews": [],
+      "previousBoundedRemainingMetadata": "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+      "matchesPreviousBoundedHash": true,
+      "receiptSearch": {
+        "command": [
+          "rg",
+          "-l",
+          "-F",
+          "-e",
+          "packages/desktop/src/host/promptAttachmentTransferService.ts",
+          "-e",
+          "promptAttachmentTransferService.ts",
+          "-e",
+          "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+          "licensing/evidence",
+          "specs",
+          "docs",
+          "--glob",
+          "*.json",
+          "--glob",
+          "*.md"
+        ],
+        "exitCode": 0,
+        "matchingPaths": [
+          "licensing/evidence/repository-migration-scope-20260930.json",
+          "licensing/evidence/desktop-tab-clipboard-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/initial-receipt-screen.json",
+          "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-playwright-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-command-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/selection-and-remainder.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-screenshot-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/initial-retained-desktop-bindings.json"
+        ],
+        "nonGenericMatches": [
+          "licensing/evidence/desktop-host-behavior-owners-20261003/initial-receipt-screen.json"
+        ]
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "owner": "Remote workspace eager attachment staging, operation admission, progress and cancellation/adoption lifecycle",
+      "substantive": "Owns operation-record and emitter lifetimes, abort authority, progress throttling, stale completion, commit/complete ordering, adoption and cleanup; imported transfer materializer stays unchanged.",
+      "preserve": [
+        "workspaceIdentity trim/fallback plus remoteSessionId and operationId trace isolation",
+        "record/controller authority and original error identity, including callback exceptions",
+        "live input/data semantics across awaits, monotonic progress and 100ms throttle",
+        "cancel/adopt cleanup order and imported transfer/lexical/security policy"
+      ],
+      "minimalFutureFake": "One injected materializer/cleanup/Emitter/AbortController/clock group for overlapping operation IDs, stale completion and cancellation, adoption, progress ordering; no real upload/backend/user file/credential.",
+      "scopeCaution": "Existing complete remotePromptAttachments owner is a dependency and must not be reauthored or retested; this is a separate staging state owner.",
+      "status": "report-only next candidate; not allocated/authored/validated or independently accepted this batch",
+      "upstreamStatus": "Exact old inventory same-path blob/hash recorded; no fresh publisher source response fetched this report",
+      "curatorReadCurrentCompleteBodyForQualification": true,
+      "noAcceptedExactOwnerReceiptLocatedWithinBoundedSearch": true,
+      "privateAbsenceClaim": false
+    }
+  ],
+  "MITClaim": false
+}

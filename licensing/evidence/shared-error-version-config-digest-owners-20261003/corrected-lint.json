@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/workspace-hook-digest.ts",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 36ms on 2 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

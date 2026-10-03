@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-file-lock-boundaries.test.mjs",
+    "/tmp/knorvia-shared-file-lock-baseline"
+  ],
+  "stdout": "\u2714 atomic owner preserves unique release, dead-owner reclamation and deadline/permission identity (32.498029ms)\n\u2714 persistence FIFO progresses after release errors and keeps different paths independent (7.124927ms)\n\u2714 persistence preserves admitted rename retries, cleanup error precedence and deterministic backup bytes (4.790632ms)\n\u2139 tests 3\n\u2139 suites 0\n\u2139 pass 3\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 48.483496\n",
+  "stderr": "",
+  "exitCode": 0
+}

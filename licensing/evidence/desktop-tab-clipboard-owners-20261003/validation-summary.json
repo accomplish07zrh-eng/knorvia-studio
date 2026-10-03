@@ -1,0 +1,110 @@
+{
+  "batch": 42,
+  "base": "686ad40895582aa02e50ca34df0e9ccb9d17c5fc",
+  "draftPr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "completeSelectedOwnerCandidates": 3,
+  "acceptedIndependentReplacements": 0,
+  "publisherVerifiedPaths": 3,
+  "publisherVerificationIsLicenseGrant": false,
+  "finalSourceRetention": {
+    "retainedTrackedFiles": 1836,
+    "unselectedDesktopFiles": 1500,
+    "unselectedCliFiles": 315,
+    "frozenEvidenceFiles": 167,
+    "outputs": [
+      {
+        "owner": "residency",
+        "raw": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/residency-correction-1.ts.txt",
+        "rawSha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8",
+        "installed": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+        "installedSha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8",
+        "formattedFrozenEqualsInstalled": true
+      },
+      {
+        "owner": "recovery",
+        "raw": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/recovery-initial.ts.txt",
+        "rawSha256": "75e1895e91a4e74dcdd271f3aa17798394383facb635a940d074179b333aebc1",
+        "installed": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+        "installedSha256": "fb626c4ce574b584a2f2ac5b187b5edf2b8dc29ef4e0c2292ec5179e185cf75b",
+        "formattedFrozenEqualsInstalled": true
+      },
+      {
+        "owner": "clipboard",
+        "raw": "licensing/evidence/desktop-tab-clipboard-owners-20261003/drafts/clipboard-correction-1.ts.txt",
+        "rawSha256": "2e020fd1746cf5bf694cfb13fce7829446d2c0fbab5eddfb14db67c945942d54",
+        "installed": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+        "installedSha256": "9476d0876f408a2d5dfb3e90884b3f8b2eeeb648c04610f6eef09a3ceb82ffec",
+        "formattedFrozenEqualsInstalled": true
+      }
+    ],
+    "curatorProductionEdits": "Complete literal copies and formatting only"
+  },
+  "countsAreCompletedOwners": false,
+  "validation": {
+    "baselineInitialAfterHarnessCorrection": "5/5, plus later1/1 residency boundary",
+    "initialCandidate": "5/5 before additional boundaries",
+    "initialFailures": "clipboard synchronous release identity; residency existing-generation lookup",
+    "finalUniqueGroups": 5,
+    "finalGroupsSource": "recovery2 initial unchanged + clipboard2 corrected + residency1 corrected; no full5 rerun",
+    "syntheticPortTypes": 0,
+    "publicExportsWithConstructorMethodRecordShapes": 10,
+    "directConsumerSyntaxFiles": 3,
+    "actualProductDependencyNativeTypesPassed": false,
+    "lint": "initial8 files2test warnings0errors; correctedtestonly0/0,7others unchanged",
+    "architecture": "direct script baseline0 new0; prior pnpm wrapper stillblocked"
+  },
+  "authorship": {
+    "freshNoForkAuthors": 3,
+    "modelRequested": "gpt-6-sol",
+    "effort": "high",
+    "fastVerified": false,
+    "completeRawVersions": 5,
+    "allCompleteBeforeFreezeBeforeReview": true,
+    "ownMemoryCorrections": true,
+    "sourceExposedCurator": "copies/formatting only",
+    "OSCleanroom": false
+  },
+  "retainedShapes": {
+    "records": 8,
+    "installed": [
+      {
+        "owner": "residency",
+        "kind": "installed",
+        "source": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+        "sourceSha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8",
+        "bodyPairs": 9,
+        "uniqueBodies": 9,
+        "expressions": 222,
+        "acceptedIndependentReplacementCredit": 0
+      },
+      {
+        "owner": "recovery",
+        "kind": "installed",
+        "source": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+        "sourceSha256": "fb626c4ce574b584a2f2ac5b187b5edf2b8dc29ef4e0c2292ec5179e185cf75b",
+        "bodyPairs": 43,
+        "uniqueBodies": 18,
+        "expressions": 278,
+        "acceptedIndependentReplacementCredit": 0
+      },
+      {
+        "owner": "clipboard",
+        "kind": "installed",
+        "source": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+        "sourceSha256": "9476d0876f408a2d5dfb3e90884b3f8b2eeeb648c04610f6eef09a3ceb82ffec",
+        "bodyPairs": 23,
+        "uniqueBodies": 8,
+        "expressions": 216,
+        "acceptedIndependentReplacementCredit": 0
+      }
+    ],
+    "allMatchingCredit": 0
+  },
+  "remaining": [
+    "No fulltests/build/native/product types or aggregate integration permitted",
+    "Copyright/independent-expression/license acceptance deferred",
+    "Node24.19.0 vs pinned24.14.0",
+    "Priorpnpm ENOENT no retry/install/permissionworkaround; current3 publisher reads succeed despitelocalobjectgap",
+    "Root/D/otherlane holds,privateUI403 andcancelled upload retained"
+  ]
+}

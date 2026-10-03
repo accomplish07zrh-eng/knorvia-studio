@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "log",
+    "--format=%H %s",
+    "--",
+    "packages/desktop/src/host/index.ts"
+  ],
+  "stdout": "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI\n6e86738bbb43c3df206fc25080214bca77cd6b81 feat(studio): schedule saved workflows through Automations\ndfbf2b66db3b2dd3e16fb09417b260ef6e33114c chore: refresh Knorvia Studio preview snapshot\n7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+  "stderr": "",
+  "exitCode": 0
+}

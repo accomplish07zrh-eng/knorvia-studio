@@ -10,58 +10,61 @@ interface RemoteAppConfigLike {
 
 type LocaleUrlMap = Partial<Record<Locale, string>>;
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value != null;
+function isObjectValue(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
-function sanitizeUrl(value: unknown): string | undefined {
-  return typeof value === "string" && value.trim() !== "" ? value : undefined;
+function readConfig(value: unknown): RemoteAppConfigLike | undefined {
+  return isObjectValue(value) ? value : undefined;
+}
+
+function admitUrl(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value : undefined;
 }
 
 export function getFeedbackUrlFromConfig(config: unknown): string | undefined {
-  if (!isRecord(config)) {
+  const admitted = readConfig(config);
+  if (admitted === undefined) {
     return undefined;
   }
-
-  return sanitizeUrl((config as RemoteAppConfigLike).feedback_url);
+  return admitUrl(admitted.feedback_url);
 }
 
 export function getFeedbackApiBaseFromConfig(config: unknown): string | undefined {
-  if (!isRecord(config)) {
+  const admitted = readConfig(config);
+  if (admitted === undefined) {
     return undefined;
   }
-
-  return sanitizeUrl((config as RemoteAppConfigLike).feedback_api_base);
+  return admitUrl(admitted.feedback_api_base);
 }
 
 export function getFeedbackUseExternalFormFromConfig(config: unknown): boolean {
-  if (!isRecord(config)) {
+  const admitted = readConfig(config);
+  if (admitted === undefined) {
     return false;
   }
-
-  const value = (config as RemoteAppConfigLike).feedback_use_external_form;
+  const value = admitted.feedback_use_external_form;
   return value === true || value === "true";
 }
 
 export function getCommunityUrlsFromConfig(config: unknown): LocaleUrlMap {
-  if (!isRecord(config)) {
+  const admitted = readConfig(config);
+  if (admitted === undefined) {
     return {};
   }
-
-  const rawCommunityUrls = (config as RemoteAppConfigLike).community_urls;
-  if (!isRecord(rawCommunityUrls)) {
+  const urls = admitted.community_urls;
+  if (!isObjectValue(urls)) {
     return {};
   }
-
   return {
-    "zh-CN": sanitizeUrl(rawCommunityUrls["zh-CN"]),
-    "en-US": sanitizeUrl(rawCommunityUrls["en-US"]),
+    "zh-CN": admitUrl(urls["zh-CN"]),
+    "en-US": admitUrl(urls["en-US"]),
   };
 }
 
 export function getCommunityUrlFromConfig(config: unknown, locale: Locale): string | undefined {
-  const communityUrls = getCommunityUrlsFromConfig(config);
-  return communityUrls[locale];
+  const urls = getCommunityUrlsFromConfig(config);
+  return urls[locale];
 }
 
 export function getCommunityUrlFromConfigs(
@@ -71,24 +74,22 @@ export function getCommunityUrlFromConfigs(
 ): string | undefined {
   const remoteUrls = getCommunityUrlsFromConfig(remoteConfig);
   const localUrls = getCommunityUrlsFromConfig(localConfig);
-
-  // 社群渠道具有语言边界。只允许远端覆盖同语言的内置入口，
-  // 对应语言缺失时保持隐藏，避免中文和英文用户被导向错误渠道。
   return remoteUrls[locale] ?? localUrls[locale];
 }
 
 export function getForceUpdateMinimalVersionFromConfig(config: unknown): string | undefined {
-  if (!isRecord(config)) {
+  const admitted = readConfig(config);
+  if (admitted === undefined) {
     return undefined;
   }
-
-  const forceUpdate = (config as RemoteAppConfigLike).forceUpdate;
-  if (!isRecord(forceUpdate)) {
+  const forceUpdate = admitted.forceUpdate;
+  if (!isObjectValue(forceUpdate)) {
     return undefined;
   }
-
   const minimalVersion = forceUpdate.minimalVersion;
-  return typeof minimalVersion === "string" && minimalVersion.trim() !== ""
-    ? minimalVersion.trim()
-    : undefined;
+  if (typeof minimalVersion !== "string") {
+    return undefined;
+  }
+  const trimmedVersion = minimalVersion.trim();
+  return trimmedVersion.length > 0 ? trimmedVersion : undefined;
 }

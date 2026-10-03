@@ -1,30 +1,10 @@
 import type { KnorviaEnv } from "./env.js";
 
+declare const __KNORVIA_ENDPOINT_ENV__: Record<string, string | undefined> | undefined;
+
 export const DEFAULT_KNORVIA_ENDPOINT_ORIGIN = "";
 export const DEFAULT_BIGMODEL_API_ORIGIN = "https://bigmodel.cn";
 export const DEFAULT_ZAI_BUSINESS_BASE_URL = "https://api.z.ai";
-
-// 构建仅注入公开链接；Node 调用方仍可显式传 env，避免读取另一进程的配置。
-declare const __KNORVIA_ENDPOINT_ENV__: Record<string, string | undefined> | undefined;
-export function pickProductEndpointEnv(
-  env: Record<string, string | undefined>,
-): Record<string, string> {
-  const keys = [
-    "KNORVIA_BASE_URL",
-    "KNORVIA_ENDPOINT_ORIGIN",
-    "BIGMODEL_API_BASE_URL",
-    "ZAI_BUSINESS_BASE_URL",
-  ];
-  return Object.fromEntries(
-    keys.flatMap((key) => (env[key]?.trim() ? [[key, env[key]!.trim()]] : [])),
-  );
-}
-export function readProductEndpointEnv(): Record<string, string | undefined> {
-  return {
-    ...(typeof __KNORVIA_ENDPOINT_ENV__ === "undefined" ? {} : __KNORVIA_ENDPOINT_ENV__),
-    ...pickProductEndpointEnv(typeof process === "undefined" ? {} : process.env),
-  };
-}
 
 export interface KnorviaEndpointUrls {
   origin: string;
@@ -61,12 +41,36 @@ export interface RuntimeProductEndpointConfig {
   bigModelApiOrigin: string;
 }
 
+export function pickProductEndpointEnv(
+  env: Record<string, string | undefined>,
+): Record<string, string> {
+  const entries: [string, string][] = [];
+  for (const key of [
+    "KNORVIA_BASE_URL",
+    "KNORVIA_ENDPOINT_ORIGIN",
+    "BIGMODEL_API_BASE_URL",
+    "ZAI_BUSINESS_BASE_URL",
+  ]) {
+    if (env[key]?.trim()) {
+      entries.push([key, env[key]!.trim()]);
+    }
+  }
+  return Object.fromEntries(entries);
+}
+
+export function readProductEndpointEnv(): Record<string, string | undefined> {
+  return {
+    ...(typeof __KNORVIA_ENDPOINT_ENV__ === "undefined" ? {} : __KNORVIA_ENDPOINT_ENV__),
+    ...pickProductEndpointEnv(typeof process === "undefined" ? {} : process.env),
+  };
+}
+
 function readRuntimeEnvValue(
   env: Record<string, string | undefined>,
   key: string,
 ): string | undefined {
   const value = env[key]?.trim();
-  return value ? value : undefined;
+  return value || undefined;
 }
 
 export function normalizeKnorviaEndpointOrigin(value: string): string {
@@ -74,7 +78,6 @@ export function normalizeKnorviaEndpointOrigin(value: string): string {
   if (!trimmed) {
     throw new Error("Knorvia Studio endpoint origin is empty");
   }
-
   const parsed = new URL(trimmed);
   if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
     throw new Error("Knorvia Studio endpoint origin must use http or https");
@@ -94,7 +97,6 @@ export function resolveKnorviaEndpointOrigin(options?: {
 export function resolveRuntimeKnorviaEnv(
   env: RuntimeKnorviaEndpointEnv = readProductEndpointEnv(),
 ): KnorviaEnv {
-  // 产品身份仅用于既有展示与安装标识，不参与地址解析。
   return env.KNORVIA_ENV?.trim().toLowerCase() === "test" ? "test" : "production";
 }
 
@@ -143,7 +145,6 @@ export function buildBigModelApiUrl(
 export function buildBigModelCodingPlanPersonalManageUrl(
   env: RuntimeBigModelApiEnv = readProductEndpointEnv(),
 ): string {
-  // 管理页与业务 API 共用显式 origin，避免把已登录账号带到另一个部署。
   return buildBigModelApiUrl(env, "/coding-plan/personal/overview");
 }
 
@@ -174,7 +175,6 @@ export function resolveRuntimeProductEndpointConfig(
 ): RuntimeProductEndpointConfig {
   const knorviaEnv = resolveRuntimeKnorviaEnv(env);
   const knorviaEndpointOrigin = resolveRuntimeKnorviaEndpointOrigin(env);
-
   return {
     knorviaEnv,
     knorviaEndpointOrigin,
@@ -185,9 +185,9 @@ export function resolveRuntimeProductEndpointConfig(
 }
 
 export function buildKnorviaEndpointUrls(origin: string): KnorviaEndpointUrls {
-  const normalizedOrigin = normalizeKnorviaEndpointOrigin(origin);
+  const normalized = normalizeKnorviaEndpointOrigin(origin);
   return {
-    origin: normalizedOrigin,
-    apiBaseUrl: `${normalizedOrigin}/api/v1`,
+    origin: normalized,
+    apiBaseUrl: `${normalized}/api/v1`,
   };
 }

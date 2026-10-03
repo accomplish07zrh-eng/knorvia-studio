@@ -1,103 +1,266 @@
-import { gzip, gunzip } from "node:zlib";
-import {
-  chmod,
-  lstat,
-  mkdir,
-  readFile,
-  readlink,
-  readdir,
-  symlink,
-  unlink,
-  writeFile,
-} from "node:fs/promises";
-import { dirname, isAbsolute, join, relative, resolve, sep, posix } from "node:path";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 import { promisify } from "node:util";
-
-const gzipAsync = promisify(gzip);
-const gunzipAsync = promisify(gunzip);
-const TAR_BLOCK_SIZE = 512;
-const TAR_END_BLOCK_BYTES = TAR_BLOCK_SIZE * 2;
+import { gzip, gunzip } from "node:zlib";
 
 export interface LocalTarGzEntry {
   sourcePath: string;
   archivePath: string;
 }
 
-// Windows 客户端不一定能 spawn System32\tar.exe，远端资源本地缓存不能依赖系统 tar。
-// 这里仅支持 Knorvia remote assets 使用的普通文件/目录子集，避免扩大归档格式的行为面。
+const gzipAsync = promisify(gzip);
+const gunzipAsync = promisify(gunzip);
+const BLOCK_SIZE = 512;
+
+function readString(buffer: Buffer, offset: number, length: number): string {
+  const field = buffer.subarray(offset, offset + length);
+  const terminator = field.indexOf(0);
+  return field.subarray(0, terminator < 0 ? field.length : terminator).toString("utf8");
+}
+
+function readOctal(buffer: Buffer, offset: number, length: number): number {
+  return Number.parseInt(readString(buffer, offset, length).trim() || "0", 8);
+}
+
+function isZeroHeader(header: Buffer): boolean {
+  return header.every((byte) => byte === 0);
+}
+
+function outsideRoot(root: string, candidate: string): boolean {
+  const relative = path.relative(root, candidate);
+  return (
+    relative === "" ||
+    relative === ".." ||
+    relative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relative)
+  );
+}
+
+function extractionPath(root: string, original: string): string | undefined {
+  const name = original.trim().replace(/^\.\/+/u, "");
+  if (name === "" || name === ".") return undefined;
+
+  const unsafe = (): never => {
+    throw new Error(`[remote-assets] unsafe tar entry path: ${original}`);
+  };
+  if (name.includes("\\") || path.isAbsolute(name) || path.posix.isAbsolute(name)) {
+    unsafe();
+  }
+
+  const normalized = path.posix.normalize(name).replace(/\/+$/, "");
+  if (
+    normalized === "" ||
+    normalized === "." ||
+    normalized === ".." ||
+    normalized.startsWith("../") ||
+    normalized.includes("/../")
+  ) {
+    unsafe();
+  }
+
+  const target = path.resolve(root, ...normalized.split("/"));
+  if (outsideRoot(root, target)) unsafe();
+  return target;
+}
+
+function normalizeLinkName(raw: string): string {
+  const normalized = path.posix.normalize(raw);
+  if (
+    raw === "" ||
+    normalized === "" ||
+    normalized === "." ||
+    normalized.includes("\\") ||
+    path.isAbsolute(normalized) ||
+    path.posix.isAbsolute(normalized) ||
+    /^[a-zA-Z]:/.test(normalized)
+  ) {
+    throw new Error(`[remote-assets] unsafe tar symlink target: ${raw}`);
+  }
+  return normalized;
+}
+
+async function applyMode(target: string, mode: number): Promise<void> {
+  if (!mode) return;
+  // Windows 等平台可能不支持归档权限；chmod 失败不影响已完成的内容解包。
+  try {
+    await fs.chmod(target, mode & 0o777);
+  } catch {
+    // 权限恢复是尽力操作，保留原有跨平台行为。
+  }
+}
+
 export async function extractTarGzArchive(archivePath: string, targetDir: string): Promise<void> {
-  const targetRoot = resolve(targetDir);
-  await mkdir(targetRoot, { recursive: true });
+  const targetRoot = path.resolve(targetDir);
+  await fs.mkdir(targetRoot, { recursive: true });
+  const archive = await gunzipAsync(await fs.readFile(archivePath));
+  let position = 0;
+  let pendingName: string | undefined;
 
-  const archiveBuffer = await gunzipAsync(await readFile(archivePath));
-  let offset = 0;
-  let nextEntryName: string | null = null;
-
-  while (offset + TAR_BLOCK_SIZE <= archiveBuffer.length) {
-    const header = archiveBuffer.subarray(offset, offset + TAR_BLOCK_SIZE);
-    offset += TAR_BLOCK_SIZE;
-
-    if (isZeroBlock(header)) {
-      break;
-    }
-
-    const size = parseTarOctal(header, 124, 12);
-    const dataStart = offset;
+  while (position + BLOCK_SIZE <= archive.length) {
+    const header = archive.subarray(position, position + BLOCK_SIZE);
+    if (isZeroHeader(header)) break;
+    const size = readOctal(header, 124, 12);
+    const dataStart = position + BLOCK_SIZE;
     const dataEnd = dataStart + size;
-    if (dataEnd > archiveBuffer.length) {
+    if (dataEnd > archive.length) {
       throw new Error(`[remote-assets] truncated tar entry in ${archivePath}`);
     }
+    const data = archive.subarray(dataStart, dataEnd);
+    position = dataStart + Math.ceil(size / BLOCK_SIZE) * BLOCK_SIZE;
+    const typeFlag = header[156] === 0 ? "0" : String.fromCharCode(header[156]);
 
-    const data = archiveBuffer.subarray(dataStart, dataEnd);
-    offset = dataStart + roundUpToTarBlock(size);
-
-    const typeFlag = readTarTypeFlag(header);
     if (typeFlag === "L") {
-      nextEntryName = readTarString(data, 0, data.length);
+      pendingName = readString(data, 0, data.length);
       continue;
     }
-    if (typeFlag === "x" || typeFlag === "g") {
-      continue;
-    }
+    if (typeFlag === "x" || typeFlag === "g") continue;
 
-    const rawEntryName = nextEntryName ?? readTarEntryPath(header);
-    nextEntryName = null;
-    const safeEntryPath = normalizeExtractEntryPath(rawEntryName);
-    if (!safeEntryPath) {
-      continue;
-    }
-
-    const targetPath = resolvePathWithinBase(targetRoot, safeEntryPath);
-    const mode = parseTarOctal(header, 100, 8);
+    const headerName = readString(header, 0, 100);
+    const prefix = readString(header, 345, 155);
+    const rawName = pendingName ?? (prefix ? `${prefix}/${headerName}` : headerName);
+    pendingName = undefined;
+    const target = extractionPath(targetRoot, rawName);
+    if (target === undefined) continue;
+    const mode = readOctal(header, 100, 8);
 
     if (typeFlag === "5") {
-      await mkdir(targetPath, { recursive: true });
-      await applyMode(targetPath, mode);
-      continue;
+      await fs.mkdir(target, { recursive: true });
+      await applyMode(target, mode);
+    } else if (typeFlag === "0") {
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.writeFile(target, data);
+      await applyMode(target, mode);
+    } else if (typeFlag === "2") {
+      const rawLink = readString(header, 157, 100);
+      const linkName = normalizeLinkName(rawLink);
+      const parent = path.dirname(target);
+      const linkTarget = path.resolve(parent, ...linkName.split("/"));
+      if (outsideRoot(targetRoot, linkTarget)) {
+        throw new Error(`[remote-assets] unsafe tar symlink target: ${rawLink}`);
+      }
+      await fs.mkdir(parent, { recursive: true });
+      try {
+        await fs.unlink(target);
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      }
+      await fs.symlink(linkName, target);
+    } else {
+      throw new Error(
+        `[remote-assets] unsupported tar entry type ${JSON.stringify(typeFlag)} for ${rawName}`,
+      );
     }
+  }
+}
 
-    if (typeFlag === "0" || typeFlag === "\0") {
-      await mkdir(dirname(targetPath), { recursive: true });
-      await writeFile(targetPath, data);
-      await applyMode(targetPath, mode);
-      continue;
+function normalizeArchivePath(entryPath: string): string {
+  const normalized = entryPath.replace(/^\.\/+/u, "").replace(/\/+$/, "");
+  if (normalized === "" || normalized === ".") {
+    throw new Error("[remote-assets] tar entry path must not be empty");
+  }
+  return normalized;
+}
+
+function splitHeaderPath(entryPath: string): { name: string; prefix: string } {
+  if (Buffer.byteLength(entryPath, "utf8") <= 100) {
+    return { name: entryPath, prefix: "" };
+  }
+  for (
+    let slash = entryPath.lastIndexOf("/");
+    slash > 0;
+    slash = entryPath.lastIndexOf("/", slash - 1)
+  ) {
+    const prefix = entryPath.slice(0, slash);
+    const name = entryPath.slice(slash + 1);
+    if (Buffer.byteLength(prefix, "utf8") <= 155 && Buffer.byteLength(name, "utf8") <= 100) {
+      return { name, prefix };
     }
+  }
+  throw new Error(`[remote-assets] tar entry path is too long: ${entryPath}`);
+}
 
-    if (typeFlag === "2") {
-      const linkTarget = normalizeExtractSymlinkTarget({
-        rawLinkTarget: readTarString(header, 157, 100),
-        targetPath,
-        targetRoot,
+function writeOctal(header: Buffer, offset: number, length: number, value: number): void {
+  const digits = Math.trunc(value)
+    .toString(8)
+    .padStart(length - 1, "0")
+    .slice(-(length - 1));
+  header.write(digits, offset, length - 1, "utf8");
+}
+
+function createHeader(
+  entryPath: string,
+  mode: number,
+  mtime: number,
+  size: number,
+  typeFlag: string,
+  linkName?: string,
+): Buffer {
+  const { name, prefix } = splitHeaderPath(entryPath);
+  if (linkName && Buffer.byteLength(linkName, "utf8") > 100) {
+    throw new Error(`[remote-assets] tar symlink target is too long: ${linkName}`);
+  }
+  const header = Buffer.alloc(BLOCK_SIZE);
+  header.write(name, 0, 100, "utf8");
+  writeOctal(header, 100, 8, mode);
+  writeOctal(header, 108, 8, 0);
+  writeOctal(header, 116, 8, 0);
+  writeOctal(header, 124, 12, size);
+  writeOctal(header, 136, 12, mtime);
+  header.fill(0x20, 148, 156);
+  header.write(typeFlag, 156, 1, "utf8");
+  if (linkName) header.write(linkName, 157, 100, "utf8");
+  header.write("ustar", 257, 6, "utf8");
+  header.write("00", 263, 2, "utf8");
+  header.write("knorvia", 265, 32, "utf8");
+  header.write("knorvia", 297, 32, "utf8");
+  header.write(prefix, 345, 155, "utf8");
+  const checksum = header.reduce((sum, byte) => sum + byte, 0);
+  header.write(checksum.toString(8).padStart(6, "0").slice(-6), 148, 6, "utf8");
+  header[154] = 0;
+  header[155] = 0x20;
+  return header;
+}
+
+async function appendEntry(blocks: Buffer[], entry: LocalTarGzEntry): Promise<void> {
+  const stat = await fs.lstat(entry.sourcePath);
+  const entryPath = normalizeArchivePath(entry.archivePath);
+  const mtime = Math.floor(stat.mtimeMs / 1000);
+
+  if (stat.isDirectory()) {
+    // Windows 的目录 mode 不一定带可执行位，统一写入 0755 保持目录可遍历。
+    blocks.push(createHeader(`${entryPath}/`, 0o755, mtime, 0, "5"));
+    const children = await fs.readdir(entry.sourcePath, { withFileTypes: true });
+    children.sort((left, right) => left.name.localeCompare(right.name));
+    for (const child of children) {
+      await appendEntry(blocks, {
+        sourcePath: path.join(entry.sourcePath, child.name),
+        archivePath: path.posix.join(entryPath, child.name),
       });
-      await mkdir(dirname(targetPath), { recursive: true });
-      await unlinkIfExists(targetPath);
-      await symlink(linkTarget, targetPath);
-      continue;
     }
-
-    throw new Error(
-      `[remote-assets] unsupported tar entry type ${JSON.stringify(typeFlag)} for ${rawEntryName}`,
+  } else if (stat.isFile()) {
+    const data = await fs.readFile(entry.sourcePath);
+    blocks.push(createHeader(entryPath, stat.mode & 0o777, mtime, data.length, "0"));
+    blocks.push(data);
+    const padding = (BLOCK_SIZE - (data.length % BLOCK_SIZE)) % BLOCK_SIZE;
+    if (padding) blocks.push(Buffer.alloc(padding));
+  } else if (stat.isSymbolicLink()) {
+    const rawLink = await fs.readlink(entry.sourcePath);
+    const linkName = normalizeLinkName(rawLink);
+    const archiveParent = path.posix.dirname(entryPath);
+    const logicalTarget = path.posix.normalize(
+      path.posix.join(archiveParent === "." ? "" : archiveParent, linkName),
     );
+    if (
+      logicalTarget === "" ||
+      logicalTarget === "." ||
+      logicalTarget === ".." ||
+      logicalTarget.startsWith("../")
+    ) {
+      throw new Error(`[remote-assets] unsafe tar symlink target: ${rawLink}`);
+    }
+    blocks.push(createHeader(entryPath, 0o777, mtime, 0, "2", linkName));
+  } else {
+    throw new Error(`[remote-assets] unsupported local archive source: ${entry.sourcePath}`);
   }
 }
 
@@ -105,326 +268,10 @@ export async function createTarGzArchive(
   archivePath: string,
   entries: readonly LocalTarGzEntry[],
 ): Promise<void> {
-  const archiveParts: Buffer[] = [];
-  for (const entry of entries) {
-    await appendTarEntry(archiveParts, entry.sourcePath, entry.archivePath);
-  }
-  archiveParts.push(Buffer.alloc(TAR_END_BLOCK_BYTES));
-
-  await mkdir(dirname(archivePath), { recursive: true });
-  await writeFile(archivePath, await gzipAsync(Buffer.concat(archiveParts)));
-}
-
-async function appendTarEntry(
-  archiveParts: Buffer[],
-  sourcePath: string,
-  archivePath: string,
-): Promise<void> {
-  const sourceStat = await lstat(sourcePath);
-  const normalizedArchivePath = normalizeCreateEntryPath(archivePath);
-
-  if (sourceStat.isDirectory()) {
-    const directoryEntryPath = ensureTrailingSlash(normalizedArchivePath);
-    archiveParts.push(
-      createTarHeader({
-        entryPath: directoryEntryPath,
-        // Windows lstat 的目录 mode 只有读写语义，常见为 0666；原样写进 tar 后，
-        // 远端 tar 叠加 umask 会落成不可遍历的 0644。远端资源目录统一使用 POSIX 0755。
-        mode: 0o755,
-        mtimeSeconds: Math.floor(sourceStat.mtimeMs / 1000),
-        size: 0,
-        typeFlag: "5",
-      }),
-    );
-
-    const children = (await readdir(sourcePath, { withFileTypes: true })).sort((left, right) =>
-      left.name.localeCompare(right.name),
-    );
-    for (const child of children) {
-      await appendTarEntry(
-        archiveParts,
-        join(sourcePath, child.name),
-        posix.join(normalizedArchivePath, child.name),
-      );
-    }
-    return;
-  }
-
-  if (!sourceStat.isFile()) {
-    if (sourceStat.isSymbolicLink()) {
-      const linkTarget = normalizeCreateSymlinkTarget({
-        archivePath: normalizedArchivePath,
-        rawLinkTarget: await readlink(sourcePath),
-      });
-      archiveParts.push(
-        createTarHeader({
-          entryPath: normalizedArchivePath,
-          linkName: linkTarget,
-          mode: 0o777,
-          mtimeSeconds: Math.floor(sourceStat.mtimeMs / 1000),
-          size: 0,
-          typeFlag: "2",
-        }),
-      );
-      return;
-    }
-
-    throw new Error(`[remote-assets] unsupported local archive source: ${sourcePath}`);
-  }
-
-  const content = await readFile(sourcePath);
-  archiveParts.push(
-    createTarHeader({
-      entryPath: normalizedArchivePath,
-      mode: sourceStat.mode,
-      mtimeSeconds: Math.floor(sourceStat.mtimeMs / 1000),
-      size: content.length,
-      typeFlag: "0",
-    }),
-    content,
-    Buffer.alloc(roundUpToTarBlock(content.length) - content.length),
-  );
-}
-
-function createTarHeader(options: {
-  entryPath: string;
-  linkName?: string;
-  mode: number;
-  mtimeSeconds: number;
-  size: number;
-  typeFlag: "0" | "2" | "5";
-}): Buffer {
-  const header = Buffer.alloc(TAR_BLOCK_SIZE);
-  const { name, prefix } = splitTarEntryPath(options.entryPath);
-
-  writeTarString(header, name, 0, 100);
-  writeTarOctal(header, options.mode & 0o777, 100, 8);
-  writeTarOctal(header, 0, 108, 8);
-  writeTarOctal(header, 0, 116, 8);
-  writeTarOctal(header, options.size, 124, 12);
-  writeTarOctal(header, options.mtimeSeconds, 136, 12);
-  header.fill(0x20, 148, 156);
-  writeTarString(header, options.typeFlag, 156, 1);
-  if (options.linkName) {
-    if (Buffer.byteLength(options.linkName) > 100) {
-      throw new Error(`[remote-assets] tar symlink target is too long: ${options.linkName}`);
-    }
-    writeTarString(header, options.linkName, 157, 100);
-  }
-  writeTarString(header, "ustar", 257, 6);
-  writeTarString(header, "00", 263, 2);
-  writeTarString(header, "knorvia", 265, 32);
-  writeTarString(header, "knorvia", 297, 32);
-  writeTarString(header, prefix, 345, 155);
-
-  let checksum = 0;
-  for (const byte of header) {
-    checksum += byte;
-  }
-  writeTarChecksum(header, checksum);
-  return header;
-}
-
-function splitTarEntryPath(entryPath: string): { name: string; prefix: string } {
-  const encodedLength = Buffer.byteLength(entryPath);
-  if (encodedLength <= 100) {
-    return { name: entryPath, prefix: "" };
-  }
-
-  const segments = entryPath.split("/");
-  for (let index = segments.length - 1; index > 0; index -= 1) {
-    const prefix = segments.slice(0, index).join("/");
-    const name = segments.slice(index).join("/");
-    if (Buffer.byteLength(prefix) <= 155 && Buffer.byteLength(name) <= 100) {
-      return { name, prefix };
-    }
-  }
-
-  throw new Error(`[remote-assets] tar entry path is too long: ${entryPath}`);
-}
-
-function readTarEntryPath(header: Buffer): string {
-  const name = readTarString(header, 0, 100);
-  const prefix = readTarString(header, 345, 155);
-  return prefix ? `${prefix}/${name}` : name;
-}
-
-function readTarTypeFlag(header: Buffer): string {
-  const value = header[156] ?? 0;
-  return value === 0 ? "0" : String.fromCharCode(value);
-}
-
-function readTarString(buffer: Buffer, offset: number, length: number): string {
-  const slice = buffer.subarray(offset, offset + length);
-  const end = slice.indexOf(0);
-  return slice.subarray(0, end === -1 ? slice.length : end).toString("utf8");
-}
-
-function writeTarString(buffer: Buffer, value: string, offset: number, length: number): void {
-  buffer.write(value, offset, length, "utf8");
-}
-
-function parseTarOctal(buffer: Buffer, offset: number, length: number): number {
-  const raw = readTarString(buffer, offset, length).trim();
-  return raw ? Number.parseInt(raw, 8) : 0;
-}
-
-function writeTarOctal(buffer: Buffer, value: number, offset: number, length: number): void {
-  const encoded = Math.trunc(value)
-    .toString(8)
-    .padStart(length - 1, "0");
-  writeTarString(buffer, encoded.slice(-(length - 1)), offset, length - 1);
-}
-
-function writeTarChecksum(buffer: Buffer, checksum: number): void {
-  const encoded = checksum.toString(8).padStart(6, "0").slice(-6);
-  writeTarString(buffer, encoded, 148, 6);
-  buffer[154] = 0;
-  buffer[155] = 0x20;
-}
-
-function isZeroBlock(block: Buffer): boolean {
-  return block.every((byte) => byte === 0);
-}
-
-function roundUpToTarBlock(size: number): number {
-  return Math.ceil(size / TAR_BLOCK_SIZE) * TAR_BLOCK_SIZE;
-}
-
-function normalizeCreateEntryPath(entryPath: string): string {
-  const normalized = entryPath.replace(/^\.\/+/u, "").replace(/\/+$/u, "");
-  if (!normalized || normalized === ".") {
-    throw new Error("[remote-assets] tar entry path must not be empty");
-  }
-  return normalized;
-}
-
-function normalizeExtractEntryPath(entryPath: string): string | null {
-  const trimmed = entryPath.trim().replace(/^\.\/+/u, "");
-  if (!trimmed || trimmed === ".") {
-    return null;
-  }
-  if (trimmed.includes("\\") || isAbsolute(trimmed) || posix.isAbsolute(trimmed)) {
-    throw new Error(`[remote-assets] unsafe tar entry path: ${entryPath}`);
-  }
-
-  const normalized = posix.normalize(trimmed).replace(/\/+$/u, "");
-  if (
-    !normalized ||
-    normalized === "." ||
-    normalized === ".." ||
-    normalized.startsWith("../") ||
-    normalized.includes("/../")
-  ) {
-    throw new Error(`[remote-assets] unsafe tar entry path: ${entryPath}`);
-  }
-  return normalized;
-}
-
-function normalizeCreateSymlinkTarget({
-  archivePath,
-  rawLinkTarget,
-}: {
-  archivePath: string;
-  rawLinkTarget: string;
-}): string {
-  const normalizedLinkTarget = normalizeSymlinkLinkName(rawLinkTarget);
-  const parentArchivePath = posix.dirname(archivePath);
-  const resolvedArchiveTarget = posix.normalize(
-    posix.join(parentArchivePath === "." ? "" : parentArchivePath, normalizedLinkTarget),
-  );
-  if (
-    !resolvedArchiveTarget ||
-    resolvedArchiveTarget === "." ||
-    resolvedArchiveTarget === ".." ||
-    resolvedArchiveTarget.startsWith("../")
-  ) {
-    throw new Error(`[remote-assets] unsafe tar symlink target: ${rawLinkTarget}`);
-  }
-  return normalizedLinkTarget;
-}
-
-function normalizeExtractSymlinkTarget({
-  rawLinkTarget,
-  targetPath,
-  targetRoot,
-}: {
-  rawLinkTarget: string;
-  targetPath: string;
-  targetRoot: string;
-}): string {
-  const normalizedLinkTarget = normalizeSymlinkLinkName(rawLinkTarget);
-  const resolvedTarget = resolve(dirname(targetPath), ...normalizedLinkTarget.split("/"));
-  const relativePath = relative(targetRoot, resolvedTarget);
-  if (
-    relativePath === "" ||
-    relativePath.startsWith(`..${sep}`) ||
-    relativePath === ".." ||
-    isAbsolute(relativePath)
-  ) {
-    throw new Error(`[remote-assets] unsafe tar symlink target: ${rawLinkTarget}`);
-  }
-  return normalizedLinkTarget;
-}
-
-function normalizeSymlinkLinkName(rawLinkTarget: string): string {
-  const normalized = posix.normalize(rawLinkTarget);
-  // tar symlink 如果允许绝对路径、Windows drive 或反斜杠，解包后可能把本地缓存指向目标目录外。
-  // 这里只保留 POSIX 相对 link target，并在创建/解包两侧继续校验它解析后的落点。
-  if (
-    !rawLinkTarget ||
-    !normalized ||
-    normalized === "." ||
-    normalized.includes("\\") ||
-    isAbsolute(normalized) ||
-    posix.isAbsolute(normalized) ||
-    /^[a-zA-Z]:/u.test(normalized)
-  ) {
-    throw new Error(`[remote-assets] unsafe tar symlink target: ${rawLinkTarget}`);
-  }
-  return normalized;
-}
-
-function ensureTrailingSlash(entryPath: string): string {
-  return entryPath.endsWith("/") ? entryPath : `${entryPath}/`;
-}
-
-function resolvePathWithinBase(baseDir: string, entryPath: string): string {
-  const targetPath = resolve(baseDir, ...entryPath.split("/"));
-  assertPathInsideBase(baseDir, targetPath, entryPath);
-  return targetPath;
-}
-
-function assertPathInsideBase(baseDir: string, targetPath: string, sourceLabel: string): void {
-  const relativePath = relative(baseDir, targetPath);
-  if (
-    relativePath === "" ||
-    relativePath.startsWith(`..${sep}`) ||
-    relativePath === ".." ||
-    isAbsolute(relativePath)
-  ) {
-    throw new Error(`[remote-assets] unsafe tar entry path: ${sourceLabel}`);
-  }
-}
-
-async function unlinkIfExists(filePath: string): Promise<void> {
-  try {
-    await unlink(filePath);
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return;
-    }
-    throw error;
-  }
-}
-
-async function applyMode(filePath: string, mode: number): Promise<void> {
-  if (!mode) {
-    return;
-  }
-  try {
-    await chmod(filePath, mode & 0o777);
-  } catch {
-    // 权限位在 Windows 或受限文件系统上可能不可写，远端部署会按 executable 参数重新 chmod。
-  }
+  const blocks: Buffer[] = [];
+  for (const entry of entries) await appendEntry(blocks, entry);
+  blocks.push(Buffer.alloc(BLOCK_SIZE * 2));
+  await fs.mkdir(path.dirname(archivePath), { recursive: true });
+  const archive = await gzipAsync(Buffer.concat(blocks));
+  await fs.writeFile(archivePath, archive);
 }

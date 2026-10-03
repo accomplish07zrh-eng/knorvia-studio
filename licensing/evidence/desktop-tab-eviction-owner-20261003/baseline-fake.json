@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_EVICTION_BASELINE": "1"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs",
+      "sha256": "b206905816dd729afe5d3aa8189457d36644cdd60d499ff6f489d432bdc89088"
+    }
+  ],
+  "stdout": "✔ complete tab eviction owner preserves protected state, stable ranking and original identity (7.369153ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 278.424528\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^persistence preserves",
+    "packages/shared/test/shared-file-lock-boundaries.test.mjs",
+    "/tmp/knorvia-shared-file-lock-baseline"
+  ],
+  "stdout": "\u2714 persistence preserves admitted rename retries, cleanup error precedence and deterministic backup bytes (13.828508ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 17.32388\n",
+  "stderr": "",
+  "exitCode": 0
+}
