@@ -1,0 +1,25 @@
+{
+  "archivedAtUtc": "2026-10-02T19:26:38.865533+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "delegationConfiguration": {
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "forkTurns": "none",
+    "separateFastTierExposed": false,
+    "independentRuntimeIntrospection": false
+  },
+  "configurationQualification": "Some receipts froze using delegated Sol/high before exact configured identifier arrived; source/receipt not edited afterward. This manifest supplements task-tool configuration only.",
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 5089,
+      "sha256": "c069ee4ac38a56b651385db871c2058e4a8365b0111a17c714c5f66efc5e4e53"
+    },
+    {
+      "file": "draft-builder.ts.txt",
+      "bytes": 9031,
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "target": "apps/cli/packages/core/src/context/builder.ts"
+    }
+  ]
+}

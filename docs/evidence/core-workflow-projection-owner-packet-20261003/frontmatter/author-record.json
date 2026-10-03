@@ -1,0 +1,181 @@
+{
+  "owner": "saved-workflows/frontmatter.ts",
+  "author": "/root/workflow_frontmatter_complete_author_20261003",
+  "date": "2026-10-03",
+  "status": "manual independent whole-source authorship; unverified",
+  "scope": "Whole allocated TypeScript frontmatter codec; exactly two output files.",
+  "accounting": {
+    "line_count_rule": "Number of bytes.splitlines() elements; all files are UTF-8 with final newline.",
+    "sha256_rule": "SHA-256 of exact full file bytes. Input hashes were computed during their sole read. Source hash and detached receipt hash computed from authored in-memory bytes, without output reads.",
+    "receipt_self_hash": "The final SHA-256 of this complete receipt is provided in the final author response and must accompany the archive. Embedding its own final SHA would be circular. Its final byte and line counts are embedded using in-memory serialization before its sole write.",
+    "read_count": 6,
+    "write_count": 2,
+    "chmod_count": 2,
+    "superseded_writes": [],
+    "superseded_reads": [],
+    "additional_files": []
+  },
+  "files": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/contract.md",
+      "kind": "authorized frozen public input",
+      "read_count": 1,
+      "write_count": 0,
+      "chmod_count": 0,
+      "reads": [
+        {
+          "ordinal": 1,
+          "bytes": 3979,
+          "lines": 11,
+          "sha256": "0c560b00d81a44790a60a36c52930bd664c599dc8bac4483b1a2c1f54d652a87"
+        }
+      ],
+      "writes": []
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/public-api.d.ts",
+      "kind": "authorized frozen public input",
+      "read_count": 1,
+      "write_count": 0,
+      "chmod_count": 0,
+      "reads": [
+        {
+          "ordinal": 1,
+          "bytes": 815,
+          "lines": 17,
+          "sha256": "e3f8606c7bc1709ac88b0d335fa738a65dba3d57ed498968d6739bc2a1f0ed71"
+        }
+      ],
+      "writes": []
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/dependency-api.d.ts",
+      "kind": "authorized frozen public input",
+      "read_count": 1,
+      "write_count": 0,
+      "chmod_count": 0,
+      "reads": [
+        {
+          "ordinal": 1,
+          "bytes": 568,
+          "lines": 9,
+          "sha256": "ef567f33689967b0d70d4da49b2203776acfceaa198be65bf942682a2c4df5a1"
+        }
+      ],
+      "writes": []
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/imports.json",
+      "kind": "authorized frozen public input",
+      "read_count": 1,
+      "write_count": 0,
+      "chmod_count": 0,
+      "reads": [
+        {
+          "ordinal": 1,
+          "bytes": 707,
+          "lines": 34,
+          "sha256": "9f58a0b35f676a67b52e9ca317e881eeefd496801ee63b69219220443e315f75"
+        }
+      ],
+      "writes": []
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/required-data.json",
+      "kind": "authorized frozen public input",
+      "read_count": 1,
+      "write_count": 0,
+      "chmod_count": 0,
+      "reads": [
+        {
+          "ordinal": 1,
+          "bytes": 2091,
+          "lines": 127,
+          "sha256": "0cbf66db7f28e87f9c7fd5ab41162c27b46dc812a64e82d68b3f464c35c41e4a"
+        }
+      ],
+      "writes": []
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/public-data.json",
+      "kind": "authorized frozen public input",
+      "read_count": 1,
+      "write_count": 0,
+      "chmod_count": 0,
+      "reads": [
+        {
+          "ordinal": 1,
+          "bytes": 2575,
+          "lines": 40,
+          "sha256": "582f801ff3db13d022b030df32b638b53af46b7a15a728e31cdb092fbebe72ca"
+        }
+      ],
+      "writes": []
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/frontmatter/frontmatter.ts",
+      "kind": "whole authored source output",
+      "read_count": 0,
+      "write_count": 1,
+      "chmod_count": 1,
+      "reads": [],
+      "writes": [
+        {
+          "ordinal": 1,
+          "bytes": 2909,
+          "lines": 101,
+          "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9"
+        }
+      ],
+      "final_mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/frontmatter/author-record.json",
+      "kind": "cumulative author receipt output",
+      "read_count": 0,
+      "write_count": 1,
+      "chmod_count": 1,
+      "reads": [],
+      "writes": [
+        {
+          "ordinal": 1,
+          "bytes": 8958,
+          "lines": 181,
+          "sha256": "Detached exact SHA-256 in final author response; this entry is inside the hashed receipt."
+        }
+      ],
+      "final_mode": "0444"
+    }
+  ],
+  "execution": {
+    "executor": "Shared instruction-only execution environment; author self-report, not an OS audit or isolation guarantee.",
+    "operations": "One Python shell invocation read and hashed only the six named inputs. One Python shell invocation authored and hashed in-memory output bytes, created the authorized output directory, wrote the two named outputs once each and chmodded each to 0444. No output content rereads.",
+    "manual_only": true,
+    "checks_run": [],
+    "compiler_transpiler_linter_tests_source_execution": false,
+    "actual_workflow_agent_file_business_operations": false,
+    "network_user_data_dependency_body_history_environment_reads": false,
+    "subagents_spawned": false,
+    "Fast": "unchanged/unverified"
+  },
+  "design_reasoning": [
+    "The exact public signatures, aliases, type-only SavedWorkflowMeta identity and sentinel literal initializers are retained from the packet.",
+    "Sentinel recognition uses one native trim and exact equality; serialization creates a fresh plain metadata record in description/whenToUse/args order, includes optional keys only when not undefined, preserves args identity and raw script, and calls original stringifyYaml once without interception.",
+    "Parsing splits only on newline, skips leading trim-empty lines, requires the first nonempty supported sentinel and first isolated trimmed closing marker, and uses slice/join to retain all remaining carriage returns, empty lines, trailing newlines and the absolute closing-line offset.",
+    "Only the original YAML parse call is caught. Its thrown Error message or String conversion is retained. Original schema safeParse receives the exact YAML result with its native receiver; failure issue order, path formatting and prose are retained; success keeps parsed.data reference identity.",
+    "Original YAML and SavedWorkflowMetaSchema are opaque imported ports. No parser/schema/policy replacement or standalone semantic closure is claimed. Required static schema expressions remain their original owners; this allocated codec exports only its required sentinel initializers.",
+    "Required parsing markers, fixed metadata keys, error prose, literal initializers and public static material are source-derived preservation data and receive no novelty credit. No business execution, licence decision or rights grant is made."
+  ],
+  "exposure": {
+    "public_source_exposure": "All six named frozen public files were exposed to this author, including their source-derived fixed prose and public schema expressions. No predecessor or other source bodies were read by this author during this task.",
+    "curator_source_exposure": "Source-exposed curator context is retained as a limitation; this is not a clean-room or no-exposure assertion for the curator.",
+    "historical_exposure_repaired_breach": "The packet requires historical exposure and a repaired breach to remain acknowledged. Their existence is retained as inherited context, without inspecting history, asserting details, or representing them as erased by fresh authorship.",
+    "instruction_only": "Access restrictions are instruction-only in a shared executor. This receipt reports author actions, not an OS-level audit or verified absence of all access."
+  },
+  "handoff": {
+    "freeze": "Both exact outputs chmod 0444 immediately after sole writes; author memory supplies detached hashes.",
+    "review_order": "Curator must archive and commit the frozen complete source and full cumulative receipt, including detached receipt SHA, before body review.",
+    "corrections": "A real later failure returns to this same author for a complete replacement source and a full cumulative receipt covering all subsequent/superseded reads and writes. Curator must not patch.",
+    "validation": "No synthetic matrix, test, compiler, lint, build, transpilation, semantic/project check or source execution performed. Behavior reasoning is manual and unverified."
+  }
+}

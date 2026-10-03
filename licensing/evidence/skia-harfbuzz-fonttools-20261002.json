@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "b4e6fcb9df1ce47f959b64d6655b96bdca617ea5",
+  "publishedBaselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "scope": "One exact source port in the already-pinned Skia/HarfBuzz build graph; original fontTools attribution/permission text only.",
+  "fullyClosedParentObligations": 0,
+  "newExactNoticeTexts": 1,
+  "reusedEvidence": [
+    {
+      "file": "licensing/evidence/material-closure-20261002.json",
+      "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1",
+      "use": "Canvas 0.1.100 package/source and Skia gitlink bindings; package/archive matrix not repeated."
+    },
+    {
+      "file": "licensing/evidence/skia-zlib-notices-20261002.json",
+      "sha256": "c3efff4453f080eec58048363dd09264ab5d4e29d27aa9c028dd6db128ab04d2",
+      "use": "Pinned Skia build/default arguments already verified in the preceding bounded zlib audit."
+    }
+  ],
+  "sourcePins": {
+    "parentPackage": "@napi-rs/canvas@0.1.100",
+    "canvasRevision": "db337893b9b53483050ca7b24c6d306e4da06741",
+    "skiaRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+    "harfbuzzRevision": "9cb1fee51069b206effb4736e443b038d230789d",
+    "harfbuzzDeclaredVersion": "13.1.0",
+    "fonttoolsReferencedRevision": "f73220816264fc383b8a75f2146e8d69e455d398",
+    "fonttoolsDeclaredVersion": "4.38.1.dev0",
+    "versionQualification": "Versions come from the exact source commits. No fontTools package, Python runtime or new dependency was installed; no release-version equivalence is inferred."
+  },
+  "portReference": {
+    "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-subset-instancer-solver.cc",
+    "sourceSha256": "b9caba07b8266c24660d0b5f70f80e1306a665d79a73ec78fd5bcd0540cd7bdd",
+    "sourceGitBlob": "03c59dc80a17f3f000fd6d6d01666e7b83843105",
+    "sourceLines": [
+      27,
+      29
+    ],
+    "originalExcerpt": "/* This file is a straight port of the following:\n *\n * https://github.com/fonttools/fonttools/blob/f73220816264fc383b8a75f2146e8d69e455d398/Lib/fontTools/varLib/instancer/solver.py\n",
+    "excerptSha256": "67003faccab46991c14e6cccc8084792604547c7e008b2999745393518937674",
+    "fullPortCommentSha256": "c98b61525a0e03b120dc3ac88a3aed1dd99189fbb285dc6b0a0282311fcf376d",
+    "referencedSource": "https://raw.githubusercontent.com/fonttools/fonttools/f73220816264fc383b8a75f2146e8d69e455d398/Lib/fontTools/varLib/instancer/solver.py",
+    "referencedSourceSha256": "8d8f3a4459ef87364acd96b3b17acdad0d180487f1fa5158b138a926ddc248e0",
+    "referencedSourceGitBlob": "ba1faf7311a9425fa1a84ca5371437a9dbf3651d",
+    "finding": "The pinned HarfBuzz source explicitly identifies this file as a port of the exact fontTools solver path/revision. The origin is not inferred from algorithm similarity or a package name."
+  },
+  "skia": {
+    "status": "open-platform-linkage-and-complete-nested-attribution",
+    "noticeAdditions": [
+      {
+        "component": "fontTools solver port within HarfBuzz",
+        "source": "https://raw.githubusercontent.com/fonttools/fonttools/f73220816264fc383b8a75f2146e8d69e455d398/LICENSE",
+        "sourceSha256": "6787208f83f659ccbc2223b2fde952ffa6f7e8aca62f1a8a2bf5bc51bb1b2383",
+        "sourceGitBlob": "cc633905d333c4b42c1a0c8b34e9f734adeb6e1e",
+        "file": "third-party/upstream/6787208f83f659ccbc2223b2fde952ffa6f7e8aca62f1a8a2bf5bc51bb1b2383.txt",
+        "sha256": "6787208f83f659ccbc2223b2fde952ffa6f7e8aca62f1a8a2bf5bc51bb1b2383",
+        "bytes": 1072,
+        "extraction": "Whole original publisher LICENSE at the source revision explicitly referenced by HarfBuzz; byte-for-byte without newline normalization.",
+        "scope": "The solver source port identified in hb-subset-instancer-solver.cc at HarfBuzz 9cb1fee51069b206effb4736e443b038d230789d. This does not assign a license to all HarfBuzz or Skia material."
+      }
+    ],
+    "requiredIntegration": "Append this one notice to the existing Skia notices for the relevant target and regenerate notices/provenance. Preserve HarfBuzz COPYING and every previously retained Skia notice. Keep Skia.reviewRequired; this is not whole-project license clearance."
+  },
+  "sourceBodies": [
+    {
+      "path": "skia-harfbuzz-build.txt",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/harfbuzz/BUILD.gn",
+      "bytes": 17804,
+      "sha256": "cb22474a32a1254284c1c03039495bfa92c3b2db91e0d85c3f77e011455b5a59",
+      "gitBlob": "bd08b05aff16518d20cdbecf6c64225658ae468f"
+    },
+    {
+      "path": "skia-skshaper-build.txt",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/modules/skshaper/BUILD.gn",
+      "bytes": 2000,
+      "sha256": "0c0bf977eb2b8021227f7300ef37fbec0a70097eb5b735c1c6b8ca98409f95d0",
+      "gitBlob": "268e8054a24a96637485e0624635ecee1670ea9b"
+    },
+    {
+      "path": "hb-subset-instancer-solver.cc",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-subset-instancer-solver.cc",
+      "bytes": 14033,
+      "sha256": "b9caba07b8266c24660d0b5f70f80e1306a665d79a73ec78fd5bcd0540cd7bdd",
+      "gitBlob": "03c59dc80a17f3f000fd6d6d01666e7b83843105"
+    },
+    {
+      "path": "fonttools-solver.py",
+      "source": "https://raw.githubusercontent.com/fonttools/fonttools/f73220816264fc383b8a75f2146e8d69e455d398/Lib/fontTools/varLib/instancer/solver.py",
+      "bytes": 11017,
+      "sha256": "8d8f3a4459ef87364acd96b3b17acdad0d180487f1fa5158b138a926ddc248e0",
+      "gitBlob": "ba1faf7311a9425fa1a84ca5371437a9dbf3651d"
+    },
+    {
+      "path": "fonttools-LICENSE.txt",
+      "source": "https://raw.githubusercontent.com/fonttools/fonttools/f73220816264fc383b8a75f2146e8d69e455d398/LICENSE",
+      "bytes": 1072,
+      "sha256": "6787208f83f659ccbc2223b2fde952ffa6f7e8aca62f1a8a2bf5bc51bb1b2383",
+      "gitBlob": "cc633905d333c4b42c1a0c8b34e9f734adeb6e1e"
+    },
+    {
+      "path": "harfbuzz-meson.build",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/meson.build",
+      "bytes": 17676,
+      "sha256": "270871cb4a392fb13c6ab9cda48262edb34746276f4c5fc09ba3ece2406f81c4",
+      "gitBlob": "83cb4334dc283d3c90c7bda3fdd997e1157bd00a"
+    },
+    {
+      "path": "fonttools-init.py",
+      "source": "https://raw.githubusercontent.com/fonttools/fonttools/f73220816264fc383b8a75f2146e8d69e455d398/Lib/fontTools/__init__.py",
+      "bytes": 188,
+      "sha256": "cc3e4ba5fd00721734c6dd3b93721a48d4634bcca19972640d3c565095372cf7",
+      "gitBlob": "69d9730b5bb47ed5c7bdca5b4c76173f528f425b"
+    }
+  ],
+  "publisherMetadataBindings": [
+    {
+      "source": "https://api.github.com/repos/fonttools/fonttools/git/trees/f73220816264fc383b8a75f2146e8d69e455d398",
+      "responseSha256": "14888b26ae121c6a655d37dace9cc8fcb497f9086130175eecd7b3223b3c717f",
+      "bytes": 6739
+    },
+    {
+      "source": "https://api.github.com/repos/fonttools/fonttools/contents/Lib/fontTools/varLib/instancer/solver.py?ref=f73220816264fc383b8a75f2146e8d69e455d398",
+      "responseSha256": "2aeb8e93ea440db7e91a6d710fc4d40998ee6cca3e688e744370ed29f2a5418c",
+      "bytes": 16324
+    },
+    {
+      "source": "https://api.github.com/repos/harfbuzz/harfbuzz/contents/src/hb-subset-instancer-solver.cc?ref=9cb1fee51069b206effb4736e443b038d230789d",
+      "responseSha256": "9c45a893ae1b2ba08276e550bb6cd072c7a328d6c4531b485cec59208a44a095",
+      "bytes": 20442
+    },
+    {
+      "source": "https://api.github.com/repos/harfbuzz/harfbuzz/git/trees/9cb1fee51069b206effb4736e443b038d230789d",
+      "responseSha256": "302a240f327d44972b2e4f8aa255d63e07579986dcf621fbac9409fb8922161f",
+      "bytes": 7319
+    },
+    {
+      "source": "https://api.github.com/repos/fonttools/fonttools/contents/Lib/fontTools/__init__.py?ref=f73220816264fc383b8a75f2146e8d69e455d398",
+      "responseSha256": "0f624934db64a5f08b58c12a4443d26c8addecd64045ac64b081ea8f849ac0b5",
+      "bytes": 1314
+    }
+  ],
+  "existingNoticePreserved": {
+    "component": "HarfBuzz",
+    "file": "third-party/upstream/ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64.txt",
+    "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64",
+    "gitBlob": "1dd917e9f2e72167de69e3b5dadbc4e7db417da1",
+    "publisherRootTreeSource": "https://api.github.com/repos/harfbuzz/harfbuzz/git/trees/9cb1fee51069b206effb4736e443b038d230789d",
+    "publisherLicenseFile": "COPYING",
+    "exactPublisherBlobMatch": true,
+    "containsFonttoolsNoticeAttribution": false,
+    "qualification": "The retained Old MIT notice and Behdad Esfahbod attribution remain applicable; the additional fontTools publisher notice supplies a distinct original source attribution."
+  },
+  "gapEvidence": {
+    "fonttoolsSnapshotWasAbsentBeforeAddition": true,
+    "fonttoolsComponentAbsentFromAuditedSkiaNoticeList": true,
+    "existingSkiaNoticeListSource": "third-party/embedded-components.json",
+    "existingSkiaNoticeListSha256": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a",
+    "rootLicenseAttribution": "Copyright (c) 2017 Just van Rossum"
+  },
+  "sourceBuildSelection": {
+    "reusedCanvasRecipe": {
+      "source": "https://raw.githubusercontent.com/Brooooooklyn/canvas/db337893b9b53483050ca7b24c6d306e4da06741/scripts/build-skia.js",
+      "file": "third-party/upstream/4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f.txt",
+      "sha256": "4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f",
+      "requestedArguments": [
+        "skia_enable_skshaper=true",
+        "skia_enable_skparagraph=true",
+        "skia_use_harfbuzz=true",
+        "skia_use_icu=true",
+        "skia_use_system_harfbuzz=false"
+      ]
+    },
+    "reusedSkiaDeps": {
+      "file": "third-party/upstream/d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965.txt",
+      "sha256": "d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965",
+      "harfbuzzDependency": "https://chromium.googlesource.com/external/github.com/harfbuzz/harfbuzz.git@9cb1fee51069b206effb4736e443b038d230789d"
+    },
+    "skiaUnicodeDefault": {
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/gn/skia.gni",
+      "sha256": "f1295483a038e3cec0f087c85a6505653f6f05b715317e5136d1e57199ca1575",
+      "lines": [
+        148,
+        150
+      ],
+      "condition": "skia_use_icu || skia_use_client_icu || skia_use_bidi || skia_use_libgrapheme || skia_use_icu4x",
+      "finding": "The recipe requests ICU, enabling this default Unicode condition."
+    },
+    "shapingDependency": {
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/modules/skshaper/BUILD.gn",
+      "sourceSha256": "0c0bf977eb2b8021227f7300ef37fbec0a70097eb5b735c1c6b8ca98409f95d0",
+      "sourceGitBlob": "268e8054a24a96637485e0624635ecee1670ea9b",
+      "condition": "skia_enable_skshaper, with skia_use_harfbuzz && skia_enable_skunicode",
+      "harfbuzzDependencyLines": [
+        55
+      ]
+    },
+    "harfbuzzBundledSources": {
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/harfbuzz/BUILD.gn",
+      "sourceSha256": "cb22474a32a1254284c1c03039495bfa92c3b2db91e0d85c3f77e011455b5a59",
+      "sourceGitBlob": "bd08b05aff16518d20cdbecf6c64225658ae468f",
+      "condition": "!skia_use_system_harfbuzz",
+      "solverSourceLines": [
+        359
+      ],
+      "solverListedInSources": true,
+      "pdfSubsetFlagGuardsSolverSourceEntry": false
+    },
+    "pdfSubsetBoundary": "The canvas recipe separately disables PDF subsetting for selected Windows x64 and Linux musl targets. That flag does not guard the solver entry in the bundled HarfBuzz sources list. Actual binary inclusion, including linker elimination, has not been established.",
+    "proofLimit": "This binds selected source and original attribution. Resolved per-platform compiler/link inputs or a reproduction of the published native packages remain unavailable to this lane."
+  },
+  "checks": [
+    {
+      "name": "correct checkout/remote and workspace freshness",
+      "result": "pass; branch and published remote matched input head; ahead 3 / behind 0 against main"
+    },
+    {
+      "name": "raw source bodies versus pinned publisher Git blobs",
+      "result": "pass; HarfBuzz solver, fontTools solver/LICENSE/version metadata, HarfBuzz version/COPYING and both Skia source lists"
+    },
+    {
+      "name": "new publisher notice snapshot",
+      "result": "pass; the complete original publisher body matches its pinned Git blob and snapshot digest without modification"
+    },
+    {
+      "name": "product tests/builds and package matrix",
+      "result": "not run/repeated; evidence-only task with prior archive bindings reused"
+    },
+    {
+      "name": "all source, selection, version, notice and report bindings",
+      "result": "pass",
+      "sourceBodiesBound": 11,
+      "publisherNoticeSnapshots": 1,
+      "priorEvidenceDigestsUnchanged": 2,
+      "docLinks": "pass"
+    }
+  ],
+  "sourceFetchFailures": [],
+  "remaining": [
+    "Skia full nested attribution and per-platform binary linkage remain open.",
+    "The parent must integrate the one component notice and refresh its inventories.",
+    "All earlier unresolved material obligations remain unchanged."
+  ],
+  "excludedActions": [
+    "No runtime or global inventory edits",
+    "No new license grant, whole-project MIT assignment or release",
+    "No real user data, credentials, private Library/root files or production server access",
+    "No publisher contact or new agreement",
+    "No environment, access or security-setting changes",
+    "No new executor, main merge, deployment or public git bundle"
+  ],
+  "validationFailures": [
+    {
+      "check": "Initial version parser",
+      "result": "Assertion failed because an unanchored version pattern matched meson_version rather than the project version.",
+      "resolution": "Anchored the pattern to the project version field; exact version 13.1.0 and every source/notice binding then passed. Source bytes and declared facts were unchanged."
+    }
+  ]
+}

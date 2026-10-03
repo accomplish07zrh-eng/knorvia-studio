@@ -1,0 +1,335 @@
+{
+  "kind": "Static retained literal/template/regex/numeric-data set containment, not evaluation/semantics/novelty or grant",
+  "results": [
+    {
+      "scope": "dataurl",
+      "source": {
+        "bytes": 2218,
+        "sha256": "e8d9e6802e63480b93a591896feb007d1a93dcb759b312252e08062457f8e4c5"
+      },
+      "requiredStringsRetained": true,
+      "requiredRegexRetained": true,
+      "requiredNumericDataRetained": true,
+      "strings": [
+        {
+          "kind": "text",
+          "text": "data:"
+        },
+        {
+          "kind": "text",
+          "text": ","
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        },
+        {
+          "kind": "text",
+          "text": "=="
+        },
+        {
+          "kind": "text",
+          "text": "="
+        },
+        {
+          "kind": "text",
+          "text": "=="
+        },
+        {
+          "kind": "text",
+          "text": "="
+        }
+      ],
+      "regex": [],
+      "numbers": [
+        "4",
+        "3",
+        "65",
+        "90",
+        "97",
+        "122",
+        "48",
+        "57",
+        "43",
+        "47",
+        "61",
+        "0",
+        "1",
+        "1",
+        "0",
+        "2",
+        "1",
+        "0",
+        "0",
+        "0",
+        "2",
+        "1",
+        "0",
+        "0",
+        "1",
+        "1"
+      ],
+      "passed": true
+    },
+    {
+      "scope": "pdf",
+      "source": {
+        "bytes": 1407,
+        "sha256": "a1c1211340fc2ff130b75a3ed7ae033add1a45cf3f6334b7670c81994854ff01"
+      },
+      "requiredStringsRetained": true,
+      "requiredRegexRetained": true,
+      "requiredNumericDataRetained": true,
+      "strings": [
+        {
+          "kind": "text",
+          "text": "./attachment-data-url.js"
+        },
+        {
+          "kind": "text",
+          "text": "data:"
+        },
+        {
+          "kind": "text",
+          "text": "application/pdf"
+        },
+        {
+          "kind": "text",
+          "text": "application/pdf"
+        },
+        {
+          "kind": "text",
+          "text": ","
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        },
+        {
+          "kind": "text",
+          "text": "base64"
+        },
+        {
+          "kind": "text",
+          "text": "base64"
+        },
+        {
+          "kind": "text",
+          "text": "application/pdf"
+        }
+      ],
+      "regex": [],
+      "numbers": [
+        "20",
+        "1024",
+        "1024",
+        "0",
+        "0",
+        "1",
+        "1",
+        "5",
+        "0",
+        "37",
+        "1",
+        "80",
+        "2",
+        "68",
+        "3",
+        "70",
+        "4",
+        "45"
+      ],
+      "passed": true
+    },
+    {
+      "scope": "video",
+      "source": {
+        "bytes": 1231,
+        "sha256": "607d0d48862299727dcc8231a51aecef026821b6a788a71f52c8b0e143415535"
+      },
+      "requiredStringsRetained": true,
+      "requiredRegexRetained": true,
+      "requiredNumericDataRetained": true,
+      "strings": [
+        {
+          "kind": "text",
+          "text": "@knorvia/contracts"
+        },
+        {
+          "kind": "text",
+          "text": "./attachment-data-url.js"
+        },
+        {
+          "kind": "text",
+          "text": "mimeType"
+        },
+        {
+          "kind": "text",
+          "text": ".mp4"
+        },
+        {
+          "kind": "text",
+          "text": "video/mp4"
+        },
+        {
+          "kind": "text",
+          "text": ".m4v"
+        },
+        {
+          "kind": "text",
+          "text": "video/x-m4v"
+        },
+        {
+          "kind": "text",
+          "text": ".mov"
+        },
+        {
+          "kind": "text",
+          "text": "video/quicktime"
+        },
+        {
+          "kind": "text",
+          "text": ".webm"
+        },
+        {
+          "kind": "text",
+          "text": "video/webm"
+        },
+        {
+          "kind": "text",
+          "text": ".mkv"
+        },
+        {
+          "kind": "text",
+          "text": "video/x-matroska"
+        },
+        {
+          "kind": "text",
+          "text": ".avi"
+        },
+        {
+          "kind": "text",
+          "text": "video/x-msvideo"
+        },
+        {
+          "kind": "text",
+          "text": "video/"
+        }
+      ],
+      "regex": [
+        "/^data:([^;,]+);base64,(.*)$/i"
+      ],
+      "numbers": [
+        "1",
+        "2"
+      ],
+      "passed": true
+    },
+    {
+      "scope": "placeholder",
+      "source": {
+        "bytes": 1782,
+        "sha256": "05b629591d6d2ff1d7e94d99cc6a38674e2d5c537b13e822b0bdc6a463d7e712"
+      },
+      "requiredStringsRetained": true,
+      "requiredRegexRetained": true,
+      "requiredNumericDataRetained": true,
+      "strings": [
+        {
+          "kind": "text",
+          "text": "@knorvia/shared"
+        },
+        {
+          "kind": "text",
+          "text": "../deps.js"
+        },
+        {
+          "kind": "text",
+          "text": "../types.js"
+        },
+        {
+          "kind": "text",
+          "text": "./attachment-artifacts.js"
+        },
+        {
+          "kind": "text",
+          "text": "image/*"
+        },
+        {
+          "kind": "text",
+          "text": "application/pdf"
+        },
+        {
+          "kind": "text",
+          "text": "text/plain"
+        },
+        {
+          "kind": "text",
+          "text": "inline:pdf"
+        },
+        {
+          "kind": "text",
+          "text": "video"
+        },
+        {
+          "kind": "text",
+          "text": "pdf"
+        },
+        {
+          "kind": "text",
+          "text": "pdf"
+        },
+        {
+          "kind": "text",
+          "text": ""
+        },
+        {
+          "kind": "text",
+          "text": ""
+        },
+        {
+          "kind": "text",
+          "text": "image"
+        },
+        {
+          "kind": "text",
+          "text": "pdf"
+        },
+        {
+          "kind": "text",
+          "text": "text"
+        },
+        {
+          "kind": "template",
+          "head": "[Attached ",
+          "spans": [
+            {
+              "placeholder": "mime",
+              "text": ": "
+            },
+            {
+              "placeholder": "placeholder",
+              "text": "]"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "text": "metadata_only"
+        },
+        {
+          "kind": "text",
+          "text": "local_ref"
+        },
+        {
+          "kind": "text",
+          "text": "metadata_only"
+        }
+      ],
+      "regex": [],
+      "numbers": [],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

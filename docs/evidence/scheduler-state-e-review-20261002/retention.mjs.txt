@@ -1,0 +1,21 @@
+import ts from '/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js';
+import fs from 'node:fs';import assert from 'node:assert/strict';import crypto from 'node:crypto';import {execFileSync} from 'node:child_process';
+const repo='/workspace/knorvia-studio',out='/tmp/knorvia-scheduler-state-e-review-20261002';
+const git=(ref,file)=>execFileSync('git',['show',`${ref}:${file}`],{cwd:repo,encoding:'utf8',stdio:['ignore','pipe','pipe']});
+const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const parse=text=>ts.createSourceFile('owner.ts',text,ts.ScriptTarget.Latest,true);
+const printer=ts.createPrinter({newLine:ts.NewLineKind.LineFeed});
+function entries(text){const f=parse(text),map={};for(const n of f.statements){if(ts.isImportDeclaration(n)||ts.isExportDeclaration(n))continue;const name=n.name?.getText(f)??(ts.isVariableStatement(n)?n.declarationList.declarations.map(d=>d.name.getText(f)).join(','):undefined);assert.ok(name);map[name]=sha(printer.printNode(ts.EmitHint.Unspecified,n,f));}return map;}
+const original=fs.readFileSync('/tmp/knorvia-ready-order-expression-review-20261002/publisher-graph.ts','utf8');
+assert.equal(sha(original),'4dd263875b5caa2c3e54567c51443b0022f1db85b0719c1ba8323d249e3076a1');
+const p=entries(original),a=entries(git('fcd4f125','apps/cli/packages/core/src/workflow/scheduler/graph.ts'));
+const retained=[];for(const [name,digest]of Object.entries(p)){if(name==='orderedReadyExecutableNodes')continue;assert.equal(a[name],digest);retained.push(name);}
+const stateFile='apps/cli/packages/contracts/src/workflow/index.ts';const pre=entries(git('f72c514',stateFile)),state=entries(git('fcd4f125',stateFile));const stateRetained=[];
+for(const [name,digest]of Object.entries(pre)){if(name==='deriveWorkflowSchedulerState')continue;assert.equal(state[name],digest);stateRetained.push(name);}
+const checks={};for(const [ref,file]of [['fcd4f125','docs/evidence/knorvia-scheduler-state-receipt-20261002.json'],['0cca0d48','docs/evidence/knorvia-graph-boundaries-receipt-20261002.json']]){
+ const record=JSON.parse(git(ref,file));const passed=[],unavailable=[];for(const [path,digest]of Object.entries(record.fileSha256)){let s;try{s=git(ref,path);}catch{unavailable.push(path);continue;}assert.equal(sha(s),digest,path);passed.push(path);}checks[ref]={trackedFilesVerified:passed,unavailableEmittedArtifacts:unavailable};
+}
+const protectedFiles=['apps/cli/packages/core/test/workflow-scheduler-state.test.ts','apps/cli/packages/core/test/workflow-scheduler-state-baseline.json','docs/evidence/scheduler-state-author-20261002/contract.md','docs/evidence/scheduler-state-author-20261002/api.d.ts'];
+for(const f of protectedFiles){assert.equal(git('0dcdc63',f),git('fcd4f125',f));assert.equal(git('fcd4f125',f),git('0cca0d48',f));}
+assert.equal(git('1d331c4','docs/evidence/scheduler-state-author-20261002/draft.json'),git('0cca0d48','docs/evidence/scheduler-state-author-20261002/draft.json'));
+const result={retainedGraphStatements:retained,retainedWorkflowStatements:stateRetained,receiptChecks:checks,protectedFilesUnchanged:protectedFiles,authorDraftRecordUnchanged:true};fs.writeFileSync(out+'/retention-results.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({retainedGraph:retained.length,retainedWorkflow:stateRetained.length,receiptChecks:Object.fromEntries(Object.entries(checks).map(([k,v])=>[k,{verified:v.trackedFilesVerified.length,unavailable:v.unavailableEmittedArtifacts.length}]))}));

@@ -1,0 +1,30 @@
+{
+  "originalOwner": "apps/cli/packages/contracts/src/tools/read-session-context.ts",
+  "schemas": [
+    {
+      "name": "READ_SESSION_CONTEXT_MAX_TOKENS",
+      "expression": "12000"
+    },
+    {
+      "name": "SESSION_ID_PATTERN",
+      "expression": "/^sess_[A-Za-z0-9._-]+$/"
+    },
+    {
+      "name": "ReadSessionContextStrategySchema",
+      "expression": "z.enum([\"relevant\", \"handoff\"])"
+    },
+    {
+      "name": "ReadSessionContextInputSchema",
+      "expression": "z\n  .object({\n    sessionId: z\n      .string()\n      .regex(SESSION_ID_PATTERN, \"Session id must use the sess_* format.\")\n      .describe(\"Target Knorvia Studio session id to read from persisted session history.\"),\n    query: z\n      .string()\n      .min(1)\n      .max(4000)\n      .describe(\n        \"Focused natural-language description of the context needed from the target session.\",\n      ),\n    strategy: ReadSessionContextStrategySchema.optional()\n      .default(\"relevant\")\n      .describe(\n        \"Use relevant for focused retrieval, or handoff for a bounded continuation summary.\",\n      ),\n    maxTokens: z\n      .number()\n      .int()\n      .positive()\n      .max(READ_SESSION_CONTEXT_MAX_TOKENS)\n      .optional()\n      .describe(\"Approximate maximum tokens to return to the model.\"),\n  })\n  .strict()"
+    },
+    {
+      "name": "ReadSessionContextReferenceSchema",
+      "expression": "z\n  .object({\n    messageId: z.string(),\n    partId: z.string().optional(),\n    index: z.number().int().nonnegative().optional(),\n    role: z.enum([\"user\", \"assistant\"]).optional(),\n    reason: z.string().optional(),\n  })\n  .strict()"
+    },
+    {
+      "name": "ReadSessionContextOutputSchema",
+      "expression": "z\n  .object({\n    status: z.enum([\"success\", \"not_found\", \"failed\"]),\n    sessionId: z.string(),\n    title: z.string().optional(),\n    directory: z.string().optional(),\n    path: z.string().optional(),\n    strategy: ReadSessionContextStrategySchema,\n    query: z.string(),\n    source: z.enum([\"lite\", \"local\", \"fallback\", \"none\"]),\n    content: z.string(),\n    messageCount: z.number().int().nonnegative(),\n    selectedMessageCount: z.number().int().nonnegative().optional(),\n    truncated: z.boolean(),\n    error: z.string().optional(),\n    references: z.array(ReadSessionContextReferenceSchema).optional(),\n  })\n  .strict()"
+    }
+  ],
+  "qualification": "Exact static Zod schema expressions retained, not emitted into implementation or executed. Public inferred types authoritative."
+}

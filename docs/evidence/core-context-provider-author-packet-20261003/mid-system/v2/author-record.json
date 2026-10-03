@@ -1,0 +1,169 @@
+{
+  "frozen_at_utc": "2026-10-02T19:31:55.959226Z",
+  "status": "complete_frozen_same_author_v2_correction",
+  "intended_repository_path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+  "configured_model": "gpt-6.1-sol",
+  "configured_reasoning_effort": "high",
+  "model_verification": "Configuration confirmed by parent; runtime model identity not independently verified.",
+  "fast_tier": {
+    "requested": true,
+    "separate_control_exposed": false,
+    "limitation": "Delegation interface exposes no separate Fast tier control."
+  },
+  "fork_turns": "none",
+  "inherited_context": "Initial delegation used fork_turns none; v2 retains this author's initial task, authorized inputs, authored v1 and parent clarification. No repository or other-author context supplied.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+      "bytes": 5592,
+      "sha256": "5c4284519353630ebbf6cc2b5d6e048c3ded19a8b5eff1d0efd8adc5f9c8205f"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+      "bytes": 971,
+      "sha256": "394426a93a0aac19693d62516273eee2043fca7f00eb318aba1c3b74a75d0467"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+      "bytes": 1173,
+      "sha256": "4076cc1d2dfc0190244e7177ba4f0a8fbd0922b7d18a18e62cc0013cf49e1c11"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts",
+      "bytes": 1816,
+      "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/capture-clarification.md",
+      "bytes": 1581,
+      "sha256": "df58207d09026f16507b133d46e2529c40163b0ea18008a876c59c88bcc406ad"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/output-v2/provider-mid-conversation-system.ts",
+      "bytes": 5968,
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "lines": 210
+    }
+  ],
+  "actual_reads": [
+    {
+      "operation": "Content read through one cat command",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts"
+      ]
+    },
+    {
+      "operation": "Second content read to disambiguate collaborator import locations",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts"
+      ]
+    },
+    {
+      "operation": "Byte reads for receipt SHA-256 and byte counts",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/provider-mid-conversation-system.ts"
+      ]
+    },
+    {
+      "operation": "Own receipt byte read for final receipt digest",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/author-record.json"
+      ]
+    },
+    {
+      "operation": "V2 clarification content read through cat",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/capture-clarification.md"
+      ]
+    },
+    {
+      "operation": "Own frozen v1 source content read to author complete v2",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/provider-mid-conversation-system.ts"
+      ]
+    },
+    {
+      "operation": "Own v1 source/receipt byte reads for ancestry and receipt inheritance",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/provider-mid-conversation-system.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/author-record.json"
+      ]
+    },
+    {
+      "operation": "Five input and own complete v2 byte reads for receipt SHA-256 and byte counts",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/capture-clarification.md",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output-v2/provider-mid-conversation-system.ts"
+      ]
+    },
+    {
+      "operation": "Own v2 receipt byte read for final receipt digest",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output-v2/author-record.json"
+      ]
+    }
+  ],
+  "source_exposure": {
+    "existing_implementation": false,
+    "dependency_implementation": false,
+    "repository_or_AGENTS": false,
+    "tests_or_history_or_review_bodies": false,
+    "other_authors_or_prior_drafts": false,
+    "network_or_git": false,
+    "exposed_source": "Only the five authorized input packet files and this author's own v1/v2 outputs; no existing implementation or other-author source."
+  },
+  "retained_expression": [
+    "All public type/function names, signatures, projection/fallback fields and opaque collaborator calls supplied by the packet.",
+    "Ordered two-phase processing; live for-of projection traversal; pending short circuits; marker identity and existing-marker mutation; origins method receiver and mapping order.",
+    "Exact empty-string, joining, anchor, legality, fallback construction, field absence, tool-result predicate and legacy queue behavior specified by the contract.",
+    "Ordinary arrays, pending queues, shallow spread, string interpolation and object construction express the mandated behavior; no prior implementation was read.",
+    "Fifth-input requirements capture metadata.source once for both source collaborators and each nonattachment anchor message object once for short-circuited tool/user role observations."
+  ],
+  "discretionary_design": [
+    "Local names projected, validated, moved, pending, items and flushPending.",
+    "One request-local flush closure inside the exported projection function; no helper file or additional public API.",
+    "Explicit inline marker and anchor checks, with an indexed validation traversal for access to the next first-phase entry.",
+    "For-of queue appends preserve original entry references without spread-based bulk append.",
+    "V2 uses nested attachment/source classification and a local previousIsAnchor boolean to express the clarified captures while retaining all other live reads."
+  ],
+  "questions": [
+    {
+      "question": "Confirm configured author model and effort.",
+      "resolution": "Parent confirmed gpt-6.1-sol, high, fork_turns none; no separately exposed Fast tier control."
+    }
+  ],
+  "breaches": [],
+  "verification": "No tests, builds, typechecks, lint, mocks, compilers, project checks, repository reads or network calls performed. Byte hashing and line counting were receipt operations only.",
+  "post_freeze_policy": "No source or receipt edits after this freeze without a separately frozen clarification.",
+  "authorship": "Same author and retained context correcting source/message capture rules omitted from the original packet; not a fresh-context contribution.",
+  "ancestry": {
+    "prior_source": {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/output/provider-mid-conversation-system.ts",
+      "bytes": 5807,
+      "sha256": "9c340c880b941d81b904dd461773531752a18e51e7c1819ef62d213fbf88c0d5"
+    },
+    "prior_receipt": {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/output/author-record.json",
+      "bytes": 5371,
+      "sha256": "7f251388087a3e3ed451091573b778f026c9edb23c1533c108c10ced4245fdab"
+    },
+    "prior_freeze_utc": "2026-10-02T19:27:02.074102Z",
+    "preservation": "Original v1 source and receipt remain unedited in output; v2 lives separately in output-v2.",
+    "archive_as_reported_by_parent": "cf80f00b; not independently inspected",
+    "clarification_freeze_as_reported_by_parent": "ba03cac4; not independently inspected",
+    "reason": "Static comparison found primitive source and message object capture rules omitted from the first packet. No runtime failure, test body or implementation body supplied."
+  }
+}

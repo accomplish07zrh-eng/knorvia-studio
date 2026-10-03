@@ -1,0 +1,30 @@
+{
+  "recordedAtUtc": "2026-10-02T20:01:32.857035+00:00",
+  "baseline": "44651f46f4103f23d80f3d71fe41073832c9c116",
+  "allocation": "Parent explicitly allocated these three E helpers. Conversation/streaming-tool-ledger reserved for A/runtime, no authoring.",
+  "targets": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "bytes": 6629,
+      "lines": 205,
+      "sha256": "071fd73b81ac45b1ea4d4b52d4c53571aac91ba4e42f9489a7f41b4ad29002dd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "bytes": 4087,
+      "lines": 124,
+      "sha256": "fbbb4c8dc4cb42f6aa46da5e4ae5d63935805ebe11b2f3ffaf7a90cd34d37311"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "bytes": 6910,
+      "lines": 189,
+      "sha256": "6a084e160ab3a1aa1de8934eae9be427e209849f5cb5566f1acf7c2c6c873cde"
+    }
+  ],
+  "preCurationExposure": "Earlier queue read metadata/public names/imports. Provider-business-error also had mechanical selected dependency AST extraction and bounded lookup prefix exposure; those earlier generic/source exposures are preserved. No fresh-curator/no-exposure claim.",
+  "authors": "Three fresh gpt-6.1-sol/high fork_turns:none tasks after frozen body-free scoped input packets; Fast requested, no distinct tool tier control exposed.",
+  "sourceExposedCurator": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "constraints": "Preserve provider errors/classification, telemetry privacy/schema/callback identities; dependencies and caller APIs unchanged. Minimum probes only concrete validation/data-boundary regression, ordinary suites/builds/project checks deferred. No providerrequests/userdata/credentials/crosslane integration/main merge/globalgrant."
+}

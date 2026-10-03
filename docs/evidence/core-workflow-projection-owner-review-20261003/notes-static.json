@@ -1,0 +1,99 @@
+{
+  "scope": "notes",
+  "baseline": "cf1fcca3fa8d4ea3fa1a7f6dc3d9a2ad9607d1c5",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "publicTypeQualifications": [
+    "Curator read all four original bodies completely. Incidental full held format-roster and workflow-introspection dependency bodies plus public schema/static source read in combined command, not delivered to fresh authors or changed/executed. Previous broader exposure/repaired scratch breach retained.",
+    "Original target actual isolated declaration returns/types retained exactly; public dependencies retain raw any/inference diagnostics. yaml generic parse/stringify notes are opaque public identities, not recreated parser/schema or semantic closure.",
+    "Nested AGENTS rg found no core files (exit1), so first chained body read did not run; later actual body read succeeded. Two guessed nonexistent contracts paths saved-workflows.ts/workflow-run-roster.ts failed; actual rg-discovered saved-workflow.ts/get-workflow-run-roster.ts read thereafter. No negative replay/fetch/bypass.",
+    "Root summary accepted/root roster divergence holds recorded as parent report, no import/revalidation/reauthor. No original/real workflows/agents/files/network/data execution, no author access isolation/audit/rights assertion. Fixed public material retained honestly; all21 materials OPEN."
+  ],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/contract.md",
+      "bytes": 2687,
+      "lines": 11,
+      "sha256": "cc337f4ebde9ccf198b6bf449a78ca0faa455c2e38951471a8d21ec7ab288962",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-api.d.ts",
+      "bytes": 768,
+      "lines": 15,
+      "sha256": "59f0f189697a38553899ca49a6adafa0ff3e6cbea6a3c8a73c79ec43736f6d9f",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/dependency-api.d.ts",
+      "bytes": 378,
+      "lines": 6,
+      "sha256": "da30d2d56c9209c60279efdce41456ff58e3bb4e4556ad2d0e94cbb1f7bd33c7",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/imports.json",
+      "bytes": 250,
+      "lines": 13,
+      "sha256": "a37302976fb582ff47bc4f194027ee1313e99e7db179af8fc4849da6d72fea3d",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/required-data.json",
+      "bytes": 3105,
+      "lines": 148,
+      "sha256": "a9db64bddc569b3aa0caf2d6e3e6f09f55d1c74e11519707033db8b69dc3a3d3",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-data.json",
+      "bytes": 544,
+      "lines": 10,
+      "sha256": "fb8c983de1e560c4bffb27848863e5c9ba9945ff9473d2af1e5bc815de348ca0",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "workflow-script-notes.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "bytes": 2133,
+      "lines": 50,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/notes/workflow-script-notes.ts",
+      "frozenMode": "0o444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 13951,
+      "lines": 250,
+      "sha256": "25c5241d88d6a4ad5684e18786a4d46821199be4aa163061f91ba29714b0ca28",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/notes/author-record.json",
+      "frozenMode": "0o444",
+      "exact": true
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 618,
+    "unchanged": 618,
+    "failures": []
+  },
+  "passed": true,
+  "qualification": "Compare frozen qualified export/reexport surfaces and original source import identities, isolated declarations only; original raw diagnostics/opaque ports preserved, no semantic/project typechecking/standalone declaration closure. Exact explicit target signatures retained; required prose/static material honestly retained. Full whole archives before body review; author self-report/instruction-only shared executor, source-exposed curator/historical broader exposure/repaired scratch breach, no OS access audit/novelty/rights assertion. Ordinary checks deferred."
+}

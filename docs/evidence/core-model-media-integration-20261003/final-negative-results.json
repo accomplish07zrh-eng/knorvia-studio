@@ -1,0 +1,111 @@
+{
+  "kind": "Minimal isolated synthetic validation/authority/data-preservation boundary checks; stub collaborators only",
+  "mode": "final",
+  "typescript": "6.0.2",
+  "bindings": [
+    {
+      "scope": "errors",
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+    },
+    {
+      "scope": "request",
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 8844,
+      "sha256": "730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9"
+    },
+    {
+      "scope": "validation",
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "bytes": 2821,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450"
+    },
+    {
+      "scope": "capability",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5664,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7"
+    },
+    {
+      "scope": "budget",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac"
+    }
+  ],
+  "cases": [
+    {
+      "group": "bounded-error-data",
+      "name": "exact key-only diagnostic field",
+      "passed": true
+    },
+    {
+      "group": "bounded-error-data",
+      "name": "invalidated context falls through to cause",
+      "passed": true
+    },
+    {
+      "group": "bounded-error-data",
+      "name": "cyclic cause rejected without mutation",
+      "passed": true
+    },
+    {
+      "group": "bounded-error-data",
+      "name": "out-of-depth cause rejected",
+      "passed": true
+    },
+    {
+      "group": "request-data",
+      "name": "pending attachment chronology preserved",
+      "passed": true
+    },
+    {
+      "group": "request-data",
+      "name": "unknown attachment source rejected without mutation",
+      "passed": true
+    },
+    {
+      "group": "tool-name-authority",
+      "name": "provider blank rejected",
+      "passed": true
+    },
+    {
+      "group": "tool-name-authority",
+      "name": "client blank admitted but execution gate rejects",
+      "passed": true
+    },
+    {
+      "group": "tool-name-authority",
+      "name": "nonstring name or unclosable id rejected",
+      "passed": true
+    },
+    {
+      "group": "media-data",
+      "name": "unsupported capability strips request media preserves canonical",
+      "passed": true
+    },
+    {
+      "group": "media-data",
+      "name": "invalid aggregate budget rejected before projection",
+      "passed": true
+    },
+    {
+      "group": "media-data",
+      "name": "protected current media rejected without data loss",
+      "passed": true
+    },
+    {
+      "group": "media-data",
+      "name": "explicit no-real-user index does not protect synthetic user",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "realDependenciesOrOsEffects": false,
+  "limitations": "No actual consumer/provider/CUA/security/model/contracts/logger/platform integration; not project/runtime aggregate acceptance or source-emitted matrix"
+}

@@ -1,0 +1,10 @@
+# Selection collaborator capture qualifications
+
+Original complete v1 source/receipt remain frozen. Bounded static review identified read/capture rules implicit in the original packet, with no runtime test/failure claim. Preserve these observations under ordinary collaborator/cause-field side effects:
+
+- Each of the three public selectors observes incoming entries reference and incoming trigger value before its first entry cloning/prefix-count/grouping calls. Later delegation back into full selectCompactEntries still observes then-current original input.entries/input.trigger at that later call; do not replace that with a single attempt-wide frozen input.
+- AfterPromptTooLong captures useMidConversationSystem once for its count/estimate operation after summary-group guards and before cause-gap extraction, even if no valid gap is found. If estimation occurs, every group in that operation receives the same captured flag, not reread input options per group.
+- InitialPromptTooLong captures useMidConversationSystem once after a valid cause gap and before its full ordered group-estimate operation. Every group in that operation receives that captured flag. Keep gap/admission/remaining-gap/reselection gates unchanged.
+- Below retry-attempt limit, truncation observes entriesForSummary reference, cause value and useMidConversationSystem flag before its prefix cloning/grouping/gap parsing/oldest-group estimates. Those operations consume the captured cause/flag. Warning payload observations after trace conversion still read live outer options fields as originally specified.
+
+No prescribed helper structure/body, new provider policy or typecheck is supplied. Author may read this fifth input plus its original four inputs and own outputs only. Keep all v1 bytes/receipt unchanged; write complete corrected output-v2/compact-selection.ts (and any complete companion only if necessary) with separate receipt, freeze before compiler/tests/comparison and report metadata. Preserve original packet omission and same-author correction chronology; not a new fresh-author event.

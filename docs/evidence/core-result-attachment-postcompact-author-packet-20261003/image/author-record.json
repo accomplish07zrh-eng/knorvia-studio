@@ -1,0 +1,239 @@
+{
+  "role": "Complete contract-only image preparation owner",
+  "status": "Complete source and receipt, frozen before curator body review",
+  "input_freeze_identifier": {
+    "value": "95edef01",
+    "origin": "Parent task supplied identifier; not independently derived or attested"
+  },
+  "configuration": {
+    "requested_model": "gpt-6.1-sol",
+    "requested_reasoning_effort": "high",
+    "requested_fork_turns": "none",
+    "verification": "Requested configuration is unverified; this author has no model, reasoning, fork or saved-setting control.",
+    "saved_fast": "Unchanged by this author; actual saved Fast state is unverified."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/input/contract.md",
+      "bytes": 3916,
+      "sha256": "85b9bfbe8ea14f5cd07fc6fc0f62e004361d9288fbbd92fc47ef8c54abbd6df7",
+      "lines": 13,
+      "reads": [
+        {
+          "ordinal": 1,
+          "operation": "Full UTF-8 content read and tool-output rendering for authoring"
+        },
+        {
+          "ordinal": 2,
+          "operation": "Exact byte read for SHA-256, bytes and lines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/input/public-api.d.ts",
+      "bytes": 440,
+      "sha256": "2758f0006b3f936159b9aab8b9c56b84a20a84484d4bb9369b96e77ae10f19bf",
+      "lines": 8,
+      "reads": [
+        {
+          "ordinal": 1,
+          "operation": "Full UTF-8 content read and tool-output rendering for authoring"
+        },
+        {
+          "ordinal": 2,
+          "operation": "Exact byte read for SHA-256, bytes and lines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/input/dependency-api.d.ts",
+      "bytes": 414,
+      "sha256": "700ccbaea85167f3c2a949d746a3138addd1caed5a75ff1218e1bbdbd6c8a5a1",
+      "lines": 4,
+      "reads": [
+        {
+          "ordinal": 1,
+          "operation": "Full UTF-8 content read and tool-output rendering for authoring"
+        },
+        {
+          "ordinal": 2,
+          "operation": "Exact byte read for SHA-256, bytes and lines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/input/public-shapes.d.ts",
+      "bytes": 1597,
+      "sha256": "c7348e7d99f5eebc1feb7d357e5c85234eedfa13f2cff92d8039d41d4d225e94",
+      "lines": 46,
+      "reads": [
+        {
+          "ordinal": 1,
+          "operation": "Full UTF-8 content read and tool-output rendering for authoring"
+        },
+        {
+          "ordinal": 2,
+          "operation": "Exact byte read for SHA-256, bytes and lines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/input/imports.json",
+      "bytes": 341,
+      "sha256": "2b7794a9ea2f4c476f98539bf69651ae5d622f0845939387500f454630cbb3df",
+      "lines": 14,
+      "reads": [
+        {
+          "ordinal": 1,
+          "operation": "Full UTF-8 content read and tool-output rendering for authoring"
+        },
+        {
+          "ordinal": 2,
+          "operation": "Exact byte read for SHA-256, bytes and lines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/input/output-data.json",
+      "bytes": 1535,
+      "sha256": "333a5114c57c9db08a84fe2489d3e33a7df85b5a2004e07c4e437340b89084f3",
+      "lines": 83,
+      "reads": [
+        {
+          "ordinal": 1,
+          "operation": "Full UTF-8 content read and tool-output rendering for authoring"
+        },
+        {
+          "ordinal": 2,
+          "operation": "Exact byte read for SHA-256, bytes and lines accounting"
+        }
+      ]
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/output/attachment-image.ts",
+    "bytes": 2185,
+    "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+    "lines": 76,
+    "line_count_convention": "Python bytes.splitlines() count; source ends with a newline.",
+    "reads": [
+      {
+        "ordinal": 1,
+        "operation": "Post-write full bytes read for accounting and content rendering; manually reviewed rendered source"
+      },
+      {
+        "ordinal": 2,
+        "operation": "Final post-freeze bytes read for output digest and line accounting in the same receipt/freeze command"
+      }
+    ]
+  },
+  "own_receipt": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/image/output/author-record.json",
+    "reads": [
+      {
+        "ordinal": 1,
+        "operation": "Final post-freeze bytes read for handoff hash and count; receipt cannot contain its own final digest"
+      }
+    ]
+  },
+  "structure": {
+    "files": "One cohesive TypeScript source, 76 lines, below the 400-line source limit.",
+    "public_exports": [
+      "prepareImageDataUrl",
+      "inferImageMimeFromPath"
+    ],
+    "private_helpers": [
+      "parseBase64DataUrlPayload"
+    ],
+    "imports": "All three prescribed import declarations retained, including original owner modules and type clauses.",
+    "dependencies": "Original external constant/type owners retained; existing global Buffer retained; no replacement dependency bodies or standalone compilation claim."
+  },
+  "retained_expression": {
+    "regex": "/^data:([^;,]+);base64,(.*)$/i",
+    "capture": "const data = match?.[2]; reject !match || !data; return data.",
+    "format": "data:${resizedMediaType};base64,${resizedData.toString(\"base64\")}",
+    "request_fields_in_order": [
+      "data",
+      "maxBase64Bytes",
+      "maxDimension",
+      "maxRawBytes",
+      "mediaType",
+      "trace"
+    ],
+    "result_fields_in_order": [
+      "dataUrl",
+      "mediaType",
+      "metadata"
+    ],
+    "metadata_fields_in_order": [
+      "height",
+      "maxDimension",
+      "originalHeight",
+      "originalWidth",
+      "resized",
+      "transformedSizeBytes",
+      "width"
+    ],
+    "external_constant_values": {
+      "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+      "READ_IMAGE_TARGET_BYTES": 3932160,
+      "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000
+    },
+    "unused_supplied_constant": "ESTIMATED_TOKEN_CHAR_DIVISOR=3 was not imported or used; the contract excludes token estimation.",
+    "mime_suffixes": [
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp"
+    ],
+    "mime_values": [
+      "image/jpeg",
+      "image/gif",
+      "image/webp",
+      "image/png"
+    ],
+    "qualification": "Required protocol, regex, types, fields, formats, constants and ordinary idioms retained as instructed; no novelty, ownership or license-grant claim."
+  },
+  "manual_review": {
+    "method": "Reasoned inspection of all six input contents and the rendered complete authored source; no execution of source or dependency behavior.",
+    "findings": [
+      "Only the two prescribed public functions are exported with the prescribed signature types.",
+      "Private parsing uses the exact regex and optional capture access; no dotall, decoder validation, payload sanitization, media matching or added cap.",
+      "Falsey parsed payload returns before reading processor, trace or signal; absent processor returns a fresh object containing unchanged dataUrl and mediaType.",
+      "Truthy processor is read again and prepareForModel is invoked on that original receiver; argument own keys and their evaluation order match the contract.",
+      "Request Buffer conversion precedes constants, mediaType and trace; signal is read only in the second argument after the request object.",
+      "After await, Buffer.from(prepared.data) precedes prepared.mediaType || mediaType; truthy fallback is retained.",
+      "Returned dataUrl, mediaType and metadata use exact ordered live reads; undefined metadata fields remain own keys.",
+      "No compressed, strategy, originalSizeBytes, raw data or extra request fields are forwarded.",
+      "No catch, recovery, persistence, log, new state, authority or grant is introduced; dependency, getter and Buffer errors propagate.",
+      "MIME inference uses toLowerCase and exact native endsWith checks in JPEG, GIF, WebP order with PNG as the fallback."
+    ],
+    "result": "No contract discrepancy found by manual inspection; runtime/integration behavior remains unverified because execution checks were prohibited."
+  },
+  "restrictions": {
+    "allowed_operations_used": "Named-input content reads; own-source write/read; scoped exact byte hashes/line counts; own-receipt write/read; output permission modes; UTC time accounting.",
+    "excluded_operations": "No repository/git/history/reviews/tests/predecessor/other-author/dependency body reads; no network/private/user-data/credential reads; no compiler/tests/lint/build/mocks; no actual image processor/store/provider/runtime filesystem/OS behavior invoked.",
+    "scratch_exception": "Python tooling was used only for authorized scratch read/write/hash/line/mode/time accounting; no authored TypeScript or processor was executed.",
+    "shared_executor": "Scope restrictions are instruction-only within a shared executor. This receipt is author self-report, not OS isolation or an access audit proof.",
+    "context_qualification": "This author was provided the delegated task and six named input fragments. The curator is source-exposed and any curator or parent prior broader context remains qualified; this author does not attest clean separation of other actors or the platform.",
+    "integration_limit": "Declaration fragments are authoritative original-owner API fragments, not standalone compilation units. Import resolution and integration were not checked."
+  },
+  "breaches": {
+    "observed_in_this_author_tool_sequence": [],
+    "qualification": "No observed scope breach by this author; no global access-audit attestation."
+  },
+  "questions": [],
+  "blockers": [],
+  "time_accounting": {
+    "first_input_read_utc": "Not separately captured",
+    "accounting_utc": "2026-10-02T20:59:32.742025+00:00",
+    "freeze_utc": "2026-10-02T21:00:15.832724+00:00",
+    "freeze_timestamp_definition": "UTC timestamp captured immediately before writing this receipt and applying output file/directory modes."
+  },
+  "freeze": {
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "ordering": "Write complete receipt; chmod source and receipt 0444; chmod output directory 0555; only then final own-output hash and mode accounting. No curator body review initiated by this author."
+  }
+}

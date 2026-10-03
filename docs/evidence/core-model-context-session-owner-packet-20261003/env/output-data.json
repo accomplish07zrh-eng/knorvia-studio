@@ -1,0 +1,344 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "../utils.js"
+    },
+    {
+      "kind": "text",
+      "text": "# Environment"
+    },
+    {
+      "kind": "text",
+      "text": "Primary working directory"
+    },
+    {
+      "kind": "text",
+      "text": "Is a git repository"
+    },
+    {
+      "kind": "text",
+      "text": "Platform"
+    },
+    {
+      "kind": "text",
+      "text": "Shell"
+    },
+    {
+      "kind": "text",
+      "text": "OS Version"
+    },
+    {
+      "kind": "text",
+      "text": "Git"
+    },
+    {
+      "kind": "text",
+      "text": "not a git repository"
+    },
+    {
+      "kind": "text",
+      "text": "yes"
+    },
+    {
+      "kind": "text",
+      "text": "no"
+    },
+    {
+      "kind": "text",
+      "text": "gitStatus: This is the git status at the start of the conversation. Note that this status is a snapshot in time, and will not update during the conversation."
+    },
+    {
+      "kind": "text",
+      "text": "Current branch"
+    },
+    {
+      "kind": "text",
+      "text": "Main branch (you will usually use this for PRs)"
+    },
+    {
+      "kind": "text",
+      "text": "Git user"
+    },
+    {
+      "kind": "text",
+      "text": "Status"
+    },
+    {
+      "kind": "text",
+      "text": "Recent commits"
+    },
+    {
+      "kind": "text",
+      "text": "(clean)"
+    },
+    {
+      "kind": "text",
+      "text": "(dirty)"
+    },
+    {
+      "kind": "text",
+      "text": "(unknown)"
+    },
+    {
+      "kind": "text",
+      "text": "Environment Info"
+    },
+    {
+      "kind": "text",
+      "text": "env_info"
+    },
+    {
+      "kind": "text",
+      "text": "system"
+    },
+    {
+      "kind": "text",
+      "text": "dynamic"
+    },
+    {
+      "kind": "text",
+      "text": "System Context"
+    },
+    {
+      "kind": "text",
+      "text": "system_context"
+    },
+    {
+      "kind": "text",
+      "text": "system"
+    },
+    {
+      "kind": "text",
+      "text": "dynamic"
+    },
+    {
+      "kind": "text",
+      "text": "You have been invoked in the following environment:"
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "WORKING_DIRECTORY_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.cwd",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "IS_GIT_REPOSITORY_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "hasGitRepository ? YES_LABEL : NO_LABEL",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "PLATFORM_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.platform",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "SHELL_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.shell",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "OS_VERSION_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.osVersion",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- You are powered by the model named ",
+      "spans": [
+        {
+          "placeholder": "model.providerId",
+          "text": "/"
+        },
+        {
+          "placeholder": "model.modelId",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "CURRENT_BRANCH_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.gitBranch",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "MAIN_BRANCH_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.gitMainBranch",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "GIT_USER_LABEL",
+          "text": ": "
+        },
+        {
+          "placeholder": "info.gitUser",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "STATUS_LABEL",
+          "text": ":\n"
+        },
+        {
+          "placeholder": "formatGitStatus(info)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "RECENT_COMMITS_LABEL",
+          "text": ":\n"
+        },
+        {
+          "placeholder": "formatRecentCommits(info)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "not_repo"
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "dirty"
+    },
+    {
+      "kind": "text",
+      "text": "clean"
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    "0",
+    "100",
+    "0",
+    "100",
+    "0",
+    "0"
+  ],
+  "qualification": "Retained exact protocol/format/prose/template/regex/constant data and ordinary idioms, no novelty/license grant claim"
+}

@@ -1,0 +1,37 @@
+{
+  "archivedAtUtc": "2026-10-02T19:55:22.999418+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "25ee17f8",
+  "correctionInputsCommit": "bbab3a07",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/errors/imports.json",
+      "bytes": 1916,
+      "sha256": "d7930dded9c6ffd248b9c278e187d0304a417bede64aef92bc203c499b74ab16"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/errors/rapid-refill-type-qualification.json",
+      "bytes": 471,
+      "sha256": "1bfb38624d3729a31d1a8f31e43d594c61111d98735d8ff1aa2e64c9f552174c"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/errors/correction-qualification.md",
+      "bytes": 1188,
+      "sha256": "7b08741b781f1a3933e85660d16aae050957f0b1f1ed6906dbbfcbdc81bd71ac"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-model-errors.ts.txt",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 13148,
+      "sha256": "c83e788a8965d6a6fd67dd9b7b30b37c68cb97e517ebf23e628eeb108db74ff8"
+    }
+  ]
+}

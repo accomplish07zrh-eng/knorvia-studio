@@ -1,0 +1,201 @@
+{
+  "localBaseline": "9fd40d394feabf5e4b71f4d9ba9f415acde91b18",
+  "rootPublishedBaseline": "affea575c98a83e04871bb6b5655cf72cc08be75",
+  "owners": [
+    {
+      "path": "packages/desktop/src/main/broadcastHub.ts",
+      "bytes": 6526,
+      "sha256": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+      "gitBlob": "ab5d801e76d3e3f2008031d2a4494a62ffcf0e7e",
+      "publishedHead": "affea575c98a83e04871bb6b5655cf72cc08be75",
+      "publishedUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/affea575c98a83e04871bb6b5655cf72cc08be75/packages/desktop/src/main/broadcastHub.ts",
+      "originClassification": "upstream-modified",
+      "originLicense": "NOASSERTION",
+      "publisherBaseline": {
+        "source": "https://github.com/zai-org/ZCode",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+      },
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/broadcastHub.ts",
+        "blob": "6194534bac2454f15765de42c9d6f23665ef12b1",
+        "normalizedSha256": "71159c59e0e4750c54d091dfba47cf1a51ea42a2669fd11ad7360576c92cbb64",
+        "contentMatchedPaths": []
+      },
+      "localExactPathReviewMatches": [],
+      "historyHold": "Private historical checkpoint coverage/accepted descendants unavailable; lack of local exact-path receipt does not negate prior acceptance. Stop this owner if a genuine accepted current owner receipt is supplied."
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "bytes": 4143,
+      "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55",
+      "gitBlob": "6ea0dde542d70b758b00da53668a5d2866af4d24",
+      "publishedHead": "affea575c98a83e04871bb6b5655cf72cc08be75",
+      "publishedUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/affea575c98a83e04871bb6b5655cf72cc08be75/packages/desktop/src/main/databaseStartupRelay.ts",
+      "originClassification": "upstream-modified",
+      "originLicense": "NOASSERTION",
+      "publisherBaseline": {
+        "source": "https://github.com/zai-org/ZCode",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+      },
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+        "blob": "7b2ffb74ef057b6d7127ed52d55eed3ffaa771bd",
+        "normalizedSha256": "f21b6ba15a6d2f4bbe0ab7aa1a7cccc44b26d197661a80b25ce9dfbf0e0948ef",
+        "contentMatchedPaths": []
+      },
+      "localExactPathReviewMatches": [],
+      "historyHold": "Private historical checkpoint coverage/accepted descendants unavailable; lack of local exact-path receipt does not negate prior acceptance. Stop this owner if a genuine accepted current owner receipt is supplied."
+    }
+  ],
+  "readyInputAllowlists": {
+    "broadcast": [
+      "broadcast/contract.md",
+      "broadcast/public-api.d.ts",
+      "broadcast/retained-data.json",
+      "shared-public-ports.d.ts",
+      "shared-public-data.md"
+    ],
+    "relay": [
+      "relay/contract.md",
+      "relay/public-api.d.ts",
+      "relay/retained-data.json",
+      "shared-public-ports.d.ts",
+      "shared-public-data.md"
+    ]
+  },
+  "inputBindings": [
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/broadcast/contract.md",
+      "bytes": 8205,
+      "sha256": "372be01dbe2e0c504d6d005691e2168c69bff380104ffc6c88ecc47231be9abe",
+      "gitBlob": "9b2bfa1e49ba67b296430d203b61b3c5c1012d7f"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/broadcast/public-api.d.ts",
+      "bytes": 272,
+      "sha256": "09ff03142cbafe73511955dad0a3b734fe38b4f1e340ecb2d00d209c46b6ddaa",
+      "gitBlob": "cfbb9b36c276a35f9d97a03a611ceaa0c4ab0114"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/broadcast/retained-data.json",
+      "bytes": 3665,
+      "sha256": "fd30642af9306b36f8e8b2991b8438beea2100541ca3cb7ca1a43d3e53b2f358",
+      "gitBlob": "3ed8ff723d63e6a3b2d30bbda2e57217c9c63f2a"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/relay/contract.md",
+      "bytes": 10025,
+      "sha256": "64299089d7a797cece69c25c99dafebcbf60f177f2c231aab9ed95f1f862cc6d",
+      "gitBlob": "0f1faf30b8b2ad66ba0e22883b6d1d6fb7f8d75b"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/relay/public-api.d.ts",
+      "bytes": 606,
+      "sha256": "b4d2316936bf6fcc23213a0fcf44f020cf34b6d0ade84e9d692f2f8b49e52ea1",
+      "gitBlob": "816ea8b2f20f6cec8dd6f4f26e885ef85f1a7724"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/relay/retained-data.json",
+      "bytes": 3574,
+      "sha256": "e289f6a620e99f04916b329581a187213f5807f85a9ed79fa0d827588eab6f2a",
+      "gitBlob": "d952c344ffe26b68a241592d5d476e73131e8875"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/shared-public-data.md",
+      "bytes": 4812,
+      "sha256": "7bd5678304545262b3787860edf8ce14b96166047bfb9261e2126b5f313059aa",
+      "gitBlob": "02c2d5b38462dcb40ab554125055c404286ae4f4"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/shared-public-ports.d.ts",
+      "bytes": 901,
+      "sha256": "f08046724ac7b0018961b838d578cfdc69213506b1b15c44eb1ad272a9a908e4",
+      "gitBlob": "baf17e145328a3a20ed1c6dbed9bc970b4342afa"
+    }
+  ],
+  "dependencyBindings": [
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c",
+      "gitBlob": "c21b69c4b928fb4e40ab7951a0e4f4d83174ce42"
+    },
+    {
+      "path": "packages/shared/src/validation.ts",
+      "bytes": 44442,
+      "sha256": "27c20a5a2e76a1f3300b79273da4eca3d0db86f29aa15ff6b9a019edacdac7c4",
+      "gitBlob": "832f374ce515819ec00e72aa8d75069bb5ee731f"
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "bytes": 7098,
+      "sha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "gitBlob": "4e520dd798123d14cce3a7a5d2b6aef3eed58061"
+    },
+    {
+      "path": "packages/services/src/broadcast/broadcast.ts",
+      "bytes": 2034,
+      "sha256": "482a22d7ff72ec90a098f258c6006e5317684277f278cf0f1cab956e958b4013",
+      "gitBlob": "8eace54a99d8499eb397350785e7f3b82de41558"
+    },
+    {
+      "path": "packages/desktop/src/main/logger.ts",
+      "bytes": 4141,
+      "sha256": "6a181e7deb5dbddb7310c8e29c2d016b58fb1322abbd444e880698d2f1cbf20f",
+      "gitBlob": "52c0b7efeaa329b626943e19e23313c6974855fa"
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupTelemetry.ts",
+      "bytes": 505,
+      "sha256": "4955d91727beaa51cb012f681d44b4b3b4aa406c5879a4609d9e88b6c90a7048",
+      "gitBlob": "5033f901c80a62a2b7f1dbd3e8dc3a5c7f8c0ea3"
+    }
+  ],
+  "exposure": "Source-exposed E curator read both complete target bodies, earlier public owner contracts/ports, shared public schemas; read shared database-startup helpers and local telemetry body incidentally with those schemas, local logger exported arrows, and narrow broadcastService implementation-line search hits. These bodies are not author inputs. Historical wider exposure/shared-executor/repaired scratch-write qualifications persist. No source-unexposed observer/OS-isolation/access-audit assertion.",
+  "declarationQualification": "AST parse/signature extraction only; no TypeScript semantic compiler, emit or project/dependency type closure. Default startupId has no explicit annotation: its string type is manually grounded in imported randomUUID/prior public port. Bind return is manually grounded in receive/startupId observation. Electron stays opaque and canonical schemas/types are reused.",
+  "authorCreation": "None. Root will separately decide whether an author should be invoked and use only its five named frozen inputs.",
+  "receiptSearch": "Existing root exact-path search and bounded local evidence search returned only inventory/protected dependency/packet metadata for these paths; local exact-path reviews absent. No conclusion that historic acceptance never existed.",
+  "readFailures": [
+    "No nested AGENTS.md returned for desktop path; root instructions and architecture skill read. Skill explicitly skips documentation-only work.",
+    "Two guessed shared protocol paths absent; rg located channels/validation canonical public declarations.",
+    "An attempted dependency-location rg reached a /tmp daemon permission denial and absent node_modules; stopped that broad search, no retry/alternative extraction. Already-known allowed TypeScript package path used only for AST parse."
+  ],
+  "forbiddenOperationsPerformed": [],
+  "licenceDecision": null,
+  "checkerCorrections": [
+    {
+      "finding": "Initial comparator added an explicitReturn field to class metadata, causing public signature broadcast failure.",
+      "correction": "Normalize return fields only on function entries.",
+      "sourceOrInputsChanged": false
+    },
+    {
+      "finding": "Second comparator treated default startupId as an explicitly annotated source parameter, causing public signature relay failure.",
+      "correction": "Permit only the documented bind/startupId inferred string qualification; unexpected unannotated parameters still reject.",
+      "sourceOrInputsChanged": false
+    }
+  ],
+  "preservedCheckerFailures": [
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/verify-packet.initial-failure.cjs.txt",
+      "bytes": 4685,
+      "sha256": "19fd22be4ce05643cbe03dc8ea3dd87f2016ee6e40ab699a9b762400d95937d8"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/packet-static.initial-failure.log",
+      "bytes": 1013,
+      "sha256": "f5121083f38727cd88b86df9f3c8dd1ad109b9f19310ba3fed1eef4908addf68"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/verify-packet.second-failure.cjs.txt",
+      "bytes": 4710,
+      "sha256": "2ecbaee5aedbcf3d83559e41cfca30892e0d267575565689a9091ac645d4737d"
+    },
+    {
+      "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/packet-static.second-failure.log",
+      "bytes": 1009,
+      "sha256": "ee2d0e020b0c638582a60055d40cc8936efe712e1cfa9b5c12918950ddffaead"
+    }
+  ]
+}

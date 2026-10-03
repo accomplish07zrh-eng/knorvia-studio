@@ -1,0 +1,70 @@
+{
+  "recordedAtUtc": "2026-10-02T20:14:58.172882+00:00",
+  "sourceBaseline": "06e67e0e73a101cb9d68b072a1fcd7a9976de269",
+  "scopeCommit": "06e67e0e",
+  "sixFilePacketFreezeCommit": "df26566e",
+  "telemetrySeparateQualificationCommit": "6dd78a30",
+  "rootPacketCommit": "0d194c91",
+  "integratedExactFrozenOutputs": true,
+  "curatorSourceExposed": true,
+  "curatorBodyReviewAfterArchive": true,
+  "curatorSourcePatches": false,
+  "authors": {
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "forkTurns": "none",
+    "fast": "Requested; separate service tier not exposed or independently verified",
+    "restrictions": "Instruction-only shared executor; no OS isolation/access audit claim"
+  },
+  "scopes": [
+    {
+      "scope": "business",
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "bytes": 5830,
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+      "lines": 186,
+      "publicDeclarationsEqual": true,
+      "runtimeImportsEqual": true,
+      "staticPassed": true,
+      "archiveBeforeBodyReviewCommit": "3ccb00a4",
+      "sameAuthorCorrectionRequired": false
+    },
+    {
+      "scope": "anomaly",
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "bytes": 4291,
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+      "lines": 120,
+      "publicDeclarationsEqual": true,
+      "runtimeImportsEqual": true,
+      "staticPassed": true,
+      "archiveBeforeBodyReviewCommit": "3ccb00a4",
+      "sameAuthorCorrectionRequired": false
+    },
+    {
+      "scope": "telemetry",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "bytes": 6353,
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241",
+      "lines": 205,
+      "publicDeclarationsEqual": true,
+      "runtimeImportsEqual": true,
+      "staticPassed": true,
+      "archiveBeforeBodyReviewCommit": "5741e656",
+      "sameAuthorCorrectionRequired": false
+    }
+  ],
+  "totalSourceLines": 511,
+  "predecessorSourceLines": 518,
+  "untouchedBoundaryCount": 16,
+  "minimalSyntheticProbes": 8,
+  "minimalSyntheticProbesPassed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "noProviderRequestsOrCanonicalUserData": true,
+  "thirdPartyMaterialClosed": 0,
+  "unresolvedMaterialCountPerParent": 21,
+  "recordQualification": "Scoped implementation/contract acceptance only; no global licensing decision or aggregate/native-runtime readiness."
+}

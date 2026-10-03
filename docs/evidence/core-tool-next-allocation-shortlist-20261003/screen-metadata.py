@@ -1,0 +1,53 @@
+# Metadata only: digest/count selected source bytes without printing/interpreting implementations.
+from pathlib import Path
+import hashlib,json,subprocess
+out=Path('docs/evidence/core-tool-next-allocation-shortlist-20261003')
+baseline='b9fb04e407654e08b15e555e0275acb3f16f81a9'
+def bind(p):
+ b=Path(p).read_bytes();return dict(path=str(p),bytes=len(b),sha256=hashlib.sha256(b).hexdigest())
+ledger_path='docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json'
+ledger=json.loads(Path(ledger_path).read_text());entries={r['path']:r for r in ledger['entries']}
+origin_path='licensing/current-files.json';review_path='licensing/reviews.json'
+def rows(d):return d if isinstance(d,list) else d.get('files',[])
+origin={r['path']:r for r in rows(json.loads(Path(origin_path).read_text()))};reviews=rows(json.loads(Path(review_path).read_text()))
+core='apps/cli/packages/core/src/'
+independent=sorted(p for p,r in origin.items() if p.startswith(core) and r.get('classification')=='independent-replacement')
+manifest_paths=subprocess.check_output(['rg','--files','docs/evidence','-g','curator-draft-manifest.json'],text=True).splitlines()
+candidates=[]
+for f in manifest_paths:
+ d=json.loads(Path(f).read_text())
+ file_rows=d.get('files',[])
+ if isinstance(file_rows,dict):file_rows=list(file_rows.values())
+ for r in file_rows:
+  if not isinstance(r,dict):continue
+  p=r.get('target')
+  if p and p.startswith(core):candidates.append(dict(path=p,manifest=f,sha256=r.get('sha256'),qualification='Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance'))
+protected=sorted(set(r['path'] for r in candidates)|{core+'tool/registry.ts',core+'tool/handlers/get-workflow-run-summary.ts',core+'tool/handlers/get-workflow-run-format-roster.ts',core+'tool/read-file-state.ts'})
+scopes=[
+ ('tool/handlers/workflow-run-introspection.ts','first tool inquiry','Name/size suggest formatting/time/text projections; earlier curator source exposure remains qualified, no fresh body read. Imported-policy/native behavior must be retained if root allocates.'),
+ ('tool/handlers/saved-workflows/args.ts','first tool inquiry','Name/size suggest saved-workflow argument parsing/validation. Root must confirm separation from A schema/admission authority; no replacement of imported validation policy.'),
+ ('tool/handlers/create-workflow-graph-fold.ts','ownership question','Substantial graph projection/folding name; may belong to A workflow compilation. Root must determine owner and preserved graph ordering/identity before any allocation.'),
+ ('tool/handlers/create-workflow-graph-bounds.ts','ownership question','Substantial graph bounds analysis name; likely compilation/validation policy overlap. Do not infer a pure presentation boundary or transfer A authority.'),
+ ('workflow/expert/parsers/critic.ts','other substantive parser inquiry','Parser name/size only. Expert/run-loop/model/provider scope remains excluded; root must confirm parser-only scope outside A reservations.'),
+ ('workflow/expert/parsers/graph-seed.ts','other substantive parser inquiry','Parser name/size only, graph parsing may encode workflow semantics. Root/A ownership confirmation before allocation.'),
+ ('workflow/expert/parsers/node-prompts.ts','other substantive parser inquiry','Parser name/size only, text/result parsing may overlap expert/model authority. Root/A ownership confirmation before allocation.'),
+ ('workflow/expert/parsers/json.ts','other substantive parser inquiry','89-line JSON parser name/size; no evidence it is tiny fixed configuration, no assertion of originality/eligibility. Root confirms cohesive algorithm scope before any work.'),
+]
+paths=[core+x[0] for x in scopes];metadata_files=[f for f in subprocess.check_output(['rg','--files','docs/evidence','licensing/evidence','-g','*.json'],text=True).splitlines() if not f.startswith(str(out)+'/')]
+hits={p:[] for p in paths}
+for f in metadata_files:
+ text=Path(f).read_text()
+ for p in paths:
+  if p in text or p.removeprefix(core) in text:
+   role='Boundary/inventory/reference metadata only; no whole-owner acceptance found'
+   assert any(x in f for x in ['untouched-boundary','untouched-owner','static','shortlist','allocation-ledger','remaining-inventory','inventory','public-extraction','packet-coverage']), 'Unclassified receipt hit requires manual metadata review: '+f
+   hits[p].append(dict(**bind(f),role=role))
+shortlist=[]
+for rel,priority,question in scopes:
+ p=core+rel;assert p not in independent and p not in protected
+ b=Path(p).read_bytes();assert b==subprocess.check_output(['git','show',baseline+':'+p])
+ info=bind(p);info['lines']=b.count(b'\n');old=entries[p];o=origin[p]
+ shortlist.append(dict(**info,priority=priority,existingLedgerExact=old['sha256']==info['sha256'] and old['bytes']==info['bytes'],classification=o['classification'],inventoryReview=o.get('review'),reviewHits=[r for r in reviews if r.get('path')==p],ledgerExactPriorSourceRecords=old['exactPriorSourceRecords'],ledgerOlderOrDifferentSourceRecordCount=old['olderOrDifferentSourceRecordCount'],upstream=o.get('upstream'),metadataReceiptHits=hits[p],wholeOwnerAcceptanceLocated=False,ownershipQuestion=question,allocation='NOT allocated; no author cycle/public behavior/body extraction/implementation initiated'))
+assert all(x['existingLedgerExact'] and not x['reviewHits'] and not x['ledgerExactPriorSourceRecords'] for x in shortlist)
+result=dict(baseline=baseline,branch='parallel/material-closure-fast-20261002',repository='https://github.com/accomplish07zrh-eng/knorvia-studio.git',metadataInputs=[bind(ledger_path),bind(origin_path),bind(review_path)],sourceBodiesReviewed=False,selectedSourceByteReads='Only SHA256/bytes/newline count; no body text/output/API/import/AST examination, no git history bodies.',scope='Bounded eight-name root allocation screen from existing612core/233tool metadata; not new exhaustive implementation census.',excludedIndependentFlags=dict(totalCore=len(independent),tool=sum('/tool/' in p for p in independent),paths=independent,qualification='Existing flags excluded, not treated as grants/final source rights approval.'),excludedExistingCandidates=protected,candidateManifestBindings=candidates,excludedReservations=['A runtime/permission/trust/task/turn/subagent/model/admission/executor and workflow execution policies','G adapters/native/external IO: bash/read/edit/write/glob/grep/webfetch/websearch and their policy/state/parser helpers','Root desktop/current allocated work, E complete sources/current author candidates, all accepted90 tool flags','Tiny fixed prose/config/description/reexports kept without forced novelty; plan-mode-prompts, workflow-analysis-display, descriptions/types/constants not promoted'],rootReportedReconciliation={'format-roster':{'localSha256':'c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e','rootSha256':'d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493','evidence':'direct-root-phase-refresh-integration-20261001.json','commits':['692425a','38f9832','e106175'],'status':'HOLD for final combination, existing technical work; no reauthor/import or whole-file MIT acceptance; parent report not locally revalidated'},'summary':{'localSha256':'b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0','rootSha256':'59d19958a577bcab782724c6397b839ff5f9457fba87621bbc78eeafb7007747','evidence':'workflow-summary-expression-20261001.json','status':'HOLD local source; root accepted evidence parent-reported only, no private root file access/import/reauthor'}},shortlist=shortlist,passed=True,failuresPreserved=['Initial rg requested absent docs/evidence/core-implementation-inventory-20261003 => exit2; actual existing ledger path subsequently used.','Initial metadata inspection treated receiptMetadataFiles integer97 as list => TypeError int not subscriptable, exit1; subsequent inspection used receiptMetadataBindings. No source content/extra extraction exposed.','Initial candidate manifest files mapping treated as list => AttributeError str has no get exit1; original script/failure preserved, metadata list/mapping qualification corrected.'],qualification='Only exact local metadata absence, no root-private/Library403 bypass or publisher/grant inference. All21 material obligations OPEN, no source/global licensing/reviews/current-files changes, no tests/builds/body review/tool/provider/user-data/native/runtime actions. Existing curator source exposure of workflow-run-introspection and earlier broader/historical exposures remain qualified; this metadata screen is not fresh author independence evidence. No new authors spawned; savedSol/high/Fast unchanged/unverified.')
+(out/'shortlist.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps([{'path':r['path'],'lines':r['lines'],'bytes':r['bytes'],'sha256':r['sha256'],'classification':r['classification'],'receiptHits':len(r['metadataReceiptHits']),'priority':r['priority']}for r in shortlist],indent=2));print('Excluded independent tool',result['excludedIndependentFlags']['tool'],'existing candidate paths',len(protected))

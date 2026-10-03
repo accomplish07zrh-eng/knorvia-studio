@@ -1,0 +1,25 @@
+{
+  "kind": "Exact existing module/import mapping; no bodies/new edges",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "ModelAnomalyGuardConfig",
+          "localName": "ModelAnomalyGuardConfig",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelToolCall",
+          "localName": "ModelToolCall",
+          "typeOnly": true
+        },
+        {
+          "name": "ToolCallId",
+          "localName": "ToolCallId",
+          "typeOnly": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "passed": false,
+  "groups": [
+    {
+      "name": "path: contained write port, sensitive segments, original errors",
+      "passed": true
+    },
+    {
+      "name": "index: bounded exact warning and top-level-only comment privacy",
+      "passed": true
+    },
+    {
+      "name": "manifest: depth-first supplied-port reads, bounded metadata and stable order",
+      "passed": true
+    },
+    {
+      "name": "manifest: post-read cap, per-entry failure, no write surface",
+      "passed": true
+    },
+    {
+      "name": "scheduler: latest-pending coalescing, snapshot identity and truthful cursor",
+      "passed": true
+    }
+  ],
+  "error": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly equal:\n\n1 !== 2\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 2\n\n    at /workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/minimal-safety-probes.cjs:55:186\n    at async gate (/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/minimal-safety-probes.cjs:7:30)\n    at async main (/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/minimal-safety-probes.cjs:51:1)"
+  },
+  "qualification": "Failure preserved; candidate originals not modified."
+}

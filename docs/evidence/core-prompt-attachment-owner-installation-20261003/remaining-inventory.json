@@ -1,0 +1,92 @@
+{
+  "scope": "Ten-file bounded remainder selection after metadata/receipt/origin screening; one substantive owner installed, other protocol/helper/original/protected surfaces retained for reasons below.",
+  "entries": [
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/capability.ts",
+      "bytes": 1555,
+      "lines": 54,
+      "sha256": "86a257fddcadf38fe340963b649d1f7d51e034f14f5bd1a2e783525a9b9d4ec4",
+      "unchanged": true,
+      "decision": "retain small original public decision/naming/shell helper surface; no forced cosmetic authorship"
+    },
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/shell.ts",
+      "bytes": 589,
+      "lines": 15,
+      "sha256": "43955ed6ee297bc25c37fa88b2dba36d1bd08d9853f2d2c95052d3f307623de8",
+      "unchanged": true,
+      "decision": "retain small original public decision/naming/shell helper surface; no forced cosmetic authorship"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "bytes": 14567,
+      "lines": 412,
+      "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032",
+      "unchanged": true,
+      "decision": "allocation needed: authority/frame and imageProcessor/abort/artifact/provider boundary; first85lines screened, rest unread this turn"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 16207,
+      "lines": 410,
+      "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58",
+      "unchanged": true,
+      "decision": "allocation needed: MCP bridge/connection/auth/runtime integration; metadata only, body unread this turn"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/name.ts",
+      "bytes": 1083,
+      "lines": 35,
+      "sha256": "087d6921527aed0e51325efa1c5a1e832e87c1cce2992ea1e7e54e86fff22c75",
+      "unchanged": true,
+      "decision": "retain small original public decision/naming/shell helper surface; no forced cosmetic authorship"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/result-format.ts",
+      "bytes": 4602,
+      "lines": 120,
+      "sha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+      "unchanged": true,
+      "decision": "retain existing post-snapshot result projection implementation; initial available creation history supports original-product work, does not grant licence/origin clearance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/windows-computer-use.ts",
+      "bytes": 3113,
+      "lines": 85,
+      "sha256": "1295971b4137fd961e97250980f991dc2014148855320882eab0a4b5ca8ed49c",
+      "unchanged": true,
+      "decision": "retain existing post-snapshot implementation and explicit trust/subagent frame boundary; origin/rights unresolved, no A authority rewrite"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/incoming-message.ts",
+      "bytes": 2676,
+      "lines": 35,
+      "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607",
+      "unchanged": true,
+      "decision": "retain public protocol/type/descriptor data and fixed steering/presentation envelope; do not cosmetically reauthor"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "bytes": 3410,
+      "lines": 86,
+      "sha256": "0a42762c74366ea0e2012ffbce960db14b75d7649a24614c669711346a457f33",
+      "unchanged": false,
+      "decision": "installed complete reviewed same-authorv2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "lines": 237,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "unchanged": true,
+      "decision": "retain public protocol/type/descriptor data and fixed steering/presentation envelope; do not cosmetically reauthor"
+    }
+  ],
+  "additionalEligibleOwnerInThisAllocation": false,
+  "parentAllocationRequired": [
+    "MCP image/bridge authority/provider/connection boundaries",
+    "Tool/runtime-task/agent/subagent/browser/repl and root facades per612-file metadata snapshot; no E ownership inferred"
+  ],
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21
+}

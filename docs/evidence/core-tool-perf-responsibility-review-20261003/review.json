@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-03T02:02:13.062657+00:00",
+  "inputHead": "147ba1212a2d603dd0b10c3bb0d4d25ae50e5241",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "allocation": "Root explicitly assigned exact tool-perf.ts path to this lane; A todo/resume and G desktop/CLI adapters do not reserve this path. Assignment conditioned on substantive complete performance request/input/result ownership.",
+  "target": {
+    "path": "apps/cli/packages/core/src/tool/handlers/tool-perf.ts",
+    "bytes": 5123,
+    "lines": 134,
+    "sha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8",
+    "classification": "upstream-modified",
+    "license": "NOASSERTION",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/tool/handlers/tool-perf.ts",
+      "blob": "56e7020c1eb18daf945e5faa7e8b4e787d3d4545",
+      "normalizedSha256": "417caac0058ab5ea722d97aa8724e76648f0bdda22de8db850a52ca18b277a1d",
+      "contentMatchedPaths": []
+    }
+  },
+  "decision": "RETAIN existing source unchanged: telemetry utility responsibilities are substantive, but complete performance request/input/result owner condition is not met. No replacement candidate or author packet frozen.",
+  "responsibilityObservations": [
+    {
+      "lines": [
+        12,
+        19
+      ],
+      "finding": "Finite/nonnegative millisecond normalization and elapsed duration from Date.now; no performance runner or cancellation control."
+    },
+    {
+      "lines": [
+        21,
+        31
+      ],
+      "finding": "Bounded command digest from length and edge slices; local scalar transformation, no process execution."
+    },
+    {
+      "lines": [
+        33,
+        51
+      ],
+      "finding": "Bounded-prefix command category classification; category can describe network/test commands but does not execute them."
+    },
+    {
+      "lines": [
+        53,
+        80
+      ],
+      "finding": "Command safe-name/count derivation through existing parser and public registry, with overlarge-command bound and privacy fallback. Parser/registry bodies not opened in this task."
+    },
+    {
+      "lines": [
+        82,
+        88
+      ],
+      "finding": "Workspace kind projection and UTF-8 byte count; no workspace access."
+    },
+    {
+      "lines": [
+        90,
+        116
+      ],
+      "finding": "Object shape guard, allowlisted top-level perf-field projection and merge; not runtime schema validation of a performance request or full nested result."
+    },
+    {
+      "lines": [
+        118,
+        130
+      ],
+      "finding": "Non-enumerable configurable/writable perf attachment to same output object, no execution of operation represented by output."
+    }
+  ],
+  "publicExports": [
+    {
+      "name": "roundNonNegativeMs",
+      "line": 12
+    },
+    {
+      "name": "elapsedMsSince",
+      "line": 17
+    },
+    {
+      "name": "commandHash",
+      "line": 21
+    },
+    {
+      "name": "classifyCommand",
+      "line": 33
+    },
+    {
+      "name": "classifySafeCommandIdentity",
+      "line": 53
+    },
+    {
+      "name": "workspaceKind",
+      "line": 82
+    },
+    {
+      "name": "fileByteCount",
+      "line": 86
+    },
+    {
+      "name": "readToolExecutionTelemetry",
+      "line": 90
+    },
+    {
+      "name": "compactToolExecutionTelemetry",
+      "line": 101
+    },
+    {
+      "name": "mergeToolExecutionTelemetry",
+      "line": 112
+    },
+    {
+      "name": "attachToolExecutionTelemetry",
+      "line": 118
+    }
+  ],
+  "callerLocations": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/write.ts",
+      "callLocations": [
+        {
+          "line": 110,
+          "calls": [
+            "elapsedMsSince"
+          ]
+        },
+        {
+          "line": 112,
+          "calls": [
+            "elapsedMsSince"
+          ]
+        },
+        {
+          "line": 138,
+          "calls": [
+            "elapsedMsSince"
+          ]
+        },
+        {
+          "line": 149,
+          "calls": [
+            "attachToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 171,
+          "calls": [
+            "attachToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 195,
+          "calls": [
+            "fileByteCount"
+          ]
+        },
+        {
+          "line": 205,
+          "calls": [
+            "workspaceKind"
+          ]
+        }
+      ],
+      "inspection": "import/call locations and bounded local excerpts only; full caller implementation not reviewed or executed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/edit.ts",
+      "callLocations": [
+        {
+          "line": 163,
+          "calls": [
+            "elapsedMsSince"
+          ]
+        },
+        {
+          "line": 209,
+          "calls": [
+            "elapsedMsSince"
+          ]
+        },
+        {
+          "line": 521,
+          "calls": [
+            "elapsedMsSince"
+          ]
+        },
+        {
+          "line": 537,
+          "calls": [
+            "fileByteCount"
+          ]
+        },
+        {
+          "line": 539,
+          "calls": [
+            "attachToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 560,
+          "calls": [
+            "workspaceKind"
+          ]
+        }
+      ],
+      "inspection": "import/call locations and bounded local excerpts only; full caller implementation not reviewed or executed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+      "callLocations": [
+        {
+          "line": 232,
+          "calls": [
+            "attachToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 250,
+          "calls": [
+            "attachToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 293,
+          "calls": [
+            "classifySafeCommandIdentity"
+          ]
+        },
+        {
+          "line": 331,
+          "calls": [
+            "classifyCommand"
+          ]
+        }
+      ],
+      "inspection": "import/call locations and bounded local excerpts only; full caller implementation not reviewed or executed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+      "callLocations": [
+        {
+          "line": 73,
+          "calls": [
+            "attachToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 111,
+          "calls": [
+            "compactToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 115,
+          "calls": [
+            "roundNonNegativeMs"
+          ]
+        },
+        {
+          "line": 117,
+          "calls": [
+            "roundNonNegativeMs"
+          ]
+        },
+        {
+          "line": 121,
+          "calls": [
+            "classifyCommand"
+          ]
+        },
+        {
+          "line": 122,
+          "calls": [
+            "classifySafeCommandIdentity"
+          ]
+        },
+        {
+          "line": 124,
+          "calls": [
+            "commandHash"
+          ]
+        },
+        {
+          "line": 133,
+          "calls": [
+            "compactToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 137,
+          "calls": [
+            "classifyCommand"
+          ]
+        },
+        {
+          "line": 138,
+          "calls": [
+            "classifySafeCommandIdentity"
+          ]
+        },
+        {
+          "line": 140,
+          "calls": [
+            "commandHash"
+          ]
+        },
+        {
+          "line": 149,
+          "calls": [
+            "compactToolExecutionTelemetry"
+          ]
+        },
+        {
+          "line": 157,
+          "calls": [
+            "commandHash"
+          ]
+        }
+      ],
+      "inspection": "import/call locations and bounded local excerpts only; full caller implementation not reviewed or executed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
+      "callLocations": [
+        {
+          "line": 207,
+          "calls": [
+            "readToolExecutionTelemetry",
+            "mergeToolExecutionTelemetry"
+          ]
+        }
+      ],
+      "inspection": "import/call locations and bounded local excerpts only; full caller implementation not reviewed or executed"
+    }
+  ],
+  "publicContract": {
+    "path": "apps/cli/packages/contracts/src/tools/performance.ts",
+    "observed": "Strict telemetry schemas and execution-status enum describe command/filesystem/patch facts; this file imports types only and does not own the request, execution, status transitions, errors or cancellation."
+  },
+  "preservationBoundary": [
+    "Retain all exports, command bounds and privacy fallbacks",
+    "Retain clock/hash/byte-count and shape/merge/descriptor behavior",
+    "Do not change caller request validation, task/session/toolCall identity, return/error/cancellation paths",
+    "Do not alter A instrumentation, native benchmark runners, existing parser or registry"
+  ],
+  "priorReceiptSearch": {
+    "exactStructuredMetadataSearch": [
+      {
+        "path": "licensing/reviews.json",
+        "exactPathHitCount": 0,
+        "summary": "No exact acceptance record",
+        "matchingSha256": null
+      },
+      {
+        "path": "licensing/current-files.json",
+        "exactPathHitCount": 1,
+        "summary": "Origin/retained/allocation metadata, not an acceptance receipt",
+        "matchingSha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8"
+      },
+      {
+        "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+        "exactPathHitCount": 1,
+        "summary": "Origin/retained/allocation metadata, not an acceptance receipt",
+        "matchingSha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8"
+      },
+      {
+        "path": "docs/evidence/core-published-ownership-next-screen-20261003/screen-results.json",
+        "exactPathHitCount": 1,
+        "summary": "Origin/retained/allocation metadata, not an acceptance receipt",
+        "matchingSha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8"
+      }
+    ],
+    "namedReceiptReviewReservationAcceptedCandidateFiles": "rg -l exact target path in docs/evidence selected receipt/review/reservation/accepted/candidate JSON returned no matches (exit1 normal no-match)",
+    "qualification": "Local/public absence cannot deny root private or unpublished prior acceptance; unavailable private files not accessed. Ten older metadata references in published screen remain metadata, not acceptance."
+  },
+  "inputBindings": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/tool-perf.ts",
+      "bytes": 5123,
+      "sha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8",
+      "gitBlob": "7552115467bf6bcfa60000747b972a46f4a932d9"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/performance.ts",
+      "bytes": 3258,
+      "sha256": "5ec18328b11e241533180686af8bde60a49644b5f0e78baf69894b38eaff7c92",
+      "gitBlob": "4050d68ad7ef8fed6c8782cf6e3218b44916669c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/write.ts",
+      "bytes": 11487,
+      "sha256": "5d704de2a9a81f8d8ddf61dd122f538c34d83220e53ea2cd2ceeb5d40d29ec9a",
+      "gitBlob": "d0fcdfed987aaac0a8a70496f78c33bfbc3c85dd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/edit.ts",
+      "bytes": 20698,
+      "sha256": "be7edda3ccfe18e37b09e76114f9209d9c2c30f321223bcf789ba7190d72ff0e",
+      "gitBlob": "f9190e0f5b0af7b580c8e147360b78ec38a36536"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+      "bytes": 18686,
+      "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab",
+      "gitBlob": "fee4a76098247a7c15ab23be2baecd0614740e51"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+      "bytes": 5561,
+      "sha256": "a8be37b54102dc22a70283f461135aa689bc4f56a60ff18e1f1c7d86139edfa7",
+      "gitBlob": "b3d100070db48ccad4f151385ef3cbe7998bafab"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
+      "bytes": 9813,
+      "sha256": "bc72d5be07cee12c847aaa96684982d90bd5575bff76cc5682f888d48b65bec5",
+      "gitBlob": "c395ebbdca4043339156aaa88c6c3381b017cb8d"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+      "bytes": 312065,
+      "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+      "gitBlob": "9bea87705534a8a23708bf3dc36024ffd2d9abc0"
+    },
+    {
+      "path": "docs/evidence/core-published-ownership-next-screen-20261003/screen-results.json",
+      "bytes": 61424,
+      "sha256": "ae3e1e12626db153632fd5d308a174d81c42fc0a6e6ada9049cda9abde1347d0",
+      "gitBlob": "ee6191be22d65ee2d3b5d5366e196f34bd6cbf1b"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 10384,
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "gitBlob": "b8c1d3abefb14e05f1323e61f4cd67bb4ef58610"
+    },
+    {
+      "path": "apps/cli/AGENTS.md",
+      "bytes": 12478,
+      "sha256": "7b5a78161262c14765dd24d438d5f0c929f8fa42badcfebdd98383741e96848d",
+      "gitBlob": "fc3db69ae9a710edaa31e3c98734fff758c606b0"
+    },
+    {
+      "path": ".agents/skills/architecture-governance/SKILL.md",
+      "bytes": 5026,
+      "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+      "gitBlob": "e115c0266aba6bd74ab90fa2d165be930b4fd85d"
+    }
+  ],
+  "verification": {
+    "targetAssignmentDigest": "PASS",
+    "sourceByteIdentityPreserved": "PASS",
+    "publicExportsCount": 11,
+    "asyncFunctions": 0,
+    "awaitTokens": 0,
+    "callerFilesWithBoundedCallReferences": 5,
+    "structuredReceiptSearch": "Completed exact records; no old acceptance found locally",
+    "freshness": "PASS; ahead201/behind0 versus origin/main; remote-tracking branch absent so behind-remote portion skipped; published baseline separately verified at147ba121",
+    "architecture": "Documentation-only retention result; no new architecture/type/lint invocation. Prior missing-local-TypeScript architecture failure preserved, not relabeled PASS.",
+    "fullTypeLintBuildTestExecuted": false,
+    "fakeOrRealPerformanceRuntimeExecuted": false,
+    "applicationBenchmarkProcessToolProviderNetworkUserFileExecuted": false,
+    "inputLengthSha256GitBlobBindings": "PASS14/14",
+    "documentLinkAndJsonParsing": "PASS"
+  },
+  "inspectionLimitations": [
+    "Initial all-evidence textual search produced huge/truncated metadata lines; not used as decisive evidence and not repeated",
+    "Whole screen-results print and caller excerpt print were truncated; exact filtered records and call-line metadata used subsequently",
+    "No independent authors or candidates; source-exposed curator and historical exposure qualifications remain; no OS isolation or access-audit claim"
+  ],
+  "newCompleteOwners": 0,
+  "sourceChanges": 0,
+  "globalLicensingChanges": false,
+  "materialObligationsOpen": 21,
+  "mitOrOriginalRightsAcceptance": false,
+  "remainingBoundary": "Root may explicitly allocate this telemetry/privacy utility as a separate owner in future; current complete performance-request owner condition failed. No expansion into executor/instrumentation/native benchmarks."
+}

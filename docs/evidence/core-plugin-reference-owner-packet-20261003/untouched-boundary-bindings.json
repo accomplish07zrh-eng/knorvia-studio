@@ -1,0 +1,22 @@
+[
+  {
+    "path": "apps/cli/packages/contracts/src/plugins/index.ts",
+    "bytes": 10553,
+    "sha256": "cadda3ab4fa60954c9ba7a7da3e6a3a72d614200f4e3b6ea821e14b0fde19ac8"
+  },
+  {
+    "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+    "bytes": 776,
+    "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e"
+  },
+  {
+    "path": "apps/cli/packages/core/package.json",
+    "bytes": 1372,
+    "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+  },
+  {
+    "path": "pnpm-lock.yaml",
+    "bytes": 644882,
+    "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+  }
+]

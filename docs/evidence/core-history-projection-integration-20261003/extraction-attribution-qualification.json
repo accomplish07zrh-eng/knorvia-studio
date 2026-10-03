@@ -1,0 +1,10 @@
+{
+  "frozenInputManifestCommit": "09124b1d",
+  "omission": "Initial batched dependency/target declaration command did not print file identities with diagnostics; curator incorrectly attributed target TS9011 to manual in the input manifest. Frozen inputs/receipt remain intact.",
+  "exactStaticResults": "Manual, breakdown, media predecessor/candidate extraction diagnostics are zero. Message-history predecessor reports TS9011 for inferred addToolResult isError parameter; candidate zero. Public emitted declarations match.",
+  "checkerFailuresPreserved": [
+    "history-static-checker-failure.json",
+    "history-static-predecessor-qualification-failure.json"
+  ],
+  "correction": "Normalize class public declaration by printer/reparse and explicitly qualify only legacy history predecessor TS9011. All candidate extraction diagnostics must be zero. No body/project typecheck or runtime pass claimed."
+}

@@ -1,0 +1,255 @@
+{
+  "scope": "skills",
+  "baseline": "c976764dd27fd89ec598967c361b57592067c01a",
+  "target": "apps/cli/packages/core/src/context/sections/skills.ts",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "reexportsEqual": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "candidateDiagnostics": [],
+  "dependenciesExist": true,
+  "inputs": [
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/contract.md",
+      "bytes": 3348,
+      "sha256": "daef7633df188b236c153c3e239b24ba5506e3b85b48c9ecfeda96011dad35be",
+      "actual": {
+        "bytes": 3348,
+        "sha256": "daef7633df188b236c153c3e239b24ba5506e3b85b48c9ecfeda96011dad35be"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/public-api.d.ts",
+      "bytes": 315,
+      "sha256": "7b7fdcbc98d3d17d474436f73f878114e4be52f944553ff5f596ef8dd35fb298",
+      "actual": {
+        "bytes": 315,
+        "sha256": "7b7fdcbc98d3d17d474436f73f878114e4be52f944553ff5f596ef8dd35fb298"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/dependency-api.d.ts",
+      "bytes": 221,
+      "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f",
+      "actual": {
+        "bytes": 221,
+        "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/public-shapes.d.ts",
+      "bytes": 2625,
+      "sha256": "06c105d216875117e70ff8c5864b5905c0c6be74d6d6fa5cdd9fd48fe8007065",
+      "actual": {
+        "bytes": 2625,
+        "sha256": "06c105d216875117e70ff8c5864b5905c0c6be74d6d6fa5cdd9fd48fe8007065"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/imports.json",
+      "bytes": 256,
+      "sha256": "1c848c0c3fc8cfbcfe73b0a66f0a1e9cc493f0fd86ed3230da6343fcb729a687",
+      "actual": {
+        "bytes": 256,
+        "sha256": "1c848c0c3fc8cfbcfe73b0a66f0a1e9cc493f0fd86ed3230da6343fcb729a687"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/output-data.json",
+      "bytes": 2474,
+      "sha256": "d0ab9385ef5fd8904cd562e531509628ae4e7405f44a7c9f478c3c7c8547632b",
+      "actual": {
+        "bytes": 2474,
+        "sha256": "d0ab9385ef5fd8904cd562e531509628ae4e7405f44a7c9f478c3c7c8547632b"
+      },
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "skills.ts.txt",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/skills/output/skills.ts",
+      "bytes": 2127,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0",
+      "lines": 68,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "actual": {
+        "bytes": 2127,
+        "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0"
+      },
+      "exact": true,
+      "receiptMatches": true,
+      "draftExact": true,
+      "targetOriginalUnchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/skills/output/author-record.json",
+      "bytes": 9121,
+      "sha256": "dd3fdac1f1ddcd05f118b50fc0c8c859f8b82c95ef86091e8e0976dbefa9d439",
+      "lines": 178,
+      "freezeMode": "0444",
+      "actual": {
+        "bytes": 9121,
+        "sha256": "dd3fdac1f1ddcd05f118b50fc0c8c859f8b82c95ef86091e8e0976dbefa9d439"
+      },
+      "exact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/context/utils.ts",
+      "bytes": 733,
+      "sha256": "f2d296821e4ae80510145151a6de3027f55ce548be269e6709fe1de1425eac68",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/types.ts",
+      "bytes": 4827,
+      "sha256": "5b61dcdc241dc8267c3fac04ef686a8011b475a461cb1245ede7a0d4cf9a0df6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/context-source.port.ts",
+      "bytes": 2511,
+      "sha256": "ad4119f8083f4ca1b577e4e870443b7ced5d9213c87702c182ceab283f4c4caf",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/model.ts",
+      "bytes": 2186,
+      "sha256": "9f85b44235e4c221a9092c659a6fea3267c635b62ad77118873d9670167e9279",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/skills/index.ts",
+      "bytes": 2973,
+      "sha256": "f127b85992f47c339e21313506a95b968ff81b77b0e612d83a3450e4164afec3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/utils.ts",
+      "bytes": 369,
+      "sha256": "a472c6b1ebb04e38d9f7abbaf65b651f8e7c400b1020bd8a0ad2b12c9a71ef71",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "bytes": 20974,
+      "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/references.ts",
+      "bytes": 1147,
+      "sha256": "d6ed061730ee6f315c59ca1e4f46990a613dc8e86e0eae16a1e9ad9adc2408b1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-session-context.ts",
+      "bytes": 2687,
+      "sha256": "14a7d0d15ac51132dc4eae001e09dab7771d1f1e491d00817a5fd3ca8fc87af9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/builder.ts",
+      "bytes": 9031,
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/dynamic-sections.ts",
+      "bytes": 8600,
+      "sha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/index.ts",
+      "bytes": 836,
+      "sha256": "71f8b7a8999286720e0ece4bb2c0a950767b939ba9d3269c82cd995d5239505f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/cli-prefix.ts",
+      "bytes": 672,
+      "sha256": "065761eae50b2947074001c4ace5dad66e072cee279716645bd5b3e238538a0f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/current-date.ts",
+      "bytes": 715,
+      "sha256": "a0e7ab21a68bc0c541335a8272a1a0b62268f5bce387f4a7331ab1102778c788",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/desktop.ts",
+      "bytes": 1861,
+      "sha256": "058ae4cf49544656e23d17627a943112e04299be9107c708520d9fc3820fef3c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/identity.ts",
+      "bytes": 2838,
+      "sha256": "9f5d27ad3b84109605933144ec83ffe060149e072636ea2923e96a65f20d2752",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/memory.ts",
+      "bytes": 2725,
+      "sha256": "3af27495b85c9f189ded350a030beba4442711fad4b35267a91a7f2209ae018d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "bytes": 2917,
+      "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/workflow-actor.ts",
+      "bytes": 5146,
+      "sha256": "cda74358974a3eb5aedca11a9d326ed12e0681b050fe6db08cbd81ff354020f4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "bytes": 549,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf",
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Static isolated declaration extraction only; all target predecessor/candidate diagnostics must be zero, source integration deferred and original targets remain unchanged, no project/semantic compilation. Shared-executor restriction instruction-only, receipt self-report, no global access/rights proof. Ordinary checks deferred."
+}

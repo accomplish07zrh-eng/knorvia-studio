@@ -1,0 +1,24 @@
+{
+  "scope": "memory-agent",
+  "recordedAtUtc": "2026-10-02T20:44:36.547233+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "fastRequested": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "osIsolationOrAccessAuditVerified": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 10839,
+      "sha256": "dacf279464a0b093e1e824c87321e319b9d3ade3ac094a75b0f51bea2bc668ce"
+    },
+    {
+      "file": "project-memory-agent.ts.txt",
+      "bytes": 4516,
+      "sha256": "4f14af4aa285de7bb34532afcd075c2c7df176f8e52f5614d9761a413b61b83b",
+      "target": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts"
+    }
+  ]
+}

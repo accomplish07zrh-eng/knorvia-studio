@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "candidatePath": "/tmp/knorvia-endpoint-scoped-author-20261003/candidate.ts",
+  "candidateBytes": 5586,
+  "candidateSha256": "f57a8611b029f7b13657ffebb95274d5d02387be38ce2a39ff36ac030fcda15b",
+  "candidateGitBlobHash": "48a903dc2d5cde00f6b4c12230f978fc9a47854c",
+  "freezeUtc": "2026-10-03T03:56:28.065Z",
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/specs/endpoint-scoped-builtin-source-independent.md",
+      "bytes": 10687,
+      "sha256": "a10ac429bfac43aee52733f0820bd3248547c8e9fe9e836a5696699ea788cd25"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/endpoint-scoped-builtin-source-owner-20261003/public-api.d.ts",
+      "bytes": 1125,
+      "sha256": "00d1b40b1ee0f009f31de2ca7c1c7bfde3ab6a61067e3722b3bfedfae219f3f7"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/endpoint-scoped-builtin-source-owner-20261003/dependency-types.d.ts",
+      "bytes": 2332,
+      "sha256": "8161e5b6836c364987592979a9b61b2dc314a6ccbf1877a503b388e532808d59"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/endpoint-scoped-builtin-source-owner-20261003/retained-data.json",
+      "bytes": 876,
+      "sha256": "b43cb74484363137b552550eef9263fba1c1ba8eb2680b6510a28c9e80aac194"
+    }
+  ],
+  "statement": {
+    "authorship": "Complete candidate independently designed from the four supplied body-free input files and body-free clarifications from the parent. No original implementation body, linewise transformation, or renamed-source derivation was used.",
+    "reads": "Read only the four permitted author inputs, rereading the specification after import-route and disposer-receiver clarifications. Read the scratch candidate solely to compute its freeze hashes.",
+    "exposure": "Received parent task and body-free import-route/disposer-receiver clarifications. No target production source, other implementation source, curator manifests/checkers, git/history, upstream, internet, private backup, credentials, user configuration, or other lanes were read.",
+    "operations": "Used basic filesystem reads and scratch writes, including one pre-freeze candidate patch; used node:crypto for SHA256 and Git-compatible SHA1 blob hashing. No git command, production edit, candidate execution, collaborator execution, provider/network operation, IO-based verification, tests, builds, source comparison, or validation was performed. Scratch filesystem IO was limited to candidate/freeze authoring and input hashing.",
+    "freeze": "Candidate is frozen at the recorded bytes and digests and will not be altered by this author after this manifest is written.",
+    "remainingValidation": "Parent-owned source comparison, static/type checks, and fake-only validation remain outstanding."
+  },
+  "uncertainContractDetails": []
+}

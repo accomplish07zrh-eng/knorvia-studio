@@ -1,0 +1,35 @@
+{
+  "disposedError": "EndpointScopedKnorviaBuiltinSource 已 dispose",
+  "switchReason": "endpoint-changed",
+  "sourceOptionKeys": [
+    "bundledFilePath",
+    "activeFilePath",
+    "watch"
+  ],
+  "synchronizerOptionKeys": [
+    "source",
+    "controlFilePath",
+    "resolveEndpointKey",
+    "fetchRelease",
+    "onRefreshResult"
+  ],
+  "cacheOptionKeys": [
+    "environmentConfigRoot",
+    "platform",
+    "appVersion",
+    "knorviaEndpointOrigin"
+  ],
+  "releaseOrder": [
+    "unsubscribe",
+    "synchronizer.dispose",
+    "source.dispose"
+  ],
+  "coalescedInitialization": true,
+  "newPairPrimeReadCount": 1,
+  "publicReadAddsRead": true,
+  "snapshotProjection": "identity, no clone/freeze",
+  "identity": "activeFilePath equality only",
+  "dynamicEndpointKey": "fresh normalized origin; not cache hash",
+  "retryOrRollback": false,
+  "newIoPermissionsOrFallback": false
+}

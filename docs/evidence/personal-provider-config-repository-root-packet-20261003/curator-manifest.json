@@ -1,0 +1,155 @@
+{
+  "checkedAtUtc": "2026-10-03T02:26:09.082568+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "0dfff3f50fda63219112c351a26a0ffb4b6f8f8d",
+  "sourceMetadataBindings": [
+    {
+      "path": "packages/provider-node/src/personal-provider-config-repository.ts",
+      "bytes": 10292,
+      "sha256": "8a60302f6a4e6595a18ba526de430a7952b03baea9f110165707e6bfc76c8eba",
+      "gitBlob": "6a822a1463568849264472984624460c0b823446"
+    },
+    {
+      "path": "packages/provider-node/src/provider-config-file-codec.ts",
+      "bytes": 5500,
+      "sha256": "e7a80a1b98fb3035085fd9fd5ea25865e711cbeeb370a57580a929c16f0e2ff2",
+      "gitBlob": "a8c96c7f4405fbff922fef34a3e2eb457ca1d8ea"
+    },
+    {
+      "path": "packages/provider-node/src/index.ts",
+      "bytes": 672,
+      "sha256": "126f73715270d328a4289156b4095e889f9bd774eb29eabae16a838c671a4269",
+      "gitBlob": "5f6603f31913480771eb0bde0d54852db92fcc0b"
+    },
+    {
+      "path": "packages/provider-node/package.json",
+      "bytes": 473,
+      "sha256": "33b60a6227b931f8cb6b85ac70a35b15743f24481c4ee381a29fcdb7b2159eab",
+      "gitBlob": "8be6fa61ede04d8da7d83f3582666f00383c2b65"
+    },
+    {
+      "path": "packages/provider/src/config-service.ts",
+      "bytes": 31185,
+      "sha256": "0b400663d6a65c12faec5933667017149346fd3ef51526ee5c876b9db0b8d93e",
+      "gitBlob": "39788b41c4dd04a4b8eb4e6f6ddcb94153b4698b"
+    },
+    {
+      "path": "packages/provider/src/sources.ts",
+      "bytes": 3895,
+      "sha256": "dcbd61cbdd40657df3d39b4b74a24c3c75fb0e37999ad8fbdeaff3d00d8adff7",
+      "gitBlob": "734c9d98ff9a9f82bd1b568abdf200bb8bca118a"
+    },
+    {
+      "path": "packages/shared/src/model-selection.ts",
+      "bytes": 2463,
+      "sha256": "da166344b20f39f73c7743257425b9b856d0abd2867a33742ceee9d3acdc4e59",
+      "gitBlob": "7a2df88fbfe7460771363e8929b87c4ac913a86f"
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "bytes": 4271,
+      "sha256": "7698ee250ffd3710be3e6d0db3f4207954e1e0d12f1d87f30fce6187f0ee2f9b",
+      "gitBlob": "ca7de9263e89866b959431dc6b9119e7bf287a2f"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    }
+  ],
+  "authorInputBindings": [
+    {
+      "path": "contract.md",
+      "bytes": 15674,
+      "sha256": "ef6cb2758067b9451def72f4f05a9926e817246c3f1cf225c28c8c17a17932aa",
+      "gitBlob": "f9d0df3a7580530e698a73117a22636fe6f3364c"
+    },
+    {
+      "path": "public-api.d.ts",
+      "bytes": 1503,
+      "sha256": "ba945e6c4e08eee69c94911fa71315889553a78e9def8421b1dcbe68a4c223dd",
+      "gitBlob": "719020369aa8d08b0f24af99ec0b818ca17a0749"
+    },
+    {
+      "path": "dependency-types.d.ts",
+      "bytes": 1168,
+      "sha256": "2dd4429b15c0c552989e9c2ade6d4f34ca0d87551e68eac8842b020d90b932ef",
+      "gitBlob": "0af104971734f6083b114431d02b7039a63e90fe"
+    },
+    {
+      "path": "runtime-ports.d.ts",
+      "bytes": 1933,
+      "sha256": "09665ef8912407f978c99b6b1f5d7f760dfc361dcb5ba9c5c30d67fc7514e4c4",
+      "gitBlob": "c7f5a2a6d081f43e71e75344f15e0770cf42bbe4"
+    },
+    {
+      "path": "dependency-contract.md",
+      "bytes": 4508,
+      "sha256": "a33a7d1a8932fa9bee4c09764b750ce293da2ad101f938aeb73c0ea37327d7b4",
+      "gitBlob": "16ae3887489b29ec21ab6d53258cc57524a46a7d"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 2979,
+      "sha256": "b21cd16289f4607abcc07e30c6ef6ce575da9059b73d333b24bb504769a16daf",
+      "gitBlob": "1b156e476a0f1fed716620db14e2a7e7eed005d0"
+    }
+  ],
+  "curation": "Complete target read; codec/current wire format and retained private write/lock wrapper body read; config-service top public declarations only, no D implementation body read; full sources/model-selection files incidentally seen including unrelated exported bodies. Only body-free rules/API/types/static data reach eventual author inputs.",
+  "typeQualifications": [
+    "Complete target API mechanically extracted via TypeScript6.0.2 AST; no private state/init/body",
+    "Provider layer/repository interfaces extracted from published local baseline; ProviderSource matches retained read/listener signature",
+    "Codec encode has inferred return; conceptual declared version1 shape grounded in source projection and existing toJSON/toPersonalJSON ReturnType, not compiler inferred-type proof",
+    "RuntimeObservationPorts is conceptual fake boundary only, not a new production API",
+    "Original source-module import routes retained; semantic canonical facade/schema/type closure deferred to root, not PASS"
+  ],
+  "inspectionLimits": [
+    "atomicFileLock implementation not read",
+    "No real stored provider JSON, account data, credentials, native FS/lock/timer/Hash repository execution",
+    "Unfiltered PR9/10 metadata prints truncated; filtered exact target/head records used to decide no published conflict",
+    "Private historical receipts/checkpoints remain unavailable and were not recovered"
+  ],
+  "exposureQualification": "Source-exposed curator; historical broader exposure/repaired scratch-write breach/shared executor/instruction-only/no OS isolation or access audit qualifications remain. No author, clean-room or whole-file rights claim.",
+  "checks": {
+    "freshness": "PASS ahead204/behind0 vs origin/main; remote tracking absent so behind-remote check skipped; exact published PR8/head baseline separately verified",
+    "architecture": "Documentation-only packet; prior missing-local-TypeScript failure retained without rerun/install/bypass",
+    "ordinaryTestsBuildTypesLint": false,
+    "repositoryConstructedOrRuntimeExecuted": false,
+    "privateBackupCredentialsRealUserDataAccess": false,
+    "sourceGlobalLicenseEdits": false,
+    "crossLaneMerge": false,
+    "documentLinks": "PASS11 local links; JSON parsing passed",
+    "staticPacketVerification": "PASS10 source/metadata +6 author input bindings;4 exported declarations;constructor/4methods/factory signatures;3 declaration files with0 bodies/initializers/parse errors"
+  },
+  "materialObligationsOpen": 21,
+  "wholeOwnerRightsAccepted": false,
+  "preservedStaticCheckFailures": [
+    {
+      "check": "First packet verifier",
+      "exitCode": 1,
+      "error": "Declaration leak/parse error",
+      "diagnosis": "0 bodies/initializers; public API had12 parse errors caused by duplicated import type type in string-based import rewriting",
+      "originals": [
+        "extract-api.initial.cjs.txt",
+        "public-api.initial.d.ts.txt",
+        "verify-packet.initial.cjs.txt"
+      ],
+      "fix": "Extractor uses TypeScript AST import-clause update; regenerates declaration-only API; no target or dependency production edit"
+    },
+    {
+      "check": "Dependent first document link check",
+      "exitCode": 1,
+      "error": "AssertionError: packet-static-results.json",
+      "diagnosis": "Static results did not exist because prior verifier failed; corrected only after valid verifier output"
+    }
+  ],
+  "receiverQualification": "Source private-field optional calls preserve repository this for importer/recovery/polling-error callbacks; transform/listeners local calls are unbound; timer unref has timer receiver. Curator corrected initial contract prose before handoff, no runtime/candidate/source change."
+}

@@ -1,0 +1,28 @@
+{
+  "archivedAtUtc": "2026-10-02T20:09:32.464041+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct control",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/counts-admission-qualification.md",
+      "bytes": 889,
+      "sha256": "e11ef47f3212368f86fedd50420ed524956ce5954cfa550f708301695c1983b5"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-observability.ts.txt",
+      "bytes": 6353,
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 8346,
+      "sha256": "0b76cf4af4cd99c6daba284b8136a1dd07d887076978f75c93dfcc9ead21ac0f"
+    }
+  ]
+}

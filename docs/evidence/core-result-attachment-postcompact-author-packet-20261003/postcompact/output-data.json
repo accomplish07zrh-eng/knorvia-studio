@@ -1,0 +1,121 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../../agent/message-history.js"
+    },
+    {
+      "kind": "text",
+      "text": "resume_referenced_session_context"
+    },
+    {
+      "kind": "template",
+      "head": "Note: ",
+      "spans": [
+        {
+          "placeholder": "entry.path",
+          "text": " was read before the last conversation was summarized, but the contents are too large to include. Use Read tool if you need to access it."
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Called the Read tool with the following input: ",
+      "spans": [
+        {
+          "placeholder": "formatFileStateInput(entry)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "Result of calling the Read tool:"
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "Read"
+    },
+    {
+      "kind": "text",
+      "text": "message"
+    },
+    {
+      "kind": "text",
+      "text": "assistant"
+    },
+    {
+      "kind": "text",
+      "text": "Read"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "index + startLine",
+          "text": "\t"
+        },
+        {
+          "placeholder": "line",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "/.git/"
+    },
+    {
+      "kind": "text",
+      "text": "/"
+    }
+  ],
+  "regex": [
+    "/\\r?\\n/",
+    "/\\\\/g"
+  ],
+  "numericLiterals": [
+    "0",
+    "5",
+    "5000",
+    "50000",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+  ],
+  "externalConstants": {
+    "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+    "READ_IMAGE_TARGET_BYTES": 3932160,
+    "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+    "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+  },
+  "retainedDataQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms, not novelty/rights claim; no source bodies delivered"
+}

@@ -1,0 +1,611 @@
+{
+  "records": [
+    {
+      "path": "apps/cli/packages/core/src/hooks/configured-runner-callback.ts",
+      "bytes": 7421,
+      "lines": 245,
+      "sha256": "5bf302634c396dc251bc6b1bf89b95164684fe7c1417350fb360e512e84d6a5e",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/configured-runner-callback.ts",
+        "blob": "96b6bf85062311f368513b27dd818e92bbc9fec7",
+        "normalizedSha256": "8c16399932d4a894f4d3ffec34e0cf97d8666800a74793fea0929dabb41fe5e3",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/configured-runner-input.ts",
+      "bytes": 5271,
+      "lines": 157,
+      "sha256": "d3db5f0239bdb4d51db9c0da579a79ba8bd323dfbaaf5f9aa3520c1df5670d7e",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/configured-runner-input.ts",
+        "blob": "e1d18df9ffb2f9a82df05dc230e341688ce80032",
+        "normalizedSha256": "9004e5c185a0e38e4b42d0fa73769e251a08785859a29aa78bfa181912927432",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/configured-runner.ts",
+      "bytes": 6441,
+      "lines": 191,
+      "sha256": "66f841224c3c8c5ced07451f5b75bad65a1efc3b1f0e7804d10d25be16b061c9",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/configured-runner.ts",
+        "blob": "b61633702a86f730118ffa545b29a2d25252977b",
+        "normalizedSha256": "170f55c2fc15a8e8a4a29ef2ea6ca338026e7f55708b7a0dfe402287ac159bfa",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/display-metadata.ts",
+      "bytes": 2577,
+      "lines": 71,
+      "sha256": "0b07e0d8b24c07b9d0250c8837f5a6f454e7178051f3b74586af8284ec9205ed",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/display-metadata.ts",
+        "blob": "26f9d4e4e747840282e2f97d81957535fcbae21b",
+        "normalizedSha256": "f6b1570e708eb3404a9491df4cce5d35c0bd330ca2abd1729fb9810861a61895",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/index.ts",
+      "bytes": 765,
+      "lines": 21,
+      "sha256": "854026deba03aef6a4ad2d8777574cda6aaf53aaceca39648df3b9442a7b2399",
+      "receiptHits": [],
+      "originClassification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/hooks/index.ts",
+        "blob": "68c630b6664bb53dc92fa005631709f881f5d976",
+        "normalizedSha256": "854026deba03aef6a4ad2d8777574cda6aaf53aaceca39648df3b9442a7b2399",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/hooks/index.ts"
+        ]
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/output-projection.ts",
+      "bytes": 5037,
+      "lines": 129,
+      "sha256": "69d774425c72eb417eda3d98aab13f171771c6ee811bf39379b97d920bb9914a",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/output-reduction.ts",
+      "bytes": 3181,
+      "lines": 74,
+      "sha256": "10c5a373e9b596c6dfbf3182c003bf5392c2a2e48dba3997b106778517b71d00",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/output.ts",
+      "bytes": 869,
+      "lines": 28,
+      "sha256": "12342bf3c86ad053c12f4ae153326f0c0163cb878677ba0e1027f60fa04ac641",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/output.ts",
+        "blob": "2cb3516e4a7c8a2bfe1de86a68ed43ee8c276118",
+        "normalizedSha256": "9175e2ab9f7675d61cc1ab7eb79de99ecccb945415db6843025a2c3b2fb3448a",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-callback.ts",
+      "bytes": 2609,
+      "lines": 83,
+      "sha256": "2d1b3dba4138520c01458567de24f2944e57e48501663cdca2f70c086831eb14",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-driver.ts",
+      "bytes": 1641,
+      "lines": 48,
+      "sha256": "86d78a98a8b4a1fc68a6922c257b3fc31b0e2a437c34e06b3fe21a01707f4c28",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-helpers.ts",
+      "bytes": 3651,
+      "lines": 111,
+      "sha256": "9c745b0be5e4a945bb9bd69b718c8fac07a7646f2d10020154595bb7bdd438cd",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/runner-helpers.ts",
+        "blob": "ad7a3c567ea0aee7ce4d66a9d27d5acfc369ef1c",
+        "normalizedSha256": "3d0625e036395ab97dd196aead171baac1e80c8291d5579ec90295c5207a8b9d",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-lifecycle.ts",
+      "bytes": 5820,
+      "lines": 175,
+      "sha256": "bbc64eef37d45275c8afb07987de9206c398227d06accb8ec9cf5b896f0159fb",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-plan.ts",
+      "bytes": 1055,
+      "lines": 35,
+      "sha256": "fefe53a23228e2c558c87c15a8e0fc2da7131ca0359649843e37f7c485c08ba3",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-program.ts",
+      "bytes": 4621,
+      "lines": 127,
+      "sha256": "d12283fed606dcfae8e204bdd31a2488e4e67535e8d033afa6f12f87c633a9d2",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner.ts",
+      "bytes": 1796,
+      "lines": 51,
+      "sha256": "cf46057e678b40c5d5b89ae70dd299cba8d740857cfc616c442ce06847261178",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/runner.ts",
+        "blob": "ad4a03c027665c957bd714c8e32c05ae36ea4848",
+        "normalizedSha256": "933405596c2724dff11702c12c488dc7d1a256273bdc5062616bf4a295b1c716",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/session-mailbox.ts",
+      "bytes": 2479,
+      "lines": 79,
+      "sha256": "804b35bd2cd2aaf160f291b6ba7d21f10eee30d427de3e3e5ede8c2b2e60ca06",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/session-mailbox.ts",
+        "blob": "a2b6ccf23ad022d25153cf0165255bd5b4059950",
+        "normalizedSha256": "aad682d5f7e503005276014d07ff1d17d3104cf981804365c119cfa3c5086105",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/types.ts",
+      "bytes": 2684,
+      "lines": 103,
+      "sha256": "ac0f9c90124edc14265d5114489e0008879137797999810eca901cafffb00a28",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/types.ts",
+        "blob": "017dde165303b930d4304ac4dfe3752f69914757",
+        "normalizedSha256": "902aec2097cb26fc006b1ea2b7c6b65ce681b812d6f5fd3b371edd28c51cc558",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-policy.ts",
+      "bytes": 2367,
+      "lines": 63,
+      "sha256": "73bd63a9d6ec97524d1b2e573ffd3ae54aef91acb0649bb4a2d87a9ac87264b8",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-policy.ts",
+        "blob": "a2219a5674db806672c95a6044b7827b15bb42ff",
+        "normalizedSha256": "891cf14db977ca28a2d9e58270e4869c2599485cb79e0b17e7b0bb4d1addb011",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-review-flow.ts",
+      "bytes": 10209,
+      "lines": 315,
+      "sha256": "293f96c7dd6630cdb57a3a85b8acb5d99c80e95e3a5f9db2a374024bbddf987a",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-review-flow.ts",
+        "blob": "136d42b1e786d138b2494ec8862c4c79e973df57",
+        "normalizedSha256": "d4349a6dda1c9a2abca3b812ffb72e69fd2d22dc33de1e028e056435e9386225",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-runtime-admission.ts",
+      "bytes": 12720,
+      "lines": 330,
+      "sha256": "fbf7bc4e9b89dfaf9af39a07a0e0c8a0467eef5fa04408fdae3bec86b6da7805",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-runtime-admission.ts",
+        "blob": "236d1086cd88452bf0908222e0084963cdcaf608",
+        "normalizedSha256": "db1ccd96f6bf146307ea2139172893cf42ab110f170581d212ab81284c54e913",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-telemetry.ts",
+      "bytes": 4241,
+      "lines": 101,
+      "sha256": "c4c710a371cd2546809e40c5f3d21d6f537af3201e424b36321e47ab433e6136",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-telemetry.ts",
+        "blob": "ab3e231b81c70ea5185e422de03c03d52c440d59",
+        "normalizedSha256": "c75dabccbe0b49a1cb1e3cee07300cac5d6ef506b7e739512d7046f9ade9d5ab",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-trust-coordinator.ts",
+      "bytes": 6984,
+      "lines": 196,
+      "sha256": "a2ee153493fe7fa937657912edf57359a66f1e165d4c471982dc94ba0f79e594",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-trust-coordinator.ts",
+        "blob": "b068ec00c862213812cb6568f37e8036c198c13e",
+        "normalizedSha256": "db88afc33ea4737d03936f47891160ed17136275f2ed81d3d5433dce16ae7c62",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-trust-domain.ts",
+      "bytes": 204,
+      "lines": 4,
+      "sha256": "33bbf8e8d319f41e5b101b16d1d70b32b178705da2f94552d072ee6c6c8b152f",
+      "receiptHits": [],
+      "originClassification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-trust-domain.ts",
+        "blob": "61e905ac43f991ad3df4ff613f5134ed346e087d",
+        "normalizedSha256": "33bbf8e8d319f41e5b101b16d1d70b32b178705da2f94552d072ee6c6c8b152f",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/hooks/workspace-hook-trust-domain.ts"
+        ]
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-trust-evaluation.ts",
+      "bytes": 3639,
+      "lines": 99,
+      "sha256": "fb042a931d6eecb4c2a26ed5512cf401c1cf8913b3d37db23e0dda591f6e75ee",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-trust-evaluation.ts",
+        "blob": "53751c90da2d067892ba907c25131c2bd590b626",
+        "normalizedSha256": "98c04156368b9fd2467e004da06339ebad6d80e019f858c7809328d9acea0078",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-trust-records.ts",
+      "bytes": 1718,
+      "lines": 38,
+      "sha256": "3651b56f7ebf47c39796918a7a7d89f1522597c60744f4b6d7c6505c43c0312a",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-trust-records.ts",
+        "blob": "4ea58258510eea67fe73743be0d88930c0bb4b9c",
+        "normalizedSha256": "fd774b365d133a4028b69686a3016841328bf8be0805f46587f6796f7eb0412d",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-trust-types.ts",
+      "bytes": 672,
+      "lines": 23,
+      "sha256": "dd6121ec15e2c9937576baf656c5aca324043c7f52c24c2f326d36c312ef6b4f",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/hooks/workspace-hook-trust-types.ts",
+        "blob": "ed8da6b6a2983ce65eee09f8e1bdd1a94246829f",
+        "normalizedSha256": "5adcc3333d65c75dcb9eb4b44fad560a92af26eefb7ffcf0b5df80006d3e0990",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "bytes": 3025,
+      "lines": 79,
+      "sha256": "0150fdf06c10cb19ba008fb0a2313a58ed78258017bee0ee8e625ffbdfd6aecb",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/catalog.ts",
+        "blob": "bb17bf34166dd8bc5479f53a0a50e95cf3d6155f",
+        "normalizedSha256": "608029c012ecf704b691a85d4cc5d716088275aa2fd0b0303e79e864d3ce5e7f",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+      "bytes": 776,
+      "lines": 22,
+      "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/index.ts",
+        "blob": "3dd8b35879229b677b491b788b426d86a4ee7514",
+        "normalizedSha256": "0300eb8ae58dcb2c21e925b7e11361fd43839164b83499bd9cd60ae38d1b00b1",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 3909,
+      "lines": 95,
+      "sha256": "6c827cccb0d91c32077785404bd6f1ff51a8fda7026e8c8c8b17befa746c32ed",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/references.ts",
+        "blob": "84496b2d674f142db880de916017e5fa450f01f2",
+        "normalizedSha256": "7342ce922c3ee6c58956bcd2aaf7c5bdfe142a9c4efd2363077d174ccdbf6505",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "bytes": 11072,
+      "lines": 294,
+      "sha256": "497851ddee8fd619d9871174cefc742e7795b9523f9004366b50b878d86c1c35",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/reminder.ts",
+        "blob": "b6c92b0a69a2166357ad4b15ebfe13abdf7dca71",
+        "normalizedSha256": "c341ac2e63b13547a1e7625d0ec677fa725579188591cb4bb814de131f24efa1",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/capability.ts",
+      "bytes": 1555,
+      "lines": 54,
+      "sha256": "86a257fddcadf38fe340963b649d1f7d51e034f14f5bd1a2e783525a9b9d4ec4",
+      "receiptHits": [],
+      "originClassification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/embedded-search/capability.ts",
+        "blob": "606008c20cd233d0bfbe7c6f6ba5463cb177f2f1",
+        "normalizedSha256": "86a257fddcadf38fe340963b649d1f7d51e034f14f5bd1a2e783525a9b9d4ec4",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/embedded-search/capability.ts"
+        ]
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/shell.ts",
+      "bytes": 589,
+      "lines": 15,
+      "sha256": "43955ed6ee297bc25c37fa88b2dba36d1bd08d9853f2d2c95052d3f307623de8",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/embedded-search/shell.ts",
+        "blob": "9ccd6a12ac5e4723762ccc8f23c88e08c882acfd",
+        "normalizedSha256": "c57a5b1164d91041bb049bb056698f149aaf776cc78671e170c41e8591a39e21",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "bytes": 14567,
+      "lines": 412,
+      "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/image-normalization.ts",
+        "blob": "6d40c395a2fbbffeffceba1d01eda60341485f3f",
+        "normalizedSha256": "00b765bcca31f6181eeb10dcb5f81709c8f3040bcad170bc3cc99684bdaaf54f",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 16207,
+      "lines": 410,
+      "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/index.ts",
+        "blob": "01ce6820957bfbf50fd576ce544c380c9a454fe3",
+        "normalizedSha256": "dc1040c3151f0f4ec16a3c63318ba7607a86fa4ac6b0dcf23b453dbfe5936d17",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/name.ts",
+      "bytes": 1083,
+      "lines": 35,
+      "sha256": "087d6921527aed0e51325efa1c5a1e832e87c1cce2992ea1e7e54e86fff22c75",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/name.ts",
+        "blob": "6d68cf5411709fb37c0904e15a827bc7140c22f1",
+        "normalizedSha256": "fa3cc74cf88448f63c1a667c813b1b6b1d0ab2bacc8ca515fde199ba98a35c04",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/result-format.ts",
+      "bytes": 4602,
+      "lines": 120,
+      "sha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+      "receiptHits": [],
+      "originClassification": "unreviewed",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/windows-computer-use.ts",
+      "bytes": 3113,
+      "lines": 85,
+      "sha256": "1295971b4137fd961e97250980f991dc2014148855320882eab0a4b5ca8ed49c",
+      "receiptHits": [],
+      "originClassification": "unreviewed",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/error-payload.ts",
+      "bytes": 874,
+      "lines": 23,
+      "sha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/errors/error-payload.ts",
+        "blob": "43c215cf5a2422d81576d92061743d784816026e",
+        "normalizedSha256": "6010522ec881da42c7abf6acd44fe374f9d2102cf7b4c6a6b6cf12b119b7df4d",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/context.ts",
+      "bytes": 4708,
+      "lines": 135,
+      "sha256": "0e509e9ea219ffb6dbdd99aaaf2099a0ddd3335277590b06850b98c84d5065ad",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/frames.ts",
+      "bytes": 2072,
+      "lines": 62,
+      "sha256": "493f34939c73204bea2d87b4099bac1e38d476ab3ea124113f9904d4c2fba19f",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/selection.ts",
+      "bytes": 1994,
+      "lines": 56,
+      "sha256": "e84258d1d71d821e0aed8f98d2c81529f30a87e1630e44c449a64d4cfd4144c3",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/text.ts",
+      "bytes": 1331,
+      "lines": 37,
+      "sha256": "db6fc2ea8891a210d3de757cc4aa43c9a99e9c2678fdba5680debdca2d6b7080",
+      "receiptHits": [],
+      "originClassification": "independent-replacement",
+      "upstream": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/incoming-message.ts",
+      "bytes": 2676,
+      "lines": 35,
+      "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/incoming-message.ts",
+        "blob": "b286f4dc69ad863d0c529e90f680a58e64dbfd33",
+        "normalizedSha256": "d070d600e52a2a87f8f7ce6b89c10752f06272638017c501b2c9982c29d92bee",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "bytes": 5540,
+      "lines": 170,
+      "sha256": "6ccc10bd8d6cb96e17e0b27b021d79facdb0ccea7bc2aae62edfd442a71ad43a",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/prompt-attachment.ts",
+        "blob": "c617652e6fa7c53827af991d0d549cffcd2aa767",
+        "normalizedSha256": "d02ecba05443467b07d1fdca1f3fca34ded345761d974bb012cd47777f3c6032",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "lines": 237,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "receiptHits": [],
+      "originClassification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/source.ts",
+        "blob": "74de0d6386d84660f0419b92568b0befd9bcfcbe",
+        "normalizedSha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/system-reminder/source.ts"
+        ]
+      }
+    }
+  ],
+  "receiptFilesScreened": 83,
+  "qualification": "Metadata only; excludes A model/turn/runtime/permissions, completed context/memory/workflow queues. Receipt-reference hits require exact accepted source inspection before allocation; no bodies reviewed."
+}

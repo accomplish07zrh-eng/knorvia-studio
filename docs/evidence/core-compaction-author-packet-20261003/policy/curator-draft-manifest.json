@@ -1,0 +1,138 @@
+{
+  "archivedAtUtc": "2026-10-02T18:53:36.078453+00:00",
+  "phase": "Complete outputs archived before curator body inspection/comparison",
+  "inputFreezeCommit": "5440a760",
+  "task": "/root/auto_compact_policy_author",
+  "fork_turns": "none",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "fastControl": "No separate tool control exposed",
+  "files": [
+    {
+      "file": "draft-policy.ts.txt",
+      "bytes": 5600,
+      "sha256": "7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 5301,
+      "sha256": "b303d9068040c5773a9154e248880858430798fcdbcccc6a6d090d33947a6c1b"
+    }
+  ],
+  "authorReported": {
+    "author_role": "input-limited complete automatic-compaction policy author",
+    "input_revision_supplied_by_curator": "5440a760",
+    "utc": "2026-10-02T18:52:54.130543+00:00",
+    "source_frozen_at_utc": "2026-10-02T18:52:54.130543+00:00",
+    "frozen": true,
+    "freeze_method": "Complete policy.ts written once and chmod 0444; author-record.json written once and chmod 0444. No compiler, tests or implementation comparison executed.",
+    "restriction_qualification": "Instruction-based shared-executor separation; not OS isolation. Curator is source-exposed and handles governance.",
+    "actual_reads": [
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/contract.md",
+        "method": "First exec_command Python pathlib.Path.read_bytes; UTF-8 decoded contents and metadata printed to tool stdout."
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/public-api.d.ts",
+        "method": "First exec_command Python pathlib.Path.read_bytes; UTF-8 decoded contents and metadata printed to tool stdout."
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/dependency-api.d.ts",
+        "method": "First exec_command Python pathlib.Path.read_bytes; UTF-8 decoded contents and metadata printed to tool stdout."
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/public-data-shapes.md",
+        "method": "First exec_command Python pathlib.Path.read_bytes; UTF-8 decoded contents and metadata printed to tool stdout."
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/output/policy.ts",
+        "method": "Second exec_command Python pathlib.Path.read_bytes after source freeze; byte count, SHA256 and splitlines count only."
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/output/author-record.json",
+        "method": "Second exec_command Python pathlib.Path.read_bytes after receipt freeze; independent byte count, SHA256 and splitlines count printed to tool stdout."
+      }
+    ],
+    "inputs": [
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/contract.md",
+        "bytes": 5206,
+        "sha256": "3043f8c66009509635560d20196983b5eaf4ba19332fd6922978c0c24c7d2e38",
+        "lines": 21
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/public-api.d.ts",
+        "bytes": 2552,
+        "sha256": "c644d05d659f632af4ea9fbd4f607fce53ccec0e0cc33618775efb3874cc58e5",
+        "lines": 59
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/dependency-api.d.ts",
+        "bytes": 577,
+        "sha256": "61cccf0be242f5267a042e9bd3deccaecac35e571da6cbafcf8f5b8f9ba2b42e",
+        "lines": 7
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/inputs/public-data-shapes.md",
+        "bytes": 4743,
+        "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164",
+        "lines": 52
+      }
+    ],
+    "outputs": [
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/output/policy.ts",
+        "bytes": 5600,
+        "sha256": "7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03",
+        "lines": 154
+      },
+      {
+        "path": "/tmp/knorvia-core-compaction-policy-author-20261003/output/author-record.json",
+        "bytes": 5301,
+        "sha256": null,
+        "lines": 114,
+        "self_hash_excluded": true,
+        "independent_sha256_delivery": "Tool stdout and final response; excluded from this receipt to avoid self-reference."
+      }
+    ],
+    "methods": [
+      "Two exec_command calls running Python3 through bash heredocs in assigned scratch directory.",
+      "Authorized input reads via pathlib only; content consumed directly from tool stdout.",
+      "Source authored from functional/public inputs without dependency bodies.",
+      "Output directory creation with pathlib.Path.mkdir(exist_ok=True); UTF-8 writes with pathlib.Path.write_bytes; freeze with pathlib.Path.chmod(0444).",
+      "Metadata via len(bytes), hashlib.sha256, bytes.splitlines; UTC via datetime.now(timezone.utc); receipt serialization with json.dumps(indent=2)."
+    ],
+    "forbidden_action_flags": {
+      "repository_read": false,
+      "agents_or_workspace_instruction_read": false,
+      "skill_read": false,
+      "commit_or_history_read": false,
+      "target_implementation_read": false,
+      "dependency_body_read": false,
+      "test_read_or_execution": false,
+      "review_read": false,
+      "other_author_read_or_contact": false,
+      "other_scratch_read": false,
+      "network_access": false,
+      "compiler_execution": false,
+      "implementation_or_author_comparison": false,
+      "production_access_or_write": false,
+      "git_access_or_action": false,
+      "publication": false,
+      "subagent_spawn": false,
+      "input_mutation": false,
+      "source_edit_after_freeze": false,
+      "new_public_api": false,
+      "policy_io_store_state_or_persistence": false
+    },
+    "breaches": [],
+    "questions": [],
+    "uncertainties": [
+      "Compilation and behavioral testing deliberately not performed; downstream validation belongs to the curator after freeze."
+    ],
+    "execution_tier_note": "Requested Sol/high/Fast supplied in delegation; no separate tool Fast tier control exposed or changed.",
+    "receipt_self_hash_excluded": true
+  },
+  "curatorSourceExposed": true,
+  "osIsolated": false
+}

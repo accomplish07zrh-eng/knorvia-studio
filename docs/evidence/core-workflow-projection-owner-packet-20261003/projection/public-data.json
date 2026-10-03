@@ -1,0 +1,45 @@
+{
+  "data": [
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GET_WORKFLOW_RUN_ROSTER_LIMITS",
+      "staticInitializer": "{\n  /** 阶段表的行数上界（与 reducer 的 maxPhases 同值）。 */\n  maxPhases: 32,\n  maxPhaseNameLength: 128,\n  /**\n   * 花名册的行数上界。刻意高于阶段表：一次 50 路 fan-out 是平常事，而读者问的正是\n   * 「谁在干什么」。超出这条界时整块被裁，并由 `subagentsTruncated` 说明裁过——\n   * 一个静默少掉 18 行的花名册读起来像「只有 64 个子代理」。\n   */\n  maxSubagents: 64,\n  maxActorNameLength: 128,\n  /** 一次 ask 的任务摘要（`node-queued` 的 `instructionsHead`）。 */\n  maxInstructionsHeadLength: 240,\n  maxLastToolNameLength: 64,\n  maxLastToolTargetLength: 120,\n  /** `node-waiting` 的自由文本原因（退避里的 provider 错误一句话）。 */\n  maxWaitReasonLength: 240,\n} as const"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunPhaseSchema",
+      "staticInitializer": "z\n  .object({\n    name: z.string().min(1).max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxPhaseNameLength),\n    /** `ahead` = 脚本声明了它但控制流还没到，也是唯一 `rounds: 0` 的状态。 */\n    state: z.enum([\"done\", \"current\", \"ahead\", \"unfinished\"]),\n    rounds: z.number().int().nonnegative(),\n    nodesSettled: z.number().int().nonnegative(),\n    nodesRunning: z.number().int().nonnegative(),\n    /** 最近一次进入 / 离开的时刻（epoch ms）。事件无时间戳时缺席，绝不给 0。 */\n    enteredAt: z.number().optional(),\n    exitedAt: z.number().optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunSubagentLastToolSchema",
+      "staticInitializer": "z\n  .object({\n    name: z.string().min(1).max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxLastToolNameLength),\n    target: z.string().max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxLastToolTargetLength).optional(),\n    at: z.number().optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunSubagentAskSchema",
+      "staticInitializer": "z\n  .object({\n    siteId: z.string().min(1),\n    ordinal: z.number().int().nonnegative(),\n    actorSeq: z.number().int().nonnegative().optional(),\n    instructionsHead: z\n      .string()\n      .max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxInstructionsHeadLength)\n      .optional(),\n    startedAt: z.number().optional(),\n    turn: z.number().int().nonnegative().optional(),\n    toolCalls: z.number().int().nonnegative().optional(),\n    lastTool: GetWorkflowRunSubagentLastToolSchema.optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunSubagentWaitSchema",
+      "staticInitializer": "z\n  .object({\n    cause: z.enum([\"slot\", \"backoff\"]),\n    reason: z.string().max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxWaitReasonLength).optional(),\n    retryAfterMs: z.number().nonnegative().optional(),\n    since: z.number().optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunSubagentSchema",
+      "staticInitializer": "z\n  .object({\n    siteId: z.string().min(1),\n    ordinal: z.number().int().nonnegative(),\n    name: z.string().max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxActorNameLength).optional(),\n    state: z.enum([\"idle\", \"executing\", \"waiting\", \"parked\", \"done\", \"failed\", \"unfinished\"]),\n    phaseName: z.string().max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxPhaseNameLength).optional(),\n    currentAsk: GetWorkflowRunSubagentAskSchema.optional(),\n    wait: GetWorkflowRunSubagentWaitSchema.optional(),\n    /** 它停在哪个问题上；`health.pendingQuestionsKnown` 为假的那次读永不在场。 */\n    parkedOn: z.string().optional(),\n    stepsSettled: z.number().int().nonnegative(),\n    stepsFailed: z.number().int().nonnegative(),\n    tokens: z.number().int().nonnegative(),\n    lastProgressAt: z.number().optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunConcurrencyHealthSchema",
+      "staticInitializer": "z\n  .object({\n    effective: z.number().int().nonnegative(),\n    cap: z.number().int().positive(),\n    reason: z.string().max(GET_WORKFLOW_RUN_ROSTER_LIMITS.maxWaitReasonLength).optional(),\n    since: z.number().optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "publicName": "GetWorkflowRunHealthSchema",
+      "staticInitializer": "z\n  .object({\n    lastProgressAt: z.number().optional(),\n    stalledSince: z.number().optional(),\n    concurrency: GetWorkflowRunConcurrencyHealthSchema.optional(),\n    consecutiveFailures: z.number().int().nonnegative(),\n    cachedSteps: z.number().int().nonnegative(),\n    /** 仅终态 run：还标着 `running` 的节点行数（进程死在它们下面）。为 0 时缺席。 */\n    leftoverRunning: z.number().int().positive().optional(),\n    /**\n     * 这次读能不能回答「有没有问题在等答案」。为假时 `pendingQuestions` 整字段缺席，\n     * 且没有任何子代理会被报成 `parked`——「没有人在等」与「不知道」是两个不同的事实。\n     */\n    pendingQuestionsKnown: z.boolean(),\n  })\n  .strict()"
+    }
+  ],
+  "qualification": "Existing public schema/constant/metadata expressions remain original opaque owners; consume originals, do not implement or assign novelty/licensing credit. Source exported sentinel initializers exact."
+}

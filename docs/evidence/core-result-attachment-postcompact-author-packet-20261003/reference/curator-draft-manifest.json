@@ -1,0 +1,24 @@
+{
+  "scope": "reference",
+  "recordedAtUtc": "2026-10-02T21:01:20.198072+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "savedFastUnchanged": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "noOsIsolationOrAccessAuditProof": true,
+  "files": [
+    {
+      "file": "attachment-path-reference.ts.txt",
+      "bytes": 3842,
+      "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10430,
+      "sha256": "7f43728d4f56c6257579e51e2b08b2cbec63ce3c1bc6e184bb806fe0ec44cdae"
+    }
+  ]
+}

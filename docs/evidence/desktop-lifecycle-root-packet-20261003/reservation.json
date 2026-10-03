@@ -1,0 +1,34 @@
+{
+  "recordedAtUtc": "2026-10-02T19:46:52.352327+00:00",
+  "baseline": "7d43c62ac3b90934a58e2e4e5a8c5f2c000d6388",
+  "rootExclusive": true,
+  "allocation": "Parent requested bounded body-free packet at next coherent checkpoint; no E implementation.",
+  "preCurationExposure": "Root reports only names/linecounts and absent root-local reviews deliberately seen this pass; previous generic tooling/broad context remains. E collected this metadata before new full body curation. No root no-exposure/fresh-context/OS isolation claim.",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/releaseUpdateCheck.ts",
+      "bytes": 5011,
+      "lines": 144,
+      "sha256": "bdff43d5b1e58a6d53f437ce3e90f5c1d70784095fe06973bbf5b5f304ccd406",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "88001f027b04324f816176ff5f08b5d1a236f27f"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopNotifications.ts",
+      "bytes": 5498,
+      "lines": 158,
+      "sha256": "29581f30f5239e7714158f0a79bd57278270092793b692244fc4fa8454d61310",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCronScheduler.ts",
+      "bytes": 7050,
+      "lines": 197,
+      "sha256": "803e026c68f0d6ac79b2a347fb1c41917f7e5a1d60402a0d5a388d653d39d590",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "6e86738bbb43c3df206fc25080214bca77cd6b81"
+    }
+  ],
+  "limits": "No actual OS/notifications/updates/schedules/user data, no implementation/test/history body in packet, no root/A merge or global grant."
+}

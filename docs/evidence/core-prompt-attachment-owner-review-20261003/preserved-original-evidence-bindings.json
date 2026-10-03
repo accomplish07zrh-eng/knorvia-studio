@@ -1,0 +1,42 @@
+[
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/prompt-attachment.ts.txt",
+    "bytes": 3407,
+    "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/author-record.json",
+    "bytes": 9876,
+    "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/curator-draft-manifest.json",
+    "bytes": 962,
+    "sha256": "08e7bcaf2ad0dd610356e09ddf7b0792307efda86022b267c4d0d6fa52860c25"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety.json",
+    "bytes": 3766,
+    "sha256": "b6600c363cd0550b2b39de2878fcfb7a58ad45e22465fd4fc09aa16605d760d4"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/retained-data.json",
+    "bytes": 3795,
+    "sha256": "5016d38b89cfb34d3e3c518aca36a1f6b8389d1e43eee28e590b6183a5a681b6"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/verify-retained-data.initial.cjs.txt",
+    "bytes": 2168,
+    "sha256": "01659d821ce4b2a78d9d55a8be88ddde82f1d70de0af209e6e511cefbc551df5"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/attachment-static.json",
+    "bytes": 4824,
+    "sha256": "2a8d084cc6a77b989071f1eb888d5aefaaa27e79b88c518ff62e6f3112375af6"
+  },
+  {
+    "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.original.cjs.txt",
+    "bytes": 6850,
+    "sha256": "a7ff663394869259028ecc14f9c7145f390ddea7a05a01243eb1232acb304997"
+  }
+]

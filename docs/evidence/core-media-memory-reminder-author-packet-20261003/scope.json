@@ -1,0 +1,58 @@
+{
+  "recordedAtUtc": "2026-10-02T20:35:37.791245+00:00",
+  "baseline": "9b700ea2adb39fa3e98cb4efa8b334a90fef9081",
+  "allocation": "Parent exact five remaining inventory owners, subject to prioracceptedrecord check; complete cohesive outputs and split resolver privately",
+  "targets": [
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "lines": 512,
+      "bytes": 17171,
+      "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "extraction",
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "lines": 178,
+      "bytes": 6541,
+      "sha256": "e5f5cd74c349d447532c715b02d3312554dfdb20ed8f2b08760fa1f437a1f478",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "memory-agent",
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "lines": 129,
+      "bytes": 5259,
+      "sha256": "f863fbac8360347c2d42d2d53d62fbbea1e0066cce0081fdb3e217eddda472a3",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "reminders",
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "lines": 248,
+      "bytes": 10968,
+      "sha256": "5a7c361ec61bcf1a03d54898d777e0f2c1780f0449942b8765847c1b08aca606",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "turn-errors",
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "lines": 253,
+      "bytes": 8559,
+      "sha256": "2df0ce336c4cfe77e8483603d60ada5a2e13cea45df98166e9a1adbff7bf8891",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    }
+  ],
+  "additionalResolverScope": "New private modules under apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/; no existing files there. No new entry exports/API/state or public barrel changes. Eachsource<400lines.",
+  "boundedAcceptedRecordSearch": "Exact filenames in docs/specs/licensing reviews had only prior dependency/boundary/metadata mentions, no accepted complete author record. Not exhaustive history/rights audit.",
+  "sourceExposedCurator": true,
+  "priorBroaderExposureQualified": true,
+  "ordinaryChecksDeferred": true,
+  "excluded": "A conversation/streaming/runtime-methods; protected security/permission/fullaccess; other accepted owners/rootdesktop/crosslane/globallicenceinventory"
+}

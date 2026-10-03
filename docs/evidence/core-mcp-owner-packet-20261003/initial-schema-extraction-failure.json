@@ -1,0 +1,11 @@
+{
+  "exitCode": 1,
+  "error": "Unexpected raw schema declaration",
+  "stackBoundary": "qualified at extract-public.cjs:11:423, main extraction at18:219",
+  "initialExtractor": {
+    "path": "docs/evidence/core-mcp-owner-packet-20261003/extract-public.cjs",
+    "bytes": 12161,
+    "sha256": "d10a9364a2c2e84f37aa920dcc62a19e7f6d01ee7722c076891c04b60319bc75"
+  },
+  "qualification": "Curator incorrectly assumed original schema emits any. Failed before author input delivery; original script bytes retained. No author/target/source changes or business execution. Inspect actual public declaration then adapt; no repeated unchanged failing probe."
+}

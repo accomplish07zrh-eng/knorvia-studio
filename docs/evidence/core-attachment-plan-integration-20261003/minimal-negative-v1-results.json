@@ -1,0 +1,115 @@
+{
+  "kind": "Minimum isolated synthetic validation/privacy/data-preservation gates only",
+  "typescript": "6.0.2",
+  "selectedScopes": [
+    "plan",
+    "artifacts",
+    "paths",
+    "persistence",
+    "attachments"
+  ],
+  "sourceBindings": [
+    {
+      "scope": "plan",
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "bytes": 2737,
+      "sha256": "b4c854cdbf68e735048d5575f79a35d088696260f87ffb3200242ead2d32cf04"
+    },
+    {
+      "scope": "artifacts",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+    },
+    {
+      "scope": "paths",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "bytes": 4250,
+      "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48"
+    },
+    {
+      "scope": "persistence",
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "bytes": 4073,
+      "sha256": "58772c0f67eaf9ab8344d75e28a1d0093d6386e73b4ee6b5d5479056786c0676"
+    },
+    {
+      "scope": "attachments",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "bytes": 9466,
+      "sha256": "67746d867a4f377eb8626ac6f04a6adeae3197b917521e44614074479d8d6470"
+    }
+  ],
+  "results": [
+    {
+      "scope": "plan",
+      "name": "Blank plan and unusable session reject before any port write",
+      "passed": true
+    },
+    {
+      "scope": "plan",
+      "name": "Original plan data, receiver, signal and typed missing/error propagation survive",
+      "passed": true
+    },
+    {
+      "scope": "artifacts",
+      "name": "Durable write failure propagates rather than becoming successful inline fallback",
+      "passed": true
+    },
+    {
+      "scope": "artifacts",
+      "name": "Artifact read fallback admits data URLs only and safe data reference omits payload",
+      "passed": true
+    },
+    {
+      "scope": "paths",
+      "name": "Missing durable materialization port rejects with unchanged own undefined cause shape",
+      "passed": false,
+      "error": "false == true"
+    },
+    {
+      "scope": "paths",
+      "name": "Inline media without durable source and unsupported enhancement preserve original identity",
+      "passed": true
+    },
+    {
+      "scope": "paths",
+      "name": "Durable path is rechecked, derived clone does not change canonical source; port error cause retained",
+      "passed": true
+    },
+    {
+      "scope": "persistence",
+      "name": "Unsupported trailing content rejects entire projection before store or id side effects",
+      "passed": true
+    },
+    {
+      "scope": "persistence",
+      "name": "Returned media layout preserves text/order/optional zero metadata, propagates durable failure",
+      "passed": true
+    },
+    {
+      "scope": "attachments",
+      "name": "Binary and clipboard text remain references with no content reads",
+      "passed": true
+    },
+    {
+      "scope": "attachments",
+      "name": "Invalid PDF payload is downgraded before inline reading; display metadata does not add raw body",
+      "passed": true
+    },
+    {
+      "scope": "attachments",
+      "name": "Sequential local media dispatch preserves input and does not admit later item before first completes",
+      "passed": true
+    }
+  ],
+  "passed": false,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "noCanonicalDataUsed": true,
+  "noActualProviderNetworkStoreFilesystemOsOperation": true,
+  "noPredecessorExecution": true,
+  "noSourceEmittedMatrix": true
+}

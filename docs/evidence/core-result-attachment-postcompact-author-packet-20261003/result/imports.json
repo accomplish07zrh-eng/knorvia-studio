@@ -1,0 +1,14 @@
+[
+  {
+    "module": "../deps.js",
+    "clause": "{ modelMessageContentToText }"
+  },
+  {
+    "module": "../../tool/handlers/bash-model-content.js",
+    "clause": "{ isBashOutputProviderError }"
+  },
+  {
+    "module": "../deps.js",
+    "clause": "type {\n  ModelMessageContent,\n  ToolCallId,\n  ToolSchedule,\n  ToolExecutionResult,\n}"
+  }
+]

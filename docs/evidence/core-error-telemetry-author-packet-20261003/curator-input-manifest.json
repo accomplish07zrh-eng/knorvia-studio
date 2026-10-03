@@ -1,0 +1,151 @@
+{
+  "recordedAtUtc": "2026-10-02T20:05:48.299Z",
+  "baseline": "06e67e0e73a101cb9d68b072a1fcd7a9976de269",
+  "scopeCommit": "06e67e0e",
+  "sourceExposedCurator": true,
+  "instructionOnlyRestrictions": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "sourceExposure": {
+    "targetBodies": [
+      "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "apps/cli/packages/core/src/runtime/helpers/media-observability.ts"
+    ],
+    "selectedDependencyAstOrBoundedSnippets": [
+      "apps/cli/packages/core/src/runtime/deps.ts",
+      "apps/cli/packages/core/src/runtime/types.ts",
+      "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "apps/cli/packages/contracts/src/errors/index.ts",
+      "apps/cli/packages/contracts/src/model/index.ts",
+      "apps/cli/packages/contracts/src/config/index.ts",
+      "apps/cli/packages/contracts/src/logging/logger.ts",
+      "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "packages/shared/src/artifact-uri.ts"
+    ],
+    "incidentalBodies": "Shared artifact-uri complete small module; bounded types/default context around ResolvedTurnAttachment/ModelAnomalyGuardConfig. Earlier provider-business-error AST/prefix and broad source/tool exposure retained. Selected declaration extraction reads whole chosen files but strips function bodies before author inputs."
+  },
+  "declarationExtraction": {
+    "typescript": "6.0.2",
+    "kind": "Target public declaration extraction only, no body/project typecheck",
+    "diagnostics": {
+      "business": [],
+      "anomaly": [],
+      "telemetry": []
+    },
+    "dependencySelection": "Selected declaration nodes/function signatures with bodies stripped; standalone fragments preserve actual imported type owner references. No dependency implementation."
+  },
+  "scopes": {
+    "business": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/contract.md",
+          "bytes": 4752,
+          "sha256": "8cb44191e795edeae93061e75e07ef69f9d55ce1b0ada1175829250026af24cb"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/public-api.d.ts",
+          "bytes": 494,
+          "sha256": "1c17cf91889bcf28708546ce4aaee6cc210d444f453015818e7e07a13a22421e"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/dependency-api.d.ts",
+          "bytes": 631,
+          "sha256": "3c39923968adc5816b31a9b354735d8cecf7528272272ae5edda58af5ae0a267"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/public-shapes.d.ts",
+          "bytes": 211,
+          "sha256": "ad2e10a5a092d83137548b45461565da97a7b171d7f21130557ac30dc9dda3eb"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/imports.json",
+          "bytes": 608,
+          "sha256": "042fad26bb865b74b6015f8b5dd89bbac9f15a7aa991ea6f50b4470ea5232a63"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/output-data.json",
+          "bytes": 1042,
+          "sha256": "df2e7673b7e12f6006b5d54073a0ff477d9e623bd9006adc18797138b10b10bd"
+        }
+      ]
+    },
+    "anomaly": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/contract.md",
+          "bytes": 3962,
+          "sha256": "ac8d9cd043008a4d238890867249a8487c03428afa9e9a05a5d6511ad8928622"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/public-api.d.ts",
+          "bytes": 1228,
+          "sha256": "a628346dd23c88ad604a5e617a3431477733051a89d686c6fccbf0cb36cccd20"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/dependency-api.d.ts",
+          "bytes": 258,
+          "sha256": "320d6266510859d37a2be6adf76481fa908a818ad405c8957f3f95062ea511fe"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/public-shapes.d.ts",
+          "bytes": 364,
+          "sha256": "4ecde9ac119ea9b9e153dc8af98777f3f1e21ac9de0785a861bfce7dcbfeeb6f"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/imports.json",
+          "bytes": 546,
+          "sha256": "da7c0d3dc31c6fa9c1a1bef4b13978a1244047f5b4607312f85405df34ba8f76"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/output-data.json",
+          "bytes": 1258,
+          "sha256": "28de24b04f8f7170e1d968810f5a83eeaa34a1c50afef8aea4d6b7983f94321c"
+        }
+      ]
+    },
+    "telemetry": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/contract.md",
+          "bytes": 5414,
+          "sha256": "734ca9283fc461e2e2afca109ffa6dfb9c5add7380eb952e1015ea893ff733e8"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/public-api.d.ts",
+          "bytes": 635,
+          "sha256": "a511d959fb08ee21f5613e9f82c3b2e12b2c39448dc0806c1fbecaf39e3d2535"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/dependency-api.d.ts",
+          "bytes": 601,
+          "sha256": "7e076b0c641055241d589b66ce0cc370a4e17b912242d7acc3ba466d062f1c8b"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/public-shapes.d.ts",
+          "bytes": 5094,
+          "sha256": "dedf305ce5a0130527f750968804703d9e97fa5c0f484a0e98965084177000ed"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/imports.json",
+          "bytes": 1512,
+          "sha256": "c18829bba817f71fe44b97f83f0b6d6f8cc11d00eb2570f19d5406f281955268"
+        },
+        {
+          "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/output-data.json",
+          "bytes": 1690,
+          "sha256": "01149dd5cd0a25888f5cddffcbb88a4eef939ab92087810423e766f0efaf63bb"
+        }
+      ]
+    }
+  }
+}

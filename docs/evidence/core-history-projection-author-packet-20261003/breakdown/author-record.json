@@ -1,0 +1,60 @@
+{
+  "freeze_utc": "2026-10-02T19:10:42.387710Z",
+  "frozen": true,
+  "model": "GPT-6.1 Sol",
+  "reasoning_effort": "high",
+  "model_effort_basis": "Delegation configuration stated by parent; no runtime model introspection performed.",
+  "fast_tier": "No separately exposed Fast tier in the delegation tool.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/breakdown/inputs/contract.md",
+      "bytes": 2479,
+      "sha256": "460fd007240176dd15113e882ea072a39971a5e564a52a9be492a6161d317cd1"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/breakdown/inputs/public-api.d.ts",
+      "bytes": 1792,
+      "sha256": "f9a1a537447242e3c73c1dbc0856e9aaec035c5bdc83ef25d0e612b4dbe55c1a"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/breakdown/inputs/dependency-api.d.ts",
+      "bytes": 1067,
+      "sha256": "db092cc335a71741d169cf84011c08090e47a4f878574bcd82de8f63fe29eae1"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/breakdown/output/context-usage-breakdown.ts",
+      "bytes": 3587,
+      "sha256": "cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41"
+    }
+  ],
+  "receipt_self_hash": "omitted",
+  "actual_files_read": [
+    "/tmp/knorvia-core-history-projection-20261003/breakdown/inputs/contract.md",
+    "/tmp/knorvia-core-history-projection-20261003/breakdown/inputs/public-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/breakdown/inputs/dependency-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/breakdown/output/context-usage-breakdown.ts"
+  ],
+  "exposure": {
+    "inherited_parent_conversation": false,
+    "available_context": "Scoped delegated assignment, system/developer/tool instructions, and supplied environment context only.",
+    "repository_implementation_dependency_test_history_review_bodies": false,
+    "other_author_outputs_or_prior_drafts": false,
+    "repository_git_network_or_compiler_access": false
+  },
+  "retained_contract_expressions": [
+    "Dependency type import names/path and complete supplied public type declarations are retained.",
+    "Contributor object keys, order, literals, and direct input-field accesses are contract-prescribed and retained, including own optional-valued keys.",
+    "Category projection retains the ordinary method-receiver map.get(source), falsy absence check, shallow spread, and contributors override required by the contract.",
+    "These thin mappings may match existing field expressions; they are explicitly retained contract data, not claimed as novel expressions."
+  ],
+  "discretionary_choices": [
+    "Four-space indentation and multiline import/function parameter formatting.",
+    "Local category binding named category, single-line falsy return, and inline shallow-spread return.",
+    "No added helpers, persistent state, normalization, validation, aggregation, or extra output fields."
+  ],
+  "validation": "No tests, builds, typechecks, lint, mocks, or compiler tools run. Python standard-library hashing was used only for the receipt.",
+  "unresolved_questions": [],
+  "breaches": []
+}

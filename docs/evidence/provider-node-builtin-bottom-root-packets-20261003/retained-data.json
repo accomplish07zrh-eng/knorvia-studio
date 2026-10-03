@@ -1,0 +1,131 @@
+{
+  "download": {
+    "budgetMs": 20000,
+    "bodyLimitBytesPerResponse": 10000000,
+    "clientConfigPath": "/api/v1/client/configs",
+    "queryKeys": [
+      "app_version",
+      "platform"
+    ],
+    "envelope": {
+      "code": 0,
+      "dataKey": "data",
+      "configsKey": "configs",
+      "downloadUrlKey": "builtin_provider_config_json",
+      "objectPolicy": "passthrough at root/data/configs",
+      "downloadUrl": "optional canonical URL string refined to https: without username/password"
+    },
+    "requestInit": {
+      "method": "GET",
+      "credentials": "omit",
+      "redirect": "error",
+      "signal": "same combined/internal signal for both requests"
+    },
+    "stages": [
+      "client-config",
+      "cdn"
+    ],
+    "reasonPriority": [
+      "aborted: timeout flag ? timeout : cancelled",
+      "DownloadBoundaryError.message",
+      "ZodError: first path and code only",
+      "invalid response"
+    ],
+    "fixedReasons": [
+      "timeout",
+      "cancelled",
+      "empty body",
+      "body limit exceeded",
+      "invalid response"
+    ],
+    "httpReasonTemplate": "HTTP ${response.status}",
+    "schemaReasonTemplate": "invalid schema at ${error.issues[0]?.path.join(\".\") || \"root\"} (${error.issues[0]?.code})",
+    "errorTemplate": "Knorvia Studio Built-in ${stage}: ${reason}",
+    "absenceResult": null,
+    "retries": 0,
+    "cryptoDigestOrSignatureCheck": false,
+    "cacheOrFallback": false
+  },
+  "release": {
+    "schemaVersion": 1,
+    "revisionMaximum": 9007199254740991,
+    "revisionConstraints": [
+      "number",
+      "integer",
+      "nonnegative",
+      "maximum"
+    ],
+    "retiredProviderId": "builtin:zapi",
+    "retiredProviderError": "Knorvia Studio Built-in Release 包含已退出的 Provider: builtin:zapi",
+    "decodedOuterKeys": [
+      "schemaVersion",
+      "revision",
+      "config"
+    ],
+    "decodedConfigKeys": [
+      "providers",
+      "providerTemplates",
+      "modelConfigRules"
+    ],
+    "encodedOuterKeys": [
+      "schemaVersion",
+      "revision",
+      "config"
+    ],
+    "encodedConfigKeys": [
+      "providerConfigRules",
+      "modelConfigRules"
+    ],
+    "encodedProviderKeys": [
+      "templateRules",
+      "providerRules"
+    ],
+    "strictInputOuterKeys": [
+      "schemaVersion",
+      "revision",
+      "config"
+    ],
+    "strictInputConfigKeys": [
+      "providerConfigRules",
+      "modelConfigRules"
+    ],
+    "frozenEnvelopes": [
+      "config",
+      "outer"
+    ],
+    "deepFreeze": false,
+    "parserAndGuardOrder": [
+      "parseKnorviaBuiltinProviderConfigRules",
+      "providers.has(\"builtin:zapi\")",
+      "parseKnorviaBuiltinModelConfigRules"
+    ],
+    "serializerEvaluationOrder": [
+      "providerTemplates.toJSON",
+      "providers.toJSON",
+      "modelConfigRules.toKnorviaBuiltinJSON"
+    ],
+    "jsonSpaceOrReplacer": false,
+    "trailingNewline": false,
+    "migrations": [],
+    "sourceFallback": false
+  },
+  "dependency": {
+    "zodVersion": "4.6.5",
+    "builtinProviderGroups": [
+      "zai-family",
+      "bigmodel-family"
+    ],
+    "builtinModelGroups": [
+      "modelRules",
+      "modelApiRules",
+      "providerSiteRules",
+      "templateModelRules",
+      "builtinProviderModelRules"
+    ],
+    "providerRuleGroups": [
+      "templateRules",
+      "providerRules"
+    ]
+  },
+  "securityQualification": "No actual request/network/provider/cache/credentials/config operation. Existing boundary only; no new fallback, rights/MIT acceptance or cryptographic claim."
+}

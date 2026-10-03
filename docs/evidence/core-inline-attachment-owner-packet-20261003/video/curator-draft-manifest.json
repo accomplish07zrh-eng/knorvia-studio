@@ -1,0 +1,26 @@
+{
+  "scope": "video",
+  "archivedBeforeCuratorBodyReview": true,
+  "archivedAtUtc": "2026-10-02T21:17:04.819695+00:00",
+  "files": [
+    {
+      "file": "attachment-video.ts.txt",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/video/output/attachment-video.ts",
+      "bytes": 1231,
+      "sha256": "607d0d48862299727dcc8231a51aecef026821b6a788a71f52c8b0e143415535",
+      "lines": 41,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/video/output/author-record.json",
+      "bytes": 8367,
+      "sha256": "c74d8cfc4e15f05b818d509d0d3d914a915f9b196f97d460259edc9b1a6f9b83",
+      "lines": 177,
+      "freezeMode": "0444"
+    }
+  ],
+  "authorReceiptSelfReported": true,
+  "noOsIsolationOrAccessAudit": true
+}

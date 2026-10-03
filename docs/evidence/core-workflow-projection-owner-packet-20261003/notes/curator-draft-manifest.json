@@ -1,0 +1,24 @@
+{
+  "scope": "notes",
+  "files": [
+    {
+      "file": "workflow-script-notes.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "bytes": 2133,
+      "lines": 50,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/notes/workflow-script-notes.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 13951,
+      "lines": 250,
+      "sha256": "25c5241d88d6a4ad5684e18786a4d46821199be4aa163061f91ba29714b0ca28",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/notes/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole original source/full receipt frozen and committed before body review; no curator source patch, instruction-only author self-report/source-exposed curator qualifications retained."
+}

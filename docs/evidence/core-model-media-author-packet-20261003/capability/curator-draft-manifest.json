@@ -1,0 +1,33 @@
+{
+  "archivedAtUtc": "2026-10-02T19:49:42.324540+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no separate tool setting",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/capability/imports.json",
+      "bytes": 2608,
+      "sha256": "e23dde99120eba962c98fd65a5d9e2b9c23a15e5d69702abf5a7e4c2d603faff"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/capability/log-fields-qualification.json",
+      "bytes": 709,
+      "sha256": "e2a7dc5727a8a08cdb07a0edd966e297cbc191e35718f9d16beb3a0e54323e5d"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-capability.ts.txt",
+      "bytes": 5719,
+      "sha256": "cf8893b96f25bda6181747c3209d3b5e4ca807418c9249bd2be204c5eb5c62fc",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6733,
+      "sha256": "529f9ab5f408fadb8d999b454b0277282657bee1a76f3881c1cf831445dd9c43"
+    }
+  ]
+}

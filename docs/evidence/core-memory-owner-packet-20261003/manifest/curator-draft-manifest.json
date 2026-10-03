@@ -1,0 +1,24 @@
+{
+  "scope": "manifest",
+  "utc": "2026-10-02T21:54:38.835Z",
+  "files": [
+    {
+      "file": "manifest.ts.txt",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "target": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "bytes": 3981,
+      "lines": 101,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+      "bytes": 9523,
+      "lines": 144,
+      "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0",
+      "mode": "444"
+    }
+  ],
+  "qualification": "Complete original source/author record copied byte-exactly from frozen two-output scratch before source rendering/review. Author receipt self-report, shared executor instruction-only; no OS/access audit or separation/licence proof."
+}

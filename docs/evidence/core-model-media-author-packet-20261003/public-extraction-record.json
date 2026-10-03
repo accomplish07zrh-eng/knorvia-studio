@@ -1,0 +1,23 @@
+{
+  "typescript": "6.0.2",
+  "kind": "Declaration extraction/selected signature curation only, not body/project typecheck",
+  "diagnostics": {
+    "request": [],
+    "budget": [],
+    "validation": [],
+    "capability": [],
+    "errors": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations.",
+        "start": 867
+      },
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations.",
+        "start": 1320
+      }
+    ]
+  },
+  "errorsQualification": "Raw errors extraction has inherited inferred-return diagnostics. Two public error constructors return createCoreError directly; body-free public-api qualifies their return as ReturnType<typeof createCoreError>, preserving CoreError collaborator contract. Raw extraction is preserved and not supplied to authors. Other API behavior remains unchanged. Selected signatures strip bodies and retain original type references; dependency declaration aliases may remain opaque."
+}

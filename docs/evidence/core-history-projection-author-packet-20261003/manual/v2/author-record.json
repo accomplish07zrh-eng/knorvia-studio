@@ -1,0 +1,100 @@
+{
+  "freeze_utc": "2026-10-02T19:12:30.704272+00:00",
+  "version": 2,
+  "authorship": "Same-author correction of frozen v1, not a new fresh-context authorship event.",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "requested_service_tier": "Fast",
+  "service_tier_note": "No separate Fast tool tier is exposed; actual service tier was not independently observed.",
+  "initial_v1_inherited_conversation": false,
+  "v2_inherits_own_v1_turns": true,
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/contract.md",
+      "bytes": 4252,
+      "sha256": "37e4b24804bbf5fe6be1a14ce4e2d0dd342c559c54080ed61d963d10ff36b550"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-api.d.ts",
+      "bytes": 2130,
+      "sha256": "04cb5d009e13fbddf8703b60f84922b5c9545fbafb9677547dee7660a30eca3d"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/dependency-api.d.ts",
+      "bytes": 776,
+      "sha256": "6e1b494f9a97d32af4d9d10dfa5a6d48f6374c242116755263428764a30a93c4"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-shapes.d.ts",
+      "bytes": 3740,
+      "sha256": "636d75e20a2f008f11e59e3645f793d6edcc96ad4f6268ff0276f26dacf022db"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/iteration-clarification.md",
+      "bytes": 1179,
+      "sha256": "e01949cbfd47549a1386da6795bd6d430c1ce8337bb758aefbf2e38c444645de"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/output-v2/manual.ts",
+      "bytes": 4955,
+      "sha256": "a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9"
+    }
+  ],
+  "ancestry": {
+    "original_source": {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/output/manual.ts",
+      "bytes": 4955,
+      "sha256": "c4971faab34fd963e7032a33dd16cb36beb100135ff6c5be7a4cf819c04a3a44"
+    },
+    "original_receipt": {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/output/author-record.json",
+      "bytes": 3640,
+      "sha256": "85144f73b43beb664cc686a4fac43e70edefa32fd0bd96c6d07c7cffcd3318aa"
+    },
+    "curator_reported_v1_archive_reference": "at80ab1c96",
+    "curator_reported_clarification_freeze_reference": "3acfef45",
+    "v1_preserved": true
+  },
+  "intended_module_location": "apps/cli/packages/core/src/compact/manual.ts",
+  "actual_files_read_cumulative": [
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/contract.md",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/dependency-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-shapes.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/iteration-clarification.md",
+    "/tmp/knorvia-core-history-projection-20261003/manual/output/manual.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/output/author-record.json",
+    "/tmp/knorvia-core-history-projection-20261003/manual/output-v2/manual.ts"
+  ],
+  "source_exposure": {
+    "permitted": "Original four inputs, separately frozen fifth functional clarification, and own v1/v2 source and receipts.",
+    "other_source_exposure": [],
+    "repository_or_history_bodies_read": false,
+    "other_author_outputs_or_prior_external_drafts_read": false,
+    "context_note": "Retains own initial author turn and receives curator follow-up stating an omitted static functional observation; no repository source, dependency bodies, tests, runtime failures, or fresh-author event were supplied."
+  },
+  "retained_contract_expression": [
+    "All original public interfaces, signatures, retry constants/prose, imports, mandatory literals, and semantics remain as in v1.",
+    "Original boundary field ordering, field presence, defaults, and identity requirements.",
+    "Original two-pass filtering/cloning, delegated rounds grouping, block projection, independent token ceilings, serialization-only fallback, usage observation order, and lazy UUID behavior.",
+    "Fifth input requires outer message array admission-length capture, absent-slot skipping, ascending numeric traversal, and observation of deletions/replacements without visiting appended messages."
+  ],
+  "discretionary_design": [
+    "Retained complete v1 module structure, no private helper.",
+    "Selected ordinary Array.forEach traversal for the outer message accumulation to satisfy newly supplied array-observation requirements.",
+    "Inner tool-call for-of traversal is retained."
+  ],
+  "correction_distinction": {
+    "reason": "First packet omitted an array observation clarified by static curator review.",
+    "change": "Outer estimateMessageTokens traversal changed from for-of to forEach; all other source is retained.",
+    "runtime_failure_claimed": false,
+    "new_fresh_context_authorship_claimed": false
+  },
+  "unresolved_questions": [],
+  "breaches": [],
+  "validation": "No tests, builds, project checks, typechecks, lint, mocks, compiler, git, repository inspection, or network operations were run. Complete v2 draft is frozen after this receipt; v1 was not modified.",
+  "output_line_count": 163,
+  "receipt_selfhash": "Omitted as allowed."
+}

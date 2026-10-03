@@ -1,0 +1,27 @@
+{
+  "scope": "skills",
+  "archivedBeforeCuratorBodyReview": true,
+  "archivedAtUtc": "2026-10-02T21:30:58.169097+00:00",
+  "files": [
+    {
+      "file": "skills.ts.txt",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/skills/output/skills.ts",
+      "bytes": 2127,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0",
+      "lines": 68,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/context/sections/skills.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/skills/output/author-record.json",
+      "bytes": 9121,
+      "sha256": "dd3fdac1f1ddcd05f118b50fc0c8c859f8b82c95ef86091e8e0976dbefa9d439",
+      "lines": 178,
+      "freezeMode": "0444"
+    }
+  ],
+  "authorReceiptSelfReported": true,
+  "noOsIsolationOrAccessAudit": true,
+  "sourceIntegrationDeferred": true
+}

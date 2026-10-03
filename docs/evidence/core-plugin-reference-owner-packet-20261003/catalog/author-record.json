@@ -1,0 +1,130 @@
+{
+  "owner": "catalog",
+  "scope": "Complete reserved plugin-reference catalog owner; pure invocation-local string and metadata logic.",
+  "time_utc": "2026-10-02 22:13:13 UTC",
+  "time_qualification": "Clock sampled after writing and rereading source, before writing receipt and freezing outputs.",
+  "execution_request": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "runtime_model_and_effort": "Requested configuration only; runtime identity and reasoning effort were not independently verified.",
+    "savedFast": "Unchanged by this author; state and setting unverified."
+  },
+  "actual_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/contract.md",
+      "bytes": 3724,
+      "sha256": "21fbb047d7cdd257a0c62b192d9f35d693a66e7135cb30fe72c8ea3244684dae",
+      "read_count": 1,
+      "extent": "full bytes and decoded full text"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-api.d.ts",
+      "bytes": 385,
+      "sha256": "b6b903b13b059257ae9cab187b3be60c771f7f7400f65fcbf66970d947116ce5",
+      "read_count": 1,
+      "extent": "full bytes and decoded full text"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/dependency-api.d.ts",
+      "bytes": 79,
+      "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287",
+      "read_count": 1,
+      "extent": "full bytes and decoded full text"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-shapes.d.ts",
+      "bytes": 2484,
+      "sha256": "29471a64b4cba0e3e95ec5095cdb11a89ce25780a1b6318e5184f14ffb506ec8",
+      "read_count": 1,
+      "extent": "full bytes and decoded full text"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/imports.json",
+      "bytes": 152,
+      "sha256": "f784bcd9850ec686a39b0d19e24094e501e44e3eed6e3682dbb2dad92709aa9e",
+      "read_count": 1,
+      "extent": "full bytes and decoded full text"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/output-data.json",
+      "bytes": 1010,
+      "sha256": "c3e1c23aceeb774eb764b45ff217590499c9621e3121526013e8e2361f229a40",
+      "read_count": 1,
+      "extent": "full bytes and decoded full text"
+    },
+    {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+      "bytes": 1692,
+      "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4",
+      "read_count": 1,
+      "extent": "full authored source for manual review and hash/line measurement"
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+    "bytes": 1692,
+    "lines": 60,
+    "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4",
+    "format": "complete original authored TypeScript file, not a patch",
+    "mode": "0444"
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/author-record.json",
+    "format": "complete JSON author record",
+    "mode": "0444",
+    "read_count": 0,
+    "self_hash": "Not embedded because a receipt cannot directly bind its own serialized hash; hash reported separately from the serialized bytes during the write."
+  },
+  "operations": [
+    "Read each of the six authorized inputs fully once with Python pathlib.read_bytes; computed SHA256 and byte counts and displayed full decoded content.",
+    "Created only the reserved output directory and wrote complete catalog.ts with UTF-8 text.",
+    "Read catalog.ts fully once; computed SHA256, bytes and splitlines count; displayed full source for manual review.",
+    "Sampled UTC clock with clock.curr_time.",
+    "Constructed and wrote this complete author-record.json; computed its SHA256, bytes and line count from the exact serialized bytes without rereading the file.",
+    "Applied chmod 0444 to catalog.ts and author-record.json after both writes; no additional files were created."
+  ],
+  "manual_review": {
+    "method": "Full input and authored-source visual review; no execution of catalog functions.",
+    "checks": [
+      "Only buildPluginReferenceCatalog and findPluginReferenceCatalogEntry are exported, with exact supplied parameter and return types.",
+      "The only source import is the exact type-only @knorvia/contracts set PluginMetadata, PluginReferenceCatalog, PluginReferenceCatalogEntry.",
+      "Map creates a fresh catalog plugins array in input order and an entry for every input including disabled inputs.",
+      "Enabled conflicts filter truthy-enabled exact-name peers, remove all exact self IDs, preserve duplicate other IDs, and default-sort; disabled conflicts are fresh empty arrays.",
+      "Entry own field order is pluginId, name, marketplace, enabled, conflictingPluginIds, skillQualifiedNames, mcpServerNames, subagentNames, rootPath.",
+      "Skills and agents use separate invocation-local sets across all corresponding component groups; trim names, omit empty names, prefix original plugin.name plus colon, deduplicate, and default-sort.",
+      "Other component group kinds are ignored; source arrays, items and names are never mutated.",
+      "MCP names are copied and default-sorted with duplicates and disabled supplied names preserved.",
+      "IDs, names, marketplaces, enabled and rootPath values are copied unchanged.",
+      "Find returns first exact-ID entry by reference, returns undefined when catalog or match is absent, and performs no cloning or fallback.",
+      "There are no catches, schema repair, persistence, shared mutable state, runtime imports or authority operations; native errors propagate.",
+      "Source has 60 lines, below the strict 400-line ceiling."
+    ],
+    "result": "No discrepancy identified by manual review; semantic or project compilation and behavioral execution were not performed."
+  },
+  "retained_data_and_idioms": [
+    "Required @knorvia/contracts module name, skill and agent discriminator strings, and colon-separated qualified-name format.",
+    "Original public API and metadata shape names, entry field names, exact ID/name comparisons and default lexicographic sort semantics.",
+    "Ordinary native JavaScript/TypeScript idioms: map, filter, find, Set, trim, spread copies, sort, object literals, truthiness and optional chaining.",
+    "No protocol regex, numeric static data or prompt data were required by output-data.json."
+  ],
+  "known_exposures_and_breaches": {
+    "parent_reported_qualifications": [
+      "Curator is source-exposed.",
+      "Earlier broader/tool/dependency context remains a retained qualification.",
+      "Earlier repaired scratch-write breach remains a retained qualification; repair does not erase the historical breach."
+    ],
+    "this_author_turn": "Direct filesystem content reads were restricted to the six authorized input paths and own catalog.ts. No predecessor body, repository source/history, AGENTS, tests, dependency implementation or other draft was read in this turn. No extra scratch accounting file was written.",
+    "qualification_delivery": "Parent-reported qualifications were provided in task instructions; this author did not independently investigate or audit those earlier events.",
+    "instruction_only_restrictions": "Shared executor restrictions were instruction-only. No OS isolation or filesystem/access audit was performed. This record describes visible author actions and does not certify enforcement or unseen platform activity."
+  },
+  "limits": [
+    "No compiler, build, lint, tests, mocks, installation or subagents were used.",
+    "No repository source/history, AGENTS, dependency implementation, other drafts, user data, plugin/model/provider/store/network/credentials operations or business ports were accessed.",
+    "No progress-message or progress-plan tools were called.",
+    "Receipt bindings support identification and manual review, not standalone semantic/project compilation.",
+    "No novelty, separation, licence, grant or provenance-clearance attestation is made.",
+    "Requested model/high/fork-none settings and unchanged savedFast remain unverified runtime qualifications."
+  ],
+  "blockers": []
+}

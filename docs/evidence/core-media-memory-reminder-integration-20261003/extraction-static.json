@@ -1,0 +1,613 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "extraction",
+  "baseline": "947293ff4ba966358642c7b6f549f609e03971e8",
+  "target": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+  "reexportsEqual": true,
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "a699b57f789d845c252591579c09ac0cc2ab6b0aed10e600c8a2a6eae9e1a6f1",
+    "candidate": "a699b57f789d845c252591579c09ac0cc2ab6b0aed10e600c8a2a6eae9e1a6f1"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeMultiplicityQualification": "Exact runtime import multiset unchanged",
+  "runtimeImports": {
+    "predecessor": [
+      "apps/cli/packages/core/src/memory/extraction.js#buildMemoryExtractionPrompt",
+      "apps/cli/packages/core/src/memory/extraction.js#createMemoryExtractionScheduler",
+      "apps/cli/packages/core/src/memory/memory-agent-loop.js#runMemoryAgentLoop",
+      "apps/cli/packages/core/src/memory/recall/index.js#scanMemoryManifest",
+      "apps/cli/packages/core/src/runtime/deps.js#selectActiveConversationBranch",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.js#buildProjectMemoryAgentProviderMessages",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.js#captureProjectMemoryAgentContext",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.js#createProjectMemoryAgentToolExecutor",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory.js#resolveEnabledProjectMemoryRoot"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/memory/extraction.js#buildMemoryExtractionPrompt",
+      "apps/cli/packages/core/src/memory/extraction.js#createMemoryExtractionScheduler",
+      "apps/cli/packages/core/src/memory/memory-agent-loop.js#runMemoryAgentLoop",
+      "apps/cli/packages/core/src/memory/recall/index.js#scanMemoryManifest",
+      "apps/cli/packages/core/src/runtime/deps.js#selectActiveConversationBranch",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.js#buildProjectMemoryAgentProviderMessages",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.js#captureProjectMemoryAgentContext",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.js#createProjectMemoryAgentToolExecutor",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory.js#resolveEnabledProjectMemoryRoot"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/contract.md",
+      "bytes": 6031,
+      "sha256": "c99c582581cdc24081e1cdfdd42814ddfc8bbfb7a99876f7a7e24242fe1d8dd3",
+      "actual": {
+        "bytes": 6031,
+        "sha256": "c99c582581cdc24081e1cdfdd42814ddfc8bbfb7a99876f7a7e24242fe1d8dd3"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/public-api.d.ts",
+      "bytes": 904,
+      "sha256": "bb12978c68cbbc0dd03dd998919a5053465b261b47b06316bc718334bdb8ed29",
+      "actual": {
+        "bytes": 904,
+        "sha256": "bb12978c68cbbc0dd03dd998919a5053465b261b47b06316bc718334bdb8ed29"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/dependency-api.d.ts",
+      "bytes": 4010,
+      "sha256": "e8be68ebf79829eddd1304af3b214452cd7caafc377c1284387d08bee81f7225",
+      "actual": {
+        "bytes": 4010,
+        "sha256": "e8be68ebf79829eddd1304af3b214452cd7caafc377c1284387d08bee81f7225"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/public-shapes.d.ts",
+      "bytes": 5612,
+      "sha256": "0da27b7a5a311bed9b6a554555651ad1e5f3accc0ed115e340d8ecf7fe8e7f1d",
+      "actual": {
+        "bytes": 5612,
+        "sha256": "0da27b7a5a311bed9b6a554555651ad1e5f3accc0ed115e340d8ecf7fe8e7f1d"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/imports.json",
+      "bytes": 1980,
+      "sha256": "3c54540a86300b01473ad0940d868a05272d54d289038159b8630c7110425d43",
+      "actual": {
+        "bytes": 1980,
+        "sha256": "3c54540a86300b01473ad0940d868a05272d54d289038159b8630c7110425d43"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/output-data.json",
+      "bytes": 931,
+      "sha256": "18e1b78fa1a3c2ec2fa015427146653dbcc13b20566c7f449445db8695468115",
+      "actual": {
+        "bytes": 931,
+        "sha256": "18e1b78fa1a3c2ec2fa015427146653dbcc13b20566c7f449445db8695468115"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 12048,
+      "sha256": "ea087711c8b998b086916739bc226624e707d4769000b63dff06da99741481fa",
+      "actual": {
+        "bytes": 12048,
+        "sha256": "ea087711c8b998b086916739bc226624e707d4769000b63dff06da99741481fa"
+      },
+      "matchesArchive": true
+    },
+    {
+      "file": "project-memory-extraction.ts.txt",
+      "bytes": 6258,
+      "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d",
+      "target": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "actual": {
+        "bytes": 6258,
+        "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 6258,
+        "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 195
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "author-record.json",
+      "bytes": 12048,
+      "sha256": "ea087711c8b998b086916739bc226624e707d4769000b63dff06da99741481fa",
+      "unchanged": true
+    },
+    {
+      "file": "project-memory-extraction.ts.txt",
+      "bytes": 6258,
+      "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d",
+      "target": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "actual": {
+        "bytes": 2904,
+        "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "bytes": 1732,
+      "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4",
+      "actual": {
+        "bytes": 1732,
+        "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3919,
+      "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba",
+      "actual": {
+        "bytes": 3919,
+        "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2135,
+      "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4",
+      "actual": {
+        "bytes": 2135,
+        "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "actual": {
+        "bytes": 1733,
+        "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "bytes": 1237,
+      "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71",
+      "actual": {
+        "bytes": 1237,
+        "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/error-payload.ts",
+      "bytes": 874,
+      "sha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450",
+      "actual": {
+        "bytes": 874,
+        "sha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "actual": {
+        "bytes": 9586,
+        "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/extraction.ts",
+      "bytes": 10405,
+      "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b",
+      "actual": {
+        "bytes": 10405,
+        "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "bytes": 9755,
+      "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9",
+      "actual": {
+        "bytes": 9755,
+        "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "bytes": 4516,
+      "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53",
+      "actual": {
+        "bytes": 4516,
+        "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/types.ts",
+      "bytes": 312,
+      "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40",
+      "actual": {
+        "bytes": 312,
+        "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/rewind/index.ts",
+      "bytes": 11458,
+      "sha256": "f224ad8bed838fcb747eb246da9b6d505610d7a27111f700563f4b79b1b2d606",
+      "actual": {
+        "bytes": 11458,
+        "sha256": "f224ad8bed838fcb747eb246da9b6d505610d7a27111f700563f4b79b1b2d606"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "bytes": 871,
+      "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490",
+      "actual": {
+        "bytes": 871,
+        "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "bytes": 840,
+      "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be",
+      "actual": {
+        "bytes": 840,
+        "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/types.ts",
+      "bytes": 8692,
+      "sha256": "8c11c83d53fafc8e384d29f4d57262b8634c4c41a4366c37e49beec0460a1533",
+      "actual": {
+        "bytes": 8692,
+        "sha256": "8c11c83d53fafc8e384d29f4d57262b8634c4c41a4366c37e49beec0460a1533"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "actual": {
+        "bytes": 17225,
+        "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/telemetry/agent-execution.ts",
+      "bytes": 8689,
+      "sha256": "4506eae0a05822c7053d8984d1be358cad6f7dd4f9f9878c058584963ec1a8d5",
+      "actual": {
+        "bytes": 8689,
+        "sha256": "4506eae0a05822c7053d8984d1be358cad6f7dd4f9f9878c058584963ec1a8d5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+      "bytes": 7032,
+      "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2",
+      "actual": {
+        "bytes": 7032,
+        "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "actual": {
+        "bytes": 36215,
+        "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "actual": {
+        "bytes": 9283,
+        "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/index.ts",
+      "bytes": 147,
+      "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25",
+      "actual": {
+        "bytes": 147,
+        "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/internal.ts",
+      "bytes": 5204,
+      "sha256": "c315cfd7b00594891a8a6406693d1686720585492c1c245c8ced638ed3ba684c",
+      "actual": {
+        "bytes": 5204,
+        "sha256": "c315cfd7b00594891a8a6406693d1686720585492c1c245c8ced638ed3ba684c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+      "bytes": 7343,
+      "sha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949",
+      "actual": {
+        "bytes": 7343,
+        "sha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-runtime-headers.ts",
+      "bytes": 2625,
+      "sha256": "b25d3fffc072ac5f592a7ce689060bac441e84d85af43ed7cee446b16da642ea",
+      "actual": {
+        "bytes": 2625,
+        "sha256": "b25d3fffc072ac5f592a7ce689060bac441e84d85af43ed7cee446b16da642ea"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/runtime-model.ts",
+      "bytes": 3071,
+      "sha256": "91412883b5b40b7b096c3e3c118410c915668cdb1e5207c404b2347c1670c459",
+      "actual": {
+        "bytes": 3071,
+        "sha256": "91412883b5b40b7b096c3e3c118410c915668cdb1e5207c404b2347c1670c459"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/explore.ts",
+      "bytes": 3526,
+      "sha256": "25f554fd08a19471c455daa42d799873af338eda3c9efeb34a12ea477786811a",
+      "actual": {
+        "bytes": 3526,
+        "sha256": "25f554fd08a19471c455daa42d799873af338eda3c9efeb34a12ea477786811a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/media-policy.ts",
+      "bytes": 453,
+      "sha256": "4bffde9443de70e68fd8582dbc8d1a1d02b557735baf8eb2f1596bc061095805",
+      "actual": {
+        "bytes": 453,
+        "sha256": "4bffde9443de70e68fd8582dbc8d1a1d02b557735baf8eb2f1596bc061095805"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question.ts",
+      "bytes": 8729,
+      "sha256": "43051c1a3ed7c8e5cfa2b369c2d201542a508e251d6fc4f4959b21f3ba7ddd96",
+      "actual": {
+        "bytes": 8729,
+        "sha256": "43051c1a3ed7c8e5cfa2b369c2d201542a508e251d6fc4f4959b21f3ba7ddd96"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/plan-mode.ts",
+      "bytes": 4404,
+      "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6",
+      "actual": {
+        "bytes": 4404,
+        "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../../memory/extraction.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../../memory/extraction.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../../memory/extraction.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../../memory/extraction.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../../memory/memory-agent-loop.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../../memory/recall/index.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "../internal.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "./project-memory-agent.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "./project-memory-agent.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "./project-memory-agent.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "./project-memory-agent.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "module": "./project-memory.js",
+      "exists": true
+    }
+  ],
+  "predecessorDiagnosticsMatchFrozen": true,
+  "extractionDiagnosticsQualified": true,
+  "inheritedInferenceQualification": "Original TS9007/9011 preserved; frozen exact constructor-return/defaultparameter qualifications applied only to raw-any function return surfaces, not semantic/project typing",
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

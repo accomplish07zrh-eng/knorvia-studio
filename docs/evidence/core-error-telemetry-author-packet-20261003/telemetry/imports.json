@@ -1,0 +1,70 @@
+{
+  "kind": "Exact existing module/import mapping; no bodies/new edges",
+  "imports": [
+    {
+      "module": "@knorvia/shared",
+      "bindings": [
+        {
+          "name": "isArtifactUri",
+          "localName": "isArtifactUri",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "traceContextToLogContext",
+          "localName": "traceContextToLogContext",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "Logger",
+          "localName": "Logger",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelInputMessage",
+          "localName": "ModelInputMessage",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelMessageContentBlock",
+          "localName": "ModelMessageContentBlock",
+          "typeOnly": true
+        },
+        {
+          "name": "TraceContext",
+          "localName": "TraceContext",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "./media-budget.js",
+      "bindings": [
+        {
+          "name": "MediaBudgetProjection",
+          "localName": "MediaBudgetProjection",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "../types.js",
+      "bindings": [
+        {
+          "name": "ResolvedTurnAttachment",
+          "localName": "ResolvedTurnAttachment",
+          "typeOnly": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "scope": "references",
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/contract.md",
+      "bytes": 3522,
+      "sha256": "a9806aaaaedb614e7b548f66e83a32d1398665d811d018b7ff2af5cd0c93b854",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-api.d.ts",
+      "bytes": 358,
+      "sha256": "27727997343080438d20faade62895550ea7a3e58aa39108a02b773f884b27b3",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/dependency-api.d.ts",
+      "bytes": 79,
+      "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-shapes.d.ts",
+      "bytes": 59,
+      "sha256": "a6a5be92d3a01227790cf9ce67b1c94897681e1868bc92f4d104cc7a353f6ac4",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/imports.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/output-data.json",
+      "bytes": 826,
+      "sha256": "39de554663a9dd1c24f2199a086d7462d3d88540fca46cb5490e23e3e151468e",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "references.ts.txt",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/references/references.ts",
+      "target": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 1826,
+      "lines": 60,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "mode": "444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/references/author-record.json",
+      "bytes": 9388,
+      "lines": 162,
+      "sha256": "ef3af2d43f2e841f48476d77cb2d4400052b2ed657be34d52c89e1fb277d6f16",
+      "mode": "444",
+      "exact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/plugins/index.ts",
+      "bytes": 10553,
+      "sha256": "cadda3ab4fa60954c9ba7a7da3e6a3a72d614200f4e3b6ea821e14b0fde19ac8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+      "bytes": 776,
+      "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Isolated declaration/metadata checks only, not semantic/project compilation. Complete original archive reviewed before installation, opaque original ports remain untouched. Self-report/instruction-only shared executor; no access audit, clean separation or rights assertion. Ordinary checks deferred."
+}

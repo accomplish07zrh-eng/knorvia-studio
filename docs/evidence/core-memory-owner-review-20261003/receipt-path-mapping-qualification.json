@@ -1,0 +1,1 @@
+{"failure":"Original source receipt binding did not match .ts.txt archive basename","cause":"Curator recorded archived alias path although author read own original .ts scratch path","correction":"Manifest records actual original scratch read paths plus archivedAs binding; both frozen bytes checked. No author output/read changes or source patch."}

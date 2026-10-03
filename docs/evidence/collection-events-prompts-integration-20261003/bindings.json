@@ -1,0 +1,42 @@
+{
+  "installedAtUtc": "2026-10-02T18:14:15.384996+00:00",
+  "parentCommit": "4ef3751cb2de1788c8c87c0c381c975cd50371a0",
+  "inputFreezeCommit": "7355f039",
+  "completeDraftArchiveCommit": "4ef3751cb2de1788c8c87c0c381c975cd50371a0",
+  "owners": [
+    {
+      "target": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+      "draftPath": "docs/evidence/collection-events-prompts-author-packet-20261003/draft-collection-events.ts.txt",
+      "predecessor": {
+        "bytes": 2458,
+        "sha256": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078"
+      },
+      "installed": {
+        "bytes": 2636,
+        "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+      },
+      "installedByteIdenticalToDraft": true
+    },
+    {
+      "target": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+      "draftPath": "docs/evidence/collection-events-prompts-author-packet-20261003/draft-prompts.ts.txt",
+      "predecessor": {
+        "bytes": 2932,
+        "sha256": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98"
+      },
+      "installed": {
+        "bytes": 3275,
+        "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+      },
+      "installedByteIdenticalToDraft": true
+    }
+  ],
+  "allFiveAuthorInputBindingsVerified": true,
+  "retainedBoundariesUnchanged": true,
+  "integrationCorrections": [],
+  "extraImplementationFiles": [],
+  "anotherLaneSourceImportedOrMerged": false,
+  "runtimeTestsRun": false,
+  "projectCompilationRun": false,
+  "licenceDecision": null
+}

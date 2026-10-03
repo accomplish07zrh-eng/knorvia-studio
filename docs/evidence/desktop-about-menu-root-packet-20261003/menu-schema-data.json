@@ -1,0 +1,212 @@
+{
+  "schema": "External ordered menu behavior data; symbolic public property names resolve via original dependency data, not private helper design",
+  "menu": {
+    "darwinApp": [
+      {
+        "label": "app.name",
+        "items": [
+          {
+            "label": "helpAbout",
+            "command": "ShowAbout"
+          },
+          "separator",
+          {
+            "label": "appServices",
+            "role": "services"
+          },
+          "separator",
+          {
+            "label": "appHide",
+            "appNameSubstitution": true,
+            "role": "hide"
+          },
+          {
+            "label": "appHideOthers",
+            "role": "hideOthers"
+          },
+          {
+            "label": "appShowAll",
+            "role": "unhide"
+          },
+          "separator",
+          {
+            "label": "appQuit",
+            "appNameSubstitution": true,
+            "role": "quit"
+          }
+        ]
+      }
+    ],
+    "always": [
+      {
+        "label": "file",
+        "items": [
+          {
+            "label": "fileNewTask",
+            "command": "NewTask",
+            "shortcutKey": "newTask",
+            "fallback": "CmdOrCtrl+N"
+          },
+          {
+            "label": "fileOpenWorkspace",
+            "command": "OpenWorkspace",
+            "shortcutKey": "openWorkspace",
+            "fallback": "CmdOrCtrl+O"
+          },
+          "separator",
+          {
+            "label": "fileCloseWindow",
+            "command": "CloseActiveContext",
+            "shortcutKey": "closeActiveContext",
+            "fallback": "CmdOrCtrl+W"
+          }
+        ]
+      },
+      {
+        "label": "edit",
+        "items": [
+          {
+            "label": "editUndo",
+            "role": "undo"
+          },
+          {
+            "label": "editRedo",
+            "role": "redo"
+          },
+          "separator",
+          {
+            "label": "editCut",
+            "role": "cut"
+          },
+          {
+            "label": "editCopy",
+            "role": "copy"
+          },
+          {
+            "label": "editPaste",
+            "role": "paste"
+          },
+          "separator",
+          {
+            "label": "editSelectAll",
+            "role": "selectAll"
+          }
+        ]
+      },
+      {
+        "label": "view",
+        "items": [
+          {
+            "label": "viewToggleFullScreen",
+            "role": "togglefullscreen",
+            "command": "ToggleFullScreen"
+          },
+          "separator",
+          {
+            "label": "viewZoomIn",
+            "command": "ZoomIn",
+            "shortcutKey": "zoomIn",
+            "fallback": "CmdOrCtrl+=",
+            "visibleAcceleratorRule": "replace first = with Plus",
+            "enabled": "clampedZoom<MAX"
+          },
+          {
+            "conditional": "visibleZoomInAccelerator defined and differs from original",
+            "label": "viewZoomIn",
+            "visible": false,
+            "accelerator": "originalZoomInBinding",
+            "enabled": "clampedZoom<MAX",
+            "command": "ZoomIn"
+          },
+          {
+            "label": "viewZoomOut",
+            "command": "ZoomOut",
+            "shortcutKey": "zoomOut",
+            "fallback": "CmdOrCtrl+-",
+            "enabled": "clampedZoom>MIN"
+          },
+          {
+            "label": "viewActualSize",
+            "command": "ResetZoom",
+            "shortcutKey": "resetZoom",
+            "fallback": "CmdOrCtrl+0",
+            "enabled": "clampedZoom!==0"
+          }
+        ]
+      },
+      {
+        "label": "window",
+        "items": [
+          {
+            "label": "windowMinimize",
+            "role": "minimize"
+          },
+          {
+            "conditional": "darwin",
+            "items": [
+              {
+                "label": "windowZoom",
+                "role": "zoom"
+              },
+              "separator",
+              {
+                "label": "windowBringAllToFront",
+                "role": "front"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "help",
+        "items": [
+          {
+            "conditional": "not darwin",
+            "items": [
+              {
+                "label": "helpAbout",
+                "command": "ShowAbout"
+              },
+              "separator"
+            ]
+          },
+          "separator",
+          {
+            "conditional": "localRuntime && initialTapState.visible",
+            "items": [
+              {
+                "id": "HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID",
+                "label": "helpToggleKnorviaStdioTap",
+                "type": "checkbox",
+                "checked": "initialTapState.enabled",
+                "command": "ToggleKnorviaStdioTapDevProxy"
+              },
+              "separator"
+            ]
+          },
+          {
+            "id": "HELP_TOGGLE_DEV_TOOLS_MENU_ID",
+            "label": "helpToggleDevTools",
+            "role": "toggleDevTools",
+            "command": "ToggleDevTools"
+          },
+          "separator",
+          {
+            "label": "helpResourceManager",
+            "command": "OpenResourceManager"
+          },
+          "separator",
+          {
+            "label": "helpExportLogs",
+            "command": "ExportLogs"
+          },
+          "separator",
+          {
+            "label": "helpClearAllData",
+            "command": "ClearAllData"
+          }
+        ]
+      }
+    ]
+  }
+}

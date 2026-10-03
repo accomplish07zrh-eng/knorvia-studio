@@ -1,0 +1,47 @@
+{
+  "recordedAtUtc": "2026-10-02T20:06:38.386511+00:00",
+  "baseline": "df26566ec09e7032f75b822ecd349e10dfadce26",
+  "allocation": "Parent root-exclusive packet only, no E implementation. Inspect dataSizeWorker only as dependency/public contract and retain tiny entry.",
+  "rootExposure": "Root reports names/counts/reviewabsence in this pass only; previous generic/broad source context remains, no new no-exposure/freshcontext claim.",
+  "sourceExposedCurator": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/dataSizeScanner.ts",
+      "bytes": 5163,
+      "lines": 187,
+      "sha256": "536e06ca87ae8e0cc9d16cbee30cea1c47927025482fcf3136e159c07f528466",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Root-exclusive potential substantive target"
+    },
+    {
+      "path": "packages/desktop/src/main/dataSizeWorkerClient.ts",
+      "bytes": 1853,
+      "lines": 61,
+      "sha256": "927c3f03eaf9f6dcf2aab1a92eb861805cfc87db924ebbe05311258f174c4f3c",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Root-exclusive potential substantive target"
+    },
+    {
+      "path": "packages/desktop/src/main/localMediaPreviewProtocol.ts",
+      "bytes": 5999,
+      "lines": 178,
+      "sha256": "8b6b9d55d59edceea9b0a98d82d26cbdbd66e4249df2010d8f3c2e4a4471a2a5",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Root-exclusive potential substantive target"
+    },
+    {
+      "path": "packages/desktop/src/main/dataSizeWorker.ts",
+      "bytes": 783,
+      "lines": 21,
+      "sha256": "9b4d5df03691e57a61467e792563655f0e50fdb851b3d1a1e9a847dbda1eb372",
+      "matchingReviewPathPresent": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Dependency/public-contract only; inspect and retain if tiny entry"
+    }
+  ],
+  "limits": "No function/test/history/dependency body in packet, no actual filesystem scans/OS/network/userdata/credentials; sourcebound metadata reads only before newbodycuration."
+}

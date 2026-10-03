@@ -1,0 +1,33 @@
+{
+  "scope": "Root-only complete body-free codec packet; no author/production implementation authorization",
+  "inputPublishedHead": "1fe07e43974c0e229724763f6f4318463d7fec8a",
+  "target": {
+    "path": "packages/provider-node/src/provider-config-file-codec.ts",
+    "bytes": 5500,
+    "sha256": "e7a80a1b98fb3035085fd9fd5ea25865e711cbeeb370a57580a929c16f0e2ff2",
+    "gitBlob": "a8c96c7f4405fbff922fef34a3e2eb457ca1d8ea"
+  },
+  "status": "PREPARATION ONLY / EXACT ACCEPTANCE AND ALLOCATION CONTINGENT HOLD",
+  "authorInputsExactly": [
+    "contract.md",
+    "public-api.d.ts",
+    "dependency-types.d.ts",
+    "schema-contract.md",
+    "retained-data.json"
+  ],
+  "authorsCreated": 0,
+  "candidatesFrozen": 0,
+  "productionChanges": 0,
+  "retained": [
+    "Canonical schemas/parsers/manual extractor/facade/static data",
+    "D provider model/config/registry/account owners",
+    "G adapters",
+    "root personal repository frozen candidate"
+  ],
+  "authorExclusions": [
+    "original implementations/upstream/history/private files",
+    "manifests/checkers/extractors/old receipts/ownership/configuration records"
+  ],
+  "mitRightsDecision": null,
+  "materialObligationsOpen": 21
+}

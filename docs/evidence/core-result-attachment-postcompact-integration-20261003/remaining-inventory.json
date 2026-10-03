@@ -1,0 +1,498 @@
+{
+  "recordedAtUtc": "2026-10-02T20:59:57.997963+00:00",
+  "kind": "Bounded top-level runtime/helpers metadata inventory only; not global core exhaustion/rights/accepted-source audit",
+  "selectedOwners": 5,
+  "inventory": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "lines": 119,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "bytes": 1555,
+      "lines": 36,
+      "sha256": "5a96166bf920a55d2cef8f0b161f913ff4e7272c84302e4377c022a6f4ed4c86",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2135,
+      "lines": 66,
+      "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4",
+      "status": "selected currentcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "bytes": 1317,
+      "lines": 44,
+      "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3919,
+      "lines": 106,
+      "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba",
+      "status": "selected currentcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "bytes": 1237,
+      "lines": 40,
+      "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "bytes": 1732,
+      "lines": 48,
+      "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "lines": 43,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "bytes": 9466,
+      "lines": 314,
+      "sha256": "67746d867a4f377eb8626ac6f04a6adeae3197b917521e44614074479d8d6470",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/child-client-ports.ts",
+      "bytes": 3790,
+      "lines": 78,
+      "sha256": "5c605b4c6f68dee23181d634bacceaceb378ef161de5cac5dd98741fa28fa4c9",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/commands.ts",
+      "bytes": 2714,
+      "lines": 103,
+      "sha256": "de140c92ea5aa8a18e7c29ebccfa00f86b5a98689ad4b0f3ef39c98dddcec1a9",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+      "bytes": 2975,
+      "lines": 92,
+      "sha256": "a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "bytes": 4654,
+      "lines": 122,
+      "sha256": "ecb638b819b7a2f8f86ded47360b80764ae4629514cc4b99f47945cbb290b53f",
+      "status": "selected currentcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-preservation.ts",
+      "bytes": 2512,
+      "lines": 59,
+      "sha256": "546f80d45beed0200f6999d18f9a25e04b2a96895c9fa29ba5f9520d4ebf2703",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-selection.ts",
+      "bytes": 11784,
+      "lines": 315,
+      "sha256": "c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact.ts",
+      "bytes": 5562,
+      "lines": 166,
+      "sha256": "626c52b87f086b41e076176111b4bb6d5d1ae4a7c4ebb698bc4060f7f3afd991",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+      "bytes": 3587,
+      "lines": 127,
+      "sha256": "cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "lines": 267,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "lines": 27,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/index.ts",
+      "bytes": 983,
+      "lines": 26,
+      "sha256": "9af2280dba789225996c11abfab763448dd0b4430bdbe1b049ab07011892e814",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "bytes": 4278,
+      "lines": 139,
+      "sha256": "91d1ab6d39c2827a41e7006ca59245bf363bfe4a1cac8127997bd5fa9cd060dc",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "lines": 278,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5664,
+      "lines": 167,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "bytes": 6353,
+      "lines": 205,
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "bytes": 4291,
+      "lines": 120,
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "lines": 295,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "bytes": 2821,
+      "lines": 84,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "bytes": 1030,
+      "lines": 25,
+      "sha256": "be48de64eb0c8106ac83449c1b2a49fdf673b01c92aacd26832f30102f082b89",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-broker.ts",
+      "bytes": 847,
+      "lines": 25,
+      "sha256": "33799281b80409733d857e8a3c46eb0ed5e147ca2fbff7c8bdb65234671354fb",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "bytes": 1293,
+      "lines": 33,
+      "sha256": "040dfca80dca1da74d0ec16d837a4a898c2f1efd70728cace8f7f6c55069e387",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+      "bytes": 7027,
+      "lines": 195,
+      "sha256": "f1c034ca71a396f0bb53e3352a2bc1ac778ca3cd6bfbfdcb3b6d639eec4fc3b2",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "bytes": 2737,
+      "lines": 115,
+      "sha256": "b4c854cdbf68e735048d5575f79a35d088696260f87ffb3200242ead2d32cf04",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "bytes": 4516,
+      "lines": 118,
+      "sha256": "4f14af4aa285de7bb34532afcd075c2c7df176f8e52f5614d9761a413b61b83b",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "bytes": 6258,
+      "lines": 195,
+      "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "bytes": 871,
+      "lines": 27,
+      "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project.ts",
+      "bytes": 650,
+      "lines": 20,
+      "sha256": "19fbc2a4d6e0d94355c88615c6126b1916128c187b220b4ffc5cfc389783a800",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "bytes": 5830,
+      "lines": 186,
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "bytes": 3130,
+      "lines": 106,
+      "sha256": "7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "bytes": 5968,
+      "lines": 210,
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 8844,
+      "lines": 216,
+      "sha256": "730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/rewind.ts",
+      "bytes": 11388,
+      "lines": 315,
+      "sha256": "88466fadac943c32e94d48da945be132d3b6844fbfe1b8f51889c7ff33083981",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "bytes": 840,
+      "lines": 24,
+      "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "bytes": 9506,
+      "lines": 192,
+      "sha256": "8a180914dabe4e90b5c47a514277a2b74af5ff2ccf824cf7458481a852c997ae",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "bytes": 12156,
+      "lines": 281,
+      "sha256": "3bc27ba51890a2d1d4377b3b58459702fc9cc930235569cea270aa4ac5400024",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/steering.ts",
+      "bytes": 11374,
+      "lines": 317,
+      "sha256": "582ce9e76486ad6a5a7d266c76f1c6da167c68430121da738645db9cd2cd54d3",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "bytes": 4164,
+      "lines": 136,
+      "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+      "status": "excludedA/runtime/recovery/protectedpermissionoradjacentauthority",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-interaction-broker.ts",
+      "bytes": 1877,
+      "lines": 46,
+      "sha256": "291e7f1e6243cde4d7532263937bf69aba76ebfb8d3358d601441ee6f7081e9f",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-selection.ts",
+      "bytes": 2984,
+      "lines": 58,
+      "sha256": "630f7b7c137235a5b09b6af700f0334a0443b3f4e79f0b634994dd8754fc6b12",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "bytes": 6106,
+      "lines": 124,
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "bytes": 4073,
+      "lines": 158,
+      "sha256": "58772c0f67eaf9ab8344d75e28a1d0093d6386e73b4ee6b5d5479056786c0676",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3388,
+      "lines": 118,
+      "sha256": "484a49f6080ad9fb5927a0f30ac308a9c5b4bfe87edc22f9d6582ad1e34fcb21",
+      "status": "selected currentcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "bytes": 7609,
+      "lines": 252,
+      "sha256": "5229c2ab9f6a860a1c4cf39bb0908dbe58040c6e050af9920cc623497338df3e",
+      "status": "prioracceptedcompletequeue",
+      "bodyReviewedForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "bytes": 2774,
+      "lines": 95,
+      "sha256": "6447e37d3650892b8ec0157bfe2d3b28cabfb4648a6637532846f812ff21734c",
+      "status": "selected currentcompletequeue",
+      "bodyReviewedForThisInventory": false
+    }
+  ],
+  "nextQueueAuthorized": false,
+  "qualification": "Completed queue labels reflect earlier scoped E checkpoints; excluded adjacent authorities conservatively avoid A recovery/coordinator overlap; small remaining helpers require substantive/eligibility allocation, not automatic rejection or forced trivial rewrite",
+  "notCountedAsProgress": "Metadata counts/projections are no implementation/rights progress",
+  "all21MaterialObligationsRemaining": true,
+  "selectedOwnersRemainingAfterIntegration": 0,
+  "metadataSourceBaseline": "250636854ad491f9d43ba5815680e983415bd979",
+  "metadataCountsArePreIntegration": true,
+  "currentSelectedInstalled": [
+    {
+      "scope": "result",
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3458,
+      "lines": 130,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/tool-result.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "changes",
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "bytes": 3011,
+      "lines": 92,
+      "sha256": "5555e83415364680d32cf2ca54b8074465844cce945f668e0f4631a2f90d2c20",
+      "version": 2,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/v2/turn-file-changes.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "image",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2185,
+      "lines": 76,
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/attachment-image.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "reference",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3842,
+      "lines": 119,
+      "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/attachment-path-reference.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "postcompact",
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "bytes": 4263,
+      "lines": 119,
+      "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/compact-post-reminders.ts.txt",
+      "installedExact": true
+    }
+  ],
+  "scopeCompleted": true,
+  "counts": {
+    "prioracceptedcompletequeue": 23,
+    "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite": 15,
+    "selected currentcompletequeue": 5,
+    "excludedA/runtime/recovery/protectedpermissionoradjacentauthority": 10
+  },
+  "unclassifiedRemaining": 0
+}

@@ -1,0 +1,145 @@
+{
+  "scope": "Only public/compatibility literals, declared imports and observable payload field orders; no target body/private helper names or implementation layout. Preserve canonical schemas/constants instead of reconstructing them.",
+  "sourceBinding": {
+    "path": "packages/desktop/src/main/broadcastHub.ts",
+    "bytes": 6526,
+    "sha256": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+    "gitBlob": "ab5d801e76d3e3f2008031d2a4494a62ffcf0e7e"
+  },
+  "literalData": {
+    "strings": [
+      "electron",
+      "@knorvia/shared",
+      "@knorvia/services",
+      "./logger.js",
+      "reserved",
+      "committed",
+      "message",
+      "[BroadcastHub] invalid host response message:",
+      "busy",
+      "acquired",
+      "[BroadcastHub] invalid broadcast message:"
+    ],
+    "numericLexemes": [
+      "1_024",
+      "5_000",
+      "250",
+      "0",
+      "1"
+    ],
+    "templateStaticParts": [
+      [
+        "",
+        ":",
+        ":",
+        ""
+      ]
+    ]
+  },
+  "imports": [
+    {
+      "module": "electron",
+      "typeOnly": true,
+      "names": [
+        {
+          "name": "UtilityProcess",
+          "local": "ElectronUtilityProcess",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/shared",
+      "typeOnly": false,
+      "names": [
+        {
+          "name": "HostMessageTypes",
+          "local": "HostMessageTypes",
+          "typeOnly": false
+        },
+        {
+          "name": "HostResponseTypes",
+          "local": "HostResponseTypes",
+          "typeOnly": false
+        },
+        {
+          "name": "broadcastMessageSchema",
+          "local": "broadcastMessageSchema",
+          "typeOnly": false
+        },
+        {
+          "name": "formatZodError",
+          "local": "formatZodError",
+          "typeOnly": false
+        },
+        {
+          "name": "hostResponseMessageSchema",
+          "local": "hostResponseMessageSchema",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/services",
+      "typeOnly": true,
+      "names": [
+        {
+          "name": "BroadcastMessage",
+          "local": "BroadcastMessage",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./logger.js",
+      "typeOnly": false,
+      "names": [
+        {
+          "name": "logger",
+          "local": "logger",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "publicProtocolConstants": {
+    "HostMessageTypes.Broadcast": "broadcast",
+    "HostMessageTypes.BroadcastClaimResult": "broadcast-claim-result",
+    "HostResponseTypes.Broadcast": "broadcast",
+    "HostResponseTypes.BroadcastClaimRequest": "broadcast-claim-request",
+    "HostResponseTypes.BroadcastClaimCommit": "broadcast-claim-commit",
+    "HostResponseTypes.BroadcastClaimRelease": "broadcast-claim-release",
+    "maxClaims": 1024,
+    "reservationTtlMs": 5000,
+    "maxRetryMs": 250,
+    "claimTokenText": "<windowId>:<requestId>:<module-wide monotonically incremented sequence>",
+    "payloadOwnKeys": {
+      "diagnostics": [
+        "claims",
+        "processes"
+      ],
+      "relayEnvelope": [
+        "type",
+        "message"
+      ],
+      "committedResponse": [
+        "type",
+        "requestId",
+        "status"
+      ],
+      "busyResponse": [
+        "type",
+        "requestId",
+        "status",
+        "retryAfterMs"
+      ],
+      "acquiredResponse": [
+        "type",
+        "requestId",
+        "status",
+        "claimToken"
+      ]
+    }
+  },
+  "qualification": "Source-derived protocol/data/number/token/diagnostic observations are retained compatibility material, not new independent expression or grant."
+}

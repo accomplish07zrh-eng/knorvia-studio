@@ -1,0 +1,38 @@
+{
+  "note": "Exact required rendered text, not inherited implementation bodies. Braced placeholder labels identify substitution sources; embedded newlines are literal output newlines. Existing instruction prose/advertised JSON remains retained source-derived contract material.",
+  "node": {
+    "header": "You are running a Knorvia Studio workflow node for phase: {phase}.",
+    "run": "Workflow run: {snapshot.runId}",
+    "cwd": "Working directory: {snapshot.cwd}",
+    "task": "User task:\n{snapshot.task}",
+    "title": "Node: {node.title}",
+    "id": "Node id: {node.id}",
+    "objective": "Node objective:\n{node.description}",
+    "prompt": "Node prompt:\n{node.prompt}",
+    "artifacts": "Previous artifacts available on disk:\n{artifactLines}",
+    "noArtifacts": "No previous artifacts yet.",
+    "instruction": "Execute only this node's scope. Return a concise Markdown artifact with changes, validation, and residual risk.",
+    "artifactLine": "- {artifact.label}: {artifact.path}"
+  },
+  "planner": {
+    "header": "You are running a Knorvia Studio workflow exploration planner for phase: {phase}.",
+    "run": "Workflow run: {snapshot.runId}",
+    "cwd": "Working directory: {snapshot.cwd}",
+    "task": "User task:\n{snapshot.task}",
+    "title": "Collection: {collection.title ?? collection.collectionId}",
+    "id": "Collection id: {collection.collectionId}",
+    "goal": "Goal:\n{collection.goal}",
+    "metric": "Metric:\n{collection.metric}",
+    "nodes": "Existing collection nodes:\n{nodeLines}",
+    "noNodes": "No existing collection nodes.",
+    "jsonIntro": "Return only JSON matching this shape:",
+    "jsonShape": "{\"nodes\":[{\"id\":\"string\",\"title\":\"string\",\"description\":\"string\",\"dependsOn\":[\"node-id\"],\"prompt\":\"string\"}],\"edges\":[{\"from\":\"node-id\",\"to\":\"node-id\"}],\"collectionNodeIds\":[\"node-id\"],\"exhausted\":false,\"reasoning\":\"string\"}",
+    "instruction": "Use unique node ids, avoid cycles, and set exhausted=true only when no useful expansion remains.",
+    "nodeLine": "- {node.id} [{node.status}]: {node.title}{truthy description suffix}",
+    "descriptionSuffix": " - {node.description}"
+  },
+  "events": {
+    "expanded": "Graph expanded for collection: {collectionId}",
+    "exhausted": "Collection exhausted: {collectionId}"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "module": "../types.js",
+    "clause": "type { ContextSection, EnvInfo }"
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { Model }"
+  },
+  {
+    "module": "../utils.js",
+    "clause": "{ estimateTokens }"
+  }
+]

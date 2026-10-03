@@ -1,0 +1,579 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-03T03:14:12.488325+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "7a65520a6501280365d839c7549105df1f0d4a7c",
+  "authorization": "Root explicitly authorized exactly6 known counterpart fetch_file calls at fixed publisher/ref, once per file. Materializer already solved and not fetched again. No other paths/ref/route or retry.",
+  "publisher": "zai-org/ZCode",
+  "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+  "tool": "mcp__codex_apps__github_fetch_file",
+  "requestedEncoding": "base64",
+  "requestCount": 6,
+  "successfulResponses": 6,
+  "isErrorResponseCount": 0,
+  "requestRetries": 0,
+  "responseHttpStatus": "Not exposed by connector; successful structured result and source bindings, no invented HTTP200 claim",
+  "fetchScope": [
+    {
+      "ordinal": 0,
+      "path": "packages/provider-node/src/zcode-builtin-cache-paths.ts",
+      "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+      "isError": false,
+      "attempts": 1
+    },
+    {
+      "ordinal": 1,
+      "path": "packages/provider-node/src/zcode-builtin-download.ts",
+      "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+      "isError": false,
+      "attempts": 1
+    },
+    {
+      "ordinal": 2,
+      "path": "packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+      "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+      "isError": false,
+      "attempts": 1
+    },
+    {
+      "ordinal": 3,
+      "path": "packages/provider-node/src/zcode-builtin-release.ts",
+      "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+      "isError": false,
+      "attempts": 1
+    },
+    {
+      "ordinal": 4,
+      "path": "packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+      "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+      "isError": false,
+      "attempts": 1
+    },
+    {
+      "ordinal": 5,
+      "path": "packages/provider-node/src/endpoint-scoped-zcode-builtin-source.ts",
+      "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+      "isError": false,
+      "attempts": 1
+    }
+  ],
+  "sourceAndMetadataBindings": [
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "gitBlob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "docs/evidence/provider-node-builtin-origin-screen-20261003/source-review.json",
+      "bytes": 22048,
+      "sha256": "da11d7b0b9866953dd58e01d7f3fc03af651f3db15fa3c6c56f32e242a2f8b3a",
+      "gitBlob": "0c19449da78159766ea72584861c869fa7b4ed8e"
+    },
+    {
+      "path": "/tmp/knorvia-provider-builtin-fixed-20261003/connector-results.json",
+      "bytes": 45973,
+      "sha256": "d88eb78942d104c8da80e339813389900c28e9bfebce9f66c3f5151d457cb874",
+      "gitBlob": "eeeba1699906c0d915cc9085bdc2f261d842b2b2"
+    }
+  ],
+  "identitySubstitutions": [
+    [
+      "ZCode",
+      "Knorvia"
+    ],
+    [
+      "@zcode/",
+      "@knorvia/"
+    ],
+    [
+      "zcode-builtin",
+      "builtin"
+    ],
+    [
+      "zcodeEndpointOrigin",
+      "knorviaEndpointOrigin"
+    ],
+    [
+      "ZCODE_BUILTIN_RELEASE_SCHEMA_VERSION",
+      "KNORVIA_BUILTIN_RELEASE_SCHEMA_VERSION"
+    ],
+    [
+      "Knorvia Built-in",
+      "Knorvia Studio Built-in"
+    ]
+  ],
+  "astComparison": "TypeScript6.0.2 AST kind/identifier/literal child structure; ignores positions/trivia/raw SourceFile.text/trailing-comma flags; not execution or semantic compiler",
+  "rows": [
+    {
+      "upstreamBinding": {
+        "requestIndex": 0,
+        "path": "packages/provider-node/src/zcode-builtin-cache-paths.ts",
+        "bytes": 2463,
+        "sha256": "b750530279418fae005487646fb79c258187bad66801b473a2dabf1d1054ee5d",
+        "normalizedSha256": "b750530279418fae005487646fb79c258187bad66801b473a2dabf1d1054ee5d",
+        "gitBlob": "85bf918929132d3a36580c0375a0ae85e391c315",
+        "connectorSha": "85bf918929132d3a36580c0375a0ae85e391c315",
+        "fixedMetadataMatch": true,
+        "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-cache-paths.ts",
+        "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-cache-paths.ts"
+      },
+      "currentBinding": {
+        "path": "packages/provider-node/src/builtin-cache-paths.ts",
+        "bytes": 2508,
+        "sha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+        "gitBlob": "e0da2c7918079056f16332eebb86191c60ea02d9"
+      },
+      "comparison": {
+        "upstreamPath": "packages/provider-node/src/zcode-builtin-cache-paths.ts",
+        "currentPath": "packages/provider-node/src/builtin-cache-paths.ts",
+        "appliedSubstitutions": [
+          {
+            "from": "ZCode",
+            "to": "Knorvia",
+            "count": 14
+          },
+          {
+            "from": "zcode-builtin",
+            "to": "builtin",
+            "count": 2
+          },
+          {
+            "from": "zcodeEndpointOrigin",
+            "to": "knorviaEndpointOrigin",
+            "count": 4
+          },
+          {
+            "from": "Knorvia Built-in",
+            "to": "Knorvia Studio Built-in",
+            "count": 3
+          }
+        ],
+        "upstreamSha256": "b750530279418fae005487646fb79c258187bad66801b473a2dabf1d1054ee5d",
+        "mappedSha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+        "initialSha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+        "currentSha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+        "mappedByteEqualsInitial": true,
+        "mappedByteEqualsCurrent": true,
+        "mappedAstSha256": "27506cd96db352de5ea196a83fc465ad1d432bc65e6af600aea177f76a9fa22e",
+        "initialAstSha256": "27506cd96db352de5ea196a83fc465ad1d432bc65e6af600aea177f76a9fa22e",
+        "currentAstSha256": "27506cd96db352de5ea196a83fc465ad1d432bc65e6af600aea177f76a9fa22e",
+        "mappedAstEqualsInitial": true,
+        "mappedAstEqualsCurrent": true,
+        "currentAstEqualsInitial": true,
+        "currentAndInitialByteEqual": true
+      },
+      "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+      "remainingSourceRelationUnknown": false,
+      "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+      "DTechnicalSelectionOnly": {
+        "publicSurfaceNames": [
+          "resolveKnorviaBuiltinClientPlatform",
+          "resolveKnorviaBuiltinCachePaths",
+          "createKnorviaBuiltinEndpointKey",
+          "normalizeKnorviaBuiltinEndpointOrigin"
+        ],
+        "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+      },
+      "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+    },
+    {
+      "upstreamBinding": {
+        "requestIndex": 1,
+        "path": "packages/provider-node/src/zcode-builtin-download.ts",
+        "bytes": 4555,
+        "sha256": "2337b2ab39c40bd03fd7d808fa835c7372e1e39b4ec1e7cc1cd620932d5a55e4",
+        "normalizedSha256": "2337b2ab39c40bd03fd7d808fa835c7372e1e39b4ec1e7cc1cd620932d5a55e4",
+        "gitBlob": "6a24a40dd32eca7d4fa4c32927de1517c62a206b",
+        "connectorSha": "6a24a40dd32eca7d4fa4c32927de1517c62a206b",
+        "fixedMetadataMatch": true,
+        "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-download.ts",
+        "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-download.ts"
+      },
+      "currentBinding": {
+        "path": "packages/provider-node/src/builtin-download.ts",
+        "bytes": 4572,
+        "sha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+        "gitBlob": "5b179f9b07728d16aa00efec0f4cabfd5b24bb83"
+      },
+      "comparison": {
+        "upstreamPath": "packages/provider-node/src/zcode-builtin-download.ts",
+        "currentPath": "packages/provider-node/src/builtin-download.ts",
+        "appliedSubstitutions": [
+          {
+            "from": "ZCode",
+            "to": "Knorvia",
+            "count": 8
+          },
+          {
+            "from": "zcode-builtin",
+            "to": "builtin",
+            "count": 1
+          },
+          {
+            "from": "Knorvia Built-in",
+            "to": "Knorvia Studio Built-in",
+            "count": 1
+          }
+        ],
+        "upstreamSha256": "2337b2ab39c40bd03fd7d808fa835c7372e1e39b4ec1e7cc1cd620932d5a55e4",
+        "mappedSha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+        "initialSha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+        "currentSha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+        "mappedByteEqualsInitial": true,
+        "mappedByteEqualsCurrent": true,
+        "mappedAstSha256": "3d5aabd6f3cd841d58aaffa681a701033ef80cfed529fd81a8c72f9b90dfaf0a",
+        "initialAstSha256": "3d5aabd6f3cd841d58aaffa681a701033ef80cfed529fd81a8c72f9b90dfaf0a",
+        "currentAstSha256": "3d5aabd6f3cd841d58aaffa681a701033ef80cfed529fd81a8c72f9b90dfaf0a",
+        "mappedAstEqualsInitial": true,
+        "mappedAstEqualsCurrent": true,
+        "currentAstEqualsInitial": true,
+        "currentAndInitialByteEqual": true
+      },
+      "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+      "remainingSourceRelationUnknown": false,
+      "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+      "DTechnicalSelectionOnly": {
+        "publicSurfaceNames": [
+          "downloadKnorviaBuiltinRelease"
+        ],
+        "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+      },
+      "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+    },
+    {
+      "upstreamBinding": {
+        "requestIndex": 2,
+        "path": "packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+        "bytes": 8675,
+        "sha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+        "normalizedSha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+        "gitBlob": "016b3351edf2fae219bf33c36a6cd6f09c019495",
+        "connectorSha": "016b3351edf2fae219bf33c36a6cd6f09c019495",
+        "fixedMetadataMatch": true,
+        "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+        "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-provider-config-source.ts"
+      },
+      "currentBinding": {
+        "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+        "bytes": 8769,
+        "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+        "gitBlob": "16e9a3317139517e548db4039b52e8ea29151666"
+      },
+      "comparison": {
+        "upstreamPath": "packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+        "currentPath": "packages/provider-node/src/builtin-provider-config-source.ts",
+        "appliedSubstitutions": [
+          {
+            "from": "ZCode",
+            "to": "Knorvia",
+            "count": 33
+          },
+          {
+            "from": "@zcode/",
+            "to": "@knorvia/",
+            "count": 2
+          },
+          {
+            "from": "zcode-builtin",
+            "to": "builtin",
+            "count": 2
+          },
+          {
+            "from": "Knorvia Built-in",
+            "to": "Knorvia Studio Built-in",
+            "count": 3
+          }
+        ],
+        "upstreamSha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+        "mappedSha256": "88fc4821acff3a282785009eeead395546e8672dbb1f0f2dbdcae79407e98b68",
+        "initialSha256": "88fc4821acff3a282785009eeead395546e8672dbb1f0f2dbdcae79407e98b68",
+        "currentSha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+        "mappedByteEqualsInitial": true,
+        "mappedByteEqualsCurrent": false,
+        "mappedAstSha256": "1dccdc6f9cac8f1db05e16014403f7c253b5306f88ab41d9e4020510634d0fc6",
+        "initialAstSha256": "1dccdc6f9cac8f1db05e16014403f7c253b5306f88ab41d9e4020510634d0fc6",
+        "currentAstSha256": "1dccdc6f9cac8f1db05e16014403f7c253b5306f88ab41d9e4020510634d0fc6",
+        "mappedAstEqualsInitial": true,
+        "mappedAstEqualsCurrent": true,
+        "currentAstEqualsInitial": true,
+        "currentAndInitialByteEqual": false
+      },
+      "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+      "remainingSourceRelationUnknown": false,
+      "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+      "DTechnicalSelectionOnly": {
+        "publicSurfaceNames": [
+          "NodeKnorviaBuiltinProviderConfigSource.read",
+          "applyRemoteRelease",
+          "onDidChange",
+          "dispose",
+          "createNodeKnorviaBuiltinProviderConfigSource"
+        ],
+        "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+      },
+      "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+    },
+    {
+      "upstreamBinding": {
+        "requestIndex": 3,
+        "path": "packages/provider-node/src/zcode-builtin-release.ts",
+        "bytes": 2559,
+        "sha256": "6a994e18aca08a06b45c0a6e787160c061e9b8ec21a4ebdacdd7cc61c6dd9355",
+        "normalizedSha256": "6a994e18aca08a06b45c0a6e787160c061e9b8ec21a4ebdacdd7cc61c6dd9355",
+        "gitBlob": "0f1327b4a94899887e70545d7b35f454e1aa8b21",
+        "connectorSha": "0f1327b4a94899887e70545d7b35f454e1aa8b21",
+        "fixedMetadataMatch": true,
+        "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-release.ts",
+        "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-release.ts"
+      },
+      "currentBinding": {
+        "path": "packages/provider-node/src/builtin-release.ts",
+        "bytes": 2623,
+        "sha256": "a4b7a5da09c0cbca494c771fdc93e86220e507c3e0834f608f0a13c2ca198fc6",
+        "gitBlob": "325f9f365db7a92fbec34277f97b28c74f266efd"
+      },
+      "comparison": {
+        "upstreamPath": "packages/provider-node/src/zcode-builtin-release.ts",
+        "currentPath": "packages/provider-node/src/builtin-release.ts",
+        "appliedSubstitutions": [
+          {
+            "from": "ZCode",
+            "to": "Knorvia",
+            "count": 16
+          },
+          {
+            "from": "@zcode/",
+            "to": "@knorvia/",
+            "count": 1
+          },
+          {
+            "from": "ZCODE_BUILTIN_RELEASE_SCHEMA_VERSION",
+            "to": "KNORVIA_BUILTIN_RELEASE_SCHEMA_VERSION",
+            "count": 5
+          },
+          {
+            "from": "Knorvia Built-in",
+            "to": "Knorvia Studio Built-in",
+            "count": 1
+          }
+        ],
+        "upstreamSha256": "6a994e18aca08a06b45c0a6e787160c061e9b8ec21a4ebdacdd7cc61c6dd9355",
+        "mappedSha256": "0742abd23c2da82b873e05557ffa3caaebb03c500e28af5af1e12892332215e7",
+        "initialSha256": "a4b7a5da09c0cbca494c771fdc93e86220e507c3e0834f608f0a13c2ca198fc6",
+        "currentSha256": "a4b7a5da09c0cbca494c771fdc93e86220e507c3e0834f608f0a13c2ca198fc6",
+        "mappedByteEqualsInitial": false,
+        "mappedByteEqualsCurrent": false,
+        "mappedAstSha256": "4920d548afef32a45ee2c9f4db27e6a6c0c416ec83f01e8fcf904daf992a597b",
+        "initialAstSha256": "4920d548afef32a45ee2c9f4db27e6a6c0c416ec83f01e8fcf904daf992a597b",
+        "currentAstSha256": "4920d548afef32a45ee2c9f4db27e6a6c0c416ec83f01e8fcf904daf992a597b",
+        "mappedAstEqualsInitial": true,
+        "mappedAstEqualsCurrent": true,
+        "currentAstEqualsInitial": true,
+        "currentAndInitialByteEqual": true
+      },
+      "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+      "remainingSourceRelationUnknown": false,
+      "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+      "DTechnicalSelectionOnly": {
+        "publicSurfaceNames": [
+          "KNORVIA_BUILTIN_RELEASE_SCHEMA_VERSION",
+          "decodeKnorviaBuiltinRelease",
+          "encodeKnorviaBuiltinRelease",
+          "serializeKnorviaBuiltinRelease"
+        ],
+        "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+      },
+      "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+    },
+    {
+      "upstreamBinding": {
+        "requestIndex": 4,
+        "path": "packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+        "bytes": 7773,
+        "sha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+        "normalizedSha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+        "gitBlob": "ad6842fccb0b82a36c5fe596dba8c0714169f568",
+        "connectorSha": "ad6842fccb0b82a36c5fe596dba8c0714169f568",
+        "fixedMetadataMatch": true,
+        "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+        "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-remote-synchronizer.ts"
+      },
+      "currentBinding": {
+        "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+        "bytes": 7804,
+        "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "gitBlob": "c7cdadcc95aa3262943ea56023518007db322fce"
+      },
+      "comparison": {
+        "upstreamPath": "packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+        "currentPath": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+        "appliedSubstitutions": [
+          {
+            "from": "ZCode",
+            "to": "Knorvia",
+            "count": 17
+          },
+          {
+            "from": "@zcode/",
+            "to": "@knorvia/",
+            "count": 1
+          },
+          {
+            "from": "zcode-builtin",
+            "to": "builtin",
+            "count": 2
+          },
+          {
+            "from": "Knorvia Built-in",
+            "to": "Knorvia Studio Built-in",
+            "count": 1
+          }
+        ],
+        "upstreamSha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+        "mappedSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "initialSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "currentSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "mappedByteEqualsInitial": true,
+        "mappedByteEqualsCurrent": true,
+        "mappedAstSha256": "26459843cb66f890496cd2665fac2c48a7b3c01eae78c9bc7ef61469e9bc1a79",
+        "initialAstSha256": "26459843cb66f890496cd2665fac2c48a7b3c01eae78c9bc7ef61469e9bc1a79",
+        "currentAstSha256": "26459843cb66f890496cd2665fac2c48a7b3c01eae78c9bc7ef61469e9bc1a79",
+        "mappedAstEqualsInitial": true,
+        "mappedAstEqualsCurrent": true,
+        "currentAstEqualsInitial": true,
+        "currentAndInitialByteEqual": true
+      },
+      "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+      "remainingSourceRelationUnknown": false,
+      "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+      "DTechnicalSelectionOnly": {
+        "publicSurfaceNames": [
+          "KnorviaBuiltinRemoteSynchronizer.refresh",
+          "dispose"
+        ],
+        "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+      },
+      "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+    },
+    {
+      "upstreamBinding": {
+        "requestIndex": 5,
+        "path": "packages/provider-node/src/endpoint-scoped-zcode-builtin-source.ts",
+        "bytes": 5057,
+        "sha256": "1e24e14e9fd89a62b307ec7545455a8e5726d2b881034e95ee2ab3dc38644878",
+        "normalizedSha256": "1e24e14e9fd89a62b307ec7545455a8e5726d2b881034e95ee2ab3dc38644878",
+        "gitBlob": "06ad7c39eead83570a11ee7f33e1210acda3f8fc",
+        "connectorSha": "06ad7c39eead83570a11ee7f33e1210acda3f8fc",
+        "fixedMetadataMatch": true,
+        "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/endpoint-scoped-zcode-builtin-source.ts",
+        "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/endpoint-scoped-zcode-builtin-source.ts"
+      },
+      "currentBinding": {
+        "path": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+        "bytes": 5087,
+        "sha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+        "gitBlob": "f56f8d04c8b7fb80b17479c63259bb3e39888fa1"
+      },
+      "comparison": {
+        "upstreamPath": "packages/provider-node/src/endpoint-scoped-zcode-builtin-source.ts",
+        "currentPath": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+        "appliedSubstitutions": [
+          {
+            "from": "ZCode",
+            "to": "Knorvia",
+            "count": 22
+          },
+          {
+            "from": "@zcode/",
+            "to": "@knorvia/",
+            "count": 1
+          },
+          {
+            "from": "zcode-builtin",
+            "to": "builtin",
+            "count": 3
+          },
+          {
+            "from": "zcodeEndpointOrigin",
+            "to": "knorviaEndpointOrigin",
+            "count": 1
+          }
+        ],
+        "upstreamSha256": "1e24e14e9fd89a62b307ec7545455a8e5726d2b881034e95ee2ab3dc38644878",
+        "mappedSha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+        "initialSha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+        "currentSha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+        "mappedByteEqualsInitial": true,
+        "mappedByteEqualsCurrent": true,
+        "mappedAstSha256": "4592f52e6b9568867474fc9acd7baefb2cc590d89d87dd3ba6fbbb7532cf48d5",
+        "initialAstSha256": "4592f52e6b9568867474fc9acd7baefb2cc590d89d87dd3ba6fbbb7532cf48d5",
+        "currentAstSha256": "4592f52e6b9568867474fc9acd7baefb2cc590d89d87dd3ba6fbbb7532cf48d5",
+        "mappedAstEqualsInitial": true,
+        "mappedAstEqualsCurrent": true,
+        "currentAstEqualsInitial": true,
+        "currentAndInitialByteEqual": true
+      },
+      "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+      "remainingSourceRelationUnknown": false,
+      "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+      "DTechnicalSelectionOnly": {
+        "publicSurfaceNames": [
+          "EndpointScopedKnorviaBuiltinSource.read",
+          "onDidChange",
+          "refresh",
+          "resolveActiveFilePath",
+          "dispose"
+        ],
+        "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+      },
+      "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+    }
+  ],
+  "summary": {
+    "fetchedFilesBoundExactlyToFixedMetadata": 6,
+    "previousSixRelationUnknownsResolved": 6,
+    "mappedExactByteEqualInitial": 5,
+    "mappedExactByteEqualCurrent": 4,
+    "mappedAstEqualInitialAndCurrent": 6,
+    "allSevenKnownUpstreamDerivedIncludingPriorMaterializer": 7,
+    "knownNewIndependentImplementation": 0,
+    "remainingExactRelationHoldsOfTheseSix": 0,
+    "rightsDecision": "Pending final per-file/component verification, not MIT or whole-file original acceptance",
+    "materialOpen": 21
+  },
+  "comparisonLimitations": [
+    "builtin-provider-config-source exact mapped bytes equal initial but current differs in formatting; AST equal",
+    "builtin-release mapped bytes differ from initial/current only in diagnostic call formatting; AST equal",
+    "All other4 mapped texts byte-equal initial/current",
+    "Publisher source is obtainable through the authorized connector; earlier local Git object absence remains historical local fact, not publisher inaccessibility",
+    "No source body/raw connector payload is copied into repo evidence; authorized publisher bodies remain audit scratch only"
+  ],
+  "exposure": "Source-exposed curator processed all6 publisher/current source bodies by direct diff/AST in this expressly authorized scope. No author spawned or supplied source bodies. Historical broader exposure/repaired scratch-write breach/shared executor/instruction-only/no OS isolation/access-audit limitations remain.",
+  "executionConfiguration": "Sol/high/current FastON per root direct UI report; previous FastOFF is not retroactively relabeled",
+  "verification": {
+    "productionSourceChanges": 0,
+    "globalOriginLicenseInventoryEdits": 0,
+    "crossLaneMerge": false,
+    "ordinaryTestsBuildTypesLintRuntime": false,
+    "realProviderNetworkUserDataCredentials": false,
+    "privateBackupOrAlternativeExtraction": false,
+    "other429OrIcuRequests": 0,
+    "architecture": "Documentation-only; prior missing-TypeScript failure preserved without rerun/install/bypass",
+    "staticEvidenceChecks": "PASS6 upstream/raw/normalized/blob and6 current bindings;6 AST comparisons; cached bodies only",
+    "jsonAndLocalLinks": "PASS6 links"
+  }
+}

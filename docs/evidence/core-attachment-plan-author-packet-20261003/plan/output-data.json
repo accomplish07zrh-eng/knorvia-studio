@@ -1,0 +1,40 @@
+{
+  "retainedExpression": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+  "readCap": 81024,
+  "pathSegments": [
+    ".knorvia-studio",
+    "plans"
+  ],
+  "filename": "plan-${sanitizedSession}.md",
+  "sanitizeRegex": [
+    "[^A-Za-z0-9._-]+",
+    "^-+|-+$"
+  ],
+  "invalidPlan": "ExitPlanMode plan cannot be empty",
+  "invalidSession": "Session id cannot produce a plan file name",
+  "notFoundCode": "not_found",
+  "reminderSource": "plan_file_reference",
+  "referenceLines": [
+    "A plan file exists from plan mode at: ${planFilePath}",
+    "",
+    "Plan contents:",
+    "",
+    "${planContent}",
+    "",
+    "If this plan is relevant to the current work and not already complete, continue working on it."
+  ],
+  "separator": "\n",
+  "writeFields": [
+    "atomic",
+    "content",
+    "createParents",
+    "encoding",
+    "path",
+    "trace"
+  ],
+  "readFields": [
+    "maxBytes",
+    "path",
+    "trace"
+  ]
+}

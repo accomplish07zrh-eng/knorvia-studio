@@ -1,0 +1,24 @@
+{
+  "mode": "Static AST + digest checks only; no resolver/dependency execution or semantic typecheck",
+  "typescript": "6.0.2",
+  "sourceMetadataBindings": 14,
+  "authorInputBindings": 10,
+  "completeExportDeclarations": 19,
+  "functionSignatures": "PASS4/4",
+  "classMethods": [
+    "resolve"
+  ],
+  "declarationFiles": 7,
+  "forbiddenBodies": 0,
+  "initializerExpressions": 0,
+  "parseErrors": 0,
+  "defaultParameters": [
+    "createRegistryProviderConfig.path",
+    "createRegistryModelConfig.path"
+  ],
+  "staticLiteralBinding": "PASS",
+  "runtimeTests": false,
+  "sourceChanges": 0,
+  "materialOpen": 21,
+  "status": "PASS"
+}

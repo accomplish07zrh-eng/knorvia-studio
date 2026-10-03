@@ -1,0 +1,6 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type {\n  PluginMetadata,\n  PluginReferenceCatalog,\n  PluginReferenceCatalogEntry,\n}"
+  }
+]

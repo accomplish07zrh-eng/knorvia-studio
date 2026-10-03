@@ -1,0 +1,178 @@
+{
+  "task": "Fresh complete contract-only skills.ts author; source integration deferred",
+  "inputfreeze": {
+    "supplied_label": "e544dcc4",
+    "verification": "Supplied in task; no git verification or repository access"
+  },
+  "requested_execution": {
+    "model": "GPT-6.1 Sol",
+    "reasoning_effort": "high",
+    "fork": "none",
+    "qualification": "Requested configuration only; no provider, runtime, session or actual-model introspection or independent verification"
+  },
+  "fast": {
+    "status": "Parent supplied: saved Fast unchanged/unverified",
+    "qualification": "No Fast configuration read, inspected, changed or verified by this author"
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/skills/input/contract.md",
+      "bytes": 3348,
+      "sha256": "daef7633df188b236c153c3e239b24ba5506e3b85b48c9ecfeda96011dad35be",
+      "lines": 9,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "extent": "Full contents",
+          "use": "Decode into tool output; calculate byte count, SHA256 and splitlines count from the same bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/skills/input/public-api.d.ts",
+      "bytes": 315,
+      "sha256": "7b7fdcbc98d3d17d474436f73f878114e4be52f944553ff5f596ef8dd35fb298",
+      "lines": 8,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "extent": "Full contents",
+          "use": "Decode into tool output; calculate byte count, SHA256 and splitlines count from the same bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/skills/input/dependency-api.d.ts",
+      "bytes": 221,
+      "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f",
+      "lines": 3,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "extent": "Full contents",
+          "use": "Decode into tool output; calculate byte count, SHA256 and splitlines count from the same bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/skills/input/public-shapes.d.ts",
+      "bytes": 2625,
+      "sha256": "06c105d216875117e70ff8c5864b5905c0c6be74d6d6fa5cdd9fd48fe8007065",
+      "lines": 55,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "extent": "Full contents",
+          "use": "Decode into tool output; calculate byte count, SHA256 and splitlines count from the same bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/skills/input/imports.json",
+      "bytes": 256,
+      "sha256": "1c848c0c3fc8cfbcfe73b0a66f0a1e9cc493f0fd86ed3230da6343fcb729a687",
+      "lines": 14,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "extent": "Full contents",
+          "use": "Decode into tool output; calculate byte count, SHA256 and splitlines count from the same bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/skills/input/output-data.json",
+      "bytes": 2474,
+      "sha256": "d0ab9385ef5fd8904cd562e531509628ae4e7405f44a7c9f478c3c7c8547632b",
+      "lines": 137,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "extent": "Full contents",
+          "use": "Decode into tool output; calculate byte count, SHA256 and splitlines count from the same bytes"
+        }
+      ]
+    }
+  ],
+  "own_source": {
+    "path": "/tmp/knorvia-model-context-session-20261003/skills/output/skills.ts",
+    "bytes": 2127,
+    "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0",
+    "lines": 68,
+    "write_operations": [
+      {
+        "operation": "apply_patch Add File",
+        "count": 1
+      }
+    ],
+    "read_operations": [
+      {
+        "operation": "Path.read_bytes",
+        "count": 1,
+        "extent": "Full contents after initial write",
+        "use": "Decode for manual review; calculate byte count, SHA256 and splitlines count from the same bytes"
+      }
+    ]
+  },
+  "own_receipt": {
+    "path": "/tmp/knorvia-model-context-session-20261003/skills/output/author-record.json",
+    "write_operations": [
+      {
+        "operation": "Path.write_text UTF-8",
+        "count": 1
+      }
+    ],
+    "read_operations": [
+      {
+        "operation": "Path.read_bytes",
+        "count": 1,
+        "extent": "Full contents after freeze",
+        "use": "Calculate final receipt byte count, SHA256 and splitlines count; reported in tool output and final response rather than self-referential receipt fields"
+      }
+    ]
+  },
+  "retained_data_expressions_and_ordinary_idioms": [
+    "Exact three prescribed import clauses and original dependency/type owners; private SkillsSectionOptions retained with exact outcome and optional metadataBudget types",
+    "Exact Skills, skills, meta_user, dynamic field data and exact Skill-tool prefix, blank line, newline joins, file, alias and description templates",
+    "Default 20000, description cap 250 with slice(0, 249) plus three dots (252 resulting characters), preview slice(0, 100)",
+    "qualifiedName ?? name preserves empty qualifiedName; truthy alias test and repeated live qualifiedName/name property reads",
+    "Truthy whenToUse conditional with repeated live whenToUse read; description.length followed by native slice only when over cap",
+    "Spread shallow copy, native stable Array.sort, displayName(left).localeCompare(displayName(right)) without locale or options",
+    "Full formatting and length comparison before names-only fallback; no second budget comparison",
+    "Ordinary TypeScript functions, private constants, conditional expressions, array map/spread/join, object literal and native string operations are retained ordinary idioms; no novelty or license grant claim"
+  ],
+  "manual_findings": [
+    "Only buildSkillsSection is exported; no extra dependency, public type owner, mutable state or skill-content load",
+    "First body expression reads options.outcome.skills.length; empty array returns null before budget, rendering, sorting or estimateTokens",
+    "Nonempty path evaluates second live options.outcome.skills read, then metadataBudget ?? 20000, as renderer arguments",
+    "Detailed entries are formatted in sorted order before budget selection; names-only entries are formatted only after full comparison fails",
+    "Negative and NaN budgets reach full formatting then fallback; Infinity accepts full output; fallback can exceed budget",
+    "Own section fields are inserted in required order; estimateTokens executes after chars and before content and preview",
+    "No catches, coercion, filtering, deduplication, trimming or supplied-array mutation; native, getter, sort and estimateTokens errors propagate",
+    "Source is 68 lines, below 400; review is manual reasoning only, without compiling, tests, builds, lint, mocks or executing authored source/dependencies"
+  ],
+  "exposures": {
+    "known": "Task and inherited instruction context; complete six named input contents and their recorded metadata; own authored source and this receipt",
+    "known_breaches": [],
+    "questions": [],
+    "blockers": [],
+    "qualification": "Self-report of this author's visible operations only. No access audit, OS isolation, clean-separation assertion, novelty assertion or license grant. Shared executor restrictions are instruction-only; no claim about other actors' activity, lower-level tool internals or independently verified model/context isolation."
+  },
+  "operations_limits": "Only the six named input full-byte reads, the skills.ts write and own full-byte read, this receipt write and planned own full-byte read, content-derived hashes/counts, manual reasoning, timestamps and permitted chmod were used. No repository/history/reviews/tests/predecessor/other-author drafts/dependency implementations/private/userdata/credentials/network reads, source/dependency execution, actual business provider/session/context/store/OS calls or skillcontents operations were requested by this author. Python file/hash/timestamp/chmod bookkeeping is the explicit permitted exception; this is self-report, not an access-audit guarantee.",
+  "freeze": {
+    "freezeUTC": "2026-10-02T21:29:30.119367Z",
+    "timestamp_meaning": "UTC timestamp sampled immediately before the sequential freeze operation; not an atomic multi-file completion timestamp or external clock verification",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "directory": "/tmp/knorvia-model-context-session-20261003/skills/output",
+    "directory_mode": "0555",
+    "sequence": "chmod skills.ts 0444; write author-record.json; chmod author-record.json 0444; chmod output directory 0555; read own receipt for final metrics"
+  },
+  "review_status": "Frozen before parent body review; source integration deferred; executable validation intentionally prohibited"
+}

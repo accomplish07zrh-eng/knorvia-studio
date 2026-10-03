@@ -1,0 +1,155 @@
+[
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-metadata.json",
+    "bytes": 252,
+    "sha256": "d165c65cf86aac0d77834296d044c287298e0433455781d4cff2e56263bc27a9"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-head-tree.json",
+    "bytes": 1337477,
+    "sha256": "82ac245a2e36d29b6c184b7d4d762366ed109525d47d400fc5b6e9b43cee3662"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-description.json",
+    "bytes": 39323,
+    "sha256": "2c7e8b2de58cb8fdc537a5c4a1e05d30a50f4abb753e5e60eb62eb17678c5082"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-mergebase.json",
+    "bytes": 173,
+    "sha256": "24252030606d76c8e00cde48c6b6fced4c7daac77f5ffd24390a2d0ba8e1add9"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-metadata.json",
+    "bytes": 248,
+    "sha256": "705b9cd888cf7ccd288668554c34866077b88a61f6ca079802367e70b078658b"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-head-tree.json",
+    "bytes": 1380446,
+    "sha256": "e37968cbbf4d042449e8600f3708f297331cf0252c6b020801ef6cce0bb034ea"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-description.json",
+    "bytes": 65058,
+    "sha256": "0831a2e24fd3491d9647dd820d141e298a84b45fa139cf56352f2006cdc24322"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-mergebase.json",
+    "bytes": 167,
+    "sha256": "f5dc434a4073ce5cd4c599a44597cb1cfa187e7b1bbe886205eb669f1b521de0"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-metadata.json",
+    "bytes": 262,
+    "sha256": "3da517f77a0c274f1e8e3570929e33f0e7ca5c181fc2d7b91e002e12b9242ef7"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-head-tree.json",
+    "bytes": 1224836,
+    "sha256": "c8316ce201ce9b77199d3e33aade2c4decef1b2d4e790557601dd7eccc9e116b"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-description.json",
+    "bytes": 3236,
+    "sha256": "11d6979cc4c8910018bc3f710e7dd61514f2eb91d4352027f3e28796ff34b62d"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-mergebase.json",
+    "bytes": 167,
+    "sha256": "cb9a72b4bd2aec009061d946b8846d4f079f5a5066d041e4405b654efb6347be"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-metadata.json",
+    "bytes": 247,
+    "sha256": "e442c5b91f02fa50e993601b9bf64273122d5d8a477c2b965e8ce620a64064a5"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-head-tree.json",
+    "bytes": 1399819,
+    "sha256": "3e50bbee57faa0a4ff558f0b00351a93610889cda098341b0bf87e929592adcb"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-description.json",
+    "bytes": 30195,
+    "sha256": "de29e5989998bffb6355873605a4e83abfe1e4cec73967f256218caf0743e0d1"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-mergebase.json",
+    "bytes": 173,
+    "sha256": "7b2b9a767b9f158a01a01d89231e813819d7145b1758e3d5f3103ae5b7d756d6"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-metadata.json",
+    "bytes": 244,
+    "sha256": "7e42cd0d06b72afb9697106c82ff61f2bc7d5d42f590dfe00103b77ad249f3b9"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-head-tree.json",
+    "bytes": 1243346,
+    "sha256": "d1e1ec916b289abae2bd44ffc7332b2e462784e9c339e8790207dedbf9ac86d0"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-description.json",
+    "bytes": 11607,
+    "sha256": "313b7e8ed2a6d15800a47ae61ff4bc8092b89c57333dfaf3bc5c271b13f5c6ce"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-mergebase.json",
+    "bytes": 167,
+    "sha256": "4b1dffcd263d3eab1dcab07e572405bfe65c5df279e34a84081a9812b8944e87"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-mergebase-tree.json",
+    "bytes": 1102946,
+    "sha256": "56f8471635c0823c4eb6b99c9a9edb07a1805786ec9c2b6dbd159576b8e3ae4a"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-mergebase-tree.json",
+    "bytes": 1139944,
+    "sha256": "452bd64269ebe4baa465a9dc5a1560b9df931e5c649e840f2f0e67dfe2add4fe"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/base-tree-metadata.txt",
+    "bytes": 911108,
+    "sha256": "e04875b4f9331857228e5f0d11e28a1fb1f43ed989a8b12bf07d6368bce4e8d1"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/estimate-metadata.py",
+    "bytes": 4253,
+    "sha256": "b98322df54f61a41687f23c577d60ef2a78614928199d08a8b904274d07aea64"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/corrected-counts.json",
+    "bytes": 421340,
+    "sha256": "fc03a05be4e53a68d40a6e01e2dd56c91cd5e236865e7b626dd14d87e4c852c2"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/initial-syntax-failure.py.txt",
+    "bytes": 3385,
+    "sha256": "a93f2e7a346af6f80fd0d2809767dab85520ea5c48aa22ced1bae65330e026da"
+  },
+  {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/withdrawn-base-tip-counts.json",
+    "bytes": 339937,
+    "sha256": "cc374f3de22e343930b99d65d5a00ff6d104feee4fe83e472e6b92047eb97f97"
+  },
+  {
+    "path": "licensing/current-files.json",
+    "bytes": 8812184,
+    "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+    "role": "Existing saved E source/origin/accepted-review metadata; not freshly updated global acceptance inventory"
+  },
+  {
+    "path": "licensing/reviews.json",
+    "bytes": 2891968,
+    "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+    "role": "Existing saved E source/origin/accepted-review metadata; not freshly updated global acceptance inventory"
+  },
+  {
+    "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+    "bytes": 312065,
+    "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+    "role": "Existing saved E source/origin/accepted-review metadata; not freshly updated global acceptance inventory"
+  }
+]

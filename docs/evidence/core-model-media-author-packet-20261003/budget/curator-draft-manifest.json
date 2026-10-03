@@ -1,0 +1,28 @@
+{
+  "archivedAtUtc": "2026-10-02T19:49:42.323994+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no separate tool setting",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/budget/imports.json",
+      "bytes": 3118,
+      "sha256": "c7bc53ea494974a30c8f8221c26d6112e6906154c82eaab4d68e7191906e7703"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-budget.ts.txt",
+      "bytes": 9074,
+      "sha256": "c76f28c5550313085ce3f587ab4e7982f82192335620182f367d335aa62d934c",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 5965,
+      "sha256": "c5970e829dc94f6d5815a3e0d7c174dc4eb4faedaa5e7fac79d0c3cdf4078bc3"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../../tool/handlers/bash-model-content.js"
+    },
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "boolean"
+    },
+    {
+      "kind": "text",
+      "text": "Bash"
+    },
+    {
+      "kind": "text",
+      "text": "boolean"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "mcp__"
+    },
+    {
+      "kind": "text",
+      "text": "__"
+    },
+    {
+      "kind": "text",
+      "text": "__"
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+  ],
+  "externalConstants": {
+    "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+    "READ_IMAGE_TARGET_BYTES": 3932160,
+    "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+    "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+  },
+  "retainedDataQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms, not novelty/rights claim; no source bodies delivered"
+}

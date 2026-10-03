@@ -1,0 +1,90 @@
+{
+  "curatedAtUtc": "2026-10-02T20:13:04.288145+00:00",
+  "baseline": "df26566ec09e7032f75b822ecd349e10dfadce26",
+  "reservationCommit": "dc68c2a2",
+  "sourceExposedCurator": true,
+  "targetBodyExposure": [
+    "packages/desktop/src/main/dataSizeScanner.ts",
+    "packages/desktop/src/main/dataSizeWorkerClient.ts",
+    "packages/desktop/src/main/localMediaPreviewProtocol.ts"
+  ],
+  "dependencyExposure": [
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/desktop/src/main/dataSizeWorker.ts",
+      "bytes": 783,
+      "sha256": "9b4d5df03691e57a61467e792563655f0e50fdb851b3d1a1e9a847dbda1eb372"
+    }
+  ],
+  "dependencyExposureQualification": "Whole selected files mechanically read for isolated AST/declaration metadata. Worker body not deliberately printed/read; only imports, literal and envelope-name/kind metadata observed. Shared platform builder lines 103-114 deliberately read; unrelated public browser-type slice was also previously printed. Earlier broad/generic source exposure remains. No no-exposure or access-audit claim.",
+  "rootExposureQualification": "Root reports names/counts/reviewabsence in this pass only; previous generic/broad source context remains, no new no-exposure/freshcontext claim.",
+  "acceptedRecordSearch": "Exact target filenames bounded search across docs/specs/licensing/reviews.json found only reservation at scope reservation; not exhaustive history/rights audit.",
+  "typescript": "6.0.2",
+  "publicExtractionRecord": "public-extraction-record.json",
+  "dependencyTypeQualification": "Authoritative Node APIs represented via typeof/Pick and public injected shapes; no dependency implementations or standalone project compilation claim.",
+  "tinyWorkerRetained": true,
+  "sourceBindingsUnchanged": true,
+  "noTargetExecutionOrOsEffects": true,
+  "noSourceImplementation": true,
+  "packetFiles": [
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/contract-data.json",
+      "bytes": 1508,
+      "sha256": "fe87c4c47b4f981b92e211bd8543d97c18e3bab5261f8bf191d40a373fdb18bb"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/contract.md",
+      "bytes": 10394,
+      "sha256": "4dc462a8051f5643590330128773c7d6b6b36538e85b0087435bd1ba77985c07"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/dataSizeScanner-public-api.d.ts",
+      "bytes": 880,
+      "sha256": "3505144828f116667d76b66a1dd8cbb88251b36e5ccd001742e4559fd5ab2149"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/dataSizeWorker-public-api.d.ts",
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/dataSizeWorkerClient-public-api.d.ts",
+      "bytes": 256,
+      "sha256": "8307ebb649a8fa9eb6d43840f7428032ebe968e38cad35e88a90a3ad6feb7514"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 1100,
+      "sha256": "29e178fb55530b8a9fd80badcd1fdb4f47aedfe0b0342412c68d5d388f0bff29"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/imports.json",
+      "bytes": 1050,
+      "sha256": "7d98e0ca1af982859d43bcf2fb79304cfcbda162caa52eb474a18ff66a1a7048"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/localMediaPreviewProtocol-public-api.d.ts",
+      "bytes": 1508,
+      "sha256": "f45a645ea92f0901f81ab325eb541133f303ac4546505528a7cd45bb38fa528d"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/public-extraction-record.json",
+      "bytes": 371,
+      "sha256": "8ebd1d989897ad5d183ae381ce71fad6002554db001b97649fd576558cdb2e55"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/reservation.json",
+      "bytes": 2232,
+      "sha256": "66322c82fd3da4c917e1164139388a05fe93bb4c1338de64b02e697b4ce5dc18"
+    },
+    {
+      "path": "docs/evidence/desktop-data-preview-root-packet-20261003/worker-message-contract.d.ts",
+      "bytes": 620,
+      "sha256": "42cdb0955b268aa7546c24b44c5f4daa69c0332e7ff2d56ebc6babbf8c75b98a"
+    }
+  ]
+}

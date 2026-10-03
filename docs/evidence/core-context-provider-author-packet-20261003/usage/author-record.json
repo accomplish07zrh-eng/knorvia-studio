@@ -1,0 +1,79 @@
+{
+  "freeze_utc": "2026-10-02T19:26:00.036502Z",
+  "state": "Complete and frozen; no further content edits authorized without frozen functional clarification.",
+  "configuration": {
+    "configured_model": "Sol",
+    "configured_effort": "high",
+    "requested_service_tier": "Fast",
+    "basis": "Delegated task declares Sol/high/Fast; exact runtime model identifier and effort are not independently exposed.",
+    "fast_limit": "No separate Fast tool tier is exposed; actual Fast service tier cannot be independently verified."
+  },
+  "context": {
+    "no_inherited_task_source_or_work_product_context": true,
+    "inherited_context": "General system/developer instructions, environment context, and this delegated task only; no repository source, prior implementation, author draft, review body, test, or history was supplied or accessed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/usage/inputs/contract.md",
+      "bytes": 2288,
+      "sha256": "fc1fe5de2f8555a66e09463cb762ef33953d1399db04c0b1cc2eba773bf401e6",
+      "read_operations": 2,
+      "exposure": "Full contents from initial packet read; bytes reread only for receipt metadata."
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/usage/inputs/public-api.d.ts",
+      "bytes": 380,
+      "sha256": "874b47aabef29dcdb39571f66423d3fd4ea40be60c55e9fc0cf6d80de30e0f77",
+      "read_operations": 2,
+      "exposure": "Full contents from initial packet read; bytes reread only for receipt metadata."
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/usage/inputs/public-shapes.d.ts",
+      "bytes": 183,
+      "sha256": "77b5470dbb6854578e7fc96ddb7384a54356585c90296f0dc0e8d660a59a2029",
+      "read_operations": 2,
+      "exposure": "Full contents from initial packet read; bytes reread only for receipt metadata."
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/usage/output/message-history-usage.ts",
+      "intended_repository_path": "apps/cli/packages/core/src/agent/message-history-usage.ts",
+      "bytes": 2396,
+      "sha256": "9fac6296a442e429b67ec714b3a328bb809add2da7bd842e615fc3e07ee409f1",
+      "lines": 76
+    }
+  ],
+  "actual_reads_and_source_exposure": {
+    "visible_input_files": [
+      "/tmp/knorvia-core-context-provider-20261003/usage/inputs/contract.md",
+      "/tmp/knorvia-core-context-provider-20261003/usage/inputs/public-api.d.ts",
+      "/tmp/knorvia-core-context-provider-20261003/usage/inputs/public-shapes.d.ts"
+    ],
+    "own_output_reads": [
+      "/tmp/knorvia-core-context-provider-20261003/usage/output/message-history-usage.ts"
+    ],
+    "other_source_exposure": [],
+    "repository_access": false,
+    "network_access": false,
+    "dependency_source_access": false,
+    "tooling": "cat for the three allowed packet files; apply_patch for own source output; Python standard-library file-byte metadata and receipt serialization only. No dependency source was inspected."
+  },
+  "retained_contract_expressions": [
+    "Number.isFinite and Math.floor finite-integer normalization without coercion.",
+    "Positive > 0 and nonnegative >= 0 admission preserving nonnegative negative zero.",
+    "Input-first, then total-minus-nonnegative-output clamped with Math.max(0, ...), then cache sum only when total is unusable.",
+    "Nullish ?? 0 defaults with repeated final output/cache/total observations in the specified order.",
+    "Context arithmetic input + output when output is positive; otherwise usable total >= input, otherwise own undefined.",
+    "Public import, interface, function signature, return field order, fresh plain-object identity, and unchanged inputs."
+  ],
+  "discretionary_choices": [
+    "Three private normalization helpers and one private input-selection helper with ordinary descriptive names.",
+    "Early returns for contract admission stages and a conditional expression for context usage.",
+    "Four-space indentation, double-quoted import, and ordinary multiline formatting."
+  ],
+  "questions": [],
+  "breaches": [],
+  "verification": "No tests, builds, typechecks, lint, mocks, compilers, or runtime execution of the implementation. Byte counts, line count, and SHA-256 are receipt metadata only.",
+  "receipt_integrity": "This receipt has no self-hash. Its final serialized byte count and SHA-256 are reported separately with the source metadata."
+}

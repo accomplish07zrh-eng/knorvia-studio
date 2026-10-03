@@ -1,0 +1,33 @@
+{
+  "retainedExpression": "Required existing schemas/protocol/fields/prose/format/constants/evaluation/ordinary idioms; no new grant or novelty claim",
+  "cadence": {
+    "runtimeModeHumanTurns": 5,
+    "fullEveryN": 5,
+    "todoWriteAssistantTurns": 10,
+    "todoReminderAssistantTurns": 10
+  },
+  "planResearchAgentCount": 3,
+  "symbols": {
+    "EXPLORE_AGENT_TYPE": "Explore",
+    "ASK_USER_QUESTION_TOOL_NAME": "AskUserQuestion",
+    "EXIT_PLAN_MODE_TOOL_NAME": "ExitPlanMode"
+  },
+  "dateFormat": "The date has changed. Today's date is now ${currentDate}. DO NOT mention this to the user explicitly because they are already aware.",
+  "todoHeader": "Here are the existing contents of your todo list:",
+  "todoLine": "${index+1}. [${todo.status}] ${todo.content}",
+  "outputStyleFormat": "${name} output style is active. Remember to follow the specific guidelines for this style.",
+  "todoWriteTool": "TodoWrite",
+  "separator": "\n",
+  "sourceMap": {
+    "background_task": "legacy",
+    "subagent_message": "legacy",
+    "shared_context": "legacy",
+    "subagent": "queued_system_notification",
+    "todo_reminder": "todo factory",
+    "goal_state_change": "goal_state_change",
+    "plugin_reference": "plugin_reference",
+    "selection_side_chat": "selection_side_chat",
+    "goal-continuation": "target_continuation",
+    "default": "rewind_notice"
+  }
+}

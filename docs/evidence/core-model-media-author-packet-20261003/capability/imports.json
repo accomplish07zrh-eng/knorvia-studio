@@ -1,0 +1,86 @@
+{
+  "kind": "Existing exact module/export import mapping; no bodies or new dependencies",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "createUnsupportedModelInputMediaText",
+          "localName": "createUnsupportedModelInputMediaText",
+          "typeOnly": false
+        },
+        {
+          "name": "getUnsupportedModelInputMediaKind",
+          "localName": "getUnsupportedModelInputMediaKind",
+          "typeOnly": false
+        },
+        {
+          "name": "isProviderVisibleModelInputMediaBlock",
+          "localName": "isProviderVisibleModelInputMediaBlock",
+          "typeOnly": false
+        },
+        {
+          "name": "isProviderVisiblePdfModelInputBlock",
+          "localName": "isProviderVisiblePdfModelInputBlock",
+          "typeOnly": false
+        },
+        {
+          "name": "isProviderVisibleVideoModelInputBlock",
+          "localName": "isProviderVisibleVideoModelInputBlock",
+          "typeOnly": false
+        },
+        {
+          "name": "traceContextToLogContext",
+          "localName": "traceContextToLogContext",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "Logger",
+          "localName": "Logger",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelInputFormat",
+          "localName": "ModelInputFormat",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelInputMessage",
+          "localName": "ModelInputMessage",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelMessageContentBlock",
+          "localName": "ModelMessageContentBlock",
+          "typeOnly": true
+        },
+        {
+          "name": "TraceContext",
+          "localName": "TraceContext",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "./official-cua-media.js",
+      "bindings": [
+        {
+          "name": "officialCuaImageRefIndexesForUnavailableMedia",
+          "localName": "officialCuaImageRefIndexesForUnavailableMedia",
+          "typeOnly": false
+        },
+        {
+          "name": "officialCuaRasterUnavailableBlock",
+          "localName": "officialCuaRasterUnavailableBlock",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "constantQualification": "Imported constant values and opaque type details stay with unchanged original collaborators; do not define replacements. Follow original type-only versus value imports. A retained dormant import may be used only by reconstructed dormant behavior, never enabling it."
+}

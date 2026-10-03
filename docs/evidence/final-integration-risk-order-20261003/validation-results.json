@@ -1,0 +1,13 @@
+{
+  "command": "python docs/evidence/final-integration-risk-order-20261003/verify-metadata.py",
+  "exit": 0,
+  "boundedCollisionRecord": "PASS",
+  "differentBlobCollisions": 3,
+  "localSourceDigestPins": 5,
+  "localLinks": 7,
+  "dPublishedDiagnosticObservation": [6, 15],
+  "gitDiffCheckExit": 0,
+  "productTestsRun": false,
+  "compilerOrRuntimeExecuted": false,
+  "scope": "One metadata/digest/link verifier run; published D results were read, not reproduced. No full rerun, new author, cross-lane merge/import, global inventory/license edit or material closure."
+}

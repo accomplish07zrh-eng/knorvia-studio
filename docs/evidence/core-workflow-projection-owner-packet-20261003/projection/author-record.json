@@ -1,0 +1,120 @@
+{
+  "author": "/root/workflow_projection_complete_author_20261003",
+  "allocated_owner": "whole independent get-workflow-run-roster-output.ts public projection",
+  "accounting_scope": "Cumulative delegated-turn self-report of allowed task-file content accesses. No OS audit or independent enforcement claim. Python interpreter/system accesses are outside task-file ledger; no broad environment, history, source, dependency-body, test, other-packet or user-data reads were requested.",
+  "files": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/projection/contract.md",
+      "reads": 1,
+      "writes": 0,
+      "bytes": 3475,
+      "lines": 13,
+      "sha256": "83ec83cd9ac972f915c2f57d1a9981efad9d5f602803b36e869cf39503330020",
+      "hash_method": "in memory from the single read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/projection/public-api.d.ts",
+      "reads": 1,
+      "writes": 0,
+      "bytes": 618,
+      "lines": 7,
+      "sha256": "d2b7615ce2d5db6eaf7854b30cc089c4571cd524debb90a42ed617725dbb0a26",
+      "hash_method": "in memory from the single read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/projection/dependency-api.d.ts",
+      "reads": 1,
+      "writes": 0,
+      "bytes": 3048,
+      "lines": 85,
+      "sha256": "565b19ed81b981249e1eccac10e6c8deb92a2ff234ba6c1e638ef87ea7cf7fcf",
+      "hash_method": "in memory from the single read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/projection/imports.json",
+      "reads": 1,
+      "writes": 0,
+      "bytes": 1826,
+      "lines": 64,
+      "sha256": "919b2c4e8dcdf30d9144729e00dfbb9e952f3e38179f8a207714a18dd83a9ea4",
+      "hash_method": "in memory from the single read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/projection/required-data.json",
+      "reads": 1,
+      "writes": 0,
+      "bytes": 443,
+      "lines": 21,
+      "sha256": "df15a40cb6d095145022dda66e33ece3c4d98a519ae532519caed73a857a74f7",
+      "hash_method": "in memory from the single read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/projection/public-data.json",
+      "reads": 1,
+      "writes": 0,
+      "bytes": 6026,
+      "lines": 45,
+      "sha256": "101ce24839c7d5e10c5780e4dbd54d296f3f48a85cd31d73af77d66a8a84b900",
+      "hash_method": "in memory from the single read"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/projection/get-workflow-run-roster-output.ts",
+      "reads": 0,
+      "writes": 1,
+      "bytes": 4491,
+      "lines": 130,
+      "sha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d",
+      "hash_method": "in memory before single write"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/projection/author-record.json",
+      "reads": 0,
+      "writes": 1,
+      "bytes": 8287,
+      "lines": 120,
+      "sha256": null,
+      "hash_method": "final serialized bytes hashed in memory and reported externally; final self-hash cannot be embedded without circularity"
+    }
+  ],
+  "cumulative": {
+    "input_files": 6,
+    "output_files": 2,
+    "read_operations": 6,
+    "write_operations": 2,
+    "read_bytes": 15436,
+    "read_lines": 235,
+    "write_bytes": 12778,
+    "write_lines": 250,
+    "chmod_operations": 2,
+    "superseded_writes": 0,
+    "superseded_reads": 0
+  },
+  "access_sequence": [
+    "Read each of the six listed public inputs exactly once in the listed order; hash and count those bytes in memory.",
+    "Author and manually review complete source in conversation and in-memory payload; no source execution.",
+    "Write complete source once, write complete receipt once; count and hash both serialized payloads in memory.",
+    "Set both output files to 0444 before reporting their metadata; no output rereads."
+  ],
+  "output_freeze": {
+    "mode": "0444",
+    "body_review_gate": "Curator must archive and commit complete frozen source and receipt before source-body review.",
+    "correction_rule": "Any actual later failure requires this same author to supply a full new source and full cumulative receipt, including superseded access/write details; no curator patch."
+  },
+  "manual_review": {
+    "method": "Static author reasoning only. Synthetic cases below are thought experiments, not executed tests or a source-emitted matrix.",
+    "api_and_imports": "Three public export signatures retained; every import identity from imports.json retained, including public type names. Limits and schema-derived result types remain imported opaque owners; none are recreated.",
+    "phases": "Undefined or empty array returns undefined. Slice uses original maxPhases and map builds fresh ordered records and array below or above cap. Optional enteredAt/exitedAt follow required order and omit only undefined.",
+    "subagents": "Slice uses original maxSubagents; map builds fresh records in original order. Outer result keys are subagents then truncated, with strict kept-length comparison. Empty, below-cap, exact-cap, and above-cap thought cases give fresh empty/kept arrays and false/false/false/true truncation respectively.",
+    "nested_identity": "Each present ask, lastTool, wait, and concurrency is rebuilt by an object literal enumerating only its listed keys. No source record is returned or spread. Extra nested and outer keys cannot enter the projection.",
+    "order_and_omission": "Object literals and conditional property spreads follow the contract field sequence. All optional fields use !== undefined. Absent optional fields have no own keys; present zero/false/empty-string values are copied. Ask turn/toolCalls have no defaults.",
+    "health": "Optional progress/stall/concurrency precede required failure/cache fields, then optional leftoverRunning, then pendingQuestionsKnown. leftoverRunning undefined or strictly zero is omitted; other supplied values are retained. Zero timings, empty reason, and false pendingQuestionsKnown survive.",
+    "value_and_input_preservation": "No sorting, validation, coercion, trimming, escaping, field clipping, or input writes. Strings and primitive values are copied unchanged, including long or empty public values. slice/map create arrays without changing input arrays.",
+    "required_data": "Original module strings, wait type-index string, and four zero literals are preserved as necessary public API/sentinel syntax. Public schema/static initializer material stays with its imported original owner; it is not rewritten here."
+  },
+  "prohibited_operations_performed": [],
+  "execution_qualification": "Shared executor instruction-only compliance and author self-report; no compiler, transpiler, lint, tests, project/semantic checks, source execution, actual workflows/subagents/agents/files/network/user-data operations. Shell/Python used only for allowed input reading and own-output writing, hash/count, and chmod.",
+  "exposure_qualification": "Within this delegated turn only the six listed public content files were inspected. No predecessor/source/history/test/other-packet/dependency-body inspection. Source-exposed curator/history/repaired-breach qualifications are retained; this receipt does not erase earlier exposure elsewhere, establish clean-room isolation, or provide an OS audit.",
+  "public_reasoning_and_rights": "Authorship is of the fresh whole projection under its supplied public contract. Fixed public strings, constants, schemas, metadata and protocol data retain original ownership and receive no novelty credit. No novelty, legal rights, licence closure or independent dependency-semantic-closure claim.",
+  "savedFast": "Unchanged and unverified; not read, edited, measured, or used.",
+  "self_hash_qualification": "The final receipt SHA256 is supplied in the external completion metadata. Its own file entry includes exact final byte/line counts but null digest because an embedded whole-file final self-hash is circular. All other file SHA256 values are embedded. No extra accounting file is created."
+}

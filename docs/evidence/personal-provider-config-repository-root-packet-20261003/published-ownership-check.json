@@ -1,0 +1,26 @@
+{
+  "authority": "Root explicitly allocated repository preparation; root says D currently provider model-config/account-provider-service, not this provider-node repository. G adapter scopes retained unchanged.",
+  "publicChecks": [
+    {
+      "pr": 9,
+      "head": "a8a2305a55719b900556f0c50fbdadf7f1ac48b4",
+      "branch": "recovery/server-lifecycle-20261002",
+      "exactTargetChanged": false
+    },
+    {
+      "pr": 10,
+      "head": "5499f147fb8849b693d87fea3f6c4773eeef1ff2",
+      "branch": "independent/settings-lifecycle-20261002",
+      "exactTargetChanged": false
+    },
+    {
+      "pr": 11,
+      "head": "2ba2299e67e2452409891f12a405386eeeea2d68",
+      "branch": "parallel/cli-tools-fast-20261001",
+      "exactTargetChanged": false
+    }
+  ],
+  "localNamedReservationReceiptSearch": "No exact target path in docs/evidence receipt/review/reservation/accepted/candidate/ledger/screen JSON or ownership/allocation/Markdown matches before new packet creation",
+  "qualifiedScope": "Published exact changed paths and root delegation only; absence does not disprove unpublished lane work/private historical acceptance. Any explicit genuine conflict stops this item; no new authors selected.",
+  "queryQualification": "Initial unfiltered PR metadata prints were truncated, not used as decisive evidence; exact-target filtered metadata used afterward. No source bodies fetched/imported from another lane."
+}

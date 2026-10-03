@@ -1,0 +1,116 @@
+{
+  "localPredecessor": "d0e405bda73cfcafc09c117ef52e2fca4d1aa6fe",
+  "archivedSourceMetadata": [
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-head-tree.json",
+      "bytes": 1224836,
+      "sha256": "c8316ce201ce9b77199d3e33aade2c4decef1b2d4e790557601dd7eccc9e116b"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-mergebase.json",
+      "bytes": 167,
+      "sha256": "cb9a72b4bd2aec009061d946b8846d4f079f5a5066d041e4405b654efb6347be"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-head-tree.json",
+      "bytes": 1399819,
+      "sha256": "3e50bbee57faa0a4ff558f0b00351a93610889cda098341b0bf87e929592adcb"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-mergebase-tree.json",
+      "bytes": 1139944,
+      "sha256": "452bd64269ebe4baa465a9dc5a1560b9df931e5c649e840f2f0e67dfe2add4fe"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-mergebase.json",
+      "bytes": 173,
+      "sha256": "7b2b9a767b9f158a01a01d89231e813819d7145b1758e3d5f3103ae5b7d756d6"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-head-tree.json",
+      "bytes": 1243346,
+      "sha256": "d1e1ec916b289abae2bd44ffc7332b2e462784e9c339e8790207dedbf9ac86d0"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-mergebase.json",
+      "bytes": 167,
+      "sha256": "4b1dffcd263d3eab1dcab07e572405bfe65c5df279e34a84081a9812b8944e87"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-head-tree.json",
+      "bytes": 1337477,
+      "sha256": "82ac245a2e36d29b6c184b7d4d762366ed109525d47d400fc5b6e9b43cee3662"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-mergebase-tree.json",
+      "bytes": 1102946,
+      "sha256": "56f8471635c0823c4eb6b99c9a9edb07a1805786ec9c2b6dbd159576b8e3ae4a"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-mergebase.json",
+      "bytes": 173,
+      "sha256": "24252030606d76c8e00cde48c6b6fced4c7daac77f5ffd24390a2d0ba8e1add9"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-head-tree.json",
+      "bytes": 1380446,
+      "sha256": "e37968cbbf4d042449e8600f3708f297331cf0252c6b020801ef6cce0bb034ea"
+    },
+    {
+      "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-mergebase.json",
+      "bytes": 167,
+      "sha256": "f5dc434a4073ce5cd4c599a44597cb1cfa187e7b1bbe886205eb669f1b521de0"
+    }
+  ],
+  "baseTree": {
+    "path": "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/base-tree-metadata.txt",
+    "bytes": 911108,
+    "sha256": "e04875b4f9331857228e5f0d11e28a1fb1f43ed989a8b12bf07d6368bce4e8d1"
+  },
+  "latestDTree": {
+    "head": "e22d2bc32678d59ac2abeab4102a7794c8854d1b",
+    "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/git/trees/e22d2bc32678d59ac2abeab4102a7794c8854d1b?recursive=1",
+    "bytes": 2731112,
+    "sha256": "2bc65e36a5f502d86c80ed8aa5e67b6b9ee7be99ffe525a128288027009589cb",
+    "truncated": false
+  },
+  "latestPrMetadata": [
+    {
+      "pr": 8,
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/pulls/8",
+      "bytes": 39439,
+      "sha256": "7adf3c31b4be82524728a83375bef5adb459db8d143775e70fd9530286c4c34c"
+    },
+    {
+      "pr": 9,
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/pulls/9",
+      "bytes": 65174,
+      "sha256": "8cb794e6521bfab451b168ffe149a675995a866fd6e77dee7fc3be8b36cfff67"
+    },
+    {
+      "pr": 10,
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/pulls/10",
+      "bytes": 3351,
+      "sha256": "0b8eebb8e76fec045f0191d911666e047e2c92916431bfcf66f1310b9c2cc4c6"
+    },
+    {
+      "pr": 11,
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/pulls/11",
+      "bytes": 30311,
+      "sha256": "73104d84bac64e1ce843261e2cd72eea008e21463eefffb29d4fdb5ed30e4e6b"
+    },
+    {
+      "pr": 12,
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/pulls/12",
+      "bytes": 11722,
+      "sha256": "7534542d16da5c2e973b0996679218151e721f24a643e7181c450594d5673ab5"
+    }
+  ],
+  "preservedNonSubstantiveReadFailures": [
+    "Initial latest metadata parser expected head.sha but snapshot stores head as a string; corrected schema access.",
+    "Local guessed installation/review filenames absent; rg located actual installation records, or explicit published evidence blob was read.",
+    "Initial old tree parser expected type; archived metadata omits type and retains mode. Corrected blob filtering uses mode != 040000.",
+    "One broad rg inventory filename glob absent; no inventory check or permission retry followed."
+  ],
+  "qualification": "Metadata shape/location errors produced no source change or positive validation result; not counted as progress. Network evidence retrieval successful, no forbidden Library/private-backup recovery."
+}

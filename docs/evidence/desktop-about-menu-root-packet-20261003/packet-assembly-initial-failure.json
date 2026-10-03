@@ -1,0 +1,1 @@
+{"stage":"after input file freeze, before packet static result/delivery","error":"NameError: name notprivateHits is not defined in inline curator assertion","correction":"Dedicated read-only verify-packet script computes helper identifiers internally and emits no names. Original inputs/source unchanged; error/tool trace retained."}

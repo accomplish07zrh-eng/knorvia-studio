@@ -1,0 +1,94 @@
+{
+  "task": "Complete input-limited reconstruction of apps/cli/packages/core/src/context/builder.ts",
+  "freeze_utc": "2026-10-02T19:26:02.677178Z",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "basis": "Parent delegation specifies Sol/high/Fast; runtime model selection cannot be independently inspected through scoped inputs.",
+    "fast_requested": true,
+    "fast_limit": "No separate Fast tool tier is available; no tier override was attempted."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/builder/inputs/contract.md",
+      "bytes": 6280,
+      "sha256": "d1c1eb9b8c9e442232da67bbd1b1de102af4ee8e257fe5d357ff6bc88b41b8fa"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/builder/inputs/public-api.d.ts",
+      "bytes": 819,
+      "sha256": "8956dce4f669e5d44556289b03c21cc1d5642265f8efd315e65ccdefb9b884e5"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/builder/inputs/dependency-api.d.ts",
+      "bytes": 2354,
+      "sha256": "972c4afb642e48790e5364358a39a34717815b100ef72288078be88766223a4a"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/builder/inputs/context-types.d.ts",
+      "bytes": 2661,
+      "sha256": "8781f1bdc4826531b7bf8e02a8508207ec386b200264e1d1811d50ca52054c4f"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/builder/inputs/output-text.json",
+      "bytes": 604,
+      "sha256": "8b0256b675823761005ed7e199acdabcd65126930efec99c77d1bf788f855f1d"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/builder/output/builder.ts",
+      "bytes": 9031,
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "lines": 276
+    }
+  ],
+  "companion": null,
+  "author_record": {
+    "path": "/tmp/knorvia-core-context-provider-20261003/builder/output/author-record.json",
+    "integrity": "Exact record bytes and SHA256 are reported externally after serialization; a self-referential digest is omitted."
+  },
+  "actual_reads_and_exposure": {
+    "task_context": "Scoped delegation and common platform instructions only; no inherited parent conversation, repository/source/history/review/test bodies, other authors, or prior drafts were available or read.",
+    "content_reads": [
+      "/tmp/knorvia-core-context-provider-20261003/builder/inputs/contract.md",
+      "/tmp/knorvia-core-context-provider-20261003/builder/inputs/public-api.d.ts",
+      "/tmp/knorvia-core-context-provider-20261003/builder/inputs/dependency-api.d.ts",
+      "/tmp/knorvia-core-context-provider-20261003/builder/inputs/context-types.d.ts",
+      "/tmp/knorvia-core-context-provider-20261003/builder/inputs/output-text.json"
+    ],
+    "own_output_reads": [
+      "/tmp/knorvia-core-context-provider-20261003/builder/output/builder.ts"
+    ],
+    "read_operations": "One cat command exposed all five supplied input bodies. Receipt generation reread those same five files for byte counts/SHA256 and read own builder.ts for line count and integrity metadata.",
+    "other_operations": "Created output directory and wrote own deliverables using Python standard-library filesystem/hash/JSON/time utilities. No repository enumeration, AGENTS reads, git, network, compiler, tests, builds, lint, typechecks or mocks.",
+    "inherited_context": false
+  },
+  "retained_expression": [
+    "Public exported names, signatures, collaborator imports and opaque call boundaries from supplied declaration files.",
+    "Exact conflict, custom prompt metadata, Skill name, cache-control type and context wrapper strings from supplied output-text.json.",
+    "Contract-specified constructor/reference state, shallow spreading/defaulting, callback/order/live-read semantics, four independent stable filters, independent totals and output property order.",
+    "Contract-specified system and attachment grouping, whitespace/newline behavior and shared mutable cache object."
+  ],
+  "discretionary_design": [
+    "One complete source file, no companion; module-private system-message and meta-user-attachment assembly helpers.",
+    "Named module constants for shared cache object and retained context text.",
+    "Ordinary direct branching, filter/map/join/reduce and conditional pushes; descriptive local variable names and formatting.",
+    "Context wrapper blank-line slot interpreted as an empty line: two newline characters between joined section content and exact indented relevance text."
+  ],
+  "unresolved_questions": [],
+  "breaches": [],
+  "verification": {
+    "performed": "Input-limited author review of drafted source; byte/line metadata and SHA256 only.",
+    "not_run": [
+      "tests",
+      "builds",
+      "typechecks",
+      "lint",
+      "mocks"
+    ],
+    "source_below_400_lines": true,
+    "limitations": "No runtime or type-system validation was performed, as required by the delegation."
+  },
+  "freeze_policy": "Source and record frozen at this receipt checkpoint; no later edits without a separately frozen functional clarification."
+}

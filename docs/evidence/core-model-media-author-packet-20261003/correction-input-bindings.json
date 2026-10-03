@@ -1,0 +1,43 @@
+{
+  "recordedAtUtc": "2026-10-02T19:53:23.346593+00:00",
+  "originalArchiveCommit": "25ee17f8",
+  "kind": "Additive functional corrections after frozen original body comparison; not new fresh-author events",
+  "scopes": {
+    "request": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/correction-qualification.md",
+          "bytes": 2071,
+          "sha256": "737a2f845b2fe9f8555b6bca1946e4b9d975aac61ff2d356a2e63d59e1ac7fba"
+        }
+      ]
+    },
+    "budget": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/correction-qualification.md",
+          "bytes": 726,
+          "sha256": "8c08fa52bac21d54af4de0f833358bbc94d00cd7439c5b3bc8c275aa57af7de4"
+        }
+      ]
+    },
+    "capability": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/correction-qualification.md",
+          "bytes": 1244,
+          "sha256": "675b1614b87c77b7b406bd2e538b9d5832973b5e09c647493cfa99363c933875"
+        }
+      ]
+    },
+    "errors": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/correction-qualification.md",
+          "bytes": 1188,
+          "sha256": "7b08741b781f1a3933e85660d16aae050957f0b1f1ed6906dbbfcbdc81bd71ac"
+        }
+      ]
+    }
+  }
+}

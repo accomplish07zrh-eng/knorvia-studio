@@ -1,0 +1,61 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "clause": "{ basename, isFileSystemPortError, resolvePath }",
+      "text": "import { basename, isFileSystemPortError, resolvePath } from \"../deps.js\";"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "{ VIDEO_INPUT_MAX_BYTES }",
+      "text": "import { VIDEO_INPUT_MAX_BYTES } from \"@knorvia/contracts\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "type {\n  FilePartSource,\n  FileSystemPort,\n  ImageProcessorPort,\n  SessionId,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnAttachment,\n  TurnId,\n}",
+      "text": "import type {\n  FilePartSource,\n  FileSystemPort,\n  ImageProcessorPort,\n  SessionId,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnAttachment,\n  TurnId,\n} from \"../deps.js\";"
+    },
+    {
+      "module": "../types.js",
+      "clause": "{ INLINE_MEDIA_ATTACHMENT_MAX_BYTES }",
+      "text": "import { INLINE_MEDIA_ATTACHMENT_MAX_BYTES } from \"../types.js\";"
+    },
+    {
+      "module": "../types.js",
+      "clause": "type { PreparedImageData, ResolvedTurnAttachment }",
+      "text": "import type { PreparedImageData, ResolvedTurnAttachment } from \"../types.js\";"
+    },
+    {
+      "module": "./attachment-artifacts.js",
+      "clause": "{ persistAttachmentDataUrl }",
+      "text": "import { persistAttachmentDataUrl } from \"./attachment-artifacts.js\";"
+    },
+    {
+      "module": "./attachment-placeholder.js",
+      "clause": "{ resolvedPlaceholderAttachment }",
+      "text": "import { resolvedPlaceholderAttachment } from \"./attachment-placeholder.js\";"
+    },
+    {
+      "module": "./attachment-image.js",
+      "clause": "{ inferImageMimeFromPath, prepareImageDataUrl }",
+      "text": "import { inferImageMimeFromPath, prepareImageDataUrl } from \"./attachment-image.js\";"
+    },
+    {
+      "module": "./attachment-video.js",
+      "clause": "{ inferVideoMimeFromPath, parseInlineVideoDataUrl }",
+      "text": "import { inferVideoMimeFromPath, parseInlineVideoDataUrl } from \"./attachment-video.js\";"
+    },
+    {
+      "module": "./attachment-pdf.js",
+      "clause": "{ isPdfBytes, parseInlinePdfDataUrl, PDF_INPUT_MAX_BYTES }",
+      "text": "import { isPdfBytes, parseInlinePdfDataUrl, PDF_INPUT_MAX_BYTES } from \"./attachment-pdf.js\";"
+    },
+    {
+      "module": "./attachment-path-reference.js",
+      "clause": "{ resolvedPathReferenceAttachment }",
+      "text": "import { resolvedPathReferenceAttachment } from \"./attachment-path-reference.js\";"
+    }
+  ],
+  "reexports": []
+}

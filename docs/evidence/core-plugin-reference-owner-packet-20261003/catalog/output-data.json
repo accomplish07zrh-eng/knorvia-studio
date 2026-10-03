@@ -1,0 +1,47 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "skill"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ":"
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "agent"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": ":"
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [],
+  "qualification": "Required externally visible protocol/schema/format/prompt/regex/numeric/static data and ordinary idioms retained honestly; generic placeholders omit target private expression identifiers. No private helper body/name/decomposition prescribed, no novelty/grant claim."
+}

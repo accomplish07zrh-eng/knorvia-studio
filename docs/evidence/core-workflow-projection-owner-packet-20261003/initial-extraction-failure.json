@@ -1,0 +1,5 @@
+{
+  "failure": "ENOENT apps/cli/packages/core/src/package.json",
+  "stage": "dependency package binding after four scopes generated, no frozen author delivery or target edits",
+  "correction": "Use actual core package.json outside src. Partial artifacts not accepted; corrected pre-freeze extraction replaces generated outputs. Whole initial script retained."
+}

@@ -1,0 +1,41 @@
+{
+  "baseline": "ee44306130f36450d3450618badcd21d05f115b6",
+  "scopes": {
+    "bridge": {
+      "source": "apps/cli/packages/core/src/mcp/index.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/mcp/index.ts",
+        "bytes": 16207,
+        "lines": 410,
+        "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58"
+      },
+      "inputs": []
+    },
+    "image": {
+      "source": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+        "bytes": 14567,
+        "lines": 412,
+        "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032"
+      },
+      "inputs": []
+    }
+  },
+  "allocation": "Root explicitly allocates MCP bridge/index and image-normalization only at matching exact hashes; bounded root evidence search found migration inventory only, no accepted review.",
+  "protectedHelpers": [
+    "apps/cli/packages/core/src/mcp/name.ts",
+    "apps/cli/packages/core/src/mcp/windows-computer-use.ts",
+    "apps/cli/packages/core/src/mcp/result-format.ts",
+    "apps/cli/packages/core/src/tool/registry.ts",
+    "apps/cli/packages/core/src/tool/tool-visibility.ts"
+  ],
+  "holds": [
+    "read-file-state-hydrator root/local divergence retained",
+    "runtime-task/registry held",
+    "A subagent/profile+runner separately reserved",
+    "root desktop exclusively owned"
+  ],
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21
+}

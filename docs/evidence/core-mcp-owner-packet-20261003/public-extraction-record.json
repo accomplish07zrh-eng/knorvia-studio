@@ -1,0 +1,185 @@
+{
+  "typescript": "6.0.2",
+  "declarations": [
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/mcp.port.ts",
+      "bytes": 11815,
+      "lines": 311,
+      "sha256": "f3897c5da4c6cb0c1c47ddf386d90e03e17d5d6974d699dec0a4a10176ed5479",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "lines": 483,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "lines": 1061,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "diagnostics": [
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/permission.port.ts",
+      "bytes": 4192,
+      "lines": 114,
+      "sha256": "3c4789346a4388a4d5bcceb5fc8598df02fb8b69222878b626c8e2533da59b6d",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session.port.ts",
+      "bytes": 11631,
+      "lines": 366,
+      "sha256": "58c1bf4b65a50097ca68a75b41b311580339b06a99a4026d2b2fab2dce1d3391",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "lines": 246,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/tool-artifact-store.port.ts",
+      "bytes": 4252,
+      "lines": 141,
+      "sha256": "8afdc7118071c49a416cd44ec56eab189ee1bdf802a3af48065b8b9ddfa574c8",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/image-processor.port.ts",
+      "bytes": 2122,
+      "lines": 87,
+      "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry.ts",
+      "bytes": 3194,
+      "lines": 89,
+      "sha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/tool-visibility.ts",
+      "bytes": 1326,
+      "lines": 39,
+      "sha256": "b6e6ea34bf76fbbcc30124074b40fc9c7376efc686b1fc3c1740b2a1a790f5ad",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/name.ts",
+      "bytes": 1083,
+      "lines": 35,
+      "sha256": "087d6921527aed0e51325efa1c5a1e832e87c1cce2992ea1e7e54e86fff22c75",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/windows-computer-use.ts",
+      "bytes": 3113,
+      "lines": 85,
+      "sha256": "1295971b4137fd961e97250980f991dc2014148855320882eab0a4b5ca8ed49c",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/result-format.ts",
+      "bytes": 4602,
+      "lines": 120,
+      "sha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/cua/frame-contract.d.ts",
+      "bytes": 1245,
+      "lines": 30,
+      "sha256": "85f4b60b72fbd25b10a982e97837411ac4243b937f3b8dafb05abb8f6a2f7f12",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/mcp.ts",
+      "bytes": 13136,
+      "lines": 374,
+      "sha256": "cad82a46c8ae59c6314f641de2b8d5e35f753f4228c5e82cdec786df7e99cc67",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "bytes": 14567,
+      "lines": 412,
+      "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 16207,
+      "lines": 410,
+      "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "qualifications": {
+    "bridge": [
+      {
+        "name": "McpToolOutputJsonSchema",
+        "raw": "JsonSchema with original TS9010 and omitted declaration import",
+        "qualified": "JsonSchema unchanged",
+        "basis": "Keep frozen declared JsonSchema public type; annotate source export explicitly to avoid isolated inference diagnostic. Exact original schema initializer topology retained. Public-shapes supplies original type owner, raw import omission remains qualified, no semantic/project closure claim."
+      }
+    ],
+    "image": [
+      {
+        "name": "MCP_IMAGE_INLINE_RAW_BYTES",
+        "raw": "any with original isolated diagnostic",
+        "qualified": "number",
+        "basis": "Public Math.floor numeric expression; exact expression retained in public-data.json, not an inferred grant or standalone semantic claim."
+      },
+      {
+        "name": "MCP_IMAGE_INLINE_BASE64_BYTES",
+        "raw": "number with original isolated numeric expression diagnostic",
+        "qualified": "number unchanged",
+        "basis": "Explicit source number annotation; exact numeric expression preserved."
+      }
+    ]
+  },
+  "metadataOnlyOutsideCoreFiles": 610,
+  "qualification": "Whole target bodies read by source-exposed curator. Public-port discovery showed public declaration slices; registry slice incidentally included first3 class-body lines. Missing guessed plugins dirs recorded, resolved via metadata to packages/cua public types. Remaining dependency declarations mechanically extracted from full bytes without runtime/body display. Original raw target/dependency diagnostics retained; qualified export types from exact literal topology/numeric expressions, no standalone semantic closure assertion. Prior wider source/tool/dependency exposure, full earlier MCP name/windows/result bodies and repaired extra scratch-write breach remain. Shared executor instruction-only/no OS isolation or access audit. Ordinary checks deferred; prior missing-TypeScript architecture failure retained, not repeated."
+}

@@ -1,0 +1,191 @@
+{
+  "baseline": "c976764dd27fd89ec598967c361b57592067c01a",
+  "reservedDirectories": [
+    "apps/cli/packages/core/src/model",
+    "apps/cli/packages/core/src/context",
+    "apps/cli/packages/core/src/session-context"
+  ],
+  "inventory": [
+    {
+      "path": "apps/cli/packages/core/src/context/builder.ts",
+      "bytes": 9031,
+      "lines": 276,
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "priorExactDraftRecords": [
+        {
+          "manifest": "docs/evidence/core-context-provider-author-packet-20261003/builder/curator-draft-manifest.json",
+          "bytes": 9031,
+          "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+          "currentExact": true
+        }
+      ],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/dynamic-sections.ts",
+      "bytes": 8600,
+      "lines": 130,
+      "sha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/index.ts",
+      "bytes": 836,
+      "lines": 17,
+      "sha256": "71f8b7a8999286720e0ece4bb2c0a950767b939ba9d3269c82cd995d5239505f",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/cli-prefix.ts",
+      "bytes": 672,
+      "lines": 23,
+      "sha256": "065761eae50b2947074001c4ace5dad66e072cee279716645bd5b3e238538a0f",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/current-date.ts",
+      "bytes": 715,
+      "lines": 25,
+      "sha256": "a0e7ab21a68bc0c541335a8272a1a0b62268f5bce387f4a7331ab1102778c788",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/desktop.ts",
+      "bytes": 1861,
+      "lines": 43,
+      "sha256": "058ae4cf49544656e23d17627a943112e04299be9107c708520d9fc3820fef3c",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "bytes": 4233,
+      "lines": 129,
+      "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/identity.ts",
+      "bytes": 2838,
+      "lines": 55,
+      "sha256": "9f5d27ad3b84109605933144ec83ffe060149e072636ea2923e96a65f20d2752",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/memory.ts",
+      "bytes": 2725,
+      "lines": 50,
+      "sha256": "3af27495b85c9f189ded350a030beba4442711fad4b35267a91a7f2209ae018d",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "bytes": 2917,
+      "lines": 96,
+      "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d",
+      "priorExactDraftRecords": [
+        {
+          "manifest": "docs/evidence/core-context-provider-author-packet-20261003/request/curator-draft-manifest.json",
+          "bytes": 2882,
+          "sha256": "b212bcddab0c3133fc3d57df5290661af1df5a42830fe0b3578562e764bbcd20",
+          "currentExact": false
+        },
+        {
+          "manifest": "docs/evidence/core-context-provider-author-packet-20261003/request/v2/curator-draft-manifest.json",
+          "bytes": 2917,
+          "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d",
+          "currentExact": true
+        }
+      ],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "bytes": 2431,
+      "lines": 76,
+      "sha256": "7dce62317af0d505202e7cbeb58c59d814542c273138cd4348829dc458bb8b9a",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/workflow-actor.ts",
+      "bytes": 5146,
+      "lines": 82,
+      "sha256": "cda74358974a3eb5aedca11a9d326ed12e0681b050fe6db08cbd81ff354020f4",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/types.ts",
+      "bytes": 4827,
+      "lines": 139,
+      "sha256": "5b61dcdc241dc8267c3fac04ef686a8011b475a461cb1245ede7a0d4cf9a0df6",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/utils.ts",
+      "bytes": 733,
+      "lines": 18,
+      "sha256": "f2d296821e4ae80510145151a6de3027f55ce548be269e6709fe1de1425eac68",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "bytes": 549,
+      "lines": 14,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/parts.ts",
+      "bytes": 3496,
+      "lines": 102,
+      "sha256": "963f0a85f5fdef0bb0fd3d981cf5e6d493f8f1728cf8f43b21cff7aac7c94d14",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "bytes": 11784,
+      "lines": 379,
+      "sha256": "77d802aba4d476812736b84b25991e2c1abb4005d37fbc377c5a2bc188f6c1f6",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/references.ts",
+      "bytes": 1147,
+      "lines": 25,
+      "sha256": "d6ed061730ee6f315c59ca1e4f46990a613dc8e86e0eae16a1e9ad9adc2408b1",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/utils.ts",
+      "bytes": 369,
+      "lines": 13,
+      "sha256": "a472c6b1ebb04e38d9f7abbaf65b651f8e7c400b1020bd8a0ad2b12c9a71ef71",
+      "priorExactDraftRecords": [],
+      "bodyReadForThisInventory": false
+    }
+  ],
+  "qualification": "Bounded exact target-path searches of complete draft manifests only; current-exact drafts require integration record confirmation; dependency/boundary mentions do not count as completion. Metadata-only reads now, earlier broader source/tool/dependency exposure qualified. No target implementation body reviewed in this pass yet.",
+  "excluded": "A runtime/methods and streaming scopes untouched; completed helpers/fixed schemas/configuration/facades skipped. Up to5 substantive eligible owners after screening; no forced count.",
+  "ordinaryChecksDeferred": true,
+  "savedFast": "unchanged/unverified",
+  "materialObligationsRemaining": 21,
+  "priorScratchWriteBreach": "Earlier changes-v2 extra scratch accountingfile write repaired beforefreeze and candidly retained with original/corrected lineage; no access-audit assertion",
+  "rootDesktopStatus": "Parent implementing allocated IPC/remote packet; E does not implement or inspect other-lane current source",
+  "inventoryAssemblerFailure": "Initial list-only iteration encountered a string in historical heterogeneous files shape: AttributeError str has no get; failed before reservation write. Corrected recursive metadata-record traversal; no source body rendered or mutation.",
+  "utc": "2026-10-02T21:22:56.856922+00:00"
+}

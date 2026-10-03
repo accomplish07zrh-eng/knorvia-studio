@@ -1,0 +1,108 @@
+{
+  "baseline": "8fa02c683de03f4e82e3985000c42f711d2f438c",
+  "sourceExposedCurator": true,
+  "rootExposure": "No deliberate target-body read reported in this pass; broad prior context/generic tooling exposure possible",
+  "instructionOnlyRestrictions": true,
+  "sourceBindings": [
+    {
+      "path": "packages/client/src/messageport.ts",
+      "bytes": 2019,
+      "sha256": "e268c3a852fe9d2bf4efbd4c45cd04d5d904ea930faa8b5d2e75e0d72dcfe2ad"
+    },
+    {
+      "path": "packages/client/src/websocket.ts",
+      "bytes": 2601,
+      "sha256": "cb7d95f56245135644084cd76d5a99e49cb7e472d416ed00d529681f6b368ceb"
+    },
+    {
+      "path": "packages/client/src/remoteServiceAccess.ts",
+      "bytes": 7987,
+      "sha256": "5b81ec7b9e083234a3ad48ba88c644feba91af72b5bb664b00f65a2854f97b00"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/contract.md",
+      "bytes": 6051,
+      "sha256": "641ba24daa41cb64d3d1fb89d451654e4a86dbea422e76fa2b78796d5bf198c1"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 2868,
+      "sha256": "f7dae41f76de762e68b4610b9a29c896e64221e2bc729f5cbf1fbfb1718b96a6"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/error-text.json",
+      "bytes": 419,
+      "sha256": "498e50efc9c315fcabd5e6790f8114fbe99517257cbfce026eb16d05413dd1e0"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/messageport-public-api.d.ts",
+      "bytes": 373,
+      "sha256": "af817c320a7de54f7044835506f05c4330baf885ebf16459d956fdb95f011dc9"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/remoteServiceAccess-public-api.d.ts",
+      "bytes": 2632,
+      "sha256": "097ae6ebae414a3389c71cf2065c6cbf9f7839498998a11b32b7d1ec0346c83a"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/service-accessor-api.d.ts",
+      "bytes": 4039,
+      "sha256": "8598d591108080a895f03404a7e4a25c29d99f2a85544bb4075d268064218138"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/service-bindings.json",
+      "bytes": 5457,
+      "sha256": "48008411a66df617c71ee5c0390d378663457e49b985e41f0a144fcb6981feab"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/websocket-public-api.d.ts",
+      "bytes": 616,
+      "sha256": "96b9f413d1e5958692e81cba69f72b08a75a37656c3cd47117cf42fa44764db4"
+    }
+  ],
+  "diagnosticQualification": "Target declaration extraction succeeded. Dependency-only isolated declaration extraction reported TS9012 for inferred event fields (ChannelClient and protocol); bounded event types are handwritten from Emitter public declarations, not claimed compiler project acceptance. No ordinary tests or builds run.",
+  "publicDependencySourceBindings": [
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "bytes": 8369,
+      "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac"
+    },
+    {
+      "path": "packages/rpc/src/protocol.ts",
+      "bytes": 12702,
+      "sha256": "1c26b9adb7edf661aa7ec9347aa009bd9fcb29b98e07ccf606714fe9ae018d56"
+    },
+    {
+      "path": "packages/rpc/src/foundation.ts",
+      "bytes": 6812,
+      "sha256": "84ccf6231582d652bb30facc7c525279f927d3ba26fb315ac8c377e43acd87d8"
+    },
+    {
+      "path": "packages/rpc/src/buffer.ts",
+      "bytes": 2423,
+      "sha256": "6bc6a44e6abd088f72d57616d9556d78ce078b6f3813bf75402dde386781492c"
+    },
+    {
+      "path": "packages/rpc/src/channels.shared.ts",
+      "bytes": 1723,
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2"
+    },
+    {
+      "path": "packages/rpc/src/proxy-channel.ts",
+      "bytes": 7059,
+      "sha256": "1f81da70701f1ae95856c3a94abca456fd8352e7860013609d19f567bfdc94fb"
+    },
+    {
+      "path": "packages/services/src/accessor.ts",
+      "bytes": 4550,
+      "sha256": "0ecceb85fe775877677020a6664a74581997201eaacb53ce857272d21aef03a7"
+    },
+    {
+      "path": "packages/client/src/rendererLoggingEnv.ts",
+      "bytes": 457,
+      "sha256": "54591d352687ba947be0bad8e9908005145c629c7673597d5f3ccb6acd334827"
+    }
+  ]
+}

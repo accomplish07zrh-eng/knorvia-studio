@@ -1,0 +1,167 @@
+[
+  {
+    "property": "creationService",
+    "descriptor": "ICreationService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "studioRuntimeService",
+    "descriptor": "IStudioRuntimeService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "fileService",
+    "descriptor": "IFileService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "mediaPreviewService",
+    "descriptor": "IMediaPreviewService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "gitService",
+    "descriptor": "IGitService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "gitCheckpointService",
+    "descriptor": "IGitCheckpointService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "systemService",
+    "descriptor": "ISystemService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "terminalService",
+    "descriptor": "ITerminalService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "settingService",
+    "descriptor": "ISettingService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "onboardingRecordService",
+    "descriptor": "IOnboardingRecordService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "credentialService",
+    "descriptor": "ICredentialService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "broadcastService",
+    "descriptor": "IBroadcastService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "taskService",
+    "descriptor": "IKnorviaTaskService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "windowControllerService",
+    "descriptor": "IWindowControllerService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "agentService",
+    "descriptor": "IKnorviaAgentService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "sessionService",
+    "descriptor": "IKnorviaSessionService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "cuaPermissionService",
+    "descriptor": "ICuaPermissionService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "fileWatcherService",
+    "descriptor": "IFileWatcherService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "providerSettingsService",
+    "descriptor": "IProviderSettingsService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "modelSelectionService",
+    "descriptor": "IModelSelectionService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "usageStatsService",
+    "descriptor": "IUsageStatsService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "skillsService",
+    "descriptor": "ISkillsService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "skillSyncService",
+    "descriptor": "ISkillSyncService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "mcpSyncService",
+    "descriptor": "IMcpSyncService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "pluginSyncService",
+    "descriptor": "IPluginSyncService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "pluginsService",
+    "descriptor": "IPluginsService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "pluginManagementService",
+    "descriptor": "IPluginManagementService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "subagentsService",
+    "descriptor": "ISubagentsService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "commandsService",
+    "descriptor": "ICommandsService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "hooksService",
+    "descriptor": "IHooksService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "memoryService",
+    "descriptor": "IMemoryService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "settingsSyncService",
+    "descriptor": "ISettingsSyncService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  },
+  {
+    "property": "promptAttachmentTransferService",
+    "descriptor": "IPromptAttachmentTransferService",
+    "channelName": "Read existing descriptor.channelName at construction time"
+  }
+]

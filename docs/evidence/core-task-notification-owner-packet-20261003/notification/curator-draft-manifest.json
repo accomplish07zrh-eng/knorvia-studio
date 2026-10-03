@@ -1,0 +1,24 @@
+{
+  "scope": "notification",
+  "files": [
+    {
+      "file": "notification.ts.txt",
+      "target": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "bytes": 13292,
+      "lines": 252,
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b",
+      "scratch": "/tmp/knorvia-task-notification-owner-20261003/notification.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 13918,
+      "lines": 213,
+      "sha256": "7d2dc8bde82c3782a781b18f401743523ef3cdf2070fcf28c2382eb42fb1f202",
+      "scratch": "/tmp/knorvia-task-notification-owner-20261003/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole original draft and full receipt archived before body review. Author self-report/instruction-only executor/source-exposed curator qualifications retained, no source correction by curator."
+}

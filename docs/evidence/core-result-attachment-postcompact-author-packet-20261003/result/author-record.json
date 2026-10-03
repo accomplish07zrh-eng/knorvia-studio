@@ -1,0 +1,247 @@
+{
+  "record_kind": "complete_contract_only_owner_author_record",
+  "record_version": 1,
+  "scope": "tool-result complete owner, single source file",
+  "input_freeze_id": "freeze95edef01",
+  "source": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/output/tool-result.ts",
+    "bytes": 3458,
+    "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+    "line_count": 130,
+    "encoding": "UTF-8",
+    "final_newline": true
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/contract.md",
+      "bytes": 5363,
+      "sha256": "a5ac67447ebb89d59f182e7ee201fc99828445fe6e17b4e4a5d117bc19db2985",
+      "line_count": 21,
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/public-api.d.ts",
+      "bytes": 1211,
+      "sha256": "debf50728585c226c41d39f0852086969ccd2ac3f5cf8259561cf6c738cd4f81",
+      "line_count": 29,
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/dependency-api.d.ts",
+      "bytes": 361,
+      "sha256": "3956e5decb37b71232fb3c38acc90048f6462ef4c38ca6f06619ff9a216495d5",
+      "line_count": 4,
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/public-shapes.d.ts",
+      "bytes": 2218,
+      "sha256": "bf74a2ba123c739419b72583f53009c47ef8d75a6b7160f1cd138109f3537b97",
+      "line_count": 52,
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/imports.json",
+      "bytes": 343,
+      "sha256": "a3bf2258e6fdf0982aac84a109dce9dfd2edaa6ed4736ef9975944292edc23a1",
+      "line_count": 14,
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/output-data.json",
+      "bytes": 1417,
+      "sha256": "90653d5358c8c50dcda9c115ac2ff9b5d3e76cc28a7e077cc23604a271f6f374",
+      "line_count": 85,
+      "read_count": 1
+    }
+  ],
+  "configuration": {
+    "requested_model": "gpt-6.1-sol",
+    "requested_reasoning_effort": "high",
+    "requested_fork": "none",
+    "configuration_basis": "Parent delegation and frozen contract instructions; execution interface does not independently attest model, reasoning configuration, fork isolation, or service tier.",
+    "saved_fast": "Requested unchanged; not read, modified, verified, or controllable from this interface.",
+    "runtime_dependency_bodies": "Not supplied, not read, not recreated; authority remains at original owners."
+  },
+  "exact_reads": {
+    "content_reads_completed_before_receipt": [
+      {
+        "ordinal": 1,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/contract.md",
+        "kind": "full byte read; UTF-8 decoded into tool output; simultaneous hash/byte/line accounting"
+      },
+      {
+        "ordinal": 2,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/public-api.d.ts",
+        "kind": "full byte read; UTF-8 decoded into tool output; simultaneous hash/byte/line accounting"
+      },
+      {
+        "ordinal": 3,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/dependency-api.d.ts",
+        "kind": "full byte read; UTF-8 decoded into tool output; simultaneous hash/byte/line accounting"
+      },
+      {
+        "ordinal": 4,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/public-shapes.d.ts",
+        "kind": "full byte read; UTF-8 decoded into tool output; simultaneous hash/byte/line accounting"
+      },
+      {
+        "ordinal": 5,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/imports.json",
+        "kind": "full byte read; UTF-8 decoded into tool output; simultaneous hash/byte/line accounting"
+      },
+      {
+        "ordinal": 6,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/input/output-data.json",
+        "kind": "full byte read; UTF-8 decoded into tool output; simultaneous hash/byte/line accounting"
+      },
+      {
+        "ordinal": 7,
+        "path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/output/tool-result.ts",
+        "kind": "full byte read of own just-written output for SHA-256/byte/line accounting"
+      }
+    ],
+    "post_freeze_accounting_reads": "Only own tool-result.ts and author-record.json will be read to report final SHA-256/bytes/lines; output file and directory modes will be inspected. These prospective final accounting reads are explicitly distinguished from the completed reads above.",
+    "other_content_reads": [],
+    "metadata_access_scope": "Assigned output directory creation and own file/directory mode accounting only.",
+    "execution_tools": "Two scoped Python scripts through exec_command: six authorized input reads; own output write/read/hash/mode/time accounting. No repository traversal or discovery."
+  },
+  "chosen_structure": {
+    "description": "Nine exported functions in public API order, with one private isRecord predicate adjacent to error classification. Branches remain direct to retain repeated live property observations and native short-circuit order.",
+    "private_functions": [
+      "isRecord"
+    ],
+    "exported_functions": [
+      "emptyTokenUsageInfo",
+      "toTokenUsageInfo",
+      "toRecordInput",
+      "stringifyToolResultOutput",
+      "modelContentForToolResult",
+      "isErrorForToolResult",
+      "stringifyForEstimation",
+      "parseMcpToolName",
+      "findParallelGroupIndex"
+    ],
+    "runtime_imports": [
+      {
+        "module": "../deps.js",
+        "binding": "modelMessageContentToText"
+      },
+      {
+        "module": "../../tool/handlers/bash-model-content.js",
+        "binding": "isBashOutputProviderError"
+      }
+    ],
+    "type_imports": {
+      "module": "../deps.js",
+      "bindings": [
+        "ModelMessageContent",
+        "ToolCallId",
+        "ToolSchedule",
+        "ToolExecutionResult"
+      ]
+    },
+    "new_entry_exports": false,
+    "reexports": false,
+    "persistent_state": false,
+    "new_grants": false,
+    "logging": false
+  },
+  "retained_expression": {
+    "qualification": "Required API, schema, protocol strings, constants, and ordinary expressions are retained to satisfy the contract. No novelty, originality, provenance beyond these inputs, or license/rights grant is claimed.",
+    "expressions": [
+      "ReturnType<typeof toTokenUsageInfo>",
+      "usage?.totalTokens",
+      "usage?.inputTokens ?? 0",
+      "usage?.outputTokens ?? 0",
+      "usage?.reasoningTokens ?? 0",
+      "usage?.cacheReadTokens ?? 0",
+      "usage?.cacheWriteTokens ?? 0",
+      "input && typeof input === \"object\" && !Array.isArray(input)",
+      "result.modelContent !== undefined",
+      "typeof result.modelContent === \"string\"",
+      "modelMessageContentToText(result.modelContent)",
+      "!result.success && result.error?.message",
+      "JSON.stringify(result.output) ?? \"\"",
+      "result.output.isError ?? result.output.is_error",
+      "result.toolName === \"Bash\" && typeof result.output.interrupted === \"boolean\"",
+      "isBashOutputProviderError(result.output)",
+      "typeof value === \"object\" && value !== null && !Array.isArray(value)",
+      "JSON.stringify(value)",
+      "json ?? String(value)",
+      "name.startsWith(\"mcp__\")",
+      "name.split(\"__\")",
+      "toolParts.join(\"__\")",
+      "schedule.parallelGroups.findIndex((group) => group.includes(toolCallId))"
+    ],
+    "literal_data": "Import paths, object/string/boolean type tags, empty strings, Bash, mcp__, __, and zero numeric literals retained exactly where required; no regex introduced.",
+    "external_constants": {
+      "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+      "READ_IMAGE_TARGET_BYTES": 3932160,
+      "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+      "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+    },
+    "external_constants_qualification": "These frozen data values are accounted for here only. None is used by the nine-function contract, so no extra source constants, imports, features, or exports are introduced.",
+    "prose_qualification": "Frozen contract/declaration/data qualifications remain authoritative. No implementation prose requirement was identified beyond retaining semantics and required literal data."
+  },
+  "manual_contract_assessment": {
+    "method": "Static manual reasoning from exactly six authorized inputs and the authored text; no compiler, execution, mocks, tests, lint, build, dependency inspection, or runtime claim.",
+    "emptyTokenUsageInfo": "Fresh object with own input/output/reasoning zero and fresh cache read/write zero. No total own field. ReturnType signature retained.",
+    "toTokenUsageInfo": "Own total included even when undefined. Reads total,input,output,reasoning,cacheRead,cacheWrite in prescribed order. Nullish zero defaults preserve negative and other non-nullish values. No derived total; fresh nested cache.",
+    "toRecordInput": "Truthy nonarray objects, including nonplain instances, return the same reference with a type cast. All other inputs return a fresh object with own value, including undefined.",
+    "stringifyToolResultOutput": "Present modelContent reread for type, then reread for return or opaque delegate; null/nonstring native delegate behavior untouched. Failure and error message short-circuit before output. Output reread for type/return/undefined/JSON in prescribed branches. JSON and getter/delegate failures propagate without catch.",
+    "modelContentForToolResult": "Present modelContent reread and returned unchanged by identity; otherwise own stringifyToolResultOutput called.",
+    "isErrorForToolResult": "Failure returns true before output observation. Private record check uses typeof object, nonnull, nonarray. Explicit camel/snake nullish reads retained; boolean false returned and nonboolean camel blocks snake lookup. Bash and interrupted boolean guard precedes opaque provider call; true provider result returns true, otherwise interrupted is reread. No general classifier or text heuristics.",
+    "stringifyForEstimation": "JSON serialization and first String fallback stay inside try. Catch invokes String again, whose failure escapes; native toJSON/cycle/BigInt/conversion behavior preserved.",
+    "parseMcpToolName": "Exact prefix check and split/destructure; missing server or zero tool parts rejected. Empty final tool part accepted; remaining separators preserved in join; fresh returned object.",
+    "findParallelGroupIndex": "Direct native findIndex/includes delegation on original receivers, preserving native ordering, holes, result index/-1, and exceptions.",
+    "api_imports_identity": "Exactly nine function exports, original imports retained. No dependency implementation, reexports, alternate authority, copies of delegate inputs, or invented collaborator.",
+    "source_size": "Authored source is below the 400-line limit.",
+    "limitations": "No compilation or runtime validation was performed or claimed; fragments retain original owner authority and are not asserted standalone compilation units."
+  },
+  "restrictions": {
+    "content_scope": "Only six named frozen input files and own output content.",
+    "prohibited_content": [
+      "repository",
+      "git",
+      "history",
+      "reviews",
+      "tests",
+      "predecessor",
+      "dependency bodies",
+      "other-author output",
+      "network",
+      "private data",
+      "user data",
+      "credentials"
+    ],
+    "prohibited_operations": [
+      "compiler",
+      "tests",
+      "lint",
+      "build",
+      "mocks",
+      "actual provider actions",
+      "actual store actions",
+      "filesystem or OS actions beyond explicitly authorized scoped scratch read/write/hash/line/mode/time accounting"
+    ],
+    "shared_executor": "Instruction-only restriction; no OS isolation, access audit proof, separate executor guarantee, or denial of preexisting broader context is claimed.",
+    "curator_and_prior_context": "A source-exposed curator and prior broader context are qualified as such, not treated as body-unexposed independent provenance or a proof of isolation. This author did not read curator material, predecessor source, other-author source, or dependency bodies during this task.",
+    "frozen_input_mutation": false,
+    "own_output_permissions": "0444 files and 0555 assigned output directory before curator body review."
+  },
+  "breaches": [],
+  "questions": [],
+  "remaining_blockers": [],
+  "freeze": {
+    "freeze_utc": "2026-10-02T21:00:00.324987Z",
+    "timestamp_semantics": "UTC sampled immediately before receipt serialization and requested chmod operations; final modes verified and reported separately after freezing.",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "receipt_path": "/tmp/knorvia-result-attachment-postcompact-20261003/result/output/author-record.json",
+    "output_directory": "/tmp/knorvia-result-attachment-postcompact-20261003/result/output",
+    "review_order": "Freeze both files and assigned output directory before handing source to curator body review.",
+    "self_hash": "Receipt does not embed its own hash; its final exact hash/bytes/lines are reported externally after freezing."
+  }
+}

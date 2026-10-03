@@ -1,0 +1,299 @@
+{
+  "baseline": "13e0877680cba7f10e0817910b77a4da5915cf6f",
+  "inventory": {
+    "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+    "bytes": 312065,
+    "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137"
+  },
+  "currentOriginInventory": {
+    "path": "licensing/current-files.json",
+    "bytes": 8812184,
+    "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e"
+  },
+  "reviewInventory": {
+    "path": "licensing/reviews.json",
+    "bytes": 2891968,
+    "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc"
+  },
+  "existingToolRows": 233,
+  "inventoryFlags": {
+    "upstream-unchanged": 45,
+    "upstream-modified": 98,
+    "independent-replacement": 90
+  },
+  "excludedIndependentFlags": {
+    "count": 90,
+    "paths": [
+      "apps/cli/packages/core/src/tool/executor/approval/ask-projection.ts",
+      "apps/cli/packages/core/src/tool/executor/approval/responder-choice.ts",
+      "apps/cli/packages/core/src/tool/executor/approval-gate.ts",
+      "apps/cli/packages/core/src/tool/executor/bash-result-display.ts",
+      "apps/cli/packages/core/src/tool/executor/batch-runner.ts",
+      "apps/cli/packages/core/src/tool/executor/batches/execution-ledger.ts",
+      "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "apps/cli/packages/core/src/tool/executor/create-workflow-display.ts",
+      "apps/cli/packages/core/src/tool/executor/deadline/budget-ledger.ts",
+      "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
+      "apps/cli/packages/core/src/tool/executor/deadline/pausable-deadline.ts",
+      "apps/cli/packages/core/src/tool/executor/display/computer-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/diff-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/mcp-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/repl-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/task-cards.ts",
+      "apps/cli/packages/core/src/tool/executor/display-text.ts",
+      "apps/cli/packages/core/src/tool/executor/errors.ts",
+      "apps/cli/packages/core/src/tool/executor/hook-decisions.ts",
+      "apps/cli/packages/core/src/tool/executor/hook-envelope.ts",
+      "apps/cli/packages/core/src/tool/executor/hook-flow.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/admission.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/identity.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/outcome.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-capability.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/assessment.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/observations.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/plan-driver.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/plan.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/publication.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/refusals.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/responders.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-grants.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-input-recheck.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-responder-race.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-rules-persistence.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-rules.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-suggestions.ts",
+      "apps/cli/packages/core/src/tool/executor/result/artifact-result.ts",
+      "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts",
+      "apps/cli/packages/core/src/tool/executor/result/hook-result.ts",
+      "apps/cli/packages/core/src/tool/executor/result/model-content.ts",
+      "apps/cli/packages/core/src/tool/executor/result/protected-frame.ts",
+      "apps/cli/packages/core/src/tool/executor/result/serialization-policy.ts",
+      "apps/cli/packages/core/src/tool/executor/result/structured-content.ts",
+      "apps/cli/packages/core/src/tool/executor/result-content-projection.ts",
+      "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "apps/cli/packages/core/src/tool/executor/result-serialization.ts",
+      "apps/cli/packages/core/src/tool/executor/timeout.ts",
+      "apps/cli/packages/core/src/tool/executor/validation.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/analysis-card.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/policy.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts",
+      "apps/cli/packages/core/src/tool/handlers/node-repl-model-content.ts",
+      "apps/cli/packages/core/src/tool/handlers/node-repl.ts",
+      "apps/cli/packages/core/src/tool/input-normalization.ts",
+      "apps/cli/packages/core/src/tool/input-validation-model-content.ts",
+      "apps/cli/packages/core/src/tool/json-schema.ts",
+      "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "apps/cli/packages/core/src/tool/registry/name-ledger.ts",
+      "apps/cli/packages/core/src/tool/registry.ts",
+      "apps/cli/packages/core/src/tool/repl/artifacts.ts",
+      "apps/cli/packages/core/src/tool/repl/browser-observations.ts",
+      "apps/cli/packages/core/src/tool/repl/description.ts",
+      "apps/cli/packages/core/src/tool/repl/output.ts",
+      "apps/cli/packages/core/src/tool/repl/session-registry.ts",
+      "apps/cli/packages/core/src/tool/result-persistence-format.ts",
+      "apps/cli/packages/core/src/tool/runtime-schema.ts",
+      "apps/cli/packages/core/src/tool/scheduler/capability-policy.ts",
+      "apps/cli/packages/core/src/tool/scheduler/dependency-plan.ts",
+      "apps/cli/packages/core/src/tool/scheduler/parallel-layers.ts",
+      "apps/cli/packages/core/src/tool/scheduler.ts",
+      "apps/cli/packages/core/src/tool/schema-validation/constraints.ts",
+      "apps/cli/packages/core/src/tool/schema-validation/frame.ts",
+      "apps/cli/packages/core/src/tool/schema-validation/machine.ts",
+      "apps/cli/packages/core/src/tool/tool-input-validation-issues.ts",
+      "apps/cli/packages/core/src/tool/validation-display/identity.ts",
+      "apps/cli/packages/core/src/tool/validation-display/issue-json.ts",
+      "apps/cli/packages/core/src/tool/validation-display/order.ts",
+      "apps/cli/packages/core/src/tool/validation-display/projection.ts",
+      "apps/cli/packages/core/src/tool/validation-display/runtime.ts",
+      "apps/cli/packages/core/src/tool/validation-display/text.ts",
+      "apps/cli/packages/core/src/tool/validation-issues/description.ts",
+      "apps/cli/packages/core/src/tool/validation-issues/protocol.ts",
+      "apps/cli/packages/core/src/tool/validation-issues/write.ts"
+    ],
+    "qualification": "90 existing independent flags excluded; flags alone do not grant rights or prove final acceptance. Additional root accepted/current candidates may be absent from this saved lane and require exact root confirmation."
+  },
+  "excludedReservations": [
+    "A permission/trust/runtime/executor/turn/subagent/model/task admission and task-output controls",
+    "G adapters/native/external IO: bash/read/edit/write/glob/grep/webfetch/websearch and policy/state helpers",
+    "E notification currently allocated; registry root accepted/local older retained; hydration/MCP/current E candidates; root desktop"
+  ],
+  "exactPathMetadataSearch": {
+    "paths": [
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts"
+    ],
+    "scope": "docs/evidence and licensing/evidence JSON only, fixed-string filenames; no tool bodies, history, runtime or external/private material",
+    "hits": [
+      {
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+        "bytes": 124793,
+        "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+        "bytes": 113643,
+        "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+        "bytes": 125559,
+        "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+        "bytes": 150856,
+        "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+        "bytes": 312065,
+        "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+        "bytes": 151153,
+        "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+        "bytes": 150813,
+        "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      },
+      {
+        "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+        "bytes": 151110,
+        "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+        "role": "Untouched boundary or broad metadata inventory only; not an exact owner acceptance/candidate"
+      }
+    ],
+    "exactCandidateTargetRecords": []
+  },
+  "shortlist": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 13438,
+      "sha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "lines": 284,
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "ledgerExactPriorSourceRecords": [],
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+        "blob": "a2ce00709d89ef68b88538487750ae11a6a6fbb1",
+        "normalizedSha256": "c08d9a1adda5448bd6e5b9aac0a6c24cf9b79d714ee1f79ec21750f88f6d5994",
+        "contentMatchedPaths": []
+      },
+      "proposal": "Root allocation screen only; name/size suggest projection or metadata parser, not implementation eligibility/novelty/rights conclusion. Whole public behavior and imported policy review required after root assigns."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "bytes": 14662,
+      "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+      "lines": 266,
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "ledgerExactPriorSourceRecords": [],
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "blob": "02d6bf1266a41348a8a028acc7a2ac3d94b105e2",
+        "normalizedSha256": "ba78f5d7e3d231723c7355efcc0debd5bace053150c5470b503ab2feea2ed885",
+        "contentMatchedPaths": []
+      },
+      "proposal": "Root allocation screen only; name/size suggest projection or metadata parser, not implementation eligibility/novelty/rights conclusion. Whole public behavior and imported policy review required after root assigns."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "bytes": 5753,
+      "sha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab",
+      "lines": 127,
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "ledgerExactPriorSourceRecords": [],
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+        "blob": "db4f6502ec88469f94d17e6626ac4592fc45c792",
+        "normalizedSha256": "4f45b966ec4aa9c3f34b71a3fe567d6c846187253f0d139360a106d4f6e79ba8",
+        "contentMatchedPaths": []
+      },
+      "proposal": "Root allocation screen only; name/size suggest projection or metadata parser, not implementation eligibility/novelty/rights conclusion. Whole public behavior and imported policy review required after root assigns."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "bytes": 9044,
+      "sha256": "b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0",
+      "lines": 179,
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "ledgerExactPriorSourceRecords": [],
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+        "blob": "a6949ce2f823a99b4e37fd540534497a2cd1b065",
+        "normalizedSha256": "e3c87570ac5b1085a1972728ff7536e617db0a7f10944733020a4b2a80c6e7c3",
+        "contentMatchedPaths": []
+      },
+      "proposal": "Root allocation screen only; name/size suggest projection or metadata parser, not implementation eligibility/novelty/rights conclusion. Whole public behavior and imported policy review required after root assigns."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "bytes": 5390,
+      "sha256": "e9a9113081afab46df9cb79bad8ea18b3897059efb58a7138c5987f8388ca2a5",
+      "lines": 131,
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "ledgerExactPriorSourceRecords": [],
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+        "blob": "21d525bbf30194d45300bc0613da88cb5fa0d18c",
+        "normalizedSha256": "a17682c4a54a30def88cb77823dbc7810eb2692c9b130b3bc4c958c7953d473b",
+        "contentMatchedPaths": []
+      },
+      "proposal": "Root allocation screen only; name/size suggest projection or metadata parser, not implementation eligibility/novelty/rights conclusion. Whole public behavior and imported policy review required after root assigns."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "bytes": 4416,
+      "sha256": "f53af315077d7553f40d98987bf30ecb20b3879ea8a94d68ec98553b431835ea",
+      "lines": 86,
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "ledgerExactPriorSourceRecords": [],
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+        "blob": "a540519ff4472caecaeaeb9404604aa0198e73e1",
+        "normalizedSha256": "484c3f314d2d573bde53d119c825d9fcf1ca42cd7cf2b6525c6666c1a7964f80",
+        "contentMatchedPaths": []
+      },
+      "proposal": "Root allocation screen only; name/size suggest projection or metadata parser, not implementation eligibility/novelty/rights conclusion. Whole public behavior and imported policy review required after root assigns."
+    }
+  ],
+  "passed": true,
+  "qualification": "Bounded metadata-only allocation shortlist, no new tool body review/implementation/packet/eligibility/license assertion. Hash/count source bytes without displaying/parsing bodies. Existing inventory90 excludes known accepted flags, selected paths have no local current review/candidate-target metadata. Root must confirm current branch/receipt/lane ownership and source hashes before allocation. All21 materials OPEN; no stale-private-file/Library403 bypass or root-source import."
+}

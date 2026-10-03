@@ -1,0 +1,47 @@
+{
+  "bindings": {
+    "format": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format-v2/get-workflow-run-format.ts.txt",
+      "bytes": 9541,
+      "sha256": "4789202a577547ba4630cfae3301cd40945f845727a327bde8e987467c038d2b",
+      "actualScope": "format-v2"
+    },
+    "projection": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/get-workflow-run-roster-output.ts.txt",
+      "bytes": 4491,
+      "sha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d",
+      "actualScope": "projection"
+    },
+    "frontmatter": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/frontmatter.ts.txt",
+      "bytes": 2909,
+      "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9",
+      "actualScope": "frontmatter"
+    },
+    "notes": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/workflow-script-notes.ts.txt",
+      "bytes": 2133,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "actualScope": "notes"
+    }
+  },
+  "groups": [
+    {
+      "scope": "format",
+      "name": "schema identity, exact block order/escaping/raw outcomes and original port dispatch",
+      "passed": true
+    },
+    {
+      "scope": "format",
+      "name": "uncertainty/empty optional phases and provider body-before-attribute preservation",
+      "passed": true
+    },
+    {
+      "scope": "format",
+      "name": "resumption/amend routing precedence and exact status/path prose",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Selective changed-format review runs only its three groups; default original review eight distinct groups (format3/projection2/frontmatter2/notes1), fake original schema/YAML/time/roster/provider/artifact ports and fictional data only; candidate isolated transpilation only, no predecessor/helper/policy execution, real workflows/agents/files/network/user data, project/semantic compile/suite/build/lint/source-emitted matrix or grant/license closure. Required public data retained honestly, not originality evidence."
+}

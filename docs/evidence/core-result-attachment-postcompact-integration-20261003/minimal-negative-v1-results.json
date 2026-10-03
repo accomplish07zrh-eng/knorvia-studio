@@ -1,0 +1,92 @@
+{
+  "kind": "Minimum synthetic validation/identity/privacy/data/error gates only",
+  "typescript": "6.0.2",
+  "sourceBindings": [
+    {
+      "scope": "result",
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3458,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e"
+    },
+    {
+      "scope": "changes",
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "bytes": 2969,
+      "sha256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06"
+    },
+    {
+      "scope": "image",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2185,
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097"
+    },
+    {
+      "scope": "reference",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3842,
+      "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47"
+    },
+    {
+      "scope": "postcompact",
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "bytes": 4263,
+      "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037"
+    }
+  ],
+  "results": [
+    {
+      "scope": "result",
+      "name": "Explicit model content retains identity/precedence; stringify failures propagate",
+      "passed": true
+    },
+    {
+      "scope": "result",
+      "name": "False explicit error flag wins; Bash classification requires boolean interruption",
+      "passed": true
+    },
+    {
+      "scope": "changes",
+      "name": "First before-content and record/Set identity survive repeated writes; summary excludes content",
+      "passed": true
+    },
+    {
+      "scope": "changes",
+      "name": "Undefined after-content uses fallback; timed-out diff yields zero and thrown errors escape",
+      "passed": true
+    },
+    {
+      "scope": "image",
+      "name": "Invalid payload avoids processor access and absent processor preserves original data",
+      "passed": true
+    },
+    {
+      "scope": "image",
+      "name": "Original processor receiver/caps/trace/signal survive; preparation failure propagates",
+      "passed": true
+    },
+    {
+      "scope": "reference",
+      "name": "Reference projection omits payload while inline text intentionally preserves supplied content",
+      "passed": true
+    },
+    {
+      "scope": "postcompact",
+      "name": "Absent state avoids cap/history reads; Write/Git/preserved paths never expose content",
+      "passed": true
+    },
+    {
+      "scope": "postcompact",
+      "name": "Oversized/reference-only entries do not consume content budget or re-read files",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "noCanonicalUserData": true,
+  "noActualProviderNetworkMemoryStoreFilesystemOsOperation": true,
+  "noPredecessorExecution": true,
+  "noSourceEmittedMatrix": true
+}

@@ -1,0 +1,133 @@
+{
+  "kind": "Static compatibility/exact-byte binding; not project typecheck or runtime acceptance",
+  "typescript": "6.0.2",
+  "precedingCommit": "dbfbccfe2c3bc9d8262cde4f04b3941518b913f7",
+  "target": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+  "draft": "docs/evidence/node-runner-author-packet-20261003/draft-node-runner.ts.txt",
+  "predecessor": {
+    "bytes": 9624,
+    "sha256": "d3a303875d60a9f4629e3a3af815fc5aff407b2048a70480543ffd841233f40f"
+  },
+  "candidate": {
+    "bytes": 12352,
+    "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27",
+    "lines": 301
+  },
+  "exportedDeclarationsEqual": true,
+  "exportedDeclarationStructureSha256": {
+    "predecessor": "bd3fca7ae9aac282bc74331a10ad5ee7c1494cde1d6e7004ec73df3eb1527f4b",
+    "candidate": "bd3fca7ae9aac282bc74331a10ad5ee7c1494cde1d6e7004ec73df3eb1527f4b"
+  },
+  "runtimeImportsEqual": true,
+  "imports": [
+    {
+      "module": "./events.js",
+      "name": "WorkflowSchedulerEventLog",
+      "local": "WorkflowSchedulerEventLog",
+      "typeOnly": false
+    },
+    {
+      "module": "./graph.js",
+      "name": "addArtifact",
+      "local": "addArtifact",
+      "typeOnly": false
+    },
+    {
+      "module": "./graph.js",
+      "name": "compactWorkflowPayload",
+      "local": "compactWorkflowPayload",
+      "typeOnly": false
+    },
+    {
+      "module": "./graph.js",
+      "name": "updateGraphNode",
+      "local": "updateGraphNode",
+      "typeOnly": false
+    },
+    {
+      "module": "./graph.js",
+      "name": "upsertActivity",
+      "local": "upsertActivity",
+      "typeOnly": false
+    },
+    {
+      "module": "./prompts.js",
+      "name": "buildDefaultNodePrompt",
+      "local": "buildDefaultNodePrompt",
+      "typeOnly": false
+    },
+    {
+      "module": "./prompts.js",
+      "name": "safeArtifactName",
+      "local": "safeArtifactName",
+      "typeOnly": false
+    },
+    {
+      "module": "./types.js",
+      "name": "NodeRunOutcome",
+      "local": "NodeRunOutcome",
+      "typeOnly": true
+    },
+    {
+      "module": "./types.js",
+      "name": "NodeRunStarted",
+      "local": "NodeRunStarted",
+      "typeOnly": true
+    },
+    {
+      "module": "./types.js",
+      "name": "WorkflowGraphSchedulerActivityInput",
+      "local": "WorkflowGraphSchedulerActivityInput",
+      "typeOnly": true
+    },
+    {
+      "module": "./types.js",
+      "name": "WorkflowGraphSchedulerDeps",
+      "local": "WorkflowGraphSchedulerDeps",
+      "typeOnly": true
+    },
+    {
+      "module": "./types.js",
+      "name": "WorkflowGraphSchedulerRunOptions",
+      "local": "WorkflowGraphSchedulerRunOptions",
+      "typeOnly": true
+    },
+    {
+      "module": "./types.js",
+      "name": "WorkflowGraphSchedulerSnapshotAccess",
+      "local": "WorkflowGraphSchedulerSnapshotAccess",
+      "typeOnly": true
+    },
+    {
+      "module": "./types.js",
+      "name": "WorkflowSchedulerNodePromise",
+      "local": "WorkflowSchedulerNodePromise",
+      "typeOnly": true
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "createChildTraceContext",
+      "local": "createChildTraceContext",
+      "typeOnly": false
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "WorkflowActivitySnapshot",
+      "local": "WorkflowActivitySnapshot",
+      "typeOnly": true
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "WorkflowGraphNode",
+      "local": "WorkflowGraphNode",
+      "typeOnly": true
+    }
+  ],
+  "relativeDependenciesExist": true,
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidate": []
+  },
+  "runtimeTestsRun": false,
+  "projectTypecheckRun": false
+}

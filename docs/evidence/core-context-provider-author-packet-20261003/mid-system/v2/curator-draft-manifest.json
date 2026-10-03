@@ -1,0 +1,26 @@
+{
+  "archivedAtUtc": "2026-10-02T19:32:41.428245+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "cf80f00b",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/capture-clarification.md",
+      "bytes": 1581,
+      "sha256": "df58207d09026f16507b133d46e2529c40163b0ea18008a876c59c88bcc406ad"
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 8947,
+      "sha256": "93f2e738ce4016c10a259f6b8f48b04b6993f982291fe164cf6e9f68bf37a2ae"
+    },
+    {
+      "file": "draft-provider-mid-conversation-system.ts.txt",
+      "bytes": 5968,
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts"
+    }
+  ]
+}

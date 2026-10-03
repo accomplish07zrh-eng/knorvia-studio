@@ -1,0 +1,82 @@
+{
+  "typescript": "6.0.2",
+  "declarations": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "rawOutput": "import { escapeXml } from \"../../runtime-task/notification.js\";\nimport type { ToolHandlerFailure } from \"../types.js\";\nexport declare function workflowIntrospectionUnavailableFailure(): ToolHandlerFailure;\nexport declare function workflowRunNotFoundFailure(runId: string): ToolHandlerFailure;\nexport declare const WORKFLOW_RUN_INTROSPECTION_STEERING: any;\nexport declare function formatWorkflowRunTimestamp(epochMs: number): string;\nexport declare function formatWorkflowRunDuration(ms: number): string;\nexport declare function formatRelativeAge(now: number, at: number | undefined): string | undefined;\nexport declare function formatWorkflowRunInstant(now: number, at: number): string;\nexport declare function formatWorkflowRunCount(value: number): string;\nexport declare function workflowRunAttribute(name: string, value: string | number | boolean): string;\nexport { escapeXml as escapeWorkflowRunText };\n",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+      "rawOutput": "import type { SavedWorkflowArgsDeclaration } from \"@knorvia/contracts\";\nexport type WorkflowArgsValidation = {\n    ok: true;\n    args: Record<string, unknown>;\n} | {\n    ok: false;\n    errors: string[];\n};\nexport declare function validateWorkflowArgs(declaration: SavedWorkflowArgsDeclaration | undefined, provided: Record<string, unknown> | undefined): WorkflowArgsValidation;\n",
+      "diagnostics": []
+    }
+  ],
+  "dependencyDeclarations": [
+    {
+      "path": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "bytes": 6811,
+      "sha256": "cfb5ff5593ec102ec0c005efbd678fcbbf4d0a0e198426083a76076a882b97b3",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "bytes": 13292,
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b",
+      "diagnostics": []
+    }
+  ],
+  "qualifications": [
+    "Steering raw inferred any/9010 is qualified as exact string result of two retained strings.join newline; original raw diagnostic preserved.",
+    "Opaque public imported schema/types/ports preserved; no semantic/project check/body execution.",
+    "Curator target and relevant public schema/type source exposure, historical broader exposure/repaired scratch breach, shared executor instructions/self-report/no OS isolation/audit qualified."
+  ]
+}

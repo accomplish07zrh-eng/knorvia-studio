@@ -1,0 +1,374 @@
+{
+  "role": "Restricted complete independent author of the path owner, not curator",
+  "revision": "Complete same-author v2 scoped indexed-value typing correction",
+  "record_time_utc": "2026-10-02 21:55:26 UTC",
+  "scope": "Complete candidate with only the scoped strict/noUncheckedIndexedAccess issue corrected, as supplied in the frozen review. The original complete source and receipt remain archived unchanged.",
+  "model_and_settings": {
+    "requested_model": "GPT-6.1 Sol",
+    "requested_reasoning_effort": "high",
+    "request_authorization": "User/parent authorization supplied in delegated task",
+    "runtime_model_and_effort_proof": "Unavailable; requested settings do not prove actual serving configuration",
+    "fast_setting": "Saved Fast unchanged and unverified; no setting inspection or mutation",
+    "serving_tier_proof": "Unavailable"
+  },
+  "lineage": {
+    "original_source": {
+      "path": "/tmp/knorvia-memory-owners-20261003/path/memory-file-path.ts",
+      "bytes": 1930,
+      "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+      "lines": 81
+    },
+    "original_receipt": {
+      "path": "/tmp/knorvia-memory-owners-20261003/path/author-record.json",
+      "bytes": 8647,
+      "sha256": "800cb5d20fbcf6f90abcd0ac0b515dbf12c15d1c9911265d784ab6bc0c8329ab",
+      "lines": 156
+    },
+    "scoped_review": {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/path-type-review.md",
+      "bytes": 1143,
+      "sha256": "175cf0333820d01e33de5c0942a438b54608682b2facaaab91e5abdf263e2c16",
+      "lines": 5,
+      "read_count": 1,
+      "extent": "full during v2 correction"
+    },
+    "original_inputs": "The six frozen input read bindings in actual_file_reads and the embedded full original receipt remain authoritative; they were not reread in this v2 phase.",
+    "original_author_record": {
+      "role": "Restricted complete independent author of the path owner, not curator",
+      "record_time_utc": "2026-10-02 21:51:44 UTC",
+      "scope": "Complete original candidate, authored from the six frozen public behavior/API/import/data inputs. Internal organization chosen here; no private helper prescription adopted.",
+      "model_and_settings": {
+        "requested_model": "GPT-6.1 Sol",
+        "requested_reasoning_effort": "high",
+        "request_authorization": "User/parent authorization supplied in delegated task",
+        "runtime_model_and_effort_proof": "Unavailable; requested settings do not prove actual serving configuration",
+        "fast_setting": "Saved Fast unchanged and unverified; no setting inspection or mutation",
+        "serving_tier_proof": "Unavailable"
+      },
+      "actual_file_reads": [
+        {
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/contract.md",
+          "bytes": 3111,
+          "sha256": "e6d0977049993810c07b268e3b1475fb5cafc05871d3ac2f31071926efaee26a",
+          "read_count": 1,
+          "extent": "full"
+        },
+        {
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/public-api.d.ts",
+          "bytes": 474,
+          "sha256": "083aed79267a4adf4471cd1482e65010fc628a677610f0057163457a78fa2303",
+          "read_count": 1,
+          "extent": "full"
+        },
+        {
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/dependency-api.d.ts",
+          "bytes": 407,
+          "sha256": "d2eff8478b898e4917a6d6c9907c013d213dbaafbad851643b6730674ebf9790",
+          "read_count": 1,
+          "extent": "full"
+        },
+        {
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/public-shapes.d.ts",
+          "bytes": 61,
+          "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57",
+          "read_count": 1,
+          "extent": "full"
+        },
+        {
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/imports.json",
+          "bytes": 170,
+          "sha256": "4ac10ff49d55afa82c1c30a2e1b23ef25fe5329d27c55e196d3fbc11f591d800",
+          "read_count": 1,
+          "extent": "full"
+        },
+        {
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/output-data.json",
+          "bytes": 2071,
+          "sha256": "771a472861d79bd9f0dd5434234c6f5f8ae3ca6e6fc77911bb895fb95a7357cd",
+          "read_count": 1,
+          "extent": "full"
+        },
+        {
+          "path": "/tmp/knorvia-memory-owners-20261003/path/memory-file-path.ts",
+          "bytes": 1930,
+          "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+          "lines": 81,
+          "read_count": 1,
+          "extent": "full own source after writing, printed for manual review"
+        }
+      ],
+      "actual_operations": [
+        "First Python orchestration command: read exactly the six listed input files in full, compute their byte counts and SHA-256 digests in memory, and print their full contents.",
+        "Second Python orchestration command: create the assigned output directory as necessary; write memory-file-path.ts; read that own source in full once; compute bytes, SHA-256 and line count; print source for manual review.",
+        "Manual review of the six supplied contents and the complete own source against public signatures, import sets, resolver field order, containment criteria, sensitive normalization order, exact segment data, and error propagation.",
+        "Two clock calls: 2026-10-02 21:51:32 UTC and 2026-10-02 21:51:44 UTC.",
+        "Third Python orchestration command: serialize and write this author-record.json; compute record bytes, SHA-256 and line count from the serialized bytes already in memory without reading the record file; chmod both output files to 0444 and the assigned output directory to 0555; print record metadata.",
+        "No task implementation execution, compiler, build, lint, test, mock, package installation, business filesystem/model/tool/provider port, network request, history query, repository scan, or subagent operation."
+      ],
+      "source_output": {
+        "path": "/tmp/knorvia-memory-owners-20261003/path/memory-file-path.ts",
+        "bytes": 1930,
+        "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+        "lines": 81
+      },
+      "receipt_output": {
+        "path": "/tmp/knorvia-memory-owners-20261003/path/author-record.json",
+        "file_read_count": 0,
+        "hash_and_size_delivery": "Reported separately from serialized bytes in memory; no self-referential digest is embedded in this receipt"
+      },
+      "retained_required_data_and_idioms": {
+        "imports": [
+          "import { isAbsolute, relative } from \"node:path\";",
+          "import { resolveWorkspacePath } from \"../tool/path-policy.js\";"
+        ],
+        "public_api": "Exactly resolveContainedMemoryFilePath, resolveSafeMemoryFilePath, memoryFileRelativePath; specified parameters and string | undefined returns; no additional exports or dependencies.",
+        "required_static_segments": [
+          ".git",
+          "hooks",
+          ".husky",
+          ".githooks",
+          "node_modules",
+          ".vscode",
+          ".idea",
+          "head",
+          "config",
+          "objects",
+          "refs",
+          ".knorvia-studio",
+          "skills",
+          "commands",
+          "agents",
+          ".cargo",
+          ".devcontainer",
+          ".yarn",
+          ".mvn"
+        ],
+        "required_regex_literals": [
+          "/[\\\\/]+/u",
+          "/[\\u200c-\\u200f\\u202a-\\u202e\\u206a-\\u206f\\ufeff]/gu",
+          "/[. ]+$/u"
+        ],
+        "required_strings": [
+          "write",
+          "..",
+          "../",
+          "..\\",
+          "",
+          ":"
+        ],
+        "ordinary_idioms": "Named imports, const bindings, inline object parameter types, receiver-free function calls, early returns, Set membership, for-of traversal, string lowercase/replace/split, and native relative/isAbsolute calls.",
+        "internal_design": "One unexported Set and shared use of the required public relative-path function; local names and organization chosen during this task."
+      },
+      "manual_review_findings": [
+        "Workspace resolver remains opaque and is invoked once by contained resolution, without receiver, with own object fields in required order: inputPath, operation, workingDirectory, workspaceRoot.",
+        "Containment excludes the root, parent spellings and absolute native relative results; contained return preserves the resolved spelling; relative API returns native relative spelling.",
+        "Safe resolution first performs contained resolution and its falsey check, recomputes containment, then checks whole segments using only the required lowercase/control-removal/colon-prefix/trailing-dot-space sequence.",
+        "No catches, new normalization, I/O, realpath, symlink inquiry, extension filter, cache, or authority grant introduced.",
+        "Complete source manually reviewed at 81 lines, below the 400-line limit."
+      ],
+      "exposure_and_breach_qualifications": [
+        "Curator is source-exposed, as disclosed by the supplied task and contract.",
+        "Shared executor restrictions are instruction-only; no OS isolation or access audit is established.",
+        "Prior broader source, tool, and dependency context is qualified by the parent/task notice; this receipt cannot independently establish the extent or absence of influence.",
+        "The parent/task notice discloses a prior repaired scratch-write breach; it remains disclosed and is not erased by this restricted authoring session.",
+        "Within this authoring task, the file-content reads performed by the explicit commands are the seven enumerated paths, and the authored files are the two designated outputs. This is a report of performed operations, not an OS-level isolation or access-audit attestation.",
+        "Interpreter and standard-library utility machinery supported permitted read/write/hash/chmod operations; no dependency implementation or business port was invoked by the candidate."
+      ],
+      "candid_limits": [
+        "Manual review only: compilation, builds, linting, tests and mocks were prohibited and were not performed.",
+        "The opaque resolveWorkspacePath implementation and native runtime behavior were not inspected or exercised.",
+        "Frozen declarations are not a standalone compilation environment.",
+        "No novelty, clean separation, licence clearance, originality grant, or global/adjacent-owner attestation is made.",
+        "Hashes identify the authored bytes; chmod is a requested filesystem mode freeze on a shared writable executor, not proof of tamper-proof isolation."
+      ],
+      "freeze": {
+        "source_mode": "0444",
+        "receipt_mode": "0444",
+        "output_directory_mode": "0555",
+        "stage": "Complete original source and receipt frozen before reporting"
+      },
+      "remaining_blockers": []
+    }
+  },
+  "actual_file_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/contract.md",
+      "bytes": 3111,
+      "sha256": "e6d0977049993810c07b268e3b1475fb5cafc05871d3ac2f31071926efaee26a",
+      "read_count": 1,
+      "extent": "full"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/public-api.d.ts",
+      "bytes": 474,
+      "sha256": "083aed79267a4adf4471cd1482e65010fc628a677610f0057163457a78fa2303",
+      "read_count": 1,
+      "extent": "full"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/dependency-api.d.ts",
+      "bytes": 407,
+      "sha256": "d2eff8478b898e4917a6d6c9907c013d213dbaafbad851643b6730674ebf9790",
+      "read_count": 1,
+      "extent": "full"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/public-shapes.d.ts",
+      "bytes": 61,
+      "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57",
+      "read_count": 1,
+      "extent": "full"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/imports.json",
+      "bytes": 170,
+      "sha256": "4ac10ff49d55afa82c1c30a2e1b23ef25fe5329d27c55e196d3fbc11f591d800",
+      "read_count": 1,
+      "extent": "full"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/path/output-data.json",
+      "bytes": 2071,
+      "sha256": "771a472861d79bd9f0dd5434234c6f5f8ae3ca6e6fc77911bb895fb95a7357cd",
+      "read_count": 1,
+      "extent": "full"
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/path/memory-file-path.ts",
+      "bytes": 1930,
+      "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+      "lines": 81,
+      "read_count": 2,
+      "extent": "full once in original authoring and once in v2 manual review; original bytes preserved"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/path-type-review.md",
+      "bytes": 1143,
+      "sha256": "175cf0333820d01e33de5c0942a438b54608682b2facaaab91e5abdf263e2c16",
+      "lines": 5,
+      "read_count": 1,
+      "extent": "full during v2 correction"
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/path/author-record.json",
+      "bytes": 8647,
+      "sha256": "800cb5d20fbcf6f90abcd0ac0b515dbf12c15d1c9911265d784ab6bc0c8329ab",
+      "lines": 156,
+      "read_count": 2,
+      "extent": "full once for v2 manual review and once for lineage-preserving receipt serialization"
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/path-v2/memory-file-path.ts",
+      "bytes": 1966,
+      "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+      "lines": 81,
+      "read_count": 1,
+      "extent": "full own v2 source after write, printed for manual review"
+    }
+  ],
+  "actual_operations": {
+    "original_phase": [
+      "First Python orchestration command: read exactly the six listed input files in full, compute their byte counts and SHA-256 digests in memory, and print their full contents.",
+      "Second Python orchestration command: create the assigned output directory as necessary; write memory-file-path.ts; read that own source in full once; compute bytes, SHA-256 and line count; print source for manual review.",
+      "Manual review of the six supplied contents and the complete own source against public signatures, import sets, resolver field order, containment criteria, sensitive normalization order, exact segment data, and error propagation.",
+      "Two clock calls: 2026-10-02 21:51:32 UTC and 2026-10-02 21:51:44 UTC.",
+      "Third Python orchestration command: serialize and write this author-record.json; compute record bytes, SHA-256 and line count from the serialized bytes already in memory without reading the record file; chmod both output files to 0444 and the assigned output directory to 0555; print record metadata.",
+      "No task implementation execution, compiler, build, lint, test, mock, package installation, business filesystem/model/tool/provider port, network request, history query, repository scan, or subagent operation."
+    ],
+    "v2_phase": [
+      "V2 first Python orchestration command: read the additional frozen review, original frozen source, and original frozen receipt in full; compute their byte counts, SHA-256 and line counts; print their full contents for manual review.",
+      "V2 second Python orchestration command: create only the assigned path-v2 output directory as necessary, write the complete corrected source, read that own v2 source in full once, compute bytes/SHA-256/lines, and print the full source for manual review.",
+      "V2 manual review: retain all original public APIs, import sets, required segment and regex data, resolver ordering, containment rules, sensitive normalization order, path spelling and error propagation. Replace only the unguarded indexed-string chain with a nullish empty-string fallback before the final replace.",
+      "V2 clock call: 2026-10-02 21:55:26 UTC.",
+      "V2 third Python orchestration command: read the original frozen receipt again in full, parse its JSON to retain complete original lineage and qualifications, write the complete v2 receipt, compute its bytes/SHA-256/lines from serialized bytes in memory without reading the new receipt, chmod both v2 files 0444 and the v2 output directory 0555, and print receipt metadata.",
+      "V2 made no writes or chmod operations to the original source, original receipt, or original directory. No new files outside the two assigned v2 outputs were authored.",
+      "V2 did not run the candidate, compiler, builds, linting, tests, mocks, package installation, business filesystem/model/tool/provider ports, history/source/dependency scans, network calls, or subagent operations."
+    ]
+  },
+  "source_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/path-v2/memory-file-path.ts",
+    "bytes": 1966,
+    "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+    "lines": 81
+  },
+  "receipt_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/path-v2/author-record.json",
+    "file_read_count": 0,
+    "hash_and_size_delivery": "Reported separately from serialized bytes in memory; no self-referential digest is embedded"
+  },
+  "retained_required_data_and_idioms": {
+    "imports": [
+      "import { isAbsolute, relative } from \"node:path\";",
+      "import { resolveWorkspacePath } from \"../tool/path-policy.js\";"
+    ],
+    "public_api": "Exactly resolveContainedMemoryFilePath, resolveSafeMemoryFilePath, memoryFileRelativePath; specified parameters and string | undefined returns; no additional exports or dependencies.",
+    "required_static_segments": [
+      ".git",
+      "hooks",
+      ".husky",
+      ".githooks",
+      "node_modules",
+      ".vscode",
+      ".idea",
+      "head",
+      "config",
+      "objects",
+      "refs",
+      ".knorvia-studio",
+      "skills",
+      "commands",
+      "agents",
+      ".cargo",
+      ".devcontainer",
+      ".yarn",
+      ".mvn"
+    ],
+    "required_regex_literals": [
+      "/[\\\\/]+/u",
+      "/[\\u200c-\\u200f\\u202a-\\u202e\\u206a-\\u206f\\ufeff]/gu",
+      "/[. ]+$/u"
+    ],
+    "required_strings": [
+      "write",
+      "..",
+      "../",
+      "..\\",
+      "",
+      ":"
+    ],
+    "ordinary_idioms": "Named imports, const bindings, inline object parameter types, receiver-free function calls, early returns, Set membership, for-of traversal, string lowercase/replace/split, and native relative/isAbsolute calls.",
+    "internal_design": "One unexported Set and shared use of the required public relative-path function; local names and organization chosen during this task."
+  },
+  "v2_internal_design": "Original internal organization retained. beforeColon is a string because the indexed split value is followed by ?? \"\"; comparison then strips trailing dots/spaces exactly as before.",
+  "scoped_manual_review_findings": [
+    "The original [0] array access can have type string | undefined with noUncheckedIndexedAccess; its immediate replace call required explicit type handling. This issue was identified by the supplied manual review without a compiler.",
+    "The v2 nullish empty-string fallback makes beforeColon a string before replace. Native string split with a positive limit of 1 yields the first string even for an empty input, so the fallback does not change ordinary native string behavior.",
+    "All original operations and normalizations remain in the same order, including the receiver-free single opaque workspace resolver call and repeated containment check in safe resolution.",
+    "Full v2 source manually reviewed at 81 lines, below the 400-line limit. This is a scoped manual conclusion; no compilation or tests validate it."
+  ],
+  "exposure_and_breach_qualifications": [
+    "Curator is source-exposed, as disclosed by the supplied task and contract.",
+    "Shared executor restrictions are instruction-only; no OS isolation or access audit is established.",
+    "Prior broader source, tool, and dependency context is qualified by the parent/task notice; this receipt cannot independently establish the extent or absence of influence.",
+    "The parent/task notice discloses a prior repaired scratch-write breach; it remains disclosed and is not erased by this restricted authoring session.",
+    "The cumulative actual_file_reads bind all performed file-content reads across original authoring and this correction, including repeated reads of own originals. Original-phase operation claims remain scoped to their original phase in the embedded receipt.",
+    "The shared executor has instruction-only restrictions and no established OS isolation or access audit. Enumerated utility-command reads/writes do not certify clean separation or absence of all possible context influence.",
+    "Interpreter and standard-library utility machinery supported permitted read/write/hash/chmod operations; no dependency implementation or business port was invoked by the candidate."
+  ],
+  "candid_limits": [
+    "Manual review only: compilation, builds, linting, tests and mocks were prohibited and were not performed.",
+    "The opaque resolveWorkspacePath implementation and native runtime behavior were not inspected or exercised.",
+    "Frozen declarations are not a standalone compilation environment.",
+    "No novelty, clean separation, licence clearance, originality grant, or global/adjacent-owner attestation is made.",
+    "Hashes identify the authored bytes; chmod is a requested filesystem mode freeze on a shared writable executor, not proof of tamper-proof isolation.",
+    "The strict/noUncheckedIndexedAccess configuration assertion comes only from the frozen review; no tsconfig or repository file was inspected.",
+    "Original manual review missed the indexed-value typing issue. The v2 review corrects that identified issue without asserting broader semantic/compiler validation."
+  ],
+  "freeze": {
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "stage": "Complete v2 source and receipt frozen before reporting; originals left untouched"
+  },
+  "remaining_blockers": []
+}

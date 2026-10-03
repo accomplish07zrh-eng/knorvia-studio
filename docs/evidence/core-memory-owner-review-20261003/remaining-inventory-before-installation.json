@@ -1,0 +1,62 @@
+{
+  "apps/cli/packages/core/src/memory/directory.ts": {
+    "bytes": 814,
+    "lines": 26,
+    "sha256": "04058c420517931bb3366ad590ba0acfadee132fe875e51b5b7cb22febfeca93",
+    "decision": "retained adjacent identity/write helper or static schema/barrel"
+  },
+  "apps/cli/packages/core/src/memory/extraction.ts": {
+    "bytes": 10405,
+    "lines": 301,
+    "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b",
+    "decision": "pending selected complete candidate installation"
+  },
+  "apps/cli/packages/core/src/memory/index-content.ts": {
+    "bytes": 2990,
+    "lines": 67,
+    "sha256": "09397af14b35c25822e901c44dc702c927b94b75c072a6f5cd595b7d9e9f4e71",
+    "decision": "pending selected complete candidate installation"
+  },
+  "apps/cli/packages/core/src/memory/memory-agent-loop.ts": {
+    "bytes": 9755,
+    "lines": 292,
+    "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9",
+    "decision": "pending selected complete candidate installation"
+  },
+  "apps/cli/packages/core/src/memory/memory-file-path.ts": {
+    "bytes": 2342,
+    "lines": 83,
+    "sha256": "6864da8586c7bdad420debb03a30c279f7bc87a562b2b2f2de4c8f0bcf3f096c",
+    "decision": "pending selected complete candidate installation"
+  },
+  "apps/cli/packages/core/src/memory/origin-session.ts": {
+    "bytes": 1859,
+    "lines": 51,
+    "sha256": "5fd667e140c5b79c697c973cb6f05597c8c37d0ea2b404754f31eb94621e4fc0",
+    "decision": "retained adjacent identity/write helper or static schema/barrel"
+  },
+  "apps/cli/packages/core/src/memory/project-root.ts": {
+    "bytes": 1106,
+    "lines": 33,
+    "sha256": "69ea16dc573f1e60e5579be494d02dc7735ab24821208071f304e5699c2d7f55",
+    "decision": "retained adjacent identity/write helper or static schema/barrel"
+  },
+  "apps/cli/packages/core/src/memory/recall/index.ts": {
+    "bytes": 147,
+    "lines": 2,
+    "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25",
+    "decision": "retained adjacent identity/write helper or static schema/barrel"
+  },
+  "apps/cli/packages/core/src/memory/recall/manifest.ts": {
+    "bytes": 4516,
+    "lines": 137,
+    "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53",
+    "decision": "pending selected complete candidate installation"
+  },
+  "apps/cli/packages/core/src/memory/recall/types.ts": {
+    "bytes": 312,
+    "lines": 11,
+    "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40",
+    "decision": "retained adjacent identity/write helper or static schema/barrel"
+  }
+}

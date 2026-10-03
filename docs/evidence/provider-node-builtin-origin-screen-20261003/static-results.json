@@ -1,0 +1,17 @@
+{
+  "mode": "Metadata/digests + one representative AST/inverse-name proof only; no runtime/native or other source bodies deeply reviewed",
+  "metadataBindings": 4,
+  "currentSourceBindings": 7,
+  "fixedCounterparts": 7,
+  "representativeInverse": "PASS byte count/SHA256/Git blob",
+  "representativeFormattingAst": "PASS",
+  "provenUpstreamDerived": 1,
+  "unresolvedCounterparts": 6,
+  "newIndependentImplementations": 0,
+  "newAuthors": 0,
+  "sourceChanges": 0,
+  "networkSourceRequests": 0,
+  "ordinaryTestsBuilds": false,
+  "materialOpen": 21,
+  "status": "PASS"
+}

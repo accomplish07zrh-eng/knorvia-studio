@@ -1,0 +1,24 @@
+{
+  "scope": "extraction",
+  "recordedAtUtc": "2026-10-02T20:44:36.546523+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "fastRequested": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "osIsolationOrAccessAuditVerified": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 12048,
+      "sha256": "ea087711c8b998b086916739bc226624e707d4769000b63dff06da99741481fa"
+    },
+    {
+      "file": "project-memory-extraction.ts.txt",
+      "bytes": 6258,
+      "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d",
+      "target": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts"
+    }
+  ]
+}

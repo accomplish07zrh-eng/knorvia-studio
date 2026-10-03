@@ -1,0 +1,77 @@
+{
+  "estimate": "Published implementation-draft coverage roughly18–25%; total engineering roughly one-fifth,15–30% broad uncertainty if a single estimate is required. 20–30% is a broad inference with weak support at30, not directly measured acceptance.",
+  "denominator": {
+    "rootReportedSavedLedger": 4077,
+    "localSavedLedger": 4002,
+    "localExpandedSourcePaths": 4170,
+    "difference": "75path saved-inventory/filter/source-snapshot discrepancy retained; no root-private recovery or inventory mutation to force agreement.",
+    "ownerLimit": "Source paths/bytes are auditable workload proxies, not a stable complete functional-owner denominator. New private splits not additional finished features; large/static/native/retained/mixed owners differ in effort."
+  },
+  "stages": {
+    "draft": {
+      "deduplicatedPublishedChangedPaths": 577,
+      "newSourceArtifacts": 166,
+      "changedPathsInLocalLedger": 409,
+      "originalIndependentLedgerLabels": 453,
+      "labelsPlusDraftInLedger": 862,
+      "fileProxy": 0.21539230384807595,
+      "expandedFileProxyUpper": 0.24700239808153476,
+      "byteProxy": 0.18291335281998722,
+      "claim": "Coverage proxy only; changed paths and existing labels are not577/1030 newly independent accepted owners."
+    },
+    "minimumTechnicalValidation": {
+      "globalPercentage": null,
+      "reason": "Published scoped owner completion lists report minimum synthetic/API/lint/architecture gates; E ordinary checks deferred; D/Root semantic dependencies blocked; no unified digest-bound all-owner pass census or full functional denominator. Cannot honestly convert to full-project completion percent."
+    },
+    "finalIntegrationFullAcceptance": {
+      "fivePRsMerged": 0,
+      "fivePRsDraft": 5,
+      "fullProductAcceptanceEstablished": false,
+      "claim": "This five-lane wave not integrated/full-accepted; do not infer whole-project0% or count modular gates as full/native/end-to-end acceptance."
+    },
+    "remainingSourceMaterialObligations": {
+      "open": 21,
+      "closedOfThese21": 0,
+      "mitReleaseReady": false
+    }
+  },
+  "ownerCompletionSummaries": [
+    {
+      "pr": 8,
+      "lane": "E",
+      "scope": "Context/history/media/attachments/memory/plugin references/compaction/workflow projections/MCP bridge-image and notification complete candidate owners; frozen source/full receipts and minimum synthetic/API/data/identity proofs.",
+      "validation": "Bounded technical evidence; ordinary/native/project/semantic suites deferred, historical exposure/retained expressions qualified; no whole-file rights conclusion."
+    },
+    {
+      "pr": 9,
+      "lane": "G",
+      "scope": "Server remote transport/backend/assets/RPC/shared/CLI adapters and desktop preload/Host owners including published Host index6470e414.",
+      "validation": "Focused synthetic and scoped API/types/lint/architecture reported; imported semantic/native/full-composition acceptance remains deferred. Batch count not completion metric."
+    },
+    {
+      "pr": 10,
+      "lane": "D",
+      "scope": "Services lifecycle/system/paths/repositories/transport/events and fresh CUA admission/PiP complete candidate owners.",
+      "validation": "Minimum synthetic/lint/format/architecture reported; scoped RPC/CUA/dependency/consumer types remain blocked including latest6→8/15→17. Current three permission owners are ongoing, not added as delivered."
+    },
+    {
+      "pr": 11,
+      "lane": "A",
+      "scope": "Runtime/tool/workflow/expert-parser/execution/permission/subagent candidates; conventional adapters/retained policy and source-exposed corrections disclosed.",
+      "validation": "Focused emitted groups and scoped APIs/types/lint/architecture reported; ordinary/full/native suites/builds and independent expression/rights acceptance deferred. Current mcp/config excluded unless already in pinned published diff."
+    },
+    {
+      "pr": 12,
+      "lane": "root",
+      "scope": "Published remote cache/client transport/progress/CDN/about/menu/platform IPC/Host/window/chrome candidate owners.",
+      "validation": "Paired minimum synthetic/public API/lint/architecture reported; feedbackLogArchive/node-forge semantic closure blocked, native/full suite/rights deferred. Published dd963aae intact, unavailable private checkpoint and uncommitted network draft not counted."
+    }
+  ],
+  "excludedDelivery": [
+    "B6+ and local unpublished workspace/grouped-task views; none of five pinned PR diffs changes packages/ui/src under this filter.",
+    "Root unavailable private checkpoint/Library-scope-denied backup, no alternate recovery/extraction/credentials.",
+    "Ongoing A mcp/config, D permission three-owner and other uncommitted work, unless present in pinned published source.",
+    "Docs/receipts/test files/commit counts; new split helpers not extra completed functional owners."
+  ],
+  "qualification": "Read-only source metadata/PR prose estimate; no production code edits/test/author/native/network configuration, no global license/inventory edits or grants. Compare endpoint used only merge-base summary, no patch/source review. All relevant heads and evidence digests pinned. Initial syntax error and withdrawn base-tip methodology preserved."
+}

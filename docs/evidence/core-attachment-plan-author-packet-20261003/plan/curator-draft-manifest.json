@@ -1,0 +1,21 @@
+{
+  "archivedAtUtc": "2026-10-02T20:23:58.166311+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposed control",
+  "files": [
+    {
+      "file": "draft-plan-file-continuity.ts.txt",
+      "bytes": 2737,
+      "sha256": "b4c854cdbf68e735048d5575f79a35d088696260f87ffb3200242ead2d32cf04",
+      "target": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 7633,
+      "sha256": "82ed0e0b477cb5fa1af463ec2089ac87d32c92752ba2f86b97f842893927d153"
+    }
+  ]
+}

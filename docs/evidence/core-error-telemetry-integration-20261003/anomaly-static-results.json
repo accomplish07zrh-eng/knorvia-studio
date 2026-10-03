@@ -1,0 +1,324 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "anomaly",
+  "baseline": "06e67e0e73a101cb9d68b072a1fcd7a9976de269",
+  "target": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "5d5702f7a034e65e971d9f47f171748d9d87a11ce3ef700b1dc9ea68f566a597",
+    "candidate": "5d5702f7a034e65e971d9f47f171748d9d87a11ce3ef700b1dc9ea68f566a597"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeImports": {
+    "predecessor": [],
+    "candidate": []
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/contract.md",
+      "bytes": 3962,
+      "sha256": "ac8d9cd043008a4d238890867249a8487c03428afa9e9a05a5d6511ad8928622",
+      "actual": {
+        "bytes": 3962,
+        "sha256": "ac8d9cd043008a4d238890867249a8487c03428afa9e9a05a5d6511ad8928622"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/public-api.d.ts",
+      "bytes": 1228,
+      "sha256": "a628346dd23c88ad604a5e617a3431477733051a89d686c6fccbf0cb36cccd20",
+      "actual": {
+        "bytes": 1228,
+        "sha256": "a628346dd23c88ad604a5e617a3431477733051a89d686c6fccbf0cb36cccd20"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/dependency-api.d.ts",
+      "bytes": 258,
+      "sha256": "320d6266510859d37a2be6adf76481fa908a818ad405c8957f3f95062ea511fe",
+      "actual": {
+        "bytes": 258,
+        "sha256": "320d6266510859d37a2be6adf76481fa908a818ad405c8957f3f95062ea511fe"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/public-shapes.d.ts",
+      "bytes": 364,
+      "sha256": "4ecde9ac119ea9b9e153dc8af98777f3f1e21ac9de0785a861bfce7dcbfeeb6f",
+      "actual": {
+        "bytes": 364,
+        "sha256": "4ecde9ac119ea9b9e153dc8af98777f3f1e21ac9de0785a861bfce7dcbfeeb6f"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/imports.json",
+      "bytes": 546,
+      "sha256": "da7c0d3dc31c6fa9c1a1bef4b13978a1244047f5b4607312f85405df34ba8f76",
+      "actual": {
+        "bytes": 546,
+        "sha256": "da7c0d3dc31c6fa9c1a1bef4b13978a1244047f5b4607312f85405df34ba8f76"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/output-data.json",
+      "bytes": 1258,
+      "sha256": "28de24b04f8f7170e1d968810f5a83eeaa34a1c50afef8aea4d6b7983f94321c",
+      "actual": {
+        "bytes": 1258,
+        "sha256": "28de24b04f8f7170e1d968810f5a83eeaa34a1c50afef8aea4d6b7983f94321c"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-model-anomaly.ts.txt",
+      "bytes": 4291,
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "actual": {
+        "bytes": 4291,
+        "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 4291,
+        "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 120
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 7247,
+      "sha256": "4269233596e841adcc735fa64912588c44c91fdd408510efa5cd7ba4c52b8ec8",
+      "actual": {
+        "bytes": 7247,
+        "sha256": "4269233596e841adcc735fa64912588c44c91fdd408510efa5cd7ba4c52b8ec8"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "draft-model-anomaly.ts.txt",
+      "bytes": 4291,
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 7247,
+      "sha256": "4269233596e841adcc735fa64912588c44c91fdd408510efa5cd7ba4c52b8ec8",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "actual": {
+        "bytes": 961,
+        "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "actual": {
+        "bytes": 8781,
+        "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "bytes": 4164,
+      "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+      "actual": {
+        "bytes": 4164,
+        "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "actual": {
+        "bytes": 9586,
+        "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "actual": {
+        "bytes": 9134,
+        "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5664,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "actual": {
+        "bytes": 5664,
+        "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/config/index.ts",
+      "bytes": 12544,
+      "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab",
+      "actual": {
+        "bytes": 12544,
+        "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/logging/logger.ts",
+      "bytes": 2592,
+      "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a",
+      "actual": {
+        "bytes": 2592,
+        "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "actual": {
+        "bytes": 36215,
+        "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/artifact-uri.ts",
+      "bytes": 1005,
+      "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b",
+      "actual": {
+        "bytes": 1005,
+        "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "module": "../deps.js",
+      "exists": true
+    }
+  ],
+  "extractionDiagnosticsQualified": true,
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

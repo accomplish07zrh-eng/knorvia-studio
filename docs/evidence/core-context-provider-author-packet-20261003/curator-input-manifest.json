@@ -1,0 +1,166 @@
+{
+  "baseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5",
+  "scopeCommit": "35f3d7c1",
+  "sourceExposedCurator": true,
+  "instructionOnlyRestrictions": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "sourceExposure": "Complete five target bodies; bounded public context/model/source/skill declarations plus incidental utility and incoming-message collaborator bodies; earlier broad context/source exposure persists. No target/dependency/test/history body is an author input.",
+  "declarationExtraction": "All five target public extraction and selected context/skills/dynamic public dependencies have zero diagnostics; this is no project/body compilation.",
+  "scopes": {
+    "builder": {
+      "source": "apps/cli/packages/core/src/context/builder.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/context/builder.ts",
+        "bytes": 12708,
+        "sha256": "8560c9382493df3fcf40c38fa3a02a5d0595e46a2ee0defcecd0f16a9977dfa7"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/builder/context-types.d.ts",
+          "bytes": 2661,
+          "sha256": "8781f1bdc4826531b7bf8e02a8508207ec386b200264e1d1811d50ca52054c4f"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/builder/contract.md",
+          "bytes": 6280,
+          "sha256": "d1c1eb9b8c9e442232da67bbd1b1de102af4ee8e257fe5d357ff6bc88b41b8fa"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/builder/dependency-api.d.ts",
+          "bytes": 2354,
+          "sha256": "972c4afb642e48790e5364358a39a34717815b100ef72288078be88766223a4a"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/builder/output-text.json",
+          "bytes": 604,
+          "sha256": "8b0256b675823761005ed7e199acdabcd65126930efec99c77d1bf788f855f1d"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/builder/public-api.d.ts",
+          "bytes": 819,
+          "sha256": "8956dce4f669e5d44556289b03c21cc1d5642265f8efd315e65ccdefb9b884e5"
+        }
+      ]
+    },
+    "request": {
+      "source": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+        "bytes": 3936,
+        "sha256": "68f3f5944228c5966a8055e874dd59eb32ad3d7ddd409effcc7fa3189f586967"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/request/contract.md",
+          "bytes": 3275,
+          "sha256": "7a6eb3f488d31add7eaf151d17101a6f54d7fb2aac909335274c237584fa760f"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/request/dependency-api.d.ts",
+          "bytes": 333,
+          "sha256": "7c67a3e612ca4c130b74d422159d220ea2ebf9a4354494903e21ab23a843bd7d"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/request/output-text.json",
+          "bytes": 690,
+          "sha256": "1edd638e6ca30f8b77b8733ea5702587318f112da3a3f6fa241742bd1ad483b3"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/request/public-api.d.ts",
+          "bytes": 275,
+          "sha256": "990fafc6f9371ebb172332ec69c1d8cf0f910725221fdb7185aca1187a2c7c0a"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/request/public-shapes.d.ts",
+          "bytes": 739,
+          "sha256": "5a214e5205745adeea64e1ed5ad666f74b0bd3a2981f841b1fe3ba3348ccb0e8"
+        }
+      ]
+    },
+    "usage": {
+      "source": "apps/cli/packages/core/src/agent/message-history-usage.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/agent/message-history-usage.ts",
+        "bytes": 2300,
+        "sha256": "896e2bee48a2aaa8d4a2357580cbfcd617b2512639d0a1116c9e7d9e219ca9c9"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/usage/contract.md",
+          "bytes": 2288,
+          "sha256": "fc1fe5de2f8555a66e09463cb762ef33953d1399db04c0b1cc2eba773bf401e6"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/usage/public-api.d.ts",
+          "bytes": 380,
+          "sha256": "874b47aabef29dcdb39571f66423d3fd4ea40be60c55e9fc0cf6d80de30e0f77"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/usage/public-shapes.d.ts",
+          "bytes": 183,
+          "sha256": "77b5470dbb6854578e7fc96ddb7384a54356585c90296f0dc0e8d660a59a2029"
+        }
+      ]
+    },
+    "origins": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+        "bytes": 3202,
+        "sha256": "0f33c0fa750b31702f75e5185a2055a7b276c87fc3a0821ef245d26c7aac28f0"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/origins/contract.md",
+          "bytes": 3627,
+          "sha256": "7ba547c4430d5802dfa74a6784a276771ba49874deebc7f4f1a56e6dcbf79d36"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/origins/dependency-api.d.ts",
+          "bytes": 958,
+          "sha256": "8685dcee32ba9b21fcbf5bf3974521639eedf54d34d1149253fb363519f64088"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/origins/public-api.d.ts",
+          "bytes": 637,
+          "sha256": "038c86e6ae753f4b70946c34295fb28b60303058912805b6183f132c7e8ed0e5"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/origins/public-shapes.d.ts",
+          "bytes": 1816,
+          "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da"
+        }
+      ]
+    },
+    "mid-system": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+        "bytes": 7993,
+        "sha256": "638acaa81dae81e033f9643b57f264638b90ba2726401a7a1a220b38c22717c0"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/contract.md",
+          "bytes": 5592,
+          "sha256": "5c4284519353630ebbf6cc2b5d6e048c3ded19a8b5eff1d0efd8adc5f9c8205f"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/dependency-api.d.ts",
+          "bytes": 1173,
+          "sha256": "4076cc1d2dfc0190244e7177ba4f0a8fbd0922b7d18a18e62cc0013cf49e1c11"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/public-api.d.ts",
+          "bytes": 971,
+          "sha256": "394426a93a0aac19693d62516273eee2043fca7f00eb318aba1c3b74a75d0467"
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/public-shapes.d.ts",
+          "bytes": 1816,
+          "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da"
+        }
+      ]
+    }
+  }
+}

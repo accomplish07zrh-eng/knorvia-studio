@@ -1,0 +1,14 @@
+{
+  "recordedAtUtc": "2026-10-02T19:46:23.045937+00:00",
+  "originalImportQualification": "b834d31a",
+  "validationAuthorTiming": "Author reports an unfrozen fresh logic draft written to own output while awaiting module mapping. imports.json read before completing final source and receipt freeze; no prior frozen draft/other-source access. Do not claim supplement preceded every authored statement. Author receipt will preserve actual timing.",
+  "capability": {
+    "extraInputs": [
+      {
+        "path": "docs/evidence/core-model-media-author-packet-20261003/capability/log-fields-qualification.json",
+        "bytes": 709,
+        "sha256": "e2a7dc5727a8a08cdb07a0edd966e297cbc191e35718f9d16beb3a0e54323e5d"
+      }
+    ]
+  }
+}

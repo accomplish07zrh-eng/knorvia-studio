@@ -1,0 +1,111 @@
+{
+  "task": "Independent complete provider-business-error.ts author",
+  "input_frozen_reference_supplied_by_parent": "df26566e",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/business/input/contract.md",
+      "bytes": 4752,
+      "sha256": "8cb44191e795edeae93061e75e07ef69f9d55ce1b0ada1175829250026af24cb"
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/business/input/public-api.d.ts",
+      "bytes": 494,
+      "sha256": "1c17cf91889bcf28708546ce4aaee6cc210d444f453015818e7e07a13a22421e"
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/business/input/dependency-api.d.ts",
+      "bytes": 631,
+      "sha256": "3c39923968adc5816b31a9b354735d8cecf7528272272ae5edda58af5ae0a267"
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/business/input/public-shapes.d.ts",
+      "bytes": 211,
+      "sha256": "ad2e10a5a092d83137548b45461565da97a7b171d7f21130557ac30dc9dda3eb"
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/business/input/imports.json",
+      "bytes": 608,
+      "sha256": "042fad26bb865b74b6015f8b5dd89bbac9f15a7aa991ea6f50b4470ea5232a63"
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/business/input/output-data.json",
+      "bytes": 1042,
+      "sha256": "df2e7673b7e12f6006b5d54073a0ff477d9e623bd9006adc18797138b10b10bd"
+    }
+  ],
+  "actual_task_content_read_paths": [
+    "/tmp/knorvia-core-error-telemetry-20261003/business/input/contract.md",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/input/public-api.d.ts",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/input/dependency-api.d.ts",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/input/public-shapes.d.ts",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/input/imports.json",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/input/output-data.json",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/output/provider-business-error.ts",
+    "/tmp/knorvia-core-error-telemetry-20261003/business/output/author-record.json"
+  ],
+  "actual_task_content_exposure": {
+    "inputs": "All six complete input texts and byte/hash metadata were exposed to this author through its exec_command tool result.",
+    "own_source": "The complete authored source and byte/hash/line metadata were exposed to this author through its exec_command tool result.",
+    "own_record": "The author constructed this record; the frozen record is read once to report its byte count and digest. Its complete body is not printed.",
+    "other_task_content_paths_read_or_exposed": [],
+    "qualification": "This is an instruction-scope content-access account in a shared executor. It is not an OS access audit or an OS isolation claim. Interpreter/runtime library loading is not counted as task source content."
+  },
+  "source": {
+    "path": "/tmp/knorvia-core-error-telemetry-20261003/business/output/provider-business-error.ts",
+    "bytes": 5830,
+    "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+    "line_count": 186,
+    "complete": true,
+    "public_functions": [
+      "findProviderBusinessFailureInMetadata",
+      "createCoreErrorFromProviderBusinessLike"
+    ],
+    "private_referenced_interface": "ProviderBusinessMetadataFailure"
+  },
+  "model_effort_tier": {
+    "assigned_configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "high",
+      "fork_turns": "none"
+    },
+    "qualification": "Assigned configuration is reported from the parent task instruction; actual serving identity and applied effort are not independently inspectable here.",
+    "requested_tier": "Fast",
+    "tier_qualification": "Fast was requested; no distinct task tool control or independently verifiable applied service tier was available."
+  },
+  "retained_expression": [
+    "Actual import modules and bindings; the two public API signatures and the exact referenced private interface.",
+    "Exact provider protocol field names, marker flag/name, fallback message, code/message precedence, failure result/context field order, CoreErrorType.ModelError, recoverable true and retryable false.",
+    "Required evaluation order, separate nested-field captures and lazy nullish candidate expressions; ordinary Number/String/Math normalization and property access.",
+    "Fresh FIFO BFS and WeakSet semantics, live array for-of expansion, Object.values snapshot traversal, and early first-failure return.",
+    "Context spread/overlay admission and marker gates; ordinary summary key assignment, Object.entries/Object.keys, array every behavior and retained array reference identity.",
+    "The existing bounded-by-type summary projection is retained without a new redaction policy or data-retention grant. Required protocol, fields, prose, format and ordinary idioms are not claimed as novel."
+  ],
+  "discretionary_structure": [
+    "Private cohesive helpers separate code/message normalization and candidate reads, nonzero classification, summary projection and single-record classification.",
+    "The metadata public function owns its local BFS queue and seen set; the unknown-error public function owns its marked/context/original branches and final collaborator delegation.",
+    "Helper names, local variable names and source formatting are independently selected implementation structure, with no cosmetic novelty claim."
+  ],
+  "scope": {
+    "written_paths": [
+      "/tmp/knorvia-core-error-telemetry-20261003/business/output/provider-business-error.ts",
+      "/tmp/knorvia-core-error-telemetry-20261003/business/output/author-record.json"
+    ],
+    "repository_git_history_tests_reviews_predecessor_other_author_dependency_bodies_read": false,
+    "network_access_used": false,
+    "compiler_tests_build_lint_mocks_run": false,
+    "provider_requests_data_credentials_logging_persistence_security_or_dependencies_changed": false,
+    "new_redaction_grants": false,
+    "verification": "Manual contract review of this complete source only; byte/hash/line accounting is not a behavioral test."
+  },
+  "breaches": [],
+  "contract_questions": [],
+  "remaining_blockers": [],
+  "freeze": {
+    "utc": "2026-10-02T20:07:59.215139Z",
+    "source_mode": "0444",
+    "record_mode": "0444",
+    "output_directory_mode": "0555",
+    "before_curator_body_review": true,
+    "qualification": "Read-only filesystem modes record a cooperative freeze, not immutability or OS isolation. Do not silently alter either artifact after freeze; preserve any original before a necessary receipt correction."
+  }
+}

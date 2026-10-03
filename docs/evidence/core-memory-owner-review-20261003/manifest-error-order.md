@@ -1,0 +1,5 @@
+# Required per-entry failure settlement
+
+Scoped synthetic gate found the original complete candidate waits for a stalled preview even after its paired stat rejects. Required public behavior: both stat and preview start concurrently, but failure of either must reject/omit that entry immediately without waiting for a permanently unresolved peer; outer scan still waits for other entries and emits ordered successful metadata. No retries or cancellation of the peer. This is error-order behavior, not a private helper or implementation design prescription.
+
+Preserve frozen original source/receipt. Return a full complete same-author corrected candidate plus full receipt, not a patch, exactly /tmp/knorvia-memory-owners-20261003/manifest-v2/manifest.ts and author-record.json. Additional allowed reads this finding, your own original two outputs, original six frozen inputs. No source/history/tests/dependency bodies/other drafts/compiler/build/lint/tests/mocks/business ports. Source under400lines; record everyread/path/bytes/hash, original lineage, qualification and freeze both0444.

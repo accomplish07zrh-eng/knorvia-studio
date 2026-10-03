@@ -1,0 +1,157 @@
+{
+  "baseline": "c976764dd27fd89ec598967c361b57592067c01a",
+  "directoryReservation": "db9854cc",
+  "selectedReservation": "66ed0b9b",
+  "scopes": {
+    "env": {
+      "source": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/contract.md",
+          "bytes": 3607,
+          "sha256": "890fc20012ccd1354b1bad10a772bcddea6bd3b00d903553bd1041061841128d"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/public-api.d.ts",
+          "bytes": 370,
+          "sha256": "46d931eae9100027b2c9c357fdb8d023238bf066c36d08c96ca644c9797bb853"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/dependency-api.d.ts",
+          "bytes": 221,
+          "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/public-shapes.d.ts",
+          "bytes": 2961,
+          "sha256": "0007cab7b3e45c8c6635630d90e942b571606b664bb75358dbdece236da92412"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/imports.json",
+          "bytes": 239,
+          "sha256": "0a2d281d0d02d8ca7535f2f58bf55f63bc8c293b454e319424ab3759a9b49e35"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/output-data.json",
+          "bytes": 6019,
+          "sha256": "62c46970a18deaddbf553dc80cc1465da87c4b7bab19fd353327b42cfd9655d2"
+        }
+      ],
+      "scratch": "/tmp/knorvia-model-context-session-20261003/env"
+    },
+    "skills": {
+      "source": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/contract.md",
+          "bytes": 3348,
+          "sha256": "daef7633df188b236c153c3e239b24ba5506e3b85b48c9ecfeda96011dad35be"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/public-api.d.ts",
+          "bytes": 315,
+          "sha256": "7b7fdcbc98d3d17d474436f73f878114e4be52f944553ff5f596ef8dd35fb298"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/dependency-api.d.ts",
+          "bytes": 221,
+          "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/public-shapes.d.ts",
+          "bytes": 2625,
+          "sha256": "06c105d216875117e70ff8c5864b5905c0c6be74d6d6fa5cdd9fd48fe8007065"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/imports.json",
+          "bytes": 256,
+          "sha256": "1c848c0c3fc8cfbcfe73b0a66f0a1e9cc493f0fd86ed3230da6343fcb729a687"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/output-data.json",
+          "bytes": 2474,
+          "sha256": "d0ab9385ef5fd8904cd562e531509628ae4e7405f44a7c9f478c3c7c8547632b"
+        }
+      ],
+      "scratch": "/tmp/knorvia-model-context-session-20261003/skills"
+    },
+    "parts": {
+      "source": "apps/cli/packages/core/src/session-context/parts.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/contract.md",
+          "bytes": 4006,
+          "sha256": "272e342ec5aba2f8c60091b266b66d3a5a7256a9cf5247aec3bcd51c816ceb7c"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/public-api.d.ts",
+          "bytes": 209,
+          "sha256": "46e6b96f096daecdcd35b650bad519ac79f998a44b547a49bf6c7865af772738"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/dependency-api.d.ts",
+          "bytes": 303,
+          "sha256": "ec0b29822d0386fc5c3e059760728193bae81cc01c068fbbd2a562187b6190d7"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/public-shapes.d.ts",
+          "bytes": 8932,
+          "sha256": "602ba1c117c040fe5954d2773aa9e2cb6ab65c45d7eaa1e418e9e66359d8fae5"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/imports.json",
+          "bytes": 165,
+          "sha256": "1b2b59cb1ede659f8d2d17beb10ecb7f2ffe0e7338bbd20ddea7710e4dd05d77"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/output-data.json",
+          "bytes": 5635,
+          "sha256": "7722c2c1e955cab6c476396a30b6fc13df5e40342b1669c38facd3dabfb92cb3"
+        }
+      ],
+      "scratch": "/tmp/knorvia-model-context-session-20261003/parts"
+    },
+    "session": {
+      "source": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/contract.md",
+          "bytes": 8355,
+          "sha256": "f24c143b12f0c286f4a421700f410e500e680e1d4e3555d1a225eb6cddc69bf2"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/public-api.d.ts",
+          "bytes": 1623,
+          "sha256": "18a2c30360257258f98c9129ca857784d72da04043e6b0b7f70006e6d5c5280a"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/dependency-api.d.ts",
+          "bytes": 1405,
+          "sha256": "f4955c8d364520e4bc9ecd213232cd3f2cb9f017102d354acf816001362fdbd8"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/public-shapes.d.ts",
+          "bytes": 13697,
+          "sha256": "033978f2070e30b60e586cad90ba8fd561ffe2d811af00d04a8536273ecfed1f"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/imports.json",
+          "bytes": 486,
+          "sha256": "20add8d5d0ff06ecca675cad50784cbc42375e5d4a8a7aa62b7d305bf7cd6e5c"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/output-data.json",
+          "bytes": 6679,
+          "sha256": "27c384f88b34c4a092322aa7308ce1ff77985a49c91bbc7c8659843f3cf11f6d"
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/protocol-schema-data.json",
+          "bytes": 2570,
+          "sha256": "c80b1b80e69229822b31dac4917d533d16110093d4992b19dc169c36fc860c88"
+        }
+      ],
+      "scratch": "/tmp/knorvia-model-context-session-20261003/session"
+    }
+  },
+  "qualification": "Curator targets4/retained13 afterreservation bodyreview; accepted2 exactreceipt-only. Incidental model dependency parseModelSelectionValue body observed during selectedpublictypes read, not delivered. Earlier broader/source/tool context qualified; instruction-only sharedexecutor, no OS/access-audit/clean-separation claim. Earlier repaired scratch-write breach remains disclosed. Fast unchanged/unverified; all21materials unchanged."
+}

@@ -1,0 +1,213 @@
+{
+  "typescript": "6.0.2",
+  "mechanicalDeclarations": [
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "bytes": 9114,
+      "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b",
+      "diagnostics": [
+        {
+          "code": 9011,
+          "message": "Parameter must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/aboutWindow.ts",
+      "bytes": 4837,
+      "sha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "bytes": 13080,
+      "sha256": "dfd11178f06f2ada16612bb7cdf9603eb1d012649d819872688f790a68c1ea3d",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/shortcutCommands.ts",
+      "bytes": 8895,
+      "sha256": "82873bfb3a6d6aa79494a2f2fd26b6abf862b5b7d441076cd50384d7952e8a3f",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "bytes": 2086,
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/version.ts",
+      "bytes": 725,
+      "sha256": "212bafb37bfea57fea69672991fdad94e65652c17c300a28ab39753820ef7b49",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/env.ts",
+      "bytes": 2620,
+      "sha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280"
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/shared/src/shortcutCommands.ts",
+      "bytes": 8895,
+      "sha256": "82873bfb3a6d6aa79494a2f2fd26b6abf862b5b7d441076cd50384d7952e8a3f"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "bytes": 2086,
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f"
+    },
+    {
+      "path": "packages/shared/src/version.ts",
+      "bytes": 725,
+      "sha256": "212bafb37bfea57fea69672991fdad94e65652c17c300a28ab39753820ef7b49"
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e"
+    },
+    {
+      "path": "packages/shared/src/env.ts",
+      "bytes": 2620,
+      "sha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3"
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "bytes": 11026,
+      "sha256": "93ea5812027c5b211b793b33c0b280af18312735cfdb1c0e057fb200555f87e3"
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "bytes": 98523,
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    }
+  ],
+  "qualifications": [
+    "about readBuildMetadata default filePath qualified string, target implicit getDesktopMenuLabel return string and update/rebuild returns void; clampDesktopZoomLevel dependency number, no runtime change or semantic compilation claim.",
+    "Target private helpers omitted; public-referenced types necessary. aboutWindow embedded script removed from literal data, independently implemented close event behavior contract required.",
+    "Curator read3 target bodies and incidental desktopZoom/stdioTapDevConfig dependency bodies; no bodies delivered. Prior source/tool context, instruction-only/no OS audit and earlier repaired breach remain explicit."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "archivedAtUtc": "2026-10-02T19:13:23.369316+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "80ab1c96",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-history-projection-author-packet-20261003/manual/iteration-clarification.md",
+      "bytes": 1179,
+      "sha256": "e01949cbfd47549a1386da6795bd6d430c1ce8337bb758aefbf2e38c444645de"
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 5355,
+      "sha256": "b7a2690b1c224b7ffb0056a501ee00994e0ba4727447092ed4e6b2c3a3f4abc4"
+    },
+    {
+      "file": "draft-manual.ts.txt",
+      "bytes": 4955,
+      "sha256": "a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9",
+      "target": "apps/cli/packages/core/src/compact/manual.ts"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "scope": "reminder",
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [
+    {
+      "code": 9010,
+      "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+    }
+  ],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/contract.md",
+      "bytes": 6683,
+      "sha256": "0545889004a9d576d098e200214db857bba4e74231c2fc7bd3dcddc8a514ce9f",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-api.d.ts",
+      "bytes": 1621,
+      "sha256": "a3e31dc3f56202e26633de627e70ad2a35d87cfb857efe371b9d34dcbc362c03",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/dependency-api.d.ts",
+      "bytes": 164,
+      "sha256": "dc564575aa72a25aa46db06c9c6af3de3487978c1d29a3c3e9de6dd66c7412ee",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-shapes.d.ts",
+      "bytes": 789,
+      "sha256": "9cd7e109f2435a9623f1db1c1dafe4475ba4c7f86c211bc2d008a1d7085d014e",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/imports.json",
+      "bytes": 209,
+      "sha256": "432760ef4b35f6588df217dbe36c1a5ec8bd6bc1caf9b9d89729bb61ec395684",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/output-data.json",
+      "bytes": 4572,
+      "sha256": "c0400254da81bccb97a4181468c0f69fde22dee4051fd844192d7505a2c3941b",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "reminder.ts.txt",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/reminder/reminder.ts",
+      "target": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "bytes": 7757,
+      "lines": 247,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "mode": "444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/reminder/author-record.json",
+      "bytes": 11271,
+      "lines": 207,
+      "sha256": "9f1a0e9f2c71e22ebb87c1079fd109a604bbb49346e70860a860b66921ba9097",
+      "mode": "444",
+      "exact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/plugins/index.ts",
+      "bytes": 10553,
+      "sha256": "cadda3ab4fa60954c9ba7a7da3e6a3a72d614200f4e3b6ea821e14b0fde19ac8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+      "bytes": 776,
+      "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Isolated declaration/metadata checks only, not semantic/project compilation. Complete original archive reviewed before installation, opaque original ports remain untouched. Self-report/instruction-only shared executor; no access audit, clean separation or rights assertion. Ordinary checks deferred."
+}

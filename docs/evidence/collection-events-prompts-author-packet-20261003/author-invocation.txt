@@ -1,0 +1,4 @@
+Task /root/collection_events_prompts_author; fork_turns:none; model:gpt-6.1-sol; reasoning_effort:high; Fast control not separately exposed. Input freeze7355f039.
+Author only complete collection-events.ts and prompts.ts using the five copied inputs and own outputs in /tmp/knorvia-collection-events-prompts-author-20261003. No repository/AGENTS/source/history/test/review/network/other-scratch/other-author access.
+Required exact output prose/JSON is retained compatibility material, not newly invented prose; embed it in source without runtime input-file imports. Private structure is free, each owner below400 readable lines, no novelty requirement.
+Freeze complete outputs/read/hash/UTC receipt before compiler/tests/comparison; no production/git changes or contact. Report receipt bytes/hash excluding self hash and stop. This file records invocation scope; full native message is retained in the conversation.

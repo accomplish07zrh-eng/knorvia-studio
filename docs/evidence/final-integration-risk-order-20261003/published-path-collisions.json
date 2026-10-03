@@ -1,0 +1,2624 @@
+{
+  "method": "Compare each pinned PR head against its own verified merge-base, then intersect changed paths. Metadata only; no merge/import/source bodies or runtime checks.",
+  "filter": "apps/cli/packages/ or packages/; ts,tsx,js,jsx,mjs,cjs,json; exclude docs/test/tests/evidence/__tests__ directories and .test./.spec. filenames. This bounded filter does not cover every tracked file, binary asset or lockfile.",
+  "base": "f25b931164ee6287167e965e9da7a7586131b264",
+  "mergeBases": {
+    "8": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+    "9": "f25b931164ee6287167e965e9da7a7586131b264",
+    "10": "f25b931164ee6287167e965e9da7a7586131b264",
+    "11": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+    "12": "f25b931164ee6287167e965e9da7a7586131b264"
+  },
+  "prs": {
+    "8": {
+      "base": "f25b931164ee6287167e965e9da7a7586131b264",
+      "changed_files": 1578,
+      "draft": true,
+      "head": "d0e405bda73cfcafc09c117ef52e2fca4d1aa6fe",
+      "merged_at": null,
+      "number": 8,
+      "state": "open",
+      "bodySha256": "a9934ccd5941f5507b2218fb11f25cf327deb74ac935b8784a79656ba6787135"
+    },
+    "9": {
+      "base": "f25b931164ee6287167e965e9da7a7586131b264",
+      "changed_files": 1361,
+      "draft": true,
+      "head": "6470e414fe38044fc68dd6c16be4cb6a753d3079",
+      "merged_at": null,
+      "number": 9,
+      "state": "open",
+      "bodySha256": "048023060c3c302fb96730a6c433beb83495f452709f9c6240ea6498cf9dc075"
+    },
+    "10": {
+      "base": "f25b931164ee6287167e965e9da7a7586131b264",
+      "changed_files": 373,
+      "draft": true,
+      "head": "e22d2bc32678d59ac2abeab4102a7794c8854d1b",
+      "merged_at": null,
+      "number": 10,
+      "state": "open",
+      "bodySha256": "4ea0d4887555c7cb8d19a90404f2f3154e2ba368fe246cbebf1fbd051f731eef"
+    },
+    "11": {
+      "base": "f25b931164ee6287167e965e9da7a7586131b264",
+      "changed_files": 1842,
+      "draft": true,
+      "head": "0a36f716872e70be1d10672bba24824dd2e22a7d",
+      "merged_at": null,
+      "number": 11,
+      "state": "open",
+      "bodySha256": "029de86b94c3cbfefa49377f4e39260e4788a3c3d68af758a2a2e4c61e1baa88"
+    },
+    "12": {
+      "base": "f25b931164ee6287167e965e9da7a7586131b264",
+      "changed_files": 438,
+      "draft": true,
+      "head": "dd963aae58aa6111e5c65532c30c152c040de30a",
+      "merged_at": null,
+      "number": 12,
+      "state": "open",
+      "bodySha256": "c178f042743d48b6f9346b98a975d2ff8af373bbce6edf31626aff045f84720f"
+    }
+  },
+  "eSourceEquivalentSnapshot": {
+    "archivedHead": "23e0a85de0b6127eaff95aa1a6c76d509ae85bb3",
+    "currentHead": "d0e405bda73cfcafc09c117ef52e2fca4d1aa6fe",
+    "interveningChangedPaths": [
+      "docs/evidence/reconstruction-progress-estimate-20261003/README.md",
+      "docs/evidence/reconstruction-progress-estimate-20261003/corrected-counts.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/estimate-metadata.py",
+      "docs/evidence/reconstruction-progress-estimate-20261003/evidence-bindings.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/initial-syntax-failure.py.txt",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/base-tree-metadata.txt",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-description.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-head-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-mergebase.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr10-metadata.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-description.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-head-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-mergebase-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-mergebase.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr11-metadata.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-description.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-head-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-mergebase.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr12-metadata.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-description.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-head-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-mergebase-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-mergebase.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr8-metadata.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-description.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-head-tree.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-mergebase.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/published-metadata/pr9-metadata.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/stage-and-owner-summary.json",
+      "docs/evidence/reconstruction-progress-estimate-20261003/withdrawn-base-tip-counts.json"
+    ],
+    "selectedSourceOrConfigChanges": 0
+  },
+  "pairs": [
+    {
+      "prs": [
+        8,
+        9
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        8,
+        10
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        8,
+        11
+      ],
+      "differentBlobCollisions": [
+        {
+          "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+          "8": "a6211db6991fc82f97e62cc67a47f499f9405288",
+          "11": "3d32f332462b3aac0a3037161c19340e2b6928fd"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+          "8": "917b25ccda3614cad553961e050fd82ea7a89a6b",
+          "11": "18523fd43ef142e2fad73f5869dc1f6ea312b673"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+          "8": "c2243ba5a4df70c90771860b492f94a50135e000",
+          "11": "6303688f0a2ff55f6e6c2f13737bd85c3c49cc32"
+        }
+      ],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        8,
+        12
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        9,
+        10
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        9,
+        11
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        9,
+        12
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        10,
+        11
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        10,
+        12
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    },
+    {
+      "prs": [
+        11,
+        12
+      ],
+      "differentBlobCollisions": [],
+      "sameBlobOverlaps": 0
+    }
+  ],
+  "changedPathBindings": {
+    "8": {
+      "apps/cli/packages/core/src/agent/file-part-hydration.ts": {
+        "baselineBlob": "f26810ce03590354accec9936960935015cdde03",
+        "headBlob": "2c109930a11a992218b9d3b13c90fc332ba080c2"
+      },
+      "apps/cli/packages/core/src/agent/message-history-usage.ts": {
+        "baselineBlob": "760dfe6f95f098ddaad7e75b707768c8d6be749a",
+        "headBlob": "384cb4c0c72181e3f83f421a0f1be1e428e0d6d5"
+      },
+      "apps/cli/packages/core/src/agent/message-history.ts": {
+        "baselineBlob": "46a428961f5f7a1c42c0a184f4dbd7ae379b5ce5",
+        "headBlob": "3dcbf23a748246630fd548769e1ab7f7281d5031"
+      },
+      "apps/cli/packages/core/src/agent/session-history-hydrator.ts": {
+        "baselineBlob": "e37abf41b46caf50bd50486e3cb46e9db5ddcf95",
+        "headBlob": "4d54af818befca0edae6f12d05341ece0f69efeb"
+      },
+      "apps/cli/packages/core/src/compact/manual.ts": {
+        "baselineBlob": "cd74921abc953661b15f73bf5497ed0403a3c4b1",
+        "headBlob": "ebfc7e7cbca62220974bb1c95f31508ba7b619af"
+      },
+      "apps/cli/packages/core/src/compact/microcompact.ts": {
+        "baselineBlob": "79d9dfb55a45a53359ea28b3ca061eec6f7eadf4",
+        "headBlob": "e071b09e1548eb126ea3791a9517612e0477bf6c"
+      },
+      "apps/cli/packages/core/src/compact/policy.ts": {
+        "baselineBlob": "e777c6ff231be34a12a310adbe5bbda75860cad5",
+        "headBlob": "aadc0a7e10abaae66ef35c9ab1d333176de3c205"
+      },
+      "apps/cli/packages/core/src/context/builder.ts": {
+        "baselineBlob": "f0b78bfaa49696a321c35705c58dbe37bc067fc3",
+        "headBlob": "b132051f28b51b3f80c7b2f4b6715c95c33f8e29"
+      },
+      "apps/cli/packages/core/src/context/sections/env-info.ts": {
+        "baselineBlob": "f3456b35f4eeac499838ef16c7bb5b9dbbd3ca9e",
+        "headBlob": "ccf0580da54c3003275e1631d69c742d272c4caf"
+      },
+      "apps/cli/packages/core/src/context/sections/request-user-context.ts": {
+        "baselineBlob": "2d118be96a85b71a02f8b2023aeeb349ff417daf",
+        "headBlob": "c3e070738fb6e4b6e4077d0c787daafddb4255a5"
+      },
+      "apps/cli/packages/core/src/context/sections/skills.ts": {
+        "baselineBlob": "04612189f899546303cc6d4d89c4ec07424c100c",
+        "headBlob": "dfb18b156eef3d091810e4d216f8b9eadb67f240"
+      },
+      "apps/cli/packages/core/src/mcp/image-normalization.ts": {
+        "baselineBlob": "4651486faf8a98ae7a1fc788c86ca3b1fbde0d2c",
+        "headBlob": "75b0c5caf6957b94ca26118293e9745c78c0f5dd"
+      },
+      "apps/cli/packages/core/src/mcp/index.ts": {
+        "baselineBlob": "a15a1618c4180798ba6bcff4efa5d30ef81c2a10",
+        "headBlob": "3602ebcfb2a5a0dc952ea4c6802f34e3aea4b61d"
+      },
+      "apps/cli/packages/core/src/memory/extraction.ts": {
+        "baselineBlob": "aeaf4cc742b7e5e96a9da03207fdb2f227272c33",
+        "headBlob": "ffcccd218b5d104f5ff0935f004925fc9c32af62"
+      },
+      "apps/cli/packages/core/src/memory/index-content.ts": {
+        "baselineBlob": "60fd754a38785421f3841610e626aadaec4887ab",
+        "headBlob": "fd84ee592eaf4bc6fdd74003dcfc638e444eee38"
+      },
+      "apps/cli/packages/core/src/memory/memory-agent-loop.ts": {
+        "baselineBlob": "a556db2115b63ff3e091982422998537c9b3087c",
+        "headBlob": "f85d94508605b151a231055f8ef3150998f89eea"
+      },
+      "apps/cli/packages/core/src/memory/memory-file-path.ts": {
+        "baselineBlob": "9f3bea6a6162e730b53b9e1d1675b5b69beaba31",
+        "headBlob": "53ce580b9542df548ac2b473e8da68e861b9c075"
+      },
+      "apps/cli/packages/core/src/memory/recall/manifest.ts": {
+        "baselineBlob": "7cd9ab41438dddb1a3ea1e75fb5794cbed3ad565",
+        "headBlob": "ff7bc356d95805323cf1f7219d64c9b5f59b901a"
+      },
+      "apps/cli/packages/core/src/plugin-reference/catalog.ts": {
+        "baselineBlob": "ba59645e8c8e84fc0859306fe49c21c2e20f6b29",
+        "headBlob": "ff92b7aa86b3b4bf66818954da2474206dcd7cfb"
+      },
+      "apps/cli/packages/core/src/plugin-reference/references.ts": {
+        "baselineBlob": "a12592c8b273f2b8019462ee163d1ec8926e760f",
+        "headBlob": "6fca95657b49d44fe64e568b562c80218bcd96ad"
+      },
+      "apps/cli/packages/core/src/plugin-reference/reminder.ts": {
+        "baselineBlob": "b8ea41579400106ab0272f5df337cd18aac2f3a5",
+        "headBlob": "4593f40028cbe46fc9710db2d7c510afc56b2634"
+      },
+      "apps/cli/packages/core/src/runtime-task/notification.ts": {
+        "baselineBlob": "c693090843c0bad5d761f80f8e65940d8946103f",
+        "headBlob": "19c88e167012f329a51072929ba24f5498cd0c8d"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts": {
+        "baselineBlob": "a253767f57f7df9a7d82c3d6002629121f4c6a53",
+        "headBlob": "2d7c60cda94b3d644224a57364ec82aeb4bd5ac2"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts": {
+        "baselineBlob": "21519118be0f13073efba0a63d20fa7f1eca087e",
+        "headBlob": "ab645f0b270147ee706ff5dafb6ecc44402034c7"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts": {
+        "baselineBlob": "c7122ab0909787c73d0ae7b28d6e6cce0104260b",
+        "headBlob": "a952076c1b62731dbc8368e20d16b2fc6a023cd9"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts": {
+        "baselineBlob": "cd0f580a9d0d3fec86f4b6ab765c3311be5b97f9",
+        "headBlob": "34be7ed1fd2d01f3782c55455919fe61d8a673fd"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts": {
+        "baselineBlob": null,
+        "headBlob": "a15cd78c2c9f6f389dbfcd566cb7896e7d223adc"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts": {
+        "baselineBlob": null,
+        "headBlob": "2d83ee7d75bf3d91ac25f8a989a9536fa0b7d18f"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts": {
+        "baselineBlob": null,
+        "headBlob": "a167611277a44391645a7894b4aea40cf84d93c6"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts": {
+        "baselineBlob": null,
+        "headBlob": "06ce1993ab65c54aaaa53ef21cd32cd64348d683"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts": {
+        "baselineBlob": null,
+        "headBlob": "d79e0ecc3bbb9befd9f507fd4f7419f288c7b4b1"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts": {
+        "baselineBlob": null,
+        "headBlob": "3e6fee9d693622312df2560104ec4aac845d148e"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts": {
+        "baselineBlob": null,
+        "headBlob": "ad3626a4c02bd3e44bde00087dbbbd79fb4d90f6"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts": {
+        "baselineBlob": "11f4fc837e8448f2d853d52adc32b1acf48c8ca7",
+        "headBlob": "5f4afa5dad2061f9cb3248fbee37b33dddc9dcb0"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts": {
+        "baselineBlob": "146c6d1e6e9d777639a7c46f2eafcd54a5ccc206",
+        "headBlob": "2baa9cad2e3396c0d58385feefcf1605845de4cc"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts": {
+        "baselineBlob": "ce9933b3b8592b1e041f157e484e36753ae3e92d",
+        "headBlob": "89e3cac9defb713846bfd41dbf565ee44b137116"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts": {
+        "baselineBlob": "845d7ede93e5e6a825f78bf679aa39eea2d1a134",
+        "headBlob": "cf322d0f1109f44309f54dbe7406d4f907002327"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/attachments.ts": {
+        "baselineBlob": "700d9cd8cf920bf822ec09d8902b6ba1d6454f02",
+        "headBlob": "7a4185300c05403a522c87ab27e38594c6d177ef"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/compact-media.ts": {
+        "baselineBlob": "049948b4a5e920507e81d1b8bcf0ce8ef5a4171f",
+        "headBlob": "d2a145391eba0af36a0034dc46cef7388ac95148"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts": {
+        "baselineBlob": "4a9561ab3b7b7b4aa2cd86f6ce77c49313cefe8d",
+        "headBlob": "3a7a281b2885298362884b5183b943ceaa7cb096"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/compact-selection.ts": {
+        "baselineBlob": "c2511a7d2c0d43263b5da399b7478e8f4f8a2141",
+        "headBlob": "7b80ed8ffcf71db0daef2484795b521984773f3c"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts": {
+        "baselineBlob": "07e860c19dd1ff7cd2b45d5d04d24afe728fbcfb",
+        "headBlob": "60d145ffd00191a4d6487c94545b660450f264c4"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts": {
+        "baselineBlob": "621eca6ecebac70f9e6edefc3adaa478a3246496",
+        "headBlob": "64b14723c6973e541067e1e9d80035f06887f82b"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/media-budget.ts": {
+        "baselineBlob": "5cbf7d5c7e43e4e10ce71fcc182962eb557b036d",
+        "headBlob": "039d9169c8bfcdafcd2dcc3065a883b8e4064643"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/media-capability.ts": {
+        "baselineBlob": "eb613c34ea6414692c96ef9fb0dcc5e97102408b",
+        "headBlob": "2fcd32c07e3abcba60384174667955deef7ddae8"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/media-observability.ts": {
+        "baselineBlob": "61689da2173161a2704b71bdcf4015b5299de57b",
+        "headBlob": "435e3ffb3be2171b6a39431a1a5cdcf6befc0bbc"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts": {
+        "baselineBlob": "78b16e586a9ac5cc0f52dca5dfde5ffa91f811cc",
+        "headBlob": "1bfce951a7b2eaa431bcace038af2b7dfb19b881"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/model-errors.ts": {
+        "baselineBlob": "40d3b0632fb40983afbc4d028fb9b9fcb7030a99",
+        "headBlob": "a3c172e12b1c5cccfa34c7529206d2a6e417bcee"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts": {
+        "baselineBlob": "4ac295b6dfa2e46427eec6b90c63624ea09afd3e",
+        "headBlob": "44345118d29b66d855b1b1f027e3c8a24c019ed1"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts": {
+        "baselineBlob": "c7ab4f056df48d994e2d259d3dad08b68c75de5f",
+        "headBlob": "feca378437b025fa2d0da8b9c2c95cf47f5187ff"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts": {
+        "baselineBlob": "ef4119dd6660e4ba97cdfc2204a6cd6ac89f8c39",
+        "headBlob": "cd000684e4fe65b931e3783f26c2dcdb5952328a"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts": {
+        "baselineBlob": "61a5a50f1c62798846581377ff19b0d306ee61a3",
+        "headBlob": "49e7d5e3cd1d1fc4040b75d5893cf3ed8facdef8"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts": {
+        "baselineBlob": "eea9250807b13915893910cc8071599bfb676a9e",
+        "headBlob": "dc919ba9d9ef0bc8cd45a8c6b1c09f55629b0c7a"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts": {
+        "baselineBlob": "f7d6d8680800188a1825cf092ae501b6c7fb4409",
+        "headBlob": "d070ff59c8128ac6c87d099cf7bf6076e0bf5a3d"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts": {
+        "baselineBlob": "7ac66664a305b18d358741d3e255b7a880212f26",
+        "headBlob": "7c5e426b60463831bce6c516ba4984a0b0f8c22d"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts": {
+        "baselineBlob": "da35ce4ae95226cea12ddc0dd0a7b54332f552ce",
+        "headBlob": "7a4b3cb2c677c11595c413559192069374883ac5"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts": {
+        "baselineBlob": "867a012d9da7459b77dbe8612d9e2719b3f8b867",
+        "headBlob": "dc153ac5ea067d1e24e5710456ebdf9c43db0de9"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts": {
+        "baselineBlob": "c57e72ee33caec7eccc2d6b5d69e5c9e4caa9a89",
+        "headBlob": "d51d6f30cd3544aea1c146bd07b773e632a67c17"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/tool-result.ts": {
+        "baselineBlob": "fd3da94f0308f13ecee0ee672672737b675c188c",
+        "headBlob": "8e4cb0bedd871ff7329dd8838961bbabb29b9743"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts": {
+        "baselineBlob": "9999756c1e370a71f727dac9bd241c19e8640f62",
+        "headBlob": "a06c819a677ede0c54005653158994537b52772b"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts": {
+        "baselineBlob": "3aa70c314ea62a2ddeb1b4756ae8a848d61ef6e9",
+        "headBlob": "68f16b9bf23bacd47cd8819ec5d0b52be0d36e2a"
+      },
+      "apps/cli/packages/core/src/session-context/parts.ts": {
+        "baselineBlob": "deb7b0d1aaf470565694ce14eb69472dce106bed",
+        "headBlob": "dfd738cb048f9770edb6083f1a7ef58ca8bab653"
+      },
+      "apps/cli/packages/core/src/session-context/read-session-context.ts": {
+        "baselineBlob": "cc7eb5f5069ab3bf466a2053b16e39901bf7f61e",
+        "headBlob": "c904e531ff3ef0464affd0ee4139b5e48896e416"
+      },
+      "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts": {
+        "baselineBlob": "1f13a114e1e10b588e6751ab4e688e0b93f08143",
+        "headBlob": "5441139e40665018fd4b97dd2356f51d28635bf2"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts": {
+        "baselineBlob": "1adeee03207e5622d413f3981387be57ef4f06c7",
+        "headBlob": "f62dd3d0f284dc24c81f54b85c80ef4017f6b11f"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts": {
+        "baselineBlob": "a4253875f3142bf527df95c56ec0a3b6cde51b44",
+        "headBlob": "e39ab37d1479f7a65edbce4126219a10c3ec8eba"
+      },
+      "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts": {
+        "baselineBlob": "cb462c9d2632c32d1675db21b3d4823c63d3a8b6",
+        "headBlob": "e4d868fa22c23cb8bf83f29cb9b47aecb35981fa"
+      },
+      "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts": {
+        "baselineBlob": "a23fbb5293fa45466dc0e5ad8ac7e4339755d8fe",
+        "headBlob": "d82d840c257093b9900e612ab002ad623dc95ef6"
+      },
+      "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts": {
+        "baselineBlob": "ffcff744bdcb9e25a4a86e20b25a529d69d9b29a",
+        "headBlob": "91292ba8e00f91a52fc22a5c23d778f4a77151d0"
+      },
+      "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts": {
+        "baselineBlob": "51f7fe8b0aeb133af60c8acc966200057c2cd00b",
+        "headBlob": "558e3e0acefabca0b4fa4119b631e0eb5c427010"
+      },
+      "apps/cli/packages/core/src/workflow/definition.ts": {
+        "baselineBlob": "2dfeb50b7e620fe208c447b7c6f4763e472e3f09",
+        "headBlob": "81824cf9158a2330f96fa1c3d1e546604dd1484b"
+      },
+      "apps/cli/packages/core/src/workflow/lifecycle-seed.ts": {
+        "baselineBlob": null,
+        "headBlob": "5a5fa9c784c54ccef5d2d563dc19d2d2ad333152"
+      },
+      "apps/cli/packages/core/src/workflow/lifecycle.ts": {
+        "baselineBlob": "17d82c262e531879a9bc36f3c3baa6df8f3998c2",
+        "headBlob": "79af501e0ee87b1f5ae7535d42f80071b66d7f35"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts": {
+        "baselineBlob": "ef4602ed2eec39c4adb315540896d4ce814ba9e0",
+        "headBlob": "66f01734e5a64a2e8bec1c0035d77042b12529fe"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": {
+        "baselineBlob": "6edf29007ce2fd738365e7ba7ca80809d3c8f9b9",
+        "headBlob": "a6211db6991fc82f97e62cc67a47f499f9405288"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/events.ts": {
+        "baselineBlob": "90776ca16e1704c6c01ef4fdcb7db1ab52c8821e",
+        "headBlob": "f7fa1dcb747c46169f61a78bb2b7803d43d44ce3"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts": {
+        "baselineBlob": "a631d9f0b369d66d7fe7704e5a5d03d58a5f07f4",
+        "headBlob": "917b25ccda3614cad553961e050fd82ea7a89a6b"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": {
+        "baselineBlob": "7547271ee1a146e7ed2c6d8d8fd4840443c85dc4",
+        "headBlob": "c2243ba5a4df70c90771860b492f94a50135e000"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/prompts.ts": {
+        "baselineBlob": "341cf0e7dc87b0f12fc49714acd5144591fe8102",
+        "headBlob": "aa3a056191eacfc1340df38c08366eb4c2b1c56d"
+      }
+    },
+    "9": {
+      "apps/cli/packages/adapters/src/browser/executable.ts": {
+        "baselineBlob": "91e3509c308d45d626c1628ce4f13e584398ca3d",
+        "headBlob": "ee705291d7a3907c2cb8d8c1480da90337c59bdc"
+      },
+      "apps/cli/packages/adapters/src/browser/index.ts": {
+        "baselineBlob": "162459ada52aa0f3f64817c68d5bb913a61ee856",
+        "headBlob": "b68c7bb33c28d9b1c7dcfc0838197c06d7dabdae"
+      },
+      "apps/cli/packages/adapters/src/browser/page-command.ts": {
+        "baselineBlob": "53356bdd29c1922bc47b69d19ba25e3ac00cc6e7",
+        "headBlob": "8390947fbc8a053644344117eced3a655a534dd1"
+      },
+      "apps/cli/packages/adapters/src/browser/playwright-command.ts": {
+        "baselineBlob": "001399cec43040ea6417122ca2bb8023f54c8bc3",
+        "headBlob": "6877ddf96d258b6f9a3fef486dd177ab15bcb6b2"
+      },
+      "apps/cli/packages/adapters/src/browser/session.ts": {
+        "baselineBlob": "7f032cf3d4b03f0762b80c0aafdeb9693aa845fa",
+        "headBlob": "ea00db80b4da3bb252d51552d973274b62cd3e15"
+      },
+      "apps/cli/packages/adapters/src/browser/snapshot.ts": {
+        "baselineBlob": "92ff8eeadb921d952058174b401a5142aed33f30",
+        "headBlob": "a84aba9bc5a30e6142b9cd11a085e86a5f388151"
+      },
+      "apps/cli/packages/adapters/src/commands/index.ts": {
+        "baselineBlob": "a399878ef60bcb542fed26fc83cbd3c47ce3c031",
+        "headBlob": "e5e17b1c9d1fc7d0a7b99fedc524b9ddf7b0ebf6"
+      },
+      "apps/cli/packages/adapters/src/config/config-factory.ts": {
+        "baselineBlob": "568098c842d127f52d42f6f8616566ed8c427f70",
+        "headBlob": "b195cc20cdfcec6919f7ddd7d7f88a038288b4fd"
+      },
+      "apps/cli/packages/adapters/src/config/config-merger.ts": {
+        "baselineBlob": "8cf84949b2802020437e4212f0046f7d53c81653",
+        "headBlob": "cc57db6f8bf4f015acfabf5c6adc1fdcc437135c"
+      },
+      "apps/cli/packages/adapters/src/config/file-config.adapter.ts": {
+        "baselineBlob": "839ba012ef03fc7b945367868f10b63731614705",
+        "headBlob": "b1871ed8437cd140873298540e0a94ff6d0624c5"
+      },
+      "apps/cli/packages/adapters/src/config/project-config.adapter.ts": {
+        "baselineBlob": "0842df181739046572c54328cf4f51ab6f0948eb",
+        "headBlob": "5ba3053e6722e14672c8a8ae9798d2f2121957c6"
+      },
+      "apps/cli/packages/adapters/src/image/index.ts": {
+        "baselineBlob": "6b16451eacbd2ed1025ba4788a2e72b5c6fe2b47",
+        "headBlob": "c675be60497994d32fc143cb86542dcd3e651a15"
+      },
+      "apps/cli/packages/adapters/src/image/jimp-compression.ts": {
+        "baselineBlob": "1518310ca3435679786186db98e5f40a0f4de591",
+        "headBlob": "efb4f780a766c4f2d6999123f46fa1eb272e9f26"
+      },
+      "apps/cli/packages/adapters/src/pdf/index.ts": {
+        "baselineBlob": "694cf09d0db46d038bcbb721b49b72f02502562e",
+        "headBlob": "5ec73d37a14215570f09d7980439ef18d924e64b"
+      },
+      "apps/cli/packages/adapters/src/skills/index.ts": {
+        "baselineBlob": "56bcca1177ce3f4a0996621d0713b34a91c58330",
+        "headBlob": "5771b2e9a4777b078a62c167e4a868fb9d77236d"
+      },
+      "apps/cli/packages/adapters/src/skills/scan.ts": {
+        "baselineBlob": "750ad5d016dba533f6ccea65c35118749c9bd3cf",
+        "headBlob": "333b7dabc0ede697837b1d2a3fda32da5b4ca797"
+      },
+      "packages/desktop/src/host/browserControlMainBridge.ts": {
+        "baselineBlob": "8827396694d40f967e5529c38dbded60d659f860",
+        "headBlob": "c76fccee44d3b3d6a7e0cbaf59d40bd2b1db049b"
+      },
+      "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts": {
+        "baselineBlob": "0da395706c3123f78d01c90fe065b61b2948e0c4",
+        "headBlob": "b8c9d17b7359e8b3109724e896c3c906f0c78633"
+      },
+      "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts": {
+        "baselineBlob": "07a8c25b00baae29316c1b0a3cf9668072353a21",
+        "headBlob": "1577dca579d09668d0134fda25d496b443b57b4f"
+      },
+      "packages/desktop/src/host/index.ts": {
+        "baselineBlob": "8907d821072f10e65cd07450d142740901fe3453",
+        "headBlob": "63c449b31e57f725728e64933f546b9d9e3d38af"
+      },
+      "packages/desktop/src/host/remotePromptAttachments.ts": {
+        "baselineBlob": "be0c5e844e84e7e7999940baeb1fdf14927eab1e",
+        "headBlob": "d1b562a51eeb8644f36ba5b7d75becc0b97c033f"
+      },
+      "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts": {
+        "baselineBlob": "57493c6f9e19a14c8ede08adf1dd906840a95567",
+        "headBlob": "543afde6dfae24939aaec3971342c76ea6c3b9b5"
+      },
+      "packages/desktop/src/host/windowRemoteConnectionRegistry.ts": {
+        "baselineBlob": "aab7bd44276d5e6926c3b89c6ad4ec1c087d7968",
+        "headBlob": "77487b8b1f7b5cb833aa415fa398a4328f47bb94"
+      },
+      "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts": {
+        "baselineBlob": "bf46332b569ebdbc428fd0373aec671611e90f8b",
+        "headBlob": "0e5663391a2c5b92f2fe74649a09267d321048bf"
+      },
+      "packages/desktop/src/preload/embeddedBrowserWheel.ts": {
+        "baselineBlob": "c44714fbf128e2b080495254487096b0839004b1",
+        "headBlob": "549ed64b0da00e32f9e05fb3e148dbf03f1c3b1f"
+      },
+      "packages/desktop/src/preload/index.ts": {
+        "baselineBlob": "36837bd83098aab61046637f5e42927e3ae32a98",
+        "headBlob": "0b332f462699ca21218ec42fff1627726042c601"
+      },
+      "packages/rpc/src/buffer.ts": {
+        "baselineBlob": "f5945d12b5e1a07d14ce24345406cc96842458ea",
+        "headBlob": "175d20b9a9fffbd2e7af39461e717fae7856f332"
+      },
+      "packages/rpc/src/channelClient.ts": {
+        "baselineBlob": "27675cd7a6a9771926c14d0f0df7a79222854820",
+        "headBlob": "1a54ff91468b71643185bb1e252ccd6f1e2783bd"
+      },
+      "packages/rpc/src/channelServer.ts": {
+        "baselineBlob": "fe7a8d8a49bebab4d2d45be64a558bae44664cc6",
+        "headBlob": "4a983c6719b7f24f8d6369a47577194b807f0fc2"
+      },
+      "packages/rpc/src/foundation.ts": {
+        "baselineBlob": "19b78c3f84266f5cb9e14621984d5cb1c04e3a8d",
+        "headBlob": "f3872969d43e69f756adbb0c2051f516d126f3a3"
+      },
+      "packages/rpc/src/ipc.ts": {
+        "baselineBlob": "b93dccaf47346b4d0c998a00c14af1b19a21770a",
+        "headBlob": "63217dc257c113e726f403b81c8df4ff7f7dbe06"
+      },
+      "packages/rpc/src/logging-middleware.ts": {
+        "baselineBlob": "838b4caee974d9d89b11e0bcc6c5b993ce70881a",
+        "headBlob": "cf68e1643c737d9192d506d288ad717815d3d59a"
+      },
+      "packages/rpc/src/network-telemetry-middleware.ts": {
+        "baselineBlob": "dfe26762b01aa08e23e6fd85d851a4437fa60f60",
+        "headBlob": "5b364d6f361b77ccaa3757a5a16b01441c149959"
+      },
+      "packages/rpc/src/persistent-protocol.ts": {
+        "baselineBlob": "deef78b78320fdcf8541fc6bdacd246300f9561e",
+        "headBlob": "fa71a0694b17cf5f8cec088f795ee12e340c4862"
+      },
+      "packages/rpc/src/protocol.ts": {
+        "baselineBlob": "836350b45ee70b8d78f7fd711c74287ba735d661",
+        "headBlob": "2f8d1e2da1bfb83dbf29db7698f22c014c9a7a8f"
+      },
+      "packages/rpc/src/proxy-channel.ts": {
+        "baselineBlob": "c9ea76ee185a02f8ccfbf269ab9d6d0dfd5dc95b",
+        "headBlob": "6cf37058bf295b9f44b06b2f3f184d62529b6640"
+      },
+      "packages/rpc/src/remote.ts": {
+        "baselineBlob": "dab4dadb63dd17b18872767d445528037e0a4aaf",
+        "headBlob": "fc07db93afb5717d6dbf8127c34d577c7a599632"
+      },
+      "packages/rpc/src/serialization.ts": {
+        "baselineBlob": "65d2d2fae85ae92f3eefb909af11e94e402d7b1b",
+        "headBlob": "842b0788ec473c712f25f163d95b7530d7edef36"
+      },
+      "packages/server/src/entry-http.ts": {
+        "baselineBlob": "16438fdc58d88426d489e11ca46a218914c4d1c7",
+        "headBlob": "ed478895e2405ae1add90c6a66c365ba023d75a3"
+      },
+      "packages/server/src/entry-stdio.ts": {
+        "baselineBlob": "26ce8f2107a881d1d70912cb8ceb6f3def3d6ee0",
+        "headBlob": "fb8f83b804f0af98bb9c0a2857bac2529c6d793f"
+      },
+      "packages/server/src/hostCapability.ts": {
+        "baselineBlob": "94904e391b43e805d818936249604df83f5e1225",
+        "headBlob": "39a742b814a2de8dc07f019e6664451947127458"
+      },
+      "packages/server/src/http.ts": {
+        "baselineBlob": "72200265198d5d19f10368e84d4ec971abbce22a",
+        "headBlob": "f35ec74596d6d24559730ca2c66538934061360e"
+      },
+      "packages/server/src/remote/agentBundleWrapper.ts": {
+        "baselineBlob": "9228eaf6976161e73f093b4428d947568e811ddb",
+        "headBlob": "8498ef287d396825748dc8fd7afc4a78147f1d1f"
+      },
+      "packages/server/src/remote/agentDeploy.ts": {
+        "baselineBlob": "5e382f580b5680d74414172c9c925db39e8bb7fe",
+        "headBlob": "a11986dae0fcd52ea9fbcb0a4e942f921d12dbd5"
+      },
+      "packages/server/src/remote/agentDevDeploy.ts": {
+        "baselineBlob": "9746ded4ca35beab1467e384bdbb8532ca580f4a",
+        "headBlob": "08b5d6a93b0b6a8146027025f5d0e44eea8f73ca"
+      },
+      "packages/server/src/remote/agentOfficialPluginPermissionRepair.ts": {
+        "baselineBlob": "ecc80356d8c61bbb783ad0a443927dbad447b242",
+        "headBlob": "278589aaceef3e48ae705832f721eb122d56e81d"
+      },
+      "packages/server/src/remote/agentWrapperDeploy.ts": {
+        "baselineBlob": "745e2f3f3c63e8685c1825995adce5a1131813f3",
+        "headBlob": "c2bc69816fdc1c54ca5d2f2ad7097ad06ec05324"
+      },
+      "packages/server/src/remote/closeEvent.ts": {
+        "baselineBlob": "2e9dfffcfc956c4bd321b5a773aba7789be4c4d3",
+        "headBlob": "f8386421195bae06affa2258f361a13ce0812966"
+      },
+      "packages/server/src/remote/connect.ts": {
+        "baselineBlob": "43667dedaf375cfd8d44b2053c548aa2187d77bc",
+        "headBlob": "32e78f86435939b2bc18c5b4ecc643e938eb97ff"
+      },
+      "packages/server/src/remote/create-backend.ts": {
+        "baselineBlob": "04346729ed7709838987d78fb0788bcc742c18f5",
+        "headBlob": "5de970f0dc8e1498983b5de390e594a0adcd84a3"
+      },
+      "packages/server/src/remote/deploy.ts": {
+        "baselineBlob": "e890b4de055b6fed600de8452cb219dbee3050d4",
+        "headBlob": "d58f0cef58d0914cbd7cb4ca023ff3367b216555"
+      },
+      "packages/server/src/remote/deployShared.ts": {
+        "baselineBlob": "f119cd07af48f78a2d52fede8b703ef36c657a6b",
+        "headBlob": "98aa40efcfd02cf6ed5815b08f0d795321ce2e20"
+      },
+      "packages/server/src/remote/detectEnv.ts": {
+        "baselineBlob": "eacb50b9330a1c239b8ce944e5fdbf15d93452eb",
+        "headBlob": "7d10d26fc0b8df4ef9bfd31c0b479b5e47d7c61c"
+      },
+      "packages/server/src/remote/docker-backend.ts": {
+        "baselineBlob": "2f2ff62f7bee9a8485ca024a31482d7164827cf0",
+        "headBlob": "e1286900d41339f4ff2901ccefe4341d48289b5b"
+      },
+      "packages/server/src/remote/docker-detect.ts": {
+        "baselineBlob": "6605fcc78525f3a2a0a7260778c48e96dc525e95",
+        "headBlob": "f01cdb5bc6eaaf0a45243ddacd7134403baf6a79"
+      },
+      "packages/server/src/remote/handshake.ts": {
+        "baselineBlob": "d30e86362e51159437f2dffc3bd661231e31cce5",
+        "headBlob": "f1a8a7f16729c78726edeafe381bff1436c6986d"
+      },
+      "packages/server/src/remote/localTarGz.ts": {
+        "baselineBlob": "c8e8da8b23174eaf8e9aa000df658545a8b712cb",
+        "headBlob": "92fe399d3070a584801d375945e256e99c348f6a"
+      },
+      "packages/server/src/remote/posixShell.ts": {
+        "baselineBlob": "e6d30863383b0f43b9d8ea50319287d8fe7b9c32",
+        "headBlob": "043b8374686a81d42ae318db85de2563dde07207"
+      },
+      "packages/server/src/remote/remoteAssetDeployDecision.ts": {
+        "baselineBlob": "11f10051f2a3d926490c999ff43546325d7aa7dc",
+        "headBlob": "2368ce8efe3ac91d10e66922a223cc31c8acf928"
+      },
+      "packages/server/src/remote/remoteAssetInstaller.ts": {
+        "baselineBlob": "34e54549d0251e925fe1dfc9b8d58c33c14ac12e",
+        "headBlob": "16d61f02b3d3071a67f7499ee3d7a49d1b137dcb"
+      },
+      "packages/server/src/remote/remoteAssetLiveIdentity.ts": {
+        "baselineBlob": "c99a97dea89226d00cb421564aef6efe5ea54dea",
+        "headBlob": "7588f825d357447a380d265926e024a887102744"
+      },
+      "packages/server/src/remote/remoteAssetPreflight.ts": {
+        "baselineBlob": "988313c917fc6f0e6071439066cd4d2d5e7bbd19",
+        "headBlob": "74f3ce3eee53aafed84739ab2f9934c53ebd8247"
+      },
+      "packages/server/src/remote/remoteConnectionProgressContext.ts": {
+        "baselineBlob": "23e13f9e9609ac4febd4da5e282f3e02ba894008",
+        "headBlob": "790a771dbdfb00e3c8f15256c3141a03359632e3"
+      },
+      "packages/server/src/remote/remoteDeployLock.ts": {
+        "baselineBlob": "5d9ec53dad7043397d9106dab8f5992ccf7c33f8",
+        "headBlob": "f834157eb892b3ff7cf7ee0c7779ba950ee810a3"
+      },
+      "packages/server/src/remote/remotePlatformSupport.ts": {
+        "baselineBlob": "b7acebc24b67396bfe797746de9426fcab6c1862",
+        "headBlob": "07c70d0650670273968b561200aa1707d0fb48b7"
+      },
+      "packages/server/src/remote/runtimeToolDeploy.ts": {
+        "baselineBlob": "d9bbb703985f7c7a8a17cebf4caf7e427cb89eae",
+        "headBlob": "460f19199dcbf348cfac0fbc2d769403c3683dc9"
+      },
+      "packages/server/src/remote/serverBundleDeployCheck.ts": {
+        "baselineBlob": "69c59fa8dbad6b9ae442998769ca7a446ff5cb08",
+        "headBlob": "384fcdb28e749c6612f86c0d1476d04dee6d70b7"
+      },
+      "packages/server/src/remote/ssh-backend.ts": {
+        "baselineBlob": "3e6d10322f5f8d21719bb96988068a72091d55a5",
+        "headBlob": "d0549e47ee3af1dc615d1733ef5994c537c88d38"
+      },
+      "packages/server/src/remote/sshAuth.ts": {
+        "baselineBlob": "9f610aa24b2e40d8c45615c0690ace79a52c8535",
+        "headBlob": "4defcdd4648cb00cf366a483c0deb990841a853d"
+      },
+      "packages/server/src/remote/stdio-socket.ts": {
+        "baselineBlob": "80a106dfbec07bf5326bf473bf9c21a59cd61b8c",
+        "headBlob": "06ae41f835c72a635e11df382871b354bf3d29c5"
+      },
+      "packages/server/src/remote/wsl-backend.ts": {
+        "baselineBlob": "3ac6d2313ce9097161a436861f2b2f97a0479f27",
+        "headBlob": "7a34f4ea2335b4e1eb53da09670fed94797b54d3"
+      },
+      "packages/server/src/remote/wsl-detect.ts": {
+        "baselineBlob": "d080e601bd0d844cc9f4abee640956aadb5a5393",
+        "headBlob": "a299ca7af64026bf5dc42df0476c20d650a83647"
+      },
+      "packages/server/src/remote/wslProxy.ts": {
+        "baselineBlob": "daa02a3921c1af52bbf32488cb2425993446b7d0",
+        "headBlob": "1babe19831a73f01f06bd5670ac40f915a5ba8f0"
+      },
+      "packages/server/src/stdio-lifecycle.ts": {
+        "baselineBlob": "8f10b762056439f35f1f2ed66d594804ef37f7c7",
+        "headBlob": "c6a54e8df9000d8418d71cbc6138654f408aae47"
+      },
+      "packages/server/src/stdio.ts": {
+        "baselineBlob": "b5437d8ac4d9c6617a8a37600707f11f8fce0c12",
+        "headBlob": "c0c1164d56e30fc3ab2ae621ebd5bee3d65e4ad9"
+      },
+      "packages/server/src/stdioServices.ts": {
+        "baselineBlob": "a2f4a3421bd9e647b85dba015b9b8088abc59269",
+        "headBlob": "0742da6151e301212aceeba055d93c1b02c00378"
+      },
+      "packages/shared/src/agent-model-state.ts": {
+        "baselineBlob": "8bf1eb475ccea0def64044935103173ed3d146ac",
+        "headBlob": "a8595d2f125a4398f6ec6d92424571209739f92e"
+      },
+      "packages/shared/src/api-retry-status.ts": {
+        "baselineBlob": "754adceccc8570d9c67a7d9c09b902521b0e319c",
+        "headBlob": "ff9751ed81031128fa91dd3241d0746def1a9e08"
+      },
+      "packages/shared/src/assistant-presentation.ts": {
+        "baselineBlob": "2393b86f285a6cb1f7dead23ea6f40a276bba628",
+        "headBlob": "fd2250586497692f88cf463fa0c8c63182180f66"
+      },
+      "packages/shared/src/background-task-controls.ts": {
+        "baselineBlob": "dc6a98892b7fd968a881cc7bd942a64c8b0f7bd0",
+        "headBlob": "6f455f1b76ddc4942cd6e40b6cc3169027240a13"
+      },
+      "packages/shared/src/background-task-notifications.ts": {
+        "baselineBlob": "fc0d9cf98b1056c3a3021f7948dfa8d519f8a744",
+        "headBlob": "4014e62a9b260a3505b7c599bda73f4fc321b07c"
+      },
+      "packages/shared/src/conversation-message-projection-policy.ts": {
+        "baselineBlob": "376f8646909b7a03fe67f988c5241d2386af9e97",
+        "headBlob": "bd5b653cd97c5e090ebe9c4eb54bd311f76ff5d1"
+      },
+      "packages/shared/src/endpoint.ts": {
+        "baselineBlob": "790eaea08e47a810f97aa2a3563904aece41f9bd",
+        "headBlob": "6439f5e1e4014de09a9f4bcbf87b11732259ead5"
+      },
+      "packages/shared/src/errors.ts": {
+        "baselineBlob": "8638dc081a461e02c8cf41492f1b1269ec204dd5",
+        "headBlob": "abb18f3bccbd1c8f7b521f075814ca7f952ddb5c"
+      },
+      "packages/shared/src/feedbackPrivacy.ts": {
+        "baselineBlob": "461a6a0bb4ae0c0338eb7ceca9f0f21f68ee0c36",
+        "headBlob": "a809e9c7fd5081e5a7d81b27751811b56b2b19de"
+      },
+      "packages/shared/src/forceUpdate.ts": {
+        "baselineBlob": "fe2dcacd1a04fe50b60860ae363e53332836f5f9",
+        "headBlob": "fc1212fd1d2bf8d5283c06322b97b20868e73281"
+      },
+      "packages/shared/src/lineChangeStat.ts": {
+        "baselineBlob": "67417c3e03ef35febb9c5c32d4be624009bd894c",
+        "headBlob": "690ac2a49266738f745262855ee627d05ae98953"
+      },
+      "packages/shared/src/mcp.ts": {
+        "baselineBlob": "5cf5dfba3ca36583983b0eec9ba114a4480e3035",
+        "headBlob": "8d540b7e9a8360a828f6a5b37626146f88f13e8c"
+      },
+      "packages/shared/src/memoryDiagnostics.ts": {
+        "baselineBlob": "e2e32a7efb7ea0b169face78e3f3e83913386bdb",
+        "headBlob": "4952c3c2e4ffc2c9be8fd5f426c601d5923805a1"
+      },
+      "packages/shared/src/model-provider-family.ts": {
+        "baselineBlob": "726a890be495e066958251be378288fd6a84a032",
+        "headBlob": "5c26dd353119b203be267157ca2e9ab603b2fb9c"
+      },
+      "packages/shared/src/network-debug-status.ts": {
+        "baselineBlob": "859cceb96c92f47822c799b8ad238b124819b1d0",
+        "headBlob": "369b7ee918158d1a43d638bdd7e9b209a417ab41"
+      },
+      "packages/shared/src/node/atomicFileLock.ts": {
+        "baselineBlob": "639214524048775ad95bcc89ca1ed9a0afe17263",
+        "headBlob": "505f5a41bfa95ff0bf88ef52f33758737ab27106"
+      },
+      "packages/shared/src/node/privateFilePersistence.ts": {
+        "baselineBlob": "ca7de9263e89866b959431dc6b9119e7bf287a2f",
+        "headBlob": "9b11cec0a8eeb79a2375e42b11623704978d0375"
+      },
+      "packages/shared/src/node/subagentMarkdownMigration.ts": {
+        "baselineBlob": "6af51ad47ab493d488bea3068b02fcf97c0769de",
+        "headBlob": "426e0ce8ba0d56d6f97aa9647aa73c4e9150e02c"
+      },
+      "packages/shared/src/official-mcp-auth.ts": {
+        "baselineBlob": "029cddbf879347c0c3f6acb17c9db02e4b6df102",
+        "headBlob": "8fe520f12679439832934006ab313fa8a519101b"
+      },
+      "packages/shared/src/permission-request-preview.ts": {
+        "baselineBlob": "b5f711a86e228d364968b9d6203fd8f5a61fee91",
+        "headBlob": "ff206dd1a36ace83c1176acc2ef480cf7c3bb4b1"
+      },
+      "packages/shared/src/plan-identity.ts": {
+        "baselineBlob": "dfcdcd4602e40006c80ea4181a068389f78daf5c",
+        "headBlob": "6c28db3af78cc53e71bfec89de05017e8be2d447"
+      },
+      "packages/shared/src/pluginStoreOrdering.ts": {
+        "baselineBlob": "69612a325c17c265705fc0c1ca368aa88029d9e2",
+        "headBlob": "cadc3d5d5cb3d07c2fc660b43bcd5a9996856224"
+      },
+      "packages/shared/src/processResourceTelemetry.ts": {
+        "baselineBlob": "aaea2a15289d2c6e013f1c80693d8d0cbfc6527b",
+        "headBlob": "78cb838acb9b2afe7c5746c13457b93e40a11416"
+      },
+      "packages/shared/src/protocol-v4/apply.ts": {
+        "baselineBlob": "97028891fac5fbfd11009f33dca1d6177d585d7f",
+        "headBlob": "e9f3188a4ebafa1b8c9f79f25a9afc2e0e574625"
+      },
+      "packages/shared/src/protocol-v4/coalesce.ts": {
+        "baselineBlob": "d151df13cee6d826f8b8ea7785841761e5a16597",
+        "headBlob": "4d7b1aa7080a9975de785c9e72fc59e79bf1e3db"
+      },
+      "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts": {
+        "baselineBlob": "6aa8166b67c89718b91443a0eaee8ae32ea4a427",
+        "headBlob": "f03b7c724f96125ee09bfd8cbbfd33625d6e38ae"
+      },
+      "packages/shared/src/protocol-v4/wire-assembler.ts": {
+        "baselineBlob": "c10c9a132423d0628d95b3f7c97357242f2d8a17",
+        "headBlob": "47fdec25ce1cc9881484466120ec8dac05efcdc1"
+      },
+      "packages/shared/src/protocol-v4/workflow-runs-artifacts.ts": {
+        "baselineBlob": "ad17cd840cc4c3f88ce3e352218fb9c0b99d1ee0",
+        "headBlob": "c9aa356898de7de0744378a0b6b9dbd925881096"
+      },
+      "packages/shared/src/remoteAppConfig.ts": {
+        "baselineBlob": "d92d10fcd199b93046308a02abcb7fbb99d8401b",
+        "headBlob": "fea2763010ca4a9478111e683c99d3f13c0f195b"
+      },
+      "packages/shared/src/remoteUsageTelemetry.ts": {
+        "baselineBlob": "80144a20116938b915b9e9afcd42ef380c0cdb39",
+        "headBlob": "de31496ca511f54c36869842dc050bb48fb73636"
+      },
+      "packages/shared/src/runtimeEnv.ts": {
+        "baselineBlob": "35716cdfb2f810c4a9a5bbb853eae8ba65e83ca0",
+        "headBlob": "a4f99dd17a140584a884cb3a8ddb38cacff1a10f"
+      },
+      "packages/shared/src/session-visible-content.ts": {
+        "baselineBlob": "0e91c040df84d0b22f785f07293cfd0061e0aaf1",
+        "headBlob": "e05b0a528d60b85c1ea1f003a6f8dd1a64267ce2"
+      },
+      "packages/shared/src/shortcutCommands.ts": {
+        "baselineBlob": "60d4038a984f21941ff44e3f7572e6b0b06f36a5",
+        "headBlob": "75cb96cbde0ab9bf50241ca3d0e828b7b9f29060"
+      },
+      "packages/shared/src/streaming-tool-input-preview.ts": {
+        "baselineBlob": "0e66acd35e80094ca922fcc0e0ea13d1f97bdca0",
+        "headBlob": "b1626ad8c29ba908a9bae2d5ef794c190637f829"
+      },
+      "packages/shared/src/subagent-markdown-selection.ts": {
+        "baselineBlob": "2ce8b55305f559b3a6d99553bef00bbf5aef401f",
+        "headBlob": "3c48ec93859b4b330600e7b1e19446f1cd01b7dd"
+      },
+      "packages/shared/src/subagent-state-migration.ts": {
+        "baselineBlob": "5d035c525c9664bf82a568b8eede87e030131d0d",
+        "headBlob": "5f639d465a033a025e1808754648300274557ae3"
+      },
+      "packages/shared/src/telemetry.ts": {
+        "baselineBlob": "0fe4c667f392e3528e62a26536ac9cbeb35ac906",
+        "headBlob": "363c21c5c22c0167b3fd252f5d7f31ed4640b053"
+      },
+      "packages/shared/src/telemetryRedaction.ts": {
+        "baselineBlob": "126df262b53e4381c9f11dd4f645d5279bb87f75",
+        "headBlob": "02e0f6221bed86e648d01b9c4d27f3ba018ecaf4"
+      },
+      "packages/shared/src/tool-call-summary.ts": {
+        "baselineBlob": "573ea8af0e2d99bd4a33e3589aefa5e72836748b",
+        "headBlob": "2c799c62e5ebb4032cb0cfbeddae2e12dd48e9ad"
+      },
+      "packages/shared/src/tool-plan-adapter.ts": {
+        "baselineBlob": "cbe291d0e1eae927505199aaaccca224929212b3",
+        "headBlob": "ed4510638015ca5fb15fc495622d6bf7c5025543"
+      },
+      "packages/shared/src/tool-projection-memory.ts": {
+        "baselineBlob": "d37411e63915eeba56d4cc1674aa6ca49275eea9",
+        "headBlob": "aa442863f1a729204474452a49a4486ef1c72526"
+      },
+      "packages/shared/src/validationAppSettings.ts": {
+        "baselineBlob": "edae2c17091e360d8260389675fa0962431b6b90",
+        "headBlob": "2f21df61908d3099106009875b5d342a020aee4b"
+      },
+      "packages/shared/src/workspace-hook-config.ts": {
+        "baselineBlob": "d8b3a667b49d273e97ad2c9631542a8e72e96a6f",
+        "headBlob": "5040a826a9765719496e4572dd816e36d5e78ee4"
+      },
+      "packages/shared/src/workspace-hook-digest.ts": {
+        "baselineBlob": "efc2e923e6d9590512cf32ab613874d36853a5be",
+        "headBlob": "f1738e723ccd4d9412d35834d77c993f0e18e81e"
+      },
+      "packages/shared/src/workspace-hook-mutation.ts": {
+        "baselineBlob": "903f5d90441cdcc8f78139282658de9b51bb53eb",
+        "headBlob": "764720420eab1eefd686a3bc551849e87d8260d9"
+      },
+      "packages/shared/src/workspaceFileEntriesCodec.ts": {
+        "baselineBlob": "c01bf593a9afeb0ba41eea285dc850aba2f23aae",
+        "headBlob": "43ec8ff60d907d1e6db041ef1da65eb2a40d4d32"
+      },
+      "packages/shared/src/workspaceFileSearch.ts": {
+        "baselineBlob": "e152c0a9b73562263c63f1a03f1599d43bfef9c3",
+        "headBlob": "b521c7ec233ea8638a1afd59e263a95e8da0099b"
+      }
+    },
+    "10": {
+      "packages/services/src/agent/STREAM-EVENT-AUTHOR-RECEIPTS-20261003.json": {
+        "baselineBlob": null,
+        "headBlob": "719fc0f49f779fc7226e0beb486ff0c9f1417c8f"
+      },
+      "packages/services/src/agent/sessionEventCoalescer.ts": {
+        "baselineBlob": "521a4e9c435a8d23d3929f91294d7690d292809d",
+        "headBlob": "dce13e9ec97fc753e45a628473cae7243ea7020f"
+      },
+      "packages/services/src/agent/stdioTransport.ts": {
+        "baselineBlob": "34e80cd542f224ce821c296156b322541c516be6",
+        "headBlob": "53a6660551e381b68ee6fb0c4f2a2f29d6b04ff0"
+      },
+      "packages/services/src/broadcast/broadcastService.ts": {
+        "baselineBlob": "32cdbe98841eabe401e8cf95583e8fbe8abde3c8",
+        "headBlob": "9828b464e5a5530b9c104638f325618e06d00888"
+      },
+      "packages/services/src/commands/commandConfig.ts": {
+        "baselineBlob": null,
+        "headBlob": "201b52bb4bfb6bf3ce26839a4528ac6d1eae45f5"
+      },
+      "packages/services/src/commands/commandDiscovery.ts": {
+        "baselineBlob": null,
+        "headBlob": "e240b80fe3c5bc79ef3319a8d78c14ebe7d0a2f7"
+      },
+      "packages/services/src/commands/commandFileParser.ts": {
+        "baselineBlob": "0a832cecb23e9d641e6f212a2897ed35dcba7a86",
+        "headBlob": "5663a2506b276334e60858993b039133c4b4560a"
+      },
+      "packages/services/src/commands/commandLocations.ts": {
+        "baselineBlob": null,
+        "headBlob": "c8f36806e29ef3e229267135afb50938930db5ee"
+      },
+      "packages/services/src/commands/commandsService.ts": {
+        "baselineBlob": "aaba79278de6c84da0ef62f600ac263ab867e772",
+        "headBlob": "788c2bf3719c544a6172dcbf624f92e108f0019a"
+      },
+      "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "0089f08448f451d25670c1d4d8427c78ee014938"
+      },
+      "packages/services/src/cua-permission-broker/AUTHOR-RECEIPTS-20261003.json": {
+        "baselineBlob": null,
+        "headBlob": "8fa83512300012c65577df97809a9d62ad4457b7"
+      },
+      "packages/services/src/cua-permission-broker/IMPORT-REPAIR-RECEIPTS-20261003.json": {
+        "baselineBlob": null,
+        "headBlob": "98a5e6e10c3837baa58ad912e1919315f4132b9c"
+      },
+      "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts": {
+        "baselineBlob": "fac8dae5fa656df73263f2a19468ea32580bca30",
+        "headBlob": "f5f7fc9ff155fcdc8716865c19d7ed756aaf1710"
+      },
+      "packages/services/src/cua-permission-broker/cuaPipSessionService.ts": {
+        "baselineBlob": "469765cc8b775bb6e90d2124fe94fcbfcd2ee8dc",
+        "headBlob": "d14cff409c447605afca4389f4cefc5f839e3f53"
+      },
+      "packages/services/src/dataLocationOwner.ts": {
+        "baselineBlob": null,
+        "headBlob": "10e76cb465705c81d600938ebcb930b31860fbbb"
+      },
+      "packages/services/src/device/deviceMid.ts": {
+        "baselineBlob": "7ef4aa840727c03c6452a94ed73411f2d1547609",
+        "headBlob": "8c5bfb625cd8abf8e3fab02ba966a087a35e94d5"
+      },
+      "packages/services/src/feedback/PRIVACY-MEDIA-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "2d2ff4d0654fc59ebdd398b85d23e340834a4c3e"
+      },
+      "packages/services/src/feedback/PRIVACY-MEDIA-QUEUE-INVENTORY-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "780a5d42e59ecf067e02d8b8e492639072d98e76"
+      },
+      "packages/services/src/feedback/feedbackArchiveCandidates.ts": {
+        "baselineBlob": "85e48f02136292faaea29129c32657c8a1a4f56d",
+        "headBlob": "df6ea11447a014fe93f9e18bcc1c54bda0bf2bda"
+      },
+      "packages/services/src/feedback/feedbackArchiveSnapshot.ts": {
+        "baselineBlob": "8d8e03f627bc9a31c481ac6dc68f8aa0849c593b",
+        "headBlob": "c7104f5f92e061a6928a02aa61392c8548d745d8"
+      },
+      "packages/services/src/file/FILTER-COMPATIBILITY-DATA-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "15838058100c76f05be8be2db1ee90dbb2d86a5e"
+      },
+      "packages/services/src/file/IGNORE-COMPATIBILITY-DATA-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "abdc505fbe634b746158b557e5ae24cb0ff85bfa"
+      },
+      "packages/services/src/file/fileService.ts": {
+        "baselineBlob": "6d3b0565f722eb6edf4666dc4dd0e96f5f13f7a3",
+        "headBlob": "80c3ca8aefd3f1bcea9b1e4c72ca40381bb325d9"
+      },
+      "packages/services/src/file/fileServiceIO.ts": {
+        "baselineBlob": null,
+        "headBlob": "250f2a24a0f61a14417bf3c269319fdba849b453"
+      },
+      "packages/services/src/file/fileServiceIndex.ts": {
+        "baselineBlob": null,
+        "headBlob": "c9184b3f2a4ca8fddea87905c31cbc3872dad661"
+      },
+      "packages/services/src/file/workspaceFileIgnore.ts": {
+        "baselineBlob": "2231ad65dd2c5d032ad0a70d84c80aaed0665664",
+        "headBlob": "9caecd1b814e52c0a209268633142916d95c18c0"
+      },
+      "packages/services/src/file/workspaceFileMentionFilter.ts": {
+        "baselineBlob": "11c3938a192c9bfb0a080a09bd3aabd42903f276",
+        "headBlob": "45dcd041ca4ba626bccb3093f275c8e4be7f7c49"
+      },
+      "packages/services/src/fs/REMAINING-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "6dc82b193345774a7b27cb04f1777a7639c73613"
+      },
+      "packages/services/src/fs/atomicFileUtils.ts": {
+        "baselineBlob": "38ed00566bedb85e4b47e8d5a17e1735acf9947d",
+        "headBlob": "4dbb504b4421c10b1316ed82243b2908ac062082"
+      },
+      "packages/services/src/fs/fsFaultInjection.ts": {
+        "baselineBlob": "0701cbfd2c34490f2684ab9b3ec4b2a8acfd98b9",
+        "headBlob": "f321814fe7af8399367a8124a964b76fc0381feb"
+      },
+      "packages/services/src/git/AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "7faf18a416c66e2dff5f7de3f5546dede0d1a700"
+      },
+      "packages/services/src/git/CLI-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "558ff9b55c6248d44d9d19524637c1abd6d21343"
+      },
+      "packages/services/src/git/gitCheckpointService.ts": {
+        "baselineBlob": "e9022ec62c983c785bdcdc10526a1e3bc0e58c83",
+        "headBlob": "10a22427253ea426ba1f0da876656f8c9cc56abe"
+      },
+      "packages/services/src/git/providers/gitCommandProvider.ts": {
+        "baselineBlob": "2bf30809dc4f0f87f551094865269db6a47b5aa5",
+        "headBlob": "739d6c1e5798a2ac75ca007ae561fefd188285c1"
+      },
+      "packages/services/src/git/providers/gitEnvironmentProvider.ts": {
+        "baselineBlob": "526619f932d13acb0e0173e2e961c7ad04cbe9e1",
+        "headBlob": "dd7b793ddf4d610e560cf1dd537e94ff94883cfb"
+      },
+      "packages/services/src/git/repo/gitCheckpointHelpers.ts": {
+        "baselineBlob": "6b01ab4e6d3d964f92ef9909dcba235776fdbaf6",
+        "headBlob": "0da6260ddc55f7e420d3854acb3b0037afe1a032"
+      },
+      "packages/services/src/git/repo/gitCheckpointRepo.ts": {
+        "baselineBlob": "f8b189e7fd0fee83fecf9c4f7569749be5b0d0db",
+        "headBlob": "a098950d21a4a3e6e7103bd0532ba23c138e110c"
+      },
+      "packages/services/src/git/repo/gitCheckpointStore.ts": {
+        "baselineBlob": "ef73843151300656b0ae6c6fd4e4ec4a3517a638",
+        "headBlob": "7015877d267666409a5c45e0cbe8dc3e1fb8f978"
+      },
+      "packages/services/src/git/repo/gitCliHelpers.ts": {
+        "baselineBlob": "89296a0a08f477a323aaa2b718fe3faf9465a21c",
+        "headBlob": "0aa56365df35d77cced9e9ad37660f8e94709355"
+      },
+      "packages/services/src/git/repo/gitCliParsing.ts": {
+        "baselineBlob": null,
+        "headBlob": "5cd98ec40c3a6561a57c122f5007732b25885eba"
+      },
+      "packages/services/src/git/repo/gitCliRepo.ts": {
+        "baselineBlob": "580fb10add03a0227006b7eaa9b4d60d997941d1",
+        "headBlob": "e9142372d1e421d67816967a983f2fbd3ec7c3f8"
+      },
+      "packages/services/src/git/repo/gitRepoBranches.ts": {
+        "baselineBlob": null,
+        "headBlob": "5edd5e4833b9d90821518f6f3dfff42e3570f082"
+      },
+      "packages/services/src/git/repo/gitRepoCommit.ts": {
+        "baselineBlob": null,
+        "headBlob": "702f4c0783ede9e8b6cbe2c61dd71fda339e4e7f"
+      },
+      "packages/services/src/git/repo/gitRepoDiff.ts": {
+        "baselineBlob": null,
+        "headBlob": "4ac2c93aa166dfb1c8cf6ce5d60363a210c63a8e"
+      },
+      "packages/services/src/git/repo/gitRepoOwner.ts": {
+        "baselineBlob": null,
+        "headBlob": "b2957f65ff8fe77bea46b9101c3c2fc5cd940470"
+      },
+      "packages/services/src/git/repo/gitRepoPush.ts": {
+        "baselineBlob": null,
+        "headBlob": "9f6979f1ff7aa11ef006353aae3f3cd171768d87"
+      },
+      "packages/services/src/git/repo/gitRepoResolution.ts": {
+        "baselineBlob": null,
+        "headBlob": "652e9fc8af895710a888d50e4d7db7bf4c6c701f"
+      },
+      "packages/services/src/git/repo/gitRepoStatus.ts": {
+        "baselineBlob": null,
+        "headBlob": "1f333740e94451edc49780acadf273fd8b68110e"
+      },
+      "packages/services/src/git/repo/gitRepoWrites.ts": {
+        "baselineBlob": null,
+        "headBlob": "2ca76b2e89a2daae46ac1786c75097107cad38e9"
+      },
+      "packages/services/src/hooks/hooksService.ts": {
+        "baselineBlob": "2c47803d550fd4af7267a655d96ef841a6f22467",
+        "headBlob": "c9b75207917993a5995759390e4dd8532bcc2215"
+      },
+      "packages/services/src/hooks/workspaceHookSettingsModel.ts": {
+        "baselineBlob": "ad910bbbdc95f2554d6f9fd3ba762bea36a33df0",
+        "headBlob": "1d4b28b580ab2ffec0bb09a2c3cb0862de120549"
+      },
+      "packages/services/src/mcp-sync/mcpArgumentPaths.ts": {
+        "baselineBlob": null,
+        "headBlob": "ad335269e80568497f8becc2f61074910ef3c31a"
+      },
+      "packages/services/src/mcp-sync/mcpConfig.ts": {
+        "baselineBlob": null,
+        "headBlob": "d51f571907fffa6b2a64ab5932e5ae940f798358"
+      },
+      "packages/services/src/mcp-sync/mcpDirectories.ts": {
+        "baselineBlob": null,
+        "headBlob": "c862c6ce5d92967b650c032d7f412801ad0179dc"
+      },
+      "packages/services/src/mcp-sync/mcpSyncService.ts": {
+        "baselineBlob": "c4542f352510b2c37dd955ea02792e4436495de8",
+        "headBlob": "a3acf22866602ad44fbbde3794baa1210f86c34f"
+      },
+      "packages/services/src/media-preview/mediaPreview.ts": {
+        "baselineBlob": "94f31eb73c3d51d4c0501f02ebb6192cebf0143f",
+        "headBlob": "fadcdd15993a5cf11843a22fda0e190efb97e2f8"
+      },
+      "packages/services/src/memory/AGENTS-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "afac0c2fc39bd19425ed14407aaccfca4b092603"
+      },
+      "packages/services/src/memory/memoryService.ts": {
+        "baselineBlob": "bfb29393482adf00037e3027a849dfe472abcc96",
+        "headBlob": "003cfd2570fb56be7ae1d488bbf7b6cb4a07a720"
+      },
+      "packages/services/src/memory/projectMemoryStableRead.ts": {
+        "baselineBlob": "c9ef6fa4d2efc957ab3e7eeeddefc3f4b7ae5030",
+        "headBlob": "c0c7010b337c1078de16d92347593d2aa72dc94f"
+      },
+      "packages/services/src/model-provider/legacyModelProviderSerialized.ts": {
+        "baselineBlob": "c002a3e8c50f8ff8efd915619924da235463ecd7",
+        "headBlob": "2ad8a7b55fb672c6bd952c6fa5aadf66d769221f"
+      },
+      "packages/services/src/model-provider/legacyProviderEndpoints.ts": {
+        "baselineBlob": null,
+        "headBlob": "4140944907faa7ea6b0c6705b4b28db0d20da2de"
+      },
+      "packages/services/src/model-provider/legacyProviderMigration.ts": {
+        "baselineBlob": null,
+        "headBlob": "000b828de6504b070112643fd64daf558342b26a"
+      },
+      "packages/services/src/model-provider/legacyProviderModels.ts": {
+        "baselineBlob": null,
+        "headBlob": "7c880eddff8be7c3f56e9cbefc1ce0c1621b06c7"
+      },
+      "packages/services/src/model-provider/legacyProviderSchemas.ts": {
+        "baselineBlob": null,
+        "headBlob": "6a7d660c44f01ed3fce402802316498d995575ff"
+      },
+      "packages/services/src/model-provider/legacyProviderTypes.ts": {
+        "baselineBlob": null,
+        "headBlob": "34d3cd3e71fb00b46abef97f53e88de077bea290"
+      },
+      "packages/services/src/model-provider/providerConfigRuntime.ts": {
+        "baselineBlob": "fc23aef5fd84e6736e1ff53853fff5225d7b01a1",
+        "headBlob": "5028e4f107afdc4507d5358d7f528776dfcefe9f"
+      },
+      "packages/services/src/model-provider/providerFacadeServices.ts": {
+        "baselineBlob": "95d5632f4335bccdb7250e5f35e0a6e0c542fe1d",
+        "headBlob": "a2083fee570e7315adced2840b3c0b73d47311d2"
+      },
+      "packages/services/src/model-provider/providerRuntime.ts": {
+        "baselineBlob": "9ade4c899021fbbeb3ae4790561f227a2a83d34b",
+        "headBlob": "8f45d9489ce2da43f4afa5b6fa2995d573e954bf"
+      },
+      "packages/services/src/model-provider/providerSettingsConnectivity.ts": {
+        "baselineBlob": "81d40d6878a0f1285da1c14de7e8d2258f8b77cb",
+        "headBlob": "16b773455f66898204eafc26fcaa0d56d0f6014b"
+      },
+      "packages/services/src/onboarding/onboardingRecordService.ts": {
+        "baselineBlob": "65131814f15fd452be0dd70f3da593e725d689b0",
+        "headBlob": "78bc114d6c4d066aecfb8aab259c6570b9451006"
+      },
+      "packages/services/src/paths.ts": {
+        "baselineBlob": "a2963f9f0f8c631c51a406fa0d219d1c85df9cc3",
+        "headBlob": "d22c88ba3766a4c7e247f9d456e67b02b4a97961"
+      },
+      "packages/services/src/plugin-sync/ARCHIVE-CATALOG-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "3f13d9191e5a4dfa7a0c6301fb8b683cd8e3e6d5"
+      },
+      "packages/services/src/plugin-sync/pluginSyncArchive.ts": {
+        "baselineBlob": "65eafaae44fcd2b6f12580f79265d651e7fa4766",
+        "headBlob": "62954a98b5475b99bef5c647d04847395d96d4ae"
+      },
+      "packages/services/src/plugin-sync/pluginSyncInventory.ts": {
+        "baselineBlob": null,
+        "headBlob": "cb5cc1161c29769bd2fc4eca1de459604414a382"
+      },
+      "packages/services/src/plugin-sync/pluginSyncMarketplace.ts": {
+        "baselineBlob": null,
+        "headBlob": "8e64b52a863f0edfb78893607858515455eef62b"
+      },
+      "packages/services/src/plugin-sync/pluginSyncMarketplaceArchive.ts": {
+        "baselineBlob": null,
+        "headBlob": "b48edf3a59a1e08e9300b0a420278b8859951973"
+      },
+      "packages/services/src/plugin-sync/pluginSyncService.ts": {
+        "baselineBlob": "666e034f6137224fa006a3866ff0e4ce027e6d99",
+        "headBlob": "dec4e4b5b48dbb0faa5aa3b3db97fa5bf4ee77e8"
+      },
+      "packages/services/src/plugins/installedPluginRoots.ts": {
+        "baselineBlob": "131aab9bd150c47fdd6d5416ff83281a8e849b07",
+        "headBlob": "4d46fd08265a7b3f00d6e563513475fe367e198e"
+      },
+      "packages/services/src/process/FINAL-OWNERS-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "c403ca3c945e12b7a0b8d65b4b67c7b62c368624"
+      },
+      "packages/services/src/process/OBSERVATION-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "5a68b94862459a3abac3025dedbf6ab6a850b1e6"
+      },
+      "packages/services/src/process/OBSERVATION-QUEUE-INVENTORY-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "1e0c850c2658190c3f3f11b5e8f3d398043c49b4"
+      },
+      "packages/services/src/process/REMAINING-ALLOCATION-EVIDENCE-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "0e809874905e035841ca8c2d3cb6373024bbde36"
+      },
+      "packages/services/src/process/processResourceSampler.ts": {
+        "baselineBlob": "812765988d2b68d14b7f18f109f582a791abc49a",
+        "headBlob": "0b51e1dc01f337872a42afb1917cfd783c845b75"
+      },
+      "packages/services/src/process/processTreeOwnership.ts": {
+        "baselineBlob": "2f124d208d7b1fd5deaf628ba664e93aa665cd11",
+        "headBlob": "cb94afd8a21a5249095127e5f2fa59c99c89227e"
+      },
+      "packages/services/src/process/processTreeSnapshot.ts": {
+        "baselineBlob": "5d5e2b112a5bb5b1fc59ca457a3c42f49a6ed80c",
+        "headBlob": "cf14b7bf5ba79be6377b58523245732bfb9890ed"
+      },
+      "packages/services/src/process/processTreeSnapshotAsync.ts": {
+        "baselineBlob": "768b6b88d6763f79482766c46dfec7a0d008b169",
+        "headBlob": "b04e2ec520e611e0908efa6a5fa723f90f022ba7"
+      },
+      "packages/services/src/process/processTreeTerminator.ts": {
+        "baselineBlob": "abbb3f3527225517dbf08c800f9800ce4e792d40",
+        "headBlob": "dd8ae25c7ced57981612644744c176df9dfe180a"
+      },
+      "packages/services/src/process/processTreeWaiter.ts": {
+        "baselineBlob": "aec26950e3150ef026869dfe3548660309be87ad",
+        "headBlob": "93b84eeed800f282a746b4a4ea846a5511473449"
+      },
+      "packages/services/src/process/windowsProcessListAsync.ts": {
+        "baselineBlob": "afd02ee2e825f1da5af6756d8251577626e87df4",
+        "headBlob": "42a348e21091b51f3ede01298358465640f57a70"
+      },
+      "packages/services/src/providers/api/apiJson.ts": {
+        "baselineBlob": "4a31147f928290feffd9b3fc62c297ff6de66f6e",
+        "headBlob": "7a15737a973b3a547efabacc098954a1fb89f204"
+      },
+      "packages/services/src/providers/api/apiKeyHeaders.ts": {
+        "baselineBlob": "f07da4526f76bd2fcd37e47bdcdfa33cb7b87442",
+        "headBlob": "d10ab28030fe51e57bc85acb6092595107da4a65"
+      },
+      "packages/services/src/providers/api/index.ts": {
+        "baselineBlob": "186aca6527fc01752a1ad2e428759b3b2a844b1c",
+        "headBlob": "0b09127591e63f31e3bb5178a2821a59b539939d"
+      },
+      "packages/services/src/providers/api/networkErrorClassifier.ts": {
+        "baselineBlob": "b82f68c8a656ca561855bf9b5a734d2d75b352ed",
+        "headBlob": "459c10110a47dd13cf9ed46415f4a621a1d3e2dd"
+      },
+      "packages/services/src/providers/api/nodeApiClient.ts": {
+        "baselineBlob": "0204873f0547ce14aec62db4e74724b61dddd05e",
+        "headBlob": "74c1bc4b694fd591dc13c73171ded3ae23c7035c"
+      },
+      "packages/services/src/providers/api/nodeApiNetwork.ts": {
+        "baselineBlob": "6b8a9c63e3121dc4c4f6fa63bf1feabb663fbd9f",
+        "headBlob": "aaa2928bb9af49c147b530630920ef60051232ca"
+      },
+      "packages/services/src/providers/api/requestIdHeaders.ts": {
+        "baselineBlob": "458ce6875180626b773eb0bae22a21eb45f6ebe4",
+        "headBlob": "43fc8a351b1735dc6b4bd489297b8f253f9b87f2"
+      },
+      "packages/services/src/remote-sync/remoteSyncWriteAccess.ts": {
+        "baselineBlob": "192c7d28db80f9bf35ae36ea5d8acf65e1101664",
+        "headBlob": "ecbfbbf8d529db11a5f689fe93a767efee529457"
+      },
+      "packages/services/src/runtime-tools/runtimeLoginShellEnvCapture.ts": {
+        "baselineBlob": "18527dd7ac37634b1ca433eed6474dcf824d65b8",
+        "headBlob": "62b773881e36cbdb8f7a09e1f8267d525ad4711f"
+      },
+      "packages/services/src/runtime-tools/runtimeToolResolver.ts": {
+        "baselineBlob": "3a10dac9e4e9a2240dda00d62a5db4e094039300",
+        "headBlob": "33a7e039ffc1e470f586e6b9f4cc9445adba1b5a"
+      },
+      "packages/services/src/session/AGENT-SESSION-QUEUE-INVENTORY-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "670cb8dc47a7b332fef67337e3bdee5687236036"
+      },
+      "packages/services/src/session/AUTOMATION-REPO-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "219db7c208fc7752dd090f84dd3ad6b05b9a0482"
+      },
+      "packages/services/src/session/SESSION-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "0b8abc460cd748a5644b99b2d4b506207a72b92f"
+      },
+      "packages/services/src/session/TASK-INDEX-REPO-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "29d5d7f365ddcb1ad1c10a0cfd0985fffd3cb672"
+      },
+      "packages/services/src/session/automation-repository/claims.ts": {
+        "baselineBlob": null,
+        "headBlob": "11a606526b6d019cf2bdbfd40b0117c5ef64fe81"
+      },
+      "packages/services/src/session/automation-repository/connection.ts": {
+        "baselineBlob": null,
+        "headBlob": "0f53f5959e640585a02f13d9a1cb46aa69510b63"
+      },
+      "packages/services/src/session/automation-repository/definitions.ts": {
+        "baselineBlob": null,
+        "headBlob": "9711d66fb7812cc24eb989fda6f9e48fd5e17f7e"
+      },
+      "packages/services/src/session/automation-repository/dispatch.ts": {
+        "baselineBlob": null,
+        "headBlob": "e5d38157594b06114c17dfe0b82a2d23fca137dc"
+      },
+      "packages/services/src/session/automation-repository/rows.ts": {
+        "baselineBlob": null,
+        "headBlob": "bd609be8f41163b797d1f07d1c8a7ba8d7e7e0a2"
+      },
+      "packages/services/src/session/automation-repository/runs.ts": {
+        "baselineBlob": null,
+        "headBlob": "224830898f63de348e9ba3545c705dab4d84bdcd"
+      },
+      "packages/services/src/session/automation-repository/sql.ts": {
+        "baselineBlob": null,
+        "headBlob": "35c7e6ddd3f4167c0bffd399977155639ec5f2b6"
+      },
+      "packages/services/src/session/automationRepo.ts": {
+        "baselineBlob": "bb4ccad1ee8e37d29793fa7fd544ebcf755c7e1b",
+        "headBlob": "d53ce17808e71cbe68421a324eef880c381529c9"
+      },
+      "packages/services/src/session/automationService.ts": {
+        "baselineBlob": "dd2acb3c9e62098f74a78406318b76e0d5d24890",
+        "headBlob": "67e46d42b9d74c888e12213c063764c7421d51a4"
+      },
+      "packages/services/src/session/claude-native/HEAD-PERSISTENCE-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "47ff4545189203a6d1508b7257e0f06f1333e026"
+      },
+      "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts": {
+        "baselineBlob": "ba1f8d5e9d29d6dcc875961317f814449f50f9e5",
+        "headBlob": "b21911fe17b95331ec61600a1d768511cfd75abc"
+      },
+      "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts": {
+        "baselineBlob": "7d9deaa227854e4a4d381b961f801456d6f00383",
+        "headBlob": "cb8912bb7b3a8d2d5bb1f793b32e7dfb24d79561"
+      },
+      "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts": {
+        "baselineBlob": "d54c0f4001b084bee97edb85b1fb98b269a3a7f6",
+        "headBlob": "764307e9499c8a8127777fe6825e5b6075708986"
+      },
+      "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts": {
+        "baselineBlob": "ac9583eb122e053a823afebaaa5cb1e92e441206",
+        "headBlob": "084f01d3e7d0d4418a9a8327b68471d4f5b89c28"
+      },
+      "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts": {
+        "baselineBlob": "2f561c9ab2f9086e81fc721b54dd3a2fef7b6d7c",
+        "headBlob": "d1cfc2af08483000a0853029e4ad5aa6af15b599"
+      },
+      "packages/services/src/session/claude-native/persistImportedClaudeTask.ts": {
+        "baselineBlob": "748cb1c24c6ed133269c45241c9ba8151bb4fc52",
+        "headBlob": "1a1bf635d496d7fd34a55bf4442993ea48104458"
+      },
+      "packages/services/src/session/task-index-repository/bootstrap.ts": {
+        "baselineBlob": null,
+        "headBlob": "692708830f82eaa77aaca106fd3605ca7fd75aad"
+      },
+      "packages/services/src/session/task-index-repository/group-order.ts": {
+        "baselineBlob": null,
+        "headBlob": "609d2a91910b5b487489bb3272a5a5168a2bfd4f"
+      },
+      "packages/services/src/session/task-index-repository/group-view.ts": {
+        "baselineBlob": null,
+        "headBlob": "46bd368877dd0496e3cdad33817cf6e8fddb3182"
+      },
+      "packages/services/src/session/task-index-repository/groups.ts": {
+        "baselineBlob": null,
+        "headBlob": "60bb4633c8ec1f6d50f7ddbc0f93c292102b597b"
+      },
+      "packages/services/src/session/task-index-repository/model.ts": {
+        "baselineBlob": null,
+        "headBlob": "fe891edbd79a457197ab5de88885545afde777f0"
+      },
+      "packages/services/src/session/task-index-repository/sql.ts": {
+        "baselineBlob": null,
+        "headBlob": "ba4076ccdaa27e249480b3530027eb9df441438c"
+      },
+      "packages/services/src/session/task-index-repository/store.ts": {
+        "baselineBlob": null,
+        "headBlob": "b7dbf5c06833c370b590917a6e343cf0ee6007fd"
+      },
+      "packages/services/src/session/task-index-repository/task-queries.ts": {
+        "baselineBlob": null,
+        "headBlob": "20e27f94558acd09247887ed2b5b4cc29e7c44c6"
+      },
+      "packages/services/src/session/task-index-repository/task-writes.ts": {
+        "baselineBlob": null,
+        "headBlob": "3f298edf318f588eafdfbf66c7c371023886ef66"
+      },
+      "packages/services/src/session/taskIndexRepo.ts": {
+        "baselineBlob": "8a04e414ba7ac56f5d6376bbe10310d577c75781",
+        "headBlob": "20da098c9b3626c27f3c8011552fabf0a08605b3"
+      },
+      "packages/services/src/session/tasksDatabase/MIGRATIONS-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "0238f7748aa96c739dcc2a86547e8817fae3dd26"
+      },
+      "packages/services/src/session/tasksDatabase/migrations.ts": {
+        "baselineBlob": "9d8a1af5a2c22f4e7b24b1907d4a12070ee7ac60",
+        "headBlob": "4bf9f6e11bdad48bdfb0ffacccc29053789fd99f"
+      },
+      "packages/services/src/session/tasksDatabase/provider-selection-v2.ts": {
+        "baselineBlob": "c0274e34c9425991e194f03bd5317d322fd1331c",
+        "headBlob": "855563151b6158a4e2ce1c5902e2e97963bcd930"
+      },
+      "packages/services/src/setting/normalizeSettingsPatch.ts": {
+        "baselineBlob": "fe834923956475b9961f783cd883a45d0a6980e3",
+        "headBlob": "f548b8a5f533e734aeb66342ac681c95a14a802d"
+      },
+      "packages/services/src/setting/observableSettingService.ts": {
+        "baselineBlob": "a69c2c8984dc12ec3630fdbdd750088b6ef26b53",
+        "headBlob": "54308eb5bad46525d116f55d4ebabce4c4a091aa"
+      },
+      "packages/services/src/setting/settingService.ts": {
+        "baselineBlob": "c89e44d4d033ac52c598094c022fd1e7ab53f6f6",
+        "headBlob": "86136f72382d27cf453186893fe97af3308add46"
+      },
+      "packages/services/src/setting/settingsWriteQueue.ts": {
+        "baselineBlob": "bee04bfdb070a56865dc4611ccab1de0c6a8d3d8",
+        "headBlob": "6a5448b41c6bf0354eb7986857499085735e8933"
+      },
+      "packages/services/src/settings-sync/settingsSyncCatalog.ts": {
+        "baselineBlob": null,
+        "headBlob": "d2e63131bad6dbfa9f2f3d7ef15673792898429d"
+      },
+      "packages/services/src/settings-sync/settingsSyncImport.ts": {
+        "baselineBlob": null,
+        "headBlob": "24a9c6390b9fd6b14cfd4e1a1584dccb7f2b9f60"
+      },
+      "packages/services/src/settings-sync/settingsSyncService.ts": {
+        "baselineBlob": "36f6d0c90a33f1117b510f5d68307f2a348e59d3",
+        "headBlob": "d0fd7ec7d88c6279bda79a5aee27efa390087692"
+      },
+      "packages/services/src/settings-sync/settingsSyncSources.ts": {
+        "baselineBlob": null,
+        "headBlob": "8f70d1a5ea39c54f4a945db4db8c4a7da2f0b32a"
+      },
+      "packages/services/src/skill-sync/skillSyncArchive.ts": {
+        "baselineBlob": "1fe24bad75a8092763b3868953689b642ff7701d",
+        "headBlob": "bbcf8c95401b67c8b0a73221f69c5c0de3adc9a6"
+      },
+      "packages/services/src/skill-sync/skillSyncDiscovery.ts": {
+        "baselineBlob": null,
+        "headBlob": "33e248da6e34783e016b46a7115fa220383a2bfc"
+      },
+      "packages/services/src/skill-sync/skillSyncErrors.ts": {
+        "baselineBlob": "c30e534fb93fc0ce10df4db70653ebc04c288df7",
+        "headBlob": "904b584e97d9589892075b22b9c0bc4fd6c891c9"
+      },
+      "packages/services/src/skill-sync/skillSyncPath.ts": {
+        "baselineBlob": "88077ca701b1a1d82057df09b46635f65acf550c",
+        "headBlob": "86bd1eba04e9410636f9ef47dda943943505f410"
+      },
+      "packages/services/src/skill-sync/skillSyncService.ts": {
+        "baselineBlob": "07862792843b160e6bc1874f2394f2810d0c3ee4",
+        "headBlob": "61ef13c79055d6cc7e3404e1229cfb597a457188"
+      },
+      "packages/services/src/skills/skillDefinitions.ts": {
+        "baselineBlob": null,
+        "headBlob": "cc9346f5f42f25a1263e634d52d5d411a32bc916"
+      },
+      "packages/services/src/skills/skillDiscovery.ts": {
+        "baselineBlob": null,
+        "headBlob": "a91375dbd357c83dc917dce5dcb60a3cde909807"
+      },
+      "packages/services/src/skills/skillDiscoveryWalk.ts": {
+        "baselineBlob": "4aa58fb7c4b2438f94948c4a7a0e1900a8c8739f",
+        "headBlob": "45994198cb7b8a37c300fbcadc11bb70ed072d05"
+      },
+      "packages/services/src/skills/skillLocations.ts": {
+        "baselineBlob": null,
+        "headBlob": "2a5ff8d6692f5fcf9a48d04aec95b69523924c31"
+      },
+      "packages/services/src/skills/skillPluginRoots.ts": {
+        "baselineBlob": null,
+        "headBlob": "20cdb521494a960ddbf8b3699220a50f7e818682"
+      },
+      "packages/services/src/skills/skillsService.ts": {
+        "baselineBlob": "07c671af764897fa2d9953f927d4d1aaaad48c93",
+        "headBlob": "502e8d3a14ee090b069c344fe7d2740183a36c32"
+      },
+      "packages/services/src/storage/adapters/fsCleaner.ts": {
+        "baselineBlob": "eeeaedf31f74b0aee74eaafa09d89778426096df",
+        "headBlob": "86383d58383587b103c10d556942445e4b05fba7"
+      },
+      "packages/services/src/storage/adapters/fsWalker.ts": {
+        "baselineBlob": "76077ba259ca18f5edf3f32320fd5dfa9b0db59d",
+        "headBlob": "2d062a18ec0d27b42464d37c9e98781d3c958eb6"
+      },
+      "packages/services/src/storage/app/scanJob.ts": {
+        "baselineBlob": "48143c125c588d814c1591dd5ac9b905fb4571f0",
+        "headBlob": "cc553073be8a4f27c9aa3624cdcc81bfd881f6e2"
+      },
+      "packages/services/src/storage/app/storageService.ts": {
+        "baselineBlob": "c575545b936d4dc2f358f1c4f4762f54558ec5d0",
+        "headBlob": "0d29c4c599e84167c894e19573c42f7bfffbea9d"
+      },
+      "packages/services/src/storage/domain/storageCatalog.ts": {
+        "baselineBlob": "545b445dc18a885027f6888d5eca7c2a7a58b14c",
+        "headBlob": "e3c5990d34a4f5f40d07f8b588675c9d2e20e95b"
+      },
+      "packages/services/src/storage/domain/usageAggregate.ts": {
+        "baselineBlob": "ece84dd00fc65f141b308ff0742732ea4920f15d",
+        "headBlob": "f3ce42b65c73ac5b33652ddc8fb159898da17615"
+      },
+      "packages/services/src/subagents/subagentMarkdown.ts": {
+        "baselineBlob": "797acb66c413ac62f84733913f939ec03d445316",
+        "headBlob": "de726ad9b089be4221d5ed45aa9aa095c7c24f57"
+      },
+      "packages/services/src/subagents/subagentServiceFiles.ts": {
+        "baselineBlob": null,
+        "headBlob": "0b15c9b1b48c3331414ef2d3f41134706314e745"
+      },
+      "packages/services/src/subagents/subagentServicePlugins.ts": {
+        "baselineBlob": null,
+        "headBlob": "75dfb6311f367078c06bb563d28b0fa8724ef2da"
+      },
+      "packages/services/src/subagents/subagentServiceState.ts": {
+        "baselineBlob": null,
+        "headBlob": "dee1e79e01d667d78ea003f7eeb261e27273b60e"
+      },
+      "packages/services/src/subagents/subagentStorage.ts": {
+        "baselineBlob": "516e3c8d54a2c20f2421ccf68ba63c1e1e785743",
+        "headBlob": "8c6fe204d43a6f881344cb8beb293912c2db1816"
+      },
+      "packages/services/src/subagents/subagentsService.ts": {
+        "baselineBlob": "8a274636c384bc1a9212f5f52624a2f0f8b44b7c",
+        "headBlob": "49852de898927a2374187207cd84d845cf7503d4"
+      },
+      "packages/services/src/system/SOURCE-OWNER-AUTHOR-RECEIPTS-20261002.json": {
+        "baselineBlob": null,
+        "headBlob": "b56364d8ea2cc0656a0fc5c0b14f3f4ed7cd5bd1"
+      },
+      "packages/services/src/system/integratedTerminalShells.ts": {
+        "baselineBlob": "66e15dcaf1198ec39a920c2018555c0f50bac147",
+        "headBlob": "0a89b5708a068a8d864a3a0e3db73f1992e9bc60"
+      },
+      "packages/services/src/system/ssh-alias/configuration.ts": {
+        "baselineBlob": null,
+        "headBlob": "e08914463271240cf354bd0d8a6e9289e5caca96"
+      },
+      "packages/services/src/system/ssh-alias/fallback.ts": {
+        "baselineBlob": null,
+        "headBlob": "bd6bc4d3a218d88152f9b5793e7ca615473a567d"
+      },
+      "packages/services/src/system/ssh-alias/query.ts": {
+        "baselineBlob": null,
+        "headBlob": "e982ebd0b2301632668d8e12796c34565de5208d"
+      },
+      "packages/services/src/system/ssh-alias/tokens.ts": {
+        "baselineBlob": null,
+        "headBlob": "6af91616b619390790880890c55b225671e21544"
+      },
+      "packages/services/src/system/sshConfigAlias.ts": {
+        "baselineBlob": "2f3309e8d6864e0c61d86cbf2bfdfc8af3e76c9b",
+        "headBlob": "f43067cf21647d74dd0c41a667bc3306e784db76"
+      },
+      "packages/services/src/system/system-probe/contracts.ts": {
+        "baselineBlob": null,
+        "headBlob": "727b9ae37018fada5a2218cee8948c56e6fd6e4d"
+      },
+      "packages/services/src/system/system-probe/defaultAdapters.ts": {
+        "baselineBlob": null,
+        "headBlob": "9edf08a7f2dddca388b4bbff7ccda0825d5f6be5"
+      },
+      "packages/services/src/system/system-probe/targetLifecycle.ts": {
+        "baselineBlob": null,
+        "headBlob": "2433ed7b29609427115928526137ccf8c8810865"
+      },
+      "packages/services/src/system/systemService.ts": {
+        "baselineBlob": "2f0631ca722e27ece8c7778e2415900a25b866eb",
+        "headBlob": "175747cc82b07d51064c06feb33ab9e93c61446d"
+      },
+      "packages/services/src/system/systemServiceOwner.ts": {
+        "baselineBlob": null,
+        "headBlob": "194ba9b640af47c7f91c94166ae2f26e5b0fd68e"
+      }
+    },
+    "11": {
+      "apps/cli/packages/contracts/src/workflow/definition.ts": {
+        "baselineBlob": null,
+        "headBlob": "f1cc8146ea759400b03f2d99a87f8a9e8c5c93fe"
+      },
+      "apps/cli/packages/contracts/src/workflow/graph-schema.ts": {
+        "baselineBlob": null,
+        "headBlob": "6a02bace6239568d462f1c4bac1544c5777d8671"
+      },
+      "apps/cli/packages/contracts/src/workflow/index.ts": {
+        "baselineBlob": "19014a9700639cd4ad75ecbc62be2dd294fca781",
+        "headBlob": "cadbfb68ee7883bd70e8bc448f3f0059df604ddf"
+      },
+      "apps/cli/packages/contracts/src/workflow/run-schema.ts": {
+        "baselineBlob": null,
+        "headBlob": "8ffe6fcad87f9bf3eb7017a323c3107ce9935f0e"
+      },
+      "apps/cli/packages/contracts/src/workflow/scheduler-state.ts": {
+        "baselineBlob": null,
+        "headBlob": "eadb944a0275ddfb921745aaf78b11d724567356"
+      },
+      "apps/cli/packages/contracts/src/workflow/session-links.ts": {
+        "baselineBlob": null,
+        "headBlob": "d18ba4162a704ca30e6f212c9b965231692f05a4"
+      },
+      "apps/cli/packages/core/src/runtime/execution-state.ts": {
+        "baselineBlob": "34d06713f2bdb8594ef42a08ba0fb35f80eecad0",
+        "headBlob": "14944fc5a76e3f6aebb0c72d64dcd835eadc3aef"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/conversation.ts": {
+        "baselineBlob": "acf2ce28370fca32575674d8c85021d00575879a",
+        "headBlob": "63faad9ad3c0c42bf409b0305275e2893ba089e2"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts": {
+        "baselineBlob": "d37e2e8430247bd27c84ebab4276f1bdf4c6b98b",
+        "headBlob": "d5bef8084a45e53a12d85f8f3a0ac170fa03a569"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts": {
+        "baselineBlob": "b7cf3160487af21b03804d3aafc9db68fabf4ee0",
+        "headBlob": "28aa973d8aa068be68d335479552297ce9032b66"
+      },
+      "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts": {
+        "baselineBlob": "299832372db2174021709d67ff51aac74df8451f",
+        "headBlob": "83f09388e613d5313813bc53e37e47bcb974015a"
+      },
+      "apps/cli/packages/core/src/runtime/methods/background-notifications.ts": {
+        "baselineBlob": "d1fe8a7bbb63aa7271a76e8b063daf02987a5a0c",
+        "headBlob": "96af5a1222154f5be336dbcad38871ba5fa55ea7"
+      },
+      "apps/cli/packages/core/src/runtime/methods/background-payload.ts": {
+        "baselineBlob": null,
+        "headBlob": "3ef3f95e1cacdf50fe6eecdf120b65f94a578264"
+      },
+      "apps/cli/packages/core/src/runtime/methods/background.ts": {
+        "baselineBlob": "d74b7349ed764f964024d361128fbd9a3f814a45",
+        "headBlob": "5ebc49b42841842c8d6a5b95708b896a24c2be2a"
+      },
+      "apps/cli/packages/core/src/runtime/methods/bash-shell-snapshot.ts": {
+        "baselineBlob": "a2b5cbfd688b6a1b4d194729a7235e4ae1d53503",
+        "headBlob": "dd3505499675306d064c7bc44fcc544d6108d83c"
+      },
+      "apps/cli/packages/core/src/runtime/methods/cancelled-stream-persistence.ts": {
+        "baselineBlob": "cd38f08cfcbef2df18e908be5a1accb0e806d564",
+        "headBlob": "6c27eef4ac756db3f578b53577ea27152fd0f24c"
+      },
+      "apps/cli/packages/core/src/runtime/methods/control-only-turn.ts": {
+        "baselineBlob": "d6a997c9ad2c7e0ee33ecb153842672607ead998",
+        "headBlob": "f4f1178c35e6fb590ba87a11796381b464a30222"
+      },
+      "apps/cli/packages/core/src/runtime/methods/events-durable.ts": {
+        "baselineBlob": null,
+        "headBlob": "9f3f9598caadd865e7b0e45a95f1be337b80ec50"
+      },
+      "apps/cli/packages/core/src/runtime/methods/events-session.ts": {
+        "baselineBlob": null,
+        "headBlob": "d14dcd8d3b9407f0037a0c0c3f807184114369ae"
+      },
+      "apps/cli/packages/core/src/runtime/methods/events-summary.ts": {
+        "baselineBlob": null,
+        "headBlob": "170fb6fc2d41a26b0e172bd5c8b90da82ee3d225"
+      },
+      "apps/cli/packages/core/src/runtime/methods/events.ts": {
+        "baselineBlob": "107c3dafa56e32a74d4b200ec0f47097a6a5946d",
+        "headBlob": "de342cf5c9b2b458c4e66bc784145702b0cfdee6"
+      },
+      "apps/cli/packages/core/src/runtime/methods/file-rewind-planning.ts": {
+        "baselineBlob": null,
+        "headBlob": "1e9a2b560a96692714c1de737b2074ac494a044b"
+      },
+      "apps/cli/packages/core/src/runtime/methods/file-rewind-storage.ts": {
+        "baselineBlob": null,
+        "headBlob": "c22ec29a92d6779e922affc52a6f1193d2c30d04"
+      },
+      "apps/cli/packages/core/src/runtime/methods/file-rewind.ts": {
+        "baselineBlob": "5c9c20ff7b0a3266e4e905715157700d7e57b62f",
+        "headBlob": "9ef21d4c20d0552fcef41a6f1185b5ea5842b89a"
+      },
+      "apps/cli/packages/core/src/runtime/methods/goal-summary-title.ts": {
+        "baselineBlob": "b40e461bfc6bff065a8fcd4769030aa5a1b76215",
+        "headBlob": "93f3bdedb900c2406def65a793a5d296b8b667aa"
+      },
+      "apps/cli/packages/core/src/runtime/methods/hooks.ts": {
+        "baselineBlob": "98b390e02832df178a82dff340a18d0c718c8168",
+        "headBlob": "85a4eb23242c2649ff5579983b4f9e16f8e7c4b2"
+      },
+      "apps/cli/packages/core/src/runtime/methods/input-intent-persistence.ts": {
+        "baselineBlob": "42cfb1ec797190ea6c90fab827426c845d24d955",
+        "headBlob": "290635bdf213ce0344b13a56d315b6272b481b95"
+      },
+      "apps/cli/packages/core/src/runtime/methods/message-persistence.ts": {
+        "baselineBlob": "267336082f51f77fe86ab6a8f559d7aeb331b15a",
+        "headBlob": "3767e9d39bd8dd54380014142857dce391796c5b"
+      },
+      "apps/cli/packages/core/src/runtime/methods/model-request-stream-state.ts": {
+        "baselineBlob": null,
+        "headBlob": "dc78b6ff46b607b6d0e7f3bf8da3b440b288b0dc"
+      },
+      "apps/cli/packages/core/src/runtime/methods/model-status.ts": {
+        "baselineBlob": "ba271ddd46760acf1d400eed39d410fa013399af",
+        "headBlob": "be6713bbb0a01e431da40db851353cc76429d41d"
+      },
+      "apps/cli/packages/core/src/runtime/methods/model-streaming-event-queue.ts": {
+        "baselineBlob": "85860026bc5f296a4d4cf95a3a9a942b23857420",
+        "headBlob": "4117265a7857f1efd40b26deee4d28588591eb5a"
+      },
+      "apps/cli/packages/core/src/runtime/methods/model.ts": {
+        "baselineBlob": "43f5913696e833dfab4cc4a9d7daa9310a3b1eb9",
+        "headBlob": "dcda342068a421aaa59a64d431972952a771144c"
+      },
+      "apps/cli/packages/core/src/runtime/methods/plugin-reference.ts": {
+        "baselineBlob": "1cf732fe743ad3f51d2a285b2e042471f4516bfd",
+        "headBlob": "e35a22bdc3e6b6192fbd9328f4d312f2227e3546"
+      },
+      "apps/cli/packages/core/src/runtime/methods/rewind-conversation-state.ts": {
+        "baselineBlob": null,
+        "headBlob": "62b64b95fc4ecde00386431ed45d935a0004b52e"
+      },
+      "apps/cli/packages/core/src/runtime/methods/rewind-message.ts": {
+        "baselineBlob": "db4900bd604a7cf50f89299d92f0229bc6027c27",
+        "headBlob": "fc9ab5217b2b44fdfa5b51a4c2a07a1db39067b0"
+      },
+      "apps/cli/packages/core/src/runtime/methods/rewind-workspace-cascade.ts": {
+        "baselineBlob": null,
+        "headBlob": "1fff70252afdd64900e5e9ff6feb8d73d2cfeb5c"
+      },
+      "apps/cli/packages/core/src/runtime/methods/rewind.ts": {
+        "baselineBlob": "091cd2b0571dcf73cdc382b1a2dd9b5b910b326f",
+        "headBlob": "1a41ee784202bb65e859f06b4c5754f13ef7aa9f"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-atomic.ts": {
+        "baselineBlob": null,
+        "headBlob": "292e9ca1aa014501222ec22a502035954d86e04f"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-identities.ts": {
+        "baselineBlob": null,
+        "headBlob": "e1a1c685b38ce2cba4d15eaf457ecf349b02a722"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-legacy-goal.ts": {
+        "baselineBlob": null,
+        "headBlob": "4269a25186f0b93385b1270b4d2cf5adb56df83b"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-notices.ts": {
+        "baselineBlob": null,
+        "headBlob": "25ff96c52cebd5f86dfa2bbcddad5de2d3415b10"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-session.ts": {
+        "baselineBlob": null,
+        "headBlob": "f2a9130fab50052971d2c3fd98c0c2354907f9b0"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-transcript.ts": {
+        "baselineBlob": null,
+        "headBlob": "f344f715035798f2ebb18a703a4b1b9a24d5eb12"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork-verifiers.ts": {
+        "baselineBlob": null,
+        "headBlob": "b0419f0aa094a9961e1e4c0120d74a3d566110bc"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-fork.ts": {
+        "baselineBlob": "5319d10d6d4407c0626b2679764d1b0bc989dbc3",
+        "headBlob": "aa0e9acff51c8b445c6d6d4af21fb906a495337b"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts": {
+        "baselineBlob": "968cc420701359415229f6c3d275c8031eefa674",
+        "headBlob": "cef1964f7b8d818434133243ca465411be08cd09"
+      },
+      "apps/cli/packages/core/src/runtime/methods/session-title.ts": {
+        "baselineBlob": "6ef1081261c7fb145f2ccd425bbc9afa2a8c4f40",
+        "headBlob": "eba0083fa0b5dc1a20cae8bd7ef06a5c093a3626"
+      },
+      "apps/cli/packages/core/src/runtime/methods/stable-fork-boundary.ts": {
+        "baselineBlob": "be8e2b51d29f5adadfa7ca943d5ac6aaa0f56ef8",
+        "headBlob": "108e9aef306082712e166cafc8c71e02b5c30635"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-active.ts": {
+        "baselineBlob": null,
+        "headBlob": "13c6f116d66ad86bde47dd498de8cae60c818834"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-admission.ts": {
+        "baselineBlob": null,
+        "headBlob": "faf64caf29ac2f1975d47893855c21f79f3ec945"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-configuration.ts": {
+        "baselineBlob": null,
+        "headBlob": "4b9d844c27ff62157ca4a51b6890095a9b3dad69"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-draining.ts": {
+        "baselineBlob": null,
+        "headBlob": "73bff9442c104dd7981956cf7e05159acdc7e396"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-editing.ts": {
+        "baselineBlob": null,
+        "headBlob": "a19e85f861cdd99927adf891b945f5c4ddb12fdd"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-guides.ts": {
+        "baselineBlob": null,
+        "headBlob": "4a3a1fd0d482dea0ed062d7782881d486b1ec4be"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering-persistence.ts": {
+        "baselineBlob": null,
+        "headBlob": "1f1fec40473f57bdac1ac67cdcc7d6e4ff93b9a2"
+      },
+      "apps/cli/packages/core/src/runtime/methods/steering.ts": {
+        "baselineBlob": "0b1234f40eaa3cb3b605dba0eb562d81d9657961",
+        "headBlob": "0aa1229d31dc9e7118c9ca1c3a2b0020f51ee2cc"
+      },
+      "apps/cli/packages/core/src/runtime/methods/streaming-recovery.ts": {
+        "baselineBlob": "0ad1d7f2ba1a0449c094562016f473f617ae5466",
+        "headBlob": "3dafdecacd839b98170981548d06316f37e7c97f"
+      },
+      "apps/cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts": {
+        "baselineBlob": "b46dde9e1a5218d50c0a65bca53d0b3e69059c0a",
+        "headBlob": "c456d8d0be9c256fe7d0a2019b91f8829dd72778"
+      },
+      "apps/cli/packages/core/src/runtime/methods/streaming-tool-execution.ts": {
+        "baselineBlob": null,
+        "headBlob": "2b021e64e299e9c7eb7d4bfad9e4563a42dabcf0"
+      },
+      "apps/cli/packages/core/src/runtime/methods/subagent-authority.ts": {
+        "baselineBlob": null,
+        "headBlob": "d394ca1a915ea9c832f90b4a40a3cd7fa6a35aa4"
+      },
+      "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts": {
+        "baselineBlob": "5d88232beab2a0f364a26e02baf5d8acedb1837f",
+        "headBlob": "99269fcd55738d180f6873e0b67f141ed3a01b5d"
+      },
+      "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts": {
+        "baselineBlob": null,
+        "headBlob": "ae18da76115efa30f3d8c9df482779b176ea0cb1"
+      },
+      "apps/cli/packages/core/src/runtime/methods/subagent.ts": {
+        "baselineBlob": "0d56840afac71619e26211b36dad656739a1569f",
+        "headBlob": "455760b154f4cef416601490010026d35e51fbb6"
+      },
+      "apps/cli/packages/core/src/runtime/methods/target-completion-verification.ts": {
+        "baselineBlob": "4e6b9e66c6921e8faadcbfb54ff2c9860da32cf5",
+        "headBlob": "ded2bca1fc36c96f33b4a26e59108917d2824f68"
+      },
+      "apps/cli/packages/core/src/runtime/methods/target.ts": {
+        "baselineBlob": "dc341aefbcebe932764fb3c88f88c99c035aaf03",
+        "headBlob": "c13d93a7ca1fe7b3505b01bfb7e1d2c05bcc19b3"
+      },
+      "apps/cli/packages/core/src/runtime/methods/timeline-persistence.ts": {
+        "baselineBlob": "37575e74db44c791889a384ff92c39aea6cddd2e",
+        "headBlob": "edfa705550cbb96b7d6d78d484b87dfd88e23a8f"
+      },
+      "apps/cli/packages/core/src/runtime/methods/title-generation-sidecar.ts": {
+        "baselineBlob": "86a5a85052857dbc4320c8fd0616191cba3a0153",
+        "headBlob": "2d387e928bab3f13d10c7a408c5f843463662027"
+      },
+      "apps/cli/packages/core/src/runtime/methods/tool-part-persistence.ts": {
+        "baselineBlob": "bea6c9a9002dba9c21335a6be34982532602274b",
+        "headBlob": "cc979192d94ea3e0e32530ca03fedd291d33cde1"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-command-data.ts": {
+        "baselineBlob": null,
+        "headBlob": "8a16c78ceb868316edfa1d4a570a072c776fbb1d"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts": {
+        "baselineBlob": null,
+        "headBlob": "c05195123a046b6221520e1922166edcaedebab8"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-command-state.ts": {
+        "baselineBlob": null,
+        "headBlob": "bcecd62b3202e996a1e492c25529e054f47694fc"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-loop.ts": {
+        "baselineBlob": "544b54101e4172c2cf6dd8bf783b5bc653796f29",
+        "headBlob": "d744c03ddb56f84266ede0fd58d5fca17504477f"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts": {
+        "baselineBlob": null,
+        "headBlob": "7e27d3fa88e0be45b67bfd501f3d3092d59ef98d"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-model-step-operation.ts": {
+        "baselineBlob": null,
+        "headBlob": "fe500fbce3a30b1bc5865e8d9fadaf55b89e9ffb"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-model-step-records.ts": {
+        "baselineBlob": null,
+        "headBlob": "d02512c95da92d6d6e1dc4d0c261ebbb3b287237"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts": {
+        "baselineBlob": null,
+        "headBlob": "a57dc0e65769bf72017f400a1280a56acb5c3af5"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts": {
+        "baselineBlob": "caf038f22877548f074ac9f24e935919832c1193",
+        "headBlob": "943b58244cef0145f99020730a503ea734f55e64"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-model.ts": {
+        "baselineBlob": "9376788a5a312bff8e171c99724452cbd3c76cc0",
+        "headBlob": "b61738e6d1685d9ffd4a7d8904eaf1907fd794e9"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-stop.ts": {
+        "baselineBlob": "e57066fb5471019d4384c677d28e3725d8a8b3c6",
+        "headBlob": "1235d72da317035562f2c86151414e2a82f5ce3f"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts": {
+        "baselineBlob": null,
+        "headBlob": "a922bccad20d3635e75562a794194e988df8b469"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-parts.ts": {
+        "baselineBlob": null,
+        "headBlob": "7164845b7b5e0276c2cc3afe0f58d9e646ce0525"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn-tools.ts": {
+        "baselineBlob": "a73ed30aae051e525811d4749149f6473bd0888c",
+        "headBlob": "bc78f84b7682a25738de68f9509a2a1817a87c26"
+      },
+      "apps/cli/packages/core/src/runtime/methods/turn.ts": {
+        "baselineBlob": "571fef1508493dcfab852f7b3046d311aaf4f416",
+        "headBlob": "359bf9bfdd449c8252b8f982546ae22db2650eec"
+      },
+      "apps/cli/packages/core/src/runtime/methods/usage-observability-projection.ts": {
+        "baselineBlob": null,
+        "headBlob": "a97daf0bca79df013176170bfa2116b3bb8b14b0"
+      },
+      "apps/cli/packages/core/src/runtime/methods/usage-observability.ts": {
+        "baselineBlob": "4569631b25c9c1a20783bd9223c74ce65f7d1603",
+        "headBlob": "563043634d687976e6efa27223d5cc2c7c0d0656"
+      },
+      "apps/cli/packages/core/src/runtime/methods/workspace-checkpoint-persistence.ts": {
+        "baselineBlob": "540546f55eb7dd8941b0cd0570110169ef9fb2bc",
+        "headBlob": "6b5ae2f0e8372418b504e7ef39771b76a3ca2879"
+      },
+      "apps/cli/packages/core/src/runtime/methods/workspace-checkpoints.ts": {
+        "baselineBlob": "ec3fa8cb1d4dea5655a4f6b420db38e6d55a7281",
+        "headBlob": "557102893504337fcc798d83cd10c1f696bab6b9"
+      },
+      "apps/cli/packages/core/src/runtime/methods/workspace-fork.ts": {
+        "baselineBlob": "430752c4a162dd6d3443aea4552fd025b4cb2899",
+        "headBlob": "03ab16f13a2dd6d14e71be47b0c6cb56e9c46110"
+      },
+      "apps/cli/packages/core/src/runtime/methods/workspace-generate-text.ts": {
+        "baselineBlob": "ef185108a21ad110b4145c843e16e1bcd0d69aa6",
+        "headBlob": "e5b13d7133bd17e29227d28d619a9e7529234307"
+      },
+      "apps/cli/packages/core/src/runtime/permission-full-access.ts": {
+        "baselineBlob": "0584b6ea25d92d7efd8cd41a0e2f73a00a163d24",
+        "headBlob": "7bff4baf11c4311335d2eb77ff2bec27a43509df"
+      },
+      "apps/cli/packages/core/src/subagent/profile.ts": {
+        "baselineBlob": "93594ff21ba8aa936879175b689a0ac4ef542db2",
+        "headBlob": "f393eb48fe7194855f15777c7c3fb1a4add7bb93"
+      },
+      "apps/cli/packages/core/src/subagent/runner-artifacts.ts": {
+        "baselineBlob": null,
+        "headBlob": "c3d77cceda084c2f0b01926a6d16fef7bae69858"
+      },
+      "apps/cli/packages/core/src/subagent/runner-background.ts": {
+        "baselineBlob": null,
+        "headBlob": "6c942cd4558a923b74817d149660cf7b21143cd7"
+      },
+      "apps/cli/packages/core/src/subagent/runner-cancellation.ts": {
+        "baselineBlob": null,
+        "headBlob": "b28b4875099deb09c892d28c0a73f6af2b6ce824"
+      },
+      "apps/cli/packages/core/src/subagent/runner-child.ts": {
+        "baselineBlob": null,
+        "headBlob": "2a58214e298baecbe1cea09ccb9311eb770678c5"
+      },
+      "apps/cli/packages/core/src/subagent/runner-foreground.ts": {
+        "baselineBlob": null,
+        "headBlob": "01b4607d6a73c1264dfd3bd0268f0dbb5ebf98fe"
+      },
+      "apps/cli/packages/core/src/subagent/runner-message.ts": {
+        "baselineBlob": null,
+        "headBlob": "436e2d61139d20a0160a92717bd9c4c75a934fa3"
+      },
+      "apps/cli/packages/core/src/subagent/runner-publication.ts": {
+        "baselineBlob": null,
+        "headBlob": "c8d96ef87c4f032df5361e5714ddc625c9ed1126"
+      },
+      "apps/cli/packages/core/src/subagent/runner-state.ts": {
+        "baselineBlob": null,
+        "headBlob": "166e29ba2ecfb6e6edb47493864c5a9cc98349b9"
+      },
+      "apps/cli/packages/core/src/subagent/runner-stop.ts": {
+        "baselineBlob": null,
+        "headBlob": "0aeaf83c79422b96728ca66f707a25ab8e458bb1"
+      },
+      "apps/cli/packages/core/src/subagent/runner.ts": {
+        "baselineBlob": "ec45a7ab1855f692ce1712bb33759d6231ca4269",
+        "headBlob": "91f31700a1d084d5bd2bb222f5a96f591135d5a5"
+      },
+      "apps/cli/packages/core/src/tool/handlers/agent-invocation.ts": {
+        "baselineBlob": null,
+        "headBlob": "9325d1db20ace8f9b86185bfdc2554c72e27eb12"
+      },
+      "apps/cli/packages/core/src/tool/handlers/agent-projection.ts": {
+        "baselineBlob": null,
+        "headBlob": "6ac1ffe6c2b5faa13c0c1c2ebaeb15e91c65d5f7"
+      },
+      "apps/cli/packages/core/src/tool/handlers/agent-request.ts": {
+        "baselineBlob": null,
+        "headBlob": "38ac40aa1ea14a89696d63e0fa2ff24a8a515f4e"
+      },
+      "apps/cli/packages/core/src/tool/handlers/agent.ts": {
+        "baselineBlob": "165857bd397e1aad82eb9e39f3453a65b0266f9f",
+        "headBlob": "636e014f7039bacc15371691006150edbf934c46"
+      },
+      "apps/cli/packages/core/src/tool/handlers/ask-user-question-narration.ts": {
+        "baselineBlob": null,
+        "headBlob": "2afcdce979043cfc124adceccd90ceee73c9ebe5"
+      },
+      "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts": {
+        "baselineBlob": null,
+        "headBlob": "eaf2b938ee676a1aa187e5a3dc289e9134e7f6bf"
+      },
+      "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts": {
+        "baselineBlob": "6b4f5a2b4e11aa1e6f154950ad2946a8a92da2a1",
+        "headBlob": "170152ac159d2631facee1d986fc1d1e4477e930"
+      },
+      "apps/cli/packages/core/src/tool/handlers/collaboration-invocation.ts": {
+        "baselineBlob": null,
+        "headBlob": "a10d5964504f1a5c37ae856d89b6285325d07d5d"
+      },
+      "apps/cli/packages/core/src/tool/handlers/collaboration-request.ts": {
+        "baselineBlob": null,
+        "headBlob": "78d3eb319cd13d3ccef52cbd0b200d0787dfb1b3"
+      },
+      "apps/cli/packages/core/src/tool/handlers/collaboration-result.ts": {
+        "baselineBlob": null,
+        "headBlob": "acc1fe070aa75fb9ad239434f992a0d75dd9ade0"
+      },
+      "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts": {
+        "baselineBlob": "7f4a9af0a9c787cbaffca56fb2b30a4a12429993",
+        "headBlob": "285920bc4a81f251713b92df3b937ce6e5bbf454"
+      },
+      "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts": {
+        "baselineBlob": "d5ea8c64d98d0cb63d198775e25b15b15d3253a8",
+        "headBlob": "6e78864e97a5bef2f2aec8dcd7ee5efd03fb93c6"
+      },
+      "apps/cli/packages/core/src/tool/handlers/cron-execution.ts": {
+        "baselineBlob": null,
+        "headBlob": "28bd3fe88ddb806d43ecd4d5a8a2024bbe8a6b19"
+      },
+      "apps/cli/packages/core/src/tool/handlers/cron.ts": {
+        "baselineBlob": "1116ce3bb230e13a6c8cfbccf08aa342e2e4d160",
+        "headBlob": "7f1030e66f0a7e748a705fbabba8ff862abf81f6"
+      },
+      "apps/cli/packages/core/src/tool/handlers/escalate-operation.ts": {
+        "baselineBlob": null,
+        "headBlob": "53bfe386ac3832b74896bb60f60f0ef7f5d38ae7"
+      },
+      "apps/cli/packages/core/src/tool/handlers/escalate.ts": {
+        "baselineBlob": "dd0ed773f94065120c3220dd4167183f179bf487",
+        "headBlob": "1e22e5c71216998490dd2dbed5ee80b6b73fb89d"
+      },
+      "apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts": {
+        "baselineBlob": "b995556e78462d19d131b00f93291fcfd211298b",
+        "headBlob": "323dad77b73074e842b50540738f2d90b647f37b"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts": {
+        "baselineBlob": null,
+        "headBlob": "9b918f9bb6a591131030a1d4522dbd34c347d6fc"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts": {
+        "baselineBlob": "20b0494089c93bbbc4aa96808ed6b0d8a0213eb1",
+        "headBlob": "b760d07be62a9ff85b84de1eeb56ee56e87f3a3e"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-output-fields.ts": {
+        "baselineBlob": null,
+        "headBlob": "8ae4c28c300895cf8e89798028334c4bab707768"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-snapshot-fields.ts": {
+        "baselineBlob": null,
+        "headBlob": "47fe2313484c18be3f22e67f945b49938abe3c31"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary-clauses.ts": {
+        "baselineBlob": null,
+        "headBlob": "2a36d6501dc9da42d4e5941372a27db4352b804a"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts": {
+        "baselineBlob": "bdcf1b91198cf70c4c1a611af96bc85bcf9924e0",
+        "headBlob": "80736f32bcff96b60cedba7a6a8eae25cba27add"
+      },
+      "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts": {
+        "baselineBlob": "9b385b5759c7879684d376810f712a01e36b938f",
+        "headBlob": "f17fb0d13f3377ba0990041533c36bdbcecd0b2a"
+      },
+      "apps/cli/packages/core/src/tool/handlers/list-models-projection.ts": {
+        "baselineBlob": null,
+        "headBlob": "65cc7dc8f84d212901fae9f1332e1c0d2bead408"
+      },
+      "apps/cli/packages/core/src/tool/handlers/list-models.ts": {
+        "baselineBlob": "60176075f8cb826661f2821662c7c2cdb16971d7",
+        "headBlob": "cbad76072795c1ded08d245b88fbbc05f8f52813"
+      },
+      "apps/cli/packages/core/src/tool/handlers/list-saved-workflows-model-renderer.ts": {
+        "baselineBlob": null,
+        "headBlob": "31ad12f5ab85c3b7b5edab18455cafaae6351df5"
+      },
+      "apps/cli/packages/core/src/tool/handlers/list-saved-workflows.ts": {
+        "baselineBlob": "a0e31eb0da03cec484033ec23768dd2ced7b7fc2",
+        "headBlob": "9156a397c82f6eda5af65bbf4c5086393de786b8"
+      },
+      "apps/cli/packages/core/src/tool/handlers/list-workflow-runs-operation.ts": {
+        "baselineBlob": null,
+        "headBlob": "cbd3f2dfdd41cdfd675a59df6ba554054bf22ce1"
+      },
+      "apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts": {
+        "baselineBlob": "51ddeecb32d521bfcd8d08275614d5def46f93f0",
+        "headBlob": "737337c5961b27936c1046ee5e66d06d39f169ef"
+      },
+      "apps/cli/packages/core/src/tool/handlers/model-reference-diagnostics.ts": {
+        "baselineBlob": null,
+        "headBlob": "9759f965dc9d8598999f8f84729fe473f278fe9e"
+      },
+      "apps/cli/packages/core/src/tool/handlers/model-reference-policy.ts": {
+        "baselineBlob": null,
+        "headBlob": "4d7972b0b1211c58b8b30399e7879da01f8c09b9"
+      },
+      "apps/cli/packages/core/src/tool/handlers/model-reference.ts": {
+        "baselineBlob": "f0ff0702b904a15bd6f1456dfc9edfa4f4f40ccb",
+        "headBlob": "4586912d855b6ac3997eb837408c261f37868f13"
+      },
+      "apps/cli/packages/core/src/tool/handlers/off-peak-execution.ts": {
+        "baselineBlob": null,
+        "headBlob": "dfd0e7a4934da3bd195738bd4fbd6e502bcd7332"
+      },
+      "apps/cli/packages/core/src/tool/handlers/off-peak-result.ts": {
+        "baselineBlob": null,
+        "headBlob": "1ab34f1afab8830d24cdd8d006fc61be50c6531d"
+      },
+      "apps/cli/packages/core/src/tool/handlers/off-peak.ts": {
+        "baselineBlob": "5b4b6fa066d54298ec5408c8244390b674a1cf97",
+        "headBlob": "835c39c6dbb0a07eb80edf6187a401f1f4e823a8"
+      },
+      "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts": {
+        "baselineBlob": null,
+        "headBlob": "fd607706e24741ea2fe687bb40dade1fad27a6c2"
+      },
+      "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts": {
+        "baselineBlob": null,
+        "headBlob": "ad40889cc2149c32b625143897f72aacaaef8c22"
+      },
+      "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts": {
+        "baselineBlob": null,
+        "headBlob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244"
+      },
+      "apps/cli/packages/core/src/tool/handlers/plan-mode.ts": {
+        "baselineBlob": "8bffa85234e61fb1a38774f9d0130484c60ff4c0",
+        "headBlob": "272221bfe000c27eaf6c7613698ef7ff4f31061e"
+      },
+      "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts": {
+        "baselineBlob": null,
+        "headBlob": "972fcde5ef5922a43808862b419aa0cf0d76e27b"
+      },
+      "apps/cli/packages/core/src/tool/handlers/read.ts": {
+        "baselineBlob": "623043b7afb23979d942683189656b683d82c4af",
+        "headBlob": "633aa9b5656a420d14971f3ed847c461fbcb8f50"
+      },
+      "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts": {
+        "baselineBlob": "498c388ef7ed36faccf96b048d597d8e4249655f",
+        "headBlob": "13b5c38ab890d3bad038846c1837b62552fcfabe"
+      },
+      "apps/cli/packages/core/src/tool/handlers/send-message.ts": {
+        "baselineBlob": "64eec0acd77b05e1a4cd916eb3d7da1832c4260a",
+        "headBlob": "e550f7ef31e4b0173179e3b6699ad1baa7fdd858"
+      },
+      "apps/cli/packages/core/src/tool/handlers/skill-execution.ts": {
+        "baselineBlob": null,
+        "headBlob": "79e443cb4f1bb524845b1a073ae3ab391754f701"
+      },
+      "apps/cli/packages/core/src/tool/handlers/skill-instructions.ts": {
+        "baselineBlob": null,
+        "headBlob": "7f10cacaca0fc12879face676254a6241ccc45f5"
+      },
+      "apps/cli/packages/core/src/tool/handlers/skill.ts": {
+        "baselineBlob": "1123491640484062776a9fc251011db54669a886",
+        "headBlob": "e0b17edbdf449fb872fa40295ba3bb5170d5f6ad"
+      },
+      "apps/cli/packages/core/src/tool/handlers/submit-result.ts": {
+        "baselineBlob": "de26e32959c27ac309a34f5fb47e88eda5ad0af7",
+        "headBlob": "954f04f2818322adf109c0f350c6abb75516006e"
+      },
+      "apps/cli/packages/core/src/tool/handlers/webfetch-orchestration.ts": {
+        "baselineBlob": null,
+        "headBlob": "41c8dc64d98036a9cf0bdda708ad0c062a0c107a"
+      },
+      "apps/cli/packages/core/src/tool/handlers/webfetch.ts": {
+        "baselineBlob": "e0cfc98c4d18d9eb8ed5d1d3638979cd9aaebd0f",
+        "headBlob": "d32cf8c238657b56152136d4439d464d6d9d3417"
+      },
+      "apps/cli/packages/core/src/tool/handlers/websearch-execution.ts": {
+        "baselineBlob": null,
+        "headBlob": "c2cdeaad98c4818c572f1bf29ce71cdf295c9aec"
+      },
+      "apps/cli/packages/core/src/tool/handlers/websearch-response-tree.ts": {
+        "baselineBlob": null,
+        "headBlob": "1d34e755344125b63b8696e77d79082af53b1666"
+      },
+      "apps/cli/packages/core/src/tool/handlers/websearch-results.ts": {
+        "baselineBlob": "2f78b28a5059328b99fb18bd4cd89aba63fc896d",
+        "headBlob": "2154b19d09822dcdc928998043fdfee433530fe5"
+      },
+      "apps/cli/packages/core/src/tool/handlers/websearch-support.ts": {
+        "baselineBlob": "1b341bdcbdedf80151e552f466eaa01f782a678c",
+        "headBlob": "4c222198dda2b1f4ec614e5feaaf2b37c21fb883"
+      },
+      "apps/cli/packages/core/src/tool/handlers/websearch.ts": {
+        "baselineBlob": "3e6fe10e2163f5f6b0845007f92ced2db19ea922",
+        "headBlob": "79fe757bfe46aa6c49256cbdee57fa35f4cfae1e"
+      },
+      "apps/cli/packages/core/src/workflow/expert/critic-loop.ts": {
+        "baselineBlob": "6b3999449571e636bff55017ee31ab75bb45d532",
+        "headBlob": "7bc533f9a3529d24febdcfb407895a508372c275"
+      },
+      "apps/cli/packages/core/src/workflow/expert/failures.ts": {
+        "baselineBlob": "47c91cfde22083fb9c8c2a461f583c641e198263",
+        "headBlob": "b25c4fa0269886261bfc438e70af1afd5ecde0c7"
+      },
+      "apps/cli/packages/core/src/workflow/expert/formatters.ts": {
+        "baselineBlob": "15708086e1fef70c21c6b95922a29968dda450af",
+        "headBlob": "02eae7311ac45628c4c8cca3e916c994e420f0c9"
+      },
+      "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": {
+        "baselineBlob": "20df905cd6556d49682d43591a084602d7abee77",
+        "headBlob": "a462a4c73ff1c5cbf9fcbfd8e807146f5d5c013f"
+      },
+      "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts": {
+        "baselineBlob": "cc0297ac960c8eba3648afed5c909970a7a45946",
+        "headBlob": "2ee3bcf7a9d60000d8f81e249b9d7e53d4a9c59b"
+      },
+      "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts": {
+        "baselineBlob": "7b9940d1591c9a8b5fbf92d00c67d09171db2758",
+        "headBlob": "58fee28e277b8e8e5262481aabf4d0f56970be08"
+      },
+      "apps/cli/packages/core/src/workflow/expert/parsers/json.ts": {
+        "baselineBlob": "3ec08019fb2684eb7c05a21566ba1277903da39e",
+        "headBlob": "3ff006f52dc757dc013bbaa5adaa61aad676ad8e"
+      },
+      "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts": {
+        "baselineBlob": "cd8f0a9807d420a644d4565c094f5847c7e02fe0",
+        "headBlob": "cdf9293763700eefd1be518f47e81a8de96cd0f5"
+      },
+      "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts": {
+        "baselineBlob": "798bda9525a86b5eb944009fa3cdc1bde70dc281",
+        "headBlob": "21e233cd9aefbcfb62e4369a6ea114bdbc548a3a"
+      },
+      "apps/cli/packages/core/src/workflow/expert/phase-runner.ts": {
+        "baselineBlob": "9aba43f8203112f73335a15cecfa78c302c09c51",
+        "headBlob": "f43495d7e5c4c951fc146c276aa20c5233b35a3d"
+      },
+      "apps/cli/packages/core/src/workflow/expert/prompts.ts": {
+        "baselineBlob": "d5e700717a2a50f33c76ced86671e6daf24f3d0c",
+        "headBlob": "28b66212139ea884942162e93e7b322e3890d9fb"
+      },
+      "apps/cli/packages/core/src/workflow/expert/retry-state.ts": {
+        "baselineBlob": "76a6170c004df5bf244ae1206a014d68428bc819",
+        "headBlob": "505ff30a2b0591f7e7543f8b87933a51fd008fff"
+      },
+      "apps/cli/packages/core/src/workflow/expert/run-loop.ts": {
+        "baselineBlob": "4e3c70def43b7b7965b8a578366270967255b479",
+        "headBlob": "793b0d12bb75e81008a99729256ea4f28d6d610e"
+      },
+      "apps/cli/packages/core/src/workflow/expert/runtime-context.ts": {
+        "baselineBlob": "a90f62133f7feabb7cb5870e1fce5041c46fe4a5",
+        "headBlob": "bd2f628b779b618fa438e38bcf6de1eb45683e6e"
+      },
+      "apps/cli/packages/core/src/workflow/expert/runtime.ts": {
+        "baselineBlob": "9e999fdfdff68ce5b4b1d41d3c6a482cf9965758",
+        "headBlob": "0e5697a4e67002ddb69d25f4a0ecc2042ec6c7e3"
+      },
+      "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts": {
+        "baselineBlob": "bb3199a9679d1233bfea7d104c2b322799100476",
+        "headBlob": "df588251c19625830c97c9ad095e81e3aa8922ee"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts": {
+        "baselineBlob": null,
+        "headBlob": "b07568195bc3300c59e1843c5a95bedd5451e372"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": {
+        "baselineBlob": "6edf29007ce2fd738365e7ba7ca80809d3c8f9b9",
+        "headBlob": "3d32f332462b3aac0a3037161c19340e2b6928fd"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/graph-helpers.ts": {
+        "baselineBlob": null,
+        "headBlob": "1268a0d697b0cc30317c1839d967f1e9f61e0159"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/graph.ts": {
+        "baselineBlob": "1643bfe00161095552a1accd2f963bf810e36b5a",
+        "headBlob": "3905dbc1909faa4dac2030c1b31789d82c904472"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts": {
+        "baselineBlob": null,
+        "headBlob": "e6283d941b0d35235c572609a95fb2edc5770e28"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts": {
+        "baselineBlob": "a631d9f0b369d66d7fe7704e5a5d03d58a5f07f4",
+        "headBlob": "18523fd43ef142e2fad73f5869dc1f6ea312b673"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": {
+        "baselineBlob": "7547271ee1a146e7ed2c6d8d8fd4840443c85dc4",
+        "headBlob": "6303688f0a2ff55f6e6c2f13737bd85c3c49cc32"
+      },
+      "apps/cli/packages/core/src/workflow/scheduler/ready-order.ts": {
+        "baselineBlob": null,
+        "headBlob": "3ae1f23e7f1f9d8902d08013d24d781f9cfdf7e2"
+      },
+      "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts": {
+        "baselineBlob": "3ea22f6ef15e14fbf1dffdc98e7b3c989bcf183d",
+        "headBlob": "ef174ce7f9a41e463e241dc39f38726304e9bcce"
+      },
+      "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts": {
+        "baselineBlob": "c6fa31b8dc5f148de80f1d3dc6caad21b342e7bf",
+        "headBlob": "270726679248f2a6d4791f0f8a169c92d21c1b52"
+      },
+      "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts": {
+        "baselineBlob": "1f6c3874732618b0ee4b8624b1dc056de1130f2d",
+        "headBlob": "956a02bd7c40011c1412087ffbce7b3dc77938a9"
+      },
+      "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts": {
+        "baselineBlob": "b9c99a87dad687ebaf6452988a44ed68788017a0",
+        "headBlob": "7ccab887395902bccd014c6e738fa0cd1f83dfdc"
+      }
+    },
+    "12": {
+      "packages/client/src/messageport.ts": {
+        "baselineBlob": "f63ffd978d6ff6ab2d6162319cf2e9ed6c91a6d2",
+        "headBlob": "47575ec8e005a3f988a651ca9c437817db68a773"
+      },
+      "packages/client/src/websocket.ts": {
+        "baselineBlob": "e839880beba6bf0ecb15cca94d1858ba5e967c13",
+        "headBlob": "19f71f41e5a79087f75e04ccdda609745088f9de"
+      },
+      "packages/desktop/src/main/about.ts": {
+        "baselineBlob": "c348f2913dd4cb91b0c59f216aeef679881745dc",
+        "headBlob": "871071c6294c58cc4f2e5d885783550e02e3c4cf"
+      },
+      "packages/desktop/src/main/aboutWindow.ts": {
+        "baselineBlob": "dfcab3a6fb1d124a604423f0b4488d4229dd25b6",
+        "headBlob": "2436e82c74e6c4b450bc14b9fc9b050151b9c373"
+      },
+      "packages/desktop/src/main/dataSizeScanner.ts": {
+        "baselineBlob": "b61544868ce50a4f416e46efe0d0fdb6c5c0f709",
+        "headBlob": "b0e7240ea4ff1c09b1f2d4158b13281fe3285c6c"
+      },
+      "packages/desktop/src/main/dataSizeWorkerClient.ts": {
+        "baselineBlob": "98196af3019dc7a385dc63b86d9f654d5f059569",
+        "headBlob": "1943afcfe53028c8dbb13f7c949f2b0dd14f7d7b"
+      },
+      "packages/desktop/src/main/desktopApplicationMenu.ts": {
+        "baselineBlob": "8f4eac022a90a9166dc70ef25be56a0ac2f10981",
+        "headBlob": "2a41b167d8ad3b62e842e55fadb78695c1295da4"
+      },
+      "packages/desktop/src/main/desktopCommandHandlers.ts": {
+        "baselineBlob": "b23edda3def86e162b96da7bc749caa1da6824bc",
+        "headBlob": "8d295e52fd4ee6f14f90eeb28bc81e4ec88ea966"
+      },
+      "packages/desktop/src/main/desktopCronScheduler.ts": {
+        "baselineBlob": "565ccd3ade8037ed6043d21be4331144bcf55c58",
+        "headBlob": "13c3a58bcc8cd76900b55d4ee31e70da1a9a4883"
+      },
+      "packages/desktop/src/main/desktopHostProcess.ts": {
+        "baselineBlob": "7ea0449c0da352fec5aebdc1af0cc54172bf8486",
+        "headBlob": "d5122a472233788194ccff18d9675c5dbee569d7"
+      },
+      "packages/desktop/src/main/desktopHostProcess/lifecycle.ts": {
+        "baselineBlob": null,
+        "headBlob": "6e8f7cb83b9511e0dbbad0522bcf180f03d84f89"
+      },
+      "packages/desktop/src/main/desktopHostProcess/messages.ts": {
+        "baselineBlob": null,
+        "headBlob": "cf9bb58b914fa2a4dea63e85bdae18af4d565ada"
+      },
+      "packages/desktop/src/main/desktopMainIpcHelpers.ts": {
+        "baselineBlob": "e493265c68f93fc78c13e1a24b4ac1b0c0861edb",
+        "headBlob": "2878888f9deeebb3fc2fa154926af7a1caf58efa"
+      },
+      "packages/desktop/src/main/desktopMainIpcPlatform.ts": {
+        "baselineBlob": "92a26be3cc9239d5e1b77d9f77a7e26b1477a810",
+        "headBlob": "501297dc27c113cd21bd6d36c5d109f5ed4421e5"
+      },
+      "packages/desktop/src/main/desktopMainIpcRemote.ts": {
+        "baselineBlob": "fea1c55722187e0cd8da70846530bc6c0ab860b3",
+        "headBlob": "2a07b67360bbee809e896b40eb17f14b5c5a21b9"
+      },
+      "packages/desktop/src/main/desktopNotifications.ts": {
+        "baselineBlob": "c049c82feb1f198f8e625567335585c6e5535677",
+        "headBlob": "dee1903c22cb9e2640d29f3666b4011fe2b527b2"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions.ts": {
+        "baselineBlob": "19bd689855f2faf6690b367ff10b2db8940467d8",
+        "headBlob": "b9636aa9d6269fd32195bdded03193fee41305ee"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions/attachments.ts": {
+        "baselineBlob": null,
+        "headBlob": "3b297cf390571b444cb4caccfb020b541f1657d2"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions/common.ts": {
+        "baselineBlob": null,
+        "headBlob": "8c0ae9d100f91847e991f625e654c7ea69f565b9"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions/connections.ts": {
+        "baselineBlob": null,
+        "headBlob": "6a7b7f4d65cfb399c294e1d39d00ff20365bd1f8"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions/controls.ts": {
+        "baselineBlob": null,
+        "headBlob": "211d33ccbc19b8ada9164b7435f678acaac353bd"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions/lifecycle.ts": {
+        "baselineBlob": null,
+        "headBlob": "3a344e00701dd65012f6c5a728341a71ee86fe62"
+      },
+      "packages/desktop/src/main/desktopRemoteSessions/types.ts": {
+        "baselineBlob": null,
+        "headBlob": "d7f6b217e6e0a1e7b5de2da1ab472dde0b514ce8"
+      },
+      "packages/desktop/src/main/desktopTray.ts": {
+        "baselineBlob": "df920a58a28c7b89efeffd5449ae84f49a655b8c",
+        "headBlob": "aa02dfd096e3dc1ecdbdec2297dbd2b1fa65c1b5"
+      },
+      "packages/desktop/src/main/desktopWindowChrome.ts": {
+        "baselineBlob": "5281488c5a881cb158c60e8c60a1a016c6ab187e",
+        "headBlob": "4c7e68fc5db8a8f2a34014fede521a50d520aecb"
+      },
+      "packages/desktop/src/main/desktopWindowChrome/guest.ts": {
+        "baselineBlob": null,
+        "headBlob": "7ff9c2356775204df27b232e226466dfd9d97ff4"
+      },
+      "packages/desktop/src/main/desktopWindowLifecycle.ts": {
+        "baselineBlob": "288b07aefc00d5f2f8f48334dfd3c3d25cbe25ce",
+        "headBlob": "c4b52bb4886afc8a0c6b0f9cd9fe2b87661a44f6"
+      },
+      "packages/desktop/src/main/desktopWorkspaceDeepLink.ts": {
+        "baselineBlob": "e182f36bfd8b97624d84a45db1576189fd9600fa",
+        "headBlob": "0fc82fd9c19ed1788d121ea7d8791ce6216710ea"
+      },
+      "packages/desktop/src/main/localMediaPreviewProtocol.ts": {
+        "baselineBlob": "cb1b7280207ff1e3b09abe61b65ea85b62e3b0f8",
+        "headBlob": "c9bf37d1447e377be188a70a147ac29128f2966e"
+      },
+      "packages/desktop/src/main/primaryWindowCoordinator.ts": {
+        "baselineBlob": "55e7b9341e7f2b95fbd11ffa83c34c3ab9b052fa",
+        "headBlob": "1f59d21483db1907c32b188951a7f35eabf7eeee"
+      },
+      "packages/desktop/src/main/releaseUpdateCheck.ts": {
+        "baselineBlob": "100ef9b975367e4d88dc596972924abf487e0440",
+        "headBlob": "aa81387f2dc6f1c09714692b97e88d23c94591ca"
+      },
+      "packages/desktop/src/main/startupWorkspace.ts": {
+        "baselineBlob": "1ca2bb7d91bf69814962d8287e6d89edb98279bc",
+        "headBlob": "dadedc2b8944667d9e0add643a8924c5034eca95"
+      },
+      "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts": {
+        "baselineBlob": "4af3f08adaf067399714e5488113c7151209bac3",
+        "headBlob": "7c6aea4342865ec8acca0eaaed287a04d2a9b4c6"
+      },
+      "packages/server/src/remote/remoteAssetCache.ts": {
+        "baselineBlob": "99a6c17f195880e9e660e86be5aebedc2ca39e35",
+        "headBlob": "da55c7acffeb088fc6fd9e779ea791ced5a59b22"
+      },
+      "packages/server/src/remote/remoteAssetCacheComponents.ts": {
+        "baselineBlob": null,
+        "headBlob": "dacd87785c63f8967639f555112daa5c80d5a974"
+      },
+      "packages/server/src/remote/remoteAssetCacheFiles.ts": {
+        "baselineBlob": null,
+        "headBlob": "7a0a518b3224c8132653db7aedeeed6065ae0407"
+      },
+      "packages/server/src/remote/remoteAssetCacheModel.ts": {
+        "baselineBlob": null,
+        "headBlob": "be58fbc76dc059ddef1be6e27467f77b6eeb6011"
+      },
+      "packages/server/src/remote/remoteAssetCdn.ts": {
+        "baselineBlob": "523e69802bff711550b4c5494208a4b83221a30c",
+        "headBlob": "26255ff7e8a0302be0b6d3fbea5f111155d751ac"
+      },
+      "packages/server/src/remote/remoteAssetNetwork.ts": {
+        "baselineBlob": "b3685569d411a4c82d302c1ec7161fa39e90f7e7",
+        "headBlob": "fe696275089a1532f4f1af9331c3b22a68929b17"
+      },
+      "packages/server/src/remote/sshUploadProgress.ts": {
+        "baselineBlob": "ffb721a780fa9603b287e1fac0a78aae28c5e346",
+        "headBlob": "93a4b3e413ed6c8b4d35d00b63b48de99fe28beb"
+      },
+      "packages/shared/src/conversation-preview-artifacts.ts": {
+        "baselineBlob": "d9e4edc433dd73a98596ea118928f0d09af9f7b7",
+        "headBlob": "cec360e365e7d06c73505bfde8d3e1271983200e"
+      },
+      "packages/shared/src/persistedMessageMerge.ts": {
+        "baselineBlob": "f160328fb7309a83fc9aa3fdffcb5fac20502101",
+        "headBlob": "4e56a0e9234d5511ea6d1074e280ab4c9a8ef0c6"
+      }
+    }
+  },
+  "qualification": "Same-path different blobs establish required version selection, not demonstrated behavioral conflict. Absence of another bounded same-path overlap does not prove interface compatibility. Earlier 18–25% estimate remains pinned to its historical heads; this report does not recalculate progress."
+}

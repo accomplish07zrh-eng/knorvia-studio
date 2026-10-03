@@ -1,0 +1,36 @@
+{
+  "kind": "Bounded allocated inventory disposition only; no exhaustive core or rights closure",
+  "allocatedOwners": [
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "status": "complete original author v1 installed; evidence checked"
+    },
+    {
+      "scope": "extraction",
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "status": "complete original author v1 installed; evidence checked"
+    },
+    {
+      "scope": "memory-agent",
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "status": "complete original author v1 installed; evidence checked"
+    },
+    {
+      "scope": "reminders",
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "status": "complete original author v1 installed; evidence checked"
+    },
+    {
+      "scope": "turn-errors",
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "status": "complete original author v1 installed; evidence checked"
+    }
+  ],
+  "allocatedOwnersRemaining": 0,
+  "additionalQueueAuthorized": false,
+  "rootDesktopHandoff": "docs/knorvia-desktop-window-tray-command-root-handoff-20261003.md",
+  "rootImplementationImported": false,
+  "excluded": "A runtime/methods, conversation.ts, streaming-tool-ledger.ts; protected permission/security; other lane sources; global license data",
+  "materialObligationsRemaining": 21
+}

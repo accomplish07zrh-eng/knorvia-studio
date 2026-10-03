@@ -1,0 +1,83 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "template",
+      "head": "data:",
+      "spans": [
+        {
+          "placeholder": "resizedMediaType",
+          "text": ";base64,"
+        },
+        {
+          "placeholder": "resizedData.toString(\"base64\")",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": ".jpg"
+    },
+    {
+      "kind": "text",
+      "text": ".jpeg"
+    },
+    {
+      "kind": "text",
+      "text": "image/jpeg"
+    },
+    {
+      "kind": "text",
+      "text": ".gif"
+    },
+    {
+      "kind": "text",
+      "text": "image/gif"
+    },
+    {
+      "kind": "text",
+      "text": ".webp"
+    },
+    {
+      "kind": "text",
+      "text": "image/webp"
+    },
+    {
+      "kind": "text",
+      "text": "image/png"
+    }
+  ],
+  "regex": [
+    "/^data:([^;,]+);base64,(.*)$/i"
+  ],
+  "numericLiterals": [
+    "2"
+  ],
+  "externalConstants": {
+    "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+    "READ_IMAGE_TARGET_BYTES": 3932160,
+    "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+    "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+  },
+  "retainedDataQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms, not novelty/rights claim; no source bodies delivered"
+}

@@ -1,0 +1,11 @@
+# E planner owner integration
+
+Install only the exact complete E-authored planner-expansion v2 and collection-planner v2 artifacts into their existing scheduler owner paths. This is not a merge/import of root's or A's implementations. Existing frozen [expansion contract](../docs/evidence/planner-expansion-author-packet-20261002/contract.md) and [collection planner contract](../docs/evidence/collection-planner-author-packet-20261002/contract.md), including their versioned API/behavior clarifications, remain the behavioral authority.
+
+Expansion owns pure validation and snapshot/collection derivation. The collection planner owns planner admission, attempt orchestration and ordered publication through the existing runtime ports. Neither adds a second persistence owner. Retain current exported signatures, dependency module boundaries, protocol fields, failure ordering, identity/reference requirements and declared caller behavior. The existing legacy cli architecture module remains the owner.
+
+Install source byte-for-byte from the frozen v2 artifacts. Any later compatibility correction must be a separately bound source descendant and must not rewrite either draft or its original receipt. Preserve expansion v1's wrong collection identity and clarification; preserve collection v1's stale phase and argument-budget failures, v2 correction chronology and historical bounded checks.
+
+Required observations include expansion collectionId binding, validation priority and output identity; collection planner phase reads after awaited mutations and ordered added-id aggregation without a function-call argument budget. Publication/error and cancellation boundaries remain those in the frozen complete-owner packet. Existing callbacks/dependencies are reused, not reconstructed by this integration.
+
+Validation for this batch is exact-byte provenance, exported declaration extraction and static dependency resolution only. Do not repeat prior successful diagnostics, type checks or runtime probes. Broad builds/tests, current combined project compilation and actual-consumer acceptance are deferred to root's later acceptance branch. No global licence/inventory change or MIT readiness claim follows from installing these two owners.

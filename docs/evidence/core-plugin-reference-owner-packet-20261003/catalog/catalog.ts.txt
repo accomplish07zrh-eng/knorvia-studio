@@ -1,0 +1,60 @@
+import type {
+  PluginMetadata,
+  PluginReferenceCatalog,
+  PluginReferenceCatalogEntry,
+} from "@knorvia/contracts";
+
+export function buildPluginReferenceCatalog(
+  plugins: readonly PluginMetadata[],
+): PluginReferenceCatalog {
+  return {
+    plugins: plugins.map((plugin) => {
+      const skills = new Set<string>();
+      const agents = new Set<string>();
+
+      for (const group of plugin.components) {
+        if (group.kind !== "skill" && group.kind !== "agent") {
+          continue;
+        }
+        const names = group.kind === "skill" ? skills : agents;
+        for (const item of group.items) {
+          const name = item.name.trim();
+          if (name) {
+            names.add(`${plugin.name}:${name}`);
+          }
+        }
+      }
+
+      const conflictingPluginIds = plugin.enabled
+        ? plugins
+            .filter(
+              (other) =>
+                other.enabled &&
+                other.name === plugin.name &&
+                other.id !== plugin.id,
+            )
+            .map((other) => other.id)
+            .sort()
+        : [];
+
+      return {
+        pluginId: plugin.id,
+        name: plugin.name,
+        marketplace: plugin.marketplace,
+        enabled: plugin.enabled,
+        conflictingPluginIds,
+        skillQualifiedNames: [...skills].sort(),
+        mcpServerNames: [...plugin.mcpServerNames].sort(),
+        subagentNames: [...agents].sort(),
+        rootPath: plugin.rootPath,
+      };
+    }),
+  };
+}
+
+export function findPluginReferenceCatalogEntry(
+  catalog: PluginReferenceCatalog | undefined,
+  pluginId: string,
+): PluginReferenceCatalogEntry | undefined {
+  return catalog?.plugins.find((entry) => entry.pluginId === pluginId);
+}

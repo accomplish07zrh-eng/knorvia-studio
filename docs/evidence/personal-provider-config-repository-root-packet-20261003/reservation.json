@@ -1,0 +1,38 @@
+{
+  "scope": "Root-only complete source-only repository packet; not production implementation/author authorization",
+  "inputPublishedHead": "0dfff3f50fda63219112c351a26a0ffb4b6f8f8d",
+  "target": {
+    "path": "packages/provider-node/src/personal-provider-config-repository.ts",
+    "bytes": 10292,
+    "sha256": "8a60302f6a4e6595a18ba526de430a7952b03baea9f110165707e6bfc76c8eba",
+    "gitBlob": "6a822a1463568849264472984624460c0b823446"
+  },
+  "state": "PREPARATION ONLY / EXACT RECEIPT AND OWNERSHIP CONTINGENT HOLD",
+  "ownerResponsibility": "Read/import/normalize/update transactions, revision identity, recovery, single-timer polling/generation fence/error episodes and live listeners/disposal",
+  "authorInputsExactly": [
+    "contract.md",
+    "public-api.d.ts",
+    "dependency-types.d.ts",
+    "runtime-ports.d.ts",
+    "dependency-contract.md",
+    "retained-data.json"
+  ],
+  "authorsCreated": 0,
+  "candidatesFrozen": 0,
+  "productionChanges": 0,
+  "retained": [
+    "D provider config/model/registry/account owners",
+    "G adapters",
+    "provider config facades and schema/codec/static data",
+    "shared private-write/lock utilities and native standard APIs"
+  ],
+  "excludedFromAuthorInputs": [
+    "original implementations/upstream/history",
+    "curator manifest and old receipt/ownership records",
+    "extractor/verifier/static results",
+    "private backup/checkpoint/credentials/real accounts"
+  ],
+  "stopRule": "A genuine prior accepted receipt or D/G conflicting allocation stops preparation/reauthoring and enters exact hash HOLD; do not recover blocked backup.",
+  "mitRightsDecision": null,
+  "materialObligationsOpen": 21
+}

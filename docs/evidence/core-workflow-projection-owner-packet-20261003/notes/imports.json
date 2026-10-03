@@ -1,0 +1,13 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { CreateWorkflowDiagnostic }",
+    "names": [
+      {
+        "name": "CreateWorkflowDiagnostic",
+        "local": "CreateWorkflowDiagnostic",
+        "typeOnly": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "kind": "Minimal synthetic classification, shared-state and raw-media telemetry negative probes only",
+  "typescript": "6.0.2",
+  "sourceBindings": [
+    {
+      "scope": "business",
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "bytes": 5830,
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86"
+    },
+    {
+      "scope": "anomaly",
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "bytes": 4291,
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1"
+    },
+    {
+      "scope": "telemetry",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "bytes": 6353,
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241"
+    }
+  ],
+  "dependencyStubs": "Contract-selected in-memory ports only; no real dependency/provider/OS/network execution",
+  "results": [
+    {
+      "name": "Business marker and success-zero metadata do not invent failure",
+      "passed": true
+    },
+    {
+      "name": "Cyclic metadata terminates and breadth-first failure wins over deeper failure",
+      "passed": true
+    },
+    {
+      "name": "Business summary excludes nested and mixed fields, preserves admitted string-array identity",
+      "passed": true
+    },
+    {
+      "name": "Repeated warning observes exhausted shared budget without incrementing it",
+      "passed": true
+    },
+    {
+      "name": "Disabled repeated gate does not iterate or mutate state; budget crossing still reports exhausted gate",
+      "passed": true
+    },
+    {
+      "name": "Attachment telemetry omits raw URL/data/content and preserves logger receiver and canonical input",
+      "passed": true
+    },
+    {
+      "name": "Absent logger still summarizes attachments but skips trace and log-only dictionary evaluation",
+      "passed": true
+    },
+    {
+      "name": "Media telemetry retains full counts with twelve-item preview and no raw media or content",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "noCanonicalDataUsed": true,
+  "noSourceEmittedMatrix": true
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "{ type MessagePart }"
+  },
+  {
+    "module": "./utils.js",
+    "clause": "{ safeJson, truncateText }"
+  }
+]

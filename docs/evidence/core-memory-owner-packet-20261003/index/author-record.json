@@ -1,0 +1,141 @@
+{
+  "owner": "index",
+  "role": "restricted complete independent author; not curator",
+  "complete_original_candidate": true,
+  "recorded_at_utc": "2026-10-02 21:52:19 UTC",
+  "requested_configuration": {
+    "model": "GPT-6.1 Sol",
+    "reasoning": "high",
+    "authorization": "Parent delegation states user/parent authorization.",
+    "saved_fast_setting": "unchanged/unverified",
+    "verification": "No model/tool port or provider query; no serving-tier or actual model-setting proof."
+  },
+  "actual_task_directed_read_paths": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/index/contract.md",
+      "bytes": 3406,
+      "sha256": "6e1548245f0f3cd0a891bffa96ad048d44286206666b2eb5bb9916435b49fb2f",
+      "read_count": 1,
+      "coverage": "Full byte read and complete UTF-8 text displayed."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/index/public-api.d.ts",
+      "bytes": 157,
+      "sha256": "6bcc063a369f198f925a71f1235319516939f9465cefa4f1d7de0b9342262bd5",
+      "read_count": 1,
+      "coverage": "Full byte read and complete UTF-8 text displayed."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/index/dependency-api.d.ts",
+      "bytes": 234,
+      "sha256": "db20b2c2840ce9cbe1a993d9ab0de39dc10248c9814ed955a3cd28c4a10a6178",
+      "read_count": 1,
+      "coverage": "Full byte read and complete UTF-8 text displayed."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/index/public-shapes.d.ts",
+      "bytes": 61,
+      "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57",
+      "read_count": 1,
+      "coverage": "Full byte read and complete UTF-8 text displayed."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/index/imports.json",
+      "bytes": 62,
+      "sha256": "3657b7f869c3fe02ade0d5b2ca2324d7323edf5b275a30ae877f45420457a572",
+      "read_count": 1,
+      "coverage": "Full byte read and complete UTF-8 text displayed."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/index/output-data.json",
+      "bytes": 2206,
+      "sha256": "1c6e42498f7aee4ac28828d18d6ebfcf6f19c056d8ff2fab430cf6c9d260b4be",
+      "read_count": 1,
+      "coverage": "Full byte read and complete UTF-8 text displayed."
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/index/index-content.ts",
+      "bytes": 2258,
+      "sha256": "38c0c6984a8c64259cc0d1a91fcb68d08b27df7549fa42b5476cfb20b286f11a",
+      "read_count": 1,
+      "coverage": "Full byte read for a permitted own-output correction; these are pre-correction bytes."
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/index/author-record.json",
+      "bytes": 7445,
+      "sha256": "f9524775e04af69ff479f2c62cdc5470f7e6873e41c3232c0600d3d5e476ab16",
+      "read_count": 1,
+      "coverage": "Full byte read for a permitted own-output correction; these are pre-correction bytes."
+    }
+  ],
+  "own_output_reads": [
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/index/index-content.ts",
+      "bytes": 2258,
+      "sha256": "38c0c6984a8c64259cc0d1a91fcb68d08b27df7549fa42b5476cfb20b286f11a",
+      "read_count": 1,
+      "coverage": "Full byte read for a permitted own-output correction; these are pre-correction bytes."
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/index/author-record.json",
+      "bytes": 7445,
+      "sha256": "f9524775e04af69ff479f2c62cdc5470f7e6873e41c3232c0600d3d5e476ab16",
+      "read_count": 1,
+      "coverage": "Full byte read for a permitted own-output correction; these are pre-correction bytes."
+    }
+  ],
+  "source_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/index/index-content.ts",
+    "bytes": 2281,
+    "sha256": "de62e45a34a9d79d1683fcc4fbfe82442d8d4bbfcc1849ab4bf1e8f30915c50a",
+    "lines": 68,
+    "line_count_method": "Count of newline characters; file ends with newline.",
+    "hash_method": "SHA256 of exact final UTF-8 source bytes prepared for writing after the recorded own-output read; no final output reread.",
+    "permissions_after_freeze": "0444"
+  },
+  "receipt_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/index/author-record.json",
+    "permissions_after_freeze": "0444",
+    "self_digest": "Not embedded: a full-file digest cannot be self-consistently embedded. Exact serialized receipt bytes are hashed in memory and reported after writing."
+  },
+  "operations": [
+    "Invoked the selected execution environment shell with an inline Python script that fully read only the six enumerated input files, calculated byte lengths and SHA256, and printed their complete text.",
+    "Called the allowed UTC clock port for timing; no provider/model/tool-setting query.",
+    "Manually reviewed the frozen input text and the authored source text in the conversation; no compiler, build, lint, test, mock, install, dependency execution, source/history, credentials, memory, user-data, network, or business port operations.",
+    "Prepared source and JSON receipt in memory; calculated source bytes/SHA256/newline count and serialized receipt bytes/SHA256 in memory.",
+    "Created the assigned output directory if necessary; exclusively created exactly index-content.ts and author-record.json there.",
+    "Set both authored files to mode 0444 before reporting; no output-directory chmod or additional scratch accounting files.",
+    "Before final reporting, read only the two own frozen outputs once, changed the candidate to access token.type before token.raw, corrected the receipt timestamp to the actual clock result, recorded both pre-correction read hashes, made the two own files writable (0644), rewrote those same two files, and froze them again (0444). No new files were created."
+  ],
+  "retained_required_data": [
+    "Both required named exported functions and string-to-string signatures; the only import is the required non-type-only { Lexer } from marked.",
+    "Limits 200 lines and 25000 JavaScript UTF-16 characters, original trimmed counting, newline boundary truncation, no added ellipsis or retrim, and exact WARNING suffix and size descriptions.",
+    "Legacy character count labeled bytes, 1024-based KB/MB/GB formatting and one-decimal trailing-.0 removal.",
+    "Exact leading-frontmatter, HTML-comment-removal, and trailing-.0 regex source patterns; ordinary regex reuse replaces repeated private helper structure.",
+    "Opaque marked Lexer construction with gfm:false, ordered top-level tokens, retention of raw text outside eligible leading HTML comments, and propagation of lexer/getter/native errors."
+  ],
+  "ordinary_idioms_retained": [
+    "Constants for limits",
+    "trim/split/slice/join string processing",
+    "Threshold-based size conversion",
+    "Ordered loop over lexer tokens",
+    "Array accumulation of raw token text",
+    "Template literals and exact required regex patterns"
+  ],
+  "design_note": "Private internals were chosen for this candidate: one private size formatter, local token-piece collection, and local overflow description. Public-referenced declarations were treated as API shapes, not helper prescriptions.",
+  "manual_review": "Reviewed the source text against the six inputs for trim/empty behavior, threshold equality, original count preservation, line-first selection, newline cutoff including index25000, exact suffix, UTF-16 length semantics, frontmatter-before-lexer ordering, lexer skip when no comment marker, and top-level-only comment removal. No executable verification was allowed or performed. Final manual correction evaluates each token type before accessing raw; property/native errors still propagate without catches.",
+  "known_exposures_and_breaches": [
+    "Curator is source-exposed according to the provided contract and parent briefing.",
+    "Restrictions are instruction-only on the shared executor; no OS isolation or access audit was performed or claimed.",
+    "Prior broader source/tool/dependency context and a repaired earlier scratch-write breach were disclosed in the parent briefing. This receipt qualifies those facts; this child did not independently audit them, repeat that breach, or use prior drafts as inputs.",
+    "This child task intentionally read the six public packet files in full and retained their authoritative externally required behavior/data.",
+    "No prohibited task-directed path read or extra scratch-file write was performed by this child; low-level interpreter/runtime loading is not an OS-audited access ledger."
+  ],
+  "candid_limits": [
+    "The candidate is complete against the supplied public contract but compilation, integration, runtime behavior, and dependency behavior remain unverified because such executions were prohibited.",
+    "The opaque lexer implementation was not read or replaced.",
+    "No novelty, clean separation, legal licence clearance, global licensing, or adjacent-owner attestation is made.",
+    "Hashes establish prepared artifact content and frozen input identity; file modes are ordinary executor permissions, not an isolation or tamper-proof guarantee."
+  ],
+  "blockers": []
+}

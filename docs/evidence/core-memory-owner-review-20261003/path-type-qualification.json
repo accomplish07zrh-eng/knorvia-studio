@@ -1,0 +1,1 @@
+{"qualification":"Manual indexed-value typing hygiene, not a verified core compilation failure: root tsconfig.base enables noUncheckedIndexedAccess; core tsconfig is standalone and does not declare/extend that setting. No semantic/project compiler run. Complete same-author explicit string fallback preserves observable behavior and original v1 remains archived."}

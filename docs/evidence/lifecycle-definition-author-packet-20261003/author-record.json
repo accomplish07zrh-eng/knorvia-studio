@@ -1,0 +1,143 @@
+{
+  "author_role": "Input-limited lifecycle and definition author",
+  "workspace": "/tmp/knorvia-lifecycle-definition-author-20261003",
+  "frozen": true,
+  "frozen_at_utc": "2026-10-02T18:29:31.457149Z",
+  "source_freeze_method": "Completed source files made read-only before receipt creation; no further source edits authorized.",
+  "restriction_qualification": "Instruction-based allowlist in a shared executor, not operating-system isolation. Only the six named inputs and this author's output files were read. Curator handles source-exposed repository governance.",
+  "input_origin_as_provided": "Frozen functional and API packet from repository commit 931ab6f4; repository and commit were not inspected.",
+  "actual_reads_and_methods": [
+    {
+      "paths": [
+        "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/contract.md",
+        "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/lifecycle-public-api.d.ts",
+        "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/definition-public-api.d.ts",
+        "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/dependency-api.d.ts",
+        "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/public-data-shapes.md",
+        "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/retained-configuration.json"
+      ],
+      "methods": [
+        "Python pathlib.Path.read_text for one full-text input read",
+        "Python pathlib.Path.read_bytes for receipt metadata"
+      ]
+    },
+    {
+      "paths": [
+        "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle.ts"
+      ],
+      "methods": [
+        "Python pathlib.Path.read_text for own-output timestamp-observation edit",
+        "Python pathlib.Path.read_bytes for source freeze metadata"
+      ]
+    },
+    {
+      "paths": [
+        "/tmp/knorvia-lifecycle-definition-author-20261003/output/definition.ts",
+        "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle-seed.ts"
+      ],
+      "methods": [
+        "Python pathlib.Path.read_bytes for source freeze metadata"
+      ]
+    },
+    {
+      "paths": [
+        "/tmp/knorvia-lifecycle-definition-author-20261003/output/author-record.json"
+      ],
+      "methods": [
+        "Python pathlib.Path.read_bytes immediately after receipt write for independent final receipt metadata"
+      ]
+    }
+  ],
+  "authoring_methods": [
+    "Read authorized contract/API/configuration text using an executor Python command.",
+    "Authored TypeScript through literal shell heredocs; definition configuration transcribed into fresh constructor literals.",
+    "Edited only own lifecycle output to capture selected closing timestamps explicitly.",
+    "Recorded byte counts, SHA256 digests, and splitlines-based line counts using Python standard library.",
+    "Performed no compilation, tests, mocks, source comparison, or execution of authored modules."
+  ],
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/contract.md",
+      "bytes": 17729,
+      "sha256": "7ea37c1b8ee9a3d3694ddb473fd624a5091273633db3f54d1cd797b664113ad5",
+      "lines": 91
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/lifecycle-public-api.d.ts",
+      "bytes": 2921,
+      "sha256": "a91f37906d60491d9c5feb1eb41402c090501e9e7e0076e9105382f0c1deda43",
+      "lines": 61
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/definition-public-api.d.ts",
+      "bytes": 578,
+      "sha256": "0db3c84181f275695d2c654b671123b8310aa1714aa3e6b4850276de890243d8",
+      "lines": 7
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/dependency-api.d.ts",
+      "bytes": 892,
+      "sha256": "909e4a5f5971d00e46943af69d972a5fa8515e68dc58fbfe6f50613a00cd1ee1",
+      "lines": 21
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/public-data-shapes.md",
+      "bytes": 4567,
+      "sha256": "51466733429bd3c7b1e04fc4f2f2250df7f22cbca063f2887b22f5157432b8dd",
+      "lines": 64
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/retained-configuration.json",
+      "bytes": 3726,
+      "sha256": "d6ad77fdd6dc5e65e19e11b893171e914c77406094c8c24efd6d1dc32c6d54ff",
+      "lines": 113
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle.ts",
+      "bytes": 10662,
+      "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc",
+      "lines": 285
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output/definition.ts",
+      "bytes": 4621,
+      "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52",
+      "lines": 123
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle-seed.ts",
+      "bytes": 5787,
+      "sha256": "8a4f47dbb898db63c7cf9165b5ad09b5f46854c4182976e127c02a49c0c76bd2",
+      "lines": 158
+    }
+  ],
+  "receipt": {
+    "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output/author-record.json",
+    "bytes": 6235,
+    "sha256": null,
+    "lines": 143
+  },
+  "receipt_self_hash_excluded": true,
+  "receipt_digest_reporting": "Receipt SHA256 is excluded from its own body and reported independently in the final response.",
+  "breaches": [],
+  "unresolved_questions": [],
+  "validation_status": "Implementation is frozen without compilation, testing, or comparison, as instructed. Curator validation remains outstanding.",
+  "requested_execution_settings": "Sol/high/Fast was requested; no tool-side separate Fast tier control was exposed to this author.",
+  "forbidden_action_flags": {
+    "repository_or_commit_access": false,
+    "production_file_access_or_edit": false,
+    "git_access": false,
+    "repository_agents_or_skills_read": false,
+    "inherited_implementation_history_test_review_source_read": false,
+    "other_author_or_other_scratch_read": false,
+    "network_access": false,
+    "schema_or_session_derivation_body_read_or_replaced": false,
+    "compilation": false,
+    "tests_or_mocks": false,
+    "source_comparison": false,
+    "publication": false,
+    "unauthorized_output_written": false
+  }
+}

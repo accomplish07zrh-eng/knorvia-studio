@@ -1,0 +1,35 @@
+{
+  "typescript": "6.0.2",
+  "mechanicalDeclarations": [
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "bytes": 3025,
+      "sha256": "0150fdf06c10cb19ba008fb0a2313a58ed78258017bee0ee8e625ffbdfd6aecb",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/plugins/index.ts",
+      "bytes": 10553,
+      "sha256": "cadda3ab4fa60954c9ba7a7da3e6a3a72d614200f4e3b6ea821e14b0fde19ac8",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 3909,
+      "sha256": "6c827cccb0d91c32077785404bd6f1ff51a8fda7026e8c8c8b17befa746c32ed",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "bytes": 11072,
+      "sha256": "497851ddee8fd619d9871174cefc742e7795b9523f9004366b50b878d86c1c35",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "qualification": "Curator source-exposed after reservation; exact selected public shapes mechanically stripped, no semantic/project typing or dependency execution. Earlier broader/tool/dependency context, shared-executor instruction-only/no OS access audit and repaired scratch-write breach retained."
+}

@@ -1,0 +1,11 @@
+{
+  "originalResultsRetained": [
+    "bridge-static-original.json",
+    "bridge-retained-data-original.json"
+  ],
+  "falseFailures": [
+    "Receipt checker omitted camelCase bytesPerRead; original full receipt hashes/input bytes all exact. Normalize byte-field alias without author/source/receipt changes.",
+    "Static retained literal checker treated a quoted serverName type-key as mandatory string syntax. Actual request property identifier retains same protocol key; include native property names in retained-data values."
+  ],
+  "qualification": "Original checkers/results retained, separate from real shared-title and image-await counterexamples. Two corrected checker executions are not additional completed safety groups."
+}

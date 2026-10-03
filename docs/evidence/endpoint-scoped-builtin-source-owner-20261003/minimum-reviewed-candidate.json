@@ -1,0 +1,212 @@
+{
+  "mode": "TS transpile + VM with explicit fake-only dependency allowlist; no real provider/network/file collaborator",
+  "baseline": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+  "candidate": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/candidate-reviewed.ts",
+  "scenarioGroups": 8,
+  "original": {
+    "coalescedIdentityAndDynamicEndpoint": {
+      "sources": 1,
+      "primePlusPublicReads": 2,
+      "events": [
+        "same-source"
+      ],
+      "result": "unchanged",
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source1:read2",
+        "sync1:refresh",
+        "source1:unsubscribe:bundle",
+        "sync1:dispose",
+        "source1:dispose"
+      ]
+    },
+    "switchOrder": {
+      "events": [
+        "new-prime",
+        "endpoint-changed"
+      ],
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source2:new",
+        "source2:subscribe",
+        "sync2:new",
+        "source2:read1",
+        "source1:unsubscribe:bundle",
+        "sync1:dispose",
+        "source1:dispose",
+        "source2:read2",
+        "source2:unsubscribe:bundle",
+        "sync2:dispose",
+        "source2:dispose"
+      ]
+    },
+    "failedPrime": {
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source2:new",
+        "source2:subscribe",
+        "sync2:new",
+        "source2:read1",
+        "source2:unsubscribe:unbound",
+        "sync2:dispose",
+        "source2:dispose",
+        "source1:read2",
+        "source1:unsubscribe:bundle",
+        "sync1:dispose",
+        "source1:dispose"
+      ],
+      "previousRetained": true
+    },
+    "disposalDuringPrime": {
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source1:unsubscribe:unbound",
+        "sync1:dispose",
+        "source1:dispose"
+      ]
+    },
+    "liveListeners": {
+      "events": [
+        "a:live",
+        "c:live"
+      ]
+    },
+    "disposalFailure": {
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source1:unsubscribe:bundle"
+      ]
+    },
+    "resolverReentrancy": {
+      "values": [
+        "synthetic-active:origin-a",
+        "synthetic-active:origin-b"
+      ],
+      "resolverCalls": 2,
+      "sources": 2
+    },
+    "runtimePrivacy": {
+      "ownEnumerableKeys": []
+    }
+  },
+  "proposed": {
+    "coalescedIdentityAndDynamicEndpoint": {
+      "sources": 1,
+      "primePlusPublicReads": 2,
+      "events": [
+        "same-source"
+      ],
+      "result": "unchanged",
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source1:read2",
+        "sync1:refresh",
+        "source1:unsubscribe:bundle",
+        "sync1:dispose",
+        "source1:dispose"
+      ]
+    },
+    "switchOrder": {
+      "events": [
+        "new-prime",
+        "endpoint-changed"
+      ],
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source2:new",
+        "source2:subscribe",
+        "sync2:new",
+        "source2:read1",
+        "source1:unsubscribe:bundle",
+        "sync1:dispose",
+        "source1:dispose",
+        "source2:read2",
+        "source2:unsubscribe:bundle",
+        "sync2:dispose",
+        "source2:dispose"
+      ]
+    },
+    "failedPrime": {
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source2:new",
+        "source2:subscribe",
+        "sync2:new",
+        "source2:read1",
+        "source2:unsubscribe:unbound",
+        "sync2:dispose",
+        "source2:dispose",
+        "source1:read2",
+        "source1:unsubscribe:bundle",
+        "sync1:dispose",
+        "source1:dispose"
+      ],
+      "previousRetained": true
+    },
+    "disposalDuringPrime": {
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source1:unsubscribe:unbound",
+        "sync1:dispose",
+        "source1:dispose"
+      ]
+    },
+    "liveListeners": {
+      "events": [
+        "a:live",
+        "c:live"
+      ]
+    },
+    "disposalFailure": {
+      "trace": [
+        "source1:new",
+        "source1:subscribe",
+        "sync1:new",
+        "source1:read1",
+        "source1:unsubscribe:bundle"
+      ]
+    },
+    "resolverReentrancy": {
+      "values": [
+        "synthetic-active:origin-a",
+        "synthetic-active:origin-b"
+      ],
+      "resolverCalls": 2,
+      "sources": 2
+    },
+    "runtimePrivacy": {
+      "ownEnumerableKeys": []
+    }
+  },
+  "failure": null,
+  "status": "PASS",
+  "fullsuiteBuild": false,
+  "realEndpointProviderNetworkCacheConfigCredentialsPermissionsNative": false
+}

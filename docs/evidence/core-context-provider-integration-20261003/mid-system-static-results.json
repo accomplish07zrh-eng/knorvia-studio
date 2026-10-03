@@ -1,0 +1,362 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "mid-system",
+  "baseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5",
+  "target": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "142469928297b2640ee24dddb7211c4bd8b6b5f810e4f6628941d720fccd4436",
+    "candidate": "142469928297b2640ee24dddb7211c4bd8b6b5f810e4f6628941d720fccd4436"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeImports": {
+    "predecessor": [
+      "apps/cli/packages/core/src/agent/message-history.js#isKnownSystemReminderSource",
+      "apps/cli/packages/core/src/agent/message-history.js#isRuntimeAttachmentEntry",
+      "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.js#isPresentedInput",
+      "apps/cli/packages/core/src/system-reminder/source.js#isMidConversationSystemSource",
+      "apps/cli/packages/core/src/system-reminder/source.js#sanitizeSystemReminderBody",
+      "apps/cli/packages/core/src/system-reminder/source.js#wrapSystemReminder"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/agent/message-history.js#isKnownSystemReminderSource",
+      "apps/cli/packages/core/src/agent/message-history.js#isRuntimeAttachmentEntry",
+      "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.js#isPresentedInput",
+      "apps/cli/packages/core/src/system-reminder/source.js#isMidConversationSystemSource",
+      "apps/cli/packages/core/src/system-reminder/source.js#sanitizeSystemReminderBody",
+      "apps/cli/packages/core/src/system-reminder/source.js#wrapSystemReminder"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/contract.md",
+      "bytes": 5592,
+      "sha256": "5c4284519353630ebbf6cc2b5d6e048c3ded19a8b5eff1d0efd8adc5f9c8205f",
+      "actual": {
+        "bytes": 5592,
+        "sha256": "5c4284519353630ebbf6cc2b5d6e048c3ded19a8b5eff1d0efd8adc5f9c8205f"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/dependency-api.d.ts",
+      "bytes": 1173,
+      "sha256": "4076cc1d2dfc0190244e7177ba4f0a8fbd0922b7d18a18e62cc0013cf49e1c11",
+      "actual": {
+        "bytes": 1173,
+        "sha256": "4076cc1d2dfc0190244e7177ba4f0a8fbd0922b7d18a18e62cc0013cf49e1c11"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/public-api.d.ts",
+      "bytes": 971,
+      "sha256": "394426a93a0aac19693d62516273eee2043fca7f00eb318aba1c3b74a75d0467",
+      "actual": {
+        "bytes": 971,
+        "sha256": "394426a93a0aac19693d62516273eee2043fca7f00eb318aba1c3b74a75d0467"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/public-shapes.d.ts",
+      "bytes": 1816,
+      "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da",
+      "actual": {
+        "bytes": 1816,
+        "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/capture-clarification.md",
+      "bytes": 1581,
+      "sha256": "df58207d09026f16507b133d46e2529c40163b0ea18008a876c59c88bcc406ad",
+      "actual": {
+        "bytes": 1581,
+        "sha256": "df58207d09026f16507b133d46e2529c40163b0ea18008a876c59c88bcc406ad"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 8947,
+      "sha256": "93f2e738ce4016c10a259f6b8f48b04b6993f982291fe164cf6e9f68bf37a2ae",
+      "actual": {
+        "bytes": 8947,
+        "sha256": "93f2e738ce4016c10a259f6b8f48b04b6993f982291fe164cf6e9f68bf37a2ae"
+      },
+      "matchesArchive": true
+    },
+    {
+      "file": "draft-provider-mid-conversation-system.ts.txt",
+      "bytes": 5968,
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "actual": {
+        "bytes": 5968,
+        "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 5968,
+        "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 210
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "author-record.json",
+      "bytes": 5371,
+      "sha256": "7f251388087a3e3ed451091573b778f026c9edb23c1533c108c10ced4245fdab",
+      "unchanged": true
+    },
+    {
+      "file": "draft-provider-mid-conversation-system.ts.txt",
+      "bytes": 5807,
+      "sha256": "9c340c880b941d81b904dd461773531752a18e51e7c1819ef62d213fbf88c0d5",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/context/types.ts",
+      "bytes": 4827,
+      "sha256": "5b61dcdc241dc8267c3fac04ef686a8011b475a461cb1245ede7a0d4cf9a0df6",
+      "actual": {
+        "bytes": 4827,
+        "sha256": "5b61dcdc241dc8267c3fac04ef686a8011b475a461cb1245ede7a0d4cf9a0df6"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/utils.ts",
+      "bytes": 733,
+      "sha256": "f2d296821e4ae80510145151a6de3027f55ce548be269e6709fe1de1425eac68",
+      "actual": {
+        "bytes": 733,
+        "sha256": "f2d296821e4ae80510145151a6de3027f55ce548be269e6709fe1de1425eac68"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/dynamic-sections.ts",
+      "bytes": 8600,
+      "sha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108",
+      "actual": {
+        "bytes": 8600,
+        "sha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/identity.ts",
+      "bytes": 2838,
+      "sha256": "9f5d27ad3b84109605933144ec83ffe060149e072636ea2923e96a65f20d2752",
+      "actual": {
+        "bytes": 2838,
+        "sha256": "9f5d27ad3b84109605933144ec83ffe060149e072636ea2923e96a65f20d2752"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/workflow-actor.ts",
+      "bytes": 5146,
+      "sha256": "cda74358974a3eb5aedca11a9d326ed12e0681b050fe6db08cbd81ff354020f4",
+      "actual": {
+        "bytes": 5146,
+        "sha256": "cda74358974a3eb5aedca11a9d326ed12e0681b050fe6db08cbd81ff354020f4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "bytes": 2431,
+      "sha256": "7dce62317af0d505202e7cbeb58c59d814542c273138cd4348829dc458bb8b9a",
+      "actual": {
+        "bytes": 2431,
+        "sha256": "7dce62317af0d505202e7cbeb58c59d814542c273138cd4348829dc458bb8b9a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/memory.ts",
+      "bytes": 2725,
+      "sha256": "3af27495b85c9f189ded350a030beba4442711fad4b35267a91a7f2209ae018d",
+      "actual": {
+        "bytes": 2725,
+        "sha256": "3af27495b85c9f189ded350a030beba4442711fad4b35267a91a7f2209ae018d"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/index-content.ts",
+      "bytes": 2990,
+      "sha256": "09397af14b35c25822e901c44dc702c927b94b75c072a6f5cd595b7d9e9f4e71",
+      "actual": {
+        "bytes": 2990,
+        "sha256": "09397af14b35c25822e901c44dc702c927b94b75c072a6f5cd595b7d9e9f4e71"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "actual": {
+        "bytes": 8319,
+        "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/incoming-message.ts",
+      "bytes": 2676,
+      "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607",
+      "actual": {
+        "bytes": 2676,
+        "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/policy.ts",
+      "bytes": 5600,
+      "sha256": "7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03",
+      "actual": {
+        "bytes": 5600,
+        "sha256": "7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/manual.ts",
+      "bytes": 4955,
+      "sha256": "a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9",
+      "actual": {
+        "bytes": 4955,
+        "sha256": "a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 11797,
+      "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d",
+      "actual": {
+        "bytes": 11797,
+        "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+      "bytes": 16397,
+      "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8",
+      "actual": {
+        "bytes": 16397,
+        "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+      "bytes": 27775,
+      "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0",
+      "actual": {
+        "bytes": 27775,
+        "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../system-reminder/source.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../system-reminder/source.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "../../system-reminder/source.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "./provider-entry-origins.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "module": "./provider-entry-origins.js",
+      "exists": true
+    }
+  ],
+  "extractionDiagnosticsQualified": true,
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

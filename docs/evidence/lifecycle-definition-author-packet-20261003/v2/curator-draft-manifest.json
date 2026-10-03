@@ -1,0 +1,277 @@
+{
+  "archivedAtUtc": "2026-10-02T18:33:11.101312+00:00",
+  "phase": "Complete same-author v2 correction output bytes archived before curator corrected body read/comparison",
+  "inputFreezeCommit": "931ab6f4",
+  "qualificationCommit": "871ee370",
+  "originalDraftArchiveCommit": "b3b4e417",
+  "task": "/root/lifecycle_definition_packet_author",
+  "fork_turns": "Original none; same-author functional clarification, not new fresh author",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "fastControl": "No separate invocation control exposed",
+  "files": [
+    {
+      "file": "draft-lifecycle.ts.txt",
+      "bytes": 10662,
+      "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+    },
+    {
+      "file": "draft-definition.ts.txt",
+      "bytes": 4621,
+      "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+    },
+    {
+      "file": "draft-lifecycle-seed.ts.txt",
+      "bytes": 6051,
+      "sha256": "477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10483,
+      "sha256": "8e21ebea2d3a42ee52cfdb193dad71b5604efd2c6e0e05a80a12a3a84ba37813"
+    }
+  ],
+  "authorReported": {
+    "author_role": "Same input-limited lifecycle and definition author; corrected descendant v2",
+    "workspace": "/tmp/knorvia-lifecycle-definition-author-20261003",
+    "frozen": true,
+    "frozen_at_utc": "2026-10-02T18:32:28.491613Z",
+    "source_freeze_method": "Complete v2 source files made read-only before metadata and receipt creation; no further source edits authorized.",
+    "restriction_qualification": "Instruction-based allowlist in a shared executor, not operating-system isolation. Only the original six inputs, the authorized seventh scalability clarification, and this author's own outputs were read. Curator handles source-exposed repository governance. This is a same-author correction, not a fresh or no-exposure author event.",
+    "correction_chronology": [
+      {
+        "event": "v1 sources and receipt frozen",
+        "frozen_at_utc": "2026-10-02T18:29:31.457149Z",
+        "receipt_path": "/tmp/knorvia-lifecycle-definition-author-20261003/output/author-record.json",
+        "receipt_bytes": 6235,
+        "receipt_lines": 143,
+        "receipt_sha256": "83074438632dcebb3c0461c7b5ae189458e31d1d41ce1cf8a7f9c448ad3ef4ae"
+      },
+      {
+        "event": "Curator reported unchanged archival of v1 before body review",
+        "archive_commit_as_provided": "b3b4e417",
+        "archive_inspected": false
+      },
+      {
+        "event": "Curator supplied a bounded static scalability finding, without runtime benchmark or test",
+        "qualification_commit_as_provided": "871ee370",
+        "qualification_commit_inspected": false
+      },
+      {
+        "event": "Read authorized qualification and own original seed helper; wrote complete corrected descendant",
+        "correction": "Reachability builds a per-check destination index in one edge pass, then visits reached nodes and their outgoing destinations. Visited termination and sequential incremental validation are preserved."
+      },
+      {
+        "event": "Copied lifecycle.ts and definition.ts from own original files using read_bytes/write_bytes; no correction needed and no comparison run"
+      },
+      {
+        "event": "Original output files and receipt left untouched; v2 source files frozen before any compiler, tests, or source comparison"
+      }
+    ],
+    "actual_reads_and_methods": {
+      "v1_phase": [
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/contract.md",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/lifecycle-public-api.d.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/definition-public-api.d.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/dependency-api.d.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/public-data-shapes.md",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/retained-configuration.json"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_text full-text read per input",
+            "One Python pathlib.Path.read_bytes receipt-metadata read per input"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle.ts"
+          ],
+          "methods": [
+            "Python pathlib.Path.read_text for own-output timestamp-observation edit",
+            "Python pathlib.Path.read_bytes for source-freeze metadata"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/definition.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle-seed.ts"
+          ],
+          "methods": [
+            "Python pathlib.Path.read_bytes for source-freeze metadata"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/author-record.json"
+          ],
+          "methods": [
+            "Python pathlib.Path.read_bytes for independent v1 receipt metadata"
+          ]
+        }
+      ],
+      "v2_phase": [
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/seed-scalability-clarification.md"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_text full-text read"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle-seed.ts"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_text full-text read",
+            "One further Python pathlib.Path.read_text read for own descendant editing"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/lifecycle.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output/definition.ts"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_bytes read per file for unchanged descendant copying"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/contract.md",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/lifecycle-public-api.d.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/definition-public-api.d.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/dependency-api.d.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/public-data-shapes.md",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/retained-configuration.json",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/seed-scalability-clarification.md"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_bytes read per input for v2 receipt metadata"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/lifecycle.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/definition.ts",
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/lifecycle-seed.ts"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_bytes read per source for v2 freeze metadata"
+          ]
+        },
+        {
+          "paths": [
+            "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/author-record.json"
+          ],
+          "methods": [
+            "One Python pathlib.Path.read_bytes read immediately after receipt creation for independent final metadata"
+          ]
+        }
+      ]
+    },
+    "authoring_methods": [
+      "Own-output editorial replacement in Python, changing only the private reachability helper.",
+      "Byte-preserving copying of the other two own source outputs into output-v2.",
+      "Python standard-library byte counts, SHA256 digests, and splitlines-based line counts.",
+      "No authored-module execution, compiler, tests, mocks, benchmark, or source comparison."
+    ],
+    "inputs": [
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/contract.md",
+        "bytes": 17729,
+        "sha256": "7ea37c1b8ee9a3d3694ddb473fd624a5091273633db3f54d1cd797b664113ad5",
+        "lines": 91
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/lifecycle-public-api.d.ts",
+        "bytes": 2921,
+        "sha256": "a91f37906d60491d9c5feb1eb41402c090501e9e7e0076e9105382f0c1deda43",
+        "lines": 61
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/definition-public-api.d.ts",
+        "bytes": 578,
+        "sha256": "0db3c84181f275695d2c654b671123b8310aa1714aa3e6b4850276de890243d8",
+        "lines": 7
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/dependency-api.d.ts",
+        "bytes": 892,
+        "sha256": "909e4a5f5971d00e46943af69d972a5fa8515e68dc58fbfe6f50613a00cd1ee1",
+        "lines": 21
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/public-data-shapes.md",
+        "bytes": 4567,
+        "sha256": "51466733429bd3c7b1e04fc4f2f2250df7f22cbca063f2887b22f5157432b8dd",
+        "lines": 64
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/retained-configuration.json",
+        "bytes": 3726,
+        "sha256": "d6ad77fdd6dc5e65e19e11b893171e914c77406094c8c24efd6d1dc32c6d54ff",
+        "lines": 113
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/seed-scalability-clarification.md",
+        "bytes": 1588,
+        "sha256": "6c1ad6bd914d19af3d3354980bd0b5065f38376426696758d70fef35c15ad8f5",
+        "lines": 7
+      }
+    ],
+    "outputs": [
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/lifecycle.ts",
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc",
+        "lines": 285
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/definition.ts",
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52",
+        "lines": 123
+      },
+      {
+        "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/lifecycle-seed.ts",
+        "bytes": 6051,
+        "sha256": "477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223",
+        "lines": 164
+      }
+    ],
+    "receipt": {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/output-v2/author-record.json",
+      "bytes": 10483,
+      "sha256": null,
+      "lines": 241
+    },
+    "receipt_self_hash_excluded": true,
+    "receipt_digest_reporting": "Receipt SHA256 is excluded from its own body and reported independently in the final response.",
+    "breaches": [],
+    "unresolved_questions": [],
+    "validation_status": "Complete corrected implementation frozen without compilation, testing, benchmarking, or comparison, as instructed. Curator validation remains outstanding.",
+    "requested_execution_settings": "Sol/high/Fast was requested; no tool-side separate Fast tier control was exposed to this author.",
+    "forbidden_action_flags": {
+      "repository_or_commit_access": false,
+      "production_file_access_or_edit": false,
+      "git_access": false,
+      "repository_agents_or_skills_read": false,
+      "inherited_implementation_history_test_review_source_read": false,
+      "other_author_or_other_scratch_read": false,
+      "network_access": false,
+      "schema_or_session_derivation_body_read_or_replaced": false,
+      "compilation": false,
+      "tests_or_mocks": false,
+      "runtime_benchmark": false,
+      "source_comparison": false,
+      "original_output_or_receipt_modification": false,
+      "publication": false,
+      "unauthorized_output_written": false
+    }
+  },
+  "curatorSourceExposed": true,
+  "osIsolated": false
+}

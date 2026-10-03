@@ -1,0 +1,185 @@
+{
+  "scope": "Complete attachment path/reference contract-only owner",
+  "supplied_freeze_label": "95edef01",
+  "freeze_label_verification": "Supplied by parent; no repository, git, history, or revision lookup performed.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/input/contract.md",
+      "bytes": 4597,
+      "sha256": "e677258afa7ed50cb32352ab68fbf7f8693127765edf30dc0c0f7a9b0fb874ae",
+      "lines": 17,
+      "reads": [
+        {
+          "operation": "read_bytes",
+          "utc": "2026-10-02T20:59:19.815643+00:00",
+          "purpose": "Read the complete supplied contract fragment or retained output data."
+        }
+      ],
+      "writes": 0
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/input/public-api.d.ts",
+      "bytes": 885,
+      "sha256": "68ee3a5fc42f16d6ccba080244d06b4882bdea98189c69b6f27d5726e75b9f45",
+      "lines": 15,
+      "reads": [
+        {
+          "operation": "read_bytes",
+          "utc": "2026-10-02T20:59:19.815708+00:00",
+          "purpose": "Read the complete supplied contract fragment or retained output data."
+        }
+      ],
+      "writes": 0
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/input/dependency-api.d.ts",
+      "bytes": 619,
+      "sha256": "ceed52d7936d9d40aae598f81fed79a75132d79176c9ae3b159ff59d5649de31",
+      "lines": 8,
+      "reads": [
+        {
+          "operation": "read_bytes",
+          "utc": "2026-10-02T20:59:19.815735+00:00",
+          "purpose": "Read the complete supplied contract fragment or retained output data."
+        }
+      ],
+      "writes": 0
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/input/public-shapes.d.ts",
+      "bytes": 622,
+      "sha256": "3108f6afa7a92253e249460bbbba7cf8fa914a43a0a216b81141c5f11f01eb5b",
+      "lines": 13,
+      "reads": [
+        {
+          "operation": "read_bytes",
+          "utc": "2026-10-02T20:59:19.815755+00:00",
+          "purpose": "Read the complete supplied contract fragment or retained output data."
+        }
+      ],
+      "writes": 0
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/input/imports.json",
+      "bytes": 513,
+      "sha256": "7baddcf882329c990f8be1fc542405bb6de77024714266e18cdf4c25ddfb874a",
+      "lines": 26,
+      "reads": [
+        {
+          "operation": "read_bytes",
+          "utc": "2026-10-02T20:59:19.815805+00:00",
+          "purpose": "Read the complete supplied contract fragment or retained output data."
+        }
+      ],
+      "writes": 0
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/input/output-data.json",
+      "bytes": 4813,
+      "sha256": "5c09780fd4cb480dc8b71fb0e5edb2cc7c35e7678e6cc2f5bd6555139f1b9ca9",
+      "lines": 259,
+      "reads": [
+        {
+          "operation": "read_bytes",
+          "utc": "2026-10-02T20:59:19.815893+00:00",
+          "purpose": "Read the complete supplied contract fragment or retained output data."
+        }
+      ],
+      "writes": 0
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/output/attachment-path-reference.ts",
+    "bytes": 3842,
+    "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47",
+    "lines": 119,
+    "reads": [
+      {
+        "operation": "read_bytes",
+        "utc": "2026-10-02T21:00:24.947796+00:00",
+        "purpose": "Confirm the exact authored bytes for receipt identity and manual review."
+      }
+    ],
+    "writes": 1,
+    "freeze_mode": "0444"
+  },
+  "author_record": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/output/author-record.json",
+    "reads": [],
+    "writes": 1,
+    "self_hash": "Excluded to avoid self-reference; final delivery reports the exact record hash.",
+    "freeze_mode": "0444"
+  },
+  "structure": {
+    "source_file_count": 1,
+    "source_line_limit": "Strictly below 400 lines.",
+    "public_functions": [
+      "resolvedInlineTextAttachment",
+      "resolvedPathReferenceAttachment",
+      "isDataOrArtifactUrl",
+      "isTextLikePath",
+      "inferAttachmentMimeFromPath"
+    ],
+    "private_types": [
+      "PathReferenceReason"
+    ],
+    "private_functions": [
+      "formatPathReferenceReason"
+    ],
+    "imports": "All six entries from imports.json retained, in supplied order, at original runtime and type owners.",
+    "no_additions": "No new public entry exports, features, state, grants, logs, dependency implementations, payload inspection, provider calls, or runtime file/store/OS operations."
+  },
+  "manual_review": [
+    "Reviewed the authored source text against all six inputs without compiling, executing, testing, linting, building, mocks, or actual dependency/provider calls.",
+    "Inline content is read before path placeholder; live repeated filename path reads preserve truthiness; returned own-field order and nested metadata order match the contract; undefined filename remains present; both Buffer.byteLength calls remain separate and ordered.",
+    "Path MIME uses nullish options.mime with short-circuited attachment.type access, preserving empty string; three exact retained lines join by LF; options getters and original-reference delegate remain in specified native order; filename, sizeBytes, and source own fields remain present when undefined.",
+    "Path text includes placeholder and retained product prose, without attachment payload content or preview; url uses live attachment.path then nullish attachment.content then empty string; safeAttachmentOriginalRef remains opaque and receives the original attachment.",
+    "Data prefix matching is case-sensitive and lazy; isArtifactUri retains original content identity; the sole extension regex retains exact alternatives, end anchor, and iu flags.",
+    "MIME inference retains split/pop/optional locale lowercasing, four early static MIME returns, then a single opaque video classifier call, truthy result identity, and text-like fallback; no duplicated video map, extension changes, normalization, sniffing, or caught native/delegate errors.",
+    "Reason formatter preserves all five specific strings and default fallback including unknown runtime values; exact private union name and all six members remain; no extra validation or exception was added."
+  ],
+  "retained_expression": {
+    "qualification": "Required schemas, static MIME data, prose, regex, formatting, constants, and ordinary language idioms are retained contract material; no novelty, ownership, or license grant is asserted.",
+    "schemas_and_fields": "Original type-owner imports, private reason union, five public signatures, nested field names, storage and recoverability strings, own-field/evaluation order, and optional properties.",
+    "static_mime_data": [
+      "text/plain",
+      "image/*",
+      "application/octet-stream",
+      "application/pdf",
+      "application/json",
+      "text/csv",
+      "text/markdown"
+    ],
+    "prose": "Exact three reference lines, attachment placeholder template, five reason strings, and default reason are retained from output-data.json. The file-reading-tools sentence is product output text and was not adopted as a task instruction.",
+    "regex": "/\\.(cjs|conf|cpp|cs|css|csv|go|h|hpp|html|ini|java|js|json|jsx|log|md|mjs|py|rs|sh|sql|toml|ts|tsx|txt|xml|yaml|yml)$/iu",
+    "format_and_constants": "LF join, empty strings, data: prefix, dot separator, utf8, numeric 1, and index + 1 placeholder expression preserved. External constants supplied in output-data.json (READ_IMAGE_MAX_BASE64_BYTES=5242880, READ_IMAGE_TARGET_BYTES=3932160, MAX_IMAGE_ATTACHMENT_DIMENSION=2000, ESTIMATED_TOKEN_CHAR_DIVISOR=3) acknowledged as supplied data; not introduced into this owner because the contract specifies no use here.",
+    "ordinary_idioms": "Nullish coalescing, truthiness, optional chaining, native object literals, switch/case, array join, regex test, early return, and short-circuit operators."
+  },
+  "configuration": {
+    "parent_requested_model": "gpt-6.1-sol",
+    "parent_requested_reasoning": "high",
+    "parent_requested_fork": "none",
+    "verification": "Requested values recorded from the assignment; author has no control-plane configuration inspection or verification evidence.",
+    "saved_Fast": "Unchanged and unverified; no saved Fast setting read or written, no control over that setting asserted."
+  },
+  "restrictions": {
+    "allowed_activity": "Scoped reads of exactly the six named input files and own source output; scoped writes of two own scratch outputs; hash, byte/line/time accounting and file/directory freeze modes only.",
+    "excluded_activity": "No repository, git, history, tests, reviews, predecessor, other-author outputs, dependency bodies, network, private/user data, credentials, compiler, test runner, lint, build, mocks, actual provider, store, or runtime fs/OS activity.",
+    "shared_executor": "Instruction-only scope restriction on a shared executor. Scoped scratch I/O and chmod used for deliverables and receipts. No OS isolation or access-audit proof is asserted.",
+    "curator_exposure": "Source-exposed curator review is expected after freeze; no blind or independently isolated review claim.",
+    "prior_context": "This author was assigned as a fresh contract-only owner, but shared-executor and possible broader parent/curator context are not independent isolation evidence.",
+    "original_owners": "Public fragments reference original owner types and imports. Dependency bodies remain opaque. This is not a standalone-compilation or actual-provider equivalence claim."
+  },
+  "breaches": [],
+  "breaches_qualification": "No known instruction-scope breach by this author; this is a self-report without OS access-audit proof.",
+  "questions": [],
+  "blockers": [],
+  "validation_limit": "Manual source/contract review only. Runtime behavior and standalone compilation unverified under explicit restrictions.",
+  "freeze": {
+    "utc": "2026-10-02T21:00:24.947837+00:00",
+    "files_mode": "0444",
+    "output_directory": "/tmp/knorvia-result-attachment-postcompact-20261003/reference/output",
+    "directory_mode": "0555",
+    "sequence": "Both authored files written, receipt identity computed, files chmod 0444, then output directory chmod 0555 before delivery for curator review."
+  }
+}

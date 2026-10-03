@@ -1,0 +1,202 @@
+{
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "c749bb0b2f4d96414573becd8ad0ea498174b0da",
+  "target": {
+    "path": "packages/rpc/src/channelClient.ts",
+    "bytes": 8369,
+    "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+    "gitBlob": "27675cd7a6a9771926c14d0f0df7a79222854820"
+  },
+  "sourceMetadataBindings": [
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "bytes": 8369,
+      "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+      "gitBlob": "27675cd7a6a9771926c14d0f0df7a79222854820"
+    },
+    {
+      "path": "packages/rpc/src/foundation.ts",
+      "bytes": 6812,
+      "sha256": "84ccf6231582d652bb30facc7c525279f927d3ba26fb315ac8c377e43acd87d8",
+      "gitBlob": "19b78c3f84266f5cb9e14621984d5cb1c04e3a8d"
+    },
+    {
+      "path": "packages/rpc/src/channels.shared.ts",
+      "bytes": 1723,
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+      "gitBlob": "2470aeea89aa4c1419a5ebe1fb686ff9750b2ac2"
+    },
+    {
+      "path": "packages/rpc/src/serialization.ts",
+      "bytes": 8744,
+      "sha256": "a73fc4911723036a9c47a4d5a4dfe8860d5eaee649fd1541c3b051d9a9c866e7",
+      "gitBlob": "65d2d2fae85ae92f3eefb909af11e94e402d7b1b"
+    },
+    {
+      "path": "packages/rpc/src/protocol.ts",
+      "bytes": 12702,
+      "sha256": "1c26b9adb7edf661aa7ec9347aa009bd9fcb29b98e07ccf606714fe9ae018d56",
+      "gitBlob": "836350b45ee70b8d78f7fd711c74287ba735d661"
+    },
+    {
+      "path": "packages/rpc/src/buffer.ts",
+      "bytes": 2423,
+      "sha256": "6bc6a44e6abd088f72d57616d9556d78ce078b6f3813bf75402dde386781492c",
+      "gitBlob": "f5945d12b5e1a07d14ce24345406cc96842458ea"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/curator-manifest.json",
+      "bytes": 4207,
+      "sha256": "a4beba8e0b8eba8000d1916ed7bbd84a5401e483be4c877e59adfec4c54088a2",
+      "gitBlob": "75254e91d31c2142abb72401bf89bdc54e7aca49"
+    },
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 2868,
+      "sha256": "f7dae41f76de762e68b4610b9a29c896e64221e2bc729f5cbf1fbfb1718b96a6",
+      "gitBlob": "4081f2aa44bba1ab6bc3873eef6355d9ec2ad672"
+    }
+  ],
+  "authorInputBindings": [
+    {
+      "path": "contract.md",
+      "bytes": 10716,
+      "sha256": "5d7067c5945f1d6f09a45f1ae503bb52201a7d381e6813741d8f7532ffc47bd9",
+      "gitBlob": "d64b6b6d68240662ab6c103a95e74e7bd0822aab"
+    },
+    {
+      "path": "public-api.d.ts",
+      "bytes": 452,
+      "sha256": "3a01811ce5d4f2063040aa39f56ff73fdf524674e9118bd7ab429f9e8b2e299a",
+      "gitBlob": "7e23a11f8d59a2da2a68fcadd11fc00e3dd547bf"
+    },
+    {
+      "path": "dependency-types.d.ts",
+      "bytes": 2672,
+      "sha256": "58c5a6d57af219de863a1c1346baa3904149a5f080bcebf635240d41f63dab3e",
+      "gitBlob": "dd2db2f4c843fe7dec959fefcd0691149cf342d7"
+    },
+    {
+      "path": "dependency-contract.md",
+      "bytes": 3948,
+      "sha256": "5d6d2b2af567bde624a9cf859e8421cb368876a0b832236ebe1d950a1f23c2f0",
+      "gitBlob": "92b6488a695efd6fcb29cb87f13fa052c63e756e"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 1416,
+      "sha256": "8984b73ca808ac888728e9d34f71b618fc3944857c8788a86ab2ba9c5f9e5e88",
+      "gitBlob": "5da2e7ecf458496718b3315909079e1f3624d548"
+    }
+  ],
+  "receiptBinding": {
+    "path": "docs/evidence/rpc-channel-client-root-packet-20261003/prior-receipt-search.json",
+    "bytes": 2033,
+    "sha256": "953f722d662b1d75a052c6534026bda845192309f4117597312b6d2aaf48bf97",
+    "gitBlob": "4559a6c2e91dc5219e03df6627704076cd656545"
+  },
+  "publishedCoverageMetadata": [
+    {
+      "pr": 9,
+      "head": "de5d230a858cc17b9edcbbd0bfe6cceb9f4ef420",
+      "branch": "recovery/server-lifecycle-20261002",
+      "rpcFilesReported": []
+    },
+    {
+      "pr": 10,
+      "head": "d98db9a5178af6b6f0fb48c8814c27befa09cef7",
+      "branch": "independent/settings-lifecycle-20261002",
+      "rpcFilesReported": []
+    },
+    {
+      "pr": 11,
+      "head": "5a89d668847390fe9e16518c59964570f6487aa9",
+      "branch": "parallel/cli-tools-fast-20261001",
+      "rpcFilesReported": []
+    }
+  ],
+  "coverageQualification": "Harmless gh pr view changed-file metadata only, not other-lane source or private history; no assertion of private/unpublished coverage. PR12 client transport is parent-reported separate owner; prior packet binds RPC only as dependency. G ServiceCollection excluded by parent direction.",
+  "priorityRows": [
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "bytes": 8369,
+      "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+      "gitBlob": "27675cd7a6a9771926c14d0f0df7a79222854820"
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "bytes": 7784,
+      "sha256": "b9c61bd3881fff11b38a93853c60fa5c2bc871bcbea5dad0e9be0a4674f6c9da",
+      "gitBlob": "fe7a8d8a49bebab4d2d45be64a558bae44664cc6"
+    },
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "bytes": 9918,
+      "sha256": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978",
+      "gitBlob": "deef78b78320fdcf8541fc6bdacd246300f9561e"
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "bytes": 10935,
+      "sha256": "a11e072d5df7e1c1ce64814a68f72afc081246b364f0da409b5c9d22bc815957",
+      "gitBlob": "dab4dadb63dd17b18872767d445528037e0a4aaf"
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "bytes": 11545,
+      "sha256": "53bcc9f09406515ee75b1bec8768d88f19351a05c33e66ed3a87f8c58f481d94",
+      "gitBlob": "b93dccaf47346b4d0c998a00c14af1b19a21770a"
+    }
+  ],
+  "priorityQualification": "ChannelClient body reviewed as substantive; other four priorities are metadata prospects, no bodies opened or author packet/assignment. All HASH HOLDs and known root/A/B/D/G completed scopes excluded, unknown private allocations still need root review.",
+  "sourceExposure": "Curator source-exposed, earlier broad exposure/repaired scratch breach/shared executor/instruction-only/no OS isolation/access-audit limitations persist; original implementations excluded from five author inputs.",
+  "apiExtraction": "TS6.0.2 exact public method/generic signatures; onDidInitialize inferred Event<void> grounded in Emitter getter. Used collaborator surfaces only, fixed literal enum data retained; no function/method bodies/defaults.",
+  "searchFailure": "Guessed prior client packet rpc-dependency-api.d.ts filename absent, cat exit1; actual file is dependency-api.d.ts and was read. No private recovery/alternate extraction.",
+  "configuration": "Sol/high/Fast ON parent-reported; no independent UI verification or retroactive assertion",
+  "checks": {
+    "documentationOnly": true,
+    "architecture": "Documentation-only skip; existing source-task architecture/context dependency failures remain separately preserved",
+    "rpcProtocolProviderNetworkCacheConfigCredentialsNativeRuntime": false,
+    "ordinaryTestsBuild": false,
+    "newPublisherRequests": 0,
+    "productionChanges": 0,
+    "globalLicenseReviewInventoryChanges": false,
+    "crossLaneSourceImportMerge": false,
+    "semanticClosure": "DEFERRED",
+    "staticResults": "PASS10 source bindings/5 author inputs/5 metadata priority rows, exact public class/generic/readonly inferred event,2 declaration files with0 bodies/default initializers/parse errors,9 fixed enum values and error whitelist,8 links"
+  },
+  "newAuthors": 0,
+  "newCandidates": 0,
+  "newAllocations": 0,
+  "materialOpen": 21,
+  "rightsAccepted": false,
+  "status": "ONE_ROOT_COMPLETE_OWNER_PACKET_PREPARED",
+  "fixedUpstreamMetadata": {
+    "repository": "zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "record": {
+      "path": "packages/rpc/src/channelClient.ts",
+      "mode": "100644",
+      "blob": "27675cd7a6a9771926c14d0f0df7a79222854820",
+      "kind": "file",
+      "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+      "normalizedSha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+      "encoding": "utf8-lf",
+      "bytes": 8369
+    },
+    "qualification": "Pinned published baseline metadata only; current bytes match recorded raw/normalized digest, no new publisher body read/grant inferred"
+  }
+}

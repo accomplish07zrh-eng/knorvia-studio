@@ -1,0 +1,15 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+  "imports": [
+    {
+      "module": "@knorvia/shared",
+      "clause": "{ isArtifactUri }",
+      "text": "import { isArtifactUri } from \"@knorvia/shared\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "type {\n  SessionId,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnAttachment,\n  TurnId,\n}",
+      "text": "import type {\n  SessionId,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnAttachment,\n  TurnId,\n} from \"../deps.js\";"
+    }
+  ]
+}

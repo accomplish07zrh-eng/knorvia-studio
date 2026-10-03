@@ -1,0 +1,65 @@
+{
+  "installedAtUtc": "2026-10-02T18:34:47.780573+00:00",
+  "parentCommit": "9862bdfad4ccaf3622727139ddb89e7c993a1463",
+  "inputFreezeCommit": "931ab6f4",
+  "originalDraftArchiveCommit": "b3b4e417",
+  "scalabilityQualificationCommit": "871ee370",
+  "completeCorrectedDraftArchiveCommit": "9862bdfa",
+  "sameAuthorCorrection": true,
+  "owners": [
+    {
+      "target": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "draftPath": "docs/evidence/lifecycle-definition-author-packet-20261003/v2/draft-lifecycle.ts.txt",
+      "predecessor": {
+        "bytes": 17946,
+        "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+      },
+      "installed": {
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+      },
+      "installedByteIdenticalToDraft": true,
+      "lines": 285
+    },
+    {
+      "target": "apps/cli/packages/core/src/workflow/definition.ts",
+      "draftPath": "docs/evidence/lifecycle-definition-author-packet-20261003/v2/draft-definition.ts.txt",
+      "predecessor": {
+        "bytes": 3975,
+        "sha256": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6"
+      },
+      "installed": {
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+      },
+      "installedByteIdenticalToDraft": true,
+      "lines": 123
+    },
+    {
+      "target": "apps/cli/packages/core/src/workflow/lifecycle-seed.ts",
+      "draftPath": "docs/evidence/lifecycle-definition-author-packet-20261003/v2/draft-lifecycle-seed.ts.txt",
+      "predecessor": null,
+      "installed": {
+        "bytes": 6051,
+        "sha256": "477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223"
+      },
+      "installedByteIdenticalToDraft": true,
+      "lines": 164
+    }
+  ],
+  "allSevenAuthorInputBindingsVerified": true,
+  "allOtherWorkflowSourceOwnersUnchanged": true,
+  "originalArtifactsUnchanged": true,
+  "mainAndDefinitionUnchangedBetweenV1V2": true,
+  "integrationCorrections": [],
+  "privateCompanion": "lifecycle-seed.ts; same synchronous immutable lifecycle owner, no accepted state/persistence path",
+  "mainPublicReexport": "applyWorkflowGraphSeed resolved to complete helper declaration; public caller import unchanged",
+  "privateBacklink": "Helper imports lifecycle result/options as types only; no runtime cycle",
+  "externalRuntimeBindingsUnchanged": true,
+  "configurationAndProseRetained": true,
+  "anotherLaneSourceImportedOrMerged": false,
+  "runtimeTestsRun": false,
+  "projectCompilationRun": false,
+  "lintRun": false,
+  "licenceDecision": null
+}

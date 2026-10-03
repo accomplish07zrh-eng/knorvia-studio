@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "8a16740cb7e8b6373c2a910ead6c937359bf6b55",
+  "omission": "V1 described collection identity behavior but left imported WorkflowGraphCollection opaque; its required collectionId member was not explicitly exposed. V1 author guessed id. Frozen v1 and original inputs are preserved, not retrospectively corrected.",
+  "newAuthorInput": {
+    "file": "collection-identity-api.md",
+    "bytes": 2108,
+    "sha256": "50b0e6654624a4ddf350ecee092055343fa9c5fdce43731e4498b800e503f849",
+    "declarationSource": "apps/cli/packages/contracts/src/workflow/index.ts at bound checkpoint; exact WorkflowGraphCollectionSchema and WorkflowGraphCollection type excerpt only; no owner implementation/test/review input"
+  },
+  "authorContinuation": {
+    "task": "/root/expansion_packet_author",
+    "sameExistingAuthor": true,
+    "newAuthorInitializations": 0,
+    "tool": "collaboration.followup_task",
+    "priorRole": "gpt-6-astra/high with original fork_turns=none",
+    "deliveredInput": "Only versioned functional API clarification; no guide/patch, predecessor/candidate implementation, comparison, test or review prose",
+    "reportedReads": "Clarification once, own v1 draft twice, own v2 once for hashing; prior packet bindings retained in author context",
+    "limits": "Instruction allowlist, not separate filesystem sandbox or independently audited access trace. Source-exposed curator supplied both packet versions. Not absolute clean-room or legal clearance."
+  },
+  "v1": {
+    "bytes": 5219,
+    "sha256": "b0ceffd900a1228b57546d06fa8656b6d52a383cb17482a60c7c3a2693b1385d",
+    "allOriginalInputsDraftReceiptManifestUnchanged": true
+  },
+  "v2": {
+    "file": "draft-planner-expansion-v2.ts.txt",
+    "bytes": 5249,
+    "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73",
+    "receipt": "author-draft-record-v2.json",
+    "receiptSha256": "67e48a4d780f007d7c8d60d88a68c7a7caf708da035d82304c69fa28f1dc876b",
+    "frozenBeforeCuratorComparison": true,
+    "curatorEdits": false
+  },
+  "postFreezeReview": {
+    "delta": "Exactly three member accesses on original lines66/166: collection.id twice and entry.id once become collection.collectionId / entry.collectionId. No other bytes changed.",
+    "comparisonMethod": "Byte equality with unique member-access substitutions after receipt of frozen author v2; original guide/expected hash was not sent to author.",
+    "effect": "Addresses documented identity-field mismatch; does not establish compiler/runtime equivalence. Prior complete-draft source-expression review otherwise applies with its packet/isolation/dependency limits.",
+    "compilerOrRuntimeTests": false,
+    "productionEdits": false,
+    "licenceGrant": null
+  }
+}

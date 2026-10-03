@@ -1,0 +1,10 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { ReadVideoOutput }"
+  },
+  {
+    "module": "./attachment-data-url.js",
+    "clause": "{ base64PayloadByteLength, isStrictBase64Payload }"
+  }
+]

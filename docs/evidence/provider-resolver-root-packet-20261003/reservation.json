@@ -1,0 +1,44 @@
+{
+  "scope": "Complete resolver source-only body-free preparation for root; not author creation or production implementation",
+  "inputPublishedHead": "cd754c7909a735545051fdfd68a5668d6f65feba",
+  "target": {
+    "path": "packages/provider/src/resolver.ts",
+    "bytes": 14919,
+    "sha256": "89332f5db90101f88fe40176e75bd2c1991a940cbe827939f5e3284486fd505e",
+    "gitBlob": "e79fb0a691920cf500366dfc678569ba7c08a2e8"
+  },
+  "owner": "root provider/resolver lane allocation; E source-exposed curator only",
+  "status": "ROOT-ONLY PREPARATION / EXACT RECEIPT CONTINGENT HOLD",
+  "publicExports": "Four synchronous factory/serialization functions; ProviderConfigResolver.resolve plus all exported data/result types",
+  "dependenciesRetained": [
+    "D config-service / registry-service",
+    "all config facades, schemas, public types and static data",
+    "owned-order collaborator",
+    "account state snapshot and model-rule engine"
+  ],
+  "authorInputsExactly": [
+    "contract.md",
+    "public-api.d.ts",
+    "dependency-contract.md",
+    "retained-data.json",
+    "dependencies/provider-config.d.ts",
+    "dependencies/model-config.d.ts",
+    "dependencies/config-overlay.d.ts",
+    "dependencies/ids.d.ts",
+    "dependencies/account-provider-state.d.ts",
+    "dependencies/owned-order.d.ts"
+  ],
+  "excludedFromAuthorInputs": [
+    "Original source bodies/history/upstream",
+    "curator manifests and receipts",
+    "extractor/checker scripts including preserved initial failure",
+    "Git metadata and global license inventory",
+    "private/root unavailable checkpoints or backups"
+  ],
+  "authorsCreated": 0,
+  "candidatesFrozen": 0,
+  "productionChanges": 0,
+  "mitDecision": null,
+  "materialObligationsOpen": 21,
+  "handoff": "Root may select a later author only from the complete supplied inputs plus explicitly supplied canonical public type surfaces. Source-route refs do not authorize original implementation reading. No private history absence inference or automatic rights closure."
+}

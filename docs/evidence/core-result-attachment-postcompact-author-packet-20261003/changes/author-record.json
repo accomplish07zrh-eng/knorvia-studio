@@ -1,0 +1,296 @@
+{
+  "task": "Fresh complete contract-only turn-file-changes owner author",
+  "inputFreeze": "95edef01",
+  "deliverables": [
+    "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+    "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/author-record.json"
+  ],
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/contract.md",
+      "bytes": 4384,
+      "sha256": "64b5184721a7d9120ea71f6fb74658cb545a04f6da7042c2b34de7484377e866",
+      "lines": 15,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-api.d.ts",
+      "bytes": 483,
+      "sha256": "85b3e6310e3eb517f7d304a262160afaf617b2a6c7905aa158f457f39f40e4ad",
+      "lines": 10,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/dependency-api.d.ts",
+      "bytes": 171,
+      "sha256": "a06ff734a96635b63dc0bad2d9a1b18131546266cdd516570280a1f6008e1891",
+      "lines": 2,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-shapes.d.ts",
+      "bytes": 992,
+      "sha256": "0748c6e492b7f794ca0e3683bd5defb84fcc0a819cd13c0301717fc6539a4425",
+      "lines": 36,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/imports.json",
+      "bytes": 252,
+      "sha256": "c34af24197316361b229be4a3e5ec4e0a4857e8e6b9d21db3fc9ba463b30ba00",
+      "lines": 14,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/output-data.json",
+      "bytes": 858,
+      "sha256": "4cdb05d1df8f63008a74f97b9ac02b81c83124f9900218d4075ca3075bfeed0e",
+      "lines": 48,
+      "fullContentReadCount": 1
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+    "bytes": 2969,
+    "sha256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06",
+    "lines": 90,
+    "fullContentReadCount": 1,
+    "sourceLimit": "strictly less than 400 lines"
+  },
+  "accounting": {
+    "byteDefinition": "Raw file bytes; UTF-8 source and JSON.",
+    "hashDefinition": "SHA-256 of exact raw bytes.",
+    "lineDefinition": "len(raw_bytes.splitlines()); all listed files end in newline.",
+    "inputMetadataOrigin": "Computed during the sole full read of each frozen input.",
+    "sourceMetadataOrigin": "Computed during the sole full read of the newly written source."
+  },
+  "exactReads": [
+    {
+      "sequence": 1,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/contract.md",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 2,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-api.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 3,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/dependency-api.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 4,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-shapes.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 5,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/imports.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 6,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/output-data.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 7,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own source manual contract review and source accounting"
+    },
+    {
+      "sequence": 8,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/author-record.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own frozen receipt hash/byte/line accounting for final report"
+    }
+  ],
+  "otherReads": [],
+  "chosenStructure": {
+    "fileCount": 1,
+    "privateHelpers": [
+      "countPatchLines",
+      "diffLineStat"
+    ],
+    "exports": [
+      "recordTurnFileChange",
+      "buildTurnFileChangeSummary"
+    ],
+    "design": "A shared private line counter implements the mandated native traversal. A private diff helper supplies the exact opaque structuredPatch call and timeout behavior. Two exported functions retain the caller-owned map and project content-free summary data.",
+    "newState": "None beyond per-call counters, patch reference, fallback/stat objects and summary arrays required by the contract.",
+    "ownership": "Caller owns supplied RuntimeTurnFileChangeMap and contents; existing map, entries and Sets retain their identities."
+  },
+  "retainedExpression": {
+    "imports": [
+      {
+        "module": "diff",
+        "clause": "{ structuredPatch }",
+        "runtime": true
+      },
+      {
+        "module": "../deps.js",
+        "clause": "type { DiffHunk, TurnFileChangeSummary }",
+        "runtime": false
+      },
+      {
+        "module": "../types.js",
+        "clause": "type { RuntimeTurnFileChangeMap }",
+        "runtime": false
+      }
+    ],
+    "publicAPI": "Exactly the two exported functions and supplied parameter/return types; no additional public API.",
+    "originalOwnerTypes": "Imported ports stay at their original owners. The declaration fragments are not standalone compilation units; no duplicate schema owners were introduced.",
+    "requiredStrings": [
+      "diff",
+      "../deps.js",
+      "../types.js",
+      "",
+      "+",
+      "-"
+    ],
+    "regex": [],
+    "numericLiteralOccurrences": {
+      "5000": 1,
+      "1": 4,
+      "0": 5
+    },
+    "requiredFields": [
+      "afterContent",
+      "beforeContent",
+      "fallbackAdditions",
+      "fallbackDeletions",
+      "path",
+      "toolNames",
+      "writeCount",
+      "additions",
+      "deletions",
+      "files",
+      "items"
+    ],
+    "ordinaryIdioms": [
+      "for-of",
+      "startsWith",
+      "Map.get/set with receiver",
+      "new Set",
+      "nullish coalescing",
+      "optional chaining",
+      "Array.from",
+      "native default sort",
+      "localeCompare",
+      "reduce"
+    ],
+    "outputDataExternalConstants": {
+      "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+      "READ_IMAGE_TARGET_BYTES": 3932160,
+      "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+      "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+    },
+    "externalConstantsQualification": "These exact supplied values remain recorded as input contract data. They are unrelated to this owner and were not introduced into its runtime source.",
+    "proseAndFormatQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms are retained as requirements, without a novelty or rights claim. No source bodies were supplied in the six inputs.",
+    "licenseGrant": "None; no license decision, dependency-body copy or rights grant was made."
+  },
+  "dependency": {
+    "opaqueRuntimePort": "structuredPatch from diff",
+    "packageRange": "^9.0.0",
+    "rootLockVersion": "9.0.0",
+    "rootLockIntegrity": "sha512-svtcdpS8CgJyqAjEQIXdb3OjhFVVYjzGAPO8WGCmRbrml64SPw/jJD4GoE98aR7r25A0XcgrK3F02yw9R/vhQw==",
+    "verification": "Values supplied by frozen contract, not independently checked against repository or installed package.",
+    "librarySourceAccess": false,
+    "replacementOrCaching": false
+  },
+  "manualContractReview": {
+    "method": "Manual source comparison against the six supplied frozen inputs only; no execution, compilation, tests, lint, mocks or build.",
+    "status": "All supplied behavioral clauses accounted for in the source; execution correctness is unverified.",
+    "checks": [
+      "Only the supplied runtime/type imports and exactly two exports appear.",
+      "Counter starts fresh additions/deletions at zero; nested for-of visits each hunk and line; independent plus and minus startsWith checks each increment by one.",
+      "No counter header filtering, skipping, trimming, normalization, validation or catch changes native failure behavior.",
+      "recordTurnFileChange fully computes fallback before any changes.get or input.path access, even for an existing record.",
+      "changes.get retains its receiver; falsey existing branch uses changes.set with repeated live path reads.",
+      "New record own fields follow afterContent, beforeContent, fallbackAdditions, fallbackDeletions, path, toolNames, writeCount order; undefined afterContent and null beforeContent remain stored.",
+      "New record has new Set([input.toolName]), writeCount one and no retained patch array.",
+      "Existing record performs afterContent nullish update, fallback additions, fallback deletions, Set.add, writeCount increment in the required order.",
+      "Existing entry/Set identities, original beforeContent/path and existing map are preserved; no replacement or duplicate collection.",
+      "Empty string remains meaningful; runtime null or undefined afterContent preserves existing via nullish behavior.",
+      "Native getter, iterator, mutation and port errors propagate with possible partial changes; no catch or rollback.",
+      "Empty map size strictly equal to zero returns undefined before values iteration.",
+      "Array.from(changes.values()).map evaluates records in map iteration order.",
+      "afterContent undefined selects fresh fallback stat object; otherwise live beforeContent nullish empty, afterContent and path are evaluated in that order.",
+      "structuredPatch receives filePath twice, beforeContent, afterContent, undefined twice and timeout 5000.",
+      "patch optional hunks nullish empty array leads to zero counts for undefined timed-out patch, without fallback substitution.",
+      "Mapped items have additions, deletions, path, Array.from(toolNames).sort() and writeCount in order.",
+      "Items use native sort with left.path.localeCompare(right.path); default tool name sort and native stable item sort are preserved.",
+      "Summary owns additions and deletions computed by separate zero-based reductions, files from items.length and the same produced items array.",
+      "Summary contains no content or patch bodies and does not mutate caller-owned maps, records or Sets.",
+      "Source is a single 90-line file, below the 400-line limit, with no added features, persistence, I/O, logs, grants or transactions."
+    ]
+  },
+  "configuration": {
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "requestedForkTurns": "none",
+    "configuredAsReportedByParent": "gpt-6.1-sol/high/fork:none",
+    "configurationVerification": "Parent-reported/requested configuration only; no independent model, reasoning or fork introspection performed.",
+    "savedFastPreference": "Unchanged; requested saved Fast state unverified.",
+    "serviceTierControl": "No service-tier control exposed or used; actual tier unverified."
+  },
+  "restrictions": {
+    "allowed": "Only the six named input reads and own output scratch writing, reading, hashes, lines, modes and UTC time accounting.",
+    "excluded": [
+      "repository",
+      "git",
+      "history",
+      "tests",
+      "reviews",
+      "predecessor",
+      "other-author",
+      "dependency bodies",
+      "network",
+      "private data",
+      "user data",
+      "credentials",
+      "compiler",
+      "lint",
+      "build",
+      "mocks",
+      "provider operations",
+      "store operations",
+      "filesystem/OS operations outside permitted scratch accounting"
+    ],
+    "actualWork": "Three scoped accounting/authoring tool invocations; Python file access was restricted to the six named inputs and own output paths, with only scoped directory creation, writes, reads, hashes, line counts, chmod and UTC time accounting.",
+    "accessControlQualification": "Instruction-only shared executor restrictions. No OS isolation or independent access audit proof is claimed.",
+    "contextQualification": "This owner was tasked as fresh contract-only. The parent supplied task context and configuration claims. The curator can see this source and may have prior broader context; no claim of a source-blind curator, clean-room provenance or erased prior knowledge is made.",
+    "collaborators": "No subagents were spawned and no collaborator identities or acts were invented."
+  },
+  "breaches": [],
+  "breachQualification": "No known breach in this owner turn; this is a scoped self-report, not an independent executor access audit.",
+  "questions": [],
+  "missingContract": false,
+  "blockers": [],
+  "freeze": {
+    "freezeUTC": "2026-10-02T21:00:18.946647+00:00",
+    "timeMeaning": "UTC marker recorded immediately before writing the final receipt and applying final immutable-for-review modes.",
+    "sourceMode": "0444",
+    "receiptMode": "0444",
+    "outputDirectoryMode": "0555",
+    "sequence": "Write final author record, chmod source 0444, chmod author record 0444, chmod output directory 0555, then read own frozen receipt for final hash accounting. No body review is requested before all three modes are applied.",
+    "postFreezeEdits": "None planned or performed by this author."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "sha": "affea575c98a83e04871bb6b5655cf72cc08be75",
+  "tree": [
+    {
+      "mode": "100644",
+      "path": "packages/desktop/src/main/broadcastHub.ts",
+      "sha": "ab5d801e76d3e3f2008031d2a4494a62ffcf0e7e",
+      "size": 6526
+    },
+    {
+      "mode": "100644",
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "sha": "6ea0dde542d70b758b00da53668a5d2866af4d24",
+      "size": 4143
+    }
+  ],
+  "truncated": false
+}

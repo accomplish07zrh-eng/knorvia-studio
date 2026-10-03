@@ -1,0 +1,198 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "video/"
+    },
+    {
+      "kind": "text",
+      "text": "video"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    },
+    {
+      "kind": "text",
+      "text": "text/"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "local_ref"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "symbol"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "[Attached ",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ": "
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": "]"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "attachment"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "attachment"
+    },
+    {
+      "kind": "text",
+      "text": "number"
+    },
+    {
+      "kind": "text",
+      "text": "attachment"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "symbol"
+    },
+    {
+      "kind": "text",
+      "text": "video/"
+    },
+    {
+      "kind": "text",
+      "text": "inline"
+    },
+    {
+      "kind": "text",
+      "text": "resource"
+    },
+    {
+      "kind": "text",
+      "text": "resource"
+    },
+    {
+      "kind": "text",
+      "text": "local_file"
+    },
+    {
+      "kind": "text",
+      "text": "inline"
+    },
+    {
+      "kind": "text",
+      "text": "resource"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "symbol"
+    },
+    {
+      "kind": "text",
+      "text": "image/*"
+    },
+    {
+      "kind": "text",
+      "text": "image/"
+    },
+    {
+      "kind": "text",
+      "text": ";"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    },
+    {
+      "kind": "text",
+      "text": ","
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": "image/*"
+    },
+    {
+      "kind": "text",
+      "text": "image/png"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    }
+  ],
+  "patterns": [
+    "/^data:([^;,]+)(?:;base64)?,/i"
+  ],
+  "qualification": "Exact source-derived required protocol/text/template/pattern material; generic template placeholders omit predecessor expressions/helper identities. Native language type-guard and import literals appear as retained data, not mandatory output literals. No predecessor bodies/decomposition supplied."
+}

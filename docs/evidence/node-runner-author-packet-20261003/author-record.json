@@ -1,0 +1,92 @@
+{
+  "author_scope": "Complete WorkflowNodeRunnerRuntime/runWorkflowNode owner",
+  "workspace": "/tmp/knorvia-node-runner-author-20261003",
+  "freeze_time_utc": "2026-10-02T17:49:10.491498Z",
+  "inputs": [
+    {
+      "path": "inputs/contract.md",
+      "byte_count": 15469,
+      "sha256": "e7c57aa1340d66153c9b1657ba3a16ce891dffae2184909371326847d468870b"
+    },
+    {
+      "path": "inputs/public-api.d.ts",
+      "byte_count": 834,
+      "sha256": "8d8776f4396010dece49583d22e8e487386e289432893e9a8029be2392381e17"
+    },
+    {
+      "path": "inputs/dependency-api.d.ts",
+      "byte_count": 5370,
+      "sha256": "f1f7c642193d18425c788c5ca01068738de7d035442a5ed1c4272cea2d5c472f"
+    },
+    {
+      "path": "inputs/public-data-shapes.md",
+      "byte_count": 3220,
+      "sha256": "d97be02c6c18a24609462235c737ac1485d93f5a9ddd93f52b2f7ae33d659ab4"
+    },
+    {
+      "path": "inputs/tracing-public-bindings.md",
+      "byte_count": 864,
+      "sha256": "a3f04b89feb7ad77fce6de85e7f339d2179777e0a780fda0c2f84fc88d1590b2"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "output/node-runner.ts",
+      "byte_count": 12352,
+      "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27",
+      "line_count": 301
+    }
+  ],
+  "receipt_path": "output/author-record.json",
+  "receipt_self_hash_excluded": true,
+  "actual_reads": [
+    {
+      "operation": "cat for authoring context",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md"
+      ]
+    },
+    {
+      "operation": "cat for explicitly authorized public tracing qualification",
+      "paths": [
+        "inputs/tracing-public-bindings.md"
+      ]
+    },
+    {
+      "operation": "apply_patch update of own authored output",
+      "paths": [
+        "output/node-runner.ts"
+      ]
+    },
+    {
+      "operation": "read_bytes for frozen input/output byte counts and SHA256",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md",
+        "inputs/tracing-public-bindings.md",
+        "output/node-runner.ts"
+      ]
+    },
+    {
+      "operation": "post-write read_bytes for separate receipt byte count and SHA256",
+      "paths": [
+        "output/author-record.json"
+      ]
+    }
+  ],
+  "boundary_breaches": [],
+  "unresolved_questions": [],
+  "private_extra_implementation_files": [],
+  "compilation": false,
+  "tests": false,
+  "comparison": false,
+  "production_edits": false,
+  "git_operations": false,
+  "network_access": false,
+  "contacted_other_authors": false
+}

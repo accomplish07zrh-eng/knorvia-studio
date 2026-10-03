@@ -1,0 +1,82 @@
+[
+  {
+    "owner": "packages/shared/src/protocol.ts",
+    "publicName": "DEFAULT_LOCALE",
+    "staticInitializer": "\"zh-CN\""
+  },
+  {
+    "owner": "packages/shared/src/desktopMenu.ts",
+    "publicName": "desktopMenuMessageIds",
+    "staticInitializer": "{\n  file: \"titleBar.menu.file\",\n  edit: \"titleBar.menu.edit\",\n  view: \"titleBar.menu.view\",\n  window: \"titleBar.menu.window\",\n  help: \"titleBar.menu.help\",\n  fileNewTask: \"titleBar.menu.file.newTask\",\n  fileOpenWorkspace: \"titleBar.menu.file.openWorkspace\",\n  fileCloseWindow: \"titleBar.menu.file.closeWindow\",\n  editUndo: \"titleBar.menu.edit.undo\",\n  editRedo: \"titleBar.menu.edit.redo\",\n  editCut: \"titleBar.menu.edit.cut\",\n  editCopy: \"titleBar.menu.edit.copy\",\n  editPaste: \"titleBar.menu.edit.paste\",\n  editDelete: \"titleBar.menu.edit.delete\",\n  editSelectAll: \"titleBar.menu.edit.selectAll\",\n  viewToggleFullScreen: \"titleBar.menu.view.toggleFullScreen\",\n  viewActualSize: \"titleBar.menu.view.actualSize\",\n  viewZoomIn: \"titleBar.menu.view.zoomIn\",\n  viewZoomOut: \"titleBar.menu.view.zoomOut\",\n  windowMinimize: \"titleBar.menu.window.minimize\",\n  windowZoom: \"titleBar.menu.window.zoom\",\n  windowBringAllToFront: \"titleBar.menu.window.bringAllToFront\",\n  appServices: \"titleBar.menu.app.services\",\n  appHide: \"titleBar.menu.app.hide\",\n  appHideOthers: \"titleBar.menu.app.hideOthers\",\n  appShowAll: \"titleBar.menu.app.showAll\",\n  appQuit: \"titleBar.menu.app.quit\",\n  helpAbout: \"titleBar.menu.help.about\",\n  helpWhatsNew: \"titleBar.menu.help.whatsNew\",\n  helpCheckForUpdates: \"titleBar.menu.help.checkForUpdates\",\n  helpToggleDevTools: \"titleBar.menu.help.toggleDevTools\",\n  helpResourceManager: \"titleBar.menu.help.resourceManager\",\n  helpToggleKnorviaStdioTap: \"titleBar.menu.help.toggleKnorviaStdioTap\",\n  helpKnorviaEndpoint: \"titleBar.menu.help.endpoint\",\n  helpKnorviaEndpointProduction: \"titleBar.menu.help.endpoint.production\",\n  helpKnorviaEndpointTest: \"titleBar.menu.help.endpoint.test\",\n  helpKnorviaEndpointCustom: \"titleBar.menu.help.endpoint.custom\",\n  helpKnorviaEndpointReset: \"titleBar.menu.help.endpoint.reset\",\n  helpFeedback: \"titleBar.menu.help.feedback\",\n  helpExportLogs: \"titleBar.menu.help.exportLogs\",\n  helpClearAllData: \"titleBar.menu.help.clearAllData\",\n  helpCheckingForUpdates: \"desktopMenu.help.checkingForUpdates\",\n  helpUpdateAvailableVersion: \"desktopMenu.help.updateAvailableVersion\",\n  helpDownloadingUpdateVersion: \"desktopMenu.help.downloadingUpdateVersion\",\n  helpDownloadingUpdateProgress: \"desktopMenu.help.downloadingUpdateProgress\",\n  helpRestartToUpdate: \"desktopMenu.help.restartToUpdate\",\n  dockShowCurrentWindow: \"dock.menu.showCurrentWindow\",\n  trayTooltip: \"tray.tooltip\",\n  trayOpenKnorvia: \"tray.menu.openKnorvia\",\n  trayQuit: \"tray.menu.quit\",\n} as const"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowSize.ts",
+    "publicName": "DEFAULT_DESKTOP_WINDOW_WIDTH",
+    "staticInitializer": "1200"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowSize.ts",
+    "publicName": "DEFAULT_DESKTOP_WINDOW_HEIGHT",
+    "staticInitializer": "800"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowSize.ts",
+    "publicName": "MIN_DESKTOP_WINDOW_WIDTH",
+    "staticInitializer": "480"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowSize.ts",
+    "publicName": "MIN_DESKTOP_WINDOW_HEIGHT",
+    "staticInitializer": "640"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+    "publicName": "MACOS_TRAFFIC_LIGHT_BASE_POSITION",
+    "staticInitializer": "{ x: 22, y: 23 } as const"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+    "publicName": "WINDOWS_WINDOW_CONTROLS_BASE_RIGHT_PADDING_PX",
+    "staticInitializer": "136"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+    "publicName": "WINDOWS_TITLE_BAR_HEIGHT_PX",
+    "staticInitializer": "48"
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "PlatformChannels.FocusTab",
+    "staticInitializer": "\"knorvia:focus-tab\""
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "PlatformChannels.OpenBrowserUrl",
+    "staticInitializer": "\"knorvia:open-browser-url\""
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "PlatformChannels.WindowFullscreenChanged",
+    "staticInitializer": "\"knorvia:window-fullscreen-changed\""
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "PlatformChannels.DesktopWindowChromeStateChanged",
+    "staticInitializer": "\"knorvia:desktop-window-chrome-state-changed\""
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "InternalChannels.ServicePort",
+    "staticInitializer": "\"knorvia:service-port\""
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "HostMessageTypes.InitLocal",
+    "staticInitializer": "\"init-local\""
+  },
+  {
+    "owner": "packages/shared/src/channels.ts",
+    "publicName": "HostMessageTypes.AttachServicePort",
+    "staticInitializer": "\"attach-service-port\""
+  }
+]

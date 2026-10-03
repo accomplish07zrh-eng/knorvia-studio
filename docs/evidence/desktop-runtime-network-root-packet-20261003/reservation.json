@@ -1,0 +1,25 @@
+{
+  "lane": "root only; E public packet no replacement",
+  "baseline": "cf1fcca3fa8d4ea3fa1a7f6dc3d9a2ad9607d1c5",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+      "bytes": 19865,
+      "lines": 496,
+      "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+      "bytes": 9750,
+      "lines": 273,
+      "sha256": "9ec488814c6cb08564ae814cd44ba9466861359473ee6d47b5f87b70bfb873d8"
+    }
+  ],
+  "eligible": [
+    "packages/desktop/src/main/desktopRuntimeEnv.ts",
+    "packages/desktop/src/main/desktopNetworkPolicy.ts"
+  ],
+  "held": [],
+  "preserveAllStaticSecurityConfiguration": true,
+  "qualification": "Both eligible by local exact source/origin/accepted-receipt screen; root decides cohesive scope. All21 obligations OPEN, no global review/license changes."
+}

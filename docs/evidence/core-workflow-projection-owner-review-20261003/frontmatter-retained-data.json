@@ -1,0 +1,21 @@
+{
+  "scope": "frontmatter",
+  "binding": {
+    "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/frontmatter.ts.txt",
+    "bytes": 2909,
+    "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9"
+  },
+  "proseChecks": [],
+  "exportedExpressions": [
+    {
+      "name": "SAVED_WORKFLOW_SENTINEL",
+      "exact": true
+    },
+    {
+      "name": "LEGACY_SAVED_WORKFLOW_SENTINEL",
+      "exact": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Exact required long prose/template paragraph fragments and exported sentinel initializer topology retained. Other fixed XML/metadata/short note fragments/ordered fields checked in minimum exact synthetic projections; may compose from public values, no lexical originality credit. Opaque schema/limit/dependency data remain original unchanged byte owners. No original/runtime/schema/workflow execution or semantic/project/license claim."
+}

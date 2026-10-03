@@ -1,0 +1,111 @@
+{
+  "kind": "Existing exact module/export import mapping; no bodies or new dependencies",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "CoreErrorType",
+          "localName": "CoreErrorType",
+          "typeOnly": false
+        },
+        {
+          "name": "MEDIA_BUDGET_CURRENT_ATTACHMENT_TOO_LARGE_ERROR_CODE",
+          "localName": "MEDIA_BUDGET_CURRENT_ATTACHMENT_TOO_LARGE_ERROR_CODE",
+          "typeOnly": false
+        },
+        {
+          "name": "createCoreError",
+          "localName": "createCoreError",
+          "typeOnly": false
+        },
+        {
+          "name": "modelMessageContentToText",
+          "localName": "modelMessageContentToText",
+          "typeOnly": false
+        },
+        {
+          "name": "traceContextToLogContext",
+          "localName": "traceContextToLogContext",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "Logger",
+          "localName": "Logger",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelInputFormat",
+          "localName": "ModelInputFormat",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelInputMessage",
+          "localName": "ModelInputMessage",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelMessageContent",
+          "localName": "ModelMessageContent",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelMessageContentBlock",
+          "localName": "ModelMessageContentBlock",
+          "typeOnly": true
+        },
+        {
+          "name": "TraceContext",
+          "localName": "TraceContext",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "./official-cua-media.js",
+      "bindings": [
+        {
+          "name": "officialCuaImageRefIndexesForUnavailableMedia",
+          "localName": "officialCuaImageRefIndexesForUnavailableMedia",
+          "typeOnly": false
+        },
+        {
+          "name": "officialCuaRasterUnavailableBlock",
+          "localName": "officialCuaRasterUnavailableBlock",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./conversation.js",
+      "bindings": [
+        {
+          "name": "findLatestRealUserMessageIndex",
+          "localName": "findLatestRealUserMessageIndex",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./media-capability.js",
+      "bindings": [
+        {
+          "name": "projectMessagesForInputFormat",
+          "localName": "projectMessagesForInputFormat",
+          "typeOnly": false
+        },
+        {
+          "name": "MediaCapabilityProjection",
+          "localName": "MediaCapabilityProjection",
+          "typeOnly": true
+        }
+      ]
+    }
+  ],
+  "constantQualification": "Imported constant values and opaque type details stay with unchanged original collaborators; do not define replacements. Follow original type-only versus value imports. A retained dormant import may be used only by reconstructed dormant behavior, never enabling it."
+}

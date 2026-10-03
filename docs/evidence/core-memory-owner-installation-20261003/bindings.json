@@ -1,0 +1,115 @@
+{
+  "baseline": "b5152875cb5aa236e920af07779b05fe2b8b8752",
+  "reviewedAt": "2026-10-02T22:00:24.451007+00:00",
+  "targets": [
+    {
+      "scope": "extraction",
+      "target": "apps/cli/packages/core/src/memory/extraction.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/extraction/extraction.ts.txt",
+      "bytes": 8265,
+      "lines": 220,
+      "sha256": "7c4ae83f19d893a00dbca51c0b97960ccbc9c438a816191115b59189ab0b4e77",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/extraction-static.json",
+      "staticReviewSha256": "8dacdf5e4f346ac74ebfa271d5dbade18744762165597aef1bd17b64a686a6b4",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/extraction.ts",
+        "bytes": 10405,
+        "lines": 301,
+        "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      }
+    },
+    {
+      "scope": "loop",
+      "target": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/loop/memory-agent-loop.ts.txt",
+      "bytes": 7166,
+      "lines": 221,
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/loop-static.json",
+      "staticReviewSha256": "8aea3c976199098dfd9812f1d1eb490d11a75c88381fcd957839ff56d5be5250",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+        "bytes": 9755,
+        "lines": 292,
+        "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      }
+    },
+    {
+      "scope": "path",
+      "target": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/path-v2/memory-file-path.ts.txt",
+      "bytes": 1966,
+      "lines": 81,
+      "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/path-v2-static.json",
+      "staticReviewSha256": "4579209b92a8e971961b266832cc5bbedbae4ed6a020105de0169359fb916878",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+        "bytes": 2342,
+        "lines": 83,
+        "sha256": "6864da8586c7bdad420debb03a30c279f7bc87a562b2b2f2de4c8f0bcf3f096c",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      }
+    },
+    {
+      "scope": "index",
+      "target": "apps/cli/packages/core/src/memory/index-content.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/index/index-content.ts.txt",
+      "bytes": 2281,
+      "lines": 68,
+      "sha256": "de62e45a34a9d79d1683fcc4fbfe82442d8d4bbfcc1849ab4bf1e8f30915c50a",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/index-static.json",
+      "staticReviewSha256": "31acfff612364e194ba3aeb62572077414642e24d867cccf30a7be0f5ac5fb56",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/index-content.ts",
+        "bytes": 2990,
+        "lines": 67,
+        "sha256": "09397af14b35c25822e901c44dc702c927b94b75c072a6f5cd595b7d9e9f4e71",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      }
+    },
+    {
+      "scope": "manifest",
+      "target": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/manifest-v2/manifest.ts.txt",
+      "bytes": 3738,
+      "lines": 97,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/manifest-v2-static.json",
+      "staticReviewSha256": "cd09b6b4bb316b27ec6b9dc335c843e0d6942e4ee9d380eab287d4ef6dfa2695",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+        "bytes": 4516,
+        "lines": 137,
+        "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      }
+    }
+  ],
+  "reviewEvidence": [
+    "docs/evidence/core-memory-owner-review-20261003/retained-data.json",
+    "docs/evidence/core-memory-owner-review-20261003/minimal-safety-after-fixture.json",
+    "docs/evidence/core-memory-owner-review-20261003/path-v2-safety.json",
+    "docs/evidence/core-memory-owner-review-20261003/manifest-v2-safety.json"
+  ],
+  "installationAuthorization": "Parent explicitly directs E own reviewed candidates installed; only cross-lane/final merging deferred. Same PR8 branch, no main merge/release/deployment/global licence edit.",
+  "safetyPhaseBinding": "Original ten-group pass used five v1 complete frozen candidates. Path-v2 isolated containment gate used archived4aeef1a8 bytes, manifest-v2 three focused gates used archived9c62d032 bytes. Final installation copies these identical reviewed archives; no runtime reruns justified. Source bindings derive preserved phase archives/static records; earlier result JSON does not itself carry every source digest.",
+  "qualifications": "Curator source-exposed; instruction-only shared executor/no OS audit. Original+full complete v2 lineage and all failures retained. Sol/high requested fork-none; Fast unverified. Parent progress communications conservatively disclosed; earlier repaired scratch-write breach retained. Ordinary/project checks deferred;21 materials remain open."
+}

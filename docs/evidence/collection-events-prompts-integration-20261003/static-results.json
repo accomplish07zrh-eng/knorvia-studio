@@ -1,0 +1,234 @@
+{
+  "kind": "Static compatibility and exact byte bindings; no runtime acceptance or project typecheck",
+  "typescript": "6.0.2",
+  "baseline": "dfae259be47287be6642ab8469009b008a01bdb2",
+  "inputBindings": [
+    {
+      "path": "inputs/contract.md",
+      "bytes": 9662,
+      "sha256": "51b7ca930573b16c7c2088c6733874b73db9e39a85a8133f0fc3eb98f09fb3b6",
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/public-api.d.ts",
+      "bytes": 1235,
+      "sha256": "a65fee17c0e415cb381e0e082df89e5912ee566ac4094abc380423e36e22ba13",
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/dependency-api.d.ts",
+      "bytes": 3100,
+      "sha256": "2cfd25133e6e9b4c163e6bd13279c032aa9a986a7913cffaced499068570633d",
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/public-data-shapes.md",
+      "bytes": 2987,
+      "sha256": "bee4c49cfcbf2df68dac801b0aa8751af9bfca086f2b0ca5b23ea797d6b681c8",
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/rendered-text.json",
+      "bytes": 2316,
+      "sha256": "57c2bde6d8e26b41fba9654670d2b8af6659c55712b0e7c11a9a306097f9d65f",
+      "matchesReceipt": true
+    }
+  ],
+  "archivedBindings": [
+    {
+      "file": "draft-collection-events.ts.txt",
+      "bytes": 2636,
+      "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7",
+      "matchesArchive": true
+    },
+    {
+      "file": "draft-prompts.ts.txt",
+      "bytes": 3275,
+      "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5",
+      "matchesArchive": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 2680,
+      "sha256": "799fc5cef845f71a491431f6dfad830760f0f83615c87b0899861a289defda70",
+      "matchesArchive": true
+    }
+  ],
+  "owners": [
+    {
+      "target": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+      "draftPath": "docs/evidence/collection-events-prompts-author-packet-20261003/draft-collection-events.ts.txt",
+      "predecessor": {
+        "bytes": 2458,
+        "sha256": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078"
+      },
+      "candidate": {
+        "bytes": 2636,
+        "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+      },
+      "installed": {
+        "bytes": 2636,
+        "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+      },
+      "lines": 74,
+      "matchesFrozenOutput": true,
+      "installedByteIdenticalToDraft": true,
+      "exportedDeclarationsEqual": true,
+      "exportedDeclarationStructureSha256": {
+        "predecessor": "ae6619778f7cab61a22de1ee76f43a79720dcfdd58e0732691e68406cf519215",
+        "candidate": "ae6619778f7cab61a22de1ee76f43a79720dcfdd58e0732691e68406cf519215"
+      },
+      "runtimeImportsEqual": true,
+      "imports": [
+        {
+          "module": "./collection-runtime.js",
+          "name": "WorkflowCollectionPlannerRuntime",
+          "local": "WorkflowCollectionPlannerRuntime",
+          "typeOnly": true
+        },
+        {
+          "module": "./graph.js",
+          "name": "edgeId",
+          "local": "edgeId",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "updateGraphCollection",
+          "local": "updateGraphCollection",
+          "typeOnly": false
+        },
+        {
+          "module": "./types.js",
+          "name": "AppliedPlannerExpansion",
+          "local": "AppliedPlannerExpansion",
+          "typeOnly": true
+        },
+        {
+          "module": "./types.js",
+          "name": "SchedulerCollection",
+          "local": "SchedulerCollection",
+          "typeOnly": true
+        },
+        {
+          "module": "./types.js",
+          "name": "WorkflowGraphSchedulerRunOptions",
+          "local": "WorkflowGraphSchedulerRunOptions",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowRunSnapshot",
+          "local": "WorkflowRunSnapshot",
+          "typeOnly": true
+        }
+      ],
+      "relativeDependenciesExist": true,
+      "declarationExtractionDiagnostics": {
+        "predecessor": [],
+        "candidate": []
+      }
+    },
+    {
+      "target": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+      "draftPath": "docs/evidence/collection-events-prompts-author-packet-20261003/draft-prompts.ts.txt",
+      "predecessor": {
+        "bytes": 2932,
+        "sha256": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98"
+      },
+      "candidate": {
+        "bytes": 3275,
+        "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+      },
+      "installed": {
+        "bytes": 3275,
+        "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+      },
+      "lines": 92,
+      "matchesFrozenOutput": true,
+      "installedByteIdenticalToDraft": true,
+      "exportedDeclarationsEqual": true,
+      "exportedDeclarationStructureSha256": {
+        "predecessor": "c1b5255f53f23ccbcca839c5aabb1eada6bd548d8f6a546d6ae1bac9eb8381b7",
+        "candidate": "c1b5255f53f23ccbcca839c5aabb1eada6bd548d8f6a546d6ae1bac9eb8381b7"
+      },
+      "runtimeImportsEqual": true,
+      "imports": [
+        {
+          "module": "./graph.js",
+          "name": "collectionNodeIdsForGraph",
+          "local": "collectionNodeIdsForGraph",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "nodeById",
+          "local": "nodeById",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphCollection",
+          "local": "WorkflowGraphCollection",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphNode",
+          "local": "WorkflowGraphNode",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowRunSnapshot",
+          "local": "WorkflowRunSnapshot",
+          "typeOnly": true
+        }
+      ],
+      "relativeDependenciesExist": true,
+      "declarationExtractionDiagnostics": {
+        "predecessor": [],
+        "candidate": []
+      }
+    }
+  ],
+  "retainedBoundaries": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/types.ts",
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106",
+      "bytes": 4401,
+      "boundary": "Retained public declaration module; no implementation rewrite",
+      "actual": {
+        "bytes": 4401,
+        "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts",
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d",
+      "bytes": 434,
+      "boundary": "Retained public declaration module; no implementation rewrite",
+      "actual": {
+        "bytes": 434,
+        "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+      "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+      "bytes": 7567,
+      "boundary": "A-owned graph implementation",
+      "actual": {
+        "bytes": 7567,
+        "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5"
+      },
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "runtimeTestsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

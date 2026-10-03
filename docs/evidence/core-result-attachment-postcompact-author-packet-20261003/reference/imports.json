@@ -1,0 +1,26 @@
+[
+  {
+    "module": "@knorvia/shared",
+    "clause": "{ isArtifactUri }"
+  },
+  {
+    "module": "../deps.js",
+    "clause": "{ basename }"
+  },
+  {
+    "module": "../deps.js",
+    "clause": "type { FilePartSource, TurnAttachment }"
+  },
+  {
+    "module": "../types.js",
+    "clause": "type { ResolvedTurnAttachment }"
+  },
+  {
+    "module": "./attachment-artifacts.js",
+    "clause": "{ safeAttachmentOriginalRef }"
+  },
+  {
+    "module": "./attachment-video.js",
+    "clause": "{ inferVideoMimeFromPath }"
+  }
+]

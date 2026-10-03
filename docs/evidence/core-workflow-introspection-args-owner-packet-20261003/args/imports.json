@@ -1,0 +1,6 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { SavedWorkflowArgDeclaration, SavedWorkflowArgsDeclaration }"
+  }
+]

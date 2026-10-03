@@ -1,0 +1,107 @@
+{
+  "release": {
+    "firstDelayMs": 30000,
+    "intervalMs": 86400000,
+    "maxResponseBytes": 65536,
+    "requestTimeoutMs": 6000,
+    "tagPrefix": {
+      "pattern": "^studio-",
+      "flags": "i"
+    },
+    "fetchOptions": {
+      "method": "GET",
+      "headers": {
+        "accept": "application/json"
+      },
+      "credentials": "omit",
+      "redirect": "error"
+    },
+    "streamErrors": [
+      "empty response",
+      "oversized response"
+    ],
+    "decode": {
+      "encoding": "utf-8",
+      "fatal": true
+    },
+    "outcomes": [
+      "disabled",
+      "unconfigured",
+      "up-to-date",
+      "no-compatible-release",
+      "available",
+      "failed"
+    ],
+    "failureReasons": [
+      "invalid-response",
+      "settings",
+      "invalid-source",
+      "http",
+      "timeout",
+      "offline"
+    ]
+  },
+  "notifications": {
+    "dedupeWindowMs": 3000,
+    "maxRetainedNotifications": 100,
+    "copy": {
+      "silent": true
+    },
+    "requestDedupeStatuses": [
+      "permission_request",
+      "elicitation_request"
+    ],
+    "dedupeKey": "${status}:${requestIdTrimmedOrTaskId}",
+    "schema": {
+      "object": "Existing z.object parsing/unknown-key stripping",
+      "taskId": "string trim min1",
+      "status": [
+        "completed",
+        "failed",
+        "permission_request",
+        "elicitation_request",
+        "feedback_update"
+      ],
+      "requestId": "optional string trim min1",
+      "title": "string",
+      "body": "string"
+    },
+    "channels": {
+      "TaskNotificationSound": "knorvia:task-notification-sound",
+      "TaskNotificationClick": "knorvia:task-notification-click"
+    },
+    "logText": [
+      "[show-task-notification] invalid payload:",
+      "[show-task-notification] notification is not supported on this platform",
+      "[show-task-notification] missing localized notification copy",
+      "[show-task-notification] click ignored: sender window is gone",
+      "[show-task-notification] notification click handled"
+    ]
+  },
+  "cron": {
+    "forceKillMs": 1500,
+    "fork": {
+      "serviceName": "knorvia-cron-scheduler",
+      "execArgv": [
+        "--no-warnings"
+      ],
+      "processLabelKey": "KNORVIA_PROCESS_LABEL",
+      "processLabelValue": "scheduler",
+      "args": []
+    },
+    "hostCronRunType": "cron-run",
+    "transientErrors": [
+      "app is shutting down",
+      "no local host available"
+    ],
+    "logText": [
+      "[cron-scheduler] forked scheduler process pid=${pid}",
+      "[cron-scheduler] postMessage to scheduler failed:",
+      "[cron-scheduler] ${message}",
+      "[cron-scheduler] forward CronRun to host failed:",
+      "[cron-scheduler] scheduler process exited code=${code}"
+    ],
+    "offPeakResultHandler": "intentional no-op; do not invent forwarding"
+  },
+  "retainedExpression": "Schemas/protocol/error/logger strings/constants are retained contract material, no new grant/novelty claim"
+}

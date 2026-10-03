@@ -1,0 +1,71 @@
+{
+  "freeze_utc": "2026-10-02T19:25:58.697719Z",
+  "configured_model": {
+    "delegated_label": "Sol",
+    "exact_model_identifier": "Not exposed in the author environment; Sol is the delegation-provided label"
+  },
+  "configured_effort": "high (delegation-provided)",
+  "fast_limit": "Fast requested in delegation; no separately selectable Fast tool tier is exposed. No tool or environment setting was changed to claim a separate Fast tier.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/origins/inputs/contract.md",
+      "bytes": 3627,
+      "sha256": "7ba547c4430d5802dfa74a6784a276771ba49874deebc7f4f1a56e6dcbf79d36"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/origins/inputs/public-api.d.ts",
+      "bytes": 637,
+      "sha256": "038c86e6ae753f4b70946c34295fb28b60303058912805b6183f132c7e8ed0e5"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/origins/inputs/dependency-api.d.ts",
+      "bytes": 958,
+      "sha256": "8685dcee32ba9b21fcbf5bf3974521639eedf54d34d1149253fb363519f64088"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/origins/inputs/public-shapes.d.ts",
+      "bytes": 1816,
+      "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/origins/output/provider-entry-origins.ts",
+      "bytes": 3130,
+      "sha256": "7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/origins/output/author-record.json",
+      "integrity": "Exact byte count and SHA-256 reported externally after freeze; a self-digest cannot be embedded in the same record."
+    }
+  ],
+  "actual_reads": [
+    "/tmp/knorvia-core-context-provider-20261003/origins/inputs/contract.md",
+    "/tmp/knorvia-core-context-provider-20261003/origins/inputs/public-api.d.ts",
+    "/tmp/knorvia-core-context-provider-20261003/origins/inputs/dependency-api.d.ts",
+    "/tmp/knorvia-core-context-provider-20261003/origins/inputs/public-shapes.d.ts",
+    "/tmp/knorvia-core-context-provider-20261003/origins/output/provider-entry-origins.ts"
+  ],
+  "source_exposure": "Only the four authorized packet files and this author’s own output. No repository, AGENTS, implementation/dependency/test/history/review bodies, git, network, compiler, other-author output, or prior drafts were accessed.",
+  "inherited_context": "Only the delegated task, environment, and system/developer instructions. No inherited implementation, review, history, prior draft, or other-author source context was supplied or used.",
+  "retained_requirements": [
+    "Complete public declarations and actual collaborator imports; request-local WeakMap ownership.",
+    "Fallback array freshness and stored-array identity; native flatMap ancestry, receiver selection, dynamic get, input order, and overwrite semantics.",
+    "Canonical real-user predicate order; single get calls, some and findLast selection.",
+    "Opaque presentation parsing, formatting, wrapping, and mid-turn classification.",
+    "Native array map semantics; specified content guards and projection shapes; exactly one origins.set per completed projection.",
+    "No canonical payload/history writes, I/O, service, registry, parse/format/security/prompt implementation, companion source, or public API expansion."
+  ],
+  "discretionary_choices": [
+    "Private readonly WeakMap member named origins; module-local predicate named isRealUser.",
+    "Nullish fallback for get and representative; direct native method calls for evaluation order.",
+    "Local body, formatted, projectedContent, and projected variables; ordinary shallow spreads and conditional projection."
+  ],
+  "questions": [
+    "Asked parent to clarify an exact configured Sol model identifier if required; model metadata above uses only the delegation-provided label. No functional clarification was needed."
+  ],
+  "breaches": [],
+  "verification": "No tests, builds, typechecks, lint, mocks, compiler, network, or repository checks. Output line count and byte hashes only.",
+  "source_lines": 106,
+  "freeze_policy": "Both output files are frozen after this write; no later edits without a separate frozen functional clarification."
+}

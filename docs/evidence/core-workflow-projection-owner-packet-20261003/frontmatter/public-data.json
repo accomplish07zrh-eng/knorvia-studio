@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "publicName": "SAVED_WORKFLOW_ARG_TYPES",
+      "staticInitializer": "[\"string\", \"number\", \"boolean\", \"json\"] as const"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "publicName": "SavedWorkflowArgTypeSchema",
+      "staticInitializer": "z.enum(SAVED_WORKFLOW_ARG_TYPES)"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "publicName": "SavedWorkflowArgDeclarationSchema",
+      "staticInitializer": "z\n  .object({\n    type: SavedWorkflowArgTypeSchema.describe(\n      'Value type. \"json\" accepts any JSON value without further checking.',\n    ),\n    description: z\n      .string()\n      .optional()\n      .describe(\"What this argument means, for whoever calls the workflow later.\"),\n    required: z\n      .boolean()\n      .optional()\n      .describe(\"When true the workflow cannot run without this argument.\"),\n    // `default` 刻意是 unknown 而不是按 `type` 判别的联合：默认值的类型正确性由\n    // validateWorkflowArgs 在**应用默认值之后**与传入值走同一条校验，一处规则而不是两处。\n    default: z.unknown().optional().describe(\"Value used when the caller omits this argument.\"),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "publicName": "SavedWorkflowArgsDeclarationSchema",
+      "staticInitializer": "z.record(SavedWorkflowArgDeclarationSchema)"
+    },
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "publicName": "SavedWorkflowMetaSchema",
+      "staticInitializer": "z\n  .object({\n    description: z.string().min(1),\n    whenToUse: z.string().min(1).optional(),\n    args: SavedWorkflowArgsDeclarationSchema.optional(),\n  })\n  .strict()"
+    },
+    {
+      "owner": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "publicName": "SAVED_WORKFLOW_SENTINEL",
+      "staticInitializer": "\"/* knorvia-workflow\""
+    },
+    {
+      "owner": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "publicName": "LEGACY_SAVED_WORKFLOW_SENTINEL",
+      "staticInitializer": "\"/* zcode-workflow\""
+    }
+  ],
+  "qualification": "Existing public schema/constant/metadata expressions remain original opaque owners; consume originals, do not implement or assign novelty/licensing credit. Source exported sentinel initializers exact."
+}

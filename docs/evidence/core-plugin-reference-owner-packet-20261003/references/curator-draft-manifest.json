@@ -1,0 +1,24 @@
+{
+  "scope": "references",
+  "utc": "2026-10-02T22:15:41.513Z",
+  "files": [
+    {
+      "file": "references.ts.txt",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/references/references.ts",
+      "target": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 1826,
+      "lines": 60,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/references/author-record.json",
+      "bytes": 9388,
+      "lines": 162,
+      "sha256": "ef3af2d43f2e841f48476d77cb2d4400052b2ed657be34d52c89e1fb277d6f16",
+      "mode": "444"
+    }
+  ],
+  "qualification": "Complete original source/author record copied byte-exactly from frozen two-output scratch before source rendering/review. Author receipt self-report, shared executor instruction-only; no OS/access audit or separation/licence proof."
+}

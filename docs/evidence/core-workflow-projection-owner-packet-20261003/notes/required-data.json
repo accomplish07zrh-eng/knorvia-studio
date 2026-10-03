@@ -1,0 +1,148 @@
+{
+  "strings": [
+    {
+      "text": "@knorvia/contracts"
+    },
+    {
+      "text": "draft"
+    },
+    {
+      "text": "path"
+    },
+    {
+      "head": "L",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ":C"
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": " "
+        },
+        {
+          "placeholder": "VALUE_3",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_4",
+          "text": ":L"
+        },
+        {
+          "placeholder": "VALUE_5",
+          "text": ":C"
+        },
+        {
+          "placeholder": "VALUE_6",
+          "text": " "
+        },
+        {
+          "placeholder": "VALUE_7",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": "draft"
+    },
+    {
+      "head": "The script is saved at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "head": "The script file is ",
+      "spans": [
+        {
+          "placeholder": "VALUE_9",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "head": "NOTE: The workflow was NOT executed. ",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": " Edit that file in place and resubmit with `path: \""
+        },
+        {
+          "placeholder": "VALUE_11",
+          "text": "\"` — do not paste the script inline again."
+        }
+      ]
+    },
+    {
+      "head": "NOTE: The workflow was NOT executed. A working copy of the saved workflow '",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": "' ("
+        },
+        {
+          "placeholder": "VALUE_13",
+          "text": ") was written to "
+        },
+        {
+          "placeholder": "VALUE_14",
+          "text": ". Edit that copy in place and resubmit with `path: \""
+        },
+        {
+          "placeholder": "VALUE_15",
+          "text": "\"` (pass its `args` again); to change the saved definition itself, use SaveWorkflow."
+        }
+      ]
+    },
+    {
+      "text": "draft"
+    },
+    {
+      "head": "The script is saved at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_16",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "The script file is ",
+      "spans": [
+        {
+          "placeholder": "VALUE_17",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": " ",
+      "spans": [
+        {
+          "placeholder": "VALUE_18",
+          "text": "; to revise it later, edit that file and pass `path` to AmendWorkflow."
+        }
+      ]
+    },
+    {
+      "head": " The revision's script is at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_19",
+          "text": "; edit it there for a further revision."
+        }
+      ]
+    }
+  ],
+  "patterns": [],
+  "numbers": [],
+  "qualification": "Exact required fixed public prose/XML/metadata/error/sentinel/newline/template data; private expression names/decomposition omitted. Source-derived preservation data, no novelty or rights credit."
+}

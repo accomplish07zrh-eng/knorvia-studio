@@ -1,0 +1,149 @@
+{
+  "task": "Fresh scoped complete model-anomaly.ts author",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/contract.md",
+      "bytes": 3962,
+      "sha256": "ac8d9cd043008a4d238890867249a8487c03428afa9e9a05a5d6511ad8928622",
+      "reads": 2,
+      "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/public-api.d.ts",
+      "bytes": 1228,
+      "sha256": "a628346dd23c88ad604a5e617a3431477733051a89d686c6fccbf0cb36cccd20",
+      "reads": 2,
+      "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/dependency-api.d.ts",
+      "bytes": 258,
+      "sha256": "320d6266510859d37a2be6adf76481fa908a818ad405c8957f3f95062ea511fe",
+      "reads": 2,
+      "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/public-shapes.d.ts",
+      "bytes": 364,
+      "sha256": "4ecde9ac119ea9b9e153dc8af98777f3f1e21ac9de0785a861bfce7dcbfeeb6f",
+      "reads": 2,
+      "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/imports.json",
+      "bytes": 546,
+      "sha256": "da7c0d3dc31c6fa9c1a1bef4b13978a1244047f5b4607312f85405df34ba8f76",
+      "reads": 2,
+      "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+    },
+    {
+      "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/output-data.json",
+      "bytes": 1258,
+      "sha256": "28de24b04f8f7170e1d968810f5a83eeaa34a1c50afef8aea4d6b7983f94321c",
+      "reads": 2,
+      "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/output/model-anomaly.ts",
+    "bytes": 4291,
+    "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+    "lines": 120,
+    "complete": true,
+    "privateHelpersIncluded": [
+      "stableJson",
+      "toolCallSignature"
+    ]
+  },
+  "actualReadsAndExposure": {
+    "allowedInputFilesOnly": true,
+    "inputReads": [
+      {
+        "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/contract.md",
+        "bytes": 3962,
+        "sha256": "ac8d9cd043008a4d238890867249a8487c03428afa9e9a05a5d6511ad8928622",
+        "reads": 2,
+        "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+      },
+      {
+        "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/public-api.d.ts",
+        "bytes": 1228,
+        "sha256": "a628346dd23c88ad604a5e617a3431477733051a89d686c6fccbf0cb36cccd20",
+        "reads": 2,
+        "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+      },
+      {
+        "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/dependency-api.d.ts",
+        "bytes": 258,
+        "sha256": "320d6266510859d37a2be6adf76481fa908a818ad405c8957f3f95062ea511fe",
+        "reads": 2,
+        "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+      },
+      {
+        "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/public-shapes.d.ts",
+        "bytes": 364,
+        "sha256": "4ecde9ac119ea9b9e153dc8af98777f3f1e21ac9de0785a861bfce7dcbfeeb6f",
+        "reads": 2,
+        "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+      },
+      {
+        "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/imports.json",
+        "bytes": 546,
+        "sha256": "da7c0d3dc31c6fa9c1a1bef4b13978a1244047f5b4607312f85405df34ba8f76",
+        "reads": 2,
+        "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+      },
+      {
+        "path": "/tmp/knorvia-core-error-telemetry-20261003/anomaly/input/output-data.json",
+        "bytes": 1258,
+        "sha256": "28de24b04f8f7170e1d968810f5a83eeaa34a1c50afef8aea4d6b7983f94321c",
+        "reads": 2,
+        "exposure": "Full UTF-8 contents in initial allowed read; second read for binding only."
+      }
+    ],
+    "ownOutputs": "Source written from the code shown in authoring tool call; subsequent permitted read of source and record for freeze receipt.",
+    "otherFilesystemReads": [],
+    "repositoryHistoryTestsReviewsPredecessorDependencyBodiesOtherAuthors": "Not read or exposed in this scoped turn. Frozen declaration files and retained contract prose were the only source evidence.",
+    "network": "No network calls.",
+    "toolMetadata": "Read instructions and tool definitions supplied in conversation; shell/Python authoring and hashing tools used without repository inspection."
+  },
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "forkTurns": "none",
+    "allocationEvidence": "Explicit parent task allocation; no provider introspection performed.",
+    "tierRequested": "Fast",
+    "tierQualification": "Fast requested; no distinct service-tier control exposed to this author. Actual provider tier not independently verified."
+  },
+  "freeze": {
+    "utc": "2026-10-02T20:07:13.510977Z",
+    "method": "chmod 0444 source and author record before curator review; permissions checked through own-output stat.",
+    "scopeControls": "Read/write scope enforced by instructions, not an OS isolation or access-audit claim.",
+    "originalReceiptsPreserved": true
+  },
+  "retainedExpression": [
+    "Four public function signatures, three private referenced interfaces, and the exact type-only import mapping.",
+    "Native stable JSON formatting, signature protocol, default constants, observation key order, state fields, and exact reminder prose from frozen contract.",
+    "Ordinary map/join/sort/for-of, JSON.stringify, optional chaining, nullish coalescing, and in-place counter idioms. No novelty claim for retained expression."
+  ],
+  "discretionaryDesign": [
+    "Keep all complete implementation and two private helpers in the one source file.",
+    "Use a signature helper so name and input argument reads precede JSON.stringify(name).",
+    "Use named local threshold, maxWarnings, observations, and previousToolCallCount; preserve specified evaluation and write order."
+  ],
+  "verification": {
+    "performed": "Manual comparison against six frozen contracts during authoring; source length/hash/permissions receipt only.",
+    "notRun": [
+      "compiler",
+      "tests",
+      "build",
+      "lint",
+      "mocks"
+    ],
+    "limits": "No behavioral execution or external source comparison under the delegated scope."
+  },
+  "authorityAndState": "Only caller-owned existing shared warning-counter/signature/streak fields mutate. No tool/provider execution, permission grant, persistence, logging, I/O, state cache, new hard loop limit, conversation, or streaming-ledger behavior introduced in source.",
+  "breaches": [],
+  "questions": [],
+  "blockers": []
+}

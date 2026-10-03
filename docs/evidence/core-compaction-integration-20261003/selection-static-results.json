@@ -1,0 +1,350 @@
+{
+  "kind": "Static declaration/import/frozen-byte compatibility; no project body typecheck/runtime acceptance",
+  "typescript": "6.0.2",
+  "scope": "selection",
+  "baseline": "ec9dc9603b659e504c67511c73cd4191525d7f02",
+  "target": "apps/cli/packages/core/src/runtime/helpers/compact-selection.ts",
+  "draftPath": "docs/evidence/core-compaction-author-packet-20261003/selection/v2/draft-compact-selection.ts.txt",
+  "predecessor": {
+    "bytes": 13898,
+    "sha256": "6d470cb1a6a97ce42a6c8c462115a9de93841a67f42a4cdb2c1e52b74a1d49dc"
+  },
+  "candidate": {
+    "bytes": 11784,
+    "sha256": "c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36"
+  },
+  "installed": {
+    "bytes": 11784,
+    "sha256": "c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36"
+  },
+  "lines": 315,
+  "exportedDeclarationStructureEqual": true,
+  "declarationComparison": "Sorted declared public surface plus referenced private declaration shapes; runtime aliases free",
+  "declarationStructureSha256": {
+    "predecessor": "d79aa317c8d95378529c4a24c65d0a6ad038a0a7a670b9dcfb67b8f0db96dbcf",
+    "candidate": "d79aa317c8d95378529c4a24c65d0a6ad038a0a7a670b9dcfb67b8f0db96dbcf"
+  },
+  "runtimeBindingsEqual": true,
+  "runtimeBindings": {
+    "predecessor": [
+      "apps/cli/packages/core/src/agent/message-history.js#cloneRuntimeMessageEntry",
+      "apps/cli/packages/core/src/agent/message-history.js#isRuntimeAttachmentEntry",
+      "apps/cli/packages/core/src/compact/rounds.js#groupByAssistantStartedRounds",
+      "apps/cli/packages/core/src/runtime/deps.js#COMPACT_PROMPT_TOO_LONG_RETRY_MARKER",
+      "apps/cli/packages/core/src/runtime/deps.js#CompactTrigger",
+      "apps/cli/packages/core/src/runtime/deps.js#MAX_COMPACT_PROMPT_TOO_LONG_RETRIES",
+      "apps/cli/packages/core/src/runtime/deps.js#countContextPrefixMessages",
+      "apps/cli/packages/core/src/runtime/deps.js#estimateMessageTokens",
+      "apps/cli/packages/core/src/runtime/deps.js#modelMessageContentToText",
+      "apps/cli/packages/core/src/runtime/deps.js#traceContextToLogContext",
+      "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.js#buildProviderRequestMessages"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/agent/message-history.js#cloneRuntimeMessageEntry",
+      "apps/cli/packages/core/src/agent/message-history.js#isRuntimeAttachmentEntry",
+      "apps/cli/packages/core/src/compact/rounds.js#groupByAssistantStartedRounds",
+      "apps/cli/packages/core/src/runtime/deps.js#COMPACT_PROMPT_TOO_LONG_RETRY_MARKER",
+      "apps/cli/packages/core/src/runtime/deps.js#CompactTrigger",
+      "apps/cli/packages/core/src/runtime/deps.js#MAX_COMPACT_PROMPT_TOO_LONG_RETRIES",
+      "apps/cli/packages/core/src/runtime/deps.js#countContextPrefixMessages",
+      "apps/cli/packages/core/src/runtime/deps.js#estimateMessageTokens",
+      "apps/cli/packages/core/src/runtime/deps.js#modelMessageContentToText",
+      "apps/cli/packages/core/src/runtime/deps.js#traceContextToLogContext",
+      "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.js#buildProviderRequestMessages"
+    ]
+  },
+  "imports": [
+    {
+      "module": "../../agent/message-history.js",
+      "name": "cloneRuntimeMessageEntry",
+      "local": "cloneRuntimeMessageEntry",
+      "typeOnly": false
+    },
+    {
+      "module": "../../agent/message-history.js",
+      "name": "isRuntimeAttachmentEntry",
+      "local": "isRuntimeAttachmentEntry",
+      "typeOnly": false
+    },
+    {
+      "module": "../../agent/message-history.js",
+      "name": "RuntimeMessageEntry",
+      "local": "RuntimeMessageEntry",
+      "typeOnly": true
+    },
+    {
+      "module": "../../compact/rounds.js",
+      "name": "groupByAssistantStartedRounds",
+      "local": "groupByAssistantStartedRounds",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "COMPACT_PROMPT_TOO_LONG_RETRY_MARKER",
+      "local": "COMPACT_PROMPT_TOO_LONG_RETRY_MARKER",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "CompactTrigger",
+      "local": "CompactTrigger",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "countContextPrefixMessages",
+      "local": "countContextPrefixMessages",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "estimateMessageTokens",
+      "local": "estimateMessageTokens",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "MAX_COMPACT_PROMPT_TOO_LONG_RETRIES",
+      "local": "MAX_COMPACT_PROMPT_TOO_LONG_RETRIES",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "modelMessageContentToText",
+      "local": "modelMessageContentToText",
+      "typeOnly": false
+    },
+    {
+      "module": "../deps.js",
+      "name": "TraceContext",
+      "local": "TraceContext",
+      "typeOnly": true
+    },
+    {
+      "module": "../deps.js",
+      "name": "traceContextToLogContext",
+      "local": "traceContextToLogContext",
+      "typeOnly": false
+    },
+    {
+      "module": "./provider-request-messages.js",
+      "name": "buildProviderRequestMessages",
+      "local": "buildProviderRequestMessages",
+      "typeOnly": false
+    }
+  ],
+  "relativeDependenciesExist": true,
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidate": []
+  },
+  "installedByteIdenticalToDraft": true,
+  "matchesFrozenReceipt": true,
+  "inputBindings": [
+    {
+      "path": "inputs/contract.md",
+      "bytes": 11996,
+      "sha256": "0eb3c5d92572ea60c9ce0d558884463a9f8895641623da991a299aad4b23b081",
+      "lines": 59,
+      "actual": {
+        "bytes": 11996,
+        "sha256": "0eb3c5d92572ea60c9ce0d558884463a9f8895641623da991a299aad4b23b081"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/public-api.d.ts",
+      "bytes": 1915,
+      "sha256": "b228e77d108780e25f40adaa863eb2130e9316a1da5adf2147299bcafbf83739",
+      "lines": 44,
+      "actual": {
+        "bytes": 1915,
+        "sha256": "b228e77d108780e25f40adaa863eb2130e9316a1da5adf2147299bcafbf83739"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/dependency-api.d.ts",
+      "bytes": 2294,
+      "sha256": "7e8bd9eee9d48a74921b0d59e06a3b393b7711e4ed4e904afc30776ef810dfdf",
+      "lines": 35,
+      "actual": {
+        "bytes": 2294,
+        "sha256": "7e8bd9eee9d48a74921b0d59e06a3b393b7711e4ed4e904afc30776ef810dfdf"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/public-data-shapes.md",
+      "bytes": 4743,
+      "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164",
+      "lines": 52,
+      "actual": {
+        "bytes": 4743,
+        "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/capture-gates-clarification.md",
+      "bytes": 2084,
+      "sha256": "60f40ab1d3c9f585bc272f2e1b94115a2423ebca47dcac0644497b57d1eda34e",
+      "lines": 10,
+      "actual": {
+        "bytes": 2084,
+        "sha256": "60f40ab1d3c9f585bc272f2e1b94115a2423ebca47dcac0644497b57d1eda34e"
+      },
+      "matchesReceipt": true
+    }
+  ],
+  "archiveBindings": [
+    {
+      "file": "draft-compact-selection.ts.txt",
+      "bytes": 11784,
+      "sha256": "c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36",
+      "actual": {
+        "bytes": 11784,
+        "sha256": "c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36"
+      },
+      "matchesArchive": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 8690,
+      "sha256": "9c985d4395de306d333f48f69f99a0fb6669f2cd59122c8f9a6b067e7ac5b7fa",
+      "actual": {
+        "bytes": 8690,
+        "sha256": "9c985d4395de306d333f48f69f99a0fb6669f2cd59122c8f9a6b067e7ac5b7fa"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalBindings": [
+    {
+      "file": "draft-compact-selection.ts.txt",
+      "bytes": 11527,
+      "sha256": "d3767a77c30cefa6c53799525c3dd7cc80bc9face488531e4fe878efdaf4a0be",
+      "actual": {
+        "bytes": 11527,
+        "sha256": "d3767a77c30cefa6c53799525c3dd7cc80bc9face488531e4fe878efdaf4a0be"
+      },
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 4952,
+      "sha256": "58d3856aef1454963e40472e7bf3c0088260620b10901ac0715f30bf128198d4",
+      "actual": {
+        "bytes": 4952,
+        "sha256": "58d3856aef1454963e40472e7bf3c0088260620b10901ac0715f30bf128198d4"
+      },
+      "unchanged": true
+    }
+  ],
+  "untouchedBoundaries": [
+    {
+      "path": "apps/cli/packages/core/src/compact/manual.ts",
+      "bytes": 5976,
+      "sha256": "e544b902f3ab732ef734d2733d820e2d5d18aec45478697e6ca00b45197ae3da",
+      "actual": {
+        "bytes": 5976,
+        "sha256": "e544b902f3ab732ef734d2733d820e2d5d18aec45478697e6ca00b45197ae3da"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/rounds.ts",
+      "bytes": 874,
+      "sha256": "3728026601cd2ed977f0b3d2becc2728393ec32a026d4b95808ce43e998d4625",
+      "actual": {
+        "bytes": 874,
+        "sha256": "3728026601cd2ed977f0b3d2becc2728393ec32a026d4b95808ce43e998d4625"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 16116,
+      "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1",
+      "actual": {
+        "bytes": 16116,
+        "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 11797,
+      "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d",
+      "actual": {
+        "bytes": 11797,
+        "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact.ts",
+      "bytes": 5562,
+      "sha256": "626c52b87f086b41e076176111b4bb6d5d1ae4a7c4ebb698bc4060f7f3afd991",
+      "actual": {
+        "bytes": 5562,
+        "sha256": "626c52b87f086b41e076176111b4bb6d5d1ae4a7c4ebb698bc4060f7f3afd991"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+      "bytes": 16397,
+      "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8",
+      "actual": {
+        "bytes": 16397,
+        "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+      "bytes": 27775,
+      "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0",
+      "actual": {
+        "bytes": 27775,
+        "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "bytes": 10662,
+      "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc",
+      "actual": {
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/definition.ts",
+      "bytes": 4621,
+      "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52",
+      "actual": {
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+      },
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "runtimeTestsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

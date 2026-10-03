@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-02T13:49:01.057759+00:00",
+  "reviewedFreeze": "e35f42b14ab62405d7ac4637cfd85535c974584c",
+  "behaviorCheckpoint": "39cc7b5fa60c7337a4b1139e8bab8cc0d6a079ec",
+  "publisherCommit": "872ad960de7ec172591f7e1952f7849229f94521b",
+  "publisherPath": "apps/zcode-cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+  "inputs": {
+    "draft": {
+      "bytes": 11700,
+      "sha256": "23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703",
+      "gitBlob": "dab88997182fd7676d650856a1296f096a8f6211"
+    },
+    "publisher": {
+      "bytes": 13367,
+      "sha256": "3ccdf67a46bd88524debc3094d3a8455a74c8c16d64d5c787a043c0460594b24",
+      "gitBlob": "bdcd8ba5e2abdc95cbe52c5a9280ec51079ab7f0"
+    },
+    "correctedPlanner": {
+      "bytes": 12942,
+      "sha256": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+      "gitBlob": "3d32f332462b3aac0a3037161c19340e2b6928fd"
+    },
+    "correctedAdmission": {
+      "bytes": 3196,
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+      "gitBlob": "b07568195bc3300c59e1843c5a95bedd5451e372"
+    },
+    "localPublisherEquivalentPredecessor": {
+      "bytes": 13369,
+      "sha256": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+      "gitBlob": "6edf29007ce2fd738365e7ba7ca80809d3c8f9b9"
+    }
+  },
+  "frozenFilesUnchanged": [
+    "docs/evidence/collection-planner-author-packet-20261002/author-invocation.txt",
+    "docs/evidence/collection-planner-author-packet-20261002/author-record.json",
+    "docs/evidence/collection-planner-author-packet-20261002/contract.md",
+    "docs/evidence/collection-planner-author-packet-20261002/curator-draft-manifest.json",
+    "docs/evidence/collection-planner-author-packet-20261002/curator-input-manifest.json",
+    "docs/evidence/collection-planner-author-packet-20261002/draft-collection-planner.ts.txt",
+    "docs/evidence/collection-planner-author-packet-20261002/public-api.d.ts",
+    "docs/evidence/collection-planner-author-packet-20261002/public-data-shapes.md"
+  ],
+  "localPredecessorEqualsPublisherAfterPackageRename": true,
+  "apiDeclarationChecks": [
+    {
+      "import": "WorkflowCollectionPlannerRuntime",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts"
+    },
+    {
+      "import": "emitExpansionEvents",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts"
+    },
+    {
+      "import": "exhaustCollection",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts"
+    },
+    {
+      "import": "addArtifact",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "collectionFrontier",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "collectionNodeIdsForGraph",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "compactWorkflowPayload",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "graphCollections",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "isCollectionInPhase",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "nodeById",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "normalizeCollection",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "updateGraphCollection",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "upsertActivity",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts"
+    },
+    {
+      "import": "applyPlannerExpansion",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts"
+    },
+    {
+      "import": "buildDefaultPlannerPrompt",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts"
+    },
+    {
+      "import": "safeArtifactName",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts"
+    },
+    {
+      "import": "SchedulerCollection",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/types.ts"
+    },
+    {
+      "import": "WorkflowGraphSchedulerChildSessionStartedEvent",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/types.ts"
+    },
+    {
+      "import": "WorkflowGraphSchedulerRunOptions",
+      "declarationPath": "apps/cli/packages/core/src/workflow/scheduler/types.ts"
+    },
+    {
+      "import": "WorkflowActivitySnapshot",
+      "declarationPath": "apps/cli/packages/contracts/src/workflow/index.ts"
+    },
+    {
+      "import": "WorkflowRunSnapshot",
+      "declarationPath": "apps/cli/packages/contracts/src/workflow/index.ts"
+    },
+    {
+      "import": "createChildTraceContext",
+      "declarationPath": "apps/cli/packages/contracts/src/tracing/tracer.ts"
+    }
+  ],
+  "apiSourceBindings": {
+    "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts": {
+      "bytes": 434,
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d",
+      "gitBlob": "22acd336e7a4a3eee34419a7944d3f684a9ee326"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts": {
+      "bytes": 2458,
+      "sha256": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+      "gitBlob": "ef4602ed2eec39c4adb315540896d4ce814ba9e0"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": {
+      "bytes": 7567,
+      "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+      "gitBlob": "1643bfe00161095552a1accd2f963bf810e36b5a"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": {
+      "bytes": 5543,
+      "sha256": "7344f1884044f6ca8a6106bee0db8ee57169826a8c7588d4d28676a1e6272e8c",
+      "gitBlob": "7547271ee1a146e7ed2c6d8d8fd4840443c85dc4"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/prompts.ts": {
+      "bytes": 2932,
+      "sha256": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+      "gitBlob": "341cf0e7dc87b0f12fc49714acd5144591fe8102"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/types.ts": {
+      "bytes": 4401,
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106",
+      "gitBlob": "fee70a2c4712eb52b4a5c032f327483bac721f29"
+    },
+    "apps/cli/packages/contracts/src/workflow/index.ts": {
+      "bytes": 28035,
+      "sha256": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62",
+      "gitBlob": "19014a9700639cd4ad75ecbc62be2dd294fca781"
+    },
+    "apps/cli/packages/contracts/src/tracing/tracer.ts": {
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "gitBlob": "524ba995069e046fb0871bf18237a468f2023b66"
+    },
+    "apps/cli/packages/contracts/src/index.ts": {
+      "bytes": 3284,
+      "sha256": "3d9972674e770c92a16beaf414be53412f6f1ca10fe059b2f193041a2005bf27",
+      "gitBlob": "4e73c6169567e3ae307bc4b10ff8c5f121b42d7c"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler.ts": {
+      "bytes": 7810,
+      "sha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
+      "gitBlob": "f1ff066e5f431ef682d794264fa628f022300d0a"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/events.ts": {
+      "bytes": 3771,
+      "sha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+      "gitBlob": "90776ca16e1704c6c01ef4fdcb7db1ab52c8821e"
+    }
+  },
+  "boundedCorrespondenceChecks": [
+    {
+      "label": "linked activity fields",
+      "draftLines": [
+        169,
+        173
+      ],
+      "publisherLines": [
+        215,
+        219
+      ],
+      "publisherSubstitutions": [
+        [
+          "currentActivity",
+          "previous"
+        ]
+      ],
+      "whitespaceRemoved": true,
+      "equal": true,
+      "interpretation": "Packet-prescribed ordered fields, not an authorship score. phase normalization masks the separately reported live-read semantic difference."
+    },
+    {
+      "label": "completed activity fields",
+      "draftLines": [
+        225,
+        238
+      ],
+      "publisherLines": [
+        273,
+        286
+      ],
+      "publisherSubstitutions": [
+        [
+          "phase: options.phase,",
+          "phase,"
+        ],
+        [
+          "plannerResult",
+          "result"
+        ],
+        [
+          "traceContext",
+          "childTrace"
+        ]
+      ],
+      "whitespaceRemoved": true,
+      "equal": true,
+      "interpretation": "Packet-prescribed ordered fields, not an authorship score. phase normalization masks the separately reported live-read semantic difference."
+    },
+    {
+      "label": "failed collection fields",
+      "draftLines": [
+        263,
+        266
+      ],
+      "publisherLines": [
+        329,
+        332
+      ],
+      "publisherSubstitutions": [],
+      "whitespaceRemoved": true,
+      "equal": true,
+      "interpretation": "Packet-prescribed ordered fields, not an authorship score. phase normalization masks the separately reported live-read semantic difference."
+    },
+    {
+      "label": "failed activity fields",
+      "draftLines": [
+        272,
+        285
+      ],
+      "publisherLines": [
+        342,
+        355
+      ],
+      "publisherSubstitutions": [
+        [
+          "phase: options.phase,",
+          "phase,"
+        ],
+        [
+          "errorMessage",
+          "message"
+        ],
+        [
+          "currentActivity",
+          "linked"
+        ],
+        [
+          "traceContext",
+          "childTrace"
+        ]
+      ],
+      "whitespaceRemoved": true,
+      "equal": true,
+      "interpretation": "Packet-prescribed ordered fields, not an authorship score. phase normalization masks the separately reported live-read semantic difference."
+    }
+  ],
+  "limitations": [
+    "Declaration presence and manual call-shape review are not compilation.",
+    "Source-exposed curator; author read restrictions and reported reads are not filesystem isolation.",
+    "No publisher network fetch or retry; reused exact retained bytes.",
+    "No author continuation or source/test/review delivery to author.",
+    "No draft edits, runtime tests, compiler run or production change."
+  ]
+}

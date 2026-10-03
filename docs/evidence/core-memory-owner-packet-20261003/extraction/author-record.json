@@ -1,0 +1,158 @@
+{
+  "record_kind": "restricted_complete_independent_author_record",
+  "owner": "extraction",
+  "author_task": "/root/memory_owner_extraction_complete_20261003",
+  "sealed_at_utc": "2026-10-02 21:52:34 UTC",
+  "clock_qualification": "Last clock observation before the final write/chmod operation; not an independently audited seal timestamp.",
+  "model": {
+    "requested": "GPT-6.1 Sol",
+    "requested_reasoning_effort": "high",
+    "authorization": "User/parent authorization stated in delegation.",
+    "actual_model_and_effort_verification": "No independent runtime or serving-tier proof available in this task.",
+    "saved_fast_setting": "Unchanged by this author; actual saved setting remains unverified."
+  },
+  "read_accounting": {
+    "scope": "Every explicit task file-content read made by this author turn, in sequence. Shared executor is instruction-restricted; underlying interpreter/platform file access is not OS audited.",
+    "events": [
+      {
+        "sequence": 1,
+        "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/extraction/contract.md",
+        "bytes": 5079,
+        "sha256": "0d1ee708106aaee926a632ec4109ea112549204d99d6fe9eedd0557f8d88c9ab",
+        "extent": "full file",
+        "purpose": "frozen public authoring input"
+      },
+      {
+        "sequence": 2,
+        "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/extraction/public-api.d.ts",
+        "bytes": 1333,
+        "sha256": "ea57e8f4289902ffe6d6a8dfdec4fbc0c16c050994e07e499230665b667aeabd",
+        "extent": "full file",
+        "purpose": "frozen public authoring input"
+      },
+      {
+        "sequence": 3,
+        "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/extraction/dependency-api.d.ts",
+        "bytes": 635,
+        "sha256": "7ad21db3a6d22deedd53676c04d0b2625b47de470cdc4507aeba49bde6a7b073",
+        "extent": "full file",
+        "purpose": "frozen public authoring input"
+      },
+      {
+        "sequence": 4,
+        "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/extraction/public-shapes.d.ts",
+        "bytes": 12474,
+        "sha256": "dd570cdcb807f2f8beffa160c6565e6b1ad578048330143e550cb94080959e82",
+        "extent": "full file",
+        "purpose": "frozen public authoring input"
+      },
+      {
+        "sequence": 5,
+        "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/extraction/imports.json",
+        "bytes": 387,
+        "sha256": "304d39a871034ef03c076c4faf434e72bcf830d414d7dd816505795a18a8b4fd",
+        "extent": "full file",
+        "purpose": "frozen public authoring input"
+      },
+      {
+        "sequence": 6,
+        "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/extraction/output-data.json",
+        "bytes": 2640,
+        "sha256": "a1c43694eee4d6ed24567cd599e2b12e0ec8537710f2ef8547262915bf5459b7",
+        "extent": "full file",
+        "purpose": "frozen public authoring input"
+      },
+      {
+        "sequence": 7,
+        "path": "/tmp/knorvia-memory-owners-20261003/extraction/extraction.ts",
+        "bytes": 8188,
+        "sha256": "ebed7f4bd6ce08a531bdb82561a339df7b47291aab4c71209e90cd7d5c53c838",
+        "extent": "full file",
+        "purpose": "manual review of initial authored source"
+      },
+      {
+        "sequence": 8,
+        "path": "/tmp/knorvia-memory-owners-20261003/extraction/extraction.ts",
+        "bytes": 8188,
+        "sha256": "ebed7f4bd6ce08a531bdb82561a339df7b47291aab4c71209e90cd7d5c53c838",
+        "extent": "full file",
+        "purpose": "author-only revision to protect latest scheduling under reentrant thenable acquisition"
+      },
+      {
+        "sequence": 9,
+        "path": "/tmp/knorvia-memory-owners-20261003/extraction/extraction.ts",
+        "bytes": 8265,
+        "sha256": "7c4ae83f19d893a00dbca51c0b97960ccbc9c438a816191115b59189ab0b4e77",
+        "extent": "full file",
+        "purpose": "final source byte/hash/line verification before freezing"
+      }
+    ],
+    "receipt_file_reads": 0,
+    "receipt_hash_qualification": "The receipt hash reported externally is computed over its exact in-memory bytes before its sole write; the receipt is not reread, avoiding a self-referential receipt hash."
+  },
+  "source_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/extraction/extraction.ts",
+    "bytes": 8265,
+    "sha256": "7c4ae83f19d893a00dbca51c0b97960ccbc9c438a816191115b59189ab0b4e77",
+    "lines": 220,
+    "line_limit": "less than 400",
+    "encoding": "UTF-8",
+    "complete_source": true
+  },
+  "receipt_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/extraction/author-record.json",
+    "encoding": "UTF-8",
+    "write_count": 1
+  },
+  "operations": [
+    "One exec_command Python script read all six frozen inputs in full, hashed their bytes, and printed their full text.",
+    "Four clock.curr_time read-only observations: 2026-10-02 21:50:47, 21:52:06, 21:52:22, and 21:52:34 UTC.",
+    "One collaboration.send_message progress update to parent /root; no delegation or subagent creation.",
+    "One exec_command Python script created the assigned output directory if needed, wrote extraction.ts, read that own output in full, hashed/count its bytes/lines, and printed it for manual review.",
+    "One exec_command Python script read only own extraction.ts, revised the authored scheduling counter logic, wrote the same path, and printed/hash/counted the new in-memory bytes for manual review.",
+    "This final exec_command Python script reads only own final extraction.ts for hash/line accounting, writes only author-record.json, chmods both files to 0444, and chmods the own output directory to 0555.",
+    "Manual contract/public-shape/import/prose and control-flow review from the six full inputs and authored source; no candidate execution."
+  ],
+  "write_accounting": {
+    "file_paths": [
+      "/tmp/knorvia-memory-owners-20261003/extraction/extraction.ts",
+      "/tmp/knorvia-memory-owners-20261003/extraction/author-record.json"
+    ],
+    "source_write_count": 2,
+    "other_scratch_or_accounting_files": [],
+    "directory_writes": [
+      "Create assigned output directory and parents if absent; chmod assigned output directory 0555."
+    ]
+  },
+  "retained_data_and_idioms": [
+    "Required public exported interfaces, functions, generic constraints, execution status and execution input API shapes.",
+    "Exact import module/name/type-only sets, including the ToolPart type import.",
+    "All externally required output-data prompt strings/template segments, em dashes, apostrophe spelling, blank paragraphs, terminal structure, existing-file block placement and /\\s+/u regex.",
+    "Required protocol/property/role/tool/status literals: user, assistant, tool, text, Write, Edit, model-only, success, no-op, error, aborted, file_path and input field ordering.",
+    "Ordinary TypeScript/JavaScript idioms: local closures, loops, discriminant narrowing, Promise.resolve fulfillment/rejection handlers, async/await, try/catch/finally, deferred completion, AbortController and abort listener removal."
+  ],
+  "manual_review": {
+    "prompt": "Nonempty manifest formatting uses the original reference once; empty manifests omit formatting; required paragraphs and existing-file block retained.",
+    "scheduler": "Factory-local cursor/controller, one active run, latest pending coalescing, immediate acquisition error handling, shutdown-responsive unresolved acquisition, listener cleanup, per-operation error swallowing and continuous drain completion.",
+    "decisions": "First matching truthy cursor suffix; missing cursor direct-write scan empty but count/prose scan all; assistant Write/Edit input inspected regardless status; nonempty strings delegated without extra restrictions; exact true flag exclusion and per-part three-word eligibility.",
+    "execution": "Original snapshot identity, ordered input fields, truthy boundary captured synchronously before execute, successful/no-op cursor advance only before shutdown; already started execution is awaited without cancellation racing.",
+    "verification_level": "Manual reasoning and file byte/hash/line accounting only. No compilation, linting, builds, tests, mocks, dependency implementation reads, installations or runtime behavioral checks."
+  },
+  "known_exposures_breaches_and_limits": [
+    "Curator is source-exposed, as declared by the contract/parent. This author does not attest clean separation from the curator.",
+    "The shared executor restrictions are instruction-only; no OS isolation or access audit was performed or asserted.",
+    "The parent/contract disclose prior broader source/tool/dependency context and an earlier scratch-write breach that was repaired. Those qualifications remain material; their exact earlier scope and repair were not independently investigated in this restricted turn.",
+    "No additional forbidden repository/history/test/AGENTS/other-draft/dependency-implementation reads, actual memory/user data/credential accesses, network/provider/business-port calls, or extra scratch file writes were knowingly performed by this author turn.",
+    "Frozen inputs are source-derived public evidence and required data; original API, prose, regex and ordinary idioms are intentionally retained. No claim of novelty, clean-room separation, licence clearance, provenance grant or global licensing determination is made.",
+    "No actual model, reasoning effort, saved Fast setting or serving tier was independently verified.",
+    "Public type closure is incomplete for standalone compilation by design; dependency implementations remain opaque. Candidate correctness is reasoned from the supplied contract, without empirical validation.",
+    "Modes 0444/0555 are requested filesystem permissions, not an immutable or security-enforced seal against the shared executor or curator."
+  ],
+  "freeze": {
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "directory_mode": "0555",
+    "performed_after_complete_content_write": true
+  },
+  "remaining_blockers": []
+}

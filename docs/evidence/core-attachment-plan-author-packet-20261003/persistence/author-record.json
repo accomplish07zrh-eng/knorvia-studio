@@ -1,0 +1,135 @@
+{
+  "scope": "tool-result-media-persistence.ts",
+  "originalOwnerPath": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+  "freezeReference": "f337904a",
+  "assignment": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "fork": "none",
+    "fastRequested": true,
+    "fastQualifier": "Fast requested; no separate service-tier control was exposed. No claim that Fast was independently set or verified."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/input/contract.md",
+      "bytes": 4814,
+      "sha256": "bdae62a061b0b0ec289bb058d4f2f67e08322adbf66e07a5e32a9c5bea79d358",
+      "lines": 13
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/input/public-api.d.ts",
+      "bytes": 822,
+      "sha256": "41c082eec2c1e05a7b0b11ffb9bb5cfb145908a0cba3a1c090e4488e786df495",
+      "lines": 25
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/input/dependency-api.d.ts",
+      "bytes": 438,
+      "sha256": "c8d31e603d37fb1757d10710028478ce27dcd59b543556665e2465a37af7a265",
+      "lines": 6
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/input/public-shapes.d.ts",
+      "bytes": 5949,
+      "sha256": "0d26c861a9f737f62eda83e936094215b84b02a06e1cf00111c3a39f6df7c7cc",
+      "lines": 214
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/input/imports.json",
+      "bytes": 1001,
+      "sha256": "c0b3800ed48f604bbd9c42e1000fd3f5e18056e31efd112518f2368f5ca72cf7",
+      "lines": 25
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/input/output-data.json",
+      "bytes": 1007,
+      "sha256": "286b9cf57d0158d2d393870f993846fe0da2171500742ec6a0c275057b96e578",
+      "lines": 49
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/output/tool-result-media-persistence.ts",
+      "bytes": 4073,
+      "sha256": "58772c0f67eaf9ab8344d75e28a1d0093d6386e73b4ee6b5d5479056786c0676",
+      "lines": 158
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/persistence/output/author-record.json",
+      "accounting": "Receipt bytes, SHA256 and lines are calculated after final serialization and supplied in the final handoff; no recursive self digest is embedded."
+    }
+  ],
+  "exactPathsRead": [
+    "/tmp/knorvia-attachment-plan-20261003/persistence/input/contract.md",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/input/public-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/input/dependency-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/input/public-shapes.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/input/imports.json",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/input/output-data.json",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/output/tool-result-media-persistence.ts",
+    "/tmp/knorvia-attachment-plan-20261003/persistence/output/author-record.json"
+  ],
+  "readPurposes": {
+    "inputs": "Only the six assigned frozen body-free task-content files were read for implementation and input accounting.",
+    "source": "Own authored source was read for byte, SHA256 and line accounting.",
+    "receipt": "Own receipt is read after serialization for final handoff accounting."
+  },
+  "retainedExpression": {
+    "declaration": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+    "details": [
+      "The four prescribed imports retain their runtime and type ownership.",
+      "Public function input/result layout and PersistedToolMediaLayoutEntry union are retained.",
+      "Array.isArray, live for-of iteration, original media block references, text strings, data URLs, and case-sensitive data: admission are retained.",
+      "The exact missing-store error, text/plain content type, session retention, media toolCallId format, request fields, signal option and object key order are retained.",
+      "Existing artifact URI admission remains delegated to isArtifactUri; nullish write skipping and direct receiver-preserving awaited store call are retained.",
+      "Per-media createPartId call placement, FilePart and metadata key order, optional-field truthiness, undefined size handling and rereads are retained.",
+      "Ordinary JavaScript/TypeScript control-flow idioms and schema literals are required expression; no cosmetic novelty or independent-authority claim is made."
+    ]
+  },
+  "chosenStructure": {
+    "description": "A private admission projector builds the media/layout pair, followed by a public presence-gated sequential artifact and FilePart assembly loop.",
+    "privateTypes": [
+      "MediaBlock",
+      "MediaProjection"
+    ],
+    "privateFunctions": [
+      "projectMediaContent"
+    ],
+    "rationale": "Keep admission complete before any store/id effect; keep live per-media reads and collaborator calls visible in their required order.",
+    "dataUrlNonNullAssertion": "A type-only assertion permits the optional file dataUrl declaration at the admitted write boundary. It performs no runtime validation or caching and preserves the live property read."
+  },
+  "manualReview": {
+    "basis": "Only the six provided frozen inputs and the authored output; no source-exposed predecessor or dependency bodies.",
+    "coverage": [
+      "sessionStore is checked first and never invoked or written.",
+      "Only nonempty native Arrays are projected; sparse undefined entries still throw at block.type.",
+      "Unsupported or non-data media invalidate the entire projection; text-only content returns undefined.",
+      "No store or id operations precede full admission; the artifact store is required even for existing artifact URIs.",
+      "Existing URI source kind and session ownership are not additionally restricted.",
+      "Entries are handled sequentially; write rejection propagates unchanged and prior writes are not rolled back.",
+      "The store method retains its receiver and request/options evaluation reads.",
+      "FilePart and metadata are constructed in required key/call order with conditional optional own properties.",
+      "Canonical input blocks and content are never mutated; the layout preserves original text.",
+      "No validator, data decoder, hashing, synthetic URI, global cache, provider call, session transaction, row commit, new permission or authority is introduced."
+    ],
+    "verificationLimit": "Manual source reasoning only; no compiler, tests, build, lint, mocks, provider/store calls, OS/user-data execution, repository/history/review exploration or network access."
+  },
+  "accessBoundary": {
+    "enforcement": "Instruction-only shared executor; not OS isolation and not an access audit.",
+    "curator": "Source-exposed curator supplied the frozen requirements; cooperative freeze occurs before curator body review.",
+    "repositorySourceEdits": false,
+    "dependencyImplementationAccess": false,
+    "externalNetworkAccess": false,
+    "execution": "Shell and Python were used only for scoped input reads, output writing, hashes, line/byte accounting and permission mode accounting."
+  },
+  "breaches": [],
+  "questions": [],
+  "remainingBlockers": [],
+  "freezeUTC": "2026-10-02T20:24:13.518208Z",
+  "freezeModes": {
+    "source": "0444",
+    "receipt": "0444",
+    "outputDirectory": "0555"
+  },
+  "freezeSemantics": "Recorded UTC marks initiation of the final cooperative chmod operation after receipt serialization; final handoff verifies the modes."
+}

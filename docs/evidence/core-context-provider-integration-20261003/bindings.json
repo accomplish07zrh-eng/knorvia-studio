@@ -1,0 +1,93 @@
+{
+  "recordedAtUtc": "2026-10-02T19:35:24.313745+00:00",
+  "preIntegrationHead": "117a1eaf459dbc2f526d44635fa5d154537106bd",
+  "installed": [
+    {
+      "path": "apps/cli/packages/core/src/context/builder.ts",
+      "bytes": 9031,
+      "lines": 276,
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "scope": "builder",
+      "version": "v1",
+      "staticResult": "builder-static-results.json",
+      "archivedOutput": "draft-builder.ts.txt",
+      "matchesFrozenOutput": true,
+      "sourceBaseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "bytes": 2917,
+      "lines": 96,
+      "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d",
+      "scope": "request",
+      "version": "v2",
+      "staticResult": "request-static-results.json",
+      "archivedOutput": "draft-request-user-context.ts.txt",
+      "matchesFrozenOutput": true,
+      "sourceBaseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history-usage.ts",
+      "bytes": 2396,
+      "lines": 76,
+      "sha256": "9fac6296a442e429b67ec714b3a328bb809add2da7bd842e615fc3e07ee409f1",
+      "scope": "usage",
+      "version": "v1",
+      "staticResult": "usage-static-results.json",
+      "archivedOutput": "draft-message-history-usage.ts.txt",
+      "matchesFrozenOutput": true,
+      "sourceBaseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "bytes": 3130,
+      "lines": 106,
+      "sha256": "7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7",
+      "scope": "origins",
+      "version": "v1",
+      "staticResult": "origins-static-results.json",
+      "archivedOutput": "draft-provider-entry-origins.ts.txt",
+      "matchesFrozenOutput": true,
+      "sourceBaseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "bytes": 5968,
+      "lines": 210,
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "scope": "mid-system",
+      "version": "v2",
+      "staticResult": "mid-system-static-results.json",
+      "archivedOutput": "draft-provider-mid-conversation-system.ts.txt",
+      "matchesFrozenOutput": true,
+      "sourceBaseline": "35f3d7c1828f5518f2b93036d9bf4f32652a8ad5"
+    }
+  ],
+  "totalInstalledLines": 764,
+  "baselineTotalLines": 885,
+  "helpersAdded": [],
+  "boundaryResultFiles": [
+    "builder-static-results.json",
+    "request-static-results.json",
+    "usage-static-results.json",
+    "origins-static-results.json",
+    "mid-system-static-results.json"
+  ],
+  "unchangedRootExclusiveSharedTargets": [
+    {
+      "path": "packages/shared/src/conversation-preview-artifacts.ts",
+      "bytes": 13598,
+      "lines": 393,
+      "sha256": "07a99057b75335835784d8cdb94ea9f0026a75e0d3f4f3dcb47a44395d9d8d40",
+      "matchesReservation": true
+    },
+    {
+      "path": "packages/shared/src/persistedMessageMerge.ts",
+      "bytes": 4465,
+      "lines": 114,
+      "sha256": "f603412a7e5a69f5e8e41e672926d1e6bc8553a7ddf97c3a5f47d294d0d3fc22",
+      "matchesReservation": true
+    }
+  ],
+  "sharedQualification": "No E implementation. Target bytes remain those reserved at 240326c9. Prior generic compiler input exposure and stable-tie qualification remain in root packet."
+}

@@ -1,0 +1,326 @@
+{
+  "record_kind": "Complete args whole-owner author full cumulative I/O receipt",
+  "scope_date": "2026-10-03",
+  "author": {
+    "task": "/root/workflow_args_complete_author_20261003",
+    "role": "Fresh whole-owner author of the complete saved-workflow args module",
+    "model_profile": "Sol/high as allocated by parent; self-reported task profile, not independent model attestation"
+  },
+  "target_repository_path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+  "scope": {
+    "authorized_input_count": 6,
+    "authorized_inputs": [
+      "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/contract.md",
+      "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-api.d.ts",
+      "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/dependency-api.d.ts",
+      "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/imports.json",
+      "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/required-data.json",
+      "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-data.json"
+    ],
+    "authorized_outputs": [
+      "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/author-record.json"
+    ],
+    "input_policy": "Only the six named frozen body-free public inputs plus own outputs; no other file-content reads in this author task.",
+    "verification_policy": "Manual source review only; no compiler, checks, tests, source execution, workflows, tools/providers, network or user-data I/O.",
+    "output_policy": "Exactly one complete source and one full receipt; no accounting/scripts files, curator patches or repository edits.",
+    "scope_extent": "Cumulative for this fresh author task only. Historical broader tasks/exposure are qualified below and are not rewritten or represented as absent."
+  },
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/contract.md",
+      "sha256": "b19f9a5ebe570d11aaed80ff4888eb1ffdaeeb93392584d3c7f427632ea44ed6",
+      "bytes": 4855,
+      "lines": 13,
+      "newline_count": 13,
+      "ends_with_newline": true,
+      "file_content_reads": 1,
+      "file_content_writes": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-api.d.ts",
+      "sha256": "bd84a9b7e798e5747117512e0a61d8d36750b7bdbad469d8c532c5e69f8841d5",
+      "bytes": 378,
+      "lines": 9,
+      "newline_count": 9,
+      "ends_with_newline": true,
+      "file_content_reads": 1,
+      "file_content_writes": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/dependency-api.d.ts",
+      "sha256": "ea4ca13a7132f2f3eb23d2b70018f61e07352da57c40bfb2a797847dd59ada1c",
+      "bytes": 281,
+      "lines": 3,
+      "newline_count": 3,
+      "ends_with_newline": true,
+      "file_content_reads": 1,
+      "file_content_writes": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/imports.json",
+      "sha256": "5dcf5df7293a509b03507fe1ea07d96e8d0cdf7ae96e75548115cef584e7b8da",
+      "bytes": 131,
+      "lines": 6,
+      "newline_count": 6,
+      "ends_with_newline": true,
+      "file_content_reads": 1,
+      "file_content_writes": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/required-data.json",
+      "sha256": "a136b424e9fa6ae6922226cd3f820c813d2a87e61cac9423c91dfdd0a36585a4",
+      "bytes": 2226,
+      "lines": 140,
+      "newline_count": 140,
+      "ends_with_newline": true,
+      "file_content_reads": 1,
+      "file_content_writes": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-data.json",
+      "sha256": "ca1fd0dde0ec4c8f66e2c89473ac86f76bfaf3efb271d65c995fdfdc176a713e",
+      "bytes": 2054,
+      "lines": 24,
+      "newline_count": 24,
+      "ends_with_newline": true,
+      "file_content_reads": 1,
+      "file_content_writes": 0
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "sha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b",
+      "bytes": 2651,
+      "lines": 98,
+      "newline_count": 98,
+      "ends_with_newline": true,
+      "mode": "0444",
+      "file_content_reads": 1,
+      "manual_source_reads": 1,
+      "file_content_writes": 1
+    },
+    {
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/author-record.json",
+      "sha256": null,
+      "sha256_location": "Detached exact SHA256 in author final response; no selfdigest embedded.",
+      "bytes": 15468,
+      "lines": 326,
+      "newline_count": 326,
+      "ends_with_newline": true,
+      "mode": "0444",
+      "file_content_reads": 0,
+      "file_content_writes": 1
+    }
+  ],
+  "ordered_events": [
+    {
+      "sequence": 1,
+      "operation": "file_content_read",
+      "purpose": "Frozen public input read for complete source authoring; full bytes hashed in memory.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/contract.md",
+      "sha256": "b19f9a5ebe570d11aaed80ff4888eb1ffdaeeb93392584d3c7f427632ea44ed6",
+      "bytes": 4855,
+      "lines": 13,
+      "newline_count": 13,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 2,
+      "operation": "file_content_read",
+      "purpose": "Frozen public input read for complete source authoring; full bytes hashed in memory.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-api.d.ts",
+      "sha256": "bd84a9b7e798e5747117512e0a61d8d36750b7bdbad469d8c532c5e69f8841d5",
+      "bytes": 378,
+      "lines": 9,
+      "newline_count": 9,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 3,
+      "operation": "file_content_read",
+      "purpose": "Frozen public input read for complete source authoring; full bytes hashed in memory.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/dependency-api.d.ts",
+      "sha256": "ea4ca13a7132f2f3eb23d2b70018f61e07352da57c40bfb2a797847dd59ada1c",
+      "bytes": 281,
+      "lines": 3,
+      "newline_count": 3,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 4,
+      "operation": "file_content_read",
+      "purpose": "Frozen public input read for complete source authoring; full bytes hashed in memory.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/imports.json",
+      "sha256": "5dcf5df7293a509b03507fe1ea07d96e8d0cdf7ae96e75548115cef584e7b8da",
+      "bytes": 131,
+      "lines": 6,
+      "newline_count": 6,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 5,
+      "operation": "file_content_read",
+      "purpose": "Frozen public input read for complete source authoring; full bytes hashed in memory.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/required-data.json",
+      "sha256": "a136b424e9fa6ae6922226cd3f820c813d2a87e61cac9423c91dfdd0a36585a4",
+      "bytes": 2226,
+      "lines": 140,
+      "newline_count": 140,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 6,
+      "operation": "file_content_read",
+      "purpose": "Frozen public input read for complete source authoring; full bytes hashed in memory.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-data.json",
+      "sha256": "ca1fd0dde0ec4c8f66e2c89473ac86f76bfaf3efb271d65c995fdfdc176a713e",
+      "bytes": 2054,
+      "lines": 24,
+      "newline_count": 24,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 7,
+      "operation": "output_directory_ensure",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args",
+      "method": "Path.mkdir(parents=True, exist_ok=True)",
+      "qualification": "Output parent provisioning only; no directory enumeration or additional file-content read."
+    },
+    {
+      "sequence": 8,
+      "operation": "file_content_write",
+      "purpose": "Single complete source write from manually authored in-memory text.",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "sha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b",
+      "bytes": 2651,
+      "lines": 98,
+      "newline_count": 98,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 9,
+      "operation": "file_content_read",
+      "purpose": "Own complete source manual review; full bytes hashed in memory; no source execution.",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "sha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b",
+      "bytes": 2651,
+      "lines": 98,
+      "newline_count": 98,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 10,
+      "operation": "permission_change",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "mode": "0444"
+    },
+    {
+      "sequence": 11,
+      "operation": "file_content_write",
+      "purpose": "Single full cumulative author receipt write from final in-memory serialization.",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/author-record.json",
+      "sha256": null,
+      "sha256_location": "Detached exact SHA256 in author final response; no selfdigest embedded.",
+      "bytes": 15468,
+      "lines": 326,
+      "newline_count": 326,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 12,
+      "operation": "permission_change",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/author-record.json",
+      "mode": "0444"
+    }
+  ],
+  "counts": {
+    "unique_input_files": 6,
+    "unique_output_files": 2,
+    "unique_file_paths_with_content_io": 8,
+    "input_file_content_reads": 6,
+    "source_file_content_reads": 1,
+    "receipt_file_content_reads": 0,
+    "file_content_reads_total": 7,
+    "source_file_content_writes": 1,
+    "receipt_file_content_writes": 1,
+    "file_content_writes_total": 2,
+    "file_content_io_events_total": 9,
+    "own_source_manual_review_reads": 1,
+    "source_rewrites": 0,
+    "receipt_rewrites": 0,
+    "output_directory_ensure_events": 1,
+    "permission_change_events": 2,
+    "ordered_events_total": 12,
+    "metadata_hash_calculations": 9,
+    "extra_created_files": 0,
+    "compiler_runs": 0,
+    "check_runs": 0,
+    "test_runs": 0,
+    "source_execution_runs": 0,
+    "network_calls": 0,
+    "repository_source_reads": 0,
+    "dependency_implementation_reads": 0,
+    "other_author_file_reads": 0,
+    "repository_edits": 0,
+    "workflow_provider_user_data_io": 0
+  },
+  "totals": {
+    "input_bytes_read": 9925,
+    "input_lines_read": 195,
+    "input_newlines_read": 195,
+    "source_bytes_read": 2651,
+    "source_lines_read": 98,
+    "source_newlines_read": 98,
+    "file_content_bytes_read_total": 12576,
+    "file_content_lines_read_total": 293,
+    "file_content_newlines_read_total": 293,
+    "source_bytes_written": 2651,
+    "source_lines_written": 98,
+    "source_newlines_written": 98,
+    "receipt_bytes_written": 15468,
+    "receipt_lines_written": 326,
+    "receipt_newlines_written": 326,
+    "file_content_bytes_written_total": 18119,
+    "file_content_lines_written_total": 424,
+    "file_content_newlines_written_total": 424,
+    "file_content_io_bytes_total": 30695,
+    "file_content_io_lines_total": 717,
+    "file_content_io_newlines_total": 717,
+    "unique_input_bytes": 9925,
+    "unique_input_lines": 195,
+    "unique_output_bytes": 18119,
+    "unique_output_lines": 424,
+    "unique_output_newlines": 424
+  },
+  "manual_review": {
+    "result": "Complete 98-line reconstruction manually reviewed against the six frozen inputs.",
+    "reviewed_behaviors": [
+      "Imported authoritative type identities and unchanged exported discriminated union/signature; type-only contract imports.",
+      "Nullish records, fresh normal args/errors, native enumeration and inherited native lookup.",
+      "Unknown names first with exact prose and raw names; no provided value read during the unknown phase.",
+      "Own entry snapshot after unknown phase; one normal supplied-value read per declared name.",
+      "Default property presence, validation and successful assignment use three separate native reads; identity preserved.",
+      "Exact required flag, string/finite-number/boolean policy, unrestricted json and unknown-type successful fallthrough.",
+      "Exact mismatch labels/value description, error ordering, ordinary assignment including __proto__, exception propagation."
+    ],
+    "limitation": "Instruction-level manual review only. No compiler/check/test/runtime evidence or claim of standalone semantic closure."
+  },
+  "qualification": {
+    "instruction_only_isolation": "Shared executor, instruction-only author scope. This is a qualified self-reported ledger, not OS-enforced access isolation, syscall tracing or an independent OS audit. Implicit interpreter/runtime/standard-library infrastructure reads are not claimed as audited; the ledger covers deliberate task file-content I/O and named output provisioning/freezing.",
+    "historical_exposure": "Historical broader author/curator source exposure and a repaired scratch breach are acknowledged as supplied task context. This fresh bounded pass does not erase that history or prove independent authorship.",
+    "retained_material": "Actual source-derived public schema expressions, type facts, constants, validation operators and error/prose strings remain honestly retained without novelty credit; no new schema, parsing, coercion, security or configuration behavior.",
+    "rights_status": "All 21 materials obligations remain OPEN. No rights, grant, license, clearance, novelty, publisher contact, agreement change or independence conclusion is asserted.",
+    "savedFast": "Unchanged and unverified; no savedFast body read or write in this author task.",
+    "curator_gate": "Curator must archive and commit BOTH the COMPLETE source and FULL receipt before source-body review, then only scoped/minimum synthetic proof; no curator source patches.",
+    "correction_policy": "Only real findings return to this same author for a COMPLETE new source and full cumulative receipt under a new exact scope/path; do not overwrite these frozen originals.",
+    "receipt_digest": "A cryptographic selfdigest cannot be embedded without changing its own bytes. The final exact SHA256 is detached. Receipt byte/line/newline counts are resolved in memory before its single write."
+  },
+  "completion": {
+    "source_complete": true,
+    "manual_review_complete": true,
+    "both_outputs_frozen_mode": "0444",
+    "remaining_author_blockers": []
+  }
+}

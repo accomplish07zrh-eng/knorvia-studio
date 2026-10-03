@@ -1,0 +1,14 @@
+[
+  {
+    "module": "../deps.js",
+    "clause": "{\n  READ_IMAGE_MAX_BASE64_BYTES,\n  READ_IMAGE_TARGET_BYTES,\n  type ImageProcessorPort,\n  type TraceContext,\n}"
+  },
+  {
+    "module": "../types.js",
+    "clause": "{ MAX_IMAGE_ATTACHMENT_DIMENSION }"
+  },
+  {
+    "module": "../types.js",
+    "clause": "type { PreparedImageData }"
+  }
+]

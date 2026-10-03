@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "78d5e2527d65885e93e72c3ff31f92e910c13d3d",
+  "publishedBaselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "scope": "Materially missing notices from pinned HarfBuzz source references; no runtime, inventories or global license decisions.",
+  "fullyClosedParentObligations": 0,
+  "newExactNoticeTexts": 4,
+  "reusedEvidence": [
+    {
+      "file": "licensing/evidence/material-closure-20261002.json",
+      "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1"
+    },
+    {
+      "file": "licensing/evidence/skia-zlib-notices-20261002.json",
+      "sha256": "c3efff4453f080eec58048363dd09264ab5d4e29d27aa9c028dd6db128ab04d2"
+    },
+    {
+      "file": "licensing/evidence/skia-harfbuzz-fonttools-20261002.json",
+      "sha256": "6143ca2ae8d3347e45030c535fd243503aece088368a2cb7a6c4341dff38c270"
+    }
+  ],
+  "sourcePins": {
+    "parentPackage": "@napi-rs/canvas@0.1.100",
+    "canvasRevision": "db337893b9b53483050ca7b24c6d306e4da06741",
+    "skiaRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+    "harfbuzzRevision": "9cb1fee51069b206effb4736e443b038d230789d",
+    "harfbuzzDeclaredVersion": "13.1.0",
+    "kurboReferencedRevision": "fd839c25ea0c98576c7ce5789305822675a89938",
+    "kurboDeclaredVersion": "0.9.0",
+    "versionQualification": "The pinned kurbo Cargo.toml declares 0.9.0 although hb-algs.hh also links docs.rs/kurbo/0.8.1. The explicit commit determines this evidence; no crates package or release equivalence is inferred."
+  },
+  "portAndGenerationReferences": [
+    {
+      "path": "src/hb-algs.hh",
+      "lines": [
+        1674,
+        1683
+      ],
+      "finding": "Explicit kurbo adaptation comment names immutable source commit/path. The source revision contains solve_itp, and its original LICENSE-MIT and LICENSE-APACHE are separately retained."
+    },
+    {
+      "path": "src/hb-ot-shaper-use-table.hh",
+      "lines": [
+        1,
+        43
+      ],
+      "finding": "The pinned generated USE table header names both additional category inputs. The pinned src/update-unicode-tables.make recipe explicitly resolves them to src/ms-use at line 37, and invalid-cluster data at line 39. All three source inputs, generator, recipe and COPYING bind to the pinned HarfBuzz tree; both generated outputs are listed by Skia."
+    },
+    {
+      "path": "src/hb-ucd.cc",
+      "lines": [
+        1,
+        15
+      ],
+      "finding": "Complete original ISC notice names Grigori Goronzy, absent from root COPYING. hb-unicode.cc uses hb_ucd_get_unicode_funcs unless disabled by compile definitions; exact final preprocessor state and binary linkage are not established."
+    }
+  ],
+  "skia": {
+    "status": "open-platform-linkage-and-complete-nested-attribution",
+    "noticeAdditions": [
+      {
+        "component": "Zilong Tan fasthash code within HarfBuzz",
+        "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-algs.hh",
+        "sourceSha256": "edc4a2b4ac380597fe2ffab56f439fdcaa30f7184f751e04ea6493697d92bcbc",
+        "sourceGitBlob": "b28a587d47521efef945171451641ecc6247d303",
+        "file": "third-party/upstream/12dffc8d88e81ef2fda9bb2142599751cced9564ec87cea683538980b1c42d75.txt",
+        "sha256": "12dffc8d88e81ef2fda9bb2142599751cced9564ec87cea683538980b1c42d75",
+        "bytes": 1154,
+        "extraction": "Original complete comment, raw byte range [12134, 13288); no newline or whitespace normalization.",
+        "scope": "Original MIT notice immediately preceding fasthash_mix/fasthash64 in the pinned HarfBuzz hb-algs.hh; the notice is not part of HarfBuzz root COPYING.",
+        "snapshotAlreadyPresent": false
+      },
+      {
+        "component": "Grigori Goronzy UCD implementation within HarfBuzz",
+        "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ucd.cc",
+        "sourceSha256": "0bb1dc09aee15ca98a2222f7307d1a9d279646c486f8240efd50035c86554420",
+        "sourceGitBlob": "4c8b1ee5e612340458761b6d1f66ab40359e47cc",
+        "file": "third-party/upstream/cb95728cc2b4a3502bb8e69c019e0e5f01c0a218a855168e9c19d4df51582cd5.txt",
+        "sha256": "cb95728cc2b4a3502bb8e69c019e0e5f01c0a218a855168e9c19d4df51582cd5",
+        "bytes": 795,
+        "extraction": "Original complete comment, raw byte range [0, 795); no newline or whitespace normalization.",
+        "scope": "Original ISC permission/copyright comment of pinned hb-ucd.cc; source is listed by the pinned Skia HarfBuzz GN profile.",
+        "snapshotAlreadyPresent": false
+      },
+      {
+        "component": "kurbo solve_itp port within HarfBuzz",
+        "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/LICENSE-MIT",
+        "sourceSha256": "23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e",
+        "sourceGitBlob": "f3d84348c630b4725940ca6a7ac2d73f9904cc5e",
+        "file": "third-party/upstream/23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e.txt",
+        "sha256": "23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e",
+        "bytes": 1055,
+        "extraction": "Whole original LICENSE-MIT from the exact source revision referenced by hb-algs.hh.",
+        "scope": "kurbo revision fd839c25ea0c98576c7ce5789305822675a89938. Retain both supplied alternatives as publisher material; no overall component license choice is made.",
+        "snapshotAlreadyPresent": false
+      },
+      {
+        "component": "kurbo solve_itp port within HarfBuzz",
+        "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/LICENSE-APACHE",
+        "sourceSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "sourceGitBlob": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "file": "third-party/upstream/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "bytes": 11358,
+        "extraction": "Whole original LICENSE-APACHE; SHA-256 equals the already-retained Wuffs Apache snapshot, which is reused.",
+        "scope": "The same exact kurbo source port, with publisher-declared MIT/Apache-2.0 alternatives preserved.",
+        "snapshotAlreadyPresent": true
+      },
+      {
+        "component": "Microsoft USE shaping overrides within HarfBuzz",
+        "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/ms-use/COPYING",
+        "sourceSha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+        "sourceGitBlob": "9e841e7a26e4eb057b24511e7b92d42b257a80e5",
+        "file": "third-party/upstream/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+        "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+        "bytes": 1141,
+        "extraction": "Whole original src/ms-use/COPYING at pinned HarfBuzz revision; byte-for-byte.",
+        "scope": "Microsoft src/ms-use data files explicitly named as generation inputs by pinned src/update-unicode-tables.make: additional Indic category files feed hb-ot-shaper-use-table.hh; invalid-cluster data feeds hb-ot-shaper-vowel-constraints.cc. Both generated outputs are listed by the pinned Skia HarfBuzz profile.",
+        "snapshotAlreadyPresent": false
+      }
+    ],
+    "requiredIntegration": "Append scoped entries to the existing Skia notices, deduplicating the reused Apache file; preserve all prior notices and Skia reviewRequired. Parent owns generated global inventories/notices."
+  },
+  "sourceBodies": [
+    {
+      "path": "src/hb-algs.hh",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-algs.hh",
+      "bytes": 49895,
+      "sha256": "edc4a2b4ac380597fe2ffab56f439fdcaa30f7184f751e04ea6493697d92bcbc",
+      "gitBlob": "b28a587d47521efef945171451641ecc6247d303"
+    },
+    {
+      "path": "src/hb-ucd.cc",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ucd.cc",
+      "bytes": 7196,
+      "sha256": "0bb1dc09aee15ca98a2222f7307d1a9d279646c486f8240efd50035c86554420",
+      "gitBlob": "4c8b1ee5e612340458761b6d1f66ab40359e47cc"
+    },
+    {
+      "path": "src/hb-ot-shaper-use-table.hh",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ot-shaper-use-table.hh",
+      "bytes": 55727,
+      "sha256": "ba20ade85d6e49d2155ed0d96686aacdc462c711662226bde027499f5149dca3",
+      "gitBlob": "dad4fc8ae7739d177341c589c5597063afd2493a"
+    },
+    {
+      "path": "src/hb-ot-shaper-use.cc",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ot-shaper-use.cc",
+      "bytes": 14493,
+      "sha256": "1cf33c4ed82b65c16e02971a7f9bd5a4257423474a8aa347bfdfd11d66ed6db0",
+      "gitBlob": "c35765af95a349c53f84203b43d0ae40740e6c9e"
+    },
+    {
+      "path": "src/hb-unicode.cc",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-unicode.cc",
+      "bytes": 17313,
+      "sha256": "bb710579e8221b0983c5b341351f3a9c1bda738c9c00940f8eb8478bb40e26eb",
+      "gitBlob": "aa2735bedb0bbd797382a50bbc1e6d28af164d36"
+    },
+    {
+      "path": "kurbo-tree.json",
+      "source": "https://api.github.com/repos/linebender/kurbo/git/trees/fd839c25ea0c98576c7ce5789305822675a89938?recursive=1",
+      "bytes": 9902,
+      "sha256": "796b805b8a7e88c547a8cc661f4d1d8145324388d184e15bdfd79dfcd22a9c7f",
+      "gitBlob": "fbc727e0f56058940fb68d162dbd6274a7bc7647"
+    },
+    {
+      "path": "kurbo-Cargo.toml",
+      "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/Cargo.toml",
+      "bytes": 845,
+      "sha256": "b99a20d65fb68c7d6d61ad59cf44fd36872c859e22509ef8e5f9824d8bd88574",
+      "gitBlob": "8a9d2e5416f21e69ccca2c45e757bf6acae205d0"
+    },
+    {
+      "path": "kurbo-LICENSE-APACHE.txt",
+      "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/LICENSE-APACHE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "gitBlob": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "kurbo-LICENSE-MIT.txt",
+      "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/LICENSE-MIT",
+      "bytes": 1055,
+      "sha256": "23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e",
+      "gitBlob": "f3d84348c630b4725940ca6a7ac2d73f9904cc5e"
+    },
+    {
+      "path": "kurbo-common.rs",
+      "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/src/common.rs",
+      "bytes": 19273,
+      "sha256": "418499f72078a3f87bdffbb0078e93a3ddf5e2e158b09ac0008a2022420e87fc",
+      "gitBlob": "647f469b109038d4dfb9ebe4ef0c6d617578e0f4"
+    },
+    {
+      "path": "src__ms-use__COPYING",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/ms-use/COPYING",
+      "bytes": 1141,
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "gitBlob": "9e841e7a26e4eb057b24511e7b92d42b257a80e5"
+    },
+    {
+      "path": "src__ms-use__IndicSyllabicCategory-Additional.txt",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/ms-use/IndicSyllabicCategory-Additional.txt",
+      "bytes": 15751,
+      "sha256": "636691ace687eed883bfb34dc2f5f27833b323bf0c078eec63ee66cbca3bfc85",
+      "gitBlob": "fcd22e63dc7d768df81bb89c6fc05cd938b83f63"
+    },
+    {
+      "path": "src__ms-use__IndicPositionalCategory-Additional.txt",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/ms-use/IndicPositionalCategory-Additional.txt",
+      "bytes": 7675,
+      "sha256": "59639508464202ec90a7d9e08a08cfbc377ea4536135c418bfdfc0f15db1ac3d",
+      "gitBlob": "354e3155243f0c8b5722c3700883138c5ac2f29d"
+    },
+    {
+      "path": "src__gen-use-table.py",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/gen-use-table.py",
+      "bytes": 15174,
+      "sha256": "64fc47c251ab98ac69f36e6cb3d410cae5e01c87311dcec20f5dec95ba4921a0",
+      "gitBlob": "bd930f6c93e2266cbad0f70bc24ebaad48599fe1"
+    },
+    {
+      "path": "src__meson.build",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/meson.build",
+      "bytes": 37987,
+      "sha256": "dd576f97a7975383eb7bd87fc77905af976512472d0303d7fcbe6a994e42fa9c",
+      "gitBlob": "a92e46fe2dcbcc0e3bbbceb874aec4f433895b67"
+    },
+    {
+      "path": "src__update-unicode-tables.make",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/update-unicode-tables.make",
+      "bytes": 2846,
+      "sha256": "d2bf14d7ec2104bbddc52dc9c1d3a8abaefd7a075f63741f85f76339422d5381",
+      "gitBlob": "e4033dd1f4db36bbe357f527d2c836ff671f8714"
+    },
+    {
+      "path": "src__ms-use__IndicShapingInvalidCluster.txt",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/ms-use/IndicShapingInvalidCluster.txt",
+      "bytes": 7461,
+      "sha256": "02024d4289864665721e14ec99eb320ce187f289514b793449b4f6a8ddaf5944",
+      "gitBlob": "9e0edd34ca3f7bccbb608148d85896ae661a9981"
+    },
+    {
+      "path": "src/hb-ot-shaper-vowel-constraints.cc",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ot-shaper-vowel-constraints.cc",
+      "bytes": 11269,
+      "sha256": "b897a8881135dd55b5232797bc29aa01a374429cd6a040f7a2d32743949c08ba",
+      "gitBlob": "eacaaf2bafff47d39329d0822a98b50bd29a52e6"
+    }
+  ],
+  "publisherMetadataBindings": [
+    {
+      "source": "https://api.github.com/repos/linebender/kurbo/git/trees/fd839c25ea0c98576c7ce5789305822675a89938?recursive=1",
+      "responseSha256": "796b805b8a7e88c547a8cc661f4d1d8145324388d184e15bdfd79dfcd22a9c7f",
+      "bytes": 9902
+    },
+    {
+      "source": "https://api.github.com/repos/harfbuzz/harfbuzz/git/trees/9cb1fee51069b206effb4736e443b038d230789d?recursive=1",
+      "responseSha256": "2fcc750203eee17dce58f195d853ca717afc2473d9c0c5902fabc468adb36622",
+      "bytes": 1009312
+    }
+  ],
+  "verification": {
+    "harfbuzzListedSourceBodiesMatchedPinnedTree": 344,
+    "harfbuzzTreeTruncated": false,
+    "kurboTreeTruncated": false,
+    "kurboSourceAndLicenseBlobMatches": 4,
+    "newSnapshotExtractions": "Four original complete notice texts; reused Apache source bytes checked equal existing snapshot.",
+    "allNewNoticeHashesChecked": true,
+    "scopeBoundary": "GN source-list inclusion is source provenance, not proof that every routine survives final native linking. This group does not settle Unicode 17 source data, other unnamed fontTools ports, all transitive include/generator inputs or actual per-platform binary linkage.",
+    "microsoftInputGeneratorRecipeAndNoticeBlobMatches": 6
+  },
+  "preservedFailures": [
+    {
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/Makefile.sources",
+      "error": "HTTP Error 404: Not Found",
+      "qualification": "Nonexistent legacy Makefile.sources path; the exact update-unicode-tables.make was subsequently retrieved and binds both generator rules. src/meson.build lists outputs but does not locate these inputs; that initial inspection assumption was corrected before commit."
+    }
+  ]
+}

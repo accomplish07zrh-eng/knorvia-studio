@@ -1,0 +1,26 @@
+{
+  "archivedAtUtc": "2026-10-02T19:14:20.395496+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "8709ae17",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-history-projection-author-packet-20261003/history/observation-clarification.md",
+      "bytes": 2110,
+      "sha256": "d0816bc46d0ad7f000ca1f75df675988e3b646aac7af2718b077a13872906f5f"
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 7790,
+      "sha256": "84031ba97eec2dc1a5d41691bb1a4405a8b280b0a9a194bb0ce326ae3a040c62"
+    },
+    {
+      "file": "draft-message-history.ts.txt",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "target": "apps/cli/packages/core/src/agent/message-history.ts"
+    }
+  ]
+}

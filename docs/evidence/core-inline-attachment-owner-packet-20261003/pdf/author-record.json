@@ -1,0 +1,206 @@
+{
+  "task": "Complete contract-only attachment-pdf.ts author",
+  "input_freeze": {
+    "curator_supplied_identifier": "8cc411c5",
+    "independently_git_inspected": false
+  },
+  "author_configuration": {
+    "requested_model": "GPT-6.1 Sol",
+    "requested_reasoning": "high",
+    "requested_fork": "none",
+    "runtime_configuration_independently_verified": false,
+    "saved_Fast": "unchanged; not inspected or independently verified"
+  },
+  "restrictions": {
+    "instruction_only_shared_executor": true,
+    "os_isolation_asserted": false,
+    "clean_separation_attestation": false,
+    "access_audit_asserted": false,
+    "allowed_inputs": "Only the six named files in the supplied input directory",
+    "allowed_outputs": "Only attachment-pdf.ts and author-record.json in the supplied output directory",
+    "forbidden_reads": "Other files, repository, git, history, reviews, tests, dependency bodies, collaborator/private/userdata/credentials/network",
+    "forbidden_execution": "Compiler, tests, builds, lint, mocks, source/dependency execution, actual I/O/provider/network/OS/store/media behavior of the authored module",
+    "allowed_operations": "Named input content/bytes/hash/line reading; own output writing/reading/hash/line/manual review; chmod and accounting timestamps",
+    "repository_modified": false,
+    "external_parties_contacted": false
+  },
+  "input_reads": [
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/pdf/input/contract.md",
+      "bytes": 2505,
+      "sha256": "3e0614188547bd353fbf0a0fce7692051f2c86d59329577049036a6a11862897",
+      "lines": 7,
+      "operations": [
+        {
+          "kind": "full content plus bytes/SHA256/line accounting, one filesystem read",
+          "utc": "2026-10-02T21:15:27.153581+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/pdf/input/public-api.d.ts",
+      "bytes": 271,
+      "sha256": "1b621d2b9b2e9a9555c5572cd32ccb6affe61068779595adab971b18bf48308d",
+      "lines": 7,
+      "operations": [
+        {
+          "kind": "full content plus bytes/SHA256/line accounting, one filesystem read",
+          "utc": "2026-10-02T21:15:27.153635+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/pdf/input/dependency-api.d.ts",
+      "bytes": 305,
+      "sha256": "c26376aa69c070b9ee4c6e38f30857b42363c5329663617f179904a2961e140c",
+      "lines": 4,
+      "operations": [
+        {
+          "kind": "full content plus bytes/SHA256/line accounting, one filesystem read",
+          "utc": "2026-10-02T21:15:27.153662+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/pdf/input/public-shapes.d.ts",
+      "bytes": 63,
+      "sha256": "f308256c34f7ee4d5012bdd8ead16028b65359b941557f45b5b6a8509c321061",
+      "lines": 1,
+      "operations": [
+        {
+          "kind": "full content plus bytes/SHA256/line accounting, one filesystem read",
+          "utc": "2026-10-02T21:15:27.153682+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/pdf/input/imports.json",
+      "bytes": 121,
+      "sha256": "be12226a072ea2952c9ff8fee4552df613c9fe87bb9885f59500c42dece03ae9",
+      "lines": 6,
+      "operations": [
+        {
+          "kind": "full content plus bytes/SHA256/line accounting, one filesystem read",
+          "utc": "2026-10-02T21:15:27.153791+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/pdf/input/output-data.json",
+      "bytes": 1029,
+      "sha256": "b206be127e2acb031c2118b70763a050c208fe7e55001a1d6c422e307dbf70bc",
+      "lines": 70,
+      "operations": [
+        {
+          "kind": "full content plus bytes/SHA256/line accounting, one filesystem read",
+          "utc": "2026-10-02T21:15:27.153835+00:00"
+        }
+      ]
+    }
+  ],
+  "own_source": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/pdf/output/attachment-pdf.ts",
+    "bytes": 1407,
+    "sha256": "a1c1211340fc2ff130b75a3ed7ae033add1a45cf3f6334b7670c81994854ff01",
+    "lines": 54,
+    "write_operations": [
+      {
+        "kind": "write complete UTF-8 source",
+        "started_utc": "2026-10-02T21:16:01.920825+00:00",
+        "completed_utc": "2026-10-02T21:16:01.920913+00:00"
+      }
+    ],
+    "read_operations": [
+      {
+        "kind": "one full filesystem read, printed for manual review; bytes/SHA256/line accounting",
+        "utc": "2026-10-02T21:16:01.920952+00:00"
+      }
+    ],
+    "additional_filesystem_reads": 0,
+    "manual_review": "Reviewed the full printed source and the supplied frozen fragments without executing source or dependencies."
+  },
+  "own_receipt": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/pdf/output/author-record.json",
+    "write_operations": [
+      {
+        "kind": "write final UTF-8 JSON receipt",
+        "transaction_utc": "2026-10-02T21:16:46.532558+00:00"
+      }
+    ],
+    "filesystem_read_operations": [],
+    "hash_and_line_accounting": "Computed from the serialized bytes used to write this receipt; no receipt filesystem read."
+  },
+  "retained_expressions_and_data": {
+    "original_dependency_owner": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+    "import": "{ base64PayloadByteLength, isStrictBase64Payload } from ./attachment-data-url.js",
+    "public_api": "Only PDF_INPUT_MAX_BYTES: number, parseInlinePdfDataUrl, and isPdfBytes exported; original inline return shape and Uint8Array/Buffer owners preserved.",
+    "cap_expression": "20 * 1024 * 1024 with explicit number annotation; 20971520; parser does not enforce cap.",
+    "inherited_TS9010": "The contract reports an inherited TS9010 qualification for the isolated arithmetic declaration. Explicit number annotation is applied; no compiler was run and no fresh diagnostic is asserted.",
+    "static_values": [
+      "data:",
+      "application/pdf",
+      ",",
+      ";",
+      "base64",
+      5,
+      0,
+      1,
+      2,
+      3,
+      4,
+      "0x25 (=37)",
+      "0x50 (=80)",
+      "0x44 (=68)",
+      "0x46 (=70)",
+      "0x2d (=45)"
+    ],
+    "private_named_constants": [
+      "DATA_URL_PREFIX",
+      "PDF_MEDIA_TYPE"
+    ],
+    "ordinary_idioms": [
+      "indexOf",
+      "slice",
+      "toLowerCase",
+      "split",
+      "shift",
+      "optional chaining",
+      "trim",
+      "last array element indexing",
+      "short-circuit comparisons",
+      "Buffer.from",
+      "fresh object literal"
+    ],
+    "qualification": "Retained MIME/protocol/constants/output values and ordinary idioms. No license, novelty, grant, or clean-separation claim."
+  },
+  "manual_findings": [
+    "First comma lookup precedes the native slice/toLowerCase data-prefix test; the no-comma gate follows that test.",
+    "Header slicing and semicolon splitting precede shifted media normalization; the entire payload is obtained before the validation gate.",
+    "Validation short-circuits in media type, final header marker, then original strict-validator order. Arbitrary middle parameters remain accepted; trailing semicolon fails the final-marker check.",
+    "Decode occurs once after validation, then local PDF magic validation, then the original byte-length helper in object construction. No catches or additional constraints were introduced.",
+    "isPdfBytes first evaluates byteLength >= 5, then indices 0 through 4 in order with short-circuit behavior. It does not examine PDF version or remaining content.",
+    "Success creates own keys in mediaType, sizeBytes, bytes order, retaining helper results even if an out-of-contract runtime helper result is undefined. The decoded Buffer is returned directly.",
+    "Native method, getter, decoder, and dependency exceptions propagate. No module state or extra imports/exports were added.",
+    "Source has 54 lines, below the 400-line limit. Verification is manual only; no compiler, test, build, lint, mock, or source/dependency execution was performed."
+  ],
+  "known_tool_and_context_exposure": [
+    "System/developer instruction text, tool schemas/descriptions and skills catalog, user environment context, and the parent delegated task were visible as conversation context.",
+    "The parent supplied the input freeze identifier and requested author configuration. These were not independently inspected.",
+    "The six named input files were read in full once and their complete contents and accounting appeared in tool output.",
+    "The complete own source was generated, written, read in full once, and displayed in tool output for manual review.",
+    "Shell Python standard libraries were used only for authorized byte/text reads/writes, hash/line accounting, UTC timestamps, and chmod. The authored source and supplied dependency declarations were not executed.",
+    "A status message was sent to the parent summarizing completed input reading and intended implementation. No collaborator result or source was requested or read.",
+    "All restrictions are instruction-only in the shared executor. This receipt is an operation self-report, not an OS isolation or access-audit assertion."
+  ],
+  "known_breaches": [],
+  "questions": [],
+  "blockers": [],
+  "freeze": {
+    "utc": "2026-10-02T21:16:46.532558+00:00",
+    "utc_semantics": "Timestamp captured immediately before final receipt serialization/write and chmod freeze transaction. Exact completion timestamp is reported separately by the tool, after all chmod operations.",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "parent_source_review_permitted_after_freeze": true
+  }
+}

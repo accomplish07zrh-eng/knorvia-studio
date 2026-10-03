@@ -1,0 +1,1333 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "35fafe5327728bf693f522adfc98f25b49167695",
+  "publishedBaselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "scope": "One coherent pinned Skia source-notice pass; original missing material only, plus precise source/generator/linkage boundaries. No runtime, global inventories, releases or license-choice changes.",
+  "fullyClosedParentObligations": 0,
+  "newExactNoticeTexts": 19,
+  "priorIntermediateGroup": "35fafe5327728bf693f522adfc98f25b49167695; licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+  "sourcePins": {
+    "canvas": "db337893b9b53483050ca7b24c6d306e4da06741",
+    "skia": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+    "freetype": "264b5fbf5b912b39f98d038bf75d39be0a73f21b",
+    "freetypeDeclaredVersion": "2.14.2",
+    "libjpegTurbo": "e14cbfaa85529d47f9f55b0f104a579c1061f9ad",
+    "libjpegDeclaredVersion": "3.1.0",
+    "libpng": "d5515b5b8be3901aac04e5bd8bd5c89f287bcd33",
+    "expat": "6154446fccefbf3ca644894f598969113b0c7bcd",
+    "expatDeclaredVersion": "2.7.4",
+    "icu": "364118a1d9da24bb5b770ac3d762ac144d6da5a4",
+    "harfbuzz": "9cb1fee51069b206effb4736e443b038d230789d",
+    "adobeAGL": "4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6",
+    "adobeTableDeclaredVersion": "2.0, September 20, 2002",
+    "versionQualification": "Versions come from pinned source headers/table metadata. No equivalence to a release archive or completed native build is inferred."
+  },
+  "reusedEvidence": [
+    {
+      "file": "licensing/evidence/material-closure-20261002.json",
+      "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1"
+    },
+    {
+      "file": "licensing/evidence/skia-zlib-notices-20261002.json",
+      "sha256": "c3efff4453f080eec58048363dd09264ab5d4e29d27aa9c028dd6db128ab04d2"
+    },
+    {
+      "file": "licensing/evidence/skia-harfbuzz-fonttools-20261002.json",
+      "sha256": "6143ca2ae8d3347e45030c535fd243503aece088368a2cb7a6c4341dff38c270"
+    },
+    {
+      "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+      "sha256": "8a108a102cb1e00aa15c166db2c8262fd29be197547d127b18293e1174e49ce1"
+    }
+  ],
+  "skia": {
+    "status": "open-unavailable-source-inputs-and-native-linkage",
+    "noticeAdditions": [
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psarrst.c",
+        "sourceSha256": "8f06555b38b42e966b8c87b0e539121819b11940930ccb5e97e8cc8feb6cbab2",
+        "file": "third-party/upstream/d38d82f865590ced088d26ebbb6abb1eae0b49e12cba492c14f323e73656a9a2.txt",
+        "sha256": "d38d82f865590ced088d26ebbb6abb1eae0b49e12cba492c14f323e73656a9a2",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [143, 1882); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "70313d283a455ad7e9ec8667f9966c7934bfcbef",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/psarrst.c",
+            "start": 143,
+            "end": 1882,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psread.c",
+            "start": 145,
+            "end": 1884,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psstack.c",
+            "start": 152,
+            "end": 1891,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psarrst.h",
+            "start": 152,
+            "end": 1891,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psfont.h",
+            "start": 153,
+            "end": 1892,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psglue.h",
+            "start": 156,
+            "end": 1895,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/pshints.h",
+            "start": 149,
+            "end": 1888,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psintrp.h",
+            "start": 146,
+            "end": 1885,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psstack.h",
+            "start": 161,
+            "end": 1900,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psfixed.h",
+            "start": 168,
+            "end": 1907,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psread.h",
+            "start": 154,
+            "end": 1893,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2013 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psblues.c",
+        "sourceSha256": "1b63ad1b4c72686b28045e7437d9053158de9b2f4f2e77c310e8607d42d35c6d",
+        "file": "third-party/upstream/926f434136ee825ea37627e6283d3cf9b544c75d229c34a7e993729b2fd68076.txt",
+        "sha256": "926f434136ee825ea37627e6283d3cf9b544c75d229c34a7e993729b2fd68076",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [150, 1889); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "213b943b46576ddcca6b471cd5d3d0cf4d68acb0",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/psblues.c",
+            "start": 150,
+            "end": 1889,
+            "bytes": 1739,
+            "copyright": " * Copyright 2009-2014 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/pserror.c",
+        "sourceSha256": "41d5ba2da3ec46c816064e1f14257076458eb93679501fb21806d579fb675595",
+        "file": "third-party/upstream/c7c439b79bd9a71954f3509a8bd9ad05d44887114aa259beb8084e8e15ddbeb9.txt",
+        "sha256": "c7c439b79bd9a71954f3509a8bd9ad05d44887114aa259beb8084e8e15ddbeb9",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [145, 1884); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "98cebcf74d99ece4a36065894e6ace54cc8c9ead",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/pserror.c",
+            "start": 145,
+            "end": 1884,
+            "bytes": 1739,
+            "copyright": " * Copyright 2006-2013 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/pserror.h",
+            "start": 154,
+            "end": 1893,
+            "bytes": 1739,
+            "copyright": " * Copyright 2006-2013 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psfont.c",
+        "sourceSha256": "8b266d1268845f9ad01a4f5bb29d5e2c37ab4794282c8102241153cc38a1efdf",
+        "file": "third-party/upstream/a8df3fb9aac5e61c2bd8cd45066240916d08aabd8cfd38f7f2d39757e90bb832.txt",
+        "sha256": "a8df3fb9aac5e61c2bd8cd45066240916d08aabd8cfd38f7f2d39757e90bb832",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [144, 1883); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "0db1f0c5bc460f5040e62c09295efd81cee08aca",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/psfont.c",
+            "start": 144,
+            "end": 1883,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2014 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/pshints.c",
+            "start": 149,
+            "end": 1888,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2014 Adobe Systems Incorporated."
+          },
+          {
+            "path": "src/psaux/psintrp.c",
+            "start": 137,
+            "end": 1876,
+            "bytes": 1739,
+            "copyright": " * Copyright 2007-2014 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psft.c",
+        "sourceSha256": "eac2afd167a8b027254ec1cefba82581b5767851162b87b3e924687d87996f8a",
+        "file": "third-party/upstream/442042c9409b2655e490f26c7da9a4075399495519b79918c1fd51b6ed458ad5.txt",
+        "sha256": "442042c9409b2655e490f26c7da9a4075399495519b79918c1fd51b6ed458ad5",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [157, 1896); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "fd0abe17154c71250566365ddce401c994288d5a",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/psft.c",
+            "start": 157,
+            "end": 1896,
+            "bytes": 1739,
+            "copyright": " * Copyright 2013-2014 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psblues.h",
+        "sourceSha256": "1718a1ab8f6be015741bc7b1c7d3d57e9dbd619d00a6529dc55dc4ff68b8b83d",
+        "file": "third-party/upstream/d38239a23bfadf84d2f89504f3f6e435ed200a30fe329a9c198f5000017b48a2.txt",
+        "sha256": "d38239a23bfadf84d2f89504f3f6e435ed200a30fe329a9c198f5000017b48a2",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [159, 1898); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "55fb88ecddfa1dc8a184a9e3d232b90ccfd16a91",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/psblues.h",
+            "start": 159,
+            "end": 1898,
+            "bytes": 1739,
+            "copyright": " * Copyright 2009-2013 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psft.h",
+        "sourceSha256": "25bbe8ba4f8157641619540785d86d50d1c327d17825e12221585225574c50bc",
+        "file": "third-party/upstream/9059c5a7575258863d7694c333dc1c7d211087be94fd63db7622a9a5ab72036f.txt",
+        "sha256": "9059c5a7575258863d7694c333dc1c7d211087be94fd63db7622a9a5ab72036f",
+        "bytes": 1734,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [166, 1900); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "d9082f3a2be120bd80edfaba983112a19324d91d",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/psft.h",
+            "start": 166,
+            "end": 1900,
+            "bytes": 1734,
+            "copyright": " * Copyright 2013 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Adobe CFF interpreter material within FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/pstypes.h",
+        "sourceSha256": "910ee2ede0c0c149d798bf9dc608e1d3e013e675bdaaa6358ed2371eb600357f",
+        "file": "third-party/upstream/35213d2e8040f799a87200ed2fb6aa5c471cce8ab200826d2eb94f60b714b513.txt",
+        "sha256": "35213d2e8040f799a87200ed2fb6aa5c471cce8ab200826d2eb94f60b714b513",
+        "bytes": 1739,
+        "extraction": "Original copyright plus complete supplemental licensing/patent section, byte range [164, 1903); omit only preceding filename/description comment lines. No text normalization.",
+        "scope": "Exact FreeType psaux source/header material selected by psaux.c or its literal includes; retain FTL/LICENSE.TXT separately. Eight distinct original copyright-year statements share the supplemental patent terms.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "435ef7e1fecff79263eabef658d215c193ee3f70",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "src/psaux/pstypes.h",
+            "start": 164,
+            "end": 1903,
+            "bytes": 1739,
+            "copyright": " * Copyright 2011-2013 Adobe Systems Incorporated."
+          }
+        ]
+      },
+      {
+        "component": "Arm Neon implementation within libjpeg-turbo",
+        "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch32/jchuff-neon.c?format=TEXT",
+        "sourceSha256": "7b9b48f8dcf4e4e41c5ca91a971d4cadab4080634598cdf29ab54d079373bb93",
+        "file": "third-party/upstream/a385735ac3240f1bf6f32884cb7c888d0e4f37c863eb9a1b40c6ba7e7192750a.txt",
+        "sha256": "a385735ac3240f1bf6f32884cb7c888d0e4f37c863eb9a1b40c6ba7e7192750a",
+        "bytes": 985,
+        "extraction": "Complete original copyright/disclaimer/permission/restrictions text, byte range [68, 1053); omit surrounding file-description/comment delimiters and unrelated ITU footer. No normalization.",
+        "scope": "Pinned Skia libjpeg GN profile selects these files for non-Windows arm/arm64. libjpeg-turbo LICENSE.md explains the IJG context; preserve its notice and README.ijg. This addition preserves source-specific zlib notices and does not claim extra binary-only obligations.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "153da1f1c118aa11167e0973ecc6d8d8ea48a8d8",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "simd/arm/aarch32/jchuff-neon.c",
+            "start": 68,
+            "end": 1053,
+            "bytes": 985
+          },
+          {
+            "path": "simd/arm/jcgray-neon.c",
+            "start": 68,
+            "end": 1053,
+            "bytes": 985
+          },
+          {
+            "path": "simd/arm/jcsample-neon.c",
+            "start": 51,
+            "end": 1036,
+            "bytes": 985
+          },
+          {
+            "path": "simd/arm/jdcolor-neon.c",
+            "start": 59,
+            "end": 1044,
+            "bytes": 985
+          },
+          {
+            "path": "simd/arm/jdmerge-neon.c",
+            "start": 72,
+            "end": 1057,
+            "bytes": 985
+          },
+          {
+            "path": "simd/arm/jfdctfst-neon.c",
+            "start": 56,
+            "end": 1041,
+            "bytes": 985
+          },
+          {
+            "path": "simd/arm/jidctfst-neon.c",
+            "start": 56,
+            "end": 1041,
+            "bytes": 985
+          }
+        ]
+      },
+      {
+        "component": "Arm Neon implementation within libjpeg-turbo",
+        "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch64/jchuff-neon.c?format=TEXT",
+        "sourceSha256": "911b004175955a0cc3a2bb3571a5aa2c5c51990a5ab20a5ef0c1156c0dcb44a8",
+        "file": "third-party/upstream/0c778720761a0b9ed03b83d55cc1dff2cd79e367528cfb8988176c4dc2b1dd27.txt",
+        "sha256": "0c778720761a0b9ed03b83d55cc1dff2cd79e367528cfb8988176c4dc2b1dd27",
+        "bytes": 1002,
+        "extraction": "Complete original copyright/disclaimer/permission/restrictions text, byte range [68, 1070); omit surrounding file-description/comment delimiters and unrelated ITU footer. No normalization.",
+        "scope": "Pinned Skia libjpeg GN profile selects these files for non-Windows arm/arm64. libjpeg-turbo LICENSE.md explains the IJG context; preserve its notice and README.ijg. This addition preserves source-specific zlib notices and does not claim extra binary-only obligations.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "11bf6dab1300c8cf3d41b3ad4bd9ca39d49f8066",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "simd/arm/aarch64/jchuff-neon.c",
+            "start": 68,
+            "end": 1070,
+            "bytes": 1002
+          }
+        ]
+      },
+      {
+        "component": "Arm Neon implementation within libjpeg-turbo",
+        "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jccolor-neon.c?format=TEXT",
+        "sourceSha256": "e864b34bdee2b7edf18484492300014de12beb02c97ce1e196e4b45e3a2532f4",
+        "file": "third-party/upstream/0164b7ab9ba129d156250887a12cd86e1ee6de9f021ae2ab2566e65e6b4edeb6.txt",
+        "sha256": "0164b7ab9ba129d156250887a12cd86e1ee6de9f021ae2ab2566e65e6b4edeb6",
+        "bytes": 991,
+        "extraction": "Complete original copyright/disclaimer/permission/restrictions text, byte range [59, 1050); omit surrounding file-description/comment delimiters and unrelated ITU footer. No normalization.",
+        "scope": "Pinned Skia libjpeg GN profile selects these files for non-Windows arm/arm64. libjpeg-turbo LICENSE.md explains the IJG context; preserve its notice and README.ijg. This addition preserves source-specific zlib notices and does not claim extra binary-only obligations.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "d14a7bf5018fdd05fdd5c3cd4241dd23bab6d313",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "simd/arm/jccolor-neon.c",
+            "start": 59,
+            "end": 1050,
+            "bytes": 991
+          },
+          {
+            "path": "simd/arm/jdsample-neon.c",
+            "start": 49,
+            "end": 1040,
+            "bytes": 991
+          },
+          {
+            "path": "simd/arm/jfdctint-neon.c",
+            "start": 60,
+            "end": 1051,
+            "bytes": 991
+          },
+          {
+            "path": "simd/arm/jidctint-neon.c",
+            "start": 60,
+            "end": 1051,
+            "bytes": 991
+          },
+          {
+            "path": "simd/arm/jidctred-neon.c",
+            "start": 56,
+            "end": 1047,
+            "bytes": 991
+          }
+        ]
+      },
+      {
+        "component": "Arm Neon implementation within libjpeg-turbo",
+        "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jcphuff-neon.c?format=TEXT",
+        "sourceSha256": "2e2fc2f25e4840c8c421639bb07001fdef6a52494ebb53d1af935485a60e8f9c",
+        "file": "third-party/upstream/e184ca99561e85dd1eda33fd6b9f2b09f4df94636b540532ad7358ffbae23fe1.txt",
+        "sha256": "e184ca99561e85dd1eda33fd6b9f2b09f4df94636b540532ad7358ffbae23fe1",
+        "bytes": 1059,
+        "extraction": "Complete original copyright/disclaimer/permission/restrictions text, byte range [83, 1142); omit surrounding file-description/comment delimiters and unrelated ITU footer. No normalization.",
+        "scope": "Pinned Skia libjpeg GN profile selects these files for non-Windows arm/arm64. libjpeg-turbo LICENSE.md explains the IJG context; preserve its notice and README.ijg. This addition preserves source-specific zlib notices and does not claim extra binary-only obligations.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "435f96ee9682b42f35a75e2d69f291d66902fdb1",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "simd/arm/jcphuff-neon.c",
+            "start": 83,
+            "end": 1142,
+            "bytes": 1059
+          }
+        ]
+      },
+      {
+        "component": "Arm Neon implementation within libjpeg-turbo",
+        "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jquanti-neon.c?format=TEXT",
+        "sourceSha256": "715b4c01805d6af91beb0a89e1131264e8987e1d5e6e7f3c4bac137ea572db6e",
+        "file": "third-party/upstream/b48e789ef8667646edc2b727cafc882d814a7f16dc7eed31d3b397e2d33ca691.txt",
+        "sha256": "b48e789ef8667646edc2b727cafc882d814a7f16dc7eed31d3b397e2d33ca691",
+        "bytes": 990,
+        "extraction": "Complete original copyright/disclaimer/permission/restrictions text, byte range [77, 1067); omit surrounding file-description/comment delimiters and unrelated ITU footer. No normalization.",
+        "scope": "Pinned Skia libjpeg GN profile selects these files for non-Windows arm/arm64. libjpeg-turbo LICENSE.md explains the IJG context; preserve its notice and README.ijg. This addition preserves source-specific zlib notices and does not claim extra binary-only obligations.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "e44fb3d41315b50ca759b3c19251a30227eea6ff",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "simd/arm/jquanti-neon.c",
+            "start": 77,
+            "end": 1067,
+            "bytes": 990
+          }
+        ]
+      },
+      {
+        "component": "Arm palette material within libpng",
+        "source": "https://skia.googlesource.com/third_party/libpng.git/+/d5515b5b8be3901aac04e5bd8bd5c89f287bcd33/arm/palette_neon_intrinsics.c?format=TEXT",
+        "sourceSha256": "a844760f611829df29ca583f1b08832cac1440c74a2a22b35bc35a464ddf6b5e",
+        "file": "third-party/upstream/0d33f8c63be2bd52f40ab4754f0312fa5a510d4a01bd76869254d3b210850d9d.txt",
+        "sha256": "0d33f8c63be2bd52f40ab4754f0312fa5a510d4a01bd76869254d3b210850d9d",
+        "bytes": 397,
+        "extraction": "Whole original leading attribution/license-reference comment, byte range [0, 397).",
+        "scope": "Pinned libpng arm/arm64 source branch. Original Arm Holdings 2017-2018 attribution is absent from the root PNG copyright roll-up; retain the existing full PNG license alongside it.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "0967ea1aebd718907fda1e767957deeddbe676b3"
+      },
+      {
+        "component": "Adobe Glyph List / Zapf Dingbats data within FreeType",
+        "source": "https://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6/glyphlist.txt",
+        "sourceSha256": "a3b2f61ced9f3644cc0d4ecde5c59df34ca286c689d9484a43a710a81c466789",
+        "file": "third-party/upstream/cdb6b2a4e60de61211f8759676ea2251ed3a42d0d3d7b4e83eaccf4af1c15472.txt",
+        "sha256": "cdb6b2a4e60de61211f8759676ea2251ed3a42d0d3d7b4e83eaccf4af1c15472",
+        "bytes": 1639,
+        "extraction": "Whole original publisher copyright/BSD notice preceding table metadata, byte range [0, 1639); identical for both data files.",
+        "scope": "Adobe table version 2.0, September 20, 2002, at publisher commit 4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6. Exact row and decoded FreeType table equivalence proved; native FreeType config enables AGL.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "d58003a7519de67285b1773d2fc570cd0074f3ed",
+        "matchingOriginalNoticeOccurrences": [
+          {
+            "path": "glyphlist.txt",
+            "sha256": "a3b2f61ced9f3644cc0d4ecde5c59df34ca286c689d9484a43a710a81c466789"
+          },
+          {
+            "path": "zapfdingbats.txt",
+            "sha256": "f6394e3cb8a447e84a1dad75d4baaf2aa7f45dc104faf369f4720e1a774ef2dc"
+          }
+        ]
+      },
+      {
+        "component": "SipHash implementation within Expat",
+        "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/lib/siphash.h?format=TEXT",
+        "sourceSha256": "f537add526ecda8389503b7ef45fb52b6217e4dc171dcc3a8dc6903ff6134726",
+        "file": "third-party/upstream/3e38787d12d0ac72ff96fb090cdb02dab1ba3930978501fc9091f1754471faf8.txt",
+        "sha256": "3e38787d12d0ac72ff96fb090cdb02dab1ba3930978501fc9091f1754471faf8",
+        "bytes": 644,
+        "extraction": "Original complete provenance/CC0 declaration before HISTORY section, byte range [0, 644).",
+        "scope": "Explicit CC0 declaration in the pinned siphash.h, directly included by xmlparse.c. Keep the Expat root MIT notice for other files; no blanket MIT assignment.",
+        "snapshotAlreadyPresent": false,
+        "sourceGitBlob": "04f6f74585b5a2f39ef275e2175079725c5a7a70"
+      },
+      {
+        "component": "CC0 dedication referenced by Expat SipHash",
+        "source": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+        "sourceSha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+        "file": "third-party/upstream/a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499.txt",
+        "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+        "bytes": 7048,
+        "extraction": "Whole official Creative Commons CC0 1.0 text, byte-for-byte.",
+        "scope": "Supporting instrument for the explicit CC0 source declaration; retaining publisher text does not select a global project license.",
+        "snapshotAlreadyPresent": false,
+        "qualification": "Official versioned legalcode URL, retrieved 2026-10-02; no source Git revision is claimed."
+      },
+      {
+        "component": "Unicode 17 data used by HarfBuzz generated tables",
+        "source": "https://www.unicode.org/Public/17.0.0/ucd/ReadMe.txt",
+        "sourceSha256": "9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606",
+        "file": "third-party/upstream/9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606.txt",
+        "sha256": "9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606",
+        "bytes": 740,
+        "extraction": "Whole original versioned Unicode 17 ReadMe, including original 2025 copyright and license reference.",
+        "scope": "HarfBuzz generated emoji/UCD/USE headers identify Unicode 17.0.0 data; keep this attribution with the separately retained current publisher Unicode V3 notice.",
+        "snapshotAlreadyPresent": false,
+        "qualification": "Versioned data URL and exact digest; this is not a reconstruction of every generator input or a claim that the generated table was regenerated."
+      },
+      {
+        "component": "Unicode 17 data used by HarfBuzz generated tables",
+        "source": "https://www.unicode.org/license.txt",
+        "sourceSha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+        "file": "third-party/upstream/e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96.txt",
+        "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+        "bytes": 1995,
+        "extraction": "Whole original publisher Unicode License V3 as retrieved 2026-10-02; preserve 1991-2026 copyright exactly.",
+        "scope": "Current publisher terms identify Unicode /Public computer data files as covered by Unicode License V3 absent a specific exception. This is supplemental notice evidence for identified Unicode 17 data, independent of the older ICU notice.",
+        "snapshotAlreadyPresent": false,
+        "qualification": "The license URL is mutable and is not pinned to the 2025 release. Exact retrieval bytes/date are recorded; no historical byte-for-byte equivalence or new agreement acceptance is claimed."
+      }
+    ],
+    "requiredIntegration": "Append component-scoped notices, preserve all previous notices and reviewRequired, and regenerate global output in the parent lane. Unicode license retrieval is current, not release-pinned; keep that qualification visible."
+  },
+  "adobeAGLProof": {
+    "freetypeRows": 4482,
+    "adobeRows": {
+      "adobe-agl-glyphlist.txt": 4281,
+      "adobe-agl-zapfdingbats.txt": 201
+    },
+    "combinedAdobeRows": 4482,
+    "onlyFreeType": 0,
+    "onlyAdobe": 0,
+    "normalizedMappingSha256": "60f282a0f0984417a1f889322dcc60d8ca874250fbde30e73740020ee6d96d09",
+    "normalization": "Data row comparison only: skip publisher comment/empty lines, split FreeType string lines, sort rows for digest. Original source/notice bytes remain separately bound and unmodified.",
+    "pinnedGeneratedTableBytes": 55997,
+    "pinnedGeneratedTableSha256": "b6b6cf98e05fa65c35b1dc84b2fb588203a5babba75ba0236a361b82abb4ff68",
+    "decodedSingleCodepointMappings": 4401,
+    "publisherSingleCodepointMappings": 4401,
+    "generatedTableMatchesPublisherMappings": true,
+    "checkMethod": "Owned bounded parser decoded the byte trie from pinned pstables.h and compared every single-codepoint mapping to the pinned Adobe glyphlist/zapfdingbats files. Publisher generator code was parsed as text/AST, never executed."
+  },
+  "sourcePass": {
+    "literalGNReferencesAttemptedInitially": 692,
+    "initialRetrieved": 648,
+    "initialHTTP429": 44,
+    "additionalFreeTypeIncludedC": 105,
+    "additionalFreeTypeLiteralCAndHeaders": 207,
+    "freeTypeLiteralIncludeEdges": 1261,
+    "freeTypeLiteralIncludeQualification": "Literal path closure only; includes in conditional branches are collected without asserting preprocessor selection. Macro includes and compiler include search not resolved.",
+    "icuGNReferences": 840,
+    "icuRetrieved": 38,
+    "icuHTTP429": 3,
+    "icuNotRequestedAfterBoundary": 799,
+    "totalSourceBodiesRetrieved": 998,
+    "retrievedBodiesMatchedAvailablePublisherTrees": {
+      "freetype": 340,
+      "harfbuzz": 344,
+      "icu": 38
+    },
+    "ledger": "licensing/evidence/skia-source-pass-20261002.tsv",
+    "ledgerSha256": "4a9e92f56d049a4922460f6b0039bb198c4e07f6a23c2b50ede11511f55b318c",
+    "ledgerBytes": 162384,
+    "ledgerURLRule": "Source root plus ledger path; googlesource roots append ?format=TEXT. Rows report tree verification independently from immutable body retrieval. Skipped ICU paths are reconstructible from the pinned icu.gni reference profile, not counted as checks/failures.",
+    "sourceRoots": {
+      "brotli": "https://raw.githubusercontent.com/google/brotli/6d03dfbedda1615c4cba1211f8d81735575209c8/",
+      "expat": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/",
+      "freetype": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/",
+      "harfbuzz": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/",
+      "highway": "https://raw.githubusercontent.com/google/highway/424360251cdcfc314cfc528f53c872ecd63af0f0/",
+      "libjpeg-turbo": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/",
+      "libjxl": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/",
+      "libpng": "https://skia.googlesource.com/third_party/libpng.git/+/d5515b5b8be3901aac04e5bd8bd5c89f287bcd33/",
+      "libwebp": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/",
+      "wuffs": "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git/+/e3f919ccfe3ef542cfc983a82146070258fb57f8/",
+      "icu": "https://chromium.googlesource.com/chromium/deps/icu.git/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/"
+    },
+    "noRepeatedArchiveMatrix": true,
+    "retrievalFailurePolicy": "Initial failures preserved; no initial 44-source retry. Later ICU pass used two workers with 350ms pacing and stopped issuing new requests after three actual HTTP429 responses. No rate-limit or private-file bypass."
+  },
+  "buildProfiles": [
+    {
+      "component": "libjpeg-turbo",
+      "path": "third_party/libjpeg-turbo/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/libjpeg-turbo/BUILD.gn",
+      "sha256": "290672c8b233294affac75bee1405fb446031f12614ed875845a09dcfd8bffd3",
+      "gitBlob": "35105dd2109bcecd029e0c909e8b44541c6db31c",
+      "bytes": 7512
+    },
+    {
+      "component": "libpng",
+      "path": "third_party/libpng/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/libpng/BUILD.gn",
+      "sha256": "679e8ed77b88bafa087f90e2735748077ac8f845209962fe2fcac822621e9d35",
+      "gitBlob": "76694dca85666f2d8d162a585478bf0b83ac7a30",
+      "bytes": 1849
+    },
+    {
+      "component": "libwebp",
+      "path": "third_party/libwebp/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/libwebp/BUILD.gn",
+      "sha256": "10ade0a4ea86ad8a2b2543e3751f14de195e039aa10ad1d80b1b703e36ddda66",
+      "gitBlob": "6f3d70367c5a5ad0f2b239d6c1d4cf0d3edbc6e9",
+      "bytes": 7999
+    },
+    {
+      "component": "expat",
+      "path": "third_party/expat/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/expat/BUILD.gn",
+      "sha256": "0b1fe75a6ffd91611ff9ac12674789acd6feb44c3784b2dcb0bf4028d8a6fef1",
+      "gitBlob": "df151efe3a82e1b06b7d39468682e27d888f07e7",
+      "bytes": 1374
+    },
+    {
+      "component": "brotli",
+      "path": "third_party/brotli/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/brotli/BUILD.gn",
+      "sha256": "e1d8dd0a07aa7361ee23a34f938c8af8773b42100cc11f3f49fd19f9dbf7f91d",
+      "gitBlob": "9594fae4a458f999f95fd184d83bb8252bb9f9cf",
+      "bytes": 810
+    },
+    {
+      "component": "icu",
+      "path": "third_party/icu/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/icu/BUILD.gn",
+      "sha256": "4bdeab72453dd04d77a5b1654581bf8a4c4889ed2ed6ca091c8ad64d63ab10fd",
+      "gitBlob": "5f128708f7d900da3d5faa85c4ccd70852d6a33e",
+      "bytes": 3405
+    },
+    {
+      "component": "highway",
+      "path": "third_party/highway/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/highway/BUILD.gn",
+      "sha256": "e18ac8fa4991b38116549e09efb1d2d3c3080ac8e21a6cd369bdff6aeb6230f6",
+      "gitBlob": "859da114a76e039e446c623a02d96f79b389d330",
+      "bytes": 356
+    },
+    {
+      "component": "wuffs",
+      "path": "third_party/wuffs/BUILD.gn",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/wuffs/BUILD.gn",
+      "sha256": "45b1ac75fe1d40d97c71c756ffc5c8aba18043aa091fb52e90717b071fd12915",
+      "gitBlob": "8ab119036cd84da0fe7f5137a792ea19fca11dae",
+      "bytes": 1639
+    },
+    {
+      "path": "icu.gni",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/icu/icu.gni",
+      "bytes": 27301,
+      "sha256": "b8a2031423515ce9933ee2913152fb5f3365b106b73debc7b3c05ed40009fb0c",
+      "gitBlob": "e2f60a8af8ec7d39c2494abfeafe735caaf311e1"
+    }
+  ],
+  "sourceBodies": [
+    {
+      "path": "src/psaux/psarrst.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psarrst.c",
+      "bytes": 6515,
+      "sha256": "8f06555b38b42e966b8c87b0e539121819b11940930ccb5e97e8cc8feb6cbab2",
+      "gitBlob": "70313d283a455ad7e9ec8667f9966c7934bfcbef"
+    },
+    {
+      "path": "src/psaux/psblues.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psblues.c",
+      "bytes": 19403,
+      "sha256": "1b63ad1b4c72686b28045e7437d9053158de9b2f4f2e77c310e8607d42d35c6d",
+      "gitBlob": "213b943b46576ddcca6b471cd5d3d0cf4d68acb0"
+    },
+    {
+      "path": "src/psaux/pserror.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/pserror.c",
+      "bytes": 2089,
+      "sha256": "41d5ba2da3ec46c816064e1f14257076458eb93679501fb21806d579fb675595",
+      "gitBlob": "98cebcf74d99ece4a36065894e6ace54cc8c9ead"
+    },
+    {
+      "path": "src/psaux/psfont.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psfont.c",
+      "bytes": 19883,
+      "sha256": "8b266d1268845f9ad01a4f5bb29d5e2c37ab4794282c8102241153cc38a1efdf",
+      "gitBlob": "0db1f0c5bc460f5040e62c09295efd81cee08aca"
+    },
+    {
+      "path": "src/psaux/psft.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psft.c",
+      "bytes": 25628,
+      "sha256": "eac2afd167a8b027254ec1cefba82581b5767851162b87b3e924687d87996f8a",
+      "gitBlob": "fd0abe17154c71250566365ddce401c994288d5a"
+    },
+    {
+      "path": "src/psaux/psblues.h",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psblues.h",
+      "bytes": 5995,
+      "sha256": "1718a1ab8f6be015741bc7b1c7d3d57e9dbd619d00a6529dc55dc4ff68b8b83d",
+      "gitBlob": "55fb88ecddfa1dc8a184a9e3d232b90ccfd16a91"
+    },
+    {
+      "path": "src/psaux/psft.h",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psft.h",
+      "bytes": 5394,
+      "sha256": "25bbe8ba4f8157641619540785d86d50d1c327d17825e12221585225574c50bc",
+      "gitBlob": "d9082f3a2be120bd80edfaba983112a19324d91d"
+    },
+    {
+      "path": "src/psaux/pstypes.h",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/pstypes.h",
+      "bytes": 2674,
+      "sha256": "910ee2ede0c0c149d798bf9dc608e1d3e013e675bdaaa6358ed2371eb600357f",
+      "gitBlob": "435ef7e1fecff79263eabef658d215c193ee3f70"
+    },
+    {
+      "path": "simd/arm/aarch32/jchuff-neon.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch32/jchuff-neon.c?format=TEXT",
+      "bytes": 13551,
+      "sha256": "7b9b48f8dcf4e4e41c5ca91a971d4cadab4080634598cdf29ab54d079373bb93",
+      "gitBlob": "153da1f1c118aa11167e0973ecc6d8d8ea48a8d8"
+    },
+    {
+      "path": "simd/arm/aarch64/jchuff-neon.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch64/jchuff-neon.c?format=TEXT",
+      "bytes": 18382,
+      "sha256": "911b004175955a0cc3a2bb3571a5aa2c5c51990a5ab20a5ef0c1156c0dcb44a8",
+      "gitBlob": "11bf6dab1300c8cf3d41b3ad4bd9ca39d49f8066"
+    },
+    {
+      "path": "simd/arm/jccolor-neon.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jccolor-neon.c?format=TEXT",
+      "bytes": 4563,
+      "sha256": "e864b34bdee2b7edf18484492300014de12beb02c97ce1e196e4b45e3a2532f4",
+      "gitBlob": "d14a7bf5018fdd05fdd5c3cd4241dd23bab6d313"
+    },
+    {
+      "path": "simd/arm/jcphuff-neon.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jcphuff-neon.c?format=TEXT",
+      "bytes": 26904,
+      "sha256": "2e2fc2f25e4840c8c421639bb07001fdef6a52494ebb53d1af935485a60e8f9c",
+      "gitBlob": "435f96ee9682b42f35a75e2d69f291d66902fdb1"
+    },
+    {
+      "path": "simd/arm/jquanti-neon.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jquanti-neon.c?format=TEXT",
+      "bytes": 9096,
+      "sha256": "715b4c01805d6af91beb0a89e1131264e8987e1d5e6e7f3c4bac137ea572db6e",
+      "gitBlob": "e44fb3d41315b50ca759b3c19251a30227eea6ff"
+    },
+    {
+      "path": "arm/palette_neon_intrinsics.c",
+      "source": "https://skia.googlesource.com/third_party/libpng.git/+/d5515b5b8be3901aac04e5bd8bd5c89f287bcd33/arm/palette_neon_intrinsics.c?format=TEXT",
+      "bytes": 4665,
+      "sha256": "a844760f611829df29ca583f1b08832cac1440c74a2a22b35bc35a464ddf6b5e",
+      "gitBlob": "0967ea1aebd718907fda1e767957deeddbe676b3"
+    },
+    {
+      "path": "adobe-agl-glyphlist.txt",
+      "source": "https://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6/glyphlist.txt",
+      "bytes": 78060,
+      "sha256": "a3b2f61ced9f3644cc0d4ecde5c59df34ca286c689d9484a43a710a81c466789",
+      "gitBlob": "d58003a7519de67285b1773d2fc570cd0074f3ed"
+    },
+    {
+      "path": "expat/lib/siphash.h",
+      "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/lib/siphash.h?format=TEXT",
+      "bytes": 13014,
+      "sha256": "f537add526ecda8389503b7ef45fb52b6217e4dc171dcc3a8dc6903ff6134726",
+      "gitBlob": "04f6f74585b5a2f39ef275e2175079725c5a7a70"
+    },
+    {
+      "path": "cc0-1.0-legalcode.txt",
+      "source": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "gitBlob": "0e259d42c996742e9e3cba14c677129b2c1b6311"
+    },
+    {
+      "path": "unicode17-ReadMe.txt",
+      "source": "https://www.unicode.org/Public/17.0.0/ucd/ReadMe.txt",
+      "bytes": 740,
+      "sha256": "9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606",
+      "gitBlob": "3fc8de1e63af650bbe6a8810e4c06a2962c05109"
+    },
+    {
+      "path": "unicode-license.txt",
+      "source": "https://www.unicode.org/license.txt",
+      "bytes": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+      "gitBlob": "56da58912807030b451a4700687d5bd02c72d6ed"
+    },
+    {
+      "path": "simd/arm/aarch32/jsimd.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch32/jsimd.c?format=TEXT",
+      "bytes": 21924,
+      "sha256": "75adcb5071d8f61db0c562bf8d12cd2160ebfeb0b6a2cc016ba03153d7b659bc",
+      "gitBlob": "7c8ea306bd1ed498543c302d1fd9db6081ccc9c0"
+    },
+    {
+      "path": "simd/arm/aarch64/jsimd.c",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch64/jsimd.c?format=TEXT",
+      "bytes": 24299,
+      "sha256": "5cb17d6e0cf872f1db3d5dbc6c0a983a14412e187f6672793f033e71dd149525",
+      "gitBlob": "8a6f30a1a89a08f8ed5d27a96dfb5439dc97960d"
+    },
+    {
+      "path": "src/jpeglibmangler.h",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/src/jpeglibmangler.h?format=TEXT",
+      "bytes": 11481,
+      "sha256": "3cdf77a26602f9bb3ef06d78e4e19576c934ebe810f966b1c2d66734d5826bc5",
+      "gitBlob": "34538a5da4fe73797ada377943a8f057971ab51c"
+    },
+    {
+      "path": "lib/jxl/color_management.cc",
+      "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/color_management.cc?format=TEXT",
+      "bytes": 18155,
+      "sha256": "97e99efbbe9180abc02c4bdba3a461bb2fd76039209076e0c36cfa4759c4e688",
+      "gitBlob": "7929d1f61d58e817687d6034a062fd130d63a6a4"
+    },
+    {
+      "path": "src/psnames/pstables.h",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psnames/pstables.h",
+      "bytes": 268144,
+      "sha256": "1095bb32a4346a0961baa081a9d275c48feb8a8b9c94ac534d2047d504aa9abf",
+      "gitBlob": "8a32aac325f29aa765a39b53125689c8d07c6bb5"
+    },
+    {
+      "path": "src/psnames/psmodule.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psnames/psmodule.c",
+      "bytes": 16268,
+      "sha256": "fd5bfa6821ee266f403cdef31af7a13e76059a71d9f48e5c45d4442426ee8881",
+      "gitBlob": "5409c61fafab4845ede55fc2995d8db4a10d058d"
+    },
+    {
+      "path": "src/psnames/psnames.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psnames/psnames.c",
+      "bytes": 622,
+      "sha256": "eb541c8027a6862bdd271d550cae886716c6a7e0ae484d7ac070cbae869254fe",
+      "gitBlob": "b0ade9874da6d9e5db3fa60c1a7f6b69298a4232"
+    },
+    {
+      "path": "src/psaux/psaux.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psaux.c",
+      "bytes": 945,
+      "sha256": "bb5e4062df615b8ec1e302a89aa9e55405e8c4468a9543cb633659c329be578b",
+      "gitBlob": "f0c3c2ef97b5afa537e5930ffcbf167762e2b6ef"
+    },
+    {
+      "path": "include/freetype/freetype.h",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/include/freetype/freetype.h",
+      "bytes": 177129,
+      "sha256": "953fc63557031d8c11fcfe3859f350ef5390cabee12bca51487eaea302aff955",
+      "gitBlob": "2960cba634112d1a02e17daf8880be559ca178c6"
+    },
+    {
+      "path": "src/base/ftobjs.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/base/ftobjs.c",
+      "bytes": 161665,
+      "sha256": "e5558a906bfef754843740c55a1110759f23c737303d092ba6fefdce2ba4bb9f",
+      "gitBlob": "f9f64c40fec3118263cf409af8efc3c407c90863"
+    },
+    {
+      "path": "src/base/md5.c",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/base/md5.c",
+      "bytes": 8743,
+      "sha256": "0eb851f59869e6e4e23ccbaff30ba1874c1a0e5a00d3cfef7529561dfcee2550",
+      "gitBlob": "b235e17a56832cec9e3a7fccdf8c40149bc5aad8"
+    },
+    {
+      "path": "expat/lib/expat.h",
+      "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/lib/expat.h?format=TEXT",
+      "bytes": 44733,
+      "sha256": "d20997001462356b5ce3810ebf5256c8205f58462c64f21eb9bf80f8d1822b08",
+      "gitBlob": "6c7c41869277256a64707f6ebfc8ed22d4a26e46"
+    },
+    {
+      "path": "expat/lib/xmlparse.c",
+      "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/lib/xmlparse.c?format=TEXT",
+      "bytes": 310861,
+      "sha256": "f10913473608204f9ed35c38151dc4d4ab9d55c686e8b38fafa095bc0b99b404",
+      "gitBlob": "7cf504d68182b7e9a1fa623f0c24427076352f25"
+    },
+    {
+      "path": "src/jconfig.h",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/src/jconfig.h?format=TEXT",
+      "bytes": 2132,
+      "sha256": "2093a35fa25a957ce8d1f66b65f0a8fe024450c58a3bfa3e83aeb87a0a2d56e6",
+      "gitBlob": "22c32eead63d9f125f9ac7ad21835f6e82612dd7"
+    },
+    {
+      "path": "src/hb-unicode-emoji-table.hh",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-unicode-emoji-table.hh",
+      "bytes": 3917,
+      "sha256": "c1e7992baefb102d8afaf4cc6b745e45ebad4eb4a12c0b928e59025bac3e8403",
+      "gitBlob": "7200952547a1f961e12da4a07c2319727c6e55e7"
+    },
+    {
+      "path": "src/hb-ucd-table.hh",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ucd-table.hh",
+      "bytes": 420557,
+      "sha256": "4c15452a7f4372c840dfac3cfc26d3d45584264392bffb681c4dfe0f46eea9c2",
+      "gitBlob": "d2d23cf59b83f4abed50e8ac5e3472951abc9a6b"
+    },
+    {
+      "path": "unicode17-emoji-data.txt",
+      "source": "https://www.unicode.org/Public/17.0.0/ucd/emoji/emoji-data.txt",
+      "bytes": 107324,
+      "sha256": "2cb2bb9455cda83e8481541ecf5b6dfda66a3bb89efa3fa7c5297eccf607b72b",
+      "gitBlob": "450252c4df3fc9477f6df6635f7b4aaf61db5a0f"
+    },
+    {
+      "path": "third_party/freetype2/include/freetype-android/freetype/config/ftoption.h",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/freetype2/include/freetype-android/freetype/config/ftoption.h",
+      "bytes": 42490,
+      "sha256": "3089fad16a06f8b193235b0f316385435554c1ae99d209f805445388f6c24973",
+      "gitBlob": "c165edeacdbdb837e20484459b63bc70267ab112"
+    },
+    {
+      "path": "third_party/freetype2/include/freetype-no-type1/freetype/config/ftoption.h",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/freetype2/include/freetype-no-type1/freetype/config/ftoption.h",
+      "bytes": 42496,
+      "sha256": "195904f2447dad4a44aa33304fe1d25e538b24618e285af9583817fe9b95b8e1",
+      "gitBlob": "cf56aeb880607b5621d0d7ea5153ff6c38b4d7e6"
+    },
+    {
+      "path": "freetype-glnames.py",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/tools/glnames.py",
+      "bytes": 107236,
+      "sha256": "a7e264aa83b68229173e862d44ada276812d0405e342e8a9bcf1edbf0ce8357f",
+      "gitBlob": "9dc28dbc86154bb35f45c6f28134d0e20f463ba6"
+    },
+    {
+      "path": "adobe-agl-LICENSE.md",
+      "source": "https://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6/LICENSE.md",
+      "bytes": 1404,
+      "sha256": "58147d341e7a34aa2196862395a34d2fd95716c41d5ed26efb59ab0e12f92089",
+      "gitBlob": "6fa1f178ad4d3ce5f9b5045e68c82e2f5d0ff7b8"
+    },
+    {
+      "path": "adobe-agl-zapfdingbats.txt",
+      "source": "https://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6/zapfdingbats.txt",
+      "bytes": 3879,
+      "sha256": "f6394e3cb8a447e84a1dad75d4baaf2aa7f45dc104faf369f4720e1a774ef2dc",
+      "gitBlob": "ab52700ee0d648fdbf4c78b2a02cf843586a5213"
+    }
+  ],
+  "publisherMetadataBindings": [
+    {
+      "path": "adobe-agl-publisher-tree.json",
+      "source": "https://api.github.com/repos/adobe-type-tools/agl-aglfn/git/trees/master?recursive=1",
+      "bytes": 1341,
+      "sha256": "ef1b01ab5ecf79ea9744568704f01476e5dbff0811b6cfcdbc366c7fcaf66eb0"
+    },
+    {
+      "path": "adobe-agl-publisher-commit.json",
+      "source": "https://api.github.com/repos/adobe-type-tools/agl-aglfn/commits/master",
+      "bytes": 5436,
+      "sha256": "1fe09fecb83c7e974ca053e13bec85e2157edb5d0218e4b74cf45c6b25100906"
+    },
+    {
+      "source": "https://chromium.googlesource.com/chromium/deps/icu.git/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/source/common/?format=JSON",
+      "purpose": "Bounded new ICU graph metadata retrieval after the initial source pass, not an archive or permission-search repeat.",
+      "bytes": 46031,
+      "sha256": "8189750725196ed9b94796061fe956bad6200e51ec9067d92fd39b47a7bc6adf",
+      "entries": 326,
+      "treeId": "0e157364beed19c618fad42ec9817d0bb8cfd1cc"
+    }
+  ],
+  "examinedWithoutNewSnapshot": [
+    {
+      "component": "FreeType fthash header",
+      "finding": "Its complete original MIT comment is byte-identical to the previously retained fthash.c notice. No duplicate snapshot."
+    },
+    {
+      "component": "FreeType MD5 fallback",
+      "finding": "Original public-domain statement plus fallback redistribution terms retrieved and bound. ftobjs.c includes MD5 inside FT_DEBUG_LEVEL_TRACE; both pinned config headers leave the flag undefined, and canvas requests is_debug=false. No ready notice addition for that unselected default build branch; no historical notice removed."
+    },
+    {
+      "component": "FreeType HarfBuzz bridge",
+      "finding": "Original Old MIT notices retrieved; FT_CONFIG_OPTION_USE_HARFBUZZ and dynamic variant are commented out in both pinned Skia FT configs. Do not infer runtime selection from aggregator includes."
+    },
+    {
+      "component": "Highway",
+      "finding": "Previously verified tree has only the retained Apache license; no NOTICE filename. No duplicate generic license snapshot."
+    },
+    {
+      "component": "Brotli",
+      "finding": "Retrieved GN-listed files reference MIT/LICENSE. Existing original Brotli notice retained; no newly established distinct embedded grant."
+    },
+    {
+      "component": "libwebp",
+      "finding": "81 of 123 listed files retrieved; headers reference the retained BSD COPYING. One Neon file explicitly refers to a libvpx adaptation without an exact revision. 42 retrieval failures and transitive-input gaps prevent whole closure."
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "unavailable-publisher-bodies",
+      "finding": "47 actual HTTP429 responses: initial Expat xmltok.h, Wuffs release/c/wuffs-v0.3.c and 42 WebP files; later 3 ICU files. 799 remaining ICU references were deliberately unrequested after the boundary. These are unavailable inputs for this pass, not negative license searches."
+    },
+    {
+      "kind": "unproven-source-grant-reference",
+      "finding": "Two retrieved libjpeg Arm jsimd dispatch files reference jsimdext.inc for terms; that notice body is not part of the literal GN list and was not retrieved before the publisher boundary. Chromium jpeglibmangler.h refers to a LICENSE file distinct from retained libjpeg LICENSE.md; its exact fork license/origin remains unbound. Do not substitute the zlib Chromium notice without source proof."
+    },
+    {
+      "kind": "generated-output-material",
+      "finding": "Pinned JPEG XL color_management.cc lines 396-401 emit an ICC copyright tag declaring Google 2019 / CC-BY-SA 3.0 Unported. Existing code LICENSE does not erase that emitted-data statement. Evidence of that code path in distributed/exported profiles and the required material treatment belongs to the parent decision; no output license or whole-code license assigned."
+    },
+    {
+      "kind": "unpinned-generator-inputs",
+      "finding": "Generated HarfBuzz tag tables, Unicode tables, some fontTools ports and the WebP libvpx adaptation include references without complete immutable input revisions/digests. The Unicode 17 notice pair supplements identified data, while current terms remain explicitly retrieval-dated; it does not reproduce every original generator input."
+    },
+    {
+      "kind": "compile-and-native-linkage",
+      "finding": "Literal GN/include closure collects conditional source candidates, not resolved per-target compiler defines, macro includes, full transitive headers or link maps. Retained native package/source bindings are reused; archive checks alone do not prove that each package used these exact compiler inputs."
+    }
+  ],
+  "preservedFetchFailures": [
+    {
+      "component": "expat",
+      "path": "expat/lib/xmltok.h",
+      "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/lib/xmltok.h?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "sharpyuv/sharpyuv_dsp.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/sharpyuv/sharpyuv_dsp.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dec/alpha_dec.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dec/alpha_dec.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dec/frame_dec.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dec/frame_dec.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/demux/anim_decode.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/demux/anim_decode.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/alpha_processing_sse2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/alpha_processing_sse2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/dec_clip_tables.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/dec_clip_tables.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/dec_mips_dsp_r2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/dec_mips_dsp_r2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/dec_msa.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/dec_msa.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/dec_neon.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/dec_neon.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/filters.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/filters.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/filters_neon.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/filters_neon.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/lossless_enc_mips32.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/lossless_enc_mips32.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/rescaler_mips_dsp_r2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/rescaler_mips_dsp_r2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/rescaler_neon.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/rescaler_neon.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/rescaler_sse2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/rescaler_sse2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/ssim.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/ssim.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/ssim_sse2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/ssim_sse2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/upsampling.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/upsampling.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/upsampling_mips_dsp_r2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/upsampling_mips_dsp_r2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/upsampling_neon.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/upsampling_neon.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/yuv.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/yuv.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/dsp/yuv_mips_dsp_r2.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/dsp/yuv_mips_dsp_r2.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/alpha_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/alpha_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/analysis_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/analysis_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/backward_references_cost_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/backward_references_cost_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/config_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/config_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/frame_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/frame_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/iterator_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/iterator_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/near_lossless_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/near_lossless_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/picture_rescale_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/picture_rescale_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/picture_tools_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/picture_tools_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/vp8l_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/vp8l_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/enc/webp_enc.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/enc/webp_enc.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/mux/anim_encode.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/mux/anim_encode.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/mux/muxinternal.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/mux/muxinternal.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/mux/muxread.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/mux/muxread.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/utils/color_cache_utils.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/utils/color_cache_utils.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/utils/filters_utils.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/utils/filters_utils.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/utils/palette.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/utils/palette.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/utils/quant_levels_utils.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/utils/quant_levels_utils.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/utils/rescaler_utils.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/utils/rescaler_utils.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "libwebp",
+      "path": "src/utils/utils.c",
+      "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/src/utils/utils.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "wuffs",
+      "path": "release/c/wuffs-v0.3.c",
+      "source": "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git/+/e3f919ccfe3ef542cfc983a82146070258fb57f8/release/c/wuffs-v0.3.c?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "icu",
+      "path": "source/common/emojiprops.cpp",
+      "source": "https://chromium.googlesource.com/chromium/deps/icu.git/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/source/common/emojiprops.cpp?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "icu",
+      "path": "source/common/filterednormalizer2.cpp",
+      "source": "https://chromium.googlesource.com/chromium/deps/icu.git/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/source/common/filterednormalizer2.cpp?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "component": "icu",
+      "path": "source/common/icudataver.cpp",
+      "source": "https://chromium.googlesource.com/chromium/deps/icu.git/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/source/common/icudataver.cpp?format=TEXT",
+      "error": "HTTP Error 429: Too Many Requests"
+    }
+  ],
+  "verification": {
+    "newNoticeExtractionsAndHashesChecked": true,
+    "byteIdenticalSnapshotsDeduplicated": true,
+    "noPublisherGeneratorExecuted": true,
+    "onlySourceNoticeAndProvenanceChecks": true,
+    "noWholeObligationClearance": true
+  },
+  "priorIntermediateHarnessCorrection": "The first group corrected an incorrect assumption about Meson locating Microsoft inputs using the exact update-unicode-tables.make recipe, and preserved a nonexistent legacy Makefile.sources lookup. Two scratch inspection commands guessed wrong build-profile filenames; correct files were then inspected. Neither failure was counted as provenance progress."
+}

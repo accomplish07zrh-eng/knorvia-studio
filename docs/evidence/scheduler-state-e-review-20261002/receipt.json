@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-02T14:58:09.498962+00:00",
+  "stateCheckpoint": "fcd4f1250183b11ca0c247f9e72580a85543b0d5",
+  "boundaryCheckpoint": "0cca0d486ea9709a59caae138192f8a9c339c48d",
+  "node": "v24.19.0",
+  "typescript": "6.0.2",
+  "sourceAndDependencyEnvironment": "Same isolated actual-source and verified pinned dependency environment as collection-planner-v2-types receipt; overlays are exact git show source bytes at each checkpoint.",
+  "files": {
+    "independent-results.json": {
+      "bytes": 13029,
+      "sha256": "3fbbc466d6516eae1de5246e05c5eab4dc8857de681f1be353861f0d73f70548"
+    },
+    "publisher-fetch.json": {
+      "bytes": 406,
+      "sha256": "2c5c778f96b3db9bc146da095b101889ad5ef417acf665d84c30c0e700496582"
+    },
+    "retention-results.json": {
+      "bytes": 7619,
+      "sha256": "f47d3ef55684ae2fad913b241de635be5e70390fba26b5df5f63c2fde8e1c2c0"
+    },
+    "verify.mjs.txt": {
+      "bytes": 8416,
+      "sha256": "28d1a49fc52f6445fb4aa2e901f03064c871520b69a0990d890650b3c1c78646"
+    },
+    "retention.mjs.txt": {
+      "bytes": 3510,
+      "sha256": "0333c5c83d96bda7bfaa6fef75d4a79a2ea68c565cc22cf3c5153c822018ca16"
+    }
+  },
+  "declarationBindings": {
+    "declarations/boundary/apps/cli/packages/core/src/workflow/scheduler/ready-order.d.ts": {
+      "bytes": 245,
+      "sha256": "b10c1647caf974f094bcfd5378ca2fedcc07069e14e1a9cf75d59010728b58ab"
+    },
+    "declarations/boundary/apps/cli/packages/core/src/workflow/scheduler/graph-helpers.d.ts": {
+      "bytes": 2258,
+      "sha256": "a10d919809d5819492620ff14596764a60c8fcf8521efd83c28da2932ab4a6ce"
+    },
+    "declarations/boundary/apps/cli/packages/core/src/workflow/scheduler/graph.d.ts": {
+      "bytes": 135,
+      "sha256": "032f23777c276c3705362abec0ab8b52f516d923ac9a04e0b9b43eae2d3210fc"
+    },
+    "declarations/boundary/apps/cli/packages/contracts/src/workflow/session-links.d.ts": {
+      "bytes": 265,
+      "sha256": "2d0afc7bdb9b4faaf41595f834404b9be261e23a623e04b70333709445674083"
+    },
+    "declarations/boundary/apps/cli/packages/contracts/src/workflow/scheduler-state.d.ts": {
+      "bytes": 25045,
+      "sha256": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48"
+    },
+    "declarations/boundary/apps/cli/packages/contracts/src/workflow/run-schema.d.ts": {
+      "bytes": 87224,
+      "sha256": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f"
+    },
+    "declarations/boundary/apps/cli/packages/contracts/src/workflow/graph-schema.d.ts": {
+      "bytes": 23726,
+      "sha256": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6"
+    },
+    "declarations/boundary/apps/cli/packages/contracts/src/workflow/definition.d.ts": {
+      "bytes": 17374,
+      "sha256": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee"
+    },
+    "declarations/boundary/apps/cli/packages/contracts/src/workflow/index.d.ts": {
+      "bytes": 2289,
+      "sha256": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f"
+    },
+    "declarations/state-after/apps/cli/packages/core/src/workflow/scheduler/graph.d.ts": {
+      "bytes": 2378,
+      "sha256": "0c041833e2d9deab50587ad659ec7d300e4e8a6dd038fde483574f2f0f04a613"
+    },
+    "declarations/state-after/apps/cli/packages/contracts/src/workflow/index.d.ts": {
+      "bytes": 155053,
+      "sha256": "34f9df91d2e74c9a33437d87256c8b14a1a8af930feb36292d3e37bc597ea090"
+    },
+    "declarations/state-before/apps/cli/packages/core/src/workflow/scheduler/graph.d.ts": {
+      "bytes": 2378,
+      "sha256": "0c041833e2d9deab50587ad659ec7d300e4e8a6dd038fde483574f2f0f04a613"
+    },
+    "declarations/state-before/apps/cli/packages/contracts/src/workflow/index.d.ts": {
+      "bytes": 155053,
+      "sha256": "34f9df91d2e74c9a33437d87256c8b14a1a8af930feb36292d3e37bc597ea090"
+    }
+  },
+  "limits": [
+    "No A runtime suites repeated.",
+    "A emitted artifacts are not tracked and were unavailable for byte verification; independent declarations were compiled here.",
+    "Fresh-author access is A-reported and instruction-based, not independent access isolation.",
+    "Relocation is not independent reconstruction or licence clearance."
+  ]
+}

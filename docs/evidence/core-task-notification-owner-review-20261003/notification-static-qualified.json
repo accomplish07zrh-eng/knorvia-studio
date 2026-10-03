@@ -1,0 +1,98 @@
+{
+  "scope": "notification",
+  "baseline": "450531c1e5c6ed9d661c7f867196b534a55fa82a",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "publicTypeQualifications": [
+    "Public surface exact and explicit; no inferred signature/type substitution. Public type closure only; original raw dependency diagnostics retained, no semantic compilation.",
+    "Curator read complete allocated420-line body and public dependency declarations/source data; all historical broader exposure/repaired scratch breach remain. No dependency/source execution, real agents/workflow notification or native/business I/O.",
+    "Parent accepted registry resolution retained without import/revalidation; local older registry unchanged. Required prose/XML/static material preserved honestly; no novelty/rights/license closure."
+  ],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/contract.md",
+      "bytes": 8998,
+      "lines": 36,
+      "sha256": "a13a78106f59d9d445cba5a8e572c55eef1b9fa2941fab0b64bbec84e0acde41",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/public-api.d.ts",
+      "bytes": 1573,
+      "lines": 42,
+      "sha256": "db1df197f0758aa68ad99edb0099819b889de94d3f3725c668de8f93bd557ca8",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/dependency-api.d.ts",
+      "bytes": 2430,
+      "lines": 62,
+      "sha256": "d3da28eeec24bf5ff6e44c088672984d2d6f6762023bca54b2f311be987191f4",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/imports.json",
+      "bytes": 1013,
+      "lines": 34,
+      "sha256": "b2ec90bf56b6200279d0bc52bec24b295bb3b8267a960e7cca9f0cde3d56b3a1",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/required-data.json",
+      "bytes": 16852,
+      "lines": 814,
+      "sha256": "d553a8c7f0d61e58bcd580db52d64834b6625dc3ad59a8ecfdcaa8d7e728361f",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/public-data.json",
+      "bytes": 445,
+      "lines": 17,
+      "sha256": "6855f27bd890d45214e79063eac28f7d27f6296498e451d101c984357c10d09f",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "notification.ts.txt",
+      "target": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "bytes": 13292,
+      "lines": 252,
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b",
+      "scratch": "/tmp/knorvia-task-notification-owner-20261003/notification.ts",
+      "frozenMode": "0o444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 13918,
+      "lines": 213,
+      "sha256": "7d2dc8bde82c3782a781b18f401743523ef3cdf2070fcf28c2382eb42fb1f202",
+      "scratch": "/tmp/knorvia-task-notification-owner-20261003/author-record.json",
+      "frozenMode": "0o444",
+      "exact": true
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 616,
+    "unchanged": 616,
+    "failures": []
+  },
+  "passed": true,
+  "qualification": "Compare frozen qualified export/reexport surfaces and original source import identities, isolated declarations only; original raw diagnostics/opaque ports preserved, no semantic/project typechecking/standalone declaration closure. Exact explicit target signatures retained; required prose/static material honestly retained. Full whole archives before body review; author self-report/instruction-only shared executor, source-exposed curator/historical broader exposure/repaired scratch breach, no OS access audit/novelty/rights assertion. Ordinary checks deferred."
+}

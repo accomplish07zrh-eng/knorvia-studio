@@ -1,0 +1,185 @@
+{
+  "baseline": "1b64757edf64aa5983915d948220be2b5f37999b",
+  "inputs": [
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/contract.md",
+      "bytes": 13755,
+      "sha256": "3012999e80237f68a4d943c71cd288a5e7f2e0e437ec6006149a4d0da830d287",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/lifecycle-public-api.d.ts",
+      "bytes": 3296,
+      "sha256": "9e54ec003b987894163c7977007d20d7136d4cc08ad1dc42759147dd60f131d4",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/chrome-public-api.d.ts",
+      "bytes": 1164,
+      "sha256": "463e4399ab0ccb0c11097d3a2384cbd69cc811d0dc925ba4da0560e8f22ad756",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 22080,
+      "sha256": "bb0a180638e5e8a79e53b2548f5813c3e074be5ba697f553721a10c8264d019d",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/external-port-notes.md",
+      "bytes": 3576,
+      "sha256": "295173b5cd6ee8a4f7dcd76143259a87fc264d59fd882cb65f81a5457b40b0f8",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/imports.json",
+      "bytes": 6105,
+      "sha256": "f2b4533ad7b675f36f931e8bfde330833c4059bfc6373f67161200ed748b8163",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/required-literal-data.json",
+      "bytes": 19419,
+      "sha256": "803f5d5ae3173e4f0d3c1d7e5c504113052262952663b0833ce83ef7daea05a4",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/public-dependency-data.json",
+      "bytes": 5241,
+      "sha256": "82da3d946c1935f6a213b071b2ab43f0ad91a57381db3105fd46765bd80e6904",
+      "exact": true,
+      "frozenMode": 292
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/event-bindings.json",
+      "bytes": 5307,
+      "sha256": "90644c912f69a15108439e1e7de3adcb34e51cb2e3a393142580c04e405bff7e",
+      "exact": true,
+      "frozenMode": 292
+    }
+  ],
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "bytes": 15866,
+      "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+      "exact": true,
+      "baselineUnchanged": true,
+      "originMatches": true,
+      "apiEqual": true,
+      "rawApiFrozen": true,
+      "rawDiagnosticsFrozen": true,
+      "importsEqual": true,
+      "retainedLiteralData": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "bytes": 19380,
+      "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+      "exact": true,
+      "baselineUnchanged": true,
+      "originMatches": true,
+      "apiEqual": true,
+      "rawApiFrozen": true,
+      "rawDiagnosticsFrozen": true,
+      "importsEqual": true,
+      "retainedLiteralData": true
+    }
+  ],
+  "dependencyBoundaries": {
+    "checked": 22,
+    "unchanged": 22,
+    "failures": []
+  },
+  "constantChecks": [
+    {
+      "publicName": "DEFAULT_LOCALE",
+      "exact": true
+    },
+    {
+      "publicName": "desktopMenuMessageIds",
+      "exact": true
+    },
+    {
+      "publicName": "DEFAULT_DESKTOP_WINDOW_WIDTH",
+      "exact": true
+    },
+    {
+      "publicName": "DEFAULT_DESKTOP_WINDOW_HEIGHT",
+      "exact": true
+    },
+    {
+      "publicName": "MIN_DESKTOP_WINDOW_WIDTH",
+      "exact": true
+    },
+    {
+      "publicName": "MIN_DESKTOP_WINDOW_HEIGHT",
+      "exact": true
+    },
+    {
+      "publicName": "MACOS_TRAFFIC_LIGHT_BASE_POSITION",
+      "exact": true
+    },
+    {
+      "publicName": "WINDOWS_WINDOW_CONTROLS_BASE_RIGHT_PADDING_PX",
+      "exact": true
+    },
+    {
+      "publicName": "WINDOWS_TITLE_BAR_HEIGHT_PX",
+      "exact": true
+    },
+    {
+      "publicName": "PlatformChannels.FocusTab",
+      "exact": true
+    },
+    {
+      "publicName": "PlatformChannels.OpenBrowserUrl",
+      "exact": true
+    },
+    {
+      "publicName": "PlatformChannels.WindowFullscreenChanged",
+      "exact": true
+    },
+    {
+      "publicName": "PlatformChannels.DesktopWindowChromeStateChanged",
+      "exact": true
+    },
+    {
+      "publicName": "InternalChannels.ServicePort",
+      "exact": true
+    },
+    {
+      "publicName": "HostMessageTypes.InitLocal",
+      "exact": true
+    },
+    {
+      "publicName": "HostMessageTypes.AttachServicePort",
+      "exact": true
+    }
+  ],
+  "noBodies": [
+    {
+      "file": "lifecycle-public-api.d.ts",
+      "noImplementationBodiesOrPrivateProtectedMembers": true
+    },
+    {
+      "file": "chrome-public-api.d.ts",
+      "noImplementationBodiesOrPrivateProtectedMembers": true
+    },
+    {
+      "file": "dependency-api.d.ts",
+      "noImplementationBodiesOrPrivateProtectedMembers": true
+    }
+  ],
+  "eventRecords": 18,
+  "desktopImplementationDiff": "",
+  "passed": true,
+  "qualification": "Source-only scoped packet checks, nine inputs; raw target diagnostics/type qualifications remain. No actual Electron/window/process/data/permission or dependency execution, replacement acceptance, project/semantic compile/suite/build/lint, source-emitted matrix/cross-lane import or rights/material closure. Curator source-exposed/instruction-only shared executor/no OS audit."
+}

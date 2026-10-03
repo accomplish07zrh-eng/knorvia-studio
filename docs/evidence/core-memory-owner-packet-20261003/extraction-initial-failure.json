@@ -1,0 +1,1 @@
+{"error":"Missing ModelInputMessage","cause":"Curator extraction selected facade file rather than original model/index public type owner","stage":"before author inputs frozen; partial scratch packet not delivered","missingSearchPath":"apps/cli/packages/protocol/src does not exist","correction":"Select actual contracts/model/index type owner; preserve original failed extractor"}

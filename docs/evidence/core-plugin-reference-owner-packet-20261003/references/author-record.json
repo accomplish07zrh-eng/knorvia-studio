@@ -1,0 +1,162 @@
+{
+  "record_kind": "complete restricted plugin-reference author receipt",
+  "recorded_at_utc": "2026-10-02 22:13:44 UTC",
+  "allocation": "references",
+  "request": {
+    "model": "GPT6.1 Sol",
+    "reasoning_effort": "high",
+    "fork": "none",
+    "savedFast": "unchanged and unverified",
+    "actual_model_or_effort_verified": false,
+    "qualification": "Requested settings are recorded; runtime routing and savedFast were not inspected."
+  },
+  "source": {
+    "path": "/tmp/knorvia-plugin-reference-owners-20261003/references/references.ts",
+    "bytes": 1826,
+    "lines": 60,
+    "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+    "complete_original_draft": true,
+    "under_400_lines": true,
+    "final_mode": "0444"
+  },
+  "receipt_path": "/tmp/knorvia-plugin-reference-owners-20261003/references/author-record.json",
+  "receipt_final_mode": "0444",
+  "actual_content_reads": [
+    {
+      "sequence": 1,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/references/contract.md",
+      "bytes": 3522,
+      "sha256": "a9806aaaaedb614e7b548f66e83a32d1398665d811d018b7ff2af5cd0c93b854",
+      "extent": "full",
+      "purpose": "authoritative owner input"
+    },
+    {
+      "sequence": 2,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-api.d.ts",
+      "bytes": 358,
+      "sha256": "27727997343080438d20faade62895550ea7a3e58aa39108a02b773f884b27b3",
+      "extent": "full",
+      "purpose": "authoritative owner input"
+    },
+    {
+      "sequence": 3,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/references/dependency-api.d.ts",
+      "bytes": 79,
+      "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287",
+      "extent": "full",
+      "purpose": "authoritative owner input"
+    },
+    {
+      "sequence": 4,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-shapes.d.ts",
+      "bytes": 59,
+      "sha256": "a6a5be92d3a01227790cf9ce67b1c94897681e1868bc92f4d104cc7a353f6ac4",
+      "extent": "full",
+      "purpose": "authoritative owner input"
+    },
+    {
+      "sequence": 5,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/references/imports.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "extent": "full",
+      "purpose": "authoritative owner input"
+    },
+    {
+      "sequence": 6,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/references/output-data.json",
+      "bytes": 826,
+      "sha256": "39de554663a9dd1c24f2199a086d7462d3d88540fca46cb5490e23e3e151468e",
+      "extent": "full",
+      "purpose": "authoritative owner input"
+    },
+    {
+      "sequence": 7,
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/references/references.ts",
+      "bytes": 1740,
+      "sha256": "a215d2e130fd5eb04c0f3200d597dd483c0333dcf4b04a12d6379e7fb8c15fb2",
+      "extent": "full",
+      "purpose": "full initial source manual review and binding"
+    },
+    {
+      "sequence": 8,
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/references/references.ts",
+      "bytes": 1740,
+      "sha256": "a215d2e130fd5eb04c0f3200d597dd483c0333dcf4b04a12d6379e7fb8c15fb2",
+      "extent": "full",
+      "purpose": "full source read to apply manual-review correction"
+    },
+    {
+      "sequence": 9,
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/references/references.ts",
+      "bytes": 1826,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "extent": "full",
+      "purpose": "full final source manual review and binding"
+    }
+  ],
+  "read_accounting_scope": "Every explicit task content read is listed in order. Python/tool runtime incidental access was not audited; no OS-level access audit was performed. The receipt itself was serialized and hashed in memory without a content read; no recursive self-hash claim is made.",
+  "operations": [
+    "Read all six permitted inputs in full once via a Python exec command, computing bytes and SHA256 and returning their complete contents.",
+    "Read permitted clock at 2026-10-02 22:13:15 UTC.",
+    "Created own output directory and wrote complete source references.ts, without reading any prior output.",
+    "Read own initial source in full for manual review, bytes, lines and SHA256.",
+    "Read own initial source in full and rewrote it to enforce complete segment matches while retaining the supplied exact validation regex.",
+    "Read own final source in full for manual review, bytes, lines and SHA256.",
+    "Read permitted clock at 2026-10-02 22:13:44 UTC.",
+    "Serialize this full receipt, write only author-record.json, and compute its bytes, lines and SHA256 from the exact serialized bytes in memory.",
+    "Freeze both authorized output files with chmod 0444 before final reporting; inspect own file metadata permissions without content reads."
+  ],
+  "manual_review": {
+    "method": "Static reading only; no source execution, compiler, build, lint, tests, mocks or dependency implementation access.",
+    "findings": [
+      "Exports the exact public constant literal 8, result interface and two functions; no imports, consistent with the empty import set.",
+      "Validates length in JavaScript UTF-16 code units, exactly one non-leading at sign, nonempty allowed segments and case-preserving identity.",
+      "Uses the exact supplied stable-ID regex and compares each entire matched substring to its segment. This avoids accepting a final line terminator through native dollar-anchor behavior and satisfies the explicit prohibition on control characters.",
+      "Uses the exact supplied global Markdown-link regex, reset to lastIndex zero each call; the regex and accumulator are invocation-local.",
+      "Uses native input.matchAll and capture 1 then capture 2 then empty string, with no decoding, label inspection, source mutation or code/comment filtering.",
+      "Uses the exact supplied case-insensitive intent regex, requires exact lowercase plugin:// for acceptance, and counts every malformed intent occurrence.",
+      "Keeps only retained valid IDs in an invocation-local set, preserves first occurrence order, ignores retained duplicates and counts each valid dropped occurrence after the cap.",
+      "Constructs return fields in references, truncatedCount, invalidCount order; leaves native input errors uncaught; contains pure string and metadata logic only."
+    ],
+    "limits": "Manual review is not semantic compilation or executed behavior verification. No project integration or test result is asserted."
+  },
+  "retained_required_data_and_idioms": {
+    "public_data": [
+      "MAX_PLUGIN_REFERENCES_PER_TURN = 8",
+      "ID length cap 256",
+      "plugin://",
+      "@",
+      "empty capture fallback",
+      "capture indices 1 and 2",
+      "zero-based counters and regex reset",
+      "increment by 1"
+    ],
+    "exact_regex_literals": [
+      "/\\[(?:\\\\.|[^\\\\\\]])*\\]\\((?:<((?:\\\\.|[^>])*?)>|((?:\\\\.|[^)\\s])*))\\)/g",
+      "/^[A-Za-z0-9][A-Za-z0-9._-]*$/",
+      "/^plugin:\\/\\//i"
+    ],
+    "ordinary_idioms": [
+      "exported TypeScript declarations",
+      "early returns and loop continues",
+      "indexOf/lastIndexOf delimiter validation",
+      "slice and startsWith string operations",
+      "native matchAll",
+      "nullish capture fallback",
+      "Set membership for retained IDs",
+      "array push and object field counters",
+      "full regex match equality"
+    ]
+  },
+  "scope_exposure_breaches_and_limits": {
+    "direct_author_input_exposure": "Only the six supplied full input files and the author own source contents were explicitly read. This fork received the task delegation and shared system/developer/tool context, but no repository implementation bodies or other drafts were read by this author.",
+    "curator_exposure": "Source-exposed curator and earlier broader tool/dependency context remain part of upstream provenance. Restricted authoring does not erase those exposures.",
+    "prior_breach": "Parent reports an earlier repaired scratch-write breach. It remains explicitly qualified in the provenance; this author did not inspect, repair or independently verify that earlier event.",
+    "current_author_breaches": "No known deviation from the explicitly restricted task file reads, two-output writes and allowed hash/line/manual-review/chmod/clock operations in this author turn.",
+    "shared_executor": "Restrictions were instruction-only on a shared executor; no OS isolation, access audit or enforcement attestation was supplied or performed.",
+    "excluded_actions": "No repository source/history/AGENTS/tests/dependency implementation/other draft/global-data reads; no business-port, userdata, filesystem-as-product, loader, plugin/provider/tool/model/store/network/credentials behavior in the source; no compiler/build/lint/tests/mocks/install/subagents/progress-tool calls.",
+    "attestation_limits": "No novelty, separation, licence or authority-grant attestation. Required externally visible data and ordinary idioms are retained honestly."
+  },
+  "remaining_blockers": []
+}

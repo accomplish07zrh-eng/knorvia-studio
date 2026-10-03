@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "8a16740cb7e8b6373c2a910ead6c937359bf6b55",
+  "authorInputs": [
+    {
+      "file": "contract.md",
+      "bytes": 8595,
+      "sha256": "11490555e4c19a3f72cb947e7407ae3405bf4d788a23b3792a654f480b6ec358"
+    },
+    {
+      "file": "public-api.d.ts",
+      "bytes": 474,
+      "sha256": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e"
+    },
+    {
+      "file": "dependency-api.d.ts",
+      "bytes": 1634,
+      "sha256": "00da614b794de5b38add26cf15d1c2f302d381cc6c12f57648eb5c77fdad1dbf"
+    }
+  ],
+  "publicDeclaration": "Exact unchanged declaration bytes, archived at checkpoint; sourceMappingURL is not an allowed additional input.",
+  "curatorExposure": "Curator has read publisher, predecessor, candidate, specs, tests and reviews. Packet was behavior/API distilled from those observations; not an absolute clean-room claim.",
+  "excludedAuthorInputs": [
+    "publisher/predecessor/candidate implementation bodies",
+    "tests or test archives",
+    "history",
+    "prior drafts",
+    "review prose"
+  ],
+  "runtimeEdits": false,
+  "authorAttempt": {
+    "attempts": 1,
+    "tool": "collaboration.spawn_agent",
+    "task": "/root/expansion_packet_author",
+    "forkTurns": "none",
+    "requestedModel": "gpt-6-astra",
+    "requestedReasoningEffort": "high",
+    "status": "completed",
+    "environment": "same saved executor; disposable input/output directory",
+    "inputRestriction": "Instruction allowlist of three files; not a separate filesystem sandbox. Curator manifest and reviews were not supplied to author.",
+    "reportedAccess": "Author reports only the three packet inputs read; no source/history/tests/repository/external access before or after draft hash. Not an independently audited access log.",
+    "fastSetting": "No separate Fast/service-tier argument is exposed by the native author tool; no alternate executor or initialization retry used."
+  },
+  "draft": {
+    "file": "draft-planner-expansion.ts.txt",
+    "bytes": 5219,
+    "sha256": "b0ceffd900a1228b57546d06fa8656b6d52a383cb17482a60c7c3a2693b1385d",
+    "receipt": "author-draft-record.json",
+    "receiptSha256": "9c19c0ad8de610b6f5a0a31807045ed06d72c22a554771f35fc5b6413246396f",
+    "curatorEditsAfterFreeze": false,
+    "syntaxOrRuntimeTests": false,
+    "comparisonAfterFreeze": false,
+    "productionAdoption": false,
+    "licenceGrant": null
+  },
+  "validation": [
+    "Frozen author-input digests equal delivered copies",
+    "Scheduler interface excerpts match exact checkpoint declarations",
+    "Public declaration bytes match bound archival declaration",
+    "Saved draft byte count and SHA-256 independently checked",
+    "No original runtime or frozen assertions changed"
+  ]
+}

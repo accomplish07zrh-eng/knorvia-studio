@@ -1,0 +1,109 @@
+{
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "6590bcdb2c01408d6da0e437779aaecd0c2db1da",
+  "sourceMetadataBindings": [
+    {
+      "path": "packages/provider-node/src/builtin-cache-paths.ts",
+      "bytes": 2508,
+      "sha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+      "gitBlob": "e0da2c7918079056f16332eebb86191c60ea02d9"
+    },
+    {
+      "path": "packages/provider-node/src/builtin-provider-config-materializer.ts",
+      "bytes": 1582,
+      "sha256": "f8e1e90169107ed2f8519bb10dbc88be365f054d878d93474081eb2551978dd1",
+      "gitBlob": "49c5da9b629e0ab90a413d7fbe859d9591d7685b"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "docs/evidence/provider-node-builtin-fixed-upstream-20261003/bindings-comparison.json",
+      "bytes": 29208,
+      "sha256": "6b0adec6c022fd18692c9bd2b48476d7dde105ad21fca56acc3c30207b7b945f",
+      "gitBlob": "9835bb7cb9ed1ea2498a323a8c52919f27e9f645"
+    },
+    {
+      "path": "docs/evidence/provider-node-builtin-origin-screen-20261003/source-review.json",
+      "bytes": 22048,
+      "sha256": "da11d7b0b9866953dd58e01d7f3fc03af651f3db15fa3c6c56f32e242a2f8b3a",
+      "gitBlob": "0c19449da78159766ea72584861c869fa7b4ed8e"
+    },
+    {
+      "path": "docs/evidence/personal-provider-config-repository-root-packet-20261003/dependency-contract.md",
+      "bytes": 4508,
+      "sha256": "a33a7d1a8932fa9bee4c09764b750ce293da2ad101f938aeb73c0ea37327d7b4",
+      "gitBlob": "16ae3887489b29ec21ab6d53258cc57524a46a7d"
+    }
+  ],
+  "cacheAuthorInputBindings": [
+    {
+      "path": "contract.md",
+      "bytes": 5569,
+      "sha256": "192ebfda5bcc0f3bb1d5e64efa3e12a96199ddfd3e6d721344e97c586cdfbb95",
+      "gitBlob": "006d9f994fd997a86e2aa2434b4d7f649228899f"
+    },
+    {
+      "path": "public-api.d.ts",
+      "bytes": 700,
+      "sha256": "bc163499569d7886d019573c60bd5f0dfb6197a56f9d065f5f69482d2f784651",
+      "gitBlob": "521e314752b2bfeb295370b7934ad22cda95f054"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 1860,
+      "sha256": "8fd89bd166207cb47d1a80bfec1de7f5a3f6c4977e3d85167b31af3e984d9bea",
+      "gitBlob": "d4bd42052225c7deefa0d4d50a55ef47772e0de9"
+    }
+  ],
+  "receiptBinding": {
+    "path": "prior-receipt-search.json",
+    "bytes": 1589,
+    "sha256": "629a244449ffd4de9dc5d0b4a742a666e5dd27dbd17131c9f300f74859051ed2",
+    "gitBlob": "ef929777d33262e11dec40dc5e042751e0a93050"
+  },
+  "materializerRetentionBinding": {
+    "path": "materializer-retention.md",
+    "bytes": 3624,
+    "sha256": "580f39dfb3183a7cd2331f730706b771e7d39e73a682089ecd56cebd07454a09",
+    "gitBlob": "7b80b42da4b2bb0ae5a3d4b6e40e87d910e33d1c"
+  },
+  "responsibility": {
+    "cachePaths": "Substantive endpoint identity/platform/version path-policy owner, complete body-free preparation only",
+    "materializer": "RETAIN thin fixed bundled-file adapter over retained release/lock/private-write owners; no new author packet",
+    "newAuthors": 0,
+    "newCandidates": 0,
+    "newAllocations": 0,
+    "endpointScopedSource": "Not allocated/touched",
+    "DUpperOwners": "Not touched",
+    "rootDownloadReleaseOwners": "Already started per root; no preparation/code repetition"
+  },
+  "oldReceiptResult": "0 exact path/digest public reviews; only known lineage metadata match among67 named JSON files. Private/unpublished acceptance not disproved; genuine receipt/conflicting allocation stops work.",
+  "fixedProvenance": "Reuse prior fixed-ref proof872ad960de7ec172591f7e1952f7849229f94521; no upstream request or original source body copied into packet",
+  "apiExtraction": "TS6.0.2 AST exact interfaces and4 explicit function signatures, stripped bodies; no implementation/default expressions",
+  "configuration": "GPT-6.1 Sol/high/Fast ON root-reported; no independent UI tooling, priorFastOFF not retroactively changed",
+  "exposure": "Source-exposed curator, prior broader exposure/repaired scratch-write breach/shared executor/instruction-only/no OS isolation/access-audit qualifications retained; no clean-room/MIT/whole-file rights claim",
+  "checks": {
+    "freshness": "PASS ahead209/behind0 vs origin/main; behind-remote skipped as upstream tracking unset; published input baseline verified",
+    "architecture": "Documentation-only, skill skip; prior missing-TypeScript failure preserved without rerun/install/bypass",
+    "runtimeFilesystemCacheConfigCredentialsNetworkProvider": false,
+    "ordinaryTestsBuilds": false,
+    "sourceChanges": 0,
+    "newSourceRequests": 0,
+    "crossLaneMerge": false,
+    "semanticTypeAndOsAcceptance": "DEFERRED"
+  },
+  "materialOpen": 21,
+  "rightsAccepted": false,
+  "status": "CACHE_IDENTITY_PREPARATION_AND_MATERIALIZER_RETENTION"
+}

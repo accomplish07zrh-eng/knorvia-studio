@@ -1,0 +1,6 @@
+{
+  "priorPacketCommit": "09124b1d",
+  "generationFailure": "Boundary-only manifest used nonexistent agent/provider-request-messages.ts path; corrected to runtime/helpers/provider-request-messages.ts before authors launched. No boundary artifact had been emitted.",
+  "dependencyQualification": "History reminder constant described as readonly union array instead of a narrower tuple before authors launched; values/order unchanged.",
+  "runtimeTest": false
+}

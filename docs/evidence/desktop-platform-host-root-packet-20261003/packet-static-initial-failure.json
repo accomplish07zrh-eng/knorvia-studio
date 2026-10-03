@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "failure": "Error: Unexpected original raw return",
+  "location": "verify-packet.cjs apis map, first target function type guard",
+  "secondaryFailure": "Summary JSONDecodeError Expecting value at line1 column1 because failed checker emitted no JSON.",
+  "cause": "Checker assumed TS9007 necessarily emits any. Original isolated declaration emitted void despite raw diagnostic; explicit/public void shape already retained.",
+  "correction": "Accept original emitted void; qualify only an emitted any return to documented void. No input/source/API/manifest edit.",
+  "preserved": [
+    "verify-packet.initial-raw-return-failure.cjs.txt",
+    "packet-static.initial-empty-output.txt"
+  ],
+  "noBusinessRuntime": true
+}

@@ -1,0 +1,23 @@
+{
+  "binding": {
+    "path": "docs/evidence/core-task-notification-owner-packet-20261003/notification/notification.ts.txt",
+    "bytes": 13292,
+    "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+  },
+  "groups": [
+    {
+      "name": "exact dispatch/XML/order/usage omission and immutable input projection",
+      "passed": true
+    },
+    {
+      "name": "workflow exact sections/guidance precedence/path presence/helper identity and unchanged reexports",
+      "passed": true
+    },
+    {
+      "name": "UTF-16 exact truncation boundary/tail ordering and local-bash exception",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Three distinct minimum synthetic data/projection groups; fictional frozen input/helper only, candidates isolated-transpiled, original/ports/policies never executed, no actual agents/workflow notifications/business I/O, project/semantic compile/suite/build/lint/source-emitted matrix. Public required prose serves exact output data, not authorship/rights evidence."
+}

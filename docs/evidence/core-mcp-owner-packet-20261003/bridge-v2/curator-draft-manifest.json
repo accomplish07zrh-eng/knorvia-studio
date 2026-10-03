@@ -1,0 +1,24 @@
+{
+  "scope": "bridge-v2",
+  "files": [
+    {
+      "file": "index.ts.txt",
+      "target": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 10766,
+      "lines": 271,
+      "sha256": "20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967",
+      "scratch": "/tmp/knorvia-mcp-owners-20261003/bridge-v2/index.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 28860,
+      "lines": 552,
+      "sha256": "5830eb271316d54eee8ce4fe8f0de11d57b609512c7e5361f2a358d37ab7413f",
+      "scratch": "/tmp/knorvia-mcp-owners-20261003/bridge-v2/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole same-author v2 and full cumulative receipt archived before body review; original full drafts/failures remain, no curator source patch."
+}

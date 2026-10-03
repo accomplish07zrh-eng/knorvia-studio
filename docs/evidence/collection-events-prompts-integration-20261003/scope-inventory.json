@@ -1,0 +1,70 @@
+{
+  "kind": "Current E scheduler implementation scope; not global licensing inventory",
+  "scope": "This checkout only; future/new other-lane owners excluded until acceptance phase",
+  "eligibleScopedWorkExhausted": true,
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+      "category": "E-authored complete implementation",
+      "integrationCommit": "This batch",
+      "bytes": 2636,
+      "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "category": "E-authored complete implementation v2",
+      "integrationCommit": "cf75d15f",
+      "bytes": 11883,
+      "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts",
+      "category": "Retained public declarations",
+      "integrationCommit": "No rewrite",
+      "bytes": 434,
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+      "category": "E-authored complete implementation",
+      "integrationCommit": "0a85acce",
+      "bytes": 3724,
+      "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+      "category": "Excluded A-owned implementation",
+      "integrationCommit": "No E rewrite",
+      "bytes": 7567,
+      "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "category": "E-authored complete implementation",
+      "integrationCommit": "dfae259b",
+      "bytes": 12352,
+      "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+      "category": "E-authored complete implementation v2",
+      "integrationCommit": "cf75d15f",
+      "bytes": 5249,
+      "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+      "category": "E-authored complete implementation; output prose and JSON retained",
+      "integrationCommit": "This batch",
+      "bytes": 3275,
+      "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/types.ts",
+      "category": "Retained public declarations",
+      "integrationCommit": "No rewrite",
+      "bytes": 4401,
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+    }
+  ]
+}

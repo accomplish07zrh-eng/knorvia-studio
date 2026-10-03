@@ -1,0 +1,137 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": "../utils.js"
+    },
+    {
+      "kind": "text",
+      "text": "Skills"
+    },
+    {
+      "kind": "text",
+      "text": "skills"
+    },
+    {
+      "kind": "text",
+      "text": "meta_user"
+    },
+    {
+      "kind": "text",
+      "text": "dynamic"
+    },
+    {
+      "kind": "text",
+      "text": "The following skills are available for use with the Skill tool:"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "skillDisplayName(skill)",
+          "text": ""
+        },
+        {
+          "placeholder": "bareAliasSuffix(skill)",
+          "text": " (file: "
+        },
+        {
+          "placeholder": "skill.path",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "skill.description",
+          "text": " - "
+        },
+        {
+          "placeholder": "skill.whenToUse",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "description.slice(0, maxDescriptionChars - 1)",
+          "text": "..."
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "skillDisplayName(skill)",
+          "text": ": "
+        },
+        {
+          "placeholder": "trimmed",
+          "text": ""
+        },
+        {
+          "placeholder": "bareAliasSuffix(skill)",
+          "text": " (file: "
+        },
+        {
+          "placeholder": "skill.path",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": " (also loadable as ",
+      "spans": [
+        {
+          "placeholder": "skill.name",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    "20000",
+    "250",
+    "0",
+    "0",
+    "100",
+    "0",
+    "1"
+  ],
+  "qualification": "Retained exact protocol/format/prose/template/regex/constant data and ordinary idioms, no novelty/license grant claim"
+}

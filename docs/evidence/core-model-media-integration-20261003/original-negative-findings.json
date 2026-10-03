@@ -1,0 +1,55 @@
+{
+  "kind": "Minimal isolated synthetic validation/authority/data-preservation boundary checks; stub collaborators only",
+  "mode": "original",
+  "typescript": "6.0.2",
+  "bindings": [
+    {
+      "scope": "errors",
+      "path": "docs/evidence/core-model-media-author-packet-20261003/errors/draft-model-errors.ts.txt",
+      "bytes": 9552,
+      "sha256": "49bcb877fbe4b6219ab54646988a7984ecdcbe75457091b95a2390efb9c7b31c"
+    },
+    {
+      "scope": "request",
+      "path": "docs/evidence/core-model-media-author-packet-20261003/request/draft-provider-request-messages.ts.txt",
+      "bytes": 8705,
+      "sha256": "a1d217e2f3c579f460826a16ceead7bc5e42cee7a2b2f0f4ecc8cf3465d99bf7"
+    }
+  ],
+  "cases": [
+    {
+      "group": "bounded-error-data",
+      "name": "exact key-only diagnostic field",
+      "passed": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'finishReason',\n    'rawFinishReason',\n    'outboundHeaderKeys',\n    'providerMetadataKeys',\n    'providerBusinessCodeFromMetadata',\n    'providerBusinessMessageFromMetadata',\n+   'providerBusinessResponseBodySummaryFromMetadata'\n-   'responseBodySummaryFromMetadata'\n  ]\n"
+      }
+    },
+    {
+      "group": "bounded-error-data",
+      "name": "invalidated context falls through to cause",
+      "passed": false,
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'type')"
+      }
+    },
+    {
+      "group": "request-data",
+      "name": "pending attachment chronology preserved",
+      "passed": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'U',\n+   'WRAPPED:A2',\n    'WRAPPED:A1',\n-   'WRAPPED:A2',\n    'S'\n  ]\n"
+      }
+    }
+  ],
+  "passed": false,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "realDependenciesOrOsEffects": false,
+  "limitations": "No actual consumer/provider/CUA/security/model/contracts/logger/platform integration; not project/runtime aggregate acceptance or source-emitted matrix"
+}

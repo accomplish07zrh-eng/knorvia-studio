@@ -1,0 +1,11 @@
+{
+  "kind": "Static exact text equivalence after removing immutable private constant declaration and replacing its sole timeout reference with identical numeric5000",
+  "originalSHA256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06",
+  "candidateSHA256": "5555e83415364680d32cf2ca54b8074465844cce945f668e0f4631a2f90d2c20",
+  "passed": true,
+  "noOtherTextChanges": true,
+  "noExecution": true,
+  "syntheticRerunNeeded": false,
+  "qualification": "V1 nine probes bound original sources; only changes gets new static API/import/receipt check after exact equivalent private constant restoration",
+  "reportedScratchBreach": "Extra output-v2/read-accounting.json written contrary two-file limit, removed before freeze, disclosed in additive author receipt; no reported unauthorized reads/runtime action"
+}

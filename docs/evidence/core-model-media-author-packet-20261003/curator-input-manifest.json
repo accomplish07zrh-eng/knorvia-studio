@@ -1,0 +1,219 @@
+{
+  "recordedAtUtc": "2026-10-02T19:44:20.037Z",
+  "baseline": "92c73c86143b0be5b4bbd24e8530b12f2fffbaa2",
+  "scopeCommit": "92c73c86",
+  "sourceExposedCurator": true,
+  "instructionOnlyRestrictions": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "sourceExposure": {
+    "fullTargetBodies": [
+      "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "apps/cli/packages/core/src/runtime/helpers/model-errors.ts"
+    ],
+    "selectedDependencyAstInputs": [
+      "apps/cli/packages/core/src/runtime/deps.ts",
+      "apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "apps/cli/packages/core/src/agent/message-history.ts",
+      "apps/cli/packages/core/src/context/builder.ts",
+      "apps/cli/packages/core/src/system-reminder/source.ts",
+      "apps/cli/packages/contracts/src/errors/index.ts",
+      "apps/cli/packages/contracts/src/model/index.ts",
+      "apps/cli/packages/contracts/src/model/model.ts",
+      "apps/cli/packages/contracts/src/model/media-policy.ts",
+      "apps/cli/packages/contracts/src/logging/logger.ts",
+      "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "apps/cli/packages/contracts/src/interfaces/shared.ts"
+    ],
+    "incidentalDeliberateBodySnippets": [
+      "createCoreError/isCoreError in errors/index.ts",
+      "runtime/deps trace wrapper",
+      "contracts model media policy predicates",
+      "provider-business-error metadata lookup prefix",
+      "contracts model selection parse/types surrounding signatures"
+    ],
+    "qualification": "Mechanical AST declaration extraction reads complete listed selected dependency inputs; selected dependency bodies are stripped before author inputs. Earlier broader source and compiler context remains."
+  },
+  "declarationExtraction": {
+    "typescript": "6.0.2",
+    "kind": "Declaration extraction/selected signature curation only, not body/project typecheck",
+    "diagnostics": {
+      "request": [],
+      "budget": [],
+      "validation": [],
+      "capability": [],
+      "errors": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations.",
+          "start": 867
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations.",
+          "start": 1320
+        }
+      ]
+    },
+    "errorsQualification": "Raw errors extraction has inherited inferred-return diagnostics. Two public error constructors return createCoreError directly; body-free public-api qualifies their return as ReturnType<typeof createCoreError>, preserving CoreError collaborator contract. Raw extraction is preserved and not supplied to authors. Other API behavior remains unchanged. Selected signatures strip bodies and retain original type references; dependency declaration aliases may remain opaque."
+  },
+  "scopes": {
+    "request": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/contract.md",
+          "bytes": 5530,
+          "sha256": "b050d56bcbf39d7aa9f5799d53711696a9e291cb969e2d7060200a9f1e215a8a"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/public-api.d.ts",
+          "bytes": 696,
+          "sha256": "370285fca94c5d8cd16c9fb2f9ccf003de4c3f6a21a9f0686f3305348ab0774f"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/dependency-api.d.ts",
+          "bytes": 2604,
+          "sha256": "06e2d96243a347b6506d5e80220e502335207c26ff6f80aac31253556ab8d134"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/public-shapes.d.ts",
+          "bytes": 2548,
+          "sha256": "0ee47b570c5af9b011d7bea18c8ef91d7238787c9b4e64415f94f772f87f5e34"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/output-data.json",
+          "bytes": 423,
+          "sha256": "2b351cdc5bc972b7afc280acef837b8d7df80cc536ced007fa848a5ba5557dd8"
+        }
+      ]
+    },
+    "budget": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/contract.md",
+          "bytes": 4889,
+          "sha256": "7067a5e0bfbb571c87100dad09da128a4ba38287e82db2b3fdd16ed06815da3f"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/public-api.d.ts",
+          "bytes": 1265,
+          "sha256": "58a84f194af26d8f3a1b3708e67068c35eb8eadb42e7590c171d4998f5939d64"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/dependency-api.d.ts",
+          "bytes": 1952,
+          "sha256": "3624c57f90927bcf90027f2fd27737dd5de18dd3b85b0e787fc42bef86610f58"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/public-shapes.d.ts",
+          "bytes": 4247,
+          "sha256": "212b8bbdff4a4aa809a6477fa9af8ac96d1791d1b0fedfdba8cafe4a1e6f9704"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/output-data.json",
+          "bytes": 761,
+          "sha256": "a5056ee68f5249d9b1d925058e215ebd07df22a2616a106f208e39a2f3fb970e"
+        }
+      ]
+    },
+    "validation": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/validation/contract.md",
+          "bytes": 2852,
+          "sha256": "b43e857cee56adf8880a52190b0e54a421b5b8c3a664cd1c5d91db29711f7b58"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/validation/public-api.d.ts",
+          "bytes": 603,
+          "sha256": "2715975bd31c7c128be67f6ab78c46f2f5c5ebeb5045519c0202e885c5695b61"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/validation/dependency-api.d.ts",
+          "bytes": 618,
+          "sha256": "7cd65d48d6a7f09412b0498963cfe17cf1a7571dda93b3af62e346d1b11b27ae"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/validation/public-shapes.d.ts",
+          "bytes": 4410,
+          "sha256": "50892bc034d5dc41d33c825256d61d65ae7591e636cf70e7042515acfb1f6b07"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/validation/output-data.json",
+          "bytes": 524,
+          "sha256": "21817c983ff7a89c7846a84d339f242ea11920aff92347eabe7ef9ab9b87e616"
+        }
+      ]
+    },
+    "capability": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/contract.md",
+          "bytes": 3400,
+          "sha256": "833cfec4e408e11f81280df594281d9b733ade8257975667672bd52130cc408f"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/public-api.d.ts",
+          "bytes": 701,
+          "sha256": "40131354863cfb675940b9ae202f07538d8c951ac4d9a5da0d627d05c0b7862d"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/dependency-api.d.ts",
+          "bytes": 1395,
+          "sha256": "a09eea1f7b4441a7491954dc48e7804611ef2b2a2540f34d97e0ed946a957af1"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/public-shapes.d.ts",
+          "bytes": 3960,
+          "sha256": "5454da48903880a4253d6213ef74beb277f78f21334b747d116269d017898309"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/output-data.json",
+          "bytes": 436,
+          "sha256": "f9381b799e2909b64bfaf371b110365ea798dc849371cea554d419253e4bd8bf"
+        }
+      ]
+    },
+    "errors": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/contract.md",
+          "bytes": 5320,
+          "sha256": "c77c69f30c23f0d0aa0826fde9efa995583e6f7c6a461789162a407942c2188a"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/public-api.d.ts",
+          "bytes": 1680,
+          "sha256": "046fffd7ce77d7b8fbe7202e23cd1f310b05bebe060e517998f7ef1587d9ecb3"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/dependency-api.d.ts",
+          "bytes": 1196,
+          "sha256": "ddd0d95ad6dd6b4c043ed241d13dd88832403db04434eaafb97771489db0ab4e"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/public-shapes.d.ts",
+          "bytes": 3064,
+          "sha256": "287ae4924514bc10dd953b3dbce34f00a2a2682430b618b47318d6e4aef77e18"
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/output-data.json",
+          "bytes": 1671,
+          "sha256": "e75373c6e70f39eb504b5eb163b10b10b0ce6fb0ce03501ea8621e6f02cb1831"
+        }
+      ]
+    }
+  }
+}

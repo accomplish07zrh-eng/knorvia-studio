@@ -1,0 +1,10 @@
+// Retained required public protocol/text/pattern material; no predecessor execution.
+const fs=require('fs'),crypto=require('crypto'),ts=require('/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js');
+const scope=process.argv[2],dir='docs/evidence/core-hydration-owner-packet-20261003',m=JSON.parse(fs.readFileSync(dir+'/curator-input-manifest.json')).scopes[scope],archive=m.archiveDirectory??dir+'/'+scope;
+const expected=JSON.parse(fs.readFileSync(dir+'/'+(scope.startsWith('media')?'media':'history')+'/output-data.json'));
+const file=archive+'/'+m.source.split('/').at(-1)+'.txt',b=fs.readFileSync(file),src=ts.createSourceFile(file,b.toString(),ts.ScriptTarget.Latest,true),actual=new Set(),patterns=new Set();
+function walk(n){if(ts.isStringLiteral(n)||ts.isNoSubstitutionTemplateLiteral(n))actual.add(n.text);else if(ts.isTemplateExpression(n)){actual.add(n.head.text);for(const s of n.templateSpans)actual.add(s.literal.text);}else if(n.kind===ts.SyntaxKind.RegularExpressionLiteral)patterns.add(n.getText(src));ts.forEachChild(n,walk);}walk(src);
+const imports=JSON.parse(fs.readFileSync(dir+'/'+(scope.startsWith('media')?'media':'history')+'/imports.json')).map(x=>x.module);
+const required=new Set(expected.strings.flatMap(x=>x.kind==='text'?[x.text]:[x.head,...x.spans.map(s=>s.text)]).filter(x=>!imports.includes(x)&&!['string','number','object'].includes(x)));
+const missing=[...required].filter(x=>!actual.has(x)),missingPatterns=expected.patterns.filter(x=>!patterns.has(x));const passed=!missing.length&&!missingPatterns.length;
+console.log(JSON.stringify({scope,source:{path:file,bytes:b.length,sha256:crypto.createHash('sha256').update(b).digest('hex')},required:[...required],patterns:expected.patterns,missing,missingPatterns,passed,qualification:'Static value/fragment/pattern retention only; import identities separately checked, native typeof guard strings excluded from output obligations. No runtime equivalence, source novelty, semantic compilation, dependency execution or material rights claim.'},null,2));if(!passed)process.exitCode=1;

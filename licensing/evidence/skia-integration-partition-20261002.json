@@ -1,0 +1,726 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "c17cde6cbb64d71f867a5d5e731859845838b421",
+  "scope": "Integration partition of the 24 entries introduced by 35fafe5/c17cde6, plus bounded JPEG XL ICC source/build/distribution trace. Only previously available local material was used.",
+  "fullyClosedParentObligations": 0,
+  "integrationPolicy": {
+    "targetComponentId": "Skia",
+    "targetMaterialRecord": "third-party/embedded-components.json (parent-owned; not edited here)",
+    "recommendationMeaning": "Retain these exact notices in the source/build material record. This is not proof of native-binary presence, an assertion that desktop ships Canvas, or a project license decision. Parent owns artifact applicability and global regeneration.",
+    "releaseSourcePinnedDefinition": "The notice is in a component source revision reached through the retained canvas package gitHead, Skia gitlink and DEPS chain. No bit-reproducible package-build attestation is available.",
+    "preserveAllExistingNotices": true,
+    "removeAnything": false,
+    "releaseBinaryPresenceProven": false,
+    "keepReviewRequired": true
+  },
+  "counts": {
+    "inputEntries": 24,
+    "recommendedAdditions": 21,
+    "releaseSourcePinned": 17,
+    "ofThoseDirectOrConditionalGNListed": 9,
+    "ofThoseTransitiveLiteralIncludes": 8,
+    "explicitlyPinnedPortOrGeneratorOrigin": 3,
+    "independentlyPinnedExactDataMatch": 1,
+    "deferredSupportingDocuments": 3,
+    "newSnapshots": 0
+  },
+  "recommendedAdditions": [
+    {
+      "component": "Zilong Tan fasthash code within HarfBuzz",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-algs.hh",
+      "file": "third-party/upstream/12dffc8d88e81ef2fda9bb2142599751cced9564ec87cea683538980b1c42d75.txt",
+      "sha256": "12dffc8d88e81ef2fda9bb2142599751cced9564ec87cea683538980b1c42d75",
+      "bytes": 1154,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/0"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "harfbuzz-listed"
+    },
+    {
+      "component": "Grigori Goronzy UCD implementation within HarfBuzz",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/hb-ucd.cc",
+      "file": "third-party/upstream/cb95728cc2b4a3502bb8e69c019e0e5f01c0a218a855168e9c19d4df51582cd5.txt",
+      "sha256": "cb95728cc2b4a3502bb8e69c019e0e5f01c0a218a855168e9c19d4df51582cd5",
+      "bytes": 795,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/1"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "harfbuzz-listed"
+    },
+    {
+      "component": "kurbo solve_itp port within HarfBuzz",
+      "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/LICENSE-MIT",
+      "file": "third-party/upstream/23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e.txt",
+      "sha256": "23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e",
+      "bytes": 1055,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/2"
+      },
+      "provenanceClass": "explicitly-pinned-port-origin",
+      "selectionRuleRef": "harfbuzz-kurbo-port"
+    },
+    {
+      "component": "kurbo solve_itp port within HarfBuzz",
+      "source": "https://raw.githubusercontent.com/linebender/kurbo/fd839c25ea0c98576c7ce5789305822675a89938/LICENSE-APACHE",
+      "file": "third-party/upstream/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/3"
+      },
+      "provenanceClass": "explicitly-pinned-port-origin",
+      "selectionRuleRef": "harfbuzz-kurbo-port"
+    },
+    {
+      "component": "Microsoft USE shaping overrides within HarfBuzz",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/9cb1fee51069b206effb4736e443b038d230789d/src/ms-use/COPYING",
+      "file": "third-party/upstream/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "bytes": 1141,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/4"
+      },
+      "provenanceClass": "pinned-generator-input",
+      "selectionRuleRef": "harfbuzz-ms-inputs"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psarrst.c",
+      "file": "third-party/upstream/d38d82f865590ced088d26ebbb6abb1eae0b49e12cba492c14f323e73656a9a2.txt",
+      "sha256": "d38d82f865590ced088d26ebbb6abb1eae0b49e12cba492c14f323e73656a9a2",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/0"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psblues.c",
+      "file": "third-party/upstream/926f434136ee825ea37627e6283d3cf9b544c75d229c34a7e993729b2fd68076.txt",
+      "sha256": "926f434136ee825ea37627e6283d3cf9b544c75d229c34a7e993729b2fd68076",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/1"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/pserror.c",
+      "file": "third-party/upstream/c7c439b79bd9a71954f3509a8bd9ad05d44887114aa259beb8084e8e15ddbeb9.txt",
+      "sha256": "c7c439b79bd9a71954f3509a8bd9ad05d44887114aa259beb8084e8e15ddbeb9",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/2"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psfont.c",
+      "file": "third-party/upstream/a8df3fb9aac5e61c2bd8cd45066240916d08aabd8cfd38f7f2d39757e90bb832.txt",
+      "sha256": "a8df3fb9aac5e61c2bd8cd45066240916d08aabd8cfd38f7f2d39757e90bb832",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/3"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psft.c",
+      "file": "third-party/upstream/442042c9409b2655e490f26c7da9a4075399495519b79918c1fd51b6ed458ad5.txt",
+      "sha256": "442042c9409b2655e490f26c7da9a4075399495519b79918c1fd51b6ed458ad5",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/4"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psblues.h",
+      "file": "third-party/upstream/d38239a23bfadf84d2f89504f3f6e435ed200a30fe329a9c198f5000017b48a2.txt",
+      "sha256": "d38239a23bfadf84d2f89504f3f6e435ed200a30fe329a9c198f5000017b48a2",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/5"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/psft.h",
+      "file": "third-party/upstream/9059c5a7575258863d7694c333dc1c7d211087be94fd63db7622a9a5ab72036f.txt",
+      "sha256": "9059c5a7575258863d7694c333dc1c7d211087be94fd63db7622a9a5ab72036f",
+      "bytes": 1734,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/6"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Adobe CFF interpreter material within FreeType",
+      "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/psaux/pstypes.h",
+      "file": "third-party/upstream/35213d2e8040f799a87200ed2fb6aa5c471cce8ab200826d2eb94f60b714b513.txt",
+      "sha256": "35213d2e8040f799a87200ed2fb6aa5c471cce8ab200826d2eb94f60b714b513",
+      "bytes": 1739,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/7"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "freetype-adobe-includes"
+    },
+    {
+      "component": "Arm Neon implementation within libjpeg-turbo",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch32/jchuff-neon.c?format=TEXT",
+      "file": "third-party/upstream/a385735ac3240f1bf6f32884cb7c888d0e4f37c863eb9a1b40c6ba7e7192750a.txt",
+      "sha256": "a385735ac3240f1bf6f32884cb7c888d0e4f37c863eb9a1b40c6ba7e7192750a",
+      "bytes": 985,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/8"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "jpeg-arm-neon"
+    },
+    {
+      "component": "Arm Neon implementation within libjpeg-turbo",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/aarch64/jchuff-neon.c?format=TEXT",
+      "file": "third-party/upstream/0c778720761a0b9ed03b83d55cc1dff2cd79e367528cfb8988176c4dc2b1dd27.txt",
+      "sha256": "0c778720761a0b9ed03b83d55cc1dff2cd79e367528cfb8988176c4dc2b1dd27",
+      "bytes": 1002,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/9"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "jpeg-arm-neon"
+    },
+    {
+      "component": "Arm Neon implementation within libjpeg-turbo",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jccolor-neon.c?format=TEXT",
+      "file": "third-party/upstream/0164b7ab9ba129d156250887a12cd86e1ee6de9f021ae2ab2566e65e6b4edeb6.txt",
+      "sha256": "0164b7ab9ba129d156250887a12cd86e1ee6de9f021ae2ab2566e65e6b4edeb6",
+      "bytes": 991,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/10"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "jpeg-arm-neon"
+    },
+    {
+      "component": "Arm Neon implementation within libjpeg-turbo",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jcphuff-neon.c?format=TEXT",
+      "file": "third-party/upstream/e184ca99561e85dd1eda33fd6b9f2b09f4df94636b540532ad7358ffbae23fe1.txt",
+      "sha256": "e184ca99561e85dd1eda33fd6b9f2b09f4df94636b540532ad7358ffbae23fe1",
+      "bytes": 1059,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/11"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "jpeg-arm-neon"
+    },
+    {
+      "component": "Arm Neon implementation within libjpeg-turbo",
+      "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/simd/arm/jquanti-neon.c?format=TEXT",
+      "file": "third-party/upstream/b48e789ef8667646edc2b727cafc882d814a7f16dc7eed31d3b397e2d33ca691.txt",
+      "sha256": "b48e789ef8667646edc2b727cafc882d814a7f16dc7eed31d3b397e2d33ca691",
+      "bytes": 990,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/12"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "jpeg-arm-neon"
+    },
+    {
+      "component": "Arm palette material within libpng",
+      "source": "https://skia.googlesource.com/third_party/libpng.git/+/d5515b5b8be3901aac04e5bd8bd5c89f287bcd33/arm/palette_neon_intrinsics.c?format=TEXT",
+      "file": "third-party/upstream/0d33f8c63be2bd52f40ab4754f0312fa5a510d4a01bd76869254d3b210850d9d.txt",
+      "sha256": "0d33f8c63be2bd52f40ab4754f0312fa5a510d4a01bd76869254d3b210850d9d",
+      "bytes": 397,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/13"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "png-arm-palette"
+    },
+    {
+      "component": "Adobe Glyph List / Zapf Dingbats data within FreeType",
+      "source": "https://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/4036a9ca80a62f64f9de4f7321a9a045ad0ecfd6/glyphlist.txt",
+      "file": "third-party/upstream/cdb6b2a4e60de61211f8759676ea2251ed3a42d0d3d7b4e83eaccf4af1c15472.txt",
+      "sha256": "cdb6b2a4e60de61211f8759676ea2251ed3a42d0d3d7b4e83eaccf4af1c15472",
+      "bytes": 1639,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/14"
+      },
+      "provenanceClass": "independently-pinned-content-match",
+      "selectionRuleRef": "freetype-agl-table"
+    },
+    {
+      "component": "SipHash implementation within Expat",
+      "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/lib/siphash.h?format=TEXT",
+      "file": "third-party/upstream/3e38787d12d0ac72ff96fb090cdb02dab1ba3930978501fc9091f1754471faf8.txt",
+      "sha256": "3e38787d12d0ac72ff96fb090cdb02dab1ba3930978501fc9091f1754471faf8",
+      "bytes": 644,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/15"
+      },
+      "provenanceClass": "release-source-pinned",
+      "selectionRuleRef": "expat-siphash"
+    }
+  ],
+  "deferredEntries": [
+    {
+      "component": "CC0 dedication referenced by Expat SipHash",
+      "source": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+      "file": "third-party/upstream/a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499.txt",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "bytes": 7048,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/16"
+      },
+      "provenanceClass": "retrieval-dated-versioned-instrument",
+      "reason": "The source names CC0 but does not embed this legalcode body or pin its retrieved bytes/version. Preserve as official CC0 1.0 supporting material retrieved on 2026-10-02; do not promote to a release-pinned notice or infer that a new agreement was accepted.",
+      "recommendedDisposition": "Preserve snapshot and qualification as supporting evidence; defer promotion into the release-bound recommendedAdditions list. If already integrated, this is not an instruction to remove it."
+    },
+    {
+      "component": "Unicode 17 data used by HarfBuzz generated tables",
+      "source": "https://www.unicode.org/Public/17.0.0/ucd/ReadMe.txt",
+      "file": "third-party/upstream/9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606.txt",
+      "sha256": "9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606",
+      "bytes": 740,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/17"
+      },
+      "provenanceClass": "versioned-release-document-not-build-pinned",
+      "reason": "Versioned Unicode 17 ReadMe identifies the release and 2025 copyright, but these ReadMe bytes are not an input pinned by the HarfBuzz source. Generated headers identify Unicode 17; complete input reproduction is absent.",
+      "recommendedDisposition": "Preserve snapshot and qualification as supporting evidence; defer promotion into the release-bound recommendedAdditions list. If already integrated, this is not an instruction to remove it."
+    },
+    {
+      "component": "Unicode 17 data used by HarfBuzz generated tables",
+      "source": "https://www.unicode.org/license.txt",
+      "file": "third-party/upstream/e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96.txt",
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+      "bytes": 1995,
+      "evidenceRef": {
+        "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+        "jsonPointer": "/skia/noticeAdditions/18"
+      },
+      "provenanceClass": "retrieval-dated-mutable-license",
+      "reason": "Mutable current publisher license URL retrieved on 2026-10-02, with 1991-2026 copyright. It is not a pinned 2025 release notice. Its retention must keep the retrieval-date qualification.",
+      "recommendedDisposition": "Preserve snapshot and qualification as supporting evidence; defer promotion into the release-bound recommendedAdditions list. If already integrated, this is not an instruction to remove it."
+    }
+  ],
+  "priorEvidence": [
+    {
+      "file": "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json",
+      "sha256": "8a108a102cb1e00aa15c166db2c8262fd29be197547d127b18293e1174e49ce1"
+    },
+    {
+      "file": "licensing/evidence/skia-source-notice-pass-20261002.json",
+      "sha256": "35ba70cac3eaafc6ad16df81a39318a03cb3fc69a44f4f4a8d100c8af06db206"
+    },
+    {
+      "file": "licensing/evidence/material-closure-20261002.json",
+      "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1"
+    },
+    {
+      "file": "licensing/evidence/skia-source-pass-20261002.tsv",
+      "sha256": "4a9e92f56d049a4922460f6b0039bb198c4e07f6a23c2b50ede11511f55b318c"
+    }
+  ],
+  "jpegXL": {
+    "revision": "a205468bc5d3a353fb15dae2398a101dff52f2d3",
+    "status": "provisional-generated-profile-and-artifact-scope",
+    "inheritedNoticesToPreserve": [
+      {
+        "component": "libjxl",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/LICENSE?format=TEXT",
+        "file": "third-party/upstream/8405932022a556380c2d8c272eff154a923feb197233f348ce5f7334fb0a5ede.txt",
+        "sha256": "8405932022a556380c2d8c272eff154a923feb197233f348ce5f7334fb0a5ede"
+      },
+      {
+        "component": "libjxl",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/PATENTS?format=TEXT",
+        "file": "third-party/upstream/91915f8ae056a68a3c5bdf05d9f6f78bb6903e27a8ca3a8434c9e4ac87300575.txt",
+        "sha256": "91915f8ae056a68a3c5bdf05d9f6f78bb6903e27a8ca3a8434c9e4ac87300575"
+      }
+    ],
+    "sourceHeaderFinding": "The retained generator and decoder C++ files carry the JPEG XL Project Authors BSD-style source notice. The existing full BSD license and PATENTS remain applicable retained material; neither is removed or replaced by the ICC output string.",
+    "exactGeneratedCopyrightString": "Copyright 2019 Google LLC, CC-BY-SA 3.0 Unported license(https://creativecommons.org/licenses/by-sa/3.0/legalcode)",
+    "sourceTrace": [
+      {
+        "file": "lib/jxl/decode.cc",
+        "lines": [
+          729,
+          737,
+          781,
+          784
+        ],
+        "finding": "ReadBundle calls Bundle::Read; decoder reads ImageMetadata from the input codestream."
+      },
+      {
+        "file": "lib/jxl/fields.cc",
+        "lines": [
+          69,
+          81,
+          694,
+          698
+        ],
+        "finding": "ReadVisitor visits the object and dispatches to its VisitFields implementation."
+      },
+      {
+        "file": "lib/jxl/image_metadata.cc",
+        "lines": [
+          300,
+          301
+        ],
+        "finding": "ImageMetadata visits its color_encoding member."
+      },
+      {
+        "file": "lib/jxl/color_encoding_internal.cc",
+        "lines": [
+          516,
+          528,
+          563,
+          573,
+          418,
+          424
+        ],
+        "finding": "In the non-all-default !WantICC branch, structured color fields lead to CreateICC, which invokes MaybeCreateProfile. This path exists while reading metadata; it is not restricted to an encoder target."
+      },
+      {
+        "file": "lib/jxl/color_management.cc",
+        "lines": [
+          365,
+          401,
+          499,
+          518
+        ],
+        "finding": "MaybeCreateProfile supports known RGB/gray colorspace/transfer fields, writes the fixed copyright string as an mluc cprt tag, appends tags into the ICC bytes, and computes a profile checksum. Unknown colorspace/transfer returns false; XYB is rejected."
+      },
+      {
+        "file": "lib/jxl/decode.cc",
+        "lines": [
+          831,
+          858,
+          1897,
+          1907,
+          1958,
+          1977
+        ],
+        "finding": "Embedded input ICC follows a separate read/SetICCRaw path. GetColorAsICCProfile copies the selected original or output color-encoding ICC bytes to the caller. The tag is therefore a generated-profile statement, not evidence that every decoded input profile has it."
+      }
+    ],
+    "generatorInputs": {
+      "retained": "ColorEncoding fields obtained from structured metadata/defaults: colorspace, whitepoint, primaries, transfer function/gamma and rendering intent; retained code supplies tag layout, curves, constants and checksum implementation. No standalone ICC template is read by the shown function.",
+      "qualification": "These headers and the complete caller/build environment were not retained; numeric regeneration was not attempted. The fixed 2019-12-01 ICC header date is explicitly a source placeholder and is not a release date.",
+      "notInRetainedSourceSet": [
+        "lib/jxl/color_management.h",
+        "lib/jxl/color_encoding_internal.h",
+        "lib/jxl/linalg.h",
+        "lib/jxl/transfer_functions-inl.h"
+      ]
+    },
+    "buildSelection": {
+      "canvasRecipeSnapshot": "third-party/upstream/4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f.txt",
+      "canvasRecipeLines": [
+        75,
+        77,
+        99
+      ],
+      "condition": "skia_use_libjxl_decode = !TARGET_TRIPLE.startsWith(riscv64); is_official_build=true; is_debug=false",
+      "skiaRootLines": [
+        1135,
+        1142
+      ],
+      "selection": "Skia jpegxl_decode depends on third_party/libjxl and lists src/codec/SkJpegxlCodec.cpp. The libjxl GN source list includes all five traced files. JPEGXL_ENABLE_TRANSCODE_JPEG=0 does not remove the shown decoder-side profile creation path.",
+      "versionCaution": "GN sets JPEGXL_MAJOR/MINOR/PATCH to 1/0/0 with a placeholder-style comment; this record does not infer a libjxl release version from those definitions.",
+      "integrationCallerBodyUnavailable": {
+        "path": "src/codec/SkJpegxlCodec.cpp",
+        "gitBlobFromRetainedSkiaTree": "5e2c9f12b0c3c366a2e94493bca83f27b5ae2fde",
+        "bytesFromTree": 18079,
+        "meaning": "Its name/blob and build selection are known; its body was not retained. Skia handling or persistence of returned ICC bytes cannot be traced locally."
+      }
+    },
+    "distributionSelection": {
+      "desktopAtInputHead": {
+        "finding": "The desktop files policy excludes node_modules/@napi-rs/canvas/** and canvas-*/** for every supported desktop target. afterPack runs an ASAR audit that flags any such Canvas entry. The lockfile still records Canvas 0.1.100 as pdfjs-dist 5.4.296 optional dependency.",
+        "policyLines": [
+          16,
+          23,
+          66,
+          72
+        ],
+        "builderLines": [
+          429,
+          440,
+          485,
+          495,
+          555,
+          557
+        ],
+        "qualification": "Configured exclusion, not inspected final artifact proof. The ASAR audit scope does not itself attest every extra resource or past distribution."
+      },
+      "retainedPackageManifests": [
+        {
+          "package": "@napi-rs/canvas@0.1.100",
+          "archiveSha256FromPriorVerifiedEvidence": "ec7dc504d4ade7fd36846d16643e50eed5c914335f3a86b6a2a8d632391e5bfa",
+          "manifestMember": "package/package.json",
+          "manifestSha256": "8379e15beeaecdedc863f8ff0e2548935eed4fb7505b93a207600a212d7bc2c5",
+          "main": "index.js",
+          "files": [
+            "index.d.ts",
+            "index.js",
+            "geometry.js",
+            "js-binding.js",
+            "load-image.js",
+            "node-canvas.js",
+            "node-canvas.d.ts"
+          ],
+          "retainedArchiveMembers": [
+            "package/LICENSE",
+            "package/geometry.js",
+            "package/index.js",
+            "package/js-binding.js",
+            "package/load-image.js",
+            "package/node-canvas.js",
+            "package/package.json",
+            "package/README.md",
+            "package/index.d.ts",
+            "package/node-canvas.d.ts"
+          ],
+          "qualification": "Inspection of already retained source-distribution manifest/member names only. No binary execution, string scan, new archive check or extrapolation to other platform archives."
+        },
+        {
+          "package": "@napi-rs/canvas-linux-x64-gnu@0.1.100",
+          "archiveSha256FromPriorVerifiedEvidence": "fbb244fcf0e38fed930914fc732a84369eada961e6cd1c034a7ce2f1ca55c7ef",
+          "manifestMember": "package/package.json",
+          "manifestSha256": "55eb689b9e7bf948154b49e2b763364bca65305d5112fa93ac8a0068703f5073",
+          "main": "skia.linux-x64-gnu.node",
+          "files": [
+            "skia.linux-x64-gnu.node"
+          ],
+          "retainedArchiveMembers": [
+            "package/package.json",
+            "package/README.md",
+            "package/skia.linux-x64-gnu.node"
+          ],
+          "qualification": "Inspection of already retained source-distribution manifest/member names only. No binary execution, string scan, new archive check or extrapolation to other platform archives."
+        }
+      ],
+      "trackedRepositoryFilenameCheck": {
+        "inputCommit": "c17cde6cbb64d71f867a5d5e731859845838b421",
+        "matchedFiles": [],
+        "queryScope": "Tracked .icc/.icm filenames and the three relevant upstream implementation filenames.",
+        "qualification": "No matching tracked files. This does not exclude encoded/renamed profiles inside binaries, generated outputs, user exports or non-Git release assets."
+      },
+      "conclusion": "Retained upstream manifests show JS/type wrapper distribution and a sampled native .node distribution, not a shipped standalone ICC file or upstream C++ source tree. Current desktop policy excludes Canvas. No available material proves a generated ICC is shipped/exported by Knorvia, and no available artifact proof justifies global retirement."
+    },
+    "parentDecisionBoundary": "If a concrete distribution includes Canvas/libjxl or a generated ICC, determine that artifact/data scope and retain the inherited statements. Do not infer that the entire C++ component is CC-BY-SA, that all outputs carry this tag, or that any material is MIT-compatible from this trace.",
+    "legalCompatibilityConclusion": null,
+    "sourceBodies": [
+      {
+        "path": "lib/jxl/color_management.cc",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/color_management.cc?format=TEXT",
+        "bytes": 18155,
+        "sha256": "97e99efbbe9180abc02c4bdba3a461bb2fd76039209076e0c36cfa4759c4e688",
+        "gitBlob": "7929d1f61d58e817687d6034a062fd130d63a6a4",
+        "buildLines": [
+          48
+        ]
+      },
+      {
+        "path": "lib/jxl/color_encoding_internal.cc",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/color_encoding_internal.cc?format=TEXT",
+        "bytes": 22391,
+        "sha256": "b13ab0c61cf5718f875551edc76f74fc3f99265fd1a9825385cf10f39c9c240a",
+        "gitBlob": "af3d3330e5150dfbb9477be07b409dc4de6246fe",
+        "buildLines": [
+          47
+        ]
+      },
+      {
+        "path": "lib/jxl/decode.cc",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/decode.cc?format=TEXT",
+        "bytes": 89063,
+        "sha256": "0c4febd8d0caa3eca10213e5747b720ea8bda55f61778c3bf63610457813a5a2",
+        "gitBlob": "ef8adf07745e44dc536ec94842e34d896d7e4bd6",
+        "buildLines": [
+          66
+        ]
+      },
+      {
+        "path": "lib/jxl/image_metadata.cc",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/image_metadata.cc?format=TEXT",
+        "bytes": 18328,
+        "sha256": "8f10154a3ed2782afd23f68c0a16dff04776f5c5895c4ff7c0b2a6d3d8d189f0",
+        "gitBlob": "2d9d62e2686fa00e06efd69266e3c5de972aa542",
+        "buildLines": [
+          81
+        ]
+      },
+      {
+        "path": "lib/jxl/fields.cc",
+        "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/fields.cc?format=TEXT",
+        "bytes": 31767,
+        "sha256": "1d14c83990d626ed79ada43c656b1be5be032e2e627a1500fad48cc91e988c6d",
+        "gitBlob": "7f00c4461017d8d695b38ff687499bc6b9f3747b",
+        "buildLines": [
+          71
+        ]
+      }
+    ],
+    "buildManifestBindings": [
+      {
+        "path": "third_party/libjxl/BUILD.gn",
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/libjxl/BUILD.gn",
+        "bytes": 4045,
+        "sha256": "46f1c38524b5982a1c20c8959c324542f349875751c249de5e6c66bacc80e1f7",
+        "gitBlob": "5e89a932b19baa4bbae98b73678e6d58858f1b2f"
+      },
+      {
+        "path": "BUILD.gn",
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/BUILD.gn",
+        "bytes": 110866,
+        "sha256": "a6339f05324b266aed20121a408c8ccc9f10b8e0c7e1fe0e972bcfd032f8742b",
+        "gitBlob": "0c14a659a21786efd51b8f89bd7242aa3cc33480"
+      }
+    ],
+    "repositoryBindings": [
+      {
+        "path": "packages/desktop/scripts/desktop-native-package-policy.mjs",
+        "repositoryCommit": "c17cde6cbb64d71f867a5d5e731859845838b421",
+        "bytes": 3472,
+        "sha256": "2f7b551a4b0915bf92663db5b2cb78b82d0c929c79cb9f3fea528d762ad296f6",
+        "gitBlob": "fed7d6a7ea6a5ba3eb47c4f5fc3abc591904d37f"
+      },
+      {
+        "path": "packages/desktop/electron-builder.config.js",
+        "repositoryCommit": "c17cde6cbb64d71f867a5d5e731859845838b421",
+        "bytes": 36536,
+        "sha256": "e8142f594120b8ee4d9ffca2dc8332833323ead2968b7eec4350bc4ad6066baa",
+        "gitBlob": "bda8f304611dd8cef7df0ffccdefe7f1db809beb"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "repositoryCommit": "c17cde6cbb64d71f867a5d5e731859845838b421",
+        "bytes": 644882,
+        "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+        "gitBlob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78"
+      },
+      {
+        "path": "scripts/third-party-npm.mjs",
+        "repositoryCommit": "c17cde6cbb64d71f867a5d5e731859845838b421",
+        "bytes": 8332,
+        "sha256": "79120566b713670f83ff648f96fd2d7c49a8dab8f0f08829d4a49a02d27b0927",
+        "gitBlob": "2249421b9f8506389a9cb74c9a54d1a8653e422c"
+      }
+    ]
+  },
+  "provisionalFindings": [
+    {
+      "id": "jpegxl-generated-icc",
+      "reason": "Fixed output license statement is proven in the source path; actual Skia caller body, built-artifact linkage and generated-profile distribution/export are unavailable. Existing BSD/PATENTS retained; no CC-BY-SA legalcode snapshot or grant was added."
+    },
+    {
+      "id": "unavailable-exact-notice-inputs",
+      "reason": "Previously recorded libjpeg jsimdext.inc and Chromium fork LICENSE references remain unbound. No substitutions from unrelated notices."
+    },
+    {
+      "id": "stopped-source-retrieval",
+      "reason": "47 prior HTTP429 failures and 799 unrequested ICU references are preserved. No new requests or retries were made."
+    },
+    {
+      "id": "whole-skia-obligation",
+      "reason": "Unproven native linkage, transitive source/generator inputs and artifact applicability prevent whole closure even after the recommended scoped additions."
+    }
+  ],
+  "verification": {
+    "partitionIsExhaustiveAndDisjoint": true,
+    "allReferencedSnapshotBytesAndHashesVerified": true,
+    "iccTraceBodyDigestsMatchPriorLedger": true,
+    "newSnapshots": 0,
+    "networkSourceRequests": 0,
+    "publisherCodeExecution": false,
+    "runtimeOrGlobalInventoryEdits": false,
+    "checksScope": "Only local provenance, selection and notice-reference checks plus git diff checks; normal authorized Git commit/push is separate from source retrieval."
+  },
+  "selectionRules": {
+    "harfbuzz-listed": {
+      "sourceSelection": "gn-listed-file",
+      "condition": "Bundled HarfBuzz enabled; final compiler/linker selection unproven.",
+      "basis": "Original complete embedded notice in the exact DEPS-pinned HarfBuzz source; listed by Skia."
+    },
+    "harfbuzz-kurbo-port": {
+      "sourceSelection": "gn-listed-enclosing-header",
+      "condition": "hb-algs.hh selected by bundled HarfBuzz; function survival unproven.",
+      "basis": "HarfBuzz explicitly names the immutable kurbo origin. Retain both original publisher alternatives without making a license choice; reuse the existing Apache snapshot."
+    },
+    "harfbuzz-ms-inputs": {
+      "sourceSelection": "gn-listed-generated-outputs",
+      "condition": "USE table and vowel-constraint outputs listed by Skia; generator rules identify src/ms-use inputs.",
+      "basis": "Original Microsoft notice and three exact data inputs are in the pinned HarfBuzz tree. Generated outputs were not rebuilt."
+    },
+    "freetype-adobe-includes": {
+      "sourceSelection": "transitive-literal-include",
+      "condition": "Bundled FreeType psaux.c is GN-listed; its C/header include graph contains these exact notices.",
+      "basis": "Complete original supplemental patent terms and distinct original copyright statements; keep FTL and LICENSE.TXT."
+    },
+    "jpeg-arm-neon": {
+      "sourceSelection": "conditional-gn-listed-file",
+      "condition": "!is_win && (current_cpu == arm || current_cpu == arm64); aarch32/aarch64 branches where applicable.",
+      "basis": "Exact pinned Arm Neon source notices. Copyright/terms shared by multiple files are deduplicated; no additional binary-only requirement asserted."
+    },
+    "png-arm-palette": {
+      "sourceSelection": "conditional-gn-listed-file",
+      "condition": "Bundled libpng with current_cpu == arm || current_cpu == arm64.",
+      "basis": "Exact Arm palette attribution/license-reference comment; pair with the retained full PNG license."
+    },
+    "freetype-agl-table": {
+      "sourceSelection": "generated-table-with-enabled-config",
+      "condition": "Native FreeType config selects AGL; wasm/no-type1 config does not. Final binary linkage unproven.",
+      "basis": "FreeType generator names Adobe version 2.0 data but no Adobe commit. Independently pinned 2019 Adobe origin exactly matches all 4482 generator rows and all 4401 decoded single-codepoint table mappings. This is a content binding, not a DEPS pin."
+    },
+    "expat-siphash": {
+      "sourceSelection": "gn-listed-header-and-direct-include",
+      "condition": "Bundled Expat; siphash.h is GN-listed and xmlparse.c directly includes it.",
+      "basis": "Original CC0 declaration is in the exact component source; retain Expat MIT for its other material."
+    }
+  }
+}

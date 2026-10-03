@@ -1,0 +1,367 @@
+{
+  "typescript": "6.0.2",
+  "rawTargets": [
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "output": "import { BrowserWindow } from \"electron\";\nimport type { UtilityProcess as ElectronUtilityProcess } from \"electron\";\nimport { type Locale } from \"@knorvia/shared\";\nimport { createBrowserWindow } from \"./desktopWindowChrome.js\";\nimport type { HostInitMessage, WindowBootstrapOptions } from \"./desktopHostProcess.js\";\nimport type { StartupWorkspaceWarmupTarget } from \"./startupWorkspace.js\";\nimport { type DesktopWindowSize } from \"./desktopWindowSize.js\";\nexport declare function createWindow(options: {\n    iconPath: string;\n    preloadPath: string;\n    logger: {\n        info: (...args: unknown[]) => void;\n        warn: (...args: unknown[]) => void;\n    };\n    forceQuitRef: {\n        current: boolean;\n    };\n    handleBeforeClose?: (win: BrowserWindow, label: string) => boolean;\n    onUnloadCancelled?: () => void;\n    windowHostProcessMap: Map<number, ElectronUtilityProcess>;\n    spawnHostProcess: (win: BrowserWindow, label: string, initMessage: Omit<HostInitMessage, \"knorviaBuiltinProviderConfigFilePath\">) => ElectronUtilityProcess;\n    disposeHostProcess: (child: ElectronUtilityProcess, label: string, forceKillDelayMs?: number) => void;\n    disposeRemoteWorkspaceSessionsForWindow: (windowId: number, reason: string) => void;\n    reattachRemoteWorkspaceSessionsForWindow: (win: BrowserWindow, reason: string) => void;\n    bootstrap?: WindowBootstrapOptions;\n    agentWarmupTargets?: readonly StartupWorkspaceWarmupTarget[];\n    agentSpawnFallbackCwd: string;\n    deviceMid: string;\n    initialDesktopZoomLevel?: number;\n    initialWindowSize?: DesktopWindowSize;\n    currentApplicationLocale?: () => Locale;\n    persistWindowSize?: (state: DesktopWindowSize) => Promise<void>;\n    runtimeProcessEnvPatchPromise?: Promise<Record<string, string>>;\n    runtimeProcessEnvFallbackPatch: Record<string, string>;\n    runtimeProcessEnvWaitTimeoutMs?: number;\n    awaitFirstHostSpawnDecision?: () => Promise<void>;\n    onHostProcessReady?: (windowKey: number) => void;\n    resolveBrowserViewOwner?: Parameters<typeof createBrowserWindow>[0][\"resolveBrowserViewOwner\"];\n}): any;\nexport declare function showCurrentWindowFromDock(primaryWindowCoordinator: {\n    ensurePrimaryWindow(reason: string): Promise<void>;\n}): void;\nexport declare function focusWorkspaceInExistingWindow(path: string, windowWorkspaceMap: Map<number, Set<string>>, options?: {\n    skipWindowId?: number;\n}): {\n    activated: boolean;\n    winId?: number;\n};\nexport declare function syncApplicationUnreadBadge(windowUnreadCountMap: Map<number, number>): void;\nexport declare function handleWindowUnreadCountSync(win: BrowserWindow | null, payload: unknown, windowUnreadCountMap: Map<number, number>, logger: {\n    warn: (...args: unknown[]) => void;\n}): boolean;\nexport declare function configureDockMenu(getLabel: () => string, onShowCurrentWindow: () => void): void;\nexport declare function handleDesktopWindowCloseRequest(options: {\n    platform: NodeJS.Platform;\n    forceQuit: boolean;\n    explicitQuitRequested?: boolean;\n    closeToTrayOnWindows?: boolean;\n    isLastWindow: boolean;\n    label: string;\n    logger: {\n        info: (...args: unknown[]) => void;\n    };\n    shouldConfirmQuit?: boolean;\n    confirmQuit: () => boolean;\n    requestQuit: () => void;\n    hideWindow?: () => void;\n}): boolean;\n",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "output": "import { BrowserWindow } from \"electron\";\nimport type { DesktopTitleBarTheme, Locale } from \"@knorvia/shared\";\nimport { type WindowBootstrapOptions } from \"./desktopHostProcess.js\";\nimport { type DesktopWindowSize } from \"./desktopWindowSize.js\";\nexport declare function applyAppIcon(iconPath: string): void;\nexport declare function getWindowOverlayTheme(): Exclude<DesktopTitleBarTheme, \"system\">;\nexport declare function applyWindowsTitleBarTheme(targetWindow: BrowserWindow, theme: DesktopTitleBarTheme): void;\nexport declare function createBrowserWindow(options: {\n    iconPath: string;\n    preloadPath: string;\n    title?: string;\n    bootstrap?: WindowBootstrapOptions;\n    logger: {\n        warn: (...args: unknown[]) => void;\n    };\n    deviceMid?: string;\n    initialDesktopZoomLevel?: number;\n    initialWindowSize?: DesktopWindowSize;\n    currentApplicationLocale?: () => Locale;\n    resolveBrowserViewOwner?: (webContentsId: number) => {\n        workspaceKey: string;\n        remoteSessionId?: string;\n        sessionId: string;\n        browserId: string;\n        browserGeneration: number;\n        tabId: string;\n    } | undefined;\n}): BrowserWindow;\n",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "rawDependencyApi": "// Selected original public dependency types/ports; opaque runtime owners, no standalone semantic closure. Private/protected class members omitted.\n// Original public port/type owner: packages/desktop/src/main/databaseStartupRelay.ts\nimport { type UtilityProcess } from \"electron\";\nexport declare function getDatabaseStartupPortPayload(child: UtilityProcess): {\n    databaseStartupId: string;\n} | undefined;\n\n// Original public port/type owner: packages/desktop/src/main/desktopWindowChrome.ts\nimport { BrowserWindow } from \"electron\";\nimport type { Locale } from \"@knorvia/shared\";\nimport { type WindowBootstrapOptions } from \"./desktopHostProcess.js\";\nimport { type DesktopWindowSize } from \"./desktopWindowSize.js\";\nexport declare function createBrowserWindow(options: {\n    iconPath: string;\n    preloadPath: string;\n    title?: string;\n    bootstrap?: WindowBootstrapOptions;\n    logger: {\n        warn: (...args: unknown[]) => void;\n    };\n    deviceMid?: string;\n    initialDesktopZoomLevel?: number;\n    initialWindowSize?: DesktopWindowSize;\n    currentApplicationLocale?: () => Locale;\n    resolveBrowserViewOwner?: (webContentsId: number) => {\n        workspaceKey: string;\n        remoteSessionId?: string;\n        sessionId: string;\n        browserId: string;\n        browserGeneration: number;\n        tabId: string;\n    } | undefined;\n}): BrowserWindow;\n\n// Original public port/type owner: packages/desktop/src/main/desktopHostProcess.ts\nimport { type TaskRealtimeHostDeliveryKind, HostMessageTypes, type WorkspacePurpose } from \"@knorvia/shared\";\nexport interface HostInitMessage {\n    type: typeof HostMessageTypes.InitLocal;\n    hostId?: string;\n    databaseStartupId?: string;\n    deliveryKind?: TaskRealtimeHostDeliveryKind;\n    deviceMid?: string;\n    workspacePath?: string;\n    workspaceIdentity?: string;\n    agentWarmupTargets?: Array<{\n        workspacePath: string;\n        workspaceIdentity?: string;\n    }>;\n    agentSpawnFallbackCwd?: string;\n    knorviaBuiltinProviderConfigFilePath: string;\n    runtimeProcessEnvPatch?: Record<string, string>;\n}\nexport interface WindowBootstrapOptions {\n    restoreSession?: boolean;\n    supportsSettings?: boolean;\n    initialWorkspacePath?: string;\n    initialWorkspacePurpose?: WorkspacePurpose;\n    unavailableWorkspacePath?: string;\n    windowKind?: \"main\" | \"update-status\";\n    locale?: string;\n}\n\n// Original public port/type owner: packages/desktop/src/main/startupWorkspace.ts\nexport interface StartupWorkspaceWarmupTarget {\n    workspacePath: string;\n    workspaceIdentity?: string;\n}\n\n// Original public port/type owner: packages/desktop/src/main/desktopDarwinCloseBehavior.ts\nexport declare function handleDarwinWindowCloseRequest(options: {\n    win: DarwinCloseAwareWindow;\n    forceQuit: boolean;\n    label: string;\n    logger: {\n        info: (...args: unknown[]) => void;\n    };\n}): boolean;\ninterface DarwinCloseAwareWindow {\n    isFullScreen(): boolean;\n    setFullScreen(flag: boolean): void;\n    hide(): void;\n}\n\n// Original public port/type owner: packages/desktop/src/main/desktopUnsavedChanges.ts\nimport type { MessageBoxSyncOptions } from \"electron\";\nimport type { Locale } from \"@knorvia/shared\";\nexport declare function createUnsavedChangesGuard(options: {\n    confirm: () => boolean;\n    stay: () => void;\n    onError: (error: unknown) => void;\n}): (event: {\n    preventDefault(): void;\n}) => void;\nexport declare function unsavedChangesDialogOptions(locale: Locale): MessageBoxSyncOptions;\n\n// Original public port/type owner: packages/desktop/src/main/unreadBadge.ts\nexport declare function parseWindowUnreadCount(payload: unknown): number | null;\nexport declare function sumWindowUnreadCounts(windowUnreadCountMap: ReadonlyMap<number, number>): number;\nexport declare function syncAppUnreadBadge(options: {\n    platform: NodeJS.Platform;\n    totalUnreadCount: number;\n    setBadgeCount: AppBadgeSetter;\n}): void;\ntype AppBadgeSetter = (count: number) => void;\n\n// Original public port/type owner: packages/desktop/src/main/desktopWindowSize.ts\nimport type { BrowserWindow } from \"electron\";\nimport type { AppSettings } from \"@knorvia/shared\";\nexport declare function attachDesktopWindowSizePersistence(win: WindowSizePersistenceTarget, save: (state: DesktopWindowSize) => Promise<void>, onSaveError?: (error: unknown) => void): void;\ntype WindowSizePersistenceTarget = Pick<BrowserWindow, \"getNormalBounds\" | \"isDestroyed\" | \"isMaximized\" | \"on\">;\nexport type DesktopWindowSize = NonNullable<AppSettings[\"desktopWindowSize\"]>;\n\n// Original public port/type owner: packages/desktop/src/main/resourceManagerWindow.ts\nexport declare function registerMainApplicationWindow(webContentsId: number): void;\nexport declare function unregisterMainApplicationWindow(webContentsId: number): void;\n\n// Original public port/type owner: packages/desktop/src/main/desktopHostProcess.ts\nimport { BrowserWindow } from \"electron\";\nimport { type WorkspacePurpose } from \"@knorvia/shared\";\nexport declare function loadWindow(win: BrowserWindow, bootstrap?: WindowBootstrapOptions): Promise<void>;\nexport interface WindowBootstrapOptions {\n    restoreSession?: boolean;\n    supportsSettings?: boolean;\n    initialWorkspacePath?: string;\n    initialWorkspacePurpose?: WorkspacePurpose;\n    unavailableWorkspacePath?: string;\n    windowKind?: \"main\" | \"update-status\";\n    locale?: string;\n}\n\n// Original public port/type owner: packages/desktop/src/main/desktopWindowButtonPosition.ts\nimport { type BrowserWindow } from \"electron\";\nexport declare function buildWindowsTitleBarOverlayForZoomLevel(zoomLevel: number, theme: \"light\" | \"dark\"): {\n    color: string;\n    symbolColor: string;\n    height: any;\n};\nexport declare function hasCustomWindowsControls(window: BrowserWindow): any;\nexport declare function registerCustomWindowsControls(window: BrowserWindow): void;\nexport declare const MACOS_TRAFFIC_LIGHT_BASE_POSITION: {\n    readonly x: 22;\n    readonly y: 23;\n};\nexport declare function syncWindowControlsOverlayForZoomLevel(targetWindow: BrowserWindow | null | undefined, zoomLevel: number): void;\n\n// Original public port/type owner: packages/desktop/src/main/desktopZoom.ts\nexport declare function clampDesktopZoomLevel(level: number): any;\nexport declare function resolveDesktopZoomFactorForLevel(level: number): any;\nexport declare function resolveDesktopZoomLevelFromFactor(zoomFactor: number): any;\n\n// Original public port/type owner: packages/desktop/src/main/desktopWindowChromeState.ts\nimport type { DesktopWindowChromeState } from \"@knorvia/shared\";\nexport declare function resolveDesktopWindowChromeState(isMaximized: boolean, platform?: NodeJS.Platform, platformRelease?: string): DesktopWindowChromeState;\n\n// Original public port/type owner: packages/desktop/src/main/desktopWindowSize.ts\nimport type { Rectangle } from \"electron\";\nimport type { AppSettings } from \"@knorvia/shared\";\nexport declare const MIN_DESKTOP_WINDOW_HEIGHT = 640;\nexport declare const MIN_DESKTOP_WINDOW_WIDTH = 480;\nexport declare function resolveDesktopWindowSize(persisted: DesktopWindowSize | undefined, workAreaSize: Pick<Rectangle, \"width\" | \"height\">): DesktopWindowSize;\nexport type DesktopWindowSize = NonNullable<AppSettings[\"desktopWindowSize\"]>;\n\n// Original public port/type owner: packages/shared/src/protocol.ts\nexport type Locale = \"zh-CN\" | \"en-US\";\nexport declare const DEFAULT_LOCALE: Locale;\n\n// Original public port/type owner: packages/shared/src/platform.ts\nexport type DesktopTitleBarTheme = \"light\" | \"dark\" | \"system\";\n\n// Original public port/type owner: packages/shared/src/desktopMenu.ts\nimport { type Locale } from \"./protocol.js\";\nexport declare const desktopMenuMessageIds: {\n    readonly file: \"titleBar.menu.file\";\n    readonly edit: \"titleBar.menu.edit\";\n    readonly view: \"titleBar.menu.view\";\n    readonly window: \"titleBar.menu.window\";\n    readonly help: \"titleBar.menu.help\";\n    readonly fileNewTask: \"titleBar.menu.file.newTask\";\n    readonly fileOpenWorkspace: \"titleBar.menu.file.openWorkspace\";\n    readonly fileCloseWindow: \"titleBar.menu.file.closeWindow\";\n    readonly editUndo: \"titleBar.menu.edit.undo\";\n    readonly editRedo: \"titleBar.menu.edit.redo\";\n    readonly editCut: \"titleBar.menu.edit.cut\";\n    readonly editCopy: \"titleBar.menu.edit.copy\";\n    readonly editPaste: \"titleBar.menu.edit.paste\";\n    readonly editDelete: \"titleBar.menu.edit.delete\";\n    readonly editSelectAll: \"titleBar.menu.edit.selectAll\";\n    readonly viewToggleFullScreen: \"titleBar.menu.view.toggleFullScreen\";\n    readonly viewActualSize: \"titleBar.menu.view.actualSize\";\n    readonly viewZoomIn: \"titleBar.menu.view.zoomIn\";\n    readonly viewZoomOut: \"titleBar.menu.view.zoomOut\";\n    readonly windowMinimize: \"titleBar.menu.window.minimize\";\n    readonly windowZoom: \"titleBar.menu.window.zoom\";\n    readonly windowBringAllToFront: \"titleBar.menu.window.bringAllToFront\";\n    readonly appServices: \"titleBar.menu.app.services\";\n    readonly appHide: \"titleBar.menu.app.hide\";\n    readonly appHideOthers: \"titleBar.menu.app.hideOthers\";\n    readonly appShowAll: \"titleBar.menu.app.showAll\";\n    readonly appQuit: \"titleBar.menu.app.quit\";\n    readonly helpAbout: \"titleBar.menu.help.about\";\n    readonly helpWhatsNew: \"titleBar.menu.help.whatsNew\";\n    readonly helpCheckForUpdates: \"titleBar.menu.help.checkForUpdates\";\n    readonly helpToggleDevTools: \"titleBar.menu.help.toggleDevTools\";\n    readonly helpResourceManager: \"titleBar.menu.help.resourceManager\";\n    readonly helpToggleKnorviaStdioTap: \"titleBar.menu.help.toggleKnorviaStdioTap\";\n    readonly helpKnorviaEndpoint: \"titleBar.menu.help.endpoint\";\n    readonly helpKnorviaEndpointProduction: \"titleBar.menu.help.endpoint.production\";\n    readonly helpKnorviaEndpointTest: \"titleBar.menu.help.endpoint.test\";\n    readonly helpKnorviaEndpointCustom: \"titleBar.menu.help.endpoint.custom\";\n    readonly helpKnorviaEndpointReset: \"titleBar.menu.help.endpoint.reset\";\n    readonly helpFeedback: \"titleBar.menu.help.feedback\";\n    readonly helpExportLogs: \"titleBar.menu.help.exportLogs\";\n    readonly helpClearAllData: \"titleBar.menu.help.clearAllData\";\n    readonly helpCheckingForUpdates: \"desktopMenu.help.checkingForUpdates\";\n    readonly helpUpdateAvailableVersion: \"desktopMenu.help.updateAvailableVersion\";\n    readonly helpDownloadingUpdateVersion: \"desktopMenu.help.downloadingUpdateVersion\";\n    readonly helpDownloadingUpdateProgress: \"desktopMenu.help.downloadingUpdateProgress\";\n    readonly helpRestartToUpdate: \"desktopMenu.help.restartToUpdate\";\n    readonly dockShowCurrentWindow: \"dock.menu.showCurrentWindow\";\n    readonly trayTooltip: \"tray.tooltip\";\n    readonly trayOpenKnorvia: \"tray.menu.openKnorvia\";\n    readonly trayQuit: \"tray.menu.quit\";\n};\nexport declare function getDesktopMenuMessage(locale: Locale, id: DesktopMenuMessageId): string;\nexport type DesktopMenuMessageId = (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds];\n\n// Original public port/type owner: packages/shared/src/channels.ts\nexport declare const HostMessageTypes: {\n    readonly DatabaseStartupControl: \"database-startup-control\";\n    readonly InitLocal: \"init-local\";\n    readonly ConnectRemoteWorkspace: \"connect-remote-workspace\";\n    readonly CancelRemoteWorkspaceConnect: \"cancel-remote-workspace-connect\";\n    readonly BindRemoteWorkspaceContext: \"bind-remote-workspace-context\";\n    readonly DisposeRemoteWorkspaceSession: \"dispose-remote-workspace-session\";\n    readonly AttachServicePort: \"attach-service-port\";\n    readonly DetachServicePort: \"detach-service-port\";\n    readonly Dispose: \"dispose\";\n    readonly Broadcast: \"broadcast\";\n    readonly BroadcastClaimResult: \"broadcast-claim-result\";\n    readonly TaskRealtimeDeliver: \"task-realtime-deliver\";\n    readonly TaskRunLeaseResult: \"task-run-lease-result\";\n    readonly TaskOwnerCommandDeliver: \"task-owner-command-deliver\";\n    readonly TaskOwnerCommandResult: \"task-owner-command-result\";\n    readonly SessionMessageDeliver: \"session-message-deliver\";\n    readonly SessionMessageDeliveryResult: \"session-message-delivery-result\";\n    readonly FeedbackLogArchiveResult: \"feedback-log-archive-result\";\n    readonly CronRun: \"cron-run\";\n    readonly OffPeakRun: \"off-peak-run\";\n    readonly BrowserExecuteResult: \"browser-execute-result\";\n    readonly LocalMediaPreviewPathAuthorizeResult: \"local-media-preview-path-authorize-result\";\n    readonly CuaPipFocusChanged: \"cua-pip-focus-changed\";\n    readonly ResourceUsageSnapshotRequest: \"resource-usage-snapshot-request\";\n    readonly ResourceUsageSnapshotCancel: \"resource-usage-snapshot-cancel\";\n};\nexport declare const InternalChannels: {\n    readonly DatabaseStartupState: \"knorvia:database-startup-state\";\n    readonly DatabaseStartupControl: \"knorvia:database-startup-control\";\n    readonly ServicePort: \"knorvia:service-port\";\n    readonly ScopedServicePort: \"knorvia:scoped-service-port\";\n    readonly ScopedServicePortReady: \"knorvia:scoped-service-port-ready\";\n    readonly TaskNotificationSound: \"knorvia:task-notification-sound\";\n};\nexport declare const PlatformChannels: {\n    readonly SelectDirectory: \"knorvia:select-directory\";\n    readonly SelectFile: \"knorvia:select-file\";\n    readonly SelectFiles: \"knorvia:select-files\";\n    readonly CreateTempTextAttachment: \"knorvia:create-temp-text-attachment\";\n    readonly SaveFile: \"knorvia:save-file\";\n    readonly PrintToPdf: \"knorvia:print-to-pdf\";\n    readonly RemoteConnectionLog: \"knorvia:remote-connection-log\";\n    readonly RemoteSessionClosed: \"knorvia:remote-session-closed\";\n    readonly ActivateOrSetWorkspace: \"knorvia:activate-or-set-workspace\";\n    readonly ConnectRemote: \"knorvia:connect-remote\";\n    readonly CancelPendingRemoteConnection: \"knorvia:cancel-pending-remote-connection\";\n    readonly BindRemoteWorkspaceSessionContext: \"knorvia:bind-remote-workspace-session-context\";\n    readonly DisposeRemoteSession: \"knorvia:dispose-remote-session\";\n    readonly IsDockerAvailable: \"knorvia:is-docker-available\";\n    readonly ListWSLDistros: \"knorvia:list-wsl-distros\";\n    readonly ListDockerContainers: \"knorvia:list-docker-containers\";\n    readonly ListSSHConfigAliases: \"knorvia:list-ssh-config-aliases\";\n    readonly LoadMcpFromUserDirectory: \"knorvia:load-mcp-from-user-directory\";\n    readonly SaveMcpToUserDirectory: \"knorvia:save-mcp-to-user-directory\";\n    readonly Log: \"knorvia:log\";\n    readonly SyncWindowTabs: \"knorvia:sync-window-tabs\";\n    readonly SyncWindowUnreadCount: \"knorvia:sync-window-unread-count\";\n    readonly SyncActiveTaskSession: \"knorvia:sync-active-task-session\";\n    readonly SyncAppSettings: \"knorvia:sync-app-settings\";\n    readonly SetShortcutRecordingActive: \"knorvia:set-shortcut-recording-active\";\n    readonly FocusTab: \"knorvia:focus-tab\";\n    readonly NewTab: \"knorvia:new-tab\";\n    readonly CloseActiveContextRequest: \"knorvia:close-active-context-request\";\n    readonly OpenBrowserUrl: \"knorvia:open-browser-url\";\n    readonly BrowserViewReady: \"knorvia:browser-view-ready\";\n    readonly BrowserViewOperation: \"knorvia:browser-view-operation\";\n    readonly BrowserViewVisibility: \"knorvia:browser-view-visibility\";\n    readonly BrowserViewViewportChanged: \"knorvia:browser-view-viewport-changed\";\n    readonly BrowserViewScreenshotSurfacePrepare: \"knorvia:browser-view-screenshot-surface-prepare\";\n    readonly BrowserViewScreenshotSurfaceReady: \"knorvia:browser-view-screenshot-surface-ready\";\n    readonly BrowserViewScreenshotSurfaceRelease: \"knorvia:browser-view-screenshot-surface-release\";\n    readonly BrowserViewCloseTab: \"knorvia:browser-view-close-tab\";\n    readonly BrowserViewSuspend: \"knorvia:browser-view-suspend\";\n    readonly BrowserViewRestore: \"knorvia:browser-view-restore\";\n    readonly NewTask: \"knorvia:new-task\";\n    readonly OpenWorkspace: \"knorvia:open-workspace\";\n    readonly OpenWorkspacePath: \"knorvia:open-workspace-path\";\n    readonly OpenFeedbackDialog: \"knorvia:open-feedback-dialog\";\n    readonly OpenTicketsPanel: \"knorvia:open-tickets-panel\";\n    readonly WindowFullscreenChanged: \"knorvia:window-fullscreen-changed\";\n    readonly GetDesktopWindowChromeState: \"knorvia:get-desktop-window-chrome-state\";\n    readonly DesktopWindowChromeStateChanged: \"knorvia:desktop-window-chrome-state-changed\";\n    readonly WindowControlsOverlayChanged: \"knorvia:window-controls-overlay-changed\";\n    readonly WindowControlsOverlayReady: \"knorvia:window-controls-overlay-ready\";\n    readonly GetResourceUsageSnapshot: \"knorvia:get-resource-usage-snapshot\";\n    readonly SetResourceUsageSamplingActive: \"knorvia:set-resource-usage-sampling-active\";\n    readonly OpenResourceManager: \"knorvia:open-resource-manager\";\n    readonly StorageStartScan: \"knorvia:storage-start-scan\";\n    readonly StorageCancelScan: \"knorvia:storage-cancel-scan\";\n    readonly StorageGetSnapshot: \"knorvia:storage-get-snapshot\";\n    readonly StorageClean: \"knorvia:storage-clean\";\n    readonly StorageRevealPath: \"knorvia:storage-reveal-path\";\n    readonly StorageScanProgress: \"knorvia:storage-scan-progress\";\n    readonly OpenExternal: \"knorvia:open-external\";\n    readonly CanOpenCommunity: \"knorvia:can-open-community\";\n    readonly OpenInFileManager: \"knorvia:open-in-file-manager\";\n    readonly OpenExternalFile: \"knorvia:open-external-file\";\n    readonly OpenCuaPermissionOnboarding: \"knorvia:open-cua-permission-onboarding\";\n    readonly CancelCuaPermissionOnboarding: \"knorvia:cancel-cua-permission-onboarding\";\n    readonly PrepareCuaHelperPermissionDrag: \"knorvia:prepare-cua-helper-permission-drag\";\n    readonly StartCuaHelperPermissionDrag: \"knorvia:start-cua-helper-permission-drag\";\n    readonly NotifyCuaHelperPermissionDragEnded: \"knorvia:notify-cua-helper-permission-drag-ended\";\n    readonly RendererReady: \"knorvia:renderer-ready\";\n    readonly SyncTelemetryContext: \"knorvia:sync-telemetry-context\";\n    readonly ReportTelemetryEvent: \"knorvia:report-telemetry-event\";\n    readonly ReportArmsCustomEvent: \"knorvia:report-arms-custom-event\";\n    readonly GetRendererActionTraceConfig: \"knorvia:get-renderer-action-trace-config\";\n    readonly RendererActionTraceConfigChanged: \"knorvia:renderer-action-trace-config-changed\";\n    readonly ReportRendererActionTraceBatch: \"knorvia:report-renderer-action-trace-batch\";\n    readonly ReportRendererHeapSample: \"knorvia:report-renderer-heap-sample\";\n    readonly ReportLocalTtftBatch: \"knorvia:report-local-ttft-batch\";\n    readonly ReadFinalArmsCustomEventsE2E: \"knorvia:e2e:read-final-arms-custom-events\";\n    readonly ClearFinalArmsCustomEventsE2E: \"knorvia:e2e:clear-final-arms-custom-events\";\n    readonly ConfigureFinalArmsCustomEventsE2E: \"knorvia:e2e:configure-final-arms-custom-events\";\n    readonly ShowTaskNotification: \"knorvia:show-task-notification\";\n    readonly TaskNotificationSound: \"knorvia:task-notification-sound\";\n    readonly TaskNotificationClick: \"knorvia:task-notification-click\";\n    readonly ExportLogs: \"knorvia:export-logs\";\n    readonly PreviewLocalDiagnostics: \"knorvia:preview-local-diagnostics\";\n    readonly ExportLocalDiagnostics: \"knorvia:export-local-diagnostics\";\n    readonly CheckReleaseUpdate: \"knorvia:check-release-update\";\n    readonly CaptureWindowScreenshot: \"knorvia:capture-window-screenshot\";\n    readonly BrowserViewAttachGuest: \"knorvia:browser-view-attach-guest\";\n    readonly BrowserViewDetachGuest: \"knorvia:browser-view-detach-guest\";\n    readonly BrowserViewCloseTabFromRenderer: \"knorvia:browser-view-close-tab-from-renderer\";\n    readonly BrowserViewReportResidency: \"knorvia:browser-view-report-residency\";\n    readonly BrowserViewSuspendReady: \"knorvia:browser-view-suspend-ready\";\n    readonly BrowserViewEnsureResident: \"knorvia:browser-view-ensure-resident\";\n    readonly BrowserViewRestoreTabs: \"knorvia:browser-view-restore-tabs\";\n    readonly BrowserViewUpdateViewport: \"knorvia:browser-view-update-viewport\";\n    readonly EmbeddedBrowserJavaScriptDialog: \"knorvia:embedded-browser-javascript-dialog\";\n    readonly ImportChromeBrowserData: \"knorvia:import-chrome-browser-data\";\n    readonly ClearEmbeddedBrowserData: \"knorvia:clear-embedded-browser-data\";\n    readonly UpdateReady: \"knorvia:update-ready\";\n    readonly UpdateCheckResult: \"knorvia:update-check-result\";\n    readonly UpdateStateChanged: \"knorvia:update-state-changed\";\n    readonly GetUpdateState: \"knorvia:get-update-state\";\n    readonly DownloadUpdate: \"knorvia:download-update\";\n    readonly CancelUpdateDownload: \"knorvia:cancel-update-download\";\n    readonly OpenUpdateStatusWindow: \"knorvia:open-update-status-window\";\n    readonly GetAutoUpdatePreferences: \"knorvia:get-auto-update-preferences\";\n    readonly SetAutoDownloadAndInstallUpdates: \"knorvia:set-auto-download-and-install-updates\";\n    readonly GetDesktopSessionActivity: \"knorvia:get-desktop-session-activity\";\n    readonly GetDesktopZoomLevel: \"knorvia:get-desktop-zoom-level\";\n    readonly DesktopZoomLevelChanged: \"knorvia:desktop-zoom-level-changed\";\n    readonly GetKnorviaStdioTapDevState: \"knorvia:get-stdio-tap-dev-state\";\n    readonly SettingsChanged: \"knorvia:settings-changed\";\n    readonly ApplicationLocaleChanged: \"knorvia:application-locale-changed\";\n    readonly GetSystemLocale: \"knorvia:get-system-locale\";\n    readonly PostUpdateReleaseNotes: \"knorvia:post-update-release-notes\";\n    readonly AcknowledgePostUpdateReleaseNotes: \"knorvia:ack-post-update-release-notes\";\n    readonly SkipUpdateVersion: \"knorvia:skip-update-version\";\n    readonly QuitAndInstallUpdate: \"knorvia:quit-and-install-update\";\n    readonly GetInstalledEditors: \"knorvia:get-installed-editors\";\n    readonly GetApplicationIcon: \"knorvia:get-application-icon\";\n    readonly OpenInEditor: \"knorvia:open-in-editor\";\n    readonly ExecuteDesktopCommand: \"knorvia:execute-desktop-command\";\n    readonly SetApplicationLocale: \"knorvia:set-application-locale\";\n    readonly SetTitleBarTheme: \"knorvia:set-title-bar-theme\";\n    readonly SetWindowGlass: \"knorvia:set-window-glass\";\n    readonly MigrateLegacyCommonMcp: \"knorvia:migrate-legacy-common-mcp\";\n    readonly GetDeviceId: \"knorvia:get-device-id\";\n};\n\n",
+  "mechanicalDeclarations": [
+    {
+      "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "bytes": 15866,
+      "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "bytes": 19380,
+      "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "bytes": 4143,
+      "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55",
+      "diagnostics": [
+        {
+          "code": 9011,
+          "message": "Parameter must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9016,
+          "message": "Objects that contain shorthand properties can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9016,
+          "message": "Objects that contain shorthand properties can't be inferred with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "bytes": 25735,
+      "sha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/desktop/src/main/desktopDarwinCloseBehavior.ts",
+      "bytes": 1068,
+      "sha256": "491ef92eeb351b179d353c86d27b566a4a5480820c72e2d6feb1105eef577958",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/desktop/src/main/desktopUnsavedChanges.ts",
+      "bytes": 1393,
+      "sha256": "3b43f066910742de6058a44162958a34cfad8fec1a82961066e8a700af5a201c",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/unreadBadge.ts",
+      "bytes": 905,
+      "sha256": "52a8e7cdfcd01ddcdf229e5ecb5157b257531e699d1256d70503033bc6526439",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowSize.ts",
+      "bytes": 3257,
+      "sha256": "d55d1453af0a46ef5f703f63f7d3a9af0a95dae84a30fa7b0780b6c770489fe7",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+      "bytes": 4756,
+      "sha256": "f8788ab82065fa888a64797aa27d1e392bf3ff9b2aa51a3025baf4a020a0330b",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e",
+      "diagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChromeState.ts",
+      "bytes": 1319,
+      "sha256": "2bb5d02ffcbdc12790e42e1ef77fbb197c866f8dec4e28042bb3ddb3d6ae7123",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c",
+      "diagnostics": []
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "bytes": 4143,
+      "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "bytes": 25735,
+      "sha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5"
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopDarwinCloseBehavior.ts",
+      "bytes": 1068,
+      "sha256": "491ef92eeb351b179d353c86d27b566a4a5480820c72e2d6feb1105eef577958"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopUnsavedChanges.ts",
+      "bytes": 1393,
+      "sha256": "3b43f066910742de6058a44162958a34cfad8fec1a82961066e8a700af5a201c"
+    },
+    {
+      "path": "packages/desktop/src/main/unreadBadge.ts",
+      "bytes": 905,
+      "sha256": "52a8e7cdfcd01ddcdf229e5ecb5157b257531e699d1256d70503033bc6526439"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowSize.ts",
+      "bytes": 3257,
+      "sha256": "d55d1453af0a46ef5f703f63f7d3a9af0a95dae84a30fa7b0780b6c770489fe7"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+      "bytes": 4756,
+      "sha256": "f8788ab82065fa888a64797aa27d1e392bf3ff9b2aa51a3025baf4a020a0330b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChromeState.ts",
+      "bytes": 1319,
+      "sha256": "2bb5d02ffcbdc12790e42e1ef77fbb197c866f8dec4e28042bb3ddb3d6ae7123"
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de"
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c"
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 4337,
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "bytes": 11026,
+      "sha256": "93ea5812027c5b211b793b33c0b280af18312735cfdb1c0e057fb200555f87e3"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc"
+    }
+  ],
+  "qualification": [
+    "Actual raw isolated target declarations inspected first: lifecycle createWindow any qualified BrowserWindow from original public createBrowserWindow port; other raw boolean/void/structured return shapes retained. Six lifecycle and two chrome TS9007 original diagnostics recorded.",
+    "Public zoom functions any numerically qualified from existing known numeric port contracts; raw dependency output/diagnostics retained. No dependency semantic/type closure or implementation tests.",
+    "Selected public declarations/imports only, recursive public type closure with private/protected class members removed. Curator whole source exposure retained; no target/dependency execution, native window/process/media/user data operation.",
+    "No upstream blob fetch or availability repetition, publisher contact/newagreement/privatefiles/Library403 bypass or rights decision. All21 materials remain open."
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "sourceLedger": {
+    "path": "docs/evidence/core-remaining-allocation-20261003/root-allocation-ledger.json",
+    "bytes": 14609,
+    "sha256": "95b63a8457f9086b2b0ea3b6fe8bade4af21da8e1478a6f797e32ddf81ce51df"
+  },
+  "records": [
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 16207,
+      "lines": 410,
+      "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58",
+      "exactPriorSourceRecords": [],
+      "inventoryClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/index.ts",
+        "blob": "01ce6820957bfbf50fd576ce544c380c9a454fe3",
+        "normalizedSha256": "dc1040c3151f0f4ec16a3c63318ba7607a86fa4ac6b0dcf23b453dbfe5936d17",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "bytes": 14567,
+      "lines": 412,
+      "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032",
+      "exactPriorSourceRecords": [],
+      "inventoryClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/image-normalization.ts",
+        "blob": "6d40c395a2fbbffeffceba1d01eda60341485f3f",
+        "normalizedSha256": "00b765bcca31f6181eeb10dcb5f81709c8f3040bcad170bc3cc99684bdaaf54f",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "imports": [
+        "@knorvia/contracts",
+        "@knorvia/shared",
+        "@knorvia/cua/frame-contract",
+        "../tool/registry.js",
+        "../tool/types.js",
+        "../tool/tool-visibility.js",
+        "./image-normalization.js",
+        "./name.js",
+        "./windows-computer-use.js",
+        "./result-format.js"
+      ],
+      "exports": [
+        "RegisterMcpToolsOptions",
+        "registerMcpTools",
+        "McpToolOutputJsonSchema"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "imports": [
+        "node:path",
+        "@knorvia/contracts",
+        "@knorvia/cua/frame-contract",
+        "../tool/types.js"
+      ],
+      "exports": [
+        "MCP_IMAGE_INLINE_BASE64_BYTES",
+        "MCP_IMAGE_INLINE_RAW_BYTES",
+        "HOST_NODE_REPL_IMAGE_MAX_DIMENSION",
+        "normalizeMcpToolResultForModel",
+        "hasOfficialCuaFrameAuthority",
+        "asDataUrl",
+        "base64PayloadFromMcpImageData"
+      ]
+    }
+  ],
+  "qualification": "Reuse exact existing ledger metadata and root allocation statement; upstream-modified records are origin evidence, not acceptance or rights clearance. No repeat publisher/Rust/colored-asset lookup or upstream retrieval, no private access."
+}

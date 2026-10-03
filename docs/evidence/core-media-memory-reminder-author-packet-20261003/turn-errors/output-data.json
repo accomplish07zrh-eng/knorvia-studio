@@ -1,0 +1,48 @@
+{
+  "retainedExpression": "Required existing schemas/protocol/fields/prose/format/constants/evaluation/ordinary idioms; no new grant or novelty claim",
+  "marker": "knorvia.externalTurnFault",
+  "depthMaxInclusive": 6,
+  "fallbackExecution": "Turn execution failed",
+  "contextText": "Model request exceeded the provider context window.",
+  "cancelText": "Turn was cancelled.",
+  "cancellationCodes": [
+    "MODEL_REQUEST_CANCELLED",
+    "model_request_cancelled",
+    "ABORT_ERR"
+  ],
+  "cancellationName": "AbortError",
+  "eventFieldsCancelled": [
+    "response",
+    "tokenCount",
+    "usage",
+    "toolCallCount",
+    "historyRoundCount",
+    "duration",
+    "resultType",
+    "inputId",
+    "backgroundSubagentResultConsumed?",
+    "workflowResultConsumed?",
+    "preserveQueueAutoDrainOnCancel?"
+  ],
+  "eventFieldsError": [
+    "error",
+    "turnPhase",
+    "inputId",
+    "backgroundSubagentResultConsumed?",
+    "workflowResultConsumed?"
+  ],
+  "errorFields": [
+    "type",
+    "payloadspread",
+    "stack"
+  ],
+  "module": "core.runtime",
+  "status": [
+    "cancelled",
+    "failed"
+  ],
+  "logMessage": "${logLabel} failed",
+  "externalFaultCoreType": "UnknownError",
+  "defaultMessage": "code",
+  "abortEvent": "abort"
+}

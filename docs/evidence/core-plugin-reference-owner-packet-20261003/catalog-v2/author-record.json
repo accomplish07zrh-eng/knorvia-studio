@@ -1,0 +1,212 @@
+{
+  "owner": "catalog",
+  "revision": "v2; same-author complete revision",
+  "scope": "Complete reserved pure string/metadata catalog owner; scaling correction to the same-author original without altering its frozen files.",
+  "time_utc": "2026-10-02 22:18:18 UTC",
+  "time_qualification": "Sampled after writing and displaying v2 source, before receipt write and chmod.",
+  "execution_request": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "initial_fork_turns": "none",
+    "revision": "Same author continued on parent follow-up; no new agent or fork.",
+    "runtime_model_and_effort": "Requested configuration retained; runtime identity and reasoning effort were not independently verified.",
+    "savedFast": "Unchanged by this author across both revisions; state and setting unverified."
+  },
+  "original_lineage": {
+    "original_source": {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+      "bytes": 1692,
+      "lines": 60,
+      "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4",
+      "mode_at_original_freeze": "0444"
+    },
+    "original_receipt": {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/author-record.json",
+      "bytes": 8446,
+      "lines": 130,
+      "sha256": "59e3fe0a63e205d916f265b0a962782ee7b504da715791f2d938c55c82d51b61",
+      "mode_at_original_freeze": "0444"
+    },
+    "original_clock_sample": "2026-10-02 22:13:13 UTC",
+    "original_status": "Complete first draft and receipt preserved byte-for-byte; both reread hashes matched original reported bindings. No write or chmod touched original outputs in v2.",
+    "review_update": "Original manual review identified no discrepancy, but subsequent supplied manual scaling review found whole-input filtering per enabled entry. The earlier assessment is qualified by that later finding.",
+    "revision_reason": "Avoid n*n whole-input classification for distinct enabled names and avoid repeated scans of same-ID duplicates that emit no conflicts.",
+    "change": "Classify truthy-enabled inputs once into exact name then exact ID occurrence buckets; for each enabled entry skip the entire self-ID bucket and emit all other occurrences before default sort. Component-name collection, entry fields, MCP copying and lookup remain behaviorally unchanged.",
+    "preservation": "Complete authored v2 file, not a patch; original source and receipt remain retained lineage."
+  },
+  "cumulative_actual_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/contract.md",
+      "bytes_per_read": 3724,
+      "sha256": "21fbb047d7cdd257a0c62b192d9f35d693a66e7135cb30fe72c8ea3244684dae",
+      "read_count": 2,
+      "phases": [
+        "original authoring full read",
+        "v2 full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-api.d.ts",
+      "bytes_per_read": 385,
+      "sha256": "b6b903b13b059257ae9cab187b3be60c771f7f7400f65fcbf66970d947116ce5",
+      "read_count": 2,
+      "phases": [
+        "original authoring full read",
+        "v2 full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/dependency-api.d.ts",
+      "bytes_per_read": 79,
+      "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287",
+      "read_count": 2,
+      "phases": [
+        "original authoring full read",
+        "v2 full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-shapes.d.ts",
+      "bytes_per_read": 2484,
+      "sha256": "29471a64b4cba0e3e95ec5095cdb11a89ce25780a1b6318e5184f14ffb506ec8",
+      "read_count": 2,
+      "phases": [
+        "original authoring full read",
+        "v2 full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/imports.json",
+      "bytes_per_read": 152,
+      "sha256": "f784bcd9850ec686a39b0d19e24094e501e44e3eed6e3682dbb2dad92709aa9e",
+      "read_count": 2,
+      "phases": [
+        "original authoring full read",
+        "v2 full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/output-data.json",
+      "bytes_per_read": 1010,
+      "sha256": "c3e1c23aceeb774eb764b45ff217590499c9621e3121526013e8e2361f229a40",
+      "read_count": 2,
+      "phases": [
+        "original authoring full read",
+        "v2 full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+      "bytes_per_read": 1692,
+      "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4",
+      "read_count": 2,
+      "phases": [
+        "original authoring full source review read",
+        "v2 original source full reread"
+      ],
+      "extent": "Full bytes and full decoded text each time."
+    },
+    {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/author-record.json",
+      "bytes_per_read": 8446,
+      "sha256": "59e3fe0a63e205d916f265b0a962782ee7b504da715791f2d938c55c82d51b61",
+      "read_count": 1,
+      "phases": [
+        "v2 full original receipt read"
+      ],
+      "extent": "Full bytes and full decoded text."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-review-20261003/catalog-scaling-review.md",
+      "bytes_per_read": 1420,
+      "sha256": "390b8f8ce9ce08d1150aa96b303bb759fe9cacd921bb74149e75e8457a071ec7",
+      "read_count": 1,
+      "phases": [
+        "v2 additional frozen finding full read"
+      ],
+      "extent": "Full bytes and full decoded text."
+    }
+  ],
+  "cumulative_read_count": 16,
+  "v2_output_reads": [],
+  "source": {
+    "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog-v2/catalog.ts",
+    "bytes": 2201,
+    "lines": 78,
+    "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+    "mode": "0444",
+    "format": "Complete original same-author v2 TypeScript draft, not a patch.",
+    "measurement": "Hash, bytes and lines derived from exact in-memory bytes supplied to write_bytes; displayed entire source for manual review. No v2 file was reread."
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog-v2/author-record.json",
+    "mode": "0444",
+    "read_count": 0,
+    "format": "Complete cumulative author record.",
+    "self_hash": "Not embedded; exact serialized-byte hash is reported separately during write, without rereading."
+  },
+  "cumulative_operations": [
+    "Original: fully read each of six authorized inputs once; computed SHA256 and byte counts; displayed complete contents.",
+    "Original: created reserved output directory; wrote complete catalog.ts; fully reread it for manual review, SHA256, bytes and line count.",
+    "Original: sampled UTC clock; wrote complete author-record.json; calculated its hash and size from serialized bytes; chmodded both originals to 0444.",
+    "V2: fully read the additional frozen scaling finding, all original six inputs, original catalog.ts and original author-record.json once each; computed per-read SHA256 and bytes and displayed complete contents.",
+    "V2: created only reserved catalog-v2 directory; wrote complete catalog.ts; displayed exact in-memory written source and computed its bytes, SHA256 and line count without reading v2 outputs.",
+    "V2: sampled UTC clock; constructed and wrote this complete cumulative receipt; computed receipt hash, bytes and lines from serialized bytes without a file read.",
+    "V2: applied chmod 0444 to both new outputs after writing; created no extra scratch or accounting files."
+  ],
+  "manual_review": {
+    "method": "Full frozen-input, original-output and entire exact authored v2-source visual review; no function execution, benchmark or real inventory.",
+    "checks": [
+      "Exactly the original two function exports with exact supplied parameter/return types and original type-only @knorvia/contracts import symbol set.",
+      "One enabled-input classification traversal uses invocation-local exact-name Maps with exact-ID occurrence buckets; no full-collection filter per output entry.",
+      "Distinct enabled names have one group and one self-ID bucket per entry; each self bucket is skipped without scanning its occurrences, so empty conflict output does not require quadratic scans.",
+      "Multiple same-name equal-ID inputs also skip their complete self bucket, preserving removal of every exact self ID and avoiding scans proportional to excluded duplicate occurrences.",
+      "For each distinct other ID bucket, every original ID occurrence is pushed; duplicates remain. Default sort determines the final conflictingPluginIds order.",
+      "Map keys use string name and ID public types, so Map identity agrees with required exact string equality without normalization or deduplication of emitted IDs.",
+      "All original inputs including disabled ones map to fresh entries in original order; disabled conflict arrays are fresh and empty.",
+      "Entry own fields retain exact order: pluginId, name, marketplace, enabled, conflictingPluginIds, skillQualifiedNames, mcpServerNames, subagentNames, rootPath.",
+      "Skill and agent sets are separate per-entry across all matching groups; trim and omit empty item names, prefix unchanged plugin name and colon, deduplicate names and default-sort.",
+      "Other component kinds are ignored; original groups/items/names are never mutated.",
+      "MCP arrays are fresh default-sorted copies with duplicates and disabled supplied MCP names retained.",
+      "IDs, names, marketplace, enabled and rootPath are copied unchanged.",
+      "Lookup still returns first exact-ID entry reference or undefined with no clone, mutation or fallback.",
+      "No shared mutable state, catches, schema repair, runtime dependency, persistence or authority operation; native metadata/getter/type errors propagate.",
+      "Source has 78 lines and remains strictly under 400."
+    ],
+    "scaling_analysis": "Manual algorithm analysis only: expected native Map classification/lookup work is linear in input size, bucket iteration/ID emission is linear in entry count plus required emitted-conflict volume; mandated output sorting and component/MCP work are additional. No measured performance claim or worst-case native Map timing guarantee.",
+    "result": "No discrepancy found in manual review of supplied typed metadata behavior; compilation and execution remain unperformed."
+  },
+  "retained_data_and_idioms": [
+    "Original @knorvia/contracts module name, skill and agent discriminator strings, and unchanged colon-separated qualified-name format.",
+    "Exact public API names/types, metadata shape field names, entry order, strict name/ID equality, disabled behavior, duplicate IDs and default sorts.",
+    "Ordinary TypeScript/JavaScript Map, Set, for-of, map, find, trim, spread copying, arrays, push, sort, object literals, truthiness and optional chaining.",
+    "No protocol regex, numeric static data or prompts were required in the supplied output-data.json; private identifiers and decomposition were author choices."
+  ],
+  "known_exposures_and_breaches": {
+    "parent_reported_qualifications": [
+      "Curator is source-exposed.",
+      "Earlier broader/tool/dependency context remains a retained qualification.",
+      "Earlier repaired scratch-write breach remains a retained historical qualification; repair does not erase the breach."
+    ],
+    "author_exposure": "Original authoring directly read only six supplied inputs and own original source; v2 additionally read the explicitly authorized frozen finding and own original receipt and reread the six inputs and own original source. The same-author original draft exposure is declared, not excluded.",
+    "new_policy_breaches": "None identified in visible actions in these two author turns. The original scaling regression is recorded as a design finding, without erasing prior reported exposure/breach qualifications.",
+    "qualification_delivery": "Earlier events were parent-reported and were not independently investigated.",
+    "instruction_only_restrictions": "Shared-executor restrictions were instruction-only; no OS isolation or filesystem/access audit was performed. Visible-action accounting does not certify enforcement or unseen platform actions."
+  },
+  "limits": [
+    "No compiler/build/lint/tests/mocks/installations/subagents/progress-message or progress-plan tools were used in either author turn.",
+    "No performance suite, measured benchmark, ordinary suite or real plugin inventory was read or executed.",
+    "No repository source/history, AGENTS, dependency implementation, other-author drafts, user data, business ports, plugin/model/provider/store/network or credentials access.",
+    "Only authorized inputs and own original outputs were read in v2; v2 source/receipt measurements came from exact bytes passed to writes, without file reread.",
+    "Full public declarations and manual review are not semantic/project compilation or behavioral execution evidence.",
+    "No novelty/separation/licence/grant/provenance-clearance attestation.",
+    "Requested Sol/high/initial fork-none and unchanged savedFast remain unverified runtime qualifications."
+  ],
+  "blockers": []
+}

@@ -1,0 +1,73 @@
+{
+  "retainedExpression": "Exact existing protocol/fields/prose/constants/format material; no new grant or novelty claim",
+  "previewLimit": 12,
+  "module": "core.runtime",
+  "status": "completed",
+  "attachmentMessage": "Turn attachments resolved",
+  "attachmentEvent": "turn.attachments.resolved",
+  "mediaMessage": "Model request media summary",
+  "mediaEvent": "model.request.media_summary",
+  "unknownMediaType": "unknown",
+  "urlKinds": [
+    "artifact",
+    "data-url",
+    "empty",
+    "reference"
+  ],
+  "dataUrlPrefix": "data:",
+  "attachmentSummaryKeys": [
+    "contentBlockType",
+    "dataUrlBytes",
+    "errorCode",
+    "filename",
+    "hasArtifact",
+    "index",
+    "mediaType",
+    "mime",
+    "payloadBytes",
+    "placeholder",
+    "recoverability",
+    "sizeBytes",
+    "sourceKind",
+    "storageKind",
+    "urlKind"
+  ],
+  "mediaBlockSummaryKeys": [
+    "blockIndex",
+    "blockType",
+    "dataUrlBytes",
+    "mediaType",
+    "messageIndex",
+    "placeholder",
+    "role",
+    "sourceKind"
+  ],
+  "attachmentLogFieldsAfterTrace": [
+    "attachmentCount",
+    "attachmentContentBlockCounts",
+    "attachments",
+    "event",
+    "fileAttachmentCount",
+    "imageAttachmentCount",
+    "module",
+    "resourceAttachmentCount",
+    "status",
+    "textFallbackAttachmentCount",
+    "videoAttachmentCount"
+  ],
+  "mediaLogFieldsAfterTrace": [
+    "event",
+    "incomingMediaBlockCount",
+    "incomingMediaBlocks",
+    "incomingMediaBlocksTruncated",
+    "module",
+    "omittedMediaCount",
+    "projectedMediaBytes",
+    "providerMediaBlockCount",
+    "providerMediaBlocks",
+    "providerMediaBlocksTruncated",
+    "retainedMediaCount",
+    "status",
+    "totalMediaBytes"
+  ]
+}

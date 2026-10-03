@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "frozenAtUtc": "2026-10-02T13:55:18.781853+00:00",
+  "phase": "counterexamples and functional clarification frozen before same-author continuation",
+  "preparationHead": "944b067dad737115d4fe849579f1c42e0bfd8ee5",
+  "originalInputCommit": "d90976cd24203ca40554197dc24a509f733a09e8",
+  "v1DraftCommit": "e35f42b14ab62405d7ac4637cfd85535c974584c",
+  "sameNativeAuthor": "/root/collection_planner_packet_author",
+  "originalInputs": {
+    "contract.md": {
+      "bytes": 16218,
+      "sha256": "8d30af0ee267ebd78cb21a1766bb44d12037dcac766b42e34fe4ffdfadee0338"
+    },
+    "public-api.d.ts": {
+      "bytes": 6801,
+      "sha256": "87b2aa349520f64feb3b9cf350886658fb316bca902485a859c3d58b55b7c4ed"
+    },
+    "public-data-shapes.md": {
+      "bytes": 3931,
+      "sha256": "6c24dc857739d0be6ca8edeaf2e98d7de020784147a72fc4f1457bbed83fd809"
+    }
+  },
+  "v1Bindings": {
+    "draft-collection-planner.ts.txt": {
+      "bytes": 11700,
+      "sha256": "23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703"
+    },
+    "author-record.json": {
+      "bytes": 2383,
+      "sha256": "db0d92b7c8aa66f0aff6b8f1e0d930dc0aff64a047c7026e9f3164b407f60d6c"
+    }
+  },
+  "newAuthorInput": {
+    "behavior-clarification.md": {
+      "bytes": 3158,
+      "sha256": "ccf57e8f4a1d483aa472476ddc7d2f91349ca0da7768b5b61e9f6b7054a4e383"
+    }
+  },
+  "curatorOnlyEvidence": {
+    "check.mjs": {
+      "bytes": 7314,
+      "sha256": "47b1f8da0f9c453e222581f4607da80eba3cceea1796378a0061a76048592141"
+    },
+    "dependency-doubles.mjs": {
+      "bytes": 2855,
+      "sha256": "fc13827281eb20f071f971a15c0dbd4e184393f7fb529ac460f461f5011e84fb"
+    },
+    "v1-results.json": {
+      "bytes": 8560,
+      "sha256": "d8efc24a9f0b5489000918f8d64a0b40dd5c26e198ed4497f5dd26d4f63dc02d"
+    },
+    "README.md": {
+      "bytes": 2520,
+      "sha256": "3f319aebb7fd456df6ce73bf4ece2b030f97af4177442eb83b7394012b18355d"
+    }
+  },
+  "boundary": "Only original three inputs, new behavior clarification, and own outputs may be read by same author. Counterexamples, source, review, and patch instructions are withheld. No new author/task conversation."
+}

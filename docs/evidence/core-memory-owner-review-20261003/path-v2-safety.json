@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "groups": [
+    {
+      "name": "path: contained write port, sensitive segments, original errors",
+      "passed": true
+    }
+  ],
+  "qualification": "Archived candidates only, synthetic in-memory fake public ports; actual dependencies/predecessors/business filesystem/providers/network/credentials/user data never executed. POSIX native path environment only; no Windows execution or ordinary/project suites/build/typecheck/lint/source-emitted matrix. Minimum gates do not establish final functional/licence acceptance."
+}

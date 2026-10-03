@@ -1,0 +1,10 @@
+{
+  "rawBytesEqual": false,
+  "baselineEqualsArchivedDeclaration": true,
+  "normalizedFullBytesEqual": true,
+  "normalization": "Only import { type WorkflowRunSnapshot } to import type { WorkflowRunSnapshot }; no public declaration normalization otherwise.",
+  "baselineSha256": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+  "v2Sha256": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406",
+  "baselineBytes": 560,
+  "v2Bytes": 560
+}

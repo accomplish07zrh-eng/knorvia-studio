@@ -1,0 +1,122 @@
+{
+  "kind": "Bounded next-gap metadata/public-name inventory, not exhaustive source/rights audit",
+  "recordedAtUtc": "2026-10-02T19:57:18.892000+00:00",
+  "scannedRoots": [
+    "apps/cli/packages/core/src/runtime/helpers filenames",
+    "exact candidate paths in docs/specs/licensing/reviews.json"
+  ],
+  "acceptedRecordSearch": "Exact paths found only this batch dependency/boundary records, no accepted complete author record in bounded search; no matching exact reviews path. Reviews read only. Earlier source/tool exposure remains.",
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "bytes": 6629,
+      "lines": 205,
+      "sha256": "071fd73b81ac45b1ea4d4b52d4c53571aac91ba4e42f9489a7f41b4ad29002dd",
+      "publicNames": [
+        "findProviderBusinessFailureInMetadata",
+        "createCoreErrorFromProviderBusinessLike"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "./data.js"
+      ],
+      "lastLocalCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+      "matchingReviewPathPresent": false,
+      "disposition": "Potential next E helper, bounded contracts/coordinator allocation required"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "bytes": 4087,
+      "lines": 124,
+      "sha256": "fbbb4c8dc4cb42f6aa46da5e4ae5d63935805ebe11b2f3ffaf7a90cd34d37311",
+      "publicNames": [
+        "detectRepeatedToolCallWarnings",
+        "detectToolCallBudgetWarning",
+        "buildRepeatedToolCallReminderBody",
+        "buildToolCallBudgetReminderBody"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js"
+      ],
+      "lastLocalCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+      "matchingReviewPathPresent": false,
+      "disposition": "Potential next E helper; reminder prose/count rules retained, allocation required"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "bytes": 6910,
+      "lines": 189,
+      "sha256": "6a084e160ab3a1aa1de8934eae9be427e209849f5cb5566f1acf7c2c6c873cde",
+      "publicNames": [
+        "logResolvedTurnAttachments",
+        "logModelRequestMediaSummary"
+      ],
+      "moduleSpecifiers": [
+        "@knorvia/shared",
+        "../deps.js",
+        "../deps.js",
+        "./media-budget.js",
+        "../types.js"
+      ],
+      "lastLocalCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+      "matchingReviewPathPresent": false,
+      "disposition": "Potential next E helper; trace/redaction/body summaries/log identities are contract data, allocation required"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "lines": 267,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "publicNames": [
+        "getLatestActiveSessionMessageId",
+        "findLatestRealUserMessageIndex",
+        "isMetaUserContextMessage",
+        "buildUserContentFromTurn",
+        "buildRuntimeUserEntriesFromTurn"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "../../system-reminder/prompt-attachment.js",
+        "../../agent/message-history.js",
+        "../deps.js",
+        "../types.js"
+      ],
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "matchingReviewPathPresent": false,
+      "disposition": "Coordinator must confirm A/runtime turn-attachment/history overlap before allocation; selected public projection scope may fit E"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "bytes": 4164,
+      "lines": 136,
+      "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+      "publicNames": [
+        "createStreamingToolAttemptId",
+        "createStreamRecoveryAnchorId",
+        "emitStreamingToolLedgerUpdate",
+        "emitStreamRecoveryAnchor"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "../deps.js",
+        "../internal.js"
+      ],
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "matchingReviewPathPresent": false,
+      "disposition": "Coordinator must confirm A/runtime internal state/event owner before allocation; no E write path authorized by inventory"
+    }
+  ],
+  "thinWrappersRetained": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "lines": 24,
+      "reason": "thin existing runtime facade, no cosmetic rewrite allocation inferred"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "lines": 118,
+      "reason": "many thin mapping/stringifying functions and Bash collaborator boundary; no substantive queue allocated by this metadata"
+    }
+  ],
+  "excluded": "A runtime/methods, security/permissions/fullaccess/CUA, root client/shared/desktop, services/RPC/UI, prior accepted owners, persistence/attachment I/O. No implementation of these next gaps authorized yet."
+}

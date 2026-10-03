@@ -1,0 +1,33 @@
+{
+  "archivedAtUtc": "2026-10-02T19:49:42.324957+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no separate tool setting",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/errors/imports.json",
+      "bytes": 1916,
+      "sha256": "d7930dded9c6ffd248b9c278e187d0304a417bede64aef92bc203c499b74ab16"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/errors/rapid-refill-type-qualification.json",
+      "bytes": 471,
+      "sha256": "1bfb38624d3729a31d1a8f31e43d594c61111d98735d8ff1aa2e64c9f552174c"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-model-errors.ts.txt",
+      "bytes": 9552,
+      "sha256": "49bcb877fbe4b6219ab54646988a7984ecdcbe75457091b95a2390efb9c7b31c",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 8692,
+      "sha256": "b6dad5f4932512aa2239bc6c6513a510248d9e2e2e5622ed47d120845402aa44"
+    }
+  ]
+}

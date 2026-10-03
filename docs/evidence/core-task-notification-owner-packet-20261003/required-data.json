@@ -1,0 +1,814 @@
+{
+  "strings": [
+    {
+      "text": "@knorvia/contracts"
+    },
+    {
+      "text": "./registry.js"
+    },
+    {
+      "text": "./workflow-notification-copy.js"
+    },
+    {
+      "text": "./workflow-notification-copy.js"
+    },
+    {
+      "text": "completed"
+    },
+    {
+      "text": "errored"
+    },
+    {
+      "text": "stopped"
+    },
+    {
+      "text": "local_agent"
+    },
+    {
+      "text": "local_bash"
+    },
+    {
+      "text": "local_workflow"
+    },
+    {
+      "text": "<task-notification>"
+    },
+    {
+      "head": "  <task-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": "</task-id>"
+        }
+      ]
+    },
+    {
+      "head": "  <tool-use-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": "</tool-use-id>"
+        }
+      ]
+    },
+    {
+      "head": "  <task-type>",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": "</task-type>"
+        }
+      ]
+    },
+    {
+      "head": "  <agent-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_4",
+          "text": "</agent-id>"
+        }
+      ]
+    },
+    {
+      "head": "  <subagent-type>",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": "</subagent-type>"
+        }
+      ]
+    },
+    {
+      "head": "  <output-file>",
+      "spans": [
+        {
+          "placeholder": "VALUE_6",
+          "text": "</output-file>"
+        }
+      ]
+    },
+    {
+      "head": "  <stdout-file>",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": "</stdout-file>"
+        }
+      ]
+    },
+    {
+      "head": "  <stderr-file>",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": "</stderr-file>"
+        }
+      ]
+    },
+    {
+      "head": "  <status>",
+      "spans": [
+        {
+          "placeholder": "VALUE_9",
+          "text": "</status>"
+        }
+      ]
+    },
+    {
+      "head": "  <description>",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": "</description>"
+        }
+      ]
+    },
+    {
+      "head": "  <summary>",
+      "spans": [
+        {
+          "placeholder": "VALUE_11",
+          "text": "</summary>"
+        }
+      ]
+    },
+    {
+      "head": "  <result>",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": "</result>"
+        }
+      ]
+    },
+    {
+      "head": "  <error>",
+      "spans": [
+        {
+          "placeholder": "VALUE_13",
+          "text": "</error>"
+        }
+      ]
+    },
+    {
+      "text": "  <usage>"
+    },
+    {
+      "head": "    ",
+      "spans": [
+        {
+          "placeholder": "VALUE_14",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": "  </usage>"
+    },
+    {
+      "text": "</task-notification>"
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "<task-notification>"
+    },
+    {
+      "head": "<task-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_15",
+          "text": "</task-id>"
+        }
+      ]
+    },
+    {
+      "head": "<tool-use-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_16",
+          "text": "</tool-use-id>"
+        }
+      ]
+    },
+    {
+      "head": "<output-file>",
+      "spans": [
+        {
+          "placeholder": "VALUE_17",
+          "text": "</output-file>"
+        }
+      ]
+    },
+    {
+      "head": "<status>",
+      "spans": [
+        {
+          "placeholder": "VALUE_18",
+          "text": "</status>"
+        }
+      ]
+    },
+    {
+      "head": "<summary>",
+      "spans": [
+        {
+          "placeholder": "VALUE_19",
+          "text": "</summary>"
+        }
+      ]
+    },
+    {
+      "text": "</task-notification>"
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "<task-notification>"
+    },
+    {
+      "head": "<task-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_20",
+          "text": "</task-id>"
+        }
+      ]
+    },
+    {
+      "head": "<tool-use-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_21",
+          "text": "</tool-use-id>"
+        }
+      ]
+    },
+    {
+      "head": "<output-file>",
+      "spans": [
+        {
+          "placeholder": "VALUE_22",
+          "text": "</output-file>"
+        }
+      ]
+    },
+    {
+      "head": "<status>",
+      "spans": [
+        {
+          "placeholder": "VALUE_23",
+          "text": "</status>"
+        }
+      ]
+    },
+    {
+      "head": "<summary>",
+      "spans": [
+        {
+          "placeholder": "VALUE_24",
+          "text": "</summary>"
+        }
+      ]
+    },
+    {
+      "head": "<result>",
+      "spans": [
+        {
+          "placeholder": "VALUE_25",
+          "text": "</result>"
+        }
+      ]
+    },
+    {
+      "head": "<error>",
+      "spans": [
+        {
+          "placeholder": "VALUE_26",
+          "text": "</error>"
+        }
+      ]
+    },
+    {
+      "text": "</task-notification>"
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "<task-notification>"
+    },
+    {
+      "head": "<task-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_27",
+          "text": "</task-id>"
+        }
+      ]
+    },
+    {
+      "head": "<tool-use-id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_28",
+          "text": "</tool-use-id>"
+        }
+      ]
+    },
+    {
+      "head": "<output-file>",
+      "spans": [
+        {
+          "placeholder": "VALUE_29",
+          "text": "</output-file>"
+        }
+      ]
+    },
+    {
+      "head": "<status>",
+      "spans": [
+        {
+          "placeholder": "VALUE_30",
+          "text": "</status>"
+        }
+      ]
+    },
+    {
+      "head": "<stop-reason>",
+      "spans": [
+        {
+          "placeholder": "VALUE_31",
+          "text": "</stop-reason>"
+        }
+      ]
+    },
+    {
+      "head": "<description>",
+      "spans": [
+        {
+          "placeholder": "VALUE_32",
+          "text": "</description>"
+        }
+      ]
+    },
+    {
+      "head": "<summary>",
+      "spans": [
+        {
+          "placeholder": "VALUE_33",
+          "text": "</summary>"
+        }
+      ]
+    },
+    {
+      "head": "<result>",
+      "spans": [
+        {
+          "placeholder": "VALUE_34",
+          "text": "</result>"
+        }
+      ]
+    },
+    {
+      "head": "<error>\n",
+      "spans": [
+        {
+          "placeholder": "VALUE_35",
+          "text": "\n</error>"
+        }
+      ]
+    },
+    {
+      "head": "<error>",
+      "spans": [
+        {
+          "placeholder": "VALUE_36",
+          "text": "</error>"
+        }
+      ]
+    },
+    {
+      "head": " shown=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_37",
+          "text": "\""
+        }
+      ]
+    },
+    {
+      "text": ""
+    },
+    {
+      "head": "<reports count=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_38",
+          "text": "\""
+        },
+        {
+          "placeholder": "VALUE_39",
+          "text": ">"
+        }
+      ]
+    },
+    {
+      "text": "</reports>"
+    },
+    {
+      "head": " shown=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_40",
+          "text": "\""
+        }
+      ]
+    },
+    {
+      "text": ""
+    },
+    {
+      "head": "<artifacts count=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_41",
+          "text": "\""
+        },
+        {
+          "placeholder": "VALUE_42",
+          "text": ">"
+        }
+      ]
+    },
+    {
+      "text": "</artifacts>"
+    },
+    {
+      "text": "</task-notification>"
+    },
+    {
+      "text": ""
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "Artifacts listed above are already in front of the user as cards; refer to them by title and do not paste their contents. The one marked primary is the deliverable: point the user to it first."
+    },
+    {
+      "text": "Artifacts listed above are already in front of the user."
+    },
+    {
+      "text": "completed"
+    },
+    {
+      "text": "The workflow completed. Present its outcome to the user as a deliverable, in this order: the conclusion; each finding with its evidence (path and line, or the command and output that showed it); which findings were confirmed by a deterministic check or an independent subagent and which are judged only; what the run did not cover."
+    },
+    {
+      "text": "The reported items above are individual findings: present them individually and keep their evidence. When the preview is partial (count greater than shown), say so and read the rest with GetWorkflowRun."
+    },
+    {
+      "text": "Do not restate the phase graph or the script."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "user"
+    },
+    {
+      "text": "The user stopped this workflow on purpose. Do not resume it with ResumeWorkflowRun and do not amend or rebuild it unless the user asks you to."
+    },
+    {
+      "text": "Present what it finished before it was stopped: the reported items above are finished findings — show them individually with their evidence. Then stop and wait for the user to say what happens next."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "model"
+    },
+    {
+      "head": "You stopped this workflow with TaskStop. If you stopped it to fix the script, do that now: call AmendWorkflow with this run's ID and the corrected script — everything that settled before the stop is imported as cache, and the sooner the fix runs the less it re-pays. (Next time, amend the running run directly: AmendWorkflow stops it for you.)",
+      "spans": [
+        {
+          "placeholder": "VALUE_43",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": ""
+    },
+    {
+      "head": " Its script is at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_44",
+          "text": ": edit that file and pass `path`."
+        }
+      ]
+    },
+    {
+      "text": "Otherwise present what it finished: the reported items above are finished findings — show them individually with their evidence. Resume it unchanged only if that is what the user wants."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "provider"
+    },
+    {
+      "text": "A provider-side error stopped this run; the <error> block above names the cause and the fix. Present what the run finished: the reported items above are finished findings — show them individually with their evidence."
+    },
+    {
+      "head": "Then resolve the cause with the user before calling ResumeWorkflowRun with run_id=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_45",
+          "text": "\" — finished steps replay from the journal. Do not rebuild the workflow."
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "interrupted"
+    },
+    {
+      "text": "The process that owned this run exited before it finished. Present what it finished: the reported items above are finished findings — show them individually with their evidence."
+    },
+    {
+      "head": "Then call ResumeWorkflowRun with run_id=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_46",
+          "text": "\" — finished steps replay from the journal and only the unfinished ones run again."
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "superseded"
+    },
+    {
+      "text": "This run was stopped because you amended it: a newer run supersedes it and is already running. Do not resume this run and do not amend it again; wait for the successor's notification."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "stopped"
+    },
+    {
+      "text": "This workflow was stopped before it finished. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence."
+    },
+    {
+      "head": "It can be continued with ResumeWorkflowRun (run_id=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_47",
+          "text": "\"); ask the user before resuming a run you did not stop yourself."
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "errored"
+    },
+    {
+      "text": "The workflow script failed. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request."
+    },
+    {
+      "head": "Fix the script and submit it with AmendWorkflow (run_id=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_48",
+          "text": "\") so finished work is reused. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way."
+        }
+      ]
+    },
+    {
+      "head": "The run's script is at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_49",
+          "text": ". Edit that file in place, then call AmendWorkflow (run_id=\""
+        },
+        {
+          "placeholder": "VALUE_50",
+          "text": "\", path=\""
+        },
+        {
+          "placeholder": "VALUE_51",
+          "text": "\") so finished work is reused — do not paste the script inline. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way."
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "The workflow did not complete. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request."
+    },
+    {
+      "text": "If the script itself was wrong, a corrected script submitted with AmendWorkflow re-uses the finished work; if the process died (error code Interrupted), the run is resumable as-is."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "usage"
+    },
+    {
+      "head": "<subagent_tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_52",
+          "text": "</subagent_tokens>"
+        }
+      ]
+    },
+    {
+      "head": "<tool_uses>",
+      "spans": [
+        {
+          "placeholder": "VALUE_53",
+          "text": "</tool_uses>"
+        }
+      ]
+    },
+    {
+      "head": "<duration_ms>",
+      "spans": [
+        {
+          "placeholder": "VALUE_54",
+          "text": "</duration_ms>"
+        }
+      ]
+    },
+    {
+      "head": "<usage>",
+      "spans": [
+        {
+          "placeholder": "VALUE_55",
+          "text": "</usage>"
+        }
+      ]
+    },
+    {
+      "text": ""
+    },
+    {
+      "text": "usage"
+    },
+    {
+      "head": "<total-tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_56",
+          "text": "</total-tokens>"
+        }
+      ]
+    },
+    {
+      "head": "<tool-uses>",
+      "spans": [
+        {
+          "placeholder": "VALUE_57",
+          "text": "</tool-uses>"
+        }
+      ]
+    },
+    {
+      "head": "<duration-ms>",
+      "spans": [
+        {
+          "placeholder": "VALUE_58",
+          "text": "</duration-ms>"
+        }
+      ]
+    },
+    {
+      "head": "<input-tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_59",
+          "text": "</input-tokens>"
+        }
+      ]
+    },
+    {
+      "head": "<output-tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_60",
+          "text": "</output-tokens>"
+        }
+      ]
+    },
+    {
+      "head": "<cache-read-tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_61",
+          "text": "</cache-read-tokens>"
+        }
+      ]
+    },
+    {
+      "head": "<cache-write-tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_62",
+          "text": "</cache-write-tokens>"
+        }
+      ]
+    },
+    {
+      "head": "<reasoning-tokens>",
+      "spans": [
+        {
+          "placeholder": "VALUE_63",
+          "text": "</reasoning-tokens>"
+        }
+      ]
+    },
+    {
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_64",
+          "text": "\n[truncated]"
+        }
+      ]
+    },
+    {
+      "text": "<"
+    },
+    {
+      "text": "&lt;"
+    },
+    {
+      "text": ">"
+    },
+    {
+      "text": "&gt;"
+    },
+    {
+      "text": "&"
+    },
+    {
+      "text": "&amp;"
+    },
+    {
+      "text": "'"
+    },
+    {
+      "text": "&apos;"
+    },
+    {
+      "text": "\""
+    },
+    {
+      "text": "&quot;"
+    },
+    {
+      "text": "<"
+    },
+    {
+      "text": "&lt;"
+    },
+    {
+      "text": ">"
+    },
+    {
+      "text": "&gt;"
+    },
+    {
+      "text": "&"
+    },
+    {
+      "text": "&amp;"
+    }
+  ],
+  "patterns": [
+    "/[<>&'\"]/gu",
+    "/[<>&]/gu"
+  ],
+  "numbers": [
+    "120000",
+    "0",
+    "0",
+    "0"
+  ],
+  "qualification": "Exact required prose/XML/entity/usage/tag/newline/truncation/pattern data and generic template fragments, private expressions/helper names/decomposition omitted. Source-derived prose retained honestly, no originality/license credit."
+}

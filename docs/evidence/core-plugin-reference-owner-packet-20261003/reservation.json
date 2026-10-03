@@ -1,0 +1,152 @@
+{
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "utc": "2026-10-02T22:10:07.062710+00:00",
+  "directory": "apps/cli/packages/core/src/plugin-reference/",
+  "inventory": [
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "bytes": 3025,
+      "lines": 79,
+      "sha256": "0150fdf06c10cb19ba008fb0a2313a58ed78258017bee0ee8e625ffbdfd6aecb",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/catalog.ts",
+        "blob": "bb17bf34166dd8bc5479f53a0a50e95cf3d6155f",
+        "normalizedSha256": "608029c012ecf704b691a85d4cc5d716088275aa2fd0b0303e79e864d3ce5e7f",
+        "contentMatchedPaths": []
+      },
+      "decision": "selected substantive complete owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+      "bytes": 776,
+      "lines": 22,
+      "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/index.ts",
+        "blob": "3dd8b35879229b677b491b788b426d86a4ee7514",
+        "normalizedSha256": "0300eb8ae58dcb2c21e925b7e11361fd43839164b83499bd9cd60ae38d1b00b1",
+        "contentMatchedPaths": []
+      },
+      "decision": "retained public barrel/schema export routing, no forced rewrite"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 3909,
+      "lines": 95,
+      "sha256": "6c827cccb0d91c32077785404bd6f1ff51a8fda7026e8c8c8b17befa746c32ed",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/references.ts",
+        "blob": "84496b2d674f142db880de916017e5fa450f01f2",
+        "normalizedSha256": "7342ce922c3ee6c58956bcd2aaf7c5bdfe142a9c4efd2363077d174ccdbf6505",
+        "contentMatchedPaths": []
+      },
+      "decision": "selected substantive complete owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "bytes": 11072,
+      "lines": 294,
+      "sha256": "497851ddee8fd619d9871174cefc742e7795b9523f9004366b50b878d86c1c35",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/reminder.ts",
+        "blob": "b6c92b0a69a2166357ad4b15ebfe13abdf7dca71",
+        "normalizedSha256": "c341ac2e63b13547a1e7625d0ec677fa725579188591cb4bb814de131f24efa1",
+        "contentMatchedPaths": []
+      },
+      "decision": "selected substantive complete owner"
+    }
+  ],
+  "candidatePaths": [
+    "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+    "apps/cli/packages/core/src/plugin-reference/references.ts",
+    "apps/cli/packages/core/src/plugin-reference/reminder.ts"
+  ],
+  "metadataScreen": "Metadata only; excludes A model/turn/runtime/permissions, completed context/memory/workflow queues. Receipt-reference hits require exact accepted source inspection before allocation; no bodies reviewed.",
+  "receiptFilesScreened": 83,
+  "selectedBodiesRead": false,
+  "excluded": "A model/turn/runtime/permissions/trust; completed context/memory/workflow queues; B renderer; G adapters/model; root main packet owners; no cross-lane source imports",
+  "authorContractRule": "Externally required behavior/public APIs/opaque dependencies/static data only; no implementation body/private helper names or prescribed decomposition. Fresh Sol/high/fork-none, savedFast unverified, full original+same-author complete corrections archive before review, no curator patch.",
+  "noBusinessIo": "Never access/mutate actual plugins/user filesystem/memory/provider/network/credentials; synthetic public ports only",
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21,
+  "scopes": {
+    "catalog": {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "bytes": 3025,
+      "lines": 79,
+      "sha256": "0150fdf06c10cb19ba008fb0a2313a58ed78258017bee0ee8e625ffbdfd6aecb",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/catalog.ts",
+        "blob": "bb17bf34166dd8bc5479f53a0a50e95cf3d6155f",
+        "normalizedSha256": "608029c012ecf704b691a85d4cc5d716088275aa2fd0b0303e79e864d3ce5e7f",
+        "contentMatchedPaths": []
+      },
+      "decision": "selected substantive complete owner"
+    },
+    "references": {
+      "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 3909,
+      "lines": 95,
+      "sha256": "6c827cccb0d91c32077785404bd6f1ff51a8fda7026e8c8c8b17befa746c32ed",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/references.ts",
+        "blob": "84496b2d674f142db880de916017e5fa450f01f2",
+        "normalizedSha256": "7342ce922c3ee6c58956bcd2aaf7c5bdfe142a9c4efd2363077d174ccdbf6505",
+        "contentMatchedPaths": []
+      },
+      "decision": "selected substantive complete owner"
+    },
+    "reminder": {
+      "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "bytes": 11072,
+      "lines": 294,
+      "sha256": "497851ddee8fd619d9871174cefc742e7795b9523f9004366b50b878d86c1c35",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/plugin-reference/reminder.ts",
+        "blob": "b6c92b0a69a2166357ad4b15ebfe13abdf7dca71",
+        "normalizedSha256": "c341ac2e63b13547a1e7625d0ec677fa725579188591cb4bb814de131f24efa1",
+        "contentMatchedPaths": []
+      },
+      "decision": "selected substantive complete owner"
+    }
+  },
+  "screening": "All4 target bodies screened only after reservation. Three substantive pure identity/parser/metadata owners selected, barrel retained. No prior bounded E receipt hits; repository inventory upstream-modified claims qualified, no global rights decision.",
+  "reviewMetadata": {
+    "apps/cli/packages/core/src/plugin-reference/catalog.ts": null,
+    "apps/cli/packages/core/src/plugin-reference/references.ts": null,
+    "apps/cli/packages/core/src/plugin-reference/reminder.ts": null
+  },
+  "availableHistory": {
+    "apps/cli/packages/core/src/plugin-reference/catalog.ts": [
+      "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+    ],
+    "apps/cli/packages/core/src/plugin-reference/references.ts": [
+      "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot",
+      "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25 style: format the repository with oxfmt and enforce fmt:check in CI"
+    ],
+    "apps/cli/packages/core/src/plugin-reference/reminder.ts": [
+      "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+    ]
+  }
+}

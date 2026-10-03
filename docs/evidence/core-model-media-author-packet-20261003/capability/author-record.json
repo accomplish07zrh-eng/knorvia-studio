@@ -1,0 +1,129 @@
+{
+  "task": "Independent complete media-capability.ts reconstruction from scoped contract/declarations/data/import qualification",
+  "freezeUtc": "2026-10-02T19:47:26.555337+00:00",
+  "configuration": {
+    "configuredModel": "gpt-6.1-sol",
+    "configuredReasoningEffort": "high",
+    "forkTurns": "none",
+    "requestedTier": "Fast",
+    "tierQualification": "No separate tier control exposed; model and effort are the parent-reported task-tool configuration, not an execution-platform audit."
+  },
+  "scopeQualification": "Instruction-only restrictions in a shared executor; this record reports task file operations and visible context, and does not assert operating-system isolation or an access audit.",
+  "inputPacketQualification": {
+    "originalFivePacketLabel": "49ca0267",
+    "importsQualificationLabel": "b834d31a",
+    "logFieldsQualificationLabel": "7d43c62a",
+    "originalSixUnchanged": "No input writes performed by this author.",
+    "seventhInputAuthorization": "Parent explicitly authorized log-fields-qualification.json after the author asked about ambiguous log counter wording and before final source freeze."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/contract.md",
+      "bytes": 3400,
+      "sha256": "833cfec4e408e11f81280df594281d9b733ade8257975667672bd52130cc408f"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/public-api.d.ts",
+      "bytes": 701,
+      "sha256": "40131354863cfb675940b9ae202f07538d8c951ac4d9a5da0d627d05c0b7862d"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/dependency-api.d.ts",
+      "bytes": 1395,
+      "sha256": "a09eea1f7b4441a7491954dc48e7804611ef2b2a2540f34d97e0ed946a957af1"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/public-shapes.d.ts",
+      "bytes": 3960,
+      "sha256": "5454da48903880a4253d6213ef74beb277f78f21334b747d116269d017898309"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/output-data.json",
+      "bytes": 436,
+      "sha256": "f9381b799e2909b64bfaf371b110365ea798dc849371cea554d419253e4bd8bf"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/imports.json",
+      "bytes": 2608,
+      "sha256": "e23dde99120eba962c98fd65a5d9e2b9c23a15e5d69702abf5a7e4c2d603faff"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/capability/input/log-fields-qualification.json",
+      "bytes": 709,
+      "sha256": "e2a7dc5727a8a08cdb07a0edd966e297cbc191e35718f9d16beb3a0e54323e5d"
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-core-model-media-20261003/capability/output/media-capability.ts",
+    "bytes": 5719,
+    "sha256": "cf8893b96f25bda6181747c3209d3b5e4ca807418c9249bd2be204c5eb5c62fc",
+    "lines": 165,
+    "modeAfterFreeze": "0444",
+    "completeImplementation": true,
+    "helperFiles": []
+  },
+  "exposure": {
+    "taskFileReadPaths": [
+      "/tmp/knorvia-core-model-media-20261003/capability/input/contract.md",
+      "/tmp/knorvia-core-model-media-20261003/capability/input/public-api.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/capability/input/dependency-api.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/capability/input/public-shapes.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/capability/input/output-data.json",
+      "/tmp/knorvia-core-model-media-20261003/capability/input/imports.json",
+      "/tmp/knorvia-core-model-media-20261003/capability/input/log-fields-qualification.json",
+      "/tmp/knorvia-core-model-media-20261003/capability/output/media-capability.ts"
+    ],
+    "writePaths": [
+      "/tmp/knorvia-core-model-media-20261003/capability/output/media-capability.ts",
+      "/tmp/knorvia-core-model-media-20261003/capability/output/author-record.json"
+    ],
+    "nonFileContext": [
+      "System/developer/environment instructions and scoped parent allocation.",
+      "Parent allocation stated prior authors flagged missing module labels; no prior-author implementation, test, review, or dependency bodies were supplied.",
+      "Author-to-parent clarification question and parent replies identifying exact five log counters/order and authorizing the seventh scoped file."
+    ],
+    "otherTaskFileReads": [],
+    "networkReads": [],
+    "repositoryGitHistoryReads": []
+  },
+  "retainedExpression": [
+    "Existing exported names, parameter/result schemas, imported names/module strings/type-only classification, union discriminants and capability fields.",
+    "Mandatory empty paired text block, core.runtime/completed log values, exact log field mappings/order, and original collaborator delegation.",
+    "Ordinary native reduce/filter/forEach/map, optional chaining, object spread, truthiness gates, shallow clone, counter and identity-preserving projection idioms required by contract.",
+    "Replacement prose remains delegated and was neither supplied nor rewritten."
+  ],
+  "discretionaryChoices": [
+    "Local variable names, whitespace and line wrapping.",
+    "One complete source file with inline discriminant switch for the six declared clone shapes; no helper file or additional exported API.",
+    "No claim of novelty or global clearance is made for retained protocol/schema/text/mapping/ordinary idioms."
+  ],
+  "contractReview": {
+    "method": "Manual reasoning and reading only; no compiler, tests, build, lint, mocks, or execution of the implemented module.",
+    "covered": [
+      "truthy full-support gate and native retained count",
+      "two-pass observable unsupported/text collaborator calls",
+      "pair clearing before second-pass media calls",
+      "delegated CUA set and raster fallback",
+      "single-category omission counts",
+      "message/content/source/cache/tool identities and shallow cloning",
+      "zero-count logging return and optional logger argument suppression",
+      "qualified exact log field evaluation/order"
+    ],
+    "remainingRuntimeValidation": "Not performed because the scoped task explicitly prohibited it."
+  },
+  "questions": [
+    {
+      "question": "Contract says four omitted/retained counters although projection exposes five numeric counters. Which keys/order belong in the log?",
+      "raisedBeforeFreeze": true,
+      "resolution": "Parent qualified all five counter keys in exact order through separately frozen authorized seventh input; no original input was edited.",
+      "qualificationRecordedAtUtc": "2026-10-02T19:46:23.045513+00:00"
+    }
+  ],
+  "breaches": [],
+  "blockers": [],
+  "freeze": {
+    "sourceAndRecordModes": "0444",
+    "noEditsAfterFreeze": true,
+    "recordDigest": "Reported separately in final receipt; no recursive self-digest field."
+  }
+}

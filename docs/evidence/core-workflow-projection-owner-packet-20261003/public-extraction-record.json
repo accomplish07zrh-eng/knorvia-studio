@@ -1,0 +1,405 @@
+{
+  "typescript": "6.0.2",
+  "declarations": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "rawOutput": "import { type ModelMessageContent } from \"@knorvia/contracts\";\nexport declare function formatGetWorkflowRunModelContent(output: unknown): ModelMessageContent;\n",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "rawOutput": "import type { DynamicWorkflowRunHealth, DynamicWorkflowRunPhaseView, DynamicWorkflowRunSubagentView, GetWorkflowRunHealth, GetWorkflowRunPhase, GetWorkflowRunSubagent } from \"@knorvia/contracts\";\nexport declare function toGetWorkflowRunPhases(phases: readonly DynamicWorkflowRunPhaseView[] | undefined): GetWorkflowRunPhase[] | undefined;\nexport declare function toGetWorkflowRunSubagents(subagents: readonly DynamicWorkflowRunSubagentView[]): {\n    subagents: GetWorkflowRunSubagent[];\n    truncated: boolean;\n};\nexport declare function toGetWorkflowRunHealth(health: DynamicWorkflowRunHealth): GetWorkflowRunHealth;\n",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "rawOutput": "import { type SavedWorkflowMeta } from \"@knorvia/contracts\";\nexport declare const SAVED_WORKFLOW_SENTINEL = \"/* knorvia-workflow\";\nexport declare const LEGACY_SAVED_WORKFLOW_SENTINEL = \"/* zcode-workflow\";\nexport declare function isSavedWorkflowSentinel(value: string): boolean;\nexport type SavedWorkflowParseErrorReason = \"missing_frontmatter\" | \"unterminated_frontmatter\" | \"invalid_yaml\" | \"invalid_metadata\";\nexport type SavedWorkflowParseResult = {\n    ok: true;\n    meta: SavedWorkflowMeta;\n    script: string;\n    bodyLineOffset: number;\n} | {\n    ok: false;\n    reason: SavedWorkflowParseErrorReason;\n    detail: string;\n};\nexport declare function serializeSavedWorkflow(meta: SavedWorkflowMeta, script: string): string;\nexport declare function parseSavedWorkflow(source: string): SavedWorkflowParseResult;\n",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "rawOutput": "import type { CreateWorkflowDiagnostic } from \"@knorvia/contracts\";\nexport interface WorkflowScriptLocation {\n    kind: \"draft\" | \"path\";\n    described: string;\n    lineOffset: number;\n}\nexport declare function formatWorkflowDiagnosticLines(diagnostics: readonly CreateWorkflowDiagnostic[], location: WorkflowScriptLocation | undefined): string[];\nexport declare function workflowScriptFileNote(location: WorkflowScriptLocation): string;\nexport declare function workflowSavedDraftNote(options: {\n    savedName: string;\n    savedPath: string;\n    draft: string;\n}): string;\nexport declare function workflowLaunchedScriptSentence(location: WorkflowScriptLocation): string;\nexport declare function workflowAmendedScriptSentence(location: WorkflowScriptLocation): string;\n",
+      "diagnostics": []
+    }
+  ],
+  "dependencyDeclarations": [
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run.ts",
+      "bytes": 11246,
+      "sha256": "cee1bc3f238e8ea8a6d4b6a98e1b6bff38457bcf9bb109683e41124e0cb8dfbe",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "diagnostics": [
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "bytes": 13292,
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/workflow-notification-copy.ts",
+      "bytes": 9077,
+      "sha256": "9690c664fd3dc74f8deee3ef650af894a5a5fcdc329c5f6d6a66842dea4ae9e2",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "bytes": 12155,
+      "sha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 13438,
+      "sha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 7348,
+      "sha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/list-workflow-runs.ts",
+      "bytes": 5604,
+      "sha256": "c018de1123a3aa5bb285818b044d3adf52e4da696d6a55d9815827c89a2ad095",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/dynamic-workflow-run-roster.port.ts",
+      "bytes": 8974,
+      "sha256": "fe2d97650cdaee91a4417d02c8066896dc623978cf0642b0302605ef05c7e68b",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "bytes": 7298,
+      "sha256": "f3c56f876815b1b5aa5e36ebe8ac3c8263086301323e55c5295c8df76c65889c",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "bytes": 6811,
+      "sha256": "cfb5ff5593ec102ec0c005efbd678fcbbf4d0a0e198426083a76076a882b97b3",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/create-workflow.ts",
+      "bytes": 26411,
+      "sha256": "da8baeef56f3fb7919d17d961ebe2a937b6c12da032d7bb4b96582a8055668f3",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run.ts",
+      "bytes": 11246,
+      "sha256": "cee1bc3f238e8ea8a6d4b6a98e1b6bff38457bcf9bb109683e41124e0cb8dfbe"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "bytes": 13292,
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/workflow-notification-copy.ts",
+      "bytes": 9077,
+      "sha256": "9690c664fd3dc74f8deee3ef650af894a5a5fcdc329c5f6d6a66842dea4ae9e2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "bytes": 12155,
+      "sha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 13438,
+      "sha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 7348,
+      "sha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/list-workflow-runs.ts",
+      "bytes": 5604,
+      "sha256": "c018de1123a3aa5bb285818b044d3adf52e4da696d6a55d9815827c89a2ad095"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/dynamic-workflow-run-roster.port.ts",
+      "bytes": 8974,
+      "sha256": "fe2d97650cdaee91a4417d02c8066896dc623978cf0642b0302605ef05c7e68b"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "bytes": 7298,
+      "sha256": "f3c56f876815b1b5aa5e36ebe8ac3c8263086301323e55c5295c8df76c65889c"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "bytes": 6811,
+      "sha256": "cfb5ff5593ec102ec0c005efbd678fcbbf4d0a0e198426083a76076a882b97b3"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/create-workflow.ts",
+      "bytes": 26411,
+      "sha256": "da8baeef56f3fb7919d17d961ebe2a937b6c12da032d7bb4b96582a8055668f3"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/index.ts",
+      "bytes": 3284,
+      "sha256": "3d9972674e770c92a16beaf414be53412f6f1ca10fe059b2f193041a2005bf27"
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    }
+  ],
+  "qualifications": [
+    "Curator read all four original bodies completely. Incidental full held format-roster and workflow-introspection dependency bodies plus public schema/static source read in combined command, not delivered to fresh authors or changed/executed. Previous broader exposure/repaired scratch breach retained.",
+    "Original target actual isolated declaration returns/types retained exactly; public dependencies retain raw any/inference diagnostics. yaml generic parse/stringify notes are opaque public identities, not recreated parser/schema or semantic closure.",
+    "Nested AGENTS rg found no core files (exit1), so first chained body read did not run; later actual body read succeeded. Two guessed nonexistent contracts paths saved-workflows.ts/workflow-run-roster.ts failed; actual rg-discovered saved-workflow.ts/get-workflow-run-roster.ts read thereafter. No negative replay/fetch/bypass.",
+    "Root summary accepted/root roster divergence holds recorded as parent report, no import/revalidation/reauthor. No original/real workflows/agents/files/network/data execution, no author access isolation/audit/rights assertion. Fixed public material retained honestly; all21 materials OPEN."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "scope": "env",
+  "archivedBeforeCuratorBodyReview": true,
+  "archivedAtUtc": "2026-10-02T21:30:58.168822+00:00",
+  "files": [
+    {
+      "file": "env-info.ts.txt",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/env/output/env-info.ts",
+      "bytes": 2765,
+      "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192",
+      "lines": 97,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/context/sections/env-info.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/env/output/author-record.json",
+      "bytes": 8999,
+      "sha256": "dd2312d82e3c8acff87081345d4402d9cc2b7a3809c3c7a9148da6095fa2b2c1",
+      "lines": 128,
+      "freezeMode": "0444"
+    }
+  ],
+  "authorReceiptSelfReported": true,
+  "noOsIsolationOrAccessAudit": true,
+  "sourceIntegrationDeferred": true
+}

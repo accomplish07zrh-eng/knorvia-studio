@@ -1,0 +1,396 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "node:path"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/cua/frame-contract"
+    },
+    {
+      "kind": "text",
+      "text": "../tool/types.js"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/cua/frame-contract"
+    },
+    {
+      "kind": "text",
+      "text": "node_repl"
+    },
+    {
+      "kind": "text",
+      "text": "mcp__node_repl__js"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "Browser screenshot saved to: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "utf8"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "MCP image content omitted: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": ", base64="
+        },
+        {
+          "placeholder": "VALUE_3",
+          "text": " exceeds inline limit "
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "The original browser screenshot remains available at the adjacent absolute path."
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "MCP image content omitted: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": ", base64="
+        },
+        {
+          "placeholder": "VALUE_6",
+          "text": " exceeds inline limit "
+        },
+        {
+          "placeholder": "VALUE_7",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "No artifact store is configured, so the original image could not be saved."
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "MCP image content saved instead of being inlined: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": ", base64="
+        },
+        {
+          "placeholder": "VALUE_9",
+          "text": ", inlineLimit="
+        },
+        {
+          "placeholder": "VALUE_10",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Artifact: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_11",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Artifact URI: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "knorvia/browserScreenshotContentIndices"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": "session"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": "utf8"
+    },
+    {
+      "kind": "text",
+      "text": "image/"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "MCP image artifact store is not configured"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": "session"
+    },
+    {
+      "kind": "text",
+      "text": "mcp-image-artifact"
+    },
+    {
+      "kind": "text",
+      "text": "application/json"
+    },
+    {
+      "kind": "text",
+      "text": "session"
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "template",
+      "head": "data:",
+      "spans": [
+        {
+          "placeholder": "VALUE_13",
+          "text": ";base64,"
+        },
+        {
+          "placeholder": "VALUE_14",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": ","
+    },
+    {
+      "kind": "text",
+      "text": ";"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "image/png"
+    },
+    {
+      "kind": "text",
+      "text": ".png"
+    },
+    {
+      "kind": "text",
+      "text": "image/jpeg"
+    },
+    {
+      "kind": "text",
+      "text": "image/jpg"
+    },
+    {
+      "kind": "text",
+      "text": ".jpg"
+    },
+    {
+      "kind": "text",
+      "text": "image/gif"
+    },
+    {
+      "kind": "text",
+      "text": ".gif"
+    },
+    {
+      "kind": "text",
+      "text": "image/webp"
+    },
+    {
+      "kind": "text",
+      "text": ".webp"
+    },
+    {
+      "kind": "text",
+      "text": ".bin"
+    },
+    {
+      "kind": "text",
+      "text": "0 B"
+    },
+    {
+      "kind": "text",
+      "text": "B"
+    },
+    {
+      "kind": "text",
+      "text": "KiB"
+    },
+    {
+      "kind": "text",
+      "text": "MiB"
+    },
+    {
+      "kind": "text",
+      "text": "GiB"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_15",
+          "text": " "
+        },
+        {
+          "placeholder": "VALUE_16",
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "patterns": [],
+  "numericLiterals": [
+    "200",
+    "1024",
+    "3",
+    "4",
+    "2048",
+    "2000",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "2",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1024",
+    "1",
+    "1024",
+    "1",
+    "10",
+    "0",
+    "1"
+  ],
+  "qualification": "Required original text/protocol/templates/pattern/numeric material, generic placeholders omit private expression/helper names. Native type-guard/import literals are not mandatory output data. Body-free source-derived material retained honestly; no novelty/grant assertion."
+}

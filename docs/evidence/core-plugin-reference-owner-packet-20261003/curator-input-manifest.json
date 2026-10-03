@@ -1,0 +1,134 @@
+{
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "directoryReservation": "f58e68de",
+  "selectedReservation": "3daa5df5",
+  "scopes": {
+    "catalog": {
+      "source": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/contract.md",
+          "bytes": 3724,
+          "sha256": "21fbb047d7cdd257a0c62b192d9f35d693a66e7135cb30fe72c8ea3244684dae"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-api.d.ts",
+          "bytes": 385,
+          "sha256": "b6b903b13b059257ae9cab187b3be60c771f7f7400f65fcbf66970d947116ce5"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/dependency-api.d.ts",
+          "bytes": 79,
+          "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-shapes.d.ts",
+          "bytes": 2484,
+          "sha256": "29471a64b4cba0e3e95ec5095cdb11a89ce25780a1b6318e5184f14ffb506ec8"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/imports.json",
+          "bytes": 152,
+          "sha256": "f784bcd9850ec686a39b0d19e24094e501e44e3eed6e3682dbb2dad92709aa9e"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/output-data.json",
+          "bytes": 1010,
+          "sha256": "c3e1c23aceeb774eb764b45ff217590499c9621e3121526013e8e2361f229a40"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-scaling-review.md",
+          "bytes": 1420,
+          "sha256": "390b8f8ce9ce08d1150aa96b303bb759fe9cacd921bb74149e75e8457a071ec7"
+        },
+        {
+          "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+          "archivedAs": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/catalog.ts.txt",
+          "bytes": 1692,
+          "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4"
+        },
+        {
+          "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/author-record.json",
+          "archivedAs": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/author-record.json",
+          "bytes": 8446,
+          "sha256": "59e3fe0a63e205d916f265b0a962782ee7b504da715791f2d938c55c82d51b61"
+        }
+      ],
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/catalog-v2",
+      "archiveDirectory": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2"
+    },
+    "references": {
+      "source": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/contract.md",
+          "bytes": 3522,
+          "sha256": "a9806aaaaedb614e7b548f66e83a32d1398665d811d018b7ff2af5cd0c93b854"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-api.d.ts",
+          "bytes": 358,
+          "sha256": "27727997343080438d20faade62895550ea7a3e58aa39108a02b773f884b27b3"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/dependency-api.d.ts",
+          "bytes": 79,
+          "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-shapes.d.ts",
+          "bytes": 59,
+          "sha256": "a6a5be92d3a01227790cf9ce67b1c94897681e1868bc92f4d104cc7a353f6ac4"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/imports.json",
+          "bytes": 3,
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/output-data.json",
+          "bytes": 826,
+          "sha256": "39de554663a9dd1c24f2199a086d7462d3d88540fca46cb5490e23e3e151468e"
+        }
+      ],
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/references"
+    },
+    "reminder": {
+      "source": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/contract.md",
+          "bytes": 6683,
+          "sha256": "0545889004a9d576d098e200214db857bba4e74231c2fc7bd3dcddc8a514ce9f"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-api.d.ts",
+          "bytes": 1621,
+          "sha256": "a3e31dc3f56202e26633de627e70ad2a35d87cfb857efe371b9d34dcbc362c03"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/dependency-api.d.ts",
+          "bytes": 164,
+          "sha256": "dc564575aa72a25aa46db06c9c6af3de3487978c1d29a3c3e9de6dd66c7412ee"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-shapes.d.ts",
+          "bytes": 789,
+          "sha256": "9cd7e109f2435a9623f1db1c1dafe4475ba4c7f86c211bc2d008a1d7085d014e"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/imports.json",
+          "bytes": 209,
+          "sha256": "432760ef4b35f6588df217dbe36c1a5ec8bd6bc1caf9b9d89729bb61ec395684"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/output-data.json",
+          "bytes": 4572,
+          "sha256": "c0400254da81bccb97a4181468c0f69fde22dee4051fd844192d7505a2c3941b"
+        }
+      ],
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/reminder"
+    }
+  },
+  "qualification": "Source-exposed curator, no target/private helper body/name/decomposition delivered; selected original public types/static schema/data only. Shared executor instruction-only/no OS audit. Fresh Sol/high/fork-none requested, Fastunverified; earlier broader context/repaired scratch-write breach retained."
+}

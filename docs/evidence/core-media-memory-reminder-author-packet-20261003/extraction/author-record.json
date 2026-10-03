@@ -1,0 +1,187 @@
+{
+  "schema": "independent-owner-author-record/v1",
+  "scope": "complete project-memory-extraction.ts owner",
+  "inputFreezeIdentifierSuppliedByParent": "c4eda8a6",
+  "sourceOriginalModule": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+  "authorizedInputPaths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/contract.md",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/public-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/dependency-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/public-shapes.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/imports.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/output-data.json"
+  ],
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/contract.md",
+      "bytes": 6031,
+      "sha256": "c99c582581cdc24081e1cdfdd42814ddfc8bbfb7a99876f7a7e24242fe1d8dd3",
+      "lineCount": 13
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/public-api.d.ts",
+      "bytes": 904,
+      "sha256": "bb12978c68cbbc0dd03dd998919a5053465b261b47b06316bc718334bdb8ed29",
+      "lineCount": 14
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/dependency-api.d.ts",
+      "bytes": 4010,
+      "sha256": "e8be68ebf79829eddd1304af3b214452cd7caafc377c1284387d08bee81f7225",
+      "lineCount": 88
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/public-shapes.d.ts",
+      "bytes": 5612,
+      "sha256": "0da27b7a5a311bed9b6a554555651ad1e5f3accc0ed115e340d8ecf7fe8e7f1d",
+      "lineCount": 164
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/imports.json",
+      "bytes": 1980,
+      "sha256": "3c54540a86300b01473ad0940d868a05272d54d289038159b8630c7110425d43",
+      "lineCount": 41
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/output-data.json",
+      "bytes": 931,
+      "sha256": "18e1b78fa1a3c2ec2fa015427146653dbcc13b20566c7f449445db8695468115",
+      "lineCount": 36
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/output/project-memory-extraction.ts",
+    "bytes": 6258,
+    "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d",
+    "lineCount": 195
+  },
+  "receiptPath": "/tmp/knorvia-media-memory-reminder-20261003/extraction/output/author-record.json",
+  "exactReadPaths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/contract.md",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/public-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/dependency-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/public-shapes.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/imports.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/input/output-data.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/extraction/output/project-memory-extraction.ts"
+  ],
+  "readAccounting": {
+    "sixInputs": "Read once for contract/type/import/output vocabulary; read again as raw bytes solely for this receipt.",
+    "source": "Read own draft to make two typing refinements and manually review; read final bytes for source accounting.",
+    "otherFilesRead": [],
+    "directoryListingPerformed": false,
+    "repoGitHistoryReviewsTestsPredecessorOtherAuthorsDependencyBodiesRead": false,
+    "externalNetworkPrivateFilesLibraryAccess": false,
+    "readPathLimit": "Explicit file opens in this author task only; excludes interpreter/tool infrastructure and is not an OS access audit."
+  },
+  "writes": [
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/output/project-memory-extraction.ts",
+      "purpose": "Complete new independently authored owner source in scratch only."
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/extraction/output/author-record.json",
+      "purpose": "Input/source accounting, provenance, decisions, limitations, and freeze receipt."
+    }
+  ],
+  "chosenStructure": {
+    "completeOwner": true,
+    "publicSurface": [
+      "ProjectMemoryExtractionScheduler",
+      "isProjectMemoryEnabled",
+      "scheduleProjectMemoryExtraction",
+      "drainMemoryExtractions"
+    ],
+    "privateSnapshot": "ProjectMemoryExtractionSnapshot extends exactly MemoryExtractionSnapshot and ProjectMemoryAgentContext without additional fields.",
+    "privateExecutionShape": "ExtractionExecution contains only abortSignal, messageCount, and the narrowed snapshot.",
+    "privateExecutionFunction": "execute returns the detached telemetry run result; its async callback owns the specified try/catch.",
+    "schedule": "Inline ordered guards and context capture; single Promise.all transformation selects the active branch and slices through the captured boundary; nullish scheduler initialization followed by receiver-preserving schedule.",
+    "drain": "One captured scheduler with null-timeout direct drain or ordered drain/timer race and finally cleanup.",
+    "constants": {
+      "MAX_EXTRACTION_TURNS": 5,
+      "DRAIN_TIMEOUT_MS": 60000
+    },
+    "typingRefinements": "Explicit snapshot generic at scheduler creation and explicit async callback status union retain the required type relationship without dependence on inference.",
+    "rationale": "A small helper owner with three public functions and one private execution function keeps contract sequencing visible; no new queue, cursor, state, cache, transaction, path, or authority was introduced.",
+    "namingNoveltyClaim": false
+  },
+  "retainedExpression": {
+    "qualification": "Required existing schemas/protocol/fields/prose/format/constants/evaluation/ordinary idioms; no new grant or novelty claim.",
+    "imports": "All seven authoritative import module paths and imported names were retained from imports.json; dependency ownership was not moved or reimplemented.",
+    "publicContract": "Export names, this/runtime/input types, scheduler snapshot extension, and public parameter/default semantics follow the frozen declarations and prose.",
+    "fieldsAndCalls": "Runtime, session, branch, context, telemetry, tool executor, scheduler, manifest, and model-loop property names and ordered protocol calls are required expression.",
+    "exactError": "Extraction boundary is missing from the scheduled active branch",
+    "constantsAndTags": [
+      "5",
+      "60000",
+      "project_memory_extract",
+      "background",
+      "project_memory",
+      "scheduler",
+      "abort_signal",
+      "execute",
+      "internal",
+      "aborted",
+      "success",
+      "error"
+    ],
+    "idioms": "Optional chaining, nullish assignment, first-index search, object spread, slicing, Promise.all, Promise.race, try/catch/finally, and timer unref/cleanup are used to preserve required evaluation behavior.",
+    "licenseOrAuthorityGrant": false,
+    "bodyComparisonPerformedByAuthor": false
+  },
+  "manualContractReview": {
+    "method": "Reasoned review of supplied contract and own source only; no executed behavior or tool-based test.",
+    "enabled": "Root resolution uses config plus workspaceRoot and compares to undefined.",
+    "guards": "Shutdown, explicit disabled extraction, root resolution/falsy root, remote workspace, then missing session/filesystem ports occur before context/snapshot work.",
+    "identity": "workspaceRoot remains the root identity; workingDirectory is used only as a captured loop field.",
+    "capture": "Context capture precedes reading latestConversationMessageId; falsy boundary returns after capture and before store or scheduler calls.",
+    "storeOrder": "messages({sessionID: runtime.sessionId}) starts first, getSession(runtime.sessionId) second, before Promise.all; synchronous throws propagate.",
+    "branch": "Opaque active-branch selector receives all four required revert fields; native findIndex uses the captured boundary; missing boundary throws the exact supplied error.",
+    "boundedSnapshot": "Spread captured context then boundary and active.slice(0, boundaryIndex + 1); no newer messages, mutation, or deep clone.",
+    "scheduler": "Nullish initialization uses the opaque existing scheduler; schedule receives the snapshot promise immediately as a receiver call; promise failures remain scheduler concerns.",
+    "telemetry": "Detached scope precedes telemetry.run; factory and run calls have no wrapping try; run preserves its receiver.",
+    "scanAndBuild": "Manifest scan uses the supplied filesystem port, snapshot root, and abort signal; post-scan cancellation precedes prompt, provider messages, then executor creation.",
+    "loop": "Opaque loop receives exactly the supplied ordered fields and maxTurns 5; executor.execute retains its receiver and maps options.abortSignal to signal plus snapshot traceContext.",
+    "successAndFailure": "finishCompleted is inside try; aborted signal or DOMException AbortError causes cancellation; ordinary Error name AbortError is not specially recognized; other failures call finishFailed(execute, internal, error).",
+    "callbackThrows": "Finish callbacks inside try can enter catch; catch callbacks may escape; no extra logging or error remapping.",
+    "drain": "Captured scheduler once; absent returns; null waits directly without timer; otherwise drain is called first in the race, timer is unrefed optionally, and truthy timer cleared in finally; errors propagate.",
+    "noAddedFeatures": "No new root/permission/model checks, queue/cursor/abort owner, writable targets/tools, shutdown call, timeout sanitation, polling, events, or logs.",
+    "lineLimit": {
+      "requiredStrictlyLessThan": 400,
+      "actual": 195
+    }
+  },
+  "configuration": {
+    "parentAssignedModel": "Sol",
+    "parentAssignedReasoningEffort": "high",
+    "forkTurns": "none",
+    "fastModeRequested": true,
+    "fastTierControlExposed": false,
+    "fastTierVerified": false,
+    "configurationQualification": "Parent-delegated model/effort/fork labels recorded as supplied; model, effort, and service-tier execution were not independently introspected or verified.",
+    "subagentsSpawned": false
+  },
+  "limits": {
+    "instructionOnlyIsolation": true,
+    "osIsolationOrAccessAuditProof": false,
+    "sharedExecutor": "Restriction was instruction-enforced on a shared workspace, not a separate OS sandbox proof.",
+    "sourceExposedCurator": "Parent/curator is allowed to inspect this source only after freeze; curator independence and any prior broader context are qualified, not certified by this receipt.",
+    "authorPriorBroadContext": "This delegated task supplied only the task/environment instructions; no repository or predecessor source body was read during this author task.",
+    "validation": "No compiler, tests, lint, build, mocks, behavioral execution, actual memory/store/filesystem-port/provider/user-data/credential operations, or actual timer waits were performed.",
+    "allowedInfrastructure": "Shell/Python used only explicit scoped reads, own scratch source/receipt writes, hashes/byte/line accounting, timestamp accounting, and own output permission changes.",
+    "opaqueTypes": "Dependency/public fragments remain in their original ownership and are not standalone compilation units; inaccessible authoritative runtime shapes were not expanded.",
+    "receiptSelfHash": "Receipt binds the six inputs and final source; no circular self-hash claim is made."
+  },
+  "breaches": [],
+  "questions": [],
+  "remainingBlockers": [],
+  "freeze": {
+    "freezeUTC": "2026-10-02T20:42:34.253373Z",
+    "timestampQualification": "UTC accounting marker taken immediately before receipt write and final permission changes.",
+    "sourceMode": "0444",
+    "receiptMode": "0444",
+    "outputDirectoryMode": "0555",
+    "beforeCuratorBodyReview": true,
+    "frozenInputsEdited": false
+  }
+}

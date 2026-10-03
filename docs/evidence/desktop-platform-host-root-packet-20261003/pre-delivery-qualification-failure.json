@@ -1,0 +1,11 @@
+{
+  "failure": "Regex return-qualification span began at an already structured database relay signature and incorrectly reached a later buildHostProcessEnv any return, assigning the relay shape to the wrong port. Detected by targeted signature review before freeze/delivery.",
+  "initialWrongPort": "buildHostProcessEnv(hostProcessLocalEnv: Record<string,string>): {receive:(state:DatabaseStartupState)=>void;startupId:string}",
+  "correction": "Function-local AST type spans only; do not overwrite existing structured returns. Qualify databaseStartupRelay startupId default as string and hostModulePath as string, preserve opaque buildHostProcessEnv original any declaration with raw diagnostics. Strip class private/protected members before dependency type-closure walk.",
+  "preserved": [
+    "extract-public.initial-qualification-failure.cjs.txt",
+    "dependency-api.initial-qualification-failure.d.ts.txt"
+  ],
+  "authorInput": false,
+  "noImplementationChanged": true
+}

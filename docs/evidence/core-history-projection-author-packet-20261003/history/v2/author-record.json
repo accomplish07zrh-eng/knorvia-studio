@@ -1,0 +1,142 @@
+{
+  "version": 2,
+  "author_role": "same input-limited complete implementation author; functional clarification correction",
+  "freeze_utc": "2026-10-02T19:13:55.012237Z",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "model_configuration_basis": "Original delegation specifies GPT-6.1 Sol/high; runtime model introspection was not available.",
+  "service_tier": {
+    "requested": "Fast",
+    "separate_tool_setting_available": false
+  },
+  "fresh_author_event": false,
+  "inherited_conversation": true,
+  "inherited_context": "Continuation of the same author after its v1 freeze. Retains original delegation, scoped inputs, own draft/receipt, and parent messages. Parent supplied the observation-clarification scope and reported static comparison; no predecessor implementation, test, review body, dependency implementation, or other author source was supplied or read.",
+  "ancestry": {
+    "v1_source": {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/message-history.ts",
+      "bytes": 12178,
+      "sha256": "6510c3ccc241b19bb4d5c2fd754b5c39070758e52f1993992c1302665b68c3cf"
+    },
+    "v1_receipt": {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/author-record.json",
+      "bytes": 4905,
+      "sha256": "70d5daa073fcff3ae955a40f700ace91635a25114359c7987647551536eebb6a"
+    },
+    "v1_freeze_utc": "2026-10-02T19:11:51.067362Z",
+    "v1_preserved_unmodified": true,
+    "parent_reported_v1_archive_digest_prefix": "8709ae17",
+    "parent_reported_clarification_frozen_digest_prefix": "7ee7eafe",
+    "clarification_trigger": "Static curator comparison found previously implicit observation gates; no runtime test/failure claimed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/contract.md",
+      "bytes": 8054,
+      "sha256": "ea6ff223462a3e229f73a2c4785298cac4fddaafca91be677fb0b1bcaac3611c"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-api.d.ts",
+      "bytes": 5517,
+      "sha256": "bd0bc48e9d19ac77f9bb4a295e7b411d884d7322280cde86cf3f842f30a3130d"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/dependency-api.d.ts",
+      "bytes": 1038,
+      "sha256": "f61d45f83f1ca7288a5482ce84434c80c885dbe301986290f2ee1a5418f33922"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-shapes.d.ts",
+      "bytes": 2563,
+      "sha256": "478c65cd46aa7309f4616480920c6add0e143e32c306c2d209d0b396f0d79371"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/observation-clarification.md",
+      "bytes": 2110,
+      "sha256": "d0816bc46d0ad7f000ca1f75df675988e3b646aac7af2718b077a13872906f5f"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output-v2/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output-v2/author-record.json",
+      "bytes": 7790,
+      "sha256": null,
+      "selfhash_omitted": true
+    }
+  ],
+  "source_lines": 320,
+  "private_companion": null,
+  "actual_files_read": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/contract.md",
+      "purpose": "Scoped input; original four read during v1 and rebound by exact byte/hash, fifth read completely during v2 and rebound."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-api.d.ts",
+      "purpose": "Scoped input; original four read during v1 and rebound by exact byte/hash, fifth read completely during v2 and rebound."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/dependency-api.d.ts",
+      "purpose": "Scoped input; original four read during v1 and rebound by exact byte/hash, fifth read completely during v2 and rebound."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-shapes.d.ts",
+      "purpose": "Scoped input; original four read during v1 and rebound by exact byte/hash, fifth read completely during v2 and rebound."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/observation-clarification.md",
+      "purpose": "Fifth scoped input read completely during v2 and rebound by exact byte/hash."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/message-history.ts",
+      "purpose": "Own previously frozen source used as v2 ancestry and correction basis; byte/hash binding."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/author-record.json",
+      "purpose": "Own previously frozen receipt read for ancestry freeze and exact byte/hash binding."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output-v2/message-history.ts",
+      "purpose": "Own complete v2 source manually reviewed from writing command output and rebound by exact byte/hash."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output-v2/author-record.json",
+      "purpose": "Own frozen v2 receipt byte/hash reporting."
+    }
+  ],
+  "source_exposure": {
+    "allowed_scoped_inputs_and_own_outputs_only": true,
+    "repository_files_read": false,
+    "repository_agents_read": false,
+    "target_or_dependency_implementation_read": false,
+    "tests_history_review_bodies_other_authors_or_external_prior_drafts_read": false,
+    "own_v1_source_and_receipt_read": true,
+    "parent_observation_clarification_received": true,
+    "git_used": false,
+    "network_used": false,
+    "compilers_tests_builds_typechecks_lint_or_mocks_run": false
+  },
+  "retained_contract_expression": [
+    "All public declarations and runtime collaborators; actual SYSTEM_REMINDER_SOURCES imported without recreating its registry.",
+    "One history state owner, array borrowing versus replacement, cache field presence and mutation lifecycle, and map-before-append failure ordering.",
+    "Specified selective clone gates, object field order, fresh containers and retained nested identities, metadata source values, and queryScope handling.",
+    "Exact <system-reminder> prefix and historical private direct-model attachment diagnostic.",
+    "Append receiver and push method selected before input constructor/map/clone evaluation; post-append total and init recomputation observe current authoritative state.",
+    "For nonattachments, direct message and runtime metadata observed before role classification; user classification reuses the already observed metadata."
+  ],
+  "discretionary_design": [
+    "Complete single 320-line source file; no helper, public barrel edit, provider request projection, persistence, or extra state owner.",
+    "Ordinary this.entries.push(construction-or-spread-map) expressions supply JavaScript append admission ordering without extra frozen state.",
+    "Moved the existing prefix metadata observation before role access; existing source/text rules retained.",
+    "Removed the private append helper because construction at its call site preceded receiver admission."
+  ],
+  "verification": "Manual complete-source and scoped-contract review only. Tooling limited to writing, reading allowed inputs/own outputs, line counting, UTC timestamp, byte counts, and SHA256.",
+  "unresolved_questions": [],
+  "breaches": [],
+  "freeze_policy": "Complete v2 source and receipt separately frozen together under the fifth functional clarification; v1 unchanged. No further post-freeze modification without another separately frozen functional clarification."
+}
