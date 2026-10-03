@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-10-03T03:03:56.885420+00:00",
+  "baseline": "338edba627decd00b49a798e6e7964c747989ad6",
+  "sourceSha256": "654e6777a38f2a5082482461ec1ba651e17c8a7af4405901ce6393b2540f2216",
+  "sourceBytes": 4937,
+  "inputEvidence": "author-inputs.json pins five immutable published packet files; not duplicated into this branch",
+  "corrections": [
+    "Use non-widening version1 literal to retain public inferred encoder type.",
+    "Use canonical complete-model requiresMfjsToolSchema node instead of creating a replacement boolean schema.",
+    "Construct ordered legacy union only for each current-invalid rule, preserving collaborator observation timing.",
+    "Preserve native Number.isInteger validation directly and readonly empty migration catalog."
+  ],
+  "checks": {
+    "minimum": "Three bounded in-memory groups: version/error/strict-envelope precedence; provider-first parser and current/legacy/damaged identity; encoding optional references/receivers/key order. Frozen canonical-schema/union-time counterexample reproduced. ActualZod+fakefacades, no real configs.",
+    "types": "Actual target-rooted strict/noUnchecked/skipLibCheck baseline332sources0diag/final332sources0diag",
+    "publicApi": "Three export call/construct signatures identical under actual TypeScriptchecker including inferred encoder return",
+    "lint": "0warnings/errors",
+    "format": "pass",
+    "architecture": "0violations",
+    "fullNativeBuild": "deferred"
+  },
+  "harnessFailure": "Initial minimal-initial.cjs.txt had one missing object closing brace and failed SyntaxError before execution; original tool transcript preserves failure. Only fixture syntax fixed, product not changed for that error.",
+  "retainedExpression": [
+    "Strict envelope, schema field ownership, diagnostics, version protocol, error class, serializer keys and common control/validation idioms retain source-derived correspondence.",
+    "No migration registered; codec/parser/facade contracts not widened.",
+    "This technical candidate has ZERO accepted independent-expression/MIT credit. Source-first workflow and passing checks do not establish whole-file independence."
+  ],
+  "authorship": "Complete4436B packet-authored initial draft froze before deliberate targetbody review; root broaderproject/providercontext, source-exposedcurator and postfreeze review, sharedexecutor instruction-only, notcleanroom.",
+  "safety": "No actual provider/account/credential/file/network/schema migration or permission operation; no cross-lane source import/mainmerge."
+}

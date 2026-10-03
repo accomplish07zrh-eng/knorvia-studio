@@ -1,0 +1,81 @@
+import { z } from "zod";
+import { modelSelectionSchema } from "@knorvia/shared/model-selection";
+import { completeModelConfigDataSchema, modelConfigDataSchema } from "@knorvia/shared/model-config";
+import { parsePersonalModelConfigRules, parsePersonalProviderConfigMap, extractManualModelConfig, manualModelConfigSchema, type ProviderConfigLayerUpdate } from "@knorvia/provider";
+
+const CURRENT_SCHEMA_VERSION = 1;
+// Fixed schemas are retained compatibility/security data, not replacement validator implementations.
+const stored = z.object({
+  schemaVersion: z.literal(CURRENT_SCHEMA_VERSION),
+  config: z.object({
+    providerOrder: z.array(z.string().min(1)).optional(),
+    providerConfigRules: z.unknown(),
+    modelConfigRules: z.unknown(),
+    defaultModelSelection: modelSelectionSchema.optional(),
+  }).strict(),
+}).strict();
+const legacyManual = z.union([
+  completeModelConfigDataSchema.extend({enabled:modelConfigDataSchema.shape.enabled}),
+  manualModelConfigSchema.extend({properties:manualModelConfigSchema.shape.properties.extend({requiresMfjsToolSchema:z.boolean()})}),
+]);
+const migrations = new Map<number,(input: unknown)=>unknown>();
+export class UnsupportedProviderConfigVersionError extends Error {
+  readonly version: number | null;
+  constructor(message: string, version: number | null) {
+    super(message);
+    this.name="UnsupportedProviderConfigVersionError";
+    this.version=version;
+  }
+}
+function record(value: unknown): value is Record<string,unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
+function versionOf(value: unknown): number | null {
+  if(!record(value)||!("schemaVersion" in value)) return null;
+  const version=value.schemaVersion;
+  if(typeof version!=="number" || !Number.isInteger(version)||version<0) throw new UnsupportedProviderConfigVersionError("Provider Config schemaVersion 必须是非负整数",null);
+  return version;
+}
+function currentDocument(input: unknown): unknown {
+  let version=versionOf(input);
+  if(version===null) throw new UnsupportedProviderConfigVersionError("Provider Config 缺少 schemaVersion",null);
+  if(version>CURRENT_SCHEMA_VERSION) throw new UnsupportedProviderConfigVersionError(`Provider Config schemaVersion ${version} 高于当前支持的 ${CURRENT_SCHEMA_VERSION}`,version);
+  let document=input;
+  while(version<CURRENT_SCHEMA_VERSION) {
+    const migrate=migrations.get(version);
+    if(!migrate) throw new UnsupportedProviderConfigVersionError(`缺少 Provider Config schemaVersion ${version} 到 ${version+1} 的迁移器`,version);
+    document=migrate(document);
+    const next=versionOf(document);
+    if(next===null) throw new UnsupportedProviderConfigVersionError("Provider Config 迁移器必须产生版本化文件",null);
+    if(next!==version+1) throw new Error(`Provider Config 迁移器必须从 schemaVersion ${version} 迁移到 ${version+1}`);
+    version=next;
+  }
+  return document;
+}
+function compatibleManualRules(value: unknown): unknown {
+  if(!record(value)||!Array.isArray(value.manualProviderModelRules)) return value;
+  return {...value,manualProviderModelRules:value.manualProviderModelRules.map(rule=>{
+    if(!record(rule)) return rule;
+    if(manualModelConfigSchema.safeParse(rule.config).success) return rule;
+    const legacy=legacyManual.safeParse(rule.config);
+    return legacy.success ? {...rule,config:extractManualModelConfig(legacy.data)} : rule;
+  })};
+}
+export function decodeProviderConfigFile(input: unknown): ProviderConfigLayerUpdate {
+  const document=stored.parse(currentDocument(input));
+  return Object.freeze({
+    providers:parsePersonalProviderConfigMap(document.config.providerConfigRules),
+    models:parsePersonalModelConfigRules(compatibleManualRules(document.config.modelConfigRules)),
+    providerOrder:document.config.providerOrder,
+    ...(document.config.defaultModelSelection!==undefined?{defaultModelSelection:document.config.defaultModelSelection}:{}),
+  });
+}
+export function encodeProviderConfigFile(update: ProviderConfigLayerUpdate) {
+  return {
+    schemaVersion:CURRENT_SCHEMA_VERSION,
+    config:{
+      ...(update.providerOrder!==undefined?{providerOrder:update.providerOrder}:{}),
+      providerConfigRules:{providerRules:update.providers.toJSON()},
+      modelConfigRules:update.models.toPersonalJSON(),
+      ...(update.defaultModelSelection!==undefined?{defaultModelSelection:update.defaultModelSelection}:{}),
+    },
+  };
+}
