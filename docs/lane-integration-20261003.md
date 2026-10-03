@@ -10,7 +10,7 @@
 | services | 01a10019-ff7f-76f8-8d1e-0ba31855a0e0 | packages/services/**、packages/provider/** | docs/lane-services-20261003.md |
 | CLI | 01a1001a-2143-77b7-a852-00caffddc0c0 | apps/cli/**，排除 apps/cli/packages/contracts/** | docs/lane-cli-20261003.md |
 | native | 01a1001a-4b5f-750a-9eaf-bfa1d2c5d0d4 | packages/desktop/**，排除 src/renderer/**；packages/server/**、packages/server-cli/**、packages/rpc/**、packages/client/**、packages/provider-node/**、packages/cua/** | docs/lane-native-20261003.md |
-| 整合者 | 本对话 | packages/shared/**、apps/cli/packages/contracts/**、根配置/CI、根 scripts/**、全局来源/许可记录与整合分支 | 本文 |
+| 整合者 | 本对话 | packages/shared/**、apps/cli/packages/contracts/**、packages/model-option-map/**、packages/formal-proof/**、根配置/CI、根 scripts/**、全局来源/许可记录与整合分支 | 本文 |
 
 父任务说明四路模型配置均为 gpt-6.1-sol / max / fast；这是父任务提供的配置记录，不是本整合者另外创建任务或验证运行时服务层。各 lane 记录由对应任务独占编辑，整合者只读，不共写其历史记录。
 
@@ -34,7 +34,7 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 以上明确生产文件没有目录重叠，也覆盖直属 renderer 根的 TS/HTML/资产。UI 包内、renderer 根内的测试随 UI；desktop 根 test/scripts/config 文件随 native，UI 若需改这些已有消费者/界面夹具则向父任务提出精确路径请求，不自行越界。本阶段只记录未运行项，不以检查成功扩大权限。
 
-## 尚未分配的包与跨路接口
+## 新增分配的包与跨路接口
 
 `packages/model-option-map/**` 与 `packages/formal-proof/**` 是仓库当前实际存在、四路初始范围未覆盖的额外包；父任务本轮已明确分配给**本整合任务独占实现**，不再等待归属授权，也不交给 UI/native/services/CLI 共写。model-option-map 被 packages/shared/src/model-config.ts、provider/provider-node 与 CLI model adapter 共用；formal-proof 是独立的产品状态枚举器/D3 页面。两包源码最后变更均为 7619e41b950bd52073ebf36754146cf25659d9fa，目标 inventory 的精确 source digest 与当前仍一致、review 为 null，runtime owners 尚需替换；types/barrel/固定配置和视觉值不得仅为数量重排。新分配不解除来源/权利 HOLD。根官网/发行资产、patches、third-party、examples 等继续协调，保留各自来源，不额外开云任务。
 
@@ -63,6 +63,8 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 本轮代码发布后的最后一次只读 GitHub head 快照：CLI #14 `18f070df5c16f2d9cb44354277b392d5cff8b2f3`、services #16 `5b0b53522d235397cf435a627393c0bf5818d28c`、native #17 `388b69ccf08feacee73fbffb31a48faaa32c07ce`；UI #15 仍为上述 `7393e33483aceedb1fad4e2ed3fe50dee10f3db1`。前三者是活动推进，不覆盖原冻结完成批次、不推定新批验收或提前接入。旧 #7–12 再读仍为第一阶段完整输入 heads，继续只记录漂移，不追赶合入。
 
+2026-10-03 05:47 UTC 本轮发布前最后一次只读远端快照：旧 #7–12 六个完整 heads 再次与第一阶段输入一致，全部 open/draft、原 base 不变。main 仍 `bd0bb014c0974334557fa51814709d0b78f35f1d`；#13 仍 open/draft、base main。新的 #14–17 仍 open/draft、base integration/backlog-20261003：CLI `51bd4b6916f44457c58ea10f0e6246513458019b`、UI `b4eb691e7e3ddf906d08546f84a4defb1f43f971`、services `549b8dbc76a6e359d4b7f9da5db65a367abe4f3e`、native `33f812b483582dd6a6152618b4a57406b94a15ea`。services 与父任务冻结 head 一致；其余后续 head 是活动观察，不覆盖先前已报告完整批次、不推定全路完成、不提前接入，也没有读取/触发新检查。
+
 ## 整合者范围的实现筛选
 
 已阅读的 shared assembly/projection 当前源码由 #9 的 `7caec377c3b6aace6f9a08344d77497726459eb2` 后续完整候选更新；虽然 saved inventory 仍标原 upstream-unchanged，当前 digest 已不同且完整 packet/receipt 已在基线。保留 wire-assembler、workflow-runs-artifacts、conversation-message-projection-policy、session-visible-content、tool-plan-adapter；不据陈旧 inventory 再重写一遍。
@@ -82,7 +84,8 @@ coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立
 | contracts session-event projection（reducer / helpers / queue / ledger transitions） | spec 9dad1581c9dc1bc851170be8655fd8f26ffbd231；实现 1d99b03715822caac58d5d4c5b776692375353b8 | 完整替换候选已提交，5 个 source 文件算一个模块；原公开 runtime 入口接入新转换 | source-exposed authoring；初始 template/标准数值 helper/字段策略保留原来源；尚未运行验证或接受表达/权利 |
 | contracts tracing/span/context | spec 4779d7fb9d31816c7d75315e83f7dc788a8d7519；source 1c6f6dcb280d0013029eb2e05b12f9f0352be02d | 完整 runtime 替换候选已提交；3 个 source 文件为一个模块，公开入口接入 record residence/共享操作与单一 ALS | source-exposed；public declarations、ALS/UUID/Date/固定字段保留原来源；未验证/未接受权利 |
 | shared workflow-runs-reducer | spec cd201beaa82f74c4b109456862f7d39925d53e55；source 176d54215e34b7ea9ee1c8ab8e9c4b94a01c371f | 完整主体候选已提交；5 个 source 文件为一个模块，run draft/严格身份 bounded rows/派生 actor observations；已装辅助 owners 不重写 | source-exposed；旧 f07e531f… 与 accepted-binding HOLD 仍历史限定，不绑定成新接受决定 |
-| model-option-map / formal-proof | 本轮父任务明确分配整合者；未修改的原版本为上述 7619e41b950bd52073ebf36754146cf25659d9fa | 独占实现队列，先 tracing/shared reducer、再两包实际 pending runtime | 未以范围授权作 MIT/原创结论，原 review:null 和 source 义务保留 |
+| model-option-map | spec b75623d31131f86aad701f86b2bb9180a6121089；source 24934687428aa5ed7f80ae5fe530670e33cb24f0 | 完整 runtime 候选已提交：单一 source cache entry、cursor scanner/precedence parser、惰性显式求值栈、path trie 首-owner 与单克隆 merge；7 source 文件为一个模块 | source-exposed；声明/语法/错误文字/标准 JSON 与数值规则保留原来源，未验证或接受权利 |
+| formal-proof | spec 8b908c95205d4670f6c6b283de7d022cc171cff6；source efb26e83d0e01fa2fdc0be08c39b4f5f0653cc03 | 完整 model/page runtime 候选已提交：phase/event recipes、work-stack/trail 枚举、预算/DAG 投影、单 explorer state 与 geometry-only canvas；9 source 文件为一个模块 | source-exposed；types/catalog/HTML/CSS/固定产品文字/几何/CASE 与 review schema 保留原来源；未运行浏览器/消费者/权利验收 |
 | 四路固定任务当前新增候选 | 上表 #14–17 的观察 heads | 待父任务批次完成通知和统一接收；未计入安装完成估计 | 来源、消费者与产品验收待统一阶段 |
 
 contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts`、`session-event-journal.ts`、`session-event-retention.ts`。事件由每 session 的一个 journal 持有，retention 的索引只引用同一 sealed 链节点；保持公开 port、schema、barrel、工厂和参数、Promise 边界、序号规则、存入对象身份、replay 顺序、策略/时钟错误后的既有已驻留状态与 receiver、120 秒 grace、delete/recreate 与瞬态类别。没有改 UI、持久用户数据或其他 lane 的源码和记录。细则与以后统一验收场景见 [先行 spec](../specs/knorvia-next-integration-event-residence-20261003.md)。代码作者已读旧实现；标准/API/固定策略保留，不以新链结构宣称 clean room 或权利已接受。
@@ -90,6 +93,8 @@ contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-me
 projection 的新增实际 owner 为 `events/session-projection-transition.ts`、`session-projection-ledgers.ts`、`session-projection-queue.ts`；`event-reducer.ts` 和 `event-reducer-helpers.ts` 保留原导出并接入唯一 commit。保留队列原位编辑/重排、工具与权限、后台任务多项合并、目标校验身份与失败摘要、主会话 context usage、压缩/checkpoint/rewind 与 streaming 恢复投影；standard/API 默认 template 和 numeric helper 不计为原创。没有编辑 runtime 调用方、公共 schemas、shared workflow reducer 或其他 lane。完整保留项与统一验收场景见 [先行 projection spec](../specs/knorvia-next-integration-session-projection-20261003.md)。
 
 后续 tracing 及 shared workflow 候选的细则分别见 [tracing spec](../specs/knorvia-next-integration-tracing-20261003.md) 与 [workflow projection spec](../specs/knorvia-next-integration-workflow-projection-20261003.md)。前者保留 hook receiver/重入、sync throw/Promise rejection、上下文与 log 优先级；后者保留 run/seq/revision/JSON identity、cap 拒新仍更新旧、actor/node/report/question/artifact、resume/settlement 与实际 caller 入口。两者都未执行验证，不操作真实任务/数据，也不重复已有 helper owners。
+
+两个额外包的细则见 [option-map spec](../specs/knorvia-next-integration-model-option-map-20261003.md) 与 [formal-proof spec](../specs/knorvia-next-integration-formal-proof-20261003.md)。option-map 保留 compiler/tokenizer/types/barrel/error 与同步 apply 的入口，类型和数值/字符串语法仍按原来源；request body 只写入其深克隆，不修改 shared/provider/CLI 调用方。formal-proof 的 model.ts 保留原公开导出，main.ts 实际接入新 model/graph/canvas owner；model-types/model-catalog/explorer-shell 中的原内容迁移、未改 stylesheet 与所有视觉值不能计为新原创。CASE 的 DFS 分配、review key `knorvia.conversation-state-space.review.v1`、导出 JSON 字段/文件名、全部选择/过滤/详情/缩放/适配/重置/导出控件是后续统一验收的兼容边界；本轮没有读取或写入真实浏览器 localStorage。
 
 ## 本轮跨路输入与 Registry 真正缺项
 
@@ -100,6 +105,22 @@ CLI 本轮 head `a3540e4860c8e7a74af5bde1a4a89021a941509d`，源码三批为 Tur
 对 registry 的有限历史读取找到 `e972ca88b458787d59b31b914a73f32d0297f567` 提交的 `docs/knorvia-task-registry-root-review-20261002.md` / `docs/evidence/knorvia-task-registry-root-review-20261002.json`。这是**runtime fragment 推荐**，不是 integrated whole-file receipt：review input 是旧环境 `/tmp` 6097-byte fragment，SHA-256 `3f0420e83be7796d7c767112cc5f10ac3aa66d92e8fd6b91d08847502257eac4`，报告明确完整 integrated file/final digest 未提供，root 的其他接受结果只属 parent-reported。本轮没有执行其中历史 probes。
 
 `12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2` 的 reported whole-file receipt 路径 `licensing/evidence/contract-authored-task-registry-expression-20261002.json` 在六个已收 #7–12 完整 heads 中均不存在。当前已取得 refs 的该 source 路径历史只有 88001f027b04324f816176ff5f08b5d1a236f27f（ac09ec1b…）与 7619e41b950bd52073ebf36754146cf25659d9fa（7eb979b4…），没有精确 12a18abd… integrated bytes 的已发布 source commit。缺项是**原 root 发布对应完整源码提交和原 whole-file receipt**；fragment、旧 baseline 或 CLI 归档新候选都不能替代。保持原 HOLD，不从本地缺项推断从未存在，也不恢复旧 `/tmp` 或受限外部素材。
+
+## Services 三个旧绑定的精确定位与可执行后续路线
+
+父任务随后报告 services 到冻结实现边界，PR #16 head `549b8dbc76a6e359d4b7f9da5db65a367abe4f3e`，四个完整 owner 为 session/task-index/protocol/storageStartupGate，暂等历史证据，不重复重写。native PR #17 完成五批八个 desktop 候选的 head `642cf17e2501288bfee834daba54c1db64a4c1aa`，继续最后 exportLogs 与 lock/startupRecovery 是否仍有主体待替换的厘清。UI PR #15 活动 head `a91c4b745d6b00b40ab97350058e2654edb5f3c9`，七批后继续；这些均先保存父任务报告的完整 SHA，不提前合入或合 main。
+
+有限读取所有已取得 refs 的三个 source 路径历史，并对所见 source 版本逐一求摘要，**不是运行 provenance gate/full audit**。三个请求的旧 source SHA-256 均未匹配；指定 receipt 路径在该保留历史中无提交。现有完整定位如下：
+
+| services path（相对 packages/services/src） | requested historical digest / receipt | 实际整合源与可见历史 |
+| --- | --- | --- |
+| session/tasksDatabase/startup.ts | `a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a`；`licensing/evidence/task-storage-preparation-expression-20261002.json` | 当前 `d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde`，source commit `805754face6bf038da0ddb308da1f9da508d11e0`；此前 `d62c610760f4b8ab8ff738b5ffc960a8ae615c9f`（7bc2a016…）与 snapshot 7619e41b…（a3a5e714…） |
+| git/commitMessageFileScope.ts | `ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761`；`licensing/evidence/commit-message-scope-independent-replacement-20261001.json` | 当前 `f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e`，source commit `7619e41b950bd52073ebf36754146cf25659d9fa`；历史另有 `8c1e3f68ebb3acdc5ceb4f67beb310810cc0e497`，但 digest 为 b25ad115fa9776dec306bad84d071daa0bb84d855019951d6e0f4a3d47ad5f5c，不是请求的 ca5b… |
+| creation/creationReference.ts | `5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43`；`licensing/evidence/creation-reference-containment-20261001.json` | 当前 `05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654`，source commit `63b4f9479ef91d79249feac1a2ae74e15a047901`；snapshot 7619e41b… 为 4349a388… |
+
+旧绑定确实有记录，不能说“只有 HOLD、没有指针”：startup 的 `MIGRATIONS-EVIDENCE-20261002.md` / `MIGRATIONS-AUTHOR-RECEIPTS-20261002.json`、system/source-owner 及 repo receipts 明记 parent-provided binding only；commit scope 的 `AGENT-SESSION-QUEUE-INVENTORY-20261002.json#/holds/commitMessageFileScope` 给出 exact digest、blob `69e43f4ce19a30ea185ba99ffb284ac0d798c6f8` 和上述 receipt；creation 的 `SOURCE-ORIGIN-EVIDENCE-20261002.json#/parentProvidedBindings` / `SOURCE-ORIGIN-INVESTIGATION-20261002.md` 给出 exact digest/receipt、receiptAvailableInLane:false，并明确 containment fix 不等于 whole-file provenance。这个 scope blob 本地不存在；同仓库 GitHub `git/blobs/<exact blob>` 返回 HTTP 404，也没有下载或安装替代内容。不从公开缺项推断从未有未发布版本，不恢复旧 /tmp、受限素材或伪造 whole-file receipt。
+
+可以消除对旧候选的**运行时依赖**：由原 services 任务按已公开的行为/API/spec 续作实际 pending owner，给新提交绑定新的真实 source-exposed authoring 记录。startup 的完整边界是检查/进度副本、mkdir/open、busy/foreign-key、同一一小时 deadline 的 busy-code-only 100ms retry、upgrade snapshot 在 WAL/BEGIN 前、migration 已提交事实、原异常/清理首因、mark migrated 后两 Repo 的 ensureReady/close、最后 prepared/ready；不能改变数据 schema/迁移 SQL 或把 storageStartupGate admission 计成 DB pipeline 已替换。commit scope 的边界是有效 session paths 为空返回 unbounded、trim/slash/root/workspace aliases、绝对路径只加入受控 repo/workspace relative aliases、三个 file path 字段任一匹配、保留文件顺序与对象身份、Windows/POSIX 原 path helper。creation reference 的边界是 project realpath containment 或 succeeded recorded output identity、10MB/nonempty/file/mime 准入、verified 上游 creation-output 身份和 recorded/hash/read-back 一致、派单前失败、原路径/base64/result/错误边界；最终还须落实已规格化的真实路径和 symlink/containment 安全规则。可以保留声明/固定值/标准 API 来源，但不能把新候选摘要写成上述旧摘要，也不能凭重写或新 receipt 清掉整文件权利的不确定性。整合者已读这些源码，不编辑 services 所有者；是否按这三个完整范围续派仍由父任务在原固定任务落实。
 
 ## 最终统一执行队列：native 第一轮新增测试
 
