@@ -1,0 +1,6 @@
+Checking formatting...
+
+apps/cli/packages/core/test/runtime-tooling-fixture-20261003.mjs (0ms)
+
+Format issues found in above 1 files. Run without `--check` to fix.
+Finished in 111ms on 9 files using 4 threads.

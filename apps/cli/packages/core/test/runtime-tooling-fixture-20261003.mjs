@@ -18,7 +18,10 @@ export async function load(mode, ports) {
     const manifestBytes = fs.readFileSync(
       path.join(repo, "docs/evidence/knorvia-runtime-tooling-current-20261003.json"),
     );
-    assert.equal(hash(manifestBytes), "CURRENT_PIN");
+    assert.equal(
+      hash(manifestBytes),
+      "5716956ef8dbac4f8d6929e3b477a924d36912e80f10ab4b41c6e93c9c242086",
+    );
     files = {};
     for (const [name, row] of Object.entries(JSON.parse(manifestBytes).files)) {
       files[name] = {};

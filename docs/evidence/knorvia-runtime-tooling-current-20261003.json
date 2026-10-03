@@ -1,0 +1,117 @@
+{
+  "typescript": "6.0.2",
+  "files": {
+    "runtime/helpers/runtime-tools.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+        "sha256": "42120e1f7bfe3345dccedd4bf2a39eaae9d450efa69b5a30fc284496e6ba9fac"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/runtime-tools.js",
+        "sha256": "43b2681473fc3800230edaa7feacf8b50531d85d93ce9467a2a4de44c9cfeffb"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/runtime-tools.d.ts",
+        "sha256": "2b53f74ae16bc9d6cd0e1080bcb9714758f6b57e3256c0496055e31e5c7b23d2"
+      }
+    },
+    "runtime/helpers/tool-allowlist.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+        "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/tool-allowlist.js",
+        "sha256": "b41e7b04ded9489095201b6ca3962aac847fa5e910795c9174ef4c88082c9165"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/tool-allowlist.d.ts",
+        "sha256": "efd4870ee4f38cce1f734319e03b6e0dc2be2c53fc144b54882aacf3392c6bfd"
+      }
+    },
+    "runtime/helpers/permission-grant-resume.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+        "sha256": "040dfca80dca1da74d0ec16d837a4a898c2f1efd70728cace8f7f6c55069e387"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/permission-grant-resume.js",
+        "sha256": "0b95a3d385e02a414d6c7c261dff36f0e823b578dcedcb1093b820f20a8cfc30"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/permission-grant-resume.d.ts",
+        "sha256": "a543a88b150a6043492f5f3923192ea1d35709194915e8e423d76ac88bacdad7"
+      }
+    },
+    "runtime/methods/embedded-search-branch.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/embedded-search-branch.ts",
+        "sha256": "33ff9ce11648359c5f846f0023879c7309e9fce4d220425bfdfb60bc1ce1c9cd"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/embedded-search-branch.js",
+        "sha256": "486dfc5ffbf4c85c440c3e98d3afa94825ad451ac2ef07bf304c419a09e321c5"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/embedded-search-branch.d.ts",
+        "sha256": "016ecb3a388c3dbf703133a314ec2598a6950dfdd0a2e2cb2ed458f105cfb125"
+      }
+    },
+    "tool/tool-visibility.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/tool-visibility.ts",
+        "sha256": "b6e6ea34bf76fbbcc30124074b40fc9c7376efc686b1fc3c1740b2a1a790f5ad"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/tool/tool-visibility.js",
+        "sha256": "9eb775eef8edf20b8e82e46cfab636cc0e898c6415569437cc2c8f54610579bf"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/tool/tool-visibility.d.ts",
+        "sha256": "706876c036b46dd79cf81ba3efbcdb60e0fbbcc541576c6d2ae7e61342f928a9"
+      }
+    },
+    "subagent/explore-tools.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/explore-tools.ts",
+        "sha256": "178a5ef9b2c0c4e4e94885702969910084ce8c318ce2ca7dd352df987b6dd219"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/explore-tools.js",
+        "sha256": "2e3a0ec2f4de9b41e234df54ecd7e022b94656c70e67b94bb7a7682f1984228b"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/explore-tools.d.ts",
+        "sha256": "01dedddfef19c44ed4a99ec7f08dabac8255dde059763d6b1e52ff75846b0bea"
+      }
+    },
+    "runtime-task/notification-policy.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime-task/notification-policy.ts",
+        "sha256": "738a1ed32171ffe3b36aded73d8e394e96e79dcf5df3885e5ba7562b1a3f4d3c"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime-task/notification-policy.js",
+        "sha256": "9cf93a8eda80a6a805db0fd3bf27263ea89f054791e65987b998f2db588af282"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime-task/notification-policy.d.ts",
+        "sha256": "33639f07d31129460b073e520d6e79d1d5a9d7d145b215ad35b7a9ba51e09dce"
+      }
+    },
+    "embedded-search/capability.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/embedded-search/capability.ts",
+        "sha256": "86a257fddcadf38fe340963b649d1f7d51e034f14f5bd1a2e783525a9b9d4ec4"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/embedded-search/capability.js",
+        "sha256": "192110c9d0c7fc52b00adeb30afa6f414641e27d0648ac1f3a605efacbe8a8ee"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/embedded-search/capability.d.ts",
+        "sha256": "d3d4605fadc92f21c0dbd094d41bf8d80b00003ba0d3871648e76f058996451d"
+      }
+    }
+  }
+}
