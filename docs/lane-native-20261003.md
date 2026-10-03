@@ -1,5 +1,10 @@
 # Native lane checkpoint
 
+Current allocation update: the parent has transferred all
+`packages/desktop/src/renderer/**` to this fixed lane. Earlier exclusions below
+describe earlier checkpoints; they do not limit this explicitly authorized
+continuation. packages/ui/web remain excluded. Same branch, task and PR17.
+
 Persistent branch: `rewrite/native-20261003`, created after fetch from exact
 integration baseline `3b1ff0f715a43cbc51c576fd524479a08e58e203`. PR base is
 `integration/backlog-20261003`; integration PR #13 remains the sole main outlet.
@@ -286,3 +291,46 @@ source/rights classification remains an integration decision.
   materials, known historical type diagnostics and MIT release gating remain
   with integration. Neither inherited records nor these new candidates close
   those obligations.
+
+## Renderer handoff and startup batch
+
+Read the UI lane record at exact PR15 head
+`662b64276a7271324efcbc6de36497058250d521`. All thirteen specifically assigned
+renderer files match that handoff and existing source records; there is no
+accepted complete renderer candidate for those files. The bounded
+[selection](evidence/backlog-platform-renderer-handoff-20261003/selection.json)
+and [pre-implementation contract](../specs/knorvia-next-platform-renderer-handoff-20261003.md)
+separate eight substantive entry/lifetime/adapter targets from five retained
+compatibility surfaces. Existing UI owners and original features are not repeated.
+
+The complete main/database-admission/resource-manager candidates and one local
+appearance policy are now installed. One startup owner holds the initialized
+latch, local base, early remote FIFO and timeout; a port slot owns replacement
+and consumption, keeping ready/port generation equality and close-error ordering.
+Remote service registration still precedes ready acknowledgment, with the exact
+existing service selection and MessagePort connection. The shared appearance
+policy keeps every theme token, white default, system query and distinct main/
+resource-manager empty/dark behavior. Resource manager font persistence and
+isolated native snapshot/storage callbacks remain in their existing order.
+
+[Whole-draft/dependency bindings](evidence/backlog-platform-renderer-startup-20261003/bindings.json)
+were recorded before source diff. The three JSX shells retain the same component,
+child and prop expressions after only whitespace and startup-owner receiver
+normalization, recorded in
+[retained UI source binding](evidence/backlog-platform-renderer-startup-20261003/retained-ui.json).
+This is source inspection, not React/DOM/UI acceptance. No HTML, CSS, asset, UI/web,
+preload, protocol, data or shared configuration changed.
+
+performanceTimelineCleanup.ts, remoteWorkspaceSessionServices.ts,
+remoteWorkspaceServicePortBridge.ts, cuaPermissionPanelMessages.ts and
+appTelemetryBridge.ts remain exact compatibility surfaces with **zero new
+reconstruction credit**. Fixed service routing/copy/wire data and thin delegation
+are not made original/MIT by retaining them. Their existing source relationship
+and full expression/rights decision remain with integration.
+
+Two focused scenarios in `packages/desktop/test/renderer-startup-contract.test.mjs`
+and the new supplied-port fixture are authored and **unrun**. No synthetic test,
+lint, types, build, format/architecture check, audit or application/native operation.
+Same source-exposed author; UI/wire/public expressions remain qualified. Next
+code batches handle telemetry lifetime and platform/browser/permission routing,
+then freeze this finite assigned renderer queue on the same PR.

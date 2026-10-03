@@ -1,0 +1,35 @@
+{
+  "scope": "three retained JSX expressions only; source comparison after full draft freeze",
+  "normalization": "collapse whitespace; replace only admission/control instance receiver with previous local name",
+  "expressions": [
+    {
+      "file": "main.tsx",
+      "expression": "startup",
+      "baselineRawSha256": "620dd3f44b14c99cb404ca9ace18e9e7e52310653914030669150d2ea85ead00",
+      "candidateRawSha256": "402c642862747ea2d464809fc8aac40156f455af8dfa13b907e87e0665fffb27",
+      "baselineNormalizedSha256": "fedc27afd97768dea7464efdd5a89365f5462d0e2f796a3bf1ac5344c6f37e91",
+      "candidateNormalizedSha256": "fedc27afd97768dea7464efdd5a89365f5462d0e2f796a3bf1ac5344c6f37e91",
+      "normalizedEqual": true
+    },
+    {
+      "file": "main.tsx",
+      "expression": "business",
+      "baselineRawSha256": "613b94ec3c11093ce1f27502b7ef956aa05408cb596be86c5ba1450bd8109e27",
+      "candidateRawSha256": "8f8c96dbf879110ccc36db06c81e4f39418c8d15316c164d19402ed27b7acbb5",
+      "baselineNormalizedSha256": "ab7ec6773bca98fc7910c667e2fecfc5157eb8bd67153b8f6fd857c854fc554b",
+      "candidateNormalizedSha256": "ab7ec6773bca98fc7910c667e2fecfc5157eb8bd67153b8f6fd857c854fc554b",
+      "normalizedEqual": true
+    },
+    {
+      "file": "resource-manager.tsx",
+      "expression": "resource",
+      "baselineRawSha256": "6db97fb8990a7cb5c894b9d078e92659c44c3ae8ba92ffa647feb6a28c9cd5e4",
+      "candidateRawSha256": "6db97fb8990a7cb5c894b9d078e92659c44c3ae8ba92ffa647feb6a28c9cd5e4",
+      "baselineNormalizedSha256": "2d8e587a06e6241e5fe7e1dff73d19d156ec07350cac758a95c7e9bcdf24b565",
+      "candidateNormalizedSha256": "2d8e587a06e6241e5fe7e1dff73d19d156ec07350cac758a95c7e9bcdf24b565",
+      "normalizedEqual": true
+    }
+  ],
+  "runtimeChecksRun": [],
+  "meaning": "UI expressions retain component/child/prop meaning; this is source binding only, no React/DOM/render or platform acceptance"
+}
