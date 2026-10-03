@@ -1,7 +1,16 @@
 import {
-  clampSplitRatio, leafPaneIds, MAX_WORKBENCH_PANES, paneWorkspaceKey, PRIMARY_LEAF,
-  V4_PRIMARY_PANE_ID, type PaneBinding, type PaneLayoutNode, type PaneLayoutSnapshot,
-  type PaneWorkspaceScope, type WorkbenchGroup, type WorkbenchGroupSnapshot,
+  clampSplitRatio,
+  leafPaneIds,
+  MAX_WORKBENCH_PANES,
+  paneWorkspaceKey,
+  PRIMARY_LEAF,
+  V4_PRIMARY_PANE_ID,
+  type PaneBinding,
+  type PaneLayoutNode,
+  type PaneLayoutSnapshot,
+  type PaneWorkspaceScope,
+  type WorkbenchGroup,
+  type WorkbenchGroupSnapshot,
   type WorkbenchSessionBinding,
 } from "@/v4/paneLayoutTree.js";
 
@@ -12,8 +21,11 @@ type Profile = "pane" | "group";
 type Data = Record<string, unknown>;
 
 function record(value: unknown, profile: Profile): Data | null {
-  return typeof value === "object" && value !== null && (profile === "pane" || !Array.isArray(value))
-    ? value as Data : null;
+  return typeof value === "object" &&
+    value !== null &&
+    (profile === "pane" || !Array.isArray(value))
+    ? (value as Data)
+    : null;
 }
 function text(value: unknown, nonempty = false): value is string {
   return typeof value === "string" && (!nonempty || value.length > 0);
@@ -31,14 +43,18 @@ function decodeTree(value: unknown, profile: Profile): PaneLayoutNode | null {
     const frame = frames[frames.length - 1]!;
     if (frame.phase === 0) {
       const source = record(frame.value, profile);
-      if (!source || source.type !== "leaf" && source.type !== "split") {
+      if (!source || (source.type !== "leaf" && source.type !== "split")) {
         result = null;
         frames.pop();
       } else if (source.type === "leaf") {
-        result = text(source.paneId, profile === "pane") ? { type: "leaf", paneId: source.paneId } : null;
+        result = text(source.paneId, profile === "pane")
+          ? { type: "leaf", paneId: source.paneId }
+          : null;
         frames.pop();
-      } else if (profile === "pane" && (!text(source.id, true) ||
-        source.direction !== "row" && source.direction !== "column")) {
+      } else if (
+        profile === "pane" &&
+        (!text(source.id, true) || (source.direction !== "row" && source.direction !== "column"))
+      ) {
         result = null;
         frames.pop();
       } else {
@@ -52,11 +68,20 @@ function decodeTree(value: unknown, profile: Profile): PaneLayoutNode | null {
       frames.push({ value: frame.source!.second, phase: 0 });
     } else {
       const source = frame.source!;
-      result = frame.first && result && text(source.id, profile === "pane") &&
+      result =
+        frame.first &&
+        result &&
+        text(source.id, profile === "pane") &&
         (source.direction === "row" || source.direction === "column")
-        ? { type: "split", id: source.id, direction: source.direction, ratio: ratio(source.ratio),
-            first: frame.first, second: result }
-        : null;
+          ? {
+              type: "split",
+              id: source.id,
+              direction: source.direction,
+              ratio: ratio(source.ratio),
+              first: frame.first,
+              second: result,
+            }
+          : null;
       frames.pop();
     }
   }
@@ -66,15 +91,17 @@ function decodeTree(value: unknown, profile: Profile): PaneLayoutNode | null {
 function scope(value: unknown, profile: Profile): PaneWorkspaceScope | null {
   const source = record(value, profile);
   if (!source || !text(source.workspacePath, profile === "pane")) return null;
-  if (profile === "group") return {
-    workspacePath: source.workspacePath,
-    workspaceIdentity: text(source.workspaceIdentity) ? source.workspaceIdentity : undefined,
-    remoteSessionId: text(source.remoteSessionId) ? source.remoteSessionId : undefined,
-  };
+  if (profile === "group")
+    return {
+      workspacePath: source.workspacePath,
+      workspaceIdentity: text(source.workspaceIdentity) ? source.workspaceIdentity : undefined,
+      remoteSessionId: text(source.remoteSessionId) ? source.remoteSessionId : undefined,
+    };
   return {
     workspacePath: source.workspacePath,
     ...(text(source.workspaceIdentity) && source.workspaceIdentity.trim().length > 0
-      ? { workspaceIdentity: source.workspaceIdentity } : {}),
+      ? { workspaceIdentity: source.workspaceIdentity }
+      : {}),
     ...(text(source.remoteSessionId, true) ? { remoteSessionId: source.remoteSessionId } : {}),
   };
 }
@@ -82,18 +109,29 @@ function binding(value: unknown, profile: "pane"): PaneBinding | null;
 function binding(value: unknown, profile: "group"): WorkbenchSessionBinding | null;
 function binding(value: unknown, profile: Profile): PaneBinding | WorkbenchSessionBinding | null {
   const source = record(value, profile);
-  if (!source || profile === "group" && (!text(source.sessionId) || source.readOnly === true)) return null;
+  if (!source || (profile === "group" && (!text(source.sessionId) || source.readOnly === true)))
+    return null;
   const workspaceScope = scope(source.workspaceScope, profile);
   if (!workspaceScope) return null;
-  const sessionId = profile === "group" ? source.sessionId as string
-    : text(source.sessionId, true) ? source.sessionId : null;
-  return { workspaceScope, sessionId,
-    ...(profile === "group" || sessionId !== null ? { restoredUnvalidated: true } : {}) };
+  const sessionId =
+    profile === "group"
+      ? (source.sessionId as string)
+      : text(source.sessionId, true)
+        ? source.sessionId
+        : null;
+  return {
+    workspaceScope,
+    sessionId,
+    ...(profile === "group" || sessionId !== null ? { restoredUnvalidated: true } : {}),
+  };
 }
 function validLeaves(root: PaneLayoutNode): string[] | null {
   const ids = leafPaneIds(root);
-  return ids.length <= MAX_WORKBENCH_PANES && new Set(ids).size === ids.length &&
-    ids.includes(V4_PRIMARY_PANE_ID) ? ids : null;
+  return ids.length <= MAX_WORKBENCH_PANES &&
+    new Set(ids).size === ids.length &&
+    ids.includes(V4_PRIMARY_PANE_ID)
+    ? ids
+    : null;
 }
 function decodePane(value: unknown): PaneLayoutSnapshot | null {
   const source = record(value, "pane");
@@ -109,21 +147,42 @@ function decodePane(value: unknown): PaneLayoutSnapshot | null {
     if (!restored) return null;
     panes[id] = restored;
   }
-  return { root, panes, focusedPaneId: text(source.focusedPaneId) && ids.includes(source.focusedPaneId)
-    ? source.focusedPaneId : V4_PRIMARY_PANE_ID };
+  return {
+    root,
+    panes,
+    focusedPaneId:
+      text(source.focusedPaneId) && ids.includes(source.focusedPaneId)
+        ? source.focusedPaneId
+        : V4_PRIMARY_PANE_ID,
+  };
 }
 function decodeLegacyPane(value: unknown): PaneLayoutSnapshot | null {
   const source = record(value, "pane");
-  const split = source?.splitPane as { workspaceKey?: unknown; sessionId?: unknown } | null | undefined;
+  const split = source?.splitPane as
+    | { workspaceKey?: unknown; sessionId?: unknown }
+    | null
+    | undefined;
   const key = split?.workspaceKey;
-  if (!source || !text(key, true) || !(key.startsWith("/") || /^[A-Za-z]:[\\/]/.test(key))) return null;
+  if (!source || !text(key, true) || !(key.startsWith("/") || /^[A-Za-z]:[\\/]/.test(key)))
+    return null;
   const storedSession = split?.sessionId;
   const sessionId = text(storedSession, true) ? storedSession : null;
   return {
-    root: { type: "split", id: "n1", direction: "row", ratio: ratio(source.splitRatio),
-      first: PRIMARY_LEAF, second: { type: "leaf", paneId: "split" } },
-    panes: { split: { workspaceScope: { workspacePath: key }, sessionId,
-      ...(sessionId !== null ? { restoredUnvalidated: true } : {}) } },
+    root: {
+      type: "split",
+      id: "n1",
+      direction: "row",
+      ratio: ratio(source.splitRatio),
+      first: PRIMARY_LEAF,
+      second: { type: "leaf", paneId: "split" },
+    },
+    panes: {
+      split: {
+        workspaceScope: { workspacePath: key },
+        sessionId,
+        ...(sessionId !== null ? { restoredUnvalidated: true } : {}),
+      },
+    },
     focusedPaneId: source.focusedPaneId === "split" ? "split" : V4_PRIMARY_PANE_ID,
   };
 }
@@ -133,24 +192,49 @@ export function readPersistedPaneLayout(): PaneLayoutSnapshot | null {
     if (current) return decodePane(JSON.parse(current));
     const legacy = localStorage.getItem(LEGACY_PANE_KEY);
     return legacy ? decodeLegacyPane(JSON.parse(legacy)) : null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 function encodeTree(root: PaneLayoutNode): Data {
   let result: Data = {};
   const pending: Array<{ read: () => PaneLayoutNode; write: (encoded: Data) => void }> = [
-    { read: () => root, write(value) { result = value; } },
+    {
+      read: () => root,
+      write(value) {
+        result = value;
+      },
+    },
   ];
   while (pending.length) {
     const { read, write } = pending.pop()!;
     const node = read();
     if (node.type === "leaf") write({ type: "leaf", paneId: node.paneId });
     else {
-      const encoded: Data = { type: "split", id: node.id, direction: node.direction,
-        ratio: node.ratio, first: undefined, second: undefined };
+      const encoded: Data = {
+        type: "split",
+        id: node.id,
+        direction: node.direction,
+        ratio: node.ratio,
+        first: undefined,
+        second: undefined,
+      };
       write(encoded);
-      pending.push({ read: () => node.second, write(value) { encoded.second = value; } },
-        { read: () => node.first, write(value) { encoded.first = value; } });
+      pending.push(
+        {
+          read: () => node.second,
+          write(value) {
+            encoded.second = value;
+          },
+        },
+        {
+          read: () => node.first,
+          write(value) {
+            encoded.first = value;
+          },
+        },
+      );
     }
   }
   return result;
@@ -159,10 +243,18 @@ let lastPaneWrite: string | null = null;
 export function persistPaneLayout(snapshot: PaneLayoutSnapshot): void {
   const panes: Data = {};
   for (const [id, item] of Object.entries(snapshot.panes)) {
-    panes[id] = { workspaceScope: { workspacePath: item.workspaceScope.workspacePath,
-      ...(item.workspaceScope.workspaceIdentity ? { workspaceIdentity: item.workspaceScope.workspaceIdentity } : {}),
-      ...(item.workspaceScope.remoteSessionId ? { remoteSessionId: item.workspaceScope.remoteSessionId } : {}) },
-      sessionId: item.sessionId };
+    panes[id] = {
+      workspaceScope: {
+        workspacePath: item.workspaceScope.workspacePath,
+        ...(item.workspaceScope.workspaceIdentity
+          ? { workspaceIdentity: item.workspaceScope.workspaceIdentity }
+          : {}),
+        ...(item.workspaceScope.remoteSessionId
+          ? { remoteSessionId: item.workspaceScope.remoteSessionId }
+          : {}),
+      },
+      sessionId: item.sessionId,
+    };
   }
   const payload = { root: encodeTree(snapshot.root), panes, focusedPaneId: snapshot.focusedPaneId };
   try {
@@ -170,7 +262,9 @@ export function persistPaneLayout(snapshot: PaneLayoutSnapshot): void {
     if (serialized === lastPaneWrite) return;
     localStorage.setItem(PANE_KEY, serialized);
     lastPaneWrite = serialized;
-  } catch { /* 存储失败只失去恢复能力，当前 renderer 布局仍由 store 拥有。 */ }
+  } catch {
+    /* 存储失败只失去恢复能力，当前 renderer 布局仍由 store 拥有。 */
+  }
 }
 
 function groupFromStorage(value: unknown): WorkbenchGroup | null {
@@ -188,18 +282,29 @@ function groupFromStorage(value: unknown): WorkbenchGroup | null {
     if (!restored) return null;
     panes[id] = restored;
   }
-  return { id: source.id, primaryBinding, root, panes,
-    focusedPaneId: text(source.focusedPaneId) && ids.includes(source.focusedPaneId)
-      ? source.focusedPaneId : V4_PRIMARY_PANE_ID,
-    updatedAt: typeof source.updatedAt === "number" ? source.updatedAt : 0 };
+  return {
+    id: source.id,
+    primaryBinding,
+    root,
+    panes,
+    focusedPaneId:
+      text(source.focusedPaneId) && ids.includes(source.focusedPaneId)
+        ? source.focusedPaneId
+        : V4_PRIMARY_PANE_ID,
+    updatedAt: typeof source.updatedAt === "number" ? source.updatedAt : 0,
+  };
 }
 function groupStorage(): Storage | null {
-  try { return typeof globalThis.localStorage === "undefined" ? null : globalThis.localStorage; }
-  catch { return null; }
+  try {
+    return typeof globalThis.localStorage === "undefined" ? null : globalThis.localStorage;
+  } catch {
+    return null;
+  }
 }
 function sessionKeys(group: WorkbenchGroup): string[] {
-  return [group.primaryBinding, ...Object.values(group.panes)].map((item) =>
-    `${paneWorkspaceKey(item.workspaceScope)}::${item.sessionId}`);
+  return [group.primaryBinding, ...Object.values(group.panes)].map(
+    (item) => `${paneWorkspaceKey(item.workspaceScope)}::${item.sessionId}`,
+  );
 }
 export function readPersistedWorkbenchGroups(): WorkbenchGroupSnapshot | null {
   const storage = groupStorage();
@@ -220,23 +325,42 @@ export function readPersistedWorkbenchGroups(): WorkbenchGroupSnapshot | null {
       for (const key of keys) sessionIndex[key] = group.id;
     }
     if (!Object.keys(groups).length) return null;
-    return { activeGroupId: text(source.activeGroupId) && groups[source.activeGroupId] ? source.activeGroupId : null,
-      groups, sessionIndex };
-  } catch { return null; }
+    return {
+      activeGroupId:
+        text(source.activeGroupId) && groups[source.activeGroupId] ? source.activeGroupId : null,
+      groups,
+      sessionIndex,
+    };
+  } catch {
+    return null;
+  }
 }
 export function persistWorkbenchGroups(snapshot: WorkbenchGroupSnapshot): void {
   const storage = groupStorage();
   if (!storage) return;
   try {
-    const groups = Object.fromEntries(Object.entries(snapshot.groups).map(([id, group]) => {
-      const { restoredUnvalidated: _primary, ...primaryBinding } = group.primaryBinding;
-      const panes = Object.fromEntries(Object.entries(group.panes).map(([paneId, item]) => {
-        const { restoredUnvalidated: _restored, ...persisted } = item;
-        return [paneId, persisted];
-      }));
-      return [id, { ...group, primaryBinding, panes }];
-    }));
-    storage.setItem(GROUP_KEY, JSON.stringify({ version: 1, activeGroupId: snapshot.activeGroupId,
-      groups, sessionIndex: snapshot.sessionIndex }));
-  } catch { /* 保留 group v1 的字段，不把 storage 失败转换为业务状态。 */ }
+    const groups = Object.fromEntries(
+      Object.entries(snapshot.groups).map(([id, group]) => {
+        const { restoredUnvalidated: _primary, ...primaryBinding } = group.primaryBinding;
+        const panes = Object.fromEntries(
+          Object.entries(group.panes).map(([paneId, item]) => {
+            const { restoredUnvalidated: _restored, ...persisted } = item;
+            return [paneId, persisted];
+          }),
+        );
+        return [id, { ...group, primaryBinding, panes }];
+      }),
+    );
+    storage.setItem(
+      GROUP_KEY,
+      JSON.stringify({
+        version: 1,
+        activeGroupId: snapshot.activeGroupId,
+        groups,
+        sessionIndex: snapshot.sessionIndex,
+      }),
+    );
+  } catch {
+    /* 保留 group v1 的字段，不把 storage 失败转换为业务状态。 */
+  }
 }

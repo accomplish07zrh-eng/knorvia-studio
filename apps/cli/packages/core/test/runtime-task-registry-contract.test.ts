@@ -98,7 +98,9 @@ test("queue uses the public update receiver; drain preserves message array ident
 test("immediate waits ignore signal getters and retain terminal background precedence", async () => {
   const registry = new InMemoryRuntimeTaskRegistry();
   const options = Object.defineProperty({}, "signal", {
-    get() { throw new Error("must not read immediate signal"); },
+    get() {
+      throw new Error("must not read immediate signal");
+    },
   });
   assert.equal(await registry.waitForTerminal("missing", options), undefined);
   assert.equal(await registry.waitForBackgroundRequest("missing", options), undefined);
@@ -115,8 +117,13 @@ test("wait subscription is admitted by id after reentrant listener installation"
   let installed: (() => void) | undefined;
   let cleaned: (() => void) | undefined;
   const signal = signalPort({
-    install(listener) { installed = listener; registry.remove(TASK_ID); },
-    cleanup(listener) { cleaned = listener; },
+    install(listener) {
+      installed = listener;
+      registry.remove(TASK_ID);
+    },
+    cleanup(listener) {
+      cleaned = listener;
+    },
   });
   const pending = registry.waitForTerminal(TASK_ID, { signal });
   assert.equal(registry.get(TASK_ID), undefined);
@@ -132,15 +139,21 @@ test("terminal cleanup precedes background cleanup; new cohorts survive detached
   let nextWait: Promise<RuntimeTaskSnapshot | undefined> | undefined;
   let replacement: RuntimeTaskSnapshot | undefined;
   const terminal = registry.waitForTerminal(TASK_ID, {
-    signal: signalPort({ cleanup() {
-      effects.push("terminal");
-      registry.register(task());
-      replacement = registry.get(TASK_ID);
-      nextWait = registry.waitForTerminal(TASK_ID);
-    } }),
+    signal: signalPort({
+      cleanup() {
+        effects.push("terminal");
+        registry.register(task());
+        replacement = registry.get(TASK_ID);
+        nextWait = registry.waitForTerminal(TASK_ID);
+      },
+    }),
   });
   const background = registry.waitForBackgroundRequest(TASK_ID, {
-    signal: signalPort({ cleanup() { effects.push("background"); } }),
+    signal: signalPort({
+      cleanup() {
+        effects.push("background");
+      },
+    }),
   });
   const completed = task(TASK_ID, { status: "completed", isBackgrounded: true });
   const committed = registry.update(TASK_ID, () => completed);
@@ -160,11 +173,23 @@ test("cleanup failure keeps commit and detached cohort; later publication cannot
   const failure = new Error("owned cleanup failure");
   let cleanupCalls = 0;
   let settled = false;
-  void registry.waitForTerminal(TASK_ID, {
-    signal: signalPort({ cleanup() { cleanupCalls += 1; throw failure; } }),
-  }).then(() => { settled = true; });
+  void registry
+    .waitForTerminal(TASK_ID, {
+      signal: signalPort({
+        cleanup() {
+          cleanupCalls += 1;
+          throw failure;
+        },
+      }),
+    })
+    .then(() => {
+      settled = true;
+    });
   const committed = task(TASK_ID, { status: "failed" });
-  assert.throws(() => registry.update(TASK_ID, () => committed), (error) => error === failure);
+  assert.throws(
+    () => registry.update(TASK_ID, () => committed),
+    (error) => error === failure,
+  );
   assert.equal(registry.get(TASK_ID), committed);
   registry.remove(TASK_ID);
   await Promise.resolve();
@@ -176,9 +201,20 @@ test("pending signal getters throw synchronously while install errors reject nat
   const registry = new InMemoryRuntimeTaskRegistry();
   registry.register(task());
   const failure = new Error("owned signal failure");
-  const options = Object.defineProperty({}, "signal", { get() { throw failure; } });
-  assert.throws(() => registry.waitForTerminal(TASK_ID, options), (error) => error === failure);
-  const signal = signalPort({ install() { throw failure; } });
+  const options = Object.defineProperty({}, "signal", {
+    get() {
+      throw failure;
+    },
+  });
+  assert.throws(
+    () => registry.waitForTerminal(TASK_ID, options),
+    (error) => error === failure,
+  );
+  const signal = signalPort({
+    install() {
+      throw failure;
+    },
+  });
   await assert.rejects(registry.waitForTerminal(TASK_ID, { signal }), (error) => error === failure);
 });
 
@@ -199,10 +235,14 @@ test("patcher errors preserve reentrant effects and classification stays exact",
   const registry = new InMemoryRuntimeTaskRegistry();
   registry.register(task());
   const failure = new Error("owned patcher failure");
-  assert.throws(() => registry.update(TASK_ID, () => {
-    registry.remove(TASK_ID);
-    throw failure;
-  }), (error) => error === failure);
+  assert.throws(
+    () =>
+      registry.update(TASK_ID, () => {
+        registry.remove(TASK_ID);
+        throw failure;
+      }),
+    (error) => error === failure,
+  );
   assert.equal(registry.get(TASK_ID), undefined);
   for (const status of ["completed", "failed", "cancelled", "killed", "stopped", "lost"] as const) {
     assert.equal(isTerminalRuntimeTask({ status }), true);
@@ -218,8 +258,12 @@ test("inline abort remains admitted for one later cleanup, without a second canc
   registry.register(task());
   let cleanupCalls = 0;
   const signal = signalPort({
-    install(listener) { listener(); },
-    cleanup() { cleanupCalls += 1; },
+    install(listener) {
+      listener();
+    },
+    cleanup() {
+      cleanupCalls += 1;
+    },
   });
   const pending = registry.waitForTerminal(TASK_ID, { signal });
   await assert.rejects(pending, { message: "Runtime task wait aborted" });
@@ -235,7 +279,11 @@ test("an abort in detached cleanup wins before later native settlement", async (
   const laterSignal = new AbortController();
   const reason = new Error("owned detached abort");
   const first = registry.waitForTerminal(TASK_ID, {
-    signal: signalPort({ cleanup() { laterSignal.abort(reason); } }),
+    signal: signalPort({
+      cleanup() {
+        laterSignal.abort(reason);
+      },
+    }),
   });
   const later = registry.waitForTerminal(TASK_ID, { signal: laterSignal.signal });
   const rejected = assert.rejects(later, (error) => error === reason);

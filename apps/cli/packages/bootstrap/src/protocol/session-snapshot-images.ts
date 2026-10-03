@@ -12,7 +12,9 @@ type PublicPart = PublicMessage["parts"][number];
 
 function inlineData(value: string): boolean {
   const separator = value.indexOf(",");
-  return value.startsWith(DATA_URL_PREFIX) && separator >= 0 && value.slice(separator + 1).length > 0;
+  return (
+    value.startsWith(DATA_URL_PREFIX) && separator >= 0 && value.slice(separator + 1).length > 0
+  );
 }
 
 function concreteMime(value: string): string | undefined {
@@ -20,10 +22,15 @@ function concreteMime(value: string): string | undefined {
   return media.startsWith(IMAGE_PREFIX) && media !== WILDCARD_IMAGE ? media : undefined;
 }
 
-async function hydrate(app: Pick<KnorviaApp, "readToolResultArtifact">, part: PublicPart): Promise<PublicPart> {
+async function hydrate(
+  app: Pick<KnorviaApp, "readToolResultArtifact">,
+  part: PublicPart,
+): Promise<PublicPart> {
   if (part.type !== "file") return part;
-  if (!(part.mime === WILDCARD_IMAGE || part.mime.startsWith(IMAGE_PREFIX)) || inlineData(part.url)) return part;
-  const metadataUri = typeof part.metadata?.artifactUri === "string" ? part.metadata.artifactUri : undefined;
+  if (!(part.mime === WILDCARD_IMAGE || part.mime.startsWith(IMAGE_PREFIX)) || inlineData(part.url))
+    return part;
+  const metadataUri =
+    typeof part.metadata?.artifactUri === "string" ? part.metadata.artifactUri : undefined;
   const uri = metadataUri ?? part.url;
   if (!isArtifactUri(uri)) return part;
   try {

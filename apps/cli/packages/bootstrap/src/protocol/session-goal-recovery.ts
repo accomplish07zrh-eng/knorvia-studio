@@ -1,5 +1,18 @@
-import { EventReducer, SessionEventType, type GoalCompletionVerificationOutput, type MessageWithParts, type SessionEvent, type SessionGoal, type SessionInfo, type SessionProjection } from "@knorvia/contracts";
-import { normalizedHistoryText, sessionRecord, sessionString } from "./session-projection-primitives.js";
+import {
+  EventReducer,
+  SessionEventType,
+  type GoalCompletionVerificationOutput,
+  type MessageWithParts,
+  type SessionEvent,
+  type SessionGoal,
+  type SessionInfo,
+  type SessionProjection,
+} from "@knorvia/contracts";
+import {
+  normalizedHistoryText,
+  sessionRecord,
+  sessionString,
+} from "./session-projection-primitives.js";
 
 export type GoalBoundary = SessionProjection["targetCompletionVerificationTimeline"][number];
 
@@ -7,14 +20,19 @@ export function compareGoalBoundaries(left: GoalBoundary, right: GoalBoundary): 
   const first = left.goalIteration ?? 0;
   const second = right.goalIteration ?? 0;
   if (first !== second && first > 0 && second > 0) return first - second;
-  const time = (left.startedAt ?? left.updatedAt).getTime() - (right.startedAt ?? right.updatedAt).getTime();
+  const time =
+    (left.startedAt ?? left.updatedAt).getTime() - (right.startedAt ?? right.updatedAt).getTime();
   return time !== 0 ? time : left.verificationId.localeCompare(right.verificationId);
 }
 
-export function goalBoundaries(projection: SessionProjection, target?: SessionGoal | null): GoalBoundary[] {
+export function goalBoundaries(
+  projection: SessionProjection,
+  target?: SessionGoal | null,
+): GoalBoundary[] {
   const id = target?.targetID;
   return (projection.targetCompletionVerificationTimeline ?? [])
-    .filter((boundary) => !id || boundary.targetId === id).sort(compareGoalBoundaries);
+    .filter((boundary) => !id || boundary.targetId === id)
+    .sort(compareGoalBoundaries);
 }
 
 export function compareSessionMessages(left: MessageWithParts, right: MessageWithParts): number {
@@ -61,7 +79,8 @@ export function restoreGoalVerifications(
     if (!summaries.has(key)) summaries.set(key, summary);
   };
   Array.from(restored.targetCompletionVerifications).forEach(append);
-  timeline.map((boundary) => boundary.verification)
+  timeline
+    .map((boundary) => boundary.verification)
     .filter((summary): summary is GoalCompletionVerificationOutput => summary !== undefined)
     .forEach(append);
   return {
@@ -71,14 +90,23 @@ export function restoreGoalVerifications(
   };
 }
 
-export function goalTitleFallback(projection: SessionProjection, session: SessionInfo | null | undefined, messages: readonly MessageWithParts[]): SessionProjection {
+export function goalTitleFallback(
+  projection: SessionProjection,
+  session: SessionInfo | null | undefined,
+  messages: readonly MessageWithParts[],
+): SessionProjection {
   const goal = projection.target;
   if (!goal || goal.summaryTitle || !session?.title) return projection;
-  const users = messages.filter((message) => message.info.role === "user").sort(compareSessionMessages);
+  const users = messages
+    .filter((message) => message.info.role === "user")
+    .sort(compareSessionMessages);
   const first = users[0];
   const TITLE_WINDOW_MS = 5_000;
-  if (!first || Math.abs(first.info.time.created - goal.time.created) > TITLE_WINDOW_MS) return projection;
-  const text = first.parts.map((part) => part.type === "text" && typeof part.text === "string" ? part.text : "").join("\n");
+  if (!first || Math.abs(first.info.time.created - goal.time.created) > TITLE_WINDOW_MS)
+    return projection;
+  const text = first.parts
+    .map((part) => (part.type === "text" && typeof part.text === "string" ? part.text : ""))
+    .join("\n");
   if (normalizedHistoryText(text) !== normalizedHistoryText(goal.objective)) return projection;
   const output = { ...projection };
   output.target = { ...goal, summaryTitle: session.title };
@@ -86,7 +114,11 @@ export function goalTitleFallback(projection: SessionProjection, session: Sessio
 }
 
 /** 只由 verifier 边界折叠决定归属；人工消息/TodoWrite 本身不推进轮次。 */
-export function goalIterationAt(time: number, target: SessionGoal | null | undefined, timeline: readonly GoalBoundary[]): number | undefined {
+export function goalIterationAt(
+  time: number,
+  target: SessionGoal | null | undefined,
+  timeline: readonly GoalBoundary[],
+): number | undefined {
   if (!target || time < target.time.created) return undefined;
   let iteration = 1;
   for (const boundary of timeline) {
@@ -94,13 +126,19 @@ export function goalIterationAt(time: number, target: SessionGoal | null | undef
     const through = boundary.updatedAt.getTime();
     if (time <= through) return selected;
     if (boundary.status === "started") iteration = selected;
-    else if (boundary.status === "completed" && boundary.verification?.passed === true) return undefined;
+    else if (boundary.status === "completed" && boundary.verification?.passed === true)
+      return undefined;
     else iteration = selected + 1;
   }
   return iteration;
 }
 
-export function goalIterationStart(iteration: number, target: SessionGoal | null | undefined, timeline: readonly GoalBoundary[], fallback: number): number {
+export function goalIterationStart(
+  iteration: number,
+  target: SessionGoal | null | undefined,
+  timeline: readonly GoalBoundary[],
+  fallback: number,
+): number {
   if (!target || iteration <= 1) return target?.time.created ?? fallback;
   const ended = Array.from(timeline)
     .filter((boundary) => (boundary.goalIteration ?? 0) === iteration - 1)

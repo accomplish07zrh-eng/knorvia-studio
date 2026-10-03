@@ -32,9 +32,10 @@ function normalizedRule(rule: string): string {
   return rule;
 }
 
-export function extractToolRuleArguments(
-  argv: readonly string[],
-): { args: string[]; toolDisallowlist?: readonly string[] } {
+export function extractToolRuleArguments(argv: readonly string[]): {
+  args: string[];
+  toolDisallowlist?: readonly string[];
+} {
   const args: string[] = [];
   const rawRules: string[] = [];
   let cursor = 0;

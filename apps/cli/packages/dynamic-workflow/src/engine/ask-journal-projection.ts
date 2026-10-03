@@ -7,7 +7,11 @@ type JournalOutcome =
   | { status: "failed"; error: NodeRecord["error"] };
 
 /** running 与终态使用同一身份投影；字段/键次序是已有 journal 的兼容资料。 */
-export function askJournalRecord(node: AskNode, outcome: JournalOutcome, runId: string): NodeRecord {
+export function askJournalRecord(
+  node: AskNode,
+  outcome: JournalOutcome,
+  runId: string,
+): NodeRecord {
   const row: NodeRecord = {
     runId,
     siteId: node.instance.siteId,

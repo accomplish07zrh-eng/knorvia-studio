@@ -111,7 +111,12 @@ const STORAGE_PREPARATION_OPTIONS = new Set(["prepare-storage", "stdio", "cwd"])
 export function isProtocolServerInvocation(argv: string[]): boolean {
   try {
     const { values, positionals } = parseGlobalArgs(argv);
-    if (values.prompt !== undefined || values.target !== undefined || values.help || values.version) {
+    if (
+      values.prompt !== undefined ||
+      values.target !== undefined ||
+      values.help ||
+      values.version
+    ) {
       return false;
     }
     return PROTOCOL_COMMANDS.has(positionals[0] ?? "");

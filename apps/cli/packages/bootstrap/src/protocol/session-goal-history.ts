@@ -1,7 +1,21 @@
-import { getKnorviaGoalActiveIterationCount, isMainAgentToolProjectionSource, type KnorviaSessionGoalStats, type KnorviaSessionTodoGroup } from "@knorvia/shared";
+import {
+  getKnorviaGoalActiveIterationCount,
+  isMainAgentToolProjectionSource,
+  type KnorviaSessionGoalStats,
+  type KnorviaSessionTodoGroup,
+} from "@knorvia/shared";
 import type { MessageWithParts, SessionProjection, TodoItem, ToolState } from "@knorvia/contracts";
-import { compareSessionMessages, goalBoundaries, goalIterationAt, goalIterationStart } from "./session-goal-recovery.js";
-import { normalizedHistoryText, sessionRecord, sessionString } from "./session-projection-primitives.js";
+import {
+  compareSessionMessages,
+  goalBoundaries,
+  goalIterationAt,
+  goalIterationStart,
+} from "./session-goal-recovery.js";
+import {
+  normalizedHistoryText,
+  sessionRecord,
+  sessionString,
+} from "./session-projection-primitives.js";
 
 const TODO_STATUSES = new Set(["pending", "in_progress", "completed"]);
 const TODO_PRIORITIES = new Set(["high", "medium", "low"]);
@@ -39,7 +53,9 @@ function todoBatch(input: Record<string, unknown>): TodoItem[] | undefined {
 }
 
 function stateMetadata(state: ToolState): Record<string, unknown> | undefined {
-  return state.status === "running" || state.status === "completed" || state.status === "error" ? state.metadata : undefined;
+  return state.status === "running" || state.status === "completed" || state.status === "error"
+    ? state.metadata
+    : undefined;
 }
 
 function stateUpdatedAt(state: ToolState): number | undefined {
@@ -52,7 +68,11 @@ interface TodoSlot {
   index: number;
 }
 
-export function sessionTodoGroups(messages: readonly MessageWithParts[], current: readonly TodoItem[], projection: SessionProjection): KnorviaSessionTodoGroup[] {
+export function sessionTodoGroups(
+  messages: readonly MessageWithParts[],
+  current: readonly TodoItem[],
+  projection: SessionProjection,
+): KnorviaSessionTodoGroup[] {
   const target = projection.target;
   const timeline = goalBoundaries(projection, target);
   const groups = new Map<string, KnorviaSessionTodoGroup>();
@@ -68,18 +88,24 @@ export function sessionTodoGroups(messages: readonly MessageWithParts[], current
       if (!isMainAgentToolProjectionSource(part.metadata, stateMetadata(part.state))) continue;
       const todos = todoBatch(part.state.input);
       if (!todos) continue;
-      const updatedAt = stateUpdatedAt(part.state) ?? message.info.time.completed ?? message.info.time.created;
+      const updatedAt =
+        stateUpdatedAt(part.state) ?? message.info.time.completed ?? message.info.time.created;
       const id = iteration ? GOAL_GROUP_PREFIX + iteration : HISTORY_SCOPE;
-      const startedAt = iteration ? goalIterationStart(iteration, target, timeline, message.info.time.created) : message.info.time.created;
+      const startedAt = iteration
+        ? goalIterationStart(iteration, target, timeline, message.info.time.created)
+        : message.info.time.created;
       const targetId = iteration ? target?.targetID : undefined;
       let group = groups.get(id);
       if (group) group.updatedAt = Math.max(group.updatedAt ?? 0, updatedAt);
       else {
         group = {
-          id, source: iteration ? "goal_iteration" : "session",
+          id,
+          source: iteration ? "goal_iteration" : "session",
           ...(iteration ? { goalIteration: iteration } : {}),
           ...(targetId ? { targetId } : {}),
-          startedAt, updatedAt, todos: [],
+          startedAt,
+          updatedAt,
+          todos: [],
         };
         groups.set(id, group);
       }
@@ -99,7 +125,11 @@ export function sessionTodoGroups(messages: readonly MessageWithParts[], current
     }
   }
   if (groups.size === 0 && current.length > 0) {
-    groups.set(CURRENT_GROUP_ID, { id: CURRENT_GROUP_ID, source: "session", todos: current.map(sessionTodo) });
+    groups.set(CURRENT_GROUP_ID, {
+      id: CURRENT_GROUP_ID,
+      source: "session",
+      todos: current.map(sessionTodo),
+    });
   }
   return Array.from(groups.values()).sort((left, right) => {
     const first = left.startedAt ?? Number.MAX_SAFE_INTEGER;
@@ -108,9 +138,16 @@ export function sessionTodoGroups(messages: readonly MessageWithParts[], current
   });
 }
 
-interface IterationTotals { tools: number; tokens: number; seconds: number }
+interface IterationTotals {
+  tools: number;
+  tokens: number;
+  seconds: number;
+}
 
-export function sessionGoalStats(projection: SessionProjection, messages: readonly MessageWithParts[]): KnorviaSessionGoalStats | undefined {
+export function sessionGoalStats(
+  projection: SessionProjection,
+  messages: readonly MessageWithParts[],
+): KnorviaSessionGoalStats | undefined {
   const target = projection.target;
   if (!target) return undefined;
   const timeline = goalBoundaries(projection, target);
@@ -125,14 +162,24 @@ export function sessionGoalStats(projection: SessionProjection, messages: readon
       totals.set(iteration, row);
     }
     let tools = 0;
-    message.parts.forEach((part) => { if (part.type === "tool") tools += 1; });
+    message.parts.forEach((part) => {
+      if (part.type === "tool") tools += 1;
+    });
     const tokens = message.info.tokens;
     const completedAt = message.info.time.completed ?? message.info.time.created;
     row.tools += tools;
-    row.tokens += tokens.total ?? tokens.input + tokens.output + tokens.reasoning + tokens.cache.read + tokens.cache.write;
-    row.seconds += Math.max(0, Math.ceil((completedAt - message.info.time.created) / SECONDS_IN_MS));
+    row.tokens +=
+      tokens.total ??
+      tokens.input + tokens.output + tokens.reasoning + tokens.cache.read + tokens.cache.write;
+    row.seconds += Math.max(
+      0,
+      Math.ceil((completedAt - message.info.time.created) / SECONDS_IN_MS),
+    );
   }
-  const iterationCount = getKnorviaGoalActiveIterationCount({ targetStatus: target.status ?? null, timeline: goalBoundaries(projection, target) });
+  const iterationCount = getKnorviaGoalActiveIterationCount({
+    targetStatus: target.status ?? null,
+    timeline: goalBoundaries(projection, target),
+  });
   const rows = Array.from(totals.values());
   const tokens = rows.reduce((sum, row) => sum + row.tokens, 0);
   const seconds = rows.reduce((sum, row) => sum + row.seconds, 0);
@@ -141,7 +188,10 @@ export function sessionGoalStats(projection: SessionProjection, messages: readon
     contextWindow: projection.contextWindow,
     iterationCount,
     // 保留 live-run 恢复修复：activeRunStartedAtMs 在场时，已结算时间仍以 target 为准。
-    timeUsedSeconds: target.timeUsedSeconds > 0 || target.activeRunStartedAtMs != null ? target.timeUsedSeconds : seconds,
+    timeUsedSeconds:
+      target.timeUsedSeconds > 0 || target.activeRunStartedAtMs != null
+        ? target.timeUsedSeconds
+        : seconds,
     tokenBudget: target.tokenBudget ?? null,
     tokensUsed: target.tokensUsed > 0 ? target.tokensUsed : tokens,
     toolCallCount: rows.reduce((sum, row) => sum + row.tools, 0),

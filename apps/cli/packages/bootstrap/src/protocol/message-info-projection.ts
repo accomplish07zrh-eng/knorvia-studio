@@ -2,8 +2,14 @@ import type { MessageWithParts } from "@knorvia/contracts";
 import type { KnorviaMessageWithParts } from "@knorvia/shared";
 import { projectRecord, type RecordRecipe } from "./message-record-projection.js";
 
-type StoredInfo<Role extends "user" | "assistant"> = Extract<MessageWithParts["info"], { role: Role }>;
-type PublicInfo<Role extends "user" | "assistant"> = Extract<KnorviaMessageWithParts["info"], { role: Role }>;
+type StoredInfo<Role extends "user" | "assistant"> = Extract<
+  MessageWithParts["info"],
+  { role: Role }
+>;
+type PublicInfo<Role extends "user" | "assistant"> = Extract<
+  KnorviaMessageWithParts["info"],
+  { role: Role }
+>;
 
 const USER_INFO: RecordRecipe<StoredInfo<"user">, PublicInfo<"user">> = [
   ["agent", (info) => info.agent],
@@ -24,18 +30,21 @@ const USER_INFO: RecordRecipe<StoredInfo<"user">, PublicInfo<"user">> = [
 const ASSISTANT_INFO: RecordRecipe<StoredInfo<"assistant">, PublicInfo<"assistant">> = [
   ["agent", (info) => info.agent],
   ["cost", (info) => info.cost],
-  ["error", (info) => info.error ? { name: info.error.name, data: info.error.data } : undefined],
+  ["error", (info) => (info.error ? { name: info.error.name, data: info.error.data } : undefined)],
   ["finish", (info) => info.finish],
   ["messageId", (info) => String(info.id)],
-  ["model", (info) => {
-    if (!info.providerId || !info.modelId) return undefined;
-    const model: NonNullable<PublicInfo<"assistant">["model"]> = {
-      providerId: info.providerId,
-      modelId: info.modelId,
-    };
-    if (info.reasoningLevel) model.options = { reasoningLevel: info.reasoningLevel };
-    return model;
-  }],
+  [
+    "model",
+    (info) => {
+      if (!info.providerId || !info.modelId) return undefined;
+      const model: NonNullable<PublicInfo<"assistant">["model"]> = {
+        providerId: info.providerId,
+        modelId: info.modelId,
+      };
+      if (info.reasoningLevel) model.options = { reasoningLevel: info.reasoningLevel };
+      return model;
+    },
+  ],
   ["parentMessageId", (info) => String(info.parentID)],
   ["path", (info) => info.path],
   ["role", () => "assistant"],
@@ -46,7 +55,9 @@ const ASSISTANT_INFO: RecordRecipe<StoredInfo<"assistant">, PublicInfo<"assistan
   ["tokens", (info) => info.tokens],
 ];
 
-export function projectMessageInfo(info: MessageWithParts["info"]): KnorviaMessageWithParts["info"] {
+export function projectMessageInfo(
+  info: MessageWithParts["info"],
+): KnorviaMessageWithParts["info"] {
   return info.role === "user"
     ? projectRecord(info, USER_INFO)
     : projectRecord(info, ASSISTANT_INFO);

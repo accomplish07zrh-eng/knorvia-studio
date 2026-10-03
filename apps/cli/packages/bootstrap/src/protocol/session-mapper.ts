@@ -1,14 +1,40 @@
-import { KNORVIA_PROTOCOL_NAME, KNORVIA_PROTOCOL_VERSION, type KnorviaDeliveryKind, type KnorviaSessionStateSnapshot, type KnorviaWorkspaceRef } from "@knorvia/shared";
-import type { MessageWithParts, SessionEvent, SessionGoal, SessionInfo, SessionProjection, TodoItem } from "@knorvia/contracts";
+import {
+  KNORVIA_PROTOCOL_NAME,
+  KNORVIA_PROTOCOL_VERSION,
+  type KnorviaDeliveryKind,
+  type KnorviaSessionStateSnapshot,
+  type KnorviaWorkspaceRef,
+} from "@knorvia/shared";
+import type {
+  MessageWithParts,
+  SessionEvent,
+  SessionGoal,
+  SessionInfo,
+  SessionProjection,
+  TodoItem,
+} from "@knorvia/contracts";
 import type { KnorviaApp } from "../app/types.js";
 import { goalTitleFallback, restoreGoalVerifications } from "./session-goal-recovery.js";
 import { sessionGoalStats, sessionTodo, sessionTodoGroups } from "./session-goal-history.js";
 import { snapshotMessages } from "./session-snapshot-images.js";
-import { mapSessionInfo, mapSessionSettings, sessionProjection, sessionRuntime } from "./session-state-projection.js";
-import { listProtocolSlashCommands, type ListProtocolSlashCommandsOptions } from "./slash-commands.js";
+import {
+  mapSessionInfo,
+  mapSessionSettings,
+  sessionProjection,
+  sessionRuntime,
+} from "./session-state-projection.js";
+import {
+  listProtocolSlashCommands,
+  type ListProtocolSlashCommandsOptions,
+} from "./slash-commands.js";
 
 export { mapSessionInfo, mapSessionSettings } from "./session-state-projection.js";
-export { mapSessionEvent, mapSessionEventForProtocol, mapSessionEvents, shouldExposeSessionEventToProtocol } from "./session-event-projection.js";
+export {
+  mapSessionEvent,
+  mapSessionEventForProtocol,
+  mapSessionEvents,
+  shouldExposeSessionEventToProtocol,
+} from "./session-event-projection.js";
 export { resolveSessionContextUsage } from "./session-context-usage.js";
 
 export interface SessionSnapshotInput {
@@ -30,11 +56,14 @@ export interface SessionSnapshotInput {
   workspace: KnorviaWorkspaceRef;
 }
 
-export async function buildSessionSnapshot(input: SessionSnapshotInput): Promise<KnorviaSessionStateSnapshot> {
+export async function buildSessionSnapshot(
+  input: SessionSnapshotInput,
+): Promise<KnorviaSessionStateSnapshot> {
   const runtime = await input.app.runtime.getProjection();
   const activeTurn = input.app.runtime.getActiveTurnInfo();
   let projection = restoreGoalVerifications(
-    runtime, input.persistedGoalVerificationEvents ?? [],
+    runtime,
+    input.persistedGoalVerificationEvents ?? [],
     input.target === undefined ? runtime.target : input.target,
   );
   if (input.target !== undefined || input.lastError !== undefined) {
@@ -50,19 +79,29 @@ export async function buildSessionSnapshot(input: SessionSnapshotInput): Promise
     projection: sessionProjection(projection),
     protocol: { name: KNORVIA_PROTOCOL_NAME, version: KNORVIA_PROTOCOL_VERSION },
     runtime: sessionRuntime({
-      activeTurn, deliveryKind: input.deliveryKind, eventSeq: input.eventSeq,
-      messages: input.messages, persistedContextUsageBreakdownEvents: input.persistedContextUsageBreakdownEvents,
-      projection, stateRevision: input.stateRevision,
+      activeTurn,
+      deliveryKind: input.deliveryKind,
+      eventSeq: input.eventSeq,
+      messages: input.messages,
+      persistedContextUsageBreakdownEvents: input.persistedContextUsageBreakdownEvents,
+      projection,
+      stateRevision: input.stateRevision,
     }),
     session: mapSessionInfo({
-      app: input.app, fallbackCreatedAt: input.fallbackCreatedAt, fallbackUpdatedAt: input.fallbackUpdatedAt,
-      projection, session: input.session, workspace: input.workspace,
+      app: input.app,
+      fallbackCreatedAt: input.fallbackCreatedAt,
+      fallbackUpdatedAt: input.fallbackUpdatedAt,
+      projection,
+      session: input.session,
+      workspace: input.workspace,
     }),
     settings: await mapSessionSettings(input.app, {
-      currentModelContextWindow: projection.contextWindow, modelAvailability: input.modelAvailability,
+      currentModelContextWindow: projection.contextWindow,
+      modelAvailability: input.modelAvailability,
     }),
     slashCommands: await listProtocolSlashCommands({
-      ...input.slashCommandOptions, workingDirectory: input.workspace.workspacePath,
+      ...input.slashCommandOptions,
+      workingDirectory: input.workspace.workspacePath,
     }),
     goalStats: sessionGoalStats(projection, input.messages),
     todos: input.todos?.map(sessionTodo) ?? [],
