@@ -8,7 +8,6 @@ import type {
 } from "@knorvia/contracts";
 import { TaskWaitSubscriptions } from "./registry-waits.js";
 
-// 兼容既有取消分派：legacy workflow 与动态 workflow run 使用不同 task type。
 export type RuntimeTaskType =
   | "local_agent"
   | "local_bash"
@@ -38,7 +37,6 @@ export interface RuntimeTaskMessageSink {
 }
 
 export interface RuntimeTaskSnapshot extends SubagentTaskSnapshot {
-  /** 注册只补齐默认分支；迟到结果的 fencing 仍由调用方负责。 */
   branchGeneration?: number;
   exitCode?: number;
   type: RuntimeTaskType;
@@ -48,9 +46,7 @@ export interface RuntimeTaskSnapshot extends SubagentTaskSnapshot {
   parentSessionId?: SessionId;
   pendingMessages?: RuntimeTaskPendingMessage[];
   prompt?: string;
-  /** 保留 workflow run 无 outputFile 时的 TaskOutput 文本。 */
   resultText?: string;
-  /** 调用方记录请求停止的来源，终态通知使用原值。 */
   stopInitiator?: "user" | "model";
   taskType?: RuntimeTaskType;
   traceContext?: TraceContext;
