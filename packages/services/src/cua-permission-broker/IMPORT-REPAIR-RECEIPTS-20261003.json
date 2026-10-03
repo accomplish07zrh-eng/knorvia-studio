@@ -1,0 +1,348 @@
+{
+  "date": "2026-10-03",
+  "predecessor": "bb45cbbf638387f767ec6c51b5aa3218a6fdb627",
+  "request": "Remove two newly introduced CUA import diagnostics on same lane/PR10; only precise public import/type evidence and minimal source-preserving resolution.",
+  "publicPackageEvidence": [
+    {
+      "path": "/workspace/knorvia-studio/packages/cua/package.json",
+      "sha256": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9",
+      "bytes": 2005,
+      "content": "{\n  \"name\": \"@knorvia/cua\",\n  \"version\": \"0.6.3\",\n  \"private\": true,\n  \"description\": \"Windows Computer Use runtime and platform contracts. Other platform adapters remain unavailable.\",\n  \"license\": \"Apache-2.0\",\n  \"type\": \"module\",\n  \"exports\": {\n    \"./windows-artifact\": {\n      \"types\": \"./windows-artifact.d.ts\",\n      \"import\": \"./windows-artifact.js\"\n    },\n    \"./windows\": {\n      \"types\": \"./windows-runtime.d.ts\",\n      \"import\": \"./windows-runtime.js\"\n    },\n    \".\": {\n      \"types\": \"./index.d.ts\",\n      \"import\": \"./index.js\"\n    },\n    \"./frame-contract\": {\n      \"types\": \"./frame-contract.d.ts\",\n      \"import\": \"./frame-contract.js\"\n    },\n    \"./host-display-contract\": {\n      \"types\": \"./host-display-contract.d.ts\",\n      \"import\": \"./host-display-contract.js\"\n    },\n    \"./request-access-contract\": {\n      \"types\": \"./request-access-contract.d.ts\",\n      \"import\": \"./request-access-contract.js\"\n    },\n    \"./pip-session\": {\n      \"types\": \"./pip-session.d.ts\",\n      \"import\": \"./pip-session.js\"\n    },\n    \"./pip-session/node\": {\n      \"types\": \"./pip-session-node.d.ts\",\n      \"import\": \"./pip-session-node.js\"\n    },\n    \"./broker\": {\n      \"types\": \"./broker.d.ts\",\n      \"import\": \"./broker.js\"\n    },\n    \"./broker/server\": {\n      \"types\": \"./broker-server.d.ts\",\n      \"import\": \"./broker-server.js\"\n    },\n    \"./broker/ports\": {\n      \"types\": \"./broker-ports.d.ts\",\n      \"import\": \"./broker-ports.js\"\n    },\n    \"./broker/socketPath\": {\n      \"types\": \"./broker-socket-path.d.ts\",\n      \"import\": \"./broker-socket-path.js\"\n    },\n    \"./broker/helperConstants\": {\n      \"types\": \"./broker-helper-constants.d.ts\",\n      \"import\": \"./broker-helper-constants.js\"\n    },\n    \"./broker/helperHealth\": {\n      \"types\": \"./broker-helper-health.d.ts\",\n      \"import\": \"./broker-helper-health.js\"\n    },\n    \"./restricted-gate\": {\n      \"types\": \"./restricted-gate.d.ts\",\n      \"import\": \"./restricted-gate.js\"\n    }\n  },\n  \"devDependencies\": {\n    \"fflate\": \"0.8.3\"\n  }\n}\n"
+    },
+    {
+      "path": "/workspace/knorvia-studio/packages/cua/pip-session.d.ts",
+      "sha256": "183f1469a67aded7b0b87c3728ac595e0b148f6d2ef67e2a371479fb3869d0be",
+      "bytes": 779,
+      "content": "export type PipSessionEvent =\n  | {\n      kind: \"turn-started\";\n      sessionId: string;\n      turnId: string;\n      sequenceNumber?: number;\n      eventId?: string;\n    }\n  | {\n      kind: \"focus-changed\";\n      sessionId: string | null;\n      revision: number;\n      sourceWindowId: string;\n      sequenceNumber?: number;\n      eventId?: string;\n    }\n  | {\n      kind: \"turn-ended\" | \"turn-completed\" | \"turn-failed\" | \"tool-scheduled\" | \"tool-started\";\n      sessionId: string;\n      turnId?: string;\n      sequenceNumber?: number;\n      eventId?: string;\n      outcome?: \"completed\" | \"failed\";\n      toolCallId?: string;\n    }\n  | {\n      kind: \"session-closed\";\n      sessionId: string;\n      turnId?: string;\n      sequenceNumber?: number;\n      eventId?: string;\n    };\n"
+    },
+    {
+      "path": "/workspace/knorvia-studio/packages/cua/pip-session-node.d.ts",
+      "sha256": "42216f88b401b5ca89d5fe6d14e921eb27d23c388fa084add94cba92c03b6e2e",
+      "bytes": 681,
+      "content": "import type { PipSessionEvent } from \"./pip-session.d.ts\";\n\nexport interface PipSessionApplyResult {\n  applied: boolean;\n  reason?: string;\n}\n\nexport interface PipSessionClientOptions {\n  socketPath?: string;\n  timeoutMs?: number;\n  reconnectAttempts?: number;\n  reconnectDelayMs?: number;\n  peerChecker?: (peer: unknown) => boolean;\n  onDiagnostic?: (diagnostic: { code: string; message?: string }) => void;\n}\n\nexport interface PipSessionClient {\n  enabled: boolean;\n  connect(): Promise<void>;\n  send(event: PipSessionEvent): Promise<PipSessionApplyResult>;\n  close(): void;\n}\n\nexport declare function createPipSessionClient(options?: PipSessionClientOptions): PipSessionClient;\n"
+    }
+  ],
+  "environmentEvidence": "Existing isolated toolchain node_modules/@knorvia/cua absent; public exports ./pip-session and ./pip-session/node exist and point to committed declaration files. No CUA package install/link, manifests/type stub/any/error suppression or native runtime setting change.",
+  "change": "Relocate existing complete frozen preferred owner aliases and factory verbatim into mixed root CuaPipSessionService adapter; retain original CUA public imports, factory API, pure projection/interface and delegate body. Delete private owner file/import. No additional accepted queue/owner, type cycle, runtime body change or facade novelty claim.",
+  "diagnosticComparison": [
+    {
+      "scope": "types",
+      "originalDiagnostics": 6,
+      "splitDiagnostics": 8,
+      "repairedDiagnostics": 6,
+      "exactNewSplitTS2307": [
+        "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.",
+        "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(2,64): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations."
+      ],
+      "sameOriginalPathsCodesMessagesAfterRemovingLineColumnOnly": true,
+      "originalNormalizedSha256": "119dcdf976a153d4230952352b91d4f076d2c2a45c8872a2bd6e3674a5ce45a5",
+      "repairedNormalizedSha256": "119dcdf976a153d4230952352b91d4f076d2c2a45c8872a2bd6e3674a5ce45a5",
+      "qualification": "Exact full logs retained; line/column offsets differ, so no byte-identical full-log claim."
+    },
+    {
+      "scope": "consumer-types",
+      "originalDiagnostics": 15,
+      "splitDiagnostics": 17,
+      "repairedDiagnostics": 15,
+      "exactNewSplitTS2307": [
+        "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.",
+        "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(2,64): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations."
+      ],
+      "sameOriginalPathsCodesMessagesAfterRemovingLineColumnOnly": true,
+      "originalNormalizedSha256": "49f5a63098a43517da54d6eb5a844a8665af5d3dcae7b15a8e5fe346ba0efddd",
+      "repairedNormalizedSha256": "49f5a63098a43517da54d6eb5a844a8665af5d3dcae7b15a8e5fe346ba0efddd",
+      "qualification": "Exact full logs retained; line/column offsets differ, so no byte-identical full-log claim."
+    }
+  ],
+  "identity": {
+    "sourcePath": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+    "submittedSha256": "62eb9b1ac4bf2134a2025dc5c8bc63a0d5e6c1eab3ca34273a78f9ba1d5d3dd5",
+    "nonblank": 258,
+    "moved": [
+      {
+        "name": "SkipReason",
+        "sha256": "35743b85806b6459575161e4311696ae7427d8335d5f690501904752bf21a4da",
+        "astIdentity": true,
+        "byteIdentity": true
+      },
+      {
+        "name": "ClientResolution",
+        "sha256": "9ef56a78ed86abfb2dacec068b1d918232ec9a7b609bf8dc43c658593585ec5b",
+        "astIdentity": true,
+        "byteIdentity": true
+      },
+      {
+        "name": "PendingTurn",
+        "sha256": "932c73c408ecad4b1302cd63a32fe6b9c6497990bec86b8b6511fde3fc1959d7",
+        "astIdentity": true,
+        "byteIdentity": true
+      },
+      {
+        "name": "createCuaPipSessionOwner",
+        "sha256": "194ba854f8832daf48bba4ca60eb6125ea9337e394b0d46d72d70c8ca6a160e6",
+        "astIdentity": true,
+        "byteIdentity": true
+      }
+    ],
+    "retained": [
+      {
+        "name": "CuaPipPresentationCredentials",
+        "sha256": "46bdff1b30e710ba636b90c61786367b937afc270ff64d0055703982049ff02a",
+        "astIdentity": true,
+        "byteIdentity": true
+      },
+      {
+        "name": "eventLogContext",
+        "sha256": "0f758d523fd2889df79d5c1c883396d43c5a9d88584736e8cd30f168cddf1d29",
+        "astIdentity": true,
+        "byteIdentity": true
+      },
+      {
+        "name": "createCuaPipSessionService",
+        "sha256": "ae770083aaf8746f60109460ad1040b06f4cd6b7adf51cc5b44fc60d49634888",
+        "astIdentity": true,
+        "byteIdentity": true
+      }
+    ],
+    "ownerEmittedJavaScriptIdentity": true,
+    "ownerEmittedJavaScriptSha256": "eca0c49f6bb51972f956b321c4cf7819513d9800f725a28369eaba06e4e21324",
+    "qualification": "Structural/source/emitted-statement identity for relocation only; no runtime/native/broad test execution. Mixed adapter/public types/projection retain lineage. Existing complete fresh owner author receipts remain historical byte bindings."
+  },
+  "results": [
+    {
+      "label": "import-repair-types",
+      "command": [
+        "node",
+        "/tmp/knorvia-settings-tools/node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--strict",
+        "--noUncheckedIndexedAccess",
+        "--module",
+        "NodeNext",
+        "--moduleResolution",
+        "NodeNext",
+        "--target",
+        "ES2024",
+        "--skipLibCheck",
+        "--esModuleInterop",
+        "--types",
+        "node",
+        "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+        "packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+        "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+        "packages/services/test/cua-admission-fake-authority-20261003.test.ts",
+        "packages/services/test/cua-permission-facade-fake-authority-20261003.test.ts",
+        "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
+      ],
+      "exit": 2,
+      "diagnostics": 6,
+      "log": "/tmp/knorvia-cua-import-repair-types-20261003.log",
+      "sha256": "ae6bcb5eeb202949e8c8387ec000d139e455d3ded07c3e1d21998a76fdf5b453"
+    },
+    {
+      "label": "import-repair-consumer-types",
+      "command": [
+        "node",
+        "/tmp/knorvia-settings-tools/node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--strict",
+        "--noUncheckedIndexedAccess",
+        "--module",
+        "NodeNext",
+        "--moduleResolution",
+        "NodeNext",
+        "--target",
+        "ES2024",
+        "--skipLibCheck",
+        "--esModuleInterop",
+        "--types",
+        "node",
+        "packages/services/src/cua-permission-broker/index.ts",
+        "packages/services/src/cua-permission-broker/cuaPipSession.ts"
+      ],
+      "exit": 2,
+      "diagnostics": 15,
+      "log": "/tmp/knorvia-cua-import-repair-consumer-types-20261003.log",
+      "sha256": "917500ec036a4fd31bf88fe2e4075821a11b7b20564df1b388d4d048ac2b2d85"
+    },
+    {
+      "label": "import-repair-lint",
+      "command": [
+        "/tmp/knorvia-settings-tools/node_modules/.bin/oxlint",
+        "packages/services/src/cua-permission-broker/cuaPipSessionService.ts"
+      ],
+      "exit": 0,
+      "diagnostics": 0,
+      "log": "/tmp/knorvia-cua-import-repair-lint-20261003.log",
+      "sha256": "80cc9a9f76e7447c4c572fc3eab8c7eda29c06a4a611bcc20b00ea6a075b4a62"
+    },
+    {
+      "label": "import-repair-architecture",
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "check", "--changed"],
+      "exit": 0,
+      "diagnostics": 0,
+      "log": "/tmp/knorvia-cua-import-repair-architecture-20261003.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "baselineAndSplitLogs": [
+    {
+      "path": "/tmp/knorvia-cua-original-types-20261003.log",
+      "sha256": "0fbd542260a3d4282f3f2ae137bc51c726d671353abedd8b50f1908aa0c71dc4",
+      "bytes": 1012,
+      "content": "packages/services/src/cua-permission-broker/cuaPermissionService.ts(30,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPermissionService.ts(49,8): error TS2307: Cannot find module '@knorvia/cua/broker/ports' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSession.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(6,8): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(116,22): error TS7006: Parameter 'diagnostic' implicitly has an 'any' type.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-original-consumer-types-20261003.log",
+      "sha256": "a0ecd468c349bcc67b4426a928125936f71a8539ba37e657f4023da090956d98",
+      "bytes": 2560,
+      "content": "packages/services/src/cua-permission-broker/cuaPermissionService.ts(30,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPermissionService.ts(49,8): error TS2307: Cannot find module '@knorvia/cua/broker/ports' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSession.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(6,8): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(116,22): error TS7006: Parameter 'diagnostic' implicitly has an 'any' type.\npackages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts(12,8): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts(21,8): error TS2307: Cannot find module '@knorvia/cua/restricted-gate' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(27,15): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(85,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(93,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts(4,35): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts(9,8): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts(3,76): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts(6,64): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-final-types-20261003.log",
+      "sha256": "1af12459dce25212875c680a39533e3c4d776eefd2393c8295378f5ad1750d68",
+      "bytes": 1360,
+      "content": "packages/services/src/cua-permission-broker/cuaPermissionService.ts(30,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPermissionService.ts(49,8): error TS2307: Cannot find module '@knorvia/cua/broker/ports' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSession.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(2,64): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(72,22): error TS7006: Parameter 'diagnostic' implicitly has an 'any' type.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(6,8): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-final-consumer-types-20261003.log",
+      "sha256": "cf268423b76fc699ce9ef7309d7cade2bb89fdc6e48f0168e940bd911d4c0294",
+      "bytes": 2908,
+      "content": "packages/services/src/cua-permission-broker/cuaPermissionService.ts(30,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPermissionService.ts(49,8): error TS2307: Cannot find module '@knorvia/cua/broker/ports' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSession.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(2,64): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(72,22): error TS7006: Parameter 'diagnostic' implicitly has an 'any' type.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(6,8): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts(12,8): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts(21,8): error TS2307: Cannot find module '@knorvia/cua/restricted-gate' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(27,15): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(85,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(93,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts(4,35): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts(9,8): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts(3,76): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts(6,64): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\n"
+    }
+  ],
+  "repairLogs": [
+    {
+      "path": "/tmp/knorvia-cua-import-repair-architecture-20261003.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "bytes": 50,
+      "content": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-consumer-types-20261003.log",
+      "sha256": "917500ec036a4fd31bf88fe2e4075821a11b7b20564df1b388d4d048ac2b2d85",
+      "bytes": 2560,
+      "content": "packages/services/src/cua-permission-broker/cuaPermissionService.ts(30,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPermissionService.ts(49,8): error TS2307: Cannot find module '@knorvia/cua/broker/ports' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSession.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(6,8): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(112,22): error TS7006: Parameter 'diagnostic' implicitly has an 'any' type.\npackages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts(12,8): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts(21,8): error TS2307: Cannot find module '@knorvia/cua/restricted-gate' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(27,15): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(85,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/index.ts(93,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts(4,35): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts(9,8): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts(3,76): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts(6,64): error TS2307: Cannot find module '@knorvia/cua/broker/server' or its corresponding type declarations.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-format-20261003.log",
+      "sha256": "e27a502ea95c2d90879234932ce59109cbecb9a934b4c17d31feb222b95e4c33",
+      "bytes": 46,
+      "content": "Finished in 113ms on 2 files using 4 threads.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-identity-20261003.log",
+      "sha256": "af24190d873abbb0d585ae4885a69f1ad50fc25a8dfe52d2febe683034ab8dc1",
+      "bytes": 1954,
+      "content": "{\n  \"sourcePath\": \"packages/services/src/cua-permission-broker/cuaPipSessionService.ts\",\n  \"submittedSha256\": \"62eb9b1ac4bf2134a2025dc5c8bc63a0d5e6c1eab3ca34273a78f9ba1d5d3dd5\",\n  \"nonblank\": 258,\n  \"moved\": [\n    {\n      \"name\": \"SkipReason\",\n      \"sha256\": \"35743b85806b6459575161e4311696ae7427d8335d5f690501904752bf21a4da\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    },\n    {\n      \"name\": \"ClientResolution\",\n      \"sha256\": \"9ef56a78ed86abfb2dacec068b1d918232ec9a7b609bf8dc43c658593585ec5b\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    },\n    {\n      \"name\": \"PendingTurn\",\n      \"sha256\": \"932c73c408ecad4b1302cd63a32fe6b9c6497990bec86b8b6511fde3fc1959d7\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    },\n    {\n      \"name\": \"createCuaPipSessionOwner\",\n      \"sha256\": \"194ba854f8832daf48bba4ca60eb6125ea9337e394b0d46d72d70c8ca6a160e6\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    }\n  ],\n  \"retained\": [\n    {\n      \"name\": \"CuaPipPresentationCredentials\",\n      \"sha256\": \"46bdff1b30e710ba636b90c61786367b937afc270ff64d0055703982049ff02a\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    },\n    {\n      \"name\": \"eventLogContext\",\n      \"sha256\": \"0f758d523fd2889df79d5c1c883396d43c5a9d88584736e8cd30f168cddf1d29\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    },\n    {\n      \"name\": \"createCuaPipSessionService\",\n      \"sha256\": \"ae770083aaf8746f60109460ad1040b06f4cd6b7adf51cc5b44fc60d49634888\",\n      \"astIdentity\": true,\n      \"byteIdentity\": true\n    }\n  ],\n  \"ownerEmittedJavaScriptIdentity\": true,\n  \"ownerEmittedJavaScriptSha256\": \"eca0c49f6bb51972f956b321c4cf7819513d9800f725a28369eaba06e4e21324\",\n  \"qualification\": \"Structural/source/emitted-statement identity for relocation only; no runtime/native/broad test execution. Mixed adapter/public types/projection retain lineage. Existing complete fresh owner author receipts remain historical byte bindings.\"\n}\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-lint-20261003.log",
+      "sha256": "80cc9a9f76e7447c4c572fc3eab8c7eda29c06a4a611bcc20b00ea6a075b4a62",
+      "bytes": 89,
+      "content": "Found 0 warnings and 0 errors.\nFinished in 19ms on 1 file with 94 rules using 4 threads.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-types-20261003.log",
+      "sha256": "ae6bcb5eeb202949e8c8387ec000d139e455d3ded07c3e1d21998a76fdf5b453",
+      "bytes": 1012,
+      "content": "packages/services/src/cua-permission-broker/cuaPermissionService.ts(30,8): error TS2307: Cannot find module '@knorvia/cua/broker' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPermissionService.ts(49,8): error TS2307: Cannot find module '@knorvia/cua/broker/ports' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSession.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(6,8): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations.\npackages/services/src/cua-permission-broker/cuaPipSessionService.ts(112,22): error TS7006: Parameter 'diagnostic' implicitly has an 'any' type.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-repair-context-20261003.log",
+      "sha256": "b49d652fa1cbe690104d55e66e146c36e70cf1984b1516f8e7875a895feb1795",
+      "bytes": 314,
+      "content": "# Architecture context: services\nowner: unassigned\nmanaged: false\nrequires: none\n\n## Files\n- module.ts: missing\n\n## Direct dependency contracts\n- none discovered\n\n## Boundaries\n- Cross-module imports must use declared requirements and public entrypoints.\n- Add a contract example before exposing a new capability.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-repair-initial-architecture-20261003.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "bytes": 50,
+      "content": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-evidence-format-20261003.log",
+      "sha256": "ea74d0a55d44309518b7a65390f7b4e7b9fb3513a0f8175a9bc1ffa4dea82e6c",
+      "bytes": 46,
+      "content": "Finished in 195ms on 5 files using 4 threads.\n"
+    },
+    {
+      "path": "/tmp/knorvia-cua-import-repair-format-check-20261003.log",
+      "sha256": "ad4617daf41c0ea0b8e76e5b87625667bb9c60a0b60e6ee3e6e8e0975598dbac",
+      "bytes": 112,
+      "content": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 205ms on 7 files using 4 threads.\n"
+    }
+  ],
+  "beforeRepairOwner": {
+    "path": "/tmp/knorvia-cua-before-import-repair-cuaPipSessionOwner.ts",
+    "sha256": "0acaddaadcc9cb57b97b746abf3af54c2c2b2223308ff04e3e24b8dc7538eb66",
+    "bytes": 7756,
+    "content": "import type { PipSessionEvent } from \"@knorvia/cua/pip-session\";\nimport type { PipSessionClient, PipSessionClientOptions } from \"@knorvia/cua/pip-session/node\";\nimport type { ServiceLogger } from \"../logger/serviceLogger.js\";\nimport type { CuaPipSessionService } from \"./cuaPipSession.js\";\n\ntype SkipReason =\n  | \"service-disabled\"\n  | \"service-disposed\"\n  | \"credentials-unavailable\"\n  | \"transport-disabled\";\n\ntype ClientResolution =\n  | { client: PipSessionClient; skipReason?: never }\n  | { client: null; skipReason: SkipReason };\n\ntype PendingTurn = {\n  event: Extract<PipSessionEvent, { kind: \"turn-started\" }>;\n  turnId: string;\n};\n\nexport function createCuaPipSessionOwner(\n  options: {\n    enabled: boolean;\n    resolveCredentials: () => Promise<{ socketPath: string } | undefined>;\n    createClient?: (options: PipSessionClientOptions) => PipSessionClient;\n    logger?: ServiceLogger;\n  },\n  ports: {\n    createClient: (options: PipSessionClientOptions) => PipSessionClient;\n    createLogger: () => ServiceLogger;\n    eventLogContext: (event: PipSessionEvent) => Record<string, unknown>;\n  },\n): CuaPipSessionService {\n  const logger = options.logger ?? ports.createLogger();\n  const clientFactory = options.createClient ?? ports.createClient;\n  let current: { key: string; client: PipSessionClient } | null = null;\n  let quarantinedKey: string | null = null;\n  let tail: Promise<void> = Promise.resolve();\n  let disposed = false;\n  let pending: PendingTurn | null = null;\n  let replayTimer: ReturnType<typeof setTimeout> | null = null;\n  let replayDeadline = 0;\n\n  function cancelReplayTimer(): void {\n    if (replayTimer !== null) {\n      clearTimeout(replayTimer);\n      replayTimer = null;\n    }\n  }\n\n  async function getClient(): Promise<ClientResolution> {\n    if (!options.enabled) {\n      return { client: null, skipReason: \"service-disabled\" };\n    }\n    if (disposed) {\n      return { client: null, skipReason: \"service-disposed\" };\n    }\n    const credentials = await options.resolveCredentials();\n    if (!credentials) {\n      return { client: null, skipReason: \"credentials-unavailable\" };\n    }\n    const key = credentials.socketPath;\n    if (quarantinedKey === key) {\n      return { client: null, skipReason: \"transport-disabled\" };\n    }\n    if (current?.key === key) {\n      return { client: current.client };\n    }\n    current?.client.close();\n    const client = clientFactory({\n      socketPath: credentials.socketPath,\n      onDiagnostic: (diagnostic) => {\n        const message = `[cua-pip-session] ${diagnostic.code}: ${diagnostic.message}`;\n        if (diagnostic.code === \"version_mismatch\") {\n          logger.warn(undefined, message);\n        } else {\n          logger.debug(undefined, message);\n        }\n      },\n    });\n    current = { key, client };\n    try {\n      await client.connect();\n      return { client };\n    } catch (error) {\n      if (current?.client === client) {\n        current = null;\n      }\n      client.close();\n      if ((error as { code?: unknown }).code === \"version_mismatch\") {\n        quarantinedKey = key;\n      }\n      throw error;\n    }\n  }\n\n  function scheduleReplay(): void {\n    cancelReplayTimer();\n    if (disposed || pending === null) {\n      return;\n    }\n    if (Date.now() >= replayDeadline) {\n      logger.warn(undefined, \"[cua-pip-session] deferred turn-started expired before transport\", {\n        ...ports.eventLogContext(pending.event),\n      });\n      pending = null;\n      return;\n    }\n    replayTimer = setTimeout(() => {\n      replayTimer = null;\n      if (disposed || pending === null) {\n        return;\n      }\n      const operation = tail.then(async () => {\n        if (disposed || pending === null) {\n          return;\n        }\n        let resolution: ClientResolution;\n        try {\n          resolution = await getClient();\n        } catch {\n          scheduleReplay();\n          return;\n        }\n        if (resolution.client === null) {\n          scheduleReplay();\n          return;\n        }\n        const replay = pending!;\n        pending = null;\n        try {\n          const acknowledgement = await resolution.client.send(replay.event);\n          logger.info(undefined, \"[cua-pip-session] replayed deferred turn-started\", {\n            ...ports.eventLogContext(replay.event),\n            applied: acknowledgement.applied,\n            reason: acknowledgement.reason,\n          });\n        } catch (error) {\n          logger.warn(undefined, \"[cua-pip-session] replay of deferred turn-started failed\", {\n            ...ports.eventLogContext(replay.event),\n            errorMessage: error instanceof Error ? error.message : String(error),\n          });\n        }\n      });\n      tail = operation;\n    }, 250);\n    replayTimer.unref?.();\n  }\n\n  function publish(event: PipSessionEvent): Promise<void> {\n    if (disposed) {\n      return Promise.resolve();\n    }\n    const operation = tail.then(async () => {\n      try {\n        const resolution = await getClient();\n        if (resolution.client === null) {\n          const { skipReason } = resolution;\n          if (skipReason === \"credentials-unavailable\" || skipReason === \"transport-disabled\") {\n            if (event.kind === \"turn-started\") {\n              pending = { event, turnId: event.turnId };\n              replayDeadline = Date.now() + 30_000;\n              scheduleReplay();\n            } else if (\n              (event.kind === \"turn-ended\" || event.kind === \"session-closed\") &&\n              pending !== null &&\n              (\"turnId\" in event\n                ? pending.turnId === event.turnId\n                : pending.event.sessionId === event.sessionId)\n            ) {\n              pending = null;\n              cancelReplayTimer();\n            }\n            logger.warn(undefined, \"[cua-pip-session] event delivery skipped\", {\n              ...ports.eventLogContext(event),\n              skipReason,\n            });\n          } else {\n            logger.warn(undefined, \"[cua-pip-session] event delivery dropped\", {\n              ...ports.eventLogContext(event),\n              skipReason,\n            });\n          }\n          return;\n        }\n        const client = resolution.client;\n        cancelReplayTimer();\n        const replay = event.kind === \"turn-started\" ? null : pending;\n        pending = null;\n        if (replay !== null) {\n          try {\n            const acknowledgement = await client.send(replay.event);\n            logger.info(undefined, \"[cua-pip-session] replayed deferred turn-started\", {\n              ...ports.eventLogContext(replay.event),\n              applied: acknowledgement.applied,\n              reason: acknowledgement.reason,\n            });\n          } catch (error) {\n            logger.warn(undefined, \"[cua-pip-session] replay of deferred turn-started failed\", {\n              ...ports.eventLogContext(replay.event),\n              errorMessage: error instanceof Error ? error.message : String(error),\n            });\n          }\n        }\n        const acknowledgement = await client.send(event);\n        logger.info(undefined, \"[cua-pip-session] event delivery acknowledged\", {\n          ...ports.eventLogContext(event),\n          applied: acknowledgement.applied,\n          reason: acknowledgement.reason,\n        });\n      } catch (error) {\n        logger.warn(undefined, \"[cua-pip-session] event delivery failed\", {\n          ...ports.eventLogContext(event),\n          errorMessage: error instanceof Error ? error.message : String(error),\n        });\n      }\n    });\n    tail = operation;\n    return operation;\n  }\n\n  function dispose(): void {\n    disposed = true;\n    cancelReplayTimer();\n    pending = null;\n    current?.client.close();\n    current = null;\n  }\n\n  return { publishFocus: publish, publishLifecycle: publish, dispose };\n}\n"
+  },
+  "beforeRepairAdapter": {
+    "path": "/tmp/knorvia-cua-before-import-repair-cuaPipSessionService.ts",
+    "sha256": "45ea51c1dd09177e2051e08385f67de5bb49e01154afa0e468a09ec1d640cc91",
+    "bytes": 1514,
+    "content": "import type { PipSessionEvent } from \"@knorvia/cua/pip-session\";\nimport {\n  createPipSessionClient,\n  type PipSessionClient,\n  type PipSessionClientOptions,\n} from \"@knorvia/cua/pip-session/node\";\nimport { createServiceLogger, type ServiceLogger } from \"../logger/serviceLogger.js\";\nimport type { CuaPipSessionService } from \"./cuaPipSession.js\";\n\nimport { createCuaPipSessionOwner } from \"./cuaPipSessionOwner.js\";\n\nexport interface CuaPipPresentationCredentials {\n  socketPath: string;\n}\n\nfunction eventLogContext(event: PipSessionEvent): Record<string, unknown> {\n  if (event.kind === \"focus-changed\") {\n    return {\n      kind: event.kind,\n      revision: event.revision,\n      sessionId: event.sessionId,\n      sourceWindowId: event.sourceWindowId,\n    };\n  }\n  return {\n    eventId: event.eventId,\n    kind: event.kind,\n    sequenceNumber: event.sequenceNumber,\n    sessionId: event.sessionId,\n    ...(event.kind === \"session-closed\" ? {} : { turnId: event.turnId }),\n    ...(event.kind === \"turn-ended\" ? { outcome: event.outcome } : {}),\n  };\n}\n\nexport function createCuaPipSessionService(options: {\n  enabled: boolean;\n  resolveCredentials: () => Promise<CuaPipPresentationCredentials | undefined>;\n  createClient?: (options: PipSessionClientOptions) => PipSessionClient;\n  logger?: ServiceLogger;\n}): CuaPipSessionService {\n  return createCuaPipSessionOwner(options, {\n    createClient: createPipSessionClient,\n    createLogger: () => createServiceLogger(\"cua-pip-session\"),\n    eventLogContext,\n  });\n}\n"
+  },
+  "verificationScript": {
+    "path": "/tmp/knorvia-cua-import-repair-identity-20261003.mjs",
+    "sha256": "abea673ce6f09c8b8e2341e79674adb9c52455b0c5f28fcc9f9aa8438c9a1477",
+    "bytes": 3217,
+    "content": "import assert from 'node:assert/strict';\nimport { readFileSync, writeFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\nimport ts from '/tmp/knorvia-settings-tools/node_modules/typescript/lib/typescript.js';\nconst hash=data=>createHash('sha256').update(data).digest('hex');\nfunction parse(path){const source=ts.createSourceFile(path,readFileSync(path,'utf8'),ts.ScriptTarget.Latest,true);assert.equal(source.parseDiagnostics.length,0);return source;}\nfunction structure(node){if(ts.isParenthesizedExpression(node))return structure(node.expression);const children=[];ts.forEachChild(node,child=>{children.push(structure(child));});return {kind:node.kind,text:!ts.isSourceFile(node)&&typeof node.text==='string'?node.text:undefined,children};}\nconst originalOwner=parse('/tmp/knorvia-cua-before-import-repair-cuaPipSessionOwner.ts');\nconst originalAdapter=parse('/tmp/knorvia-cua-before-import-repair-cuaPipSessionService.ts');\nconst currentPath='packages/services/src/cua-permission-broker/cuaPipSessionService.ts';\nconst current=parse(currentPath);\nconst names=['SkipReason','ClientResolution','PendingTurn','createCuaPipSessionOwner'];\nconst moved=[];\nfor(const name of names){const a=originalOwner.statements.find(node=>node.name?.text===name),b=current.statements.find(node=>node.name?.text===name);assert.ok(a&&b);assert.deepEqual(structure(a),structure(b));assert.equal(a.getText(originalOwner),b.getText(current));moved.push({name,sha256:hash(a.getText(originalOwner)),astIdentity:true,byteIdentity:true});}\nconst retained=[];\nfor(const name of ['CuaPipPresentationCredentials','eventLogContext','createCuaPipSessionService']){const a=originalAdapter.statements.find(node=>node.name?.text===name),b=current.statements.find(node=>node.name?.text===name);assert.deepEqual(structure(a),structure(b));assert.equal(a.getText(originalAdapter),b.getText(current));retained.push({name,sha256:hash(a.getText(originalAdapter)),astIdentity:true,byteIdentity:true});}\nconst before=originalOwner.statements.filter(node=>!ts.isImportDeclaration(node)).map(node=>node.getText(originalOwner)).join('\\n');\nconst after=current.statements.filter(node=>names.includes(node.name?.text)).map(node=>node.getText(current)).join('\\n');\nconst compilerOptions={target:ts.ScriptTarget.ES2024,module:ts.ModuleKind.ESNext};\nconst beforeEmit=ts.transpileModule(before,{compilerOptions}).outputText;\nconst afterEmit=ts.transpileModule(after,{compilerOptions}).outputText;\nassert.equal(beforeEmit,afterEmit);\nconst nonblank=readFileSync(currentPath,'utf8').split('\\n').filter(line=>line.trim()).length;assert.ok(nonblank<=400);\nconst result={sourcePath:currentPath,submittedSha256:hash(readFileSync(currentPath)),nonblank,moved,retained,ownerEmittedJavaScriptIdentity:true,ownerEmittedJavaScriptSha256:hash(beforeEmit),qualification:'Structural/source/emitted-statement identity for relocation only; no runtime/native/broad test execution. Mixed adapter/public types/projection retain lineage. Existing complete fresh owner author receipts remain historical byte bindings.'};\nwriteFileSync('/tmp/knorvia-cua-import-repair-identity-20261003.json',JSON.stringify(result,null,2)+'\\n');console.log(JSON.stringify(result,null,2));\n"
+  },
+  "historicalAuthorReceipt": {
+    "path": "packages/services/src/cua-permission-broker/AUTHOR-RECEIPTS-20261003.json",
+    "sha256": "21207cd2690ee6a989ad71ad5930558c7ac04d9d555b525f3fd265561299c219",
+    "qualification": "Immutable historical prior split source binding and full frozen54 author artifacts, four input packets,28 logs; old source-path entry is historical after relocation. Current source/declaration/emitted bindings in this follow-up receipt."
+  },
+  "validationQualification": "Scoped owner/test remains BLOCKED6, consumer BLOCKED15, exactly original paths/codes/messages after removing line/column only. Full logs not byte-identical. First split8/17 and older extra TS2339 retained. Previous3/3 runtime gates were not rerun because verified source/AST/emitted owner statements unchanged and parent requested targeted types/necessary lint only. Scoped lint/architecture pass. Prior21/25 RPC/transport counts not rerun or reclassified.",
+  "legalAndScope": "Mixed root adapter/fixed/public/dependency/authority expression retains lineage. Full fresh owner authored function/aliases preserved; no whole-root MIT/legal/cleanroom/final project/native acceptance. Saved Fast actual switching unavailable, same Sol/high workflow. No real settings/config/HOME/credentials/OS/IPC/helper/network/DB/application execution, root HOLD/security/license/global inventory/manifests/other lanes changes. No broad tests/build/merge/force-push/uploads.",
+  "allOtherCuaSourceBindings": [
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+      "sha256": "0dd5bc38db48175bfd02ff1de5f6b8ed43963f683ebf1ff8010d6836eafec521",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+      "sha256": "14ce61458b5a2d24f3568fc210f7c518431e8840aa180ec402a3a6d7d6e54feb",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+      "sha256": "7524cb660156065343d520e5ed4b5110b06a83bfee180ab47c731cdc5a5b5234",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPipSession.ts",
+      "sha256": "9acd78b7e3975eb26333fc962ef5b608e61664762cd018258b184cbc7e46ece4",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts",
+      "sha256": "c43941d7f9aa4e57bf60f5bef46a0ae4bdf68fb301134de033fa02d1a6a14587",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/index.ts",
+      "sha256": "cab9317b64e56fd64f6c525c896f1550e69a795b38f7273f024e8783d7a8e50c",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+      "sha256": "45073a6b9ad6d4641e112d21579132dc30684fcdb70f1fe574cf8ff6a7a1cf4b",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+      "sha256": "1213b40cbabdb4aa8046540c7dde56d787f17bb16cbb7c5274610233d9f3a615",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+      "sha256": "e1b8c4590998af63364338a83e25a11c004200e498a8bbba7519df335000de56",
+      "byteIdentical": true
+    }
+  ]
+}
