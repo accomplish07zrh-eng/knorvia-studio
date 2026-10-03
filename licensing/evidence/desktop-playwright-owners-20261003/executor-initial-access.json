@@ -1,0 +1,16 @@
+{
+  "readPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/common-author-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/executor-owner-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/public-view.d.ts"
+  ],
+  "writtenPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/executor/browserPlaywrightExecutor.ts",
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/executor/access.json"
+  ],
+  "accessExceptions": [],
+  "limitations": [
+    "No candidate, tests, lint, browser, network, inherited source, or repository history was accessed or run.",
+    "The production module path for ControlledView and delegated dependency module paths were not specified by the allowed public contract; import paths in this isolated draft require curator integration review."
+  ]
+}

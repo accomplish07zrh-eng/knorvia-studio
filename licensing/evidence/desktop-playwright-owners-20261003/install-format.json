@@ -1,0 +1,55 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+    "packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts",
+    "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+    "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+    "licensing/evidence/desktop-playwright-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-playwright-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-playwright-owners-20261003/retained-shapes.mjs",
+    "specs/knorvia-desktop-playwright-owners-20261003.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+      "sha256": "63df0150106bd1b17e84fe0d43ea2de7c1a519b4e26191d7986f475ebf9dcc8c"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts",
+      "sha256": "e444335f4a3673b35144396c176d618ccd2816ee189f2fa1b880bdfbceedc09c"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+      "sha256": "cb6dccfc403744cc7cbb40f8f0b121724aa0335142fe04b1555416dce0baed14"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+      "sha256": "d57a1188dcd1bfb766c43a6aeacf1e548c1045bf792d56a0fd18059635f3d62f"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/record-run.mjs",
+      "sha256": "35ff1873aff4092c34d8611e615eb86cd39e4c519e318178f75328d3b60a908d"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/scoped-static.mjs",
+      "sha256": "72c24f1ec90750be44177728a8e2cd6f4dfc9940e3da3e667ea7ecc680402e51"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/retained-shapes.mjs",
+      "sha256": "aa3753fdba84851509fa9da88dd93aa66f0f43db7735844db6bd60057c2cc3c2"
+    },
+    {
+      "path": "specs/knorvia-desktop-playwright-owners-20261003.md",
+      "sha256": "7a6127b905b763224c4b35b914cfbb21839ec2052f510d7b70c99934bb8b09ba"
+    }
+  ],
+  "stdout": "Finished in 91ms on 8 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

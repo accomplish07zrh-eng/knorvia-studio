@@ -1,0 +1,13 @@
+{
+  "command": [
+    "pnpm",
+    "architecture:check",
+    "--changed"
+  ],
+  "exitCode": 1,
+  "underlyingExitCode": 254,
+  "observedDiagnostic": "[ENOENT] ENOENT: no such file or directory, mkdir '/home/agent/.local/share/pnpm'",
+  "nodeVersion": "24.19.0",
+  "pinnedNodeVersion": "24.14.0",
+  "limitation": "Diagnostic summary only; full output preserved in tool transcript. No store/install/permission workaround. Direct existing architecture script is a separately qualified result."
+}

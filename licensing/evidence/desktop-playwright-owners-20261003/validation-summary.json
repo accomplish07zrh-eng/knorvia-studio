@@ -1,0 +1,63 @@
+{
+  "baseHead": "6470e414fe38044fc68dd6c16be4cb6a753d3079",
+  "existingDraftPR": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "branch": "recovery/server-lifecycle-20261002",
+  "selectedFullLiteralOutputs": [
+    {
+      "owner": "snapshot",
+      "raw": "licensing/evidence/desktop-playwright-owners-20261003/drafts/snapshot-correction-2.ts.txt",
+      "rawSha256": "270703513e317eebc3d6775627433bec11c48bae1a6e4782103241833c019322",
+      "installed": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+      "installedSha256": "63df0150106bd1b17e84fe0d43ea2de7c1a519b4e26191d7986f475ebf9dcc8c",
+      "formattedFrozenEqualsInstalled": true
+    },
+    {
+      "owner": "locator",
+      "raw": "licensing/evidence/desktop-playwright-owners-20261003/drafts/locator-correction-2.ts.txt",
+      "rawSha256": "f675cadb4c98f216bbca45544f68d027f1f623e094a21ed35e2cbcf3cdd0341a",
+      "installed": "packages/desktop/src/main/browserView/browserPlaywrightLocatorExecutor.ts",
+      "installedSha256": "e444335f4a3673b35144396c176d618ccd2816ee189f2fa1b880bdfbceedc09c",
+      "formattedFrozenEqualsInstalled": true
+    },
+    {
+      "owner": "executor",
+      "raw": "licensing/evidence/desktop-playwright-owners-20261003/drafts/executor-correction-4.ts.txt",
+      "rawSha256": "c2391ba861c4e5cf94f4a197fd3bb2066d098154ac525da4ea6cf11f033c96cd",
+      "installed": "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+      "installedSha256": "cb6dccfc403744cc7cbb40f8f0b121724aa0335142fe04b1555416dce0baed14",
+      "formattedFrozenEqualsInstalled": true
+    }
+  ],
+  "minimalSyntheticGroups": 5,
+  "baselinePass": 5,
+  "finalPass": 5,
+  "publicExportsCompared": 3,
+  "syntheticSemanticDiagnostics": 0,
+  "actualImportedProductTypes": "not verified",
+  "syntaxIncludesUnchangedConsumer": "browserCommandExecutor.ts",
+  "lintWarnings": 0,
+  "lintErrors": 0,
+  "architectureBaseline": 0,
+  "architectureNew": 0,
+  "formatCopiesEqualFrozenDrafts": true,
+  "retention": {
+    "trackedUnselected": 10187,
+    "desktopPathsIncludingAssets": 1499,
+    "cliPathsIncludingAssets": 2482,
+    "frozenEvidenceFiles": 62,
+    "allUnchanged": true
+  },
+  "netProductionLines": -194,
+  "zeroNewIndependentAcceptanceCredit": true,
+  "sourceLicensing": "pending parent verification; no MIT/cleanroom claim",
+  "knownProcessQualification": "First locator literal froze/reviewed before author completion notification; subsequent author own-memory edits and completed initial literal preserved separately. See qualification receipt.",
+  "remainingLimits": [
+    "pnpm architecture wrapper ENOENT initialization blocked, separately qualified direct checker",
+    "local pinned upstream commit unavailable: git ls-tree fatal:not a tree object",
+    "Node24.19.0 differs pinned24.14.0",
+    "no full suite/build/native browser/real page/connection/userdata/permission operation",
+    "restricted virtual public-port semantic types, no actual product dependency closure",
+    "private403/UI Library403 HOLD retained, no public-old substitution/cancelled upload retry",
+    "full behavioral/reflection/consumer/embedded page expression/rights review and aggregate integration deferred"
+  ]
+}

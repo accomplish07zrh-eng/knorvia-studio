@@ -1,0 +1,5 @@
+{
+  "earlierFrozenHash": "406e7414c29d817dfdede72a60e31ec4fe3ff1cd50b13192f48d2731f01d2285",
+  "completedInitialHash": "f1d73847bbaaa96d09769cd95d7c70888192481d7523076bfce213d17367108e",
+  "limitation": "Curator froze and reviewed first emitted literal before author completion notification; author then reported different final bytes. Both preserved; first freeze is in-progress output, not claimed completed author artifact. Completion later frozen before that-version review. Author explanation requested."
+}

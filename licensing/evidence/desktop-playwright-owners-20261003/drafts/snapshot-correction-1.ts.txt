@@ -1,4 +1,4 @@
-import type { ControlledView } from "./browserCommandTypes.js";
+import type { ControlledView, ControlledViewCdp } from "./browserCommandTypes.js";
 import { getPlaywrightInjectedScriptSource } from "./playwrightInjectedScriptSource.js";
 
 type Target = {
@@ -9,20 +9,20 @@ type Target = {
 
 type Snapshot = {
   full: string;
-  iframeDepths: Record<string, number>;
-  iframeRefs: string[];
+  iframeDepths: Record<string, unknown>;
+  iframeRefs: unknown[];
 };
 
 type State = {
   view: ControlledView;
   signal?: AbortSignal;
-  worlds: Map<string, Target>;
-  ownedSessions: Set<string>;
+  contexts: Map<string, Target>;
+  attachedSessions: Set<string>;
 };
 
-const WORLD_NAME = "knorvia-playwright-dom-snapshot";
+const worldName = "knorvia-playwright-dom-snapshot";
 
-function checkAbort(signal?: AbortSignal): void {
+function requireActive(signal?: AbortSignal): void {
   if (signal?.aborted) {
     throw new DOMException("Browser DOM snapshot aborted", "AbortError");
   }
@@ -34,15 +34,15 @@ function send(
   params?: unknown,
   sessionId?: string,
 ): Promise<unknown> {
-  checkAbort(state.signal);
+  requireActive(state.signal);
   return state.view.cdp.send(method, params, sessionId);
 }
 
-function remaining(deadline: number): number {
-  return Math.max(1, Math.min(500, deadline - Date.now()));
+function timeLeft(deadline: number, limit = 500): number {
+  return Math.max(1, Math.min(limit, deadline - Date.now()));
 }
 
-function keyOf(frameId: string, sessionId?: string): string {
+function cacheKey(frameId: string, sessionId?: string): string {
   return (sessionId ?? "root") + ":" + frameId;
 }
 
@@ -53,7 +53,7 @@ async function evaluate(
   returnByValue: boolean,
   timeout: number,
 ): Promise<Record<string, unknown>> {
-  const response = (await send(
+  const response = await send(
     state,
     "Runtime.evaluate",
     {
@@ -64,7 +64,7 @@ async function evaluate(
       timeout,
     },
     target.sessionId,
-  )) as {
+  ) as {
     exceptionDetails?: {
       exception?: { description?: string | null; value?: unknown };
       text?: string;
@@ -73,8 +73,7 @@ async function evaluate(
   };
   if (response.exceptionDetails) {
     const exception = response.exceptionDetails.exception;
-    const message =
-      exception?.description ??
+    const message = exception?.description ??
       (exception?.value != null ? String(exception.value) : undefined) ??
       response.exceptionDetails.text ??
       "Playwright DOM snapshot evaluation failed";
@@ -83,44 +82,41 @@ async function evaluate(
   return response.result ?? {};
 }
 
-async function getWorld(
+async function isolatedWorld(
   state: State,
   frameId: string,
   sessionId: string | undefined,
   timeout: number,
 ): Promise<Target> {
-  const key = keyOf(frameId, sessionId);
-  const existing = state.worlds.get(key);
-  if (existing) return existing;
+  const key = cacheKey(frameId, sessionId);
+  const cached = state.contexts.get(key);
+  if (cached) return cached;
 
-  const created = (await send(
+  const created = await send(
     state,
     "Page.createIsolatedWorld",
-    {
-      frameId,
-      worldName: WORLD_NAME,
-      grantUniveralAccess: false,
-    },
+    { frameId, worldName, grantUniveralAccess: false },
     sessionId,
-  )) as { executionContextId?: number };
+  ) as { executionContextId?: number };
   const contextId = created.executionContextId;
   if (!contextId) {
     throw new Error("Unable to create Playwright isolated world for frame " + frameId);
   }
-  const target: Target =
-    sessionId === undefined ? { frameId, contextId } : { frameId, contextId, sessionId };
+  const target: Target = sessionId === undefined
+    ? { frameId, contextId }
+    : { frameId, contextId, sessionId };
 
-  const checked = await evaluate(
+  const present = await evaluate(
     state,
     target,
     "Boolean(globalThis.__knorviaPlaywrightInjected)",
     true,
     timeout,
   );
-  if (checked.value !== true) {
+  if (present.value !== true) {
     const source = getPlaywrightInjectedScriptSource();
     const expression =
-      "(function(){const module={};\n" +
+      "(function(){const module={exports:{}};const exports=module.exports;\n" +
       source +
       "\nglobalThis.__knorviaPlaywrightInjected=new (module.exports.InjectedScript())" +
       "(globalThis,{browserName:'chromium',customEngines:[],isUnderTest:false," +
@@ -131,18 +127,22 @@ async function getWorld(
       throw new Error("Unable to initialize Playwright injected runtime");
     }
   }
-  state.worlds.set(key, target);
+  state.contexts.set(key, target);
   return target;
 }
 
-const SNAPSHOT_EXPRESSION =
+const snapshotExpression =
   "(function(){" +
   "const root=document.body||document.documentElement;" +
   "if(!root)return {full:'',iframeDepths:{},iframeRefs:[]};" +
   "const injected=globalThis.__knorviaPlaywrightInjected;" +
   "const snapshot=injected.incrementalAriaSnapshot(root,{mode:'ai'});" +
-  "return {...snapshot,iframeRefs:snapshot.iframeRefs.filter(function(ref){" +
-  "if(!(ref in snapshot.iframeDepths))return false;" +
+  "if(!snapshot)return snapshot;" +
+  "const depths=snapshot.iframeDepths;" +
+  "const refs=snapshot.iframeRefs;" +
+  "const filtered=Array.isArray(refs)&&depths&&typeof depths==='object'?" +
+  "refs.filter(function(ref){" +
+  "if(!(ref in depths))return false;" +
   "try{" +
   "const matches=injected.querySelectorAll(" +
   "injected.parseSelector('aria-ref='+ref),root);" +
@@ -150,11 +150,22 @@ const SNAPSHOT_EXPRESSION =
   "return !!frame&&frame.getAttribute('aria-hidden')!=='true'&&" +
   "injected.elementState(frame,'visible').matches===true;" +
   "}catch{return false;}" +
-  "})};" +
+  "}):refs;" +
+  "return {...snapshot,iframeRefs:filtered};" +
   "})()";
 
-async function readSnapshot(state: State, target: Target, timeout: number): Promise<Snapshot> {
-  const result = await evaluate(state, target, SNAPSHOT_EXPRESSION, true, timeout);
+async function takeSnapshot(
+  state: State,
+  target: Target,
+  timeout: number,
+): Promise<Snapshot> {
+  const result = await evaluate(
+    state,
+    target,
+    snapshotExpression,
+    true,
+    timeout,
+  );
   const snapshot = result.value as Partial<Snapshot> | null | undefined;
   if (
     snapshot == null ||
@@ -171,7 +182,7 @@ async function readSnapshot(state: State, target: Target, timeout: number): Prom
 async function frameForRef(
   state: State,
   parent: Target,
-  ref: string,
+  ref: unknown,
   timeout: number,
 ): Promise<unknown> {
   let objectId: unknown;
@@ -181,165 +192,185 @@ async function frameForRef(
       "if(!root)return null;" +
       "const injected=globalThis.__knorviaPlaywrightInjected;" +
       "return injected.querySelectorAll(injected.parseSelector(" +
-      JSON.stringify("aria-ref=" + ref) +
+      JSON.stringify("aria-ref=" + String(ref)) +
       "),root)[0]||null;})()";
     const result = await evaluate(state, parent, expression, false, timeout);
     if (result.subtype === "null" || !result.objectId) return undefined;
     objectId = result.objectId;
-    const described = (await send(state, "DOM.describeNode", { objectId }, parent.sessionId)) as {
-      node?: { frameId?: unknown };
-    };
-    return described.node?.frameId;
+    const description = await send(
+      state,
+      "DOM.describeNode",
+      { objectId },
+      parent.sessionId,
+    ) as { node?: { frameId?: unknown } };
+    return description.node?.frameId;
   } catch {
     return undefined;
   } finally {
     if (objectId) {
       try {
-        await send(state, "Runtime.releaseObject", { objectId }, parent.sessionId);
+        await send(
+          state,
+          "Runtime.releaseObject",
+          { objectId },
+          parent.sessionId,
+        );
       } catch {
-        // The object may already be gone.
+        // Handle cleanup is best effort.
       }
     }
   }
 }
 
-async function childWorld(
+async function worldForChild(
   state: State,
   frameId: string,
   parentSessionId: string | undefined,
   timeout: number,
 ): Promise<Target | undefined> {
   try {
-    return await getWorld(state, frameId, parentSessionId, timeout);
+    return await isolatedWorld(state, frameId, parentSessionId, timeout);
   } catch {
-    // A cross-process frame needs a target session.
+    // The frame may be in a different target.
   }
 
-  for (const sessionId of state.ownedSessions) {
-    const existing = state.worlds.get(keyOf(frameId, sessionId));
-    if (existing) return existing;
+  for (const sessionId of state.attachedSessions) {
+    const cached = state.contexts.get(cacheKey(frameId, sessionId));
+    if (cached) return cached;
   }
 
   try {
-    const attached = (await send(
+    const attached = await send(
       state,
       "Target.attachToTarget",
       { flatten: true, targetId: frameId },
       undefined,
-    )) as { sessionId?: string };
+    ) as { sessionId?: string };
     const sessionId = attached.sessionId;
     if (!sessionId) return undefined;
-    state.ownedSessions.add(sessionId);
+    state.attachedSessions.add(sessionId);
     await send(state, "Page.enable", undefined, sessionId);
     await send(state, "Runtime.enable", undefined, sessionId);
     await send(state, "DOM.enable", undefined, sessionId);
-    return await getWorld(state, frameId, sessionId, timeout);
+    return await isolatedWorld(state, frameId, sessionId, timeout);
   } catch {
     return undefined;
   }
 }
 
-async function findChild(
+async function childTarget(
   state: State,
   parent: Target,
-  ref: string,
+  ref: unknown,
   deadline: number,
 ): Promise<Target | undefined> {
   if (Date.now() >= deadline) return undefined;
-  const firstTimeout = remaining(deadline);
+  const firstTimeout = timeLeft(deadline);
   let frameId = await frameForRef(state, parent, ref, firstTimeout);
   if (!frameId || Date.now() >= deadline) return undefined;
 
-  let target = await childWorld(state, frameId as string, parent.sessionId, firstTimeout);
-  if (!target && Date.now() < deadline) {
+  let child = await worldForChild(
+    state,
+    frameId as string,
+    parent.sessionId,
+    firstTimeout,
+  );
+  if (!child && Date.now() < deadline) {
     try {
       await send(state, "Target.getTargets", undefined, parent.sessionId);
     } catch {
-      // Refresh is an optional child probe.
+      // The refresh is an optional recovery probe.
     }
-    frameId = await frameForRef(state, parent, ref, remaining(deadline));
+    frameId = await frameForRef(state, parent, ref, timeLeft(deadline));
     if (frameId) {
-      target = await childWorld(state, frameId as string, parent.sessionId, remaining(deadline));
+      child = await worldForChild(
+        state,
+        frameId as string,
+        parent.sessionId,
+        timeLeft(deadline),
+      );
     }
   }
-  return target;
+  return child;
 }
 
-function merge(full: string, expanded: Map<string, string>): string {
-  if (expanded.size === 0) return full;
-  return full
-    .split("\n")
-    .map((line) => {
-      if (!line.trimStart().startsWith("- iframe")) return line;
-      const ref = line.match(/\[ref=([^\]]+)\]/)?.[1];
-      if (ref === undefined) return line;
-      const child = expanded.get(ref);
-      if (!child) return line;
-      const spaces = line.match(/^ */)?.[0] ?? "";
-      const lines = child
-        .split("\n")
-        .map((childLine) => spaces + "  " + childLine)
-        .join("\n");
-      return line + (line.endsWith(":") ? "" : ":") + "\n" + lines;
-    })
-    .join("\n");
+function mergeFrames(full: string, children: Map<unknown, string>): string {
+  if (!children.size) return full;
+  return full.split("\n").map((line) => {
+    if (!line.trimStart().startsWith("- iframe")) return line;
+    const ref = line.match(/\[ref=([^\]]+)\]/)?.[1];
+    if (ref === undefined) return line;
+    const child = children.get(ref);
+    if (!child) return line;
+    const parentIndent = line.match(/^ */)?.[0] ?? "";
+    const indented = child.split("\n")
+      .map((childLine) => parentIndent + "  " + childLine)
+      .join("\n");
+    return line + (line.endsWith(":") ? "" : ":") + "\n" + indented;
+  }).join("\n");
 }
 
-async function expand(
+async function expandFrames(
   state: State,
   snapshot: Snapshot,
   parent: Target,
   deadline: number,
 ): Promise<string> {
   const refs = snapshot.iframeRefs.filter((ref) => ref in snapshot.iframeDepths);
-  if (refs.length === 0 || Date.now() >= deadline) return snapshot.full;
-  const entries = await Promise.all(
-    refs.map(async (ref) => {
-      if (Date.now() >= deadline) return [ref, ""] as const;
-      const target = await findChild(state, parent, ref, deadline);
-      if (!target || Date.now() >= deadline) return [ref, ""] as const;
-      try {
-        const child = await readSnapshot(state, target, remaining(deadline));
-        const full = await expand(state, child, target, deadline);
-        return [ref, full] as const;
-      } catch {
-        return [ref, ""] as const;
-      }
-    }),
-  );
-  return merge(snapshot.full, new Map(entries));
+  if (!refs.length || Date.now() >= deadline) return snapshot.full;
+  const entries = await Promise.all(refs.map(async (ref) => {
+    if (Date.now() >= deadline) return [ref, ""] as const;
+    const target = await childTarget(state, parent, ref, deadline);
+    if (!target || Date.now() >= deadline) return [ref, ""] as const;
+    try {
+      const child = await takeSnapshot(state, target, timeLeft(deadline));
+      return [ref, await expandFrames(state, child, target, deadline)] as const;
+    } catch {
+      return [ref, ""] as const;
+    }
+  }));
+  return mergeFrames(snapshot.full, new Map(entries));
 }
 
 type Node = { text: string; children: Node[] };
 
 function normalize(full: string): string {
-  if (!full.startsWith("- ") && !full.includes("\n- ") && !full.includes("\n  - ")) return full;
+  if (
+    !full.startsWith("- ") &&
+    !full.includes("\n- ") &&
+    !full.includes("\n  - ")
+  ) return full;
 
   const root: Node = { text: "", children: [] };
-  const stack: Array<{ indent: number; node: Node }> = [{ indent: -1, node: root }];
+  const stack: Array<{ indent: number; node: Node }> = [
+    { indent: -1, node: root },
+  ];
   for (const line of full.split("\n")) {
     if (!line.trim()) continue;
     const indent = line.match(/^ */)?.[0].length ?? 0;
-    const node: Node = {
-      text: line.slice(indent).replace(/ \[(?:ref|cursor)=[^\]]+\]/g, ""),
-      children: [],
-    };
-    while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
+    const text = line.slice(indent)
+      .replace(/ \[(?:ref|cursor)=[^\]]+\]/g, "");
+    const node: Node = { text, children: [] };
+    while (
+      stack.length > 1 &&
+      stack[stack.length - 1].indent >= indent
+    ) stack.pop();
     stack[stack.length - 1].node.children.push(node);
     stack.push({ indent, node });
   }
 
-  const lines: string[] = [];
+  const output: string[] = [];
   function render(node: Node, depth: number): void {
-    if (/^- img(?: \[[^\]]+\])*:?$/.test(node.text)) return;
-    const anonymous = /^- (?:generic|listitem|group)(?: \[[^\]]+\])*:?$/.test(node.text);
-    if (!anonymous) lines.push("  ".repeat(depth) + node.text);
+    if (/^- img(?: \[[^\]]*\])*:?$/.test(node.text)) return;
+    const flatten = /^- (?:generic|listitem|group)(?: \[[^\]]*\])*:?$/
+      .test(node.text);
+    if (!flatten) output.push("  ".repeat(depth) + node.text);
     for (const child of node.children) {
-      render(child, anonymous ? depth : depth + 1);
+      render(child, flatten ? depth : depth + 1);
     }
   }
   for (const node of root.children) render(node, 0);
-  return lines.join("\n");
+  return output.join("\n");
 }
 
 export async function captureBrowserDomSnapshot(
@@ -349,30 +380,38 @@ export async function captureBrowserDomSnapshot(
   const state: State = {
     view,
     signal,
-    worlds: new Map(),
-    ownedSessions: new Set(),
+    contexts: new Map(),
+    attachedSessions: new Set(),
   };
   await send(state, "Page.enable", undefined, undefined);
   await send(state, "Runtime.enable", undefined, undefined);
   await send(state, "DOM.enable", undefined, undefined);
-  const tree = (await send(state, "Page.getFrameTree", undefined, undefined)) as {
-    frameTree?: { frame?: { id?: string } };
-  };
-  const frameId = tree.frameTree?.frame?.id;
-  if (!frameId) {
+  const tree = await send(
+    state,
+    "Page.getFrameTree",
+    undefined,
+    undefined,
+  ) as { frameTree: { frame: { id?: string } } };
+  const mainFrameId = tree.frameTree.frame.id;
+  if (!mainFrameId) {
     throw new Error("Page.getFrameTree returned no main frame id");
   }
 
   try {
-    const target = await getWorld(state, frameId, undefined, 3000);
-    const snapshot = await readSnapshot(state, target, 3000);
-    const full = await expand(state, snapshot, target, Date.now() + 1000);
+    const target = await isolatedWorld(state, mainFrameId, undefined, 3000);
+    const snapshot = await takeSnapshot(state, target, 3000);
+    const full = await expandFrames(
+      state,
+      snapshot,
+      target,
+      Date.now() + 1000,
+    );
     return normalize(full);
   } finally {
-    const sessions = [...state.ownedSessions];
-    await Promise.allSettled(
-      sessions.map((sessionId) => view.cdp.send("Target.detachFromTarget", { sessionId })),
-    );
-    state.ownedSessions.clear();
+    const sessions = [...state.attachedSessions];
+    await Promise.allSettled(sessions.map((sessionId) =>
+      view.cdp.send("Target.detachFromTarget", { sessionId })
+    ));
+    state.attachedSessions.clear();
   }
 }

@@ -1,0 +1,398 @@
+import type { ControlledView, ControlledViewCdp } from "./browserCommandTypes.js";
+import { getPlaywrightInjectedScriptSource } from "./playwrightInjectedScriptSource.js";
+
+type Snapshot = {
+  full: string;
+  iframeDepths: Record<string, unknown>;
+  iframeRefs: unknown[];
+};
+
+type World = {
+  contextId: number;
+  frameId: string;
+  sessionId?: string;
+};
+
+type SnapshotState = {
+  view: ControlledView;
+  signal?: AbortSignal;
+  worlds: Map<string, World>;
+  ownedSessions: Set<string>;
+};
+
+const WORLD_NAME = "knorvia-playwright-dom-snapshot";
+
+function aborted(): DOMException {
+  return new DOMException("Browser DOM snapshot aborted", "AbortError");
+}
+
+function checkAbort(signal?: AbortSignal): void {
+  if (signal?.aborted) throw aborted();
+}
+
+function send(
+  state: SnapshotState,
+  method: string,
+  params?: unknown,
+  sessionId?: string,
+): Promise<unknown> {
+  checkAbort(state.signal);
+  return state.view.cdp.send(method, params, sessionId);
+}
+
+function budget(deadline?: number, cap = 3000): number {
+  if (deadline === undefined) return cap;
+  return Math.max(1, Math.min(cap, deadline - Date.now()));
+}
+
+function worldKey(frameId: string, sessionId?: string): string {
+  return (sessionId ?? "root") + ":" + frameId;
+}
+
+async function evaluate(
+  state: SnapshotState,
+  world: World,
+  expression: string,
+  returnByValue: boolean,
+  timeout: number,
+): Promise<Record<string, unknown>> {
+  const response = await send(
+    state,
+    "Runtime.evaluate",
+    {
+      awaitPromise: true,
+      contextId: world.contextId,
+      expression,
+      returnByValue,
+      timeout,
+    },
+    world.sessionId,
+  ) as {
+    exceptionDetails?: {
+      exception?: { description?: string | null; value?: unknown };
+      text?: string;
+    };
+    result?: Record<string, unknown>;
+  };
+  if (response?.exceptionDetails) {
+    const details = response.exceptionDetails;
+    const exception = details.exception;
+    const message = exception?.description ??
+      (exception?.value != null ? String(exception.value) : undefined) ??
+      details.text ??
+      "Playwright DOM snapshot evaluation failed";
+    if (message) throw new Error(message);
+  }
+  return response?.result ?? {};
+}
+
+function valueOf(result: Record<string, unknown>): unknown {
+  return result.value;
+}
+
+async function getWorld(
+  state: SnapshotState,
+  frameId: string,
+  sessionId: string | undefined,
+  timeout: number,
+): Promise<World> {
+  const key = worldKey(frameId, sessionId);
+  const cached = state.worlds.get(key);
+  if (cached) return cached;
+
+  const created = await send(
+    state,
+    "Page.createIsolatedWorld",
+    {
+      frameId,
+      worldName: WORLD_NAME,
+      grantUniveralAccess: false,
+    },
+    sessionId,
+  ) as { executionContextId?: number };
+  const contextId = created?.executionContextId;
+  if (!contextId) {
+    throw new Error("Unable to create Playwright isolated world for frame " + frameId);
+  }
+
+  const world: World = { contextId, frameId, sessionId };
+  const present = await evaluate(
+    state,
+    world,
+    "Boolean(globalThis.__knorviaPlaywrightInjected)",
+    true,
+    timeout,
+  );
+  if (valueOf(present) !== true) {
+    const source = getPlaywrightInjectedScriptSource();
+    const expression =
+      "(function(){const module={exports:{}};const exports=module.exports;\n" +
+      source +
+      "\nglobalThis.__knorviaPlaywrightInjected=new (module.exports.InjectedScript())" +
+      "(globalThis,{browserName:'chromium',customEngines:[],isUnderTest:false," +
+      "sdkLanguage:'javascript',stableRafCount:1,testIdAttributeName:'data-testid'});" +
+      "return true;})()";
+    const installed = await evaluate(state, world, expression, true, timeout);
+    if (valueOf(installed) !== true) {
+      throw new Error("Unable to initialize Playwright injected runtime");
+    }
+  }
+  state.worlds.set(key, world);
+  return world;
+}
+
+const SNAPSHOT_EXPRESSION =
+  "(function(){" +
+  "const root=document.body||document.documentElement;" +
+  "if(!root)return {full:'',iframeDepths:{},iframeRefs:[]};" +
+  "const injected=globalThis.__knorviaPlaywrightInjected;" +
+  "const snapshot=injected.incrementalAriaSnapshot(root,{mode:'ai'});" +
+  "const depths=snapshot&&snapshot.iframeDepths;" +
+  "const refs=snapshot&&snapshot.iframeRefs;" +
+  "const filtered=Array.isArray(refs)&&depths&&typeof depths==='object'?" +
+  "refs.filter(function(ref){" +
+  "if(!(ref in depths))return false;" +
+  "try{" +
+  "const frame=injected.querySelector('aria-ref='+ref,document,false);" +
+  "return !!frame&&frame.getAttribute('aria-hidden')!=='true'&&" +
+  "injected.elementState(frame,'visible').matches===true;" +
+  "}catch{return false;}" +
+  "}):refs;" +
+  "return {...snapshot,iframeRefs:filtered};" +
+  "})()";
+
+async function readSnapshot(
+  state: SnapshotState,
+  world: World,
+  timeout: number,
+): Promise<Snapshot> {
+  const result = await evaluate(
+    state,
+    world,
+    SNAPSHOT_EXPRESSION,
+    true,
+    timeout,
+  );
+  const snapshot = valueOf(result) as Partial<Snapshot> | null | undefined;
+  if (
+    snapshot == null ||
+    typeof snapshot.full !== "string" ||
+    !Array.isArray(snapshot.iframeRefs) ||
+    !snapshot.iframeDepths ||
+    typeof snapshot.iframeDepths !== "object"
+  ) {
+    throw new Error("Playwright injected runtime returned an invalid DOM snapshot");
+  }
+  return snapshot as Snapshot;
+}
+
+async function resolveFrame(
+  state: SnapshotState,
+  world: World,
+  ref: unknown,
+  timeout: number,
+): Promise<string | undefined> {
+  let objectId: string | undefined;
+  try {
+    const expression =
+      "(function(){return globalThis.__knorviaPlaywrightInjected.querySelector(" +
+      JSON.stringify("aria-ref=" + String(ref)) +
+      ",document,false)})()";
+    const result = await evaluate(state, world, expression, false, timeout);
+    objectId = typeof result.objectId === "string" ? result.objectId : undefined;
+    if (!objectId) return undefined;
+    const description = await send(
+      state,
+      "DOM.describeNode",
+      { objectId },
+      world.sessionId,
+    ) as { node?: { frameId?: string } };
+    return description?.node?.frameId || undefined;
+  } catch {
+    return undefined;
+  } finally {
+    if (objectId) {
+      try {
+        await send(state, "Runtime.releaseObject", { objectId }, world.sessionId);
+      } catch {
+        // The handle is best-effort cleanup, including on cancellation.
+      }
+    }
+  }
+}
+
+async function targetWorld(
+  state: SnapshotState,
+  frameId: string,
+  parentSessionId: string | undefined,
+  deadline: number,
+): Promise<World | undefined> {
+  try {
+    return await getWorld(state, frameId, parentSessionId, budget(deadline, 500));
+  } catch {
+    // Cross-process frames may need a target session.
+  }
+
+  for (const sessionId of state.ownedSessions) {
+    const cached = state.worlds.get(worldKey(frameId, sessionId));
+    if (cached) return cached;
+  }
+
+  try {
+    const attached = await send(
+      state,
+      "Target.attachToTarget",
+      { flatten: true, targetId: frameId },
+      undefined,
+    ) as { sessionId?: string };
+    const sessionId = attached?.sessionId;
+    if (!sessionId) return undefined;
+    state.ownedSessions.add(sessionId);
+    await send(state, "Page.enable", undefined, sessionId);
+    await send(state, "Runtime.enable", undefined, sessionId);
+    await send(state, "DOM.enable", undefined, sessionId);
+    return await getWorld(state, frameId, sessionId, budget(deadline, 500));
+  } catch {
+    return undefined;
+  }
+}
+
+async function probeChild(
+  state: SnapshotState,
+  parentWorld: World,
+  ref: unknown,
+  deadline: number,
+): Promise<World | undefined> {
+  if (Date.now() >= deadline) return undefined;
+  let frameId = await resolveFrame(
+    state,
+    parentWorld,
+    ref,
+    budget(deadline, 500),
+  );
+  if (Date.now() >= deadline) return undefined;
+  let child = frameId
+    ? await targetWorld(state, frameId, parentWorld.sessionId, deadline)
+    : undefined;
+  if (child || Date.now() >= deadline) return child;
+
+  try {
+    await send(state, "Target.getTargets", undefined, parentWorld.sessionId);
+  } catch {
+    // A target refresh may be unavailable.
+  }
+  if (Date.now() >= deadline) return undefined;
+  frameId = await resolveFrame(state, parentWorld, ref, budget(deadline, 500));
+  if (Date.now() >= deadline || !frameId) return undefined;
+  child = await targetWorld(state, frameId, parentWorld.sessionId, deadline);
+  return child;
+}
+
+function merge(full: string, children: Map<string, string>): string {
+  if (children.size === 0) return full;
+  return full.split("\n").map((line) => {
+    if (!line.trimStart().startsWith("- iframe")) return line;
+    const match = line.match(/\[ref=([^\]]+)\]/);
+    if (!match) return line;
+    const child = children.get(match[1]);
+    if (!child) return line;
+    const spaces = line.match(/^ */)?.[0] ?? "";
+    const nested = child.split("\n").map((childLine) => spaces + "  " + childLine).join("\n");
+    return line + (line.endsWith(":") ? "" : ":") + "\n" + nested;
+  }).join("\n");
+}
+
+async function expand(
+  state: SnapshotState,
+  snapshot: Snapshot,
+  world: World,
+  deadline: number,
+): Promise<string> {
+  if (snapshot.iframeRefs.length === 0 || Date.now() >= deadline) return snapshot.full;
+  const results = await Promise.all(snapshot.iframeRefs.map(async (ref) => {
+    if (Date.now() >= deadline) return [String(ref), ""] as const;
+    const childWorld = await probeChild(state, world, ref, deadline);
+    if (!childWorld || Date.now() >= deadline) return [String(ref), ""] as const;
+    try {
+      const child = await readSnapshot(state, childWorld, budget(deadline, 500));
+      const full = await expand(state, child, childWorld, deadline);
+      return [String(ref), full] as const;
+    } catch {
+      return [String(ref), ""] as const;
+    }
+  }));
+  return merge(snapshot.full, new Map(results));
+}
+
+type TreeNode = {
+  text: string;
+  children: TreeNode[];
+};
+
+function normalize(full: string): string {
+  if (
+    !full.startsWith("- ") &&
+    !full.includes("\n- ") &&
+    !full.includes("\n  - ")
+  ) return full;
+
+  const root: TreeNode = { text: "", children: [] };
+  const stack: Array<{ indent: number; node: TreeNode }> = [{ indent: -1, node: root }];
+  for (const line of full.split("\n")) {
+    if (!line.trim()) continue;
+    const indent = line.match(/^ */)?.[0].length ?? 0;
+    const text = line.trimStart().trimEnd()
+      .replace(/ \[(?:ref|cursor)=[^\]]*\]/g, "");
+    const node: TreeNode = { text, children: [] };
+    while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
+    stack[stack.length - 1].node.children.push(node);
+    stack.push({ indent, node });
+  }
+
+  const lines: string[] = [];
+  function render(node: TreeNode, depth: number): void {
+    const anonymousImage = /^- img(?:\s+\[[^\]]+\])*:?$/.test(node.text);
+    if (anonymousImage) return;
+    const flatten = /^- (?:generic|listitem|group)(?:\s+\[[^\]]+\])*:?$/.test(node.text);
+    if (!flatten) lines.push("  ".repeat(depth) + node.text);
+    for (const child of node.children) render(child, flatten ? depth : depth + 1);
+  }
+  for (const node of root.children) render(node, 0);
+  return lines.join("\n");
+}
+
+export async function captureBrowserDomSnapshot(
+  view: ControlledView,
+  signal?: AbortSignal,
+): Promise<string> {
+  const state: SnapshotState = {
+    view,
+    signal,
+    worlds: new Map(),
+    ownedSessions: new Set(),
+  };
+  await send(state, "Page.enable", undefined, undefined);
+  await send(state, "Runtime.enable", undefined, undefined);
+  await send(state, "DOM.enable", undefined, undefined);
+  const tree = await send(
+    state,
+    "Page.getFrameTree",
+    undefined,
+    undefined,
+  ) as { frameTree?: { frame?: { id?: string } } };
+  const mainFrameId = tree?.frameTree?.frame?.id;
+  if (!mainFrameId) throw new Error("Page.getFrameTree returned no main frame id");
+
+  try {
+    const world = await getWorld(state, mainFrameId, undefined, 3000);
+    const snapshot = await readSnapshot(state, world, 3000);
+    const full = await expand(state, snapshot, world, Date.now() + 1000);
+    return normalize(full);
+  } finally {
+    const sessions = [...state.ownedSessions];
+    state.ownedSessions.clear();
+    await Promise.allSettled(sessions.map((sessionId) =>
+      view.cdp.send("Target.detachFromTarget", { sessionId })
+    ));
+  }
+}

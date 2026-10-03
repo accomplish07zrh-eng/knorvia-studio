@@ -1,0 +1,102 @@
+[
+  {
+    "name": "captureBrowserDomSnapshot",
+    "parameters": [
+      {
+        "name": "view",
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "name": "signal",
+        "type": "AbortSignal | undefined",
+        "optional": true
+      }
+    ],
+    "promiseResult": "string"
+  },
+  {
+    "name": "executeIabPlaywrightLocator",
+    "parameters": [
+      {
+        "name": "view",
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "name": "action",
+        "type": "{ name: \"locator\"; selector: string; operation: \"fill\" | \"count\" | \"click\" | \"dblclick\" | \"innerText\" | \"getAttribute\" | \"textContent\" | \"evaluate\" | \"allTextContents\" | \"downloadMedia\" | \"isEnabled\" | \"isVisible\" | \"press\" | \"selectOption\" | \"setChecked\" | \"waitFor\"; value?: unknown; arg?: unknown; expression?: string | undefined; expressionKind?: \"string\" | \"function\" | undefined; attribute?: string | undefined; checked?: boolean | undefined; replace?: boolean | undefined; force?: boolean | undefined; button?: \"left\" | \"right\" | \"middle\" | undefined; modifiers?: BrowserPlaywrightModifier[] | undefined; state?: \"detached\" | \"hidden\" | \"visible\" | \"attached\" | undefined; selections?: { value?: string | undefined; label?: string | undefined; index?: number | undefined; }[] | undefined; } & Timeout",
+        "optional": false
+      },
+      {
+        "name": "timeoutMs",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "signal",
+        "type": "AbortSignal | undefined",
+        "optional": true
+      }
+    ],
+    "promiseResult": [
+      [
+        {
+          "name": "kind",
+          "optional": false,
+          "type": "\"cancelled\""
+        }
+      ],
+      [
+        {
+          "name": "kind",
+          "optional": false,
+          "type": "\"done\""
+        },
+        {
+          "name": "value",
+          "optional": true,
+          "type": "unknown"
+        }
+      ],
+      [
+        {
+          "name": "kind",
+          "optional": false,
+          "type": "\"timeout\""
+        },
+        {
+          "name": "reason",
+          "optional": false,
+          "type": "string"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "handlePlaywrightAction",
+    "parameters": [
+      {
+        "name": "view",
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "name": "action",
+        "type": "{ name: \"domSnapshot\"; } | { name: \"elementInfo\" | \"elementScreenshot\"; x: number; y: number; includeNonInteractable?: boolean | undefined; } | ({ name: \"evaluate\"; expression: string; expressionKind: \"string\" | \"function\"; arg?: unknown; } & Timeout) | ({ name: \"waitForURL\"; url: string; waitUntil?: \"load\" | \"domcontentloaded\" | \"networkidle\" | \"commit\" | undefined; } & Timeout) | ({ name: \"waitForLoadState\"; state?: \"load\" | \"domcontentloaded\" | \"networkidle\" | undefined; } & Timeout) | { name: \"waitForEvent\" | \"downloadPath\" | \"fileChooserSetFiles\"; } | ({ name: \"locator\"; selector: string; operation: \"fill\" | \"count\" | \"click\" | \"dblclick\" | \"innerText\" | \"getAttribute\" | \"textContent\" | \"evaluate\" | \"allTextContents\" | \"downloadMedia\" | \"isEnabled\" | \"isVisible\" | \"press\" | \"selectOption\" | \"setChecked\" | \"waitFor\"; value?: unknown; arg?: unknown; expression?: string | undefined; expressionKind?: \"string\" | \"function\" | undefined; attribute?: string | undefined; checked?: boolean | undefined; replace?: boolean | undefined; force?: boolean | undefined; button?: \"left\" | \"right\" | \"middle\" | undefined; modifiers?: BrowserPlaywrightModifier[] | undefined; state?: \"detached\" | \"hidden\" | \"visible\" | \"attached\" | undefined; selections?: { value?: string | undefined; label?: string | undefined; index?: number | undefined; }[] | undefined; } & Timeout)",
+        "optional": false
+      },
+      {
+        "name": "done",
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      },
+      {
+        "name": "signal",
+        "type": "AbortSignal | undefined",
+        "optional": true
+      }
+    ],
+    "promiseResult": "BrowserCommandResult"
+  }
+]

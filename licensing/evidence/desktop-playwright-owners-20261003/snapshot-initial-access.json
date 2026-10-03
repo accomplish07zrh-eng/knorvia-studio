@@ -1,0 +1,18 @@
+{
+  "owner": "snapshot",
+  "source": "browserPlaywrightDomSnapshot.ts",
+  "sha256": "4f81b4d088fbffd3ef2430529dece0dadc430c6b7da6a502f1d1723d8252d5d4",
+  "bytes": 12324,
+  "reads": [
+    "licensing/evidence/desktop-playwright-owners-20261003/common-author-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/snapshot-owner-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/public-view.d.ts"
+  ],
+  "accessExceptions": [],
+  "limitations": [
+    "Authored from the supplied behavior and API packet only; inherited source, tests, sibling outputs, repository history, and production files were not inspected.",
+    "The candidate was not installed, compiled, linted, tested, or run in a browser as required by the author isolation contract.",
+    "Exact compatibility of the opaque injected script's selector and visibility methods, and edge-case CDP timing/normalization behavior, remains unverified until curator comparison.",
+    "Model used was Sol high as assigned; Fast status was not independently verifiable."
+  ]
+}

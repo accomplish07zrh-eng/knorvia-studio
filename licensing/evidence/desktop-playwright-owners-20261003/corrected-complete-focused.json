@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/playwrightOwners.test.mjs"
+  ],
+  "stdout": "✔ snapshot: normalization, OOPIF session ownership and release survive cleanup rejection (78.209005ms)\n✔ locator: iframe fill token/paste and press authority precede trusted dispatch (66.700802ms)\n✔ locator: pending probe cancellation releases listeners and owned session; forced click preserves rejection (46.822186ms)\n✔ executor: same-reference routing, done identity and screenshot cleanup error precedence (19.748339ms)\n✔ executor: evaluate abort listener identity, preabort and URL commit/readiness semantics (13.128093ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 459.402925\n",
+  "stderr": "",
+  "exitCode": 0
+}

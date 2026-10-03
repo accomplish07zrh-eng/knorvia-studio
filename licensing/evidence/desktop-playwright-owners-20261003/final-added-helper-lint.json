@@ -1,0 +1,27 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-playwright-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "licensing/evidence/desktop-playwright-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/scoped-lint-config.json",
+      "sha256": "e5ca5035fa5319094bb9f116923ac83152a57cb8632cf72fbafcad417e5cd43a"
+    },
+    {
+      "path": "licensing/evidence/desktop-playwright-owners-20261003/final-bindings.mjs",
+      "sha256": "6d7b3d5358c269e8b57e0933e53a562c0c00eee1b0313eeb13be985b3b78d203"
+    }
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 17ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}
