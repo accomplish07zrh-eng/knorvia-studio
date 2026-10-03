@@ -170,6 +170,15 @@ export async function load(mode, owned) {
         files[name][kind] = bytes.toString();
       }
     }
+  } else if (mode === "sealedDraft") {
+    const bytes = fs.readFileSync(
+      path.join(repo, "docs/evidence/mcp-config-checks-20261003/sealed-draft-emission.json"),
+    );
+    assert.equal(hash(bytes), "584100c8a38a37b048b3ee3af41c344f46d6f79be3d52c652739f47eb9316c9d");
+    const result = JSON.parse(bytes);
+    assert.deepEqual(result.diagnostics, []);
+    assert.equal(result.apiEqual, true);
+    files = result.files;
   } else assert.equal(mode, "baseline");
   class OwnedClock extends Date {
     static now() {
