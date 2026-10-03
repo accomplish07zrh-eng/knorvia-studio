@@ -17,7 +17,9 @@ function editMatching(
   id: ToolCallId,
   edit: (call: ToolCallState) => void,
 ): ToolCallState[] {
-  const projected = new Array<ToolCallState>(calls.length);
+  // 只设置长度，沿用 forEach 跳过空槽的契约，避免 Array.from 把历史稀疏数组填密。
+  const projected: ToolCallState[] = [];
+  projected.length = calls.length;
   calls.forEach((call, index) => {
     if (call.id !== id) {
       projected[index] = call;
@@ -31,7 +33,8 @@ function editMatching(
 }
 
 export function scheduleToolCalls(calls: ToolCall[]): ToolCallState[] {
-  const projected = new Array<ToolCallState>(calls.length);
+  const projected: ToolCallState[] = [];
+  projected.length = calls.length;
   calls.forEach((call, index) => {
     projected[index] = {
       id: call.id as ToolCallId,
@@ -45,7 +48,8 @@ export function scheduleToolCalls(calls: ToolCall[]): ToolCallState[] {
 }
 
 export function beginToolCalls(calls: ToolCallState[]): ToolCallState[] {
-  const projected = new Array<ToolCallState>(calls.length);
+  const projected: ToolCallState[] = [];
+  projected.length = calls.length;
   calls.forEach((call, index) => {
     const waiting = call.status === TurnCallStatus.Waiting;
     const changed = { ...call };

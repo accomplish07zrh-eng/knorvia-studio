@@ -68,8 +68,10 @@ export function paneBindingMatchesSession(
   scope: PaneWorkspaceScope,
   sessionId: string,
 ): boolean {
-  return Boolean(binding?.sessionId === sessionId &&
-    paneWorkspaceKey(binding.workspaceScope) === paneWorkspaceKey(scope));
+  return Boolean(
+    binding?.sessionId === sessionId &&
+    paneWorkspaceKey(binding.workspaceScope) === paneWorkspaceKey(scope),
+  );
 }
 
 function* nodes(root: PaneLayoutNode): Generator<PaneLayoutNode> {
@@ -78,7 +80,10 @@ function* nodes(root: PaneLayoutNode): Generator<PaneLayoutNode> {
     const node = stack.pop()!();
     yield node;
     if (node.type === "split") {
-      stack.push(() => node.second, () => node.first);
+      stack.push(
+        () => node.second,
+        () => node.first,
+      );
     }
   }
 }
@@ -132,9 +137,12 @@ function editTree(root: PaneLayoutNode, edit: TreeEdit): PaneLayoutNode | null {
         frames.push({ node: node.second, phase: 0 });
       }
     } else if (node.type === "split") {
-      result = result === null ? node.first
-        : frame.first === node.first && result === node.second ? node
-        : { ...node, first: frame.first!, second: result };
+      result =
+        result === null
+          ? node.first
+          : frame.first === node.first && result === node.second
+            ? node
+            : { ...node, first: frame.first!, second: result };
       frames.pop();
     }
   }
@@ -145,7 +153,8 @@ function nextIds(root: PaneLayoutNode): { pane: string; split: string } {
   let pane = 0;
   let split = 0;
   for (const node of nodes(root)) {
-    const match = node.type === "leaf" ? /^pane-(\d+)$/.exec(node.paneId) : /^n(\d+)$/.exec(node.id);
+    const match =
+      node.type === "leaf" ? /^pane-(\d+)$/.exec(node.paneId) : /^n(\d+)$/.exec(node.id);
     if (!match) continue;
     if (node.type === "leaf") pane = Math.max(pane, Number(match[1]));
     else split = Math.max(split, Number(match[1]));
@@ -154,7 +163,13 @@ function nextIds(root: PaneLayoutNode): { pane: string; split: string } {
 }
 
 export type PaneLayoutCommand =
-  | { kind: "split"; anchor: string; direction: SplitDirection; before: boolean; binding: PaneBinding }
+  | {
+      kind: "split";
+      anchor: string;
+      direction: SplitDirection;
+      before: boolean;
+      binding: PaneBinding;
+    }
   | { kind: "close" | "focus" | "confirm"; paneId: string }
   | { kind: "bind"; paneId: string; sessionId: string }
   | { kind: "replace"; paneId: string; binding: PaneBinding }
@@ -172,60 +187,110 @@ export function applyPaneLayoutCommand(
       const oldLeaf: PaneLayoutNode = { type: "leaf", paneId: command.anchor };
       const added: PaneLayoutNode = { type: "leaf", paneId: ids.pane };
       const split: PaneLayoutNode = {
-        type: "split", id: ids.split, direction: command.direction, ratio: DEFAULT_SPLIT_RATIO,
+        type: "split",
+        id: ids.split,
+        direction: command.direction,
+        ratio: DEFAULT_SPLIT_RATIO,
         first: command.before ? added : oldLeaf,
         second: command.before ? oldLeaf : added,
       };
       const root = editTree(state.root, (node) =>
-        node.type === "leaf" && node.paneId === command.anchor ? split : undefined)!;
-      return { root, panes: { ...state.panes, [ids.pane]: command.binding }, focusedPaneId: ids.pane };
+        node.type === "leaf" && node.paneId === command.anchor ? split : undefined,
+      )!;
+      return {
+        root,
+        panes: { ...state.panes, [ids.pane]: command.binding },
+        focusedPaneId: ids.pane,
+      };
     }
     case "close": {
-      if (command.paneId === V4_PRIMARY_PANE_ID || !contains(state.root, command.paneId)) return state;
-      const root = editTree(state.root, (node) =>
-        node.type === "leaf" && node.paneId === command.paneId ? null : undefined) ?? PRIMARY_LEAF;
+      if (command.paneId === V4_PRIMARY_PANE_ID || !contains(state.root, command.paneId))
+        return state;
+      const root =
+        editTree(state.root, (node) =>
+          node.type === "leaf" && node.paneId === command.paneId ? null : undefined,
+        ) ?? PRIMARY_LEAF;
       const panes = { ...state.panes };
       delete panes[command.paneId];
-      return { root, panes,
-        focusedPaneId: state.focusedPaneId === command.paneId ? V4_PRIMARY_PANE_ID : state.focusedPaneId };
+      return {
+        root,
+        panes,
+        focusedPaneId:
+          state.focusedPaneId === command.paneId ? V4_PRIMARY_PANE_ID : state.focusedPaneId,
+      };
     }
     case "focus":
       return state.focusedPaneId === command.paneId || !contains(state.root, command.paneId)
-        ? state : { ...state, focusedPaneId: command.paneId };
+        ? state
+        : { ...state, focusedPaneId: command.paneId };
     case "ratio": {
       const ratio = clampSplitRatio(command.ratio);
-      const root = editTree(state.root, (node) => node.type === "split" && node.id === command.splitId
-        ? node.ratio === ratio ? node : { ...node, ratio } : undefined)!;
+      const root = editTree(state.root, (node) =>
+        node.type === "split" && node.id === command.splitId
+          ? node.ratio === ratio
+            ? node
+            : { ...node, ratio }
+          : undefined,
+      )!;
       return root === state.root ? state : { ...state, root };
     }
     case "replace":
       if (command.paneId === V4_PRIMARY_PANE_ID || !state.panes[command.paneId]) return state;
-      return { ...state, panes: { ...state.panes, [command.paneId]: command.binding },
-        focusedPaneId: command.paneId };
+      return {
+        ...state,
+        panes: { ...state.panes, [command.paneId]: command.binding },
+        focusedPaneId: command.paneId,
+      };
     case "bind":
     case "confirm": {
       const binding = state.panes[command.paneId];
       if (!binding) return state;
-      if (command.kind === "confirm" ? !binding.restoredUnvalidated
-        : binding.sessionId === command.sessionId && !binding.restoredUnvalidated) return state;
+      // 聚合 kind 的联合成员不能靠排除 confirm 收窄；只有 bind 契约携带 sessionId。
+      if (
+        command.kind === "bind"
+          ? binding.sessionId === command.sessionId && !binding.restoredUnvalidated
+          : !binding.restoredUnvalidated
+      )
+        return state;
       const sessionId = command.kind === "bind" ? command.sessionId : binding.sessionId;
-      return { ...state, panes: { ...state.panes,
-        [command.paneId]: { workspaceScope: binding.workspaceScope, sessionId } } };
+      return {
+        ...state,
+        panes: {
+          ...state.panes,
+          [command.paneId]: { workspaceScope: binding.workspaceScope, sessionId },
+        },
+      };
     }
   }
 }
 
 export function splitPaneAt(
-  state: PaneLayoutSnapshot, anchorPaneId: string, direction: SplitDirection, binding: PaneBinding,
+  state: PaneLayoutSnapshot,
+  anchorPaneId: string,
+  direction: SplitDirection,
+  binding: PaneBinding,
 ): PaneLayoutSnapshot {
-  return applyPaneLayoutCommand(state, { kind: "split", anchor: anchorPaneId, direction, before: false, binding });
+  return applyPaneLayoutCommand(state, {
+    kind: "split",
+    anchor: anchorPaneId,
+    direction,
+    before: false,
+    binding,
+  });
 }
 export function splitPaneAtSide(
-  state: PaneLayoutSnapshot, anchorPaneId: string, side: PaneSplitSide, binding: PaneBinding,
+  state: PaneLayoutSnapshot,
+  anchorPaneId: string,
+  side: PaneSplitSide,
+  binding: PaneBinding,
 ): PaneLayoutSnapshot {
-  return applyPaneLayoutCommand(state, { kind: "split", anchor: anchorPaneId, binding,
+  return applyPaneLayoutCommand(state, {
+    kind: "split",
+    anchor: anchorPaneId,
+    binding,
     direction: side === "left" || side === "right" ? "row" : "column",
-    before: side === "left" || side === "up" });
+    before: side === "left" || side === "up",
+  });
 }
 export function closePane(state: PaneLayoutSnapshot, paneId: string): PaneLayoutSnapshot {
   return applyPaneLayoutCommand(state, { kind: "close", paneId });
@@ -233,28 +298,55 @@ export function closePane(state: PaneLayoutSnapshot, paneId: string): PaneLayout
 export function focusPane(state: PaneLayoutSnapshot, paneId: string): PaneLayoutSnapshot {
   return applyPaneLayoutCommand(state, { kind: "focus", paneId });
 }
-export function bindPaneSession(state: PaneLayoutSnapshot, paneId: string, sessionId: string): PaneLayoutSnapshot {
+export function bindPaneSession(
+  state: PaneLayoutSnapshot,
+  paneId: string,
+  sessionId: string,
+): PaneLayoutSnapshot {
   return applyPaneLayoutCommand(state, { kind: "bind", paneId, sessionId });
 }
-export function confirmRestoredPaneSession(state: PaneLayoutSnapshot, paneId: string): PaneLayoutSnapshot {
+export function confirmRestoredPaneSession(
+  state: PaneLayoutSnapshot,
+  paneId: string,
+): PaneLayoutSnapshot {
   return applyPaneLayoutCommand(state, { kind: "confirm", paneId });
 }
-export function replacePaneBinding(state: PaneLayoutSnapshot, paneId: string, binding: PaneBinding): PaneLayoutSnapshot {
+export function replacePaneBinding(
+  state: PaneLayoutSnapshot,
+  paneId: string,
+  binding: PaneBinding,
+): PaneLayoutSnapshot {
   return applyPaneLayoutCommand(state, { kind: "replace", paneId, binding });
 }
-export function setSplitNodeRatio(state: PaneLayoutSnapshot, splitId: string, ratio: number): PaneLayoutSnapshot {
+export function setSplitNodeRatio(
+  state: PaneLayoutSnapshot,
+  splitId: string,
+  ratio: number,
+): PaneLayoutSnapshot {
   return applyPaneLayoutCommand(state, { kind: "ratio", splitId, ratio });
 }
-export function findPaneIdForSession(state: PaneLayoutSnapshot, scope: PaneWorkspaceScope, sessionId: string): string | null {
+export function findPaneIdForSession(
+  state: PaneLayoutSnapshot,
+  scope: PaneWorkspaceScope,
+  sessionId: string,
+): string | null {
   for (const [id, binding] of Object.entries(state.panes)) {
     if (paneBindingMatchesSession(binding, scope, sessionId)) return id;
   }
   return null;
 }
-export function openSessionInNewPane(state: PaneLayoutSnapshot, scope: PaneWorkspaceScope, sessionId: string): PaneLayoutSnapshot {
+export function openSessionInNewPane(
+  state: PaneLayoutSnapshot,
+  scope: PaneWorkspaceScope,
+  sessionId: string,
+): PaneLayoutSnapshot {
   const key = paneWorkspaceKey(scope);
   for (const [id, binding] of Object.entries(state.panes)) {
-    if (binding.sessionId === sessionId && paneWorkspaceKey(binding.workspaceScope) === key) return focusPane(state, id);
+    if (binding.sessionId === sessionId && paneWorkspaceKey(binding.workspaceScope) === key)
+      return focusPane(state, id);
   }
-  return splitPaneAt(state, effectiveFocusedPaneId(state), "row", { workspaceScope: scope, sessionId });
+  return splitPaneAt(state, effectiveFocusedPaneId(state), "row", {
+    workspaceScope: scope,
+    sessionId,
+  });
 }

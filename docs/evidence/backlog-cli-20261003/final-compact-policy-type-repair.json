@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "receivedCheckpoint": "4893d82b5541b7782dab5c022e45234089f26546",
+  "branch": "lane/cli-rewrite-20261003",
+  "codeDeliveryCommit": "942ae9f151eb4982a8debbd80818ec7e0cad1bc4",
+  "scope": {
+    "onlyProductionPath": "apps/cli/packages/core/src/compact/policy.ts",
+    "authorization": "Parent explicitly transferred this exact compact policy file after receiving 4893d82; no concurrent integrator owner write requested.",
+    "otherProductionFilesChanged": false,
+    "sharedContractsRootConfigLicencesChanged": false
+  },
+  "repair": "Common fields are checked directly against Omit<AutoCompactDecision, \"shouldCompact\" | \"reason\">. Existing estimate/provider_usage literal union, optional metrics, branch priority and IO/state boundaries remain unchanged. No any, assertion or ignore directive added.",
+  "sourceBinding": {
+    "path": "apps/cli/packages/core/src/compact/policy.ts",
+    "beforeSha256": "7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03",
+    "afterSha256": "60ced1f6d70042b41936a221687c62af8b7485e6b3e170b1b8156aca062b0792"
+  },
+  "regressionBinding": {
+    "path": "docs/evidence/backlog-cli-20261003/final-compact-policy-contract.mjs",
+    "sha256": "ec00238db4fca7e7a0c7efb49d84981e78623eb1c10b65855b1938d04a7488cf"
+  },
+  "checks": [
+    {
+      "id": "core-typecheck-before",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit -p apps/cli/packages/core",
+      "observedExitCode": 2,
+      "scope": "Core project before repair; exactly five compact/policy TS2322 diagnostics",
+      "outputSha256": "51044e191d7d26a6fe6756bcbbb565dd14c8cdd771c1edd9b709b4a15a6faede",
+      "output": "apps/cli/packages/core/src/compact/policy.ts(139,5): error TS2322: Type '{ shouldCompact: false; reason: \"disabled\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; providerCacheWriteTokens: number | undefined; ... 10 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\n  Types of property 'tokenSource' are incompatible.\n    Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core/src/compact/policy.ts(142,5): error TS2322: Type '{ shouldCompact: false; reason: \"not_enough_messages\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; ... 11 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\n  Types of property 'tokenSource' are incompatible.\n    Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core/src/compact/policy.ts(148,5): error TS2322: Type '{ shouldCompact: false; reason: \"circuit_breaker\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; ... 11 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\n  Types of property 'tokenSource' are incompatible.\n    Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core/src/compact/policy.ts(151,5): error TS2322: Type '{ shouldCompact: false; reason: \"below_threshold\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; ... 11 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\n  Types of property 'tokenSource' are incompatible.\n    Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core/src/compact/policy.ts(153,3): error TS2322: Type '{ shouldCompact: true; reason: \"above_threshold\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; providerCacheWriteTokens: number | undefined; ... 10 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\n  Types of property 'tokenSource' are incompatible.\n    Type 'string' is not assignable to type 'AutoCompactTokenSource'.\n"
+    },
+    {
+      "id": "compact-regression-before",
+      "command": "node(24.14.0) --import tsx --test docs/evidence/backlog-cli-20261003/final-compact-policy-contract.mjs",
+      "observedExitCode": 0,
+      "scope": "5 policy cases, each checking estimate and provider_usage; establishes unchanged baseline behavior",
+      "outputSha256": "41572a1a5b5a3f7f3378773fd111d71696902fa48d77e631b3684e5ca3a8790b",
+      "output": "✔ disabled retains both token source alternatives and provider metrics (1.392997ms)\n✔ not_enough_messages retains both token source alternatives and provider metrics (0.317734ms)\n✔ circuit_breaker retains both token source alternatives and provider metrics (0.239167ms)\n✔ below_threshold retains both token source alternatives and provider metrics (0.121752ms)\n✔ above_threshold retains both token source alternatives and provider metrics (0.141531ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 678.128742\n"
+    },
+    {
+      "id": "core-typecheck-after",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit -p apps/cli/packages/core",
+      "observedExitCode": 0,
+      "scope": "Entire configured core source project; does not cover complete CLI/root graph",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": ""
+    },
+    {
+      "id": "compact-regression-after",
+      "command": "node(24.14.0) --import tsx --test docs/evidence/backlog-cli-20261003/final-compact-policy-contract.mjs",
+      "observedExitCode": 0,
+      "scope": "Same 5 policy cases / 10 source-branch combinations after repair; no runtime/provider/storage IO",
+      "outputSha256": "1fcfe6140442c64887c4f5cff5ebc1b2587d8e39db31c7beabfd95a7a750264b",
+      "output": "✔ disabled retains both token source alternatives and provider metrics (1.400127ms)\n✔ not_enough_messages retains both token source alternatives and provider metrics (0.206298ms)\n✔ circuit_breaker retains both token source alternatives and provider metrics (0.22149ms)\n✔ below_threshold retains both token source alternatives and provider metrics (0.121541ms)\n✔ above_threshold retains both token source alternatives and provider metrics (0.116734ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 995.133062\n"
+    }
+  ],
+  "singleFileEmittedEquality": {
+    "base": "4893d82b5541b7782dab5c022e45234089f26546",
+    "path": "apps/cli/packages/core/src/compact/policy.ts",
+    "typescript": "5.9.3",
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "ESNext",
+      "removeComments": true,
+      "sourceMap": false
+    },
+    "sameEmittedJavaScript": true,
+    "emittedSha256": "9dae8e908e975fa9a75e9c2fdf65d84ff1735bc3d0ef28af252898647e45ef09",
+    "note": "Single-file transpile equality; does not replace core project typecheck or complete runtime consumer/build acceptance."
+  },
+  "previousCompactTypeBlockerResolved": true,
+  "notRun": "No full CLI/root typecheck, build, lint, formatting, audit or unrelated suite rerun in this follow-up; prior snapshot evidence and failures remain unchanged.",
+  "remaining": "Integrator continues whole CLI/consumer/root validation and current-input binding refresh. This follow-up clears the specific five core diagnostics, not all acceptance/rights obligations. No new PR/main merge or MIT/independence acceptance."
+}

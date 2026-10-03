@@ -1,6 +1,12 @@
 import {
-  memo, useCallback, useEffect, useRef, useState, type CSSProperties,
-  type PointerEvent as ReactPointerEvent, type RefObject,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type RefObject,
 } from "react";
 import { TID_V4_SPLIT_DIVIDER } from "@knorvia/shared";
 import { cn } from "@/components/lib/utils.js";
@@ -30,21 +36,36 @@ type Drag = {
   ready: boolean;
   frame: Frame | null;
 };
-function sameTarget(left: Inputs, right: Pick<Inputs, "containerRef" | "splitId" | "direction">): boolean {
-  return left.containerRef === right.containerRef && left.splitId === right.splitId && left.direction === right.direction;
+function sameTarget(
+  left: Inputs,
+  right: Pick<Inputs, "containerRef" | "splitId" | "direction">,
+): boolean {
+  return (
+    left.containerRef === right.containerRef &&
+    left.splitId === right.splitId &&
+    left.direction === right.direction
+  );
 }
 function dragRatio(drag: Drag): number {
-  return drag.regionPx <= 0 ? drag.startRatio
+  return drag.regionPx <= 0
+    ? drag.startRatio
     : clampSplitRatio(drag.startRatio + (drag.latestClient - drag.startClient) / drag.regionPx);
 }
 
 class SplitDividerGesture {
   private active: Drag | null = null;
   private operation = 0;
-  constructor(private read: () => Inputs, private present: (dragging: boolean) => void) {}
-  get dragging(): boolean { return this.active !== null; }
+  constructor(
+    private read: () => Inputs,
+    private present: (dragging: boolean) => void,
+  ) {}
+  get dragging(): boolean {
+    return this.active !== null;
+  }
   private matches(drag: Drag): boolean {
-    return sameTarget(drag.inputs, this.read()) && drag.inputs.containerRef.current === drag.container;
+    return (
+      sameTarget(drag.inputs, this.read()) && drag.inputs.containerRef.current === drag.container
+    );
   }
   private cancelFrame(drag: Drag): void {
     const frame = drag.frame;
@@ -66,13 +87,25 @@ class SplitDividerGesture {
     const admission = this.operation + 1;
     this.cancel();
     if (admission !== this.operation) return;
-    const drag: Drag = { pointerId: event.pointerId, inputs, container, regionPx: 0,
-      startClient: 0, startRatio: inputs.ratio, latestClient: 0, ready: false, frame: null };
+    const drag: Drag = {
+      pointerId: event.pointerId,
+      inputs,
+      container,
+      regionPx: 0,
+      startClient: 0,
+      startRatio: inputs.ratio,
+      latestClient: 0,
+      ready: false,
+      frame: null,
+    };
     this.active = drag;
     event.preventDefault();
     if (this.active !== drag || !this.matches(drag)) return;
-    try { event.currentTarget.setPointerCapture(event.pointerId); }
-    catch { /* 保留合成 PointerEvent 无 active pointer 时的可失败 capture。 */ }
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      /* 保留合成 PointerEvent 无 active pointer 时的可失败 capture。 */
+    }
     if (this.active !== drag || !this.matches(drag)) return;
     const rect = container.getBoundingClientRect();
     if (this.active !== drag || !this.matches(drag)) return;
@@ -110,7 +143,10 @@ class SplitDividerGesture {
           this.present(this.dragging);
           return;
         }
-        drag.container.style.setProperty(`${SPLIT_VAR_PREFIX}${drag.inputs.splitId}`, String(dragRatio(drag)));
+        drag.container.style.setProperty(
+          `${SPLIT_VAR_PREFIX}${drag.inputs.splitId}`,
+          String(dragRatio(drag)),
+        );
       });
       // frame 在申请前准入；同步 port 重入或 inline frame 不留下可覆写新 gesture 的旧 handle。
       if (this.active === drag && drag.frame === frame) frame.id = id;
@@ -134,18 +170,33 @@ class SplitDividerGesture {
     const completion = ++this.operation;
     this.present(false);
     // up/cancel 仍提交；外部 callback 前已释放旧票据，同步新 gesture 不被旧 end 清掉。
-    if (completion === this.operation && sameTarget(inputs, this.read())) inputs.onCommitRatio(inputs.splitId, ratio);
+    if (completion === this.operation && sameTarget(inputs, this.read()))
+      inputs.onCommitRatio(inputs.splitId, ratio);
   }
 }
 
 export const WorkbenchSplitDivider = memo(function WorkbenchSplitDivider({
-  containerRef, splitId, direction, ratio, regionFraction, style, onCommitRatio,
+  containerRef,
+  splitId,
+  direction,
+  ratio,
+  regionFraction,
+  style,
+  onCommitRatio,
 }: WorkbenchSplitDividerProps) {
   const [dragging, setDragging] = useState(false);
-  const inputs = useRef<Inputs>({ containerRef, splitId, direction, ratio, regionFraction, onCommitRatio });
+  const inputs = useRef<Inputs>({
+    containerRef,
+    splitId,
+    direction,
+    ratio,
+    regionFraction,
+    onCommitRatio,
+  });
   inputs.current = { containerRef, splitId, direction, ratio, regionFraction, onCommitRatio };
   const gestureRef = useRef<SplitDividerGesture | null>(null);
-  if (gestureRef.current === null) gestureRef.current = new SplitDividerGesture(() => inputs.current, setDragging);
+  if (gestureRef.current === null)
+    gestureRef.current = new SplitDividerGesture(() => inputs.current, setDragging);
   const gesture = gestureRef.current;
   const isRow = direction === "row";
   const handlePointerDown = useCallback((event: Pointer) => gesture.start(event), [gesture]);

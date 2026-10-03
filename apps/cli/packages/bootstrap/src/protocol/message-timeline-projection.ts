@@ -33,33 +33,82 @@ export const TIMELINE_FIELDS: RecordRecipe<
   StoredTimeline,
   Omit<PublicTimeline, "messageId" | "partId" | "sessionId">
 > = [
-  ["anchorMessageId", (part) => part.anchorMessageId ? String(part.anchorMessageId) : undefined],
-  ["anchorTurnId", (part) => part.anchorTurnId ? String(part.anchorTurnId) : undefined],
-  ["attempt", (part) => part.timelineType === "context_compaction" ? part.attempt : undefined],
-  ["boundaryId", (part) => part.timelineType === "context_compaction" ? part.boundaryId : undefined],
-  ["compactReason", (part) => part.timelineType === "context_compaction" ? part.compactReason : undefined],
+  ["anchorMessageId", (part) => (part.anchorMessageId ? String(part.anchorMessageId) : undefined)],
+  ["anchorTurnId", (part) => (part.anchorTurnId ? String(part.anchorTurnId) : undefined)],
+  ["attempt", (part) => (part.timelineType === "context_compaction" ? part.attempt : undefined)],
+  [
+    "boundaryId",
+    (part) => (part.timelineType === "context_compaction" ? part.boundaryId : undefined),
+  ],
+  [
+    "compactReason",
+    (part) => (part.timelineType === "context_compaction" ? part.compactReason : undefined),
+  ],
   ["display", (part) => part.display],
-  ["fromModel", (part) => part.timelineType === "model_change" ? part.fromModel : undefined],
-  ["goalIteration", (part) => part.timelineType === "goal_verification" ? part.goalIteration : undefined],
-  ["maxAttempts", (part) => part.timelineType === "context_compaction" ? part.maxAttempts : undefined],
-  ["operationId", (part) => part.timelineType === "context_compaction" ? part.operationId : undefined],
-  ["parentSessionId", (part) => part.timelineType === "session_fork" ? String(part.parentSessionId) : undefined],
-  ["phase", (part) => part.timelineType === "context_compaction" ? part.phase : undefined],
-  ["postCompactTokenCount", (part) => part.timelineType === "context_compaction" ? part.postCompactTokenCount : undefined],
-  ["preCompactTokenCount", (part) => part.timelineType === "context_compaction" ? part.preCompactTokenCount : undefined],
-  ["reason", (part) => part.timelineType === "context_compaction" ? part.reason : undefined],
-  ["restoredFileCount", (part) => part.timelineType === "session_fork" ? part.restoredFileCount : undefined],
+  ["fromModel", (part) => (part.timelineType === "model_change" ? part.fromModel : undefined)],
+  [
+    "goalIteration",
+    (part) => (part.timelineType === "goal_verification" ? part.goalIteration : undefined),
+  ],
+  [
+    "maxAttempts",
+    (part) => (part.timelineType === "context_compaction" ? part.maxAttempts : undefined),
+  ],
+  [
+    "operationId",
+    (part) => (part.timelineType === "context_compaction" ? part.operationId : undefined),
+  ],
+  [
+    "parentSessionId",
+    (part) => (part.timelineType === "session_fork" ? String(part.parentSessionId) : undefined),
+  ],
+  ["phase", (part) => (part.timelineType === "context_compaction" ? part.phase : undefined)],
+  [
+    "postCompactTokenCount",
+    (part) => (part.timelineType === "context_compaction" ? part.postCompactTokenCount : undefined),
+  ],
+  [
+    "preCompactTokenCount",
+    (part) => (part.timelineType === "context_compaction" ? part.preCompactTokenCount : undefined),
+  ],
+  ["reason", (part) => (part.timelineType === "context_compaction" ? part.reason : undefined)],
+  [
+    "restoredFileCount",
+    (part) => (part.timelineType === "session_fork" ? part.restoredFileCount : undefined),
+  ],
   ["status", (part) => part.status],
-  ["summaryMessageId", (part) => part.timelineType === "context_compaction" && part.summaryMessageId ? String(part.summaryMessageId) : undefined],
-  ["targetCheckpointId", (part) => part.timelineType === "session_fork" ? part.targetCheckpointId : undefined],
-  ["targetId", (part) => part.timelineType === "goal_verification" ? part.targetId : undefined],
-  ["targetMessageId", (part) => part.timelineType === "session_fork" ? String(part.targetMessageId) : undefined],
+  [
+    "summaryMessageId",
+    (part) =>
+      part.timelineType === "context_compaction" && part.summaryMessageId
+        ? String(part.summaryMessageId)
+        : undefined,
+  ],
+  [
+    "targetCheckpointId",
+    (part) => (part.timelineType === "session_fork" ? part.targetCheckpointId : undefined),
+  ],
+  ["targetId", (part) => (part.timelineType === "goal_verification" ? part.targetId : undefined)],
+  [
+    "targetMessageId",
+    (part) => (part.timelineType === "session_fork" ? String(part.targetMessageId) : undefined),
+  ],
   ["time", (part) => part.time],
   ["timelineType", (part) => part.timelineType],
-  ["toModel", (part) => part.timelineType === "model_change" ? part.toModel : undefined],
-  ["trigger", (part) => part.timelineType === "context_compaction" ? part.trigger : undefined],
-  ["truePostCompactTokenCount", (part) => part.timelineType === "context_compaction" ? part.truePostCompactTokenCount : undefined],
+  ["toModel", (part) => (part.timelineType === "model_change" ? part.toModel : undefined)],
+  ["trigger", (part) => (part.timelineType === "context_compaction" ? part.trigger : undefined)],
+  [
+    "truePostCompactTokenCount",
+    (part) =>
+      part.timelineType === "context_compaction" ? part.truePostCompactTokenCount : undefined,
+  ],
   ["type", () => "timeline"],
-  ["verification", (part) => part.timelineType === "goal_verification" ? part.verification : undefined],
-  ["verificationId", (part) => part.timelineType === "goal_verification" ? part.verificationId : undefined],
+  [
+    "verification",
+    (part) => (part.timelineType === "goal_verification" ? part.verification : undefined),
+  ],
+  [
+    "verificationId",
+    (part) => (part.timelineType === "goal_verification" ? part.verificationId : undefined),
+  ],
 ];

@@ -16,9 +16,7 @@ type Reply =
   | { kind: "invalid"; violations: Violation[] }
   | { kind: "missing"; finalText: string };
 
-type Candidate =
-  | { valid: true; value: unknown }
-  | { valid: false; violations: Violation[] };
+type Candidate = { valid: true; value: unknown } | { valid: false; violations: Violation[] };
 
 function submissionCandidate(host: SchedulerHost, schema: unknown, payload: unknown): Candidate {
   const initial = host.validate(schema, payload);
@@ -43,7 +41,12 @@ function deliver(seam: SubmitSeam, node: AskNode, instance: InstanceRef, reply: 
       return;
     case "repair":
       seam.host.driver.respondToSubmit(instance, { kind: "reject", violations: reply.violations });
-      seam.host.record({ type: "node-repairing", instance, attempt: reply.attempt, violations: reply.violations });
+      seam.host.record({
+        type: "node-repairing",
+        instance,
+        attempt: reply.attempt,
+        violations: reply.violations,
+      });
       return;
     case "nudge":
       seam.host.driver.respondToSubmit(instance, { kind: "nudge" });
@@ -54,13 +57,26 @@ function deliver(seam: SubmitSeam, node: AskNode, instance: InstanceRef, reply: 
       break;
   }
   seam.host.driver.cancelAsk(instance);
-  const error = reply.kind === "invalid"
-    ? new WorkflowError("ValidationFailed", "submit_result failed schema validation repeatedly and the repair budget is exhausted.", { violations: reply.violations })
-    : new WorkflowError("ResultNotSubmitted", "The typed ask ended without a submit_result call, so there is no result.", { finalText: reply.finalText });
+  const error =
+    reply.kind === "invalid"
+      ? new WorkflowError(
+          "ValidationFailed",
+          "submit_result failed schema validation repeatedly and the repair budget is exhausted.",
+          { violations: reply.violations },
+        )
+      : new WorkflowError(
+          "ResultNotSubmitted",
+          "The typed ask ended without a submit_result call, so there is no result.",
+          { finalText: reply.finalText },
+        );
   seam.settleFailed(node, error);
 }
 
-export function handleSubmitAttempted(seam: SubmitSeam, instance: InstanceRef, payload: unknown): void {
+export function handleSubmitAttempted(
+  seam: SubmitSeam,
+  instance: InstanceRef,
+  payload: unknown,
+): void {
   const node = seam.liveNode(instance);
   if (node === undefined || node.settled || !node.spec.typed) return;
   const candidate = submissionCandidate(seam.host, node.spec.schema, payload);
@@ -68,7 +84,11 @@ export function handleSubmitAttempted(seam: SubmitSeam, instance: InstanceRef, p
   if (candidate.valid) reply = { kind: "accept", value: candidate.value };
   else if (node.repairsRemaining > 0) {
     node.repairsRemaining -= 1;
-    reply = { kind: "repair", violations: candidate.violations, attempt: REPAIR_ATTEMPTS - node.repairsRemaining };
+    reply = {
+      kind: "repair",
+      violations: candidate.violations,
+      attempt: REPAIR_ATTEMPTS - node.repairsRemaining,
+    };
   } else reply = { kind: "invalid", violations: candidate.violations };
   deliver(seam, node, instance, reply);
 }

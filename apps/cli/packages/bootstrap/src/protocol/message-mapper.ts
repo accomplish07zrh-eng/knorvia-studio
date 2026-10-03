@@ -9,7 +9,8 @@ export function mapMessageWithParts(message: MessageWithParts): KnorviaMessageWi
   const visible: MessagePart[] = [];
   // 完整选择必须先于字段投影：隐藏工具不读 id/state，后续 visibility 错误先于投影错误。
   message.parts.forEach((part) => {
-    if (part.type === "tool" && shouldHideInvalidToolCallFromProduct(part.tool, part.metadata)) return;
+    if (part.type === "tool" && shouldHideInvalidToolCallFromProduct(part.tool, part.metadata))
+      return;
     visible.push(part);
   });
   return {
