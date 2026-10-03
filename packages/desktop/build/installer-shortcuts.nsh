@@ -42,9 +42,17 @@
         ${NSD_SetState} $KnorviaDesktopShortcutControl ${BST_UNCHECKED}
         EnableWindow $KnorviaDesktopShortcutControl 0
       ${endif}
+      !ifdef DO_NOT_CREATE_DESKTOP_SHORTCUT
+        ${NSD_SetState} $KnorviaDesktopShortcutControl ${BST_UNCHECKED}
+        EnableWindow $KnorviaDesktopShortcutControl 0
+      !endif
       ${NSD_CreateCheckbox} 0u 80u 300u 16u "$(KnorviaStartMenuShortcutText)"
       Pop $KnorviaStartMenuShortcutControl
       ${NSD_SetState} $KnorviaStartMenuShortcutControl $KnorviaStartMenuShortcutChoice
+      !ifdef DO_NOT_CREATE_START_MENU_SHORTCUT
+        ${NSD_SetState} $KnorviaStartMenuShortcutControl ${BST_UNCHECKED}
+        EnableWindow $KnorviaStartMenuShortcutControl 0
+      !endif
       nsDialogs::Show
       Return
 

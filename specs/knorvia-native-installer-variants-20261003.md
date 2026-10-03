@@ -39,13 +39,24 @@ Use the existing assisted NSIS wizard: branded welcome, per-user/all-users mode,
 installation-directory choice, existing unsafe-directory guard, shortcut options,
 visible installation stages and finish-page launch of the installed executable.
 New installations allow separate desktop and Start menu checkbox choices, both
-checked by default. Honor the existing `--no-desktop-shortcut` flag. Silent
+checked by default. Honor the existing `--no-desktop-shortcut` flag and disable
+choices forbidden by either build-time shortcut option. Silent
 installation uses current defaults/flags. Auto-update and reinstall into an
 existing executable directory skip the new options page and retain the current
 KeepShortcuts/pinned-link behavior, including preserving user-deleted links.
 Explicitly configure `deleteAppDataOnUninstall: false` and `runAfterFinish: true`.
 No data-removal checkbox, new migration or data reset is introduced. Existing
 ownership-manifest upgrade cleanup, diagnostics and stale-shortcut repair remain.
+The inspected baseline's ordinary uninstall still recursively deletes `$INSTDIR`.
+Do not retain that destructive path: ordinary uninstall must use the same owned
+program-file manifest, then remove only empty parent directories and its own
+manifest/uninstaller. Nonempty user data directories and unrelated files remain,
+including profiles deliberately located inside the installation tree. Upgrade
+keeps its existing missing-manifest preservation behavior; ordinary uninstall
+without a readable ownership manifest aborts before deleting any program/data
+file and requests reinstall to restore the manifest. Explicit external AppData
+cleanup stays disabled by default. This does not alter database migrations or
+add a data-management owner to NSIS.
 Adopt UI PR28's concise welcome/finish copy and installation title/subtitle. The
 welcome describes confirming installation scope, folder and shortcuts; it does
 not promise the next page is already the directory page, because the existing
@@ -111,6 +122,14 @@ current verification deferral overrides repository check instructions. Source
 reads, bounded architecture context, change diff and commit metadata inspection
 are allowed. Mark this batch unverified even though the earlier Linux packet
 passed its separately authorized product checks.
+Add an explicit Windows-only cleanup acceptance module and a tiny NSIS fixture
+that compiles/invokes the actual production `customRemoveFiles` macro against
+owned temporary directories. Cover ordinary/update cleanup and missing manifests,
+hash all synthetic data before/after, and retain unrelated files and nonempty
+directories. This is a cleanup-macro fixture, not wizard/UAC/real-package proof;
+its injected update flag and installer function prefix are explicit test ports.
+It refuses Linux and a missing compiler instead of presenting simulated Windows
+results. It is excluded from the general offline unit glob and remains unrun.
 
 Integration must build both variants in native Windows/Linux runners, inspect
 marker presence/absence and actual archive metadata, run Windows wizard/UAC/
