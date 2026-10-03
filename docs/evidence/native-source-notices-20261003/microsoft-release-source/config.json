@@ -1,0 +1,7 @@
+{
+    "ripgrepRepo": "BurntSushi/ripgrep",
+    "ripgrepTag": "14.1.1",
+    "patches": [
+        "0001-resolve-binskim-issues.patch"
+    ]
+}

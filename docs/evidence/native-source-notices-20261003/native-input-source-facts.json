@@ -1,0 +1,217 @@
+{
+  "mainInput": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "upstreamReleaseCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+  "archives": [
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+      "sha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+      "bytes": 1868214,
+      "assetId": 297624667,
+      "assetCreatedAt": "2025-09-26T18:05:14Z",
+      "assetUpdatedAt": "2025-09-26T18:05:14Z",
+      "publisherDigest": "sha256:88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+      "publisherSize": 1868214,
+      "releaseURL": "https://github.com/microsoft/ripgrep-prebuilt/releases/tag/v14.1.1-1",
+      "downloadURL": "https://github.com/microsoft/ripgrep-prebuilt/releases/download/v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+      "member": "rg.exe",
+      "executableSha256": "6545d832a57164e54405f019cf6861c397920aa1d6cc4569bfd85441f79ea043",
+      "executableBytes": 4840960,
+      "peMachine": "0xaa64",
+      "importedDLLs": [
+        "api-ms-win-core-synch-l1-2-0.dll",
+        "bcryptprimitives.dll",
+        "kernel32.dll",
+        "userenv.dll",
+        "ntdll.dll"
+      ],
+      "embeddedRustRevisions": [
+        "6a6eaca656978778f7c1c750ee0c3db87f8bffb2"
+      ],
+      "embeddedRustSourcePaths": [
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\boxed.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\map\\entry.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\navigate.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\node.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\raw_vec\\mod.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\slice.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\string.rs/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\iter\\traits\\iterator.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\vec\\mod.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\io\\borrowed_buf.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\ops\\function.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\str\\pattern.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\time.rs"
+      ],
+      "pcre2VersionStringPresent": true,
+      "execution": "Not executed; ZIP/member bytes and PE metadata read only"
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+      "sha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+      "bytes": 2008214,
+      "assetId": 297624693,
+      "assetCreatedAt": "2025-09-26T18:05:21Z",
+      "assetUpdatedAt": "2025-09-26T18:05:22Z",
+      "publisherDigest": "sha256:ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+      "publisherSize": 2008214,
+      "releaseURL": "https://github.com/microsoft/ripgrep-prebuilt/releases/tag/v14.1.1-1",
+      "downloadURL": "https://github.com/microsoft/ripgrep-prebuilt/releases/download/v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+      "member": "rg.exe",
+      "executableSha256": "57aec5102a212204920d089562d9dbcaa438e9f2222d9a370d439622441b64f0",
+      "executableBytes": 5388800,
+      "peMachine": "0x8664",
+      "importedDLLs": [
+        "api-ms-win-core-synch-l1-2-0.dll",
+        "bcryptprimitives.dll",
+        "kernel32.dll",
+        "userenv.dll",
+        "ntdll.dll"
+      ],
+      "embeddedRustRevisions": [
+        "6a6eaca656978778f7c1c750ee0c3db87f8bffb2"
+      ],
+      "embeddedRustSourcePaths": [
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\boxed.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\map\\entry.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\navigate.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\node.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\raw_vec\\mod.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\slice.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\string.rs/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\iter\\traits\\iterator.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\vec\\mod.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\io\\borrowed_buf.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\ops\\function.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\str\\pattern.rs",
+        "/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\core\\src\\time.rs"
+      ],
+      "pcre2VersionStringPresent": true,
+      "execution": "Not executed; ZIP/member bytes and PE metadata read only"
+    }
+  ],
+  "retrievals": [
+    {
+      "url": "https://api.github.com/repos/microsoft/ripgrep-prebuilt/releases/tags/v14.1.1-1",
+      "at": "2026-10-03T10:45:56.015219+00:00",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/microsoft/ripgrep-prebuilt/releases/tags/v14.1.1-1",
+      "bytes": 22720,
+      "sha256": "2928b565b7178e97f4bfbb078dc91eef1c43e7a1bef0d55e8601ec1a6ab82d49",
+      "file": "microsoft-release.json"
+    },
+    {
+      "url": "https://api.github.com/repos/rust-lang/rust/commits/6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "at": "2026-10-03T10:45:56.431662+00:00",
+      "status": 422,
+      "bytes": 174,
+      "sha256": "8992b97cf6a48af200f243f2c97486a662b1e2a1a5edf51d9f24f48a829e1e00",
+      "file": "rust-source-commit-query.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/6a6eaca656978778f7c1c750ee0c3db87f8bffb2/COPYRIGHT",
+      "at": "2026-10-03T10:45:56.748110+00:00",
+      "status": 404,
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "file": "rust-source-copyright-response.txt"
+    },
+    {
+      "url": "https://pkgs.dev.azure.com/monacotools/Monaco/_packaging/RustTools/nuget/v3/index.json",
+      "at": "2026-10-03T10:45:56.936685+00:00",
+      "status": 401,
+      "bytes": 343,
+      "sha256": "56fb584f9a19297b2bd8aa2d26472cf81720d1d67d5aa137b859f077fbcc77bd",
+      "file": "microsoft-toolchain-feed-response.json"
+    },
+    {
+      "url": "https://static.crates.io/crates/msvc_spectre_libs/msvc_spectre_libs-0.1.3.crate",
+      "at": "2026-10-03T10:45:57.120566+00:00",
+      "status": 200,
+      "finalUrl": "https://static.crates.io/crates/msvc_spectre_libs/msvc_spectre_libs-0.1.3.crate",
+      "bytes": 5304,
+      "sha256": "29e871a9861f3664f18b7e04e9301d4edd55090c2dadb4b1c602e26ab32b1f5b",
+      "file": "msvc-spectre-0.1.3.crate"
+    }
+  ],
+  "buildSources": [
+    {
+      "path": "LICENSE",
+      "sourceCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+      "url": "https://raw.githubusercontent.com/microsoft/ripgrep-prebuilt/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/LICENSE",
+      "sha256": "dea9265341829002e2c23a7372393eb2ed6e26085fb623f38a4ba0af833f30a6"
+    },
+    {
+      "path": "config.json",
+      "sourceCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+      "url": "https://raw.githubusercontent.com/microsoft/ripgrep-prebuilt/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/config.json",
+      "sha256": "cff5b916fd44da7573cfb6a2302d35ece309e20564e229524b0ad621dd2d0c57"
+    },
+    {
+      "path": "build/windows.yml",
+      "sourceCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+      "url": "https://raw.githubusercontent.com/microsoft/ripgrep-prebuilt/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/build/windows.yml",
+      "sha256": "0f94e74df80e387a61a7c1a51dbd73638bfd137f0dc396362b580e62cc727189"
+    },
+    {
+      "path": "build/main.yml",
+      "sourceCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+      "url": "https://raw.githubusercontent.com/microsoft/ripgrep-prebuilt/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/build/main.yml",
+      "sha256": "926843dcd749fb5d25c7a4766e8088be0e9050af6272d3b61c1e550a4e931c65"
+    },
+    {
+      "path": "patches/0001-resolve-binskim-issues.patch",
+      "sourceCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+      "url": "https://raw.githubusercontent.com/microsoft/ripgrep-prebuilt/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/patches/0001-resolve-binskim-issues.patch",
+      "sha256": "8cf3c2eeeb4261d66a838f7fe8a8e9870a6ce3a7f1c1d3a2a9d5e36b5a947cac"
+    }
+  ],
+  "crate": {
+    "id": "msvc_spectre_libs",
+    "version": "0.1.3",
+    "archiveSha256": "29e871a9861f3664f18b7e04e9301d4edd55090c2dadb4b1c602e26ab32b1f5b",
+    "checksumMatchedPatchedCargoLock": true,
+    "members": [
+      {
+        "member": "msvc_spectre_libs-0.1.3/LICENSE",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/LICENSE",
+        "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+        "bytes": 1141
+      },
+      {
+        "member": "msvc_spectre_libs-0.1.3/Cargo.toml",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/Cargo.toml",
+        "sha256": "33a3fe690ab9d9177b64b8e9347afeb196dd5197b9c8cc1d15efa6b10a146697",
+        "bytes": 1164
+      },
+      {
+        "member": "msvc_spectre_libs-0.1.3/Cargo.toml.orig",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/Cargo.toml.orig",
+        "sha256": "53877ca6a22c3944de861c2791aa2ca9e0aa065b94535c4ff3580b6e3456d780",
+        "bytes": 571
+      },
+      {
+        "member": "msvc_spectre_libs-0.1.3/README.md",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/README.md",
+        "sha256": "195e88d3a3080f0159020764857fd4d53b7c395775a94e29b8eb82f6b84fda72",
+        "bytes": 2056
+      },
+      {
+        "member": "msvc_spectre_libs-0.1.3/build.rs",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/build.rs",
+        "sha256": "469b66816494893e5c8c34b0ca773c0a9e9ee4486bf6b10a2b53b5a31b9e016b",
+        "bytes": 1574
+      },
+      {
+        "member": "msvc_spectre_libs-0.1.3/src/lib.rs",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/src/lib.rs",
+        "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+        "bytes": 2
+      },
+      {
+        "member": "msvc_spectre_libs-0.1.3/.cargo_vcs_info.json",
+        "file": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/.cargo_vcs_info.json",
+        "sha256": "429d7f5076ff75489eace85d30fe47a64f22bc9b0a5d5f892fc7b6ae11f9dc0c",
+        "bytes": 94
+      }
+    ]
+  },
+  "qualification": "Publisher metadata checksums match both original ZIPs. Source build configuration names ms-1.88 from Microsoft RustTools feed; no exact package version or private Rust source/standard-library notice recovered. Crate MIT notice covers that build helper only; no blanket binary/toolchain/application license conclusion."
+}
