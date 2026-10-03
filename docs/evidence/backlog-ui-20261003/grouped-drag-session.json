@@ -107,5 +107,7 @@
       "priorSource": null,
       "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
     }
-  ]
+  ],
+  "candidateCheckpoint": "add19d9d42a68015f65415f5328c606183200f77",
+  "snapshotSemantics": "Historical bytes / pending pointer statement at drag session checkpoint; later pointer installation recorded separately"
 }

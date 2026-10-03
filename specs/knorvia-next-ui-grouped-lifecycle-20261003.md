@@ -125,7 +125,9 @@
   所有监听，dispose 幂等。安装/移除异常清理其余 owned listener 并 rethrow 原错。
 - Workbench registry 保留注册次序首个 canDrop/几何命中、同目标重复 preview、
   无目标清 preview、finish 先清再 drop。清 preview/unregister 先撤销内部许可，
-  再调用外部 callback，避免同步 reentry 递归；callback 错误仍可见。
+  再调用外部 callback，避免同步 reentry 递归；callback 错误仍可见。注册许可
+  在 canDrop/旧 preview callback 后重读；若 callback 同步发起新 update/cancel，
+  旧 operation 不覆盖新 preview，不 drop 已 unregister 的目标。
 
 ```mermaid
 sequenceDiagram

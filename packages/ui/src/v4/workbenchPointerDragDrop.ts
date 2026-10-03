@@ -1,96 +1,25 @@
-import type { PaneSplitSide } from "@/v4/paneLayoutTree.js";
-import { resolveWorkbenchDropSide } from "@/v4/workbenchDragDrop.js";
+// SPDX-License-Identifier: Apache-2.0
+// Existing public pointer ports; implementation delegated to a contract candidate.
 import type { WorkbenchSessionDragPayload } from "@/v4/workbenchDragDrop.js";
+import { WorkbenchPointerDropRegistry, type WorkbenchPointerDropTargetController } from "./workbenchPointerDropRegistry.js";
 
-interface WorkbenchPointerDropTargetController {
-  canDrop?: (payload: WorkbenchSessionDragPayload) => boolean;
-  onDrop: (side: PaneSplitSide, payload: WorkbenchSessionDragPayload) => void;
-  onPreview: (side: PaneSplitSide | null) => void;
-}
+const registry = new WorkbenchPointerDropRegistry();
 
-interface WorkbenchPointerDropTarget {
-  controller: WorkbenchPointerDropTargetController;
-  element: HTMLElement;
-}
-
-const targets = new Set<WorkbenchPointerDropTarget>();
-let previewedTarget: WorkbenchPointerDropTarget | null = null;
-
-function clearPreview(): void {
-  previewedTarget?.controller.onPreview(null);
-  previewedTarget = null;
-}
-
-function resolveTarget(
-  payload: WorkbenchSessionDragPayload,
-  clientX: number,
-  clientY: number,
-): { side: PaneSplitSide; target: WorkbenchPointerDropTarget } | null {
-  for (const target of targets) {
-    if (target.controller.canDrop && !target.controller.canDrop(payload)) {
-      continue;
-    }
-    const side = resolveWorkbenchDropSide(target.element.getBoundingClientRect(), clientX, clientY);
-    if (side) {
-      return { side, target };
-    }
-  }
-  return null;
-}
-
-function registerWorkbenchPointerDropTarget(
+export function registerWorkbenchPointerDropTarget(
   element: HTMLElement,
   controller: WorkbenchPointerDropTargetController,
 ): () => void {
-  const target = { controller, element };
-  targets.add(target);
-  return () => {
-    if (previewedTarget === target) {
-      clearPreview();
-    }
-    targets.delete(target);
-  };
+  return registry.register(element, controller);
 }
 
-function updateWorkbenchPointerDrag(
-  payload: WorkbenchSessionDragPayload,
-  clientX: number,
-  clientY: number,
-): boolean {
-  const resolved = resolveTarget(payload, clientX, clientY);
-  if (!resolved) {
-    clearPreview();
-    return false;
-  }
-  if (previewedTarget !== resolved.target) {
-    clearPreview();
-    previewedTarget = resolved.target;
-  }
-  resolved.target.controller.onPreview(resolved.side);
-  return true;
+export function updateWorkbenchPointerDrag(payload: WorkbenchSessionDragPayload, clientX: number, clientY: number): boolean {
+  return registry.update(payload, clientX, clientY);
 }
 
-function finishWorkbenchPointerDrag(
-  payload: WorkbenchSessionDragPayload,
-  clientX: number,
-  clientY: number,
-): boolean {
-  const resolved = resolveTarget(payload, clientX, clientY);
-  clearPreview();
-  if (!resolved) {
-    return false;
-  }
-  resolved.target.controller.onDrop(resolved.side, payload);
-  return true;
+export function finishWorkbenchPointerDrag(payload: WorkbenchSessionDragPayload, clientX: number, clientY: number): boolean {
+  return registry.finish(payload, clientX, clientY);
 }
 
-function cancelWorkbenchPointerDrag(): void {
-  clearPreview();
+export function cancelWorkbenchPointerDrag(): void {
+  registry.cancel();
 }
-
-export {
-  cancelWorkbenchPointerDrag,
-  finishWorkbenchPointerDrag,
-  registerWorkbenchPointerDropTarget,
-  updateWorkbenchPointerDrag,
-};
