@@ -117,3 +117,11 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 分别记录仅自有源码及依赖引用、完整现行Git源码树、实际包含依赖/素材的产品包、特定平台二进制/WASM的义务。缺项只阻止其涉及内容的发布就绪确认，不能扩大成禁止所有可能的开源子集，也不能借变更根许可解决未知素材或遗漏通知。保留当前功能、UI、数据及所有原许可/证据/HOLD；任何替换须有准确的原材料或确实无法补证的范围，且由父任务协调原模块维护者完成。
 
 原始材料、固定版本/来源指针、提取与失败读取记录按原字节冻结，人工登记新增摘要；不执行依赖包或安装脚本，不发送外部消息，不自动关闭26项或将已有NOASSERTION改成MIT。历史accepted-byte、贡献与权利缺项在26项之外另列，区分当前候选和缺失的历史源码/receipt，不能用新候选或技术检查覆盖历史权利边界。报告中明确仍未获得的材料与涉及发布范围；许可证、NOTICE和旧reviewRequired保持不变。
+
+### 三路已冻结失败修复的接收边界
+
+父任务确认native `7096de3d170eea2267b82db47fb2e9140fdf7b08`（生产 `ea5f1bc279b4756dcfcc95a7c8816116210df87c`）、UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e` 和services `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`（生产/夹具 `0e73eb3cd6159e91be41e20d40cded0fc493ec03`）可集中接收，CLI仍由原任务续作。实际远端heads完全一致，三路相对共同基线7bfb867的路径没有交集，也不重叠本材料文档/登记。
+
+native只修真实ZIP stage诊断白名单祖先目录的遍历，叶子排除规则/原测试/共享fixture不改，恢复原约定5成员；UI只修把组内首项置顶no-op误当顶层移动的局部夹具，保留原六断言并补no-op/成员顺序断言，生产controller/UI/golden不改；services扫描夹具通过真实homedir/HOME/data-base-dir端口绑定临时根，保留排序/过滤/dirty-tail断言，Git生产helper恢复timeout budget在details前的原getter顺序，不删读取次序断言。
+
+普通merge保留三路完整ancestry与原失败，逐项核对7份新原路证据并人工加入冻结清单。刷新当前exporter/Git helper来源摘要仅记录当前候选，不授予独立性或MIT。发布组合checkpoint后用本环境Node24.14.0/相同规则，仅重跑原4个失败case，必要的改动文件格式检查保留其真实匹配scope；UI原任务使用24.19.0的结果不得改称统一24.14结果。不重复777文件全量、build、root types/lint或完整来源审计，不把4个定向结果扣减成未经运行的完整回归新统计。CLI原17个加载pin和1个NaN历史golden仍待其冻结修复，main继续暂缓。
