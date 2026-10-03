@@ -1,0 +1,24 @@
+{
+  "scope": "frontmatter-v2",
+  "files": [
+    {
+      "file": "frontmatter.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "bytes": 2912,
+      "lines": 101,
+      "sha256": "07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/frontmatter-v2/frontmatter.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 15914,
+      "lines": 307,
+      "sha256": "0b619f7957d4002397fa28eb08a428bca330add22fa98d5d30a6880a884658a1",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/frontmatter-v2/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Complete same-author correction/full cumulative receipt archived and committed before body review; manual typing finding is not a semantic check failure, detached receipt self-hash, original checks and all source-exposure/instruction-only/rights qualifications retained."
+}
