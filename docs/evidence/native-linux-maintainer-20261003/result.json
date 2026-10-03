@@ -1,0 +1,134 @@
+{
+  "status": "passed-targeted-linux-packaging",
+  "mainBaseSha": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
+  "productBuildInputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "productBuildInputTree": "43b342a85478c77f148ffec6fd8f90cc43e1013b",
+  "runtimeComponentSourceBuildSha": "df7f5987b2d1f5ab67756a2d1f1f5a9f5f0b74f1",
+  "runtimeComponentSourceIdenticalInProductInput": true,
+  "recordedAtUtc": "2026-10-03T15:51:11.678562+00:00",
+  "platform": "linux-x64",
+  "contact": "Knorvia Studio <accomplish07zrh@gmail.com>",
+  "applicationLicense": "Apache-2.0",
+  "sourceDelta": [
+    "Desktop extraMetadata.author.email: user-authorized public contact",
+    "Desktop extraMetadata.license: existing root Apache-2.0 declaration carried into package metadata",
+    "Pacman supported fpm zstd override: actual bytes match existing .pkg.tar.zst suffix"
+  ],
+  "build": {
+    "command": "pnpm exec electron-builder --config electron-builder.config.js --linux AppImage deb rpm pacman --x64 --publish never",
+    "exitCode": 0,
+    "targets": {
+      "deb": {
+        "buildStatus": "success",
+        "metadataAndPayloadStatus": "passed",
+        "artifact": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-amd64.deb",
+          "bytes": 142231596,
+          "sha256": "0fee2646f9b9483621afcf4818f88ace49ed9993b637c939dc78b1cfff04497a"
+        }
+      },
+      "rpm": {
+        "buildStatus": "success",
+        "metadataAndPayloadStatus": "passed",
+        "artifact": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.rpm",
+          "bytes": 118016425,
+          "sha256": "ea78641ea60c32a69f2786ec4fdcc37c581416a6be444d0e41cfd49822bbd7cb"
+        }
+      },
+      "pacman": {
+        "buildStatus": "success",
+        "metadataAndPayloadStatus": "passed",
+        "artifact": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x64.pkg.tar.zst",
+          "bytes": 171971447,
+          "sha256": "f742d0d005819c27ba58dbd8ee207fc89e2984aa77abc2f6287c016a804281dc"
+        }
+      },
+      "AppImage": {
+        "buildStatus": "success",
+        "metadataAndPayloadStatus": "passed",
+        "artifact": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+          "bytes": 188670677,
+          "sha256": "c0881ec03cc5dbd4ed387c7eeec73ee6fcd9c778d2ea39bb00b1bb7299b8ab96"
+        }
+      }
+    }
+  },
+  "verification": {
+    "actualMaintainerFields": "Deb Maintainer/Vendor; RPM Packager/Vendor; Arch packager; all four identical ASAR author.email",
+    "actualApplicationLicense": "Deb License; RPM License; Arch license; all four ASAR license and root LICENSE.knorvia.txt",
+    "declaredDependencies": "All previous Debian/RPM/Arch required dependencies retained",
+    "physicalPayloadIdentity": "Executable/ASAR/CLI/PTY and five legal resource files match across fresh linux-unpacked plus all four extracted artifacts",
+    "pacmanCompressionMagicHex": "28b52ffd",
+    "nativeProbe": {
+      "executedArtifact": "Actual extracted deb",
+      "exitCode": 0,
+      "groups": 6,
+      "checks": [
+        "Canonical package identity measured outside repository",
+        "Existing ASAR native policy and required runtime entries passed",
+        "Packaged CLI executes in its Electron Node runtime",
+        "Artifact node-pty opens a real PTY, renders and exits zero; Electron SQLite writes a synthetic sentinel",
+        "Real package storage handshake/preparation succeeds twice with sentinel preserved",
+        "Packaged rg/ugrep/bfs execute against Unicode/spaced synthetic paths with notice/source files present"
+      ],
+      "metadata": {
+        "appVersion": "0.8.0-preview.3",
+        "buildCommitId": "b5fbc3d8",
+        "buildTime": "2026-10-03T15:32:54.446Z",
+        "electronBuilderVersion": "26.8.1"
+      },
+      "runtime": {
+        "node": "v24.14.0",
+        "electron": "41.0.3",
+        "arch": "x64",
+        "platform": "linux"
+      },
+      "storageSentinel": {
+        "sentinel": "preserved after a second real storage preparation"
+      },
+      "fixtureRemoved": true
+    },
+    "sourcePreservation": "Recorded 17 final inputs unchanged through acceptance; root LICENSE/NOTICE/third-party notices/manifest/lock remain byte-identical to main baseline",
+    "fileScopedConfigLint": "pass, 0 warnings/0 errors",
+    "fileScopedConfigAndSpecFormat": "pass",
+    "changedArchitecture": "pass, 0 violations/baseline/new"
+  },
+  "retainedFailures": [
+    {
+      "inputSha": "cd8013800c0ddd28d645ba3d4fff0e4c2e252fa5",
+      "stage": "configuration validation",
+      "exitCode": 1,
+      "targetsStarted": [],
+      "reason": "Locked builder compression enum excludes zstd; supported fpm extension fixes this without schema changes."
+    },
+    {
+      "stage": "initial metadata harness",
+      "exitCode": 1,
+      "productBuildFailed": false,
+      "reason": "Incorrect assumed Debian copyright file path. Actual FPM License control field and existing byte-identical packaged Apache/notice files are now asserted; original probe/log retained."
+    },
+    {
+      "stage": "initial freshness read",
+      "exitCode": 128,
+      "productBuildFailed": false,
+      "reason": "env-i omitted network proxy; ordinary inherited-network fetch retry passed with ahead0/behind0."
+    }
+  ],
+  "remaining": [
+    "No global Debian/RPM/Arch package installation, distro GUI/desktop integration or full legacy-data migration acceptance; this run validates generated formats, metadata, payload bytes and bounded actual Debian native runtime.",
+    "No Windows/macOS/GUI/model verification or unrelated full typecheck/lint/test/audit suite repeated.",
+    "Dependency lifecycle scripts were not rerun; configured pinned PTY restoration and actual artifact execution passed. Remote-target preparation remains explicitly skipped.",
+    "Parent owns final integration, current-source hash/evidence registration and resulting CI. No cross-module protocol/interface changes are required."
+  ],
+  "publication": {
+    "mainMerged": false,
+    "releasePublished": false,
+    "globalPackagesInstalled": false,
+    "userComputerOperated": false,
+    "successfulTargetsRebuilt": false
+  },
+  "artifactsRoot": "/workspace/knorvia-native-linux-email-20261003/desktop-release"
+}

@@ -1,0 +1,137 @@
+{
+  "productInputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "runtimeComponentSourceInputSha": "df7f5987b2d1f5ab67756a2d1f1f5a9f5f0b74f1",
+  "entries": [
+    {
+      "inputSha": "df7f5987b2d1f5ab67756a2d1f1f5a9f5f0b74f1",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "pnpm",
+        "--filter",
+        "@knorvia/desktop",
+        "prepare:runtime-assets"
+      ],
+      "env": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "TMPDIR": "/workspace/knorvia-native-linux-email-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-linux-email-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-linux-email-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-linux-email-20261003/config",
+        "KNORVIA_SKIP_REMOTE_ASSETS": "1",
+        "KNORVIA_BOOTSTRAP_WITH_REMOTE": "0",
+        "KNORVIA_DESKTOP_AGENT_BUILD_MODE": "sequential",
+        "KNORVIA_TARGET_OS": "linux",
+        "KNORVIA_TARGET_ARCH": "x64"
+      },
+      "exitCode": 0,
+      "log": "runtime-preparation.log"
+    },
+    {
+      "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "pnpm",
+        "--filter",
+        "@knorvia/desktop",
+        "build:no-runtime-assets"
+      ],
+      "env": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "TMPDIR": "/workspace/knorvia-native-linux-email-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-linux-email-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-linux-email-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-linux-email-20261003/config",
+        "KNORVIA_SKIP_REMOTE_ASSETS": "1",
+        "KNORVIA_TARGET_OS": "linux",
+        "KNORVIA_TARGET_ARCH": "x64"
+      },
+      "exitCode": 0,
+      "log": "desktop-build.log"
+    },
+    {
+      "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+      "cwd": "/workspace/knorvia-studio/packages/desktop",
+      "args": [
+        "pnpm",
+        "exec",
+        "electron-builder",
+        "--config",
+        "electron-builder.config.js",
+        "--linux",
+        "AppImage",
+        "deb",
+        "rpm",
+        "pacman",
+        "--x64",
+        "--publish",
+        "never"
+      ],
+      "env": {
+        "PATH": "/workspace/knorvia-native-linux-email-20261003/tools/bin:/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "TMPDIR": "/workspace/knorvia-native-linux-email-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-linux-email-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-linux-email-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-linux-email-20261003/config",
+        "KNORVIA_TARGET_OS": "linux",
+        "KNORVIA_TARGET_ARCH": "x64",
+        "KNORVIA_DESKTOP_DIST_DIR": "/workspace/knorvia-native-linux-email-20261003/desktop-release",
+        "ELECTRON_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/electron-cache",
+        "ELECTRON_BUILDER_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/builder-cache",
+        "KNORVIA_ELECTRON_RUNTIME_MIRROR": "https://github.com/electron/electron/releases/download/",
+        "ELECTRON_BUILDER_BINARIES_MIRROR": "https://github.com/electron-userland/electron-builder-binaries/releases/download/",
+        "XZ_DEFAULTS": "-T2",
+        "ZSTD_NBTHREADS": "2"
+      },
+      "exitCode": 0,
+      "log": "linux-package.log"
+    },
+    {
+      "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+      "args": [
+        "python3",
+        "/workspace/knorvia-native-linux-email-20261003/linux-artifact-metadata-probe.py"
+      ],
+      "exitCode": 0,
+      "log": "linux-artifact-metadata-probe.log"
+    },
+    {
+      "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+      "args": [
+        "node",
+        "/workspace/knorvia-native-linux-email-20261003/artifact-native-probe.mjs",
+        "/workspace/knorvia-studio",
+        "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/knorvia-studio",
+        "/workspace/knorvia-native-linux-email-20261003/artifact-native-probe.json"
+      ],
+      "exitCode": 0,
+      "log": "artifact-native-probe.log"
+    },
+    {
+      "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+      "args": [
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+        "--appimage-extract"
+      ],
+      "cwd": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction",
+      "exitCode": 0,
+      "log": "appimage-extraction.log"
+    }
+  ],
+  "credentialPolicy": "Source builds and product probes use cleared environments. FPM dependency fetch preserves only proxy/trust settings; task-private APT downloads use the normal network environment. No inherited credentials are passed to product runtime or printed.",
+  "checks": "Only configuration-scoped lint/format, changed architecture and actual package validation; no full suite repeated."
+}

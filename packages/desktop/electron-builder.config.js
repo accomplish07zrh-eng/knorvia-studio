@@ -455,10 +455,12 @@ export default {
   // homepage 复用 README 已公开的官网；维护邮箱仅使用用户明确允许公开的值。
   extraMetadata: {
     version: buildMetadata.appVersion,
+    license: "Apache-2.0",
     homepage: "https://knorvia.xyz",
     knorviaProductFlavor: desktopProductIdentity.flavor,
     author: {
       name: "Knorvia Studio",
+      email: "accomplish07zrh@gmail.com",
     },
   },
   // macOS 签名阶段会对 Electron Framework 下每个语言包逐个 codesign。
@@ -732,6 +734,8 @@ export default {
   pacman: {
     // 与 deb/rpm 保持相同的 flavor 隔离，避免 Preview/Production 被 pacman 当作同一包覆盖。
     packageName: desktopProductIdentity.linuxPackageName,
+    // builder 默认传 xz 且 compression 枚举缺少 zstd；通过原有 fpm 扩展保持后缀与实际格式一致。
+    fpm: ["--pacman-compression", "zstd"],
     // 显式列出 Arch 官方仓库可解析的 Electron 运行时依赖，替换 electron-builder
     // 陈旧默认集合，避免安装阶段因已移除包名直接失败。
     depends: PACMAN_RUNTIME_DEPENDENCIES,

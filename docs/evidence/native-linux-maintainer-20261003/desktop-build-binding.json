@@ -1,0 +1,11 @@
+{
+  "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "buildExitCode": 0,
+  "metadata": {
+    "appVersion": "0.8.0-preview.3",
+    "buildCommitId": "b5fbc3d8",
+    "buildTime": "2026-10-03T15:32:54.446Z",
+    "electronBuilderVersion": "26.8.1"
+  },
+  "metadataSha256": "0fa2ab4184d1cbfb5818da90f91c507b26e836513593bc7bcb6c40bb7f38d2ac"
+}
