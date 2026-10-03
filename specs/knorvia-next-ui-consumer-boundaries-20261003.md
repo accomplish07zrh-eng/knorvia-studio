@@ -92,6 +92,11 @@ flowchart LR
   发请求。使用已有 applyOrder 的 canPublish port；最新结构操作或新拖拽撤销旧
   menu rollback/refresh 许可，已发 host 写入仍完成。drag session 本文算法保留，
   只在 section bridge 联结该许可，不复制 origin/preview/order owner。
+  最终单例回归夹具按既有菜单契约区分组内/顶层置顶：组内第一项不产生 order，
+  非首位的顶层任务才移到顶层第一。归档隐藏/许可撤销用例先断言原组内 no-op，
+  再局部设置 `[group(b), root(a)]`，隐藏 b 后移动 a；要求 order 为
+  `[root(a), group(b)]` 且保留 b 原引用、所有原许可撤销断言。这里只修夹具和
+  加强检查，不改变 controller、接受 owner、UI 或持久化，也不改历史 golden。
 - contextual draft 优先按当前活动 task key 求 placement；无 active id 才沿用当前
   grouped placement 或 top。group draft 解折叠仅在原 Set 含该 id 时复制，top 不
   改 prefs；显式关闭才调用原 path/identity clear。卸载/切 scope 不清 store 草稿。
