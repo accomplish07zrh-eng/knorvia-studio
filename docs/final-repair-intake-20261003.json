@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "previousPublishedHead": "5318c64dc7d0cffb52cab0b489f9b6ced119f35a",
+  "receivedParentFrozenHeads": {
+    "services": "33072cae538f02b739406279733127c90ec96c50",
+    "cli": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df",
+    "ui": "73696902cbefbd084b54f6e4ac02b10d709adb40",
+    "native": "60480cf85887eac594d63d2095b53cab3821f14f"
+  },
+  "ordinaryMergeCommits": {
+    "services": "8f83652941b466858851d3bf12e2d373d7853a00",
+    "cli": "d0eea7300363efa31b91a5181da3015bcaf3f85e",
+    "ui": "e5fe100ce1d294211a670fe22698adbfa90ea184",
+    "native": "54dabc8a81b4bc20ea7b0803efe831329d5048ea"
+  },
+  "combinedMergeHead": "54dabc8a81b4bc20ea7b0803efe831329d5048ea",
+  "pathOverlapWithOtherLanesAndIntegrator": [],
+  "newEvidenceExactSourceBindings": [
+    {
+      "lane": "services",
+      "path": "docs/evidence/backlog-services-final-type-repair-20261003/architecture-changed.log.txt",
+      "sha256": "107c29ac9b43987f5f07b8757ac82f8c050ee72271dd2b5cfac88d42051f477c",
+      "bytes": 270,
+      "sourceCommit": "33072cae538f02b739406279733127c90ec96c50"
+    },
+    {
+      "lane": "services",
+      "path": "docs/evidence/backlog-services-final-type-repair-20261003/changed-file-lint.log.txt",
+      "sha256": "32e3b6e28df786a6561256c8c818cd5ddf6ad3eb7fa1d2b91fd446189dbf82b4",
+      "bytes": 847,
+      "sourceCommit": "33072cae538f02b739406279733127c90ec96c50"
+    },
+    {
+      "lane": "services",
+      "path": "docs/evidence/backlog-services-final-type-repair-20261003/services-typecheck.log.txt",
+      "sha256": "7bd0afc2c3b058eb1fde05725836c4af7d97784a82ecd3d56240a19b29f2242d",
+      "bytes": 249,
+      "sourceCommit": "33072cae538f02b739406279733127c90ec96c50"
+    },
+    {
+      "lane": "services",
+      "path": "docs/evidence/backlog-services-final-type-repair-20261003/targeted-offline-tests.log.txt",
+      "sha256": "d50a0bb4849c70be61288ae94541f2c2ceb0bdea12667d26e1c43482bfab017b",
+      "bytes": 2539,
+      "sourceCommit": "33072cae538f02b739406279733127c90ec96c50"
+    },
+    {
+      "lane": "services",
+      "path": "docs/evidence/backlog-services-final-type-repair-20261003/validation.json",
+      "sha256": "aff4577bb7de037d515147848725cdf950dd18aebc362c027db928474f2c8d09",
+      "bytes": 13466,
+      "sourceCommit": "33072cae538f02b739406279733127c90ec96c50"
+    },
+    {
+      "lane": "cli",
+      "path": "docs/evidence/backlog-cli-20261003/final-compact-policy-contract.mjs",
+      "sha256": "ec00238db4fca7e7a0c7efb49d84981e78623eb1c10b65855b1938d04a7488cf",
+      "bytes": 3289,
+      "sourceCommit": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df"
+    },
+    {
+      "lane": "cli",
+      "path": "docs/evidence/backlog-cli-20261003/final-compact-policy-type-repair.json",
+      "sha256": "873ee31fe8ceee3167f122536c396084889ddea24683a2140ea54359f87d87ce",
+      "bytes": 7624,
+      "sourceCommit": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df"
+    },
+    {
+      "lane": "cli",
+      "path": "docs/evidence/backlog-cli-20261003/final-pane-binding-contract.mjs",
+      "sha256": "65ce0d1ba1a1a99fc3abb3f971f179694496f11f4fd44268e64ba962a896656c",
+      "bytes": 3875,
+      "sourceCommit": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df"
+    },
+    {
+      "lane": "cli",
+      "path": "docs/evidence/backlog-cli-20261003/final-type-contract-repair.json",
+      "sha256": "395232bd51c9a5a22a4ac416f9d335d5c81991ca38cfa7fed1ef9d72d5bd9517",
+      "bytes": 35277,
+      "sourceCommit": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df"
+    },
+    {
+      "lane": "ui",
+      "path": "docs/evidence/backlog-ui-20261003/final-consumer-contract-repair.json",
+      "sha256": "cff8dc575e1c75b85db83e1db2593e4399e6f7de23d1822d02f5cfe9ae072f5c",
+      "bytes": 79581,
+      "sourceCommit": "73696902cbefbd084b54f6e4ac02b10d709adb40"
+    },
+    {
+      "lane": "ui",
+      "path": "docs/evidence/backlog-ui-20261003/final-consumer-typecheck.mjs",
+      "sha256": "6867d3e57197a0dffdbc3a9d639bbfa7c211556927cde356d3047a6d40517941",
+      "bytes": 6134,
+      "sourceCommit": "73696902cbefbd084b54f6e4ac02b10d709adb40"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/cleanup-fixture-tests.log",
+      "sha256": "107d02d7bf9cb45388bcd2fb896fe511a477d8b527f3140d9149f37f22fd9d63",
+      "bytes": 427,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/final-host-tests.log",
+      "sha256": "3ccc2a44e5a294556a953afe2632e47ffe697b9dc9fce1916a437f4f2479c4b3",
+      "bytes": 231,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/format-final.log",
+      "sha256": "fa4d6ec0461836b197780930f822caee6566492e9281c4accd752ebc5e3b7b0f",
+      "bytes": 112,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/format-initial-check.log",
+      "sha256": "65cd1fe10b273b79959a6e34acba190fb7e84bdb82c02127f82aca535f43211d",
+      "bytes": 112,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/format-scope.json",
+      "sha256": "196971ab9f127a1b83cac4d6ec46e4a7105bf73d7185ea88375f10516ad98158",
+      "bytes": 4628,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/lint-final.log",
+      "sha256": "fc46c42233de3dbe5fc01b6ad7e97c79b937393f9c98e05f6c6332488caa9871",
+      "bytes": 92,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/lint-first.log",
+      "sha256": "7f323862a56f9dc5d0fcaf17ce16d4b4a1c63566ba68bb869626b90d9cf720a7",
+      "bytes": 1914,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/lint-second.log",
+      "sha256": "a3a29d03d89cc6fc71f9706d33866451d9941162db147cc2b0e3eb23515f7854",
+      "bytes": 481,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/metadata-format.log",
+      "sha256": "1b3011ed775a9268f34b6b683bb9dca594d952dfc00dfa2d8c394669ccc06563",
+      "bytes": 112,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/owner-host-types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/owner-main-types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/owner-server-types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/owner-type-results.json",
+      "sha256": "e456676d97f89939b4c6e9f98abdfde4316e46f2e54b36749bd90c06ef94940c",
+      "bytes": 1350,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/reference-types.log",
+      "sha256": "3b349a4feec5ddc4c89faa83c4e660efb6175e787bcbf2f57bdf3f928cfe34da",
+      "bytes": 6060,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/result.json",
+      "sha256": "84612efcf8755088bf1bf7dc9c6e3ecf05bda793f1b7319fa88238ffb2db63b9",
+      "bytes": 18681,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/selected-tests.log",
+      "sha256": "2e856844633b295560bf9e027aba8e27fa65cde2925ff80a5834c51fc1c51a2b",
+      "bytes": 4214,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/source-bindings.json",
+      "sha256": "82edaffd5e2884e91b5b861711a6fcdc7937b18078e4cfb6377f085689b5d83d",
+      "bytes": 24352,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-final-types-20261003/static-bindings.json",
+      "sha256": "c33d5364fc657a0cbfd65f324330171f2479be2a0ce8bfa0ee4970ae946ce9d4",
+      "bytes": 39190,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-lock-fixture-repair-20261003/result.json",
+      "sha256": "9198288e4d81ffc709c905761f9af81d69e8ccf891c067aa2badb35c946db4b7",
+      "bytes": 3775,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    },
+    {
+      "lane": "native",
+      "path": "docs/evidence/backlog-platform-lock-fixture-repair-20261003/targeted-test.log",
+      "sha256": "e7d45f839b15d5ca60495b87f33a3629e980d3bb8002800ed8c192ef993f9a67",
+      "bytes": 343,
+      "sourceCommit": "60480cf85887eac594d63d2095b53cab3821f14f"
+    }
+  ],
+  "previousFrozenFilesUnchanged": 5493,
+  "materialObligationsRetained": 26,
+  "rightsAccepted": false,
+  "mainMerged": false,
+  "rootDiscoveryChanges": {
+    "serverDirectory": "packages/server/test",
+    "serverTopLevelSuites": 12,
+    "desktopNativeSourceDirectories": [
+      "packages/desktop/src/host",
+      "packages/desktop/src/main/browserView",
+      "packages/desktop/src/preload"
+    ],
+    "desktopNativeSourceSuites": 16,
+    "fixtureAndCaseFilesSelectedAsTests": false
+  },
+  "uiReportedRpcSourceDiagnosticsScope": "22 unchanged source graph diagnostics under UI noUncheckedIndexedAccess and disabled project references, not standard root/project-reference result. Root RPC config is unchanged; final root execution will determine combined code failures.",
+  "checksStatus": "Concentrated unified checks pending execution after publication. Original scoped results in each frozen receipt are not relabeled as integrator/full acceptance."
+}

@@ -199,7 +199,6 @@
     ],
     "services": [
       "docs/lane-services-20261003.md",
-      "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
       "packages/services/docs/PR10-EVIDENCE-INDEX.md",
       "packages/services/docs/PR10-STATUS-ARCHIVE-20261003.md",
       "packages/services/docs/RETRY-TRAJECTORY-ORIGIN-20261003.json",
@@ -253,6 +252,7 @@
       "packages/desktop/test/renderer-owner-fixture.mjs",
       "packages/desktop/test/renderer-startup-contract.test.mjs",
       "packages/desktop/test/renderer-telemetry-contract.test.mjs",
+      "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
       "packages/server-cli/src/ipc/controlClient.ts",
       "packages/server-cli/src/ipc/controlServer.ts",
       "packages/server-cli/src/ipc/framing.ts",
@@ -370,5 +370,6 @@
     "packages/desktop/src/host/resourceOwners.test.mjs",
     "packages/desktop/src/host/indexOwner.test.mjs"
   ],
-  "nativeMaxLinesAction": "Root existing test exception now covers .test.mjs, retaining all other rules; no native test/source changes by integrator."
+  "nativeMaxLinesAction": "Root existing test exception now covers .test.mjs, retaining all other rules; no native test/source changes by integrator.",
+  "clarification": "Actual frozen-head diffs take priority; otherwise use the final lane ownership ledger. provider-node is native-owned, including its previously unmodified first-pass format path. First-pass paths remain historical requests, not new failures on received repair heads."
 }

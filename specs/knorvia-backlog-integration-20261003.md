@@ -77,3 +77,11 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 已有 test/spec max-lines 例外补齐实际根 runner 使用的 `.test.mjs`/`.spec.mjs`，保留生产代码行数限制及其余 lint 规则。整合者只对自身 30 个格式失败源路径和未由四路持有的顶层文档/spec 作格式修复，不格式化任何冻结载荷，不更改 UI 常量、存储键、API 或断言。
 
 26 项材料义务另作逐项可执行分类，直接绑定现行 source registers 与 reviewRequired：保留第三方自己的独立许可范围；缺版本版权/来源、二进制链接证据或权利人材料继续 HOLD。npm/素材义务不能当作自有源重写数量，不能以替换格式、移除声明或当前清单一致推导 MIT 可发布。
+
+## 四路最终修复接收后的统一验收
+
+父任务交付并冻结 services `33072cae538f02b739406279733127c90ec96c50`、CLI `8f1e18d309cd475c0ba091a1b75961d8f8eef7df`、UI `73696902cbefbd084b54f6e4ac02b10d709adb40`、native `60480cf85887eac594d63d2095b53cab3821f14f`。四路都保留 `19f6ccf74ba1064ca81d93194b4f25a36030e361` 的 ancestry，相对它的修改路径与各路/整合者均无交集；按完整 SHA 普通 merge，不压缩或覆盖其他提交。新增31份原路证据逐项核对其冻结 head 字节后显式加入 raw manifest；原5493份原字节不变。来源材料、许可和权利 HOLD 不随接收清除。
+
+根 runner 增加实际存在的 `packages/server/test`，接纳新增 remote-header-proxy contract 并补齐同目录已有11套离线安全边界。另接纳三个已有 desktop native source test 目录（host、main/browserView、preload）的16套 Node fake-port tests，保留各自分拆的场景/fixture import；不把 fixtures/cases 文件当独立 tests。相同唯一扫描、glob完整集合对账、data隔离/凭据过滤、并发2/120s与原退出语义继续适用，不创建另一套根入口。
+
+提交发布组合 checkpoint，再按仓库标准工程引用集中执行根 typecheck/lint/fmt、CLI构建与合理完整根回归，并对CLI依赖图及实际产品入口补必要检查。UI的RPC22条来自关闭project references、启用UI索引严格项的单独源码driver；根RPC工程自身配置未启用该索引项。保留其原诊断，依据标准统一检查是否仍有故障，不能算UI未修或降低配置。如果新统一失败，保存精确路径/错误和真实scope，交原任务定向修复，不重复计旧快照或为通过抹来源。
