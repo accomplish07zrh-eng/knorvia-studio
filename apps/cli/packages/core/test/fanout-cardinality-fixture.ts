@@ -37,7 +37,8 @@ const oldCode = archive.compiled.replace(
 );
 const oldUrl = `data:text/javascript;base64,${Buffer.from(oldCode).toString("base64")}`;
 export const baseline = await import(oldUrl);
-export const ts = (await import(typescript)).default;
+// require.resolve 返回平台路径；Windows 动态导入必须使用同一 file URL。
+export const ts = (await import(typescriptUrl)).default;
 const compiler = await dynamic("compiler/compile");
 
 async function historical(name: string, overrides: Record<string, string>) {

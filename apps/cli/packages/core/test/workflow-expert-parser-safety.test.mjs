@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { createHash } from "node:crypto";
-import { pathToFileURL } from "node:url";
 assert.equal(
   createHash("sha256")
     .update(
@@ -22,7 +21,8 @@ assert.equal(
     .digest("hex"),
   "4ebf7addf0a508092ed280e648cd9a787697dcd73f054df993af70f478247fea",
 );
-const root = new URL("../../../../../", import.meta.url).pathname;
+// 根保持 file URL，避免 Windows 双盘符和空格等路径编码被当作文件名。
+const root = new URL("../../../../../", import.meta.url);
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const current = JSON.parse(
   fs.readFileSync(new URL("./workflow-expert-parser-normalization-current.json", import.meta.url)),
@@ -32,7 +32,7 @@ const historical = JSON.parse(
 );
 function check(record) {
   assert.equal(
-    sha(fs.readFileSync(root + record.path)),
+    sha(fs.readFileSync(new URL(record.path, root))),
     record.sha256,
     `Exact artifact: ${record.path}`,
   );
@@ -51,24 +51,24 @@ const rewrite = (text) =>
   text
     .replaceAll(
       '"@knorvia/contracts"',
-      JSON.stringify(pathToFileURL(root + "apps/cli/packages/contracts/dist/index.js").href),
+      JSON.stringify(new URL("apps/cli/packages/contracts/dist/index.js", root).href),
     )
     .replaceAll(
       '"../ids.js"',
       JSON.stringify(
-        pathToFileURL(root + "apps/cli/packages/core/dist/workflow/expert/ids.js").href,
+        new URL("apps/cli/packages/core/dist/workflow/expert/ids.js", root).href,
       ),
     )
     .replaceAll(
       '"./json.js"',
       JSON.stringify(
-        pathToFileURL(root + "apps/cli/packages/core/dist/workflow/expert/parsers/json.js").href,
+        new URL("apps/cli/packages/core/dist/workflow/expert/parsers/json.js", root).href,
       ),
     );
 const old = await import(
   "data:text/javascript;base64," + Buffer.from(rewrite(baseline.compiled)).toString("base64")
 );
-const now = await import(pathToFileURL(root + current.files["parsers/graph-seed"].compiled.path));
+const now = await import(new URL(current.files["parsers/graph-seed"].compiled.path, root).href);
 const input = [{ id: " ", from: "a", to: "b" }];
 assert.deepEqual(
   now.normalizeWorkflowGraphSeedCandidate(input, "p"),

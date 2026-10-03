@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import dns from "node:dns";
 import { assertDeclarationShape } from "./causality-reduction-documentation-proof.js";
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 export const sha = (value: string) => createHash("sha256").update(value).digest("hex");
 const emitted = process.env.KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED === "1";
 const forbiddenNetwork = () => {
@@ -76,10 +77,44 @@ const foldUrl = new URL(
   import.meta.url,
 );
 if (emitted) await read(foldUrl);
-export const fold = await import(foldUrl.href);
-const foldJs = await read(
-  new URL("../dist/tool/handlers/create-workflow-graph-fold.js", import.meta.url),
+// 当前 graph closure 用固定 receipt 验证；旧调用者不能从 live dist 取字节。
+const graphContractText = await read(
+  new URL("./create-workflow-graph-loader-contract.json", import.meta.url),
 );
+const graphContract = JSON.parse(graphContractText);
+const graphFiles: Record<string, string> = {};
+for (const role of ["fold", "bounds", "analysis"]) {
+  const record = graphContract.current[role];
+  for (const [directory, extension, pin] of [
+    ["src", ".ts", record.sourceSha256],
+    ["dist", ".js", record.emittedSha256],
+    ["dist", ".d.ts", record.declarationSha256],
+  ])
+    graphFiles[`${directory}/tool/handlers/${record.module}${extension}`] = pin;
+}
+await verifyCurrentArtifacts(
+  "create-workflow-graph-loader-contract.json",
+  graphContractText,
+  graphFiles,
+  new URL("../", import.meta.url),
+  read,
+);
+export const fold = await import(foldUrl.href);
+const foldHistoryText = await read(
+  new URL("./causality-fold-caller-history-20261003.json", import.meta.url),
+);
+assert.equal(
+  sha(foldHistoryText),
+  "ff6c7443b825ddfe970d1c5a23999eeaef5b5cb5a0d6c031838d52b9f907ab42",
+);
+const foldHistory = JSON.parse(foldHistoryText);
+assert.equal(foldHistory.baseline, archive.baseline);
+assert.equal(
+  foldHistory.sourceSha256,
+  "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6",
+);
+const foldJs = foldHistory.compiled;
+assert.equal(sha(foldJs), foldHistory.compiledSha256);
 assert.equal(sha(foldJs), archive.consumers["cli-fold"]);
 export const oldFold = await import(
   `data:text/javascript;base64,${Buffer.from(foldJs.replace('from "@knorvia/dynamic-workflow/projections"', `from ${JSON.stringify(oldUrl)}`)).toString("base64")}`
