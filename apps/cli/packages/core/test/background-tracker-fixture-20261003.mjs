@@ -34,7 +34,7 @@ export async function fixture(mode) {
     const b = await readFile(
       path.join(repo, "docs/evidence/knorvia-background-tracker-current-20261003.json"),
     );
-    assert.equal(hash(b), "CURRENT_PIN");
+    assert.equal(hash(b), "e3a8f212f9a30970acdffbefb1f7198c859fb698da87a689ed3fd57f222b1453");
     for (const row of Object.values(JSON.parse(b).files)) {
       for (const [k, e] of Object.entries(row)) {
         const b = await readFile(path.join(repo, e.path));

@@ -25,7 +25,12 @@ if (mode === "initial-draft") {
     "utf8",
   );
   assert.equal(
-    hash(source.replace("CURRENT_PIN", "CURRENT_PIN")),
+    hash(
+      source.replace(
+        "e3a8f212f9a30970acdffbefb1f7198c859fb698da87a689ed3fd57f222b1453",
+        "CURRENT_PIN",
+      ),
+    ),
     "c5aca34f46d64350e761bb521aa2aab9e535d5fa7f9af3de2dc70b4ce33041c8",
   );
   source = source.replace(

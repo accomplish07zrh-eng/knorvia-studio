@@ -1,0 +1,18 @@
+{
+  "typescript": "6.0.2",
+  "method": "parsed-node leading/trailing boundaries, including template expressions; not raw scanning",
+  "files": {
+    "apps/cli/packages/core/src/tool/executor/background-tasks.ts": {
+      "parsedCommentRanges": [],
+      "nonBlankLines": 299
+    },
+    "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts": {
+      "parsedCommentRanges": [],
+      "nonBlankLines": 200
+    },
+    "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts": {
+      "parsedCommentRanges": [],
+      "nonBlankLines": 396
+    }
+  }
+}
