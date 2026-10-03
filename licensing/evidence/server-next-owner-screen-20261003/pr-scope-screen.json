@@ -1,0 +1,62 @@
+[
+  {
+    "changedFiles": 1683,
+    "draft": true,
+    "headSha": "6590bcdb2c01408d6da0e437779aaecd0c2db1da",
+    "number": 8,
+    "state": "open",
+    "returnedFilenameCount": 1683,
+    "fullDeclaredFileCountMatched": true,
+    "candidateOverlap": [],
+    "rawResponseSha256": "17c1296a54ffbdced6db26b5bb500aa2a52d9344e84f57d873566ac2885e38c8",
+    "rootExcludedServerPaths": [],
+    "access": "REST file-list payload includes patch fields but only filename metadata was consumed; patch fields were not inspected, printed, forwarded or committed. No branch checkout/source merge."
+  },
+  {
+    "changedFiles": 435,
+    "draft": true,
+    "headSha": "77a9b3f337935e6d2cce8207952cb936633d5c25",
+    "number": 10,
+    "state": "open",
+    "returnedFilenameCount": 435,
+    "fullDeclaredFileCountMatched": true,
+    "candidateOverlap": [],
+    "rawResponseSha256": "9a1dd7561dddda96c765b5cbded37296488455a30b481c7186a865fb935c859a",
+    "rootExcludedServerPaths": [],
+    "access": "REST file-list payload includes patch fields but only filename metadata was consumed; patch fields were not inspected, printed, forwarded or committed. No branch checkout/source merge."
+  },
+  {
+    "changedFiles": 2097,
+    "draft": true,
+    "headSha": "c85241d287e75c5782f2537d7ebccd5569526b08",
+    "number": 11,
+    "state": "open",
+    "returnedFilenameCount": 2097,
+    "fullDeclaredFileCountMatched": true,
+    "candidateOverlap": [],
+    "rawResponseSha256": "2968d71cd2d55d9bd1abb05fd1250197a389e524dd76c76a101db562672b74a2",
+    "rootExcludedServerPaths": [],
+    "access": "REST file-list payload includes patch fields but only filename metadata was consumed; patch fields were not inspected, printed, forwarded or committed. No branch checkout/source merge."
+  },
+  {
+    "changedFiles": 538,
+    "draft": true,
+    "headSha": "5e3e1ab8e44a6a2b85e1f7da73e12e43cdb44fc8",
+    "number": 12,
+    "state": "open",
+    "returnedFilenameCount": 538,
+    "fullDeclaredFileCountMatched": true,
+    "candidateOverlap": [],
+    "rawResponseSha256": "4dd546762440fa764e44a30dff2dc7c80cc32791e681d286307e33a405f3a977",
+    "rootExcludedServerPaths": [
+      "packages/server/src/remote/remoteAssetCache.ts",
+      "packages/server/src/remote/remoteAssetCacheComponents.ts",
+      "packages/server/src/remote/remoteAssetCacheFiles.ts",
+      "packages/server/src/remote/remoteAssetCacheModel.ts",
+      "packages/server/src/remote/remoteAssetCdn.ts",
+      "packages/server/src/remote/remoteAssetNetwork.ts",
+      "packages/server/src/remote/sshUploadProgress.ts"
+    ],
+    "access": "REST file-list payload includes patch fields but only filename metadata was consumed; patch fields were not inspected, printed, forwarded or committed. No branch checkout/source merge."
+  }
+]

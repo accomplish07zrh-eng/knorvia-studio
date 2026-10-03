@@ -1,0 +1,18 @@
+{
+  "serverImplementationReads": "All47 current sources read for SHA/line count only; small config/index wrappers also opened to confirm retained nature; existing substantial server owner bodies not reread or retested.",
+  "desktopImplementationReads": [
+    "packages/desktop/src/host/cronRunLifecycle.ts",
+    "packages/desktop/src/host/promptAttachmentTransferService.ts"
+  ],
+  "desktopBodiesCuratorExposed": true,
+  "freshAuthorsStarted": 0,
+  "newSourceVersions": 0,
+  "newSourceIndependentCredit": 0,
+  "nativeRuntimePassed": false,
+  "ordinaryTestsBuildTypesLintRun": false,
+  "MITClaim": false,
+  "unintegratedRootFiles": "PR12 metadata only; its new cache split modules and candidate source were not fetched/checked out/re-audited.",
+  "Library403NotAccessed": true,
+  "cancelledUploadNotRetried": true,
+  "remaining": "Parent may allocate up to these two desktop report-only candidates; server queue has no new eligible owner after exact receipts/root/retained exclusions."
+}

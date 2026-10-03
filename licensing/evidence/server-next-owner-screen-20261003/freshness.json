@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "scripts/check-workspace-freshness.mjs"
+  ],
+  "exitCode": 0,
+  "aheadOriginMain": 253,
+  "behindOriginMain": 0,
+  "behindRemoteCheck": "skipped: no remote tracking branch",
+  "originMainIsCachedLocalReference": true,
+  "source": "Recorded tool output; no fetch or runtime test"
+}

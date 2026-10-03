@@ -1,0 +1,78 @@
+[
+  {
+    "path": "licensing/current-files.json",
+    "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff"
+  },
+  {
+    "path": "licensing/evidence/agent-deployment-owners-20261003/source-hashes.json",
+    "sha256": "f6f940868df0eb943251c317a4ece219b48ae92e247f070563f1fddbc0572a39"
+  },
+  {
+    "path": "licensing/evidence/backend-connect-lifecycle-20261003/source-hashes.json",
+    "sha256": "ee8fd4b3b164537ff243d6bcdcbdaccb89f8ab87f2b20e5d5f6df0cd3089f6cf"
+  },
+  {
+    "path": "licensing/evidence/deployment-orchestration-owners-20261003/source-hashes.json",
+    "sha256": "3eb7aaa773c8ff79cfa9eb49f27914552bdd6e1198180fff833f89423d26dd60"
+  },
+  {
+    "path": "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+    "sha256": "a7259d1a376c179da245d592b7a806a4735c17bb05218ea71864ff7b45310896"
+  },
+  {
+    "path": "licensing/evidence/docker-wsl-backend-lifecycle-20261003/source-hashes.json",
+    "sha256": "eb78009bf3da1c11263d26ceb68bfb75326660b747467a67fa21c1aaecc5687f"
+  },
+  {
+    "path": "licensing/evidence/local-archive-owner-20261003/source-hashes.json",
+    "sha256": "89debd58950a0085ee8ccadf416d88b54feec36d4994b9168548a1f70647fca6"
+  },
+  {
+    "path": "licensing/evidence/remote-asset-identity-decision-20261002/source-hashes.json",
+    "sha256": "eb96fc0e27df347348918e5261128b77576124c53f1d74011fc555c30ef4b092"
+  },
+  {
+    "path": "licensing/evidence/remote-deploy-lock-20261002/source-hashes.json",
+    "sha256": "b7d4de8d95eebf3324439ef01bf99212909763db9b83918fb35ba4261a98a76c"
+  },
+  {
+    "path": "licensing/evidence/remote-install-materialization-20261003/source-hashes.json",
+    "sha256": "937e66118b0bf8b44728b1fe065815254b2a2c809e23b14d2c7042279902c268"
+  },
+  {
+    "path": "licensing/evidence/remote-platform-detection-20261002/source-hashes.json",
+    "sha256": "ef1e385c40274b661e3755800ab96ea08df6750c9d719adeffd419243c740936"
+  },
+  {
+    "path": "licensing/evidence/remote-support-progress-20261002/source-hashes.json",
+    "sha256": "3d729bb457a998b3eaccd2d11182f65b8f44a10cde0fd3c41165b1968a0e70fd"
+  },
+  {
+    "path": "licensing/evidence/remote-transport-lifecycle-20261002/source-hashes.json",
+    "sha256": "b30e90b81ab5b141752607e237c4e4c17e7459b444d0306f2c67640424bdd65c"
+  },
+  {
+    "path": "licensing/evidence/root-asset-progress-packets-20261003/bindings-and-selection.json",
+    "sha256": "bcdf0a2fc1e562e4f55fca1ea1e3f2c39eaf78503f40a50a49f9cd9b4cc317e5"
+  },
+  {
+    "path": "licensing/evidence/runtime-agent-wrappers-20261003/source-hashes.json",
+    "sha256": "8d129aed503a9a1b999aea157aa2c6789d048e456f809c88aace8bba8cecdf11"
+  },
+  {
+    "path": "licensing/evidence/server-lifecycle-20261002/source-hashes.json",
+    "sha256": "f2ede1274603b5987c96e10bcaf941cfbb00f3e0398977e007e20519c6b7fc16"
+  },
+  {
+    "path": "licensing/evidence/ssh-auth-permission-owners-20261003/source-hashes.json",
+    "sha256": "19a8c4a6da3577c1fc7f3ffad86150d683d45f711dc5011bf3f54c64e8265148"
+  },
+  {
+    "path": "licensing/evidence/ssh-backend-owner-20261003/source-hashes.json",
+    "sha256": "40c30d1e39414f585faf9a83bc9fcc8cfa72f4064bbbbae8b84bedf4e3e77e8f"
+  },
+  {
+    "path": "licensing/reviews.json",
+    "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+  }
+]
