@@ -1,0 +1,141 @@
+{
+  "checkedAtUtc": "2026-10-03T02:48:51.407518+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "1fe07e43974c0e229724763f6f4318463d7fec8a",
+  "sourceMetadataBindings": [
+    {
+      "path": "packages/provider-node/src/provider-config-file-codec.ts",
+      "bytes": 5500,
+      "sha256": "e7a80a1b98fb3035085fd9fd5ea25865e711cbeeb370a57580a929c16f0e2ff2",
+      "gitBlob": "a8c96c7f4405fbff922fef34a3e2eb457ca1d8ea"
+    },
+    {
+      "path": "packages/provider/src/config/manual-model-config.ts",
+      "bytes": 2770,
+      "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+      "gitBlob": "d5c6ad57c1a6af9da70fabce22f878558f08bac4"
+    },
+    {
+      "path": "packages/provider/src/config/rule-data-schema.ts",
+      "bytes": 6522,
+      "sha256": "6b1e4ca7a4a43b6c34ce138891b1a49ae3d69f7ceb8a7152f087366a2df55659",
+      "gitBlob": "adf592b538b6c253a0ccef4ece19663a9e4c49c2"
+    },
+    {
+      "path": "packages/provider/src/config/schema.ts",
+      "bytes": 5364,
+      "sha256": "489acbdf4ae6334aba7ce9be29373bcca4f9f29033db6e05c6ee9e677100cb90",
+      "gitBlob": "baf6d16b47774e4e26eef3d264c701d1c390a5e9"
+    },
+    {
+      "path": "packages/provider/src/config/provider-data-schema.ts",
+      "bytes": 3739,
+      "sha256": "e38a81cd23b30f4430eac29ed822e16c199dc1a22c984d6ae866c294d4387419",
+      "gitBlob": "830211c6b8a9efc3bbee246470d256b4773b14c2"
+    },
+    {
+      "path": "packages/provider/src/config-service.ts",
+      "bytes": 31185,
+      "sha256": "0b400663d6a65c12faec5933667017149346fd3ef51526ee5c876b9db0b8d93e",
+      "gitBlob": "39788b41c4dd04a4b8eb4e6f6ddcb94153b4698b"
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "bytes": 4370,
+      "sha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "gitBlob": "3257a7bc05bbcdf6e633f991e7e124dd7d5fd9f2"
+    },
+    {
+      "path": "packages/shared/src/model-selection.ts",
+      "bytes": 2463,
+      "sha256": "da166344b20f39f73c7743257425b9b856d0abd2867a33742ceee9d3acdc4e59",
+      "gitBlob": "7a2df88fbfe7460771363e8929b87c4ac913a86f"
+    },
+    {
+      "path": "packages/provider-node/package.json",
+      "bytes": 473,
+      "sha256": "33b60a6227b931f8cb6b85ac70a35b15743f24481c4ee381a29fcdb7b2159eab",
+      "gitBlob": "8be6fa61ede04d8da7d83f3582666f00383c2b65"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "docs/evidence/personal-provider-config-repository-root-packet-20261003/curator-manifest.json",
+      "bytes": 7694,
+      "sha256": "fefcb382d5e1d265ffc1834dc8d0c0cda4d063a96e8682e94277e65ed8bc8ccc",
+      "gitBlob": "23b8538aac7b37380bcb39ec85d81a6f6614a5d2"
+    }
+  ],
+  "authorInputBindings": [
+    {
+      "path": "contract.md",
+      "bytes": 10639,
+      "sha256": "c32afa5759cb3d6458d559a1262546f61dac88fa75305e388675d72bbf4f48a9",
+      "gitBlob": "90e23c7fde8a1a4bf6570321d93a39ec9da12faf"
+    },
+    {
+      "path": "public-api.d.ts",
+      "bytes": 1101,
+      "sha256": "8077e4a5b0cd9c2e316eaf2dfddefd61cd3f83dfb638d9225f3f46e426aead9c",
+      "gitBlob": "9b7fe853ba0bc5055de87ff501c2fc51f8e9d5b6"
+    },
+    {
+      "path": "dependency-types.d.ts",
+      "bytes": 759,
+      "sha256": "8b09c326cfa78677502bc356ffa8e219a36eb86aaeedf93e16f2398a4c05de58",
+      "gitBlob": "9ac35cf196ee0e1dbb5b1b97510b1069a174ad6a"
+    },
+    {
+      "path": "schema-contract.md",
+      "bytes": 4565,
+      "sha256": "826aeb09c805ea06375327a243f765c0af8843cad1d99e3f5b2b54e318b7b470",
+      "gitBlob": "b2f87b3d6080da49c59de800ff877144e246f1e7"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 4009,
+      "sha256": "1e6907059f26eceb8f370e780fb269a310ac07af9dd7ed622e3001e3eaaf4c05",
+      "gitBlob": "8956835cde883ce7e05fc487e3490ddc739b7c53"
+    }
+  ],
+  "curation": "Reused already-read exact codec body from prior repository preparation, digest checked unchanged. Read direct manual/schema rule contracts and relevant personal parser declarations/body; AST extracted layer interface only from config-service. Existing canonical shared model/selection/provider schemas already read prior; retained byte bindings renewed. No original implementation body is an author input.",
+  "typeQualifications": [
+    "Complete codec class/decode/encode export topology; explicit constructor/property/decode types preserved",
+    "encode has inferred source return, body-free return manually grounded in exact version1 projection and facade serializer ReturnType; no semantic inference/closure claim",
+    "Original source import routes retained as reading views, not relocated package",
+    "Canonical schema/parser behavior and Zod issue details retained, no new validation implementation"
+  ],
+  "executionConfigurationCorrection": {
+    "authority": "Root directly checked original five-lane task UIs and sent this instruction",
+    "modelAndReasoningRootVerified": "GPT-6.1 Sol / high",
+    "previousLaneFast": "OFF per root direct check; previous rounds must not be described as Fast verified/enabled",
+    "currentLaneFast": "Root reports switched ON and confirmed ON before this task",
+    "locallyVerifiedUI": false,
+    "qualification": "No independent task-UI tooling here; this is root-reported configuration, no retroactive assertion"
+  },
+  "curatorExposureQualification": "Source-exposed curator, earlier broader exposure/repaired scratch-write breach and shared executor/instruction-only/no OS isolation/access-audit qualifications retained. No new author/clean-room/whole-file rights claim.",
+  "checks": {
+    "freshness": "PASS ahead205/behind0 vs origin/main; remote tracking absent so behind-remote skipped; exact published PR8 baseline confirmed",
+    "architecture": "Documentation-only packet; prior missing-TypeScript failure preserved without rerun/install/bypass",
+    "ordinaryTestBuildTypesLint": false,
+    "codecSchemaConfigRuntimeExecuted": false,
+    "realAccountCredentialsUserFilesPrivateBackupAccess": false,
+    "productionGlobalLicenseEdits": false,
+    "crossLaneMerge": false,
+    "packetStaticResults": "PASS12 source metadata/5 author inputs,3 exports,2 declaration files with0 bodies/initializers/parse errors,6 codec diagnostics and empty migration catalog",
+    "jsonAndDocumentLinks": "PASS10 local links"
+  },
+  "materialObligationsOpen": 21,
+  "wholeOwnerRightsAccepted": false
+}

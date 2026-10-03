@@ -1,0 +1,23 @@
+{
+  "mode": "AST/digest/data only; no codec/schema/provider/runtime execution",
+  "typescript": "6.0.2",
+  "sourceMetadataBindings": 12,
+  "authorInputBindings": 5,
+  "exportDeclarations": 3,
+  "errorClassAndConstructor": "PASS",
+  "decodeExplicitReturn": "PASS",
+  "encodeReturn": "Manually grounded, no semantic inferred-return proof",
+  "publicInputSignatures": "PASS2/2",
+  "declarationFiles": 2,
+  "bodyCount": 0,
+  "initializers": 0,
+  "parseErrors": 0,
+  "versionAndEmptyMigrationCatalog": "PASS",
+  "exactCodecDiagnostics": "PASS6/6",
+  "retainedSecurityDiagnostics": "PASS",
+  "encoderOuterKeys": "PASS",
+  "ordinaryTestsBuild": false,
+  "sourceChanges": 0,
+  "materialOpen": 21,
+  "status": "PASS"
+}

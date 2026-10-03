@@ -1,0 +1,113 @@
+{
+  "scope": "Fixed codec/schema/diagnostic data retained unchanged, no implementation body or real configuration",
+  "currentSchemaVersion": 1,
+  "registeredMigrations": [],
+  "errorClass": "UnsupportedProviderConfigVersionError",
+  "errorName": "UnsupportedProviderConfigVersionError",
+  "versionFieldType": "number|null",
+  "errors": [
+    {
+      "kind": "missing-version",
+      "class": "UnsupportedProviderConfigVersionError",
+      "version": null,
+      "message": "Provider Config 缺少 schemaVersion"
+    },
+    {
+      "kind": "future-version",
+      "class": "UnsupportedProviderConfigVersionError",
+      "version": "observed version",
+      "messageTemplate": "Provider Config schemaVersion ${version} 高于当前支持的 ${CURRENT_SCHEMA_VERSION}"
+    },
+    {
+      "kind": "missing-step",
+      "class": "UnsupportedProviderConfigVersionError",
+      "version": "current version",
+      "messageTemplate": "缺少 Provider Config schemaVersion ${version} 到 ${version + 1} 的迁移器"
+    },
+    {
+      "kind": "wrong-step",
+      "class": "Error",
+      "messageTemplate": "Provider Config 迁移器必须从 schemaVersion ${version} 迁移到 ${version + 1}"
+    },
+    {
+      "kind": "invalid-version",
+      "class": "UnsupportedProviderConfigVersionError",
+      "version": null,
+      "message": "Provider Config schemaVersion 必须是非负整数"
+    },
+    {
+      "kind": "missing-migration-output-version",
+      "class": "UnsupportedProviderConfigVersionError",
+      "version": null,
+      "message": "Provider Config 迁移器必须产生版本化文件"
+    }
+  ],
+  "envelope": {
+    "rootKeys": [
+      "schemaVersion",
+      "config"
+    ],
+    "configKeys": [
+      "providerOrder",
+      "providerConfigRules",
+      "modelConfigRules",
+      "defaultModelSelection"
+    ],
+    "strictRoot": true,
+    "strictConfig": true,
+    "providerOrder": "optional array, nonempty string entries, no trim/default/dedup",
+    "ruleSlots": "unknown schemas, then retained strict personal parsers",
+    "defaultModelSelection": "optional canonical strict selection"
+  },
+  "decodedOwnKeys": [
+    "providers",
+    "models",
+    "providerOrder"
+  ],
+  "decodedOptionalOwnKey": "defaultModelSelection",
+  "encodedOuterKeys": [
+    "schemaVersion",
+    "config"
+  ],
+  "encodedConfigOrder": [
+    "providerOrder if not undefined",
+    "providerConfigRules",
+    "modelConfigRules",
+    "defaultModelSelection if not undefined"
+  ],
+  "providerRuleWrapperKey": "providerRules",
+  "personalModelGroups": [
+    "providerModelRules",
+    "manualProviderModelRules"
+  ],
+  "legacyRecognition": {
+    "targetGroup": "manualProviderModelRules",
+    "orderedShapes": [
+      "complete model with sparse enabled",
+      "current manual with required boolean properties.requiresMfjsToolSchema"
+    ],
+    "currentValidRule": "retain original identity",
+    "unrecognizedOrDamagedRule": "retain original, do not delete unknown fields; final parser rejects",
+    "acceptedLegacyRule": "new shallow rule with extracted current editable config"
+  },
+  "currentManualLeaves": [
+    "enabled",
+    "properties.contextWindow",
+    "properties.supportsJsonSchemaOutput",
+    "properties.supportsNativeWebSearch",
+    "properties.supportsMidConversationSystem",
+    "properties.inputFormat.supportsImage",
+    "properties.inputFormat.supportsVideo",
+    "properties.inputFormat.supportsPdf",
+    "optionSpecs.reasoningLevel.values",
+    "optionSpecs.reasoningLevel.map",
+    "optionSpecs.maxOutputTokens.max"
+  ],
+  "retainedSecurityDiagnostics": {
+    "fixedAccountPrefix": "account:",
+    "fixedAccountAccess": "固定 Account Provider 的 Access 只能由 Knorvia Studio Built-in Config 声明",
+    "conflictingModes": "同一 Provider/Model 不能同时声明智能和手动配置",
+    "duplicateKeyTemplate": "重复 ${key}: ${id}"
+  },
+  "qualification": "Current static schema/field/diagnostic protocol remains source-derived retained material; no rights grant or acceptance widening."
+}
