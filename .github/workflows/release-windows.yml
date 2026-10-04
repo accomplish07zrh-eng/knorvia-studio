@@ -167,6 +167,9 @@ jobs:
         if: inputs.diagnostic_reuse_run == ''
         id: build
         run: node packages/desktop/scripts/bundle.mjs --os ${{ matrix.os }} --arch x64
+      - name: Verify Windows installer and portable executable icon embedding
+        if: matrix.os == 'win' && inputs.diagnostic_reuse_run == ''
+        run: node scripts/check-product-icon-installers.mjs
       - name: Read retained actual payloads without rebuilding
         if: inputs.diagnostic_reuse_run != ''
         uses: actions/download-artifact@v4

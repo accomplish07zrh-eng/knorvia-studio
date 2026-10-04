@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <title>Knorvia Studio — X1W 叠纸·眨眼</title>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="80" x2="0" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eeeeef"/>
+    </linearGradient>
+    <radialGradient id="head" cx="180" cy="272" r="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#777779"/>
+      <stop offset=".4" stop-color="#292a2c"/>
+      <stop offset="1" stop-color="#101113"/>
+    </radialGradient>
+    <clipPath id="front"><rect x="48" y="80" width="384" height="384" rx="90"/></clipPath>
+  </defs>
+  <rect x="83" y="60" width="368" height="368" rx="87" transform="rotate(12 267 244)" fill="#4b4b4f" stroke="#818185" stroke-width="1.5"/>
+  <rect x="65" y="70" width="376" height="376" rx="88" transform="rotate(5 253 258)" fill="#a3a3a7" stroke="#d2d2d4" stroke-width="1.5"/>
+  <rect x="48" y="80" width="384" height="384" rx="90" fill="url(#paper)"/>
+  <g clip-path="url(#front)">
+    <path d="M80 466C76 420 81 353 108 317C135 281 179 247 244 247C307 247 352 270 378 311C400 346 403 399 398 466Z" fill="url(#head)"/>
+    <rect x="181" y="310" width="39" height="98" rx="19.5" fill="#fcfcfd"/>
+    <path d="M304 322L258 360L304 398" stroke="#fcfcfd" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

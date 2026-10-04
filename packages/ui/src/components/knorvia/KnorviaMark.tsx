@@ -1,4 +1,5 @@
 import { memo, useId, type RefObject } from "react";
+import productMarkUrl from "@/assets/knorvia-mark.svg";
 import { cn } from "@/components/lib/utils.js";
 import { KNORVIA_HEAD, knorviaEyePath } from "./mascotArtwork.js";
 
@@ -21,6 +22,17 @@ export const KnorviaMark = memo(function KnorviaMark({
   rig?: KnorviaRig;
 }) {
   const id = useId().replace(/:/g, "");
+  if (!companion) {
+    return (
+      <img
+        src={productMarkUrl}
+        className={cn("shrink-0", className)}
+        alt=""
+        aria-hidden="true"
+        data-knorvia-mark="true"
+      />
+    );
+  }
   return (
     <svg
       className={cn("shrink-0 overflow-visible", className)}

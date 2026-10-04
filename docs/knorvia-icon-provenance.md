@@ -1,5 +1,11 @@
 # Knorvia Studio icon
 
+## Current product icon (2026-10-04)
+
+The owner selected `2511.jpg`, Library `libfile_268c58f0311081919c229bcef02347a3`, X1W 叠纸·眨眼. The attached reference was visually inspected and reconstructed as the editable `packages/ui/src/assets/knorvia-mark.svg`; it is a vector reconstruction, not a claim of pixel-identical JPEG extraction or newly established exclusive rights. Two offset rear sheets, a white front sheet, and a black peeking head with white pill and left chevron are retained. Captions and presentation panels are excluded. `scripts/generate-product-icons.py` derives current app and installer assets; its manifest binds every output to the master. Root Apache-2.0 and prior applicable notices remain. The separately animated companion and historical evidence below are preserved.
+
+## Historical icon and companion record (superseded product icon)
+
 The owner supplied the K/robot artwork and requested removal of the dark background, using their red annotation only as a selection guide. They subsequently approved the fuller, handless, antenna-free code-native Knorvia mascot (design revision 03) and requested the K application icon match it. The current asset is `packages/ui/src/assets/knorvia-logo.png`; its alpha channel is retained in application PNG, ICO and ICNS variants. No extra frame, black tile or decorative shadow is added by the UI.
 
 The cutout and mascot update were produced with the built-in image-generation editing tool on 2026-09-22. Native variants use only proportional resizing and format encoding. The artwork is an edited cutout, not a byte-identical copy of the original photograph. Application-internal icons and animations instead use the original SVG in `KnorviaMark.tsx` and `mascotArtwork.ts`.
