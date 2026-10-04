@@ -26,3 +26,9 @@ test("targeted diagnosis selects only failed variants and requires explicit dry 
     ["win-installed", "linux-portable"],
   );
 });
+
+test("reused artifacts cannot enter the full release or accept an ambiguous run", () => {
+  assert.throws(() => selectReleaseVariants("all", true, "37178918892"), /diagnostic/);
+  assert.throws(() => selectReleaseVariants("remaining", true, "../other"), /diagnostic/);
+  assert.equal(selectReleaseVariants("remaining", true, "37178918892").diagnostic, true);
+});

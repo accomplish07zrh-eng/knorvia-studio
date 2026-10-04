@@ -182,3 +182,17 @@ and altered package bytes. Existing immutable-release tests retain their tag,
 digest, unknown-query and idempotency assertions. Register new release helper
 tests in the existing root offline test entry. Use the pinned Node/pnpm versions
 and required reusable quality workflow; avoid repeated local full suites.
+
+Targeted diagnosis may set `diagnostic_reuse_run` to a prior diagnostic run in
+this repository. Resolve its full head SHA as the package source and download
+only that run's named retained built payloads. The acceptance owner records the
+current probe SHA separately from the actual delivered package SHA; runtime
+metadata still must match the latter. This mode requires diagnostic dry-run and
+cannot validate/publish or claim fresh builds/source acceptance. Reused payloads
+are never retained under a new run's built-payload identity. Full release cannot
+supply a reused run. Windows installed acceptance exclusively reserves its
+ordinary hosted profile before any package/NSIS launch, so later fixture-owned
+initialization cannot be confused with preexisting account data. Existing
+profiles remain refused, never adopted or deleted. Linux inspector failures
+record phase, last returned state and bounded stdout/stderr for diagnosis;
+unchanged RPC/launch deadlines and normal-exit assertions remain mandatory.

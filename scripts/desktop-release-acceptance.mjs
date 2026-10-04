@@ -15,14 +15,18 @@ import { acceptOwnedCleanup } from "./desktop-release-nsis-acceptance.mjs";
 
 const exec = promisify(execFile);
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const [outputArg, deliveredSha, variant = "installed"] = process.argv.slice(2);
+const [outputArg, probeSha, variant = "installed"] = process.argv.slice(2);
 assert.ok(["installed", "portable"].includes(variant));
 const output = resolve(outputArg);
 const dist = join(repository, "packages/desktop/dist");
 const { version } = JSON.parse(await readFile(join(repository, "package.json"), "utf8"));
+assert.match(probeSha, /^[a-f0-9]{40}$/);
+const reusedSource = process.env.KNORVIA_DIAGNOSTIC_PACKAGE_SHA;
+if (reusedSource) assert.equal(process.env.KNORVIA_RELEASE_DIAGNOSTIC, "1");
+const deliveredSha = reusedSource || probeSha;
 assert.match(deliveredSha, /^[a-f0-9]{40}$/);
 const head = (await exec("git", ["rev-parse", "HEAD"], { cwd: repository })).stdout.trim();
-assert.equal(head, deliveredSha);
+assert.equal(head, probeSha);
 assert.equal(process.arch, "x64");
 assert.ok(["linux", "win32"].includes(process.platform));
 const platform = process.platform === "win32" ? "win-x64" : "linux-x64";
@@ -33,6 +37,8 @@ const report = {
   status: "running",
   diagnosticOnly: process.env.KNORVIA_RELEASE_DIAGNOSTIC === "1",
   deliveredSha,
+  probeSha,
+  reusedPayloads: Boolean(reusedSource),
   version,
   platform,
   variant,
@@ -68,6 +74,13 @@ let artifacts = [];
 let ownedDefaultProfile;
 
 try {
+  // 先独占创建 hosted 普通 profile；后续自己的 Electron 初始化不能被误认为既有用户数据。
+  if (platform === "win-x64" && variant === "installed") {
+    assert.ok(process.env.APPDATA);
+    const candidate = join(process.env.APPDATA, "Knorvia Studio");
+    await mkdir(candidate);
+    ownedDefaultProfile = candidate;
+  }
   if (variant === "portable") {
     const accepted = await acceptPortableVariant({
       repository,
@@ -187,10 +200,7 @@ try {
     // NSIS resolves its default data directory through Windows shell APIs. A changed
     // APPDATA environment alone cannot prove its ordinary-uninstall behavior.
     // Only create this fixture on a fresh hosted account; refuse any existing data.
-    assert.ok(process.env.APPDATA);
-    const defaultProfileCandidate = join(process.env.APPDATA, "Knorvia Studio");
-    await mkdir(defaultProfileCandidate);
-    ownedDefaultProfile = defaultProfileCandidate;
+    assert.ok(ownedDefaultProfile);
     const install = async () => {
       const result = await ps(
         `$p=Start-Process -FilePath ${psQuote(setup)} -ArgumentList @('/S',${psQuote("/D=" + installed)}) -PassThru -Wait; if ($p.ExitCode -ne 0) { throw "Installer exit $($p.ExitCode)" }; Write-Output $p.ExitCode`,

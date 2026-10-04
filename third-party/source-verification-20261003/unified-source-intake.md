@@ -502,3 +502,28 @@ maintainer email in this project's GitHub PR and Release installation packages.
 The eight new raw receipts first entered the repository at full source commit
 58bba967abe008ea312253b2996083017a677a3b; only their new frozen rows are
 annotated with that actual commit. All prior 6012 frozen rows remain unchanged.
+
+## Targeted36 actual results and immutable payload reuse (2026-10-04)
+
+Run37178918892 at36d944b4e6290175dafba9607c0031c8c2e39d3f built BOTH groups
+successfully; both then failed acceptance. Windows installed111367339653 passed
+actual ZIP two windows/profile/sentinels/normal exits plus CLI/storage/SQLite/PTY
+and four NSIS fixtures. It next refused EEXIST at its late ordinary-profile
+reservation; no existing profile was adopted or deleted. The reservation now
+occurs exclusively before any owned launch, retaining the existing-data refusal.
+Linux portable111367339673 still times out in owned inspector RPC before any
+returned state; its cause remains unproven. No blind bootstrap-success claim.
+The added guard fixed real Windows startup but is not established for Linux.
+
+Actual failing raw reports:11295031446/11294826776. Actual built payloads:
+Windows11294207714/565274413bytes, Linux11294771800/736053951bytes. The SDK
+reader rejects Linux payload above512MiB; local gh artifact redirect read403 is
+an evidence-reader limitation, not product failure. The same diagnostic workflow
+can read retained artifacts on hosted runners without rebuilding, verifies their
+prior report/package source, records package and current probe SHA separately,
+and never sends reused/diagnostic bytes to aggregate/publication. Fresh final
+source/package equality remains strict. Failure reports add phase/count/last
+state and bounded stdout/stderr without extending RPC/startup/exit deadlines.
+The new guard test preventing reuse in full Release passed1/1; no repeated
+whole local suite/build/audit. Exact36 PR checks37178921758 completed both Linux
+and Windows successfully. Existing historical source/rights evidence stays.

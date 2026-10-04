@@ -194,6 +194,9 @@ export async function probePortableLaunch({
       stderr = (stderr + bytes).slice(-1024 * 1024);
     });
     let remote;
+    let phase = "inspector-endpoint",
+      lastState,
+      requests = 0;
     try {
       const deadline = Date.now() + 90000;
       while (!remote && Date.now() < deadline) {
@@ -218,8 +221,11 @@ export async function probePortableLaunch({
       }
       assert.ok(remote, `Main inspector unavailable: ${stderr}`);
       let state;
+      phase = "window-state";
       while (Date.now() < deadline) {
+        requests++;
         state = await remote.evaluate(stateExpression);
+        lastState = state;
         if (state.ready && state.windows > 0 && state.base) break;
         await delay(100);
       }
@@ -252,6 +258,7 @@ export async function probePortableLaunch({
         stderr,
         stdout,
       });
+      phase = "normal-quit";
       await remote.evaluate(quitExpression).catch((error) => {
         if (!/inspector closed/.test(error.message)) throw error;
       });
@@ -317,6 +324,8 @@ export async function probePortableLaunch({
       report.status = "failed";
       report.error = error.stack || String(error);
       report.stderr = stderr;
+      report.stdout = stdout;
+      report.failurePhase = { iteration, phase, requests, lastState, wrapperPid: child.pid };
       throw Object.assign(error, { report });
     }
   }

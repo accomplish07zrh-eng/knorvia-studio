@@ -21,9 +21,15 @@ on:
         type: choice
         default: all
         options: [all, win-installed, linux-portable, remaining]
+      diagnostic_reuse_run:
+        description: Prior diagnostic run with retained real payloads; never allowed for full release
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: release-desktop
@@ -45,6 +51,7 @@ jobs:
       tag: ${{ steps.source.outputs.tag }}
       matrix: ${{ steps.variants.outputs.matrix }}
       diagnostic: ${{ steps.variants.outputs.diagnostic }}
+      package-sha: ${{ steps.reused.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,7 +76,18 @@ jobs:
         env:
           DIAGNOSTIC_VARIANT: ${{ inputs.diagnostic_variant || 'all' }}
           DRY_RUN: ${{ inputs.dry_run }}
+          DIAGNOSTIC_REUSE_RUN: ${{ inputs.diagnostic_reuse_run }}
         run: node scripts/desktop-release-variant-selection.mjs
+      - name: Bind retained diagnostic payloads to their actual original source
+        id: reused
+        if: inputs.diagnostic_reuse_run != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REUSED_RUN: ${{ inputs.diagnostic_reuse_run }}
+        run: |
+          sha="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REUSED_RUN" --jq '.head_sha')"
+          [[ "$sha" =~ ^[a-f0-9]{40}$ ]]
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
   quality-linux:
     needs: resolve
@@ -102,6 +120,7 @@ jobs:
     env:
       KNORVIA_PORTABLE_BUILD: ${{ matrix.portable }}
       KNORVIA_RELEASE_DIAGNOSTIC: ${{ needs.resolve.outputs.diagnostic == 'true' && '1' || '0' }}
+      KNORVIA_DIAGNOSTIC_PACKAGE_SHA: ${{ needs.resolve.outputs.package-sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -138,10 +157,42 @@ jobs:
       - name: Install frozen dependencies
         run: pnpm install --frozen-lockfile
       - name: Build fresh Desktop x64 packages
+        if: inputs.diagnostic_reuse_run == ''
         id: build
         run: node packages/desktop/scripts/bundle.mjs --os ${{ matrix.os }} --arch x64
+      - name: Read retained actual payloads without rebuilding
+        if: inputs.diagnostic_reuse_run != ''
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.diagnostic_reuse_run }}
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-built-payloads
+          path: diagnostic-reused
+      - name: Stage retained bytes for diagnostic acceptance only
+        if: inputs.diagnostic_reuse_run != ''
+        shell: bash
+        env:
+          PLATFORM_VARIANT: ${{ matrix.platform }}-${{ matrix.variant }}
+        run: |
+          node --input-type=module - <<'NODE'
+          import {cp,mkdir,readdir,readFile} from 'node:fs/promises';
+          import {join} from 'node:path';
+          const key=process.env.PLATFORM_VARIANT;
+          const prior=JSON.parse(await readFile(join('diagnostic-reused/dist-release',key,`${key}-acceptance.json`),'utf8'));
+          if(prior.deliveredSha!==process.env.KNORVIA_DIAGNOSTIC_PACKAGE_SHA || prior.diagnosticOnly!==true)
+            throw new Error('Retained diagnostic report source differs from original run');
+          if(key.startsWith('linux')) {
+            await cp('diagnostic-reused/packages/desktop/dist','packages/desktop/dist',{recursive:true,errorOnExist:true,force:false});
+          } else {
+            const source=join('diagnostic-reused/dist-release',key), target=join('dist-release',key);
+            await mkdir(target,{recursive:true});
+            for(const name of await readdir(source)) if(/\.(exe|zip)$/.test(name))
+              await cp(join(source,name),join(target,name),{errorOnExist:true,force:false});
+          }
+          NODE
+          echo "Reused actual package SHA $KNORVIA_DIAGNOSTIC_PACKAGE_SHA; current probe SHA ${{ needs.resolve.outputs.sha }}; diagnostic only" >> "$GITHUB_STEP_SUMMARY"
       - name: Stage Windows setup and portable ZIP
-        if: matrix.os == 'win' && matrix.variant == 'installed'
+        if: matrix.os == 'win' && matrix.variant == 'installed' && inputs.diagnostic_reuse_run == ''
         shell: pwsh
         env:
           DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
