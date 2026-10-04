@@ -498,3 +498,7 @@ regressions passed locally (3 cases); no repeated whole local suite/audit/build.
 Source and license conclusions are unchanged; unresolved rights obligations
 remain. The user explicitly authorizes accomplish07zrh@gmail.com as public
 maintainer email in this project's GitHub PR and Release installation packages.
+
+The eight new raw receipts first entered the repository at full source commit
+58bba967abe008ea312253b2996083017a677a3b; only their new frozen rows are
+annotated with that actual commit. All prior 6012 frozen rows remain unchanged.
