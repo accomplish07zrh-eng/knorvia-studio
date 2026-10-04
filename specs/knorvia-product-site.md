@@ -38,7 +38,7 @@
 
 ## 2026年10月4日正式版下载与页脚入口
 
-官网安装包、SHA-256 和发行说明固定指向已经发布的 v0.8.1，与根 package.json 一致。下载文案采用正式版，保留实际未签名状态；GitHub Release 继续提供其余 Windows 和 Linux 包，官网仍以 Windows 安装版为主入口。
+官网安装包、SHA-256 和发行说明固定指向已经发布的 v0.8.0，与根 package.json 一致。下载文案采用正式版，保留实际未签名状态；GitHub Release 继续提供其余 Windows 和 Linux 包，官网仍以 Windows 安装版为主入口。
 
 中转站 https://api.knorvia.xyz/ 与小铺 https://wzyp.cn/shop/future 只在页脚提供文字链接，沿用页脚的低对比度颜色，使用较小字号，无按钮、徽章或首屏推广。新窗口使用 noopener。两条链接由静态官网入口管理，不引入业务状态或新的服务端写入。
 
