@@ -1,0 +1,123 @@
+[
+  {
+    "mode": "confirm",
+    "iteration": 0,
+    "tempLength": 95,
+    "states": [
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "pid": 82813,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      },
+      {
+        "pid": 82813,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      },
+      {
+        "pid": 82813,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      }
+    ],
+    "status": "failed",
+    "error": "Error: Owned Main inspector closed\n    at WebSocket.<anonymous> (file:///workspace/knorvia-studio/scripts/desktop-release-portable-launch.mjs:45:20)\n    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:843:20)\n    at WebSocket.dispatchEvent (node:internal/event_target:776:26)\n    at fireEvent (node:internal/deps/undici/undici:13343:14)\n    at #onSocketClose (node:internal/deps/undici/undici:14601:9)\n    at Socket.onSocketClose (node:internal/deps/undici/undici:14301:72)\n    at Socket.emit (node:events:520:35)\n    at TCP.<anonymous> (node:net:346:12)",
+    "stderr": "[82813:1004/055344.203776:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\nDebugger listening on ws://127.0.0.1:40179/84acc8ed-29bb-4d28-a4d6-3cc2c09dbab5\nFor help, see: https://nodejs.org/en/docs/inspector\nDebugger attached.\n",
+    "observedNaturalExit": [
+      null,
+      "SIGTRAP"
+    ]
+  },
+  {
+    "mode": "confirm",
+    "iteration": 1,
+    "tempLength": 20,
+    "states": [
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "pid": 82830,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      },
+      {
+        "pid": 82830,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      }
+    ],
+    "actualReadyWindow": {
+      "pid": 82830,
+      "ready": true,
+      "windows": 1,
+      "version": "1.0.0",
+      "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+      "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+      "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-MADwAS/profile",
+      "base": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-MADwAS/profile"
+    },
+    "exit": [
+      0,
+      null
+    ],
+    "status": "passed"
+  }
+]

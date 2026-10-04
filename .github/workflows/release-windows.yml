@@ -1,58 +1,137 @@
-name: Release Windows installer and portable
+name: Release desktop installers and portable
 
-# 手动触发：先在 Windows 上跑完全部质量检查，再打包安装版与便携版并发布到 GitHub Release。
-# Release 标签取根 package.json 的版本（v<version>），含 preview 的版本标为预发布。
-# 同版本内容不可变：不使用 --clobber，不删除标签/Release/附件（specs/knorvia-release-gates.md）。
+# One exact source SHA, reusable quality definition, actual package acceptance,
+# then the existing immutable-release decision. Dry runs execute all read gates.
 on:
   workflow_dispatch:
     inputs:
       ref:
-        description: 要发布的提交 SHA 或 ref；留空表示使用当前触发提交
+        description: Full source SHA or ref; empty selects the triggering commit
         required: false
         type: string
         default: ""
       dry_run:
-        description: 只检查并打包、校验不可变性，不创建或上传 Release
+        description: Check/build/accept packages without publishing
         required: false
         type: boolean
         default: false
+      diagnostic_variant:
+        description: Targeted dry-run diagnosis only; final publication must select all
+        required: false
+        type: choice
+        default: all
+        options: [all, win-installed, linux-portable, remaining]
+      diagnostic_trace:
+        description: Trace owned reused Linux launch for diagnosis; never a full release
+        required: false
+        type: boolean
+        default: false
+      diagnostic_reuse_run:
+        description: Prior diagnostic run with retained real payloads; never allowed for full release
+        required: false
+        type: string
+        default: ""
 
 permissions:
-  contents: write
+  contents: read
+  actions: read
 
 concurrency:
-  group: release-windows
+  group: release-desktop
   cancel-in-progress: false
 
+env:
+  KNORVIA_ENV: production
+  KNORVIA_SKIP_REMOTE_ASSETS: "1"
+  ELECTRON_MIRROR: https://github.com/electron/electron/releases/download/
+  KNORVIA_ELECTRON_RUNTIME_MIRROR: https://github.com/electron/electron/releases/download/
+  ELECTRON_BUILDER_BINARIES_MIRROR: https://github.com/electron-userland/electron-builder-binaries/releases/download/
+
 jobs:
-  # 检查与打包绑定同一 SHA：打包只使用 quality 输出的受检 SHA。
-  # 检查失败/取消时 needs 会阻断后续 job，因此不可能发布未验证的提交（规则 3）。
-  quality:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.source.outputs.sha }}
+      version: ${{ steps.source.outputs.version }}
+      tag: ${{ steps.source.outputs.tag }}
+      matrix: ${{ steps.variants.outputs.matrix }}
+      diagnostic: ${{ steps.variants.outputs.diagnostic }}
+      package-sha: ${{ steps.reused.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref != '' && inputs.ref || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+      - name: Resolve one full source SHA and root version
+        id: source
+        run: |
+          sha="$(git rev-parse HEAD)"
+          version="$(node -p 'require("./package.json").version')"
+          [[ "$sha" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$ ]]
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Select full release or explicitly bounded diagnostic variants
+        id: variants
+        env:
+          DIAGNOSTIC_VARIANT: ${{ inputs.diagnostic_variant || 'all' }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          DIAGNOSTIC_REUSE_RUN: ${{ inputs.diagnostic_reuse_run }}
+          DIAGNOSTIC_TRACE: ${{ inputs.diagnostic_trace }}
+        run: node scripts/desktop-release-variant-selection.mjs
+      - name: Bind retained diagnostic payloads to their actual original source
+        id: reused
+        if: inputs.diagnostic_reuse_run != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REUSED_RUN: ${{ inputs.diagnostic_reuse_run }}
+        run: |
+          sha="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REUSED_RUN" --jq '.head_sha')"
+          [[ "$sha" =~ ^[a-f0-9]{40}$ ]]
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+  quality-linux:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.diagnostic != 'true' }}
     uses: ./.github/workflows/studio-quality.yml
     with:
-      ref: ${{ inputs.ref }}
+      ref: ${{ needs.resolve.outputs.sha }}
+      runs-on: ubuntu-latest
+      install-args: "--frozen-lockfile"
+      timeout-minutes: 90
+
+  quality-windows:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.diagnostic != 'true' }}
+    uses: ./.github/workflows/studio-quality.yml
+    with:
+      ref: ${{ needs.resolve.outputs.sha }}
       runs-on: windows-latest
       install-args: "--frozen-lockfile"
       timeout-minutes: 90
 
   package:
-    needs: quality
-    runs-on: windows-latest
-    timeout-minutes: 90
+    needs: [resolve, quality-linux, quality-windows]
+    if: ${{ !cancelled() && needs.resolve.result == 'success' && (needs.resolve.outputs.diagnostic == 'true' || (needs.quality-linux.result == 'success' && needs.quality-windows.result == 'success')) }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.resolve.outputs.matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 100
     env:
-      KNORVIA_ENV: production
-      KNORVIA_PORTABLE_BUILD: "0"
-      # 桌面安装包不依赖 remote 资产（见 prepare-runtime-assets.mjs）。
-      KNORVIA_SKIP_REMOTE_ASSETS: "1"
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-      tag: ${{ steps.version.outputs.tag }}
-      artifact-name: ${{ steps.zip.outputs.name }}
-      artifact-sha256: ${{ steps.zip.outputs.sha256 }}
+      KNORVIA_PORTABLE_BUILD: ${{ matrix.portable }}
+      KNORVIA_RELEASE_DIAGNOSTIC: ${{ needs.resolve.outputs.diagnostic == 'true' && '1' || '0' }}
+      KNORVIA_DIAGNOSTIC_PACKAGE_SHA: ${{ needs.resolve.outputs.package-sha }}
+      KNORVIA_RELEASE_TRACE: ${{ needs.resolve.outputs.diagnostic == 'true' && inputs.diagnostic_trace && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.quality.outputs.checked-sha }}
+          ref: ${{ needs.resolve.outputs.sha }}
       - uses: pnpm/action-setup@v4
         with:
           version: 10.33.2
@@ -63,197 +142,214 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Confirm delivered SHA
-        shell: pwsh
+      - name: Confirm both checked SHAs equal the delivered source
+        shell: bash
+        env:
+          DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
+          LINUX_CHECKED_SHA: ${{ needs.quality-linux.outputs.checked-sha }}
+          WINDOWS_CHECKED_SHA: ${{ needs.quality-windows.outputs.checked-sha }}
         run: |
-          $head = (git rev-parse HEAD).Trim()
-          $checked = "${{ needs.quality.outputs.checked-sha }}"
-          if ($head -ne $checked) { throw "打包提交 $head 与受检提交 $checked 不一致" }
-          "DELIVERED_SHA=$head" >> $env:GITHUB_ENV
+          test "$(git rev-parse HEAD)" = "$DELIVERED_SHA"
+          if [ "$KNORVIA_RELEASE_DIAGNOSTIC" = 1 ]; then
+            echo "Targeted diagnosis: reusable source jobs not run here; Release validation/publication prohibited" >> "$GITHUB_STEP_SUMMARY"
+          else
+            test "$LINUX_CHECKED_SHA" = "$DELIVERED_SHA"
+            test "$WINDOWS_CHECKED_SHA" = "$DELIVERED_SHA"
+          fi
+      - name: Install Linux package tooling on the hosted runner
+        if: matrix.os == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd xvfb xauth x11-apps imagemagick strace
       - name: Install frozen dependencies
         run: pnpm install --frozen-lockfile
-      - name: Read version
-        id: version
-        shell: pwsh
+      - name: Build fresh Desktop x64 packages
+        if: inputs.diagnostic_reuse_run == ''
+        id: build
+        run: node packages/desktop/scripts/bundle.mjs --os ${{ matrix.os }} --arch x64
+      - name: Read retained actual payloads without rebuilding
+        if: inputs.diagnostic_reuse_run != ''
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.diagnostic_reuse_run }}
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-built-payloads
+          path: diagnostic-reused
+      - name: Stage retained bytes for diagnostic acceptance only
+        if: inputs.diagnostic_reuse_run != ''
+        shell: bash
+        env:
+          PLATFORM_VARIANT: ${{ matrix.platform }}-${{ matrix.variant }}
         run: |
-          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
-          "version=$version" >> $env:GITHUB_OUTPUT
-          "tag=v$version" >> $env:GITHUB_OUTPUT
-      - name: Build Windows x64 package
-        run: node packages/desktop/scripts/bundle.mjs --os win --arch x64
-      - name: Package installer and portable assets
-        id: zip
-        shell: pwsh
-        run: |
-          ./scripts/package-windows-release.ps1 -DistPath packages/desktop/dist -OutputDirectory dist-release/windows -DeliveredSha $env:DELIVERED_SHA
-          $artifacts = Get-Content dist-release/windows/release-artifacts.json -Raw | ConvertFrom-Json
-          $portable = $artifacts | Where-Object { $_.name.EndsWith('-portable.zip') }
-          $name = $portable.name
-          $zipSha = $portable.sha256
-          "name=$name" >> $env:GITHUB_OUTPUT
-          "sha256=$zipSha" >> $env:GITHUB_OUTPUT
-          {
-            echo "## 打包产物"
-            echo ""
-            echo "- 交付 SHA：\`$env:DELIVERED_SHA\`"
-            foreach ($artifact in $artifacts) { echo "- $($artifact.name): $($artifact.sha256)" }
-          } >> $env:GITHUB_STEP_SUMMARY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: knorvia-windows-release
-          path: |
-            dist-release/windows/*.exe
-            dist-release/windows/*.zip
-            dist-release/windows/*.sha256
-            dist-release/windows/release-artifacts.json
-          if-no-files-found: error
-  # 只读的发布校验：标签查询与同版本不可变判定**普通发布与 dry run 都要跑**。
-  # 这里刻意只申请 contents: read —— 本 job 不创建、不上传、不删除任何东西。
-  validate-release:
-    needs: [quality, package]
-    runs-on: windows-latest
-    timeout-minutes: 30
-    permissions:
-      contents: read
-    env:
-      GH_TOKEN: ${{ github.token }}
-    outputs:
-      action: ${{ steps.decide.outputs.action }}
-      to-upload: ${{ steps.decide.outputs.to-upload }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.quality.outputs.checked-sha }}
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24.14.0
-      - uses: actions/download-artifact@v4
-        with:
-          name: knorvia-windows-release
-
-      - name: Resolve tag and release state
-        id: state
-        shell: pwsh
-        run: |
-          $tag = "${{ needs.package.outputs.tag }}"
-          $sha = "${{ needs.quality.outputs.checked-sha }}"
-          git fetch --tags --force | Out-Null
-
-          $tagExists = "false"
-          $tagSha = ""
-          git rev-parse --verify --quiet "refs/tags/$tag" | Out-Null
-          if ($LASTEXITCODE -eq 0) {
-            $tagExists = "true"
-            $tagSha = (git rev-parse "$tag^{commit}").Trim()
-          }
-
-          # 必须区分“Release 不存在”和“查询失败”；查询失败不能按不存在继续创建。
-          $state = "unknown"
-          gh release view $tag --json tagName,assets 2> release-view.err > release-existing.json
-          if ($LASTEXITCODE -eq 0) {
-            $state = "exists"
+          node --input-type=module - <<'NODE'
+          import {cp,mkdir,readdir,readFile} from 'node:fs/promises';
+          import {join} from 'node:path';
+          const key=process.env.PLATFORM_VARIANT;
+          const prior=JSON.parse(await readFile(join('diagnostic-reused/dist-release',key,`${key}-acceptance.json`),'utf8'));
+          if(prior.deliveredSha!==process.env.KNORVIA_DIAGNOSTIC_PACKAGE_SHA || prior.diagnosticOnly!==true)
+            throw new Error('Retained diagnostic report source differs from original run');
+          if(key.startsWith('linux')) {
+            await cp('diagnostic-reused/packages/desktop/dist','packages/desktop/dist',{recursive:true,errorOnExist:true,force:false});
           } else {
-            $err = (Get-Content release-view.err -Raw -ErrorAction SilentlyContinue)
-            Write-Host "gh release view 退出码 $LASTEXITCODE：$err"
-            if ($err -match "not found|HTTP 404") { $state = "missing" }
+            const source=join('diagnostic-reused/dist-release',key), target=join('dist-release',key);
+            await mkdir(target,{recursive:true});
+            for(const name of await readdir(source)) if(/\.(exe|zip)$/.test(name))
+              await cp(join(source,name),join(target,name),{errorOnExist:true,force:false});
           }
-
-          "tag=$tag" >> $env:GITHUB_OUTPUT
-          "sha=$sha" >> $env:GITHUB_OUTPUT
-          "tag-exists=$tagExists" >> $env:GITHUB_OUTPUT
-          "tag-sha=$tagSha" >> $env:GITHUB_OUTPUT
-          "release-state=$state" >> $env:GITHUB_OUTPUT
-          Write-Host "tag=$tag tagExists=$tagExists tagSha=$tagSha releaseState=$state"
-
-      - name: Decide immutability action
-        id: decide
-        shell: pwsh
-        run: |
-          $args = @(
-            "scripts/release-immutability.mjs",
-            "--tag", "${{ steps.state.outputs.tag }}",
-            "--sha", "${{ steps.state.outputs.sha }}",
-            "--tag-exists", "${{ steps.state.outputs.tag-exists }}",
-            "--tag-sha", "${{ steps.state.outputs.tag-sha }}",
-            "--release-state", "${{ steps.state.outputs.release-state }}",
-            "--artifacts-json", "release-artifacts.json",
-            "--out", "release-decision.json"
-          )
-          if ("${{ steps.state.outputs.release-state }}" -eq "exists") {
-            $args += @("--existing-json", "release-existing.json")
-          }
-          node @args
-          $code = $LASTEXITCODE
-          $decision = Get-Content release-decision.json -Raw | ConvertFrom-Json
-          "action=$($decision.action)" >> $env:GITHUB_OUTPUT
-          "to-upload=$($decision.toUpload -join ',')" >> $env:GITHUB_OUTPUT
-          {
-            echo "## 同版本不可变判定（只读校验）"
-            echo ""
-            echo "- 标签：\`${{ steps.state.outputs.tag }}\`"
-            echo "- 结论：\`$($decision.action)\`（$($decision.reason)）"
-            echo "- 说明：$($decision.message)"
-            echo "- 本次触发：\`${{ inputs.dry_run && 'dry run（只校验，不发布）' || '正式发布' }}\`"
-          } >> $env:GITHUB_STEP_SUMMARY
-          if ($code -ne 0) { throw "拒绝发布：$($decision.message)" }
-
-      - uses: actions/upload-artifact@v4
+          NODE
+          echo "Reused actual package SHA $KNORVIA_DIAGNOSTIC_PACKAGE_SHA; current probe SHA ${{ needs.resolve.outputs.sha }}; diagnostic only" >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve individually readable original Linux AppImage for diagnosis
+        if: inputs.diagnostic_reuse_run != '' && matrix.os == 'linux'
+        uses: actions/upload-artifact@v4
         with:
-          name: knorvia-release-decision
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-original-appimage
+          path: packages/desktop/dist/*.AppImage
+          if-no-files-found: error
+          compression-level: 0
+      - name: Preserve individually readable original Linux archive for diagnosis
+        if: inputs.diagnostic_reuse_run != '' && matrix.os == 'linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-original-archive
+          path: packages/desktop/dist/*.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+      - name: Stage Windows setup and portable ZIP
+        if: matrix.os == 'win' && matrix.variant == 'installed' && inputs.diagnostic_reuse_run == ''
+        shell: pwsh
+        env:
+          DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
+        run: ./scripts/package-windows-release.ps1 -DistPath packages/desktop/dist -OutputDirectory dist-release/win-x64-installed -DeliveredSha $env:DELIVERED_SHA
+      - name: Accept actual extracted or installed packages
+        env:
+          DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = linux ]; then
+            xvfb-run --auto-servernum -s "-screen 0 1280x800x24" node scripts/desktop-release-acceptance.mjs dist-release/${{ matrix.platform }}-${{ matrix.variant }} "$DELIVERED_SHA" "${{ matrix.variant }}"
+          else
+            node scripts/desktop-release-acceptance.mjs dist-release/${{ matrix.platform }}-${{ matrix.variant }} "$DELIVERED_SHA" "${{ matrix.variant }}"
+          fi
+      - name: Preserve accepted package assets and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.resolve.outputs.diagnostic == 'true' && 'diagnostic' || 'knorvia' }}-${{ matrix.platform }}-${{ matrix.variant }}-release
           path: |
-            release-decision.json
-            release-existing.json
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.exe
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.zip
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.AppImage
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.deb
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.rpm
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.pkg.tar.zst
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*.tar.gz
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-manifest.json
+          if-no-files-found: error
+          compression-level: 0
+      - name: Retain actual built payloads for failed targeted diagnosis
+        if: ${{ failure() && needs.resolve.outputs.diagnostic == 'true' && steps.build.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-built-payloads
+          path: |
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*
+            packages/desktop/dist/*.exe
+            packages/desktop/dist/*.zip
+            packages/desktop/dist/*.AppImage
+            packages/desktop/dist/*.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+      - name: Preserve bounded acceptance reports even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.resolve.outputs.diagnostic == 'true' && 'diagnostic' || 'knorvia' }}-${{ matrix.platform }}-${{ matrix.variant }}-acceptance
+          path: |
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-acceptance.json
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*-diagnostic.*
           if-no-files-found: warn
 
-  publish:
-    needs: [quality, package, validate-release]
-    # 只有创建 Release、上传附件这类**写**操作才受 dry_run 控制；
-    # 标签查询与不可变判定已经在上面的只读 job 里对两种触发都跑过了。
-    if: ${{ !inputs.dry_run }}
-    runs-on: windows-latest
+  validate-release:
+    if: ${{ needs.resolve.outputs.diagnostic != 'true' }}
+    needs: [resolve, quality-linux, quality-windows, package]
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
+      DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
+      RELEASE_TAG: ${{ needs.resolve.outputs.tag }}
+    outputs:
+      action: ${{ steps.decide.outputs.action }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.quality.outputs.checked-sha }}
+          ref: ${{ needs.resolve.outputs.sha }}
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24.14.0
       - uses: actions/download-artifact@v4
         with:
-          name: knorvia-windows-release
-
-      - name: Create release
-        if: ${{ needs.validate-release.outputs.action == 'create' }}
-        shell: pwsh
+          pattern: knorvia-*-release
+          path: release-assets
+          merge-multiple: true
+      - name: Rehash actual platform packages and produce unified metadata
+        run: node scripts/desktop-release-manifest.mjs release-assets "$DELIVERED_SHA"
+      - name: Resolve tag and release state, then use the existing immutable decision
+        id: decide
         run: |
-          $tag = "${{ needs.package.outputs.tag }}"
-          $version = "${{ needs.package.outputs.version }}"
-          $sha = "${{ needs.quality.outputs.checked-sha }}"
-          $prerelease = if ($version -match "preview|dev|beta|alpha") { "--prerelease" } else { "" }
-          $notes = "Windows x64 安装版与便携版。安装版使用系统用户目录；便携版解压后运行 Knorvia Studio.exe，数据保存在程序旁的 data 目录。预览包尚未签名。构建提交 $sha。产物 SHA-256 见同名 .sha256 附件。"
-          [IO.File]::WriteAllText('release-notes.md', $notes, [Text.UTF8Encoding]::new($false))
-          $names = @(Get-Content release-artifacts.json -Raw | ConvertFrom-Json | ForEach-Object { $_.name })
-          gh release create $tag --target $sha --title "Knorvia Studio $tag" --notes-file release-notes.md $prerelease
-          if ($LASTEXITCODE -ne 0) { throw "Release creation failed" }
-          gh release upload $tag @names
+          git fetch origin --tags
+          tag_exists=false
+          tag_sha=""
+          if git rev-parse --verify --quiet "refs/tags/$RELEASE_TAG" >/dev/null; then
+            tag_exists=true
+            tag_sha="$(git rev-parse "$RELEASE_TAG^{commit}")"
+          fi
+          release_state=unknown
+          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" > release-existing.json 2> release-view.err; then
+            release_state=exists
+          elif rg -q 'HTTP 404' release-view.err; then
+            release_state=missing
+          fi
+          args=(scripts/release-immutability.mjs --tag "$RELEASE_TAG" --sha "$DELIVERED_SHA" --tag-exists "$tag_exists" --tag-sha "$tag_sha" --release-state "$release_state" --artifacts-json release-assets/release-artifacts.json --out release-assets/release-decision.json)
+          if [ "$release_state" = exists ]; then args+=(--existing-json release-existing.json); fi
+          node "${args[@]}"
+          node --input-type=module -e 'import {readFile,appendFile} from "node:fs/promises"; const d=JSON.parse(await readFile("release-assets/release-decision.json","utf8")); await appendFile(process.env.GITHUB_OUTPUT,`action=${d.action}\n`);'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: knorvia-release-validated
+          path: release-assets/*
+          if-no-files-found: error
+          compression-level: 0
 
-      - name: Upload missing assets
-        if: ${{ needs.validate-release.outputs.action == 'upload' }}
-        shell: pwsh
+  publish:
+    needs: [resolve, quality-linux, quality-windows, package, validate-release]
+    if: ${{ !inputs.dry_run && needs.resolve.outputs.diagnostic != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DELIVERED_SHA: ${{ needs.resolve.outputs.sha }}
+      RELEASE_TAG: ${{ needs.resolve.outputs.tag }}
+      RELEASE_VERSION: ${{ needs.resolve.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: knorvia-release-validated
+          path: release-assets
+      - name: Recheck downloaded bytes against the validated publication manifest
         run: |
-          $tag = "${{ needs.package.outputs.tag }}"
-          $names = "${{ needs.validate-release.outputs.to-upload }}".Split(",") | Where-Object { $_ }
-          # 不使用 --clobber：只补传缺失附件，绝不覆盖已发布字节。
-          gh release upload $tag @names
-
-      - name: Idempotent finish
-        if: ${{ needs.validate-release.outputs.action == 'skip' }}
-        shell: pwsh
+          cd release-assets
+          sha256sum --check SHA256SUMS
+          node --input-type=module -e 'import {readFile} from "node:fs/promises"; const m=JSON.parse(await readFile("release-metadata.json","utf8")); if(m.deliveredSha!==process.env.DELIVERED_SHA || m.version!==process.env.RELEASE_VERSION) throw new Error("Release source binding differs");'
+      - name: Publish the immutable release without overwriting assets
         run: |
-          Write-Host "同版本已发布相同字节：${{ needs.package.outputs.artifact-name }} (${{ needs.package.outputs.artifact-sha256 }})"
-          Write-Host "幂等结束，不覆盖、不删除任何已发布内容。"
+          node scripts/desktop-release-publish.mjs release-assets

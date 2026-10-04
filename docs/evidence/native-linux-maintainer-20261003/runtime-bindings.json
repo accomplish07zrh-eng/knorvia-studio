@@ -1,0 +1,25 @@
+{
+  "preparationExitCode": 0,
+  "sequentialSourceBuild": true,
+  "bootstrapRuntimeReuse": false,
+  "freshSourceCliSha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d",
+  "stagedCliSha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d",
+  "officialPluginDirectories": [
+    "browser-use-plugin",
+    "cua-plugin",
+    "documents-plugin",
+    "node-repl-host",
+    "pdf-plugin",
+    "plugin-creator-plugin",
+    "presentations-plugin",
+    "skill-creator-plugin",
+    "spreadsheets-plugin"
+  ],
+  "componentSourceRebuildInputSha": "df7f5987b2d1f5ab67756a2d1f1f5a9f5f0b74f1",
+  "packageInputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "componentSourceUnchangedInFinalInput": true,
+  "onlySourceDifferencesAfterComponentBuild": [
+    "packages/desktop/electron-builder.config.js",
+    "specs/knorvia-native-linux-maintainer-20261003.md"
+  ]
+}

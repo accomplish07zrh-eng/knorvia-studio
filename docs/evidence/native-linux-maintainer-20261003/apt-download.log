@@ -1,0 +1,29 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  debugedit libdw1t64 libfsverity0 liblua5.3-0 libpopt0 librpm-sequoia-1
+  librpm10 librpmbuild10 librpmio10 librpmsign10 rpm-common
+Suggested packages:
+  alien elfutils rpmlint rpm-i18n
+The following NEW packages will be installed:
+  debugedit libdw1t64 libfsverity0 liblua5.3-0 libpopt0 librpm-sequoia-1
+  librpm10 librpmbuild10 librpmio10 librpmsign10 rpm rpm-common rpm2cpio
+0 upgraded, 13 newly installed, 0 to remove and 73 not upgraded.
+Need to get 1989 kB of archives.
+After this operation, 7144 kB of additional disk space will be used.
+Get:1 https://deb.debian.org/debian trixie/main amd64 libdw1t64 amd64 0.192-4 [255 kB]
+Get:2 https://deb.debian.org/debian trixie/main amd64 debugedit amd64 1:5.1-2 [43.2 kB]
+Get:3 https://deb.debian.org/debian trixie/main amd64 libfsverity0 amd64 1.6-1.2 [10.7 kB]
+Get:4 https://deb.debian.org/debian trixie/main amd64 liblua5.3-0 amd64 5.3.6-2+b4 [129 kB]
+Get:5 https://deb.debian.org/debian trixie/main amd64 libpopt0 amd64 1.19+dfsg-2 [43.8 kB]
+Get:6 https://deb.debian.org/debian trixie/main amd64 librpm-sequoia-1 amd64 1.8.0-2 [866 kB]
+Get:7 https://deb.debian.org/debian trixie/main amd64 librpmio10 amd64 4.20.1+dfsg-3 [78.7 kB]
+Get:8 https://deb.debian.org/debian trixie/main amd64 librpm10 amd64 4.20.1+dfsg-3 [218 kB]
+Get:9 https://deb.debian.org/debian trixie/main amd64 librpmbuild10 amd64 4.20.1+dfsg-3 [87.5 kB]
+Get:10 https://deb.debian.org/debian trixie/main amd64 librpmsign10 amd64 4.20.1+dfsg-3 [17.0 kB]
+Get:11 https://deb.debian.org/debian trixie/main amd64 rpm-common amd64 4.20.1+dfsg-3 [42.5 kB]
+Get:12 https://deb.debian.org/debian trixie/main amd64 rpm2cpio amd64 4.20.1+dfsg-3 [13.9 kB]
+Get:13 https://deb.debian.org/debian trixie/main amd64 rpm amd64 4.20.1+dfsg-3 [184 kB]
+Fetched 1989 kB in 0s (4882 kB/s)
+Download complete and in download only mode

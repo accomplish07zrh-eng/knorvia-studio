@@ -1,0 +1,1 @@
+{"status": "passed", "result": "/workspace/knorvia-native-linux-email-20261003/linux-artifact-metadata-probe.json", "targets": {"deb": "passed", "rpm": "passed", "pacman": "passed", "AppImage": "artifact-hash-bound"}, "error": null}

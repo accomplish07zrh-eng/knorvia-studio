@@ -1,0 +1,83 @@
+{
+  "source": "Official signed Debian trixie main APT metadata; downloads verified by APT",
+  "globalInstall": false,
+  "prefix": "/workspace/knorvia-native-linux-email-20261003/tools/rpm-prefix",
+  "packages": [
+    {
+      "file": "cpio_2.15+dfsg-2_amd64.deb",
+      "sha256": "d8faece250bcf72e91ac15a5fef198be173af18c9f48bae257e7ee937fbc6cdc",
+      "identity": "Package: cpio\nVersion: 2.15+dfsg-2\n"
+    },
+    {
+      "file": "debugedit_1%3a5.1-2_amd64.deb",
+      "sha256": "8181b113f7f396484f595195dce316055bfeacb55474ff62709dc9da9e6722ae",
+      "identity": "Package: debugedit\nVersion: 1:5.1-2\n"
+    },
+    {
+      "file": "libarchive-tools_3.7.4-4+deb13u1_amd64.deb",
+      "sha256": "2b5a2e176e77aa2939d9144d3422f5e291f713ec62281a6c9699cd49fdd80e3e",
+      "identity": "Package: libarchive-tools\nVersion: 3.7.4-4+deb13u1\n"
+    },
+    {
+      "file": "libdw1t64_0.192-4_amd64.deb",
+      "sha256": "6b41d3895b40eff429dd8013f0c13b6e26371a26491f414dbf66ba86c4c2c3f1",
+      "identity": "Package: libdw1t64\nVersion: 0.192-4\n"
+    },
+    {
+      "file": "libfsverity0_1.6-1.2_amd64.deb",
+      "sha256": "adc7b2a2b7a3beca31cb53481f60babd222e2f7a254209a2ca5aeefc79315f1c",
+      "identity": "Package: libfsverity0\nVersion: 1.6-1.2\n"
+    },
+    {
+      "file": "liblua5.3-0_5.3.6-2+b4_amd64.deb",
+      "sha256": "35af63e29e035d7f1ce3586922c51868df86c7fd9a4d28777d80384ad809df61",
+      "identity": "Package: liblua5.3-0\nVersion: 5.3.6-2+b4\n"
+    },
+    {
+      "file": "libpopt0_1.19+dfsg-2_amd64.deb",
+      "sha256": "07f649b706852af937654295697dcfc7858f3295718ec18681dce1704663e4f2",
+      "identity": "Package: libpopt0\nVersion: 1.19+dfsg-2\n"
+    },
+    {
+      "file": "librpm-sequoia-1_1.8.0-2_amd64.deb",
+      "sha256": "9b4f08814cffbca14f77430a469334f30b3956ce40e17625174300d756d86fad",
+      "identity": "Package: librpm-sequoia-1\nVersion: 1.8.0-2\n"
+    },
+    {
+      "file": "librpm10_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "a5d3eb2350c8f08b8e213388d4b19b05430a8f002b5ea90f4387c42706f8a977",
+      "identity": "Package: librpm10\nVersion: 4.20.1+dfsg-3\n"
+    },
+    {
+      "file": "librpmbuild10_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "8271876f4cbd9a9a16c92738f72408ec1ca5554957bbcb3bfdc91b246f52a247",
+      "identity": "Package: librpmbuild10\nVersion: 4.20.1+dfsg-3\n"
+    },
+    {
+      "file": "librpmio10_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "9491f74c3c3865f3a96edc0ff711872b8a828f83bc24414ee92e565440ff26a7",
+      "identity": "Package: librpmio10\nVersion: 4.20.1+dfsg-3\n"
+    },
+    {
+      "file": "librpmsign10_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "0835745c9eb2372bcc955dbdc606f5687cc80ddde22a5c9c5a8bacf0cd3c3647",
+      "identity": "Package: librpmsign10\nVersion: 4.20.1+dfsg-3\n"
+    },
+    {
+      "file": "rpm-common_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "b6f92d96b882649ec71e2186ab84ec35a96258f4ac90e483b6d34cd00f8fe39f",
+      "identity": "Package: rpm-common\nVersion: 4.20.1+dfsg-3\n"
+    },
+    {
+      "file": "rpm2cpio_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "b9086b607e9fda5e35bef8aa523fa26bf4ace95a24564629d80e9aa809469267",
+      "identity": "Package: rpm2cpio\nVersion: 4.20.1+dfsg-3\n"
+    },
+    {
+      "file": "rpm_4.20.1+dfsg-3_amd64.deb",
+      "sha256": "83d1bad29db3c64f9d9331d71a45aaf6a30b7ea6f329d031153a8cdf98b1b2e9",
+      "identity": "Package: rpm\nVersion: 4.20.1+dfsg-3\n"
+    }
+  ],
+  "wrapperPolicy": "Task-local RPM_CONFIGDIR for RPM commands; task-local LD_LIBRARY_PATH for RPM/bsdtar only; no HOME override"
+}

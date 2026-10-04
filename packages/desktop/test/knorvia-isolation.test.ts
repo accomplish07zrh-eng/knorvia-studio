@@ -76,6 +76,64 @@ test("invalid explicit directory fails instead of falling back", () => {
   );
 });
 
+test("Windows portable launches with different extraction paths keep one original data root", () => {
+  const original = resolve("portable fixtures/Studio with spaces");
+  for (const session of ["session-one", "session-two"]) {
+    const profile = resolveDesktopProfile({
+      ...defaults,
+      platform: "win32",
+      portableMarker: true,
+      executable: resolve("temporary extraction", session, "Knorvia Studio.exe"),
+      env: { PORTABLE_EXECUTABLE_DIR: original },
+    });
+    assert.equal(profile.base, join(original, "data"));
+    assert.equal(profile.temp, join(original, "data", "temp"));
+    assert.equal(
+      buildDesktopProfileEnvironment(profile.base).KNORVIA_STORAGE_DIR,
+      join(original, "data", ".knorvia-studio"),
+    );
+  }
+});
+
+test("marked AppImage uses its original file while an unmarked installed image ignores launcher hints", () => {
+  const original = resolve("portable fixtures/Knorvia Studio-portable.AppImage");
+  const profile = resolveDesktopProfile({
+    ...defaults,
+    platform: "linux",
+    portableMarker: true,
+    executable: resolve("mounted image/knorvia-studio"),
+    env: { APPIMAGE: original },
+  });
+  assert.equal(profile.base, join(dirname(original), "data"));
+  const installed = resolveDesktopProfile({
+    ...defaults,
+    platform: "linux",
+    env: { APPIMAGE: "relative-and-ignored", PORTABLE_EXECUTABLE_DIR: "also-ignored" },
+  });
+  assert.equal(installed.portable, false);
+  assert.equal(installed.base, join(appData, "Knorvia Studio"));
+});
+
+test("portable explicit override wins over launcher hints and selected relative origins fail", () => {
+  for (const [platform, env] of [
+    ["win32", { PORTABLE_EXECUTABLE_DIR: "relative" }],
+    ["linux", { APPIMAGE: "relative.AppImage" }],
+  ] as const) {
+    assert.throws(
+      () => resolveDesktopProfile({ ...defaults, platform, portableMarker: true, env }),
+      /launcher path must be absolute/,
+    );
+    const portableDir = resolve("explicit portable fixtures");
+    const explicit = resolveDesktopProfile({
+      ...defaults,
+      platform,
+      portableMarker: true,
+      env: { ...env, KNORVIA_PORTABLE_DIR: portableDir },
+    });
+    assert.equal(explicit.base, join(portableDir, "data"));
+  }
+});
+
 test("new workspace protocol is accepted and all product account callbacks are rejected", () => {
   const workspace = "knorvia-studio://workspace/open?path=D%3A%2Fproject";
   assert.equal(extractDeepLinkUrlFromArgs(["app.exe", workspace]), workspace);

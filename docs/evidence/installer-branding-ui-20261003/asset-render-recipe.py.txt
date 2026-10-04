@@ -1,0 +1,15 @@
+from pathlib import Path
+from PIL import Image
+
+repo = Path("/workspace/knorvia-studio")
+source = repo / "packages/ui/src/assets/knorvia-logo.png"
+asset = repo / "packages/desktop/build/installer-branding-20261003"
+icon = Image.open(source).convert("RGBA")
+for name, size, mark_size, position in [
+    ("installerSidebar.bmp", (164, 314), (124, 124), (20, 90)),
+    ("installerHeader.bmp", (150, 57), (46, 46), (96, 5)),
+]:
+    canvas = Image.new("RGB", size, "white")
+    mark = icon.resize(mark_size, Image.Resampling.LANCZOS)
+    canvas.paste(mark, position, mark.getchannel("A"))
+    canvas.save(asset / name, format="BMP")

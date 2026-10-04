@@ -1,0 +1,42 @@
+  • electron-builder  version=26.8.1 os=6.18.44
+  • loaded configuration  file=/workspace/knorvia-studio/packages/desktop/electron-builder.config.js
+  • @electron/rebuild already used by electron-builder, please consider to remove excess dependency from devDependencies
+
+To ensure your native dependencies are always matched electron version, simply add script `"postinstall": "electron-builder install-app-deps" to your `package.json`
+  ⨯ Invalid configuration object. electron-builder 26.8.1 has been initialized using a configuration object that does not match the API schema.
+ - configuration.pacman should be one of these:
+   object { afterInstall?, afterRemove?, appArmorProfile?, artifactName?, category?, compression?, depends?, description?, desktop?, executableArgs?, fpm?, icon?, maintainer?, mimeTypes?, packageCategory?, packageName?, publish?, synopsis?, vendor? } | null
+   Details:
+    * configuration.pacman.compression should be one of these:
+      "bzip2" | "gz" | "lzo" | "xz" | null
+      -> The compression type.
+      Details:
+       * configuration.pacman.compression should be one of these:
+         "bzip2" | "gz" | "lzo" | "xz"
+       * configuration.pacman.compression should be a null.
+     How to fix:
+     1. Open https://www.electron.build/configuration
+     2. Search the option name on the page (or type in into Search to find across the docs).
+       * Not found? The option was deprecated or not exists (check spelling).
+       * Found? Check that the option in the appropriate place. e.g. "title" only in the "dmg", not in the root.
+  failedTask=build stackTrace=ValidationError: Invalid configuration object. electron-builder 26.8.1 has been initialized using a configuration object that does not match the API schema.
+ - configuration.pacman should be one of these:
+   object { afterInstall?, afterRemove?, appArmorProfile?, artifactName?, category?, compression?, depends?, description?, desktop?, executableArgs?, fpm?, icon?, maintainer?, mimeTypes?, packageCategory?, packageName?, publish?, synopsis?, vendor? } | null
+   Details:
+    * configuration.pacman.compression should be one of these:
+      "bzip2" | "gz" | "lzo" | "xz" | null
+      -> The compression type.
+      Details:
+       * configuration.pacman.compression should be one of these:
+         "bzip2" | "gz" | "lzo" | "xz"
+       * configuration.pacman.compression should be a null.
+     How to fix:
+     1. Open https://www.electron.build/configuration
+     2. Search the option name on the page (or type in into Search to find across the docs).
+       * Not found? The option was deprecated or not exists (check spelling).
+       * Found? Check that the option in the appropriate place. e.g. "title" only in the "dmg", not in the root.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      at validate (/workspace/knorvia-studio/node_modules/@develar/schema-utils/dist/validate.js:86:11)
+    at validateConfiguration (/workspace/knorvia-studio/node_modules/app-builder-lib/src/util/config/config.ts:239:3)
+    at Packager.validateConfig (/workspace/knorvia-studio/node_modules/app-builder-lib/src/packager.ts:398:5)
+    at Packager.build (/workspace/knorvia-studio/node_modules/app-builder-lib/src/packager.ts:406:5)
+    at executeFinally (/workspace/knorvia-studio/node_modules/builder-util/src/promise.ts:12:14)

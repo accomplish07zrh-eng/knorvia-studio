@@ -1,0 +1,79 @@
+[
+  {
+    "mode": "control",
+    "iteration": 0,
+    "tempLength": 95,
+    "states": [
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "pid": 82908,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      },
+      {
+        "pid": 82908,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      },
+      {
+        "pid": 82908,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending"
+      },
+      {
+        "pid": 82908,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending",
+        "base": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-oCN015/profile"
+      },
+      {
+        "pid": 82908,
+        "ready": false,
+        "bootstrap": "app-ready-and-data-owner-pending",
+        "base": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-oCN015/profile"
+      }
+    ],
+    "actualReadyWindow": {
+      "pid": 82908,
+      "ready": true,
+      "windows": 1,
+      "version": "1.0.0",
+      "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+      "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+      "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-oCN015/profile",
+      "base": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-oCN015/profile"
+    },
+    "exit": [
+      0,
+      null
+    ],
+    "status": "passed"
+  }
+]

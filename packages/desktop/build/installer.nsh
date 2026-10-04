@@ -1,6 +1,7 @@
 !include nsDialogs.nsh
 !include FileFunc.nsh
 !include "${BUILD_RESOURCES_DIR}\installer-branding.nsh"
+!include "${BUILD_RESOURCES_DIR}\installer-shortcuts.nsh"
 
 !ifndef KNORVIA_INSTALLER_DEFAULT_LOG_PATH
   !define KNORVIA_INSTALLER_DEFAULT_LOG_PATH "$TEMP\Knorvia-Studio-installer.log"
@@ -29,7 +30,7 @@
 !ifdef BUILD_UNINSTALLER
   Var KnorviaUninstallerLogUnavailable
 
-  ; 卸载器只在更新时删除旧文件；单独记录清理阶段，避免外层把权限/空间错误误报成应用仍在运行。
+  ; 普通卸载和更新都只删除程序所有权清单内的文件；记录清理阶段以区分权限/空间错误与进程占用。
   !macro KnorviaReportUninstallerStage MESSAGE
     DetailPrint "Knorvia Studio: ${MESSAGE}"
     Push "${MESSAGE}"
@@ -73,9 +74,8 @@
 !endif
 
 !macro customRemoveFiles
-  ; electron-builder 默认在更新时递归删除整个 $INSTDIR，用户放入的无关文件也会被清掉。
-  ; 只按上一版本随包生成的所有权清单删除，清单缺失时迁移旧版本采用 fail-open 保留策略。
-  ${if} ${isUpdated}
+  ; 普通卸载原来也会递归清空安装目录，误删用户放入其中的 data/配置。
+  ; 两种清理共用随包生成的所有权清单；只有升级兼容旧版时允许清单缺失并保留原文件。
     !ifdef BUILD_UNINSTALLER
       !insertmacro customRemoveFilesDiagnosticsStart
     !endif
@@ -100,6 +100,7 @@
       StrCmp $R1 "${UNINSTALL_FILENAME}" knorviaManifestRead
       GetFullPathName $R2 "$INSTDIR\$R1"
       StrCmp $R2 "$INSTDIR\$R1" 0 knorviaManifestRead
+      IfFileExists "$R2" 0 knorviaManifestRead
 
       ; 当前版本卸载器与外层安装器是两个进程；逐项记录到卸载器日志，便于核对真正尝试删除的文件。
       !ifdef BUILD_UNINSTALLER
@@ -108,6 +109,23 @@
       ClearErrors
       Delete "$INSTDIR\$R1"
       IfErrors knorviaManifestDeleteFailed
+      ${ifNot} ${isUpdated}
+        ; 只清空刚删除的程序文件的空父目录。非空目录可能含用户数据，不能使用 /r。
+        GetFullPathName $R5 "$INSTDIR"
+        ${GetParent} "$R2" $R3
+        knorviaEmptyOwnedParentNext:
+          StrCmp $R3 "" knorviaEmptyOwnedParentDone
+          StrCmp $R3 $R5 knorviaEmptyOwnedParentDone
+          ClearErrors
+          RMDir "$R3"
+          IfErrors knorviaEmptyOwnedParentDone
+          ${GetParent} "$R3" $R4
+          StrCmp $R3 $R4 knorviaEmptyOwnedParentDone
+          StrCpy $R3 $R4
+          Goto knorviaEmptyOwnedParentNext
+        knorviaEmptyOwnedParentDone:
+          ClearErrors
+      ${endif}
       Goto knorviaManifestRead
 
     knorviaManifestDeleteFailed:
@@ -122,21 +140,32 @@
       Goto knorviaManifestDone
 
     knorviaManifestMissing:
-      ; 首次从旧版本升级时没有清单，不能猜测所有权并删除用户文件。
-      !ifdef BUILD_UNINSTALLER
-        !insertmacro KnorviaReportUninstallerStage "cleanup-skipped reason=manifest-missing action=preserve"
-      !endif
-      ClearErrors
+      ${if} ${isUpdated}
+        ; 首次从旧版本升级时没有清单，不能猜测所有权并删除用户文件。
+        !ifdef BUILD_UNINSTALLER
+          !insertmacro KnorviaReportUninstallerStage "cleanup-skipped reason=manifest-missing action=preserve"
+        !endif
+        ClearErrors
+      ${else}
+        !ifdef BUILD_UNINSTALLER
+          !insertmacro KnorviaReportUninstallerStage "cleanup-failed reason=manifest-unavailable action=preserve"
+        !endif
+        MessageBox MB_OK|MB_ICONSTOP "$(KnorviaUninstallOwnershipMissing)" /SD IDOK
+        Abort "$(KnorviaUninstallOwnershipMissing)"
+      ${endif}
 
     knorviaManifestDone:
+      ${ifNot} ${isUpdated}
+        SetOutPath $TEMP
+        Delete /REBOOTOK "$INSTDIR\${UNINSTALL_FILENAME}"
+        Delete "$INSTDIR\${KNORVIA_INSTALL_MANIFEST_NAME}"
+        ; 留有用户文件或空 data 目录时，根目录必须保留；失败不改写外部 AppData。
+        RMDir "$INSTDIR"
+        ClearErrors
+      ${endif}
       !ifdef BUILD_UNINSTALLER
         !insertmacro customRemoveFilesDiagnosticsComplete
       !endif
-  ${else}
-    ; 普通卸载仍保持 electron-builder 的全量删除语义；ownership 清单只约束覆盖更新。
-    SetOutPath $TEMP
-    RMDir /r $INSTDIR
-  ${endIf}
 !macroend
 
 !ifndef BUILD_UNINSTALLER
@@ -234,6 +263,7 @@
   !macroend
 
   !macro customInit
+    !insertmacro KnorviaInitializeShortcutOptions
     IfSilent knorviaInstallerInitSilent knorviaInstallerInitInteractive
     knorviaInstallerInitSilent:
       !insertmacro KnorviaReportInstallerStage "installer-initialized mode=silent"
@@ -568,4 +598,8 @@
   FunctionEnd
 
   Page custom KnorviaBlockInstallDirContainsData KnorviaBlockInstallDirContainsDataLeave
+  !insertmacro KnorviaShortcutOptionsPage
+  ; 紧接该 hook 的 stock MUI_PAGE_INSTFILES 消费这两个页眉值；真实进度/文件详情仍由 NSIS 提供。
+  !define MUI_PAGE_HEADER_TEXT "Knorvia Studio"
+  !define MUI_PAGE_HEADER_SUBTEXT "$(KnorviaInstallingSubtitle)"
 !macroend

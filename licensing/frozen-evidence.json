@@ -9130,6 +9130,138 @@
       "bytes": 6851
     },
     {
+      "path": "docs/evidence/installer-branding-format-20261003/README.md",
+      "sha256": "fec6ca350122c9138c9f99577b83ec4b58ecda107d0561501f3832815d4b5a61",
+      "bytes": 661,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/SHA256SUMS",
+      "sha256": "b8716ef1bdd8c81917feca00d00e81a186c19cc66d728c98b8df9a86610d2757",
+      "bytes": 333,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/format-receipt.json",
+      "sha256": "b87be8f6c11b598641329a7af7283d6279a8f71deec0c10835e83976503945b0",
+      "bytes": 1199,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/sources-after.json",
+      "sha256": "17157d430f457cbc3ab8a4fb07480a5138fa7567424a847c5af5a4976a7a1e03",
+      "bytes": 1736,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
+    },
+    {
+      "path": "docs/evidence/installer-branding-format-20261003/sources-before.json",
+      "sha256": "41feeb65592a1d1d0a5e20c4bd97a383885c3714daa8a14135dd51d9cc913d7d",
+      "bytes": 1898,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/DESIGN.md",
+      "sha256": "11d669a02d68aa23afd782c4b10150c6d99a8287d01c87dd327d475be16231ab",
+      "bytes": 3800,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/INTEGRATION.md",
+      "sha256": "9206c0519f2bcfcb2e799696bff04f559b1256b26e6610653a8522212449bc62",
+      "bytes": 2611,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/README.md",
+      "sha256": "239af33b739e3c260b469308a9196ddadace1e19e780e4dae109d167d83014d7",
+      "bytes": 1946,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/SHA256SUMS",
+      "sha256": "31691b125eb9a7b019f358d7aaa3ab1062cea7a2bd7043e54e26418f29d0b3b3",
+      "bytes": 2424,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/asset-checks.json",
+      "sha256": "822fdb6554cbb50b66baba25e9ebcec4d2697d7fffa269d9b385682782a55dc6",
+      "bytes": 3064,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/asset-render-recipe.py.txt",
+      "sha256": "950620d0c938d82a1e530ed28fcee30e14c0a36d4cf009a3b029b240aef357df",
+      "bytes": 628,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/copy.json",
+      "sha256": "03cfeab36b1aa5552d8854a70fb00562bcaaf8dbc2a88d8124b2f1ebdcddaf95",
+      "bytes": 1702,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/finish-en.png",
+      "sha256": "4aaaae9dd71143fc974df50dbb491b40832bee50c65e69d5ee5f76c447363e32",
+      "bytes": 34579,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/finish-zh.png",
+      "sha256": "80c0cb274c6bebb99b52379c9883839ae802af8954dc818170e30a279b2f08d8",
+      "bytes": 34121,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/install-en.png",
+      "sha256": "73cf85dfe49b50415ef168d11aae308d17499840e9cd93946952344035aead30",
+      "bytes": 19906,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/install-zh.png",
+      "sha256": "b262eb3db8a62454bfb55fd41acc0a50878ea033b89ec908bc596dd1fada7e48",
+      "bytes": 20383,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/overview-en.png",
+      "sha256": "5b490592518adc9995a6a6e579fa02f6f64f34d5c41e2f7144c9c51c73842489",
+      "bytes": 113989,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/overview-zh.png",
+      "sha256": "4390d87f0fb9fd61a0396d16c104958097b5e4741733f71679dde4eff3866ce7",
+      "bytes": 113737,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/preview-checks.json",
+      "sha256": "c0c154e6db0495956fb091ce99a7c3104563f50a7bd11957f7defc9c916cb217",
+      "bytes": 7191,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/preview.html",
+      "sha256": "522f63ed3f17a20bc563bac88746d68aa50fbd87c57ca3d328f477a0f06fa4b6",
+      "bytes": 10158,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/welcome-en.png",
+      "sha256": "a64391ce04b0b8b4caca4c4bf300a300f768ca12e42eaf5f18e4d555b61d8dfb",
+      "bytes": 32285,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
+      "path": "docs/evidence/installer-branding-ui-20261003/welcome-zh.png",
+      "sha256": "6931a3b6b4f91156e1fb16132d625b4f7e1a65f09f18e52e6c6c1863cd32c9ce",
+      "bytes": 32772,
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51"
+    },
+    {
       "path": "docs/evidence/integration-http-fixture-20261003/README.md",
       "sha256": "dbdbc5d010560609b5f54ced574ebe22f3e7878285502436aac08a06cb497084",
       "bytes": 2127,
@@ -11333,6 +11465,288 @@
       "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
       "bytes": 523,
       "sourceCommit": "5d826c0312d1edf4bef8959bf24ca0b0d6f0ccc4"
+    },
+    {
+      "path": "docs/evidence/native-installer-variants-20261003/README.md",
+      "sha256": "dc223350972606d3e010b564a9978bc079f32c65dd89e54031beb4912eb036bd",
+      "bytes": 6455,
+      "sourceCommit": "54af931e1a17f13bf39c67d48291e8b03fc42d9e"
+    },
+    {
+      "path": "docs/evidence/native-installer-variants-20261003/SHA256SUMS",
+      "sha256": "be2fc8f5966c519e0baea14f8b8afd1d6bd4148f81f5c59f70c3556cfaf63648",
+      "bytes": 163,
+      "sourceCommit": "54af931e1a17f13bf39c67d48291e8b03fc42d9e"
+    },
+    {
+      "path": "docs/evidence/native-installer-variants-20261003/source-bindings.json",
+      "sha256": "04908492962f35f5aa8fce1dc6eb123669edbda4c5205864cf77f7b5e904fcc0",
+      "bytes": 7564,
+      "sourceCommit": "54af931e1a17f13bf39c67d48291e8b03fc42d9e"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/README.md",
+      "sha256": "db4b6e760a60c628a3b994ee5573931e9c804184405f8d2a130f33de9f029c7a",
+      "bytes": 5541,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/SHA256SUMS",
+      "sha256": "02bda849c3c2d4abe9e6fc55287cdf1afbb7b759c119815486bf1213132e2a9a",
+      "bytes": 3959,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/actual-app-metadata.json",
+      "sha256": "ff08d9c03347eb3f387f91ab02d10eb861effd4a3684c2e28d2a7daf36d24351",
+      "bytes": 417,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/appimage-extraction.log",
+      "sha256": "87d33562af30fbd4fe898df7c8cccca12be0b946239b8c6367d7c0644f927c12",
+      "bytes": 14427,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/apt-cpio-download.log",
+      "sha256": "dae8320e69e8c83cc56596f37487f69a6f857a3200524dd24b4df733086fbbfc",
+      "bytes": 500,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/apt-download.log",
+      "sha256": "9c47ad3440c28527d66e27c9df2e794a54aa2968fb8c666becc34d29ec8f9d83",
+      "bytes": 1963,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/apt-libarchive-download.log",
+      "sha256": "2844add832501c6d99e3918d62ccd707a5497aac39c3088c5fa6cd383c430b86",
+      "bytes": 492,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/apt-update.log",
+      "sha256": "e7801442e9f1babe5644199c45bd6a237402cd3dcae66a5d4a6ab5c7776422f4",
+      "bytes": 194,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/architecture-after-final.log",
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "bytes": 197,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/architecture-before.log",
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "bytes": 197,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/architecture-context.log",
+      "sha256": "054b1aa64a8ad685c4a5b92cbe5634eef47620157c857d13987b3d7bc4a28d6e",
+      "bytes": 313,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/artifact-native-probe.json",
+      "sha256": "b9da87d04537275a4e9819d7e0b41258a6f9c3ddf535ac19da3268f2ea74b8d9",
+      "bytes": 24696,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/artifact-native-probe.log",
+      "sha256": "97476a6915f2a4c2524cbcfad13035231b30ae8e93bd6aa96a148da5f878182b",
+      "bytes": 586,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/commands.json",
+      "sha256": "32bb4e0485acb373d040bb4be4e258ad65d6e7b07ef9e615a450746ee48c6c6d",
+      "bytes": 5707,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/config-format-final.log",
+      "sha256": "d7b0e44d02d6abb310b2affbca52e9e79704a4cba03d44ffb7de3d97a6a591ec",
+      "bytes": 111,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/config-lint-final.log",
+      "sha256": "41a2c3498b647fef7b947872c82565d77e897c74d8d98c2a72493c2417f77a15",
+      "bytes": 89,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/desktop-build-binding.json",
+      "sha256": "3f0edee778be0f7df99c43fe76a69314e1bfbe9d592632c45e40e6bcdc0aed65",
+      "bytes": 346,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/desktop-build.log",
+      "sha256": "564fe1827f4095699a8c039ba89d4d4a4990a075a5a70f052b3a2ad27eaa775f",
+      "bytes": 123671,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/fpm-preparation.log",
+      "sha256": "9d69a63ce85e6c9b3fa0dc1778d03ba388faf79b3d3fc506afa9f2fa8d41891b",
+      "bytes": 463,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/freshness-initial.log",
+      "sha256": "a0f8241f4745af2c60ffcbdc15c6db9e12126d7d11488e0c2b114fa2b44f4004",
+      "bytes": 930,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/freshness.log",
+      "sha256": "873ac6841d04b8b8b58f0aac5ca3a35f769532e2a2d361049e8ab283a00fdc6a",
+      "bytes": 228,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-artifact-metadata-probe-initial.json",
+      "sha256": "967d8f6450e4a96653633087af014301854b6d2984422bca93581fc497818bea",
+      "bytes": 5895,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-artifact-metadata-probe-initial.log",
+      "sha256": "be50fe1213add2cfe69fc2c92ebe891c2d000c247b7c695e94f482f06ff39629",
+      "bytes": 1222,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-artifact-metadata-probe-initial.py",
+      "sha256": "8b896bb780247f2ec608d6d08c79db22055312159d763137888efc9122dea13b",
+      "bytes": 8250,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-artifact-metadata-probe.json",
+      "sha256": "f824edc180bcabf987bbe1ed1abb7e15461d8a16fd94903dd83d553d3150626b",
+      "bytes": 23509,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-artifact-metadata-probe.log",
+      "sha256": "3858ea8de3213e9697c3b13821cee2779ecc90d5adf66368a9d9317e9756fd50",
+      "bytes": 233,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-artifact-metadata-probe.py",
+      "sha256": "7d4480006398bcbf7da7e299a1e1604f0d195a1c8084cacb896645be6237fb76",
+      "bytes": 8509,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-package-rejected-schema-cd801380.log",
+      "sha256": "f86b50d89f66ebc756f969dcda6c99478e91b046784b58140f8f083f8fbe93f8",
+      "bytes": 4421,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/linux-package.log",
+      "sha256": "2d27195bcb91b4143d528feb86f6f63e44b206d743fd3a60952bc7224d2a36ae",
+      "bytes": 5048,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/metadata-probe-correction.json",
+      "sha256": "7719144eab0c877a60150e0a4b67c682f0e699753488b722d2a8b48483960b40",
+      "bytes": 471,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/pacman-format-probe.json",
+      "sha256": "553a69ca0b6fc6fe5e492cee219cf1785200aef5321bf52f82b5419d8f6ed3bd",
+      "bytes": 1477,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/pacman-format-probe.log",
+      "sha256": "af7e037385f19fa5b1a7613cfccfbcf1c18724542e2a2b016905bdbf002c8963",
+      "bytes": 150,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/pacman-format-probe.py",
+      "sha256": "6105e867c34f02fd2cb51db2a66ae8f242b217d23837bb687b3e0bc49e84a792",
+      "bytes": 2027,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/pacman-zstd-extension-probe.json",
+      "sha256": "b26e2efe81580c10a20523b3184e4d7088a11847070f30699a155da2672bf780",
+      "bytes": 1524,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/pacman-zstd-extension-probe.log",
+      "sha256": "c8495e086245a15274320e4b4eb1672cd018c0fa022bcbb0882eb17bced902f3",
+      "bytes": 157,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/pacman-zstd-extension-probe.py",
+      "sha256": "b30fcaca792fc8a1d43c67c5a20b05a69e56016ec61e3229d4f643ceb19c02b6",
+      "bytes": 2072,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/result.json",
+      "sha256": "a85d84eb75ad556efd6b2c9f820834a371fa7ff1be838969dc9b6b12fb147ca4",
+      "bytes": 6492,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/rpm-db-preparation.log",
+      "sha256": "186d05925aa4b3864895143582a1b34bd9832435df008604bc813f45a737382f",
+      "bytes": 47,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/runtime-bindings.json",
+      "sha256": "cf7a0efd7ca8794a2fda73fe8df512992181faa2776f04a30d1d2116e52912dc",
+      "bytes": 891,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/runtime-preparation.log",
+      "sha256": "efedea935756ea8a40630d51c93c1825b9430bf748465ee01da10303270c8f57",
+      "bytes": 5416,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/source-input-initial-metadata.json",
+      "sha256": "f0747e177d66d3bec4a94d3f59ac77e7ef2a2a499276a38814ca3436531bce36",
+      "bytes": 3562,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/source-input-rejected-schema-cd801380.json",
+      "sha256": "b595f03b73e1ddb9edd863807c21ce8864dcb1ce912247f00158b04ba94ab8d3",
+      "bytes": 3780,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/source-input.json",
+      "sha256": "2e845f83fb0c96c17a9add02638198f83cb8205bff506cfc50b62afdf356ae91",
+      "bytes": 3872,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
+    },
+    {
+      "path": "docs/evidence/native-linux-maintainer-20261003/tool-dependencies.json",
+      "sha256": "58aef4723458e97fb7b0e2155fdca47e8b7b609d8f12aa24e1f7e0a2393b1584",
+      "bytes": 3515,
+      "sourceCommit": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d"
     },
     {
       "path": "docs/evidence/native-packaged-acceptance-20261003/appimage-extract.log",
@@ -30328,6 +30742,120 @@
       "path": "licensing/evidence/write-transaction-20260930.json",
       "sha256": "7e4c2c03587342e467f4af347443d6ee4baa5f1547f0bf973110573f5c758718",
       "bytes": 6360
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/README.md",
+      "sha256": "410af170342058b37ddbab06de641af97e3fb09e12a735d224ac9de4916ef215",
+      "bytes": 2131,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/baseline-bootstrap-report.json",
+      "sha256": "7e17a4835bf4156d015c39b5ace1b1ee6c509f6171e86d3f3b5af558e270e0f6",
+      "bytes": 4331,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/baseline-expression.txt",
+      "sha256": "762624e4ea99c30a433a385ec06bcd2aa1c7b239f83a71d995befd809e7f6d80",
+      "bytes": 1085,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/current-bootstrap-report.json",
+      "sha256": "c85e8f8b487f9670c06dde556dc16202b74647816a52a011f7ed2fd634c8a77b",
+      "bytes": 3370,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/current-expression.txt",
+      "sha256": "e9e9a7931bbccb12400c3b1729ea7d49c15f40cbb582b5bc053198fcb138c426",
+      "bytes": 1567,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/guarded-bootstrap-report.json",
+      "sha256": "39227f8c8757421e35be5a3c76fc747c26edeaeef8986e5df329964107357cbe",
+      "bytes": 8143,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/minimal-bootstrap-current.mjs.txt",
+      "sha256": "2f1e1516c4e5f79d2419d9661cf717ca500ce36df349db28e28a89a3c985f7ab",
+      "bytes": 3987,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-bootstrap-20261004/minimal-bootstrap.mjs.txt",
+      "sha256": "02ab2abbf2905ca3dc67554183c5b1e8cdec22c60691154686f5a27fc470de1b",
+      "bytes": 3955,
+      "sourceCommit": "58bba967abe008ea312253b2996083017a677a3b"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/README.md",
+      "sha256": "48361598a88b23190a0f77f1f09a1855bf91d54214c128e327900521714ea35b",
+      "bytes": 2305,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/minimal-singleinstance-confirm.mjs.txt",
+      "sha256": "077ad64f2fa4801dfda767b0e3f5c721f9ee95b8a4fd84e2a5b9342846ab5b26",
+      "bytes": 4456,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/minimal-singleinstance-control.mjs.txt",
+      "sha256": "086bd4e967a3696f9abf48a55ba8781e88a3fbbad0dd22ed243c5606bb97b666",
+      "bytes": 4424,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/minimal-singleinstance.mjs.txt",
+      "sha256": "e0c393e52583dae97141752672361d9cd2c7a90095eb1650cf8b80c10ce38eb5",
+      "bytes": 4391,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/probe-expression.txt",
+      "sha256": "2ced4fa1e3e8c335140031d6e820d073bb5f9449b00c095616e670f2a2ed04b0",
+      "bytes": 1843,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/singleinstance-bootstrap-report.json",
+      "sha256": "27c2230d32f26e2738242b8a19cfa819e0598e67304731666bf9ef28d147f77c",
+      "bytes": 5706,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/singleinstance-confirm-report.json",
+      "sha256": "2150742b2f81247b1aabc47ea8016da73507b9dfd6d871473a2ae199e7a682d8",
+      "bytes": 3776,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/singleinstance-control-report.json",
+      "sha256": "807ea9251659a7e3c2fe7194ab0edec50e51bd7390fd9c9b16adc8a0bad4e9fc",
+      "bytes": 2076,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/trace3a-linux-x64-portable-acceptance.json",
+      "sha256": "c565bdfd6588ee4a4b0af72c0050af5bb335d4e0a127cb9bcf141698a3c6e1fb",
+      "bytes": 48164,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/trace3a-portable-launch-0-diagnostic.png",
+      "sha256": "7136d681c36b9e5fe234c3f569a81dece6715c15234ea1c2788a7b751589023e",
+      "bytes": 308,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
+    },
+    {
+      "path": "docs/evidence/desktop-linux-socket-20261004/trace3a-portable-launch-0-diagnostic.strace",
+      "sha256": "17a78815dc642e1ba387011b03032fb893024f1e1d210fd5c336f62ca464fbe0",
+      "bytes": 961759,
+      "sourceCommit": "b50121aefbdad33c5d96242b9efdbdf6c58b7c0a"
     }
   ]
 }

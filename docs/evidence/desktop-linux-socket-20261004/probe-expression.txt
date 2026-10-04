@@ -1,0 +1,23 @@
+(() => {
+  // inspector 可早于 Node 全局与 Electron browser 初始化；先等原生 owner 的完成标记。
+  if(typeof process==="undefined" || process.type!=="browser" || typeof process.resourcesPath!=="string")
+    return {ready:false,bootstrap:"electron-browser-process-pending"};
+  // pinned browser/init.ts 在 app/API 设置完成、加载应用入口之前删除此属性。
+  if("appCodeLoaded" in process) return {ready:false,bootstrap:"electron-browser-entry-pending"};
+  // 打包 Main 是 ESM，inspector 没有全局 require；从实际 ASAR 创建加载器。
+  if(typeof process.getBuiltinModule!=="function") return {ready:false, bootstrap:"node-module-api-pending"};
+  const module=process.getBuiltinModule("module");
+  // inspector 可早于 Electron bootstrap 接入；等真实别名注册，不吞运行时异常。
+  if(!module?._cache?.electron) return {ready:false, bootstrap:"electron-module-pending"};
+  const require=module.createRequire(process.resourcesPath+"/app.asar/package.json");
+  const {app,BrowserWindow}=require("electron");
+  // 路径查询可创建默认 userData；ready/data owner 就绪前不调用窗口、版本或路径 API。
+  const ready=app.isReady(), base=process.env.KNORVIA_DATA_BASE_DIR;
+  if(!ready || !base) return {pid:process.pid,ready:false,bootstrap:"app-ready-and-data-owner-pending",base};
+  return {pid:process.pid, ready, windows:BrowserWindow.getAllWindows().length,
+    version:app.getVersion(), executable:process.execPath, resourcesPath:process.resourcesPath,
+    userData:app.getPath("userData"), portableDirectory:process.env.KNORVIA_PORTABLE_DIR,
+    base:process.env.KNORVIA_DATA_BASE_DIR, home:process.env.KNORVIA_HOME,
+    storage:process.env.KNORVIA_STORAGE_DIR, launcherDirectory:process.env.PORTABLE_EXECUTABLE_DIR,
+    appImage:process.env.APPIMAGE};
+})()

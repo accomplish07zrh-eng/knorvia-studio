@@ -1,0 +1,114 @@
+{
+  "status": "failed",
+  "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "mainBaseSha": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
+  "platform": "linux-x64",
+  "expectedContact": "Knorvia Studio <accomplish07zrh@gmail.com>",
+  "applicationLicense": "Apache-2.0",
+  "targets": {
+    "deb": {
+      "artifact": {
+        "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-amd64.deb",
+        "bytes": 142231596,
+        "sha256": "0fee2646f9b9483621afcf4818f88ace49ed9993b637c939dc78b1cfff04497a"
+      },
+      "rawControl": "Package: knorvia-studio\nVersion: 0.8.0~preview.3\nLicense: Apache-2.0\nVendor: Knorvia Studio <accomplish07zrh@gmail.com>\nArchitecture: amd64\nMaintainer: Knorvia Studio <accomplish07zrh@gmail.com>\nInstalled-Size: 599605\nDepends: libgtk-3-0, libnotify4, libnss3, libxss1, libxtst6, xdg-utils, libatspi2.0-0, libuuid1, libsecret-1-0\nRecommends: libappindicator3-1\nSection: default\nPriority: optional\nHomepage: https://knorvia.xyz\nDescription: \n  Knorvia Studio\n"
+    }
+  },
+  "commands": [
+    {
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/workspace/knorvia-studio",
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "cwd": "/workspace/knorvia-studio",
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "/usr/bin/dpkg-deb",
+        "--field",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-amd64.deb"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "/usr/bin/dpkg-deb",
+        "--extract",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-amd64.deb",
+        "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    }
+  ],
+  "limits": [
+    "No global package/OS installation",
+    "No GUI/model/user-profile operations",
+    "Package metadata/payload checks do not establish RPM/Arch distro installation acceptance"
+  ],
+  "freshUnpacked": {
+    "knorvia-studio": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/knorvia-studio",
+      "bytes": 206036184,
+      "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+    },
+    "resources/app.asar": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/app.asar",
+      "bytes": 291094777,
+      "sha256": "f4879bc3f6c49091904ca3a705dc51983c38da2ce17ba2462f07ba4242961919"
+    },
+    "resources/knorvia/knorvia.cjs": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/knorvia/knorvia.cjs",
+      "bytes": 16544775,
+      "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+    },
+    "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+      "bytes": 75976,
+      "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+    },
+    "resources/LICENSE.knorvia.txt": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/LICENSE.knorvia.txt",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    "resources/NOTICE.md": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/NOTICE.md",
+      "bytes": 6386,
+      "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+    },
+    "resources/THIRD-PARTY-NOTICES.md": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/THIRD-PARTY-NOTICES.md",
+      "bytes": 1977114,
+      "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+    },
+    "resources/licensing/MIT.txt": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/licensing/MIT.txt",
+      "bytes": 1084,
+      "sha256": "91f596d3377aa8a4028ac3be9f1bd83015493adb01617702a00364ccc57382a1"
+    },
+    "resources/licenses/lobe-icons-LICENSE.txt": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/licenses/lobe-icons-LICENSE.txt",
+      "bytes": 1064,
+      "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+    }
+  },
+  "error": "Traceback (most recent call last):\n  File \"/workspace/knorvia-native-linux-email-20261003/linux-artifact-metadata-probe.py\", line 55, in <module>\n    copyright=(extracted/'usr/share/doc'/package_name/'copyright').read_text()\n  File \"/usr/lib/python3.13/pathlib/_local.py\", line 548, in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/pathlib/_abc.py\", line 632, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/pathlib/_local.py\", line 539, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/usr/share/doc/knorvia-studio/copyright'\n"
+}

@@ -1,0 +1,8 @@
+
+> knorvia-studio@0.8.0-preview.3 architecture:check /workspace/knorvia-studio
+> node scripts/architecture/architecture-check.mjs check --changed
+
+architecture: OK
+violations: 0
+baseline: 0
+new: 0

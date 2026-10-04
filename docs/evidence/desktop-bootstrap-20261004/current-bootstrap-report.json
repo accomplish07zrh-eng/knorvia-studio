@@ -1,0 +1,100 @@
+[
+  {
+    "mode": "current",
+    "iteration": 0,
+    "states": [
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-process-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "ready": false,
+        "bootstrap": "electron-browser-entry-pending"
+      },
+      {
+        "pid": 79284,
+        "ready": false,
+        "windows": 0,
+        "version": "41.0.3",
+        "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+        "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+        "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/config/Electron"
+      },
+      {
+        "pid": 79284,
+        "ready": false,
+        "windows": 0,
+        "version": "41.0.3",
+        "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+        "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+        "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/config/Electron"
+      },
+      {
+        "pid": 79284,
+        "ready": false,
+        "windows": 0,
+        "version": "1.0.0",
+        "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+        "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+        "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/config/Electron"
+      },
+      {
+        "pid": 79284,
+        "ready": false,
+        "windows": 0,
+        "version": "1.0.0",
+        "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+        "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+        "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/profile"
+      },
+      {
+        "pid": 79284,
+        "ready": true,
+        "windows": 0,
+        "version": "1.0.0",
+        "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+        "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+        "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/profile"
+      },
+      {
+        "pid": 79284,
+        "ready": true,
+        "windows": 0,
+        "version": "1.0.0",
+        "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+        "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+        "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/profile"
+      }
+    ],
+    "actualReadyWindow": {
+      "pid": 79284,
+      "ready": true,
+      "windows": 1,
+      "version": "1.0.0",
+      "executable": "/tmp/knorvia-targeted-electron-20261004/runtime/electron",
+      "resourcesPath": "/tmp/knorvia-targeted-electron-20261004/runtime/resources",
+      "userData": "/tmp/knorvia-targeted-electron-20261004/bootstrap-fixture-6ifqy2/profile"
+    },
+    "exit": [
+      0,
+      null
+    ],
+    "status": "passed"
+  }
+]

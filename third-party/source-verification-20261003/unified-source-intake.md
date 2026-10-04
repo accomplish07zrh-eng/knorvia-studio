@@ -260,3 +260,378 @@ Git tree 与 d555 相同：Linux **8264 tests / 8256 pass / 0 fail / 8 skip**，
 pacman 仍缺事实公开维护邮箱，原 targets 保留；不从 Git 作者推断邮箱。它们不阻塞
 已完成的 AppImage/归档或正常源码 main 合并。新 CI 通过后按既有授权正常合 PR24，
 保留各输入祖先、原始失败和来源分支，不宣称100%全支持或全仓独立权利接受。
+
+## Linux maintainer metadata and installer release intake
+
+User-authorized public maintainer email `accomplish07zrh@gmail.com` supersedes
+the earlier packaging hold. Native head `5c3120f0abfd4031a9c69b5b8a6d2082721ef57d`
+was normally merged from main `b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687`.
+Forty-four raw files (277567 bytes), forty-three delivery checksum entries and
+seventeen named source-input bindings match their committed bytes. The previous
+5943 frozen records remain unchanged; cumulative registration is 5987 files /
+68131061 bytes. Registration preserves sourceCommit, baseline and roots.
+
+Native's actual Linux products remain preview.3 built from
+`b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8`, tree
+`43b342a85478c77f148ffec6fd8f90cc43e1013b`, not this integration commit. The
+packet records real successful AppImage/deb/rpm/pacman generation, metadata,
+extracted payload equality and bounded native-runtime acceptance. The initial
+rejected builder schema, corrected metadata probe and other actual failures
+remain frozen. The integrator verified committed evidence and source bindings;
+large product bytes remain in the native environment and were not rehashed
+here. These preview.3 products will not be relabeled as preview.4 or overwrite
+the existing release. Final release products must be built from the final exact
+source commit, with fresh checksums and package acceptance.
+
+The new preview.4 release keeps root Apache-2.0, NOTICE, all historical source
+records and unresolved per-material obligations. Release automation/acceptance
+utilities adapt explicitly identified prior probe behavior where needed; this
+is not a new originality claim. No repeated local full suite was run during
+this evidence intake. Required new-source and actual package checks are pending
+the final release candidate.
+
+UI PR28 head `1a0febaf9b362b5bcd578d396ec566bf98a33e51` was normally merged.
+Its 19 delivery checksums were verified against the exact committed files; 17
+new raw files / 435296 bytes were registered, preserving the previous 5987
+records. Frozen registration is now 6004 files / 68566357 bytes. The two BMP
+files and source icon retain their actual hashes. Static HTML/PNG previews are
+design evidence only, not native Windows installer screenshots. The production
+asset `sources.json` has a genuine targeted formatting failure; UI correction
+is pending. Native owns the actual bitmap/LangString/installation integration.
+
+The integration release helper tests have three real passes; changed-file lint
+and architecture checks pass. These do not stand in for final source CI or
+actual release-package acceptance, which remain pending. New probe helpers
+adapt the frozen canonical native probe and Linux metadata probe without
+editing the original files or their failure history. No source-origin claim
+is promoted merely because a new packaging helper passes a check.
+
+## Native guided installation, portable variants and format correction
+
+Native heads `1836f419aa2ac41117e21b1ba01e196d66227a2a` and
+`b03bb9d25b71ac07b7c8d510c4fc2d34ac966ff7` were normally merged from their
+retained branch. They add the actual bitmap/shortcuts integration, separate
+portable targets and stable launcher-origin profile selection, and limit both
+upgrade and ordinary uninstall cleanup to owned program files. Source fixtures
+are authored but were not executed in that implementation lane. Earlier b5fbc3d8
+Linux product results remain bound to that older input; they do not validate
+these later runtime/installer changes. Integration's fresh release matrix covers
+both platform/variant combinations and requires actual package acceptance.
+
+CI37136506776 at PR29 head 162477ddabc04dbb4df0606578ddbf98a9e6da2b really
+failed both platforms at the UI production sources.json formatting rule.
+Provenance, types and lint passed; architecture/build/offline regression did not
+run. The targeted formatter changed only JSON layout, with identical values and
+unchanged bitmaps. Five new raw records (5827 bytes) retain original/formatted
+bytes and their exact relationship in docs/evidence/installer-branding-format-20261003.
+The historical UI packet/checksum stays unchanged and continues to describe
+its original exact commit. No original failure was replaced with a success.
+All 6004 previous frozen rows remain; current registration is 6009 files /
+68572184 bytes. These formatting records were created by integration, not
+falsely attributed as files committed at the UI source head.
+
+Native's final source-only packet at
+`54af931e1a17f13bf39c67d48291e8b03fc42d9e` was normally merged. Its 23
+explicit source/blob/hash bindings were verified at their own recorded source
+commits, including the separate UI resource sourceCommit. Three raw files /
+14182 bytes were appended exactly; frozen registration is 6012 files /
+68586366 bytes. Native's authored tests remain described as unrun in that packet.
+The temporary intake reader first looked up UI resource rows at the native
+commit, then resolved a packet-relative README checksum at the repo root; both
+failed before registration and were corrected using explicit row sourceCommit
+and packet-relative paths. These were metadata reader failures, not product
+checks. Four native production/spec/fixture files received formatter-only
+layout corrections after a genuine targeted format failure; their original
+bytes remain at b03 and in the unchanged source binding. Source semantics and
+all existing raw evidence are retained.
+
+The packet also preserves that native's own draft PR creation was rejected by
+automatic approval review because its delegated context did not establish
+direct trusted authorization to disclose the maintainer address. Native created
+no PR and did not bypass its rejection. This historical operation remains a
+failure; it is not changed by integration intake or the existing public branch.
+Integration publication must follow the authorization and actual write result
+of this task, without fabricating approval, signatures or disclosure authority.
+
+The integration lane subsequently ran the three focused native unit files once
+on Linux with pinned Node 24.14.0: 17 tests passed, zero failed/cancelled/skipped,
+covering the ten new scenarios plus seven retained scenarios. The input was
+local HEAD 7583d1a2e51291445b8bfe78c9476dc8ab5604fb with its explicitly dirty
+integration working tree; this is not final source CI or packaged Windows proof.
+The four Windows NSIS cleanup scenarios and fresh actual release packages
+remain unrun. The original native packet remains unchanged and describes only
+its own earlier source-only operation.
+
+After one direct-authorization evidence retry, native's PR creation was again
+rejected because review still saw delegated context. The parent is waiting
+for the end user's direct public-email authorization. Integration preserves
+all prepared local source and receipts, and pauses public pushes, related PR
+writes, tags and Release publication. Existing public history does not grant
+permission to bypass this rejection. No v0.8.0-preview.4 publication occurred.
+
+The five integration-created formatting records were first committed locally
+at c0b6ff599063b11b2dd8bb8be899b9c4ba64519b. Their frozen rows now bind to
+that actual commit after verifying each committed blob's SHA-256 and byte size;
+they are not attributed to the UI source commit. All earlier frozen rows and
+their committed source relationships remain unchanged. This local checkpoint
+does not imply a push, final source CI or public-email approval.
+
+## Direct disclosure authorization and release resumption on 2026-10-04
+
+At 00:34 UTC the end user directly answered "允许" to the explicit question
+permitting accomplish07zrh@gmail.com in Knorvia Studio public GitHub PRs and
+Release packages as the maintainer contact. The parent supplied the original
+question/answer and successful direct-message lookup, then authorized resuming
+the existing 0.8.0-preview.4 release. This applies to future writes within that
+scope; it does not change the earlier refusal results into successes. A new
+approval rejection still blocks its action and must not be bypassed.
+
+The saved local input 49b05dd12f0eee314cd6b6d9f03baece46e8e9e2 was intact
+with a clean worktree. Remote integration remained 162477ddabc04dbb4df0606578ddbf98a9e6da2b,
+main b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687, native
+54af931e1a17f13bf39c67d48291e8b03fc42d9e and UI
+1a0febaf9b362b5bcd578d396ec566bf98a33e51. No preview.4 tag/Release existed
+at resumption. Existing raw packets, prior 17 focused unit passes, historical
+CI failure and old preview.3 products keep their original input bindings.
+Final candidate/package checks are still pending at this checkpoint; publication
+will use fresh packages built from the eventual exact normal main merge SHA.
+
+The user then directly authorized accomplish07zrh@gmail.com for public project
+PRs and Release packages in this original integration task and requested merge
+and publication. The prior review refusals/cancelled candidate stay unchanged.
+PR CI37165480921 passed both platforms at actual merge SHA
+5797668baa93ceb9f4940c832788b1553d4b50aa, tree
+284526d6b32d788ac1fa739ca5828edf64558497, equal to candidate 52f337f1.
+Linux: 8277 tests / 8269 pass / 8 skip; Windows: 8277 / 8275 / 2;
+both zero failures/cancellations. No real packages were accepted by that CI.
+At resumption the workflow's runtime mirror variable was found to be overwritten
+by bundle.mjs, which reads ELECTRON_MIRROR. The workflow now explicitly supplies
+that actual input with the official URL. This changes download configuration,
+not product code, licensing or historical package input bindings.
+
+## First preview.4 actual candidate outcomes
+
+Run 37169792546 checked exact adbef7586541c6a58d58eff83f28a8aeafd15a6b.
+Both source quality jobs passed. Linux installed job 111343286037 passed actual
+four-format metadata/payload and packaged-runtime acceptance. Three other jobs
+built their artifacts but failed acceptance: Windows installed 111343286092
+passed all four actual makensis ownership fixtures, then the probe supplied a
+POSIX nested ASAR path to Windows's host-separator lookup; portable Linux
+111343286088 lacked a global require in Main inspector, while Windows portable
+111343286075's inspector-console require could not resolve electron. Required
+validate-release and publish were skipped after these failures; no preview.4
+publication occurred. Read-only gh artifact download encountered HTTP403;
+completed decoded job logs independently provided the actual failures.
+
+Integration fixes only the ASAR host path and the inspector loader rooted in
+the actual packaged ASAR. No product code, assertions, raw source packets or
+rights decisions are changed. All package acceptance must rerun on the new
+exact source before normal main merge and final fresh publication.
+
+## Candidate 80a actual acceptance and diagnostics
+
+Run37171834106 at exact80a12016b865881ca500d23508ec0aed906b0f46:
+Linux8277/8269pass/8skip; Windows attempt18277/8274pass/1fail/2skip
+had final creation records.write pending after1000ms. The original budget and
+all assertions remain; rerun only the failed jobs and blocked descendants.
+Attempt2 Windows8277/8275pass/0fail/2skip and reused Linux success. Same-head
+PR source CI also passed both platforms. A later pass does not fix or erase
+the original creation IO delay.
+
+All four candidate variants built. Linux installed job111352516511 passed
+actual acceptance. Linux portable111352516480 failed inspector Promise was
+collected before any launch acceptance. Windows portable111352516503 attached
+before Node assigned getBuiltinModule. Windows installed111352516476 passed
+all four actual NSIS cases and metadata/legal/CLI/storage initialization, then
+a SQLite/PTY native child command exited; its wrapper omitted exit code, so
+the native root cause remains unresolved. No candidate publication occurred.
+
+Integration changes only synchronous inspector evaluation, explicit bootstrap
+markers and bounded child-command diagnostics. PTY/window/profile/persistence
+assertions and product sources are retained. Raw acceptance JSON remains bound
+to80a; no source records or rights classifications are promoted.
+
+## Candidate b1 actual command evidence
+
+Run37174700874 at exactb1af03e7956bfd2d7711079107cc31f04abfa7de passed
+both source quality jobs (8277 each; Linux8269pass/8skip, Windows8275pass/2skip,
+zero fail/cancel). All variants built; Linux installed111356660519 accepted.
+Linux portable111356660498 failed synchronous inspector request timeout;
+Windows portable111356660481 failed Node console-extension installation before
+its expression. Explicit packaged loading needs no console extensions, which
+are now disabled; the real owned Node ESM transport regression passed1/1 at
+pinned Node24.14.0, including synchronous Promise-object return, absent require/
+console helpers, exception rejection and normal process exit. This is not
+Electron GUI/profile acceptance.
+
+Windows installed111356660527 passed its four actual NSIS cases. Raw command
+failure stdout proves actual packaged Electron41.0.3/Node24.14.0 PTY output and
+PTY exitCode0, and completed SQLite sentinel. The probe process instead hit
+its unchanged20s limit (code null, signalSIGTERM, killedtrue). Pinned node-pty
+keeps its ConPTY connection/worker until explicit public cleanup. The owned
+probe now requests kill cleanup after asserting the natural PTY exit/output;
+there is no force-exit or timeout/assertion relaxation. Whole-process normal
+exit and actual installer/portable acceptance remain required and unverified
+for the new source. Prior failure outcomes, source packets and rights stay.
+
+## Actual candidate54 outcome and targeted bootstrap diagnosis (2026-10-04)
+
+Run37176247969, source54a777da441759f14e2c5c144defa85c885452a9, is terminal:
+Linux source8278/8270pass/8skip and Windows8278/8276pass/2skip, no failures.
+Actual Windows native portable and Linux installed acceptance passed. Windows
+installed failed after its packaged CLI/SQLite/PTY probe passed: early Electron
+app.isReady was unavailable; cleanup EPERM was secondary, retained raw JSON
+preserves the primary. Linux portable failed an owned inspector RPC timeout.
+Validate/publish skipped; no preview.4 tag or Release was created.
+
+The raw desktop-bootstrap-20261004 packet distinguishes baseline3fail,
+guarded3pass (redundant inserted guard) and exact-current1pass on official
+Electron41.0.3 Linux runtime. This establishes the early loader re-entry cause
+and bootstrap-boundary correction only, not complete Knorvia package acceptance.
+No deadlines or successful normal-exit requirements were relaxed. Cleanup now
+awaits only owned children and records secondary failures without masking the
+primary or leaving an accepted manifest. Targeted same-owner workflow selection
+requires explicit dry_run, marks diagnostics, skips source checks honestly and
+cannot aggregate/publish. Final main release still builds all four groups afresh
+with both exact-SHA reusable checks. New selection and diagnostic-rejection
+regressions passed locally (3 cases); no repeated whole local suite/audit/build.
+Source and license conclusions are unchanged; unresolved rights obligations
+remain. The user explicitly authorizes accomplish07zrh@gmail.com as public
+maintainer email in this project's GitHub PR and Release installation packages.
+
+The eight new raw receipts first entered the repository at full source commit
+58bba967abe008ea312253b2996083017a677a3b; only their new frozen rows are
+annotated with that actual commit. All prior 6012 frozen rows remain unchanged.
+
+## Targeted36 actual results and immutable payload reuse (2026-10-04)
+
+Run37178918892 at36d944b4e6290175dafba9607c0031c8c2e39d3f built BOTH groups
+successfully; both then failed acceptance. Windows installed111367339653 passed
+actual ZIP two windows/profile/sentinels/normal exits plus CLI/storage/SQLite/PTY
+and four NSIS fixtures. It next refused EEXIST at its late ordinary-profile
+reservation; no existing profile was adopted or deleted. The reservation now
+occurs exclusively before any owned launch, retaining the existing-data refusal.
+Linux portable111367339673 still times out in owned inspector RPC before any
+returned state; its cause remains unproven. No blind bootstrap-success claim.
+The added guard fixed real Windows startup but is not established for Linux.
+
+Actual failing raw reports:11295031446/11294826776. Actual built payloads:
+Windows11294207714/565274413bytes, Linux11294771800/736053951bytes. The SDK
+reader rejects Linux payload above512MiB; local gh artifact redirect read403 is
+an evidence-reader limitation, not product failure. The same diagnostic workflow
+can read retained artifacts on hosted runners without rebuilding, verifies their
+prior report/package source, records package and current probe SHA separately,
+and never sends reused/diagnostic bytes to aggregate/publication. Fresh final
+source/package equality remains strict. Failure reports add phase/count/last
+state and bounded stdout/stderr without extending RPC/startup/exit deadlines.
+The new guard test preventing reuse in full Release passed1/1; no repeated
+whole local suite/build/audit. Exact36 PR checks37178921758 completed both Linux
+and Windows successfully. Existing historical source/rights evidence stays.
+
+## Reused8c actual outcome; phased startup observation
+
+Run37179923974 used actual36 packages and probe8c3744d4ac520d4000cd4ab6e0d950a377f01b3c.
+Windows installed111370301972 passed complete existing acceptance, including the
+four NSIS cases, ZIP windows/persistence and actual install/reinstall/uninstall;
+its early exclusive ordinary-profile reservation correction is now demonstrated.
+Linux portable111370301974 failed; raw11294512980 binds both exact SHAs and
+reusedPayloads=true. It returned four startup states, correct original portable
+root/profile and version, then request5 timed out while ready=false/windows0.
+App stdout reached crash-capture configuration. This is after bootstrap, not
+a repeat proof of bootstrap globals failure. The exact blocked native call
+remains unestablished. All deadlines and exit/window/profile assertions stay.
+
+State observation now calls only isReady and application data-root environment
+until both are ready, postponing window/version/userData APIs. Early userData
+query can create the default directory before application-owned profile setup.
+The actual official Electron41.0.3 local synthetic fixture passed3/3 ready
+windows and normal exits with this phased expression; fixture sets its own
+synthetic data-owner environment, not a packaged portable override. This is
+not Linux package acceptance. Next diagnostic reuses the same actual36 Linux
+bytes only, without rebuilding; separate original AppImage/archive attachments
+retain those exact bytes for local focused reads below the SDK's512MiB cap.
+These are diagnostic-original artifacts, never new-source built identities or
+Release-eligible assets. No claims about complete independence/rights changed.
+
+## Linux phased observation did not solve the stall
+
+Run37180216307 probeed8679e5bc551b5465c7f393dd964b1542cde143 reused actual36
+bytes; Linux111371155521 failed request5 with last readiness/data-owner state
+pending and crash-capture configured stdout. Thus postponing path/window queries
+is not a proven Linux correction. Raw11294578611 retained; separate original
+AppImage11294373706/188240291bytes and archive11294139417/179785706bytes are
+available, below SDK512MiB, but local file transfer still rejects above32MiB
+and direct attachment read403. These reader constraints are not product tests.
+No new build is requested. Diagnostic-only existing probe will capture owned
+Xvfb before child termination to reveal possible modal startup errors blocking
+RPC; capture has separate2s command bounds and cannot mark acceptance passed.
+The prior8c PR run37179926618 was automatically cancelled by the newer head;
+not described as passed. No main merge or preview.4 publication occurred.
+
+## Owned80 display result; native wait remains unproven
+
+Run37180580898 probe80b5696f91264b6813f17e78844539579bec1e13 reused original36
+packages, with no build. Linux111372219626 again timed out request5 pre-window;
+raw acceptance and owned Xvfb PNG11295058471 were retrieved and inspected.
+The1280x800 image is blank; no modal startup error was observed. Screenshot
+capture worked, but is not acceptance. No false modal-cause or Linux-fix claim.
+Next same-owner diagnostic adds strace process/lock/poll/connect/open events
+only for reused Linux launches, preserving package bytes, profile and deadlines.
+Tracing artifacts are diagnostic and cannot validate/publish. Full release does
+not enable tracing. Source ed CI37180219878 auto-cancelled on newer head; prior
+actual Windows acceptance/source successes remain precisely attributed.
+
+## Actual single-instance temporary socket boundary identified
+
+Raw3a trace and official Electron41.0.3 minimal experiments are frozen in
+new desktop-linux-socket-20261004 packet. At matching95-byte TMPDIR, actual
+requestSingleInstanceLock produces natural[null,SIGTRAP]; with only20-byte
+owned TMPDIR it creates a ready window and exits0. Control95-byte without
+single-instance request also creates window/exits0. Initial149-byte failed,
+two20-byte cases passed. This identifies probe-generated temporary-directory
+conditions at the Linux socket boundary. No application bytes/features change.
+Only probe TMPDIR/TEMP/TMP move to exclusive short /tmp/knv-\*; portable data and
+original launcher/spaced paths stay and all deadlines/assertions remain.
+Cleanup errors fail; original primary error remains intact. New trace guard
+regression1/1passed ensures full release cannot enable instrumentation. Latest
+old-package confirmation explicitly runs diagnostic_trace=false, with no build.
+Raw receipt integrity is not authorship/rights acceptance. Prior6020 frozen
+rows remain unchanged; full final release still requires fresh main builds.
+
+The11new Linux socket packet files first entered at full source commit
+b50121aefbdad33c5d96242b9efdbdf6c58b7c0a; only their newly appended frozen
+rows now pin that actual first source. Prior6020 rows remain unchanged.
+
+## User changes final target to stable0.8.0 (2026-10-04)
+
+The user explicitly requires this release not to be preview. Remote inspection
+found only studio-0.1.0-dev.1, preview.2/.3 tags and preview.2/.3 Releases;
+v0.8.0 is unused with no conflict. Root/app version, artifact filenames, tag,
+installation guidance, metadata and publisher now consistently target0.8.0,
+non-draft/prerelease=false. One semver-channel owner drives metadata and publish
+flags/notes, rejecting malformed versions and retaining true suffix channels.
+No preview.4 final publication is dispatched; all previous diagnostic/source
+results remain attributed to their real version and SHAs, never relabeled0.8.0.
+Actual old Linux AppImage/tar acceptance37181402147 passed untraced with probe
+bde1d5c0 and package36d944b4; latest old-head Linux source8283 passed8275/8skip,
+Windows still pending at the target change. Those are not stable0.8.0 results.
+New final stable source must pass exact-head CI before normal merge, then both
+fresh source jobs/all4fresh package groups/9formats/hashes before publication.
+Existing tags/assets, frozen raw receipts and Apache/component obligations stay.
+
+## Stable version input fingerprint correction (2026-10-04)
+
+Stable head fc86b92b0a9912e8d1549315cac27c9359fa9e74 source CI37182344485
+failed on both platforms at the package.json input fingerprint; downstream
+product checks were skipped. PR checkout was synthetic merge
+6c7b14c1cdacab7b5d389b4e81aac065b154897f, not the branch head itself.
+An object comparison against bde1d5c0b2db2dea27b5a5aa8b68baebe99803a9
+confirms only root version changed from 0.8.0-preview.4 to 0.8.0; dependencies, scripts
+and license are unchanged. Update only this normalized UTF-8/LF input hash
+from 2cc499b71bacd440ac23f82ba08fb0ce5650de0e13f33ee5dc0cff2c1d108425
+to f43e2b85c5321038744c008fcf2911e7a3a927a741db158d30edff68689627d0.
+All other inventory fields, dependency/native/copy records, notices and the
+26 unresolved review obligations remain byte-equivalent in parsed content.
+No full rights audit was rerun or rights classification promoted. PR checks
+cover merge content including the exact head; the final release workflow
+separately requires both checked source SHAs equal the actual main SHA.
