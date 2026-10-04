@@ -15,6 +15,12 @@ maintainer address. The parent supplied the question, answer and direct message
 lookup. Resume the existing release work within that scope; retain the earlier
 refusal receipts and stop any action that receives a new approval rejection.
 
+The user subsequently authorized the exact public maintainer address directly
+in this original integration task and instructed continuation of merge/release.
+The earlier cancellation and review refusals remain historical outcomes.
+The release workflow supplies the official Electron URL through ELECTRON_MIRROR,
+the actual input read by bundle.mjs, as well as the runtime-assets variable.
+
 The existing native task owns Desktop builder configuration, packaging hooks
 and installation scripts. The existing UI task owns installer brand images and
 their previews. The integration task owns the release workflow, acceptance

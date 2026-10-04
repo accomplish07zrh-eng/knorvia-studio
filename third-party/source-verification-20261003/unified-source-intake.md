@@ -395,3 +395,16 @@ at resumption. Existing raw packets, prior 17 focused unit passes, historical
 CI failure and old preview.3 products keep their original input bindings.
 Final candidate/package checks are still pending at this checkpoint; publication
 will use fresh packages built from the eventual exact normal main merge SHA.
+
+The user then directly authorized accomplish07zrh@gmail.com for public project
+PRs and Release packages in this original integration task and requested merge
+and publication. The prior review refusals/cancelled candidate stay unchanged.
+PR CI37165480921 passed both platforms at actual merge SHA
+5797668baa93ceb9f4940c832788b1553d4b50aa, tree
+284526d6b32d788ac1fa739ca5828edf64558497, equal to candidate 52f337f1.
+Linux: 8277 tests / 8269 pass / 8 skip; Windows: 8277 / 8275 / 2;
+both zero failures/cancellations. No real packages were accepted by that CI.
+At resumption the workflow's runtime mirror variable was found to be overwritten
+by bundle.mjs, which reads ELECTRON_MIRROR. The workflow now explicitly supplies
+that actual input with the official URL. This changes download configuration,
+not product code, licensing or historical package input bindings.
