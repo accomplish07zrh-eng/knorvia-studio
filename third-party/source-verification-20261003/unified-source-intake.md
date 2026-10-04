@@ -618,3 +618,20 @@ Windows still pending at the target change. Those are not stable0.8.0 results.
 New final stable source must pass exact-head CI before normal merge, then both
 fresh source jobs/all4fresh package groups/9formats/hashes before publication.
 Existing tags/assets, frozen raw receipts and Apache/component obligations stay.
+
+## Stable version input fingerprint correction (2026-10-04)
+
+Stable head fc86b92b0a9912e8d1549315cac27c9359fa9e74 source CI37182344485
+failed on both platforms at the package.json input fingerprint; downstream
+product checks were skipped. PR checkout was synthetic merge
+6c7b14c1cdacab7b5d389b4e81aac065b154897f, not the branch head itself.
+An object comparison against bde1d5c0b2db2dea27b5a5aa8b68baebe99803a9
+confirms only root version changed from 0.8.0-preview.4 to 0.8.0; dependencies, scripts
+and license are unchanged. Update only this normalized UTF-8/LF input hash
+from 2cc499b71bacd440ac23f82ba08fb0ce5650de0e13f33ee5dc0cff2c1d108425
+to f43e2b85c5321038744c008fcf2911e7a3a927a741db158d30edff68689627d0.
+All other inventory fields, dependency/native/copy records, notices and the
+26 unresolved review obligations remain byte-equivalent in parsed content.
+No full rights audit was rerun or rights classification promoted. PR checks
+cover merge content including the exact head; the final release workflow
+separately requires both checked source SHAs equal the actual main SHA.

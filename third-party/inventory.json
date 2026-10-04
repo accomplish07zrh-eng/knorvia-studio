@@ -246,7 +246,7 @@
     "apps/cli/tools/typescript/package.json": "f8f1bfc985c6c6aae279f1b20bc1281924ef92f216644334743a8562aed11147",
     "licensing/evidence/material-icon-theme.json": "8db87069a57056d229e67dc17368d64f9dad8fd785efb417f6f5711aff2358ea",
     "licensing/evidence/third-party-reconciliation-20260930.json": "23899d1c9b6d4a951ef93eceb217c82e07f8c7eaae94684b68fd939721abebf7",
-    "package.json": "2cc499b71bacd440ac23f82ba08fb0ce5650de0e13f33ee5dc0cff2c1d108425",
+    "package.json": "f43e2b85c5321038744c008fcf2911e7a3a927a741db158d30edff68689627d0",
     "packages/client/package.json": "7c9033202e18a27694962072497397cee2d4aaac77e12d47ed2c2456a58325b2",
     "packages/cua/package.json": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9",
     "packages/desktop/package.json": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5",
