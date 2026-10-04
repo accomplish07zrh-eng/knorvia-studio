@@ -473,3 +473,28 @@ probe now requests kill cleanup after asserting the natural PTY exit/output;
 there is no force-exit or timeout/assertion relaxation. Whole-process normal
 exit and actual installer/portable acceptance remain required and unverified
 for the new source. Prior failure outcomes, source packets and rights stay.
+
+## Actual candidate54 outcome and targeted bootstrap diagnosis (2026-10-04)
+
+Run37176247969, source54a777da441759f14e2c5c144defa85c885452a9, is terminal:
+Linux source8278/8270pass/8skip and Windows8278/8276pass/2skip, no failures.
+Actual Windows native portable and Linux installed acceptance passed. Windows
+installed failed after its packaged CLI/SQLite/PTY probe passed: early Electron
+app.isReady was unavailable; cleanup EPERM was secondary, retained raw JSON
+preserves the primary. Linux portable failed an owned inspector RPC timeout.
+Validate/publish skipped; no preview.4 tag or Release was created.
+
+The raw desktop-bootstrap-20261004 packet distinguishes baseline3fail,
+guarded3pass (redundant inserted guard) and exact-current1pass on official
+Electron41.0.3 Linux runtime. This establishes the early loader re-entry cause
+and bootstrap-boundary correction only, not complete Knorvia package acceptance.
+No deadlines or successful normal-exit requirements were relaxed. Cleanup now
+awaits only owned children and records secondary failures without masking the
+primary or leaving an accepted manifest. Targeted same-owner workflow selection
+requires explicit dry_run, marks diagnostics, skips source checks honestly and
+cannot aggregate/publish. Final main release still builds all four groups afresh
+with both exact-SHA reusable checks. New selection and diagnostic-rejection
+regressions passed locally (3 cases); no repeated whole local suite/audit/build.
+Source and license conclusions are unchanged; unresolved rights obligations
+remain. The user explicitly authorizes accomplish07zrh@gmail.com as public
+maintainer email in this project's GitHub PR and Release installation packages.

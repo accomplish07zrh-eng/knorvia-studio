@@ -112,3 +112,12 @@ test("aggregation checks actual package bytes and emits checksums for both platf
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("diagnostic manifests cannot enter release aggregation even with four variants", async () => {
+  const manifests = Object.keys(formats).map(fixture);
+  manifests[0].acceptance.diagnosticOnly = true;
+  await assert.rejects(
+    aggregateRelease({ root: "/unused", manifests, deliveredSha: sha, version, legalFiles: [] }),
+    /Diagnostic/,
+  );
+});

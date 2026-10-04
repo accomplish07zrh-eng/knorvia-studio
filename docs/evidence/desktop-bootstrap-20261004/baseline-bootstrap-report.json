@@ -1,0 +1,26 @@
+[
+  {
+    "mode": "baseline",
+    "iteration": 0,
+    "states": [],
+    "status": "failed",
+    "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":5,\"columnNumber\":20,\"scriptId\":\"82\",\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"TypeError\",\"description\":\"TypeError: Cannot read properties of undefined (reading 'electron')\\n    at <anonymous>:6:21\\n    at <anonymous>:15:3\\n    at new Channel (node:diagnostics_channel:182:14)\\n    at channel (node:diagnostics_channel:235:10)\\n    at tracingChannelFrom (node:diagnostics_channel:269:12)\\n    at new TracingChannel (node:diagnostics_channel:289:16)\\n    at tracingChannel (node:diagnostics_channel:434:10)\\n    at node:internal/modules/esm/loader:68:18\\n    at BuiltinModule.compileForInternalLoader (node:internal/bootstrap/realm:398:7)\\n    at requireBuiltin (node:internal/bootstrap/realm:429:14)\",\"objectId\":\"-6491876792234821207.1.2\"}}\n    at Object.evaluate (file:///workspace/knorvia-studio/scripts/desktop-release-portable-launch.mjs:73:42)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///tmp/knorvia-targeted-electron-20261004/minimal-bootstrap.mjs:25:35",
+    "stderr": "[78920:1004/044507.436829:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\nDebugger listening on ws://127.0.0.1:42013/71c53c4f-49c5-46be-86fd-1ed58714dc5d\nFor help, see: https://nodejs.org/en/docs/inspector\nDebugger attached.\n"
+  },
+  {
+    "mode": "baseline",
+    "iteration": 1,
+    "states": [],
+    "status": "failed",
+    "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":2,\"columnNumber\":2,\"scriptId\":\"8\",\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"ReferenceError\",\"description\":\"ReferenceError: process is not defined\\n    at <anonymous>:3:3\\n    at <anonymous>:15:3\\n    at node:internal/errors:1:1\\n    at BuiltinModule.compileForInternalLoader (node:internal/bootstrap/realm:398:7)\\n    at requireBuiltin (node:internal/bootstrap/realm:429:14)\\n    at setupPrepareStackTrace (node:internal/bootstrap/realm:455:7)\\n    at node:internal/bootstrap/realm:475:1\",\"objectId\":\"-978310804145750657.1.2\"}}\n    at Object.evaluate (file:///workspace/knorvia-studio/scripts/desktop-release-portable-launch.mjs:73:42)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///tmp/knorvia-targeted-electron-20261004/minimal-bootstrap.mjs:25:35",
+    "stderr": "[78937:1004/044507.692504:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\nDebugger listening on ws://127.0.0.1:46095/7916757d-62c5-4e85-b11d-4530bf67303f\nFor help, see: https://nodejs.org/en/docs/inspector\nDebugger attached.\n"
+  },
+  {
+    "mode": "baseline",
+    "iteration": 2,
+    "states": [],
+    "status": "failed",
+    "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":2,\"columnNumber\":2,\"scriptId\":\"8\",\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"ReferenceError\",\"description\":\"ReferenceError: process is not defined\\n    at <anonymous>:3:3\\n    at <anonymous>:15:3\\n    at node:internal/errors:1:1\\n    at BuiltinModule.compileForInternalLoader (node:internal/bootstrap/realm:398:7)\\n    at requireBuiltin (node:internal/bootstrap/realm:429:14)\\n    at setupPrepareStackTrace (node:internal/bootstrap/realm:455:7)\\n    at node:internal/bootstrap/realm:475:1\",\"objectId\":\"-9136728955629903210.1.2\"}}\n    at Object.evaluate (file:///workspace/knorvia-studio/scripts/desktop-release-portable-launch.mjs:73:42)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///tmp/knorvia-targeted-electron-20261004/minimal-bootstrap.mjs:25:35",
+    "stderr": "[78953:1004/044507.884274:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\nDebugger listening on ws://127.0.0.1:33835/da754e65-3435-44b9-8889-00bd7d68a667\nFor help, see: https://nodejs.org/en/docs/inspector\nDebugger attached.\n"
+  }
+]

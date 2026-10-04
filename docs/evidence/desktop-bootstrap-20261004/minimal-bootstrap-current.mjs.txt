@@ -1,0 +1,39 @@
+import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { setTimeout as delay } from 'node:timers/promises';
+import { connectOwnedMainInspector } from '/workspace/knorvia-studio/scripts/desktop-release-portable-launch.mjs';
+const root='/tmp/knorvia-targeted-electron-20261004';
+const source=await readFile('/workspace/knorvia-studio/scripts/desktop-release-portable-launch.mjs','utf8');
+let expression=source.match(/const stateExpression = `([\s\S]*?)`;/)[1];
+if(process.argv[2]==='guarded') expression=expression.replace('const {app,BrowserWindow}=require("electron");','if(typeof process.appCodeLoaded === "function") return {ready:false,bootstrap:"electron-browser-entry-pending"};\n const {app,BrowserWindow}=require("electron");');
+const xvfb=spawn(root+'/sysroot/usr/bin/Xvfb',['-displayfd','1','-screen','0','1280x800x24','-nolisten','tcp','-ac'],{stdio:['ignore','pipe','pipe']});
+let display='';await new Promise((ok,fail)=>{xvfb.on('error',fail);xvfb.stdout.on('data',b=>{display+=b;if(/\d+\n/.test(display))ok();});});
+const results=[];
+try {
+ for(let n=0;n<(process.argv[2]==='current'?1:3);n++){
+ const fixture=await mkdtemp(root+'/bootstrap-fixture-');for(const p of ['home','config','cache','profile'])await mkdir(fixture+'/'+p);
+ await writeFile(fixture+'/package.json',JSON.stringify({name:'owned-electron-bootstrap-fixture',version:'1.0.0',type:'module',main:'index.mjs'}));
+ await writeFile(fixture+'/index.mjs',`import {app,BrowserWindow} from 'electron'; app.setPath('userData',${JSON.stringify(fixture+'/profile')}); app.disableHardwareAcceleration(); app.whenReady().then(()=>{const w=new BrowserWindow({show:false,backgroundColor:'#111111'});w.loadURL('data:text/html,<body>owned synthetic fixture</body>');});`);
+ const child=spawn(root+'/runtime/electron',['--inspect=127.0.0.1:0','--no-sandbox','--disable-gpu',fixture],{env:{...process.env,DISPLAY:':'+display.trim(),HOME:fixture+'/home',XDG_CONFIG_HOME:fixture+'/config',XDG_CACHE_HOME:fixture+'/cache',NODE_OPTIONS:'',NODE_PATH:'',ELECTRON_RUN_AS_NODE:''},detached:true,stdio:['ignore','ignore','pipe']});
+ const closed=once(child,'exit');let stderr='',remote;
+ const result={mode:process.argv[2]||'baseline',iteration:n,states:[]};
+ try {
+ const url=await new Promise((ok,fail)=>{const timer=setTimeout(()=>fail(new Error('fixture inspector unavailable')),5000);child.stderr.on('data',b=>{stderr+=b;const m=stderr.match(/ws:\/\/127\.0\.0\.1:\d+\/[a-f0-9-]+/);if(m){clearTimeout(timer);ok(m[0]);}});});
+ remote=await connectOwnedMainInspector(url);
+ const deadline=Date.now()+5000;let state;
+ while(Date.now()<deadline){state=await remote.evaluate(expression);if(result.states.length<12)result.states.push(state);if(state.ready&&state.windows===1)break;await delay(5);}
+ if(!state?.ready||state.windows!==1)throw new Error('actual window unavailable: '+JSON.stringify(state));
+ result.actualReadyWindow=state;
+ await remote.evaluate('process.getBuiltinModule("module").createRequire(process.resourcesPath+"/app.asar/package.json")("electron").app.quit()');
+ remote.close();remote=undefined;
+ const exit=await Promise.race([closed,delay(3000).then(()=>{throw new Error('fixture normal exit timed out');})]);
+ if(exit[0]!==0||exit[1]!==null)throw new Error(JSON.stringify(exit));
+ result.exit=exit;result.status='passed';
+ } catch(e){result.status='failed';result.error=e.stack;result.stderr=stderr;} finally {
+ remote?.close();if(child.exitCode===null&&child.signalCode===null){try{process.kill(-child.pid,'SIGTERM');}catch{}await delay(100);try{process.kill(-child.pid,'SIGKILL');}catch{}}
+ await closed.catch(()=>{});await rm(fixture,{recursive:true,force:true});results.push(result);
+ }
+ }
+} finally {xvfb.kill('SIGTERM');await once(xvfb,'exit');}
+await writeFile(root+'/'+(process.argv[2]||'baseline')+'-bootstrap-report.json',JSON.stringify(results,null,2));console.log(JSON.stringify(results));

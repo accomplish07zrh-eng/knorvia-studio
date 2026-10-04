@@ -78,11 +78,16 @@ export async function connectOwnedMainInspector(url) {
 }
 
 const stateExpression = `(() => {
+  // inspector 可早于 Node 全局与 Electron browser 初始化；先等原生 owner 的完成标记。
+  if(typeof process==="undefined" || process.type!=="browser" || typeof process.resourcesPath!=="string")
+    return {ready:false,bootstrap:"electron-browser-process-pending"};
+  // pinned browser/init.ts 在 app/API 设置完成、加载应用入口之前删除此属性。
+  if("appCodeLoaded" in process) return {ready:false,bootstrap:"electron-browser-entry-pending"};
   // 打包 Main 是 ESM，inspector 没有全局 require；从实际 ASAR 创建加载器。
   if(typeof process.getBuiltinModule!=="function") return {ready:false, bootstrap:"node-module-api-pending"};
   const module=process.getBuiltinModule("module");
   // inspector 可早于 Electron bootstrap 接入；等真实别名注册，不吞运行时异常。
-  if(!module._cache.electron) return {ready:false, bootstrap:"electron-module-pending"};
+  if(!module?._cache?.electron) return {ready:false, bootstrap:"electron-module-pending"};
   const require=module.createRequire(process.resourcesPath+"/app.asar/package.json");
   const {app,BrowserWindow}=require("electron");
   return {pid:process.pid, ready:app.isReady(), windows:BrowserWindow.getAllWindows().length,
@@ -295,6 +300,19 @@ export async function probePortableLaunch({
             process.kill(-child.pid, "SIGTERM");
           } catch {}
         }
+        // 等自己的进程关闭再删 DLL；SIGTERM 无响应时只升级自己的进程组。
+        const didClose = await Promise.race([
+          closed.then(() => true),
+          delay(3000).then(() => false),
+        ]);
+        if (!didClose && process.platform === "linux") {
+          try {
+            process.kill(-child.pid, "SIGKILL");
+          } catch {}
+          await Promise.race([closed, delay(3000)]);
+        }
+        if (!didClose && process.platform === "win32")
+          report.cleanupError = "Owned process pipes did not close after taskkill";
       }
       report.status = "failed";
       report.error = error.stack || String(error);

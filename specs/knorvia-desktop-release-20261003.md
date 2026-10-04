@@ -48,6 +48,21 @@ Windows attached even earlier, before Node had assigned getBuiltinModule.
 The state expression explicitly reports `node-module-api-pending` until that
 bootstrap API exists, then waits for Electron's registration. No runtime error
 after either readiness marker is ignored.
+The local actual Electron41.0.3/Xvfb minimal fixture reproduced3/3 baseline
+failures: process/global or Node module cache was still being initialized.
+Before accessing Node modules, state polling now waits for browser type and
+resourcesPath, and absence of Electron's appCodeLoaded bootstrap property.
+Electron's pinned browser/init.ts removes that property only after its app/API
+setup, immediately before loading the application's entry. This event boundary
+prevents the probe from reentering partially initialized Node/Electron modules;
+it is not a delay or swallowed exception. Node cache is read defensively while
+pending; app/API errors after that boundary still fail acceptance.
+The corrected minimal fixture passed3/3 with an actual window and normal exit0.
+Failure cleanup awaits the owned process close event after terminating only its
+tree/group, with bounded escalation if required. Owned fixture removal uses
+bounded Windows busy-file retries. Cleanup errors are recorded separately from
+the original acceptance failure and cannot leave a passed manifest eligible
+for upload. Product startup/quit deadlines and assertions stay unchanged.
 Inspector evaluation does not request command-line console extensions: the
 explicit packaged loader needs none. Actual Windows bootstrap threw inside
 Node's console-extension installation before the expression ran. The probe
@@ -89,6 +104,17 @@ publication. A candidate dry run executes the same read-only acceptance and
 immutability gates. After the normal main merge, final release packages are
 built afresh from that exact main commit; candidate bytes and historical
 preview.3 artifacts must never be relabeled as preview.4.
+
+Targeted diagnosis uses the same workflow and package/acceptance owners with
+`diagnostic_variant` selecting `win-installed`, `linux-portable` or `remaining`.
+It requires `dry_run: true`, skips reusable source jobs explicitly, and cannot
+validate or publish a Release. Reports and artifacts are marked diagnostic;
+actual built payloads are retained even when acceptance fails for focused reuse.
+The aggregate owner rejects diagnostic manifests. PR source checks still run
+normally. Before merging, passed targeted package results plus passed exact-head
+PR checks may qualify the correction; they do not constitute a complete same-SHA
+candidate Release acceptance. Final main publication requires the default `all`
+mode, both fresh source checks and all four freshly built/accepted package groups.
 
 Each platform records a manifest after actual package acceptance. One aggregate
 helper verifies all bytes and emits `SHA256SUMS`, per-file `.sha256` attachments,

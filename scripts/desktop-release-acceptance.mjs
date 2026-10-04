@@ -31,6 +31,7 @@ const fixture = await mkdtemp(
 );
 const report = {
   status: "running",
+  diagnosticOnly: process.env.KNORVIA_RELEASE_DIAGNOSTIC === "1",
   deliveredSha,
   version,
   platform,
@@ -42,6 +43,10 @@ const report = {
     "No signing credentials created",
   ],
 };
+if (report.diagnosticOnly)
+  report.limits.push(
+    "Targeted diagnosis; reusable source jobs and Release validation/publication not run here",
+  );
 await mkdir(output, { recursive: true });
 const psQuote = (value) => "'" + value.replaceAll("'", "''") + "'";
 const ps = (script, env) =>
@@ -291,12 +296,26 @@ try {
   if (error.report) report.runtimeFailure = error.report;
   process.exitCode = 1;
 } finally {
+  // 清理只限 mkdtemp/已创建的 hosted profile；错误不能覆盖原验收失败或留下通过清单。
+  const cleanupFailures = [];
+  for (const owned of [fixture, ownedDefaultProfile].filter(Boolean)) {
+    try {
+      await rm(owned, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+    } catch (error) {
+      cleanupFailures.push(error.stack || String(error));
+    }
+  }
+  if (cleanupFailures.length) {
+    report.cleanupFailures = cleanupFailures;
+    report.status = "failed";
+    report.error ||= "Owned fixture cleanup failed";
+    process.exitCode = 1;
+    await rm(join(output, `${platform}-${variant}-manifest.json`), { force: true });
+  }
   await writeFile(
     join(output, `${platform}-${variant}-acceptance.json`),
     JSON.stringify(report, null, 2) + "\n",
   );
-  await rm(fixture, { recursive: true, force: true });
-  if (ownedDefaultProfile) await rm(ownedDefaultProfile, { recursive: true, force: true });
   console.log(
     JSON.stringify({
       status: report.status,

@@ -72,6 +72,8 @@ export async function aggregateRelease({ root, manifests, deliveredSha, version,
   const packages = [];
   const names = new Set();
   for (const manifest of manifests) {
+    if (manifest.acceptance?.diagnosticOnly)
+      throw new Error("Diagnostic manifests cannot qualify a Release");
     validatePlatformManifest(manifest, deliveredSha, version);
     for (const asset of manifest.artifacts) {
       if (names.has(asset.name.toLowerCase())) throw new Error(`Duplicate asset: ${asset.name}`);

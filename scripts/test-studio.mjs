@@ -32,6 +32,7 @@ const explicitTests = [
   "scripts/knorvia-agent-base.test.ts",
   "scripts/release-gate.test.ts",
   "scripts/desktop-release-manifest.test.mjs",
+  "scripts/desktop-release-variant-selection.test.mjs",
   "scripts/desktop-release-portable-launch.test.mjs",
   "scripts/provenance/provenance.test.mjs",
   "scripts/provenance/retained-review.test.mjs",
