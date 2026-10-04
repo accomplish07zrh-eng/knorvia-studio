@@ -1,6 +1,7 @@
 // Adapted from the retained canonical native acceptance probe in docs/evidence/native-packaged-acceptance-20261003.
 // Existing assertions stay, with platform-specific PTY/search paths and exact release source metadata binding.
 import assert from "node:assert/strict";
+import { checkPackagedProductIcons } from "./product-icon-package-check.mjs";
 import { execFile, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
@@ -201,6 +202,9 @@ export async function probePackagedRuntime({
     const appManifest = JSON.parse(asar.extractFile(report.package.appAsar.path, "package.json"));
     assert.equal(appManifest.author.email, "accomplish07zrh@gmail.com");
     assert.equal(appManifest.license, "Apache-2.0");
+    report.checks.push(
+      await checkPackagedProductIcons(repository, root, executable, process.platform === "win32"),
+    );
     report.legalPayload = {};
     for (const [packaged, source] of [
       ["LICENSE.knorvia.txt", "LICENSE"],

@@ -53,6 +53,7 @@ try:
     assert run(["git", "rev-parse", "HEAD"], cwd=repo).strip() == delivered_sha
     payload_names = ["knorvia-studio", "resources/app.asar", "resources/knorvia/knorvia.cjs",
                      "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+                     "resources/icon.png", "resources/icon_windows.png", "resources/icon_512x512.png",
                      "resources/LICENSE.knorvia.txt", "resources/NOTICE.md", "resources/THIRD-PARTY-NOTICES.md",
                      "resources/licensing/MIT.txt", "resources/licenses/lobe-icons-LICENSE.txt"]
     fresh = {name: binding(release / "linux-unpacked" / name) for name in payload_names}
@@ -118,8 +119,15 @@ try:
             actual = binding(app / name)
             assert actual["sha256"] == fresh[name]["sha256"] and actual["bytes"] == fresh[name]["bytes"], name
             result["payload"][name] = actual
+        launcher_icons = list(extracted.rglob("icons/hicolor/*/apps/knorvia-studio.png"))
+        assert launcher_icons, "Linux launcher icons missing"
+        for icon in launcher_icons:
+            size = icon.parent.parent.name
+            expected_icon = repo / "packages/desktop/build/icons" / (size + ".png")
+            assert icon.read_bytes() == expected_icon.read_bytes(), str(icon)
+        result["launcherIcons"] = [str(icon) for icon in launcher_icons]
         result["status"] = "passed"
-    report["checks"] = ["All four actual package formats extracted", "Maintainer, license, architecture, version and dependencies retained", "Nine actual payload files match freshly built linux-unpacked across all targets", "Pacman has actual zstd format, install hook and mtree"]
+    report["checks"] = ["All four actual package formats extracted", "Maintainer, license, architecture, version and dependencies retained", "Actual runtime and icon payload files match freshly built linux-unpacked across all targets", "Pacman has actual zstd format, install hook and mtree"]
     report["status"] = "passed"
 except BaseException:
     report["status"] = "failed"

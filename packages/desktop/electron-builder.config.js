@@ -796,9 +796,9 @@ export default {
     shortcutName: "Knorvia Studio",
     installerLanguages: ["en_US", "zh_CN"],
     // UI PR28 提供的位图槽位；资源提交由整合者合入，native 不复写图片或其来源记录。
-    installerHeader: "build/installer-branding-20261003/installerHeader.bmp",
-    installerSidebar: "build/installer-branding-20261003/installerSidebar.bmp",
-    uninstallerSidebar: "build/installer-branding-20261003/installerSidebar.bmp",
+    installerHeader: "build/installer-branding-x1w/installerHeader.bmp",
+    installerSidebar: "build/installer-branding-x1w/installerSidebar.bmp",
+    uninstallerSidebar: "build/installer-branding-x1w/installerSidebar.bmp",
     // Windows 安装流程使用独立安装图标，和应用运行时图标解耦。
     installerIcon: "build/icon_installer.ico",
     uninstallerIcon: "build/icon_installer.ico",

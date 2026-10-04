@@ -74,6 +74,9 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Check product icon master and generated assets
+        run: python scripts/generate-product-icons.py --check
+
       - name: Check file provenance inventory
         id: provenance
         run: node scripts/provenance/cli.mjs --check
