@@ -9,10 +9,11 @@ Keep the preview channel
 until its acceptance boundaries warrant a stable version. Existing tags,
 releases and attachment bytes remain immutable. Root `package.json` is the
 single version source. The requested maintainer email is
-`accomplish07zrh@gmail.com`. Its direct user authorization for public PR/Release
-disclosure is pending after automatic approval review rejected delegated
-authorization. Preserve the prepared source and original refusal receipts;
-hold related public writes until the parent receives direct user approval.
+`accomplish07zrh@gmail.com`. On 2026-10-04 at 00:34 UTC the end user directly
+confirmed public GitHub PR and Release-package disclosure of that exact
+maintainer address. The parent supplied the question, answer and direct message
+lookup. Resume the existing release work within that scope; retain the earlier
+refusal receipts and stop any action that receives a new approval rejection.
 
 The existing native task owns Desktop builder configuration, packaging hooks
 and installation scripts. The existing UI task owns installer brand images and

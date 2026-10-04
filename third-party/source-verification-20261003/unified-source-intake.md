@@ -375,3 +375,23 @@ that actual commit after verifying each committed blob's SHA-256 and byte size;
 they are not attributed to the UI source commit. All earlier frozen rows and
 their committed source relationships remain unchanged. This local checkpoint
 does not imply a push, final source CI or public-email approval.
+
+## Direct disclosure authorization and release resumption on 2026-10-04
+
+At 00:34 UTC the end user directly answered "允许" to the explicit question
+permitting accomplish07zrh@gmail.com in Knorvia Studio public GitHub PRs and
+Release packages as the maintainer contact. The parent supplied the original
+question/answer and successful direct-message lookup, then authorized resuming
+the existing 0.8.0-preview.4 release. This applies to future writes within that
+scope; it does not change the earlier refusal results into successes. A new
+approval rejection still blocks its action and must not be bypassed.
+
+The saved local input 49b05dd12f0eee314cd6b6d9f03baece46e8e9e2 was intact
+with a clean worktree. Remote integration remained 162477ddabc04dbb4df0606578ddbf98a9e6da2b,
+main b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687, native
+54af931e1a17f13bf39c67d48291e8b03fc42d9e and UI
+1a0febaf9b362b5bcd578d396ec566bf98a33e51. No preview.4 tag/Release existed
+at resumption. Existing raw packets, prior 17 focused unit passes, historical
+CI failure and old preview.3 products keep their original input bindings.
+Final candidate/package checks are still pending at this checkpoint; publication
+will use fresh packages built from the eventual exact normal main merge SHA.
