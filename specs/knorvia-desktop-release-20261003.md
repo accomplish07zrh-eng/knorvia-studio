@@ -207,3 +207,12 @@ unchanged. Reused8c Linux report proves four returned startup states, actual
 portable root/profile set, then request5 blocked while app-ready=false/window0;
 this is later than the corrected bootstrap and the exact native blocking call
 is not yet established. Actual old-package reuse must determine the result.
+
+If diagnostic Linux package startup fails, the existing launch probe captures
+the current owned Xvfb display before terminating its owned app, using bounded
+xwd/ImageMagick commands. The screenshot is a failure diagnostic, never human
+GUI acceptance or a substituted window assertion. Capture errors remain
+secondary. This exposes a possible native modal startup error which cannot
+answer inspector RPC while the application is not ready. Full release behavior
+is unchanged and does not enable diagnostic capture; all source/package gates
+remain mandatory.

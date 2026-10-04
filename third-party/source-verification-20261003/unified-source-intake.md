@@ -552,3 +552,18 @@ bytes only, without rebuilding; separate original AppImage/archive attachments
 retain those exact bytes for local focused reads below the SDK's512MiB cap.
 These are diagnostic-original artifacts, never new-source built identities or
 Release-eligible assets. No claims about complete independence/rights changed.
+
+## Linux phased observation did not solve the stall
+
+Run37180216307 probeed8679e5bc551b5465c7f393dd964b1542cde143 reused actual36
+bytes; Linux111371155521 failed request5 with last readiness/data-owner state
+pending and crash-capture configured stdout. Thus postponing path/window queries
+is not a proven Linux correction. Raw11294578611 retained; separate original
+AppImage11294373706/188240291bytes and archive11294139417/179785706bytes are
+available, below SDK512MiB, but local file transfer still rejects above32MiB
+and direct attachment read403. These reader constraints are not product tests.
+No new build is requested. Diagnostic-only existing probe will capture owned
+Xvfb before child termination to reveal possible modal startup errors blocking
+RPC; capture has separate2s command bounds and cannot mark acceptance passed.
+The prior8c PR run37179926618 was automatically cancelled by the newer head;
+not described as passed. No main merge or preview.4 publication occurred.

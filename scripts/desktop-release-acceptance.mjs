@@ -86,6 +86,7 @@ try {
       repository,
       dist,
       output,
+      diagnosticOutput: report.diagnosticOnly ? output : undefined,
       deliveredSha,
       version,
       platform,

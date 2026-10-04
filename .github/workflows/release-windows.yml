@@ -153,7 +153,7 @@ jobs:
         if: matrix.os == 'linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd xvfb xauth
+          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd xvfb xauth x11-apps imagemagick
       - name: Install frozen dependencies
         run: pnpm install --frozen-lockfile
       - name: Build fresh Desktop x64 packages
@@ -256,7 +256,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.resolve.outputs.diagnostic == 'true' && 'diagnostic' || 'knorvia' }}-${{ matrix.platform }}-${{ matrix.variant }}-acceptance
-          path: dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-acceptance.json
+          path: |
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-acceptance.json
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*-diagnostic.png
           if-no-files-found: warn
 
   validate-release:

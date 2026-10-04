@@ -46,6 +46,7 @@ export async function acceptPortableVariant({
   version,
   platform,
   fixture,
+  diagnosticOutput,
 }) {
   const report = {
     status: "running",
@@ -83,6 +84,7 @@ export async function acceptPortableVariant({
     fixture,
     version,
     captureDirectory: captured,
+    diagnosticOutput,
   });
   const marker = JSON.parse(
     await readFile(join(captured, "resources/knorvia-portable.json"), "utf8"),
@@ -133,6 +135,7 @@ export async function acceptPortableVariant({
     );
     report.archive = await probePortableLaunch({
       executable: join(root, "knorvia-studio"),
+      diagnosticOutput,
       expectedBase: join(root, "data"),
       fixture,
       version,

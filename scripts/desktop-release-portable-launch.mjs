@@ -115,6 +115,7 @@ export async function probePortableLaunch({
   fixture,
   version,
   captureDirectory,
+  diagnosticOutput,
 }) {
   const report = {
     status: "running",
@@ -301,6 +302,22 @@ export async function probePortableLaunch({
         }
       }
     } catch (error) {
+      // native 模态启动错误会阻塞 inspector；先保留自己 Xvfb 的现场，不替代成功断言。
+      if (
+        process.platform === "linux" &&
+        diagnosticOutput &&
+        process.env.KNORVIA_RELEASE_DIAGNOSTIC === "1"
+      ) {
+        try {
+          const xwd = join(root, "owned-failure.xwd");
+          const screenshot = join(diagnosticOutput, `portable-launch-${iteration}-diagnostic.png`);
+          await exec("xwd", ["-root", "-silent", "-out", xwd], { env, timeout: 2000 });
+          await exec("convert", [xwd, screenshot], { env, timeout: 2000 });
+          report.diagnosticScreenshot = screenshot;
+        } catch (captureError) {
+          report.diagnosticCaptureError = captureError.message;
+        }
+      }
       remote?.close();
       if (Number.isInteger(child.pid) && child.exitCode === null && child.signalCode === null) {
         if (process.platform === "win32")
