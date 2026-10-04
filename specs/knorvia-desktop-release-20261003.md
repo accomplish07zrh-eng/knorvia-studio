@@ -250,3 +250,16 @@ uses stable notes and never adds --prerelease. Preview diagnostics retain their
 actual historical version/source and are not new-version acceptance. Final
 stable publication requires fresh exact-main source checks and all4groups/
 9actual packages; existing tags/assets cannot be overwritten or relabeled.
+
+## Hosted immutable state lookup repair (2026-10-04)
+
+Final stable run37184011042 at main9c120dbfd6fee08a68661ca26b38da2aa5958c9e
+passed both source jobs, all four package groups, nine actual package acceptances
+and nine streamed hashes producing24attachments. The state lookup then failed
+because the fresh validate runner did not provide rg; a real Release404 remained
+unknown and the existing immutable owner correctly rejected publication.
+Use the hosted POSIX grep utility only to recognize the existing explicit
+HTTP404 response. Success still means exists; all other query errors remain
+unknown and reject. No new credentials, alternate publisher, overwrite path,
+manual stable asset upload or old-package relabeling. The final new main SHA
+must again receive fresh full source/package/acceptance checks before release.

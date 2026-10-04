@@ -307,7 +307,8 @@ jobs:
           release_state=unknown
           if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" > release-existing.json 2> release-view.err; then
             release_state=exists
-          elif rg -q 'HTTP 404' release-view.err; then
+          # 独立验证 runner 没有 rg；仅明确 HTTP 404 可判不存在，其余错误仍拒绝发布。
+          elif grep -q 'HTTP 404' release-view.err; then
             release_state=missing
           fi
           args=(scripts/release-immutability.mjs --tag "$RELEASE_TAG" --sha "$DELIVERED_SHA" --tag-exists "$tag_exists" --tag-sha "$tag_sha" --release-state "$release_state" --artifacts-json release-assets/release-artifacts.json --out release-assets/release-decision.json)
