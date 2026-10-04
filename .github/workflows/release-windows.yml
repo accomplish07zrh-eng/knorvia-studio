@@ -191,6 +191,22 @@ jobs:
           }
           NODE
           echo "Reused actual package SHA $KNORVIA_DIAGNOSTIC_PACKAGE_SHA; current probe SHA ${{ needs.resolve.outputs.sha }}; diagnostic only" >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve individually readable original Linux AppImage for diagnosis
+        if: inputs.diagnostic_reuse_run != '' && matrix.os == 'linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-original-appimage
+          path: packages/desktop/dist/*.AppImage
+          if-no-files-found: error
+          compression-level: 0
+      - name: Preserve individually readable original Linux archive for diagnosis
+        if: inputs.diagnostic_reuse_run != '' && matrix.os == 'linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-${{ matrix.platform }}-${{ matrix.variant }}-original-archive
+          path: packages/desktop/dist/*.tar.gz
+          if-no-files-found: error
+          compression-level: 0
       - name: Stage Windows setup and portable ZIP
         if: matrix.os == 'win' && matrix.variant == 'installed' && inputs.diagnostic_reuse_run == ''
         shell: pwsh

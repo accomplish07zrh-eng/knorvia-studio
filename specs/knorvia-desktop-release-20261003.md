@@ -196,3 +196,14 @@ initialization cannot be confused with preexisting account data. Existing
 profiles remain refused, never adopted or deleted. Linux inspector failures
 record phase, last returned state and bounded stdout/stderr for diagnosis;
 unchanged RPC/launch deadlines and normal-exit assertions remain mandatory.
+
+Portable state observation is phased: after the browser bootstrap boundary,
+first read only `app.isReady()` and the application-owned data-root environment.
+Only after both are ready read BrowserWindow/version/path APIs. This prevents
+observing `userData` before the application owns its path (Electron may create
+a default directory on that early read) and calling window/path APIs during
+Linux native startup. The subsequent full path/window/version assertions are
+unchanged. Reused8c Linux report proves four returned startup states, actual
+portable root/profile set, then request5 blocked while app-ready=false/window0;
+this is later than the corrected bootstrap and the exact native blocking call
+is not yet established. Actual old-package reuse must determine the result.

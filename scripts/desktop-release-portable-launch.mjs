@@ -90,7 +90,10 @@ const stateExpression = `(() => {
   if(!module?._cache?.electron) return {ready:false, bootstrap:"electron-module-pending"};
   const require=module.createRequire(process.resourcesPath+"/app.asar/package.json");
   const {app,BrowserWindow}=require("electron");
-  return {pid:process.pid, ready:app.isReady(), windows:BrowserWindow.getAllWindows().length,
+  // 路径查询可创建默认 userData；ready/data owner 就绪前不调用窗口、版本或路径 API。
+  const ready=app.isReady(), base=process.env.KNORVIA_DATA_BASE_DIR;
+  if(!ready || !base) return {ready:false,bootstrap:"app-ready-and-data-owner-pending",base};
+  return {pid:process.pid, ready, windows:BrowserWindow.getAllWindows().length,
     version:app.getVersion(), executable:process.execPath, resourcesPath:process.resourcesPath,
     userData:app.getPath("userData"), portableDirectory:process.env.KNORVIA_PORTABLE_DIR,
     base:process.env.KNORVIA_DATA_BASE_DIR, home:process.env.KNORVIA_HOME,

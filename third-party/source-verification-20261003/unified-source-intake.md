@@ -527,3 +527,28 @@ state and bounded stdout/stderr without extending RPC/startup/exit deadlines.
 The new guard test preventing reuse in full Release passed1/1; no repeated
 whole local suite/build/audit. Exact36 PR checks37178921758 completed both Linux
 and Windows successfully. Existing historical source/rights evidence stays.
+
+## Reused8c actual outcome; phased startup observation
+
+Run37179923974 used actual36 packages and probe8c3744d4ac520d4000cd4ab6e0d950a377f01b3c.
+Windows installed111370301972 passed complete existing acceptance, including the
+four NSIS cases, ZIP windows/persistence and actual install/reinstall/uninstall;
+its early exclusive ordinary-profile reservation correction is now demonstrated.
+Linux portable111370301974 failed; raw11294512980 binds both exact SHAs and
+reusedPayloads=true. It returned four startup states, correct original portable
+root/profile and version, then request5 timed out while ready=false/windows0.
+App stdout reached crash-capture configuration. This is after bootstrap, not
+a repeat proof of bootstrap globals failure. The exact blocked native call
+remains unestablished. All deadlines and exit/window/profile assertions stay.
+
+State observation now calls only isReady and application data-root environment
+until both are ready, postponing window/version/userData APIs. Early userData
+query can create the default directory before application-owned profile setup.
+The actual official Electron41.0.3 local synthetic fixture passed3/3 ready
+windows and normal exits with this phased expression; fixture sets its own
+synthetic data-owner environment, not a packaged portable override. This is
+not Linux package acceptance. Next diagnostic reuses the same actual36 Linux
+bytes only, without rebuilding; separate original AppImage/archive attachments
+retain those exact bytes for local focused reads below the SDK's512MiB cap.
+These are diagnostic-original artifacts, never new-source built identities or
+Release-eligible assets. No claims about complete independence/rights changed.
