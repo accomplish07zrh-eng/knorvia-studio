@@ -225,3 +225,16 @@ selection or acceptance deadlines; trace-instrumented results remain diagnostic.
 Full source/package release runs never enable tracing. This determines whether
 the actual pre-window stall is a native lock, child wait or filesystem action,
 without another build or falsely naming a root cause.
+
+Actual3a strace shows Main SIGTRAP before a window; the login shell exits zero.
+The same official Electron41.0.3 fixture with requestSingleInstanceLock and a
+95-byte TMPDIR matching CI exits naturally [null,SIGTRAP]; a20-byte owned TMPDIR
+creates a ready window and exits [0,null]. A control with95-byte TMPDIR but no
+single-instance request also creates a window and exits [0,null]. This identifies
+the long temporary socket-directory condition in the probe. Linux probes now
+create an exclusively owned short `/tmp/knv-*` directory for TMPDIR/TEMP/TMP,
+remove it only after owned process termination, and fail on cleanup errors.
+The original launcher/spaced path and its persistent portable data/profile do
+not move. Application bytes, single-instance feature and all success/deadline
+assertions stay. Reused actual package acceptance must confirm this correction;
+final main still builds fresh with every required source/package gate.

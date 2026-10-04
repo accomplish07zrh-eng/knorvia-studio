@@ -580,3 +580,20 @@ only for reused Linux launches, preserving package bytes, profile and deadlines.
 Tracing artifacts are diagnostic and cannot validate/publish. Full release does
 not enable tracing. Source ed CI37180219878 auto-cancelled on newer head; prior
 actual Windows acceptance/source successes remain precisely attributed.
+
+## Actual single-instance temporary socket boundary identified
+
+Raw3a trace and official Electron41.0.3 minimal experiments are frozen in
+new desktop-linux-socket-20261004 packet. At matching95-byte TMPDIR, actual
+requestSingleInstanceLock produces natural[null,SIGTRAP]; with only20-byte
+owned TMPDIR it creates a ready window and exits0. Control95-byte without
+single-instance request also creates window/exits0. Initial149-byte failed,
+two20-byte cases passed. This identifies probe-generated temporary-directory
+conditions at the Linux socket boundary. No application bytes/features change.
+Only probe TMPDIR/TEMP/TMP move to exclusive short /tmp/knv-\*; portable data and
+original launcher/spaced paths stay and all deadlines/assertions remain.
+Cleanup errors fail; original primary error remains intact. New trace guard
+regression1/1passed ensures full release cannot enable instrumentation. Latest
+old-package confirmation explicitly runs diagnostic_trace=false, with no build.
+Raw receipt integrity is not authorship/rights acceptance. Prior6020 frozen
+rows remain unchanged; full final release still requires fresh main builds.

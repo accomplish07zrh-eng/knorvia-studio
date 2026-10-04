@@ -3,7 +3,7 @@
 // studio-media-acceptance-launch.mjs; no packaged application file is edited.
 import assert from "node:assert/strict";
 import { execFile, spawn } from "node:child_process";
-import { cp, mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { dirname, isAbsolute, join, relative, sep } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -145,6 +145,9 @@ export async function probePortableLaunch({
       localappdata = join(root, "localappdata");
     await mkdir(appdata);
     await mkdir(localappdata);
+    // Linux 单实例锁的 Unix socket 有路径上限；95 字节 TMPDIR 已在 pinned Electron 复现 SIGTRAP。
+    // 仅临时 socket/extraction 使用自己的短目录，便携数据仍由原始启动器目录决定。
+    const runtimeTmp = process.platform === "linux" ? await mkdtemp("/tmp/knv-") : root;
     const env = Object.fromEntries(
       Object.entries(process.env).filter(([key]) =>
         /^(?:PATH|PATHEXT|SystemRoot|WINDIR|ComSpec|DISPLAY|XAUTHORITY|USERPROFILE|USERNAME)$/i.test(
@@ -156,9 +159,9 @@ export async function probePortableLaunch({
       APPDATA: appdata,
       LOCALAPPDATA: localappdata,
       XDG_CONFIG_HOME: appdata,
-      TMPDIR: root,
-      TEMP: root,
-      TMP: root,
+      TMPDIR: runtimeTmp,
+      TEMP: runtimeTmp,
+      TMP: runtimeTmp,
       NODE_OPTIONS: "",
       NODE_PATH: "",
       KNORVIA_ENV: "production",
@@ -220,6 +223,7 @@ export async function probePortableLaunch({
       stderr = (stderr + bytes).slice(-1024 * 1024);
     });
     let remote;
+    let cleanupFailure;
     let phase = "inspector-endpoint",
       lastState,
       requests = 0;
@@ -281,6 +285,7 @@ export async function probePortableLaunch({
         wrapperPid: child.pid,
         main: state,
         inspectorPort: port,
+        temporaryDirectory: runtimeTmp,
         stderr,
         stdout,
       });
@@ -369,7 +374,19 @@ export async function probePortableLaunch({
       report.stdout = stdout;
       report.failurePhase = { iteration, phase, requests, lastState, wrapperPid: child.pid };
       throw Object.assign(error, { report });
+    } finally {
+      if (runtimeTmp !== root) {
+        try {
+          await rm(runtimeTmp, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+        } catch (cleanupError) {
+          report.cleanupError = cleanupError.message;
+          cleanupFailure = cleanupError;
+          report.status = "failed";
+          report.error ||= cleanupError.stack || String(cleanupError);
+        }
+      }
     }
+    if (cleanupFailure) throw Object.assign(cleanupFailure, { report });
   }
   report.status = "passed";
   report.checks = [

@@ -21,6 +21,11 @@ on:
         type: choice
         default: all
         options: [all, win-installed, linux-portable, remaining]
+      diagnostic_trace:
+        description: Trace owned reused Linux launch for diagnosis; never a full release
+        required: false
+        type: boolean
+        default: false
       diagnostic_reuse_run:
         description: Prior diagnostic run with retained real payloads; never allowed for full release
         required: false
@@ -77,6 +82,7 @@ jobs:
           DIAGNOSTIC_VARIANT: ${{ inputs.diagnostic_variant || 'all' }}
           DRY_RUN: ${{ inputs.dry_run }}
           DIAGNOSTIC_REUSE_RUN: ${{ inputs.diagnostic_reuse_run }}
+          DIAGNOSTIC_TRACE: ${{ inputs.diagnostic_trace }}
         run: node scripts/desktop-release-variant-selection.mjs
       - name: Bind retained diagnostic payloads to their actual original source
         id: reused
@@ -121,7 +127,7 @@ jobs:
       KNORVIA_PORTABLE_BUILD: ${{ matrix.portable }}
       KNORVIA_RELEASE_DIAGNOSTIC: ${{ needs.resolve.outputs.diagnostic == 'true' && '1' || '0' }}
       KNORVIA_DIAGNOSTIC_PACKAGE_SHA: ${{ needs.resolve.outputs.package-sha }}
-      KNORVIA_RELEASE_TRACE: ${{ needs.resolve.outputs.diagnostic == 'true' && inputs.diagnostic_reuse_run != '' && '1' || '0' }}
+      KNORVIA_RELEASE_TRACE: ${{ needs.resolve.outputs.diagnostic == 'true' && inputs.diagnostic_trace && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
         with:

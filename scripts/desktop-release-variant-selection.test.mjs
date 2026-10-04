@@ -32,3 +32,8 @@ test("reused artifacts cannot enter the full release or accept an ambiguous run"
   assert.throws(() => selectReleaseVariants("remaining", true, "../other"), /diagnostic/);
   assert.equal(selectReleaseVariants("remaining", true, "37178918892").diagnostic, true);
 });
+
+test("trace instrumentation cannot enter full release mode", () => {
+  assert.throws(() => selectReleaseVariants("all", true, "", true), /Tracing/);
+  assert.equal(selectReleaseVariants("linux-portable", true, "37178918892", true).diagnostic, true);
+});
