@@ -567,3 +567,16 @@ Xvfb before child termination to reveal possible modal startup errors blocking
 RPC; capture has separate2s command bounds and cannot mark acceptance passed.
 The prior8c PR run37179926618 was automatically cancelled by the newer head;
 not described as passed. No main merge or preview.4 publication occurred.
+
+## Owned80 display result; native wait remains unproven
+
+Run37180580898 probe80b5696f91264b6813f17e78844539579bec1e13 reused original36
+packages, with no build. Linux111372219626 again timed out request5 pre-window;
+raw acceptance and owned Xvfb PNG11295058471 were retrieved and inspected.
+The1280x800 image is blank; no modal startup error was observed. Screenshot
+capture worked, but is not acceptance. No false modal-cause or Linux-fix claim.
+Next same-owner diagnostic adds strace process/lock/poll/connect/open events
+only for reused Linux launches, preserving package bytes, profile and deadlines.
+Tracing artifacts are diagnostic and cannot validate/publish. Full release does
+not enable tracing. Source ed CI37180219878 auto-cancelled on newer head; prior
+actual Windows acceptance/source successes remain precisely attributed.

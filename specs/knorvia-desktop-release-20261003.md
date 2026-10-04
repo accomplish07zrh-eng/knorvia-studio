@@ -216,3 +216,12 @@ secondary. This exposes a possible native modal startup error which cannot
 answer inspector RPC while the application is not ready. Full release behavior
 is unchanged and does not enable diagnostic capture; all source/package gates
 remain mandatory.
+
+The owned80 diagnostic screenshot is blank: no native modal error was observed.
+For reused Linux diagnosis only, optional strace wraps the original launcher
+inside the same owned process group, recording process/lock/poll/connect/open
+calls to an owned artifact. It does not change application bytes, profile
+selection or acceptance deadlines; trace-instrumented results remain diagnostic.
+Full source/package release runs never enable tracing. This determines whether
+the actual pre-window stall is a native lock, child wait or filesystem action,
+without another build or falsely naming a root cause.

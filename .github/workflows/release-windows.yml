@@ -121,6 +121,7 @@ jobs:
       KNORVIA_PORTABLE_BUILD: ${{ matrix.portable }}
       KNORVIA_RELEASE_DIAGNOSTIC: ${{ needs.resolve.outputs.diagnostic == 'true' && '1' || '0' }}
       KNORVIA_DIAGNOSTIC_PACKAGE_SHA: ${{ needs.resolve.outputs.package-sha }}
+      KNORVIA_RELEASE_TRACE: ${{ needs.resolve.outputs.diagnostic == 'true' && inputs.diagnostic_reuse_run != '' && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -153,7 +154,7 @@ jobs:
         if: matrix.os == 'linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd xvfb xauth x11-apps imagemagick
+          sudo apt-get install --no-install-recommends -y rpm libarchive-tools zstd xvfb xauth x11-apps imagemagick strace
       - name: Install frozen dependencies
         run: pnpm install --frozen-lockfile
       - name: Build fresh Desktop x64 packages
@@ -258,7 +259,7 @@ jobs:
           name: ${{ needs.resolve.outputs.diagnostic == 'true' && 'diagnostic' || 'knorvia' }}-${{ matrix.platform }}-${{ matrix.variant }}-acceptance
           path: |
             dist-release/${{ matrix.platform }}-${{ matrix.variant }}/${{ matrix.platform }}-${{ matrix.variant }}-acceptance.json
-            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*-diagnostic.png
+            dist-release/${{ matrix.platform }}-${{ matrix.variant }}/*-diagnostic.*
           if-no-files-found: warn
 
   validate-release:

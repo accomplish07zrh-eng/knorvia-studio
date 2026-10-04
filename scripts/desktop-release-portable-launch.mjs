@@ -92,7 +92,7 @@ const stateExpression = `(() => {
   const {app,BrowserWindow}=require("electron");
   // 路径查询可创建默认 userData；ready/data owner 就绪前不调用窗口、版本或路径 API。
   const ready=app.isReady(), base=process.env.KNORVIA_DATA_BASE_DIR;
-  if(!ready || !base) return {ready:false,bootstrap:"app-ready-and-data-owner-pending",base};
+  if(!ready || !base) return {pid:process.pid,ready:false,bootstrap:"app-ready-and-data-owner-pending",base};
   return {pid:process.pid, ready, windows:BrowserWindow.getAllWindows().length,
     version:app.getVersion(), executable:process.execPath, resourcesPath:process.resourcesPath,
     userData:app.getPath("userData"), portableDirectory:process.env.KNORVIA_PORTABLE_DIR,
@@ -173,7 +173,29 @@ export async function probePortableLaunch({
       `--inspect=${port}`,
       ...(process.platform === "linux" ? ["--no-sandbox", "--disable-gpu"] : []),
     ];
-    const child = spawn(executable, args, {
+    const tracing =
+      process.platform === "linux" && diagnosticOutput && process.env.KNORVIA_RELEASE_TRACE === "1";
+    const tracePath = tracing
+      ? join(diagnosticOutput, `portable-launch-${iteration}-diagnostic.strace`)
+      : undefined;
+    const command = tracing ? "strace" : executable;
+    const launchArgs = tracing
+      ? [
+          "-f",
+          "-tt",
+          "-T",
+          "-s",
+          "120",
+          "-e",
+          "trace=process,futex,poll,ppoll,select,pselect6,epoll_wait,connect,openat,flock",
+          "-o",
+          tracePath,
+          executable,
+          ...args,
+        ]
+      : args;
+    if (tracing) report.diagnosticTrace = tracePath;
+    const child = spawn(command, launchArgs, {
       env,
       cwd: dirname(executable),
       detached: process.platform === "linux",
