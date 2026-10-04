@@ -48,10 +48,25 @@ Windows attached even earlier, before Node had assigned getBuiltinModule.
 The state expression explicitly reports `node-module-api-pending` until that
 bootstrap API exists, then waits for Electron's registration. No runtime error
 after either readiness marker is ignored.
+Inspector evaluation does not request command-line console extensions: the
+explicit packaged loader needs none. Actual Windows bootstrap threw inside
+Node's console-extension installation before the expression ran. The probe
+sets includeCommandLineAPI:false and retains the last observed readiness state
+in timeout diagnostics, without changing the startup budget.
 Failed native child commands retain exit code, signal, stdout and stderr in
 the acceptance report. The Windows PTY smoke records bounded runtime and phase
 markers on stderr so a native process exit can be distinguished from a JS
 assertion. No PTY, SQLite or packaged-resource assertion is skipped.
+Actual b1 Windows receipt shows PTY exitCode0, expected output and completed
+SQLite, followed by probe-process SIGTERM at its unchanged 20s command limit.
+The smoke owns its ConPTY connection. After asserting the natural PTY exit
+and output it invokes the public `kill()` cleanup API to release that owned
+connection/worker; it never calls process.exit or changes either time budget.
+The whole smoke process must still exit normally with code0.
+An actual owned Node ESM inspector regression covers synchronous return values,
+absence of injected CommonJS require/console helpers, exception rejection and
+normal fixture shutdown. It exercises the shared transport over WebSocket;
+it does not stand in for Electron package/window/profile acceptance.
 
 ## Ordered release path
 

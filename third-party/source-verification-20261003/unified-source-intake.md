@@ -450,3 +450,26 @@ Integration changes only synchronous inspector evaluation, explicit bootstrap
 markers and bounded child-command diagnostics. PTY/window/profile/persistence
 assertions and product sources are retained. Raw acceptance JSON remains bound
 to80a; no source records or rights classifications are promoted.
+
+## Candidate b1 actual command evidence
+
+Run37174700874 at exactb1af03e7956bfd2d7711079107cc31f04abfa7de passed
+both source quality jobs (8277 each; Linux8269pass/8skip, Windows8275pass/2skip,
+zero fail/cancel). All variants built; Linux installed111356660519 accepted.
+Linux portable111356660498 failed synchronous inspector request timeout;
+Windows portable111356660481 failed Node console-extension installation before
+its expression. Explicit packaged loading needs no console extensions, which
+are now disabled; the real owned Node ESM transport regression passed1/1 at
+pinned Node24.14.0, including synchronous Promise-object return, absent require/
+console helpers, exception rejection and normal process exit. This is not
+Electron GUI/profile acceptance.
+
+Windows installed111356660527 passed its four actual NSIS cases. Raw command
+failure stdout proves actual packaged Electron41.0.3/Node24.14.0 PTY output and
+PTY exitCode0, and completed SQLite sentinel. The probe process instead hit
+its unchanged20s limit (code null, signalSIGTERM, killedtrue). Pinned node-pty
+keeps its ConPTY connection/worker until explicit public cleanup. The owned
+probe now requests kill cleanup after asserting the natural PTY exit/output;
+there is no force-exit or timeout/assertion relaxation. Whole-process normal
+exit and actual installer/portable acceptance remain required and unverified
+for the new source. Prior failure outcomes, source packets and rights stay.

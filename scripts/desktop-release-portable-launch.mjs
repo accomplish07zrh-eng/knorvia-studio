@@ -22,7 +22,7 @@ async function unusedPort() {
   return port;
 }
 
-async function inspector(url) {
+export async function connectOwnedMainInspector(url) {
   const socket = new WebSocket(url);
   await new Promise((done, fail) => {
     socket.addEventListener("open", done, { once: true });
@@ -61,7 +61,8 @@ async function inspector(url) {
             method: "Runtime.evaluate",
             params: {
               expression,
-              includeCommandLineAPI: true,
+              // 显式加载器不依赖 console 扩展；过早安装扩展会访问尚未初始化的 argv。
+              includeCommandLineAPI: false,
               // 两个表达式均同步；bootstrap 时等待 inspector Promise 会被 GC 中断。
               awaitPromise: false,
               returnByValue: true,
@@ -203,7 +204,7 @@ export async function probePortableLaunch({
             const endpoint = new URL(target.webSocketDebuggerUrl);
             assert.equal(endpoint.hostname, "127.0.0.1");
             assert.equal(endpoint.port, String(port));
-            remote = await inspector(target.webSocketDebuggerUrl);
+            remote = await connectOwnedMainInspector(target.webSocketDebuggerUrl);
           }
         } catch {
           /* Startup polling ends at the explicit deadline; no acceptance is skipped. */
@@ -219,7 +220,7 @@ export async function probePortableLaunch({
       }
       assert.ok(
         state?.ready && state.windows > 0,
-        `Packaged Electron did not create a window: ${stderr}`,
+        `Packaged Electron did not create a window: ${JSON.stringify(state)}; ${stderr}`,
       );
       assert.equal(state.version, version);
       assert.equal(

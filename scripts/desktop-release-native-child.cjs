@@ -60,6 +60,13 @@ if (operation !== "write") {
     clearTimeout(timer);
     assert.equal(event.exitCode, 0);
     assert.match(screen, /knorvia_native_pty/);
+    phase("pty-exited");
+    // ConPTY 自然退出仍持有连接 worker；本探针是资源所有者，用公开 API 收尾。
+    // 先断言真实退出/输出，再清理；不强制 process.exit，外层仍要求进程正常退出。
+    if (windows) {
+      term.kill();
+      phase("pty-cleanup-requested");
+    }
     console.log(
       JSON.stringify({
         runtime: {
