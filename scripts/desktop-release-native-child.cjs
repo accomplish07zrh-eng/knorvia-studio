@@ -5,6 +5,17 @@ const { join } = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
 
 const [root, workspace, database, operation] = process.argv.slice(2);
+const phase = (name) =>
+  console.error(
+    JSON.stringify({
+      nativeProbePhase: name,
+      node: process.version,
+      electron: process.versions.electron,
+      platform: process.platform,
+    }),
+  );
+// 原生崩溃可能不产生 JS 异常，阶段标记只帮助定位，不替代任何验收断言。
+phase("sqlite-open");
 const db = new DatabaseSync(database);
 if (operation === "write") {
   db.exec("CREATE TABLE native_smoke_sentinel (key TEXT PRIMARY KEY, value TEXT NOT NULL)");
@@ -16,23 +27,27 @@ if (operation === "write") {
   );
 }
 db.close();
+phase("sqlite-closed");
 
 if (operation !== "write") {
   console.log(JSON.stringify({ sentinel: "preserved after a second real storage preparation" }));
 } else {
   const requireFromArtifact = createRequire(join(root, "resources", "app.asar", "package.json"));
+  phase("pty-load");
   const pty = requireFromArtifact("node-pty");
   const windows = process.platform === "win32";
   const shell = windows ? process.env.COMSPEC : "/bin/sh";
   const args = windows
     ? ["/d", "/s", "/c", "echo knorvia_native_pty"]
     : ["-c", "printf knorvia_native_pty"];
+  phase("pty-spawn");
   const term = pty.spawn(shell, args, {
     cwd: workspace,
     env: process.env,
     cols: 80,
     rows: 24,
   });
+  phase("pty-spawned");
   let screen = "";
   const timer = setTimeout(() => {
     term.kill();

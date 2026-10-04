@@ -62,7 +62,8 @@ async function inspector(url) {
             params: {
               expression,
               includeCommandLineAPI: true,
-              awaitPromise: true,
+              // 两个表达式均同步；bootstrap 时等待 inspector Promise 会被 GC 中断。
+              awaitPromise: false,
               returnByValue: true,
             },
           }),
@@ -77,6 +78,7 @@ async function inspector(url) {
 
 const stateExpression = `(() => {
   // 打包 Main 是 ESM，inspector 没有全局 require；从实际 ASAR 创建加载器。
+  if(typeof process.getBuiltinModule!=="function") return {ready:false, bootstrap:"node-module-api-pending"};
   const module=process.getBuiltinModule("module");
   // inspector 可早于 Electron bootstrap 接入；等真实别名注册，不吞运行时异常。
   if(!module._cache.electron) return {ready:false, bootstrap:"electron-module-pending"};

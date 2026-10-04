@@ -294,6 +294,14 @@ export async function probePackagedRuntime({
   } catch (error) {
     report.status = "failed";
     report.error = error.stack || String(error);
+    // 原生进程可无 JS 堆栈退出；保留实际退出状态和输出，不能仅剩 Command failed。
+    report.commandFailure = {
+      code: error.code,
+      signal: error.signal,
+      killed: error.killed,
+      stdout: error.stdout,
+      stderr: error.stderr,
+    };
   } finally {
     owned?.kill("SIGTERM");
     await rm(fixture, { recursive: true, force: true });

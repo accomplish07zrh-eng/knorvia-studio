@@ -427,3 +427,26 @@ Integration fixes only the ASAR host path and the inspector loader rooted in
 the actual packaged ASAR. No product code, assertions, raw source packets or
 rights decisions are changed. All package acceptance must rerun on the new
 exact source before normal main merge and final fresh publication.
+
+## Candidate 80a actual acceptance and diagnostics
+
+Run37171834106 at exact80a12016b865881ca500d23508ec0aed906b0f46:
+Linux8277/8269pass/8skip; Windows attempt18277/8274pass/1fail/2skip
+had final creation records.write pending after1000ms. The original budget and
+all assertions remain; rerun only the failed jobs and blocked descendants.
+Attempt2 Windows8277/8275pass/0fail/2skip and reused Linux success. Same-head
+PR source CI also passed both platforms. A later pass does not fix or erase
+the original creation IO delay.
+
+All four candidate variants built. Linux installed job111352516511 passed
+actual acceptance. Linux portable111352516480 failed inspector Promise was
+collected before any launch acceptance. Windows portable111352516503 attached
+before Node assigned getBuiltinModule. Windows installed111352516476 passed
+all four actual NSIS cases and metadata/legal/CLI/storage initialization, then
+a SQLite/PTY native child command exited; its wrapper omitted exit code, so
+the native root cause remains unresolved. No candidate publication occurred.
+
+Integration changes only synchronous inspector evaluation, explicit bootstrap
+markers and bounded child-command diagnostics. PTY/window/profile/persistence
+assertions and product sources are retained. Raw acceptance JSON remains bound
+to80a; no source records or rights classifications are promoted.

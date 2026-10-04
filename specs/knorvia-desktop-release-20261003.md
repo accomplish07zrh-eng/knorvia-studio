@@ -40,6 +40,18 @@ alias is registered. State polling explicitly reports not-ready until the
 actual Electron module cache registration exists; after registration any
 evaluation failure still fails acceptance. The existing startup deadline stays
 unchanged. This is an initialization marker, not a swallowed runtime error.
+Both state and quit inspector expressions are synchronous. Their transport
+must use `awaitPromise:false`; awaiting an inspector-created Promise during
+Node bootstrap yielded `Promise was collected` before any launch acceptance.
+The transport still rejects every evaluation error and reports actual state.
+Windows attached even earlier, before Node had assigned getBuiltinModule.
+The state expression explicitly reports `node-module-api-pending` until that
+bootstrap API exists, then waits for Electron's registration. No runtime error
+after either readiness marker is ignored.
+Failed native child commands retain exit code, signal, stdout and stderr in
+the acceptance report. The Windows PTY smoke records bounded runtime and phase
+markers on stderr so a native process exit can be distinguished from a JS
+assertion. No PTY, SQLite or packaged-resource assertion is skipped.
 
 ## Ordered release path
 
