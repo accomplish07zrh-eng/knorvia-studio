@@ -77,7 +77,10 @@ async function inspector(url) {
 
 const stateExpression = `(() => {
   // 打包 Main 是 ESM，inspector 没有全局 require；从实际 ASAR 创建加载器。
-  const require=process.getBuiltinModule("module").createRequire(process.resourcesPath+"/app.asar/package.json");
+  const module=process.getBuiltinModule("module");
+  // inspector 可早于 Electron bootstrap 接入；等真实别名注册，不吞运行时异常。
+  if(!module._cache.electron) return {ready:false, bootstrap:"electron-module-pending"};
+  const require=module.createRequire(process.resourcesPath+"/app.asar/package.json");
   const {app,BrowserWindow}=require("electron");
   return {pid:process.pid, ready:app.isReady(), windows:BrowserWindow.getAllWindows().length,
     version:app.getVersion(), executable:process.execPath, resourcesPath:process.resourcesPath,

@@ -35,6 +35,11 @@ its inspector expressions obtain a require function through
 `process.getBuiltinModule("module").createRequire` rooted in the actual packaged
 ASAR. They must not depend on a CommonJS global or inject changes into Main.
 All source binding, created-window and persistence assertions remain required.
+The inspector can attach during Electron's Node bootstrap, before its module
+alias is registered. State polling explicitly reports not-ready until the
+actual Electron module cache registration exists; after registration any
+evaluation failure still fails acceptance. The existing startup deadline stays
+unchanged. This is an initialization marker, not a swallowed runtime error.
 
 ## Ordered release path
 
