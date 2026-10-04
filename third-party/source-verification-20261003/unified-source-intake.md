@@ -408,3 +408,22 @@ At resumption the workflow's runtime mirror variable was found to be overwritten
 by bundle.mjs, which reads ELECTRON_MIRROR. The workflow now explicitly supplies
 that actual input with the official URL. This changes download configuration,
 not product code, licensing or historical package input bindings.
+
+## First preview.4 actual candidate outcomes
+
+Run 37169792546 checked exact adbef7586541c6a58d58eff83f28a8aeafd15a6b.
+Both source quality jobs passed. Linux installed job 111343286037 passed actual
+four-format metadata/payload and packaged-runtime acceptance. Three other jobs
+built their artifacts but failed acceptance: Windows installed 111343286092
+passed all four actual makensis ownership fixtures, then the probe supplied a
+POSIX nested ASAR path to Windows's host-separator lookup; portable Linux
+111343286088 lacked a global require in Main inspector, while Windows portable
+111343286075's inspector-console require could not resolve electron. Required
+validate-release and publish were skipped after these failures; no preview.4
+publication occurred. Read-only gh artifact download encountered HTTP403;
+completed decoded job logs independently provided the actual failures.
+
+Integration fixes only the ASAR host path and the inspector loader rooted in
+the actual packaged ASAR. No product code, assertions, raw source packets or
+rights decisions are changed. All package acceptance must rerun on the new
+exact source before normal main merge and final fresh publication.

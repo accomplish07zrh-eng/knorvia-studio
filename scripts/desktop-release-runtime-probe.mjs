@@ -188,7 +188,8 @@ export async function probePackagedRuntime({
         "main, host, scheduler, preload present; target native remains unpacked; maps absent",
     };
     report.metadata = JSON.parse(
-      asar.extractFile(report.package.appAsar.path, "out/metadata/build-meta.json"),
+      // ASAR 按宿主 path.sep 查找目录；Windows 不能传 POSIX 分隔符。
+      asar.extractFile(report.package.appAsar.path, join("out", "metadata", "build-meta.json")),
     );
     const productManifest = JSON.parse(await readFile(join(repository, "package.json"), "utf8"));
     assert.equal(report.metadata.appVersion, productManifest.version);

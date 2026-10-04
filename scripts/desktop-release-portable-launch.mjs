@@ -76,6 +76,8 @@ async function inspector(url) {
 }
 
 const stateExpression = `(() => {
+  // 打包 Main 是 ESM，inspector 没有全局 require；从实际 ASAR 创建加载器。
+  const require=process.getBuiltinModule("module").createRequire(process.resourcesPath+"/app.asar/package.json");
   const {app,BrowserWindow}=require("electron");
   return {pid:process.pid, ready:app.isReady(), windows:BrowserWindow.getAllWindows().length,
     version:app.getVersion(), executable:process.execPath, resourcesPath:process.resourcesPath,
@@ -85,6 +87,7 @@ const stateExpression = `(() => {
     appImage:process.env.APPIMAGE};
 })()`;
 const quitExpression = `(() => {
+  const require=process.getBuiltinModule("module").createRequire(process.resourcesPath+"/app.asar/package.json");
   const {app,dialog}=require("electron"); const original=dialog.showMessageBoxSync.bind(dialog);
   dialog.showMessageBoxSync=(...args)=>{const o=args.at(-1);
     if(["Confirm Quit","退出确认"].includes(o.title)&&/Knorvia Studio/.test(o.message))

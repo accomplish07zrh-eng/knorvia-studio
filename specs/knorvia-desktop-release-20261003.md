@@ -28,6 +28,14 @@ helpers, publication metadata, root version and cumulative source inventories.
 These are build utilities outside the managed runtime module roots. No runtime
 state owner, profile path, protocol or product identity changes in this release.
 
+The first actual candidate exposed two probe defects, not accepted product
+results. ASAR extraction uses host-native path separators, so nested metadata
+paths must use `join` on Windows as well as Linux. Packaged Main is an ES module;
+its inspector expressions obtain a require function through
+`process.getBuiltinModule("module").createRequire` rooted in the actual packaged
+ASAR. They must not depend on a CommonJS global or inject changes into Main.
+All source binding, created-window and persistence assertions remain required.
+
 ## Ordered release path
 
 ```mermaid
