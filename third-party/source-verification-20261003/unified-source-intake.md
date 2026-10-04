@@ -635,3 +635,19 @@ All other inventory fields, dependency/native/copy records, notices and the
 No full rights audit was rerun or rights classification promoted. PR checks
 cover merge content including the exact head; the final release workflow
 separately requires both checked source SHAs equal the actual main SHA.
+
+## Stable final immutable lookup failure and repair (2026-10-04)
+
+Actual main9c120dbfd6fee08a68661ca26b38da2aa5958c9e/run37184011042 passed
+Linux8286/8278pass/8skip and Windows8286/8284pass/2skip, fail0/cancel0.
+All4fresh groups/9formats passed real0.8.0 acceptance, diagnosticOnly=false,
+reusedPayloads=false; unified stream hashes produced9packages/24attachments.
+validate-release111387484937 then failed: rg command not found during explicit
+Release404 recognition, leaving state unknown. Immutable gate rejected
+release-query-failed and publish was skipped. No stable tag/Release created.
+Repair only this hosted tool assumption to POSIX grep; explicit404 alone means
+missing, success means exists, other errors stay unknown/reject. No license,
+rights, payload assertions, signatures or evidence classification relaxed.
+No full local suite/build/rights audit repeated. New final main publication
+requires fresh exact-source full source/package checks; this failed run stays
+at its true9c120db source and0.8.0 version, never represented as published.
