@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Knorvia Studio · NSIS 安装器设计预览</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 32px; background: #f3f3f4; color: #151515; font: 13px/1.55 "Segoe UI", "Microsoft YaHei UI", "Noto Sans CJK SC", system-ui, sans-serif; }
+      .review-title { margin: 0 0 6px; font-size: 22px; font-weight: 600; letter-spacing: -.3px; }
+      .review-note { margin: 0 0 20px; color: #626262; }
+      .language { display: inline-flex; align-items: center; margin: 0 14px 0 4px; }
+      input[name="language"] { accent-color: #151515; }
+      main { display: flex; gap: 24px; align-items: flex-start; margin-top: 22px; }
+      figure { flex: 0 0 520px; margin: 0; }
+      figcaption { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font-size: 13px; font-weight: 600; }
+      .ordinal { color: #777; font-size: 11px; font-weight: 400; }
+      .window { width: 520px; border: 1px solid #b9b9b9; background: white; color: #151515; font-size: 12px; line-height: 1.5; }
+      .titlebar { display: flex; align-items: center; height: 31px; padding: 0 0 0 9px; font-weight: 400; }
+      .titlebar img { width: 18px; height: 18px; object-fit: contain; margin-right: 7px; }
+      .close { margin-left: auto; width: 42px; text-align: center; font: 20px/31px Arial, sans-serif; color: #444; }
+      .splash { display: flex; height: 314px; }
+      .sidebar { width: 164px; height: 314px; flex: 0 0 164px; }
+      .splash-copy { padding: 24px 22px 14px 19px; flex: 1; }
+      .splash-copy h1 { margin: 0 0 24px; font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -.2px; }
+      .body-copy { white-space: pre-line; margin: 0; }
+      .run { display: flex; gap: 7px; align-items: center; margin-top: 20px; font-weight: 400; }
+      .run input { margin: 0; accent-color: #151515; }
+      .footer { display: flex; gap: 8px; justify-content: flex-end; align-items: center; height: 50px; padding: 0 14px; border-top: 1px solid #ddd; background: #f3f3f3; }
+      .footer button { min-width: 79px; height: 26px; padding: 0 9px; border: 1px solid #ababab; border-radius: 2px; background: #fafafa; color: #151515; font: inherit; }
+      .footer button:disabled { color: #929292; border-color: #cdcdcd; background: #f5f5f5; }
+      .footer .default { border-color: #444; }
+      .install-body { height: 314px; }
+      .install-header { height: 69px; display: flex; align-items: center; justify-content: space-between; padding: 6px 7px 6px 23px; border-bottom: 1px solid #ddd; }
+      .install-header h1 { margin: 0 0 2px; font-size: 13px; line-height: 1.5; font-weight: 600; }
+      .install-header p { margin: 0; }
+      .header-bitmap { width: 150px; height: 57px; flex: 0 0 150px; }
+      .install-content { padding: 18px 22px; }
+      .install-content p { margin: 0 0 9px; }
+      progress { display: block; width: 100%; height: 20px; margin-bottom: 15px; accent-color: #249333; }
+      .details { height: 139px; padding: 8px; overflow: hidden; border: 1px solid #ccc; background: white; font-size: 11px; line-height: 1.6; }
+      .details p { margin: 0 0 2px; }
+      .caption { color: #777; margin: 12px 0 0; font-size: 11px; line-height: 1.6; }
+      .lang-en { display: none; }
+      #en:checked ~ main .lang-zh { display: none; }
+      #en:checked ~ main .lang-en { display: block; }
+      .end-note { color: #777; margin: 24px 0 0; font-size: 11px; }
+      @media (max-width: 1250px) { main { flex-wrap: wrap; } }
+    </style>
+  </head>
+  <body>
+    <h1 class="review-title">Knorvia Studio · 安装器品牌预览</h1>
+    <p class="review-note">设计评审稿，非原生安装运行截图。沿用 NSIS 页面、位图槽位和系统控件；Windows 字体、DPI 与最终状态由 native 集成确认。</p>
+    <input id="zh" name="language" type="radio" checked /><label class="language" for="zh">中文</label>
+    <input id="en" name="language" type="radio" /><label class="language" for="en">English</label>
+    <main>
+      <figure>
+        <figcaption><span class="ordinal">01</span><span class="lang-zh">欢迎</span><span class="lang-en">Welcome</span></figcaption>
+        <article class="window" data-stage="welcome" aria-label="Welcome design preview">
+          <header class="titlebar"><img src="../../../packages/ui/src/assets/knorvia-logo.png" alt="" />Knorvia Studio<span class="close" aria-hidden="true">×</span></header>
+          <div class="splash">
+            <img class="sidebar" src="../../../packages/desktop/build/installer-branding-20261003/installerSidebar.bmp" alt="Knorvia official artwork on white sidebar" />
+            <section class="splash-copy">
+              <h1>Knorvia Studio</h1>
+              <p class="body-copy lang-zh">欢迎安装 Knorvia Studio。
+
+接下来选择安装位置，然后开始安装。
+
+点击“下一步”继续。</p>
+              <p class="body-copy lang-en">Welcome to Knorvia Studio.
+
+Choose an installation folder, then start the installation.
+
+Click Next to continue.</p>
+            </section>
+          </div>
+          <footer class="footer">
+            <button type="button" disabled><span class="lang-zh">&lt; 上一步</span><span class="lang-en">&lt; Back</span></button>
+            <button class="default" type="button"><span class="lang-zh">下一步 &gt;</span><span class="lang-en">Next &gt;</span></button>
+            <button type="button"><span class="lang-zh">取消</span><span class="lang-en">Cancel</span></button>
+          </footer>
+        </article>
+        <p class="caption">MUI welcome · 164×314 侧图。下一页沿用原有安装模式 / 安装目录流程。</p>
+      </figure>
+      <figure>
+        <figcaption><span class="ordinal">02</span><span class="lang-zh">安装</span><span class="lang-en">Installation</span></figcaption>
+        <article class="window" data-stage="install" aria-label="Installation design preview">
+          <header class="titlebar"><img src="../../../packages/ui/src/assets/knorvia-logo.png" alt="" />Knorvia Studio<span class="close" aria-hidden="true">×</span></header>
+          <div class="install-body">
+            <header class="install-header">
+              <div><h1>Knorvia Studio</h1><p class="lang-zh">正在安装，请稍候。</p><p class="lang-en">Installing. Please wait.</p></div>
+              <img class="header-bitmap" src="../../../packages/desktop/build/installer-branding-20261003/installerHeader.bmp" alt="Knorvia official artwork in right header" />
+            </header>
+            <section class="install-content">
+              <p class="lang-zh">正在写入：Knorvia Studio.exe</p><p class="lang-en">Extracting: Knorvia Studio.exe</p>
+              <progress value="64" max="100" aria-label="Illustrative native installation progress"></progress>
+              <div class="details" aria-label="Illustrative install details">
+                <div class="lang-zh"><p>目标目录：…\Programs\Knorvia Studio</p><p>正在释放程序文件…</p><p>写入：Knorvia Studio.exe</p></div>
+                <div class="lang-en"><p>Destination: …\Programs\Knorvia Studio</p><p>Extracting program files…</p><p>Extracting: Knorvia Studio.exe</p></div>
+              </div>
+            </section>
+          </div>
+          <footer class="footer">
+            <button type="button" disabled><span class="lang-zh">&lt; 上一步</span><span class="lang-en">&lt; Back</span></button>
+            <button type="button" disabled><span class="lang-zh">下一步 &gt;</span><span class="lang-en">Next &gt;</span></button>
+            <button type="button" disabled><span class="lang-zh">取消</span><span class="lang-en">Cancel</span></button>
+          </footer>
+        </article>
+        <p class="caption">MUI instfiles · 150×57 右侧 header。进度 / 文件名为示例；实际数值与按钮状态由 NSIS 拥有，不增加预计时长。</p>
+      </figure>
+      <figure>
+        <figcaption><span class="ordinal">03</span><span class="lang-zh">完成</span><span class="lang-en">Complete</span></figcaption>
+        <article class="window" data-stage="finish" aria-label="Completion design preview">
+          <header class="titlebar"><img src="../../../packages/ui/src/assets/knorvia-logo.png" alt="" />Knorvia Studio<span class="close" aria-hidden="true">×</span></header>
+          <div class="splash">
+            <img class="sidebar" src="../../../packages/desktop/build/installer-branding-20261003/installerSidebar.bmp" alt="Knorvia official artwork on white sidebar" />
+            <section class="splash-copy">
+              <h1>Knorvia Studio</h1>
+              <p class="body-copy lang-zh">安装完成。
+
+点击“完成”关闭安装向导。
+
+首次使用时，可在模型设置中配置模型服务。</p>
+              <p class="body-copy lang-en">Installation complete.
+
+Click Finish to close the installer.
+
+On first launch, you can configure a model service in Model settings.</p>
+              <label class="run"><input type="checkbox" checked /><span class="lang-zh">打开 Knorvia Studio</span><span class="lang-en">Open Knorvia Studio</span></label>
+            </section>
+          </div>
+          <footer class="footer">
+            <button type="button" disabled><span class="lang-zh">&lt; 上一步</span><span class="lang-en">&lt; Back</span></button>
+            <button class="default" type="button"><span class="lang-zh">完成</span><span class="lang-en">Finish</span></button>
+            <button type="button" disabled><span class="lang-zh">取消</span><span class="lang-en">Cancel</span></button>
+          </footer>
+        </article>
+        <p class="caption">MUI finish · 重用侧图与原有启动复选框。不增加完成动画、账号步骤或新设置。</p>
+      </figure>
+    </main>
+    <p class="end-note">预览直接使用交付 BMP，所有素材来自本仓库。按钮不运行安装；本页不是安装器源码。没有嵌入字体，Linux 截图使用本机 CJK 回落。</p>
+  </body>
+</html>

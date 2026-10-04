@@ -1,0 +1,511 @@
+{
+  "status": "passed",
+  "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "mainBaseSha": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
+  "platform": "linux-x64",
+  "expectedContact": "Knorvia Studio <accomplish07zrh@gmail.com>",
+  "applicationLicense": "Apache-2.0",
+  "targets": {
+    "deb": {
+      "artifact": {
+        "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-amd64.deb",
+        "bytes": 142231596,
+        "sha256": "0fee2646f9b9483621afcf4818f88ace49ed9993b637c939dc78b1cfff04497a"
+      },
+      "rawControl": "Package: knorvia-studio\nVersion: 0.8.0~preview.3\nLicense: Apache-2.0\nVendor: Knorvia Studio <accomplish07zrh@gmail.com>\nArchitecture: amd64\nMaintainer: Knorvia Studio <accomplish07zrh@gmail.com>\nInstalled-Size: 599605\nDepends: libgtk-3-0, libnotify4, libnss3, libxss1, libxtst6, xdg-utils, libatspi2.0-0, libuuid1, libsecret-1-0\nRecommends: libappindicator3-1\nSection: default\nPriority: optional\nHomepage: https://knorvia.xyz\nDescription: \n  Knorvia Studio\n",
+      "existingSuccessfulExtractionReused": true,
+      "licenseEvidence": "Actual FPM License control field and byte-identical packaged LICENSE.knorvia.txt",
+      "metadata": {
+        "Package": "knorvia-studio",
+        "Version": "0.8.0~preview.3",
+        "License": "Apache-2.0",
+        "Vendor": "Knorvia Studio <accomplish07zrh@gmail.com>",
+        "Architecture": "amd64",
+        "Maintainer": "Knorvia Studio <accomplish07zrh@gmail.com>",
+        "Installed-Size": "599605",
+        "Depends": "libgtk-3-0, libnotify4, libnss3, libxss1, libxtst6, xdg-utils, libatspi2.0-0, libuuid1, libsecret-1-0",
+        "Recommends": "libappindicator3-1",
+        "Section": "default",
+        "Priority": "optional",
+        "Homepage": "https://knorvia.xyz",
+        "Description": "\n  Knorvia Studio"
+      },
+      "requiredDependenciesRetained": [
+        "libatspi2.0-0",
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libsecret-1-0",
+        "libuuid1",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils"
+      ],
+      "applicationRoot": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio",
+      "payloadMatchesFreshUnpacked": {
+        "knorvia-studio": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/knorvia-studio",
+          "bytes": 206036184,
+          "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+        },
+        "resources/app.asar": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/app.asar",
+          "bytes": 291094777,
+          "sha256": "f4879bc3f6c49091904ca3a705dc51983c38da2ce17ba2462f07ba4242961919"
+        },
+        "resources/knorvia/knorvia.cjs": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/knorvia/knorvia.cjs",
+          "bytes": 16544775,
+          "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+        },
+        "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+          "bytes": 75976,
+          "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+        },
+        "resources/LICENSE.knorvia.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/LICENSE.knorvia.txt",
+          "bytes": 11344,
+          "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+        },
+        "resources/NOTICE.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/NOTICE.md",
+          "bytes": 6386,
+          "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+        },
+        "resources/THIRD-PARTY-NOTICES.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/THIRD-PARTY-NOTICES.md",
+          "bytes": 1977114,
+          "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+        },
+        "resources/licensing/MIT.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/licensing/MIT.txt",
+          "bytes": 1084,
+          "sha256": "91f596d3377aa8a4028ac3be9f1bd83015493adb01617702a00364ccc57382a1"
+        },
+        "resources/licenses/lobe-icons-LICENSE.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/deb/opt/Knorvia Studio/resources/licenses/lobe-icons-LICENSE.txt",
+          "bytes": 1064,
+          "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+        }
+      },
+      "status": "passed"
+    },
+    "rpm": {
+      "artifact": {
+        "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.rpm",
+        "bytes": 118016425,
+        "sha256": "ea78641ea60c32a69f2786ec4fdcc37c581416a6be444d0e41cfd49822bbd7cb"
+      },
+      "metadata": {
+        "name": "knorvia-studio",
+        "version": "0.8.0~preview.3",
+        "release": "1",
+        "arch": "x86_64",
+        "packager": "Knorvia Studio <accomplish07zrh@gmail.com>",
+        "vendor": "Knorvia Studio <accomplish07zrh@gmail.com>",
+        "license": "Apache-2.0",
+        "url": "https://knorvia.xyz"
+      },
+      "dependencies": [
+        "(libXtst or libXtst6)",
+        "(libuuid or libuuid1)",
+        "/bin/sh",
+        "/bin/sh",
+        "alsa-lib",
+        "at-spi2-core",
+        "gtk3",
+        "libXScrnSaver",
+        "libnotify",
+        "mesa-libgbm",
+        "nss",
+        "rpmlib(CompressedFileNames) <= 3.0.4-1",
+        "rpmlib(PayloadFilesHavePrefix) <= 4.0-1",
+        "rpmlib(PayloadIsXz) <= 5.2-1",
+        "rpmlib(RichDependencies) <= 4.12.0-1",
+        "rpmlib(TildeInVersions) <= 4.10.0-1",
+        "xdg-utils"
+      ],
+      "extraction": {
+        "rpm2cpioExitCode": 0,
+        "rpm2cpioStderr": "",
+        "cpioExitCode": 0,
+        "cpioStderr": "1199260 blocks\n"
+      },
+      "requiredDependenciesRetained": [
+        "(libXtst or libXtst6)",
+        "(libuuid or libuuid1)",
+        "alsa-lib",
+        "at-spi2-core",
+        "gtk3",
+        "libXScrnSaver",
+        "libnotify",
+        "mesa-libgbm",
+        "nss",
+        "xdg-utils"
+      ],
+      "applicationRoot": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio",
+      "payloadMatchesFreshUnpacked": {
+        "knorvia-studio": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/knorvia-studio",
+          "bytes": 206036184,
+          "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+        },
+        "resources/app.asar": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/app.asar",
+          "bytes": 291094777,
+          "sha256": "f4879bc3f6c49091904ca3a705dc51983c38da2ce17ba2462f07ba4242961919"
+        },
+        "resources/knorvia/knorvia.cjs": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/knorvia/knorvia.cjs",
+          "bytes": 16544775,
+          "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+        },
+        "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+          "bytes": 75976,
+          "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+        },
+        "resources/LICENSE.knorvia.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/LICENSE.knorvia.txt",
+          "bytes": 11344,
+          "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+        },
+        "resources/NOTICE.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/NOTICE.md",
+          "bytes": 6386,
+          "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+        },
+        "resources/THIRD-PARTY-NOTICES.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/THIRD-PARTY-NOTICES.md",
+          "bytes": 1977114,
+          "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+        },
+        "resources/licensing/MIT.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/licensing/MIT.txt",
+          "bytes": 1084,
+          "sha256": "91f596d3377aa8a4028ac3be9f1bd83015493adb01617702a00364ccc57382a1"
+        },
+        "resources/licenses/lobe-icons-LICENSE.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/rpm/opt/Knorvia Studio/resources/licenses/lobe-icons-LICENSE.txt",
+          "bytes": 1064,
+          "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+        }
+      },
+      "status": "passed"
+    },
+    "pacman": {
+      "artifact": {
+        "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x64.pkg.tar.zst",
+        "bytes": 171971447,
+        "sha256": "f742d0d005819c27ba58dbd8ee207fc89e2984aa77abc2f6287c016a804281dc"
+      },
+      "compressionMagicHex": "28b52ffd",
+      "compression": "zstd",
+      "rawPkgInfo": "# Generated by fpm\n# Hello packaging friend!\n#\n# If you find yourself using this 'fpm --edit' feature frequently, it is\n# a sign that fpm is missing a feature! I welcome your feature requests!\n# Please visit the following URL and ask for a feature that helps you never\n# need to edit this file again! :)\n#   https://github.com/jordansissel/fpm/issues\n# ------------------------------------------------------------------------\n#\npkgname = knorvia-studio\npkgver = 0.8.0_preview.3-1\npkgdesc = \n Knorvia Studio\nurl = https://knorvia.xyz\nbuilddate = 1791041897\npackager = Knorvia Studio <accomplish07zrh@gmail.com>\nsize = 614735872\narch = x86_64\nlicense = Apache-2.0\ngroup = default\ndepend = gtk3\ndepend = nss\ndepend = libxss\ndepend = libxtst\ndepend = libnotify\ndepend = alsa-lib\ndepend = mesa\ndepend = xdg-utils\n",
+      "metadata": {
+        "pkgname": [
+          "knorvia-studio"
+        ],
+        "pkgver": [
+          "0.8.0_preview.3-1"
+        ],
+        "pkgdesc": [
+          ""
+        ],
+        "url": [
+          "https://knorvia.xyz"
+        ],
+        "builddate": [
+          "1791041897"
+        ],
+        "packager": [
+          "Knorvia Studio <accomplish07zrh@gmail.com>"
+        ],
+        "size": [
+          "614735872"
+        ],
+        "arch": [
+          "x86_64"
+        ],
+        "license": [
+          "Apache-2.0"
+        ],
+        "group": [
+          "default"
+        ],
+        "depend": [
+          "gtk3",
+          "nss",
+          "libxss",
+          "libxtst",
+          "libnotify",
+          "alsa-lib",
+          "mesa",
+          "xdg-utils"
+        ]
+      },
+      "requiredDependenciesRetained": [
+        "alsa-lib",
+        "gtk3",
+        "libnotify",
+        "libxss",
+        "libxtst",
+        "mesa",
+        "nss",
+        "xdg-utils"
+      ],
+      "installAndMtreeRetained": true,
+      "applicationRoot": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio",
+      "payloadMatchesFreshUnpacked": {
+        "knorvia-studio": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/knorvia-studio",
+          "bytes": 206036184,
+          "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+        },
+        "resources/app.asar": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/app.asar",
+          "bytes": 291094777,
+          "sha256": "f4879bc3f6c49091904ca3a705dc51983c38da2ce17ba2462f07ba4242961919"
+        },
+        "resources/knorvia/knorvia.cjs": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/knorvia/knorvia.cjs",
+          "bytes": 16544775,
+          "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+        },
+        "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+          "bytes": 75976,
+          "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+        },
+        "resources/LICENSE.knorvia.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/LICENSE.knorvia.txt",
+          "bytes": 11344,
+          "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+        },
+        "resources/NOTICE.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/NOTICE.md",
+          "bytes": 6386,
+          "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+        },
+        "resources/THIRD-PARTY-NOTICES.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/THIRD-PARTY-NOTICES.md",
+          "bytes": 1977114,
+          "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+        },
+        "resources/licensing/MIT.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/licensing/MIT.txt",
+          "bytes": 1084,
+          "sha256": "91f596d3377aa8a4028ac3be9f1bd83015493adb01617702a00364ccc57382a1"
+        },
+        "resources/licenses/lobe-icons-LICENSE.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman/opt/Knorvia Studio/resources/licenses/lobe-icons-LICENSE.txt",
+          "bytes": 1064,
+          "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+        }
+      },
+      "status": "passed"
+    },
+    "AppImage": {
+      "artifact": {
+        "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+        "bytes": 188670677,
+        "sha256": "c0881ec03cc5dbd4ed387c7eeec73ee6fcd9c778d2ea39bb00b1bb7299b8ab96"
+      },
+      "status": "passed",
+      "extractionExitCode": 0,
+      "applicationRoot": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root",
+      "payloadMatchesFreshUnpacked": {
+        "knorvia-studio": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/knorvia-studio",
+          "bytes": 206036184,
+          "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+        },
+        "resources/app.asar": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/app.asar",
+          "bytes": 291094777,
+          "sha256": "f4879bc3f6c49091904ca3a705dc51983c38da2ce17ba2462f07ba4242961919"
+        },
+        "resources/knorvia/knorvia.cjs": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/knorvia/knorvia.cjs",
+          "bytes": 16544775,
+          "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+        },
+        "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+          "bytes": 75976,
+          "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+        },
+        "resources/LICENSE.knorvia.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/LICENSE.knorvia.txt",
+          "bytes": 11344,
+          "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+        },
+        "resources/NOTICE.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/NOTICE.md",
+          "bytes": 6386,
+          "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+        },
+        "resources/THIRD-PARTY-NOTICES.md": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/THIRD-PARTY-NOTICES.md",
+          "bytes": 1977114,
+          "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+        },
+        "resources/licensing/MIT.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/licensing/MIT.txt",
+          "bytes": 1084,
+          "sha256": "91f596d3377aa8a4028ac3be9f1bd83015493adb01617702a00364ccc57382a1"
+        },
+        "resources/licenses/lobe-icons-LICENSE.txt": {
+          "path": "/workspace/knorvia-native-linux-email-20261003/appimage-extraction/squashfs-root/resources/licenses/lobe-icons-LICENSE.txt",
+          "bytes": 1064,
+          "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+        }
+      }
+    }
+  },
+  "commands": [
+    {
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/workspace/knorvia-studio",
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "cwd": "/workspace/knorvia-studio",
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "/usr/bin/dpkg-deb",
+        "--field",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-amd64.deb"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "rpm",
+        "--dbpath",
+        "/workspace/knorvia-native-linux-email-20261003/tools/rpm-db",
+        "--query",
+        "--package",
+        "--queryformat",
+        "%{NAME}\n%{VERSION}\n%{RELEASE}\n%{ARCH}\n%{PACKAGER}\n%{VENDOR}\n%{LICENSE}\n%{URL}\n",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.rpm"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "rpm",
+        "--dbpath",
+        "/workspace/knorvia-native-linux-email-20261003/tools/rpm-db",
+        "--query",
+        "--package",
+        "--requires",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.rpm"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "tar",
+        "--zstd",
+        "--extract",
+        "--to-stdout",
+        "--file",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x64.pkg.tar.zst",
+        ".PKGINFO"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "args": [
+        "tar",
+        "--zstd",
+        "--extract",
+        "--file",
+        "/workspace/knorvia-native-linux-email-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x64.pkg.tar.zst",
+        "--directory",
+        "/workspace/knorvia-native-linux-email-20261003/package-extractions/pacman",
+        "--no-same-owner"
+      ],
+      "cwd": null,
+      "exitCode": 0,
+      "stderr": ""
+    }
+  ],
+  "limits": [
+    "No global package/OS installation",
+    "No GUI/model/user-profile operations",
+    "Package metadata/payload checks do not establish RPM/Arch distro installation acceptance"
+  ],
+  "freshUnpacked": {
+    "knorvia-studio": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/knorvia-studio",
+      "bytes": 206036184,
+      "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+    },
+    "resources/app.asar": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/app.asar",
+      "bytes": 291094777,
+      "sha256": "f4879bc3f6c49091904ca3a705dc51983c38da2ce17ba2462f07ba4242961919"
+    },
+    "resources/knorvia/knorvia.cjs": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/knorvia/knorvia.cjs",
+      "bytes": 16544775,
+      "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+    },
+    "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+      "bytes": 75976,
+      "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+    },
+    "resources/LICENSE.knorvia.txt": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/LICENSE.knorvia.txt",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    "resources/NOTICE.md": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/NOTICE.md",
+      "bytes": 6386,
+      "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+    },
+    "resources/THIRD-PARTY-NOTICES.md": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/THIRD-PARTY-NOTICES.md",
+      "bytes": 1977114,
+      "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+    },
+    "resources/licensing/MIT.txt": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/licensing/MIT.txt",
+      "bytes": 1084,
+      "sha256": "91f596d3377aa8a4028ac3be9f1bd83015493adb01617702a00364ccc57382a1"
+    },
+    "resources/licenses/lobe-icons-LICENSE.txt": {
+      "path": "/workspace/knorvia-native-linux-email-20261003/desktop-release/linux-unpacked/resources/licenses/lobe-icons-LICENSE.txt",
+      "bytes": 1064,
+      "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+    }
+  },
+  "rootAndThirdPartyNoticeBytesRetained": true,
+  "allTargetArtifactsPresent": true
+}

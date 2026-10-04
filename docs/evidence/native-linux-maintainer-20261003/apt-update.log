@@ -1,0 +1,4 @@
+Get:1 https://deb.debian.org/debian trixie InRelease [140 kB]
+Get:2 https://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
+Fetched 9819 kB in 1s (11.8 MB/s)
+Reading package lists...

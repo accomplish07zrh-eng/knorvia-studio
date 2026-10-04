@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { writeFileSync } from "node:fs";
 
-const PATCH_MARKER = "; knorvia-installer-details-v1";
+const PATCH_MARKER = "; knorvia-installer-details-v2";
 
 function optionalMacro(name) {
   return [`!ifmacrodef ${name}`, `  !insertmacro ${name}`, "!endif"].join("\n");
@@ -84,7 +84,15 @@ export function patchNsisInstallSectionSource(source) {
   patched = replaceRequired(
     patched,
     shortcutsAnchor,
-    `${optionalMacro("customInstallShortcutsStarted")}\n${shortcutsAnchor}\n${optionalMacro("customInstallShortcutsCompleted")}`,
+    [
+      optionalMacro("customInstallShortcutsStarted"),
+      "!ifmacrodef customInstallShortcuts",
+      "  !insertmacro customInstallShortcuts",
+      "!else",
+      shortcutsAnchor,
+      "!endif",
+      optionalMacro("customInstallShortcutsCompleted"),
+    ].join("\n"),
     "shortcut installation",
   );
 

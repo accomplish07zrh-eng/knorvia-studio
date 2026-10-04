@@ -1,0 +1,15 @@
+{
+  "inputSha": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "actualDebAppManifest": {
+    "name": "@knorvia/desktop",
+    "version": "0.8.0-preview.3",
+    "license": "Apache-2.0",
+    "author": {
+      "name": "Knorvia Studio",
+      "email": "accomplish07zrh@gmail.com"
+    },
+    "homepage": "https://knorvia.xyz",
+    "knorviaProductFlavor": "production"
+  },
+  "sameAsarAcrossAllFourPhysicalArtifacts": true
+}

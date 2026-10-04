@@ -1,0 +1,6 @@
+{
+  "productArtifactsChangedOrRebuilt": false,
+  "initialFailure": "Harness assumed a usr/share/doc copyright file; locked FPM declares License in actual Debian control and the configured payload carries LICENSE.knorvia.txt.",
+  "correction": "Assert exact actual License/Vendor/Homepage fields plus all existing byte-identical legal resources; reuse prior successful extraction. RPM queries use a task-local empty database.",
+  "initialOracleAndFailureRetained": true
+}

@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "branch": "rewrite/native-20261003",
+  "baseline": "5c3120f0abfd4031a9c69b5b8a6d2082721ef57d",
+  "installerSourceCommit": "1836f419aa2ac41117e21b1ba01e196d66227a2a",
+  "finalSourceCommit": "b03bb9d25b71ac07b7c8d510c4fc2d34ac966ff7",
+  "inheritedLinuxProductInput": "b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8",
+  "sourceClaim": "Additive source-exposed implementation; no clean-room or independent rights grant",
+  "verification": {
+    "tests": "not run",
+    "lint": "not run",
+    "types": "not run",
+    "builds": "not run",
+    "architectureCheck": "deferred",
+    "audit": "not run",
+    "sourceDiffCheck": "exit 0",
+    "authoredUnitCases": 10,
+    "authoredWindowsCleanupCases": 4
+  },
+  "receiptGenerationNotes": "Initial metadata receipt attempt exceeded default child-process buffer at the large notice blob; retry used 32 MiB. This was metadata IO only, not a code check or product rebuild.",
+  "dependencies": {
+    "uiPr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/28",
+    "uiCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51",
+    "githubRelease": "integration owner; not published by this lane",
+    "draftPr": "blocked by automatic approval review pending direct user authorization"
+  },
+  "inputs": [
+    {
+      "path": "packages/desktop/build/installer-branding.nsh",
+      "baselineBlob": "8f6f38cc803198c8485f885f26bb8d8ef0c0ee59",
+      "sourceBlob": "5a6059b31a6018a2541984df874933220fec23d0",
+      "bytes": 4006,
+      "sha256": "392ef50c013065787174a45cb4b722d888c223c0aab97255486462b15fdc2fee"
+    },
+    {
+      "path": "packages/desktop/build/installer-shortcuts.nsh",
+      "baselineBlob": null,
+      "sourceBlob": "f16fb81ce7252d7a3fbae51867cbb47d3ec2e587",
+      "bytes": 3658,
+      "sha256": "b8d5a3f9dd5bcd3f1fc4b5ad27d38bab0b42b8e22daad5cfb636e6eedbd8d7b7"
+    },
+    {
+      "path": "packages/desktop/build/installer.nsh",
+      "baselineBlob": "5e5a56a6f5936042b7ac3a3ef1c4df5ac2f62e9e",
+      "sourceBlob": "e0e1d24b04fa972f007d67eae5a21bdfe327f698",
+      "bytes": 23896,
+      "sha256": "2df51fb1c85937af666dad11caabb1fba1a8da7b6a3427847a3a5aec2fb73d39"
+    },
+    {
+      "path": "packages/desktop/electron-builder.config.js",
+      "baselineBlob": "e63d8481a86ea5dad985e86cdcdf6b042a8071e8",
+      "sourceBlob": "210b6696190d52e50eba925e04c6032f5c0cfe3e",
+      "bytes": 37766,
+      "sha256": "7a0cf63fd9edb904d94b90fbd6e222f11e433ced69386b1a47177c72168a5608"
+    },
+    {
+      "path": "packages/desktop/scripts/desktop-package-variant.mjs",
+      "baselineBlob": null,
+      "sourceBlob": "d2e1a8bbbf9fc48363c3c9e97de4e75efcfaeb3a",
+      "bytes": 2200,
+      "sha256": "bacc38131d5d5385369fd9d5ac567fa0a3e503a0d6959d610f4ec89abbe340d7"
+    },
+    {
+      "path": "packages/desktop/scripts/patch-nsis-install-section.mjs",
+      "baselineBlob": "0c4fc9175dfad3559cda8768c38f6ca766fddf4a",
+      "sourceBlob": "8381fa0e4497b1b982f55f8e23844beab0b25cb3",
+      "bytes": 4290,
+      "sha256": "52fa327396c0f7c118db983e0e09ef9e0e2cd50e544893e99a836d217905bca9"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopEarlyDataBaseDirBootstrap.ts",
+      "baselineBlob": "8a3dca2d4588107a77dae1be913eb7dc107a226e",
+      "sourceBlob": "73f7dbab2efaab7887ed32b91a254f43312207ff",
+      "bytes": 1681,
+      "sha256": "f19000112fa71e1850db4e538f583f1da978bba08962adb0746d81a635970ee3"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopProfile.ts",
+      "baselineBlob": "0fdc982808fa4c4a991f667ad5087dc1eace4616",
+      "sourceBlob": "91ebe40d348206cc738ce59e66cc27bf21578d1c",
+      "bytes": 2554,
+      "sha256": "e3a77d22ede6c84f52720d50dc9c641eb7fe7ac0a513ef37f978cdfc6c490d46"
+    },
+    {
+      "path": "packages/desktop/test/desktop-package-variant.test.mjs",
+      "baselineBlob": null,
+      "sourceBlob": "43b02874d58227bd2e30bfa482dd336d8b1bfa8c",
+      "bytes": 3702,
+      "sha256": "d4566611676ba125bb197e8d13e4b27f084b0a368ec9d7c8bf7c88607e1f7a33"
+    },
+    {
+      "path": "packages/desktop/test/fixtures/windows-owned-cleanup.nsi",
+      "baselineBlob": null,
+      "sourceBlob": "66ed9108cab9a50ec4ae3796fd0d5c4f3d545ceb",
+      "bytes": 1088,
+      "sha256": "46e1e9888484108c62da50793dab4f45e164077d1f0589d4cae29e2e2785694c"
+    },
+    {
+      "path": "packages/desktop/test/knorvia-isolation.test.ts",
+      "baselineBlob": "4ecf0a462e8c62ba7a955e8748875354be8f06c0",
+      "sourceBlob": "2babd4c2d25a06079a743e0c844142e058fab1ae",
+      "bytes": 10939,
+      "sha256": "453faca18ac87a95b0b4b0347d1d0181e9d0b2e6f992a126a6bac3c65808f4ce"
+    },
+    {
+      "path": "packages/desktop/test/nsis-shortcut-template.test.mjs",
+      "baselineBlob": null,
+      "sourceBlob": "fea4a08eceb5629b9f2d539a668fc64b8fd68fdb",
+      "bytes": 2675,
+      "sha256": "f8e5553eed66df9008c9943e07220e402ac7381b622fd6178279c3dc9d8015e0"
+    },
+    {
+      "path": "packages/desktop/test/windows-owned-cleanup.acceptance.mjs",
+      "baselineBlob": null,
+      "sourceBlob": "4d9e7df749752cd919d88e67ac633a2823bf7dad",
+      "bytes": 4409,
+      "sha256": "50c4a9a916805e77d509c4a2fce2c488b7260707c2782ea16f96c9a922de285a"
+    },
+    {
+      "path": "specs/knorvia-native-installer-variants-20261003.md",
+      "baselineBlob": null,
+      "sourceBlob": "3ad01676522870c92f40b739a15817b8cc7f3c43",
+      "bytes": 9487,
+      "sha256": "94857a43462a4cdfa1de6ef44f5ca448f81d19e04ff5e13f337805183ccb0bd1"
+    }
+  ],
+  "retained": [
+    {
+      "path": "LICENSE",
+      "blob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "blob": "9f62781f90ce2d2009cf18859b419cda13500c42",
+      "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "blob": "2ae93a249ca4996b7dfc2e9006d7fbf112b72f42",
+      "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+    },
+    {
+      "path": "package.json",
+      "blob": "afed79339b36c51f6f890272d3e36362a1e7ea64",
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": ".github/workflows/release-windows.yml",
+      "blob": "6501879d6de61f0c079f17fe91d941514b2aca5e",
+      "sha256": "fef0f9c7cddb6c02113b79b2e3a102b1e5bb409a1745303b659f6f719264f27c"
+    },
+    {
+      "path": "scripts/package-windows-release.ps1",
+      "blob": "f794e6667166dcebee119aba1eea401e4fd9150b",
+      "sha256": "14a40ae70d5caa5fa4695258f4d6a3d1dfa210b3b46abbb1fe2b560cec64ba2b"
+    }
+  ],
+  "resources": [
+    {
+      "path": "packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51",
+      "blob": "804ae4af0c4ca39462b44732c208e7858ebe0728",
+      "bytes": 154542,
+      "sha256": "c084abf2a55e855dd74ed0a6a0706212a741468131b20dcff83c8e9aea1f2032",
+      "owner": "UI PR28; not copied into this lane"
+    },
+    {
+      "path": "packages/desktop/build/installer-branding-20261003/installerHeader.bmp",
+      "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51",
+      "blob": "d2a7ccac6e38f7cbaec9400c384b2032b2917db2",
+      "bytes": 25818,
+      "sha256": "5c3e16cc4a3ac368d247fa8031d7ab70d2f5eb30193e5acb6910a5a00ab935a0",
+      "owner": "UI PR28; not copied into this lane"
+    }
+  ]
+}

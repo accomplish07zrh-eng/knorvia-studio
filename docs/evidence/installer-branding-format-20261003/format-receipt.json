@@ -1,0 +1,20 @@
+{
+  "change": "Required production JSON formatting only, not image editing or rights acceptance",
+  "sourceCommit": "1a0febaf9b362b5bcd578d396ec566bf98a33e51",
+  "path": "packages/desktop/build/installer-branding-20261003/sources.json",
+  "before": {
+    "bytes": 1898,
+    "sha256": "41feeb65592a1d1d0a5e20c4bd97a383885c3714daa8a14135dd51d9cc913d7d"
+  },
+  "after": {
+    "bytes": 1736,
+    "sha256": "17157d430f457cbc3ab8a4fb07480a5138fa7567424a847c5af5a4976a7a1e03"
+  },
+  "jsonValueUnchanged": true,
+  "imageBytesUnchanged": {
+    "packages/desktop/build/installer-branding-20261003/installerHeader.bmp": "5c3e16cc4a3ac368d247fa8031d7ab70d2f5eb30193e5acb6910a5a00ab935a0",
+    "packages/desktop/build/installer-branding-20261003/installerSidebar.bmp": "c084abf2a55e855dd74ed0a6a0706212a741468131b20dcff83c8e9aea1f2032"
+  },
+  "historicalChecksumScope": "The UI packet SHA256SUMS remains valid for its exact source commit and sources-before.json. Current formatting bytes are separately recorded here, not substituted into the historical packet.",
+  "actualPriorCi": "37136506776 both platforms fmt failed at this source JSON; later gates skipped. No previous failure is relabeled as success."
+}

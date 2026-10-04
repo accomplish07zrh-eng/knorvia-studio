@@ -1,0 +1,93 @@
+{
+  "mainBaseSha": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
+  "inputSha": "cd8013800c0ddd28d645ba3d4fff0e4c2e252fa5",
+  "inputTree": "6636d7929d3a50070f2facd9581f2025c708f578",
+  "branch": "rewrite/native-20261003",
+  "recordedAtUtc": "2026-10-03T15:29:33.581334+00:00",
+  "trackedWorktreeAtStart": "clean",
+  "platform": "linux-x64",
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "electron": "41.0.3",
+  "electronBuilder": "26.8.1",
+  "inputFiles": {
+    "package.json": {
+      "bytes": 4490,
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d"
+    },
+    "pnpm-lock.yaml": {
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    "LICENSE": {
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    "NOTICE.md": {
+      "bytes": 6386,
+      "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121"
+    },
+    "THIRD-PARTY-NOTICES.md": {
+      "bytes": 1977114,
+      "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd"
+    },
+    "packages/desktop/package.json": {
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    "packages/desktop/electron-builder.config.js": {
+      "bytes": 36750,
+      "sha256": "a2fb8cf5e821ba9c696f3f6813502508fc87276d7b7a1c284b66d3e8b69b0d26"
+    },
+    "packages/desktop/scripts/build-metadata.mjs": {
+      "bytes": 4093,
+      "sha256": "c5999344ba8dd38f00609943a33e50c7507e0ffb34c46fe557f74f26a0afd7d7"
+    },
+    "packages/desktop/scripts/prepare-runtime-assets.mjs": {
+      "bytes": 3009,
+      "sha256": "919a3c6e19f309e946cb1ba0c9ceb38aafdaad67d0919fc729c75bdd7632ea5a"
+    },
+    "packages/desktop/scripts/prepare-agent-node-bundle.mjs": {
+      "bytes": 4586,
+      "sha256": "d0d17d5e49102df01f302ac6d33ef898fdc82d21c5005bdf0c6e2f9cc0e294f3"
+    },
+    "packages/desktop/scripts/official-plugin-staging.mjs": {
+      "bytes": 12751,
+      "sha256": "b06df0cf9d76545041f79908bfc857ccdae57d58586cc3232fedfd76fa6f06de"
+    },
+    "packages/desktop/scripts/desktop-native-package-policy.mjs": {
+      "bytes": 3472,
+      "sha256": "2f7b551a4b0915bf92663db5b2cb78b82d0c929c79cb9f3fea528d762ad296f6"
+    },
+    "scripts/build-desktop-agent-cli.mjs": {
+      "bytes": 9027,
+      "sha256": "a0e593e1e534bc26e372bc4d562b7439dddcfda0895e3f4ffbdefcd692940d7a"
+    },
+    "scripts/packaged-runtime-evidence.mjs": {
+      "bytes": 9387,
+      "sha256": "fcdc77ddcc73f75f3f3b6554d7e71f52ed959a2a5826cc81b7311ddb6bd69531"
+    },
+    "docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.mjs": {
+      "bytes": 8749,
+      "sha256": "7c0f278e1f5a27c474e24545529ad327dd2f70273749a547a36e682fd1e8f543"
+    },
+    "docs/evidence/native-packaged-acceptance-20261003/artifact-native-child.cjs": {
+      "bytes": 1775,
+      "sha256": "4fdb0c2c3534777c8ac1db84859e2ef73a4e967fdc59d1b9f1b4b7ec9761bdd7"
+    },
+    "specs/knorvia-native-linux-maintainer-20261003.md": {
+      "bytes": 2781,
+      "sha256": "be7c346feae6cda0d91e90cf0581dc29c4ebbbc35607ab5bdf9d6881b09cb3bb"
+    }
+  },
+  "requestedEmail": "accomplish07zrh@gmail.com",
+  "applicationLicense": "Apache-2.0",
+  "sourceChange": "Desktop author.email, application Apache-2.0 package license, explicit pacman zstd compression; UI/runtime/root declarations unchanged",
+  "outputRoot": "/workspace/knorvia-native-linux-email-20261003",
+  "fixtureTempRoot": "/workspace/knorvia-native-linux-email-20261003/tmp",
+  "priorMetadataInputSha": "df7f5987b2d1f5ab67756a2d1f1f5a9f5f0b74f1",
+  "formatRepairScope": [
+    "packages/desktop/electron-builder.config.js",
+    "specs/knorvia-native-linux-maintainer-20261003.md"
+  ]
+}
