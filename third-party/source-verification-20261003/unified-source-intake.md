@@ -597,3 +597,7 @@ regression1/1passed ensures full release cannot enable instrumentation. Latest
 old-package confirmation explicitly runs diagnostic_trace=false, with no build.
 Raw receipt integrity is not authorship/rights acceptance. Prior6020 frozen
 rows remain unchanged; full final release still requires fresh main builds.
+
+The11new Linux socket packet files first entered at full source commit
+b50121aefbdad33c5d96242b9efdbdf6c58b7c0a; only their newly appended frozen
+rows now pin that actual first source. Prior6020 rows remain unchanged.
