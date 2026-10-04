@@ -1,3 +1,4 @@
+import { getReleaseChannel } from "./desktop-release-channel.mjs";
 // Release metadata and byte verification; immutable upload decisions remain in release-immutability.mjs.
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
@@ -85,10 +86,12 @@ export async function aggregateRelease({ root, manifests, deliveredSha, version,
     }
   }
   packages.sort((a, b) => a.name.localeCompare(b.name));
+  const channel = getReleaseChannel(version);
   const metadata = {
     schemaVersion: 1,
     version,
     tag: `v${version}`,
+    prerelease: channel.prerelease,
     deliveredSha,
     applicationLicense: "Apache-2.0",
     maintainer: "Knorvia Studio <accomplish07zrh@gmail.com>",
@@ -99,7 +102,7 @@ export async function aggregateRelease({ root, manifests, deliveredSha, version,
       acceptance,
     })),
     limits: [
-      "Preview channel",
+      channel.label,
       "No real model-task or full legacy-user migration acceptance",
       "No macOS package in this release",
       "Package evidence does not establish full independent authorship",

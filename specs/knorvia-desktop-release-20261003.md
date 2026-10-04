@@ -1,4 +1,4 @@
-# Knorvia Studio 0.8.0-preview.4 desktop release
+# Knorvia Studio 0.8.0 stable desktop release
 
 ## Behavior and ownership
 
@@ -103,7 +103,7 @@ artifact hashes. A failed, cancelled, skipped or missing required check blocks
 publication. A candidate dry run executes the same read-only acceptance and
 immutability gates. After the normal main merge, final release packages are
 built afresh from that exact main commit; candidate bytes and historical
-preview.3 artifacts must never be relabeled as preview.4.
+preview.3 or preview.4 diagnostic artifacts must never be relabeled as0.8.0.
 
 Targeted diagnosis uses the same workflow and package/acceptance owners with
 `diagnostic_variant` selecting `win-installed`, `linux-portable` or `remaining`.
@@ -238,3 +238,15 @@ The original launcher/spaced path and its persistent portable data/profile do
 not move. Application bytes, single-instance feature and all success/deadline
 assertions stay. Reused actual package acceptance must confirm this correction;
 final main still builds fresh with every required source/package gate.
+
+The user changed this release target to stable0.8.0 on2026-10-04. Remote tag and
+Release inspection found v0.8.0 unused; preview.2/.3 and early dev tags remain
+untouched. Root version is the single app-version owner: build metadata and
+packaged desktop extraMetadata derive it, while independently versioned CLI
+components retain their real versions. Stable asset names/tag/installation
+instructions all use0.8.0. One release-channel helper derives prerelease status
+from the semver suffix for both metadata and publication:0.8.0 records false,
+uses stable notes and never adds --prerelease. Preview diagnostics retain their
+actual historical version/source and are not new-version acceptance. Final
+stable publication requires fresh exact-main source checks and all4groups/
+9actual packages; existing tags/assets cannot be overwritten or relabeled.

@@ -7,7 +7,7 @@ import { test } from "node:test";
 import { aggregateRelease, validatePlatformManifest } from "./desktop-release-manifest.mjs";
 
 const sha = "a".repeat(40);
-const version = "0.8.0-preview.4";
+const version = "0.8.0";
 const digest = (data) => createHash("sha256").update(data).digest("hex");
 const formats = {
   "win-x64-installed": ["setup.exe", "portable.zip"],
@@ -120,4 +120,32 @@ test("diagnostic manifests cannot enter release aggregation even with four varia
     aggregateRelease({ root: "/unused", manifests, deliveredSha: sha, version, legalFiles: [] }),
     /Diagnostic/,
   );
+});
+
+test("stable aggregate binds root version, assets and metadata without preview labels", async () => {
+  const root = await mkdtemp(join(tmpdir(), "knorvia-stable-release-"));
+  try {
+    const manifests = Object.keys(formats).map(fixture);
+    for (const manifest of manifests)
+      for (const asset of manifest.artifacts) await writeFile(join(root, asset.name), asset.name);
+    const result = await aggregateRelease({
+      root,
+      manifests,
+      deliveredSha: sha,
+      version,
+      legalFiles: [],
+    });
+    assert.equal(result.metadata.version, "0.8.0");
+    assert.equal(result.metadata.tag, "v0.8.0");
+    assert.equal(result.metadata.prerelease, false);
+    assert.ok(result.metadata.limits.includes("Stable release"));
+    assert.ok(!result.metadata.limits.some((text) => /preview|prerelease/i.test(text)));
+    assert.ok(
+      result.metadata.packages.every(
+        (asset) => asset.name.includes("0.8.0-") && !asset.name.includes("preview"),
+      ),
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });

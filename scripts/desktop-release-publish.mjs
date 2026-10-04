@@ -5,6 +5,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { decideReleasePlan } from "./release-immutability.mjs";
+import { getReleaseChannel } from "./desktop-release-channel.mjs";
 import { artifactIdentity } from "./desktop-release-manifest.mjs";
 
 const exec = promisify(execFile);
@@ -15,6 +16,7 @@ const version = process.env.RELEASE_VERSION;
 const repository = process.env.GITHUB_REPOSITORY;
 assert.match(deliveredSha, /^[a-f0-9]{40}$/);
 assert.equal(tag, `v${version}`);
+const channel = getReleaseChannel(version);
 const json = async (name) => JSON.parse(await readFile(join(root, name), "utf8"));
 const [artifacts, validated, metadata] = await Promise.all([
   json("release-artifacts.json"),
@@ -24,6 +26,7 @@ const [artifacts, validated, metadata] = await Promise.all([
 assert.equal(validated.deliveredSha, deliveredSha);
 assert.equal(metadata.deliveredSha, deliveredSha);
 assert.equal(metadata.version, version);
+assert.equal(metadata.prerelease, channel.prerelease);
 assert.equal((await exec("git", ["rev-parse", "HEAD"])).stdout.trim(), deliveredSha);
 for (const artifact of artifacts) {
   assert.match(artifact.name, /^[a-zA-Z0-9][a-zA-Z0-9._-]*$/);
@@ -71,7 +74,7 @@ const decision = decideReleasePlan({
   existingAssets,
 });
 assert.notEqual(decision.action, "reject", decision.message);
-const notes = `Knorvia Studio ${tag}\n\nWindows x64 setup, portable ZIP and self-extracting portable EXE; Linux x64 AppImage, deb, rpm and pacman, plus separately marked portable AppImage and tar.gz.\n\nBuilt fresh from checked source commit **${deliveredSha}**. Linux and Windows reusable source checks and actual package acceptance must pass before publication. Per-platform scope, hashes, maintainer and actual Authenticode status are in release-metadata.json. No signing credentials were created; unsigned packages are identified in the metadata.\n\nFollow INSTALLATION.md for directory, shortcut, upgrade, uninstall and profile rules. Normal data is retained during upgrades and ordinary uninstall. Marked portable products keep data/ beside the original launcher or extracted executable; the ordinary Linux AppImage retains the normal user configuration directory. Verify assets with SHA256SUMS or the corresponding .sha256 attachment.\n\nPreview channel; no claim of human installer GUI, real model-task, full legacy-user migration or macOS acceptance. Apache-2.0, NOTICE and bundled per-component obligations remain. No claim of complete independent authorship or full MIT relicensing.\n`;
+const notes = `Knorvia Studio ${tag}\n\nWindows x64 setup, portable ZIP and self-extracting portable EXE; Linux x64 AppImage, deb, rpm and pacman, plus separately marked portable AppImage and tar.gz.\n\nBuilt fresh from checked source commit **${deliveredSha}**. Linux and Windows reusable source checks and actual package acceptance must pass before publication. Per-platform scope, hashes, maintainer and actual Authenticode status are in release-metadata.json. No signing credentials were created; unsigned packages are identified in the metadata.\n\nFollow INSTALLATION.md for directory, shortcut, upgrade, uninstall and profile rules. Normal data is retained during upgrades and ordinary uninstall. Marked portable products keep data/ beside the original launcher or extracted executable; the ordinary Linux AppImage retains the normal user configuration directory. Verify assets with SHA256SUMS or the corresponding .sha256 attachment.\n\n${channel.label}; no claim of human installer GUI, real model-task, full legacy-user migration or macOS acceptance. Apache-2.0, NOTICE and bundled per-component obligations remain. No claim of complete independent authorship or full MIT relicensing.\n`;
 await writeFile(join(root, "publication-notes.md"), notes);
 if (decision.action === "create") {
   const args = [
@@ -87,7 +90,7 @@ if (decision.action === "create") {
     "--notes-file",
     join(root, "publication-notes.md"),
   ];
-  if (/preview|dev|beta|alpha/.test(version)) args.push("--prerelease");
+  if (channel.prerelease) args.push("--prerelease");
   await exec("gh", args);
 }
 if (decision.toUpload.length) {

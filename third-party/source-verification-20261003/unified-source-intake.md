@@ -601,3 +601,20 @@ rows remain unchanged; full final release still requires fresh main builds.
 The11new Linux socket packet files first entered at full source commit
 b50121aefbdad33c5d96242b9efdbdf6c58b7c0a; only their newly appended frozen
 rows now pin that actual first source. Prior6020 rows remain unchanged.
+
+## User changes final target to stable0.8.0 (2026-10-04)
+
+The user explicitly requires this release not to be preview. Remote inspection
+found only studio-0.1.0-dev.1, preview.2/.3 tags and preview.2/.3 Releases;
+v0.8.0 is unused with no conflict. Root/app version, artifact filenames, tag,
+installation guidance, metadata and publisher now consistently target0.8.0,
+non-draft/prerelease=false. One semver-channel owner drives metadata and publish
+flags/notes, rejecting malformed versions and retaining true suffix channels.
+No preview.4 final publication is dispatched; all previous diagnostic/source
+results remain attributed to their real version and SHAs, never relabeled0.8.0.
+Actual old Linux AppImage/tar acceptance37181402147 passed untraced with probe
+bde1d5c0 and package36d944b4; latest old-head Linux source8283 passed8275/8skip,
+Windows still pending at the target change. Those are not stable0.8.0 results.
+New final stable source must pass exact-head CI before normal merge, then both
+fresh source jobs/all4fresh package groups/9formats/hashes before publication.
+Existing tags/assets, frozen raw receipts and Apache/component obligations stay.
