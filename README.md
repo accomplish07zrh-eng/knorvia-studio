@@ -4,6 +4,8 @@ Knorvia Studio 是把多个 Agent 内核放进同一工作空间的桌面工作�
 
 当前发布版本：**0.8.0-preview.3**。访问 [官网](https://knorvia.xyz)，或在 [GitHub Release](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/tag/v0.8.0-preview.3) 下载 Windows x64 安装版、便携版及对应 SHA-256 校验文件。English: [README.en.md](README.en.md)。
 
+[Code signing policy](CODE_SIGNING.md)（申请待处理，尚未启用签名）。
+
 ## 功能
 
 - **工作空间**：窄工具栏、内核切换区与共享圆角工作面；黑白主题、可选玻璃材质、细线图标和开场动效。中英文界面，保留键盘操作与独立草稿。
