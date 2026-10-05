@@ -113,7 +113,17 @@ export function toAiSdkMessages(
       ? normalizeOpenAiCompatibleSystemMessages(messages)
       : messages;
   const output: unknown[] = [];
+  // 修复依据：并行工具调用的结果是连续的 tool 消息。若每条结果后立刻插入其图片（user 消息），
+  // 序列会变成 tool① → user(图片①) → tool②，AI SDK 遇到 user 时发现 tool② 未回填，
+  // 抛出 MissingToolResultsError 中断对话。这里先暂存同一段连续 tool 结果的图片，
+  // 段结束后按原顺序合并为一条 user 消息：tool① → tool② → user(图片①, 图片②)。
+  let pendingToolMedia: unknown[] = [];
+  const flushToolMedia = () => {
+    if (pendingToolMedia.length) output.push({ role: "user", content: pendingToolMedia });
+    pendingToolMedia = [];
+  };
   for (const message of source) {
+    if (message.role !== "tool") flushToolMedia();
     if (message.role === "system")
       output.push({
         role: "system",
@@ -188,8 +198,9 @@ export function toAiSdkMessages(
         inputFormat: options.inputFormat,
         toolName: message.toolName,
       });
-      if (media.length) output.push({ role: "user", content: media });
+      pendingToolMedia.push(...media);
     }
   }
+  flushToolMedia();
   return output as AiSdkModelMessage[];
 }
