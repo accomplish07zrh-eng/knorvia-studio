@@ -560,7 +560,16 @@ export const featureSuggestedPrompts: FeatureRecommendedPrompt[] = [
   },
 ];
 
-export function getRecommendedPromptPool(isOfficeMode: boolean): DraftSuggestedPromptItem[] {
-  const mode = isOfficeMode ? "office" : "coding";
-  return featureSuggestedPrompts.filter((item) => item.mode === mode);
+/** 统一模式：原办公与编程两组推荐合并为一个候选池，按原顺序交错，保证每批都兼顾两类场景。 */
+export function getRecommendedPromptPool(): DraftSuggestedPromptItem[] {
+  const office = featureSuggestedPrompts.filter((item) => item.mode === "office");
+  const coding = featureSuggestedPrompts.filter((item) => item.mode === "coding");
+  const pool: DraftSuggestedPromptItem[] = [];
+  for (let index = 0; index < Math.max(office.length, coding.length); index += 1) {
+    const officeItem = office[index];
+    const codingItem = coding[index];
+    if (officeItem) pool.push(officeItem);
+    if (codingItem) pool.push(codingItem);
+  }
+  return pool;
 }

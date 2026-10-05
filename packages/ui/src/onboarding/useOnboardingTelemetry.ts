@@ -1,6 +1,5 @@
 import { useCallback, useLayoutEffect, useRef } from "react";
 import type { IPlatformService } from "@knorvia/shared";
-import type { InterfaceMode } from "@/lib/interfaceMode.js";
 import type { OccupationValue } from "@/onboarding/occupationOptions.js";
 import { reportAppTelemetryEvent } from "@/lib/appTelemetry.js";
 
@@ -22,9 +21,7 @@ const workDirections: Record<OccupationValue, string> = {
 type ExitAction = "start" | "skip" | "close";
 type Exposure = {
   ended: boolean;
-  modeVisited: boolean;
   preferencesVisited: boolean;
-  mode: InterfaceMode | null;
   preferenceValues: string;
 };
 
@@ -34,7 +31,6 @@ export function useOnboardingTelemetry({
   visible,
   step,
   occupation,
-  mode,
   memory,
   suggestions,
   migration,
@@ -43,7 +39,6 @@ export function useOnboardingTelemetry({
   visible: boolean;
   step: 0 | 1 | 2;
   occupation: OccupationValue | null;
-  mode: InterfaceMode | null;
   memory: boolean;
   suggestions: boolean;
   migration: boolean;
@@ -58,9 +53,7 @@ export function useOnboardingTelemetry({
     if (!exposure.current) {
       exposure.current = {
         ended: false,
-        modeVisited: false,
         preferencesVisited: false,
-        mode,
         preferenceValues,
       };
       void reportAppTelemetryEvent(
@@ -76,25 +69,25 @@ export function useOnboardingTelemetry({
       );
     }
     const current = exposure.current;
-    // 返回改模式后旧偏好不再代表用户看到的选项；切回原模式也必须重新展示第三页。
-    if (current.mode !== mode || (step !== 2 && current.preferenceValues !== preferenceValues)) {
+    // 离开偏好页后若偏好值被改动，旧曝光不再代表用户最终看到的选项，需重新展示第三页。
+    if (step !== 2 && current.preferenceValues !== preferenceValues) {
       current.preferencesVisited = false;
     }
     current.preferenceValues = preferenceValues;
-    current.mode = mode;
-    if (step === 1) current.modeVisited = true;
     if (step === 2) current.preferencesVisited = true;
     // 不在 cleanup 重置：StrictMode 的 effect 重放不是一次新的产品曝光。
-  }, [visible, step, mode, platform, memory, suggestions, migration]);
+  }, [visible, step, platform, memory, suggestions, migration]);
 
   return useCallback(
     (action: ExitAction, eventText: string) => {
       const current = exposure.current;
       const detail = {
         work_direction: occupation ? workDirections[occupation] : "null",
-        ui_mode: current?.modeVisited && mode ? (mode === "office" ? "work" : "code") : "null",
-        proactive_task_recommendations_enabled:
-          current?.preferencesVisited && mode === "office" ? String(suggestions) : "null",
+        // 统一模式不再询问界面模式；字段保留固定值，便于与历史曝光对齐。
+        ui_mode: "unified",
+        proactive_task_recommendations_enabled: current?.preferencesVisited
+          ? String(suggestions)
+          : "null",
         workspace_memory_enabled: current?.preferencesVisited ? String(memory) : "null",
         claude_code_history_migration_selected: current?.preferencesVisited
           ? String(migration)
@@ -119,6 +112,6 @@ export function useOnboardingTelemetry({
         );
       };
     },
-    [platform, occupation, mode, memory, suggestions, migration, step],
+    [platform, occupation, memory, suggestions, migration, step],
   );
 }

@@ -4,6 +4,7 @@ export const agentsZhCN = {
   ...agentProbeZhCN,
   "studio.agents.title": "Agent 管理",
   "studio.agents.description": "自动发现本机已有的 CLI Agent，也可连接自定义 ACP 内核。",
+  "studio.agents.kernelsHeading": "Agent 内核",
   "studio.agents.sharedResources":
     "Studio 技能与 MCP 可供接入内核使用；插件中的技能和 MCP 可共享。兼容能力以当前内核为准，插件原生命令与钩子不跨内核共享。",
   "studio.agents.builtin": "内置",
@@ -161,6 +162,7 @@ export const agentsEnUS: Record<keyof typeof agentsZhCN, string> = {
   "studio.agents.title": "Agent management",
   "studio.agents.description":
     "Discover local CLI agents automatically, or connect a custom ACP adapter.",
+  "studio.agents.kernelsHeading": "Agent engines",
   "studio.agents.sharedResources":
     "Studio skills and MCP can be used by connected engines. Plugin skills and MCP can be shared; compatibility depends on the engine. Native plugin commands and hooks are not shared across engines.",
   "studio.agents.builtin": "Built in",

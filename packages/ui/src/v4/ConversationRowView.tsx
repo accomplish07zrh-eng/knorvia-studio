@@ -27,7 +27,6 @@ import { cn } from "@/components/lib/utils.js";
 import { Button } from "@/components/ui/button.js";
 import type { PdfViewerRangeSource } from "@/components/ui/pdf-viewer.js";
 import { ControlHintTooltip } from "@/ControlHintTooltip.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { useOptionalPlatform } from "@/hooks/usePlatform.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import type { LexicalChatInputHandle } from "@/LexicalChatInput.js";
@@ -1492,7 +1491,6 @@ const AssistantTextRowView = memo(function AssistantTextRowView({
   codeCommentProjectionEnabled?: boolean;
 }) {
   const streaming = row.state === "streaming";
-  const isOfficeMode = useIsOfficeMode();
   const codeCommentCardsEnabled = useAssistantCodeCommentFeatureEnabled();
   const projectsCodeComments = codeCommentCardsEnabled && codeCommentProjectionEnabled === true;
   const visibleText = useMemo(
@@ -1519,7 +1517,6 @@ const AssistantTextRowView = memo(function AssistantTextRowView({
           workspaceRemoteSessionId={context.workspaceRemoteSessionId}
           theme={context.theme}
           codePreviewSettings={context.codePreviewSettings}
-          forceCodeWrap={isOfficeMode}
           onOpenCodeViewer={context.onOpenCodeViewer}
           onOpenFileLink={context.onOpenFileLink}
           onOpenExternalUrl={context.onOpenBrowserUrl}
@@ -1744,7 +1741,6 @@ const TimelineMarkerRowView = memo(function TimelineMarkerRowView({
   context: ConversationRowRenderContext;
 }) {
   const { intl } = useKnorviaIntl();
-  const isOfficeMode = useIsOfficeMode();
   const marker = row.marker;
   const modelSelectionView = context.modelSelectionView ?? null;
   const view = useMemo((): {
@@ -1755,7 +1751,8 @@ const TimelineMarkerRowView = memo(function TimelineMarkerRowView({
     switch (marker.type) {
       case "compact": {
         const running = marker.status === "running";
-        const automaticOptimization = isOfficeMode && marker.origin === "auto";
+        // 统一模式：自动压缩沿用原办公模式的「上下文优化」文案，手动压缩保持「上下文压缩」。
+        const automaticOptimization = marker.origin === "auto";
         const scope = automaticOptimization ? "chat.contextOptimization" : "chat.contextCompaction";
         const statusMessage =
           marker.status === "running"
@@ -1843,7 +1840,7 @@ const TimelineMarkerRowView = memo(function TimelineMarkerRowView({
       default:
         return null;
     }
-  }, [intl, isOfficeMode, marker, modelSelectionView]);
+  }, [intl, marker, modelSelectionView]);
 
   // fork 跳父会话（Tier 1）：仅 forkNotice 且宿主提供 onNavigateToRow 时可点，
   // 切到 marker.parentSessionId（rowId 预留 Tier 2 精确滚动，当前恒 0 占位）。

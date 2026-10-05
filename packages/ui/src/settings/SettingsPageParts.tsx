@@ -106,6 +106,10 @@ export function ThemePreviewCard({
   );
 }
 
+/**
+ * 设置行（2026-10-05 设置布局重做）：左侧标题与说明，右侧控件；窄宽度下控件换到说明下方。
+ * 所有分区共用这一行样式，统一行高、内边距与分隔线。
+ */
 export function SettingsRow({
   label,
   description,
@@ -120,22 +124,23 @@ export function SettingsRow({
   controlLayout?: "default" | "wide";
 }) {
   return (
-    <div className="border-t border-border px-4 py-3 first:border-t-0">
-      <div
-        className={cn(
-          "grid items-center gap-4",
-          controlLayout === "wide"
-            ? "grid-cols-1 sm:grid-cols-[minmax(0,1fr)_280px]"
-            : "grid-cols-[minmax(0,1fr)_192px]",
-        )}
-      >
-        <div className="min-w-0">
+    <div
+      data-settings-row="true"
+      className="border-t border-border/60 px-5 py-4 first:border-t-0 max-sm:px-4"
+    >
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <div className="min-w-0 flex-1">
           <div className="text-ui-base font-medium text-foreground">{label}</div>
           {description ? (
-            <div className="mt-1 text-ui-base leading-6 text-foreground-subtle">{description}</div>
+            <div className="mt-1 text-ui-sm leading-5 text-foreground-subtle">{description}</div>
           ) : null}
         </div>
-        <div className="flex w-full flex-nowrap items-center justify-end gap-2">
+        <div
+          className={cn(
+            "flex min-w-0 shrink-0 flex-nowrap items-center gap-2 sm:justify-end",
+            controlLayout === "wide" ? "w-full sm:w-[280px]" : "max-w-full",
+          )}
+        >
           {controlLayout === "wide" ? detail : null}
           {control}
         </div>
@@ -145,17 +150,64 @@ export function SettingsRow({
   );
 }
 
-export function SettingsGroupCard({ children }: { children: ReactNode }) {
-  return (
-    <Card className="overflow-hidden rounded-xl border border-border bg-card py-0 shadow-none">
+/**
+ * 设置分组：可选的分组标题与说明位于卡片外上方，卡片内是若干 SettingsRow。
+ * 不传 title 时仅渲染卡片，兼容既有调用。
+ */
+export function SettingsGroupCard({
+  children,
+  title,
+  description,
+  actions,
+}: {
+  children: ReactNode;
+  title?: ReactNode;
+  description?: ReactNode;
+  actions?: ReactNode;
+}) {
+  const card = (
+    <Card
+      data-settings-card="true"
+      className="gap-0 overflow-hidden rounded-xl border border-border bg-card py-0 shadow-none"
+    >
       <CardContent className="space-y-0 px-0">{children}</CardContent>
     </Card>
+  );
+  if (!title) return card;
+  return (
+    <section data-settings-group="true" className="flex flex-col gap-2.5">
+      <SettingsGroupHeading title={title} description={description} actions={actions} />
+      {card}
+    </section>
+  );
+}
+
+/** 分组标题：卡片外的小标题，也供自绘列表（如快捷键）复用，保持各分区分组层级一致。 */
+export function SettingsGroupHeading({
+  title,
+  description,
+  actions,
+}: {
+  title: ReactNode;
+  description?: ReactNode;
+  actions?: ReactNode;
+}) {
+  return (
+    <header className="flex min-w-0 items-end justify-between gap-3 px-1">
+      <div className="min-w-0">
+        <h3 className="text-ui-sm font-semibold text-foreground">{title}</h3>
+        {description ? (
+          <p className="mt-0.5 text-ui-sm text-foreground-subtle">{description}</p>
+        ) : null}
+      </div>
+      {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+    </header>
   );
 }
 
 export function SettingsBadge({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-md bg-surface px-2.5 py-1 text-ui-base font-medium text-foreground-subtle">
+    <span className="inline-flex h-6 items-center rounded-full border border-border px-2.5 text-ui-xs font-medium text-foreground-subtle">
       {children}
     </span>
   );

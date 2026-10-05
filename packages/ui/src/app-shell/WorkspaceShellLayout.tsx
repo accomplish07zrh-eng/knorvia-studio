@@ -15,7 +15,6 @@ import { DesktopWindowFrame } from "@/DesktopWindowFrame.js";
 import { ScopedErrorBoundary } from "@/ErrorBoundary.js";
 import { GitBranchSwitcher } from "@/GitBranchSwitcher.js";
 import { WorkspacePluginPreview } from "@/WorkspacePluginPreview.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { sidePaneTerminalSessionRegistry } from "@/terminal/sidePaneTerminalSessionRegistry.js";
 import { V4WorkspaceChatArea } from "@/v4/V4WorkspaceChatArea.js";
 import { requestV4ComposerDraftWorkspaceTransfer } from "@/v4/composer/composerDraftWorkspaceTransfer.js";
@@ -347,7 +346,6 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
   taskFindDialogProps,
 }: WorkspaceShellLayoutProps) {
   const { intl } = useKnorviaIntl();
-  const isOfficeMode = useIsOfficeMode();
   const baseServices = useBaseWorkspaceServices();
   const tabStoreApi = useTabStoreApi();
   const isLinuxDesktop = Boolean(isDesktop && !isMacDesktop && !isWindowsDesktop);
@@ -1242,15 +1240,8 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
           onSelectRemoteProject={onSelectRemoteProject}
           onCancelRemoteProject={onCancelRemoteProject}
         />
-        {isOfficeMode ? (
-          <WorkspacePluginPreview
-            onOpen={handleOpenPluginStore}
-            onSelectPlugin={handleSelectComposerPlugin}
-            workspacePath={workspaceAbsPath}
-            workspaceIdentity={workspaceIdentity}
-            remoteSessionId={workspaceRemoteSessionId ?? undefined}
-          />
-        ) : !isOfficeMode && activeWorkspacePurpose === "project" ? (
+        {/* 统一模式：项目型工作区显示 Git 分支切换，其余工作区显示插件预览入口。 */}
+        {activeWorkspacePurpose === "project" ? (
           <GitBranchSwitcher
             workspacePath={workspaceAbsPath}
             gitSummary={gitState.summary}
@@ -1263,11 +1254,18 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
             // 这里锁定上方弹出，避免菜单遮挡输入区并保持操作方向稳定。
             avoidPopoverCollisions={false}
           />
-        ) : null}
+        ) : (
+          <WorkspacePluginPreview
+            onOpen={handleOpenPluginStore}
+            onSelectPlugin={handleSelectComposerPlugin}
+            workspacePath={workspaceAbsPath}
+            workspaceIdentity={workspaceIdentity}
+            remoteSessionId={workspaceRemoteSessionId ?? undefined}
+          />
+        )}
       </>
     ),
     [
-      isOfficeMode,
       workspaceRemoteSessionId,
       handleOpenPluginStore,
       handleSelectComposerPlugin,

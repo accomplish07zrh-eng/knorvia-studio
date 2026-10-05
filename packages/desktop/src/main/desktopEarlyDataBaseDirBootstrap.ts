@@ -41,7 +41,8 @@ if (process.platform === "win32")
   app.setAppUserModelId(
     resolveKnorviaAppUserModelId({
       packaged: app.isPackaged,
-      flavor: typeof __KNORVIA_PRODUCT_FLAVOR__ !== "undefined" ? __KNORVIA_PRODUCT_FLAVOR__ : undefined,
+      flavor:
+        typeof __KNORVIA_PRODUCT_FLAVOR__ !== "undefined" ? __KNORVIA_PRODUCT_FLAVOR__ : undefined,
     }),
   );
 Object.assign(process.env, buildDesktopProfileEnvironment(desktopProfile.base));

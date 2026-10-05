@@ -31,137 +31,77 @@ export const THEME_MODES: Array<{
   { mode: "knorvia-light", icon: Sun },
 ];
 
-type SettingsSectionGroupId = "basics" | "agentCapabilities" | "dataAndStats";
+type SettingsSectionGroupId =
+  | "basics"
+  | "agentsModels"
+  | "agentCapabilities"
+  | "tools"
+  | "dataAndStats";
 
 interface SettingsSectionDefinition {
   id: SettingsSectionId;
   icon: typeof Settings;
   titleId: string;
+  /** 页头下方的一句说明，同时参与导航搜索。 */
+  descriptionId: string;
   contentTitleId?: string;
   titleBadgeId?: string;
   groupId: SettingsSectionGroupId;
 }
 
+/**
+ * 2026-10-05 设置布局重做：导航按「通用 / Agent 与模型 / 扩展 / 工具与权限 / 数据」归类，
+ * 分区 ID 与跳转意图不变（specs/knorvia-unified-mode-onboarding-settings.md §3）。
+ */
 const BASE_SETTINGS_SECTION_GROUPS: Array<{
   id: SettingsSectionGroupId;
   titleId: string;
 }> = [
   { id: "basics", titleId: "settings.sidebar.group.basics" },
-  {
-    id: "agentCapabilities",
-    titleId: "settings.sidebar.group.agentCapabilities",
-  },
+  { id: "agentsModels", titleId: "settings.sidebar.group.agentsModels" },
+  { id: "agentCapabilities", titleId: "settings.sidebar.group.agentCapabilities" },
+  { id: "tools", titleId: "settings.sidebar.group.tools" },
   { id: "dataAndStats", titleId: "settings.sidebar.group.dataAndStats" },
 ];
 
+function section(
+  id: SettingsSectionId,
+  icon: typeof Settings,
+  titleId: string,
+  groupId: SettingsSectionGroupId,
+  extra: Pick<SettingsSectionDefinition, "contentTitleId" | "titleBadgeId"> = {},
+): SettingsSectionDefinition {
+  return {
+    id,
+    icon,
+    titleId,
+    descriptionId: `settings.sectionDescription.${id}`,
+    groupId,
+    ...extra,
+  };
+}
+
 const BASE_SETTINGS_SECTIONS: SettingsSectionDefinition[] = [
-  {
-    id: "general",
-    icon: Settings2,
-    titleId: "settings.systemTitle",
-    groupId: "basics",
-  },
-  {
-    id: "appearance",
-    icon: Palette,
-    titleId: "settings.appearanceTitle",
-    groupId: "basics",
-  },
-  {
-    id: "agents",
-    icon: Bot,
-    titleId: "studio.agents",
-    groupId: "basics",
-  },
-  {
-    id: "modelProvider",
-    icon: Package,
-    titleId: "settings.modelProviderTitle",
-    groupId: "basics",
-  },
-  {
-    id: "memory",
-    icon: Brain,
-    titleId: "settings.memory",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "subagents",
-    icon: Bot,
-    titleId: "settings.subagents.title",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "plugin",
-    icon: Blocks,
-    titleId: "settings.plugins.title",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "mcp",
-    icon: Cable,
-    titleId: "settings.mcpTitle",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "skill",
-    icon: WandSparkles,
-    titleId: "settings.skills.title",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "commands",
-    icon: Terminal,
-    titleId: "settings.commands.title",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "automations",
-    icon: AlarmClock,
-    titleId: "settings.automations.title",
+  section("general", Settings2, "settings.systemTitle", "basics"),
+  section("appearance", Palette, "settings.appearanceTitle", "basics"),
+  section("shortcuts", Keyboard, "settings.shortcuts.title", "basics"),
+  section("agents", Bot, "studio.agents", "agentsModels"),
+  section("modelProvider", Package, "settings.modelProviderTitle", "agentsModels"),
+  section("subagents", Bot, "settings.subagents.title", "agentsModels"),
+  section("memory", Brain, "settings.memory", "agentsModels"),
+  section("plugin", Blocks, "settings.plugins.title", "agentCapabilities"),
+  section("mcp", Cable, "settings.mcpTitle", "agentCapabilities"),
+  section("skill", WandSparkles, "settings.skills.title", "agentCapabilities"),
+  section("commands", Terminal, "settings.commands.title", "agentCapabilities"),
+  section("hooks", Anchor, "settings.hooks.title", "agentCapabilities"),
+  section("automations", AlarmClock, "settings.automations.title", "agentCapabilities", {
     titleBadgeId: "settings.automations.betaBadge",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "hooks",
-    icon: Anchor,
-    titleId: "settings.hooks.title",
-    groupId: "agentCapabilities",
-  },
-  {
-    id: "browser",
-    icon: Globe2,
-    titleId: "settings.browser.title",
-    groupId: "basics",
-  },
-  // 电脑控制紧跟「浏览器」：两者都是给 Agent 用的本机操控入口，
-  // 放在基础设置里让用户在同一处理解「控制浏览器 / 控制整台电脑」的关系。
-  {
-    id: "computerUse",
-    icon: Monitor,
-    titleId: "settings.computerUse.title",
-    groupId: "basics",
-  },
-  // 键盘快捷键紧跟「电脑控制」：同属本机操控/效率配置，收纳在基础设置尾部。
-  {
-    id: "shortcuts",
-    icon: Keyboard,
-    titleId: "settings.shortcuts.title",
-    groupId: "basics",
-  },
-  // 工作区搜索范围（.knorviaignore）：面向所有用户的基础工作区行为配置，收在基础设置末尾。
-  {
-    id: "workspaceFileSearch",
-    icon: FileSearch,
-    titleId: "settings.workspaceFileSearch.title",
-    groupId: "basics",
-  },
-  {
-    id: "usage",
-    icon: BarChart3,
-    titleId: "settings.usageTitle",
-    groupId: "dataAndStats",
-  },
+  }),
+  // 浏览器与电脑控制都是给 Agent 用的本机操控入口，与工作区搜索范围一起归入「工具与权限」。
+  section("browser", Globe2, "settings.browser.title", "tools"),
+  section("computerUse", Monitor, "settings.computerUse.title", "tools"),
+  section("workspaceFileSearch", FileSearch, "settings.workspaceFileSearch.title", "tools"),
+  section("usage", BarChart3, "settings.usageTitle", "dataAndStats"),
 ];
 
 // 兼容既有只读消费者：默认配置代表不带桌面平台能力的 Web 视图；

@@ -17,13 +17,11 @@ import {
 } from "@/components/ui/dropdown-menu.js";
 import { usePlatform } from "@/hooks/usePlatform.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
-import { normalizeInterfaceMode } from "@/lib/interfaceMode.js";
 import { useShortcutCommandLabel } from "@/shortcuts/useShortcutBindings.js";
-import { useKnorviaStore } from "@/store/StoreProvider.js";
 import type { Theme } from "@/useTheme.js";
 import type { Locale } from "@knorvia/shared";
 import { DesktopCommandIds, TID_TASK_SETTINGS_BUTTON } from "@knorvia/shared";
-import { Globe, Maximize, Palette, PencilRuler, Settings, ZoomIn, ZoomOut } from "lucide-react";
+import { Globe, Maximize, Palette, Settings, ZoomIn, ZoomOut } from "lucide-react";
 import { memo, useCallback, useEffect, useState } from "react";
 
 const DESKTOP_ZOOM_MIN_LEVEL = -3;
@@ -58,8 +56,6 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
 }) {
   const { intl } = useKnorviaIntl();
   const platform = usePlatform();
-  const interfaceMode = useKnorviaStore((state) => state.interfaceMode);
-  const setInterfaceMode = useKnorviaStore((state) => state.setInterfaceMode);
   const zoomInShortcutLabel = useShortcutCommandLabel("zoomIn");
   const zoomOutShortcutLabel = useShortcutCommandLabel("zoomOut");
   const resetZoomShortcutLabel = useShortcutCommandLabel("resetZoom");
@@ -205,28 +201,9 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <PencilRuler className="size-4" />
-                {intl.formatMessage({ id: "settings.interfaceMode" })}
-              </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent className="w-48">
-                <DropdownMenuRadioGroup
-                  value={interfaceMode}
-                  onValueChange={(value) => setInterfaceMode(normalizeInterfaceMode(value))}
-                >
-                  <DropdownMenuRadioItem value="coding">
-                    {intl.formatMessage({ id: "settings.interfaceMode.coding" })}
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="office">
-                    {intl.formatMessage({ id: "settings.interfaceMode.office" })}
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
             {/* 快捷键设置：缩放子菜单 label 读生效表，设置页改绑后即时跟随 */}
             {/* 收口重复缩放子菜单时误留了语言之后的那份，导致菜单顺序变成
-                语言→缩放→主题；账户菜单分组顺序固定为 语言→主题→界面模式→缩放→用量→登录/登出，
+                语言→缩放→主题；账户菜单分组顺序固定为 语言→主题→缩放→用量→登录/登出（统一模式后已无界面模式项），
                 这里把唯一一份（读生效表）挪回用量摘要之前，不要再补第二份缩放子菜单。 */}
             {isDesktop ? (
               <DropdownMenuSub>

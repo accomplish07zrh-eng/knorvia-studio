@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch.js";
 import { toast } from "@/components/ui/toast.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { useOnboardingRecordService } from "@/hooks/useOnboardingRecordService.js";
 import { useSettings } from "@/hooks/useSettingService.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
@@ -12,7 +11,6 @@ export function ProactiveSuggestionsSetting() {
   const { intl } = useKnorviaIntl();
   const { settings, update } = useSettings();
   const onboardingRecordService = useOnboardingRecordService();
-  const isOfficeMode = useIsOfficeMode();
   const [saving, setSaving] = useState(false);
   const setSuggestions = async (enabled: boolean) => {
     setSaving(true);
@@ -37,8 +35,8 @@ export function ProactiveSuggestionsSetting() {
       description={intl.formatMessage({ id: "chat.officeSuggestions.settingDescription" })}
       control={
         <Switch
-          checked={isOfficeMode && settings?.proactiveSuggestionsEnabled === true}
-          disabled={!isOfficeMode || saving || !settings}
+          checked={settings?.proactiveSuggestionsEnabled === true}
+          disabled={saving || !settings}
           onCheckedChange={setSuggestions}
           aria-label={intl.formatMessage({ id: "chat.officeSuggestions.setting" })}
         />

@@ -8,7 +8,6 @@ import {
   CommandList,
 } from "@/components/ui/command.js";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { usePluginReferenceCatalog } from "@/hooks/usePluginReferenceCatalog.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { requestPluginStoreOpen } from "@/lib/pluginStoreNavigation.js";
@@ -58,7 +57,6 @@ export function WorkspacePluginPreview({
   remoteSessionId?: string;
 }) {
   const { intl, locale } = useKnorviaIntl();
-  const isOfficeMode = useIsOfficeMode();
   const order = null;
   const [open, setOpen] = useState(false);
   const [retryRevision, setRetryRevision] = useState(0);
@@ -113,7 +111,7 @@ export function WorkspacePluginPreview({
       ),
       ...referenceableEntries.filter((entry) => !isPublicStoreMarketplaceId(entry.marketplace)),
     ];
-  }, [previewEntries, isOfficeMode, locale, order]);
+  }, [previewEntries, locale, order]);
   const managePlugins = () => {
     setOpen(false);
     requestPluginStoreOpen({ returnScopeKey: "user" });

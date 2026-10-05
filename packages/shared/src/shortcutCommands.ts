@@ -1,7 +1,6 @@
 export type ShortcutChannel = "window" | "menu";
 
 export type ShortcutCommandId =
-  | "toggleInterfaceMode"
   | "openOnboarding"
   | "openCommandCenter"
   | "openSettings"
@@ -67,7 +66,6 @@ export const SHORTCUT_COMMANDS: readonly ShortcutCommandEntry[] = [
     scope: "composer",
     defaultBindings: ["Shift+Enter"],
   },
-  { id: "toggleInterfaceMode", channel: "window", defaultBindings: ["CmdOrCtrl+Shift+u"] },
   { id: "openOnboarding", channel: "window", defaultBindings: ["CmdOrCtrl+Shift+o"] },
 ];
 

@@ -1,37 +1,40 @@
 import { Button } from "@/components/ui/button.js";
+import { cn } from "@/components/lib/utils.js";
 import { Checkbox } from "@/components/ui/checkbox.js";
 import { DesktopWindowControls } from "@/DesktopWindowControls.js";
 import { useOnboardingRecordService } from "@/hooks/useOnboardingRecordService.js";
 import { usePlatform } from "@/hooks/usePlatform.js";
 import { useSettings } from "@/hooks/useSettingService.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
-import type { InterfaceMode } from "@/lib/interfaceMode.js";
 import { logger } from "@/logger.js";
-import { OccupationOnboardingVisual } from "@/onboarding/OccupationOnboardingVisual.js";
 import { occupations, type OccupationValue } from "@/onboarding/occupationOptions.js";
-import { OnboardingHeader } from "@/onboarding/OnboardingHeader.js";
-import { OnboardingModeSelector } from "@/onboarding/OnboardingModeSelector.js";
 import { OnboardingOccupationGrid } from "@/onboarding/OnboardingOccupationGrid.js";
+import {
+  OnboardingStepProgress,
+  OnboardingStepRail,
+  type OnboardingStep,
+} from "@/onboarding/OnboardingStepRail.js";
+import { OnboardingWelcomeStep } from "@/onboarding/OnboardingWelcomeStep.js";
 import { useOnboardingTelemetry } from "@/onboarding/useOnboardingTelemetry.js";
 import { appendOnboardingRecord, useOnboardingTrigger } from "@/onboarding/useOnboardingTrigger.js";
 import { matchesShortcutBinding } from "@/shortcuts/bindings.js";
 import { useEffectiveShortcutBindings } from "@/shortcuts/useShortcutBindings.js";
 import { useKnorviaStore } from "@/store/StoreProvider.js";
 import type { OnboardingRecordEntry } from "@knorvia/shared";
+import { ArrowLeft, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 export function OccupationOnboarding({
   children,
   showWindowControls = false,
   showChildrenWhileLoading = false,
-  isMacDesktop,
-  isWindowsDesktop,
 }: {
   children: ReactNode;
   /** Windows/Linux 自绘窗控：引导全屏覆盖主界面（含标题栏），需在此补最小化/最大化/关闭。 */
   showWindowControls?: boolean;
   /** 独立设置页不依赖引导设置加载，避免应用级引导外层遮住设置内容。 */
   showChildrenWhileLoading?: boolean;
+  /** 保留调用方既有参数；新版引导不再按平台绘制右侧主视觉圆角。 */
   isMacDesktop?: boolean;
   isWindowsDesktop?: boolean;
 }) {
@@ -45,17 +48,13 @@ export function OccupationOnboarding({
   const { intl } = useKnorviaIntl();
   const t = (key: string) => intl.formatMessage({ id: `occupationOnboarding.${key}` });
   const [occupation, setOccupation] = useState<OccupationValue | null>("developer");
-  const savedInterfaceMode = useKnorviaStore((state) => state.interfaceMode);
-  const setInterfaceMode = useKnorviaStore((state) => state.setInterfaceMode);
-  // mode 为 null 表示模式页被"跳过"（跳过是显式答案，记录里保留 null 而非兜底值）。
-  const [mode, setMode] = useState<InterfaceMode | null>(savedInterfaceMode);
-  const [step, setStep] = useState<0 | 1 | 2>(0);
+  // 2026-10-05 统一模式：引导改为 欢迎 → 工作方向 → 偏好，不再询问界面模式。
+  const [step, setStep] = useState<OnboardingStep>(0);
   const preferences = step === 2;
   const requestOnboardingDialog = useKnorviaStore((state) => state.requestOnboardingDialog);
   const [migration, setMigration] = useState(false);
-  const [memory, setMemory] = useState(savedInterfaceMode === "office");
-  const [suggestions, setSuggestions] = useState(savedInterfaceMode === "office");
-  const suggestionsEditedRef = useRef(false);
+  const [memory, setMemory] = useState(false);
+  const [suggestions, setSuggestions] = useState(false);
   const [saving, setSaving] = useState(false);
   const savingRef = useRef(false);
   const [error, setError] = useState(false);
@@ -73,7 +72,6 @@ export function OccupationOnboarding({
       (requested || needsOnboarding !== null || Boolean(settings?.onboardingOccupation)),
     step,
     occupation,
-    mode,
     memory,
     suggestions,
     migration,
@@ -87,23 +85,6 @@ export function OccupationOnboarding({
   }, [captureEnd, intl, setRequested]);
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (
-        shortcutBindings.toggleInterfaceMode.some((binding) =>
-          matchesShortcutBinding(event, binding),
-        )
-      ) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        if (saving) return;
-        const nextMode = savedInterfaceMode === "office" ? "coding" : "office";
-        setInterfaceMode(nextMode);
-        setMode(nextMode);
-        if (nextMode !== mode) {
-          setMemory(nextMode === "office");
-          if (nextMode === "office" && !suggestionsEditedRef.current) setSuggestions(true);
-        }
-        return;
-      }
       if (event.key === "Escape" && onboardingVisible && !saving) {
         // 直接退出引导（设置里主动打开的场景尤其需要）：不保存、不改记录，
         // 本次会话不再显示，下次启动按记录重新触发。
@@ -128,16 +109,7 @@ export function OccupationOnboarding({
     };
     window.addEventListener("keydown", onKeyDown, true);
     return () => window.removeEventListener("keydown", onKeyDown, true);
-  }, [
-    closeOnboarding,
-    shortcutBindings,
-    setRequested,
-    onboardingVisible,
-    saving,
-    savedInterfaceMode,
-    setInterfaceMode,
-    mode,
-  ]);
+  }, [closeOnboarding, shortcutBindings, setRequested, onboardingVisible, saving]);
   // 从设置或快捷键再次打开引导时，用本机 record 里的最近作答预填，
   // 而不是每次都从写死的默认选项开始；跳过页记 null 的字段落默认值。
   const [latestEntry, setLatestEntry] = useState<OnboardingRecordEntry | null>(null);
@@ -170,18 +142,15 @@ export function OccupationOnboarding({
         ? (entry.occupation as OccupationValue)
         : "developer",
     );
-    const initialMode = entry?.interfaceMode ?? savedInterfaceMode;
-    setMode(initialMode);
-    // 编程模式默认关闭主动工作记忆；办公模式才恢复本机之前的勾选。
-    setMemory(initialMode === "office" && (entry?.memoryEnabled ?? true));
-    setSuggestions(entry?.proactiveSuggestionsEnabled ?? initialMode === "office");
+    // 恢复本机最近一次作答；跳过页记 null 的偏好落保守默认值（关闭）。
+    setMemory(entry?.memoryEnabled ?? false);
+    setSuggestions(entry?.proactiveSuggestionsEnabled ?? false);
     setMigration(false);
     setError(false);
   };
   useEffect(() => {
     if (!requested) return;
     userEditedRef.current = false;
-    suggestionsEditedRef.current = false;
     applyLatestEntry();
     // latestEntry 异步到达时若引导已打开，重新预填一次（用户未交互前覆盖默认值）。
   }, [requested]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -203,14 +172,13 @@ export function OccupationOnboarding({
     setSaving(true);
     setError(false);
     try {
-      if (mode) setInterfaceMode(mode);
-      logger.info("[occupation-onboarding] 保存偏好", { interfaceMode: mode });
+      logger.info("[occupation-onboarding] 保存偏好", { skip });
       await update({
         // settings 侧保持既有语义：跳过落保守默认值（职业 other / 偏好关），
         // "跳过也算答案"的区分度只体现在 onboarding-record.json 里。
         onboardingOccupation: occupation ?? "other",
         memoryEnabled: skip ? false : memory,
-        proactiveSuggestionsEnabled: !skip && mode === "office" && suggestions,
+        proactiveSuggestionsEnabled: !skip && suggestions,
       });
       // 偏好是完成事实源；先取消旧判定，附属记录失败不能让已完成引导复活。
       markOnboarded();
@@ -220,18 +188,18 @@ export function OccupationOnboarding({
       setDismissed(true);
       setRequested(false);
       if (!skip && migration) requestOnboardingDialog("migration");
-      logger.info("[occupation-onboarding] 偏好保存完成", { interfaceMode: mode });
+      logger.info("[occupation-onboarding] 偏好保存完成", { skip });
       if (onboardingRecord) {
         try {
           // 追加当前本机偏好记录。
           // appendRecord 走 RPC，channel 缺失时会挂起导致保存按钮永远转圈，加超时保护。
-          // 跳过是显式答案：该页被跳过时记 null（occupation 在第 1 步跳过时已是 null，
-          // mode 在第 2 步跳过时置 null，偏好页整体跳过时两个布尔记 null）。
+          // 跳过是显式答案：该页被跳过时记 null（occupation 在工作方向页跳过时已是 null，
+          // 偏好页整体跳过时两个布尔记 null）。统一模式不再询问界面模式，interfaceMode 恒为 null。
           await appendOnboardingRecord(onboardingRecord, platform.getDeviceId(), {
             occupation,
-            interfaceMode: mode,
+            interfaceMode: null,
             memoryEnabled: skip ? null : memory,
-            proactiveSuggestionsEnabled: skip ? null : mode === "office" && suggestions,
+            proactiveSuggestionsEnabled: skip ? null : suggestions,
             completedAt: new Date().toISOString(),
           });
         } catch (cause) {
@@ -247,11 +215,17 @@ export function OccupationOnboarding({
       setSaving(false);
     }
   };
+  const titleKey = preferences ? "preferences" : step === 1 ? "title" : "welcomeTitle";
+  const descriptionKey = preferences
+    ? "preferencesDescription"
+    : step === 1
+      ? "description"
+      : "welcomeDescription";
   return (
     <main
-      aria-label={t("title")}
+      aria-label={t("pageLabel")}
       data-testid="onboarding-page"
-      className="relative flex h-dvh w-full min-h-0 flex-col overflow-hidden bg-background text-foreground"
+      className="relative flex h-dvh w-full min-h-0 overflow-hidden bg-background text-foreground"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-12 [app-region:drag]" />
       {/* 与 Settings 相同，计入 Workspace 的 4px 外层留白、1px 边框和 8px 内边距。 */}
@@ -260,140 +234,132 @@ export function OccupationOnboarding({
           <DesktopWindowControls />
         </div>
       ) : null}
-      <div className="relative grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-2 lg:gap-1 lg:p-1">
-        <div className="flex min-h-0 flex-col pt-12 [@media(max-height:740px)]:pt-10">
-          <OnboardingHeader
-            step={step}
-            saving={saving}
-            t={t}
-            onBack={() => setStep(step === 2 ? 1 : 0)}
-            onClose={closeOnboarding}
-          />
-          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 py-4 sm:px-10">
-            {/* 自动外边距让短内容居中，长内容从顶部正常滚动，不影响固定导航。 */}
-            <div className="mx-auto my-auto w-full max-w-lg shrink-0">
-              <section className="flex w-full flex-col">
-                <div className="w-full">
-                  <h1 className="text-ui-xl font-semibold tracking-tight text-center">
-                    {t(preferences ? "preferences" : step === 1 ? "modeTitle" : "title")}
-                  </h1>
-                  <p className="mx-auto mt-3 max-w-md text-center text-ui-base leading-relaxed text-foreground-subtle">
-                    {t(
-                      preferences
-                        ? "preferencesDescription"
-                        : step === 1
-                          ? "modeDescription"
-                          : "description",
-                    )}
-                  </p>
-                  {step === 1 ? (
-                    <OnboardingModeSelector
-                      mode={mode}
-                      saving={saving}
-                      onSelect={(value) => {
-                        markUserEdited();
-                        // 重选当前编程模式也应清除旧记录带来的默认勾选。
-                        setMemory(value === "office");
-                        if (value !== mode) {
-                          if (value === "office" && !suggestionsEditedRef.current)
-                            setSuggestions(true);
-                        }
-                        setMode(value);
-                      }}
-                      label={t("modeTitle")}
-                      formatLabel={(key) => t(key)}
-                    />
-                  ) : preferences ? (
-                    <div className="mt-8 space-y-3">
-                      {(["suggestions", "memory", "migration"] as const)
-                        .filter((key) => key !== "suggestions" || mode === "office")
-                        .map((key) => (
-                          <label
-                            key={key}
-                            className="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-x-4 gap-y-2 rounded-xl border border-card-border bg-card dark:bg-surface/40 p-5 text-ui-base transition-colors hover:bg-surface-hover"
-                          >
-                            <Checkbox
-                              checked={
-                                key === "migration"
-                                  ? migration
-                                  : key === "memory"
-                                    ? memory
-                                    : suggestions
-                              }
-                              disabled={saving}
-                              onCheckedChange={(checked) => {
-                                markUserEdited();
-                                if (key === "migration") setMigration(checked === true);
-                                else if (key === "memory") setMemory(checked === true);
-                                else {
-                                  suggestionsEditedRef.current = true;
-                                  setSuggestions(checked === true);
-                                }
-                              }}
-                            />
-                            <span className="font-medium">{t(key)}</span>
-                            <span className="col-start-2 text-ui-sm font-normal text-foreground-subtle">
-                              {t(`${key}Description`)}
-                            </span>
-                          </label>
-                        ))}
-                    </div>
-                  ) : (
-                    <OnboardingOccupationGrid
-                      occupation={occupation}
-                      saving={saving}
-                      onSelect={(value) => {
-                        markUserEdited();
-                        setOccupation(value);
-                      }}
-                      label={t("title")}
-                      formatLabel={(value) => t(value)}
-                    />
-                  )}
-                  {error ? (
-                    <p role="alert" className="mt-4 text-ui-sm text-destructive">
-                      {t("error")}
-                    </p>
-                  ) : null}
-                </div>
-                <footer className="mt-6 flex flex-col gap-3 [@media(max-height:740px)]:mt-4 [@media(max-height:740px)]:gap-1">
-                  <Button
-                    variant="link"
-                    disabled={saving}
-                    className="order-2 h-9 self-center rounded-xl px-3 text-ui-base text-foreground-subtle"
-                    onClick={() => {
-                      markUserEdited();
-                      if (preferences) void save(true);
-                      else {
-                        if (step === 0) setOccupation(null);
-                        else setMode(null);
-                        setStep(step === 0 ? 1 : 2);
-                      }
-                    }}
-                  >
-                    {t("skip")}
-                  </Button>
-                  <div className="flex w-full gap-3">
-                    <Button
-                      disabled={saving || (step === 0 && !occupation)}
-                      className="h-11 flex-1 rounded-xl px-5 text-ui-base"
-                      onClick={() => {
-                        if (!preferences) setStep(step === 0 ? 1 : 2);
-                        else void save();
-                      }}
-                    >
-                      {t(saving ? "saving" : preferences ? "start" : "continue")}
-                    </Button>
-                  </div>
-                </footer>
-              </section>
-            </div>
+      <OnboardingStepRail step={step} t={t} />
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col pt-12 [@media(max-height:740px)]:pt-10">
+        <header className="relative grid h-12 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-6 sm:px-10">
+          {step > 0 ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={saving}
+              className="col-start-1 row-start-1 justify-self-start gap-1.5 px-2.5 text-foreground-subtle [app-region:no-drag]"
+              onClick={() => setStep(step === 2 ? 1 : 0)}
+            >
+              <ArrowLeft className="size-4" />
+              {t("back")}
+            </Button>
+          ) : null}
+          <div className="col-start-2 row-start-1">
+            <OnboardingStepProgress step={step} t={t} />
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={saving}
+            aria-label={t("close")}
+            title={t("close")}
+            className={cn(
+              "col-start-3 row-start-1 justify-self-end size-9 text-foreground-subtle [app-region:no-drag]",
+              // Windows/Linux 自绘窗控位于右上角，关闭引导按钮避开它们。
+              showWindowControls && "mr-[120px]",
+            )}
+            onClick={closeOnboarding}
+          >
+            <X className="size-4" />
+          </Button>
+        </header>
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 py-6 sm:px-10">
+          {/* 自动外边距让短内容居中，长内容从顶部正常滚动，不影响固定导航。 */}
+          <section className="mx-auto my-auto flex w-full max-w-xl shrink-0 flex-col">
+            <p className="text-ui-sm font-medium text-foreground-subtle">
+              {intl.formatMessage(
+                { id: "occupationOnboarding.stepCounter" },
+                { current: step + 1, total: 3 },
+              )}
+            </p>
+            <h1 className="mt-2 text-ui-xl font-semibold tracking-tight">{t(titleKey)}</h1>
+            <p className="mt-2 text-ui-base leading-relaxed text-foreground-subtle">
+              {t(descriptionKey)}
+            </p>
+            {step === 0 ? (
+              <OnboardingWelcomeStep saving={saving} t={t} />
+            ) : step === 1 ? (
+              <OnboardingOccupationGrid
+                occupation={occupation}
+                saving={saving}
+                onSelect={(value) => {
+                  markUserEdited();
+                  setOccupation(value);
+                }}
+                label={t("title")}
+                formatLabel={(value) => t(value)}
+              />
+            ) : (
+              <div className="mt-8 flex flex-col divide-y divide-border/60 overflow-hidden rounded-xl border border-border bg-card">
+                {(["suggestions", "memory", "migration"] as const).map((key) => (
+                  <label
+                    key={key}
+                    className="grid cursor-pointer grid-cols-[auto_1fr] items-start gap-x-3.5 px-4 py-3.5 transition-colors hover:bg-surface-hover"
+                  >
+                    <Checkbox
+                      className="mt-0.5"
+                      checked={
+                        key === "migration" ? migration : key === "memory" ? memory : suggestions
+                      }
+                      disabled={saving}
+                      onCheckedChange={(checked) => {
+                        markUserEdited();
+                        if (key === "migration") setMigration(checked === true);
+                        else if (key === "memory") setMemory(checked === true);
+                        else setSuggestions(checked === true);
+                      }}
+                    />
+                    <span className="min-w-0">
+                      <span className="block text-ui-base font-medium">{t(key)}</span>
+                      <span className="mt-0.5 block text-ui-sm leading-5 text-foreground-subtle">
+                        {t(`${key}Description`)}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            )}
+            {error ? (
+              <p role="alert" className="mt-4 text-ui-sm text-destructive">
+                {t("error")}
+              </p>
+            ) : null}
+            <footer className="mt-8 flex items-center justify-between gap-3 [@media(max-height:740px)]:mt-5">
+              <Button
+                variant="ghost"
+                disabled={saving}
+                className="px-3 text-foreground-subtle"
+                onClick={() => {
+                  markUserEdited();
+                  if (preferences) void save(true);
+                  else {
+                    // 工作方向页跳过是显式答案：记录里职业记 null。
+                    if (step === 1) setOccupation(null);
+                    setStep(step === 0 ? 1 : 2);
+                  }
+                }}
+              >
+                {t("skip")}
+              </Button>
+              <Button
+                size="lg"
+                disabled={saving || (step === 1 && !occupation)}
+                className="min-w-32 px-6"
+                onClick={() => {
+                  if (!preferences) setStep(step === 0 ? 1 : 2);
+                  else void save();
+                }}
+              >
+                {t(saving ? "saving" : preferences ? "start" : "continue")}
+              </Button>
+            </footer>
+          </section>
         </div>
-        <OccupationOnboardingVisual
-          isMacDesktop={isMacDesktop}
-          isWindowsDesktop={isWindowsDesktop}
-        />
       </div>
     </main>
   );

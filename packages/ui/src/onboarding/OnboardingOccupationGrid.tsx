@@ -25,46 +25,40 @@ export function OnboardingOccupationGrid({
 }: OccupationGridProps) {
   return (
     <div
-      className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 [@media(max-height:740px)]:mt-5 [@media(max-height:740px)]:gap-2"
+      className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-2 [@media(max-height:740px)]:mt-5"
       role="group"
       aria-label={label}
     >
       {occupations.map((value, index) => {
         const Icon = getOccupationIcon(index);
+        const selected = occupation === value;
         return (
           <button
             type="button"
             key={value}
-            aria-pressed={occupation === value}
+            aria-pressed={selected}
             disabled={saving}
             onClick={() => onSelect(value)}
             className={cn(
-              "group flex min-h-12 items-center gap-3 rounded-xl border px-3 py-3 [@media(max-height:740px)]:min-h-11 [@media(max-height:740px)]:py-2 text-left text-ui-base transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-input-border-focused",
-              occupation === value
-                ? "border-foreground/60 bg-card-selected dark:border-foreground/50"
-                : "border-card-border bg-card hover:border-border-hover hover:bg-surface-hover dark:border-border/60 dark:bg-transparent dark:hover:bg-surface/60",
+              "group flex min-h-11 items-center gap-3 rounded-full border px-3.5 py-2 text-left text-ui-base transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-input-border-focused disabled:opacity-60",
+              // 纸片式选中：选中项浮起为纸片，未选中保持细线描边。
+              selected
+                ? "bg-selected border-transparent font-medium text-foreground"
+                : "border-border text-foreground-subtle hover:bg-surface-hover hover:text-foreground",
             )}
           >
-            <Icon
-              strokeWidth={1.5}
-              className={cn(
-                "size-5 shrink-0",
-                occupation === value
-                  ? "text-foreground"
-                  : "text-foreground-subtle dark:text-foreground-subtlest dark:group-hover:text-foreground-subtle",
-              )}
-            />
-            <span className="min-w-0 flex-1">{formatLabel(value)}</span>
+            <Icon className="size-4 shrink-0" />
+            <span className="min-w-0 flex-1 truncate">{formatLabel(value)}</span>
             <span
               aria-hidden="true"
               className={cn(
                 "flex size-4 shrink-0 items-center justify-center rounded-full border",
-                occupation === value
-                  ? "border-primary bg-primary text-primary-foreground"
+                selected
+                  ? "border-foreground bg-foreground text-background"
                   : "border-border bg-transparent",
               )}
             >
-              {occupation === value ? <Check className="size-3" /> : null}
+              {selected ? <Check className="size-3" /> : null}
             </span>
           </button>
         );

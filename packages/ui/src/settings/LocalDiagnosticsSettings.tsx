@@ -68,7 +68,7 @@ export function LocalDiagnosticsSettings() {
   };
 
   return (
-    <SettingsGroupCard>
+    <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.diagnostics" })}>
       <SettingsRow
         label={t("title")}
         description={t("description")}

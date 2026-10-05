@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Cloud, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button.js";
+import { SettingsGroupHeading } from "@/settings/SettingsPageParts.js";
 import { useConfirmDialog } from "@/hooks/useConfirmDialog.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioAgentStore } from "@/store/studioAgentStore.js";
@@ -138,42 +139,41 @@ export function StudioAgentsSection({
 
   return (
     <section
-      className="space-y-4"
+      className="flex flex-col gap-3"
       data-testid="studio-agents-section"
       aria-label={intl.formatMessage({ id: "studio.agents.title" })}
     >
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <p className="max-w-xl text-ui-base leading-6 text-foreground-subtle">
-          {intl.formatMessage({ id: "studio.agents.description" })}
-        </p>
-        <div className="flex items-center gap-2">
-          {onConnectSsh ? (
-            <Button variant="outline" size="sm" onClick={onConnectSsh}>
-              <Cloud />
-              {locale.startsWith("zh") ? "连接 SSH Agent" : "Connect SSH Agent"}
+      {/* 设置页头已展示分区说明（settings.sectionDescription.agents），这里只保留分组标题与操作。 */}
+      <SettingsGroupHeading
+        title={intl.formatMessage({ id: "studio.agents.kernelsHeading" })}
+        description={intl.formatMessage({ id: "studio.agents.sharedResources" })}
+        actions={
+          <>
+            {onConnectSsh ? (
+              <Button variant="outline" size="sm" onClick={onConnectSsh}>
+                <Cloud />
+                {locale.startsWith("zh") ? "连接 SSH Agent" : "Connect SSH Agent"}
+              </Button>
+            ) : null}
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!ready || checking || Boolean(busy)}
+              onClick={() => {
+                runtime.refresh();
+                void inspect();
+              }}
+            >
+              <RefreshCw className={checking ? "animate-spin" : undefined} />
+              {intl.formatMessage({
+                id: checking ? "studio.agents.checking" : "studio.agents.inspect",
+              })}
             </Button>
-          ) : null}
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={!ready || checking || Boolean(busy)}
-            onClick={() => {
-              runtime.refresh();
-              void inspect();
-            }}
-          >
-            <RefreshCw className={checking ? "animate-spin" : undefined} />
-            {intl.formatMessage({
-              id: checking ? "studio.agents.checking" : "studio.agents.inspect",
-            })}
-          </Button>
-        </div>
-      </div>
-      <p className="text-ui-sm leading-5 text-foreground-subtle">
-        {intl.formatMessage({ id: "studio.agents.sharedResources" })}
-      </p>
+          </>
+        }
+      />
       {!ready ? (
-        <p role="status" className="text-ui-sm text-foreground-subtle">
+        <p role="status" className="px-1 text-ui-sm text-foreground-subtle">
           {runtime.error ??
             intl.formatMessage({
               id: service ? "studio.agents.loading" : "studio.agents.runtimeUnavailable",
@@ -181,12 +181,12 @@ export function StudioAgentsSection({
         </p>
       ) : null}
       {error || managementError || inspectionError ? (
-        <p role="alert" className="break-words text-ui-sm text-destructive">
+        <p role="alert" className="break-words px-1 text-ui-sm text-destructive">
           {error || managementError || inspectionError}
         </p>
       ) : null}
       <StudioAgentStorageNotice />
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         {kernels.map((kernel) => {
           const config = runtime.overview?.configs[kernel.id];
           const status = statuses.find((candidate) => candidate.id === kernel.id);
@@ -237,7 +237,7 @@ export function StudioAgentsSection({
         })}
       </div>
       {saved ? (
-        <p role="status" className="text-ui-sm text-foreground-subtle">
+        <p role="status" className="px-1 text-ui-sm text-foreground-subtle">
           {intl.formatMessage({ id: "studio.agents.saved" })}
         </p>
       ) : null}

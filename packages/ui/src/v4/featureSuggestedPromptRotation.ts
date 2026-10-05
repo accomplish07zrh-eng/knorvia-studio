@@ -1,8 +1,7 @@
 import type { DraftSuggestedPromptItem } from "@/v4/draftSuggestedPromptItems.js";
 import { getRecommendedPromptPool } from "@/v4/featureSuggestedPrompts.js";
 
-type Mode = "office" | "coding";
-type Pane = { mode: Mode; cursor: number; items: DraftSuggestedPromptItem[] };
+type Pane = { cursor: number; items: DraftSuggestedPromptItem[] };
 
 const panes = new Map<string, Pane>();
 const listeners = new Set<() => void>();
@@ -22,17 +21,11 @@ export function getRecommendedPromptsRevision() {
   return revision;
 }
 
-export function registerRecommendedPromptPane(id: string, mode: Mode) {
-  const existing = panes.get(id);
-  if (existing?.mode === mode) return;
-  const cursor = existing?.cursor ?? 0;
-  const pane: Pane = { mode, cursor, items: [] };
+export function registerRecommendedPromptPane(id: string) {
+  if (panes.has(id)) return;
+  const pane: Pane = { cursor: 0, items: [] };
   panes.set(id, pane);
-  pane.items = selectForPane(
-    getRecommendedPromptPool(mode === "office"),
-    cursor,
-    ...usedByOtherPanes(id, mode),
-  );
+  pane.items = selectForPane(getRecommendedPromptPool(), 0, ...usedByOtherPanes(id));
   notify();
 }
 
@@ -46,20 +39,20 @@ export function advanceRecommendedPromptPane(id: string) {
   // 每个候选都要有机会成为本批首项；固定跳三格会让避重时跳过的候选永远不可达。
   pane.cursor += 1;
   pane.items = selectForPane(
-    getRecommendedPromptPool(pane.mode === "office"),
+    getRecommendedPromptPool(),
     pane.cursor,
-    ...usedByOtherPanes(id, pane.mode),
+    ...usedByOtherPanes(id),
     new Set(pane.items.map((item) => item.id)),
   );
   notify();
 }
 
-function usedByOtherPanes(id: string, mode: Mode): [Set<string>, Set<string>, Set<string>] {
+function usedByOtherPanes(id: string): [Set<string>, Set<string>, Set<string>] {
   const ids = new Set<string>();
   const plugins = new Set<string>();
   const icons = new Set<string>();
   for (const [paneId, pane] of panes) {
-    if (paneId === id || pane.mode !== mode) continue;
+    if (paneId === id) continue;
     for (const item of pane.items) {
       ids.add(item.id);
       icons.add(iconKey(item));
@@ -136,12 +129,8 @@ function selectForPane(
   return selected;
 }
 
-export function getRecommendedPromptsForPane(id: string, mode: Mode): DraftSuggestedPromptItem[] {
+export function getRecommendedPromptsForPane(id: string): DraftSuggestedPromptItem[] {
   const pane = panes.get(id);
-  if (pane?.mode === mode) return pane.items;
-  return selectForPane(
-    getRecommendedPromptPool(mode === "office"),
-    0,
-    ...usedByOtherPanes(id, mode),
-  );
+  if (pane) return pane.items;
+  return selectForPane(getRecommendedPromptPool(), 0, ...usedByOtherPanes(id));
 }

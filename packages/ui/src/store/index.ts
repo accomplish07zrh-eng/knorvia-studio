@@ -24,12 +24,6 @@ import { create } from "zustand";
 import type { Theme } from "../useTheme.js";
 import { applyTheme, normalizeThemePreference, resolveTheme } from "../useTheme.js";
 
-import {
-  INTERFACE_MODE_STORAGE_KEY,
-  normalizeInterfaceMode,
-  type InterfaceMode,
-} from "@/lib/interfaceMode.js";
-import { logger } from "@/logger.js";
 import { resolveInitialThemePreference } from "../useTheme.js";
 
 // v4 重构：类型与默认值下沉到 @/lib/codePreviewSettings.ts，
@@ -69,10 +63,6 @@ function loadPerformanceMode(): boolean {
 // ============================================================================
 
 export interface KnorviaState {
-  /** 展示详情偏好，不改变 Agent 权限或执行能力。 */
-  interfaceMode: InterfaceMode;
-  setInterfaceMode: (mode: InterfaceMode) => void;
-
   /** 当前主题 */
   theme: Theme;
   setTheme: (theme: Theme) => void;
@@ -112,9 +102,10 @@ export interface KnorviaState {
 // 需要广播的字段 —— 只有这些字段的变更会发送给其他窗口
 // ============================================================================
 
-const BROADCAST_FIELDS = new Set(["theme", "locale", "uiFontSizePx", "interfaceMode"]);
+// 2026-10-05 统一模式：界面模式字段已删除，不再广播（见 specs/knorvia-unified-mode-onboarding-settings.md）。
+const BROADCAST_FIELDS = new Set(["theme", "locale", "uiFontSizePx"]);
 
-type BroadcastField = "theme" | "locale" | "uiFontSizePx" | "interfaceMode";
+type BroadcastField = "theme" | "locale" | "uiFontSizePx";
 
 /** 广播频道名前缀 */
 const STATE_CHANNEL_PREFIX = "state:";
@@ -134,19 +125,7 @@ export function createKnorviaStore(broadcastService: IBroadcastService) {
   let cleanupSystemThemeListener: (() => void) | null = null;
   let syncSystemThemeListener = (_theme: Theme) => {};
 
-  const useStore = create<KnorviaState>()((set, get) => ({
-    interfaceMode: normalizeInterfaceMode(readSafeLocalStorage(INTERFACE_MODE_STORAGE_KEY)),
-    setInterfaceMode: (mode) => {
-      const interfaceMode = normalizeInterfaceMode(mode);
-      if (get().interfaceMode !== interfaceMode) {
-        logger.debug("[InterfaceMode] 切换界面模式", {
-          interfaceMode,
-          source: applyingBroadcast ? "broadcast" : "local",
-        });
-      }
-      writeSafeLocalStorage(INTERFACE_MODE_STORAGE_KEY, interfaceMode);
-      set({ interfaceMode });
-    },
+  const useStore = create<KnorviaState>()((set) => ({
     // 默认使用原白色主题，避免首次启动时 store 与其他主题入口表现不一致。
     // 仍然优先尊重 localStorage 中已保存的用户选择，不覆盖已有偏好。
     theme: resolveInitialThemePreference(readSafeLocalStorage("knorvia-theme")),
@@ -285,11 +264,6 @@ export function createKnorviaStore(broadcastService: IBroadcastService) {
         state.setTheme(msg.payload as Theme);
       } else if (field === "locale" && typeof msg.payload === "string") {
         state.setLocale(msg.payload);
-      } else if (
-        field === "interfaceMode" &&
-        (msg.payload === "office" || msg.payload === "coding")
-      ) {
-        state.setInterfaceMode(normalizeInterfaceMode(msg.payload));
       } else if (field === "uiFontSizePx" && typeof msg.payload === "number") {
         state.setUiFontSizePx(msg.payload);
       }

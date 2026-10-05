@@ -2259,6 +2259,23 @@ body {
   );
 }
 
+/* 三道笔画的独立元素形态：引导步骤栏等处直接用 data-knorvia-strokes 挂载同一母题。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-knorvia-strokes="true"] {
+  display: block;
+  width: 2.75rem;
+  height: 4px;
+  border-radius: 2px;
+  transform: skewX(-28deg);
+  background: linear-gradient(
+    90deg,
+    var(--knorvia-stroke) 0 28%,
+    transparent 28% 36%,
+    color-mix(in oklab, var(--knorvia-stroke) 55%, transparent) 36% 64%,
+    transparent 64% 72%,
+    color-mix(in oklab, var(--knorvia-stroke) 24%, transparent) 72% 100%
+  );
+}
+
 /* ④ 轻动效：统一缓动，按下时轻微回弹。 */
 :is(.theme-knorvia-light, .theme-knorvia-dark) [data-slot="button"] {
   transition:

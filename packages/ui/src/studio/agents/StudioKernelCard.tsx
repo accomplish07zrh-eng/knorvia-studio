@@ -35,16 +35,18 @@ export function StudioKernelCard({
   const t = (id: string) => intl.formatMessage({ id });
   return (
     <article
-      className="rounded-xl border border-card-border bg-card p-4"
+      className="rounded-xl border border-border bg-card px-5 py-4 max-sm:px-4"
       aria-busy={managing || reprobing}
       data-kernel-id={kernel.id}
     >
-      <div className="flex min-w-0 flex-wrap items-start gap-3">
-        <StudioKernelIcon kernelId={kernel.id} className="size-8" />
-        <div className="min-w-0 flex-1 basis-36">
+      <div className="flex min-w-0 flex-wrap items-center gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-background">
+          <StudioKernelIcon kernelId={kernel.id} className="size-5" />
+        </span>
+        <div className="min-w-0 flex-1 basis-40">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-ui-base font-medium text-foreground">{kernel.name}</h3>
-            <span className="rounded-md bg-surface px-1.5 py-0.5 text-ui-xs text-foreground-subtle">
+            <h3 className="text-ui-base font-semibold text-foreground">{kernel.name}</h3>
+            <span className="inline-flex h-5 items-center rounded-full border border-border px-2 text-ui-xs text-foreground-subtle">
               {t(studioProbeBadgeKey({ status, inspected, builtin: kernel.builtin }))}
             </span>
           </div>
@@ -53,12 +55,23 @@ export function StudioKernelCard({
             {status?.version ? " · " + status.version : ""}
           </p>
         </div>
-        {onConfigure ? (
-          <Button variant="outline" disabled={busy} onClick={onConfigure}>
-            {kernel.builtin ? null : <SlidersHorizontal />}
-            {t(kernel.builtin ? "studio.agents.models" : "studio.agents.configure")}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <Button variant="ghost" size="sm" disabled={busy || reprobing} onClick={onReprobe}>
+            <RefreshCw className={reprobing ? "animate-spin" : undefined} />
+            {t(reprobing ? "studio.agents.reprobing" : "studio.agents.reprobe")}
           </Button>
-        ) : null}
+          {onManage ? (
+            <Button variant="ghost" size="sm" disabled={busy} onClick={onManage}>
+              {t("studio.agents.managementOpen")}
+            </Button>
+          ) : null}
+          {onConfigure ? (
+            <Button variant="outline" size="sm" disabled={busy} onClick={onConfigure}>
+              {kernel.builtin ? null : <SlidersHorizontal />}
+              {t(kernel.builtin ? "studio.agents.models" : "studio.agents.configure")}
+            </Button>
+          ) : null}
+        </div>
       </div>
       <p className="mt-3 text-ui-sm leading-5 text-foreground-subtle">
         {t(
@@ -76,17 +89,6 @@ export function StudioKernelCard({
           {t("studio.agents.antigravityNote")}
         </p>
       ) : null}
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <Button variant="outline" size="sm" disabled={busy || reprobing} onClick={onReprobe}>
-          <RefreshCw className={reprobing ? "animate-spin" : undefined} />
-          {t(reprobing ? "studio.agents.reprobing" : "studio.agents.reprobe")}
-        </Button>
-        {onManage ? (
-          <Button variant="ghost" size="sm" disabled={busy} onClick={onManage}>
-            {t("studio.agents.managementOpen")}
-          </Button>
-        ) : null}
-      </div>
     </article>
   );
 }

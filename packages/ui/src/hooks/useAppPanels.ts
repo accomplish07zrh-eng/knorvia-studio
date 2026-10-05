@@ -80,7 +80,6 @@ import { shouldOpenWorkflowArtifactInBrowser } from "@/lib/workflowArtifactOpen.
 import { useWhiteboardStore } from "@/store/whiteboardStore.js";
 import { useModelTrajectoryOpenBridge } from "@/hooks/useModelTrajectoryOpenBridge.js";
 import { useServices } from "@/hooks/useServices.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { clearSelectionSideChat } from "@/lib/selectionSideChatRuntime.js";
 import { clearConversationSelectionReferenceScope } from "@/lib/conversationSelectionReference.js";
 import { subscribeTaskLifecycle } from "@/lib/taskLifecycleEvents.js";
@@ -174,7 +173,6 @@ export function useAppPanels(options: {
   const supportsEmbeddedBrowser = explicitSupportsEmbeddedBrowser ?? Boolean(isDesktop);
   const activeWorkspaceKey = workspaceIdentity?.trim() || workspaceAbsPath;
   const { agentService, sessionService } = useServices();
-  const isOfficeMode = useIsOfficeMode();
   const sidePaneMemoryKey = useMemo(
     () =>
       buildTaskSidePaneMemoryKey({
@@ -703,7 +701,6 @@ export function useAppPanels(options: {
 
   const handleToggleGit = useCallback(() => {
     commitOpenedSidePaneState((current) => {
-      if (isOfficeMode && !current?.tabs.some((tab) => tab.type === "git")) return current;
       const closingActiveGit = getActiveSidePaneTab(current)?.type === "git";
       const next = toggleGitSidePane(current);
       if (closingActiveGit) {
@@ -718,7 +715,6 @@ export function useAppPanels(options: {
       return next;
     });
   }, [
-    isOfficeMode,
     commitOpenedSidePaneState,
     revealSidePaneForCurrentOwner,
     syncSidePaneCollapsedWithTabs,
@@ -727,7 +723,6 @@ export function useAppPanels(options: {
 
   const handleOpenGit = useCallback(() => {
     commitOpenedSidePaneState((current) => {
-      if (isOfficeMode && !current?.tabs.some((tab) => tab.type === "git")) return current;
       const next = activateGitSidePane(current);
       // 文件变更查找只需要“确保 Git 面板打开”，不能复用 toggle。
       // 如果当前已经在 Git tab 上，toggle 会把它关掉，导致切到文件变更范围反而看不到内容。
@@ -737,7 +732,7 @@ export function useAppPanels(options: {
       );
       return next;
     });
-  }, [isOfficeMode, commitOpenedSidePaneState, revealSidePaneForCurrentOwner, workspaceAbsPath]);
+  }, [commitOpenedSidePaneState, revealSidePaneForCurrentOwner, workspaceAbsPath]);
 
   const handleOpenTreemapping = useCallback(
     (source?: TreemappingSidePaneTab["source"]) => {
@@ -787,7 +782,6 @@ export function useAppPanels(options: {
   }, [commitOpenedSidePaneState, revealSidePaneForCurrentOwner, workspaceAbsPath]);
 
   const handleOpenTerminalTab = useCallback(() => {
-    if (isOfficeMode) return;
     revealSidePaneForCurrentOwner();
     commitOpenedSidePaneState((current) => {
       const title = createTerminalSidePaneTitle(current, workspaceAbsPath);
@@ -802,7 +796,6 @@ export function useAppPanels(options: {
       return next;
     });
   }, [
-    isOfficeMode,
     commitOpenedSidePaneState,
     revealSidePaneForCurrentOwner,
     workspaceAbsPath,
@@ -1227,7 +1220,6 @@ export function useAppPanels(options: {
 
   const handleToggleTerminal = useCallback(() => {
     setIsTerminalOpen((open) => {
-      if (isOfficeMode && !open) return open;
       const nextOpen = !open;
       logger.info("[App] 切换底部终端面板", {
         open: nextOpen,
@@ -1235,7 +1227,7 @@ export function useAppPanels(options: {
       });
       return nextOpen;
     });
-  }, [isOfficeMode, workspaceAbsPath]);
+  }, [workspaceAbsPath]);
 
   const handleToggleSidebar = useCallback(() => {
     setIsSidebarVisible((visible) => !visible);
@@ -1506,8 +1498,7 @@ export function useAppPanels(options: {
   const handleReopenClosedSidePaneTab = useCallback(
     (tabId: string) => {
       const item = allRecentClosedSidePaneTabs.find((entry) => entry.tab.id === tabId);
-      if (!item || (isOfficeMode && (item.tab.type === "terminal" || item.tab.type === "git")))
-        return;
+      if (!item) return;
 
       // 交互说明：最近关闭列表里的 tab 被点回打开时，需要同步展开右侧面板。
       // 否则 tab 状态已经恢复，但用户看到的还是折叠态，会误以为点击没有生效。
@@ -1534,7 +1525,6 @@ export function useAppPanels(options: {
       logger.info(`[App] 重新打开最近关闭右侧面板 tab=${tabId} workspace=${workspaceAbsPath}`);
     },
     [
-      isOfficeMode,
       allRecentClosedSidePaneTabs,
       commitSidePaneState,
       revealSidePaneForCurrentOwner,
@@ -1557,12 +1547,10 @@ export function useAppPanels(options: {
 
   const recentClosedSidePaneTabs = useMemo(
     () =>
-      allRecentClosedSidePaneTabs.filter(
-        (item) =>
-          isSidePaneTabVisibleForParent(item.tab, activeTaskId) &&
-          (!isOfficeMode || (item.tab.type !== "terminal" && item.tab.type !== "git")),
+      allRecentClosedSidePaneTabs.filter((item) =>
+        isSidePaneTabVisibleForParent(item.tab, activeTaskId),
       ),
-    [activeTaskId, allRecentClosedSidePaneTabs, isOfficeMode],
+    [activeTaskId, allRecentClosedSidePaneTabs],
   );
 
   return {

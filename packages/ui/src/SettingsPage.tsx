@@ -33,8 +33,10 @@ import {
   SettingsHeaderBreadcrumb,
   type SettingsBreadcrumbItem,
 } from "@/settings/SettingsHeaderBreadcrumb.js";
-import { SETTINGS_FRAME_CONTENT_CLASSNAME } from "@/settings/SettingsPageParts.js";
+import { SETTINGS_FRAME_CONTENT_CLASSNAME, SettingsBadge } from "@/settings/SettingsPageParts.js";
 import { ShortcutSettingsSection } from "@/settings/ShortcutSettingsSection.js";
+import { useSettingsNavCompact } from "@/settings/useSettingsNavCompact.js";
+import { Input } from "@/components/ui/input.js";
 import { SubagentsSection } from "@/settings/SubagentsSection.js";
 import { UsageStatsSection } from "@/settings/UsageStatsSection.js";
 import { WorkspaceFileSearchSection } from "@/settings/WorkspaceFileSearchSection.js";
@@ -55,7 +57,7 @@ import {
   TID_SETTINGS_PAGE,
   TID_SETTINGS_SECTION_NAV,
 } from "@knorvia/shared";
-import { ArrowLeft, Rocket, type LucideIcon } from "lucide-react";
+import { ArrowLeft, Rocket, Search, type LucideIcon } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -88,7 +90,6 @@ import { AppearanceSectionContent } from "./settingsCodePreview.js";
 import {
   createSettingsPageConfig,
   GeneralSectionContent,
-  GeneralSectionHeader,
   resolveSettingsSectionForPlatform,
 } from "./settingsPageHelpers.js";
 
@@ -116,6 +117,7 @@ function SettingsSidebarButton({
   icon: Icon,
   label,
   active,
+  compact,
   children,
   className,
   ...buttonProps
@@ -123,31 +125,38 @@ function SettingsSidebarButton({
   icon: LucideIcon;
   label: string;
   active?: boolean;
+  /** 图标栏形态才显示名称提示；展开态标签已可见，不再重复弹出。 */
+  compact?: boolean;
   children?: ReactNode;
   className?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
+  const button = (
+    <button
+      {...buttonProps}
+      type={buttonProps.type ?? "button"}
+      aria-label={label}
+      className={cn(
+        "flex h-9 w-full items-center gap-2.5 rounded-full px-3 text-left transition-colors",
+        "max-lg:mx-auto max-lg:size-10 max-lg:justify-center max-lg:px-0",
+        // 纸片式选中：选中项是一张浮起的纸片（.bg-selected），未选中保持安静的文字色。
+        active
+          ? "bg-selected font-medium text-foreground"
+          : "text-foreground-subtle hover:bg-surface-hover hover:text-foreground",
+        className,
+      )}
+    >
+      <span className="flex size-4 shrink-0 items-center justify-center text-current">
+        <Icon className="size-4" />
+      </span>
+      <span className="min-w-0 flex-1 max-lg:sr-only">
+        {children ?? <span className="truncate text-ui-base">{label}</span>}
+      </span>
+    </button>
+  );
+  if (!compact) return button;
   return (
     <ControlHintTooltip title={label} side="right" align="center">
-      <button
-        {...buttonProps}
-        type={buttonProps.type ?? "button"}
-        aria-label={label}
-        className={cn(
-          "flex h-8 w-full items-center gap-2 rounded-xl px-2.5 text-left transition-colors",
-          "max-lg:mx-auto max-lg:size-10 max-lg:justify-center max-lg:px-0",
-          active
-            ? "bg-surface-hover text-foreground"
-            : "text-foreground-subtle hover:bg-surface-hover hover:text-foreground",
-          className,
-        )}
-      >
-        <span className="flex size-4 shrink-0 items-center justify-center text-current">
-          <Icon className="size-4 text-foreground" />
-        </span>
-        <span className="min-w-0 flex-1 max-lg:sr-only">
-          {children ?? <span className="truncate text-ui-base text-foreground">{label}</span>}
-        </span>
-      </button>
+      {button}
     </ControlHintTooltip>
   );
 }
@@ -210,11 +219,12 @@ export function SettingsPage({
     clearPendingSettingsPluginOrigin();
     clearPendingSettingsPluginScopeKey();
   }, []);
+  const navCompact = useSettingsNavCompact();
+  // 导航搜索词只属于本页 UI，不持久化、不广播。
+  const [navQuery, setNavQuery] = useState("");
   const [settingsBreadcrumbItems, setSettingsBreadcrumbItems] = useState<
     readonly SettingsBreadcrumbItem[]
   >([]);
-  const interfaceMode = useKnorviaStore((state) => state.interfaceMode);
-  const setInterfaceMode = useKnorviaStore((state) => state.setInterfaceMode);
   const theme = useKnorviaStore((state) => state.theme);
   const setTheme = useKnorviaStore((state) => state.setTheme);
   const codePreviewSettings = useKnorviaStore((state) => state.codePreviewSettings);
@@ -904,6 +914,21 @@ export function SettingsPage({
     },
     [setCodePreviewSettings],
   );
+  const visibleSettingsSectionGroups = useMemo(() => {
+    const keyword = navQuery.trim().toLowerCase();
+    return settingsSectionGroups
+      .map((group) => ({
+        ...group,
+        sections: group.sections.filter((section) => {
+          if (hasActivityRail && section.id === "plugin") return false;
+          if (!keyword) return true;
+          return [section.titleId, section.descriptionId].some((id) =>
+            intl.formatMessage({ id }).toLowerCase().includes(keyword),
+          );
+        }),
+      }))
+      .filter((group) => group.sections.length > 0);
+  }, [hasActivityRail, intl, navQuery, settingsSectionGroups]);
   const activeSectionMeta = settingsSections.find((section) => section.id === activeSection);
   // 灰度裁决异步到达：sections 列表可能在挂载后变化（如 computerUse 区被灰度移除）。
   // 若用户正停留在被移除的 section，回落到第一个可见区，避免整页 return null。
@@ -963,65 +988,78 @@ export function SettingsPage({
             className={cn("min-w-0", hasActivityRail && "border-r border-border/50 bg-sidebar")}
           >
             <div className="flex h-full flex-col">
-              <div className="flex h-12 shrink-0 items-center px-4 text-ui-base font-medium [app-region:drag]">
-                {hasActivityRail ? intl.formatMessage({ id: "settings.title" }) : null}
-              </div>
-              <div className="px-2 pb-3 pt-3">
+              <div className="h-12 shrink-0 [app-region:drag]" />
+              <div className="flex flex-col gap-3 px-3 pb-3">
                 {onBack ? (
-                  <ControlHintTooltip
-                    title={intl.formatMessage({
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    data-testid={TID_SETTINGS_BACK_BUTTON}
+                    aria-label={intl.formatMessage({
                       id: "workspace.backToWorkspace",
                     })}
-                    side="right"
-                    align="center"
+                    title={
+                      navCompact
+                        ? intl.formatMessage({ id: "workspace.backToWorkspace" })
+                        : undefined
+                    }
+                    className="w-fit gap-1.5 px-2.5 text-foreground-subtle hover:text-foreground max-lg:mx-auto max-lg:size-10 max-lg:justify-center max-lg:px-0"
+                    onClick={() => {
+                      runUserAction({
+                        input: {
+                          featureId: "settings.navigation",
+                          action: "back_to_workspace",
+                          trigger: "button",
+                        },
+                        operation: () => {
+                          onBack?.();
+                        },
+                        completed: { resultSource: "local_commit" },
+                        failureStage: "navigation_commit",
+                      });
+                    }}
                   >
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="lg"
-                      data-testid={TID_SETTINGS_BACK_BUTTON}
-                      aria-label={intl.formatMessage({
+                    <ArrowLeft className="size-4" />
+                    <span className="max-lg:sr-only">
+                      {intl.formatMessage({
                         id: "workspace.backToWorkspace",
                       })}
-                      className="m-1 w-[calc(100%-0.5rem)] justify-start gap-2 rounded-xl px-1.5 text-foreground-subtle hover:bg-surface-hover hover:text-foreground max-lg:m-1 max-lg:size-10 max-lg:justify-center max-lg:px-0"
-                      onClick={() => {
-                        runUserAction({
-                          input: {
-                            featureId: "settings.navigation",
-                            action: "back_to_workspace",
-                            trigger: "button",
-                          },
-                          operation: () => {
-                            onBack?.();
-                          },
-                          completed: { resultSource: "local_commit" },
-                          failureStage: "navigation_commit",
-                        });
-                      }}
-                    >
-                      <ArrowLeft className="size-4" />
-                      <span className="max-lg:sr-only">
-                        {intl.formatMessage({
-                          id: "workspace.backToWorkspace",
-                        })}
-                      </span>
-                    </Button>
-                  </ControlHintTooltip>
+                    </span>
+                  </Button>
                 ) : null}
-
-                {/* <div className={onBack ? "mt-5" : "pt-2"}>
-                    <h1 className="flex items-center gap-2 px-2.5 text-ui-lg font-medium text-foreground-subtle">
-                      {intl.formatMessage({ id: "settings.title" })}
-                    </h1>
-                  </div> */}
+                <h1 className="px-1 text-ui-lg font-semibold tracking-tight text-foreground max-lg:sr-only">
+                  {intl.formatMessage({ id: "settings.title" })}
+                </h1>
+                <div className="relative max-lg:hidden">
+                  <Search
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-foreground-subtlest"
+                  />
+                  <Input
+                    type="search"
+                    value={navQuery}
+                    onChange={(event) => setNavQuery(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape" && navQuery) {
+                        event.stopPropagation();
+                        setNavQuery("");
+                      }
+                    }}
+                    placeholder={intl.formatMessage({ id: "settings.navSearchPlaceholder" })}
+                    aria-label={intl.formatMessage({ id: "settings.navSearchPlaceholder" })}
+                    data-testid="settings-nav-search"
+                    className="h-8 bg-background pl-8 text-ui-sm"
+                  />
+                </div>
               </div>
 
               <nav
                 aria-label={intl.formatMessage({ id: "settings.navLabel" })}
-                className="flex-1 overflow-y-auto px-2 pb-3"
+                className="flex-1 overflow-y-auto px-3 pb-3"
               >
-                <div className="space-y-4">
-                  {settingsSectionGroups.map((group, groupIndex) => {
+                <div className="flex flex-col gap-5">
+                  {visibleSettingsSectionGroups.map((group, groupIndex) => {
                     const groupLabel = intl.formatMessage({
                       id: group.titleId,
                     });
@@ -1033,61 +1071,68 @@ export function SettingsPage({
                         role="group"
                         aria-labelledby={groupLabelId}
                         className={cn(
-                          "space-y-1",
+                          "flex flex-col gap-0.5",
                           groupIndex > 0 && "max-lg:border-t max-lg:border-border max-lg:pt-3",
                         )}
                       >
                         <div
                           id={groupLabelId}
-                          className="px-2.5 pb-1 text-ui-sm font-medium text-foreground-subtlest max-lg:sr-only"
+                          className="px-3 pb-1 text-ui-xs font-medium tracking-wide text-foreground-subtlest max-lg:sr-only"
                         >
                           {groupLabel}
                         </div>
-                        {group.sections
-                          .filter(({ id }) => !hasActivityRail || id !== "plugin")
-                          .map(({ id, icon: Icon, titleId }) => {
-                            const isActive = activeSection === id;
-                            const label = intl.formatMessage({ id: titleId });
+                        {group.sections.map(({ id, icon: Icon, titleId }) => {
+                          const isActive = activeSection === id;
+                          const label = intl.formatMessage({ id: titleId });
 
-                            return (
-                              <SettingsSidebarButton
-                                key={id}
-                                icon={Icon}
-                                label={label}
-                                active={isActive}
-                                aria-current={isActive ? "page" : undefined}
-                                data-testid={testId(TID_SETTINGS_SECTION_NAV, id)}
-                                onClick={() => {
-                                  runUserAction({
-                                    input: {
-                                      featureId: "settings.navigation",
-                                      action: "open_section",
-                                      trigger: "button",
-                                    },
-                                    operation: () => {
-                                      setSettingsSectionNavigationVersion((version) => version + 1);
-                                      setActiveSettingsSection(id);
-                                    },
-                                    completed: { resultSource: "local_commit", sectionId: id },
-                                    failureStage: "navigation_commit",
-                                  });
-                                }}
-                              >
-                                <span className="truncate text-ui-base text-foreground">
-                                  {label}
-                                </span>
-                              </SettingsSidebarButton>
-                            );
-                          })}
+                          return (
+                            <SettingsSidebarButton
+                              key={id}
+                              icon={Icon}
+                              label={label}
+                              active={isActive}
+                              compact={navCompact}
+                              aria-current={isActive ? "page" : undefined}
+                              data-testid={testId(TID_SETTINGS_SECTION_NAV, id)}
+                              onClick={() => {
+                                runUserAction({
+                                  input: {
+                                    featureId: "settings.navigation",
+                                    action: "open_section",
+                                    trigger: "button",
+                                  },
+                                  operation: () => {
+                                    setSettingsSectionNavigationVersion((version) => version + 1);
+                                    setActiveSettingsSection(id);
+                                  },
+                                  completed: { resultSource: "local_commit", sectionId: id },
+                                  failureStage: "navigation_commit",
+                                });
+                              }}
+                            />
+                          );
+                        })}
                       </div>
                     );
                   })}
+                  {visibleSettingsSectionGroups.length === 0 ? (
+                    <p
+                      className="px-3 py-6 text-center text-ui-sm text-foreground-subtle max-lg:sr-only"
+                      data-testid="settings-nav-search-empty"
+                    >
+                      {intl.formatMessage({ id: "settings.navSearchEmpty" })}
+                    </p>
+                  ) : null}
                 </div>
+              </nav>
 
-                <SettingsSidebarButton
-                  icon={Rocket}
-                  label={intl.formatMessage({ id: "settings.onboarding" })}
-                  className="mt-4 border border-dashed border-border hover:border-border-hover"
+              <div className="shrink-0 px-3 pb-3">
+                <button
+                  type="button"
+                  aria-label={intl.formatMessage({ id: "settings.onboarding" })}
+                  title={navCompact ? intl.formatMessage({ id: "settings.onboarding" }) : undefined}
+                  data-testid="settings-open-onboarding"
+                  className="group flex w-full items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 text-left transition-colors hover:border-border-hover hover:bg-surface-hover max-lg:mx-auto max-lg:size-10 max-lg:justify-center max-lg:rounded-full max-lg:p-0"
                   onClick={() => {
                     runUserAction({
                       input: {
@@ -1101,11 +1146,19 @@ export function SettingsPage({
                     });
                   }}
                 >
-                  <span className="text-ui-base text-foreground">
-                    {intl.formatMessage({ id: "settings.onboarding" })}
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-surface text-foreground max-lg:bg-transparent">
+                    <Rocket className="size-3.5" />
                   </span>
-                </SettingsSidebarButton>
-              </nav>
+                  <span className="min-w-0 flex-1 max-lg:sr-only">
+                    <span className="block truncate text-ui-sm font-medium text-foreground">
+                      {intl.formatMessage({ id: "settings.onboarding" })}
+                    </span>
+                    <span className="block truncate text-ui-xs text-foreground-subtle">
+                      {intl.formatMessage({ id: "settings.onboardingNavDescription" })}
+                    </span>
+                  </span>
+                </button>
+              </div>
 
               {!hasActivityRail ? (
                 <div className="max-lg:hidden">
@@ -1200,38 +1253,37 @@ export function SettingsPage({
                     <div
                       className={cn(
                         SETTINGS_FRAME_CONTENT_CLASSNAME,
-                        "flex flex-col gap-4",
+                        "flex flex-col gap-6",
                         isMacDesktop && "pt-0",
                         // isWindowsDesktop && "pt-12",
                       )}
                     >
-                      <div>
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                          <div className="flex min-w-0 flex-wrap items-center gap-3">
-                            {showActiveSectionTitle ? (
-                              <h2 className="text-ui-lg font-medium text-foreground">
-                                {activeSectionLabel}
-                              </h2>
-                            ) : null}
-                            {!hasVisibleSettingsBreadcrumb && activeSectionMeta.titleBadgeId ? (
-                              <span className="inline-flex h-6 items-center rounded-full border border-sky-500 px-2 text-ui-xs font-semibold tracking-normal text-sky-500 dark:border-sky-400 dark:text-sky-400">
+                      {showActiveSectionTitle ? (
+                        <header
+                          data-settings-page-header="true"
+                          className="flex flex-col gap-1.5 pt-2"
+                        >
+                          <div className="flex min-w-0 flex-wrap items-center gap-2.5">
+                            <h2 className="text-ui-xl font-semibold tracking-tight text-foreground">
+                              {activeSectionLabel}
+                            </h2>
+                            {activeSectionMeta.titleBadgeId ? (
+                              <SettingsBadge>
                                 {intl.formatMessage({
                                   id: activeSectionMeta.titleBadgeId,
                                 })}
-                              </span>
+                              </SettingsBadge>
                             ) : null}
                           </div>
-                        </div>
-                        {activeSection === "general" ? (
-                          <GeneralSectionHeader localePreference={localePreference} />
-                        ) : null}
-                      </div>
-                      <div className="space-y-8">
+                          <p className="text-ui-base text-foreground-subtle">
+                            {intl.formatMessage({ id: activeSectionMeta.descriptionId })}
+                          </p>
+                        </header>
+                      ) : null}
+                      <div className="flex flex-col gap-8">
                         {activeSection === "general" ? (
                           <GeneralSectionContent
                             localePreference={localePreference}
-                            interfaceMode={interfaceMode}
-                            setInterfaceMode={setInterfaceMode}
                             isDesktop={isDesktop}
                             isWindowsDesktop={isWindowsDesktop}
                             platform={platform}
@@ -1339,18 +1391,6 @@ export function SettingsPage({
                             }
                             onAskUserQuestionAutoResolutionEnabledChange={
                               handleAskUserQuestionAutoResolutionEnabledChange
-                            }
-                            onOpenOnboardingDialog={() =>
-                              runUserAction({
-                                input: {
-                                  featureId: "settings.navigation",
-                                  action: "open_onboarding",
-                                  trigger: "button",
-                                },
-                                operation: requestOnboardingDialog,
-                                completed: { resultSource: "local_commit" },
-                                failureStage: "dialog_open",
-                              })
                             }
                           />
                         ) : activeSection === "appearance" ? (

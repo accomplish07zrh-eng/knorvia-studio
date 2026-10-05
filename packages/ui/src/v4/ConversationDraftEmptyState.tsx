@@ -7,7 +7,6 @@
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/components/lib/utils.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { logger } from "@/logger.js";
 
 const GREETING_BOUNDARY_HOURS = [5, 9, 12, 14, 18, 23] as const;
@@ -78,13 +77,12 @@ function resolveGreetingFontSizePx({
 
 export function ConversationDraftEmptyState({ className }: { className?: string }) {
   const { intl } = useKnorviaIntl();
-  const isOfficeMode = useIsOfficeMode();
   const [greetingDate, setGreetingDate] = useState(() => new Date());
   const [greetingFontSizePx, setGreetingFontSizePx] = useState(GREETING_MAX_FONT_SIZE_PX);
   const greetingContainerRef = useRef<HTMLParagraphElement | null>(null);
   const greetingMeasurementRef = useRef<HTMLSpanElement | null>(null);
   const greeting = intl.formatMessage({
-    id: isOfficeMode ? "chat.empty.greeting.office" : getChatEmptyGreetingMessageId(greetingDate),
+    id: getChatEmptyGreetingMessageId(greetingDate),
   });
 
   useEffect(() => {

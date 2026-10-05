@@ -1,5 +1,4 @@
 /* oxlint-disable eslint(max-lines) -- settings helper 聚合多个设置分组；终端、网络与自动归档多侧能力暂时超过行数限制。 */
-import { Button } from "@/components/ui/button.js";
 import {
   Select,
   SelectContent,
@@ -10,7 +9,6 @@ import {
 import { Switch } from "@/components/ui/switch.js";
 import { useOptionalServices } from "@/hooks/useServices.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
-import { normalizeInterfaceMode, type InterfaceMode } from "@/lib/interfaceMode.js";
 import { AsyncSettingTextRow } from "@/settings/AsyncSettingTextRow.js";
 import { DataStorageSettings } from "@/settings/DataStorageSettings.js";
 import { ReleaseUpdateSettings } from "@/settings/ReleaseUpdateSettings.js";
@@ -21,7 +19,7 @@ import {
   resolveSettingsSectionForPlatform,
   type SettingsSectionId,
 } from "@/settings/settingsPageConfig.js";
-import { SettingsBadge, SettingsGroupCard, SettingsRow } from "@/settings/SettingsPageParts.js";
+import { SettingsGroupCard, SettingsRow } from "@/settings/SettingsPageParts.js";
 import type {
   IPlatformService,
   IntegratedTerminalShellOption,
@@ -49,8 +47,6 @@ const KNORVIA_INTERACTION_BEHAVIOR_OPTIONS: readonly KnorviaInteractionBehavior[
 
 export function GeneralSectionContent({
   localePreference,
-  interfaceMode = "coding",
-  setInterfaceMode = () => {},
   notificationEnabled,
   notificationSoundEnabled,
   closeToTrayOnWindows,
@@ -103,11 +99,8 @@ export function GeneralSectionContent({
   onKnorviaInteractionBehaviorChange,
   onAskUserQuestionAutoResolutionEnabledChange = async () => {},
   onModelIoFullRetentionEnabledChange = async () => {},
-  onOpenOnboardingDialog,
 }: {
   localePreference: LocalePreference;
-  interfaceMode?: InterfaceMode;
-  setInterfaceMode?: (mode: InterfaceMode) => void;
   notificationEnabled: boolean;
   notificationSoundEnabled: boolean;
   closeToTrayOnWindows: boolean;
@@ -162,7 +155,6 @@ export function GeneralSectionContent({
   onKnorviaInteractionBehaviorChange: (behavior: KnorviaInteractionBehavior) => Promise<void>;
   onAskUserQuestionAutoResolutionEnabledChange?: (enabled: boolean) => Promise<void>;
   onModelIoFullRetentionEnabledChange?: (enabled: boolean) => Promise<void>;
-  onOpenOnboardingDialog: () => void;
 }) {
   const { intl } = useKnorviaIntl();
   const hasServices = Boolean(useOptionalServices());
@@ -213,8 +205,8 @@ export function GeneralSectionContent({
   );
 
   return (
-    <div className="space-y-4">
-      <SettingsGroupCard>
+    <div className="flex flex-col gap-8">
+      <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.language" })}>
         <SettingsRow
           label={intl.formatMessage({ id: "settings.locale" })}
           description={intl.formatMessage({ id: "settings.localeDescription" })}
@@ -253,40 +245,10 @@ export function GeneralSectionContent({
             </Select>
           }
         />
-      </SettingsGroupCard>
-
-      <SettingsGroupCard>
-        <SettingsRow
-          controlLayout="wide"
-          label={intl.formatMessage({ id: "settings.interfaceMode" })}
-          description={intl.formatMessage({ id: "settings.interfaceMode.description" })}
-          control={
-            <Select
-              value={interfaceMode}
-              onValueChange={(value) => setInterfaceMode(normalizeInterfaceMode(value))}
-            >
-              <SelectTrigger
-                size="lg"
-                className="w-full min-w-0 sm:w-64"
-                aria-label={intl.formatMessage({ id: "settings.interfaceMode" })}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="coding">
-                  {intl.formatMessage({ id: "settings.interfaceMode.coding" })}
-                </SelectItem>
-                <SelectItem value="office">
-                  {intl.formatMessage({ id: "settings.interfaceMode.office" })}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          }
-        />
         {hasServices ? <ProactiveSuggestionsSetting /> : null}
       </SettingsGroupCard>
 
-      <SettingsGroupCard>
+      <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.terminal" })}>
         <SettingsRow
           label={intl.formatMessage({ id: "settings.terminalProfile" })}
           description={intl.formatMessage({ id: "settings.terminalProfileDescription" })}
@@ -359,7 +321,7 @@ export function GeneralSectionContent({
         />
       </SettingsGroupCard>
 
-      <SettingsGroupCard>
+      <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.network" })}>
         <AsyncSettingTextRow
           fieldId="httpProxy"
           label={intl.formatMessage({ id: "settings.httpProxy" })}
@@ -389,7 +351,7 @@ export function GeneralSectionContent({
         />
       </SettingsGroupCard>
 
-      <SettingsGroupCard>
+      <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.system" })}>
         {isDesktop ? (
           <>
             <SettingsRow
@@ -472,7 +434,7 @@ export function GeneralSectionContent({
         ) : null}
       </SettingsGroupCard>
 
-      <SettingsGroupCard>
+      <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.conversation" })}>
         <SettingsRow
           label={intl.formatMessage({ id: "settings.knorviaInteractionBehavior" })}
           description={intl.formatMessage({
@@ -612,7 +574,7 @@ export function GeneralSectionContent({
         />
       </SettingsGroupCard>
 
-      <SettingsGroupCard>
+      <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.archive" })}>
         <SettingsRow
           label={intl.formatMessage({ id: "settings.taskAutoArchive" })}
           description={intl.formatMessage({
@@ -665,32 +627,6 @@ export function GeneralSectionContent({
         onDataBaseDirChange={onDataBaseDirChange}
         onSelectDataBaseDir={onSelectDataBaseDir}
       />
-
-      <SettingsGroupCard>
-        <SettingsRow
-          label={intl.formatMessage({ id: "settings.onboarding" })}
-          description={intl.formatMessage({
-            id: "settings.onboardingDescription",
-          })}
-          control={
-            <Button type="button" size="lg" variant="outline" onClick={onOpenOnboardingDialog}>
-              {intl.formatMessage({ id: "settings.onboardingOpen" })}
-            </Button>
-          }
-        />
-      </SettingsGroupCard>
-    </div>
-  );
-}
-
-export function GeneralSectionHeader({ localePreference }: { localePreference: LocalePreference }) {
-  const { intl } = useKnorviaIntl();
-
-  return (
-    <div className="mt-4 flex flex-wrap gap-2">
-      <SettingsBadge>
-        {intl.formatMessage({ id: `settings.locale.${localePreference}` })}
-      </SettingsBadge>
     </div>
   );
 }

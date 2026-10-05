@@ -28,6 +28,8 @@ import { ShortcutBindingRow, type RecordingState } from "./ShortcutBindingRow.js
 import { ShortcutSearchBar } from "./ShortcutSearchBar.js";
 import { useShortcutKeySearch } from "./useShortcutKeySearch.js";
 import { useShortcutRecording } from "./useShortcutRecording.js";
+import { groupShortcutCommands } from "./shortcutGroups.js";
+import { SettingsGroupHeading } from "./SettingsPageParts.js";
 
 /**
  * 快捷键设置分区：命令表只读展示 + 键盘录入 + 冲突处理。
@@ -59,7 +61,7 @@ export function ShortcutSettingsSection({ isDesktop = false }: { isDesktop?: boo
     const keyBinding = keySearch.binding;
     return SHORTCUT_COMMANDS.filter((entry) => {
       // 这些快捷键保留注册和冲突检测，但不在用户可见列表中展示。
-      if (entry.id === "openOnboarding" || entry.id === "toggleInterfaceMode") return false;
+      if (entry.id === "openOnboarding") return false;
       const matchesText =
         !keyword ||
         entry.id.toLowerCase().includes(keyword) ||
@@ -210,9 +212,10 @@ export function ShortcutSettingsSection({ isDesktop = false }: { isDesktop?: boo
   });
 
   const recordingCommandId = recording?.commandId ?? null;
+  const visibleGroups = useMemo(() => groupShortcutCommands(visibleCommands), [visibleCommands]);
 
   return (
-    <div className="space-y-4" data-testid="settings-shortcuts-section">
+    <div className="flex flex-col gap-8" data-testid="settings-shortcuts-section">
       <ShortcutSearchBar
         query={query}
         onQueryChange={setQuery}
@@ -232,56 +235,61 @@ export function ShortcutSettingsSection({ isDesktop = false }: { isDesktop?: boo
         }
       />
 
-      <div className="overflow-hidden rounded-xl border border-border">
-        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_80px_72px] bg-surface px-4 py-3 text-ui-sm text-foreground-subtle">
-          <span>{intl.formatMessage({ id: "settings.shortcuts.columnHeaderCommand" })}</span>
-          <span>{intl.formatMessage({ id: "settings.shortcuts.columnHeaderBinding" })}</span>
-          <span>{intl.formatMessage({ id: "settings.shortcuts.columnHeaderScope" })}</span>
-          <span>{intl.formatMessage({ id: "settings.shortcuts.columnHeaderActions" })}</span>
-        </div>
-        {visibleCommands.map((entry) => (
-          <ShortcutBindingRow
-            key={entry.id}
-            entry={entry}
-            commandLabel={commandLabel(entry.id)}
-            bindings={effective[entry.id] ?? []}
-            isOverridden={overrides?.[entry.id] !== undefined}
-            isRecording={recordingCommandId === entry.id}
-            recording={recording}
-            menuChannelUnavailable={entry.channel === "menu" && !isDesktop}
-            onRecord={(bindingIndex) => {
-              // 行内录制与按键搜索武装态互斥：两套 window capture 监听并存会互相吞键
-              keySearch.disarm();
-              setRecording({
-                commandId: entry.id,
-                mode: "replace",
-                bindingIndex,
-                preview: null,
-                error: null,
-                conflictBinding: null,
-              });
-            }}
-            onSteal={(binding) => {
-              stealBinding(entry.id, binding);
-              setRecording(null);
-            }}
-            onClearAll={() => clearAllBindings(entry.id)}
+      {visibleGroups.map((group) => (
+        <section
+          key={group.id}
+          className="flex flex-col gap-2.5"
+          data-testid={`settings-shortcut-group-${group.id}`}
+        >
+          <SettingsGroupHeading
+            title={intl.formatMessage({ id: `settings.shortcuts.group.${group.id}` })}
           />
-        ))}
-        {visibleCommands.length === 0 ? (
-          <div
-            className="border-t border-border px-4 py-8 text-center text-ui-sm text-foreground-subtle"
-            data-testid="settings-shortcut-search-empty"
-          >
-            {keySearch.binding !== null
-              ? intl.formatMessage(
-                  { id: "settings.shortcuts.keySearchEmpty" },
-                  { keys: formatShortcutBindingLabel(keySearch.binding) },
-                )
-              : intl.formatMessage({ id: "settings.shortcuts.searchEmpty" })}
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
+            {group.commands.map((entry) => (
+              <ShortcutBindingRow
+                key={entry.id}
+                entry={entry}
+                commandLabel={commandLabel(entry.id)}
+                bindings={effective[entry.id] ?? []}
+                isOverridden={overrides?.[entry.id] !== undefined}
+                isRecording={recordingCommandId === entry.id}
+                recording={recording}
+                menuChannelUnavailable={entry.channel === "menu" && !isDesktop}
+                onRecord={(bindingIndex) => {
+                  // 行内录制与按键搜索武装态互斥：两套 window capture 监听并存会互相吞键
+                  keySearch.disarm();
+                  setRecording({
+                    commandId: entry.id,
+                    mode: "replace",
+                    bindingIndex,
+                    preview: null,
+                    error: null,
+                    conflictBinding: null,
+                  });
+                }}
+                onSteal={(binding) => {
+                  stealBinding(entry.id, binding);
+                  setRecording(null);
+                }}
+                onClearAll={() => clearAllBindings(entry.id)}
+              />
+            ))}
           </div>
-        ) : null}
-      </div>
+        </section>
+      ))}
+      {visibleCommands.length === 0 ? (
+        <div
+          className="rounded-xl border border-dashed border-border px-4 py-10 text-center text-ui-sm text-foreground-subtle"
+          data-testid="settings-shortcut-search-empty"
+        >
+          {keySearch.binding !== null
+            ? intl.formatMessage(
+                { id: "settings.shortcuts.keySearchEmpty" },
+                { keys: formatShortcutBindingLabel(keySearch.binding) },
+              )
+            : intl.formatMessage({ id: "settings.shortcuts.searchEmpty" })}
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -10,7 +10,6 @@ import {
   type WorkflowRunSettingsChange,
 } from "@/components/workflow-timeline/workflowRunSettings.js";
 import { useDynamicWorkflowAvailability } from "@/hooks/useDynamicWorkflowAvailability.js";
-import { useIsOfficeMode } from "@/hooks/useInterfaceMode.js";
 import { useOptionalPlatform } from "@/hooks/usePlatform.js";
 import { useServices } from "@/hooks/useServices.js";
 import { useSettings } from "@/hooks/useSettingService.js";
@@ -3271,11 +3270,9 @@ export function SessionPane({
     setSelectionSideChatBlocked(sessionId, Boolean(blockingInteractionId));
     return () => setSelectionSideChatBlocked(sessionId, false);
   }, [blockingInteractionId, selectionSideChat, sessionId]);
-  const isOfficeMode = useIsOfficeMode();
   const statusPanelModel = useMemo(
     () =>
       buildConversationStatusPanelModel({
-        isOfficeMode,
         workspacePath,
         gitSummary,
         gitDirtyFileCount,
@@ -3288,7 +3285,6 @@ export function SessionPane({
         workflowRuns: snapshot?.workflowRuns?.runs ?? [],
       }),
     [
-      isOfficeMode,
       gitDirtyFileCount,
       gitSummary,
       gitWorktreeChangeSummary,
@@ -3575,10 +3571,6 @@ export function SessionPane({
         />
       ) : null}
       {composerNode}
-      {/* 办公模式显示主动任务推荐；编程模式保留原有小型场景入口。 */}
-      {isDraft && (!isOfficeMode || sharedSettings?.proactiveSuggestionsEnabled === true)
-        ? null
-        : null}
     </>
   );
   // 进入/退出分享时 chat dock 与分享 dock 高度不同；共享同一个 grid 单元做上下位移淡入淡出，

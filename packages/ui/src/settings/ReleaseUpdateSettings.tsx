@@ -85,7 +85,7 @@ export function ReleaseUpdateSettings() {
   };
 
   return (
-    <SettingsGroupCard>
+    <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.updates" })}>
       <SettingsRow
         label={format("settings.releaseUpdate.title")}
         description={format("settings.releaseUpdate.description")}

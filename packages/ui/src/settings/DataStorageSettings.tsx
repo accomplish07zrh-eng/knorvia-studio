@@ -57,7 +57,7 @@ export function DataStorageSettings({
         ? "当前运行配置已固定此数据目录，无法在这里迁移。"
         : "The current launch configuration fixes this data location. It cannot be moved here.";
   return (
-    <SettingsGroupCard>
+    <SettingsGroupCard title={intl.formatMessage({ id: "settings.general.group.data" })}>
       <div className="min-w-0 space-y-2 px-4 py-3" data-testid="settings-actual-data-location">
         <h3 className="text-ui-base font-medium">
           {intl.formatMessage({ id: "settings.dataBaseDir" })}
