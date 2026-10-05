@@ -31,13 +31,6 @@ export const THEME_MODES: Array<{
   { mode: "knorvia-light", icon: Sun },
 ];
 
-type SettingsSectionGroupId =
-  | "basics"
-  | "agentsModels"
-  | "agentCapabilities"
-  | "tools"
-  | "dataAndStats";
-
 interface SettingsSectionDefinition {
   id: SettingsSectionId;
   icon: typeof Settings;
@@ -46,62 +39,42 @@ interface SettingsSectionDefinition {
   descriptionId: string;
   contentTitleId?: string;
   titleBadgeId?: string;
-  groupId: SettingsSectionGroupId;
 }
 
 /**
- * 2026-10-05 设置布局重做：导航按「通用 / Agent 与模型 / 扩展 / 工具与权限 / 数据」归类，
- * 分区 ID 与跳转意图不变（specs/knorvia-unified-mode-onboarding-settings.md §3）。
+ * 2026-10-05 设置布局重做第二轮：导航改为不分组的单列表（用户要求取消「通用 / Agent 与模型 /
+ * 扩展 / 工具与权限 / 数据」等分隔），顺序即下方数组顺序；分区 ID 与跳转意图不变。
  */
-const BASE_SETTINGS_SECTION_GROUPS: Array<{
-  id: SettingsSectionGroupId;
-  titleId: string;
-}> = [
-  { id: "basics", titleId: "settings.sidebar.group.basics" },
-  { id: "agentsModels", titleId: "settings.sidebar.group.agentsModels" },
-  { id: "agentCapabilities", titleId: "settings.sidebar.group.agentCapabilities" },
-  { id: "tools", titleId: "settings.sidebar.group.tools" },
-  { id: "dataAndStats", titleId: "settings.sidebar.group.dataAndStats" },
-];
-
 function section(
   id: SettingsSectionId,
   icon: typeof Settings,
   titleId: string,
-  groupId: SettingsSectionGroupId,
   extra: Pick<SettingsSectionDefinition, "contentTitleId" | "titleBadgeId"> = {},
 ): SettingsSectionDefinition {
-  return {
-    id,
-    icon,
-    titleId,
-    descriptionId: `settings.sectionDescription.${id}`,
-    groupId,
-    ...extra,
-  };
+  return { id, icon, titleId, descriptionId: `settings.sectionDescription.${id}`, ...extra };
 }
 
 const BASE_SETTINGS_SECTIONS: SettingsSectionDefinition[] = [
-  section("general", Settings2, "settings.systemTitle", "basics"),
-  section("appearance", Palette, "settings.appearanceTitle", "basics"),
-  section("shortcuts", Keyboard, "settings.shortcuts.title", "basics"),
-  section("agents", Bot, "studio.agents", "agentsModels"),
-  section("modelProvider", Package, "settings.modelProviderTitle", "agentsModels"),
-  section("subagents", Bot, "settings.subagents.title", "agentsModels"),
-  section("memory", Brain, "settings.memory", "agentsModels"),
-  section("plugin", Blocks, "settings.plugins.title", "agentCapabilities"),
-  section("mcp", Cable, "settings.mcpTitle", "agentCapabilities"),
-  section("skill", WandSparkles, "settings.skills.title", "agentCapabilities"),
-  section("commands", Terminal, "settings.commands.title", "agentCapabilities"),
-  section("hooks", Anchor, "settings.hooks.title", "agentCapabilities"),
-  section("automations", AlarmClock, "settings.automations.title", "agentCapabilities", {
+  section("general", Settings2, "settings.systemTitle"),
+  section("appearance", Palette, "settings.appearanceTitle"),
+  section("shortcuts", Keyboard, "settings.shortcuts.title"),
+  section("agents", Bot, "studio.agents"),
+  section("modelProvider", Package, "settings.modelProviderTitle"),
+  section("subagents", Bot, "settings.subagents.title"),
+  section("memory", Brain, "settings.memory"),
+  section("plugin", Blocks, "settings.plugins.title"),
+  section("mcp", Cable, "settings.mcpTitle"),
+  section("skill", WandSparkles, "settings.skills.title"),
+  section("commands", Terminal, "settings.commands.title"),
+  section("hooks", Anchor, "settings.hooks.title"),
+  section("automations", AlarmClock, "settings.automations.title", {
     titleBadgeId: "settings.automations.betaBadge",
   }),
   // 浏览器与电脑控制都是给 Agent 用的本机操控入口，与工作区搜索范围一起归入「工具与权限」。
-  section("browser", Globe2, "settings.browser.title", "tools"),
-  section("computerUse", Monitor, "settings.computerUse.title", "tools"),
-  section("workspaceFileSearch", FileSearch, "settings.workspaceFileSearch.title", "tools"),
-  section("usage", BarChart3, "settings.usageTitle", "dataAndStats"),
+  section("browser", Globe2, "settings.browser.title"),
+  section("computerUse", Monitor, "settings.computerUse.title"),
+  section("workspaceFileSearch", FileSearch, "settings.workspaceFileSearch.title"),
+  section("usage", BarChart3, "settings.usageTitle"),
 ];
 
 // 兼容既有只读消费者：默认配置代表不带桌面平台能力的 Web 视图；
@@ -126,12 +99,7 @@ export function createSettingsPageConfig({
     if (section.id === "computerUse" && !showComputerUse) return false;
     return isSettingsSectionEnabled(section.id);
   });
-  const settingsSectionGroups = BASE_SETTINGS_SECTION_GROUPS.map((group) => ({
-    ...group,
-    sections: settingsSections.filter((section) => section.groupId === group.id),
-  })).filter((group) => group.sections.length > 0);
-
-  return { settingsSectionGroups, settingsSections };
+  return { settingsSections };
 }
 
 export function resolveSettingsSectionForPlatform(

@@ -799,8 +799,8 @@ export function SkillsSection({
           })}
         />
       ) : (
-        <div className="space-y-6">
-          <section className={hideInstalledGroup ? "hidden" : "space-y-4"}>
+        <div className="space-y-8">
+          <section className={hideInstalledGroup ? "hidden" : "space-y-3"}>
             <div data-skills-plugin-direct-actions="true">
               <SettingsResourceGroupHeader
                 actions={skillHeaderActions}
@@ -848,7 +848,7 @@ export function SkillsSection({
           {skillSourceGroups
             .filter((group) => group.id.startsWith("plugin:"))
             .map((group) => (
-              <section key={group.id} className="space-y-4">
+              <section key={group.id} className="space-y-3">
                 <SettingsResourceGroupHeader
                   count={group.skills.length}
                   title={resolvePluginDisplayName(

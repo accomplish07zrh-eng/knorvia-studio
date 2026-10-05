@@ -28,9 +28,11 @@ function Companion({ mode }: { mode: "animated" | "still" }) {
 export function KnorviaCompanion() {
   const mode = useMascotPreference((state) => state.mode);
   return mode === "hidden" ? null : (
+    // 修复依据：伴生形象原先占据会话区下方一整行（h-20），把单聊、外部内核、群聊等所有页面的
+    // 输入框整体顶高约 80px。改为悬浮在会话区右下角，不参与布局高度，各内核输入框统一贴近底部。
     <div
       data-testid="knorvia-companion-dock"
-      className="pointer-events-none relative flex h-20 shrink-0 items-end justify-end px-4 pb-1"
+      className="pointer-events-none absolute right-0 bottom-0 z-30 flex items-end justify-end px-4 pb-2"
     >
       <Companion mode={mode} />
     </div>

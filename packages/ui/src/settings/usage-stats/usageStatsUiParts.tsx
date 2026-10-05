@@ -89,9 +89,12 @@ export function resolveModelLabel(
 
 export function UsageEmptyState({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-dashed border-border px-4 py-10 text-center">
-      <div className="text-ui-base font-medium text-foreground">{title}</div>
-      <div className="mt-2 text-ui-base text-foreground-subtle">{description}</div>
+    <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card px-6 py-10 text-center">
+      <span aria-hidden="true" data-knorvia-strokes="true" />
+      <div className="max-w-sm space-y-1.5">
+        <div className="text-ui-base font-semibold text-foreground">{title}</div>
+        <div className="text-ui-sm leading-5 text-foreground-subtle">{description}</div>
+      </div>
     </div>
   );
 }

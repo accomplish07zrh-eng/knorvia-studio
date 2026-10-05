@@ -1458,11 +1458,11 @@ export function McpSettingsSection({
         />
       ) : null}
       <div
-        className={!mcpProjectionReady || hasEmptySearchResult ? "hidden" : "space-y-6"}
+        className={!mcpProjectionReady || hasEmptySearchResult ? "hidden" : "space-y-8"}
         data-mcp-list-layout="grouped"
       >
         <section
-          className={hideInstalledGroup ? "hidden" : "space-y-4"}
+          className={hideInstalledGroup ? "hidden" : "space-y-3"}
           data-mcp-plugin-group="installed"
         >
           <div data-mcp-plugin-installed-actions="true">
@@ -1536,7 +1536,7 @@ export function McpSettingsSection({
         {pluginMcpGroups.map((group) => (
           <section
             key={group.pluginId}
-            className="space-y-4"
+            className="space-y-3"
             data-mcp-plugin-group={group.pluginId}
           >
             <SettingsResourceGroupHeader

@@ -1,5 +1,5 @@
 import { RefreshCcw } from "lucide-react";
-import { Fragment, lazy, useState } from "react";
+import { lazy, useState } from "react";
 import { APP_USAGE_RANGES } from "@knorvia/shared";
 import type { AppUsageRange, AppUsageSnapshot } from "@knorvia/shared";
 import { Button } from "@/components/ui/button.js";
@@ -42,7 +42,7 @@ export function AppUsagePanel() {
       <div className="space-y-5">
         <AppUsageLifetimeSummaryStrip snapshot={lifetimeSnapshot} />
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="text-ui-base font-medium text-foreground">
+          <div className="px-1 text-ui-sm font-semibold text-foreground">
             {intl.formatMessage({ id: "settings.usage.appUsageRangeTitle" })}
           </div>
           <AppUsageRangeTabs range={range} onRangeChange={setRange} />
@@ -63,7 +63,7 @@ export function AppUsagePanel() {
       <div className="space-y-5">
         <AppUsageLifetimeSummaryStrip snapshot={lifetimeSnapshot} />
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="text-ui-base font-medium text-foreground">
+          <div className="px-1 text-ui-sm font-semibold text-foreground">
             {intl.formatMessage({ id: "settings.usage.appUsageRangeTitle" })}
           </div>
           <AppUsageRangeTabs range={range} onRangeChange={setRange} />
@@ -86,7 +86,7 @@ export function AppUsagePanel() {
         <UsageHeatmap locale={locale} intl={intl} weeks={lifetimeSnapshot.heatmap.weeks} />
       ) : null}
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="text-ui-base font-medium text-foreground">
+        <div className="px-1 text-ui-sm font-semibold text-foreground">
           {intl.formatMessage({ id: "settings.usage.appUsageRangeTitle" })}
         </div>
         <AppUsageRangeTabs range={range} onRangeChange={setRange} />
@@ -158,17 +158,18 @@ function AppUsageLifetimeSummaryStrip({ snapshot }: { snapshot: AppUsageSnapshot
   ];
 
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl bg-surface sm:flex-row sm:items-center">
-      {items.map((item, index) => (
-        <Fragment key={item.label}>
-          {index > 0 ? (
-            <div aria-hidden="true" className="hidden h-7 w-px bg-border sm:block" />
-          ) : null}
-          <div className="min-w-0 flex-1 px-4 py-3 text-center">
-            <div className="truncate text-ui-lg font-medium text-foreground">{item.value}</div>
-            <div className="mt-1 truncate text-ui-base text-foreground-subtle">{item.label}</div>
+    // 统计以独立纸面小卡排布：标签在上、数值在下，窄屏两列、宽屏五列。
+    <section className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+      {items.map((item) => (
+        <div
+          key={item.label}
+          className="min-w-0 rounded-xl border border-border bg-card px-4 py-3.5"
+        >
+          <div className="truncate text-ui-sm text-foreground-subtle">{item.label}</div>
+          <div className="mt-1.5 truncate text-ui-xl font-semibold tabular-nums tracking-tight text-foreground">
+            {item.value}
           </div>
-        </Fragment>
+        </div>
       ))}
     </section>
   );

@@ -70,29 +70,56 @@ test("shortcut groups list every visible command exactly once in a stable order"
   }
 });
 
-test("settings navigation groups sections and every section has a bilingual description", () => {
-  const { settingsSectionGroups, settingsSections } = createSettingsPageConfig({
-    isDesktop: true,
-    isWindowsDesktop: true,
-  });
-  assert.deepEqual(
-    settingsSectionGroups.map((group) => group.id),
-    ["basics", "agentsModels", "agentCapabilities", "tools", "dataAndStats"],
-  );
-  const basics = settingsSectionGroups.find((group) => group.id === "basics");
-  assert.deepEqual(
-    basics?.sections.map((section) => section.id),
-    ["general", "appearance", "shortcuts"],
-  );
-  const grouped = settingsSectionGroups.flatMap((group) => group.sections.map(({ id }) => id));
-  assert.deepEqual(grouped.toSorted(), settingsSections.map(({ id }) => id).toSorted());
-  for (const section of settingsSections) {
+test("settings navigation is one ungrouped list and every section has a bilingual description", () => {
+  const config = createSettingsPageConfig({ isDesktop: true, isWindowsDesktop: true });
+  assert.equal("settingsSectionGroups" in config, false);
+  const ids = config.settingsSections.map(({ id }) => id);
+  assert.deepEqual(ids.slice(0, 3), ["general", "appearance", "shortcuts"]);
+  assert.equal(new Set(ids).size, ids.length);
+  for (const section of config.settingsSections) {
     for (const messages of [enUS, zhCN] as Array<Record<string, string>>) {
       assert.ok(messages[section.descriptionId], `${section.id} description`);
     }
   }
-  for (const group of settingsSectionGroups) {
-    assert.ok((enUS as Record<string, string>)[group.titleId], group.titleId);
-    assert.ok((zhCN as Record<string, string>)[group.titleId], group.titleId);
+  const page = readFileSync(join(UI_SRC, "SettingsPage.tsx"), "utf8");
+  assert.doesNotMatch(page, /settings-sidebar-group-|sidebar\.group\./u);
+});
+
+test("resource settings pages share the toolbar, group header, paper list and empty state", () => {
+  for (const file of [
+    "settings/PluginsSection.tsx",
+    "settings/SubagentsSection.tsx",
+    "settings/HooksSection.tsx",
+  ]) {
+    assert.match(readFileSync(join(UI_SRC, file), "utf8"), /<SettingsResourceToolbar/u, file);
   }
+  for (const file of [
+    "settings/SubagentsSection.tsx",
+    "settings/HooksList.tsx",
+    "settings/PluginsSection.tsx",
+    "settings/SettingsResourceGroup.tsx",
+  ]) {
+    assert.doesNotMatch(
+      readFileSync(join(UI_SRC, file), "utf8"),
+      /overflow-hidden rounded-xl bg-surface/u,
+      file,
+    );
+  }
+  assert.equal(existsSync(join(UI_SRC, "settings/SettingsResourceGroupHeader.tsx")), false);
+  const empty = readFileSync(join(UI_SRC, "settings/PluginInstallEmptyState.tsx"), "utf8");
+  assert.doesNotMatch(empty, /border-dashed/u);
+  assert.match(empty, /data-knorvia-strokes/u);
+  // 搜索图标不能压住占位文字：主题 padding-inline 规则需要 important 内边距覆盖。
+  assert.match(readFileSync(join(UI_SRC, "settings/SettingsSearchInput.tsx"), "utf8"), /!pl-9/u);
+});
+
+test("studio pages render a single title when the rail layout owns the window chrome", () => {
+  const frame = readFileSync(join(UI_SRC, "studio/StudioPageFrame.tsx"), "utf8");
+  assert.match(frame, /sharedChrome \? null : \(/u);
+});
+
+test("the companion floats over the conversation instead of pushing every composer up", () => {
+  const companion = readFileSync(join(UI_SRC, "components/knorvia/KnorviaCompanion.tsx"), "utf8");
+  assert.match(companion, /absolute right-0 bottom-0/u);
+  assert.doesNotMatch(companion, /flex h-20 shrink-0/u);
 });

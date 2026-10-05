@@ -448,8 +448,8 @@ export function CommandsSection({
           })}
         />
       ) : (
-        <div className="space-y-6">
-          <section className={hideInstalledGroup ? "hidden" : "space-y-4"}>
+        <div className="space-y-8">
+          <section className={hideInstalledGroup ? "hidden" : "space-y-3"}>
             <SettingsResourceGroupHeader
               actions={headerActions}
               count={groupedCommands.local.length}
@@ -477,7 +477,7 @@ export function CommandsSection({
             ) : null}
           </section>
           {pluginCommandGroups.map(([pluginId, items]) => (
-            <section key={pluginId} className="space-y-4">
+            <section key={pluginId} className="space-y-3">
               <SettingsResourceGroupHeader
                 count={items.length}
                 title={resolvePluginDisplayName(

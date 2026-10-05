@@ -19,6 +19,11 @@ import { usePluginManagementStore } from "@/store/pluginManagementStore.js";
 import { HookForm } from "./HookForm.js";
 import { SettingsBreadcrumbReporter } from "@/settings/SettingsHeaderBreadcrumb.js";
 import { SettingsSearchInput } from "@/settings/SettingsSearchInput.js";
+import {
+  SettingsResourceToolbar,
+  SettingsResourceToolbarDivider,
+  SettingsResourceToolbarLabel,
+} from "@/settings/SettingsResourceGroup.js";
 import { SettingsResourceHeaderActions } from "@/settings/SettingsResourceHeaderActions.js";
 import { getWorkspaceKey } from "@/lib/workspaceKey.js";
 import { HooksList, type HookScope, type PluginHookRow } from "./HooksList.js";
@@ -485,34 +490,34 @@ export function HooksSection({ workspacePath, workspaceIdentity }: HooksSectionP
   });
   return (
     <div className="space-y-6" data-testid="hooks-settings-section">
-      <div className="flex min-w-0 flex-wrap items-center gap-3">
-        <div className="flex min-w-0 flex-wrap items-center gap-3">
-          <PluginScopeMenu
-            align="start"
-            selectedScopeKey={selectedScopeKey}
-            workspaceTabs={workspaceTabs}
-            onScopeKeyChange={setSelectedScopeKey}
+      <SettingsResourceToolbar
+        leading={
+          <>
+            <PluginScopeMenu
+              align="start"
+              selectedScopeKey={selectedScopeKey}
+              workspaceTabs={workspaceTabs}
+              onScopeKeyChange={setSelectedScopeKey}
+            />
+            <SettingsResourceToolbarDivider />
+            <SettingsResourceToolbarLabel
+              label={intl.formatMessage({ id: "settings.hooks.title" })}
+              count={visibleCount}
+            />
+          </>
+        }
+        trailing={
+          <SettingsSearchInput
+            clearLabel={intl.formatMessage({ id: "settings.search.clear" })}
+            value={query}
+            onClear={() => setQuery("")}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={intl.formatMessage({
+              id: "settings.hooks.searchPlaceholder",
+            })}
           />
-          <div className="hidden h-4 w-px bg-border sm:block" aria-hidden="true" />
-          <div
-            data-independent-capability-count="true"
-            className="flex h-7 items-center gap-1 px-3 text-ui-base font-medium text-foreground"
-          >
-            <span>{intl.formatMessage({ id: "settings.hooks.title" })}</span>
-            <span className="text-ui-sm text-foreground-subtle">{visibleCount}</span>
-          </div>
-        </div>
-        <SettingsSearchInput
-          containerClassName="w-full sm:ml-auto sm:w-64"
-          clearLabel={intl.formatMessage({ id: "settings.search.clear" })}
-          value={query}
-          onClear={() => setQuery("")}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder={intl.formatMessage({
-            id: "settings.hooks.searchPlaceholder",
-          })}
-        />
-      </div>
+        }
+      />
 
       {showWorkspaceHookTrustNotice ? <WorkspaceHookTrustNotice hooks={editableHooks} /> : null}
 

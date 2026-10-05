@@ -6,6 +6,11 @@ import { Button } from "@/components/ui/button.js";
 import { Switch } from "@/components/ui/switch.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { PluginInstallEmptyState } from "@/settings/PluginInstallEmptyState.js";
+import {
+  SETTINGS_RESOURCE_LIST_CLASSNAME,
+  SettingsResourceDivider,
+  SettingsResourceGroupHeader,
+} from "@/settings/SettingsResourceGroup.js";
 import { PluginStoreAvatar } from "@/settings/PluginStoreAvatar.js";
 import type { StorePluginItem } from "@/settings/pluginStoreListing.js";
 import { settingsResourceRowInteraction } from "@/settings/settingsResourceRowInteraction.js";
@@ -115,22 +120,22 @@ export function HooksList({
       {sections.map((section) => (
         <section
           key={`${section.kind}:${section.kind === "plugin" ? section.pluginId : section.title}`}
-          className="space-y-4"
+          className="space-y-3"
         >
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="flex h-7 items-center gap-1.5 text-ui-base font-medium text-foreground">
-              {section.kind === "plugin"
+          <SettingsResourceGroupHeader
+            title={
+              section.kind === "plugin"
                 ? formatPluginName(section.title, section.pluginId)
                 : intl.formatMessage({
                     id:
                       section.kind === "installed"
                         ? "settings.hooks.group.installed"
                         : "settings.hooks.group.legacy",
-                  })}
-              <span className="text-ui-sm font-normal text-foreground-subtle">{section.count}</span>
-            </h3>
-            {section.kind === "installed" ? installedAction : null}
-          </div>
+                  })
+            }
+            count={section.count}
+            actions={section.kind === "installed" ? installedAction : undefined}
+          />
           {section.kind === "installed" && section.hooks.length === 0 ? (
             <PluginInstallEmptyState
               title={installedEmptyTitle ?? ""}
@@ -138,17 +143,17 @@ export function HooksList({
               actions={installedEmptyActions}
             />
           ) : (
-            <div className="overflow-hidden rounded-xl bg-surface">
+            <div className={SETTINGS_RESOURCE_LIST_CLASSNAME}>
               {section.kind === "plugin"
                 ? section.hooks.map((hook, index) => (
                     <div key={`${hook.pluginId}-${hook.detail.sourcePath}-${index}`}>
-                      {index > 0 ? <div className="h-px bg-border/50" aria-hidden="true" /> : null}
+                      {index > 0 ? <SettingsResourceDivider /> : null}
                       <PluginHookItem hook={hook} />
                     </div>
                   ))
                 : section.hooks.map((hook, index) => (
                     <div key={hook.id}>
-                      {index > 0 ? <div className="h-px bg-border/50" aria-hidden="true" /> : null}
+                      {index > 0 ? <SettingsResourceDivider /> : null}
                       {section.kind === "installed" ? (
                         <ConfiguredHookRow
                           hook={hook}

@@ -1589,11 +1589,6 @@ const enUS: Record<string, string> = {
   "settings.subtitle":
     "Switch major settings on the left and edit the details in the panel on the right.",
   "settings.navLabel": "Sections",
-  "settings.sidebar.group.basics": "General",
-  "settings.sidebar.group.agentCapabilities": "Extensions",
-  "settings.sidebar.group.dataAndStats": "Data",
-  "settings.sidebar.group.agentsModels": "Agents and models",
-  "settings.sidebar.group.tools": "Tools and permissions",
   "settings.navSearchPlaceholder": "Search settings",
   "settings.navSearchEmpty": "No matching settings",
   "settings.onboardingNavDescription": "Revisit the getting-started guide",
@@ -2377,6 +2372,7 @@ const enUS: Record<string, string> = {
   "settings.plugins.toggle.workspaceDisabled":
     "Disabled {plugin} in this workspace (overriding User default)",
   "settings.plugins.toggle.failed": "Couldn't update {plugin}. Try again.",
+  "settings.modelProvider.providersHeading": "Providers",
   "settings.modelProviderDescription":
     "Manage custom model providers. Once configured, they can be selected during chat.",
   "settings.modelProvider.add": "Add provider",

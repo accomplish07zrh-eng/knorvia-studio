@@ -4,8 +4,11 @@ import type { ModelProviderNavGroup } from "@/settings/model-provider-section/co
 import { ModelProviderSectionNavigation } from "@/settings/model-provider-section/Navigation.js";
 import { ProviderDetailFeedbackBoundary } from "@/settings/model-provider-section/ProviderDetailFeedback.js";
 import { SettingsResourceHeaderActions } from "@/settings/SettingsResourceHeaderActions.js";
+import { SettingsGroupHeading } from "@/settings/SettingsPageParts.js";
 
 interface ModelProviderSectionLayoutProps {
+  /** 分组标题（「供应商」），与其他资源页的分组标题同一层级。 */
+  heading: string;
   description: string;
   refreshLabel: string;
   loadingLabel: string;
@@ -30,6 +33,7 @@ function shouldShowModelProviderRefreshLoading(params: {
 }
 
 export function ModelProviderSectionLayout({
+  heading,
   description,
   refreshLabel,
   loadingLabel,
@@ -53,18 +57,21 @@ export function ModelProviderSectionLayout({
     refreshButtonLoading || navigationGroups.some((group) => group.items.length > 0);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <p className="text-ui-base leading-6 text-foreground-subtle">{description}</p>
-        <SettingsResourceHeaderActions
-          onRefresh={onRefresh}
-          onNew={onAddProvider}
-          refreshing={refreshButtonLoading}
-          refreshLabel={refreshButtonLoading ? loadingLabel : refreshLabel}
-          newLabel={addProviderLabel}
-          newTestId={TID_MODEL_PROVIDER_ADD_PROVIDER_BUTTON}
-        />
-      </div>
+    <div className="space-y-3">
+      <SettingsGroupHeading
+        title={heading}
+        description={description}
+        actions={
+          <SettingsResourceHeaderActions
+            onRefresh={onRefresh}
+            onNew={onAddProvider}
+            refreshing={refreshButtonLoading}
+            refreshLabel={refreshButtonLoading ? loadingLabel : refreshLabel}
+            newLabel={addProviderLabel}
+            newTestId={TID_MODEL_PROVIDER_ADD_PROVIDER_BUTTON}
+          />
+        }
+      />
 
       <div className="overflow-clip rounded-xl border border-border bg-card">
         <div

@@ -109,7 +109,8 @@ function OnboardingChoice({
       className={cn(
         "flex h-10 min-w-0 items-center justify-center gap-2 truncate rounded-full border px-3 text-ui-base transition-colors disabled:opacity-60",
         pressed
-          ? "bg-selected border-transparent font-medium text-foreground"
+          ? // 修复依据：白底上「纸片」选中几乎不可见，反而比描边的未选中项更淡；改为前景色描边。
+            "border-foreground bg-card font-medium text-foreground"
           : "border-border text-foreground-subtle hover:bg-surface-hover hover:text-foreground",
       )}
     >

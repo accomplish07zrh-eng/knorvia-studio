@@ -70,8 +70,8 @@ export function ProviderTemplatePicker({
     }
   };
   return (
-    <section className="space-y-4" data-testid={TID_MODEL_PROVIDER_TEMPLATE_PICKER}>
-      <div className="flex items-center gap-3">
+    <section className="space-y-3" data-testid={TID_MODEL_PROVIDER_TEMPLATE_PICKER}>
+      <div className="flex min-h-8 items-center gap-2 px-1">
         {onBack && (
           <Button
             type="button"
@@ -84,7 +84,7 @@ export function ProviderTemplatePicker({
             <ArrowLeftIcon className="size-4" aria-hidden="true" />
           </Button>
         )}
-        <h2 className="text-ui-lg font-medium text-foreground">
+        <h2 className="text-ui-sm font-semibold text-foreground">
           {intl.formatMessage({ id: "settings.modelProvider.templatePickerTitle" })}
         </h2>
       </div>
@@ -95,7 +95,7 @@ export function ProviderTemplatePicker({
           disabled={creating}
           testId={testId(TID_MODEL_PROVIDER_TEMPLATE_ITEM, "custom")}
           icon={
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-hover">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-dashed border-border-hover text-foreground-subtle">
               <PlusIcon className="size-4" aria-hidden="true" />
             </span>
           }
@@ -108,8 +108,8 @@ export function ProviderTemplatePicker({
             disabled={creating}
             testId={testId(TID_MODEL_PROVIDER_TEMPLATE_ITEM, template.templateId)}
             icon={
-              <span className="flex size-9 shrink-0 items-center justify-center">
-                <ProviderLogo logo={template.config.logo} className="size-8" />
+              <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-background">
+                <ProviderLogo logo={template.config.logo} className="size-6" />
               </span>
             }
             onClick={() => void createWithFeedback(() => onCreateFromTemplate(template.templateId))}
@@ -140,11 +140,14 @@ function ProviderTemplateCard({
         data-testid={cardTestId}
         disabled={disabled}
         onClick={onClick}
-        className="flex min-h-16 min-w-0 items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 text-left transition-colors outline-none hover:border-border-hover hover:bg-hover focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 disabled:opacity-60"
+        className="group flex min-h-14 min-w-0 items-center gap-3 rounded-xl border border-border bg-card px-3.5 py-2.5 text-left transition-colors outline-none hover:border-border-hover hover:bg-surface-hover focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 disabled:opacity-60"
       >
         {icon}
         <span className="min-w-0 flex-1 break-words text-ui-base font-medium">{label}</span>
-        <ChevronRightIcon className="size-4 shrink-0 text-foreground-subtlest" aria-hidden="true" />
+        <ChevronRightIcon
+          className="size-4 shrink-0 text-foreground-subtlest transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
+          aria-hidden="true"
+        />
       </button>
     </ControlHintTooltip>
   );

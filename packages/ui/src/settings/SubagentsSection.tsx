@@ -43,7 +43,14 @@ import { PluginStoreAvatar } from "@/settings/PluginStoreAvatar.js";
 import { SettingsFormActions } from "@/settings/SettingsFormActions.js";
 import { SettingsFormTextarea } from "@/settings/SettingsFormTextarea.js";
 import { SettingsBreadcrumbReporter } from "@/settings/SettingsHeaderBreadcrumb.js";
-import { SettingsResourceGroupHeader } from "@/settings/SettingsResourceGroupHeader.js";
+import {
+  SETTINGS_RESOURCE_LIST_CLASSNAME,
+  SettingsResourceDivider,
+  SettingsResourceGroupHeader,
+  SettingsResourceToolbar,
+  SettingsResourceToolbarDivider,
+  SettingsResourceToolbarLabel,
+} from "@/settings/SettingsResourceGroup.js";
 import { SettingsResourceHeaderActions } from "@/settings/SettingsResourceHeaderActions.js";
 import { SettingsSearchInput } from "@/settings/SettingsSearchInput.js";
 import {
@@ -1670,10 +1677,10 @@ export function SubagentsSection({ onManageModels }: SubagentsSectionProps) {
   }
 
   const renderAgentList = (items: AgentSummary[]) => (
-    <div className="overflow-hidden rounded-xl bg-surface">
+    <div className={SETTINGS_RESOURCE_LIST_CLASSNAME}>
       {items.map((agent, index) => (
         <div key={agent.id}>
-          {index > 0 ? <div className="h-px bg-border/50" aria-hidden="true" /> : null}
+          {index > 0 ? <SettingsResourceDivider /> : null}
           <AgentListRow
             agent={agent}
             pluginIconItem={
@@ -1704,31 +1711,34 @@ export function SubagentsSection({ onManageModels }: SubagentsSectionProps) {
   const hasSearchResultEmpty = Boolean(query.trim()) && filteredAgentCount === 0;
   return (
     <div className="space-y-6">
-      <div className="flex min-w-0 flex-wrap items-center gap-3">
-        <div className="flex min-w-0 flex-wrap items-center gap-3">
-          <PluginScopeMenu
-            align="start"
-            selectedScopeKey={selectedScopeKey}
-            workspaceTabs={workspaceTabs}
-            onScopeKeyChange={setSelectedScopeKey}
+      <SettingsResourceToolbar
+        leading={
+          <>
+            <PluginScopeMenu
+              align="start"
+              selectedScopeKey={selectedScopeKey}
+              workspaceTabs={workspaceTabs}
+              onScopeKeyChange={setSelectedScopeKey}
+            />
+            <SettingsResourceToolbarDivider />
+            <SettingsResourceToolbarLabel
+              label={intl.formatMessage({ id: "settings.subagents.title" })}
+              count={filteredAgentCount}
+            />
+          </>
+        }
+        trailing={
+          <SettingsSearchInput
+            clearLabel={intl.formatMessage({ id: "settings.search.clear" })}
+            value={query}
+            onClear={() => setQuery("")}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={intl.formatMessage({
+              id: "settings.subagents.searchPlaceholder",
+            })}
           />
-          <div className="hidden h-4 w-px bg-border sm:block" aria-hidden="true" />
-          <div className="flex h-7 items-center gap-1 px-3 text-ui-base font-medium text-foreground">
-            <span>{intl.formatMessage({ id: "settings.subagents.title" })}</span>
-            <span className="text-ui-sm text-foreground-subtle">{filteredAgentCount}</span>
-          </div>
-        </div>
-        <SettingsSearchInput
-          containerClassName="w-full sm:ml-auto sm:w-64"
-          clearLabel={intl.formatMessage({ id: "settings.search.clear" })}
-          value={query}
-          onClear={() => setQuery("")}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder={intl.formatMessage({
-            id: "settings.subagents.searchPlaceholder",
-          })}
-        />
-      </div>
+        }
+      />
 
       {error ? (
         <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-ui-base text-destructive">
@@ -1758,23 +1768,23 @@ export function SubagentsSection({ onManageModels }: SubagentsSectionProps) {
       ) : hasSearchResultEmpty ? (
         <PluginSearchEmptyState label={intl.formatMessage({ id: "settings.subagents.empty" })} />
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <section
-            className={query.trim() && groupedAgents.user.length === 0 ? "hidden" : "space-y-4"}
+            className={query.trim() && groupedAgents.user.length === 0 ? "hidden" : "space-y-3"}
           >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <SettingsResourceGroupHeader
-                count={groupedAgents.user.length}
-                title={intl.formatMessage({
-                  id: "settings.subagents.group.user",
-                })}
-              />
-              <SettingsResourceHeaderActions
-                onRefresh={() => void Promise.all([refresh(), refreshMentionStore()])}
-                onNew={canManageUserAgents ? handleAddNew : undefined}
-                refreshing={refreshing}
-              />
-            </div>
+            <SettingsResourceGroupHeader
+              count={groupedAgents.user.length}
+              title={intl.formatMessage({
+                id: "settings.subagents.group.user",
+              })}
+              actions={
+                <SettingsResourceHeaderActions
+                  onRefresh={() => void Promise.all([refresh(), refreshMentionStore()])}
+                  onNew={canManageUserAgents ? handleAddNew : undefined}
+                  refreshing={refreshing}
+                />
+              }
+            />
             {groupedAgents.user.length > 0 ? (
               renderAgentList(groupedAgents.user)
             ) : (
@@ -1795,7 +1805,7 @@ export function SubagentsSection({ onManageModels }: SubagentsSectionProps) {
             )}
           </section>
           {pluginGroups.map(([pluginId, items]) => (
-            <section key={pluginId} className="space-y-4">
+            <section key={pluginId} className="space-y-3">
               <SettingsResourceGroupHeader
                 count={items.length}
                 title={resolvePluginDisplayName(
@@ -1815,7 +1825,7 @@ export function SubagentsSection({ onManageModels }: SubagentsSectionProps) {
             </section>
           ))}
           {groupedAgents.builtIn.length > 0 ? (
-            <section className="space-y-4">
+            <section className="space-y-3">
               <SettingsResourceGroupHeader
                 count={groupedAgents.builtIn.length}
                 title={intl.formatMessage({

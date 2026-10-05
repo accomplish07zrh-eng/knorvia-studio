@@ -16,6 +16,7 @@ import {
   resolveMcpFailureMessageId,
 } from "@/settings/McpFailurePresentation.js";
 import { SettingsResourceList } from "@/settings/SettingsResourceGroup.js";
+import { PluginInstallEmptyState } from "@/settings/PluginInstallEmptyState.js";
 import { runUserAction } from "@/lib/userActionTelemetry.js";
 import { CircleIcon, Cable, Loader2Icon, ExternalLink, Plus } from "lucide-react";
 
@@ -188,18 +189,16 @@ export function McpServerList({
 
   if (servers.length === 0) {
     return (
-      <div className="overflow-hidden rounded-xl border border-dashed border-border">
-        <div className="flex flex-col items-center justify-center gap-3 px-4 py-10 text-center">
-          <div className="space-y-1">
-            <div className="text-ui-base font-medium text-foreground">{emptyTitle}</div>
-            <div className="text-ui-base text-foreground-subtle">{emptyDescription}</div>
-          </div>
+      <PluginInstallEmptyState
+        title={emptyTitle}
+        description={emptyDescription}
+        actions={
           <Button variant="outline" size="sm" onClick={onCreate}>
             <Plus className="size-4" />
             <span>{intl.formatMessage({ id: "settings.mcp.create.open" })}</span>
           </Button>
-        </div>
-      </div>
+        }
+      />
     );
   }
 

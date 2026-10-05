@@ -41,9 +41,9 @@ export function OnboardingOccupationGrid({
             onClick={() => onSelect(value)}
             className={cn(
               "group flex min-h-11 items-center gap-3 rounded-full border px-3.5 py-2 text-left text-ui-base transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-input-border-focused disabled:opacity-60",
-              // 纸片式选中：选中项浮起为纸片，未选中保持细线描边。
+              // 选中项用前景色描边：白底上纸片式选中不可辨，未选中保持细线描边。
               selected
-                ? "bg-selected border-transparent font-medium text-foreground"
+                ? "border-foreground bg-card font-medium text-foreground"
                 : "border-border text-foreground-subtle hover:bg-surface-hover hover:text-foreground",
             )}
           >

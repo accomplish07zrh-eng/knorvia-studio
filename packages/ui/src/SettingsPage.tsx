@@ -185,7 +185,7 @@ export function SettingsPage({
   allowOpenWorkspace?: boolean;
 }) {
   const { intl, localePreference, setLocalePreference } = useKnorviaIntl();
-  const { settingsSectionGroups, settingsSections } = useMemo(
+  const { settingsSections } = useMemo(
     () =>
       createSettingsPageConfig({
         isDesktop: Boolean(isDesktop),
@@ -914,21 +914,17 @@ export function SettingsPage({
     },
     [setCodePreviewSettings],
   );
-  const visibleSettingsSectionGroups = useMemo(() => {
+  // 导航为不分组的单列表（2026-10-05 用户要求取消分组分隔），搜索按名称与说明本地过滤。
+  const visibleNavSections = useMemo(() => {
     const keyword = navQuery.trim().toLowerCase();
-    return settingsSectionGroups
-      .map((group) => ({
-        ...group,
-        sections: group.sections.filter((section) => {
-          if (hasActivityRail && section.id === "plugin") return false;
-          if (!keyword) return true;
-          return [section.titleId, section.descriptionId].some((id) =>
-            intl.formatMessage({ id }).toLowerCase().includes(keyword),
-          );
-        }),
-      }))
-      .filter((group) => group.sections.length > 0);
-  }, [hasActivityRail, intl, navQuery, settingsSectionGroups]);
+    return settingsSections.filter((section) => {
+      if (hasActivityRail && section.id === "plugin") return false;
+      if (!keyword) return true;
+      return [section.titleId, section.descriptionId].some((id) =>
+        intl.formatMessage({ id }).toLowerCase().includes(keyword),
+      );
+    });
+  }, [hasActivityRail, intl, navQuery, settingsSections]);
   const activeSectionMeta = settingsSections.find((section) => section.id === activeSection);
   // 灰度裁决异步到达：sections 列表可能在挂载后变化（如 computerUse 区被灰度移除）。
   // 若用户正停留在被移除的 section，回落到第一个可见区，避免整页 return null。
@@ -1058,64 +1054,39 @@ export function SettingsPage({
                 aria-label={intl.formatMessage({ id: "settings.navLabel" })}
                 className="flex-1 overflow-y-auto px-3 pb-3"
               >
-                <div className="flex flex-col gap-4">
-                  {visibleSettingsSectionGroups.map((group, groupIndex) => {
-                    const groupLabel = intl.formatMessage({
-                      id: group.titleId,
-                    });
-                    const groupLabelId = `settings-sidebar-group-${group.id}`;
+                <div className="flex flex-col gap-0.5">
+                  {visibleNavSections.map(({ id, icon: Icon, titleId }) => {
+                    const isActive = activeSection === id;
+                    const label = intl.formatMessage({ id: titleId });
 
                     return (
-                      <div
-                        key={group.id}
-                        role="group"
-                        aria-labelledby={groupLabelId}
-                        className={cn(
-                          "flex flex-col gap-0.5",
-                          groupIndex > 0 && "max-lg:border-t max-lg:border-border max-lg:pt-3",
-                        )}
-                      >
-                        <div
-                          id={groupLabelId}
-                          className="px-3 pb-1 text-ui-xs font-medium tracking-wide text-foreground-subtlest max-lg:sr-only"
-                        >
-                          {groupLabel}
-                        </div>
-                        {group.sections.map(({ id, icon: Icon, titleId }) => {
-                          const isActive = activeSection === id;
-                          const label = intl.formatMessage({ id: titleId });
-
-                          return (
-                            <SettingsSidebarButton
-                              key={id}
-                              icon={Icon}
-                              label={label}
-                              active={isActive}
-                              compact={navCompact}
-                              aria-current={isActive ? "page" : undefined}
-                              data-testid={testId(TID_SETTINGS_SECTION_NAV, id)}
-                              onClick={() => {
-                                runUserAction({
-                                  input: {
-                                    featureId: "settings.navigation",
-                                    action: "open_section",
-                                    trigger: "button",
-                                  },
-                                  operation: () => {
-                                    setSettingsSectionNavigationVersion((version) => version + 1);
-                                    setActiveSettingsSection(id);
-                                  },
-                                  completed: { resultSource: "local_commit", sectionId: id },
-                                  failureStage: "navigation_commit",
-                                });
-                              }}
-                            />
-                          );
-                        })}
-                      </div>
+                      <SettingsSidebarButton
+                        key={id}
+                        icon={Icon}
+                        label={label}
+                        active={isActive}
+                        compact={navCompact}
+                        aria-current={isActive ? "page" : undefined}
+                        data-testid={testId(TID_SETTINGS_SECTION_NAV, id)}
+                        onClick={() => {
+                          runUserAction({
+                            input: {
+                              featureId: "settings.navigation",
+                              action: "open_section",
+                              trigger: "button",
+                            },
+                            operation: () => {
+                              setSettingsSectionNavigationVersion((version) => version + 1);
+                              setActiveSettingsSection(id);
+                            },
+                            completed: { resultSource: "local_commit", sectionId: id },
+                            failureStage: "navigation_commit",
+                          });
+                        }}
+                      />
                     );
                   })}
-                  {visibleSettingsSectionGroups.length === 0 ? (
+                  {visibleNavSections.length === 0 ? (
                     <p
                       className="px-3 py-6 text-center text-ui-sm text-foreground-subtle max-lg:sr-only"
                       data-testid="settings-nav-search-empty"

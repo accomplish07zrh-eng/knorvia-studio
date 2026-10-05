@@ -30,8 +30,10 @@ export function SettingsSearchInput({
         type="search"
         size="lg"
         className={cn(
-          "h-9 rounded-xl pl-9 [&::-webkit-search-cancel-button]:appearance-none",
-          canClear && "pr-9",
+          // 主题对 [data-slot=input] 的 padding-inline 优先级高于普通 pl-9，图标会压住占位文字；
+          // 这里用 important 内边距保证图标与文字分开（与设置导航搜索同一修复）。
+          "h-9 rounded-full border-transparent bg-surface !pl-9 hover:border-input-border-hover focus-visible:bg-input-focused [&::-webkit-search-cancel-button]:appearance-none",
+          canClear && "!pr-9",
           className,
         )}
       />

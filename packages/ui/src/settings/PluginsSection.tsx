@@ -39,6 +39,13 @@ import { McpSettingsSection } from "@/settings/McpSettingsSection.js";
 import { SkillsSection } from "@/settings/SkillsSection.js";
 import { CommandsSection } from "@/settings/CommandsSection.js";
 import { SettingsSearchInput } from "@/settings/SettingsSearchInput.js";
+import {
+  SETTINGS_RESOURCE_LIST_CLASSNAME,
+  SettingsResourceDivider,
+  SettingsResourceToolbar,
+  SettingsResourceToolbarDivider,
+  SettingsResourceToolbarLabel,
+} from "@/settings/SettingsResourceGroup.js";
 import { SettingsResourceHeaderActions } from "@/settings/SettingsResourceHeaderActions.js";
 import { PluginStoreAvatar } from "@/settings/PluginStoreAvatar.js";
 import { PluginUninstallConfirmDialog } from "@/settings/PluginUninstallConfirmDialog.js";
@@ -479,10 +486,10 @@ function PluginList({
   }, [initialize, pluginManagementService, configScope, target, targetServiceResolution.rpcReady]);
 
   const renderPluginRows = (items: KnorviaPluginInfo[]) => (
-    <div className="overflow-hidden rounded-xl bg-surface">
+    <div className={SETTINGS_RESOURCE_LIST_CLASSNAME}>
       {items.map((plugin, index) => (
         <Fragment key={plugin.id}>
-          {index > 0 ? <div className="h-px bg-border/50" aria-hidden="true" /> : null}
+          {index > 0 ? <SettingsResourceDivider /> : null}
           <div
             className="group/plugin-row flex min-w-0 items-center gap-3 px-4 py-3 transition-colors hover:bg-hover"
             data-testid="plugin-settings-plugin-row"
@@ -636,7 +643,7 @@ function PluginList({
   );
 
   const renderUnavailableComputerUse = () => (
-    <div className="overflow-hidden rounded-xl bg-surface">
+    <div className={SETTINGS_RESOURCE_LIST_CLASSNAME}>
       <div className="flex min-w-0 items-center gap-3 px-4 py-3 text-foreground-subtle">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-background text-foreground-subtle">
           <Monitor className="size-4" aria-hidden="true" />
@@ -930,7 +937,7 @@ function PluginList({
 
 function EmptyState({ message }: { message: string }) {
   return (
-    <div className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-ui-base text-foreground-subtle">
+    <div className="rounded-xl border border-border bg-card px-6 py-10 text-center text-ui-sm text-foreground-subtle">
       {message}
     </div>
   );
@@ -1131,61 +1138,58 @@ export function PluginsSection({
         }}
       >
         {!mcpEditorOpen && !pluginDetailOpen && !commandEditorOpen ? (
-          <div className="flex min-w-0 flex-wrap items-center gap-3">
-            <div className="flex min-w-0 flex-wrap items-center gap-3">
-              <PluginScopeMenu
-                align="start"
-                selectedScopeKey={selectedScopeKey}
-                triggerTestId="plugin-settings-scope-trigger"
-                userOptionTestId="plugin-settings-scope-user-option"
-                workspaceOptionTestIdPrefix="plugin-settings-scope-option"
-                workspaceTabs={workspaceTabs}
-                onScopeKeyChange={setPickedScopeKey}
-              />
-              <div className="hidden h-4 w-px bg-border sm:block" aria-hidden="true" />
-              {mode === "plugin" ? (
-                <TabsList variant="line" className="h-7 max-w-full gap-1 overflow-x-auto p-0">
-                  <TabsTrigger
-                    value="plugins"
-                    className="h-7 flex-none rounded-full px-3 hover:bg-hover data-active:!bg-selected data-active:hover:!bg-hover after:hidden"
-                  >
-                    {intl.formatMessage({
-                      id: "settings.plugin.tab.plugins",
-                    })}
-                    <span className={getPluginTabCountClass("plugins", selectedTab)}>
-                      {capabilityCounts.plugins}
-                    </span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="mcps"
-                    className="h-7 flex-none rounded-full px-3 hover:bg-hover data-active:!bg-selected data-active:hover:!bg-hover after:hidden"
-                  >
-                    {intl.formatMessage({
-                      id: "settings.plugin.tab.mcps",
-                    })}
-                    <span className={getPluginTabCountClass("mcps", selectedTab)}>
-                      {capabilityCounts.mcps}
-                    </span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="skills"
-                    className="h-7 flex-none rounded-full px-3 hover:bg-hover data-active:!bg-selected data-active:hover:!bg-hover after:hidden"
-                  >
-                    {intl.formatMessage({
-                      id: "settings.plugin.tab.skills",
-                    })}
-                    <span className={getPluginTabCountClass("skills", selectedTab)}>
-                      {capabilityCounts.skills}
-                    </span>
-                  </TabsTrigger>
-                </TabsList>
-              ) : (
-                <div
-                  data-independent-capability-count="true"
-                  className="flex h-7 items-center gap-1 px-3 text-ui-base font-medium text-foreground"
-                >
-                  <span>
-                    {intl.formatMessage({
+          <SettingsResourceToolbar
+            leading={
+              <>
+                <PluginScopeMenu
+                  align="start"
+                  selectedScopeKey={selectedScopeKey}
+                  triggerTestId="plugin-settings-scope-trigger"
+                  userOptionTestId="plugin-settings-scope-user-option"
+                  workspaceOptionTestIdPrefix="plugin-settings-scope-option"
+                  workspaceTabs={workspaceTabs}
+                  onScopeKeyChange={setPickedScopeKey}
+                />
+                <SettingsResourceToolbarDivider />
+                {mode === "plugin" ? (
+                  <TabsList variant="line" className="h-7 max-w-full gap-1 overflow-x-auto p-0">
+                    <TabsTrigger
+                      value="plugins"
+                      className="h-7 flex-none rounded-full px-3 hover:bg-hover data-active:!bg-selected data-active:hover:!bg-hover after:hidden"
+                    >
+                      {intl.formatMessage({
+                        id: "settings.plugin.tab.plugins",
+                      })}
+                      <span className={getPluginTabCountClass("plugins", selectedTab)}>
+                        {capabilityCounts.plugins}
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="mcps"
+                      className="h-7 flex-none rounded-full px-3 hover:bg-hover data-active:!bg-selected data-active:hover:!bg-hover after:hidden"
+                    >
+                      {intl.formatMessage({
+                        id: "settings.plugin.tab.mcps",
+                      })}
+                      <span className={getPluginTabCountClass("mcps", selectedTab)}>
+                        {capabilityCounts.mcps}
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="skills"
+                      className="h-7 flex-none rounded-full px-3 hover:bg-hover data-active:!bg-selected data-active:hover:!bg-hover after:hidden"
+                    >
+                      {intl.formatMessage({
+                        id: "settings.plugin.tab.skills",
+                      })}
+                      <span className={getPluginTabCountClass("skills", selectedTab)}>
+                        {capabilityCounts.skills}
+                      </span>
+                    </TabsTrigger>
+                  </TabsList>
+                ) : (
+                  <SettingsResourceToolbarLabel
+                    label={intl.formatMessage({
                       id:
                         mode === "mcp"
                           ? "settings.plugin.tab.mcps"
@@ -1193,47 +1197,48 @@ export function PluginsSection({
                             ? "settings.plugin.tab.skills"
                             : "settings.plugin.tab.commands",
                     })}
-                  </span>
-                  <span className="text-ui-sm text-foreground-subtle">
-                    {mode === "mcp"
-                      ? capabilityCounts.mcps
-                      : mode === "skill"
-                        ? capabilityCounts.skills
-                        : capabilityCounts.commands}
-                  </span>
-                </div>
-              )}
-            </div>
-            <SettingsSearchInput
-              data-testid="plugin-settings-search"
-              containerClassName="w-full sm:ml-auto sm:w-64"
-              clearLabel={intl.formatMessage({ id: "settings.search.clear" })}
-              value={activeSearchQuery}
-              onClear={() => {
-                setSearchQueries((current) => ({
-                  ...current,
-                  [selectedTab]: "",
-                }));
-              }}
-              onChange={(event) => {
-                const value = event.target.value;
-                setSearchQueries((current) => ({
-                  ...current,
-                  [selectedTab]: value,
-                }));
-              }}
-              placeholder={intl.formatMessage({
-                id:
-                  selectedTab === "plugins"
-                    ? "settings.plugin.plugins.searchPlaceholder"
-                    : selectedTab === "mcps"
-                      ? "settings.mcp.searchPlaceholder"
-                      : selectedTab === "skills"
-                        ? "settings.skills.searchPlaceholder"
-                        : "settings.commands.searchPlaceholder",
-              })}
-            />
-          </div>
+                    count={
+                      mode === "mcp"
+                        ? capabilityCounts.mcps
+                        : mode === "skill"
+                          ? capabilityCounts.skills
+                          : capabilityCounts.commands
+                    }
+                  />
+                )}
+              </>
+            }
+            trailing={
+              <SettingsSearchInput
+                data-testid="plugin-settings-search"
+                clearLabel={intl.formatMessage({ id: "settings.search.clear" })}
+                value={activeSearchQuery}
+                onClear={() => {
+                  setSearchQueries((current) => ({
+                    ...current,
+                    [selectedTab]: "",
+                  }));
+                }}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  setSearchQueries((current) => ({
+                    ...current,
+                    [selectedTab]: value,
+                  }));
+                }}
+                placeholder={intl.formatMessage({
+                  id:
+                    selectedTab === "plugins"
+                      ? "settings.plugin.plugins.searchPlaceholder"
+                      : selectedTab === "mcps"
+                        ? "settings.mcp.searchPlaceholder"
+                        : selectedTab === "skills"
+                          ? "settings.skills.searchPlaceholder"
+                          : "settings.commands.searchPlaceholder",
+                })}
+              />
+            }
+          />
         ) : null}
         {mode === "plugin" ? (
           <TabsContent
