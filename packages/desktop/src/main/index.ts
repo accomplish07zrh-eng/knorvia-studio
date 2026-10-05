@@ -59,7 +59,6 @@ import {
   type AppSettings,
   PlatformChannels,
   KNORVIA_ENV,
-  KNORVIA_PRODUCT_FLAVOR,
   DEFAULT_LOCALE,
   KNORVIA_VERSION,
   KNORVIA_AGENT_RUNTIME,
@@ -98,7 +97,6 @@ import {
   updateKnorviaStdioTapDevMenuState,
 } from "./desktopApplicationMenu.js";
 import { applyAppIcon } from "./desktopWindowChrome.js";
-import { resolveWindowsAppUserModelIdForFlavor } from "../../scripts/desktop-product-identity.mjs";
 import type { DesktopWindowSize } from "./desktopWindowSize.js";
 import { maybeWarnArchitectureMismatch } from "./desktopArchitectureGuard.js";
 
@@ -211,11 +209,14 @@ process.on("unhandledRejection", (reason) => {
   logger.error("unhandledRejection:", reason);
 });
 
+// Windows 窗口/任务栏图标使用多尺寸 ICO（16–256）。
+// 修复依据：此前直接用 1024×1024 的 icon_windows.png，Windows 只能为 HICON 生成 ≤256 的帧，
+// 大图转换失败时任务栏按钮显示为空白；ICO 内置各 DPI 帧，任务栏、Alt+Tab 和标题栏都能取到合适尺寸。
 const iconPath =
   process.platform === "win32"
     ? app.isPackaged
-      ? join(process.resourcesPath, "icon_windows.png")
-      : join(import.meta.dirname, "../../build/icon_windows.png")
+      ? join(process.resourcesPath, "icon_windows.ico")
+      : join(import.meta.dirname, "../../build/icon.ico")
     : app.isPackaged
       ? join(process.resourcesPath, "icon.png")
       : join(import.meta.dirname, "../../build/icon.png");
@@ -1388,14 +1389,7 @@ app.whenReady().then(async () => {
     }
   });
 
-  if (process.platform === "win32") {
-    // 打包态必须与 NSIS 快捷方式使用同一 AUMID，否则 Shell 把它们当成不同应用。
-    // 使用构建期产品身份，不依赖用户机器环境；开发态继续保持独立身份。
-    app.setAppUserModelId(
-      resolveWindowsAppUserModelIdForFlavor(KNORVIA_PRODUCT_FLAVOR, { isPackaged: app.isPackaged }),
-    );
-  }
-
+  // Windows AUMID 已由 desktopEarlyDataBaseDirBootstrap 在任何窗口创建前一次性设置，这里不再改写。
   applyAppIcon(iconPath);
   if (!loadedBootstrapLocale) {
     currentApplicationLocale = resolveSystemApplicationLocale();

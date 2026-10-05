@@ -645,6 +645,11 @@ export default {
     ...(targetPlatform.os === "win32"
       ? [
           {
+            // Windows 窗口与任务栏图标：多尺寸 ICO，避免 1024px PNG 无法生成任务栏 HICON 而显示空白。
+            from: "build/icon.ico",
+            to: "icon_windows.ico",
+          },
+          {
             // Windows 托盘图标：Tray 在打包态只能稳定读取 resources 下的独立资源。
             // 这里不复用窗口 PNG，避免通知区域在高 DPI 下退化成模糊缩放图。
             from: "build/icon.ico",
@@ -721,6 +726,8 @@ export default {
     ],
   },
   win: {
+    // 显式声明可执行文件图标，NSIS 快捷方式与任务栏固定项都从 exe 资源读取图标。
+    icon: "build/icon.ico",
     target: desktopPackageVariant.windowsTargets,
     artifactName: buildDesktopArtifactName(
       "win",

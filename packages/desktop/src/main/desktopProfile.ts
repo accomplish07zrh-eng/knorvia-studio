@@ -4,6 +4,17 @@ export const KNORVIA_APPLICATION_NAME = "Knorvia Studio";
 export const KNORVIA_APP_ID = "dev.knorvia.studio";
 export const KNORVIA_PORTABLE_MARKER = "knorvia-portable.json";
 
+/**
+ * Windows AUMID 的唯一决策：必须与 electron-builder 的 appId（NSIS 快捷方式写入的 AUMID）一致。
+ * 修复依据：此前最早 bootstrap 固定写正式 appId，app ready 后又按 flavor 改写成 preview/dev 身份；
+ * 进程中途换 AUMID 会让任务栏按钮、快捷方式和通知分属不同应用，任务栏找不到匹配快捷方式时图标缺失。
+ * 取值需与 scripts/desktop-product-identity.mjs 的 resolveWindowsAppUserModelIdForFlavor 保持一致（有测试校验）。
+ */
+export function resolveKnorviaAppUserModelId(input: { packaged: boolean; flavor?: string }) {
+  if (!input.packaged) return `${KNORVIA_APP_ID}.dev`;
+  return input.flavor === "preview" ? `${KNORVIA_APP_ID}.preview` : KNORVIA_APP_ID;
+}
+
 /** 纯路径决策便于测试；此处不读取或迁移任何上游配置。 */
 export function resolveDesktopProfile(input: {
   env: Record<string, string | undefined>;

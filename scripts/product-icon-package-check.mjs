@@ -56,6 +56,8 @@ export async function checkPackagedProductIcons(repository, root, executable, wi
     ["icon.png", "icon.png"],
     ["icon_windows.png", "icon_windows.png"],
     windows ? ["tray_icon.ico", "icon.ico"] : ["icon_512x512.png", "icons/512x512.png"],
+    // Windows 窗口/任务栏运行时图标必须是多尺寸 ICO，1024px PNG 会让任务栏按钮空白。
+    ...(windows ? [["icon_windows.ico", "icon.ico"]] : []),
   ];
   for (const [packaged, source] of pairs) {
     assert.deepEqual(

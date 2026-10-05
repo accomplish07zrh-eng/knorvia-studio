@@ -10,6 +10,7 @@ import {
   buildDesktopProfileEnvironment,
   KNORVIA_APP_ID,
   resolveDesktopProfile,
+  resolveKnorviaAppUserModelId,
 } from "../src/main/desktopProfile.js";
 import {
   createDeepLinkSingleInstanceData,
@@ -17,7 +18,10 @@ import {
   extractDeepLinkUrlFromSingleInstanceData,
   extractWorkspaceOpenPath,
 } from "../src/main/desktopDeepLinkUrl.js";
-import { resolveDesktopProductIdentity } from "../scripts/desktop-product-identity.mjs";
+import {
+  resolveDesktopProductIdentity,
+  resolveWindowsAppUserModelIdForFlavor,
+} from "../scripts/desktop-product-identity.mjs";
 
 const desktopRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const appData = resolve("C:/isolated-test/appdata");
@@ -44,6 +48,21 @@ test("ordinary profile ignores every upstream path and identity override", () =>
   assert.equal(KNORVIA_APP_ID, "dev.knorvia.studio");
   assert.equal(resolveDesktopProductIdentity({}).appId, KNORVIA_APP_ID);
   assert.equal(resolveDesktopProductIdentity({ ZCODE_ENV: "test" }).productName, "Knorvia Studio");
+});
+
+test("Windows AUMID is decided once and matches the electron-builder shortcut identity", () => {
+  for (const packaged of [true, false])
+    for (const flavor of ["production", "preview", undefined])
+      assert.equal(
+        resolveKnorviaAppUserModelId({ packaged, flavor }),
+        resolveWindowsAppUserModelIdForFlavor(flavor, { isPackaged: packaged }),
+        `${packaged}/${flavor}`,
+      );
+  const entry = readFileSync(join(desktopRoot, "src/main/index.ts"), "utf8");
+  // 中途改写 AUMID 会让任务栏按钮与快捷方式分属不同应用，进而丢失任务栏图标。
+  assert.doesNotMatch(entry, /setAppUserModelId/);
+  assert.doesNotMatch(entry, /"icon_windows\.png"/);
+  assert.match(entry, /icon_windows\.ico/);
 });
 
 test("portable marker and explicit portable directory keep all data beside their executable", () => {
@@ -186,7 +205,7 @@ test("bootstrap applies all isolated paths and child environment before later st
       if (id === "./desktopProfile.js")
         return {
           resolveDesktopProfile,
-          KNORVIA_APP_ID,
+          resolveKnorviaAppUserModelId,
           KNORVIA_PORTABLE_MARKER: "knorvia-portable.json",
           buildDesktopProfileEnvironment,
         };
@@ -203,6 +222,10 @@ test("bootstrap applies all isolated paths and child environment before later st
     ["path", "userData", join(base, "profile")],
   );
   assert.equal(calls.filter(([kind]) => kind === "path").length, 5);
+  assert.deepEqual(
+    calls.filter(([kind]) => kind === "appId"),
+    [["appId", KNORVIA_APP_ID]],
+  );
   assert.doesNotMatch(source, /@knorvia\/services/);
   assert.equal(env.KNORVIA_DATA_BASE_DIR, base);
   assert.equal(env.KNORVIA_HOME, join(base, ".knorvia-studio"));
