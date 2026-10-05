@@ -456,6 +456,9 @@ contextBridge.exposeInMainWorld("knorvia", {
   checkReleaseUpdate(): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> {
     return ipcRenderer.invoke(PlatformChannels.CheckReleaseUpdate);
   },
+  installReleaseUpdate(): Promise<import("@knorvia/shared").ReleaseUpdateInstallResult> {
+    return ipcRenderer.invoke(PlatformChannels.InstallReleaseUpdate);
+  },
   captureWindowScreenshot() {
     return ipcRenderer.invoke(PlatformChannels.CaptureWindowScreenshot);
   },

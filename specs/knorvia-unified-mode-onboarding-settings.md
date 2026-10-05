@@ -81,6 +81,14 @@
 - AUMID 只在 `desktopEarlyDataBaseDirBootstrap` 中按构建期 flavor 与是否打包设置一次，取值与 electron-builder appId / `resolveWindowsAppUserModelIdForFlavor` 一致；`index.ts` 不再改写。
 - `electron-builder` 的 `win.icon` 显式指向 `build/icon.ico`；打包图标检查增加 `icon_windows.ico`。
 
+### 第二轮修复（0.8.4，已确认原因）
+
+用户在 0.8.3 实机反馈任务栏仍无图标。核对已发布的 0.8.3 便携包：`icon_windows.ico`、AUMID 与窗口图标代码都符合预期，但 exe 内嵌图标与所有 ICO 的 16–128px 帧全部是 PNG 压缩（0.8.1 之前的旧图标同样如此）。Windows Shell 取任务栏/Alt+Tab 小图标时走 DIB 路径，PNG 小帧无法解码，于是显示通用应用图标；PNG 只在 256px 帧上可靠。
+
+- `scripts/generate-product-icons.py` 改为自写 ICO：16–128px 为 32 位 BMP（BGRA + AND 掩码），仅 256px 为 PNG；其余 31 个产物逐字节不变（锁定 CairoSVG 2.9.1 / Pillow 12.3.0 复现验证）。
+- NSIS `customInstall` 结束时调用 `SHChangeNotify(SHCNE_ASSOCCHANGED)`，让升级安装后 Shell 丢弃缓存的空白图标。
+- 离线测试锁定 `icon.ico` / `icon_installer.ico` 的帧格式（<256 为 BMP，256 为 PNG）。
+
 ## 5. 非设置区域优化（调整，不重做）
 
 - 侧栏底部菜单移除界面模式切换。

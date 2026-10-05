@@ -48,6 +48,46 @@ def raster(size):
     return source.resize((size, size), Image.Resampling.LANCZOS)
 
 
+def save_windows_ico(image, name, sizes):
+    """Write an ICO whose small frames are 32-bit BMP and only 256px is PNG.
+
+    Windows Shell (taskbar, Alt+Tab, Start menu) extracts the 16-48px frames through
+    APIs that expect DIB bitmaps; PNG-compressed small frames are not decoded there and
+    the taskbar falls back to the generic application icon. PNG is only safe at 256px.
+    """
+    import struct
+    frames = []
+    for size in sizes:
+        frame = image.resize((size, size), Image.Resampling.LANCZOS).convert("RGBA")
+        if size >= 256:
+            buffer = io.BytesIO()
+            frame.save(buffer, format="PNG")
+            frames.append((size, buffer.getvalue()))
+            continue
+        # BITMAPINFOHEADER: height counts XOR + AND masks; pixels are bottom-up BGRA.
+        xor = b"".join(
+            bytes((b, g, r, a))
+            for y in range(size - 1, -1, -1)
+            for (r, g, b, a) in (frame.getpixel((x, y)) for x in range(size))
+        )
+        and_stride = ((size + 31) // 32) * 4
+        and_mask = bytes(and_stride * size)
+        header = struct.pack("<IiiHHIIiiII", 40, size, size * 2, 1, 32, 0,
+                             len(xor) + len(and_mask), 0, 0, 0, 0)
+        frames.append((size, header + xor + and_mask))
+    directory = struct.pack("<HHH", 0, 1, len(frames))
+    offset = 6 + 16 * len(frames)
+    entries = b""
+    for size, data in frames:
+        dimension = 0 if size >= 256 else size
+        entries += struct.pack("<BBBBHHII", dimension, dimension, 0, 0, 1, 32, len(data), offset)
+        offset += len(data)
+    path = ROOT / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(directory + entries + b"".join(data for _, data in frames))
+    outputs[name] = digest(path)
+
+
 sizes = [16, 24, 32, 48, 64, 128, 256, 512, 1024]
 for directory in ["packages/desktop/build/icons", "public/logo/icons"]:
     for size in sizes:
@@ -60,7 +100,7 @@ for name in ["packages/desktop/build/icon.png", "packages/desktop/build/icon_win
     save(raster(1024), name)
 for name in ["packages/desktop/build/icon.ico", "packages/desktop/build/icon_installer.ico",
              "public/logo/icons/icon.ico", "packages/web/public/favicon.ico"]:
-    save(raster(256), name, sizes=[(n, n) for n in sizes if n <= 256])
+    save_windows_ico(source, name, [n for n in sizes if n <= 256])
 for name in ["packages/desktop/build/icon.icns", "packages/desktop/build/icon_installer.icns",
              "public/logo/icons/icon.icns"]:
     save(raster(1024), name)

@@ -159,8 +159,13 @@ export type {
   TelemetryProviderScope,
 } from "./telemetryRedaction.js";
 export { redactDiagnosticText, redactDiagnosticValue } from "./diagnosticSecrets.js";
-export type { ReleaseUpdateCheckResult } from "./releaseUpdate.js";
-export { validReleaseInfoUrl } from "./releaseUpdate.js";
+export type { ReleaseUpdateCheckResult, ReleaseUpdateInstallResult } from "./releaseUpdate.js";
+export {
+  KNORVIA_OFFICIAL_RELEASE_INFO_URL,
+  RELEASE_ASSET_HOSTS,
+  validReleaseAssetUrl,
+  validReleaseInfoUrl,
+} from "./releaseUpdate.js";
 export { localDiagnosticRequestSchema, LOCAL_DIAGNOSTIC_PROBE_STAGES } from "./localDiagnostics.js";
 export type {
   LocalDiagnosticRequest,

@@ -141,6 +141,9 @@ export function createDesktopPlatform(options: {
     previewLocalDiagnostics: calls.required("previewLocalDiagnostics", 1),
     exportLocalDiagnostics: calls.required("exportLocalDiagnostics", 1),
     checkReleaseUpdate: calls.required("checkReleaseUpdate", 0),
+    installReleaseUpdate: calls.optional("installReleaseUpdate", 0, () =>
+      Promise.resolve({ status: "failed" as const, reason: "unsupported" as const }),
+    ),
     captureWindowScreenshot: calls.optional("captureWindowScreenshot", 0, () =>
       Promise.resolve(null),
     ),

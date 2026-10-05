@@ -315,6 +315,7 @@ export const PlatformChannels = {
   PreviewLocalDiagnostics: "knorvia:preview-local-diagnostics",
   ExportLocalDiagnostics: "knorvia:export-local-diagnostics",
   CheckReleaseUpdate: "knorvia:check-release-update",
+  InstallReleaseUpdate: "knorvia:install-release-update",
   /** Renderer → Main：截取当前窗口作为反馈附件 */
   CaptureWindowScreenshot: "knorvia:capture-window-screenshot",
   /**
@@ -939,6 +940,10 @@ export interface PlatformChannelMap {
   [PlatformChannels.CheckReleaseUpdate]: {
     request: void;
     response: import("./releaseUpdate.js").ReleaseUpdateCheckResult;
+  };
+  [PlatformChannels.InstallReleaseUpdate]: {
+    request: void;
+    response: import("./releaseUpdate.js").ReleaseUpdateInstallResult;
   };
   [PlatformChannels.CaptureWindowScreenshot]: {
     request: void;

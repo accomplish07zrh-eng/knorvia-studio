@@ -817,6 +817,8 @@ export interface IPlatformService {
   ): Promise<import("./localDiagnostics.js").LocalDiagnosticExportResult>;
   /** Read release metadata from the user-configured source; never download or install. */
   checkReleaseUpdate?(): Promise<import("./releaseUpdate.js").ReleaseUpdateCheckResult>;
+  /** 下载并校验最新安装包后启动安装程序；不接受地址参数，由 Main 重新检查发布记录。 */
+  installReleaseUpdate?(): Promise<import("./releaseUpdate.js").ReleaseUpdateInstallResult>;
 
   /** 截取当前窗口，用于错误反馈携带现场画面；Web fallback 可返回 null */
   captureWindowScreenshot?(): Promise<WindowScreenshotResult | null>;

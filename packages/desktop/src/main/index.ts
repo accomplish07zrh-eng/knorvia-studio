@@ -39,6 +39,7 @@ import {
   Notification,
   protocol,
   session,
+  shell,
   webContents,
 } from "electron";
 import type { UtilityProcess as ElectronUtilityProcess } from "electron";
@@ -67,6 +68,7 @@ import {
 } from "@knorvia/shared";
 import { logger } from "./logger.js";
 import { checkReleaseUpdate, scheduleReleaseUpdateChecks } from "./releaseUpdateCheck.js";
+import { createReleaseUpdateInstaller } from "./releaseUpdateInstall.js";
 import { markMainLaunchAppReady } from "./desktopLaunchMarks.js";
 import { createCuaPipFocusRouter, resolveCuaPipWindowKey } from "./cuaPipFocusRouter.js";
 
@@ -610,11 +612,37 @@ const disposingHostProcessTimers = new WeakMap<
   ReturnType<typeof setTimeout>
 >();
 const mainSettingService = createSettingService();
-const checkLocalRelease = () =>
+const checkLocalReleaseDetail = () =>
   checkReleaseUpdate({
     getSettings: () => mainSettingService.get(),
     currentVersion: KNORVIA_VERSION,
+    // 只有打包的 Windows 安装版提供一键安装；便携版与其他平台只打开发布页。
+    installerTarget: {
+      platform: process.platform,
+      arch: process.arch,
+      packaged: app.isPackaged,
+      portable: desktopProfile.portable,
+    },
   });
+// IPC 只下发公开结果，安装包地址留在 Main。
+const checkLocalRelease = async () => {
+  const { installer: _installer, ...result } = await checkLocalReleaseDetail();
+  return result;
+};
+const installLocalRelease = createReleaseUpdateInstaller({
+  check: checkLocalReleaseDetail,
+  downloadDir: join(app.getPath("temp"), "knorvia-update"),
+  // ShellExecute 允许安装程序按需触发 UAC；spawn 遇到需提权的安装包会直接失败。
+  launch: async (installerPath) => {
+    const error = await shell.openPath(installerPath);
+    if (error) throw new Error(error);
+  },
+  quit: () => {
+    markExplicitQuit("release-update-install");
+    app.quit();
+  },
+  logger,
+});
 async function resolveCurrentKnorviaEndpointOrigin() {
   return "";
 }
@@ -1449,6 +1477,7 @@ app.whenReady().then(async () => {
 
   registerPlatformIpcHandlers({
     checkReleaseUpdate: checkLocalRelease,
+    installReleaseUpdate: installLocalRelease,
     fetchHelpConfig: readHelpConfig,
     logger,
     // CDP-on-guest pivot：renderer `<webview>` dom-ready 上报 guest webContentsId → attach。

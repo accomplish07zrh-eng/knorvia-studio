@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { mock, test } from "node:test";
-import { appSettingsPatchSchema, validReleaseInfoUrl } from "@knorvia/shared";
+import {
+  appSettingsPatchSchema,
+  KNORVIA_OFFICIAL_RELEASE_INFO_URL,
+  validReleaseInfoUrl,
+} from "@knorvia/shared";
 import {
   checkReleaseUpdate,
   FIRST_RELEASE_CHECK_DELAY_MS,
@@ -22,25 +26,26 @@ const release = (version: string, prerelease = false) =>
     },
   );
 
-test("empty and disabled update sources make no request", async () => {
-  let calls = 0;
-  const fetchImpl = (async () => {
-    calls++;
+test("blank source uses the official GitHub releases and disabled checks make no request", async () => {
+  const urls: string[] = [];
+  const fetchImpl = (async (url: string | URL | Request) => {
+    urls.push(String(url));
     return release("0.8.1");
   }) as typeof fetch;
-  const unconfigured = await checkReleaseUpdate({
+  const official = await checkReleaseUpdate({
     getSettings: async () => ({ releaseInfoUrl: "" }),
     currentVersion,
     fetchImpl,
   });
+  assert.equal(official.status, "available");
+  assert.deepEqual(urls, [KNORVIA_OFFICIAL_RELEASE_INFO_URL]);
   const disabled = await checkReleaseUpdate({
     getSettings: async () => ({ releaseInfoUrl: source, releaseChecksEnabled: false }),
     currentVersion,
     fetchImpl,
   });
-  assert.equal(unconfigured.status, "unconfigured");
   assert.equal(disabled.status, "disabled");
-  assert.equal(calls, 0);
+  assert.equal(urls.length, 1);
 });
 
 test("release source rejects credentials, unsafe schemes and non-loopback HTTP", () => {
@@ -73,6 +78,8 @@ test("newer stable release is available and older release is up to date", async 
     currentVersion,
     latestVersion: "0.8.0",
     releaseUrl: "https://example.test/release",
+    // 未提供安装目标（非 Windows 安装版）时不可一键安装。
+    installable: false,
   });
   assert.equal(seen[0]?.credentials, "omit");
   assert.equal(seen[0]?.method, "GET");

@@ -59,6 +59,7 @@ import { applyDesktopWindowGlass } from "./desktopWindowGlass.js";
 import { registerCuaPipActiveSessionIpc } from "./desktopCuaPipIpc.js";
 export function registerPlatformIpcHandlers(options: {
   checkReleaseUpdate?: () => Promise<ReleaseUpdateCheckResult>;
+  installReleaseUpdate?: () => Promise<import("@knorvia/shared").ReleaseUpdateInstallResult>;
   fetchHelpConfig?: () => Promise<unknown>;
   logger: {
     info: (...args: unknown[]) => void;
@@ -323,6 +324,13 @@ export function registerPlatformIpcHandlers(options: {
     () =>
       options.checkReleaseUpdate?.() ??
       Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }),
+  );
+  // 不读取任何请求参数：下载地址只来自 Main 重新检查的发布记录。
+  ipcMain.handle(
+    PlatformChannels.InstallReleaseUpdate,
+    () =>
+      options.installReleaseUpdate?.() ??
+      Promise.resolve({ status: "failed" as const, reason: "unsupported" as const }),
   );
   ipcMain.handle(PlatformChannels.CaptureWindowScreenshot, async (event) =>
     captureWindowScreenshot(BrowserWindow.fromWebContents(event.sender)),

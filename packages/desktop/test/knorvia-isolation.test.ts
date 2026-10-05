@@ -65,6 +65,24 @@ test("Windows AUMID is decided once and matches the electron-builder shortcut id
   assert.match(entry, /icon_windows\.ico/);
 });
 
+test("Windows ICO keeps small frames as BMP so the taskbar can decode them", () => {
+  // 任务栏/Alt+Tab 取 16–48px 帧走 DIB 路径；PNG 压缩的小帧解不出来会显示通用空白图标。
+  for (const file of ["build/icon.ico", "build/icon_installer.ico"]) {
+    const bytes = readFileSync(join(desktopRoot, file));
+    const count = bytes.readUInt16LE(4);
+    const sizes: number[] = [];
+    for (let index = 0; index < count; index += 1) {
+      const entry = 6 + index * 16;
+      const size = bytes[entry] || 256;
+      const offset = bytes.readUInt32LE(entry + 12);
+      const png = bytes.subarray(offset, offset + 4).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+      assert.equal(png, size >= 256, `${file} ${size}px frame format`);
+      sizes.push(size);
+    }
+    for (const size of [16, 24, 32, 48, 256]) assert.ok(sizes.includes(size), `${file} ${size}px`);
+  }
+});
+
 test("portable marker and explicit portable directory keep all data beside their executable", () => {
   const marker = resolveDesktopProfile({ ...defaults, portableMarker: true });
   assert.equal(marker.base, join(dirname(executable), "data"));

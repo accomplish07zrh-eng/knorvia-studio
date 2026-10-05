@@ -476,21 +476,46 @@ const enUS: Record<string, string> = {
   "confirmDialog.projectRemoveDescription":
     "Project “{projectName}” will be removed from the sidebar, but files on disk will remain untouched.",
   "settings.onboarding": "Onboarding",
-  "settings.releaseUpdate.title": "Update reminders",
+  "settings.releaseUpdate.title": "Check for updates automatically",
   "settings.releaseUpdate.description":
-    "Checks release information only. Never downloads or installs automatically. Disabling this sends no check requests.",
-  "settings.releaseUpdate.source": "Release information URL",
+    "Checks at startup and every 24 hours, and shows a system notification when a new version is out. Turn off to stop all update checks.",
+  "settings.releaseUpdate.source": "Custom update source",
   "settings.releaseUpdate.sourceDescription":
-    "Enter a public HTTPS JSON endpoint. Leave blank to stay offline.",
+    "Leave blank to use the official GitHub releases. Enter an HTTPS JSON URL that needs no sign-in to replace it.",
+  "settings.releaseUpdate.sourcePlaceholder": "Blank uses the official releases",
+  "settings.releaseUpdate.statusTitle": "Version and updates",
+  "settings.releaseUpdate.checking": "Checking for updates…",
+  "settings.releaseUpdate.current": "You're on {version}, the latest version.",
+  "settings.releaseUpdate.available":
+    "Version {version} is available (you have {current}). Download it from the release page.",
+  "settings.releaseUpdate.availableInstallable":
+    "Version {version} is available (you have {current}). Download and install it in one click.",
+  "settings.releaseUpdate.install": "Download and install",
+  "settings.releaseUpdate.installing":
+    "Downloading and verifying the installer; it will start automatically when done…",
+  "settings.releaseUpdate.installStarted":
+    "The installer has started. Knorvia Studio will quit to finish installing {version}.",
+  "settings.releaseUpdate.installFailed": "Update failed: {reason}",
+  "settings.releaseUpdate.installReason.busy": "An update is already in progress",
+  "settings.releaseUpdate.installReason.no-update": "No newer version to install",
+  "settings.releaseUpdate.installReason.unsupported":
+    "One-click install isn't available for this build; download it from the release page",
+  "settings.releaseUpdate.installReason.check-failed": "Couldn't read the release information",
+  "settings.releaseUpdate.installReason.download":
+    "Download failed; check your network and try again",
+  "settings.releaseUpdate.installReason.too-large":
+    "The installer exceeds the size limit and was cancelled",
+  "settings.releaseUpdate.installReason.checksum":
+    "The installer checksum didn't match; the download was deleted",
+  "settings.releaseUpdate.installReason.launch": "Couldn't start the installer",
+  "settings.releaseUpdate.releaseNotes": "Release notes",
+  "settings.releaseUpdate.openRelease": "Download",
   "settings.releaseUpdate.save": "Save",
   "settings.releaseUpdate.check": "Check for updates",
   "settings.releaseUpdate.unconfigured": "No update source configured",
   "settings.releaseUpdate.disabled": "Update checks are off",
-  "settings.releaseUpdate.current": "Already up to date",
   "settings.releaseUpdate.noCompatibleRelease":
     "This source offers a preview release; stable installations will not be prompted.",
-  "settings.releaseUpdate.available":
-    "Version {version} is available. See its release information.",
   "settings.releaseUpdate.failed": "Check failed: {reason}",
   "settings.releaseUpdate.reason.settings": "Could not read settings",
   "settings.releaseUpdate.reason.invalid-source": "Invalid update source URL",

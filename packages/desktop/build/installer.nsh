@@ -459,6 +459,10 @@
     !endif
   ${endIf}
 
+  ; 修复依据：旧版本 ICO 的小尺寸帧是 PNG，任务栏解不出来时 Shell 会把空白图标缓存下来；
+  ; 新版改为 BMP 小帧后需通知 Shell 关联/图标已变化，升级安装后任务栏立即重新取图标。
+  System::Call 'Shell32::SHChangeNotify(i 0x08000000, i 0x1000, p 0, p 0)'
+
   ; 手动覆盖没有 --updated，继承旧快捷方式时仍需检查目标；首次安装没有旧项，
   ; 不应额外启动 PowerShell。用户已删除的快捷方式也不会重建。
   ; assisted installer 完成页始终直接运行本次安装落盘的 exe。
