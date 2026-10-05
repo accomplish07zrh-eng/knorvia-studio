@@ -136,7 +136,7 @@ function SettingsSidebarButton({
       type={buttonProps.type ?? "button"}
       aria-label={label}
       className={cn(
-        "flex h-9 w-full items-center gap-2.5 rounded-full px-3 text-left transition-colors",
+        "flex h-8 w-full items-center gap-2.5 rounded-full px-3 text-left transition-colors",
         "max-lg:mx-auto max-lg:size-10 max-lg:justify-center max-lg:px-0",
         // 纸片式选中：选中项是一张浮起的纸片（.bg-selected），未选中保持安静的文字色。
         active
@@ -1049,7 +1049,7 @@ export function SettingsPage({
                     placeholder={intl.formatMessage({ id: "settings.navSearchPlaceholder" })}
                     aria-label={intl.formatMessage({ id: "settings.navSearchPlaceholder" })}
                     data-testid="settings-nav-search"
-                    className="h-8 bg-background pl-8 text-ui-sm"
+                    className="h-8 bg-background !pl-8 text-ui-sm"
                   />
                 </div>
               </div>
@@ -1058,7 +1058,7 @@ export function SettingsPage({
                 aria-label={intl.formatMessage({ id: "settings.navLabel" })}
                 className="flex-1 overflow-y-auto px-3 pb-3"
               >
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-4">
                   {visibleSettingsSectionGroups.map((group, groupIndex) => {
                     const groupLabel = intl.formatMessage({
                       id: group.titleId,

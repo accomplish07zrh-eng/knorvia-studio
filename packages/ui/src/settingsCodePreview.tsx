@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select.js";
 import {
   getThemeOptionLabel,
+  SettingsGroupHeading,
   SettingsRow,
   ThemePreviewCard,
   ThemeSelect,
@@ -71,9 +72,9 @@ function FontSizeInput({
             setDraft(String(value));
           }
         }}
-        className="pr-8 text-right tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="!pr-8 text-right tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       />
-      <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-ui-lg text-foreground-subtle">
+      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-ui-sm text-foreground-subtle">
         px
       </span>
     </div>
@@ -100,17 +101,11 @@ export function AppearanceSectionContent({
 
   return (
     <>
-      <div className="min-w-0 space-y-3">
-        <div>
-          <h3 className="text-ui-lg font-semibold text-foreground">
-            {intl.formatMessage({ id: "settings.appearance.interfaceTitle" })}
-          </h3>
-          <p className="mt-1 text-ui-base leading-6 text-foreground-subtle">
-            {intl.formatMessage({
-              id: "settings.appearance.interfaceDescription",
-            })}
-          </p>
-        </div>
+      <div className="flex min-w-0 flex-col gap-2.5">
+        <SettingsGroupHeading
+          title={intl.formatMessage({ id: "settings.appearance.interfaceTitle" })}
+          description={intl.formatMessage({ id: "settings.appearance.interfaceDescription" })}
+        />
         <Card className="border border-border bg-card py-0 shadow-none">
           <CardContent className="space-y-0 px-0">
             <SettingsRow
@@ -161,17 +156,11 @@ export function AppearanceSectionContent({
 
       <AppearanceMaterials />
       <div className="space-y-6">
-        <div className="min-w-0 space-y-3">
-          <div>
-            <h3 className="text-ui-lg font-semibold text-foreground">
-              {intl.formatMessage({ id: "settings.appearance.codeTitle" })}
-            </h3>
-            <p className="mt-1 text-ui-base leading-6 text-foreground-subtle">
-              {intl.formatMessage({
-                id: "settings.appearance.codeDescription",
-              })}
-            </p>
-          </div>
+        <div className="flex min-w-0 flex-col gap-2.5">
+          <SettingsGroupHeading
+            title={intl.formatMessage({ id: "settings.appearance.codeTitle" })}
+            description={intl.formatMessage({ id: "settings.appearance.codeDescription" })}
+          />
           <Card className="border border-border bg-card py-0 shadow-none [&_[data-slot=select-trigger]]:w-full">
             <CardContent className="space-y-0 px-0">
               <SettingsRow
@@ -247,14 +236,10 @@ export function AppearanceSectionContent({
         </div>
 
         <div className="min-w-0 space-y-4">
-          <div>
-            <h3 className="text-ui-base font-semibold text-foreground">
-              {intl.formatMessage({ id: "settings.previewSectionTitle" })}
-            </h3>
-            <p className="mt-1 text-ui-base leading-6 text-foreground-subtle">
-              {intl.formatMessage({ id: "settings.previewDescription" })}
-            </p>
-          </div>
+          <SettingsGroupHeading
+            title={intl.formatMessage({ id: "settings.previewSectionTitle" })}
+            description={intl.formatMessage({ id: "settings.previewDescription" })}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <ThemePreviewCard
               mode="light"

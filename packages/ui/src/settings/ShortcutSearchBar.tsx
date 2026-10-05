@@ -34,7 +34,7 @@ export function ShortcutSearchBar({
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-foreground-subtle" />
         <Input
-          className={`pl-9 font-mono ${keyLabel !== null ? "pr-16 text-brand" : "pr-9"}`}
+          className={`!pl-9 font-mono ${keyLabel !== null ? "!pr-16 text-brand" : "!pr-9"}`}
           placeholder={
             keySearch.armed
               ? intl.formatMessage({ id: "settings.shortcuts.keySearchPlaceholder" })

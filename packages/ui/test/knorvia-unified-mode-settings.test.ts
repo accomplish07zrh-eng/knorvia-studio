@@ -40,7 +40,9 @@ test("unified composer shows the branch switcher for projects and plugin preview
   const branch = source.indexOf('activeWorkspacePurpose === "project" ? (');
   assert.ok(branch > 0);
   assert.ok(source.indexOf("<GitBranchSwitcher", branch) > branch);
-  assert.ok(source.indexOf("<WorkspacePluginPreview", branch) > source.indexOf("<GitBranchSwitcher"));
+  assert.ok(
+    source.indexOf("<WorkspacePluginPreview", branch) > source.indexOf("<GitBranchSwitcher"),
+  );
 });
 
 test("onboarding records no longer ask for an interface mode", () => {
@@ -83,10 +85,7 @@ test("settings navigation groups sections and every section has a bilingual desc
     ["general", "appearance", "shortcuts"],
   );
   const grouped = settingsSectionGroups.flatMap((group) => group.sections.map(({ id }) => id));
-  assert.deepEqual(
-    grouped.toSorted(),
-    settingsSections.map(({ id }) => id).toSorted(),
-  );
+  assert.deepEqual(grouped.toSorted(), settingsSections.map(({ id }) => id).toSorted());
   for (const section of settingsSections) {
     for (const messages of [enUS, zhCN] as Array<Record<string, string>>) {
       assert.ok(messages[section.descriptionId], `${section.id} description`);

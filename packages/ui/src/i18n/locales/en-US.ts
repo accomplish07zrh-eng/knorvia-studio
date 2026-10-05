@@ -475,7 +475,7 @@ const enUS: Record<string, string> = {
   "confirmDialog.projectRemoveTitle": "Remove this project?",
   "confirmDialog.projectRemoveDescription":
     "Project “{projectName}” will be removed from the sidebar, but files on disk will remain untouched.",
-  "settings.onboarding": "Onboard",
+  "settings.onboarding": "Onboarding",
   "settings.releaseUpdate.title": "Update reminders",
   "settings.releaseUpdate.description":
     "Checks release information only. Never downloads or installs automatically. Disabling this sends no check requests.",
