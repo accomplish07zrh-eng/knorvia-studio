@@ -100,3 +100,7 @@
 4. 快捷键分组显示，录制、冲突、恢复默认可用。
 5. Windows：AUMID 一次设置并与快捷方式一致；窗口使用 ICO；打包资源包含 `icon_windows.ico`。离线测试覆盖 AUMID 一致性与入口不再改写。
 6. 运行 `pnpm typecheck`、`pnpm lint`、`pnpm fmt:check`、`pnpm architecture:check --changed` 与相关离线测试，如实报告结果；Windows 实机任务栏需在 Windows 上复核。
+
+## 发布
+
+2026-10-05 用户要求直接合入 `main` 并纳入 0.8.2：根 `package.json` 版本由 0.8.1 升为 0.8.2（发布工作流据此生成 `v0.8.2` 标签）；v0.8.1 及其资产保持不变。官网下载链接在 v0.8.2 资产发布后另行更新。
