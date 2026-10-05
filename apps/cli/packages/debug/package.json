@@ -14,7 +14,7 @@
   "dependencies": {
     "@hono/node-server": "^1.14.4",
     "@knorvia/shared": "workspace:*",
-    "hono": "^4.10.7",
+    "hono": "^4.13.13",
     "http-mitm-proxy": "^1.1.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.1",

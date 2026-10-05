@@ -6,6 +6,11 @@ packages:
 overrides:
   react: 19.2.7
   react-dom: 19.2.7
+  shell-quote: ^1.12.0
+  protobufjs: ^7.6.6
+  ip-address: ^10.7.3
+  "cheerio>undici": ^7.29.1
+  "release-it>undici": ^6.29.0
 patchedDependencies:
   "@ai-sdk/openai-compatible@2.0.60": patches/@ai-sdk__openai-compatible@2.0.60.patch
   "@ai-sdk/anthropic@3.0.81": patches/@ai-sdk__anthropic@3.0.81.patch
