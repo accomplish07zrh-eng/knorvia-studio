@@ -74,7 +74,14 @@ test("settings navigation is one ungrouped list and every section has a bilingua
   const config = createSettingsPageConfig({ isDesktop: true, isWindowsDesktop: true });
   assert.equal("settingsSectionGroups" in config, false);
   const ids = config.settingsSections.map(({ id }) => id);
-  assert.deepEqual(ids.slice(0, 3), ["general", "appearance", "shortcuts"]);
+  assert.deepEqual(ids.slice(0, 6), [
+    "general",
+    "appearance",
+    "shortcuts",
+    "agents",
+    "modelProvider",
+    "usage",
+  ]);
   assert.equal(new Set(ids).size, ids.length);
   for (const section of config.settingsSections) {
     for (const messages of [enUS, zhCN] as Array<Record<string, string>>) {

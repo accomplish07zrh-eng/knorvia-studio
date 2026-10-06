@@ -60,6 +60,7 @@ const BASE_SETTINGS_SECTIONS: SettingsSectionDefinition[] = [
   section("shortcuts", Keyboard, "settings.shortcuts.title"),
   section("agents", Bot, "studio.agents"),
   section("modelProvider", Package, "settings.modelProviderTitle"),
+  section("usage", BarChart3, "settings.usageTitle"),
   section("subagents", Bot, "settings.subagents.title"),
   section("memory", Brain, "settings.memory"),
   section("plugin", Blocks, "settings.plugins.title"),
@@ -74,7 +75,6 @@ const BASE_SETTINGS_SECTIONS: SettingsSectionDefinition[] = [
   section("browser", Globe2, "settings.browser.title"),
   section("computerUse", Monitor, "settings.computerUse.title"),
   section("workspaceFileSearch", FileSearch, "settings.workspaceFileSearch.title"),
-  section("usage", BarChart3, "settings.usageTitle"),
 ];
 
 // 兼容既有只读消费者：默认配置代表不带桌面平台能力的 Web 视图；
