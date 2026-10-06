@@ -24,6 +24,7 @@ import type { IPromptAttachmentTransferService } from "./prompt-attachment-trans
 import type { IKnorviaTaskService } from "./session/taskService.js";
 import type { ISettingService } from "./setting/setting.js";
 import type { ISettingsSyncService } from "./settings-sync/settingsSync.js";
+import type { ICliProviderSwitchService } from "./cli-provider-switch/cliProviderSwitch.js";
 import type { ISkillSyncService } from "./skill-sync/skillSync.js";
 import type { ISkillsService } from "./skills/skills.js";
 import type { ISubagentsService } from "./subagents/subagents.js";
@@ -74,5 +75,7 @@ export interface IServiceAccessor {
   readonly hooksService: IHooksService;
   readonly memoryService: IMemoryService;
   readonly settingsSyncService: ISettingsSyncService;
+  /** 仅本机 Host 提供；远程工作区或旧 Host 上为空，界面据此隐藏切换入口。 */
+  readonly cliProviderSwitchService?: ICliProviderSwitchService;
   readonly promptAttachmentTransferService: IPromptAttachmentTransferService;
 }

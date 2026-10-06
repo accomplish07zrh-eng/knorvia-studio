@@ -126,6 +126,8 @@ export const ServiceChannels = {
   Memory: "memory",
   /** 首次启动设置同步服务 */
   SettingsSync: "settings-sync",
+  /** Claude Code / Codex / Grok Build 全局模型配置切换（仅本机 Host） */
+  CliProviderSwitch: "cli-provider-switch",
   /** Composer 附件在 host-local 与 remote runtime 之间的预传服务 */
   PromptAttachmentTransfer: "prompt-attachment-transfer",
   /** Onboarding 完成记录服务（本地持久化，后续上传服务器） */

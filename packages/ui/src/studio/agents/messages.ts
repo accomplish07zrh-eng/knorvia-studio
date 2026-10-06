@@ -156,6 +156,34 @@ export const agentsZhCN = {
   "studio.agents.error.invalid-project": "无法选择项目，请重试或选择有效的本机文件夹。",
   "studio.agents.error.draft-too-long": "草稿最多可保存和发送 20000 个字符，请缩短超限内容后继续。",
   "studio.agents.error.draft-limit": "最多可保存 100 份草稿，请先从会话列表删除不需要的草稿。",
+  "studio.cliSwitch.title": "CLI 模型配置",
+  "studio.cliSwitch.description":
+    "让 Claude Code、Codex、Grok Build 使用这里配置的模型，或回到各自的官方订阅。修改的是 CLI 的全局配置：终端与 Studio 中的该 CLI 都会使用所选模型，各 CLI 互不影响。",
+  "studio.cliSwitch.official": "官方订阅",
+  "studio.cliSwitch.select": "{name} 使用的模型",
+  "studio.cliSwitch.state.official": "当前使用官方订阅与登录。",
+  "studio.cliSwitch.state.knorvia": "当前使用 {provider} · {model}。",
+  "studio.cliSwitch.state.stale":
+    "当前使用 {provider} · {model}，但该供应商的地址、密钥或模型已变化，需要重新应用。",
+  "studio.cliSwitch.state.external":
+    "配置被手动或其他工具（如 CC Switch）修改过，切换前需要确认接管。",
+  "studio.cliSwitch.state.externalShort": "外部配置",
+  "studio.cliSwitch.state.unreadable": "配置文件无法读取，Studio 不会改动它：{reason}",
+  "studio.cliSwitch.noCandidates": "暂无协议兼容的模型。",
+  "studio.cliSwitch.reapply": "重新应用",
+  "studio.cliSwitch.takeOverTitle": "接管 {name} 的配置？",
+  "studio.cliSwitch.takeOverDescription":
+    "{path} 中的模型设置不是 Studio 写入的。接管后 Studio 会改写这些字段，其他设置保持不变；首次修改前会备份原文件。",
+  "studio.cliSwitch.takeOver": "接管并切换",
+  "studio.cliSwitch.firstTitle": "写入 CLI 全局配置",
+  "studio.cliSwitch.firstDescription":
+    "所选模型的地址与 API Key 会以明文写入该 CLI 的配置文件（与 CC Switch 相同），仅当前用户可读。官方登录凭据不会被读取或修改，可随时切回官方订阅。",
+  "studio.cliSwitch.firstConfirm": "继续",
+  "studio.cliSwitch.done": "{name} 已切换，新开的会话生效。",
+  "studio.cliSwitch.doneRestart":
+    "{name} 已切回官方订阅。请重启正在运行的 {name} 会话，旧会话仍会使用之前的配置。",
+  "studio.cliSwitch.failed": "{name} 切换失败，配置文件未改动：{reason}",
+  "studio.cliSwitch.loadFailed": "无法读取 CLI 配置状态：{reason}",
 } as const;
 
 export const agentsEnUS: Record<keyof typeof agentsZhCN, string> = {
@@ -333,4 +361,34 @@ export const agentsEnUS: Record<keyof typeof agentsZhCN, string> = {
     "Drafts can save and send up to 20000 characters. Shorten oversized text to continue.",
   "studio.agents.error.draft-limit":
     "Up to 100 drafts can be saved. Delete unneeded drafts from the conversation list first.",
+  "studio.cliSwitch.title": "CLI model configuration",
+  "studio.cliSwitch.description":
+    "Let Claude Code, Codex and Grok Build use models configured here, or return to their official subscriptions. This changes each CLI's global configuration: the CLI uses the selected model both in your terminal and in Studio. Each CLI is switched independently.",
+  "studio.cliSwitch.official": "Official subscription",
+  "studio.cliSwitch.select": "Model used by {name}",
+  "studio.cliSwitch.state.official": "Using its official subscription and sign-in.",
+  "studio.cliSwitch.state.knorvia": "Using {provider} · {model}.",
+  "studio.cliSwitch.state.stale":
+    "Using {provider} · {model}, but that provider's address, key or model changed. Apply it again.",
+  "studio.cliSwitch.state.external":
+    "The configuration was changed manually or by another tool (such as CC Switch). Confirm a take-over before switching.",
+  "studio.cliSwitch.state.externalShort": "External configuration",
+  "studio.cliSwitch.state.unreadable":
+    "The configuration file can't be read, so Studio won't change it: {reason}",
+  "studio.cliSwitch.noCandidates": "No models with a compatible protocol yet.",
+  "studio.cliSwitch.reapply": "Apply again",
+  "studio.cliSwitch.takeOverTitle": "Take over {name}'s configuration?",
+  "studio.cliSwitch.takeOverDescription":
+    "The model settings in {path} were not written by Studio. Taking over lets Studio rewrite those fields; other settings stay as they are, and the original file is backed up before the first change.",
+  "studio.cliSwitch.takeOver": "Take over and switch",
+  "studio.cliSwitch.firstTitle": "Write the CLI's global configuration",
+  "studio.cliSwitch.firstDescription":
+    "The selected model's address and API key are written in plain text to the CLI's configuration file (as CC Switch does), readable only by your user. Official sign-in credentials are never read or changed, and you can switch back to the official subscription at any time.",
+  "studio.cliSwitch.firstConfirm": "Continue",
+  "studio.cliSwitch.done": "{name} switched. New sessions use the new model.",
+  "studio.cliSwitch.doneRestart":
+    "{name} is back on its official subscription. Restart any running {name} sessions; they keep the previous configuration.",
+  "studio.cliSwitch.failed":
+    "Couldn't switch {name}; its configuration file was not changed: {reason}",
+  "studio.cliSwitch.loadFailed": "Couldn't read the CLI configuration status: {reason}",
 };

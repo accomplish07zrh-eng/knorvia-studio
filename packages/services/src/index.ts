@@ -227,5 +227,6 @@ export type {
   PromptAttachmentTransferProgress,
 } from "./prompt-attachment-transfer/promptAttachmentTransfer.js";
 export { ISettingsSyncService } from "./settings-sync/settingsSync.js";
+export { ICliProviderSwitchService } from "./cli-provider-switch/cliProviderSwitch.js";
 export * from "./studio-runtime/contract.js";
 export * from "./creation/contract.js";

@@ -169,6 +169,7 @@ export {
   prepareRuntimeProcessEnvPatch,
 } from "./runtime-tools/runtimeCommandEnv.js";
 export { createSettingsSyncService } from "./settings-sync/settingsSyncService.js";
+export { createCliProviderSwitchService } from "./cli-provider-switch/cliProviderSwitchService.js";
 export { createSkillSyncService } from "./skill-sync/skillSyncService.js";
 export { createSkillsService } from "./skills/skillsService.js";
 export { createFsStorageCleaner } from "./storage/adapters/fsCleaner.js";
@@ -332,6 +333,8 @@ import { ISettingService } from "./setting/setting.js";
 import { createSettingServiceWithMigrations } from "./setting/settingService.js";
 import { ISettingsSyncService } from "./settings-sync/settingsSync.js";
 import { createSettingsSyncService } from "./settings-sync/settingsSyncService.js";
+import { ICliProviderSwitchService } from "./cli-provider-switch/cliProviderSwitch.js";
+import { createCliProviderSwitchService } from "./cli-provider-switch/cliProviderSwitchService.js";
 import { ISkillSyncService } from "./skill-sync/skillSync.js";
 import { createSkillSyncService } from "./skill-sync/skillSyncService.js";
 import { ISkillsService } from "./skills/skills.js";
@@ -1940,6 +1943,14 @@ export function createLocalServices(options: {
   providerRuntimes.set(services, providerRuntime);
   services
     .register(IProviderSettingsService, providerRuntime.providerSettings)
+    // CLI 模型配置切换只在本机 Host 注册：它写的是本机用户目录下的 CLI 配置。
+    .register(
+      ICliProviderSwitchService,
+      createCliProviderSwitchService({
+        providerSettings: providerRuntime.providerSettings,
+        dataDir: getKnorviaDataRootDir(),
+      }),
+    )
     .register(IModelSelectionService, providerRuntime.modelSelection);
   const log = createServiceLogger("provider-runtime");
   void providerRuntime.start().then(

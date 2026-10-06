@@ -25,22 +25,24 @@
 ### Claude Code
 
 - 文件：`~/.claude/settings.json`（Windows 为 `%USERPROFILE%\.claude\settings.json`）。尊重用户环境中的 `CLAUDE_CONFIG_DIR`。
-- 切到 Studio 模型时写入 `env`：`ANTHROPIC_BASE_URL`、`ANTHROPIC_AUTH_TOKEN`、`ANTHROPIC_MODEL`、`ANTHROPIC_DEFAULT_SONNET_MODEL`、`ANTHROPIC_DEFAULT_OPUS_MODEL`、`ANTHROPIC_DEFAULT_HAIKU_MODEL`。使用 `ANTHROPIC_AUTH_TOKEN` 而非 `ANTHROPIC_API_KEY`，避免交互式确认提示。
-- 切回官方：删除上述键。
+- 切到 Studio 模型时写入 `env`（`ANTHROPIC_BASE_URL` 去掉 Knorvia 地址中可能带的 `/v1`，Claude Code 自行追加 `/v1/messages`）：`ANTHROPIC_BASE_URL`、`ANTHROPIC_AUTH_TOKEN`、`ANTHROPIC_MODEL`、`ANTHROPIC_DEFAULT_SONNET_MODEL`、`ANTHROPIC_DEFAULT_OPUS_MODEL`、`ANTHROPIC_DEFAULT_HAIKU_MODEL`。使用 `ANTHROPIC_AUTH_TOKEN` 而非 `ANTHROPIC_API_KEY`，避免交互式确认提示。
+- 切回官方：删除地址与令牌；四个模型键还原为切走前用户自己的值（原本不存在则删除）。判断"是否在走第三方"只看地址与令牌键，用户自己设置的模型键不算外部配置。
 - 永不读取或修改 `.credentials.json`、macOS 钥匙串和 `~/.claude.json`。
 
 ### Codex
 
 - 文件：`$CODEX_HOME/config.toml`，默认 `~/.codex/config.toml`。
 - 切到 Studio 模型时写入：顶层 `model_provider = "knorvia"`、`model`；表 `[model_providers.knorvia]` 的 `name`、`base_url`、`wire_api = "responses"`、`experimental_bearer_token`、`requires_openai_auth = false`。提供方 ID 使用 `knorvia`，不得使用保留 ID（`openai`、`ollama`、`lmstudio` 等）。
-- 切回官方：删除顶层 `model_provider`、`model`（仅当其值仍为 Studio 写入的值）以及 `[model_providers.knorvia]` 表。
+- 切回官方：删除 `[model_providers.knorvia]` 表；顶层 `model_provider`、`model` 还原为切走前用户自己的值（原本不存在则删除）。
+- `requires_openai_auth` 固定为 `false`：为 `true` 时 Codex 可能把官方 ChatGPT 登录凭据发往第三方地址。
 - 不修改 `auth.json`：官方 ChatGPT 登录保持原样，切回后直接可用。凭据可能存放在系统钥匙串而不存在 `auth.json`，不得假定该文件存在。
 
 ### Grok Build
 
 - 文件：`$GROK_HOME/config.toml`，默认 `~/.grok/config.toml`。
 - 切到 Studio 模型时写入 `[model.knorvia]`（`model`、`base_url`、`api_key`、`api_backend`）与 `[models] default = "knorvia"`。
-- 切回官方：删除 `[model.knorvia]`，并在 `[models].default` 仍为 `knorvia` 时删除该键。
+- 切回官方：删除 `[model.knorvia]`，`[models].default` 还原为切走前的值（原本不存在则删除）。
+- `api_backend` 按协议取 `chat_completions` / `responses` / `messages`；`messages` 模式下 `base_url` 不带 `/v1`，此约定需实机复核。
 - 不修改 `~/.grok/auth.json`。
 
 ## 安全与一致性
@@ -48,7 +50,7 @@
 - 首次修改某个配置文件前，在 Studio 数据目录 `cli-switch/backups/` 留一份原文件字节副本。
 - 写入流程：读取并记录哈希 → 局部修改 → 写临时文件 → 重新读取比较哈希 → 未变化才原子替换；发现被外部改动则基于新内容重新计算，不覆盖他人修改。
 - Studio 记录自己写入的字段与值。读取当前状态时：若文件中的值与记录不一致（被用户手动或 CC Switch 等工具修改），显示为"外部配置"，不擅自覆盖，由用户确认后再接管。
-- 同一 CLI 的切换串行执行；Studio 自身多窗口通过 Host 的单一所有者执行，不并发写同一文件。
+- 同一 Host 内的读取与切换串行执行。每个窗口有自己的 Local Host，多个 Host 同时切换时依靠替换前的内容复核（被改动则基于新内容重算，最多三次）与切换记录文件的文件锁避免互相覆盖。
 
 ## 状态所有者与事件顺序
 
@@ -62,6 +64,14 @@
   → 更新切换记录 → 返回新状态（含"新会话生效/需重启"提示）
 任一步失败 → 文件保持原样 → 返回失败原因
 ```
+
+## 实现位置
+
+- 共享契约：`packages/shared/src/cli-provider-switch.ts`，频道 `cli-provider-switch`。
+- 服务：`packages/services/src/cli-provider-switch/`（`cliTargets.ts` 各 CLI 字段规则，`tomlPatch.ts` 保留注释的局部修改并以重新解析逐项核对，`cliProviderSwitchService.ts` 状态与写入）。只在本机 Host 的 `node.ts` 注册；`IServiceAccessor.cliProviderSwitchService` 为可选，缺失时界面不显示该卡片。
+- 切换记录 `<数据目录>/cli-switch/state.json` 只存哈希与还原用的模型名，不存密钥；首次改写前的原文件备份在 `cli-switch/backups/`。
+- 配置目录取 Host 进程的 `CLAUDE_CONFIG_DIR` / `CODEX_HOME` / `GROK_HOME`，未设置时用用户主目录下的默认目录；若用户只在终端 shell 中设置了这些变量，Studio 看不到。
+- 界面：`packages/ui/src/studio/agents/CliProviderSwitchCard.tsx`，位于设置 → Agent 管理顶部；首次写入明文密钥前提示一次，接管外部配置需确认。
 
 ## 界面
 

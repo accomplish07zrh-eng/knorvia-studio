@@ -19,6 +19,7 @@ import {
   type StudioManagementAction,
 } from "./StudioAgentManagementDialog.js";
 import { StudioAgentStorageNotice } from "./StudioAgentStorageNotice.js";
+import { CliProviderSwitchCard } from "./CliProviderSwitchCard.js";
 import { StudioKernelCard } from "./StudioKernelCard.js";
 import { useStudioKernelCatalog } from "./useStudioKernelCatalog.js";
 
@@ -143,6 +144,7 @@ export function StudioAgentsSection({
       data-testid="studio-agents-section"
       aria-label={intl.formatMessage({ id: "studio.agents.title" })}
     >
+      <CliProviderSwitchCard />
       {/* 设置页头已展示分区说明（settings.sectionDescription.agents），这里只保留分组标题与操作。 */}
       <SettingsGroupHeading
         title={intl.formatMessage({ id: "studio.agents.kernelsHeading" })}

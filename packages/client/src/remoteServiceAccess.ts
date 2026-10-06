@@ -31,6 +31,7 @@ import {
   IHooksService,
   IMemoryService,
   ISettingsSyncService,
+  ICliProviderSwitchService,
   IPromptAttachmentTransferService,
   IWindowControllerService,
   type IServiceAccessor,
@@ -76,6 +77,7 @@ export class RemoteServiceAccess implements IServiceAccessor {
   readonly hooksService: IHooksService;
   readonly memoryService: IMemoryService;
   readonly settingsSyncService: ISettingsSyncService;
+  readonly cliProviderSwitchService: ICliProviderSwitchService;
   readonly promptAttachmentTransferService: IPromptAttachmentTransferService;
 
   constructor(channelClient: IChannelClient) {
@@ -176,6 +178,9 @@ export class RemoteServiceAccess implements IServiceAccessor {
     );
     this.settingsSyncService = ProxyChannel.toService<ISettingsSyncService>(
       channelClient.getChannel(ISettingsSyncService.channelName),
+    );
+    this.cliProviderSwitchService = ProxyChannel.toService<ICliProviderSwitchService>(
+      channelClient.getChannel(ICliProviderSwitchService.channelName),
     );
     this.promptAttachmentTransferService = ProxyChannel.toService<IPromptAttachmentTransferService>(
       channelClient.getChannel(IPromptAttachmentTransferService.channelName),
