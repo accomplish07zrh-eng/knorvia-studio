@@ -39,13 +39,6 @@
       "sourceOwner": "Qwen Code"
     },
     {
-      "kernelIds": ["gemini-cli"],
-      "file": "kernel-gemini-cli.png",
-      "sourceUrl": "https://geminicli.com/icon.png",
-      "sourcePage": "https://github.com/google-gemini/gemini-cli",
-      "sourceOwner": "Google Gemini CLI"
-    },
-    {
       "kernelIds": ["goose"],
       "file": "kernel-goose.png",
       "sourceUrl": "https://goose-docs.ai/img/favicon.ico",
@@ -115,11 +108,6 @@
         "sha256": "DCB3BA2F2B55CCBACBADE0CA0BF98921FBAF8A07848972974B4A9BF8077376CF"
       },
       {
-        "file": "mark-gemini.svg",
-        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/gemini.svg",
-        "sha256": "87D5B3C4BE75A66F54C1936482A263DF68185545B741129BADD1B7C2449C18D3"
-      },
-      {
         "file": "mark-goose.svg",
         "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/goose.svg",
         "sha256": "8779D9A61C5B0BE78A3D36CAB6843BA5AF86218BA2FF1B18EB918C7A8D25BB99"
@@ -133,6 +121,45 @@
         "file": "mark-deepseek.svg",
         "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/deepseek.svg",
         "sha256": "8F9443E351B6DACCE71871790201B799D92E8BF96A45EF79AEB5E9BF4DB423E2"
+      }
+    ]
+  },
+  "acpRegistryMarks": {
+    "retrievedAt": "2026-10-06",
+    "project": "Agent Client Protocol registry",
+    "sourcePage": "https://github.com/agentclientprotocol/registry",
+    "license": "Registry repository Apache-2.0; individual agent marks remain subject to their owners' terms",
+    "usage": "Unmodified monochrome (fill=currentColor) agent icons published in the official ACP registry, used only to identify the corresponding agent. Trademarks remain with their respective owners; no endorsement implied.",
+    "assets": [
+      {
+        "file": "mark-devin.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/agentclientprotocol/registry/main/devin/icon.svg",
+        "sha256": "AB2F979144F0AD4613C8DED9E0562726D6E29E2F5AD95BAB64ACD0CD526E13D3"
+      },
+      {
+        "file": "mark-cursor.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/agentclientprotocol/registry/main/cursor/icon.svg",
+        "sha256": "A77E8AAFEDEF55DD0B4B9AD17B921F31BDF46996F109EC67E8D93A21AB52437F"
+      },
+      {
+        "file": "mark-factory-droid.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/agentclientprotocol/registry/main/factory-droid/icon.svg",
+        "sha256": "931960821FBAFD095221A922CA017676D41FBC67F61B708D325413AD6E0BBEC7"
+      },
+      {
+        "file": "mark-cline.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/agentclientprotocol/registry/main/cline/icon.svg",
+        "sha256": "E2DE9B03C11AA6887796916AA636C910674615639983A20BC47441728412847E"
+      },
+      {
+        "file": "mark-auggie.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/agentclientprotocol/registry/main/auggie/icon.svg",
+        "sha256": "66F6C787DEECAB872B78E68A413227DB20A2BE770732682BBD73E14FD2602345"
+      },
+      {
+        "file": "mark-junie.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/agentclientprotocol/registry/main/junie/icon.svg",
+        "sha256": "4019DE035C99DBEAE4F659B43969C7DF4F8032FF5C37FB6861FD42609159DC75"
       }
     ]
   }

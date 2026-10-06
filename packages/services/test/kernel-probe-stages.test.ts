@@ -438,7 +438,7 @@ const expectedCapabilities: Record<string, StudioKernelCapabilities> = {
     readOnly: false,
     fullAccess: false,
   },
-  "gemini-cli": {
+  devin: {
     resume: false,
     approval: false,
     questions: false,
@@ -521,17 +521,17 @@ test("运行前权限断言按矩阵拒绝未核验或明确不支持的只读",
     () => assertKernelPermission("codex", "read-only", { version: "0.100.0" }),
     /不会自动放宽权限/,
   );
-  assert.throws(() => assertKernelPermission("gemini-cli", "read-only"), /只读/);
+  assert.throws(() => assertKernelPermission("cline", "read-only"), /只读/);
   assert.throws(() => assertKernelPermission("claude-code", "read-only"), /只读/);
-  assert.doesNotThrow(() => assertKernelPermission("gemini-cli", "ask"));
+  assert.doesNotThrow(() => assertKernelPermission("cline", "ask"));
   // 用户显式例外只能由调用方传入，矩阵自身永不产生。
   assert.doesNotThrow(() =>
-    assertKernelPermission("gemini-cli", "read-only", {
+    assertKernelPermission("cline", "read-only", {
       exception: { capability: "readOnly", reason: "用户已确认风险" },
     }),
   );
   const exception = assessKernelCapabilities({
-    kernel: "gemini-cli",
+    kernel: "cline",
     exception: { capability: "readOnly" },
   });
   assert.equal(exception.decisions.readOnly.evidence, "user-exception");

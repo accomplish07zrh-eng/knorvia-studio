@@ -19,6 +19,12 @@ export const STUDIO_KERNEL_IDS: readonly LocalStudioKernelId[] = [
   "qwen-code",
   "mistral-vibe",
   "deepseek-harness",
+  "devin",
+  "cursor",
+  "factory-droid",
+  "cline",
+  "auggie",
+  "junie",
 ];
 
 /** A custom ACP manifest uses a namespaced, bounded identity; no path is accepted here. */

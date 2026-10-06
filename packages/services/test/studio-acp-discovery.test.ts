@@ -40,7 +40,6 @@ const added = [
   "opencode",
   "qoder",
   "qoder-cn",
-  "gemini-cli",
   "goose",
   "kimi-cli",
   "copilot",
@@ -48,6 +47,12 @@ const added = [
   "qwen-code",
   "mistral-vibe",
   "deepseek-harness",
+  "devin",
+  "cursor",
+  "factory-droid",
+  "cline",
+  "auggie",
+  "junie",
 ] as const;
 const builtin = {
   async run() {
@@ -105,7 +110,7 @@ async function context() {
   };
 }
 
-test("eleven official ACP descriptors use documented stdio launch args and require a real handshake", async () => {
+test("sixteen official ACP descriptors use documented stdio launch args and require a real handshake", async () => {
   assert.deepEqual(
     BUILTIN_KERNELS.filter((item) => item.protocol === "acp").map((item) => item.id),
     [...added],

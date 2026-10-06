@@ -68,7 +68,7 @@
 
 - **没有证据不得写 `verified`。** 未做运行验证就写 `verified` 是造假；本仓库当前没有任何按内核的插件运行验证记录，所以本波新包的 `knorvia` 条目一律是 `declared`，通配条目一律是 `unknown`。
 - 通配条目 `"kernel": "*"` 只允许 `unknown` 或 `unsupported`，不允许 `verified` / `declared`：通配无法承载证据。
-- 内核 id 取自宿主内核目录（`packages/ui/src/studio/types.ts:13-30`）：`knorvia`、`codex`、`claude-code`、`grok-build`、`opencode`、`qoder`、`qoder-cn`、`hermes`、`qwen-code`、`mistral-vibe`、`deepseek-harness`、`gemini-cli`、`antigravity`、`goose`、`kimi-cli`、`copilot`，以及自定义 `acp:<name>`；内核身份的唯一定义方是 services（`packages/services/src/studio-runtime/kernelTypes.ts:3-22`）。
+- 内核 id 取自宿主内核目录（`packages/ui/src/studio/types.ts` 的 `STUDIO_KERNELS`）：`knorvia`、`codex`、`claude-code`、`grok-build`、`opencode`、`qoder`、`qoder-cn`、`hermes`、`qwen-code`、`mistral-vibe`、`deepseek-harness`、`antigravity`、`goose`、`kimi-cli`、`copilot`、`devin`、`cursor`、`factory-droid`、`cline`、`auggie`、`junie`（已移除的 `gemini-cli` 仅作历史身份保留），以及自定义 `acp:<name>`；内核身份的唯一定义方是 services（`packages/services/src/studio-runtime/kernelTypes.ts` 的 `LocalStudioKernelId`）。
 
 ## 可安装 ≠ 受支持
 

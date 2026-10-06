@@ -4,10 +4,14 @@ export interface KernelDescriptor {
   id: ExternalKernel;
   displayName: string;
   executableName: string;
+  /** 同一官方安装提供的其他命令名，按顺序在主命令名之后查找（如 Qoder 的 `qodercli`）。 */
+  alternateExecutableNames?: string[];
   npmPackages?: string[];
   args: string[];
   protocol: "codex" | "claude" | "grok" | "antigravity" | "acp";
   management: "studio" | "external";
+  /** 启动该内核进程时附加的固定环境变量（例如关闭自动更新），不得包含凭据。 */
+  environment?: Record<string, string>;
   /** Only explicit manifests may supply an absolute custom path. */
   customPath?: string;
 }
@@ -53,6 +57,7 @@ export const BUILTIN_KERNELS: readonly KernelDescriptor[] = [
     id: "qoder",
     displayName: "Qoder CLI",
     executableName: "qoder",
+    alternateExecutableNames: ["qodercli"],
     npmPackages: ["@qoder-ai/qodercli"],
     args: ["--acp"],
     protocol: "acp",
@@ -62,16 +67,8 @@ export const BUILTIN_KERNELS: readonly KernelDescriptor[] = [
     id: "qoder-cn",
     displayName: "Qoder CN CLI",
     executableName: "qoderclicn",
+    alternateExecutableNames: ["qodercn"],
     npmPackages: ["@qodercn-ai/qoderclicn"],
-    args: ["--acp"],
-    protocol: "acp",
-    management: "external",
-  },
-  {
-    id: "gemini-cli",
-    displayName: "Gemini CLI",
-    executableName: "gemini",
-    npmPackages: ["@google/gemini-cli"],
     args: ["--acp"],
     protocol: "acp",
     management: "external",
@@ -94,8 +91,10 @@ export const BUILTIN_KERNELS: readonly KernelDescriptor[] = [
   },
   {
     id: "kimi-cli",
-    displayName: "Kimi CLI",
+    // 原 Kimi CLI 已归档，由 Kimi Code 取代；命令与 `kimi acp` 不变，保留 ID 兼容已保存记录。
+    displayName: "Kimi Code",
     executableName: "kimi",
+    npmPackages: ["@moonshot-ai/kimi-code"],
     args: ["acp"],
     protocol: "acp",
     management: "external",
@@ -140,6 +139,61 @@ export const BUILTIN_KERNELS: readonly KernelDescriptor[] = [
     executableName: "dsh",
     npmPackages: ["@deepseek-ai/dsh"],
     args: ["--profile", "acp"],
+    protocol: "acp",
+    management: "external",
+  },
+  {
+    id: "devin",
+    displayName: "Devin CLI",
+    executableName: "devin",
+    args: ["acp"],
+    protocol: "acp",
+    management: "external",
+  },
+  {
+    id: "cursor",
+    displayName: "Cursor Agent",
+    // 新版安装器的主命令名 `agent` 过于通用，只接受官方保留的 `cursor-agent`。
+    executableName: "cursor-agent",
+    args: ["acp"],
+    protocol: "acp",
+    management: "external",
+  },
+  {
+    id: "factory-droid",
+    displayName: "Factory Droid",
+    executableName: "droid",
+    npmPackages: ["droid", "@factory/cli"],
+    // 官方文档与 Zed 使用 `acp`；ACP 目录中的 `acp-daemon` 有报告与 stdio MCP 不兼容。
+    args: ["exec", "--output-format", "acp"],
+    protocol: "acp",
+    management: "external",
+  },
+  {
+    id: "cline",
+    displayName: "Cline",
+    executableName: "cline",
+    npmPackages: ["cline"],
+    args: ["--acp"],
+    protocol: "acp",
+    management: "external",
+  },
+  {
+    id: "auggie",
+    displayName: "Augment Auggie",
+    executableName: "auggie",
+    npmPackages: ["@augmentcode/auggie"],
+    args: ["--acp"],
+    environment: { AUGMENT_DISABLE_AUTO_UPDATE: "1" },
+    protocol: "acp",
+    management: "external",
+  },
+  {
+    id: "junie",
+    displayName: "JetBrains Junie",
+    executableName: "junie",
+    npmPackages: ["@jetbrains/junie"],
+    args: ["--acp=true"],
     protocol: "acp",
     management: "external",
   },

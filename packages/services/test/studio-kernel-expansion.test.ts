@@ -29,6 +29,12 @@ test("official ACP and safe custom IDs work across groups and workflows", () => 
     "qwen-code",
     "mistral-vibe",
     "deepseek-harness",
+    "devin",
+    "cursor",
+    "factory-droid",
+    "cline",
+    "auggie",
+    "junie",
     "acp:local-agent",
   ])
     assert.equal(isStudioKernelId(id), true, id);
@@ -67,7 +73,7 @@ test("official ACP and safe custom IDs work across groups and workflows", () => 
       "grok-build",
       "opencode",
       "qoder",
-      "gemini-cli",
+      "devin",
       "goose",
       "kimi-cli",
       "copilot",

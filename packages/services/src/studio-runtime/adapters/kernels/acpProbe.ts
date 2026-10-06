@@ -34,7 +34,9 @@ export async function probeAcpCapabilities(options: {
     (message) => {
       if (message.id !== undefined && message.method) rpc.reject(message.id, "发现阶段不执行工具");
     },
-    isolation?.environment,
+    info.environment || isolation?.environment
+      ? { ...info.environment, ...isolation?.environment }
+      : undefined,
   );
   const abort = () => rpc.fail(new ProbeError("protocol.cancelled", "ACP 探测已取消"));
   signal.addEventListener("abort", abort, { once: true });

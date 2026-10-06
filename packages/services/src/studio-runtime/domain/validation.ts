@@ -1,6 +1,7 @@
 import type { StudioCommand } from "../contract.js";
 import type { StudioKernelConfig, StudioKernelId } from "../kernelTypes.js";
 import { isStudioKernelId } from "./kernelIdentity.js";
+import { assertKernelNotRetired } from "./kernelPolicy.js";
 
 export { STUDIO_KERNEL_IDS } from "./kernelIdentity.js";
 export const activeRunStates = new Set(["queued", "running", "waiting"]);
@@ -29,6 +30,11 @@ export function validWorkspace(path: unknown): asserts path is string {
 export function validKernel(kernel: unknown): asserts kernel is StudioKernelId {
   if (!isStudioKernelId(kernel)) throw new Error("未知内核");
 }
+/** 新建、配置与管理只接受仍在目录中的内核；已移除内核仅作为历史记录的身份保留。 */
+export function validActiveKernel(kernel: unknown): asserts kernel is StudioKernelId {
+  validKernel(kernel);
+  assertKernelNotRetired(kernel);
+}
 export function validModel(model: unknown): asserts model is string {
   if (
     typeof model !== "string" ||
@@ -38,7 +44,7 @@ export function validModel(model: unknown): asserts model is string {
     throw new Error("无效模型标识");
 }
 export function validateStudioKernelManagement(params: { kernel: unknown; action: unknown }): void {
-  validKernel(params.kernel);
+  validActiveKernel(params.kernel);
   if (
     typeof params.action !== "string" ||
     !["install", "update", "uninstall", "update-existing"].includes(params.action)
@@ -61,12 +67,12 @@ export function validateStudioCommand(command: StudioCommand): void {
   validStudioId(command.commandId);
   switch (command.type) {
     case "configure":
-      validKernel(command.kernel);
+      validActiveKernel(command.kernel);
       validConfig(command.config);
       break;
     case "create-conversation":
       validStudioId(command.id);
-      validKernel(command.kernel);
+      validActiveKernel(command.kernel);
       validWorkspace(command.workspacePath);
       break;
     case "save-group": {

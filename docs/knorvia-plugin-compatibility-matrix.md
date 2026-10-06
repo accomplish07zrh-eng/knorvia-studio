@@ -14,12 +14,12 @@
 
 内核 id 以宿主内核目录为准（`packages/ui/src/studio/types.ts:13-30`，身份定义方是 services：`packages/services/src/studio-runtime/kernelTypes.ts:3-22`）：
 
-| 列            | 包含的内核                                                                                                                                                                                    |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Knorvia 内核  | `knorvia`                                                                                                                                                                                     |
-| 外部 CLI 内核 | `codex`、`claude-code`、`grok-build`、`opencode`、`qoder`、`qoder-cn`、`hermes`、`qwen-code`、`mistral-vibe`、`deepseek-harness`、`gemini-cli`、`antigravity`、`goose`、`kimi-cli`、`copilot` |
-| 自定义 ACP    | `acp:<name>`                                                                                                                                                                                  |
-| 远程内核      | `ssh:<id>:<kernel>`（含上述任一内核）                                                                                                                                                         |
+| 列            | 包含的内核                                                                                                                                                                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Knorvia 内核  | `knorvia`                                                                                                                                                                                                                                       |
+| 外部 CLI 内核 | `codex`、`claude-code`、`grok-build`、`opencode`、`qoder`、`qoder-cn`、`hermes`、`qwen-code`、`mistral-vibe`、`deepseek-harness`、`antigravity`、`goose`、`kimi-cli`、`copilot`、`devin`、`cursor`、`factory-droid`、`cline`、`auggie`、`junie` |
+| 自定义 ACP    | `acp:<name>`                                                                                                                                                                                                                                    |
+| 远程内核      | `ssh:<id>:<kernel>`（含上述任一内核）                                                                                                                                                                                                           |
 
 状态含义：**已声明** = 作者声明形态，无该内核执行证据；**未验证** = 未做过该内核上的技能运行验证；**不支持** = 已知不可用；**已验证** = 有可复核的运行证据（当前内核运行列为空）。宿主安装、界面与目录枚举证据单独注明，不提升包级或内核运行状态。
 

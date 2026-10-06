@@ -37,6 +37,7 @@ export async function submitStudioChat(
   command: (input: ChatSubmissionCommand) => Promise<unknown>,
 ) {
   const refusal = studioSendRefusal({
+    kernelId: input.kernel,
     status: input.status,
     permission: input.permission,
     kernelName: input.kernelName,

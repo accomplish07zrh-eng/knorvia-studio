@@ -1,6 +1,6 @@
 import { access, readFile, realpath, stat } from "node:fs/promises";
 import { homedir } from "node:os";
-import { delimiter, dirname, extname, isAbsolute, join, relative, sep } from "node:path";
+import { basename, delimiter, dirname, extname, isAbsolute, join, relative, sep } from "node:path";
 import type { ExternalKernel } from "../../domain/kernelPolicy.js";
 import { record, text } from "../../domain/kernelPolicy.js";
 import { BUILTIN_KERNEL_BY_ID, type KernelDescriptor } from "./acpCatalog.js";
@@ -30,12 +30,12 @@ export async function nodeExecutable(): Promise<string> {
 async function packageEntrypoint(
   root: string,
   descriptor: KernelDescriptor,
+  binName = descriptor.executableName,
 ): Promise<string | undefined> {
   try {
     const pkg = record(JSON.parse(await readFile(join(root, "package.json"), "utf8")));
     if (!(descriptor.npmPackages ?? []).includes(text(pkg.name))) return;
-    const entry =
-      typeof pkg.bin === "string" ? pkg.bin : text(record(pkg.bin)[descriptor.executableName]);
+    const entry = typeof pkg.bin === "string" ? pkg.bin : text(record(pkg.bin)[binName]);
     if (!entry || entry.includes("..") || isAbsolute(entry)) return;
     const actualRoot = await realpath(root);
     const actualEntry = await realpath(join(root, entry));
@@ -51,13 +51,22 @@ async function npmEntrypoint(
   path: string,
   descriptor: KernelDescriptor,
 ): Promise<string | undefined> {
+  const binName = basename(path, extname(path));
   for (const packageName of descriptor.npmPackages ?? []) {
     const entry = await packageEntrypoint(
       join(dirname(path), "node_modules", packageName),
       descriptor,
+      binName,
     );
     if (entry) return entry;
   }
+}
+
+/** 同名的第三方命令不能冒充官方内核：社区包 `@vibe-kit/grok-cli` 也安装 `grok`。 */
+function isImpostor(kernel: ExternalKernel, actualPath: string): boolean {
+  if (kernel !== "grok-build") return false;
+  const normalized = actualPath.replace(/\\/g, "/").toLowerCase();
+  return normalized.includes("/@vibe-kit/grok-cli/");
 }
 
 export async function resolveExecutable(
@@ -67,6 +76,7 @@ export async function resolveExecutable(
 ): Promise<KernelExecutable> {
   if (!descriptor) throw new Error("未登记的 CLI 内核");
   const name = descriptor.executableName;
+  const names = [name, ...(descriptor.alternateExecutableNames ?? [])];
   const candidates: string[] = [];
   if (supplied?.trim()) {
     const candidate = supplied.trim();
@@ -78,8 +88,9 @@ export async function resolveExecutable(
     for (const dir of (process.env.PATH ?? process.env.Path ?? "")
       .split(delimiter)
       .filter(Boolean)) {
-      for (const suffix of suffixes)
-        candidates.push(join(dir.replace(/^"|"$/g, ""), name + suffix));
+      for (const commandName of names)
+        for (const suffix of suffixes)
+          candidates.push(join(dir.replace(/^"|"$/g, ""), commandName + suffix));
     }
     // Bounded well-known per-user locations. Never recurse through application data or launch IDE internals.
     const userBins = [
@@ -97,7 +108,8 @@ export async function resolveExecutable(
         : []),
     ];
     for (const dir of userBins)
-      for (const suffix of suffixes) candidates.push(join(dir, name + suffix));
+      for (const commandName of names)
+        for (const suffix of suffixes) candidates.push(join(dir, commandName + suffix));
     if (kernel === "grok-build")
       candidates.push(
         join(homedir(), ".grok", "bin", "grok" + (process.platform === "win32" ? ".exe" : "")),
@@ -135,6 +147,7 @@ export async function resolveExecutable(
   for (const candidate of new Set(candidates)) {
     if (!(await isFile(candidate))) continue;
     const actual = await realpath(candidate);
+    if (isImpostor(kernel, actual)) continue;
     const extension = extname(actual).toLowerCase();
     if ([".js", ".mjs", ".cjs"].includes(extension))
       return { command: await nodeExecutable(), args: [actual], path: candidate };

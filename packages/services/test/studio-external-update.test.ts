@@ -107,29 +107,29 @@ test("Codex npm update stays in the detected prefix and rejects incomplete insta
       cwd: prefix,
       method: "npm",
     });
-    const geminiRoot = join(prefix, "node_modules", "@google", "gemini-cli");
-    const geminiEntry = join(geminiRoot, "dist", "index.js");
-    await mkdir(join(geminiRoot, "dist"), { recursive: true });
+    const qwenRoot = join(prefix, "node_modules", "@qwen-code", "qwen-code");
+    const qwenEntry = join(qwenRoot, "dist", "index.js");
+    await mkdir(join(qwenRoot, "dist"), { recursive: true });
     await Promise.all([
       writeFile(
-        join(geminiRoot, "package.json"),
+        join(qwenRoot, "package.json"),
         JSON.stringify({
-          name: "@google/gemini-cli",
-          bin: { gemini: "dist/index.js" },
+          name: "@qwen-code/qwen-code",
+          bin: { qwen: "dist/index.js" },
         }),
       ),
-      writeFile(geminiEntry, "fixture"),
-      writeFile(join(prefix, "gemini.cmd"), "fixture"),
+      writeFile(qwenEntry, "fixture"),
+      writeFile(join(prefix, "qwen.cmd"), "fixture"),
     ]);
     assert.deepEqual(
-      await externalUpdatePlan("gemini-cli", {
-        path: join(prefix, "gemini.cmd"),
+      await externalUpdatePlan("qwen-code", {
+        path: join(prefix, "qwen.cmd"),
         command: node,
-        args: [geminiEntry],
+        args: [qwenEntry],
       }),
       {
         command: node,
-        args: [npmCli, "install", "-g", "--prefix", prefix, "@google/gemini-cli@latest"],
+        args: [npmCli, "install", "-g", "--prefix", prefix, "@qwen-code/qwen-code@latest"],
         cwd: prefix,
         method: "npm",
       },

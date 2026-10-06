@@ -89,6 +89,11 @@ export function StudioKernelCard({
           {t("studio.agents.antigravityNote")}
         </p>
       ) : null}
+      {kernel.id === "deepseek-harness" ? (
+        <p className="mt-2 text-ui-sm leading-5 text-foreground-subtle">
+          {t("studio.agents.previewNote")}
+        </p>
+      ) : null}
     </article>
   );
 }

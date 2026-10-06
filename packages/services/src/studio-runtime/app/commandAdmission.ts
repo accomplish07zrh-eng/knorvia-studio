@@ -13,6 +13,7 @@ import { studioProjectKey } from "../domain/projectIdentity.js";
 import { hasUnknownStudioRun } from "./runQueries.js";
 import { recordGroupWorkspaceGeneration } from "./groupWorkspaceIdentity.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
+import { assertTargetKernelsActive } from "../domain/retiredKernels.js";
 
 function canonical(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
@@ -271,6 +272,9 @@ function queueRun(
     command.targetId,
   );
   if (!definition) throw new Error("找不到会话或工作流，请刷新重试");
+  // 修复依据：已移除的内核（如 gemini-cli）没有适配器，旧逻辑会先入队、派发时才抛"未知内核"，
+  // 结果被记成"中断/结果未知"且没有改选提示。这里在入队前拒绝，不创建运行记录。
+  assertTargetKernelsActive(command.kind, definition);
   validWorkspace(definition.workspacePath);
   if (db.read("apply-lock", studioProjectKey(definition.workspacePath!)))
     throw new Error("项目修改正在应用或上次应用意外中断，请先打开任务的修改记录检查恢复");

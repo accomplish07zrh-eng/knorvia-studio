@@ -61,6 +61,8 @@ export const agentProbeZhCN = {
   "studio.agents.capabilityEvidence.unsupported": "不支持",
   "studio.agents.capabilitiesUnverified":
     "版本 {version} 不在已核验范围内，相关能力按失败关闭显示；更新内核或重新探测后再确认。",
+  "studio.agents.sendRefusal.retired":
+    "{name} 已从 Knorvia Studio 移除，历史记录仍可查看，草稿未发送。请新建会话并改选其他内核。",
   "studio.agents.sendRefusal.statusUnknown": "尚未检测 {name} 的可用性，草稿未发送。请先重新检测。",
   "studio.agents.sendRefusal.remoteOffline": "{name} 的 SSH 连接已断开，草稿未发送。",
   "studio.agents.sendRefusal.notInstalled":
@@ -132,6 +134,8 @@ export const agentProbeEnUS: Record<keyof typeof agentProbeZhCN, string> = {
   "studio.agents.capabilityEvidence.unsupported": "Unsupported",
   "studio.agents.capabilitiesUnverified":
     "Version {version} is outside the verified range, so the affected capabilities fail closed. Update the engine or probe again to confirm.",
+  "studio.agents.sendRefusal.retired":
+    "{name} has been removed from Knorvia Studio. History stays viewable; the draft was not sent. Start a new chat with another agent.",
   "studio.agents.sendRefusal.statusUnknown":
     "{name} has not been checked yet, so the draft was not sent. Detect local agents first.",
   "studio.agents.sendRefusal.remoteOffline":

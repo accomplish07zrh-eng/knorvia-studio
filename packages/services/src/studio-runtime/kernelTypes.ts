@@ -17,6 +17,12 @@ export type LocalStudioKernelId =
   | "qwen-code"
   | "mistral-vibe"
   | "deepseek-harness"
+  | "devin"
+  | "cursor"
+  | "factory-droid"
+  | "cline"
+  | "auggie"
+  | "junie"
   | `acp:${string}`;
 /** Stable SSH workspace identity, never the ephemeral connection/session id. */
 export type StudioKernelId = LocalStudioKernelId | `ssh:${string}:${LocalStudioKernelId}`;

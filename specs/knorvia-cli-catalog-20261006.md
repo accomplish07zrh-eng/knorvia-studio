@@ -16,16 +16,16 @@
 
 均依据 ACP 官方目录 `agentclientprotocol/registry` 中的 `agent.json` 与 npm 注册表核对；均为外部管理（只接入已有安装，界面说明官方安装方式），图标使用 ACP 官方目录中各项目的单色 `icon.svg`（`fill="currentColor"`，适配黑白主题），保留来源清单。
 
-| 内核 ID         | 显示名          | 可执行文件                   | 检测用 npm 包           | ACP 启动参数               | 进程环境                        |
-| --------------- | --------------- | ---------------------------- | ----------------------- | -------------------------- | ------------------------------- |
-| `devin`         | Devin CLI       | `devin`                      | 无（官方脚本安装）      | `acp`                      | —                               |
-| `cursor`        | Cursor Agent    | `cursor-agent`，其次 `agent` | 无（官方脚本安装）      | `acp`                      | —                               |
-| `factory-droid` | Factory Droid   | `droid`                      | `droid`、`@factory/cli` | `exec --output-format acp` | —                               |
-| `cline`         | Cline           | `cline`                      | `cline`                 | `--acp`                    | —                               |
-| `auggie`        | Augment Auggie  | `auggie`                     | `@augmentcode/auggie`   | `--acp`                    | `AUGMENT_DISABLE_AUTO_UPDATE=1` |
-| `junie`         | JetBrains Junie | `junie`                      | `@jetbrains/junie`      | `--acp=true`               | —                               |
+| 内核 ID         | 显示名          | 可执行文件     | 检测用 npm 包           | ACP 启动参数               | 进程环境                        |
+| --------------- | --------------- | -------------- | ----------------------- | -------------------------- | ------------------------------- |
+| `devin`         | Devin CLI       | `devin`        | 无（官方脚本安装）      | `acp`                      | —                               |
+| `cursor`        | Cursor Agent    | `cursor-agent` | 无（官方脚本安装）      | `acp`                      | —                               |
+| `factory-droid` | Factory Droid   | `droid`        | `droid`、`@factory/cli` | `exec --output-format acp` | —                               |
+| `cline`         | Cline           | `cline`        | `cline`                 | `--acp`                    | —                               |
+| `auggie`        | Augment Auggie  | `auggie`       | `@augmentcode/auggie`   | `--acp`                    | `AUGMENT_DISABLE_AUTO_UPDATE=1` |
+| `junie`         | JetBrains Junie | `junie`        | `@jetbrains/junie`      | `--acp=true`               | —                               |
 
-- Cursor 的 `agent` 命令名过于通用，仅在 `cursor-agent` 不存在且版本探测确认是 Cursor 时才接受。
+- Cursor 新版安装器的主命令名 `agent` 过于通用，不作为探测依据；只识别官方安装器保留的 `cursor-agent`。
 - Factory Droid 采用官方文档与 Zed 使用的 `acp` 输出格式；目录中的 `acp-daemon` 有第三方报告称与 stdio MCP 不兼容，不采用。
 - 认证一律沿用各 CLI 自身登录（如 `devin auth login`、`agent login`、`cline auth`、`auggie login`），Studio 不代管凭据；未登录时按 ACP 握手结果如实显示。
 
@@ -36,4 +36,9 @@
 - 六个新增内核均有离线协议夹具与探测测试，图标在亮暗主题下可辨识。
 - Qoder / Qoder CN 仅安装其中一个命令名时也能被发现。
 - 社区版 `grok` 不被识别为 Grok Build。
+
+## 实现位置
+
+- 已移除内核：`domain/kernelPolicy.ts` 的 `RETIRED_KERNELS`；`commandAdmission.ts` 在入队前拒绝，`validation.ts` 拒绝新建、配置与管理；UI `types.ts` 的 `RETIRED_STUDIO_KERNELS` 保留显示名，`kernelSendGate.ts` 给出不可重试的 `retired` 拒绝。
+- 描述符新增 `alternateExecutableNames` 与 `environment` 字段，由 `executable.ts`、`protocolBindings.ts`、`acpProbe.ts` 使用。
 - 离线协议夹具与探测测试覆盖以上变更；实机复核需在本机安装对应 CLI。

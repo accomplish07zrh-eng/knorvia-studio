@@ -7,6 +7,7 @@ import {
   type StudioPermission,
 } from "@knorvia/services";
 import { studioProbeFirstFailure, studioProbeState } from "./kernelProbeView.js";
+import { isRetiredStudioKernel } from "../types.js";
 
 /**
  * 发送前的真实能力校验（纯函数，无 IO）。
@@ -19,6 +20,7 @@ import { studioProbeFirstFailure, studioProbeState } from "./kernelProbeView.js"
  */
 
 export type StudioSendRefusalCode =
+  | "retired"
   | "status-unknown"
   | "remote-offline"
   | "not-installed"
@@ -79,11 +81,20 @@ export function studioPermissionCapability(
 }
 
 export function studioSendRefusal(input: {
+  kernelId?: string;
   status?: StudioKernelStatus;
   permission: StudioPermission;
   kernelName: string;
 }): StudioSendRefusal | undefined {
   const { status, permission, kernelName } = input;
+  // 已移除的内核不再被探测，旧逻辑会提示"尚未检测、请重新检测"，重试也不会成功；直接说明并引导改选。
+  if (input.kernelId && isRetiredStudioKernel(input.kernelId))
+    return {
+      code: "retired",
+      messageId: "studio.agents.sendRefusal.retired",
+      params: { name: kernelName },
+      retryable: false,
+    };
   if (!status)
     return {
       code: "status-unknown",

@@ -42,6 +42,12 @@ export function kernelProtocolBinding(
         environment: { AGY_CLI_DISABLE_AUTO_UPDATE: "true" },
       };
     case "acp":
-      return { mode: "acp", args: info.args, message: acpMessage, start: startAcp };
+      return {
+        mode: "acp",
+        args: info.args,
+        message: acpMessage,
+        start: startAcp,
+        ...(info.environment ? { environment: { ...info.environment } } : {}),
+      };
   }
 }

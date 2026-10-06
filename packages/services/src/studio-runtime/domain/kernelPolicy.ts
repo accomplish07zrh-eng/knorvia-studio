@@ -13,7 +13,6 @@ export const EXTERNAL_KERNELS = [
   "opencode",
   "qoder",
   "qoder-cn",
-  "gemini-cli",
   "antigravity",
   "goose",
   "kimi-cli",
@@ -22,9 +21,30 @@ export const EXTERNAL_KERNELS = [
   "qwen-code",
   "mistral-vibe",
   "deepseek-harness",
+  "devin",
+  "cursor",
+  "factory-droid",
+  "cline",
+  "auggie",
+  "junie",
 ] as const;
 export type KnownExternalKernel = (typeof EXTERNAL_KERNELS)[number];
 export type ExternalKernel = KnownExternalKernel | `acp:${string}`;
+/**
+ * 已从预置目录移除、但仍可能出现在已保存会话、群聊与工作流里的内核（specs/knorvia-cli-catalog-20261006.md）。
+ * 它们仍是合法的持久化身份，历史可查看；任何新的发送、运行或配置都在入队前拒绝，不删除用户数据。
+ */
+export const RETIRED_KERNELS = ["gemini-cli"] as const;
+export type RetiredKernelId = (typeof RETIRED_KERNELS)[number];
+export function isRetiredKernel(id: string): id is RetiredKernelId {
+  const local = /^ssh:[a-f0-9]{24}:(.+)$/.exec(id)?.[1] ?? id;
+  return RETIRED_KERNELS.some((item) => item === local);
+}
+export const RETIRED_KERNEL_MESSAGE =
+  "该内核已从 Knorvia Studio 移除，历史记录仍可查看；请改选其他内核";
+export function assertKernelNotRetired(id: string): void {
+  if (isRetiredKernel(id)) throw new Error(RETIRED_KERNEL_MESSAGE);
+}
 export function isManagedKernel(id: StudioKernelId): id is ManagedKernelId {
   return MANAGED_KERNELS.some((item) => item === id);
 }

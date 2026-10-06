@@ -9,11 +9,16 @@ import grokLogo from "@/assets/cli-icons/mark-grok.svg";
 import qoderLogo from "@/assets/cli-icons/mark-qoder.svg";
 import antigravityLogo from "@/assets/cli-icons/mark-antigravity.svg";
 import qwenCodeLogo from "@/assets/cli-icons/mark-qwen.svg";
-import geminiCliLogo from "@/assets/cli-icons/mark-gemini.svg";
 import gooseLogo from "@/assets/cli-icons/mark-goose.svg";
 import hermesLogo from "@/assets/cli-icons/kernel-hermes.ico?url";
 import mistralVibeLogo from "@/assets/cli-icons/kernel-mistral-vibe.svg";
 import copilotLogo from "@/assets/cli-icons/kernel-copilot.svg";
+import devinLogo from "@/assets/cli-icons/mark-devin.svg";
+import cursorLogo from "@/assets/cli-icons/mark-cursor.svg";
+import factoryDroidLogo from "@/assets/cli-icons/mark-factory-droid.svg";
+import clineLogo from "@/assets/cli-icons/mark-cline.svg";
+import auggieLogo from "@/assets/cli-icons/mark-auggie.svg";
+import junieLogo from "@/assets/cli-icons/mark-junie.svg";
 import { cn } from "@/components/lib/utils.js";
 import type { StudioKernelId } from "../types.js";
 
@@ -26,13 +31,18 @@ const icons: Partial<Record<StudioKernelId, string>> = {
   "qoder-cn": qoderLogo,
   antigravity: antigravityLogo,
   "qwen-code": qwenCodeLogo,
-  "gemini-cli": geminiCliLogo,
   goose: gooseLogo,
   hermes: hermesLogo,
   "mistral-vibe": mistralVibeLogo,
   copilot: copilotLogo,
   "kimi-cli": kimiLogo,
   "deepseek-harness": deepseekLogo,
+  devin: devinLogo,
+  cursor: cursorLogo,
+  "factory-droid": factoryDroidLogo,
+  cline: clineLogo,
+  auggie: auggieLogo,
+  junie: junieLogo,
 };
 
 /** 自定义 ACP 没有可验证的厂商标识，只显示中性缩写。 */

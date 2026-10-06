@@ -14,6 +14,7 @@ export const agentsZhCN = {
     "使用 Knorvia 的原生对话与工具能力。模型和 API Key 在模型设置中管理。",
   "studio.agents.externalDescription":
     "沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。",
+  "studio.agents.previewNote": "该 CLI 仍是官方预发布版本，行为可能随更新变化。",
   "studio.agents.antigravityNote":
     "使用 agy 原生会话。无界面运行时需审批的工具会按 CLI 规则拒绝；Studio 暂不能向本轮注入 MCP。",
   "studio.agents.models": "模型设置",
@@ -172,6 +173,8 @@ export const agentsEnUS: Record<keyof typeof agentsZhCN, string> = {
     "Use Knorvia’s native conversations and tools. Manage models and API keys in model settings.",
   "studio.agents.externalDescription":
     "Uses the CLI's own authentication. Detecting an installation does not verify sign-in or available credits.",
+  "studio.agents.previewNote":
+    "This CLI is still an official pre-release; behavior may change between updates.",
   "studio.agents.antigravityNote":
     "Uses native agy sessions. Headless tools that need approval follow CLI deny rules; Studio cannot inject MCP for this turn yet.",
   "studio.agents.models": "Model settings",

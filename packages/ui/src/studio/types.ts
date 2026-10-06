@@ -8,6 +8,8 @@ export interface StudioKernelOption {
   name: string;
   vendor: string;
   builtin: boolean;
+  /** 已从目录移除，仅为显示历史会话、群聊与工作流保留（specs/knorvia-cli-catalog-20261006.md）。 */
+  retired?: boolean;
 }
 
 export const STUDIO_KERNELS: readonly StudioKernelOption[] = [
@@ -22,15 +24,32 @@ export const STUDIO_KERNELS: readonly StudioKernelOption[] = [
   { id: "qwen-code", name: "Qwen Code", vendor: "Alibaba Cloud", builtin: false },
   { id: "mistral-vibe", name: "Mistral Vibe", vendor: "Mistral AI", builtin: false },
   { id: "deepseek-harness", name: "DeepSeek Harness", vendor: "DeepSeek", builtin: false },
-  { id: "gemini-cli", name: "Gemini CLI", vendor: "Google", builtin: false },
   { id: "antigravity", name: "Google Antigravity CLI", vendor: "Google", builtin: false },
   { id: "goose", name: "Goose", vendor: "Block", builtin: false },
-  { id: "kimi-cli", name: "Kimi CLI", vendor: "Moonshot AI", builtin: false },
+  { id: "kimi-cli", name: "Kimi Code", vendor: "Moonshot AI", builtin: false },
   { id: "copilot", name: "GitHub Copilot CLI", vendor: "GitHub", builtin: false },
+  { id: "devin", name: "Devin CLI", vendor: "Cognition", builtin: false },
+  { id: "cursor", name: "Cursor Agent", vendor: "Cursor", builtin: false },
+  { id: "factory-droid", name: "Factory Droid", vendor: "Factory", builtin: false },
+  { id: "cline", name: "Cline", vendor: "Cline", builtin: false },
+  { id: "auggie", name: "Augment Auggie", vendor: "Augment Code", builtin: false },
+  { id: "junie", name: "JetBrains Junie", vendor: "JetBrains", builtin: false },
 ];
 
+/** 已移除的内核仍是合法的历史身份：可显示、不可新建或发送。 */
+export const RETIRED_STUDIO_KERNELS: readonly StudioKernelOption[] = [
+  { id: "gemini-cli", name: "Gemini CLI", vendor: "Google", builtin: false, retired: true },
+];
+
+export function isRetiredStudioKernel(id: string): boolean {
+  const local = /^ssh:[a-f0-9]{24}:(.+)$/.exec(id)?.[1] ?? id;
+  return RETIRED_STUDIO_KERNELS.some((kernel) => kernel.id === local);
+}
+
 const CUSTOM_KERNEL_ID = /^acp:[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
-const knownIds = new Set<string>(STUDIO_KERNELS.map((kernel) => kernel.id));
+const knownIds = new Set<string>(
+  [...STUDIO_KERNELS, ...RETIRED_STUDIO_KERNELS].map((kernel) => kernel.id),
+);
 
 export function isStudioKernelId(value: unknown): value is StudioKernelId {
   if (typeof value !== "string") return false;
@@ -43,11 +62,15 @@ export function studioKernelOption(
   id: StudioKernelId,
   statuses: readonly StudioKernelStatus[] = [],
 ): StudioKernelOption {
-  const fallback = STUDIO_KERNELS.find((kernel) => kernel.id === id);
+  const fallback = [...STUDIO_KERNELS, ...RETIRED_STUDIO_KERNELS].find(
+    (kernel) => kernel.id === id,
+  );
   const status = statuses.find((item) => item.id === id);
   const candidate = status?.displayName?.trim();
   const remote = /^ssh:([a-f0-9]{24}):(.+)$/.exec(id);
-  const remoteBase = remote ? STUDIO_KERNELS.find((kernel) => kernel.id === remote[2]) : undefined;
+  const remoteBase = remote
+    ? [...STUDIO_KERNELS, ...RETIRED_STUDIO_KERNELS].find((kernel) => kernel.id === remote[2])
+    : undefined;
   return {
     id,
     name:
@@ -58,6 +81,7 @@ export function studioKernelOption(
           : (fallback?.name ?? id.slice(4)),
     vendor: status?.remoteEnvironmentLabel ?? fallback?.vendor ?? remoteBase?.vendor ?? "Local ACP",
     builtin: id === "knorvia",
+    ...(isRetiredStudioKernel(id) ? { retired: true } : {}),
   };
 }
 
@@ -79,9 +103,10 @@ export function studioSelectableKernelOptions(
 ): StudioKernelOption[] {
   return studioKernelOptions(statuses, retained).filter(
     (kernel) =>
-      kernel.builtin ||
-      retained.includes(kernel.id) ||
-      statuses.some((status) => status.id === kernel.id && status.installed),
+      !kernel.retired &&
+      (kernel.builtin ||
+        retained.includes(kernel.id) ||
+        statuses.some((status) => status.id === kernel.id && status.installed)),
   );
 }
 

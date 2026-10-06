@@ -209,3 +209,45 @@ test("a stored workflow keeps a custom agent node but rejects an unsafe identity
   agent.data.kernel = "acp:__proto__" as never;
   assert.equal(isStudioWorkflow(workflow), false);
 });
+
+// specs/knorvia-cli-catalog-20261006.md：已移除内核保留历史身份，但不可再选择或发送。
+test("retired gemini-cli keeps its name for history but is never offered or sent", async () => {
+  const { studioSendRefusal } = await import("../src/studio/agents/kernelSendGate.js");
+  assert.equal(isStudioKernelId("gemini-cli"), true);
+  const option = studioKernelOption("gemini-cli" as never);
+  assert.equal(option.name, "Gemini CLI");
+  assert.equal(option.retired, true);
+  assert.equal(
+    studioKernelOptions().some((item) => item.id === "gemini-cli"),
+    false,
+  );
+  assert.equal(
+    studioKernelOptions([], ["gemini-cli" as never]).find((item) => item.id === "gemini-cli")
+      ?.retired,
+    true,
+  );
+  assert.equal(
+    studioSelectableKernelOptions([], ["gemini-cli" as never]).some(
+      (item) => item.id === "gemini-cli",
+    ),
+    false,
+  );
+  const refusal = studioSendRefusal({
+    kernelId: "gemini-cli",
+    permission: "ask",
+    kernelName: "Gemini CLI",
+  });
+  assert.equal(refusal?.code, "retired");
+  assert.equal(refusal?.retryable, false);
+  // 保存过 gemini-cli 成员的群聊在本地读取时不被当成损坏数据，也不丢成员。
+  const legacy = normalizeGroupConfig({
+    ...newGroupConfig(),
+    name: "legacy",
+    members: ["knorvia", "gemini-cli"],
+    host: "knorvia",
+  } as never);
+  assert.deepEqual(legacy?.members, ["knorvia", "gemini-cli"]);
+  for (const id of ["devin", "cursor", "factory-droid", "cline", "auggie", "junie"])
+    assert.equal(isStudioKernelId(id), true, id);
+  assert.equal(studioKernelOption("kimi-cli" as never).name, "Kimi Code");
+});

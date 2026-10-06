@@ -8,7 +8,7 @@ Agent 的身份图标由 UI 的单一映射表负责，同一内核在选择器�
 
 Studio 启动及用户刷新时检测本机已安装的可接入 CLI Agent。预置候选包括现有 Codex、Claude Code、Grok Build，以及官方提供 ACP stdio 的 OpenCode、Qoder CLI、Qoder CN CLI、Gemini CLI、Goose、Kimi CLI、GitHub Copilot CLI、Hermes Agent、Qwen Code、Mistral Vibe、DeepSeek Harness。Qoder 国际版与 CN 版使用不同的命令和独立身份。候选列表集中在服务端注册表，界面按服务返回的状态显示，不为每个新 Agent 复制一套聊天页。用户还可在 Studio 数据目录登记自定义 ACP Agent：标识为 `acp:<slug>`，指定绝对可执行路径和参数；登记文件不授予未知程序自动运行权限。仅发现可执行文件不代表可用：受控版本探测与 ACP 握手确认后才显示可接入。
 
-新接入的 CLI 默认复用各自现有认证与本机配置，Studio 不写它们的全局认证、模型或插件目录。Studio 继续管理原有受管 CLI 的安装更新卸载；其余外部 CLI 仅接入现有安装，界面说明如何回到其自身安装渠道。新会话由所选 CLI 原生创建；旧会话只在它明确支持且回显同一 ID 时恢复。中断结果不明时沿用现有派发屏障和显式重试。
+新接入的 CLI 默认复用各自现有认证与本机配置，Studio 不写它们的全局认证、模型或插件目录（例外：用户授权的 Claude Code、Codex、Grok Build 模型配置切换，见 `knorvia-cli-provider-switch.md`）。预置目录的 2026-10-06 核对、Gemini CLI 移除与新增内核见 `knorvia-cli-catalog-20261006.md`。Studio 继续管理原有受管 CLI 的安装更新卸载；其余外部 CLI 仅接入现有安装，界面说明如何回到其自身安装渠道。新会话由所选 CLI 原生创建；旧会话只在它明确支持且回显同一 ID 时恢复。中断结果不明时沿用现有派发屏障和显式重试。
 
 每个内核的模型与思考档位从其原生目录、ACP 会话选项或明确支持的配置接口读取。单聊沿用同一选择控件，选择后须核对原生回显；原生未暴露的档位不可猜测、不可通过提示词伪造，也不可静默回退。权限以原生能力为上限；无法保证只读时禁用只读，停止以原生取消确认结果表示，未知仍保留为未知。
 
