@@ -74,14 +74,27 @@ test("settings navigation is one ungrouped list and every section has a bilingua
   const config = createSettingsPageConfig({ isDesktop: true, isWindowsDesktop: true });
   assert.equal("settingsSectionGroups" in config, false);
   const ids = config.settingsSections.map(({ id }) => id);
-  assert.deepEqual(ids.slice(0, 6), [
-    "general",
-    "appearance",
-    "shortcuts",
-    "agents",
-    "modelProvider",
-    "usage",
-  ]);
+  // 顺序见 specs/knorvia-unified-mode-onboarding-settings.md（2026-10-06 重排）。
+  assert.deepEqual(
+    // 自动化、电脑控制、工作区搜索按设置与平台条件出现，其余顺序固定。
+    ids.filter((id) => !["automations", "computerUse", "workspaceFileSearch"].includes(id)),
+    [
+      "general",
+      "appearance",
+      "modelProvider",
+      "agents",
+      "usage",
+      "subagents",
+      "memory",
+      "plugin",
+      "skill",
+      "mcp",
+      "commands",
+      "hooks",
+      "browser",
+      "shortcuts",
+    ],
+  );
   assert.equal(new Set(ids).size, ids.length);
   for (const section of config.settingsSections) {
     for (const messages of [enUS, zhCN] as Array<Record<string, string>>) {

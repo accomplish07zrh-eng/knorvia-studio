@@ -55,26 +55,26 @@ function section(
 }
 
 const BASE_SETTINGS_SECTIONS: SettingsSectionDefinition[] = [
+  // 顺序（2026-10-06）：基础 → 模型与 Agent → Agent 能力扩展 → 自动化 → 本机工具与权限 → 快捷键。
   section("general", Settings2, "settings.systemTitle"),
   section("appearance", Palette, "settings.appearanceTitle"),
-  section("shortcuts", Keyboard, "settings.shortcuts.title"),
-  section("agents", Bot, "studio.agents"),
   section("modelProvider", Package, "settings.modelProviderTitle"),
+  section("agents", Bot, "studio.agents"),
   section("usage", BarChart3, "settings.usageTitle"),
   section("subagents", Bot, "settings.subagents.title"),
   section("memory", Brain, "settings.memory"),
   section("plugin", Blocks, "settings.plugins.title"),
-  section("mcp", Cable, "settings.mcpTitle"),
   section("skill", WandSparkles, "settings.skills.title"),
+  section("mcp", Cable, "settings.mcpTitle"),
   section("commands", Terminal, "settings.commands.title"),
   section("hooks", Anchor, "settings.hooks.title"),
   section("automations", AlarmClock, "settings.automations.title", {
     titleBadgeId: "settings.automations.betaBadge",
   }),
-  // 浏览器与电脑控制都是给 Agent 用的本机操控入口，与工作区搜索范围一起归入「工具与权限」。
   section("browser", Globe2, "settings.browser.title"),
   section("computerUse", Monitor, "settings.computerUse.title"),
   section("workspaceFileSearch", FileSearch, "settings.workspaceFileSearch.title"),
+  section("shortcuts", Keyboard, "settings.shortcuts.title"),
 ];
 
 // 兼容既有只读消费者：默认配置代表不带桌面平台能力的 Web 视图；
