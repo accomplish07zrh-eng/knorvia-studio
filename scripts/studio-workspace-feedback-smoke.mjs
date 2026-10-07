@@ -138,13 +138,49 @@ try {
   assert.equal(f.calls[0].nativeSessionId, "native-original");
   assert.equal(f.calls[0].kernel, "codex");
   assert.equal(f.calls[0].workspacePath, f.working);
+  while (
+    (await f.service.timeline("review")).reviewDrafts[0].lastDelivery.state !== "succeeded" &&
+    Date.now() < dispatchDeadline
+  )
+    await sleep(10);
+  assert.equal(
+    (await f.service.timeline("review")).reviewDrafts[0].lastDelivery.state,
+    "succeeded",
+  );
   await page.reload();
   await page.locator("[data-review-delivery]").waitFor();
   assert.equal(f.calls.length, 1);
   assert.equal(await fs.readFile(join(f.source, "a.txt"), "utf8"), "dirty source\nold\n");
+  await expand();
+  await editor.fill("Retain this text after a concurrent delete.");
+  const draft = (await f.service.timeline("review")).reviewDrafts[0];
+  await f.service.command({
+    type: "workspace-review",
+    action: "delete-comment",
+    commandId: crypto.randomUUID(),
+    runId: "original",
+    stepId: "step",
+    draftId: draft.id,
+    baseRevision: draft.revision,
+    commentId: draft.comments[0].id,
+  });
+  await page.getByRole("button", { name: "Reload comments", exact: true }).click();
+  const orphan = page.getByRole("textbox", {
+    name: "Local draft for deleted comment",
+    exact: true,
+  });
+  await orphan.waitFor();
+  assert.equal(await orphan.inputValue(), "Retain this text after a concurrent delete.");
+  await page.getByRole("button", { name: "Discard local edit", exact: true }).click();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^Discard local edit/ })
+    .click();
+  await orphan.waitFor({ state: "detached" });
+  assert.equal(f.calls.length, 1);
   assert.deepEqual(errors, []);
   console.log(
-    "Workspace feedback browser smoke passed: real diff line selection, edit reload/save, cancel, stale source, confirmed original-session dispatch once",
+    "Workspace feedback browser smoke passed: real diff line selection, edit reload/save, cancel, stale source, original-session dispatch once, concurrent-delete draft retention and explicit discard",
   );
 } finally {
   await browser?.close();

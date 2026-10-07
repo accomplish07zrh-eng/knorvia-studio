@@ -62,6 +62,20 @@ export function StudioWorkspaceFeedback({
     onPersistenceRisk(Boolean(state.cacheError) && Object.keys(state.edits).length > 0);
     return () => onPersistenceRisk(false);
   }, [onPersistenceRisk, state.cacheError, state.edits]);
+  const discard = (id: string) =>
+    void (async () => {
+      if (
+        await confirm({
+          title: zh ? "丢弃这条本机编辑？" : "Discard this local edit?",
+          description: zh
+            ? "只丢弃这份尚未保存的本机文字。"
+            : "This removes only this device's unsaved text.",
+          confirmLabel: zh ? "丢弃本机编辑" : "Discard local edit",
+          cancelLabel: zh ? "取消" : "Cancel",
+        })
+      )
+        controller.discard(id);
+    })();
   const renderComment = (comment: StudioReviewComment) => (
     <div
       className="my-2 rounded-lg border border-border bg-background p-3 text-ui-sm"
@@ -80,6 +94,12 @@ export function StudioWorkspaceFeedback({
         value={state.edits[comment.id]?.body ?? comment.body}
         onChange={(event) => controller.edit(comment.id, event.target.value)}
       />
+      {state.edits[comment.id] && state.edits[comment.id]?.body !== comment.body && (
+        <p className="mt-2 whitespace-pre-wrap break-words text-foreground-subtle">
+          {zh ? "Host 已保存的正文：" : "Host saved text: "}
+          {comment.body || (zh ? "（空）" : "(empty)")}
+        </p>
+      )}
       <div className="mt-2 flex gap-2">
         <Button
           size="sm"
@@ -97,6 +117,16 @@ export function StudioWorkspaceFeedback({
         >
           {zh ? "删除" : "Delete"}
         </Button>
+        {state.edits[comment.id] && (
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={state.busy}
+            onClick={() => discard(comment.id)}
+          >
+            {zh ? "丢弃本机编辑" : "Discard local edit"}
+          </Button>
+        )}
         <span role="status">
           {state.edits[comment.id]
             ? zh
@@ -186,6 +216,25 @@ export function StudioWorkspaceFeedback({
                 : "This file is absent from the current diff; the previous comment is retained."}
             </p>
             {renderComment(comment)}
+          </div>
+        ))}
+      {Object.entries(state.edits)
+        .filter(([id]) => !state.draft?.comments.some((comment) => comment.id === id))
+        .map(([id, edit]) => (
+          <div key={id} className="rounded-lg border border-border p-3 text-ui-sm">
+            <p>
+              {zh
+                ? "原批注已删除；尚未保存的本机文字仍保留，可以复制或明确丢弃。"
+                : "The original comment was deleted; your local text is retained for copying or explicit discard."}
+            </p>
+            <Textarea
+              aria-label={zh ? "已删除批注的本机草稿" : "Local draft for deleted comment"}
+              readOnly
+              value={edit.body}
+            />
+            <Button size="sm" variant="outline" disabled={state.busy} onClick={() => discard(id)}>
+              {zh ? "丢弃本机编辑" : "Discard local edit"}
+            </Button>
           </div>
         ))}
       {children({

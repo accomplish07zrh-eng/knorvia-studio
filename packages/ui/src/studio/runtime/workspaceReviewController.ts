@@ -26,6 +26,7 @@ export class WorkspaceReviewController {
   private value: Snapshot = { edits: {}, busy: false, ready: false };
   private pending?: StudioCommand;
   private cacheRevision = 0;
+  private reloadRequired = false;
   constructor(
     private service: IStudioRuntimeService,
     private targetId: string,
@@ -84,11 +85,12 @@ export class WorkspaceReviewController {
     if (!error) this.cacheRevision++;
     return error;
   }
-  private perform(work: () => Promise<StudioReviewDraft | undefined>) {
+  private perform(work: () => Promise<StudioReviewDraft | undefined>, accepted?: () => void) {
     return this.gate.run(work, {
       onStart: () => this.set({ busy: true, error: undefined }),
       onSuccess: (draft) => {
         if (draft) this.accept(draft);
+        accepted?.();
         this.set({ ready: true });
       },
       onError: (error) =>
@@ -97,12 +99,17 @@ export class WorkspaceReviewController {
     });
   }
   reload = () =>
-    this.perform(async () => {
-      const timeline = await this.service.timeline(this.targetId);
-      return timeline.reviewDrafts?.find(
-        (draft) => draft.runId === this.runId && draft.stepId === this.stepId,
-      );
-    });
+    this.perform(
+      async () => {
+        const timeline = await this.service.timeline(this.targetId);
+        return timeline.reviewDrafts?.find(
+          (draft) => draft.runId === this.runId && draft.stepId === this.stepId,
+        );
+      },
+      () => {
+        this.reloadRequired = false;
+      },
+    );
   private command(input: StudioReviewCommand & { commandId?: string }) {
     const command = {
       ...input,
@@ -150,6 +157,8 @@ export class WorkspaceReviewController {
     this.set({ edits, cacheError });
   };
   private async flush(explicitSave = false) {
+    if (this.reloadRequired)
+      throw new Error("评审已在其他窗口修改，请先重新读取批注；本机文字仍保留");
     let draft = this.value.draft;
     if (!draft) throw new Error("请先选择差异行");
     if (this.value.cacheBlocked || (this.value.cacheError && !explicitSave))
@@ -175,12 +184,27 @@ export class WorkspaceReviewController {
       } catch (error) {
         // Host 明确拒绝版本冲突时该请求没有受理；未知传输失败仍保留原请求编号。
         if (error instanceof Error && error.message.includes("评审版本")) {
+          this.reloadRequired = true;
           const edits = { ...this.value.edits, [id]: { body: edit.body } };
           this.set({ edits, cacheError: this.persist(draft, edits) });
         }
         throw error;
       }
       this.accept(draft);
+      if (
+        request.type === "workspace-review" &&
+        request.action === "save-comment" &&
+        draft.revision > request.baseRevision + 1
+      ) {
+        // 原请求已经受理，但最新投影还包含另一窗口的后续保存；不能把它当成本机编辑依据。
+        this.reloadRequired = true;
+        const edits = {
+          ...this.value.edits,
+          [id]: { body: this.value.edits[id]?.body ?? edit.body },
+        };
+        this.set({ edits, cacheError: this.persist(draft, edits) });
+        throw new Error("评审已在其他窗口修改，请先重新读取批注；本机文字仍保留");
+      }
       edits = { ...this.value.edits };
       // 丢 ACK 后用户可能继续改字；旧请求的回执不能清空后来输入的文字。
       if (
@@ -197,6 +221,17 @@ export class WorkspaceReviewController {
       throw new Error("旧保存已确认；较新的编辑仍保留，请再保存一次");
     return draft;
   }
+  discard = (id: string) =>
+    this.perform(async () => {
+      const draft = this.value.draft;
+      if (!draft) throw new Error("请先读取评审");
+      const edits = { ...this.value.edits };
+      delete edits[id];
+      const error = this.persist(draft, edits);
+      if (error) throw new Error(error);
+      this.set({ edits, cacheError: undefined });
+      return draft;
+    });
   save = () => this.perform(() => this.flush(true));
   prepare = () =>
     this.perform(async () => {

@@ -132,7 +132,7 @@ export function StudioWorkspaceReviewCard({
               {feedback?.renderComment(comment)}
             </div>
           ))}
-      {expanded && !change.version && (
+      {expanded && diff.canShowText && !change.version && (
         <p className="mt-2 text-foreground-subtle">
           {zh
             ? "此 Host 未提供文件版本，无法添加可核验的批注。"

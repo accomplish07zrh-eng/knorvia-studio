@@ -154,3 +154,87 @@ test("two window caches cannot overwrite each other's unaccepted text", async (t
   assert.equal(local.values.get(`knorvia-workspace-review-edit:${draft.id}`), before);
   assert.equal(readReviewEdits(local, draft).edits.comment?.body, "first window");
 });
+
+test("lost ACK followed by another window's save requires reload before newer text can replace it", async (t) => {
+  const f = await workspaceReviewFixture(t);
+  await f.save();
+  const local = storage();
+  let drop = true;
+  const transport = {
+    timeline: f.service.timeline.bind(f.service),
+    command: async (command: StudioCommand) => {
+      const result = await f.service.command(command);
+      if (drop) {
+        drop = false;
+        throw new Error("lost ACK");
+      }
+      return result;
+    },
+  } as IStudioRuntimeService;
+  const controller = new WorkspaceReviewController(transport, "review", "original", "step", local);
+  controller.activate();
+  await settled(controller);
+  controller.edit("comment", "first edit");
+  controller.save();
+  await settled(controller);
+  const draft = (await f.service.timeline("review")).reviewDrafts![0]!;
+  await f.service.command({
+    type: "workspace-review",
+    action: "save-comment",
+    commandId: crypto.randomUUID(),
+    runId: "original",
+    stepId: "step",
+    draftId: draft.id,
+    baseRevision: draft.revision,
+    commentId: "comment",
+    body: "other window's saved text",
+  });
+  controller.edit("comment", "newer local text");
+  controller.save();
+  await settled(controller);
+  controller.save();
+  await settled(controller);
+  assert.equal(
+    (await f.service.timeline("review")).reviewDrafts![0]?.comments[0]?.body,
+    "other window's saved text",
+  );
+  assert.equal(controller.getSnapshot().edits.comment?.body, "newer local text");
+  assert.match(controller.getSnapshot().error ?? "", /重新读取/);
+  controller.reload();
+  await settled(controller);
+  controller.save();
+  await settled(controller);
+  assert.equal(
+    (await f.service.timeline("review")).reviewDrafts![0]?.comments[0]?.body,
+    "newer local text",
+  );
+});
+
+test("another window's deleted comment retains local text until explicit local discard", async (t) => {
+  const f = await workspaceReviewFixture(t);
+  const draft = (await f.save()).reviewDraft!;
+  const local = storage();
+  const controller = new WorkspaceReviewController(f.service, "review", "original", "step", local);
+  controller.activate();
+  await settled(controller);
+  controller.edit("comment", "keep this deleted-comment draft");
+  await f.service.command({
+    type: "workspace-review",
+    action: "delete-comment",
+    commandId: crypto.randomUUID(),
+    runId: "original",
+    stepId: "step",
+    draftId: draft.id,
+    baseRevision: draft.revision,
+    commentId: "comment",
+  });
+  controller.reload();
+  await settled(controller);
+  assert.equal(controller.getSnapshot().draft?.comments.length, 0);
+  assert.equal(controller.getSnapshot().edits.comment?.body, "keep this deleted-comment draft");
+  controller.discard("comment");
+  await settled(controller);
+  assert.deepEqual(controller.getSnapshot().edits, {});
+  assert.equal((await f.service.timeline("review")).reviewDrafts![0]?.comments.length, 0);
+  assert.deepEqual(readReviewEdits(local, controller.getSnapshot().draft!).edits, {});
+});
