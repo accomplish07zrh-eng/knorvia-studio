@@ -333,3 +333,9 @@ filtered CIM plus NetTCP stall beyond ten seconds with no stdout/stderr. A
 module/OS initialization probe may compare derived trusted system module paths
 and explicit OS identity/runtime names without copying ambient module paths or
 credential variables. Raising production timeouts is not justified by this result.
+
+The fourth probe establishes that CimCmdlets discovery itself stalls beyond ten
+seconds, while direct .NET birth-time inspection completes in 289 ms. Compare
+read-only System.Management WMI against the same Win32_Process fields and native
+netstat listener/PID output at the existing budgets. These use documented OS APIs,
+not installed modules or downloaded implementations. No production fix is yet applied.

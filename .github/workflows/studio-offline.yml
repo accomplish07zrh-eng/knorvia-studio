@@ -50,18 +50,15 @@ jobs:
               stderr:result.stderr.slice(0,1200)});
           }
           try {
-            const moduleEnv={...selected,PSModulePath:selected.SystemRoot+'\\System32\\WindowsPowerShell\\v1.0\\Modules'};
-            const osEnv={...moduleEnv};
-            const safeNames=['SystemDrive','ProgramFiles','ProgramFiles(x86)','ProgramW6432','ProgramData','COMPUTERNAME','OS','PROCESSOR_ARCHITECTURE','PROCESSOR_IDENTIFIER','NUMBER_OF_PROCESSORS','USERNAME','USERDOMAIN','USERDOMAIN_ROAMINGPROFILE','CommonProgramFiles','CommonProgramFiles(x86)','CommonProgramW6432','ALLUSERSPROFILE','PUBLIC'];
-            for(const name of safeNames){const key=Object.keys(process.env).find(key=>key.toUpperCase()===name.toUpperCase());if(key&&process.env[key])osEnv[name]=process.env[key]}
-            const filtered=`Get-CimInstance Win32_Process -Filter "ProcessId = ${child.pid}" | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }`;
-            await query('trusted-module-path',moduleEnv,filtered,10000);
-            await query('explicit-os-runtime-and-identity',osEnv,filtered,10000);
-            await query('module-discovery-selected',selected,"Get-Command Get-CimInstance | ForEach-Object { $_.Name }",10000);
-            await query('module-discovery-trusted',moduleEnv,"Get-Command Get-CimInstance | ForEach-Object { $_.Name }",10000);
-            await query('direct-dotnet-start-time',selected,`[Console]::WriteLine([System.Diagnostics.Process]::GetProcessById(${child.pid}).StartTime.ToUniversalTime().Ticks)`,10000);
-            const portCommand=`Get-NetTCPConnection -State Listen -LocalAddress 127.0.0.1 -LocalPort ${port} -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess`;
-            await query('port-trusted-os-environment',osEnv,portCommand,10000);
+            const wmiAll="[void][System.Reflection.Assembly]::LoadWithPartialName('System.Management'); $search=[System.Management.ManagementObjectSearcher]::new('SELECT ProcessId, ParentProcessId, CreationDate FROM Win32_Process'); try { $search.Get() | ForEach-Object { if ($_.CreationDate) { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, ([System.Management.ManagementDateTimeConverter]::ToDateTime($_.CreationDate).ToUniversalTime().Ticks) } } } finally { $search.Dispose() }";
+            const wmiFiltered=wmiAll.replace('FROM Win32_Process',`FROM Win32_Process WHERE ProcessId = ${child.pid}`);
+            await query('direct-WMI-existing-budget',selected,wmiAll,2500);
+            await query('direct-WMI-filtered-existing-budget',selected,wmiFiltered,2500);
+            await query('direct-WMI-completion-duration',selected,wmiAll,10000);
+            const start=Date.now();
+            const result=await new Promise(resolve=>execFile('netstat.exe',['-ano','-p','TCP'],{env:selected,encoding:'utf8',windowsHide:true,timeout:1500},(error,stdout,stderr)=>resolve({error,stdout,stderr})));
+            const listener=result.stdout.split(/\r?\n/).some(row=>{const fields=row.trim().split(/\s+/);return fields[0]==='TCP'&&fields[1]===`127.0.0.1:${port}`&&fields[2]==='0.0.0.0:0'&&fields[3]==='LISTENING'&&Number(fields[4])===child.pid});
+            record({name:'native-netstat-existing-budget',elapsed:Date.now()-start,code:result.error?.code,killed:result.error?.killed,signal:result.error?.signal,listener,stderr:result.stderr.slice(0,1200)});
                     } finally {
             child.kill();
             if(child.exitCode===null)await new Promise(resolve=>child.once('exit',resolve));
