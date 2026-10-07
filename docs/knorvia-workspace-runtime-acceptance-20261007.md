@@ -38,6 +38,8 @@ pnpm provenance:check
 
 4 个 sentinel 测试验证纯 Windows 大小写投影，以及真实直接 spawn、setup、setup 的子进程和 service 环境。报告只含变量名及受控 runtime 值，不写凭据值。相关回归为 86 pass / 0 fail / 1 skip，Chromium smoke 及根静态检查通过。Studio 契约公开方法实测为 12，架构上限保持 12，没有新增 RPC 端点。
 
+CI 等待期间复核身份恢复测试，发现直接启动未分配端口的 HTTP fixture 会因 ERR_SOCKET_BAD_PORT 立即退出，存活断言依赖时序。已改为持续运行的自有 Node 进程，测试仍核验身份不匹配与空证明均不终止该进程；生产代码保持。
+
 ## 限制与集成责任
 
 本轮执行环境为 Linux，未实际运行 Windows/macOS 监听归属及进程恢复，也未执行完整打包桌面或全仓 `test:studio`；集成线程负责同一最终 head 的平台与聚合 CI。服务命令 argv 不经 shell；Windows 批处理应由用户明确选择解释器。运行准备只在用户显式操作后执行，不自动运行仓库 setup 指令，不从源目录复制依赖或凭据。

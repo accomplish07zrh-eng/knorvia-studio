@@ -57,7 +57,8 @@ test("a mismatched process birth token never kills a reused PID or unrelated pro
   const io = createWorkspaceRuntimePort();
   const process = await io.spawn(
     fileURLToPath(new URL(".", import.meta.url)),
-    serverCommand,
+    // 修复：身份核验需要持续存活的进程；未分配端口时 HTTP fixture 会立即退出。
+    { executable: globalThis.process.execPath, args: ["-e", "setInterval(()=>{},1000)"] },
     undefined,
     () => {},
   );
