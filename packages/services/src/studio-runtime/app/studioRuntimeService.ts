@@ -21,6 +21,8 @@ import { hasUnknownStudioRun } from "./runQueries.js";
 import { applyStudioWorkspaceChanges, inspectStudioWorkspaceChanges } from "./workspaceReview.js";
 import { assertRemoteStudioMembersOnline } from "./remoteAdmission.js";
 import { inspectStudioKernels, manageStudioKernel } from "./kernelOperations.js";
+import { StudioWorkspaceRuntime } from "./workspaceRuntime.js";
+import type { WorkspaceRuntimePort } from "./workspaceRuntimePort.js";
 import {
   readStudioOverview,
   readStudioTimeline,
@@ -35,6 +37,7 @@ export interface StudioRuntimeDependencies {
   onDidChange: Event<{ revision: number }>;
   notify(revision: number): void;
   process?: { id: number; alive(id: number): boolean };
+  workspaceRuntime?: WorkspaceRuntimePort;
 }
 export class StudioRuntimeService implements IStudioRuntimeService {
   readonly onDidChange: Event<{ revision: number }>;
@@ -47,10 +50,21 @@ export class StudioRuntimeService implements IStudioRuntimeService {
   private readonly lifecycle = new StudioRuntimeLifecycle();
   private lastRevision = -1;
   private disposal?: Promise<void>;
+  private readonly workspaceRuntimeOwner: StudioWorkspaceRuntime;
 
   constructor(private readonly deps: StudioRuntimeDependencies) {
     this.owner = deps.clock.id();
     this.onDidChange = deps.onDidChange;
+    this.workspaceRuntimeOwner = new StudioWorkspaceRuntime({
+      db: deps.db,
+      clock: deps.clock,
+      io: deps.workspaceRuntime,
+      host: deps.process,
+      changed: () => this.changed(),
+    });
+  }
+  workspaceRuntime(params: import("../workspaceRuntimeTypes.js").StudioWorkspaceRuntimeRequest) {
+    return this.lifecycle.run(() => this.workspaceRuntimeOwner.request(params));
   }
   async overview(): Promise<StudioOverview> {
     this.lifecycle.assertOpen();
@@ -225,8 +239,9 @@ export class StudioRuntimeService implements IStudioRuntimeService {
       for (const item of this.active.values()) item.controller.abort(new Error("应用退出"));
       // 内核取消必须与 RPC 排空并行：安装/探测可能正等该取消才能退出。
       // 文件应用不被中途遗弃，finally 清理与管理配置提交均须发生在 close 之前。
-      const [kernels] = await Promise.allSettled([
+      const [kernels, workspaceRuntime] = await Promise.allSettled([
         Promise.resolve().then(() => this.deps.kernels.dispose()),
+        this.workspaceRuntimeOwner.dispose(),
         this.lifecycle.drain(),
         ...[...this.active.values()].map((item) => item.promise),
       ]);
@@ -236,6 +251,7 @@ export class StudioRuntimeService implements IStudioRuntimeService {
         db.close();
       }
       if (kernels.status === "rejected") throw kernels.reason;
+      if (workspaceRuntime.status === "rejected") throw workspaceRuntime.reason;
     });
     return this.disposal;
   }

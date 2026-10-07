@@ -6,6 +6,7 @@ import { StudioRuntimeService } from "./app/studioRuntimeService.js";
 import { StudioDatabase } from "./adapters/studioDatabase.js";
 import { createBuiltinStudioKernel } from "./adapters/builtinKernel.js";
 import { createStudioWorkspaceManager } from "./adapters/workspaceManager.js";
+import { createWorkspaceRuntimePort } from "./adapters/workspaceRuntimeProcess.js";
 import { createStudioKernelRegistry } from "./adapters/kernels/kernelRegistry.js";
 import { withStudioSharedCapabilities } from "./adapters/sharedCapabilities.js";
 import { createServiceLogger } from "../logger/serviceLogger.js";
@@ -67,6 +68,7 @@ export function createStudioRuntimeService(options: {
       },
     ),
     workspaces: createStudioWorkspaceManager(dataDir),
+    workspaceRuntime: createWorkspaceRuntimePort(),
     creation: options.creationService,
     onDidChange: emitter.event,
     notify: (revision) => emitter.fire({ revision }),
