@@ -57,7 +57,7 @@ function client(server) {
 }
 async function execute(text) {
   try {
-    if (text.startsWith("integration-child:")) {
+    if (/^(?:Task:\n)?integration-child:/.test(text)) {
       fs.writeFileSync("report.txt", "isolated child report\n");
       text = "integration child completed";
     } else {

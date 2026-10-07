@@ -4,6 +4,70 @@ This report accompanies
 `specs/knorvia-workspace-handoff-orchestration-integration-20261007.md`.
 It records executed evidence separately from the planned acceptance cases.
 
+## Current aggregate result
+
+The first complete candidate run at `22cdb038321c07827a2bfd8a0f95e9906b9ebf1d`
+exits 1: 820 files, 8,377 tests, 8,368 passed, one failed, eight skipped, zero
+cancelled; 666.6 seconds. Its sole failure is the unpopulated production kernel
+catalog in the combined test. This result is diagnostic and does not qualify a
+release. Five actual Chromium handoff scenarios on that combined candidate pass
+with zero browser errors (`/tmp/knorvia-integrated-browser/results.json`).
+Handoff PR44's current head also has successful Linux and Windows CI
+[37579368406](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37579368406).
+Orchestration PR43's reviewed `3c17d5bb` has successful platform CI
+[37579685243](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37579685243);
+its seeded fixtures did not cover production discovery. A real native Codex
+probe remains unavailable because of the pre-existing read-only home/SQLite;
+no permissions or credentials were changed.
+
+Workspace's latest `2c0711556791fdb21c102636fd348facada32a97` fixture correction
+is integrated. The integration lane owns the remaining helper environment and
+production catalog corrections, recorded on
+[PR42](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/42#issuecomment-6032297344)
+and [PR43](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/43#issuecomment-6032297559).
+Specs and the Studio contract were updated first. No architecture baseline or
+frozen evidence was refreshed.
+
+Three new regressions first fail before correction (exit 1; three failed):
+production inspection without saved local status, actual POSIX helper credential
+sentinels, and Windows helper environment/cache selection. After correction,
+those tests plus caller/configuration races and the combined production path
+exit 0: ten passed, zero failed/cancelled/skipped. The combined path reaches
+actual provider/MCP child dispatch, isolated changed-file results, durable ACK,
+approved setup/service readiness, owned stop and SQLite reopen. Its fixture was
+corrected to recognize Studio's existing `Task:` wrapper; the first post-fix
+attempt exposed that fixture mistake (eight passed, one failed), and no product
+behavior was changed to accommodate it. Logs: `/tmp/knorvia-correction-before.log`,
+`/tmp/knorvia-correction-first.log`, `/tmp/knorvia-correction-second.log`.
+
+Discovery now reuses live inspection and checks caller/configuration snapshots
+after awaits, including human approval and workspace preparation. Optional Node
+helper environments follow the existing process owners through proof/stop/recovery;
+unspecified provider paths retain their defaults. Full regression, all mandatory
+gates and final exact-source platform CI remain required before merge/publication.
+Root README guidance now reflects both existing desktop platforms and workflows;
+the live website is unchanged. Signing remains inactive/unsigned.
+
+The broader corrected focused run exits 0: 79 passed, zero failed/cancelled/skipped,
+covering agent ownership/provider/outbox/bridge, all workspace runtime tests and
+the existing process proof/termination/default-option fixtures. Root typecheck
+(5,537 locale keys), lint, provenance check, formatting, product icon verification
+and CLI build each exit 0; lint retains its one existing warning and 17/17 CLI
+tasks succeed. Full and changed architecture checks report zero violations.
+An extra attempted `test:architecture` alias exits 254 because the repository has
+no such script; both real architecture commands are rerun directly and their
+actual results are retained. This missing alias is not represented as a passed test.
+The new source adds no public browser methods, keeps existing state owners and
+preserves unspecified process helper options. The full final offline suite and
+exact-head Linux/Windows CI are the next gates.
+
+The original independent command and helper probes are also rerun against the
+corrected aggregate source: both exit 0. The workspace child and all six observed
+`ps` helper invocations report all four synthetic credential/metadata keys absent.
+No real credential values are used or printed. Logs:
+`/tmp/knorvia-correction-command-probe.log`,
+`/tmp/knorvia-correction-helper-probe.log`.
+
 ## Initial baseline (2026-10-07)
 
 | Observation                     | Evidence                                                                                                                                                                   |

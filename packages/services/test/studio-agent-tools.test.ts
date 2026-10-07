@@ -86,13 +86,7 @@ test("caller, schemas, provider options, real read-only support and permission c
       new AbortController().signal,
     );
     await assert.rejects(forged.call("list_kernels", {}), /执行权|调用方/);
-    f.db.transaction(() =>
-      f.db.write("kernel-status", "codex", {
-        id: "codex",
-        installed: true,
-        capabilities: { readOnly: false },
-      }),
-    );
+    f.inspection.statuses[0]!.capabilities.readOnly = false;
     await assert.rejects(
       f.tools.call("dispatch_task", { ...dispatch, commandId: "review", permission: "read-only" }),
       /只读/,

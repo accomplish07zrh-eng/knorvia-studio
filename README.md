@@ -2,7 +2,7 @@
 
 Knorvia Studio 是把多个 Agent 内核放进同一工作空间的桌面工作台。单聊、多 Agent 协作、工作流与图片视频创作共用一套黑白界面，让任务、工具、项目和执行结果保持连贯。
 
-当前发布版本：**0.8.0-preview.3**。访问 [官网](https://knorvia.xyz)，或在 [GitHub Release](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/tag/v0.8.0-preview.3) 下载 Windows x64 安装版、便携版及对应 SHA-256 校验文件。English: [README.en.md](README.en.md)。
+本源码版本：**0.9.0**，变更见 [CHANGELOG.md](CHANGELOG.md)。已发布的 Windows x64 和 Linux x64 安装版、便携版及 SHA-256 校验文件见 [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/latest)。项目 [官网](https://knorvia.xyz) 另有介绍。English: [README.en.md](README.en.md)。
 
 安装包目前未签名，请按 [下载校验说明](CODE_SIGNING.md) 用 SHA-256 校验后再运行。
 
@@ -21,7 +21,7 @@ Computer Use 可能改变前台焦点或鼠标，不支持 UAC、安全桌面或
 
 ## 安装与数据
 
-安装版提供桌面及开始菜单快捷方式，程序与用户数据分开保存。便携版解压后运行 `Knorvia Studio.exe`，数据保存在程序旁的 `data` 文件夹；完整退出后可复制整个便携文件夹。两种下载都附带校验文件，当前预览包未签名。
+Windows 安装版提供桌面及开始菜单快捷方式，程序与用户数据分开保存。Windows 便携 ZIP 解压后运行 `Knorvia Studio.exe`，数据保存在程序旁的 `data` 文件夹；完整退出后可复制整个便携文件夹。Linux 包格式、便携程序与升级步骤见 [安装与数据说明](docs/desktop-release-installation.md)。所有包附带校验文件，当前包未签名。
 
 ## 开发
 
@@ -37,7 +37,7 @@ Computer Use 可能改变前台焦点或鼠标，不支持 UAC、安全桌面或
 | 架构检查                   | `pnpm architecture:check --changed`             |
 | 离线回归测试               | `pnpm build:cli-packages` 后 `pnpm test:studio` |
 
-GitHub Actions 的 `Studio offline checks` 在每个 PR 上于 Linux 运行检查；推送到 `main` 或手动触发时，另在 Windows 上运行平台回归。`Release Windows installer and portable` 先验证同一提交，再构建安装版和便携版并发布；同版本附件不会被覆盖。生产构建须设置 `KNORVIA_ENV=production`，打包入口为 `node packages/desktop/scripts/bundle.mjs --os win --arch x64`。
+GitHub Actions 的 `Studio offline checks` 在 PR、推送到 `main` 和手动触发时都运行 Linux 与 Windows 检查。`Release desktop installers and portable` 先验证同一完整提交 SHA，再构建并验收 Windows/Linux 安装版和便携版；全部门禁通过后发布，同版本附件不会被覆盖。生产构建须设置 `KNORVIA_ENV=production`，Windows 打包入口为 `node packages/desktop/scripts/bundle.mjs --os win --arch x64`，Linux 使用 `--os linux`。
 
 ## 文档与许可
 

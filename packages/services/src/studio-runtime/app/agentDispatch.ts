@@ -1,13 +1,15 @@
 import { redactDiagnosticText } from "@knorvia/shared";
 import type { z } from "zod";
 import type { StudioAgentTask } from "../agentToolTypes.js";
-import type { StudioKernelConfig, StudioKernelId, StudioKernelStatus } from "../kernelTypes.js";
+import type { StudioKernelConfig, StudioKernelId } from "../kernelTypes.js";
 import { validActiveKernel } from "../domain/validation.js";
 import { stricterStudioPermission } from "../domain/workflowGraph.js";
 import { studioAgentToolSchemas } from "../domain/agentToolPolicy.js";
 import { applyStudioCommand } from "./commandAdmission.js";
 import { admitStudioCommandReceipt } from "./commandReceipts.js";
 import { agentCallerKey } from "./agentOutbox.js";
+import { inspectStudioKernels } from "./kernelOperations.js";
+import { studioKernelConfigs } from "./runtimeProjections.js";
 import type { StoredRun } from "./storePort.js";
 import {
   assertStudioAgentCaller,
@@ -25,8 +27,17 @@ export async function studioAgentKernelCatalog(
   caller: StudioAgentCaller,
 ) {
   assertStudioAgentCaller(deps, caller);
+  // 修复：生产探测不持久化本机 kernel-status；复用现有探测 owner，并阻断 await 期间配置变更。
+  const signature = JSON.stringify(studioKernelConfigs(deps.db));
+  const statuses = await inspectStudioKernels(deps);
+  const recheck = () => {
+    assertStudioAgentCaller(deps, caller);
+    if (JSON.stringify(studioKernelConfigs(deps.db)) !== signature)
+      throw new Error("内核配置已变更，请重新检查后重试");
+  };
+  recheck();
   const entries = [];
-  for (const status of deps.db.list<StudioKernelStatus>("kernel-status", { all: true })) {
+  for (const status of statuses) {
     const config = deps.db.read<StudioKernelConfig>("config", status.id);
     if (!config || !status.installed || status.error || status.id.startsWith("ssh:")) continue;
     const options = await deps.kernels.options?.({
@@ -34,7 +45,7 @@ export async function studioAgentKernelCatalog(
       workspacePath: caller.turn.workspacePath,
       config,
     });
-    assertStudioAgentCaller(deps, caller);
+    recheck();
     entries.push({
       kernel: status.id,
       capabilities: status.capabilities,
@@ -46,6 +57,17 @@ export async function studioAgentKernelCatalog(
   return entries;
 }
 
+function assertCurrentAgentConfig(
+  deps: StudioAgentToolDependencies,
+  caller: StudioAgentCaller,
+  kernel: StudioKernelId,
+  config: StudioKernelConfig,
+) {
+  assertStudioAgentCaller(deps, caller);
+  if (JSON.stringify(deps.db.read("config", kernel)) !== JSON.stringify(config))
+    throw new Error("内核配置已变更，请重新检查后重试");
+}
+
 export async function dispatchStudioAgent(
   deps: StudioAgentToolDependencies,
   caller: StudioAgentCaller,
@@ -55,11 +77,13 @@ export async function dispatchStudioAgent(
   const parent = assertStudioAgentCaller(deps, caller);
   validActiveKernel(input.kernel);
   const kernel: StudioKernelId = input.kernel;
+  const config = deps.db.read<StudioKernelConfig>("config", kernel);
+  if (!config) throw new Error("请选择已配置、已安装的本机 Studio 内核");
   const selected = (await studioAgentKernelCatalog(deps, caller)).find(
     (entry) => entry.kernel === kernel,
   );
-  const config = deps.db.read<StudioKernelConfig>("config", kernel);
-  if (!selected || !config) throw new Error("请选择已配置、已安装的本机 Studio 内核");
+  assertCurrentAgentConfig(deps, caller, kernel, config);
+  if (!selected) throw new Error("请选择已配置、已安装的本机 Studio 内核");
   const permission = stricterStudioPermission(
     caller.turn.permission,
     stricterStudioPermission(config.permission, input.permission ?? config.permission),
@@ -92,7 +116,8 @@ export async function dispatchStudioAgent(
     );
     if (answer.decision !== "allow-once") throw new Error("用户未批准此次派发");
   }
-  assertStudioAgentCaller(deps, caller);
+  // 修复：人工审批或隔离准备期间配置收紧，不能按旧配置继续创建子任务。
+  assertCurrentAgentConfig(deps, caller, kernel, config);
   const taskId = deps.clock.id();
   const targetId = deps.clock.id();
   const workspacePath = await deps.workspaces.prepare({
@@ -101,9 +126,9 @@ export async function dispatchStudioAgent(
     sourcePath: caller.turn.workspacePath,
     mode: "isolated",
   });
-  assertStudioAgentCaller(deps, caller);
+  assertCurrentAgentConfig(deps, caller, kernel, config);
   return deps.db.transaction(() => {
-    assertStudioAgentCaller(deps, caller);
+    assertCurrentAgentConfig(deps, caller, kernel, config);
     assertLimits(deps, chain.rootRunId, chain.depth + 1);
     admitStudioCommandReceipt(
       deps.db,
@@ -176,6 +201,7 @@ export async function messageStudioAgent(
   const selected = (await studioAgentKernelCatalog(deps, caller)).find(
     (entry) => entry.kernel === task.kernel,
   );
+  assertCurrentAgentConfig(deps, caller, task.kernel, config);
   if (!selected) throw new Error("子任务的内核已不可用");
   const permission = stricterStudioPermission(
     task.permission,
@@ -193,6 +219,7 @@ export async function messageStudioAgent(
     throw new Error("子任务的思考档位已不可用");
   return deps.db.transaction(() => {
     ownedStudioAgentTask(deps, caller, task.id);
+    assertCurrentAgentConfig(deps, caller, task.kernel, config);
     assertLimits(deps, task.rootRunId, task.depth, false);
     const id = deps.clock.id();
     const sent = admitStudioCommandReceipt(

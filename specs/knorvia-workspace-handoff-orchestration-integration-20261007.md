@@ -4,6 +4,37 @@ Date: 2026-10-07. This spec precedes integration implementation. It joins the th
 authorized feature lanes into one stable desktop release and supplements their
 individual specs; it does not assign their implementation files to this lane.
 
+## Confirmed integration corrections
+
+The aggregate production-composition test confirms that agent discovery cannot
+depend on local `kernel-status` rows: the existing inspection owner returns local
+statuses without persisting that kind. Agent discovery will call
+`inspectStudioKernels`, use its verified local statuses and provider options,
+and retain the existing command admission owner. It will check caller ownership
+after each await, reject configuration changes during discovery, and recheck the
+selected configuration after human approval and workspace preparation. These
+checks add no accepted queue, status persistence or permission authority. Missing
+or failed inspections remain explicit failures. Legacy caller inputs remain valid.
+Tests must reach discovery without seeded local status rows, including an actual
+Node composition/provider/MCP path and cancellation/configuration races.
+
+The workspace adapter's selected environment must also follow process identity
+inspection, group snapshots, verification and termination through normal stop
+and recovery. Add optional `helperEnvironment` to existing process-tree options
+and Windows taskkill requests. Unspecified options retain existing provider
+semantics; workspace callers always supply the bounded environment. Existing
+helper caches/flights may reuse work only within the same environment selection.
+No environment is persisted or logged, and global `process.env` is not changed
+by production code. Process birth proofs, deadlines, ownership and PID reuse
+guards stay with their current owners. Actual POSIX helper sentinel tests and
+Windows command/flight fixtures must cover the new path while existing default
+cleanup tests stay unchanged.
+
+The integration lane owns these corrections after feature PR review, as recorded
+on PR42 and PR43. Root download/CI guidance will point to actual supported
+Windows/Linux releases, retain unsigned status and describe the existing workflow;
+this changes repository documentation without deploying the website.
+
 ## Scope and baseline
 
 - Repository: `accomplish07zrh-eng/knorvia-studio`.
@@ -268,7 +299,8 @@ three persistent lane IDs:
 - Structured handoff: `01a114d8-e04e-71b7-8140-6d81b5b65028`.
 - Agent orchestration/notifications: `01a114d9-8ba5-76ea-9e1c-9186dc652024`.
 
-The parent coordinates their interfaces and will supply feature PRs. No
-feature-owned source files have been edited by the integration lane. Baseline
-checks and subsequent integration/release evidence are recorded in the
-companion integration report.
+The parent coordinates their interfaces and supplies feature PRs. No
+feature-owned source files were edited during initial baseline preparation.
+After reviewing and combining PR42/43/44, the integration lane owns the confirmed
+corrections above. Baseline checks and subsequent integration/release evidence
+are recorded in the companion integration report.

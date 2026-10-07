@@ -10,6 +10,7 @@ import type {
 const CIM_ALL =
   "Get-CimInstance Win32_Process | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }";
 let cachedWindowsIdentities: ProcessIdentity[] | undefined;
+let cachedWindowsEnvironment: NodeJS.ProcessEnv | undefined;
 
 function isPositiveInteger(value: number): boolean {
   return Number.isInteger(value) && value > 0;
@@ -24,7 +25,11 @@ function queryPosixIdentities(options: ProcessTreeTerminatorOptions): ProcessIde
   const result = spawnSync(
     "ps",
     darwin ? ["-axo", "pid=,ppid=,pgid=,lstart=,command="] : ["-eo", "pid=,ppid=,pgid=,lstart="],
-    { encoding: "utf8", timeout: 1000 },
+    {
+      encoding: "utf8",
+      timeout: 1000,
+      ...(options.helperEnvironment ? { env: options.helperEnvironment } : {}),
+    },
   );
   if (result.error) {
     options.log?.warn(options.traceId, "查询 runtime 后代进程失败（进程表查询）:", result.error);
@@ -71,13 +76,21 @@ function queryPosixIdentities(options: ProcessTreeTerminatorOptions): ProcessIde
 }
 
 function queryWindowsIdentities(options: ProcessTreeTerminatorOptions): ProcessIdentity[] {
-  if (cachedWindowsIdentities !== undefined) {
+  if (
+    cachedWindowsIdentities !== undefined &&
+    cachedWindowsEnvironment === options.helperEnvironment
+  ) {
     return cachedWindowsIdentities;
   }
   const result = spawnSync(
     "powershell.exe",
     ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", CIM_ALL],
-    { encoding: "utf8", timeout: 1000, windowsHide: true },
+    {
+      encoding: "utf8",
+      timeout: 1000,
+      windowsHide: true,
+      ...(options.helperEnvironment ? { env: options.helperEnvironment } : {}),
+    },
   );
   if (result.error || result.status !== 0 || !result.stdout) {
     options.log?.warn(
@@ -98,9 +111,11 @@ function queryWindowsIdentities(options: ProcessTreeTerminatorOptions): ProcessI
     }
   }
   cachedWindowsIdentities = identities;
+  cachedWindowsEnvironment = options.helperEnvironment;
   queueMicrotask(() => {
     if (cachedWindowsIdentities === identities) {
       cachedWindowsIdentities = undefined;
+      cachedWindowsEnvironment = undefined;
     }
   });
   return identities;

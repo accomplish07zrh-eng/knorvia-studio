@@ -9,6 +9,7 @@ export interface WindowsTaskkillRequest {
   force: boolean;
   pid: number;
   timeoutMs: number;
+  helperEnvironment?: NodeJS.ProcessEnv;
 }
 
 export interface WindowsTaskkillResult {
@@ -21,6 +22,8 @@ export type WindowsTaskkillRunner = (
 ) => Promise<WindowsTaskkillResult>;
 
 export interface ProcessTreeTerminatorOptions {
+  /** 工作区 helper 显式复用受限环境；省略时保留现有 provider 的执行环境。 */
+  helperEnvironment?: NodeJS.ProcessEnv;
   traceId?: TraceId;
   log?: ProcessTreeTerminatorLogger;
   forceAfterMs?: number;

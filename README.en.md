@@ -2,7 +2,7 @@
 
 Knorvia Studio brings multiple agent kernels into one desktop workspace. Individual chats, multi-agent collaboration, workflows, and image and video creation share a black-and-white interface that keeps projects, tools, tasks and their results together.
 
-Current release: **0.8.0-preview.3**. Visit the [website](https://knorvia.xyz), or download the Windows x64 installer, portable package and SHA-256 checksums from [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/tag/v0.8.0-preview.3). 中文：[README.md](README.md)。
+This source version is **0.9.0**; see [CHANGELOG.md](CHANGELOG.md). Published Windows x64 and Linux x64 installers, portable packages and SHA-256 checksums are available from [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/latest). The project [website](https://knorvia.xyz) provides an introduction. 中文：[README.md](README.md)。
 
 ## Features
 
@@ -19,7 +19,7 @@ Computer Use can move the foreground pointer or focus. UAC, secure desktops and 
 
 ## Installation and data
 
-The installer provides desktop and Start menu shortcuts and stores user data separately from the program. The portable package runs from `Knorvia Studio.exe` and keeps data in the adjacent `data` directory. Fully exit before copying the portable folder. Both downloads include checksums; current preview builds are unsigned.
+The Windows installer provides desktop and Start menu shortcuts and stores user data separately from the program. The Windows portable ZIP runs from `Knorvia Studio.exe` and keeps data in the adjacent `data` directory. Fully exit before copying the portable folder. See [installation and data guidance](docs/desktop-release-installation.md) for Linux formats, portable programs and upgrade steps. All packages include checksums; current packages are unsigned.
 
 ## Development
 
@@ -35,7 +35,7 @@ Requires Node.js 24.14.0 and pnpm 10.33.2 (see `mise.toml`). From the repository
 | Architecture check                   | `pnpm architecture:check --changed`                |
 | Offline regression tests             | `pnpm build:cli-packages`, then `pnpm test:studio` |
 
-The `Studio offline checks` GitHub Actions workflow runs checks on Linux for every pull request, and additionally on Windows for pushes to `main` and manual runs. `Release Windows installer and portable` validates a single commit before building and publishing both packages; published version assets are immutable. Set `KNORVIA_ENV=production` for production packaging and run `node packages/desktop/scripts/bundle.mjs --os win --arch x64`.
+The `Studio offline checks` GitHub Actions workflow checks Linux and Windows on pull requests, pushes to `main` and manual runs. `Release desktop installers and portable` checks one full source SHA, builds and accepts Windows/Linux installer and portable formats, then publishes after all gates pass; published version assets are immutable. Set `KNORVIA_ENV=production` for production packaging and run `node packages/desktop/scripts/bundle.mjs --os win --arch x64` for Windows, or use `--os linux` for Linux.
 
 ## Docs and license
 

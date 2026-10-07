@@ -92,6 +92,8 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
       });
       let snapshot: ProcessTreeSnapshot | undefined;
       const options = () => ({
+        // 修复：证明与清理的 ps/PowerShell/taskkill 也不得继承宿主凭据。
+        helperEnvironment: env,
         ownedProcessStartedAtMs: startedAt,
         resolveOwnedProcessExitedAtMs: () => exitedAt,
         ...(process.platform !== "win32" ? { ownedProcessGroupId: child.pid } : {}),
@@ -119,7 +121,7 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
           cleanup = (async () => {
             await refresh();
             if (process.platform !== "win32" && child.pid && !runtime.alive()) {
-              const group = captureProcessGroupSnapshot(child.pid);
+              const group = captureProcessGroupSnapshot(child.pid, options());
               const oldRoot = snapshot?.identities.find((identity) => identity.pid === child.pid);
               const currentRoot = group?.identities.find((identity) => identity.pid === child.pid);
               // 根先退出的命令仍可能留下同一自有 PGID 的子进程；复用的根身份不能被认领。
@@ -164,6 +166,12 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
     async recover(proof) {
       if (!Number.isInteger(proof.rootPid) || proof.rootPid < 1 || proof.identities.length > 256)
         return false;
+      const helperOptions = {
+        helperEnvironment: workspaceRuntimeEnvironment(
+          process.env,
+          process.platform === "win32" ? "win32" : "posix",
+        ),
+      };
       const identities: ProcessTreeSnapshot["identities"][number][] = [];
       for (const known of proof.identities) {
         if (
@@ -172,7 +180,10 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
           !/^[a-f0-9]{64}$/.test(known.startToken)
         )
           return false;
-        const snapshot = await captureProcessTreeSnapshotAsync(processReference(known.pid, false));
+        const snapshot = await captureProcessTreeSnapshotAsync(
+          processReference(known.pid, false),
+          helperOptions,
+        );
         const identity = snapshot?.identities.find((item) => item.pid === known.pid);
         if (
           identity &&
@@ -197,7 +208,7 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
           return (error as NodeJS.ErrnoException).code === "ESRCH";
         }
       }
-      const current = await filterCurrentProcessIdentitiesAsync(identities, {});
+      const current = await filterCurrentProcessIdentitiesAsync(identities, helperOptions);
       if (!current.length) return true;
       const snapshot: ProcessTreeSnapshot = {
         rootPid: proof.rootPid,
@@ -207,6 +218,7 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
           .map((item) => item.pid),
       };
       const result = await terminateProcessTreeAndWait(processReference(proof.rootPid, true), {
+        ...helperOptions,
         snapshot,
         forceAfterMs: 300,
         waitAfterForceMs: 500,

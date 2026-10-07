@@ -181,7 +181,12 @@ async function runTaskkill(
   });
   let result: WindowsTaskkillResult;
   try {
-    result = await runner({ force, pid, timeoutMs });
+    result = await runner({
+      force,
+      pid,
+      timeoutMs,
+      ...(options.helperEnvironment ? { helperEnvironment: options.helperEnvironment } : {}),
+    });
   } catch (error) {
     result = { error };
   }

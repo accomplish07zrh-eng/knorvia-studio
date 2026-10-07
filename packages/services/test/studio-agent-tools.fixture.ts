@@ -11,6 +11,7 @@ import type {
   StudioKernelSink,
 } from "../src/studio-runtime/contract.js";
 import type { StudioAgentTools } from "../src/studio-runtime/agentToolTypes.js";
+import type { StudioKernelStatus } from "../src/studio-runtime/kernelTypes.js";
 
 export async function fixture(
   adapter?: StudioKernelAdapter,
@@ -18,6 +19,7 @@ export async function fixture(
     permission?: "ask" | "full-access" | "read-only";
     artifactCount?: number;
     policy?: Partial<import("../src/studio-runtime/agentToolTypes.js").StudioAgentPolicy>;
+    beforePrepare?: () => Promise<void>;
   } = {},
 ) {
   const path = await mkdtemp(join(tmpdir(), "knorvia-agent-tools-"));
@@ -34,6 +36,26 @@ export async function fixture(
     signal: AbortSignal;
     tools: StudioAgentTools;
   }> = [];
+  const inspection: {
+    statuses: StudioKernelStatus[];
+    beforeInspect?: () => Promise<void>;
+    beforeOptions?: () => Promise<void>;
+  } = {
+    statuses: [
+      {
+        id: "codex",
+        installed: true,
+        origin: "external",
+        capabilities: {
+          resume: true,
+          approval: true,
+          questions: true,
+          readOnly: true,
+          fullAccess: true,
+        },
+      },
+    ],
+  };
   const service = new StudioRuntimeService({
     db,
     clock: {
@@ -72,10 +94,18 @@ export async function fixture(
             : { status: "succeeded", text: "complete ".repeat(2000), resultKnown: true };
         },
       }),
-      options: async () => ({
-        models: [{ id: "child-model", label: "Child", reasoning: [{ id: "high", label: "High" }] }],
-      }),
-      inspect: async () => [],
+      options: async () => {
+        await inspection.beforeOptions?.();
+        return {
+          models: [
+            { id: "child-model", label: "Child", reasoning: [{ id: "high", label: "High" }] },
+          ],
+        };
+      },
+      inspect: async () => {
+        await inspection.beforeInspect?.();
+        return inspection.statuses;
+      },
       manage: async () => {
         throw new Error("unused");
       },
@@ -83,6 +113,7 @@ export async function fixture(
     },
     workspaces: {
       prepare: async ({ sourcePath, runId }) => {
+        await options.beforePrepare?.();
         const placed = join(sourcePath, runId);
         paths.push(placed);
         return placed;
@@ -110,19 +141,6 @@ export async function fixture(
       model: "child-model",
     },
   });
-  db.transaction(() =>
-    db.write("kernel-status", "codex", {
-      id: "codex",
-      installed: true,
-      capabilities: {
-        resume: true,
-        approval: true,
-        questions: true,
-        readOnly: true,
-        fullAccess: true,
-      },
-    }),
-  );
   await service.command({
     commandId: "parent-create",
     type: "create-conversation",
@@ -146,6 +164,7 @@ export async function fixture(
     parent,
     paths,
     children,
+    inspection,
     completeParent: () => finishParent(),
     get tools() {
       return tools;

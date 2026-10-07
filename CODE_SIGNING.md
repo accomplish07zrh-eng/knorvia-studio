@@ -1,6 +1,6 @@
 # Code signing and download verification
 
-**Knorvia Studio downloads are currently not code-signed.** The Windows setup installer, portable executable, portable ZIP and the installer fetched by in-app one-click updates do not carry an Authenticode signature. An application to the SignPath Foundation free open source signing program was not approved in October 2026 because of the project's current size, and no other signing certificate is in use.
+**Knorvia Studio downloads are currently not code-signed.** The Windows setup installer, portable executable, portable ZIP and the installer fetched by in-app one-click updates do not carry an Authenticode signature. An application to the SignPath Foundation free open source signing program was not approved in October 2026. Signing remains inactive, and no signing certificate is in use.
 
 当前安装包未签名，请通过 SHA-256 校验文件。
 

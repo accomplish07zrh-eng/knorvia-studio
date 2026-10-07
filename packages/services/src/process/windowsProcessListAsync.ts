@@ -10,6 +10,7 @@ type WindowsCimCapability = "cim" | "identity-unavailable";
 interface WindowsProcessListFlight {
   promise: Promise<readonly ProcessIdentity[]>;
   startedAtMs: number;
+  helperEnvironment?: NodeJS.ProcessEnv;
 }
 
 let windowsCimCapability: WindowsCimCapability | undefined;
@@ -95,7 +96,12 @@ export async function verifyWindowsProcessIdentityAsync(
     execFile(
       "powershell.exe",
       ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", command],
-      { encoding: "utf8", windowsHide: true, timeout: timeoutMs },
+      {
+        encoding: "utf8",
+        windowsHide: true,
+        timeout: timeoutMs,
+        ...(options.helperEnvironment ? { env: options.helperEnvironment } : {}),
+      },
       (error, stdout, stderr) => {
         if (error || !stdout) {
           if (isHardCapabilityError(error)) {
@@ -128,6 +134,7 @@ export async function readWindowsProcessListAsync(
   const existingFlight = windowsProcessListFlight;
   if (
     existingFlight &&
+    existingFlight.helperEnvironment === options.helperEnvironment &&
     (ownedProcessStartedAtMs === undefined || ownedProcessStartedAtMs < existingFlight.startedAtMs)
   ) {
     return await awaitWindowsProcessListWithinDeadline(existingFlight.promise, options);
@@ -147,7 +154,12 @@ export async function readWindowsProcessListAsync(
       execFile(
         "powershell.exe",
         ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", windowsAllProcessesCommand],
-        { encoding: "utf8", windowsHide: true, timeout: timeoutMs },
+        {
+          encoding: "utf8",
+          windowsHide: true,
+          timeout: timeoutMs,
+          ...(options.helperEnvironment ? { env: options.helperEnvironment } : {}),
+        },
         (error, stdout, stderr) => {
           if (error || !stdout) {
             if (isHardCapabilityError(error)) {
@@ -176,6 +188,10 @@ export async function readWindowsProcessListAsync(
       windowsProcessListFlight = undefined;
     }
   });
-  windowsProcessListFlight = { promise: request, startedAtMs };
+  windowsProcessListFlight = {
+    promise: request,
+    startedAtMs,
+    helperEnvironment: options.helperEnvironment,
+  };
   return await awaitWindowsProcessListWithinDeadline(request, options);
 }
