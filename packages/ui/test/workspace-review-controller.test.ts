@@ -24,6 +24,27 @@ async function settled(controller: WorkspaceReviewController) {
   for (let i = 0; i < 200 && controller.getSnapshot().busy; i++) await sleep(5);
   assert.equal(controller.getSnapshot().busy, false);
 }
+test("over-limit pasted text is rejected explicitly without truncating or replacing the prior edit", async (t) => {
+  const f = await workspaceReviewFixture(t);
+  await f.save();
+  const controller = new WorkspaceReviewController(
+    f.service,
+    "review",
+    "original",
+    "step",
+    storage(),
+  );
+  controller.activate();
+  await settled(controller);
+  controller.edit("comment", "preserve this text");
+  controller.edit("comment", "x".repeat(1001));
+  assert.match(controller.getSnapshot().error ?? "", /1,000/);
+  assert.equal(controller.getSnapshot().edits.comment?.body, "preserve this text");
+  controller.edit("comment", "within the limit");
+  assert.equal(controller.getSnapshot().error, undefined);
+  assert.equal(controller.getSnapshot().edits.comment?.body, "within the limit");
+  assert.equal(f.calls.length, 0);
+});
 test("unaccepted edits reload independently of Host draft and confirmed request, without automatic sending", async (t) => {
   const f = await workspaceReviewFixture(t);
   const draft = (await f.save()).reviewDraft!;
