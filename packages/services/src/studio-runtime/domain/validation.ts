@@ -3,6 +3,8 @@ import type { StudioKernelConfig, StudioKernelId } from "../kernelTypes.js";
 import { isStudioKernelId } from "./kernelIdentity.js";
 import { assertKernelNotRetired } from "./kernelPolicy.js";
 
+import { validateWorkspaceReviewCommand } from "./workspaceReviewPolicy.js";
+
 export { STUDIO_KERNEL_IDS } from "./kernelIdentity.js";
 export const activeRunStates = new Set(["queued", "running", "waiting"]);
 export function validStudioId(value: unknown): asserts value is string {
@@ -66,6 +68,15 @@ function validBaseUpdatedAt(value: unknown): void {
 export function validateStudioCommand(command: StudioCommand): void {
   validStudioId(command.commandId);
   switch (command.type) {
+    case "workspace-review":
+      validStudioId(command.runId);
+      validStudioId(command.stepId);
+      if (command.draftId !== undefined) validStudioId(command.draftId);
+      if (command.action === "save-comment" || command.action === "delete-comment")
+        validStudioId(command.commentId);
+      if (command.action === "send") validStudioId(command.previewId);
+      validateWorkspaceReviewCommand(command);
+      break;
     case "configure":
       validActiveKernel(command.kernel);
       validConfig(command.config);

@@ -2,6 +2,7 @@ import type { StudioKernelAnswer, StudioKernelId } from "../kernelTypes.js";
 import type { StudioInteraction, StudioRun } from "../types.js";
 
 export interface StoredRun extends StudioRun {
+  workspaceFeedback?: import("./workspaceReviewDraft.js").WorkspaceFeedback;
   owner?: string;
   taskMode?: boolean;
   workspaceGeneration?: string;

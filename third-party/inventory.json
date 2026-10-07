@@ -1489,7 +1489,7 @@
     "packages/ui/src/components/ui/command.tsx": "7c754bc80704163ce505d08d961a5a4b3e57107e7d53ea319483a896d448cbdb",
     "packages/ui/src/components/ui/context-menu.tsx": "3820461fd68ca7a345fc919ab356bdefbbead23abb3ac0f4e8d46898f7522a6f",
     "packages/ui/src/components/ui/dialog.tsx": "53dc10761bd894a5e86278d9354aac47920c81b4aab8b414b840af095f7c0b31",
-    "packages/ui/src/components/ui/diff-viewer.tsx": "f02208b316e6dc4043ed1794455422bc74cdd521285fcac5a2c0d589c2eb9af2",
+    "packages/ui/src/components/ui/diff-viewer.tsx": "13522257e90a02f4e1897ef3637ddfb7ce182422f5f8accbcce884824b438f6a",
     "packages/ui/src/components/ui/dropdown-menu.tsx": "34c5b79489756aa3467ec26d2b44587f3d47eafcb2cb16402686aac15e4debdb",
     "packages/ui/src/components/ui/flip-metric-value.tsx": "7259c152adcf1329f3cace6c745aad376ad8eee42ea988a7e1184d639cf050a5",
     "packages/ui/src/components/ui/GlmMonochromeIcon.tsx": "970b42abec67de7fb006e69794058eb47ca299a29ee5003b25bf52e16bc1a8f8",

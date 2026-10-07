@@ -34,6 +34,8 @@ export function applyStudioCommand(
 ): string {
   const now = clock.now();
   switch (command.type) {
+    case "workspace-review":
+      throw new Error("评审命令必须通过 Host 评审所有者受理");
     case "configure":
       db.write("config", command.kernel, command.config);
       // 自定义 ACP 内核不是固定候选；索引与配置同事务提交，重开后仍能投影到界面。

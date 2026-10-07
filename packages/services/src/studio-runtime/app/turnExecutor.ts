@@ -1,4 +1,4 @@
-import type { StudioKernelEvent, StudioKernelId, StudioKernelTurnResult } from "../kernelTypes.js";
+import type { StudioKernelId, StudioKernelTurnResult } from "../kernelTypes.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import type { StudioConversation, StudioMessage } from "../types.js";
 import type {
@@ -14,11 +14,13 @@ import { waitStudioInteraction } from "./runtimeInteractions.js";
 import { readStudioStep, saveStudioStep } from "./checkpointStorage.js";
 import { pendingStudioSteering } from "./pendingInbox.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
-import { saveTurnEvent as writeTurnEvent } from "./turnEvents.js";
+import { saveTurnEvent } from "./turnEvents.js";
 import { produceStudioStepOutputs } from "./stepOutputProduction.js";
 import { importStudioStepInputs } from "./stepInputs.js";
 import { studioAgentWorkspace, saveStudioAgentArtifacts } from "./agentOutbox.js";
 import type { StudioAgentArtifactRef } from "../agentToolTypes.js";
+import { saveStudioTurnSession } from "./turnSession.js";
+import { verifyWorkspaceFeedback } from "./workspaceReviewDraft.js";
 import { studioAgentArtifactReferences } from "../domain/agentToolPolicy.js";
 
 export interface StudioTurnDependencies {
@@ -71,7 +73,9 @@ export async function executeStudioTurn(
   const member = step.memberId ?? step.kernel;
   const generation =
     run.kind === "group" && run.workspaceGeneration ? `:workspace:${run.workspaceGeneration}` : "";
-  const key = `${run.kind}:${run.targetId}:${member}${generation}`;
+  const key =
+    run.workspaceFeedback?.binding.conversationId ??
+    `${run.kind}:${run.targetId}:${member}${generation}`;
   const release = await deps.acquire(key, signal);
   let result: StudioKernelTurnResult;
   let turnId = "";
@@ -106,14 +110,19 @@ export async function executeStudioTurn(
       | StudioGroupDefinition
       | StudioWorkflowDefinition
       | undefined;
+    const feedback = run.workspaceFeedback?.binding;
     const sourcePath =
-      agentWorkspace?.sourcePath ?? conversation?.workspacePath ?? definition?.workspacePath;
+      feedback?.workspace.sourcePath ??
+      agentWorkspace?.sourcePath ??
+      conversation?.workspacePath ??
+      definition?.workspacePath;
     if (!sourcePath) throw new Error("请先选择项目");
     workspaceRunId = run.kind === "group" ? `group-${run.targetId}${generation}` : runId;
     workspaceStepId = run.kind === "group" ? member : step.id;
-    workspaceRunId = agentWorkspace?.runId ?? workspaceRunId;
-    workspaceStepId = agentWorkspace?.stepId ?? workspaceStepId;
+    workspaceRunId = feedback?.workspace.runId ?? agentWorkspace?.runId ?? workspaceRunId;
+    workspaceStepId = feedback?.workspace.stepId ?? agentWorkspace?.stepId ?? workspaceStepId;
     workspacePath =
+      feedback?.workspace.path ??
       agentWorkspace?.path ??
       (run.kind === "chat" || remoteMember
         ? sourcePath
@@ -134,11 +143,13 @@ export async function executeStudioTurn(
       inputs: step.inputs ?? [],
       isolated: run.kind !== "chat" && !remoteMember,
     });
+    if (run.workspaceFeedback) await verifyWorkspaceFeedback(deps, run.workspaceFeedback);
     const resolvedWorkspace = workspacePath;
     const sessionKey = `${key}:${workspacePath}`;
     const session = db.read<StoredSession>("session", sessionKey);
     const config =
-      run.kind === "chat" && run.kernelConfig ? run.kernelConfig : deps.config(step.kernel);
+      feedback?.config ??
+      (run.kind === "chat" && run.kernelConfig ? run.kernelConfig : deps.config(step.kernel));
     turnId = clock.id();
     db.transaction(() => {
       assertStudioRunOwned(deps, runId);
@@ -153,6 +164,7 @@ export async function executeStudioTurn(
           attempt: run.attempt,
           kernel: step.kernel,
           conversationId: key,
+          nativeSessionId: session?.nativeSessionId,
           permission: step.permission ?? config.permission,
           workspacePath,
           ...(run.kind === "group" ? { memberId: step.memberId ?? step.kernel } : {}),
@@ -218,19 +230,16 @@ export async function executeStudioTurn(
             )
               return;
             if (event.type === "session") {
-              db.write<StoredSession>("session", sessionKey, {
-                id: sessionKey,
-                nativeSessionId: event.sessionId,
-                workspacePath: resolvedWorkspace,
-              });
-              if (conversation)
-                db.write("conversation", conversation.id, {
-                  // 会话选择可能已由后来排队的消息更新；原生回执只合并自身拥有的字段。
-                  ...db.read<StudioConversation>("conversation", conversation.id),
-                  nativeSessionId: event.sessionId,
-                  updatedAt: clock.now(),
-                });
-            } else saveTurnEvent(deps, current, turnId, step.kernel, event, step.id);
+              saveStudioTurnSession(
+                db,
+                clock,
+                sessionKey,
+                event.sessionId,
+                resolvedWorkspace,
+                turnId,
+                conversation,
+              );
+            } else saveTurnEvent(db, clock, current, turnId, step.kernel, event, step.id);
           });
         },
         ask: (interaction, interactionSignal) =>
@@ -271,11 +280,15 @@ export async function executeStudioTurn(
     if (result.nativeSessionId && !signal.aborted)
       db.transaction(() => {
         assertStudioRunOwned(deps, runId, false, run.attempt);
-        db.write<StoredSession>("session", sessionKey, {
-          id: sessionKey,
-          nativeSessionId: result.nativeSessionId!,
-          workspacePath: resolvedWorkspace,
-        });
+        saveStudioTurnSession(
+          db,
+          clock,
+          sessionKey,
+          result.nativeSessionId!,
+          resolvedWorkspace,
+          turnId,
+          conversation,
+        );
       });
     if (remoteMember) changesSummary = result.changesSummary;
     else if ((run.kind !== "chat" || agentWorkspace) && !signal.aborted) {
@@ -359,7 +372,8 @@ export async function executeStudioTurn(
         const existing = db.read<StudioMessage>("message", `${turnId}:text`);
         if (!existing && result.text)
           saveTurnEvent(
-            deps,
+            db,
+            clock,
             current,
             turnId,
             step.kernel,
@@ -381,15 +395,4 @@ export async function executeStudioTurn(
       db.write("run", current.id, current, current.targetId);
     });
   return outcome;
-}
-
-function saveTurnEvent(
-  deps: StudioTurnDependencies,
-  run: StoredRun,
-  turnId: string,
-  kernel: StudioKernelId,
-  event: Exclude<StudioKernelEvent, { type: "session" }>,
-  stepId: string,
-): void {
-  return writeTurnEvent(deps.db, deps.clock, run, turnId, kernel, event, stepId);
 }
