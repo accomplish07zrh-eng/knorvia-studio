@@ -205,6 +205,39 @@ pure helper assertion does not establish interactive GUI acceptance.
    Login, security permissions, new agreements or credentials stop their
    dependent step and are reported without exposing secrets.
 
+## Release-note source contract (before implementation)
+
+The existing publication script emits package/acceptance guidance but does not
+include version-specific product changes. The integration lane owns the root
+changelog and a pure release-note renderer under `scripts/`; it does not edit
+feature implementation files for this preparation.
+
+- Read optional root `CHANGELOG.md` before any release creation/upload. Only
+  `ENOENT` permits the existing generic notes for legacy checkouts without a
+  changelog; other read failures propagate. The new stable integration must
+  supply a populated changelog section for its exact root version.
+- When a changelog exists, select one exact first- or second-level version heading,
+  supporting plain, `v`-prefixed and conventional bracket/link/date forms.
+  Preserve that section's authored Markdown and exclude other versions or
+  unreleased sections. Fenced code examples do not form version boundaries.
+- Missing, duplicated or visibly empty matching sections fail before remote
+  publication. Never silently publish a different version's feature notes.
+- Render a source link to the validated full delivered SHA in the actual GitHub
+  repository, followed by the existing platform, checksum, upgrade/data,
+  licensing, signing-status and acceptance limitations. Keep the existing
+  release-channel owner and immutable-release decision path unchanged.
+- Targeted offline tests cover version selection, malformed/missing/duplicate
+  content, fences, source links, legacy omission and prerelease labels. Register
+  these release tests in the existing `test:studio` explicit script list. Full
+  final integration CI must execute them along with feature regressions.
+  An isolated publisher fixture uses real asset hashes and file reads with
+  mocked Git/GitHub commands to verify the selected notes reach the existing
+  create command and invalid content/read errors cannot reach create/upload.
+
+This is source-driven formatting, not a new release-state owner or alternate
+publication path. The renderer performs no IO; the existing publisher owns the
+file read and remote effects.
+
 ## Current coordination status
 
 Initial remote inspection found no open feature PRs. The parent supplied the

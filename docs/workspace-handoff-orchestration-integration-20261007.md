@@ -71,6 +71,32 @@ no pending or cancelled run is represented as passed.
 
 ## Coordination and remaining gates
 
+### Release preparation while feature lanes implement
+
+The integration lane also added a pure version-specific release-note renderer
+(`scripts/desktop-release-notes.mjs`) and connected it to the existing publisher.
+Root `CHANGELOG.md` is optional for legacy checkouts; when present, its exact
+version section is required and must be unique/nonempty. The new integrated
+stable version will supply that changelog after all three features are reviewed.
+The renderer includes a full source-commit link and retains existing package,
+checksum, upgrade/data, signing-status and licensing guidance.
+
+The new renderer and publisher tests are explicitly registered in
+`scripts/test-studio.mjs`. A targeted run of the new tests plus existing channel,
+manifest and immutable-release tests returned 0: 32 passed, zero failed,
+cancelled or skipped. The publisher fixture uses real temporary asset hashes
+and file reads with mocked Git/GitHub commands; it verifies current changes
+reach the stable create command, wrong-version notes/read errors prevent all
+create/upload calls, and absent legacy changelog preserves the old route. This
+fixture never creates a real release or uploads an asset.
+
+Root typecheck/i18n, lint and full/changed architecture were run after the source
+addition and returned 0; the same existing lint warning remains. Final formatting
+and regenerated provenance are required before pushing the preparation commit.
+The earlier complete 8,315-test result is the original product baseline, not a
+claim that the full suite has already run on the new preparation commit. PR CI
+must execute the expanded launcher and later final feature integration.
+
 The parent supplied the three feature lane IDs listed in the spec. No feature
 PR was open on initial remote inspection. This lane owns version/changelog,
 final provenance reconciliation and release workflow work. Feature-owned code
