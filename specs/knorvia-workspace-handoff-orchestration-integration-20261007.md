@@ -345,3 +345,10 @@ after initialization; native netstat attributes the owned listener in 20 ms.
 Its first two calls hit the legacy 2,500 ms budget. Measure one uninterrupted
 cold read at 7,500 ms before selecting a workspace-specific initialization bound.
 Legacy provider query mode and absolute cleanup deadlines must remain intact.
+
+The production correction 71cddfe6 now selects direct WMI for the workspace only,
+retains the 2,500 ms command budget and existing cleanup clamps, and permits one
+read-only timeout retry outside cleanup. Native netstat uses strict owned TCP
+loopback listener matching. Rerun the original seven files plus the two new
+regressions against immutable corrected source; emit result counts as normal
+annotations. This focused check remains supplemental to full exact-source CI.

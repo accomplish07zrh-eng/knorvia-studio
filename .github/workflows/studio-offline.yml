@@ -1,18 +1,20 @@
 name: Studio offline checks
 
-# Isolated process-proof probe; never merge this branch or use it as release evidence.
+# Temporary isolated diagnosis. This branch must never be merged or released.
 on:
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
-  windows-process-proof:
+  windows-focused:
     runs-on: windows-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: a3bfe071f55d1f54285f7c0d901e34fd0cc4f99e
+          ref: 71cddfe6f620ab767aa8716a5d0161d54dc6f572
       - uses: pnpm/action-setup@v4
         with:
           version: 10.33.2
@@ -20,47 +22,62 @@ jobs:
         with:
           node-version: 24.14.0
           cache: pnpm
-      - name: Install frozen TypeScript loader
-        run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Measure existing identity helper and safe OS dependencies
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build CLI dependencies for the actual provider path
+        run: pnpm build:cli-packages
+      - name: Diagnose new Windows cases without log-download access
         shell: bash
         run: |
-          node --import tsx --input-type=module - <<'NODE'
-          import { spawn, execFile } from 'node:child_process';
-          import { createServer } from 'node:net';
-          import { workspaceRuntimeEnvironment } from './packages/services/src/studio-runtime/domain/workspaceRuntimeEnvironment.ts';
-          import { captureProcessTreeSnapshotAsync } from './packages/services/src/process/processTreeSnapshotAsync.ts';
-          const selected = workspaceRuntimeEnvironment(process.env, 'win32');
-          const reservation=createServer();
-          await new Promise(resolve=>reservation.listen(0,'127.0.0.1',resolve));
-          const port=reservation.address().port;
-          await new Promise(resolve=>reservation.close(resolve));
-          const child = spawn(process.execPath, ['-e', `require('http').createServer((q,r)=>r.end('probe')).listen(${port},'127.0.0.1')`], {env:selected,stdio:'ignore'});
-          await new Promise((resolve,reject)=>{child.once('spawn',resolve);child.once('error',reject)});
-          const escaped = text => text.replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A');
-          function record(value) {console.log('::warning title=Windows identity probe::'+escaped(JSON.stringify(value)))}
-          const warnings=[];
-          const log={warn(_trace,message,error){warnings.push({message,code:error?.code,killed:error?.killed,signal:error?.signal})}};
-          const command="Get-CimInstance Win32_Process | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }";
-          async function query(name,env,commandText=command,timeout=2500) {
-            const start=Date.now();
-            const result=await new Promise(resolve=>execFile('powershell.exe',['-NoLogo','-NoProfile','-NonInteractive','-Command',commandText],{env,encoding:'utf8',windowsHide:true,timeout},(error,stdout,stderr)=>resolve({error,stdout,stderr})));
-            record({name,elapsed:Date.now()-start,code:result.error?.code,killed:result.error?.killed,signal:result.error?.signal,
-              lines:result.stdout.trim().split(/\r?\n/).filter(Boolean).length,root:result.stdout.split(/\r?\n/).some(row=>Number(row.trim().split(/\s+/)[0])===child.pid),
-              stderr:result.stderr.slice(0,1200)});
+          node --input-type=module - <<'NODE'
+          import { spawn } from 'node:child_process';
+          import { mkdtemp, rm } from 'node:fs/promises';
+          import { tmpdir } from 'node:os';
+          import { join, resolve } from 'node:path';
+          const tests = [
+            'studio-workspace-runtime-environment.test.ts',
+            'studio-workspace-runtime-health.test.ts',
+            'studio-workspace-runtime.test.ts',
+            'studio-workspace-runtime-recovery.test.ts',
+            'studio-workspace-runtime-helper-env.test.ts',
+            'process-helper-environment.test.ts',
+            'process-workspace-windows-query.test.ts',
+            'studio-workspace-windows-port.test.ts',
+            'studio-integrated-runtime.test.ts',
+          ];
+          const data = await mkdtemp(join(tmpdir(), 'knorvia-focused-windows-'));
+          const env = { ...process.env, KNORVIA_ENV: 'test', KNORVIA_DATA_BASE_DIR: data,
+            KNORVIA_STORAGE_DIR: join(data, 'cli'),
+            TSX_TSCONFIG_PATH: resolve('packages/ui/tsconfig.json') };
+          for (const key of Object.keys(env)) {
+            if (/(?:API[_-]?KEY|ACCESS[_-]?TOKEN|AUTH[_-]?TOKEN|SECRET|PASSWORD|_KEY)$|^GH_TOKEN$/iu.test(key)) delete env[key];
           }
+          const escaped = text => text.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+          let failures = 0;
           try {
-            const wmiAll="[void][System.Reflection.Assembly]::LoadWithPartialName('System.Management'); $search=[System.Management.ManagementObjectSearcher]::new('SELECT ProcessId, ParentProcessId, CreationDate FROM Win32_Process'); try { $search.Get() | ForEach-Object { if ($_.CreationDate) { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, ([System.Management.ManagementDateTimeConverter]::ToDateTime($_.CreationDate).ToUniversalTime().Ticks) } } } finally { $search.Dispose() }";
-            const wmiFiltered=wmiAll.replace('FROM Win32_Process',`FROM Win32_Process WHERE ProcessId = ${child.pid}`);
-            await query('direct-WMI-cold-initialization',selected,wmiAll,7500);
-            await query('direct-WMI-warm-filtered',selected,wmiFiltered,2500);
-            await query('direct-WMI-warm-completion',selected,wmiAll,2500);
-            const start=Date.now();
-            const result=await new Promise(resolve=>execFile('netstat.exe',['-ano','-p','TCP'],{env:selected,encoding:'utf8',windowsHide:true,timeout:1500},(error,stdout,stderr)=>resolve({error,stdout,stderr})));
-            const listener=result.stdout.split(/\r?\n/).some(row=>{const fields=row.trim().split(/\s+/);return fields[0]==='TCP'&&fields[1]===`127.0.0.1:${port}`&&fields[2]==='0.0.0.0:0'&&fields[3]==='LISTENING'&&Number(fields[4])===child.pid});
-            record({name:'native-netstat-existing-budget',elapsed:Date.now()-start,code:result.error?.code,killed:result.error?.killed,signal:result.error?.signal,listener,stderr:result.stderr.slice(0,1200)});
-                    } finally {
-            child.kill();
-            if(child.exitCode===null)await new Promise(resolve=>child.once('exit',resolve));
-          }
+            for (const name of tests) {
+              const path = 'packages/services/test/' + name;
+              let output = '';
+              const child = spawn(process.execPath, ['--experimental-test-module-mocks', '--import', 'tsx',
+                '--test', '--test-reporter=tap', '--test-timeout=120000', path],
+                { env, stdio: ['ignore', 'pipe', 'pipe'] });
+              child.stdout.on('data', chunk => { output += chunk; });
+              child.stderr.on('data', chunk => { output += chunk; });
+              const code = await new Promise((done, reject) => {
+                child.once('error', reject); child.once('exit', done);
+              });
+              console.log(name + ': exit ' + code);
+              const summary=output.split(/\r?\n/).filter(line=>/^# (?:tests|pass|fail|skipped|cancelled) /.test(line)).join('\n');
+              console.log('::notice title=Focused Windows result::'+escaped(name+': exit '+code+'\n'+summary));
+              if (code === 0) continue;
+              failures++;
+              const lines = output.split(/\r?\n/);
+              const indexes = lines.flatMap((line, index) => /^\s*not ok \d+/.test(line) ? [index] : []);
+              if (!indexes.length) console.log('::error title=Focused Windows regression::' + escaped(path + '\n' + output.slice(-6000)));
+              for (const index of indexes.slice(0, 12)) {
+                console.log('::error title=Focused Windows regression::' + escaped(path + '\n' + lines.slice(index, index + 75).join('\n').slice(0, 6000)));
+              }
+            }
+          } finally { await rm(data, { recursive: true, force: true }); }
+          if (failures) process.exitCode = 1;
           NODE
