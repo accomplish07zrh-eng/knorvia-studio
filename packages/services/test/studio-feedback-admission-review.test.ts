@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
 import { Event } from "@knorvia/rpc";
-import type { StudioMessage } from "../src/studio-runtime/types.js";
+import type { StudioConversation, StudioMessage } from "../src/studio-runtime/types.js";
 import type { StudioKernelTurn } from "../src/studio-runtime/kernelTypes.js";
 import type { StoredRun } from "../src/studio-runtime/app/storePort.js";
 import { StudioDatabase } from "../src/studio-runtime/adapters/studioDatabase.js";
@@ -133,6 +133,11 @@ test("admission ACK before native session keeps feedback queued, durable and sco
   release();
   await until(() => readRun(accepted.id).state === "succeeded");
   assert.equal(readRun(first.id).state, "succeeded");
+  // 新增 turn 身份不能丢掉既有 conversation 回执；原生 session 事件仍须合并持久字段。
+  assert.equal(
+    db.read<StudioConversation>("conversation", "source")?.nativeSessionId,
+    "native-first",
+  );
   assert.deepEqual(
     calls.map(({ turn }) => turn.text),
     ["FIRST", "OTHER", "FEEDBACK"],

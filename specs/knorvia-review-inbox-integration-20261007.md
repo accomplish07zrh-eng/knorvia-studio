@@ -45,6 +45,7 @@
 - 回改请求必须绑定 run/step、产物路径、内核/原 conversation、冻结内容摘要/版本、批注范围与明确用户文字；从 Host 已有收据解析归属，不信任 Renderer 自报绝对路径或切换后的 Agent。
 - 明确事件顺序：读取差异 → 建立锚点 → 编辑/持久草稿 → 提交时再核验 → 既有受理 → 回执 → 派生收件箱。await 前后校验连接/workspace/归属，旧请求结果不能覆盖新上下文。
 - 相同提交的稳定 command/idempotency ID 只能受理一次；失败、拒绝、断连、未知受理状态保留可恢复草稿，不能自动重试产生重复回改。忙碌行为和内核 unsupported 必须明确。
+- 既有原生 session 事件的 conversation 回执必须保留：在同一归属/attempt 防护事务中合并当前 `conversation.nativeSessionId` 和其更新时间，只写自己拥有的字段，不覆盖后来排队的 selection。新增 turn 快照不能取代旧 conversation 持久字段；独立 startup/admission gate 同时断言 session 与 conversation 回执。
 - 批注文本属于用户可见上下文，不是审批授权，不保存隐藏推理或秘密，不触发工具自动执行。
 - 收件箱 key 包含 Host/连接、工作区、对象类型与稳定对象 ID；分页/重放/断连不能重复项或把旧审批变成新的批准。
 - 完成已读收据绑定所看到的完成版本/事件序列；后续新完成仍显示未读，历史未知版本保守处理。原生已读仍使用原 owner。
