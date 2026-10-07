@@ -16,6 +16,8 @@ import type { IPluginManagementService } from "../plugins/pluginManagement.js";
 import type { ICreationService } from "../creation/contract.js";
 import type { CreationAgentBridge } from "./adapters/creationAgentBridge.js";
 import type { RemoteStudioEnvironment } from "./adapters/kernels/remoteKernelBridge.js";
+import type { StudioAgentPolicy } from "./agentToolTypes.js";
+import { createStudioAgentBridge } from "./adapters/studioAgentBridge.js";
 
 export { createCreationAgentBridge } from "./adapters/creationAgentBridge.js";
 export type { CreationAgentBridge };
@@ -47,9 +49,16 @@ export function createStudioRuntimeService(options: {
   creationService?: ICreationService;
   creationBridge?: CreationAgentBridge;
   remoteEnvironments?: () => RemoteStudioEnvironment[];
+  agentPolicy?: Partial<StudioAgentPolicy>;
+  /** Trusted Host runtime placement; never accepted from agent tool arguments. */
+  agentToolExecutablePath?: string;
 }): StudioRuntimeService {
   const emitter = new Emitter<{ revision: number }>();
   const dataDir = join(options.dataDir, "studio");
+  const agentBridge = createStudioAgentBridge(
+    (turn, sink, signal) => service.agentTools(turn, sink, signal),
+    options.agentToolExecutablePath ?? process.execPath,
+  );
   const service = new StudioRuntimeService({
     db: new StudioDatabase(join(dataDir, "studio.sqlite")),
     clock: { now: Date.now, id: randomUUID, delay },
@@ -65,11 +74,13 @@ export function createStudioRuntimeService(options: {
         plugins: options.pluginManagementService,
         dataDir,
         creationBridge: options.creationBridge,
+        agentBridge,
       },
     ),
     workspaces: createStudioWorkspaceManager(dataDir),
     workspaceRuntime: createWorkspaceRuntimePort(),
     creation: options.creationService,
+    agentPolicy: options.agentPolicy,
     onDidChange: emitter.event,
     notify: (revision) => emitter.fire({ revision }),
     process: {
@@ -95,6 +106,7 @@ export function createStudioRuntimeService(options: {
   const dispose = service.disposeAllAndWait.bind(service);
   service.disposeAllAndWait = async () => {
     clearInterval(timer);
+    await agentBridge.disposeAllAndWait();
     emitter.dispose();
     await dispose();
   };

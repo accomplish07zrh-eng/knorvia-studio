@@ -11,6 +11,7 @@ import type {
 } from "../kernelTypes.js";
 import { projectStudioPluginMcp } from "./pluginMcpProjection.js";
 import type { CreationAgentBridge } from "./creationAgentBridge.js";
+import type { StudioAgentBridge } from "./studioAgentBridge.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { recoverTemporaryMcpConfigs, writeTemporaryMcpConfig } from "./temporaryMcpConfig.js";
 
@@ -144,6 +145,7 @@ export function withStudioSharedCapabilities(
     plugins: Pick<IPluginManagementService, "listPlugins">;
     dataDir: string;
     creationBridge?: CreationAgentBridge;
+    agentBridge?: StudioAgentBridge;
   },
 ): StudioKernelRegistry {
   // 修复原因：正常回合的 finally 无法在 Host 崩溃后运行。启动时只清理确认已死亡 Host 的私有配置。
@@ -187,6 +189,8 @@ export function withStudioSharedCapabilities(
       const warnings = resourceWarnings(plugin.unavailable);
       if (params.kernel === "antigravity" && options.creationBridge)
         warnings.push("Antigravity CLI 尚无每会话创作工具注入入口");
+      if (params.kernel === "antigravity" && options.agentBridge)
+        warnings.push("Antigravity CLI 尚无每会话 Studio Agent 工具注入入口");
       if (!mcp) warnings.push("无法读取 Studio MCP 配置；请检查设置后重试");
       else {
         try {
@@ -207,11 +211,15 @@ export function withStudioSharedCapabilities(
       // 远端 Host 自己投影技能/MCP；本机绝对路径不能注入 SSH CLI。
       if (parseRemoteStudioKernelId(kernel)) return adapter;
       if (kernel === "knorvia") {
-        if (!options.creationBridge) return adapter;
+        if (!options.creationBridge && !options.agentBridge) return adapter;
         return {
           async run(turn, sink, signal) {
-            const access = await options.creationBridge!.issue(turn, sink, signal);
+            const accesses = [];
             try {
+              if (options.creationBridge)
+                accesses.push(await options.creationBridge.issue(turn, sink, signal));
+              if (options.agentBridge)
+                accesses.push(await options.agentBridge.issue(turn, sink, signal));
               const [mcp, plugin] = await Promise.all([
                 options.mcp.loadMcpFromUserDirectory({ workspacePath: turn.workspacePath }),
                 pluginResources(turn.workspacePath),
@@ -222,12 +230,14 @@ export function withStudioSharedCapabilities(
                 ...ordinary,
                 ...plugin.servers.filter((server) => !names.has(server.name.toLowerCase())),
               ];
-              if (shared.some((server) => server.name.toLowerCase() === access.server.name))
-                throw new Error("Studio 创作工具名称与已有 MCP 重复");
-              shared.push(access.server);
+              for (const access of accesses) {
+                if (shared.some((server) => server.name.toLowerCase() === access.server.name))
+                  throw new Error("Studio 工具名称与已有 MCP 重复");
+                shared.push(access.server);
+              }
               return await adapter.run({ ...turn, sharedMcpServers: shared }, sink, signal);
             } finally {
-              access.revoke();
+              for (const access of accesses) access.revoke();
             }
           },
         };
@@ -239,6 +249,7 @@ export function withStudioSharedCapabilities(
             | Awaited<ReturnType<NonNullable<typeof options.creationBridge>["issue"]>>
             | undefined;
           let handedOff = false;
+          let agentAccess: Awaited<ReturnType<StudioAgentBridge["issue"]>> | undefined;
           try {
             if (await recovery) throw new Error("Studio MCP 临时配置恢复清理失败");
             signal.throwIfAborted();
@@ -269,6 +280,10 @@ export function withStudioSharedCapabilities(
             if (options.creationBridge && kernel !== "antigravity") {
               creationAccess = await options.creationBridge.issue(turn, sink, signal);
               servers.push(creationAccess.server);
+            }
+            if (options.agentBridge && kernel !== "antigravity") {
+              agentAccess = await options.agentBridge.issue(turn, sink, signal);
+              servers.push(agentAccess.server);
             }
             if (servers.length > MAX_SHARED_MCP_SERVERS)
               throw new Error(`Studio MCP 超过每次会话 ${MAX_SHARED_MCP_SERVERS} 个的上限`);
@@ -313,6 +328,7 @@ export function withStudioSharedCapabilities(
             return result;
           } finally {
             creationAccess?.revoke();
+            agentAccess?.revoke();
             if (temporaryDirectory)
               await rm(temporaryDirectory, {
                 recursive: true,

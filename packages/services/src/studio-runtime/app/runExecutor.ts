@@ -17,6 +17,7 @@ import { executeStudioWorkflow } from "./workflowExecutor.js";
 import { StudioInteractionCancelledError, waitStudioInteraction } from "./runtimeInteractions.js";
 import { executionCheckpoint, saveStudioValues } from "./checkpointStorage.js";
 import { pendingStudioInteractions, pendingStudioSteering } from "./pendingInbox.js";
+import { recordStudioAgentEvent } from "./agentOutbox.js";
 import {
   assertStudioRunOwned,
   executeStudioTurn,
@@ -36,7 +37,7 @@ export async function executeStudioRun(
     steering: () => pendingStudioSteering(db, runId),
     async ackSteering(ids) {
       db.transaction(() => {
-        assertStudioRunOwned(deps, runId);
+        assertStudioRunOwned(deps, runId, false, run.attempt);
         for (const id of ids) {
           const item = db.read<{ id: string; runId: string; text: string; state: string }>(
             "steering",
@@ -64,7 +65,10 @@ export async function executeStudioRun(
         db.write("run", runId, current, current.targetId);
       });
     },
-    agent: (step) => executeStudioTurn(deps, runId, step, signal),
+    agent: (step) => {
+      assertStudioRunOwned(deps, runId, false, run.attempt);
+      return executeStudioTurn(deps, runId, step, signal);
+    },
     async createMedia(request) {
       const creation = deps.creation;
       if (!creation)
@@ -178,7 +182,7 @@ export async function executeStudioRun(
         assertOwned: () => {
           // Stop can be persisted before the scheduler delivers its abort signal.
           // Validate the real lease first: losing ownership is never a known cancellation.
-          const current = assertStudioRunOwned(deps, runId, true);
+          const current = assertStudioRunOwned(deps, runId, true, run.attempt);
           if (current.cancelRequested) throw new StudioInteractionCancelledError();
         },
       });
@@ -186,7 +190,7 @@ export async function executeStudioRun(
     },
     async progress(text) {
       db.transaction(() => {
-        assertStudioRunOwned(deps, runId);
+        assertStudioRunOwned(deps, runId, false, run.attempt);
         const id = clock.id();
         const now = clock.now();
         db.write<StudioMessage>(
@@ -274,7 +278,12 @@ export async function executeStudioRun(
   if (!db.owns(deps.owner, clock.now())) return;
   db.transaction(() => {
     const current = requiredRun(db, runId);
-    if (current.owner !== deps.owner || !["running", "waiting"].includes(current.state)) return;
+    if (
+      current.owner !== deps.owner ||
+      current.attempt !== run.attempt ||
+      !["running", "waiting"].includes(current.state)
+    )
+      return;
     // 接收插话与最终完成都在同一数据库事务排序，防止最后一条补充落在完成检查后被漏掉。
     if (
       current.kind === "group" &&
@@ -324,6 +333,7 @@ export async function executeStudioRun(
       );
     }
     db.write("run", runId, current, current.targetId);
+    recordStudioAgentEvent(db, clock, current);
     db.remove("active", runId);
     expireRunInteractions(db, current);
   });
