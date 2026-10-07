@@ -9,6 +9,12 @@ import type { StudioKernelId } from "../studio/types.js";
 import { copyStudioChatSelection, isStudioChatSelection } from "../studio/agents/chatSelections.js";
 import { watchStudioDraftUnload } from "../studio/agents/draftUnloadWarning.js";
 import {
+  HANDOFF_RECORD_LIMIT,
+  handoffScopeKey,
+  parseHandoffRecord,
+  type SessionHandoffRecord,
+} from "@knorvia/shared";
+import {
   emptyStudioAgentData,
   isExternalKernel,
   isStudioAgentConfig,
@@ -34,6 +40,8 @@ export type StudioAgentActionError =
   | "invalid-selection"
   | "draft-too-long"
   | "draft-limit"
+  | "invalid-handoff"
+  | "handoff-limit"
   | null;
 
 type ManagementParams = Parameters<IStudioRuntimeService["manageKernel"]>[0];
@@ -47,6 +55,7 @@ export interface StudioAgentStoreState extends StudioAgentData {
   storageIssue: StudioAgentStorageIssue;
   actionError: StudioAgentActionError;
   dirty: boolean;
+  saveHandoff: (record: SessionHandoffRecord) => boolean;
   management: KernelManagementState | null;
   manageKernel: (service: IStudioRuntimeService, params: ManagementParams) => Promise<boolean>;
   saveConfig: (kernelId: StudioKernelId, config: StudioAgentConfig) => boolean;
@@ -69,7 +78,7 @@ export interface StudioAgentStoreState extends StudioAgentData {
   resetLocalData: () => boolean;
 }
 
-/** Single owner of local, unsubmitted external-CLI preferences and chat drafts. */
+/** Single owner of local composer drafts, CLI preferences and reviewed task notes. */
 export function createStudioAgentStore(storage: StudioAgentStorage) {
   let initial = emptyStudioAgentData();
   let issue: StudioAgentStorageIssue = null;
@@ -87,7 +96,10 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
   let writesBlocked = issue !== null;
 
   return createStore<StudioAgentStoreState>((set, get) => {
-    const persist = (data: StudioAgentData): boolean => {
+    const persist = (
+      input: Omit<StudioAgentData, "handoffs"> & Partial<Pick<StudioAgentData, "handoffs">>,
+    ): boolean => {
+      const data = { ...input, handoffs: input.handoffs ?? get().handoffs };
       set({ ...data, dirty: true, actionError: null });
       // 完整草稿先留在唯一内存所有者；超限时不覆盖磁盘旧快照，也不能静默截断。
       if (Object.values(data.drafts).some((draft) => draft.text.length > STUDIO_DRAFT_TEXT_LIMIT)) {
@@ -96,7 +108,7 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
       }
       if (writesBlocked) return false;
       try {
-        storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 1, data }));
+        storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 2, data }));
         set({ dirty: false, storageIssue: null });
         return true;
       } catch {
@@ -114,6 +126,20 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
       actionError: null,
       dirty: false,
       management: null,
+      saveHandoff(record) {
+        const parsed = parseHandoffRecord(record);
+        if (!parsed) return fail("invalid-handoff");
+        const { configs, drafts, handoffs } = get();
+        const key = handoffScopeKey(parsed.scope);
+        if (!handoffs[key] && Object.keys(handoffs).length >= HANDOFF_RECORD_LIMIT)
+          return fail("handoff-limit");
+        if (JSON.stringify(handoffs[key]) === JSON.stringify(parsed)) {
+          // 无变化保存仍需清除上次上限错误，不能让旧失败覆盖当前成功结果。
+          set({ actionError: null });
+          return !get().dirty;
+        }
+        return persist({ configs, drafts, handoffs: { ...handoffs, [key]: parsed } });
+      },
       async manageKernel(service, params) {
         if (get().management?.pending) return false;
         set({ management: { ...params, service, pending: true, error: "" } });
@@ -265,7 +291,7 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
       resetLocalData() {
         const empty = emptyStudioAgentData();
         try {
-          storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 1, data: empty }));
+          storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 2, data: empty }));
           writesBlocked = false;
           set({ ...empty, dirty: false, storageIssue: null, actionError: null });
           return true;

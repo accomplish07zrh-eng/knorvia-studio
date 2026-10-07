@@ -38,6 +38,13 @@ export function NativeSessionActions({
         exportNativeConversationMarkdown(rowsRange, sessionId, snapshot, title)
       }
       sourceKernel="knorvia"
+      sourceSessionId={sessionId}
+      historyStartKnown={
+        snapshot.rows.firstRowId !== null &&
+        snapshot.rows.window[0]?.rowId === snapshot.rows.firstRowId
+      }
+      totalRecordCount={snapshot.rows.totalCount}
+      excludedRecordCount={snapshot.rows.window.length - messages.length}
       workspacePath={workspacePath}
       title={title}
       statuses={statuses}

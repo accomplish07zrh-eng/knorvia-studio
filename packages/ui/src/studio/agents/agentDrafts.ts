@@ -1,6 +1,7 @@
 import { isStudioKernelId, type StudioKernelId } from "../types.js";
 import type { StudioChatSelection } from "@knorvia/services";
 import { copyStudioChatSelection, isStudioChatSelection } from "./chatSelections.js";
+import { parseHandoffRecords, type SessionHandoffRecord } from "@knorvia/shared";
 
 export type StudioExternalKernelId = Exclude<StudioKernelId, "knorvia">;
 export type StudioPermissionPreference = "read-only" | "ask" | "full-access";
@@ -22,6 +23,7 @@ export interface StudioExternalDraft {
 export interface StudioAgentData {
   configs: Partial<Record<StudioExternalKernelId, StudioAgentConfig>>;
   drafts: Record<string, StudioExternalDraft>;
+  handoffs: Record<string, SessionHandoffRecord>;
 }
 
 export const STUDIO_DRAFT_TEXT_LIMIT = 20_000;
@@ -72,6 +74,7 @@ export function emptyStudioAgentData(): StudioAgentData {
       "grok-build": { executablePath: "", permission: "ask" },
     },
     drafts: {},
+    handoffs: {},
   };
 }
 
@@ -79,10 +82,16 @@ export function emptyStudioAgentData(): StudioAgentData {
 export function parseStudioAgentData(raw: string): StudioAgentData | null {
   try {
     const envelope: unknown = JSON.parse(raw);
-    if (!isRecord(envelope) || envelope.version !== 1 || !isRecord(envelope.data)) return null;
+    if (
+      !isRecord(envelope) ||
+      ![1, 2].includes(envelope.version as number) ||
+      !isRecord(envelope.data)
+    )
+      return null;
     const { configs, drafts } = envelope.data;
     if (!isRecord(configs) || !isRecord(drafts)) return null;
     const result = emptyStudioAgentData();
+    result.handoffs = parseHandoffRecords(envelope.data.handoffs);
     if (Object.keys(configs).length > 128) return null;
     for (const kernelId of ["codex", "claude-code", "grok-build"] as const)
       if (!isStudioAgentConfig(configs[kernelId])) return null;
