@@ -51,6 +51,6 @@ sequenceDiagram
 - 环境 sentinel → Windows 大小写变体、直接 spawn、setup、service 和其后代均不接收宿主凭据；所需 OS 变量保持，HOST/PORT 只由本次 owner 注入。
 - 并发两个工作区 → 不同端口、不同状态行、各自 preview 和 stop；无关监听与进程继续存活。
 - 准备非零退出、取消准备、找不到 executable、监听抢占、readiness 超时 → 可见正确错误与终态，失败准备不能启动。
-- 第二窗口重复启动拒绝；重启后呈 interrupted，显式 recover 只清理匹配身份的进程；PID 复用与清理失败保留不确定状态。
+- 第二窗口重复启动拒绝；重启后呈 interrupted，显式 recover 只清理匹配身份的进程；PID 复用与清理失败保留不确定状态。身份不匹配用例须使用持续存活的自有进程，避免无效服务参数造成的立即退出掩盖断言。
 - UI 场景：显示 cwd，输入/确认明确命令，观察准备与 ready/address，停止后地址撤销，失败与 recover 真实可见。中英文、现有黑白组件和桌面布局沿用现有设计。
 - 执行根 fmt/provenance/lint/typecheck、相关架构与离线测试；单独记录交互验证及平台未执行项。
