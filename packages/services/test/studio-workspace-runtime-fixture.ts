@@ -10,6 +10,7 @@ import { StudioDatabase } from "../src/studio-runtime/adapters/studioDatabase.js
 import { createStudioWorkspaceManager } from "../src/studio-runtime/adapters/workspaceManager.js";
 import { createWorkspaceRuntimePort } from "../src/studio-runtime/adapters/workspaceRuntimeProcess.js";
 import { StudioWorkspaceRuntime } from "../src/studio-runtime/app/workspaceRuntime.js";
+import { workspaceRuntimeTarget } from "../src/studio-runtime/app/workspaceRuntimeTarget.js";
 import type { WorkspaceRuntimePort } from "../src/studio-runtime/app/workspaceRuntimePort.js";
 import type { StoredRun } from "../src/studio-runtime/app/storePort.js";
 import type {
@@ -128,7 +129,8 @@ export async function runtimeFixture(t: TestContext, override?: Partial<Workspac
       wait,
       prepare,
       start,
-      key: JSON.stringify([id, "knorvia", working]),
+      // 修复：复用 owner 的目标身份，Windows 路径不能以原始大小写另造数据库键。
+      key: workspaceRuntimeTarget(db, id, "step").key,
     };
   }
   return { root, path, source, db, io, owner, workspaces, add };
