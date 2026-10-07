@@ -6,6 +6,7 @@ import { readdir, readFile, readlink } from "node:fs/promises";
 import { promisify } from "node:util";
 import type { WorkspaceRuntimeProcessProof } from "../app/workspaceRuntimePort.js";
 import { WorkspaceRuntimeFault } from "../domain/workspaceRuntime.js";
+import { workspaceRuntimeEnvironment } from "../domain/workspaceRuntimeEnvironment.js";
 
 const runFile = promisify(execFile);
 export async function reserveWorkspaceRuntimePort(excluded: readonly number[]) {
@@ -98,7 +99,12 @@ export async function workspaceRuntimeOwnsPort(
           "-Command",
           `Get-NetTCPConnection -State Listen -LocalAddress 127.0.0.1 -LocalPort ${port} -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess`,
         ],
-        { timeout: 1500, windowsHide: true, maxBuffer: 32_768 },
+        {
+          timeout: 1500,
+          windowsHide: true,
+          maxBuffer: 32_768,
+          env: workspaceRuntimeEnvironment(process.env, "win32"),
+        },
       );
       return stdout
         .trim()
@@ -109,7 +115,11 @@ export async function workspaceRuntimeOwnsPort(
       const { stdout } = await runFile(
         "/usr/sbin/lsof",
         ["-nP", `-iTCP:${port}`, "-sTCP:LISTEN", "-FpPn"],
-        { timeout: 1500, maxBuffer: 32_768 },
+        {
+          timeout: 1500,
+          maxBuffer: 32_768,
+          env: workspaceRuntimeEnvironment(process.env, "posix"),
+        },
       );
       let pid = 0;
       for (const line of stdout.split("\n")) {

@@ -14,6 +14,7 @@ import type {
   WorkspaceRuntimeProcessProof,
 } from "../app/workspaceRuntimePort.js";
 import { WorkspaceRuntimeFault } from "../domain/workspaceRuntime.js";
+import { workspaceRuntimeEnvironment } from "../domain/workspaceRuntimeEnvironment.js";
 import { safePath } from "./workspaceFiles.js";
 import {
   reserveWorkspaceRuntimePort,
@@ -50,15 +51,12 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
     reservePort: reserveWorkspaceRuntimePort,
     async spawn(path, command, port, onCreated) {
       await safePath(path);
-      const env = { ...process.env };
-      delete env.NODE_OPTIONS;
-      delete env.NODE_PATH;
-      delete env.ELECTRON_RUN_AS_NODE;
-      env.HOST = "127.0.0.1";
-      if (port !== undefined) {
-        env.PORT = String(port);
-        env.KNORVIA_WORKSPACE_PORT = String(port);
-      }
+      // 修复：集成探测确认继承宿主环境会泄露凭据；工作区只取得明确的 OS 运行变量。
+      const env = workspaceRuntimeEnvironment(
+        process.env,
+        process.platform === "win32" ? "win32" : "posix",
+        port,
+      );
       const startedAt = Date.now();
       const child = spawn(command.executable, command.args, {
         cwd: path,

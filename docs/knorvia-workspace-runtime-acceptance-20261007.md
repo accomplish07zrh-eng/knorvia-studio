@@ -30,7 +30,13 @@ pnpm provenance:check
 
 浏览器场景使用真实 RuntimeCard、hook、IntlProvider 与既有 ConfirmDialogHost，薄 HTTP 传输连接真实 app owner/SQLite/Node adapter；只替换 workspace service 获取入口，不伪造 runtime 状态。已覆盖取消授权不执行、显示实际 cwd、setup 失败禁用启动、准备成功、自有 loopback 预览及停止后撤销地址。首轮 smoke 的精确按钮名称未包含既有键盘提示，修正定位后通过，没有改产品确认语义。
 
-最终结果：83 个定向及相邻场景中 82 通过、0 失败、1 个既有 Windows 条件场景跳过；其中新增 13 个 runtime 场景全部通过。Chromium smoke 通过。根 typecheck、fmt:check、完整及 changed 架构检查通过；来源清单检查通过且 reviewProblems=0，26 项既有第三方材料义务仍保留。首轮类型检查发现控制联合类型与 adapter 参数错误，已修正后根 typecheck 通过；lint 0 error，保留 `scripts/packaged-runtime-evidence.mjs:121` 既有 no-control-regex warning。没有修改架构 baseline 或冻结证据。
+最终结果：87 个定向及相邻场景中 86 通过、0 失败、1 个既有 Windows 条件场景跳过；其中新增 17 个 runtime 场景全部通过（含 4 个环境 sentinel 场景）。Chromium smoke 通过。根 typecheck、fmt:check、完整及 changed 架构检查通过；来源清单检查通过且 reviewProblems=0，26 项既有第三方材料义务仍保留。首轮类型检查发现控制联合类型与 adapter 参数错误，已修正后根 typecheck 通过；lint 0 error，保留 `scripts/packaged-runtime-evidence.mjs:121` 既有 no-control-regex warning。没有修改架构 baseline 或冻结证据。
+
+## 集成审查后的环境边界修复
+
+初始 head `c6a8165529fa3ead5b559ab3a245cb2554c2a1df` 的 adapter 直接继承 `process.env`，集成探测确认会把宿主凭据交给工作区命令，不能作为安全验收 head。修复采用明确 OS 环境白名单重建子进程环境，Windows 名称匹配不区分大小写并输出唯一规范名；仅增加本次 HOST/PORT，不传递提供商、GitHub/AWS、代理、npm 自定义配置、Knorvia 全局配置或 Node/Electron 注入变量。新增端口归属探测 helper 也使用该投影；现有 Host 进程识别依赖保持原合同。
+
+4 个 sentinel 测试验证纯 Windows 大小写投影，以及真实直接 spawn、setup、setup 的子进程和 service 环境。报告只含变量名及受控 runtime 值，不写凭据值。相关回归为 86 pass / 0 fail / 1 skip，Chromium smoke 及根静态检查通过。Studio 契约公开方法实测为 12，架构上限保持 12，没有新增 RPC 端点。
 
 ## 限制与集成责任
 
