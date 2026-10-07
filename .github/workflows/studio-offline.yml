@@ -1,34 +1,79 @@
 name: Studio offline checks
 
-# 本工作流只做检查，不构建安装包、不创建 Release（specs/knorvia-release-gates.md 规则 5）。
-# 检查步骤只在 .github/workflows/studio-quality.yml 中定义一次（规则 1）。
+# Temporary isolated diagnosis. This branch must never be merged or released.
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
-
-concurrency:
-  group: studio-offline-${{ github.ref }}
-  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
-  # 每个 PR 走 Linux 快速检查；离线测试不依赖 Electron 原生模块，因此跳过安装脚本。
-  # 离线检查不依赖 Electron 原生模块，跳过安装脚本可省下编译时间。
-  linux:
-    uses: ./.github/workflows/studio-quality.yml
-    with:
-      runs-on: ubuntu-latest
-      install-args: "--frozen-lockfile --ignore-scripts"
-      timeout-minutes: 30
-
-  # Windows 回归在 PR 上也必须运行（规则 4）。保留 Linux 快速检查作为更早的信号。
-  windows:
-    uses: ./.github/workflows/studio-quality.yml
-    with:
-      runs-on: windows-latest
-      install-args: "--frozen-lockfile"
-      timeout-minutes: 60
+  windows-focused:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: a3bfe071f55d1f54285f7c0d901e34fd0cc4f99e
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build CLI dependencies for the actual provider path
+        run: pnpm build:cli-packages
+      - name: Diagnose new Windows cases without log-download access
+        shell: bash
+        run: |
+          node --input-type=module - <<'NODE'
+          import { spawn } from 'node:child_process';
+          import { mkdtemp, rm } from 'node:fs/promises';
+          import { tmpdir } from 'node:os';
+          import { join, resolve } from 'node:path';
+          const tests = [
+            'studio-workspace-runtime-environment.test.ts',
+            'studio-workspace-runtime-health.test.ts',
+            'studio-workspace-runtime.test.ts',
+            'studio-workspace-runtime-recovery.test.ts',
+            'studio-workspace-runtime-helper-env.test.ts',
+            'process-helper-environment.test.ts',
+            'studio-integrated-runtime.test.ts',
+          ];
+          const data = await mkdtemp(join(tmpdir(), 'knorvia-focused-windows-'));
+          const env = { ...process.env, KNORVIA_ENV: 'test', KNORVIA_DATA_BASE_DIR: data,
+            KNORVIA_STORAGE_DIR: join(data, 'cli'),
+            TSX_TSCONFIG_PATH: resolve('packages/ui/tsconfig.json') };
+          for (const key of Object.keys(env)) {
+            if (/(?:API[_-]?KEY|ACCESS[_-]?TOKEN|AUTH[_-]?TOKEN|SECRET|PASSWORD|_KEY)$|^GH_TOKEN$/iu.test(key)) delete env[key];
+          }
+          const escaped = text => text.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+          let failures = 0;
+          try {
+            for (const name of tests) {
+              const path = 'packages/services/test/' + name;
+              let output = '';
+              const child = spawn(process.execPath, ['--experimental-test-module-mocks', '--import', 'tsx',
+                '--test', '--test-reporter=tap', '--test-timeout=120000', path],
+                { env, stdio: ['ignore', 'pipe', 'pipe'] });
+              child.stdout.on('data', chunk => { output += chunk; });
+              child.stderr.on('data', chunk => { output += chunk; });
+              const code = await new Promise((done, reject) => {
+                child.once('error', reject); child.once('exit', done);
+              });
+              console.log(name + ': exit ' + code);
+              if (code === 0) continue;
+              failures++;
+              const lines = output.split(/\r?\n/);
+              const indexes = lines.flatMap((line, index) => /^\s*not ok \d+/.test(line) ? [index] : []);
+              if (!indexes.length) console.log('::error title=Focused Windows regression::' + escaped(path + '\n' + output.slice(-6000)));
+              for (const index of indexes.slice(0, 12)) {
+                console.log('::error title=Focused Windows regression::' + escaped(path + '\n' + lines.slice(index, index + 75).join('\n').slice(0, 6000)));
+              }
+            }
+          } finally { await rm(data, { recursive: true, force: true }); }
+          if (failures) process.exitCode = 1;
+          NODE

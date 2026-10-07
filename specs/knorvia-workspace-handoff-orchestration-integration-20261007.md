@@ -304,3 +304,14 @@ feature-owned source files were edited during initial baseline preparation.
 After reviewing and combining PR42/43/44, the integration lane owns the confirmed
 corrections above. Baseline checks and subsequent integration/release evidence
 are recorded in the companion integration report.
+
+## Isolated Windows diagnosis
+
+The candidate a3bfe071 passes its complete local suite and Linux CI, while both
+exact-head Windows runs fail at offline regression. Normal job-log downloads
+return HTTP 403, which must not be bypassed. An isolated diagnostic branch may
+run only the new workspace and combined integration tests on the existing
+Windows runner and emit their failed TAP assertions as normal check annotations.
+It checks out the immutable candidate, changes no product behavior or release
+gate, and is not mergeable or qualifying release evidence. No raw log alternate
+route, credentials, additional service, signing or GUI claim is involved.
