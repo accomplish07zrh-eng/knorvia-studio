@@ -50,6 +50,26 @@ The documented OS API references are
 and [netstat](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat);
 implementation is authored independently, without copied example code.
 
+Actual corrected Windows verification passes 18 tests, fails two and skips two
+platform conditions. The remaining live recovery failure is traced to the
+workspace's 300 ms force grace: the shared process owner only reserves its
+750 ms birth-verification pass when grace permits it. A reconstructed recovery
+handle must never bypass that verification. Windows recovery will use the
+existing 2,000 ms process-owner grace with unchanged bounded taskkill/deadline
+handling; normal live-handle stop and POSIX grace remain unchanged. A fixture
+must exercise the real shared termination path against a synthetic PID backend,
+prove forced termination requires a fresh matching birth identity, and fail
+before this correction.
+
+The restart fixture also assumes its service survives Host death on every OS.
+[Pinned Node/libuv](https://github.com/nodejs/node/blob/v24.14.0/deps/uv/src/win/process.c)
+assigns non-detached Windows children to the Host's kill-on-close job. Keep that
+production cleanup behavior: Windows restart acceptance must allow the already
+stopped child while still requiring interrupted persisted state, retained proof,
+explicit verified recovery and a closed listener afterward. POSIX detached
+service survival remains asserted. Do not detach Windows commands merely to
+accommodate the test.
+
 The aggregate production-composition test confirms that agent discovery cannot
 depend on local `kernel-status` rows: the existing inspection owner returns local
 statuses without persisting that kind. Agent discovery will call

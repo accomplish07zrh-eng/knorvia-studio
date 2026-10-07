@@ -64,6 +64,39 @@ Prettier executable exits 254 without running tests; the repository's actual
 formatting command is then used successfully. The Windows correction still
 requires actual focused Windows verification and all final source quality gates.
 
+The complete immutable local run on `71cddfe6f620ab767aa8716a5d0161d54dc6f572`
+then exits 0: 8,388 tests, 8,380 passed, zero failed/cancelled, eight skips in
+718.4 seconds. Linux PR CI succeeds. Corrected focused Windows
+[37588779119](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37588779119)
+passes 18 tests, fails two and skips two platform conditions. The combined path,
+credential-safe service, parallel lifecycle, readiness timeout and PID reuse
+now pass. Two remaining failures do not qualify a release.
+
+Live recovery returns false because the workspace's 300 ms force grace cannot
+reserve the shared owner's 750 ms birth-verification window for a reconstructed
+handle. The follow-up selects the existing Windows 2,000 ms grace, preserving
+normal stop/POSIX grace, taskkill bounds and the absolute deadline owner. A new
+fixture drives the actual shared termination owner against a synthetic backend:
+the original recovery returns false (exit 1), the corrected recovery passes
+(exit 0), and a PID whose birth changes before force is never killed. Corrected
+logs: `/tmp/knorvia-windows-recovery-regression-before-correct-fixture.log` and
+`/tmp/knorvia-windows-recovery-regression-after-correct-fixture.log`. Initial
+fixture attempts omitted a mocked export and mismatched taskkill flag case;
+those harness failures are not production or qualifying evidence.
+
+The restart failure is an invalid cross-platform fixture assumption: pinned
+[Node/libuv](https://github.com/nodejs/node/blob/v24.14.0/deps/uv/src/win/process.c)
+closes non-detached Windows children with the Host job. Keep that production
+cleanup. The fixture allows the already-stopped Windows child, still checks
+retained proof/interrupted state, requires explicit recovery, and verifies the
+listener is closed afterward. POSIX detached survival remains asserted. Full
+quality and actual Windows verification on the final follow-up remain mandatory;
+main, tags and publication are still untouched. The follow-up focused run passes
+all 82 tests with zero failures/cancellations/skips (exit 0, 23.6 seconds); root
+typecheck, lint and full/changed architecture also exit 0. The preceding PR CI
+37588615818 is terminal: Linux success, Windows failure. It is diagnostic evidence
+for the follow-up rather than a qualifying final platform gate.
+
 The first complete candidate run at `22cdb038321c07827a2bfd8a0f95e9906b9ebf1d`
 exits 1: 820 files, 8,377 tests, 8,368 passed, one failed, eight skipped, zero
 cancelled; 666.6 seconds. Its sole failure is the unpopulated production kernel

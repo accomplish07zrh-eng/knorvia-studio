@@ -222,7 +222,8 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
       const result = await terminateProcessTreeAndWait(processReference(proof.rootPid, true), {
         ...helperOptions,
         snapshot,
-        forceAfterMs: 300,
+        // 修复：重建 handle 没有本机存活句柄；Windows 必须保留共享 owner 的 750ms 出生身份复核窗口。
+        forceAfterMs: process.platform === "win32" ? 2000 : 300,
         waitAfterForceMs: 500,
       });
       return result.remainingPids.length === 0;
