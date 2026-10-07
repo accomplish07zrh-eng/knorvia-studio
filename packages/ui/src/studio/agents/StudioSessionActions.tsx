@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { HANDOFF_TEXT_LIMIT } from "@knorvia/shared";
 import { ArrowRightLeft, Download } from "lucide-react";
-import type {
-  IStudioRuntimeService,
-  StudioKernelId,
-  StudioKernelStatus,
-  StudioMessage,
-} from "@knorvia/services";
+import type { StudioKernelId } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import {
   Dialog,
@@ -25,146 +21,62 @@ import {
 import { Textarea } from "@/components/ui/textarea.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { usePlatform } from "@/hooks/usePlatform.js";
-import { useBaseWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
-import { createAgentConversationTransport } from "@/v4/agentConversationTransport.js";
 import { studioKernelOption } from "../types.js";
-import {
-  buildStudioHandoffDraft,
-  availableHandoffTargets,
-  createNativeHandoffAttempt,
-  performNativeHandoff,
-  performStudioHandoff,
-  saveHandoffMarkdownWithDialog,
-  studioExportFileName,
-  type NativeHandoffAttempt,
-  type StudioHandoffAttempt,
-} from "./sessionHandoff.js";
+import { saveHandoffMarkdownWithDialog, studioExportFileName } from "./sessionHandoff.js";
+import { useSessionHandoff, type SessionHandoffInput } from "./useSessionHandoff.js";
 import { UiAsyncActionGate } from "./uiAsyncActionGate.js";
+import { HandoffTaskEditor } from "./HandoffTaskEditor.js";
 
-export function StudioSessionActions({
-  service,
-  messages,
-  exportTranscript,
-  sourceKernel,
-  workspacePath,
-  title,
-  statuses,
-  handoffDisabled = false,
-  onHandoffComplete,
-  onNativeHandoffComplete,
-}: {
-  service: IStudioRuntimeService | undefined;
-  messages: readonly StudioMessage[];
-  exportTranscript: () => Promise<string>;
-  sourceKernel: StudioKernelId;
-  workspacePath: string;
-  title: string;
-  statuses: readonly StudioKernelStatus[];
-  handoffDisabled?: boolean;
-  onHandoffComplete: (kernel: StudioKernelId, sessionId: string) => void;
-  onNativeHandoffComplete?: (sessionId: string, workspacePath: string) => void;
-}) {
+export function StudioSessionActions(
+  props: SessionHandoffInput & {
+    title: string;
+    exportTranscript: () => Promise<string>;
+  },
+) {
+  const {
+    title,
+    exportTranscript,
+    service,
+    sourceKernel,
+    sourceSessionId,
+    workspacePath,
+    workspaceIdentity,
+  } = props;
   const { locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
   const platform = usePlatform();
-  const nativeAgentService = useBaseWorkspaceServices().agentService;
-  const [open, setOpen] = useState(false);
-  const [target, setTarget] = useState<StudioKernelId | "">("");
-  const [draft, setDraft] = useState("");
-  const [busy, setBusy] = useState(false);
+  const {
+    open,
+    target,
+    setTarget,
+    draft,
+    busy,
+    previewing,
+    draftEdited,
+    previewRecord,
+    error,
+    notesError,
+    storageIssue,
+    dirty,
+    targets,
+    canHandoff,
+    start,
+    close,
+    confirm,
+    saveNotes,
+    refreshPreview,
+    hasPending,
+    editDraft,
+    retrySave,
+  } = useSessionHandoff(props);
   const [exporting, setExporting] = useState(false);
-  const [error, setError] = useState("");
   const [exportStatus, setExportStatus] = useState("");
-  const pending = useRef<StudioHandoffAttempt | NativeHandoffAttempt | null>(null);
-  const handoffGate = useRef(new UiAsyncActionGate());
   const exportGate = useRef(new UiAsyncActionGate());
-  const sourceName = studioKernelOption(sourceKernel, statuses).name;
   useEffect(() => {
-    handoffGate.current.activate();
     exportGate.current.activate();
-    pending.current = null;
-    setBusy(false);
     setExporting(false);
-    return () => {
-      handoffGate.current.deactivate();
-      exportGate.current.deactivate();
-    };
-  }, [service, nativeAgentService, sourceKernel, workspacePath]);
-  const targets = availableHandoffTargets(
-    statuses,
-    sourceKernel,
-    Boolean(nativeAgentService && onNativeHandoffComplete),
-  );
-  const canHandoff = Boolean(
-    (service || (nativeAgentService && onNativeHandoffComplete)) &&
-    messages.some((message) => message.kind === "text" && message.sender !== "system") &&
-    workspacePath &&
-    !sourceKernel.startsWith("ssh:") &&
-    !handoffDisabled &&
-    targets.length,
-  );
-
-  const start = () => {
-    if (!canHandoff) return;
-    if (pending.current) {
-      setTarget(pending.current.targetKernel);
-      setDraft(pending.current.text);
-    } else {
-      setTarget("");
-      setDraft(buildStudioHandoffDraft(messages, sourceName, zh).text);
-    }
-    setError("");
-    setOpen(true);
-  };
-  const confirm = () => {
-    if (!target || !draft.trim()) return;
-    handoffGate.current.run(
-      async () => {
-        const attempt =
-          pending.current ??
-          (target === "knorvia"
-            ? createNativeHandoffAttempt({ sourceKernel, workspacePath, text: draft })
-            : {
-                targetId: crypto.randomUUID(),
-                sourceKernel,
-                targetKernel: target,
-                workspacePath,
-                text: draft,
-              });
-        pending.current = attempt;
-        if ("envelope" in attempt) {
-          if (!nativeAgentService || !onNativeHandoffComplete)
-            throw new Error("原生会话服务暂不可用");
-          const transport = createAgentConversationTransport(nativeAgentService, {
-            workspacePath: attempt.workspacePath,
-          });
-          const sessionId = await performNativeHandoff(transport.sendCommand, attempt);
-          return { kind: "native" as const, sessionId, workspacePath: attempt.workspacePath };
-        } else {
-          if (!service) throw new Error("Studio Runtime 暂不可用");
-          await performStudioHandoff(service, attempt);
-          return {
-            kind: "external" as const,
-            kernel: attempt.targetKernel,
-            sessionId: attempt.targetId,
-          };
-        }
-      },
-      {
-        onStart: () => {
-          setBusy(true);
-          setError("");
-        },
-        onSuccess: (result) => {
-          if (result.kind === "native")
-            onNativeHandoffComplete?.(result.sessionId, result.workspacePath);
-          else onHandoffComplete(result.kernel, result.sessionId);
-        },
-        onError: (cause) => setError(cause instanceof Error ? cause.message : String(cause)),
-        onSettled: () => setBusy(false),
-      },
-    );
-  };
+    return () => exportGate.current.deactivate();
+  }, [service, sourceKernel, sourceSessionId, workspacePath, workspaceIdentity]);
   const exportMarkdown = () => {
     exportGate.current.run(
       async () => {
@@ -228,25 +140,71 @@ export function StudioSessionActions({
       <Dialog
         open={open}
         onOpenChange={(next) => {
-          if (!next && !handoffGate.current.isRunning) setOpen(false);
+          if (!next) close();
         }}
       >
-        <DialogContent className="max-w-lg">
+        <DialogContent className="flex max-h-[90dvh] max-w-lg flex-col">
           <DialogHeader>
             <DialogTitle>{zh ? "交给其他内核继续" : "Continue with another kernel"}</DialogTitle>
             <DialogDescription>
               {zh
-                ? "以下摘要只取当前已加载的可见消息，不含私有记忆或工具原始输出。检查并编辑后才会发给新会话。"
-                : "This draft uses loaded visible messages only, without private memory or raw tool output. Review it before sending to a new conversation."}
+                ? "持久任务记录与已加载的可见摘录将交给新会话。缺失项需补充；检查并编辑后才发送，不转换模型私有状态。"
+                : "Durable task notes and loaded visible excerpts go to a new conversation. Supply missing context, then review and edit before sending. Private model state is not converted."}
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-3">
+          <div className="grid min-h-0 gap-3 overflow-y-auto pr-1">
+            {previewing && (
+              <p role="status">
+                {zh ? "正在刷新预览与核验引用…" : "Refreshing preview and checking references…"}
+              </p>
+            )}
+            {previewRecord && (
+              <HandoffTaskEditor
+                key={JSON.stringify(previewRecord)}
+                record={previewRecord}
+                zh={zh}
+                disabled={busy || previewing || hasPending}
+                onSave={saveNotes}
+              />
+            )}
+            {previewRecord && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                disabled={busy || previewing || hasPending}
+                onClick={() => refreshPreview(previewRecord)}
+              >
+                {zh ? "刷新预览（替换全文编辑）" : "Refresh preview (replace full-text edits)"}
+              </Button>
+            )}
+            {(notesError || storageIssue || dirty) && (
+              <div role="alert" className="text-ui-sm text-foreground-subtle">
+                <p>
+                  {notesError ||
+                    (zh
+                      ? "本机任务记录尚未成功持久化；重载可能丢失未保存内容。"
+                      : "Local task notes have not been persisted; reload may lose unsaved context.")}
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={busy || previewing}
+                  onClick={() => {
+                    retrySave();
+                  }}
+                >
+                  {zh ? "重试保存" : "Retry saving"}
+                </Button>
+              </div>
+            )}
             <label className="grid gap-1 text-ui-sm">
               {zh ? "目标内核" : "Target kernel"}
               <Select
                 value={target}
                 onValueChange={(value) => setTarget(value as StudioKernelId)}
-                disabled={busy || Boolean(pending.current)}
+                disabled={busy || previewing || hasPending}
               >
                 <SelectTrigger>
                   <SelectValue placeholder={zh ? "选择已可用内核" : "Choose an available kernel"} />
@@ -254,7 +212,7 @@ export function StudioSessionActions({
                 <SelectContent>
                   {targets.map((status) => (
                     <SelectItem key={status.id} value={status.id}>
-                      {studioKernelOption(status.id, statuses).name}
+                      {studioKernelOption(status.id, props.statuses).name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -263,12 +221,20 @@ export function StudioSessionActions({
             <label className="grid gap-1 text-ui-sm">
               {zh ? "可编辑摘要" : "Editable summary"}
               <Textarea
+                aria-label={zh ? "可编辑摘要" : "Editable summary"}
+                className="field-sizing-fixed min-h-40 max-h-64 resize-y"
                 value={draft}
-                maxLength={20_000}
+                maxLength={HANDOFF_TEXT_LIMIT}
                 rows={10}
-                disabled={busy || Boolean(pending.current)}
-                onChange={(event) => setDraft(event.target.value)}
+                disabled={busy || previewing || hasPending}
+                onChange={(event) => {
+                  editDraft(event.target.value);
+                }}
               />
+              <span className="text-ui-xs text-foreground-subtle">
+                {draft.length} / {HANDOFF_TEXT_LIMIT} {zh ? "字符" : "characters"}
+                {draftEdited ? (zh ? " · 全文已由用户编辑" : " · Full text edited by user") : ""}
+              </span>
             </label>
             {error && (
               <p role="alert" className="text-ui-sm text-destructive">
@@ -282,17 +248,19 @@ export function StudioSessionActions({
               variant="outline"
               disabled={busy}
               onClick={() => {
-                if (!handoffGate.current.isRunning) setOpen(false);
+                close();
               }}
             >
               {zh ? "取消" : "Cancel"}
             </Button>
             <Button
               type="button"
-              disabled={busy || !target || !draft.trim()}
+              disabled={
+                busy || previewing || !target || !draft.trim() || draft.length > HANDOFF_TEXT_LIMIT
+              }
               onClick={() => void confirm()}
             >
-              {pending.current
+              {hasPending
                 ? zh
                   ? "重试接力"
                   : "Retry handoff"

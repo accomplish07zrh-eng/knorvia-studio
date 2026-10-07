@@ -141,7 +141,7 @@ export const agentsZhCN = {
   "studio.agents.resetStorage": "重置本机 Agent 草稿缓存",
   "studio.agents.resetStorageTitle": "重置本机 Agent 草稿缓存？",
   "studio.agents.resetStorageDescription":
-    "将删除本机编辑偏好缓存与尚未发送的外部会话草稿。已保存的连接配置、正式对话、CLI 安装与认证信息不受影响。此操作无法撤销。",
+    "将删除本机编辑偏好缓存、尚未发送的外部会话草稿与本机持久任务记录。已保存的连接配置、正式对话、CLI 安装与认证信息不受影响。此操作无法撤销。",
   "studio.agents.storage.corrupt":
     "本机 Agent 草稿数据无法读取。原始数据已保留，新修改暂时只保留在本次打开期间。",
   "studio.agents.storage.unavailable":
@@ -340,7 +340,7 @@ export const agentsEnUS: Record<keyof typeof agentsZhCN, string> = {
   "studio.agents.resetStorage": "Reset local agent draft cache",
   "studio.agents.resetStorageTitle": "Reset local agent draft cache?",
   "studio.agents.resetStorageDescription":
-    "Deletes the local editing cache and unsent external conversation drafts. Keeps saved connection settings, accepted conversations, CLI installations and authentication. This cannot be undone.",
+    "Deletes the local editing cache, unsent external conversation drafts and local durable task notes. Keeps saved connection settings, accepted conversations, CLI installations and authentication. This cannot be undone.",
   "studio.agents.storage.corrupt":
     "Local agent draft data could not be read. The original data is preserved; new edits are kept only while this app remains open.",
   "studio.agents.storage.unavailable":

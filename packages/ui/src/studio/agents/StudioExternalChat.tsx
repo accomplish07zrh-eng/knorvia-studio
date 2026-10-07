@@ -372,6 +372,10 @@ export function StudioExternalChat({
             );
           }}
           sourceKernel={kernelId}
+          sourceSessionId={sessionId}
+          historyStartKnown={
+            runtime.timeline !== undefined && runtime.timeline.nextBefore === undefined
+          }
           workspacePath={workspacePath}
           title={conversation.title || kernel.name}
           statuses={statuses}
