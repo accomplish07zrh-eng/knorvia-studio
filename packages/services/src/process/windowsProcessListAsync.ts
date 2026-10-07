@@ -4,19 +4,19 @@ import type {
   ProcessIdentity,
   ProcessTreeTerminatorOptions,
 } from "#src/process/processTreeTypes.js";
+import { windowsProcessQueryCommand } from "#src/process/windowsProcessQuery.js";
 
 type WindowsCimCapability = "cim" | "identity-unavailable";
 
 interface WindowsProcessListFlight {
   promise: Promise<readonly ProcessIdentity[]>;
   startedAtMs: number;
+  helperEnvironment?: NodeJS.ProcessEnv;
+  queryMode?: "wmi";
 }
 
 let windowsCimCapability: WindowsCimCapability | undefined;
 let windowsProcessListFlight: WindowsProcessListFlight | undefined;
-
-const windowsAllProcessesCommand =
-  "Get-CimInstance Win32_Process | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }";
 
 function isHardCapabilityError(error: unknown): boolean {
   const code = (error as NodeJS.ErrnoException | undefined)?.code;
@@ -91,11 +91,16 @@ export async function verifyWindowsProcessIdentityAsync(
     return false;
   }
   return new Promise<boolean>((resolve) => {
-    const command = `Get-CimInstance Win32_Process -Filter "ProcessId = ${identity.pid}" | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }`;
+    const command = windowsProcessQueryCommand(options, identity.pid);
     execFile(
       "powershell.exe",
       ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", command],
-      { encoding: "utf8", windowsHide: true, timeout: timeoutMs },
+      {
+        encoding: "utf8",
+        windowsHide: true,
+        timeout: timeoutMs,
+        ...(options.helperEnvironment ? { env: options.helperEnvironment } : {}),
+      },
       (error, stdout, stderr) => {
         if (error || !stdout) {
           if (isHardCapabilityError(error)) {
@@ -128,6 +133,8 @@ export async function readWindowsProcessListAsync(
   const existingFlight = windowsProcessListFlight;
   if (
     existingFlight &&
+    existingFlight.helperEnvironment === options.helperEnvironment &&
+    existingFlight.queryMode === options.windowsProcessQuery &&
     (ownedProcessStartedAtMs === undefined || ownedProcessStartedAtMs < existingFlight.startedAtMs)
   ) {
     return await awaitWindowsProcessListWithinDeadline(existingFlight.promise, options);
@@ -136,46 +143,79 @@ export async function readWindowsProcessListAsync(
   const startedAtMs = Date.now();
   const request: Promise<readonly ProcessIdentity[]> = new Promise<readonly ProcessIdentity[]>(
     (resolve) => {
-      const timeoutMs =
-        options.windowsCleanupDeadlineAtMs === undefined
-          ? 2500
-          : Math.min(2500, Math.max(options.windowsCleanupDeadlineAtMs - Date.now(), 0));
-      if (timeoutMs <= 0) {
-        resolve([]);
-        return;
-      }
-      execFile(
-        "powershell.exe",
-        ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", windowsAllProcessesCommand],
-        { encoding: "utf8", windowsHide: true, timeout: timeoutMs },
-        (error, stdout, stderr) => {
-          if (error || !stdout) {
-            if (isHardCapabilityError(error)) {
-              windowsCimCapability = "identity-unavailable";
+      const query = (attempt: number) => {
+        const timeoutMs =
+          options.windowsCleanupDeadlineAtMs === undefined
+            ? 2500
+            : Math.min(2500, Math.max(options.windowsCleanupDeadlineAtMs - Date.now(), 0));
+        if (timeoutMs <= 0) {
+          resolve([]);
+          return;
+        }
+        execFile(
+          "powershell.exe",
+          [
+            "-NoLogo",
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            windowsProcessQueryCommand(options),
+          ],
+          {
+            encoding: "utf8",
+            windowsHide: true,
+            timeout: timeoutMs,
+            ...(options.helperEnvironment ? { env: options.helperEnvironment } : {}),
+          },
+          (error, stdout, stderr) => {
+            // 修复：冷 WMI 初始化偶有超时；只重试一次只读查询，不延长 cleanup 的绝对截止时间。
+            if (
+              error?.killed &&
+              (error.code === null || error.code === "ETIMEDOUT") &&
+              options.windowsProcessQuery === "wmi" &&
+              options.windowsCleanupDeadlineAtMs === undefined &&
+              attempt === 0
+            ) {
+              query(1);
+              return;
             }
-            options.log?.warn(
-              options.traceId,
-              "查询 Windows runtime 进程表失败（异步）:",
-              error ?? stderr,
-            );
-            resolve([]);
-            return;
-          }
-          const identities = parseWindowsProcessIdentities(stdout);
-          if (identities.length === 0) {
-            options.log?.warn(options.traceId, "PowerShell 未返回可解析的 Windows runtime 进程表");
-          } else {
-            windowsCimCapability = "cim";
-          }
-          resolve(identities);
-        },
-      );
+            if (error || !stdout) {
+              if (isHardCapabilityError(error)) {
+                windowsCimCapability = "identity-unavailable";
+              }
+              options.log?.warn(
+                options.traceId,
+                "查询 Windows runtime 进程表失败（异步）:",
+                error ?? stderr,
+              );
+              resolve([]);
+              return;
+            }
+            const identities = parseWindowsProcessIdentities(stdout);
+            if (identities.length === 0) {
+              options.log?.warn(
+                options.traceId,
+                "PowerShell 未返回可解析的 Windows runtime 进程表",
+              );
+            } else {
+              windowsCimCapability = "cim";
+            }
+            resolve(identities);
+          },
+        );
+      };
+      query(0);
     },
   ).finally(() => {
     if (windowsProcessListFlight?.promise === request) {
       windowsProcessListFlight = undefined;
     }
   });
-  windowsProcessListFlight = { promise: request, startedAtMs };
+  windowsProcessListFlight = {
+    promise: request,
+    startedAtMs,
+    helperEnvironment: options.helperEnvironment,
+    queryMode: options.windowsProcessQuery,
+  };
   return await awaitWindowsProcessListWithinDeadline(request, options);
 }

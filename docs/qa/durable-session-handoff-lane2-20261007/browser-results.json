@@ -1,0 +1,13 @@
+{
+  "results": [
+    "PASS persisted original goal and user constraints survive tail-only reload; cancel sends zero commands",
+    "PASS stale references block submission; full preview edits redact; duplicate confirmation and external retry reuse commands",
+    "PASS native retry uses unchanged V4 createSession(firstInput) and duplicate ACK navigation",
+    "PASS scope change during reference recheck sends zero commands; expanded task editor keeps actions in the desktop viewport",
+    "PASS source conversation change suppresses late native ACK, excludes other task context and disables handoff for unrelated messages"
+  ],
+  "errors": [],
+  "externalCommands": 4,
+  "nativeRetryCommands": 2,
+  "totalNativeCommands": 3
+}

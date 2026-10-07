@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import type { StudioWorkspacePort } from "../app/ports.js";
 import type { StudioFileVersion, StudioWorkspaceChange } from "../types.js";
 import { applySnapshot } from "./workspaceApply.js";
+import { studioWorkspaceSecretPath } from "../domain/workspaceSecrets.js";
 import {
   digest,
   exclusiveWrite,
@@ -76,6 +77,8 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
         ].sort();
         const result: StudioWorkspaceChange[] = [];
         for (const path of paths) {
+          // 旧快照可能已含凭据：不把新过滤导致的缺项当作可发布的删除。
+          if (studioWorkspaceSecretPath(path)) continue;
           const baselineHash = metadata.baseline[path]?.hash ?? null;
           const isolatedHash = isolated[path]?.hash ?? null;
           if (baselineHash === isolatedHash) continue;

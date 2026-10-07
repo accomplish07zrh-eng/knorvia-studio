@@ -7,6 +7,7 @@ import { promisify } from "node:util";
 import { decideReleasePlan } from "./release-immutability.mjs";
 import { getReleaseChannel } from "./desktop-release-channel.mjs";
 import { artifactIdentity } from "./desktop-release-manifest.mjs";
+import { createDesktopReleaseNotes } from "./desktop-release-notes.mjs";
 
 const exec = promisify(execFile);
 const root = resolve(process.argv[2]);
@@ -74,7 +75,14 @@ const decision = decideReleasePlan({
   existingAssets,
 });
 assert.notEqual(decision.action, "reject", decision.message);
-const notes = `Knorvia Studio ${tag}\n\nWindows x64 setup, portable ZIP and self-extracting portable EXE; Linux x64 AppImage, deb, rpm and pacman, plus separately marked portable AppImage and tar.gz.\n\nBuilt fresh from checked source commit **${deliveredSha}**. Linux and Windows reusable source checks and actual package acceptance must pass before publication. Per-platform scope, hashes, maintainer and actual Authenticode status are in release-metadata.json. No signing credentials were created; unsigned packages are identified in the metadata.\n\nFollow INSTALLATION.md for directory, shortcut, upgrade, uninstall and profile rules. Normal data is retained during upgrades and ordinary uninstall. Marked portable products keep data/ beside the original launcher or extracted executable; the ordinary Linux AppImage retains the normal user configuration directory. Verify assets with SHA256SUMS or the corresponding .sha256 attachment.\n\n${channel.label}; no claim of human installer GUI, real model-task, full legacy-user migration or macOS acceptance. Apache-2.0, NOTICE and bundled per-component obligations remain. No claim of complete independent authorship or full MIT relicensing.\n`;
+// 修复：发布说明只取当前版本的已提交变更，防止把旧版本说明或空草稿发到正式 Release。
+let changelog;
+try {
+  changelog = await readFile("CHANGELOG.md", "utf8");
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
+const notes = createDesktopReleaseNotes({ version, deliveredSha, repository, changelog });
 await writeFile(join(root, "publication-notes.md"), notes);
 if (decision.action === "create") {
   const args = [

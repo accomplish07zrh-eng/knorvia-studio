@@ -14,16 +14,9 @@ import { hasUnknownStudioRun } from "./runQueries.js";
 import { recordGroupWorkspaceGeneration } from "./groupWorkspaceIdentity.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { assertTargetKernelsActive } from "../domain/retiredKernels.js";
-
-function canonical(value: unknown): string {
-  if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
-  if (value && typeof value === "object")
-    return `{${Object.keys(value)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${canonical((value as Record<string, unknown>)[key])}`)
-      .join(",")}}`;
-  return JSON.stringify(value) ?? "null";
-}
+import { canonicalStudioValue as canonical } from "../domain/canonicalValue.js";
+import { admitStudioCommandReceipt } from "./commandReceipts.js";
+import { recordStudioAgentEvent } from "./agentOutbox.js";
 
 export function admitStudioCommand(
   db: StudioRepository,
@@ -31,24 +24,14 @@ export function admitStudioCommand(
   command: StudioCommand,
 ): StudioCommandResult {
   validateStudioCommand(command);
-  return db.transaction(() => {
-    const payload = canonical(command);
-    const previous = db.read<{ payload: string; result: StudioCommandResult }>(
-      "command",
-      command.commandId,
-    );
-    if (previous) {
-      if (previous.payload !== payload) throw new Error("同一请求编号不能提交不同操作");
-      return previous.result;
-    }
-    const id = applyCommand(db, clock, command);
-    const result = { id, revision: db.revision() + 1 };
-    db.write("command", command.commandId, { payload, result });
-    return result;
-  });
+  return db.transaction(() => admitStudioCommandReceipt(db, clock, command, applyStudioCommand));
 }
 
-function applyCommand(db: StudioRepository, clock: StudioClock, command: StudioCommand): string {
+export function applyStudioCommand(
+  db: StudioRepository,
+  clock: StudioClock,
+  command: StudioCommand,
+): string {
   const now = clock.now();
   switch (command.type) {
     case "configure":
@@ -163,10 +146,12 @@ function applyCommand(db: StudioRepository, clock: StudioClock, command: StudioC
       run.cancelRequested = true;
       if (run.state === "queued") {
         run.state = "cancelled";
+        run.resultKnown = true;
         db.remove("active", run.id);
       }
       run.updatedAt = now;
       db.write("run", run.id, run, run.targetId);
+      recordStudioAgentEvent(db, clock, run);
       if (run.kind === "group") {
         // 群聊停止同时撤销尚未派发的后续输入，防止活跃成员结束后旧队列又唤醒整个群。
         for (const entry of db.list<{ id: string; targetId: string }>("active")) {

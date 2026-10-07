@@ -33,6 +33,8 @@ const explicitTests = [
   "scripts/release-gate.test.ts",
   "scripts/desktop-release-manifest.test.mjs",
   "scripts/desktop-release-channel.test.mjs",
+  "scripts/desktop-release-notes.test.mjs",
+  "scripts/desktop-release-publish.test.mjs",
   "scripts/desktop-release-variant-selection.test.mjs",
   "scripts/desktop-release-portable-launch.test.mjs",
   "scripts/provenance/provenance.test.mjs",

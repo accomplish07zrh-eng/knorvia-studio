@@ -159,6 +159,7 @@ export type {
   TelemetryProviderScope,
 } from "./telemetryRedaction.js";
 export { redactDiagnosticText, redactDiagnosticValue } from "./diagnosticSecrets.js";
+export * from "./sessionHandoff.js";
 export type { ReleaseUpdateCheckResult, ReleaseUpdateInstallResult } from "./releaseUpdate.js";
 export {
   KNORVIA_OFFICIAL_RELEASE_INFO_URL,

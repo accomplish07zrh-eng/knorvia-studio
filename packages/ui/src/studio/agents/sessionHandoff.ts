@@ -4,13 +4,11 @@ import type {
   StudioKernelStatus,
   StudioMessage,
 } from "@knorvia/services";
-import { redactDiagnosticText } from "@knorvia/shared";
+import { HANDOFF_TEXT_LIMIT, redactDiagnosticText, sanitizeHandoffText } from "@knorvia/shared";
+import { buildTaskHandoffDraft, type HandoffContext } from "./taskHandoff.js";
 import type { CommandAck, CommandEnvelope } from "@knorvia/shared/protocol-v4";
 import { createCommandEnvelope } from "../../v4/commandFactory.js";
 
-const HANDOFF_MESSAGE_LIMIT = 24;
-const HANDOFF_EXCERPT_LIMIT = 700;
-const HANDOFF_TEXT_LIMIT = 20_000;
 const EXPORT_MESSAGE_LIMIT = 10_000;
 const EXPORT_BYTE_LIMIT = 8 * 1024 * 1024;
 
@@ -33,21 +31,9 @@ export function buildStudioHandoffDraft(
   messages: readonly StudioMessage[],
   sourceName: string,
   zh = true,
+  context?: HandoffContext,
 ) {
-  const recent = messages.filter(visible).slice(-HANDOFF_MESSAGE_LIMIT);
-  const lines = recent
-    .map((message) => {
-      if (message.kind === "tool") return `- ${zh ? "工具" : "Tool"}: ${toolSummary(message)}`;
-      const role = message.sender === "user" ? (zh ? "用户" : "User") : sourceName;
-      return `- ${role}：${safeLine(message.text, HANDOFF_EXCERPT_LIMIT)}`;
-    })
-    .filter((line) => !line.endsWith("："));
-  return {
-    includedCount: recent.length,
-    text: zh
-      ? `请在此基础上继续当前项目的工作。以下是用户确认前可编辑的会话摘要（最近 ${recent.length} 条已加载记录）：\n\n${lines.join("\n")}`
-      : `Continue the current project from this reviewed summary (${recent.length} recently loaded entries):\n\n${lines.join("\n")}`,
-  };
+  return buildTaskHandoffDraft(messages, sourceName, zh, context);
 }
 
 export interface StudioHandoffAttempt {
@@ -87,20 +73,21 @@ export function createNativeHandoffAttempt(input: {
   workspacePath: string;
   text: string;
 }): NativeHandoffAttempt {
+  const text = sanitizeHandoffText(input.text);
   if (input.sourceKernel === "knorvia" || input.sourceKernel.startsWith("ssh:"))
     throw new Error("请选择不同的本机内核");
   if (!input.workspacePath.trim()) throw new Error("请先选择项目");
-  if (!input.text.trim() || input.text.length > HANDOFF_TEXT_LIMIT)
-    throw new Error("接力摘要为空或过长");
+  if (!text.trim() || text.length > HANDOFF_TEXT_LIMIT) throw new Error("接力摘要为空或过长");
   return {
     ...input,
+    text,
     targetKernel: "knorvia",
     envelope: createCommandEnvelope({
       type: "createSession",
       sessionId: null,
       payload: {
         workspaceId: input.workspacePath,
-        firstInput: { text: input.text },
+        firstInput: { text },
       },
     }),
   };
@@ -112,6 +99,8 @@ export async function performNativeHandoff(
   attempt: NativeHandoffAttempt,
 ): Promise<string> {
   const ack = await sendCommand(attempt.envelope);
+  // 不匹配的迟到 ACK 不能被认作本次新会话的接收凭据。
+  if (ack.commandId !== attempt.envelope.commandId) throw new Error("原生会话 ACK 不匹配");
   if (ack.status !== "accepted" && ack.status !== "duplicate")
     throw new Error(ack.reasonCode ?? `原生会话未接受接力：${ack.status}`);
   if (ack.result?.type !== "createSession" || !ack.result.sessionId)
@@ -140,6 +129,7 @@ export async function performStudioHandoff(
   service: Pick<IStudioRuntimeService, "command">,
   attempt: StudioHandoffAttempt,
 ) {
+  const text = sanitizeHandoffText(attempt.text);
   if (attempt.sourceKernel === attempt.targetKernel) throw new Error("请选择不同内核");
   if (
     attempt.targetKernel === "knorvia" ||
@@ -148,8 +138,7 @@ export async function performStudioHandoff(
   )
     throw new Error("此内核暂不能安全接力到独立本机会话");
   if (!attempt.workspacePath.trim()) throw new Error("请先选择项目");
-  if (!attempt.text.trim() || attempt.text.length > HANDOFF_TEXT_LIMIT)
-    throw new Error("接力摘要为空或过长");
+  if (!text.trim() || text.length > HANDOFF_TEXT_LIMIT) throw new Error("接力摘要为空或过长");
   await service.command({
     commandId: `handoff:${attempt.targetId}:create`,
     type: "create-conversation",
@@ -162,7 +151,7 @@ export async function performStudioHandoff(
     type: "send",
     kind: "chat",
     targetId: attempt.targetId,
-    text: attempt.text,
+    text,
   });
 }
 

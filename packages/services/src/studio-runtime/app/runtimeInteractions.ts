@@ -6,6 +6,7 @@ import type {
 import type { StoredInteraction, StudioClock, StudioRepository } from "./storePort.js";
 import { requiredRun } from "./commandAdmission.js";
 import { pendingStudioInteractions } from "./pendingInbox.js";
+import { recordStudioAgentEvent } from "./agentOutbox.js";
 
 /** A still-owned, side-effect-free human wait was explicitly stopped by the user. */
 export class StudioInteractionCancelledError extends Error {
@@ -30,6 +31,7 @@ export async function waitStudioInteraction(options: {
   // Native request IDs may repeat after reconnect. Include the immutable run/attempt/turn identity.
   const link = `${turnId}:${interaction.id}`;
   let id = "";
+  let attempt = 0;
   db.transaction(() => {
     assertOwned();
     id = db.read<string>("interaction-link", link) ?? clock.id();
@@ -37,6 +39,7 @@ export async function waitStudioInteraction(options: {
     const previous = db.read<StoredInteraction>("interaction", id);
     if (previous?.status === "answered") return;
     const run = requiredRun(db, runId);
+    attempt = run.attempt;
     const question: StoredInteraction = {
       ...interaction,
       id,
@@ -49,6 +52,7 @@ export async function waitStudioInteraction(options: {
     db.write("interaction", id, question, run.targetId);
     run.state = "waiting";
     db.write("run", run.id, run, run.targetId);
+    recordStudioAgentEvent(db, clock, run, id);
   });
   try {
     while (true) {
@@ -62,6 +66,8 @@ export async function waitStudioInteraction(options: {
   } finally {
     if (db.owns(options.owner, clock.now()))
       db.transaction(() => {
+        const run = requiredRun(db, runId);
+        if (run.owner !== options.owner || run.attempt !== attempt) return;
         const item = db.read<StoredInteraction>("interaction", id);
         if (item?.status === "pending")
           db.write(
@@ -70,7 +76,6 @@ export async function waitStudioInteraction(options: {
             { ...item, status: "expired" },
             requiredRun(db, runId).targetId,
           );
-        const run = requiredRun(db, runId);
         if (
           run.state === "waiting" &&
           !pendingStudioInteractions(db, run.targetId).some(
