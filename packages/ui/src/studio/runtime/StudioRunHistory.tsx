@@ -13,15 +13,11 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioRuntime } from "./useStudioRuntime.js";
 import { studioRunStepLabel } from "./studioRunStepLabel.js";
 import { StudioRunHistoryActions, studioReviewApplying } from "./studioRunHistoryActions.js";
-import {
-  STUDIO_RUN_HISTORY_ACTIVE_STATES,
-  STUDIO_RUN_HISTORY_COMPACT_WINDOW,
-  STUDIO_RUN_HISTORY_WINDOW,
-  studioRunHistoryWindow,
-} from "./studioRunHistoryWindow.js";
+
 import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
 import { StudioWorkspaceRuntimeCard } from "./StudioWorkspaceRuntimeCard.js";
+import { studioFocusedHistoryWindow, useStudioRunHistoryFocus } from "./studioRunHistoryFocus.js";
 
 export function StudioRunHistory({
   targetId,
@@ -70,23 +66,21 @@ export function StudioRunHistory({
         skipped: "Skipped",
       };
   const runs = runtime.timeline?.runs ?? [];
+  const { focusRunId, root, windowRuns } = useStudioRunHistoryFocus(
+    targetId,
+    runtime.connectionKey,
+    runs,
+  );
   useEffect(() => actions.observeRuns(runs), [actions, runs]);
   // 展开页数按 targetId 记账：切换目标时自动回到首屏窗口，不用额外 effect 复位。
   const [olderState, setOlderState] = useState({ targetId, pages: 0 });
   const olderPages = olderState.targetId === targetId ? olderState.pages : 0;
   // compact 沿用既有“只看最近 3 条”，不引入分页；完整面板按窗口渲染并固定必须可见的运行。
-  const historyWindow = studioRunHistoryWindow({
-    runs,
-    initial: compact ? STUDIO_RUN_HISTORY_COMPACT_WINDOW : STUDIO_RUN_HISTORY_WINDOW,
-    extra: compact ? 0 : olderPages * STUDIO_RUN_HISTORY_WINDOW,
-    pinned: compact
-      ? []
-      : [
-          ...runs
-            .filter((run) => STUDIO_RUN_HISTORY_ACTIVE_STATES.includes(run.state))
-            .map((run) => run.id),
-          review?.run.id,
-        ],
+  const historyWindow = studioFocusedHistoryWindow(windowRuns, {
+    focusRunId,
+    compact,
+    olderPages,
+    reviewRunId: review?.run.id,
   });
   const reviewStep = review?.run.outcome?.steps.find((item) => item.stepId === review.stepId);
   const reviewChanges = review?.changes ?? [];
@@ -100,13 +94,18 @@ export function StudioRunHistory({
       null)
     : null;
   return (
-    <div className="space-y-2 p-2 text-ui-sm">
+    <div ref={root} className="space-y-2 p-2 text-ui-sm">
       {historyWindow.visible.map((run) => (
         <details
           key={run.id}
           data-studio-run-history={run.id}
           className="rounded-lg border border-border px-3 py-2"
-          open={!compact || run.state === "failed" || run.state === "interrupted"}
+          open={
+            !compact ||
+            run.id === focusRunId ||
+            run.state === "failed" ||
+            run.state === "interrupted"
+          }
         >
           <summary className="cursor-pointer text-foreground-subtle">
             {run.cancelRequested && ["queued", "running", "waiting"].includes(run.state)

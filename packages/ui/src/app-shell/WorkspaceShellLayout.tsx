@@ -11,6 +11,12 @@ import { TID_APP_HEADER } from "@knorvia/shared";
 // 对称下侧 Terminal.tsx 的 openWorkspaceKeys 回收。
 import { ChatEmptyWorkspacePreviewMenu } from "@/ChatEmptyState.js";
 import { DesktopTopOverlay } from "@/DesktopTopOverlay.js";
+import { StudioRunFocusContext } from "@/studio/runtime/studioRunFocus.js";
+import {
+  studioAttentionProjectToActivate,
+  studioAttentionRoute,
+} from "@/studio/attention/attentionNavigation.js";
+import type { StudioAttentionRow } from "@/studio/attention/attentionRows.js";
 import { DesktopWindowFrame } from "@/DesktopWindowFrame.js";
 import { ScopedErrorBoundary } from "@/ErrorBoundary.js";
 import { GitBranchSwitcher } from "@/GitBranchSwitcher.js";
@@ -123,6 +129,11 @@ const CONVERSATION_AUTO_COLLAPSE_RESIZE_IDLE_MS = 300;
 const StudioWorkflowPage = lazy(() =>
   import("@/studio/workflow/StudioWorkflowPage.js").then((m) => ({
     default: m.StudioWorkflowPage,
+  })),
+);
+const StudioAttentionInbox = lazy(() =>
+  import("@/studio/attention/StudioAttentionInbox.js").then((m) => ({
+    default: m.StudioAttentionInbox,
   })),
 );
 const StudioCreationPage = lazy(() =>
@@ -975,6 +986,40 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
     },
     [handleSelectTask, intl, shellWorkbenchBinding, showChatMainView, tabStoreApi, workspaceTabs],
   );
+  const openAttentionTarget = useCallback(
+    (row: StudioAttentionRow) => {
+      if (row.source === "native") {
+        const item = row.item;
+        handleSelectTaskInChat(
+          item.workspacePath,
+          item.taskId,
+          item.workspaceIdentity,
+          item.remoteSessionId,
+          item.unreadAt,
+        );
+        return;
+      }
+      // SSH 会话的项目路径属于远端，不能按同名路径补开本地项目。
+      const projectToActivate = studioAttentionProjectToActivate(row.item);
+      if (projectToActivate === undefined) {
+        studioNavigation.navigate(studioAttentionRoute(row.item));
+        return;
+      }
+      const result = ensureTaskNavigationWorkspace({
+        workspacePath: projectToActivate,
+        activateTabByPath: tabStoreApi.getState().activateTabByPath,
+        addLocalWorkspaceTab: (path) => {
+          tabStoreApi.getState().addTab(path);
+        },
+      });
+      if (!result.accepted) {
+        toast(intl.formatMessage({ id: "studio.attention.missing" }));
+        return;
+      }
+      studioNavigation.navigate(studioAttentionRoute(row.item));
+    },
+    [handleSelectTaskInChat, intl, studioNavigation, tabStoreApi],
+  );
   // 中枢直接启动 accepted 后切到新会话（run 卡已在顶部）：复用运行历史那条导航，
   // target 恒带工作流所属项目坐标（不变式 7），remoteSessionId 决定连接 endpoint。
   const handleNavigateToLaunchedRun = useCallback(
@@ -1556,7 +1601,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
     [workspaceKey, isSidebarVisible],
   );
 
-  return (
+  const shell = (
     <DesktopWindowFrame
       title={`Knorvia Studio / ${getPathLeaf(workspaceAbsPath)}`}
       showHeader
@@ -1690,7 +1735,10 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                           kernelId={studioNavigation.route.kernelId}
                           selectedSessionId={studioNavigation.route.externalSessionId}
                           onSelectSession={(externalSessionId) =>
-                            studioNavigation.navigate({ view: "external-chat", externalSessionId })
+                            studioNavigation.navigate({
+                              view: "external-chat",
+                              externalSessionId,
+                            })
                           }
                         />
                       ) : undefined
@@ -1902,7 +1950,8 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                         </main>
                       ) : workspaceMainView === "workflows" ||
                         workspaceMainView === "groups" ||
-                        workspaceMainView === "creation" ? (
+                        workspaceMainView === "creation" ||
+                        workspaceMainView === "attention" ? (
                         <StudioPageFrame
                           label={intl.formatMessage({
                             id:
@@ -1910,7 +1959,9 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                                 ? "studio.workflows"
                                 : workspaceMainView === "creation"
                                   ? "studio.creation.title"
-                                  : "studio.groups",
+                                  : workspaceMainView === "attention"
+                                    ? "studio.attention.title"
+                                    : "studio.groups",
                           })}
                           isDesktop={isDesktop}
                           isMacDesktop={isMacDesktop}
@@ -1933,7 +1984,15 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                               }
                             >
                               {workspaceMainView === "workflows" ? (
-                                <StudioWorkflowPage workspacePath={workspaceAbsPath} />
+                                <StudioWorkflowPage
+                                  workspacePath={workspaceAbsPath}
+                                  selectedWorkflowId={studioNavigation.route.workflowId}
+                                />
+                              ) : workspaceMainView === "attention" ? (
+                                <StudioAttentionInbox
+                                  workspaceTabs={workspaceTabs}
+                                  onOpen={openAttentionTarget}
+                                />
                               ) : workspaceMainView === "creation" ? (
                                 <StudioCreationPage />
                               ) : (
@@ -1995,11 +2054,11 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                             className="h-full"
                           >
                             {/* pane 绑定必须用原始选择态 activeTaskId，
-                                  不能用 meta 派生的 activeSessionId——v4 createSession 刚建的会话
-                                  不在 taskListCache/optimistic 缓存里，meta 解析为 null 会让 pane
-                                  永远停在 draft。v4 语义下 sessionId ≡ taskId，meta 只服务 Header 显示。
-                                  桌面主区升级为分屏宿主（Layout/Focus 两层）；primary pane
-                                  绑定语义与 testid 契约（paneId=workspace-main）不变。 */}
+                                不能用 meta 派生的 activeSessionId——v4 createSession 刚建的会话
+                                不在 taskListCache/optimistic 缓存里，meta 解析为 null 会让 pane
+                                永远停在 draft。v4 语义下 sessionId ≡ taskId，meta 只服务 Header 显示。
+                                桌面主区升级为分屏宿主（Layout/Focus 两层）；primary pane
+                                绑定语义与 testid 契约（paneId=workspace-main）不变。 */}
                             <V4WorkspaceChatArea
                               readOnly={Boolean(workspaceReadOnlyReason)}
                               foregroundEnabled={isWorkspaceVisible}
@@ -2105,7 +2164,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
               </ResizablePanelGroup>
             </ResizablePanel>
             {/* Browser Guest Host 必须与主视图路由解耦，避免 automations/plugin
-                    切换时卸载 Guest；截图请求期间由上层临时展开真实面板承载可合成的 WebContents。 */}
+                  切换时卸载 Guest；截图请求期间由上层临时展开真实面板承载可合成的 WebContents。 */}
             {sidePanePanel}
           </ResizablePanelGroup>
         </div>
@@ -2149,5 +2208,19 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
         </ScopedErrorBoundary>
       </div>
     </DesktopWindowFrame>
+  );
+  return (
+    <StudioRunFocusContext.Provider
+      value={
+        studioNavigation.route.focusTargetId && studioNavigation.route.focusRunId
+          ? {
+              targetId: studioNavigation.route.focusTargetId,
+              runId: studioNavigation.route.focusRunId,
+            }
+          : null
+      }
+    >
+      {shell}
+    </StudioRunFocusContext.Provider>
   );
 });

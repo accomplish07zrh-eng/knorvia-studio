@@ -17,6 +17,7 @@ import { assertTargetKernelsActive } from "../domain/retiredKernels.js";
 import { canonicalStudioValue as canonical } from "../domain/canonicalValue.js";
 import { admitStudioCommandReceipt } from "./commandReceipts.js";
 import { recordStudioAgentEvent } from "./agentOutbox.js";
+import { readStudioAttentionItem } from "./attentionProjection.js";
 
 export function admitStudioCommand(
   db: StudioRepository,
@@ -34,6 +35,8 @@ export function applyStudioCommand(
 ): string {
   const now = clock.now();
   switch (command.type) {
+    case "attention-read":
+      return readStudioAttentionItem(db, command.object, command.id, command.version);
     case "configure":
       db.write("config", command.kernel, command.config);
       // 自定义 ACP 内核不是固定候选；索引与配置同事务提交，重开后仍能投影到界面。

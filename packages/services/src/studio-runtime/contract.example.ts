@@ -1,4 +1,13 @@
 import type { StudioCommand } from "./contract.js";
+
+/** This acknowledges the displayed event only; it cannot answer an approval. */
+export const markDisplayedAttentionRead: StudioCommand = {
+  commandId: "attention-read-example-1",
+  type: "attention-read",
+  object: "run",
+  id: "run-example-1",
+  version: '[1,"run-example-1",1,"succeeded",123,true]',
+};
 import type { StudioWorkspaceRuntimeRequest } from "./contract.js";
 import type { StudioAgentTools } from "./contract.js";
 import {

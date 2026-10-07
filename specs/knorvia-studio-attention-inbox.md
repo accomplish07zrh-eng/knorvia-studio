@@ -47,6 +47,7 @@ sequenceDiagram
 
 - `StudioOverview.attention` 为可选只读投影，新增类型位于 `attentionTypes.ts`；无字段的旧 Host 显示能力不可用。
 - 既有 `StudioCommand` 增加 `attention-read`，Host 同事务验证版本并写水位／原 command receipt，公开 RPC 仍为 12 个方法。
+- SSH 单聊保留原远端内核／会话／项目坐标，不按远端路径补开本地 workspace；群聊／工作流仍定位其原编排项目。Inbox 不探测实时内核可用性，静态退休／缺失配置会显示原因，其余由原页面的既有执行门核验。
 - 历史定位通过既有 `timeline` 的可选聚焦 run 参数和 UI 导航位置增量完成，Host 核验 run 属于原 target，不查询另一目标。
 - app 层负责投影／阅读 admission，domain 只定义纯版本／状态规则；SQLite adapter 和原进程／审批 port 的执行所有权不变。
 - 本 lane 拥有新 attention UI/hook、缓存 ACK 防护、现有入口／导航接线和中英文文案。与 PR #47 重叠的 contract/types/runtimeProjections、可选历史聚焦字段通过 PR 评论登记；不改批注 workspace-review 实现。来源清单最终由整合树再生。
@@ -61,3 +62,7 @@ sequenceDiagram
 6. 旧数据库、正文、原生未读／分组／搜索及批注兼容回归；相关离线测试、根 typecheck/lint/fmt、changed/full architecture、provenance regeneration/check。需要完整离线测试时先 build CLI；不重复不变的完整基线。
 
 中文提交、推送草稿 PR，报告 exact head／命令结果与实际 GUI/provider 证据范围；合并、版本和发布仍由 integrator 决定。
+
+## 可复现交互证据
+
+执行 `pnpm exec tsx --tsconfig packages/ui/tsconfig.json packages/services/test/fixtures/studio-attention-browser.ts [chromiumPath]`。该验收在 loopback 受控传输上连接真实 `StudioRuntimeService` 与临时 SQLite，挂载原 `StudioAttentionInbox`／hook／阅读动作／query cache／`StudioRunHistory`，点击 25→50 窗口、审批阅读、旧 attempt ACK、A/B 导航、未读 100→101 ACK 与重启恢复。记录写入被 Git 忽略的 `test-results/studio-attention-browser/results.json` 与 `inbox.png`。Native Controller 的网络延迟由夹具控制，持久 CAS 另由原 `TaskIndexRepo` 回归验证；此证据不声称运行了 Electron 安装包或真实 CLI/provider。

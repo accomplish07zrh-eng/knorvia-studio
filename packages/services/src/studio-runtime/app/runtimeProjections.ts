@@ -11,6 +11,7 @@ import type { StudioRepository } from "./storePort.js";
 import { studioRunHistory } from "./runQueries.js";
 import { readStudioGroupMetrics } from "./groupMetricsProjection.js";
 import { readStudioRunOutcome } from "./runOutcomeProjection.js";
+import { readStudioAttention } from "./attentionProjection.js";
 
 /** 只读投影：服务快照与时间线由此组装，不写入任何记录。 */
 export function studioKernelConfig(
@@ -34,6 +35,7 @@ export function studioKernelConfigs(
 
 export function readStudioOverview(db: StudioRepository): StudioOverview {
   return {
+    attention: readStudioAttention(db),
     revision: db.revision(),
     configs: studioKernelConfigs(db),
     conversations: db.list("conversation", { all: true }),
@@ -52,13 +54,20 @@ export function readStudioTimeline(
   now: number,
   targetId: string,
   before?: number,
+  focusRunId?: string,
 ): StudioTimeline {
   const messages = db
     .list<StudioMessage>("message", { scope: targetId, limit: 500, before })
     .reverse();
   const history = studioRunHistory(db, targetId);
+  const focused = focusRunId
+    ? db.read<import("./storePort.js").StoredRun>("run", focusRunId)
+    : undefined;
+  if (focusRunId && (!focused || focused.targetId !== targetId))
+    throw new Error("此运行不属于目标会话");
+  if (focused && !history.some((run) => run.id === focused.id)) history.push(focused);
   const turns = history
-    .slice(0, 10)
+    .filter((run, index) => index < 10 || run.id === focusRunId)
     .flatMap((run) => db.list<StudioTurnSnapshot>("turn", { scope: run.id, limit: 1000 }));
   const turnSteps = new Map(turns.map((turn) => [turn.id, turn.stepId]));
   const runs = history.map((run) => ({

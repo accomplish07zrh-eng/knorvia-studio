@@ -1,3 +1,4 @@
+import { useStudioRunFocus } from "../runtime/studioRunFocus.js";
 import { WorkflowCanvasControls } from "./WorkflowCanvasControls.js";
 import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import {
@@ -70,6 +71,7 @@ function EditorCanvas({
   const t = useWorkflowText();
   const store = useStudioWorkflowStore();
   const execution = useWorkflowExecution(workflow);
+  const focusRunId = useStudioRunFocus(workflow.id);
   const flow = useReactFlow<StudioWorkflowNode>();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
@@ -81,8 +83,8 @@ function EditorCanvas({
   const editingDisabled = locked || execution.editingDisabled;
   const waiting = execution.timeline?.interactions.some((item) => item.status === "pending");
   useEffect(() => {
-    if (waiting) setRightPane("history");
-  }, [waiting]);
+    if (waiting || focusRunId) setRightPane("history");
+  }, [waiting, focusRunId]);
   const issues = useMemo(() => validateWorkflowGraph(workflow), [workflow]);
   const selectedNode = workflow.nodes.find((node) => node.id === selectedId);
   const selectedEdge = workflow.edges.find((edge) => edge.id === selectedEdgeId);

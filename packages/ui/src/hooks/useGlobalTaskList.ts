@@ -18,7 +18,12 @@ type GlobalTaskListItem = WindowHostControllerTaskListItem;
 const subscribeToNothing = () => () => {};
 const zeroRevision = () => 0;
 
-function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]): KnorviaTaskListWorkspaceScope[] {
+function buildWorkspaceScopes(
+  workspaceTabs: Pick<
+    WorkspaceTabState,
+    "workspacePath" | "workspaceIdentity" | "remoteSessionId"
+  >[],
+): KnorviaTaskListWorkspaceScope[] {
   const scopes = new Map<string, KnorviaTaskListWorkspaceScope>();
   for (const tab of workspaceTabs) {
     const scope = {
@@ -35,7 +40,10 @@ function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]): KnorviaTaskLi
 
 export function useGlobalTaskList(params: {
   kind: KnorviaTaskListKind;
-  workspaceTabs: WorkspaceTabState[];
+  workspaceTabs: Pick<
+    WorkspaceTabState,
+    "workspacePath" | "workspaceIdentity" | "remoteSessionId"
+  >[];
   sortBy: "created" | "updated";
   searchQuery: string;
   expanded: boolean;
@@ -107,6 +115,10 @@ export function useGlobalTaskList(params: {
   const [total, setTotal] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(workspaceScopes.length > 0);
+  const [error, setError] = useState("");
+  const acceptedSource = useRef<{ controller: typeof controller; signature: string } | null>(null);
+  const latestController = useRef(controller);
+  latestController.current = controller;
   const requestSerialRef = useRef(0);
   const manualRefreshSerialRef = useRef(0);
 
@@ -138,24 +150,28 @@ export function useGlobalTaskList(params: {
         setTotal(0);
         setHasMore(false);
         setLoading(false);
+        setError("");
         return;
       }
       if (!controllerRegistry) {
         // 原子切换后 base attachment 必须提供 Controller；缺失代表 Host/Renderer 版本不一致。
         logger.error("[useGlobalTaskList] window Host Controller channel unavailable");
+        setError("window Host Controller channel unavailable");
         setLoading(false);
         return;
       }
       setLoading(true);
+      setError("");
       try {
         const result = await controllerRegistry.list(queryKey, version, query);
-        if (requestSerialRef.current !== requestSerial) {
+        if (requestSerialRef.current !== requestSerial || latestController.current !== controller) {
           return;
         }
         // Controller 的每个 activity 帧（运行中任务的 tool 调用等）都会让本 hook 重查，
         // 而 attachTaskListRowActivity 与 tasks-index join 每次都产生全新对象。下游（grouped 视图）
         // 只能按引用判等，于是整棵列表树换代重渲染并重测量虚拟器。这里与 sessions-index lane 同款
         // 逐条引用稳定化：内容等价复用旧对象，整表等价复用旧数组。
+        acceptedSource.current = { controller, signature: workspaceSourceGenerationSignature };
         const nextItems = stabilizeTaskListItems(
           itemsRef.current,
           result.items.map((item) =>
@@ -167,17 +183,26 @@ export function useGlobalTaskList(params: {
         setTotal(result.total);
         setHasMore(result.hasMore);
       } catch (error) {
-        if (requestSerialRef.current === requestSerial) {
+        if (requestSerialRef.current === requestSerial && latestController.current === controller) {
           // Controller 查询失败时保留最后可信列表，避免单 source 异常清空其他 workspace。
           logger.error(`[useGlobalTaskList] Controller 加载 ${params.kind} 列表失败`, error);
+          setError(error instanceof Error ? error.message : String(error));
         }
       } finally {
-        if (requestSerialRef.current === requestSerial) {
+        if (requestSerialRef.current === requestSerial && latestController.current === controller) {
           setLoading(false);
         }
       }
     },
-    [controllerRegistry, params.kind, query, queryKey, workspaceScopes],
+    [
+      controller,
+      controllerRegistry,
+      params.kind,
+      query,
+      queryKey,
+      workspaceScopes,
+      workspaceSourceGenerationSignature,
+    ],
   );
 
   const refresh = useCallback(async () => {
@@ -201,12 +226,17 @@ export function useGlobalTaskList(params: {
     });
   }, [controllerRevision, load, taskListVersionSignature, workspaceSourceGenerationSignature]);
 
+  // 相同路径不代表同一 Host 代际；旧连接的列表不可作为新连接的可操作目标。
+  const currentSource =
+    acceptedSource.current?.controller === controller &&
+    acceptedSource.current?.signature === workspaceSourceGenerationSignature;
   const hasRemoteScope = params.workspaceTabs.some((tab) => Boolean(tab.workspaceIdentity));
   return {
-    items,
-    total,
-    hasMore,
+    items: currentSource ? items : [],
+    total: currentSource ? total : 0,
+    hasMore: currentSource ? hasMore : false,
     loading,
+    error,
     syncingRemoteWorkspaces: loading && hasRemoteScope,
     refresh,
   };

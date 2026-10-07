@@ -98,10 +98,11 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     return readStudioOverview(this.deps.db);
   }
 
-  async timeline(targetId: string, before?: number): Promise<StudioTimeline> {
+  async timeline(targetId: string, before?: number, focusRunId?: string): Promise<StudioTimeline> {
     this.lifecycle.assertOpen();
     validStudioId(targetId);
-    return readStudioTimeline(this.deps.db, this.deps.clock.now(), targetId, before);
+    if (focusRunId) validStudioId(focusRunId);
+    return readStudioTimeline(this.deps.db, this.deps.clock.now(), targetId, before, focusRunId);
   }
 
   async command(command: StudioCommand): Promise<StudioCommandResult> {

@@ -1,5 +1,7 @@
 # Studio runtime
 
+`StudioOverview.attention` derives pending interactions and terminal events across all persisted history. `attention-read` admits a version-bound read receipt through the existing command transaction; it never answers, dispatches, resumes or cancels a task. Duplicate facts share one version, later attempts remain unread, and missing/retired targets retain historical identity. Native Knorvia unread remains with its V4 task-index owner. See `specs/knorvia-studio-attention-inbox.md`.
+
 `workspaceRuntime` queries or explicitly controls a runtime belonging to an existing run/step workspace. The app owner admits approved argv, persists token-fenced lifecycle facts, and delegates process/port IO to the Node adapter. Commands, environment and process output are never persisted. Recover verifies process birth identity before cleanup; failures retain truthful failed/interrupted/cleanup-required states. See `specs/knorvia-workspace-runtime.md`.
 
 Host owns accepted external conversations, groups and workflow runs. SQLite transactions admit idempotent commands; one fenced executor lease drives native calls. Renderers consume revisioned projections and never own an accepted run queue. Native Knorvia single chat retains its existing V4 owner.

@@ -131,7 +131,7 @@ export function syncTaskUnreadFromStatusWorkspaceEvent(params: {
   // V4 侧栏已经只消费 task query row 的 unreadAt，旧 Zustand
   // taskUnreadByTaskId 不再驱动 TaskListItem。后台终态必须先按精确 entity key 写
   // field overlay；即使新 task 的 row 还没 publish，后续 query 也会合并这份 overlay。
-  setTaskQueryCacheUnreadOverlay(targetTask, optimisticUnreadAt);
+  const token = setTaskQueryCacheUnreadOverlay(targetTask, optimisticUnreadAt);
   // 兼容 Dock badge 的迁移期投影；侧栏蓝点的事实源仍只有 query row unreadAt。
   store.setTaskUnreadIndicator(event.workspacePath, taskId, true, event.workspaceIdentity);
   void service
@@ -143,13 +143,13 @@ export function syncTaskUnreadFromStatusWorkspaceEvent(params: {
       // 服务端先更新 tasks-index 再回包；只对账 unreadAt 字段，禁止整份 meta
       // 覆盖 sessions-index activity，避免后台完成或未读写入改变 Updated 排序。
       const committedUnreadAt = meta.unreadAt ?? optimisticUnreadAt;
-      reconcileTaskQueryCacheUnread(targetTask, committedUnreadAt);
+      if (!reconcileTaskQueryCacheUnread(targetTask, committedUnreadAt, token)) return;
       store.setTaskUnreadIndicator(event.workspacePath, taskId, true, event.workspaceIdentity);
     })
     .catch((error: unknown) => {
       // 持久化失败时不能留下 renderer-only 假未读。恢复提交前字段，
       // 再标脏精确 workspace，让下一轮 membership join 回到 tasks-index 事实。
-      rollbackTaskQueryCacheUnread(targetTask, previousUnreadAt);
+      if (!rollbackTaskQueryCacheUnread(targetTask, previousUnreadAt, token)) return;
       store.setTaskUnreadIndicator(
         event.workspacePath,
         taskId,

@@ -8,6 +8,9 @@ export interface StudioRoute {
   externalSessionId: string;
   groupId: string | null;
   chatMode: "single" | "groups";
+  focusTargetId?: string;
+  focusRunId?: string;
+  workflowId?: string;
 }
 
 interface NavigationState {
@@ -76,7 +79,15 @@ export function useStudioNavigation(onCreateNativeTask: () => void) {
   const showTask = useCallback(
     () =>
       navigate(
-        { view: "chat", kernelId: "knorvia", chatMode: "single", externalSessionId: "" },
+        {
+          view: "chat",
+          kernelId: "knorvia",
+          chatMode: "single",
+          externalSessionId: "",
+          focusTargetId: undefined,
+          focusRunId: undefined,
+          workflowId: undefined,
+        },
         true,
       ),
     [navigate],
@@ -88,18 +99,33 @@ export function useStudioNavigation(onCreateNativeTask: () => void) {
         chatMode: "single",
         view: kernelId === "knorvia" ? "chat" : "external-chat",
         externalSessionId: kernelId === "knorvia" ? "" : crypto.randomUUID(),
+        focusTargetId: undefined,
+        focusRunId: undefined,
+        workflowId: undefined,
       }),
     [navigate],
   );
   const selectGroup = useCallback(
-    (groupId: string | null) => navigate({ view: "groups", chatMode: "groups", groupId }),
+    (groupId: string | null) =>
+      navigate({
+        view: "groups",
+        chatMode: "groups",
+        groupId,
+        focusTargetId: undefined,
+        focusRunId: undefined,
+      }),
     [navigate],
   );
   const openKernel = useCallback(
     (kernelId: StudioKernelId) => {
       // 工具栏重复点击当前内核只返回原会话，避免每次离开设置或工作流都生成空草稿。
       if (kernelId === route.kernelId) {
-        navigate({ view: kernelId === "knorvia" ? "chat" : "external-chat", chatMode: "single" });
+        navigate({
+          view: kernelId === "knorvia" ? "chat" : "external-chat",
+          chatMode: "single",
+          focusTargetId: undefined,
+          focusRunId: undefined,
+        });
         return;
       }
       if (kernelId === "knorvia") onCreateNativeTask();
