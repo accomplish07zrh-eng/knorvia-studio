@@ -110,6 +110,10 @@ try {
   const editor = page.getByRole("textbox", { name: "Inline comment", exact: true });
   await editor.waitFor();
   await editor.fill("Please correct this exact line.");
+  await editor.fill("x".repeat(1001));
+  await page.getByRole("alert").filter({ hasText: "1,000" }).waitFor();
+  assert.equal(await editor.inputValue(), "Please correct this exact line.");
+  await editor.fill("Please correct this exact line.");
   await page.reload();
   await expand();
   await editor.waitFor();

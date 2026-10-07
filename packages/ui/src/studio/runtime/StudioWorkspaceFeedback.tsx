@@ -89,7 +89,6 @@ export function StudioWorkspaceFeedback({
       <Textarea
         aria-label={zh ? "行内批注" : "Inline comment"}
         className="mt-2"
-        maxLength={1000}
         disabled={state.busy || Boolean(state.cacheBlocked)}
         value={state.edits[comment.id]?.body ?? comment.body}
         onChange={(event) => controller.edit(comment.id, event.target.value)}

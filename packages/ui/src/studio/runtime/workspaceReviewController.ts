@@ -10,6 +10,8 @@ import type {
 import { UiAsyncActionGate } from "../agents/uiAsyncActionGate.js";
 import { readReviewEdits, writeReviewEdits, type ReviewEdit } from "./workspaceReviewEditCache.js";
 
+const commentLimitError = "批注最多 1,000 字符 / Comments may contain at most 1,000 characters";
+
 interface Snapshot {
   draft?: StudioReviewDraft;
   edits: Record<string, ReviewEdit>;
@@ -148,13 +150,22 @@ export class WorkspaceReviewController {
   };
   edit = (id: string, body: string) => {
     const draft = this.value.draft;
-    if (!draft || this.value.busy || this.value.cacheBlocked || body.length > 1000) return;
+    if (!draft || this.value.busy || this.value.cacheBlocked) return;
+    // 浏览器 maxlength 会静默截断长粘贴；由编辑 owner 明确拒绝并保留此前正文。
+    if (body.length > 1000) {
+      this.set({ error: commentLimitError });
+      return;
+    }
     const edits = {
       ...this.value.edits,
       [id]: { ...this.value.edits[id], body: sanitizeHandoffText(body) },
     };
     const cacheError = this.persist(draft, edits);
-    this.set({ edits, cacheError });
+    this.set({
+      edits,
+      cacheError,
+      error: this.value.error === commentLimitError ? undefined : this.value.error,
+    });
   };
   private async flush(explicitSave = false) {
     if (this.reloadRequired)
