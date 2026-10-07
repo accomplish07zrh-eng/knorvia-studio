@@ -55,6 +55,12 @@
 
 ## 代表性验收与证据门槛
 
+### 同一 Host 的批注与待办组合 gate
+
+整合树同时保留 `workspace-review` 专属受理所有者与 `attention-read` 原命令事务；历史聚焦窗口继续使用收件箱抽出的 focus helper，批注/应用控件使用批注任务的原实现，公共方法保持 12 个。整合补充一个 typed preview-confirmed review example，与已有 attention-read example 一起展示用户可见能力，不另设 RPC 或状态写入者。
+
+独立组合验收通过公共 Runtime 调用保存/预览/确认批注，并实际派发原成员/native session/物理工作区。完成/失败必须出现在同一 Host 的待办中，稳定回执不能再派发；显式已读、重复/迟到已读只影响所见版本，完整历史聚焦和持久重开仍保留草稿与回执。受控原内核在反馈执行中提出真实审批时，读待办必须保留 waiting/pending 且不得唤醒；只有既有 answer 才能继续执行。磁盘源文件不被隐式应用，公共运行投影不泄露私有 feedback binding/config。该夹具证明协议与持久状态次序，不宣称真实 provider 或安装 GUI。
+
 ### 整合任务的独立读取回包交互 gate
 
 整合任务将在真实 React DOM 中挂载现有 `useWorkspaceTaskNavigation`，点击触发真实 query cache 路径；仅替换服务/会话/tab 等外部 ports，用合成任务和受控 Promise 分别保留成功/失败回包。该辅助 gate 不修改共用生产文件，不预设接手任务的操作 token 字段。jsdom 为 `/tmp` 中的验收依赖，不加入产品依赖或发布包。

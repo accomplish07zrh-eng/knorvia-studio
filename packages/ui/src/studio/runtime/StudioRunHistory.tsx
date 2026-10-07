@@ -13,8 +13,8 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioRuntime } from "./useStudioRuntime.js";
 import { studioRunStepLabel } from "./studioRunStepLabel.js";
 import { StudioRunHistoryActions, studioReviewApplying } from "./studioRunHistoryActions.js";
-
-import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
+import { StudioWorkspaceApplyControls } from "./StudioWorkspaceApplyControls.js";
+import { StudioWorkspaceFeedback } from "./StudioWorkspaceFeedback.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
 import { StudioWorkspaceRuntimeCard } from "./StudioWorkspaceRuntimeCard.js";
 import { studioFocusedHistoryWindow, useStudioRunHistoryFocus } from "./studioRunHistoryFocus.js";
@@ -27,6 +27,7 @@ export function StudioRunHistory({
   compact?: boolean;
 }) {
   const runtime = useStudioRuntime(targetId);
+  const [reviewPersistenceRisk, setReviewPersistenceRisk] = useState(false);
   const { intl, locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
   const confirm = useConfirmDialog();
@@ -260,7 +261,7 @@ export function StudioRunHistory({
       <Dialog
         open={Boolean(review)}
         onOpenChange={(open) => {
-          if (!open) actions.closeReview();
+          if (!open && !reviewPersistenceRisk) actions.closeReview();
         }}
       >
         <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
@@ -309,91 +310,63 @@ export function StudioRunHistory({
               {zh ? "没有文件修改" : "No changed files"}
             </p>
           )}
-          {reviewChanges.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={review!.loading || Boolean(review!.applying)}
-                onClick={() =>
-                  actions.setReviewSelection(studioReviewApplicablePaths(reviewChanges))
-                }
-              >
-                {intl.formatMessage({ id: "studio.delivery.selectAll" })}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={!review!.selected.length || Boolean(review!.applying)}
-                onClick={() => actions.setReviewSelection([])}
-              >
-                {intl.formatMessage({ id: "studio.delivery.clearSelection" })}
-              </Button>
-              <span className="text-ui-sm text-foreground-subtle">
-                {intl.formatMessage(
-                  { id: "studio.delivery.selectedCount" },
-                  { count: review!.selected.length },
-                )}
-              </span>
-              <Button
-                size="sm"
-                disabled={!review!.selected.length || review!.loading || Boolean(review!.applying)}
-                onClick={() =>
-                  void actions.applyReviewSelection(
-                    async (paths) => {
-                      await runtime.service!.applyWorkspaceChanges({
-                        runId: review!.run.id,
-                        stepId: review!.stepId,
-                        paths,
-                      });
-                    },
-                    () =>
-                      runtime.service!.workspaceChanges({
-                        runId: review!.run.id,
-                        stepId: review!.stepId,
-                      }),
-                  )
-                }
-              >
-                {intl.formatMessage(
-                  { id: "studio.delivery.batchApply" },
-                  { count: review!.selected.length },
-                )}
-              </Button>
-            </div>
+          {review && runtime.service && reviewChanges.length > 0 && (
+            <StudioWorkspaceApplyControls
+              service={runtime.service}
+              review={review}
+              actions={actions}
+            />
           )}
           {restartState && (
             <p role="status" className="text-ui-sm text-foreground-subtle">
               {intl.formatMessage({ id: `studio.delivery.restart.${restartState}` })}
             </p>
           )}
-          {review?.changes?.map((change) => (
-            <StudioWorkspaceReviewCard
-              key={change.path}
-              change={change}
+          {review && runtime.service && (
+            <StudioWorkspaceFeedback
+              service={runtime.service}
+              changes={review.changes}
+              observedDraft={runtime.timeline?.reviewDrafts?.find(
+                (draft) => draft.runId === review.run.id && draft.stepId === review.stepId,
+              )}
+              targetId={targetId}
+              runId={review.run.id}
+              stepId={review.stepId}
               zh={zh}
-              busy={review.loading || Boolean(review.applying)}
-              applying={studioReviewApplying(review, change.path)}
-              selected={review.selected.includes(change.path)}
-              onToggle={() => actions.toggleReviewSelection(change.path)}
-              onApply={() =>
-                void actions.applyReview(
-                  change.path,
-                  () =>
-                    runtime.service!.applyWorkspaceChanges({
-                      runId: review.run.id,
-                      stepId: review.stepId,
-                      paths: [change.path],
-                    }),
-                  () =>
-                    runtime.service!.workspaceChanges({
-                      runId: review.run.id,
-                      stepId: review.stepId,
-                    }),
-                )
+              onPersistenceRisk={setReviewPersistenceRisk}
+            >
+              {(feedback) =>
+                review.changes?.map((change) => (
+                  <StudioWorkspaceReviewCard
+                    key={change.path}
+                    change={change}
+                    feedback={feedback}
+                    zh={zh}
+                    busy={review.loading || Boolean(review.applying)}
+                    applying={studioReviewApplying(review, change.path)}
+                    selected={review.selected.includes(change.path)}
+                    onToggle={() => actions.toggleReviewSelection(change.path)}
+                    onApply={() =>
+                      void actions.applyReview(
+                        change.path,
+                        () =>
+                          runtime.service!.applyWorkspaceChanges({
+                            runId: review.run.id,
+                            stepId: review.stepId,
+                            paths: [change.path],
+                          }),
+                        () =>
+                          runtime.service!.workspaceChanges({
+                            runId: review.run.id,
+                            stepId: review.stepId,
+                          }),
+                      )
+                    }
+                  />
+                ))
               }
-            />
-          ))}
+            </StudioWorkspaceFeedback>
+          )}
         </DialogContent>
       </Dialog>
     </div>

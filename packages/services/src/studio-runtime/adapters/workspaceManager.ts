@@ -86,11 +86,23 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
           if (hash(beforeData) !== baselineHash)
             throw new Error(`Isolation baseline was modified: ${path}`);
           const afterData = await readSafeFile(location.working, path);
+          // 扫描与重读之间文件可能被修改；不把不一致文本绑定到旧哈希。
+          if (hash(afterData) !== isolatedHash)
+            throw new Error(`Isolation file changed while reading: ${path}`);
           const current = await readSafeFile(metadata.sourcePath, path);
           const before = preview(beforeData);
           const after = preview(afterData);
           result.push({
             path,
+            ...(!before.binary && !after.binary
+              ? {
+                  version: {
+                    beforeHash: baselineHash,
+                    afterHash: isolatedHash,
+                    sourceHash: hash(current),
+                  },
+                }
+              : {}),
             kind: baselineHash === null ? "added" : isolatedHash === null ? "deleted" : "modified",
             before: before.text,
             after: after.text,

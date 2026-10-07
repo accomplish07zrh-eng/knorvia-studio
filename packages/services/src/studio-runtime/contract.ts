@@ -22,6 +22,7 @@ export * from "./kernelTypes.js";
 export * from "./workflowTypes.js";
 export * from "./types.js";
 export * from "./workspaceRuntimeTypes.js";
+export * from "./workspaceReviewTypes.js";
 export * from "./agentToolTypes.js";
 export * from "./attentionTypes.js";
 export * from "./domain/outputRef.js";
@@ -42,6 +43,7 @@ export { studioRestartDisplay, STUDIO_ACCEPTANCE_KIND } from "./app/runOutcomePr
 export type { StudioRestartInput } from "./app/runOutcomeProjection.js";
 
 export type StudioCommand = { commandId: string } & (
+  | import("./workspaceReviewTypes.js").StudioReviewCommand
   | { type: "configure"; kernel: StudioKernelId; config: StudioKernelConfig }
   | { type: "create-conversation"; id: string; kernel: StudioKernelId; workspacePath: string }
   | {
@@ -79,6 +81,7 @@ export type StudioCommand = { commandId: string } & (
   | { type: "attention-read"; object: "run" | "interaction"; id: string; version: string }
 );
 export interface StudioCommandResult {
+  reviewDraft?: import("./workspaceReviewTypes.js").StudioReviewDraft;
   id: string;
   revision: number;
 }
