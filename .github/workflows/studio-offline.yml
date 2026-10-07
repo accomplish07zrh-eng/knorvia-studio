@@ -50,14 +50,18 @@ jobs:
               stderr:result.stderr.slice(0,1200)});
           }
           try {
-            await query('simple-startup',selected,"[Console]::WriteLine('probe')",10000);
-            await query('all-process-completion-duration',selected,command,10000);
-            const filtered=`Get-CimInstance Win32_Process -Filter "ProcessId = ${child.pid} OR ParentProcessId = ${child.pid}" | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }`;
-            await query('root-filtered-existing-budget',selected,filtered,2500);
-            await query('root-filtered-completion-duration',selected,filtered,10000);
+            const moduleEnv={...selected,PSModulePath:selected.SystemRoot+'\\System32\\WindowsPowerShell\\v1.0\\Modules'};
+            const osEnv={...moduleEnv};
+            const safeNames=['SystemDrive','ProgramFiles','ProgramFiles(x86)','ProgramW6432','ProgramData','COMPUTERNAME','OS','PROCESSOR_ARCHITECTURE','PROCESSOR_IDENTIFIER','NUMBER_OF_PROCESSORS','USERNAME','USERDOMAIN','USERDOMAIN_ROAMINGPROFILE','CommonProgramFiles','CommonProgramFiles(x86)','CommonProgramW6432','ALLUSERSPROFILE','PUBLIC'];
+            for(const name of safeNames){const key=Object.keys(process.env).find(key=>key.toUpperCase()===name.toUpperCase());if(key&&process.env[key])osEnv[name]=process.env[key]}
+            const filtered=`Get-CimInstance Win32_Process -Filter "ProcessId = ${child.pid}" | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }`;
+            await query('trusted-module-path',moduleEnv,filtered,10000);
+            await query('explicit-os-runtime-and-identity',osEnv,filtered,10000);
+            await query('module-discovery-selected',selected,"Get-Command Get-CimInstance | ForEach-Object { $_.Name }",10000);
+            await query('module-discovery-trusted',moduleEnv,"Get-Command Get-CimInstance | ForEach-Object { $_.Name }",10000);
+            await query('direct-dotnet-start-time',selected,`[Console]::WriteLine([System.Diagnostics.Process]::GetProcessById(${child.pid}).StartTime.ToUniversalTime().Ticks)`,10000);
             const portCommand=`Get-NetTCPConnection -State Listen -LocalAddress 127.0.0.1 -LocalPort ${port} -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess`;
-            await query('port-existing-budget',selected,portCommand,1500);
-            await query('port-completion-duration',selected,portCommand,10000);
+            await query('port-trusted-os-environment',osEnv,portCommand,10000);
                     } finally {
             child.kill();
             if(child.exitCode===null)await new Promise(resolve=>child.once('exit',resolve));

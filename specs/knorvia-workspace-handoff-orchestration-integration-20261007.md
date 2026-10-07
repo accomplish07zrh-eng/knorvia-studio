@@ -327,3 +327,9 @@ zero rows under both selected and explicitly extended safe OS environments.
 A final small probe measures successful query duration, root-filtered CIM at the
 existing budget, and attribution of its own loopback listener. It distinguishes
 whole-table cost from startup and port module cost before changing production.
+
+The third probe shows simple PowerShell completes in 1.8 seconds, while full and
+filtered CIM plus NetTCP stall beyond ten seconds with no stdout/stderr. A
+module/OS initialization probe may compare derived trusted system module paths
+and explicit OS identity/runtime names without copying ambient module paths or
+credential variables. Raising production timeouts is not justified by this result.
