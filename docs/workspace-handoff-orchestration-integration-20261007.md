@@ -45,13 +45,29 @@ persistent environment; terminal command results are recorded here when known.
 | Product icon check                                  | 0; master and 35 generated assets verified                                                              |
 | `build:cli-packages`                                | 0; 17/17 build tasks successful; existing dynamic-import and Turbo output warnings retained             |
 | `typecheck` including i18n parity                   | 0; 5,497 matching localization keys verified                                                            |
-| `test:studio`                                       | Running; launcher discovered 807 offline test files                                                     |
+| `test:studio`                                       | 0; 807 files, 8,315 tests: 8,307 passed, zero failed/cancelled, eight skipped; 566.2 seconds            |
 
 Initial provenance inspection preceded the new prose files. Regeneration and
 checking after the two prose additions both returned 0 (16,333 files, zero review
 problems). Existing material obligations remain reported rather than being
 reclassified or removed. No architecture baseline or frozen evidence was
 refreshed. The final report edit is also fingerprinted before its commit.
+
+The eight test skips are explicit baseline conditions: seven require Windows
+(including five PowerShell portable-delivery cases, one bootstrap-driver case
+and one Windows workspace-path alias case); one optional historical Claude leaf
+differential case requires an external old-source root that is not supplied.
+These skips are recorded as skips. Windows CI must provide its own real result;
+Linux passing does not establish those platform-specific checks.
+
+The initial draft is [PR #41](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/41),
+branch `codex/integration-release-20261007`. Its initial documentation commit was
+`a0f4cf34bf77f1724c40099d794cf4b203a0fd6e`. Initial
+[PR CI run 37577218779](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37577218779)
+reached offline regression on both Linux and Windows; its terminal result was
+not yet available when this baseline report was finalized. Later documentation
+commits and feature integration require checks on their actual final source;
+no pending or cancelled run is represented as passed.
 
 ## Coordination and remaining gates
 

@@ -175,7 +175,10 @@ pure helper assertion does not establish interactive GUI acceptance.
    `pnpm lint`, `pnpm typecheck`, full `pnpm architecture:check`,
    `pnpm build:cli-packages`, `pnpm test:studio`, and required icon/evidence gates.
    Baseline failures are recorded honestly; they do not waive final gates.
-4. Keep exact-head PR CI successful on Linux and Windows. Update provenance
+4. Keep PR CI successful on Linux and Windows and record each job's actual
+   checked SHA. GitHub pull-request checks may inspect a synthetic merge commit;
+   use branch workflow dispatch or main push to establish the final exact-head
+   checks, then bind release quality to that full source SHA. Update provenance
    only after reviewing current changes; never refresh the architecture baseline
    to hide violations or alter frozen source evidence.
 5. Select an unused stable semver immediately before versioning. `0.9.0` is the
