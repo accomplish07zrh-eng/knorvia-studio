@@ -487,3 +487,30 @@ test("independent Hosts with the same business IDs keep distinct project-bound d
     "second project",
   );
 });
+
+test("legacy turn fallback requires an actual nonempty native session ID", async (t) => {
+  for (const nativeSessionId of [undefined, ""]) {
+    const f = await fixture(t);
+    f.db.transaction(() => {
+      const turn = f.db.read<Record<string, unknown>>("turn", "turn")!;
+      delete turn.nativeSessionId;
+      f.db.write("turn", "turn", turn, "original");
+      f.db.write("session", `group:review:codex:${f.working}`, {
+        id: `group:review:codex:${f.working}`,
+        workspacePath: f.working,
+        nativeSessionId,
+      });
+    });
+    await assert.rejects(f.save(), /原会话/);
+    assert.equal(f.calls.length, 0);
+    assert.equal(f.db.list("workspace-review-draft").length, 0);
+    f.db.transaction(() =>
+      f.db.write("session", `group:review:codex:${f.working}`, {
+        id: `group:review:codex:${f.working}`,
+        workspacePath: f.working,
+        nativeSessionId: "native-original",
+      }),
+    );
+    assert.equal((await f.save()).reviewDraft?.kernel, "codex");
+  }
+});

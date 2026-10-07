@@ -62,8 +62,11 @@ export function workspaceReviewBinding(
   }
   const sessionKey = `${turn.conversationId}:${turn.workspacePath}`;
   const session = db.read<StoredSession>("session", sessionKey);
+  // 旧索引行存在不代表有原生身份；空 ID 会令 adapter 新建会话，必须在回传前拒绝。
   if (
     !session ||
+    typeof session.nativeSessionId !== "string" ||
+    !session.nativeSessionId.trim() ||
     session.workspacePath !== workspace.path ||
     (turn.nativeSessionId && session.nativeSessionId !== turn.nativeSessionId)
   )
