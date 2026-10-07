@@ -180,7 +180,9 @@ isolated workspace, and explicitly approves setup and a loopback service after
 the parent and child finish. Real readiness and owned cleanup are required.
 Synthetic environment sentinels must be absent in both setup and service
 children and their saved reports; captured credential metadata never becomes a
-handoff or completion payload. A SQLite reopen must preserve the ACK and exactly
+handoff or completion payload. The same selected environment must also reach
+process-inspection and termination helpers used for proof, stop and recovery;
+global environment mutation is prohibited. A SQLite reopen must preserve the ACK and exactly
 one timeline notification without dispatching another provider turn. No real
 model, account login or human installed-GUI acceptance is implied by this test.
 

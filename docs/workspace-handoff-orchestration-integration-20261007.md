@@ -157,6 +157,20 @@ files exit 0: 17 passed, zero failed/cancelled/skipped. Setup descendants and
 service launches are covered. Recovery only inspects and cleans proved process
 identities; it does not replay the setup or service command.
 
+The expanded lifecycle audit finds a remaining environment gap in shared helpers:
+POSIX `processTreeSnapshot.ts` launches `ps` without an environment; Windows
+inspection and taskkill do likewise. A probe from `env -i` installs a temporary
+`ps` observer that records only four synthetic presence booleans and then runs
+the real `/bin/ps` with unchanged arguments/results. Actual workspace
+spawn/proof/stop invokes it six times; all four keys reach each helper. The
+assertion exits 1. Owned processes and temporary files are cleaned up. Probe/log:
+`/tmp/knorvia-runtime-helper-env-review.mjs` and
+`/tmp/knorvia-runtime-helper-env-review.log`. This remaining workspace blocker is
+recorded on [PR42](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/42#issuecomment-6032181214).
+The selected environment must follow inspection, verification, group snapshots
+and termination during normal cleanup and recovery, without global environment
+mutation or unrelated provider behavior changes.
+
 [PR #43](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/43), initial
 head `01fc62aa54c2cd4636a3eda6d0e1a2d7e4e7aff2`, independently passes its three
 agent-focused files (15 tests) and five adjacent provider/native/recovery/shared
@@ -190,6 +204,7 @@ an empty agent catalog. Its assertion exits 1. Local probe/log:
 `/tmp/knorvia-agent-catalog-review.mjs`, `/tmp/knorvia-pr43-catalog-review.log`.
 The parent must route the correction to the orchestration owner and verify
 discovery through the existing owner without fixture-only status rows.
+The review is also recorded on [PR43](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/43#issuecomment-6032157352).
 
 The new integration scenario enters through `createStudioRuntimeService` and
 the actual external handoff create/send route. Its synthetic executable receives
@@ -205,6 +220,28 @@ does not use real accounts or make model requests.
 Final integration review/tests, exact-head CI, merged source/version and stable
 publication remain pending. No release/tag, mobile change, signing setup or live
 website deployment has occurred.
+
+### Stable-version preparation
+
+Remote tag lookup again finds no `v0.9.0`, and the public latest stable release
+remains `v0.8.8`. Root version `0.9.0`, a version-specific `CHANGELOG.md` and
+matching installation filenames are prepared for this integrated feature release.
+This is still an unpublished candidate and not a tag reservation. Independent
+CLI package versions and historical evidence are unchanged.
+
+The version edit makes the third-party audit's package input hash stale. A
+reviewed assertion verifies `package.json` differs only in its version, then
+rebinds only that input's normalized hash in `third-party/inventory.json`.
+Dependency declarations, all notice bytes and the existing material obligations
+remain unchanged; provenance is regenerated against the reviewed tree. The
+architecture baseline and frozen evidence are not updated.
+
+The combined CLI build exits 0 (17/17 tasks), and all 32 targeted release tests
+again pass with zero skips. Full final source checks remain pending on correction
+of the production catalog defect and lifecycle helper environment gap. A targeted
+upgrade/runtime/profile/recovery run exits 0: 26 passed, zero failed/cancelled,
+five Windows-only portable delivery conditions skipped (31 tests total). This
+does not replace the final Windows CI or full suite.
 
 No installed human GUI, real model-task, signing or full legacy-user migration
 acceptance is claimed by this baseline investigation.
