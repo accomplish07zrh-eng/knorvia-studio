@@ -22,11 +22,19 @@ interface TaskListMembershipState {
   archived: boolean;
 }
 
+/** Opaque operation identity: even a second identical clear has a different token. */
+export interface TaskUnreadMutationToken {
+  readonly entityKey: TaskEntityKey;
+  readonly expectedUnreadAt: number | undefined;
+  readonly optimisticUnreadAt: number | undefined;
+}
+
 interface TaskQueryCacheState {
   resultsByQueryKey: Record<TaskListCacheKey, CachedTaskListResult>;
   taskMetaByEntityKey: Record<TaskEntityKey, CachedTaskListItem>;
   /** 覆盖正在提交或等待 membership 确认的 unreadAt 字段；null 表示清除。 */
   taskUnreadOverlayByEntityKey: Record<TaskEntityKey, number | null>;
+  taskUnreadMutationsByEntityKey: Record<TaskEntityKey, TaskUnreadMutationToken>;
   setQueryResult: (params: {
     queryKey: TaskListCacheKey;
     descriptor: TaskListCacheDescriptor;
@@ -64,15 +72,18 @@ interface TaskQueryCacheState {
   setTaskUnreadOverlay: (
     task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
     unreadAt: number | undefined,
-  ) => void;
+    expectedUnreadAt?: number,
+  ) => TaskUnreadMutationToken;
   reconcileTaskUnread: (
     task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
     unreadAt: number | undefined,
-  ) => void;
+    token?: TaskUnreadMutationToken,
+  ) => boolean;
   rollbackTaskUnread: (
     task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
     unreadAt: number | undefined,
-  ) => void;
+    token?: TaskUnreadMutationToken,
+  ) => boolean;
   removeTask: (
     task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
   ) => boolean;
@@ -346,10 +357,60 @@ function preserveFreshLocalTaskKeys(params: {
   };
 }
 
+function currentTaskUnreadOverlay(
+  state: TaskQueryCacheState,
+  key: TaskEntityKey,
+  incoming?: number,
+  existingUnreadAt = state.taskMetaByEntityKey[key]?.unreadAt,
+  overlay = state.taskUnreadOverlayByEntityKey[key],
+) {
+  const token = state.taskUnreadMutationsByEntityKey[key];
+  if (!token) return overlay;
+  const newest = Math.max(incoming ?? -Infinity, existingUnreadAt ?? -Infinity);
+  // unreadAt 是 Host 单调水位；所见水位之后的新权威事件不能被旧乐观清除覆盖。
+  const seen = Math.max(token.expectedUnreadAt ?? -Infinity, token.optimisticUnreadAt ?? -Infinity);
+  return newest > seen ? newest : overlay;
+}
+
+function finishTaskUnreadMutation(
+  state: TaskQueryCacheState,
+  task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
+  unreadAt: number | undefined,
+  token: TaskUnreadMutationToken | undefined,
+  rollback: boolean,
+  accepted: (value: boolean) => void,
+): Partial<TaskQueryCacheState> | TaskQueryCacheState {
+  const key = buildTaskEntityKey(task);
+  if (token && (token.entityKey !== key || state.taskUnreadMutationsByEntityKey[key] !== token))
+    return state;
+  const existing = state.taskMetaByEntityKey[key];
+  const current = existing?.unreadAt;
+  const newer =
+    token &&
+    typeof current === "number" &&
+    current !== token.optimisticUnreadAt &&
+    current > (token.expectedUnreadAt ?? -Infinity);
+  const nextUnreadAt = newer ? current : unreadAt;
+  const mutations = { ...state.taskUnreadMutationsByEntityKey };
+  delete mutations[key];
+  const overlays = { ...state.taskUnreadOverlayByEntityKey };
+  if (rollback && !newer) delete overlays[key];
+  else overlays[key] = nextUnreadAt ?? null;
+  accepted(!newer);
+  return {
+    taskUnreadMutationsByEntityKey: mutations,
+    taskUnreadOverlayByEntityKey: overlays,
+    taskMetaByEntityKey: existing
+      ? { ...state.taskMetaByEntityKey, [key]: { ...existing, unreadAt: nextUnreadAt } }
+      : state.taskMetaByEntityKey,
+  };
+}
+
 export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
   resultsByQueryKey: {},
   taskMetaByEntityKey: {},
   taskUnreadOverlayByEntityKey: {},
+  taskUnreadMutationsByEntityKey: {},
   setQueryResult: ({
     queryKey,
     descriptor,
@@ -379,11 +440,22 @@ export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
           searchSnippetListsByTaskKey[entityKey] = item.searchSnippets;
         }
         const existingItem = nextTaskMetaByEntityKey[entityKey];
+        const unreadAtOverlay = currentTaskUnreadOverlay(
+          state,
+          entityKey,
+          item.unreadAt,
+          existingItem?.unreadAt,
+          nextTaskUnreadOverlayByEntityKey[entityKey],
+        );
+        if (unreadAtOverlay !== nextTaskUnreadOverlayByEntityKey[entityKey]) {
+          if (unreadAtOverlay === undefined) delete nextTaskUnreadOverlayByEntityKey[entityKey];
+          else nextTaskUnreadOverlayByEntityKey[entityKey] = unreadAtOverlay;
+          taskUnreadOverlayChanged = true;
+        }
         const hasUnreadOverlay = Object.prototype.hasOwnProperty.call(
-          state.taskUnreadOverlayByEntityKey,
+          nextTaskUnreadOverlayByEntityKey,
           entityKey,
         );
-        const unreadAtOverlay = state.taskUnreadOverlayByEntityKey[entityKey];
         const mergedItem = mergeIncomingTaskListItem({
           item,
           existingItem,
@@ -508,11 +580,22 @@ export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
             searchSnippetListsByTaskKey[entityKey] = item.searchSnippets;
           }
           const existingItem = nextTaskMetaByEntityKey[entityKey];
+          const unreadAtOverlay = currentTaskUnreadOverlay(
+            state,
+            entityKey,
+            item.unreadAt,
+            existingItem?.unreadAt,
+            nextTaskUnreadOverlayByEntityKey[entityKey],
+          );
+          if (unreadAtOverlay !== nextTaskUnreadOverlayByEntityKey[entityKey]) {
+            if (unreadAtOverlay === undefined) delete nextTaskUnreadOverlayByEntityKey[entityKey];
+            else nextTaskUnreadOverlayByEntityKey[entityKey] = unreadAtOverlay;
+            taskUnreadOverlayChanged = true;
+          }
           const hasUnreadOverlay = Object.prototype.hasOwnProperty.call(
-            state.taskUnreadOverlayByEntityKey,
+            nextTaskUnreadOverlayByEntityKey,
             entityKey,
           );
-          const unreadAtOverlay = state.taskUnreadOverlayByEntityKey[entityKey];
           const mergedItem = mergeIncomingTaskListItem({
             item,
             existingItem,
@@ -748,67 +831,50 @@ export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
         taskMetaByEntityKey: nextTaskMetaByEntityKey,
       };
     }),
-  setTaskUnreadOverlay: (task, unreadAt) =>
+  setTaskUnreadOverlay: (task, unreadAt, expectedUnreadAt) => {
+    let token!: TaskUnreadMutationToken;
     set((state) => {
       const entityKey = buildTaskEntityKey(task);
       const existingTask = state.taskMetaByEntityKey[entityKey];
+      token = {
+        entityKey,
+        expectedUnreadAt: expectedUnreadAt ?? existingTask?.unreadAt,
+        optimisticUnreadAt: unreadAt,
+      };
       return {
+        taskUnreadMutationsByEntityKey: {
+          ...state.taskUnreadMutationsByEntityKey,
+          [entityKey]: token,
+        },
         taskUnreadOverlayByEntityKey: {
           ...state.taskUnreadOverlayByEntityKey,
           [entityKey]: unreadAt ?? null,
         },
         taskMetaByEntityKey: existingTask
-          ? {
-              ...state.taskMetaByEntityKey,
-              [entityKey]: {
-                ...existingTask,
-                unreadAt,
-              },
-            }
+          ? { ...state.taskMetaByEntityKey, [entityKey]: { ...existingTask, unreadAt } }
           : state.taskMetaByEntityKey,
       };
-    }),
-  reconcileTaskUnread: (task, unreadAt) =>
-    set((state) => {
-      const entityKey = buildTaskEntityKey(task);
-      const existingTask = state.taskMetaByEntityKey[entityKey];
-      // 服务端回包只确认 mutation 已持久化；旧 membership 请求仍可能稍后返回。
-      // 把 overlay 更新成服务端值，直到 setQueryResult 观察到同值后再自动释放。
-      return {
-        taskUnreadOverlayByEntityKey: {
-          ...state.taskUnreadOverlayByEntityKey,
-          [entityKey]: unreadAt ?? null,
-        },
-        taskMetaByEntityKey: existingTask
-          ? {
-              ...state.taskMetaByEntityKey,
-              [entityKey]: {
-                ...existingTask,
-                unreadAt,
-              },
-            }
-          : state.taskMetaByEntityKey,
-      };
-    }),
-  rollbackTaskUnread: (task, unreadAt) =>
-    set((state) => {
-      const entityKey = buildTaskEntityKey(task);
-      const existingTask = state.taskMetaByEntityKey[entityKey];
-      const nextOverlays = { ...state.taskUnreadOverlayByEntityKey };
-      delete nextOverlays[entityKey];
-      return {
-        taskUnreadOverlayByEntityKey: nextOverlays,
-        taskMetaByEntityKey: existingTask
-          ? {
-              ...state.taskMetaByEntityKey,
-              [entityKey]: {
-                ...existingTask,
-                unreadAt,
-              },
-            }
-          : state.taskMetaByEntityKey,
-      };
-    }),
+    });
+    return token;
+  },
+  reconcileTaskUnread: (task, unreadAt, token) => {
+    let accepted = false;
+    set((state) =>
+      finishTaskUnreadMutation(state, task, unreadAt, token, false, (value) => {
+        accepted = value;
+      }),
+    );
+    return accepted;
+  },
+  rollbackTaskUnread: (task, unreadAt, token) => {
+    let accepted = false;
+    set((state) =>
+      finishTaskUnreadMutation(state, task, unreadAt, token, true, (value) => {
+        accepted = value;
+      }),
+    );
+    return accepted;
+  },
   removeTask: (task) => {
     let removedFromVisibleCache = false;
     set((state) => {
@@ -853,6 +919,9 @@ export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
         resultsByQueryKey: nextResultsByQueryKey,
         taskMetaByEntityKey: nextTaskMetaByEntityKey,
         taskUnreadOverlayByEntityKey: nextTaskUnreadOverlayByEntityKey,
+        taskUnreadMutationsByEntityKey: Object.fromEntries(
+          Object.entries(state.taskUnreadMutationsByEntityKey).filter(([key]) => key !== entityKey),
+        ),
       };
     });
     return removedFromVisibleCache;
@@ -920,6 +989,16 @@ export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
       return {
         resultsByQueryKey: nextResultsByQueryKey,
         taskMetaByEntityKey: nextTaskMetaByEntityKey,
+        taskUnreadOverlayByEntityKey: Object.fromEntries(
+          Object.entries(state.taskUnreadOverlayByEntityKey).filter(
+            ([key]) => !invalidatedWorkspaceKeySet.has(key.split("::")[0] ?? ""),
+          ),
+        ),
+        taskUnreadMutationsByEntityKey: Object.fromEntries(
+          Object.entries(state.taskUnreadMutationsByEntityKey).filter(
+            ([key]) => !invalidatedWorkspaceKeySet.has(key.split("::")[0] ?? ""),
+          ),
+        ),
       };
     }),
   clearAll: () =>
@@ -929,6 +1008,7 @@ export const useTaskQueryCacheStore = create<TaskQueryCacheState>()((set) => ({
       resultsByQueryKey: {},
       taskMetaByEntityKey: {},
       taskUnreadOverlayByEntityKey: {},
+      taskUnreadMutationsByEntityKey: {},
     })),
 }));
 
@@ -972,22 +1052,42 @@ export function applyTaskQueryCacheMutation(params: {
 export function setTaskQueryCacheUnreadOverlay(
   task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
   unreadAt: number | undefined,
+  expectedUnreadAt?: number,
+): TaskUnreadMutationToken {
+  return useTaskQueryCacheStore.getState().setTaskUnreadOverlay(task, unreadAt, expectedUnreadAt);
+}
+
+/** Drop an obsolete connection's overlay without restoring facts from that Host. */
+export function discardTaskQueryCacheUnreadMutation(
+  task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
+  token: TaskUnreadMutationToken,
 ): void {
-  useTaskQueryCacheStore.getState().setTaskUnreadOverlay(task, unreadAt);
+  useTaskQueryCacheStore.setState((state) => {
+    const key = buildTaskEntityKey(task);
+    if (token.entityKey !== key || state.taskUnreadMutationsByEntityKey[key] !== token)
+      return state;
+    const mutations = { ...state.taskUnreadMutationsByEntityKey };
+    const overlays = { ...state.taskUnreadOverlayByEntityKey };
+    delete mutations[key];
+    delete overlays[key];
+    return { taskUnreadMutationsByEntityKey: mutations, taskUnreadOverlayByEntityKey: overlays };
+  });
 }
 
 export function reconcileTaskQueryCacheUnread(
   task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
   unreadAt: number | undefined,
-): void {
-  useTaskQueryCacheStore.getState().reconcileTaskUnread(task, unreadAt);
+  token?: TaskUnreadMutationToken,
+): boolean {
+  return useTaskQueryCacheStore.getState().reconcileTaskUnread(task, unreadAt, token);
 }
 
 export function rollbackTaskQueryCacheUnread(
   task: Pick<KnorviaTaskMeta, "taskId" | "workspacePath" | "workspaceIdentity">,
   unreadAt: number | undefined,
-): void {
-  useTaskQueryCacheStore.getState().rollbackTaskUnread(task, unreadAt);
+  token?: TaskUnreadMutationToken,
+): boolean {
+  return useTaskQueryCacheStore.getState().rollbackTaskUnread(task, unreadAt, token);
 }
 
 export function removeTaskFromTaskQueryCaches(

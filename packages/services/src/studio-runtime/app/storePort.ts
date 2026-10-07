@@ -31,7 +31,7 @@ export interface StudioListOptions {
   unresolvedRunsOnly?: boolean;
   oldestFirst?: boolean;
   /**
-   * 返回全部记录；只用于数量由用户创建、需要完整列出的定义（会话、群聊、工作流）。
+   * 返回全部记录；用于完整定义列表与不依赖最近历史窗口的待办事实投影。
    * overview 曾使用默认 1000 条上限，超过后最早的会话会从列表中静默消失。
    */
   all?: boolean;

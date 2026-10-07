@@ -1,5 +1,5 @@
 /* eslint-disable max-lines -- workspace 的 task、自动化与插件市场共享浏览器式历史，集中处理才能保证前进/后退目标一致。 */
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useBaseWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
 import {
   canGoBack as navCanGoBack,
@@ -19,6 +19,8 @@ import {
   rollbackTaskQueryCacheUnread,
   setTaskQueryCacheUnreadOverlay,
   useTaskQueryCacheStore,
+  type TaskUnreadMutationToken,
+  discardTaskQueryCacheUnreadMutation,
 } from "@/store/taskQueryCacheStore.js";
 import { taskNavigationTargetExists } from "@/lib/taskNavigationTarget.js";
 import { getRemoteWorkspaceSession } from "@/store/remoteWorkspaceSessionStore.js";
@@ -54,6 +56,30 @@ export function useWorkspaceTaskNavigation({
   // services 仍可能属于旧 remote attachment。local 目标必须固定从 window base attachment
   // 发起，再由 Host Controller 路由，不能把本地路径送进旧 remote scope。
   const baseServices = useBaseWorkspaceServices();
+  const latestBaseServices = useRef(baseServices);
+  latestBaseServices.current = baseServices;
+  const readGeneration = useRef(0);
+  const pendingReads = useRef(
+    new Map<
+      TaskUnreadMutationToken,
+      {
+        task: { taskId: string; workspacePath: string; workspaceIdentity?: string };
+        previousUnreadAt?: number;
+      }
+    >(),
+  );
+  useEffect(
+    () => () => {
+      readGeneration.current++;
+      // 卸载或连接更换后撤销旧回包资格；新事件／新阅读由 cache token 保护，不能恢复旧 marker。
+      for (const [token, entry] of pendingReads.current) {
+        discardTaskQueryCacheUnreadMutation(entry.task, token);
+        markTaskQueryCacheScopesStale([entry.task]);
+      }
+      pendingReads.current.clear();
+    },
+    [baseServices],
+  );
   const tabStoreApi = useTabStoreApi();
   const setActiveTaskId = useKnorviaSessionStore((s) => s.setActiveTaskId);
   const taskNavHistory = useKnorviaSessionStore((s) => s.taskNavHistory);
@@ -151,7 +177,9 @@ export function useWorkspaceTaskNavigation({
         // v4 任务行已由 query cache 渲染，只更新旧 Zustand unread map
         // 不会让蓝点重渲染。先对精确 entity key 加字段级 overlay，服务端回包
         // 后再 reconcile；期间的旧 membership 刷新也不能把蓝点写回来。
-        setTaskQueryCacheUnreadOverlay(targetTask, undefined);
+        const token = setTaskQueryCacheUnreadOverlay(targetTask, undefined, expectedUnreadAt);
+        const generation = readGeneration.current;
+        pendingReads.current.set(token, { task: targetTask, previousUnreadAt });
         const targetServices = resolvedRemoteSessionId
           ? (getRemoteWorkspaceSession(resolvedRemoteSessionId)?.services ?? null)
           : isRemoteWorkspace
@@ -160,7 +188,8 @@ export function useWorkspaceTaskNavigation({
         if (!targetServices) {
           // 远程 workspace 断开时不能按相同 workspacePath 回退到
           // 其他 remote session 或本地 base services，否则会把另一个工作区的未读状态清掉。
-          rollbackTaskQueryCacheUnread(targetTask, previousUnreadAt);
+          rollbackTaskQueryCacheUnread(targetTask, previousUnreadAt, token);
+          pendingReads.current.delete(token);
           logger.warn(
             `[App] 选择 task 时跳过未读持久化，远程 workspace 未连接 workspace=${targetWorkspacePath} taskId=${taskId}`,
           );
@@ -172,18 +201,33 @@ export function useWorkspaceTaskNavigation({
               expectedUnreadAt,
             })
             .then((meta) => {
-              reconcileTaskQueryCacheUnread(targetTask, meta.unreadAt);
+              const currentServices = resolvedRemoteSessionId
+                ? getRemoteWorkspaceSession(resolvedRemoteSessionId)?.services
+                : latestBaseServices.current;
+              if (readGeneration.current !== generation || currentServices !== targetServices) {
+                discardTaskQueryCacheUnreadMutation(targetTask, token);
+                return;
+              }
+              reconcileTaskQueryCacheUnread(targetTask, meta.unreadAt, token);
               bumpTaskListMembershipVersion();
             })
             .catch((error: unknown) => {
-              rollbackTaskQueryCacheUnread(targetTask, previousUnreadAt);
+              const currentServices = resolvedRemoteSessionId
+                ? getRemoteWorkspaceSession(resolvedRemoteSessionId)?.services
+                : latestBaseServices.current;
+              if (readGeneration.current !== generation || currentServices !== targetServices) {
+                discardTaskQueryCacheUnreadMutation(targetTask, token);
+                return;
+              }
+              rollbackTaskQueryCacheUnread(targetTask, previousUnreadAt, token);
               markTaskQueryCacheScopesStale([targetTask]);
               bumpTaskListMembershipVersion();
               logger.warn(
                 `[App] 选择 task 时清除未读状态失败 workspace=${targetWorkspacePath} taskId=${taskId}:`,
                 error instanceof Error ? error.message : String(error),
               );
-            });
+            })
+            .finally(() => pendingReads.current.delete(token));
         }
       }
 

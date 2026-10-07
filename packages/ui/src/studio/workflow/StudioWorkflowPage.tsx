@@ -34,11 +34,29 @@ import { useWorkflowText } from "./useWorkflowText.js";
 import { useWorkflowFiles } from "./useWorkflowFiles.js";
 import { createWorkflowActionScope } from "./workflowActionScope.js";
 
-export function StudioWorkflowPage({ workspacePath }: { workspacePath?: string }) {
+export function StudioWorkflowPage({
+  workspacePath,
+  selectedWorkflowId,
+}: {
+  workspacePath?: string;
+  selectedWorkflowId?: string;
+}) {
   const t = useWorkflowText();
   const { locale } = useKnorviaIntl();
   const store = useStudioWorkflowStore();
   const runtime = useStudioWorkflows();
+  const openedTarget = useRef<{ service: typeof runtime.service; id: string } | null>(null);
+  useEffect(() => {
+    if (!selectedWorkflowId || !store.workflows.some((item) => item.id === selectedWorkflowId))
+      return;
+    if (
+      openedTarget.current?.service === runtime.service &&
+      openedTarget.current?.id === selectedWorkflowId
+    )
+      return;
+    openedTarget.current = { service: runtime.service, id: selectedWorkflowId };
+    store.select(selectedWorkflowId);
+  }, [selectedWorkflowId, runtime.service, store.workflows, store.select]);
   const files = useWorkflowFiles();
   const service = useRef(runtime.service);
   service.current = runtime.service;

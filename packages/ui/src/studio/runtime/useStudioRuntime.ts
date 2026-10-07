@@ -2,10 +2,12 @@ import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 import type { IStudioRuntimeService } from "@knorvia/services";
 import { useBaseWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
 import { StudioClient, type CommandInput } from "./studioClient.js";
+import { useStudioRunFocus } from "./studioRunFocus.js";
 
 const clients = new WeakMap<IStudioRuntimeService, StudioClient>();
 const unavailable = new StudioClient();
 export function useStudioRuntime(targetId?: string) {
+  const focusRunId = useStudioRunFocus(targetId);
   const service = useBaseWorkspaceServices().studioRuntimeService;
   const client = useMemo(() => {
     if (!service) return unavailable;
@@ -17,7 +19,7 @@ export function useStudioRuntime(targetId?: string) {
     return value;
   }, [service]);
   const snapshot = useSyncExternalStore(client.subscribe, client.getSnapshot, client.getSnapshot);
-  useEffect(() => client.watch(targetId), [client, targetId]);
+  useEffect(() => client.watch(targetId, focusRunId), [client, targetId, focusRunId]);
   return {
     service,
     connectionKey: client.connectionKey,

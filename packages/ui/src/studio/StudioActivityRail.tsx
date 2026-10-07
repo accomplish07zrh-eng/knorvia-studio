@@ -1,4 +1,12 @@
-import { CalendarClock, Images, MessageSquare, Puzzle, Users, Workflow } from "lucide-react";
+import {
+  CalendarClock,
+  Images,
+  ListTodo,
+  MessageSquare,
+  Puzzle,
+  Users,
+  Workflow,
+} from "lucide-react";
 import { TID_AUTOMATIONS_OPEN } from "@knorvia/shared";
 import { ControlHintTooltip } from "@/ControlHintTooltip.js";
 import { WorkspaceSidebarFooter } from "@/WorkspaceSidebarFooter.js";
@@ -36,6 +44,12 @@ export function StudioActivityRail({
   };
   const isChat = navigation.route.view === "chat" || navigation.route.view === "external-chat";
   const tools = [
+    {
+      id: "attention",
+      label: "studio.attention.title",
+      icon: ListTodo,
+      testId: "studio-attention-open",
+    },
     { id: "chat", label: "studio.single", icon: MessageSquare, testId: "studio-chats-open" },
     { id: "groups", label: "studio.groups", icon: Users, testId: "studio-groups-open" },
     {

@@ -202,6 +202,7 @@ export interface StudioGroupMetrics {
   truncated: boolean;
 }
 export interface StudioOverview {
+  attention?: import("./attentionTypes.js").StudioAttentionProjection;
   revision: number;
   configs: Partial<Record<StudioKernelId, StudioKernelConfig>>;
   conversations: StudioConversation[];

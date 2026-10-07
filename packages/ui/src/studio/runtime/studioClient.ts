@@ -26,6 +26,7 @@ export class StudioClient {
   snapshot: Snapshot = { timelines: new Map(), timelineErrors: new Map() };
   private listeners = new Set<() => void>();
   private targets = new Map<string, number>();
+  private focusedRuns = new Map<string, Map<string, number>>();
   private recent = new Map<string, number>();
   private clock = 0;
   private unsubscribe?: { dispose(): void };
@@ -85,15 +86,27 @@ export class StudioClient {
     }
     this.snapshot = { ...this.snapshot, timelines, timelineErrors };
   }
-  watch(target?: string) {
+  watch(target?: string, focusRunId?: string) {
     if (!target) return () => {};
     this.targets.set(target, (this.targets.get(target) ?? 0) + 1);
+    if (focusRunId) {
+      const runs = this.focusedRuns.get(target) ?? new Map<string, number>();
+      runs.set(focusRunId, (runs.get(focusRunId) ?? 0) + 1);
+      this.focusedRuns.set(target, runs);
+    }
     this.recent.set(target, ++this.clock);
     this.schedule();
     let disposed = false;
     return () => {
       if (disposed) return;
       disposed = true;
+      if (focusRunId) {
+        const runs = this.focusedRuns.get(target);
+        const remaining = (runs?.get(focusRunId) ?? 1) - 1;
+        if (remaining) runs?.set(focusRunId, remaining);
+        else runs?.delete(focusRunId);
+        if (!runs?.size) this.focusedRuns.delete(target);
+      }
       const count = (this.targets.get(target) ?? 1) - 1;
       if (count) this.targets.set(target, count);
       else {
@@ -124,7 +137,9 @@ export class StudioClient {
     this.refreshing = (async () => {
       const [overview, ...pages] = await Promise.allSettled([
         service.overview(),
-        ...ids.map((id) => service.timeline(id)),
+        ...ids.map((id) =>
+          service.timeline(id, undefined, this.focusedRuns.get(id)?.keys().next().value),
+        ),
       ]);
       const timelines = new Map(this.snapshot.timelines);
       const timelineErrors = new Map(this.snapshot.timelineErrors);

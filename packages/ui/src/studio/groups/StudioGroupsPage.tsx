@@ -25,6 +25,7 @@ import { GroupMetricsBar } from "./GroupMetricsBar.js";
 import { GroupProgressPanel } from "./GroupProgressPanel.js";
 import { useStudioGroups } from "./useStudioGroups.js";
 import { StudioTimeline } from "../runtime/StudioTimeline.js";
+import { useStudioRunFocus } from "../runtime/studioRunFocus.js";
 import { activeGroupRun } from "./groupSubmission.js";
 
 export function StudioGroupsPage({
@@ -49,6 +50,10 @@ export function StudioGroupsPage({
   const group = groups.find((item) => item.id === groupId) ?? null;
   const [dialog, setDialog] = useState<"create" | "edit" | "delete" | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const focusRunId = useStudioRunFocus(groupId ?? undefined);
+  useEffect(() => {
+    if (focusRunId) setDetailsOpen(true);
+  }, [focusRunId]);
   const [error, setError] = useState("");
   const [deleting, setDeleting] = useState(false);
   const deletingRef = useRef(false);
