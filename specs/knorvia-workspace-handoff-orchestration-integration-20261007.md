@@ -315,3 +315,9 @@ Windows runner and emit their failed TAP assertions as normal check annotations.
 It checks out the immutable candidate, changes no product behavior or release
 gate, and is not mergeable or qualifying release evidence. No raw log alternate
 route, credentials, additional service, signing or GUI claim is involved.
+
+The public job UI subsequently confirms seven related Windows failures. A second
+bounded probe may inspect the existing Windows process helper against its own
+long-lived synthetic child, report counts/timing/error codes as annotations,
+and compare only explicit safe OS projections. It must not print or forward
+ambient secrets, weaken birth identity checks or change product deadlines.

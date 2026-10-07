@@ -1,16 +1,14 @@
 name: Studio offline checks
 
-# Temporary isolated diagnosis. This branch must never be merged or released.
+# Isolated process-proof probe; never merge this branch or use it as release evidence.
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
-  windows-focused:
+  windows-process-proof:
     runs-on: windows-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,58 +20,41 @@ jobs:
         with:
           node-version: 24.14.0
           cache: pnpm
-      - name: Install frozen dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Build CLI dependencies for the actual provider path
-        run: pnpm build:cli-packages
-      - name: Diagnose new Windows cases without log-download access
+      - name: Install frozen TypeScript loader
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Measure existing identity helper and safe OS dependencies
         shell: bash
         run: |
-          node --input-type=module - <<'NODE'
-          import { spawn } from 'node:child_process';
-          import { mkdtemp, rm } from 'node:fs/promises';
-          import { tmpdir } from 'node:os';
-          import { join, resolve } from 'node:path';
-          const tests = [
-            'studio-workspace-runtime-environment.test.ts',
-            'studio-workspace-runtime-health.test.ts',
-            'studio-workspace-runtime.test.ts',
-            'studio-workspace-runtime-recovery.test.ts',
-            'studio-workspace-runtime-helper-env.test.ts',
-            'process-helper-environment.test.ts',
-            'studio-integrated-runtime.test.ts',
-          ];
-          const data = await mkdtemp(join(tmpdir(), 'knorvia-focused-windows-'));
-          const env = { ...process.env, KNORVIA_ENV: 'test', KNORVIA_DATA_BASE_DIR: data,
-            KNORVIA_STORAGE_DIR: join(data, 'cli'),
-            TSX_TSCONFIG_PATH: resolve('packages/ui/tsconfig.json') };
-          for (const key of Object.keys(env)) {
-            if (/(?:API[_-]?KEY|ACCESS[_-]?TOKEN|AUTH[_-]?TOKEN|SECRET|PASSWORD|_KEY)$|^GH_TOKEN$/iu.test(key)) delete env[key];
+          node --import tsx --input-type=module - <<'NODE'
+          import { spawn, execFile } from 'node:child_process';
+          import { workspaceRuntimeEnvironment } from './packages/services/src/studio-runtime/domain/workspaceRuntimeEnvironment.ts';
+          import { captureProcessTreeSnapshotAsync } from './packages/services/src/process/processTreeSnapshotAsync.ts';
+          const selected = workspaceRuntimeEnvironment(process.env, 'win32');
+          const child = spawn(process.execPath, ['-e', 'setInterval(()=>{},1000)'], {env:selected,stdio:'ignore'});
+          await new Promise((resolve,reject)=>{child.once('spawn',resolve);child.once('error',reject)});
+          const escaped = text => text.replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A');
+          function record(value) {console.log('::warning title=Windows identity probe::'+escaped(JSON.stringify(value)))}
+          const warnings=[];
+          const log={warn(_trace,message,error){warnings.push({message,code:error?.code,killed:error?.killed,signal:error?.signal})}};
+          const command="Get-CimInstance Win32_Process | ForEach-Object { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, $_.CreationDate.ToUniversalTime().Ticks }";
+          async function query(name,env) {
+            const start=Date.now();
+            const result=await new Promise(resolve=>execFile('powershell.exe',['-NoLogo','-NoProfile','-NonInteractive','-Command',command],{env,encoding:'utf8',windowsHide:true,timeout:2500},(error,stdout,stderr)=>resolve({error,stdout,stderr})));
+            record({name,elapsed:Date.now()-start,code:result.error?.code,killed:result.error?.killed,signal:result.error?.signal,
+              lines:result.stdout.trim().split(/\r?\n/).filter(Boolean).length,root:result.stdout.split(/\r?\n/).some(row=>Number(row.trim().split(/\s+/)[0])===child.pid),
+              stderr:result.stderr.slice(0,1200)});
           }
-          const escaped = text => text.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
-          let failures = 0;
           try {
-            for (const name of tests) {
-              const path = 'packages/services/test/' + name;
-              let output = '';
-              const child = spawn(process.execPath, ['--experimental-test-module-mocks', '--import', 'tsx',
-                '--test', '--test-reporter=tap', '--test-timeout=120000', path],
-                { env, stdio: ['ignore', 'pipe', 'pipe'] });
-              child.stdout.on('data', chunk => { output += chunk; });
-              child.stderr.on('data', chunk => { output += chunk; });
-              const code = await new Promise((done, reject) => {
-                child.once('error', reject); child.once('exit', done);
-              });
-              console.log(name + ': exit ' + code);
-              if (code === 0) continue;
-              failures++;
-              const lines = output.split(/\r?\n/);
-              const indexes = lines.flatMap((line, index) => /^\s*not ok \d+/.test(line) ? [index] : []);
-              if (!indexes.length) console.log('::error title=Focused Windows regression::' + escaped(path + '\n' + output.slice(-6000)));
-              for (const index of indexes.slice(0, 12)) {
-                console.log('::error title=Focused Windows regression::' + escaped(path + '\n' + lines.slice(index, index + 75).join('\n').slice(0, 6000)));
-              }
-            }
-          } finally { await rm(data, { recursive: true, force: true }); }
-          if (failures) process.exitCode = 1;
+            const start=Date.now();
+            const proof=await captureProcessTreeSnapshotAsync(child,{helperEnvironment:selected,log});
+            record({name:'actual-production-helper',elapsed:Date.now()-start,identities:proof?.identities.length??0,warnings});
+            await query('selected-os-projection',selected);
+            const expanded={...selected};
+            const safeNames=['SystemDrive','ProgramFiles','ProgramFiles(x86)','ProgramW6432','ProgramData','COMPUTERNAME','OS','PROCESSOR_ARCHITECTURE','PROCESSOR_IDENTIFIER','NUMBER_OF_PROCESSORS'];
+            for(const name of safeNames){const key=Object.keys(process.env).find(key=>key.toUpperCase()===name.toUpperCase());if(key&&process.env[key])expanded[name]=process.env[key]}
+            await query('explicit-extra-os-projection',expanded);
+          } finally {
+            child.kill();
+            if(child.exitCode===null)await new Promise(resolve=>child.once('exit',resolve));
+          }
           NODE
