@@ -108,10 +108,50 @@ conversation creation currently has a workspace path without a separate
 identity field. Agree contract ownership, caller identity propagation and
 shared-file writers before concurrent feature changes.
 
-Next required input is the three feature PRs and their finalized public
-interfaces. All cross-feature tests, integration review, exact-head CI, merged
-source/version and new stable publication remain pending. No new release/tag,
-mobile change, signing setup or live website deployment has occurred.
+### Workspace lane review: PR #42
+
+The parent supplied [PR #42](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/42),
+head `c6a8165529fa3ead5b559ab3a245cb2554c2a1df`. It was fetched into an isolated
+detached review worktree; the integration branch did not absorb its code. Its
+public `workspaceRuntime({runId, stepId, control?})` consumes Studio's twelfth
+contract method. Further orchestration endpoints require coordinated contract
+ownership rather than expanding this contract beyond policy.
+
+Independent focused execution with pinned Node and a deliberately empty parent
+environment ran six new/adjacent workspace test files: exit 0, 40 passed, zero
+failed/cancelled, one existing Windows condition skipped (41 total). These tests
+cover parallel lifecycle/ports, setup failure/cancel, approval/read-only/remote
+refusal, readiness/cleanup, crash recovery and snapshot/apply continuity.
+
+**Release blocker confirmed:**
+[workspaceRuntimeProcess.ts at lines 53-65](https://github.com/accomplish07zrh-eng/knorvia-studio/blob/c6a8165529fa3ead5b559ab3a245cb2554c2a1df/packages/services/src/studio-runtime/adapters/workspaceRuntimeProcess.ts#L53)
+copies all of `process.env` and only removes three Node/Electron keys before
+launching workspace commands. This contradicts the accepted no-ambient-credential
+contract, even though known credential files are filtered from snapshots.
+
+An independent actual-adapter probe began with `env -i`, added only synthetic
+credential/captured-metadata sentinels, and launched an owned Node child that
+reported presence booleans to a temporary file. No real credential values were
+used or printed. The child received all four sentinel keys (`GH_TOKEN`,
+`OPENAI_API_KEY`, `AWS_SECRET_ACCESS_KEY`,
+`KNORVIA_TOOL_ENV_PASSTHROUGH_JSON`). The assertion that none should reach the
+child failed with exit 1, reproducing the defect; the owned child and temporary
+files were cleaned up. Local probe/log: `/tmp/knorvia-runtime-env-review.mjs` and
+`/tmp/knorvia-pr42-env-review.log`; focused results:
+`/tmp/knorvia-pr42-focused.log`.
+
+The parent must route this correction to the workspace owner: use a bounded
+safe child environment, preserve required platform execution variables, exclude
+ambient credentials/captured metadata, and add synthetic sentinel coverage with
+Windows case variants. Update that lane's spec and rerun its checks. A successful
+existing CI run cannot waive this confirmed acceptance failure. Review continues
+on the corrected feature head; no merge has been performed.
+
+Remaining dependencies are the corrected workspace PR and the handoff and
+orchestration PRs with finalized public interfaces. Cross-feature tests, final
+integration review, exact-head CI, merged source/version and new stable
+publication remain pending. No new release/tag, mobile change, signing setup or
+live website deployment has occurred.
 
 No installed human GUI, real model-task, signing or full legacy-user migration
 acceptance is claimed by this baseline investigation.
