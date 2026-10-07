@@ -24,6 +24,8 @@ export type WindowsTaskkillRunner = (
 export interface ProcessTreeTerminatorOptions {
   /** 工作区 helper 显式复用受限环境；省略时保留现有 provider 的执行环境。 */
   helperEnvironment?: NodeJS.ProcessEnv;
+  /** 修复：工作区的 CimCmdlets 发现会挂起；仅该 owner 选用系统 WMI，保留 provider 默认行为。 */
+  windowsProcessQuery?: "wmi";
   traceId?: TraceId;
   log?: ProcessTreeTerminatorLogger;
   forceAfterMs?: number;

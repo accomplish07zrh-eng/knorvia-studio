@@ -6,6 +6,50 @@ individual specs; it does not assign their implementation files to this lane.
 
 ## Confirmed integration corrections
 
+### Windows inspection correction
+
+Exact-head Windows CI reports seven failures in workspace readiness, timeout,
+recovery and the combined integration case. Isolated read-only probes establish
+that CimCmdlets discovery stalls beyond ten seconds with the selected environment;
+adding explicit OS variables or trusted system module paths does not resolve it.
+Direct System.Management inspection returns the same Win32_Process PID, parent
+and creation-time fields after initialization, and native netstat attributes the
+owned loopback listener in 20–23 ms. An uninterrupted cold WMI read completes in
+2,158 ms, with warm reads at 248–295 ms. Keep the existing 2,500 ms query budget;
+only the workspace WMI selection may retry a timed-out read once when there is
+no absolute cleanup deadline. The earlier probe recorded cold timeouts, so this
+bounded read-only retry handles initialization without replaying any command or
+relaxing identity checks. Diagnostic branch commits are excluded from main and
+release evidence.
+
+The existing process helper remains the sole birth-identity/query owner. Add an
+optional `windowsProcessQuery: "wmi"` selection for the workspace adapter only;
+default provider CIM commands and budgets remain unchanged. The WMI command uses
+the OS System.Management assembly directly, selects only PID/parent/creation
+fields and disposes its query resources. Both query and identity verification
+retain the existing canonical `windows-utc-us` codec, so persisted proof hashes
+need no migration. Async flights must also match query selection. Every absolute
+cleanup deadline still clamps the selected command budget; no unavailable query
+is permission to kill an unproven PID or report successful recovery.
+
+Windows loopback listener attribution may use native `netstat.exe -ano -p TCP`
+with the selected safe environment and existing 1,500 ms budget. Only an exact
+TCP LISTENING row for `127.0.0.1:<owned port>`, zero remote endpoint and a PID in
+the current birth proof grants readiness. Wildcards, IPv6, other ports/PIDs,
+established sockets and malformed rows fail closed. HTTP health remains required.
+This replaces read-only inspection inside the existing adapter, adds no approval
+or accepted command path and exposes no ambient credentials.
+
+Regression fixtures must prove default compatibility, mode-isolated flights,
+legacy birth codec, cleanup budget clamping and listener rejection. Actual
+Windows startup, unhealthy service, timeout, restart, PID-reuse and combined
+integration tests must pass before full exact-source quality gates and release.
+The documented OS API references are
+[System.Management](https://learn.microsoft.com/en-us/dotnet/api/system.management.managementobjectsearcher),
+[DMTF time conversion](https://learn.microsoft.com/en-us/dotnet/api/system.management.managementdatetimeconverter)
+and [netstat](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat);
+implementation is authored independently, without copied example code.
+
 The aggregate production-composition test confirms that agent discovery cannot
 depend on local `kernel-status` rows: the existing inspection owner returns local
 statuses without persisting that kind. Agent discovery will call

@@ -94,6 +94,7 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
       const options = () => ({
         // 修复：证明与清理的 ps/PowerShell/taskkill 也不得继承宿主凭据。
         helperEnvironment: env,
+        windowsProcessQuery: "wmi" as const,
         ownedProcessStartedAtMs: startedAt,
         resolveOwnedProcessExitedAtMs: () => exitedAt,
         ...(process.platform !== "win32" ? { ownedProcessGroupId: child.pid } : {}),
@@ -167,6 +168,7 @@ export function createWorkspaceRuntimePort(): WorkspaceRuntimePort {
       if (!Number.isInteger(proof.rootPid) || proof.rootPid < 1 || proof.identities.length > 256)
         return false;
       const helperOptions = {
+        windowsProcessQuery: "wmi" as const,
         helperEnvironment: workspaceRuntimeEnvironment(
           process.env,
           process.platform === "win32" ? "win32" : "posix",

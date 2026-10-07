@@ -90,26 +90,25 @@ export async function workspaceRuntimeOwnsPort(
       return false;
     }
     if (process.platform === "win32") {
-      const { stdout } = await runFile(
-        "powershell.exe",
-        [
-          "-NoLogo",
-          "-NoProfile",
-          "-NonInteractive",
-          "-Command",
-          `Get-NetTCPConnection -State Listen -LocalAddress 127.0.0.1 -LocalPort ${port} -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess`,
-        ],
-        {
-          timeout: 1500,
-          windowsHide: true,
-          maxBuffer: 32_768,
-          env: workspaceRuntimeEnvironment(process.env, "win32"),
-        },
-      );
-      return stdout
-        .trim()
-        .split(/\s+/)
-        .some((value) => pids.has(Number(value)));
+      const { stdout } = await runFile("netstat.exe", ["-ano", "-p", "TCP"], {
+        timeout: 1500,
+        windowsHide: true,
+        maxBuffer: 262_144,
+        env: workspaceRuntimeEnvironment(process.env, "win32"),
+      });
+      // 修复：NetTCP 模块发现会挂起；原生输出必须同时匹配协议、端点、监听状态与自有 PID。
+      return stdout.split(/\r?\n/).some((line) => {
+        const fields = line.trim().split(/\s+/);
+        return (
+          fields.length === 5 &&
+          fields[0] === "TCP" &&
+          fields[1] === `127.0.0.1:${port}` &&
+          fields[2] === "0.0.0.0:0" &&
+          fields[3] === "LISTENING" &&
+          /^\d+$/.test(fields[4]!) &&
+          pids.has(Number(fields[4]))
+        );
+      });
     }
     if (process.platform === "darwin") {
       const { stdout } = await runFile(

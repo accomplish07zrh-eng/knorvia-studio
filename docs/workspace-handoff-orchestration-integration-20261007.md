@@ -6,6 +6,64 @@ It records executed evidence separately from the planned acceptance cases.
 
 ## Current aggregate result
 
+Corrected aggregate `a3bfe071f55d1f54285f7c0d901e34fd0cc4f99e` completes its
+immutable local full suite with exit 0: 823 files, 8,386 tests, 8,378 passed,
+zero failed/cancelled and eight recorded skips, in 691.8 seconds. Exact-source
+[37582522006](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37582522006)
+and PR [37582479335](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37582479335)
+finish with Linux quality successful and Windows offline regression failing.
+The authorized public job UI reports 8,374 passed, seven failed, five skipped
+of 8,386 tests. The failures are the combined runtime case, safe service
+environment, unhealthy service, crash recovery, live-child birth proof, parallel
+workspace services and readiness timeout. No main merge, tag or release follows
+that failed gate.
+
+Normal job-log downloading returns HTTP 403; no alternate route or proxy change
+is used to bypass it. The parent reads the authorized public job UI. A separate
+diagnostic branch also checks out immutable candidate source and emits focused
+test assertions and synthetic OS-query measurements through ordinary check
+annotations. Its commits will not be merged and are not release evidence:
+
+- [37585574235](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37585574235)
+  reproduces all seven failures using only the new runtime/integration files.
+- [37586231535](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37586231535)
+  confirms the all-process identity helper is terminated at its 2,500 ms budget,
+  returning no rows under both the selected environment and explicit extra OS
+  variables.
+- [37586603899](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37586603899)
+  shows full/filtered CIM and NetTCP commands stall beyond ten seconds. Simple
+  PowerShell startup finishes in 1.8 seconds.
+- [37586968186](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37586968186)
+  shows CimCmdlets discovery itself stalls beyond ten seconds even with a
+  derived trusted module path; direct .NET birth inspection finishes in 289 ms.
+- [37587382914](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37587382914)
+  returns the same process fields through direct OS WMI in 890 ms after two
+  cold timeouts, and attributes the owned listener through netstat in 20 ms.
+- [37587761703](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37587761703)
+  measures uninterrupted cold WMI at 2,158 ms, warm WMI at 248–295 ms and
+  native listener attribution at 23 ms.
+
+Specs and the Studio contract precede the Windows correction. The workspace
+adapter alone selects module-independent WMI in the existing process owner;
+default provider CIM commands remain intact. Query modes cannot share a flight.
+The existing 2,500 ms query budget remains, with one read-only timeout retry
+outside absolute cleanup deadlines. The canonical UTC birth codec is retained.
+Native netstat attribution requires an exact owned loopback TCP LISTENING row;
+unrelated, wildcard, IPv6, established and malformed rows fail closed, and HTTP
+health remains required. Neither environments nor command output are persisted.
+
+Two new regression fixtures first fail before correction (exit 1, two failed),
+then pass after correction (exit 0, two passed, no skips). They cover mode
+isolation/default compatibility, birth codec, bounded retry, cleanup clamping,
+strict listener matching and helper credential filtering. The broader focused
+run exits 0: 81 passed, zero failed/cancelled/skipped in 20.7 seconds. Logs:
+`/tmp/knorvia-windows-regressions-before.log`,
+`/tmp/knorvia-windows-regressions-after.log`,
+`/tmp/knorvia-windows-correction-focused.log`. A first attempt to use an absent
+Prettier executable exits 254 without running tests; the repository's actual
+formatting command is then used successfully. The Windows correction still
+requires actual focused Windows verification and all final source quality gates.
+
 The first complete candidate run at `22cdb038321c07827a2bfd8a0f95e9906b9ebf1d`
 exits 1: 820 files, 8,377 tests, 8,368 passed, one failed, eight skipped, zero
 cancelled; 666.6 seconds. Its sole failure is the unpopulated production kernel
