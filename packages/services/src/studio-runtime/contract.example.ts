@@ -1,4 +1,5 @@
 import type { StudioCommand } from "./contract.js";
+import type { StudioAgentTools } from "./contract.js";
 import {
   studioConditionReferences,
   validateStudioWorkflow,
@@ -19,4 +20,15 @@ export function inspectWorkflowDraft(draft: StudioWorkflowDefinition) {
     issues: validateStudioWorkflow(draft),
     exampleReferences: studioConditionReferences("{{review}}.approved == true"),
   };
+}
+
+/** Host supplies a caller-bound port; tool input cannot choose ownership or approve actions. */
+export function dispatchConfiguredStudioChild(tools: StudioAgentTools) {
+  return tools.call("dispatch_task", {
+    commandId: "dispatch-example-1",
+    kernel: "codex",
+    task: "Review the parser",
+    context: "Inspect parser tests in the isolated project",
+    permission: "read-only",
+  });
 }

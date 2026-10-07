@@ -1,6 +1,15 @@
 import type { IStudioRuntimeService, StudioCommand, StudioCommandResult } from "../contract.js";
 import type { Event } from "@knorvia/rpc";
-import type { StudioKernelId, StudioKernelInspectOptions } from "../kernelTypes.js";
+import type {
+  StudioKernelId,
+  StudioKernelInspectOptions,
+  StudioKernelTurn,
+  StudioKernelSink,
+} from "../kernelTypes.js";
+import type { StudioAgentPolicy, StudioAgentTools } from "../agentToolTypes.js";
+import { studioAgentPolicy } from "../domain/agentToolPolicy.js";
+import { StudioAgentToolRuntime } from "./agentToolRuntime.js";
+import { enforceStudioAgentDeadlines, recordStudioAgentEvent } from "./agentOutbox.js";
 import type { ICreationService } from "../../creation/contract.js";
 import {
   activeRunStates,
@@ -35,6 +44,7 @@ export interface StudioRuntimeDependencies {
   onDidChange: Event<{ revision: number }>;
   notify(revision: number): void;
   process?: { id: number; alive(id: number): boolean };
+  agentPolicy?: Partial<StudioAgentPolicy>;
 }
 export class StudioRuntimeService implements IStudioRuntimeService {
   readonly onDidChange: Event<{ revision: number }>;
@@ -47,10 +57,27 @@ export class StudioRuntimeService implements IStudioRuntimeService {
   private readonly lifecycle = new StudioRuntimeLifecycle();
   private lastRevision = -1;
   private disposal?: Promise<void>;
+  private readonly agentPolicy: StudioAgentPolicy;
+  private readonly agentToolRuntime: StudioAgentToolRuntime;
 
   constructor(private readonly deps: StudioRuntimeDependencies) {
     this.owner = deps.clock.id();
     this.onDidChange = deps.onDidChange;
+    this.agentPolicy = studioAgentPolicy(deps.agentPolicy);
+    this.agentToolRuntime = new StudioAgentToolRuntime({
+      ...deps,
+      owner: this.owner,
+      policy: this.agentPolicy,
+    });
+  }
+  /** Node-only grant composition; this method is deliberately absent from the RPC contract. */
+  agentTools(
+    turn: StudioKernelTurn,
+    sink: StudioKernelSink,
+    signal: AbortSignal,
+  ): StudioAgentTools {
+    const tools = this.agentToolRuntime.bind({ turn, sink, signal });
+    return { call: (name, input) => this.lifecycle.run(() => tools.call(name, input)) };
   }
   async overview(): Promise<StudioOverview> {
     this.lifecycle.assertOpen();
@@ -155,6 +182,7 @@ export class StudioRuntimeService implements IStudioRuntimeService {
       return;
     }
     if (claim === "acquired") this.recover();
+    enforceStudioAgentDeadlines(db, clock, this.agentPolicy);
     const activeTargets = new Set<string>();
     for (const [id, item] of this.active) {
       const run = requiredRun(db, id);
@@ -189,7 +217,7 @@ export class StudioRuntimeService implements IStudioRuntimeService {
         run.id,
         controller.signal,
       )
-        .catch((error: unknown) => this.failRun(run.id, error))
+        .catch((error: unknown) => this.failRun(run.id, run.attempt, error))
         .finally(() => {
           this.active.delete(run.id);
           this.changed();
@@ -218,6 +246,7 @@ export class StudioRuntimeService implements IStudioRuntimeService {
             run.error = "应用已退出，请检查未完成步骤后继续";
             run.updatedAt = clock.now();
             db.write("run", id, run, run.targetId);
+            recordStudioAgentEvent(db, clock, run);
             db.remove("active", id);
             expireRunInteractions(db, run);
           }
@@ -268,18 +297,21 @@ export class StudioRuntimeService implements IStudioRuntimeService {
           expireRunInteractions(db, run);
         }
         db.write("run", run.id, run, run.targetId);
+        recordStudioAgentEvent(db, clock, run);
       }
     });
   }
-  private failRun(id: string, error: unknown): void {
+  private failRun(id: string, attempt: number, error: unknown): void {
     if (this.lifecycle.stopping || !this.deps.db.owns(this.owner, this.deps.clock.now())) return;
     this.deps.db.transaction(() => {
       const run = requiredRun(this.deps.db, id);
-      if (run.owner !== this.owner || !activeRunStates.has(run.state)) return;
+      if (run.owner !== this.owner || run.attempt !== attempt || !activeRunStates.has(run.state))
+        return;
       run.state = "interrupted";
       run.resultKnown = false;
       run.error = error instanceof Error ? error.message : String(error);
       this.deps.db.write("run", id, run, run.targetId);
+      recordStudioAgentEvent(this.deps.db, this.deps.clock, run);
       this.deps.db.remove("active", id);
       expireRunInteractions(this.deps.db, run);
     });

@@ -17,6 +17,9 @@ import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { saveTurnEvent as writeTurnEvent } from "./turnEvents.js";
 import { produceStudioStepOutputs } from "./stepOutputProduction.js";
 import { importStudioStepInputs } from "./stepInputs.js";
+import { studioAgentWorkspace, saveStudioAgentArtifacts } from "./agentOutbox.js";
+import type { StudioAgentArtifactRef } from "../agentToolTypes.js";
+import { studioAgentArtifactReferences } from "../domain/agentToolPolicy.js";
 
 export interface StudioTurnDependencies {
   db: StudioRepository;
@@ -38,11 +41,13 @@ export function assertStudioRunOwned(
   deps: Pick<StudioTurnDependencies, "db" | "clock" | "owner">,
   runId: string,
   allowCancellationSettlement = false,
+  expectedAttempt?: number,
 ): StoredRun {
   const run = requiredRun(deps.db, runId);
   if (
     !deps.db.owns(deps.owner, deps.clock.now()) ||
     run.owner !== deps.owner ||
+    (expectedAttempt !== undefined && run.attempt !== expectedAttempt) ||
     !["running", "waiting"].includes(run.state) ||
     (run.cancelRequested && !allowCancellationSettlement)
   )
@@ -60,6 +65,7 @@ export async function executeStudioTurn(
   const signal = step.signal ? AbortSignal.any([runSignal, step.signal]) : runSignal;
   signal.throwIfAborted();
   let run = assertStudioRunOwned(deps, runId);
+  const expectedAttempt = run.attempt;
   const cached = readStudioStep(db, run, step.id);
   if (cached) return cached;
   const member = step.memberId ?? step.kernel;
@@ -72,13 +78,15 @@ export async function executeStudioTurn(
   let workspacePath: string | undefined;
   let changesSummary: string | undefined;
   let dispatched = false;
+  let artifacts: StudioAgentArtifactRef[] = [];
   // 工作区身份要在 try 之外可见：命名输出的文件引用记录的是文件所在工作区的身份。
   let workspaceRunId = run.kind === "group" ? `group-${run.targetId}${generation}` : runId;
   let workspaceStepId = run.kind === "group" ? member : step.id;
   const remoteMember = parseRemoteStudioKernelId(step.kernel) !== null;
+  const agentWorkspace = studioAgentWorkspace(db, runId);
   try {
     signal.throwIfAborted();
-    run = assertStudioRunOwned(deps, runId);
+    run = assertStudioRunOwned(deps, runId, false, expectedAttempt);
     if (
       run.kind === "group" &&
       step.id.startsWith("group:round:") &&
@@ -98,19 +106,23 @@ export async function executeStudioTurn(
       | StudioGroupDefinition
       | StudioWorkflowDefinition
       | undefined;
-    const sourcePath = conversation?.workspacePath ?? definition?.workspacePath;
+    const sourcePath =
+      agentWorkspace?.sourcePath ?? conversation?.workspacePath ?? definition?.workspacePath;
     if (!sourcePath) throw new Error("请先选择项目");
     workspaceRunId = run.kind === "group" ? `group-${run.targetId}${generation}` : runId;
     workspaceStepId = run.kind === "group" ? member : step.id;
+    workspaceRunId = agentWorkspace?.runId ?? workspaceRunId;
+    workspaceStepId = agentWorkspace?.stepId ?? workspaceStepId;
     workspacePath =
-      run.kind === "chat" || remoteMember
+      agentWorkspace?.path ??
+      (run.kind === "chat" || remoteMember
         ? sourcePath
         : await deps.workspaces.prepare({
             runId: workspaceRunId,
             stepId: workspaceStepId,
             sourcePath,
             mode: definition?.workspaceMode ?? "isolated",
-          });
+          }));
     signal.throwIfAborted();
     // 跨隔离输入：上游工作区里有这个相对路径，不代表下游工作区也有这份文件。
     // 由 Host 按「运行/步骤/输出身份」从上游工作区取到副本，放进本次工作区的**同一相对路径**，
@@ -139,6 +151,10 @@ export async function executeStudioTurn(
           stepId: step.id,
           state: "running",
           attempt: run.attempt,
+          kernel: step.kernel,
+          conversationId: key,
+          permission: step.permission ?? config.permission,
+          workspacePath,
           ...(run.kind === "group" ? { memberId: step.memberId ?? step.kernel } : {}),
           startedAt: clock.now(),
         },
@@ -196,6 +212,7 @@ export async function executeStudioTurn(
             if (
               !db.owns(deps.owner, clock.now()) ||
               current.owner !== deps.owner ||
+              current.attempt !== run.attempt ||
               current.cancelRequested ||
               !["running", "waiting"].includes(current.state)
             )
@@ -226,7 +243,7 @@ export async function executeStudioTurn(
             signal: interactionSignal ? AbortSignal.any([signal, interactionSignal]) : signal,
             assertOwned: () => {
               signal.throwIfAborted();
-              assertStudioRunOwned(deps, runId);
+              assertStudioRunOwned(deps, runId, false, run.attempt);
             },
           }),
       },
@@ -236,7 +253,13 @@ export async function executeStudioTurn(
       workspacePath = result.workspacePath;
       db.transaction(() => {
         const saved = db.read<Record<string, unknown>>("workspace", `${runId}:${step.id}`);
-        if (saved)
+        const current = requiredRun(db, runId);
+        if (
+          saved &&
+          current.owner === deps.owner &&
+          current.attempt === expectedAttempt &&
+          db.owns(deps.owner, clock.now())
+        )
           db.write(
             "workspace",
             `${runId}:${step.id}`,
@@ -247,7 +270,7 @@ export async function executeStudioTurn(
     }
     if (result.nativeSessionId && !signal.aborted)
       db.transaction(() => {
-        assertStudioRunOwned(deps, runId);
+        assertStudioRunOwned(deps, runId, false, run.attempt);
         db.write<StoredSession>("session", sessionKey, {
           id: sessionKey,
           nativeSessionId: result.nativeSessionId!,
@@ -255,12 +278,14 @@ export async function executeStudioTurn(
         });
       });
     if (remoteMember) changesSummary = result.changesSummary;
-    else if (run.kind !== "chat" && !signal.aborted) {
+    else if ((run.kind !== "chat" || agentWorkspace) && !signal.aborted) {
       if (definition?.workspaceMode === "shared") {
         changesSummary = "共享项目模式：需检查当前项目文件，不能从成员的回复推断文件已正确修改。";
       } else {
         try {
           const changes = await deps.workspaces.changes(workspaceRunId, workspaceStepId);
+          if (agentWorkspace)
+            artifacts = studioAgentArtifactReferences(changes, workspaceRunId, workspaceStepId);
           changesSummary = changes.length
             ? `${changes.length} 个文件有实际变化（相对于成员隔离基线）：\n` +
               changes
@@ -307,7 +332,13 @@ export async function executeStudioTurn(
   if (db.owns(deps.owner, clock.now()))
     db.transaction(() => {
       const current = requiredRun(db, runId);
-      if (current.owner !== deps.owner || !["running", "waiting"].includes(current.state)) return;
+      // 旧 attempt 的晚到结果不能覆盖用户重试后的新结果或会话身份。
+      if (
+        current.owner !== deps.owner ||
+        current.attempt !== run.attempt ||
+        !["running", "waiting"].includes(current.state)
+      )
+        return;
       if (turnId) {
         const turn = db.read<import("../types.js").StudioTurnSnapshot>("turn", turnId);
         db.write(
@@ -345,6 +376,7 @@ export async function executeStudioTurn(
           );
       }
       saveStudioStep(db, current, step.id, outcome);
+      saveStudioAgentArtifacts(db, current, step.id, artifacts);
       current.updatedAt = clock.now();
       db.write("run", current.id, current, current.targetId);
     });
