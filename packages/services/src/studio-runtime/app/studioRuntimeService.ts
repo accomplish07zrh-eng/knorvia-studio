@@ -21,6 +21,7 @@ import {
 import type { StudioOverview, StudioTimeline } from "../types.js";
 import type { StudioKernelRegistry, StudioWorkspacePort } from "./ports.js";
 import type { StudioClock, StudioRepository } from "./storePort.js";
+import { admitWorkspaceReview } from "./workspaceReviewDraft.js";
 import { admitStudioCommand, requiredRun } from "./commandAdmission.js";
 import { executeStudioRun, expireRunInteractions } from "./runExecutor.js";
 import { StudioExecutionLimiter } from "./executionLimiter.js";
@@ -98,14 +99,21 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     return readStudioOverview(this.deps.db);
   }
 
-  async timeline(targetId: string, before?: number): Promise<StudioTimeline> {
+  async timeline(targetId: string, before?: number, focusRunId?: string): Promise<StudioTimeline> {
     this.lifecycle.assertOpen();
     validStudioId(targetId);
-    return readStudioTimeline(this.deps.db, this.deps.clock.now(), targetId, before);
+    if (focusRunId) validStudioId(focusRunId);
+    return readStudioTimeline(this.deps.db, this.deps.clock.now(), targetId, before, focusRunId);
   }
 
   async command(command: StudioCommand): Promise<StudioCommandResult> {
     this.lifecycle.assertOpen();
+    if (command.type === "workspace-review")
+      return this.lifecycle.run(async () => {
+        const result = await admitWorkspaceReview(this.deps, command);
+        this.changed();
+        return result;
+      });
     assertRemoteStudioMembersOnline(command, this.deps.db, this.deps.kernels);
     const result = admitStudioCommand(this.deps.db, this.deps.clock, command);
     this.changed();

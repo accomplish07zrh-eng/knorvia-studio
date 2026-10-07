@@ -3,6 +3,8 @@ import type { StudioKernelConfig, StudioKernelId } from "../kernelTypes.js";
 import { isStudioKernelId } from "./kernelIdentity.js";
 import { assertKernelNotRetired } from "./kernelPolicy.js";
 
+import { validateWorkspaceReviewCommand } from "./workspaceReviewPolicy.js";
+
 export { STUDIO_KERNEL_IDS } from "./kernelIdentity.js";
 export const activeRunStates = new Set(["queued", "running", "waiting"]);
 export function validStudioId(value: unknown): asserts value is string {
@@ -66,6 +68,21 @@ function validBaseUpdatedAt(value: unknown): void {
 export function validateStudioCommand(command: StudioCommand): void {
   validStudioId(command.commandId);
   switch (command.type) {
+    case "attention-read":
+      validStudioId(command.id);
+      if (!["run", "interaction"].includes(command.object)) throw new Error("待办类别无效");
+      text(command.version, 1000, "阅读版本");
+      if (!command.version) throw new Error("缺少所见阅读版本");
+      break;
+    case "workspace-review":
+      validStudioId(command.runId);
+      validStudioId(command.stepId);
+      if (command.draftId !== undefined) validStudioId(command.draftId);
+      if (command.action === "save-comment" || command.action === "delete-comment")
+        validStudioId(command.commentId);
+      if (command.action === "send") validStudioId(command.previewId);
+      validateWorkspaceReviewCommand(command);
+      break;
     case "configure":
       validActiveKernel(command.kernel);
       validConfig(command.config);

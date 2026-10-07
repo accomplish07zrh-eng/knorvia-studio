@@ -242,7 +242,16 @@ export async function executeStudioRun(
   };
   let result: StudioStepResult;
   try {
-    if (run.kind === "chat") {
+    if (run.workspaceFeedback) {
+      const feedback = run.workspaceFeedback;
+      result = await port.agent({
+        id: feedback.originalStepId,
+        kernel: feedback.binding.kernel,
+        memberId: feedback.binding.memberId,
+        permission: feedback.binding.permission,
+        prompt: run.input,
+      });
+    } else if (run.kind === "chat") {
       const conversation = db.read<StudioConversation>("conversation", run.targetId);
       if (!conversation) throw new Error("会话不存在");
       result = await port.agent({ id: "reply", kernel: conversation.kernel, prompt: run.input });

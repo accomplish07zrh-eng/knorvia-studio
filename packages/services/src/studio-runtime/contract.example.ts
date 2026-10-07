@@ -1,4 +1,29 @@
 import type { StudioCommand } from "./contract.js";
+import type { StudioReviewDraft } from "./contract.js";
+
+/** This acknowledges the displayed event only; it cannot answer an approval. */
+export const markDisplayedAttentionRead: StudioCommand = {
+  commandId: "attention-read-example-1",
+  type: "attention-read",
+  object: "run",
+  id: "run-example-1",
+  version: '[1,"run-example-1",1,"succeeded",123,true]',
+};
+
+/** Call only after showing the full prepared summary and receiving user confirmation. */
+export function confirmPreparedWorkspaceReview(draft: StudioReviewDraft): StudioCommand {
+  if (!draft.preview) throw new Error("Prepare and review the summary before confirming");
+  return {
+    commandId: draft.preview.commandId,
+    type: "workspace-review",
+    action: "send",
+    runId: draft.runId,
+    stepId: draft.stepId,
+    draftId: draft.id,
+    baseRevision: draft.revision,
+    previewId: draft.preview.id,
+  };
+}
 import type { StudioWorkspaceRuntimeRequest } from "./contract.js";
 import type { StudioAgentTools } from "./contract.js";
 import {

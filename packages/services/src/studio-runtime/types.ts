@@ -178,6 +178,11 @@ export interface StudioRunOutcome {
   restart?: StudioRestartDisplayState;
 }
 export interface StudioTurnSnapshot {
+  kernel?: StudioKernelId;
+  conversationId?: string;
+  workspacePath?: string;
+  nativeSessionId?: string;
+  permission?: import("./kernelTypes.js").StudioPermission;
   id: string;
   runId: string;
   stepId: string;
@@ -202,6 +207,7 @@ export interface StudioGroupMetrics {
   truncated: boolean;
 }
 export interface StudioOverview {
+  attention?: import("./attentionTypes.js").StudioAttentionProjection;
   revision: number;
   configs: Partial<Record<StudioKernelId, StudioKernelConfig>>;
   conversations: StudioConversation[];
@@ -210,6 +216,7 @@ export interface StudioOverview {
   runs: StudioRun[];
 }
 export interface StudioTimeline {
+  reviewDrafts?: import("./workspaceReviewTypes.js").StudioReviewDraft[];
   revision: number;
   nextBefore?: number;
   messages: StudioMessage[];
@@ -220,6 +227,7 @@ export interface StudioTimeline {
   groupMetrics?: StudioGroupMetrics;
 }
 export interface StudioWorkspaceChange {
+  version?: import("./workspaceReviewTypes.js").StudioReviewFileVersion;
   path: string;
   kind: "added" | "modified" | "deleted";
   before: string | null;

@@ -13,15 +13,11 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioRuntime } from "./useStudioRuntime.js";
 import { studioRunStepLabel } from "./studioRunStepLabel.js";
 import { StudioRunHistoryActions, studioReviewApplying } from "./studioRunHistoryActions.js";
-import {
-  STUDIO_RUN_HISTORY_ACTIVE_STATES,
-  STUDIO_RUN_HISTORY_COMPACT_WINDOW,
-  STUDIO_RUN_HISTORY_WINDOW,
-  studioRunHistoryWindow,
-} from "./studioRunHistoryWindow.js";
-import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
+import { StudioWorkspaceApplyControls } from "./StudioWorkspaceApplyControls.js";
+import { StudioWorkspaceFeedback } from "./StudioWorkspaceFeedback.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
 import { StudioWorkspaceRuntimeCard } from "./StudioWorkspaceRuntimeCard.js";
+import { studioFocusedHistoryWindow, useStudioRunHistoryFocus } from "./studioRunHistoryFocus.js";
 
 export function StudioRunHistory({
   targetId,
@@ -31,6 +27,7 @@ export function StudioRunHistory({
   compact?: boolean;
 }) {
   const runtime = useStudioRuntime(targetId);
+  const [reviewPersistenceRisk, setReviewPersistenceRisk] = useState(false);
   const { intl, locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
   const confirm = useConfirmDialog();
@@ -70,23 +67,21 @@ export function StudioRunHistory({
         skipped: "Skipped",
       };
   const runs = runtime.timeline?.runs ?? [];
+  const { focusRunId, root, windowRuns } = useStudioRunHistoryFocus(
+    targetId,
+    runtime.connectionKey,
+    runs,
+  );
   useEffect(() => actions.observeRuns(runs), [actions, runs]);
   // 展开页数按 targetId 记账：切换目标时自动回到首屏窗口，不用额外 effect 复位。
   const [olderState, setOlderState] = useState({ targetId, pages: 0 });
   const olderPages = olderState.targetId === targetId ? olderState.pages : 0;
   // compact 沿用既有“只看最近 3 条”，不引入分页；完整面板按窗口渲染并固定必须可见的运行。
-  const historyWindow = studioRunHistoryWindow({
-    runs,
-    initial: compact ? STUDIO_RUN_HISTORY_COMPACT_WINDOW : STUDIO_RUN_HISTORY_WINDOW,
-    extra: compact ? 0 : olderPages * STUDIO_RUN_HISTORY_WINDOW,
-    pinned: compact
-      ? []
-      : [
-          ...runs
-            .filter((run) => STUDIO_RUN_HISTORY_ACTIVE_STATES.includes(run.state))
-            .map((run) => run.id),
-          review?.run.id,
-        ],
+  const historyWindow = studioFocusedHistoryWindow(windowRuns, {
+    focusRunId,
+    compact,
+    olderPages,
+    reviewRunId: review?.run.id,
   });
   const reviewStep = review?.run.outcome?.steps.find((item) => item.stepId === review.stepId);
   const reviewChanges = review?.changes ?? [];
@@ -100,13 +95,18 @@ export function StudioRunHistory({
       null)
     : null;
   return (
-    <div className="space-y-2 p-2 text-ui-sm">
+    <div ref={root} className="space-y-2 p-2 text-ui-sm">
       {historyWindow.visible.map((run) => (
         <details
           key={run.id}
           data-studio-run-history={run.id}
           className="rounded-lg border border-border px-3 py-2"
-          open={!compact || run.state === "failed" || run.state === "interrupted"}
+          open={
+            !compact ||
+            run.id === focusRunId ||
+            run.state === "failed" ||
+            run.state === "interrupted"
+          }
         >
           <summary className="cursor-pointer text-foreground-subtle">
             {run.cancelRequested && ["queued", "running", "waiting"].includes(run.state)
@@ -261,7 +261,7 @@ export function StudioRunHistory({
       <Dialog
         open={Boolean(review)}
         onOpenChange={(open) => {
-          if (!open) actions.closeReview();
+          if (!open && !reviewPersistenceRisk) actions.closeReview();
         }}
       >
         <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
@@ -310,91 +310,63 @@ export function StudioRunHistory({
               {zh ? "没有文件修改" : "No changed files"}
             </p>
           )}
-          {reviewChanges.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={review!.loading || Boolean(review!.applying)}
-                onClick={() =>
-                  actions.setReviewSelection(studioReviewApplicablePaths(reviewChanges))
-                }
-              >
-                {intl.formatMessage({ id: "studio.delivery.selectAll" })}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={!review!.selected.length || Boolean(review!.applying)}
-                onClick={() => actions.setReviewSelection([])}
-              >
-                {intl.formatMessage({ id: "studio.delivery.clearSelection" })}
-              </Button>
-              <span className="text-ui-sm text-foreground-subtle">
-                {intl.formatMessage(
-                  { id: "studio.delivery.selectedCount" },
-                  { count: review!.selected.length },
-                )}
-              </span>
-              <Button
-                size="sm"
-                disabled={!review!.selected.length || review!.loading || Boolean(review!.applying)}
-                onClick={() =>
-                  void actions.applyReviewSelection(
-                    async (paths) => {
-                      await runtime.service!.applyWorkspaceChanges({
-                        runId: review!.run.id,
-                        stepId: review!.stepId,
-                        paths,
-                      });
-                    },
-                    () =>
-                      runtime.service!.workspaceChanges({
-                        runId: review!.run.id,
-                        stepId: review!.stepId,
-                      }),
-                  )
-                }
-              >
-                {intl.formatMessage(
-                  { id: "studio.delivery.batchApply" },
-                  { count: review!.selected.length },
-                )}
-              </Button>
-            </div>
+          {review && runtime.service && reviewChanges.length > 0 && (
+            <StudioWorkspaceApplyControls
+              service={runtime.service}
+              review={review}
+              actions={actions}
+            />
           )}
           {restartState && (
             <p role="status" className="text-ui-sm text-foreground-subtle">
               {intl.formatMessage({ id: `studio.delivery.restart.${restartState}` })}
             </p>
           )}
-          {review?.changes?.map((change) => (
-            <StudioWorkspaceReviewCard
-              key={change.path}
-              change={change}
+          {review && runtime.service && (
+            <StudioWorkspaceFeedback
+              service={runtime.service}
+              changes={review.changes}
+              observedDraft={runtime.timeline?.reviewDrafts?.find(
+                (draft) => draft.runId === review.run.id && draft.stepId === review.stepId,
+              )}
+              targetId={targetId}
+              runId={review.run.id}
+              stepId={review.stepId}
               zh={zh}
-              busy={review.loading || Boolean(review.applying)}
-              applying={studioReviewApplying(review, change.path)}
-              selected={review.selected.includes(change.path)}
-              onToggle={() => actions.toggleReviewSelection(change.path)}
-              onApply={() =>
-                void actions.applyReview(
-                  change.path,
-                  () =>
-                    runtime.service!.applyWorkspaceChanges({
-                      runId: review.run.id,
-                      stepId: review.stepId,
-                      paths: [change.path],
-                    }),
-                  () =>
-                    runtime.service!.workspaceChanges({
-                      runId: review.run.id,
-                      stepId: review.stepId,
-                    }),
-                )
+              onPersistenceRisk={setReviewPersistenceRisk}
+            >
+              {(feedback) =>
+                review.changes?.map((change) => (
+                  <StudioWorkspaceReviewCard
+                    key={change.path}
+                    change={change}
+                    feedback={feedback}
+                    zh={zh}
+                    busy={review.loading || Boolean(review.applying)}
+                    applying={studioReviewApplying(review, change.path)}
+                    selected={review.selected.includes(change.path)}
+                    onToggle={() => actions.toggleReviewSelection(change.path)}
+                    onApply={() =>
+                      void actions.applyReview(
+                        change.path,
+                        () =>
+                          runtime.service!.applyWorkspaceChanges({
+                            runId: review.run.id,
+                            stepId: review.stepId,
+                            paths: [change.path],
+                          }),
+                        () =>
+                          runtime.service!.workspaceChanges({
+                            runId: review.run.id,
+                            stepId: review.stepId,
+                          }),
+                      )
+                    }
+                  />
+                ))
               }
-            />
-          ))}
+            </StudioWorkspaceFeedback>
+          )}
         </DialogContent>
       </Dialog>
     </div>

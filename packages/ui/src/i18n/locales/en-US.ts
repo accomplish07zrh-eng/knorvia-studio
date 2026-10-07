@@ -1,3 +1,4 @@
+import { attentionEnUS } from "@/studio/attention/messages.js";
 /** English translations */
 import { studioEnUS } from "@/studio/messages.js";
 import { workspaceRuntimeEnUS } from "@/studio/runtime/workspaceRuntimeMessages.js";
@@ -68,6 +69,7 @@ const enUS: Record<string, string> = {
   "chat.metrics.context": "Context usage",
   "chat.metrics.unknown": "— means this metric was not provided by the kernel.",
   ...studioEnUS,
+  ...attentionEnUS,
   ...workspaceRuntimeEnUS,
   ...groupsEnUS,
   ...agentsEnUS,

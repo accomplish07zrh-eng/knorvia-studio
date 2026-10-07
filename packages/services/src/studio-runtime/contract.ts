@@ -22,7 +22,9 @@ export * from "./kernelTypes.js";
 export * from "./workflowTypes.js";
 export * from "./types.js";
 export * from "./workspaceRuntimeTypes.js";
+export * from "./workspaceReviewTypes.js";
 export * from "./agentToolTypes.js";
+export * from "./attentionTypes.js";
 export * from "./domain/outputRef.js";
 export * from "./domain/reference.js";
 export { validateStudioWorkflow } from "./domain/workflowGraph.js";
@@ -41,6 +43,7 @@ export { studioRestartDisplay, STUDIO_ACCEPTANCE_KIND } from "./app/runOutcomePr
 export type { StudioRestartInput } from "./app/runOutcomeProjection.js";
 
 export type StudioCommand = { commandId: string } & (
+  | import("./workspaceReviewTypes.js").StudioReviewCommand
   | { type: "configure"; kernel: StudioKernelId; config: StudioKernelConfig }
   | { type: "create-conversation"; id: string; kernel: StudioKernelId; workspacePath: string }
   | {
@@ -75,8 +78,10 @@ export type StudioCommand = { commandId: string } & (
   | { type: "steer"; runId: string; text: string }
   | { type: "resume"; runId: string; retryUncertain: boolean }
   | { type: "answer"; interactionId: string; answer: StudioKernelAnswer }
+  | { type: "attention-read"; object: "run" | "interaction"; id: string; version: string }
 );
 export interface StudioCommandResult {
+  reviewDraft?: import("./workspaceReviewTypes.js").StudioReviewDraft;
   id: string;
   revision: number;
 }
@@ -86,7 +91,7 @@ export interface IStudioRuntimeService {
     params: import("./workspaceRuntimeTypes.js").StudioWorkspaceRuntimeRequest,
   ): Promise<import("./workspaceRuntimeTypes.js").StudioWorkspaceRuntimeState>;
   overview(): Promise<StudioOverview>;
-  timeline(targetId: string, before?: number): Promise<StudioTimeline>;
+  timeline(targetId: string, before?: number, focusRunId?: string): Promise<StudioTimeline>;
   command(command: StudioCommand): Promise<StudioCommandResult>;
   // 可选探测选项：refresh 表示用户显式要求重新探测，必须绕过探测缓存。
   inspectKernels(options?: StudioKernelInspectOptions): Promise<StudioKernelStatus[]>;

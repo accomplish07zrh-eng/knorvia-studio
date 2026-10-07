@@ -1,3 +1,4 @@
+import { attentionZhCN } from "@/studio/attention/messages.js";
 import { studioZhCN } from "@/studio/messages.js";
 import { workspaceRuntimeZhCN } from "@/studio/runtime/workspaceRuntimeMessages.js";
 import { groupsZhCN } from "@/studio/groups/messages.js";
@@ -58,6 +59,7 @@ const zhCN: Record<string, string> = {
   "chat.metrics.context": "上下文占用",
   "chat.metrics.unknown": "— 表示内核未提供该项数据。",
   ...studioZhCN,
+  ...attentionZhCN,
   ...workspaceRuntimeZhCN,
   ...groupsZhCN,
   ...agentsZhCN,

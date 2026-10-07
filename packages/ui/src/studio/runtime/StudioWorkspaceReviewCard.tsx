@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button.js";
 import { DiffViewer } from "@/components/ui/diff-viewer.js";
 import { useKnorviaStore } from "@/store/StoreProvider.js";
 import { resolveTheme } from "@/useTheme.js";
+import type { WorkspaceFeedbackView } from "./StudioWorkspaceFeedback.js";
 import { studioWorkspaceDiff } from "./studioWorkspaceDiff.js";
 
 export function StudioWorkspaceReviewCard({
@@ -14,6 +15,7 @@ export function StudioWorkspaceReviewCard({
   selected,
   onToggle,
   onApply,
+  feedback,
 }: {
   change: StudioWorkspaceChange;
   zh: boolean;
@@ -22,11 +24,21 @@ export function StudioWorkspaceReviewCard({
   selected: boolean;
   onToggle: () => void;
   onApply: () => void;
+  feedback?: WorkspaceFeedbackView;
 }) {
   const [expanded, setExpanded] = useState(false);
   const theme = useKnorviaStore((state) => state.theme);
   const codePreviewSettings = useKnorviaStore((state) => state.codePreviewSettings);
   const diff = useMemo(() => studioWorkspaceDiff(change), [change]);
+  const anchoredComments =
+    feedback?.comments.filter((comment) => comment.anchor.path === change.path) ?? [];
+  const sameVersion = (comment: (typeof anchoredComments)[number]) =>
+    !!change.version &&
+    ["beforeHash", "afterHash", "sourceHash"].every(
+      (key) =>
+        change.version![key as keyof typeof change.version] ===
+        comment.anchor.version[key as keyof typeof comment.anchor.version],
+    );
   const kind = zh
     ? { added: "新增", modified: "修改", deleted: "删除" }[change.kind]
     : { added: "Added", modified: "Modified", deleted: "Deleted" }[change.kind];
@@ -60,6 +72,38 @@ export function StudioWorkspaceReviewCard({
       {expanded &&
         (diff.canShowText && diff.oldFile && diff.newFile ? (
           <DiffViewer
+            options={
+              feedback && change.version
+                ? {
+                    enableLineSelection: !feedback.disabled && !busy,
+                    onLineSelectionEnd: (range) => {
+                      if (
+                        !range ||
+                        !range.side ||
+                        (range.endSide && range.endSide !== range.side) ||
+                        feedback.disabled ||
+                        busy
+                      )
+                        return;
+                      feedback.controller.select({
+                        path: change.path,
+                        side: range.side === "additions" ? "new" : "old",
+                        startLine: Math.min(range.start, range.end),
+                        endLine: Math.max(range.start, range.end),
+                        version: change.version!,
+                      });
+                    },
+                  }
+                : undefined
+            }
+            lineAnnotations={anchoredComments.filter(sameVersion).map((comment) => ({
+              side: comment.anchor.side === "new" ? ("additions" as const) : ("deletions" as const),
+              lineNumber: comment.anchor.endLine,
+              metadata: comment,
+            }))}
+            renderAnnotation={
+              feedback ? (annotation) => feedback.renderComment(annotation.metadata) : undefined
+            }
             oldFile={diff.oldFile}
             newFile={diff.newFile}
             className="mt-3 max-h-80 min-h-12 rounded-md border border-border"
@@ -75,6 +119,26 @@ export function StudioWorkspaceReviewCard({
               : "Binary or unreadable file; no text diff is available."}
           </p>
         ))}
+      {expanded &&
+        anchoredComments
+          .filter((comment) => !sameVersion(comment))
+          .map((comment) => (
+            <div key={comment.id}>
+              <p role="status">
+                {zh
+                  ? "文件版本已变化：旧批注保留，请明确重选行号。"
+                  : "File version changed: previous comment retained; select the line again."}
+              </p>
+              {feedback?.renderComment(comment)}
+            </div>
+          ))}
+      {expanded && diff.canShowText && !change.version && (
+        <p className="mt-2 text-foreground-subtle">
+          {zh
+            ? "此 Host 未提供文件版本，无法添加可核验的批注。"
+            : "This Host does not provide file versions for anchored comments."}
+        </p>
+      )}
       <Button
         className="mt-2"
         size="sm"

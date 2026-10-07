@@ -1,9 +1,9 @@
 "use client";
 
-import type { CSSProperties, HTMLAttributes } from "react";
+import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { memo, useMemo } from "react";
 import type { BundledTheme } from "shiki";
-import type { FileContents, FileDiffOptions } from "@pierre/diffs";
+import type { FileContents, FileDiffOptions, DiffLineAnnotation } from "@pierre/diffs";
 import { MultiFileDiff, PatchDiff } from "@pierre/diffs/react";
 
 import { cn } from "@/components/lib/utils.js";
@@ -31,9 +31,11 @@ type DiffViewerMultiFileInput = {
   newFile: FileContents;
 };
 
-export type DiffViewerProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> &
+export type DiffViewerProps<T = undefined> = Omit<HTMLAttributes<HTMLDivElement>, "children"> &
   (DiffViewerPatchInput | DiffViewerMultiFileInput) & {
-    options?: FileDiffOptions<undefined>;
+    options?: FileDiffOptions<T>;
+    lineAnnotations?: DiffLineAnnotation<T>[];
+    renderAnnotation?: (annotation: DiffLineAnnotation<T>) => ReactNode;
     disableWorkerPool?: boolean;
     diffClassName?: string;
     fontSizePx?: number;
@@ -49,7 +51,7 @@ export interface DiffViewerSelectedLineRange {
   side: "additions" | "deletions";
 }
 
-function DiffViewerComponent(props: DiffViewerProps) {
+function DiffViewerComponent<T = undefined>(props: DiffViewerProps<T>) {
   const rendersPatch = isPatchDiffProps(props);
   const {
     options: optionsOverride,
@@ -75,7 +77,7 @@ function DiffViewerComponent(props: DiffViewerProps) {
     }),
     [fontSizePx, style],
   );
-  const options = useMemo<FileDiffOptions<undefined>>(
+  const options = useMemo<FileDiffOptions<T>>(
     () => ({
       diffStyle: "unified",
       diffIndicators: "bars",
@@ -108,6 +110,8 @@ function DiffViewerComponent(props: DiffViewerProps) {
       options={options}
       disableWorkerPool={disableWorkerPool}
       selectedLines={selectedLines}
+      lineAnnotations={props.lineAnnotations}
+      renderAnnotation={props.renderAnnotation}
       className={cn("min-h-full w-full", diffClassName)}
       style={viewerStyle}
     />
@@ -118,6 +122,8 @@ function DiffViewerComponent(props: DiffViewerProps) {
       options={options}
       disableWorkerPool={disableWorkerPool}
       selectedLines={selectedLines}
+      lineAnnotations={props.lineAnnotations}
+      renderAnnotation={props.renderAnnotation}
       className={cn("min-h-full w-full", diffClassName)}
       style={viewerStyle}
     />
@@ -137,8 +143,9 @@ function DiffViewerComponent(props: DiffViewerProps) {
   );
 }
 
-export const DiffViewer = memo(DiffViewerComponent);
-DiffViewer.displayName = "DiffViewer";
+const MemoDiffViewer = memo(DiffViewerComponent);
+MemoDiffViewer.displayName = "DiffViewer";
+export const DiffViewer = MemoDiffViewer as typeof DiffViewerComponent;
 
 function isPatchDiffProps(
   props: DiffViewerPatchInput | DiffViewerMultiFileInput,
@@ -146,7 +153,7 @@ function isPatchDiffProps(
   return typeof props.patch === "string";
 }
 
-function omitPatchDiffProps({
+function omitPatchDiffProps<T>({
   patch: _patch,
   options: _options,
   disableWorkerPool: _disableWorkerPool,
@@ -156,14 +163,16 @@ function omitPatchDiffProps({
   darkTheme: _darkTheme,
   themeType: _themeType,
   selectedLines: _selectedLines,
+  lineAnnotations: _lineAnnotations,
+  renderAnnotation: _renderAnnotation,
   className: _className,
   style: _style,
   ...divProps
-}: DiffViewerProps & DiffViewerPatchInput) {
+}: DiffViewerProps<T> & DiffViewerPatchInput) {
   return divProps;
 }
 
-function omitMultiFileDiffProps({
+function omitMultiFileDiffProps<T>({
   oldFile: _oldFile,
   newFile: _newFile,
   options: _options,
@@ -174,9 +183,11 @@ function omitMultiFileDiffProps({
   darkTheme: _darkTheme,
   themeType: _themeType,
   selectedLines: _selectedLines,
+  lineAnnotations: _lineAnnotations,
+  renderAnnotation: _renderAnnotation,
   className: _className,
   style: _style,
   ...divProps
-}: DiffViewerProps & DiffViewerMultiFileInput) {
+}: DiffViewerProps<T> & DiffViewerMultiFileInput) {
   return divProps;
 }
