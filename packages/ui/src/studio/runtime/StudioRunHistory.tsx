@@ -21,6 +21,7 @@ import {
 } from "./studioRunHistoryWindow.js";
 import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
+import { StudioWorkspaceRuntimeCard } from "./StudioWorkspaceRuntimeCard.js";
 
 export function StudioRunHistory({
   targetId,
@@ -224,6 +225,12 @@ export function StudioRunHistory({
                   )}
                 </div>
                 {step?.error && <p className="mt-1 text-destructive">{step.error}</p>}
+                {!compact &&
+                  !["queued", "running", "waiting"].includes(run.state) &&
+                  ((run.workspaceStepIds ?? []).includes(stepId) ||
+                    (run.kind === "chat" && step?.workspacePath)) && (
+                    <StudioWorkspaceRuntimeCard runId={run.id} stepId={stepId} />
+                  )}
               </div>
             );
           })}

@@ -21,6 +21,7 @@ import {
 import { recoverWorkspaceJournal } from "./workspaceRecovery.js";
 import type { StudioApplyReceipt } from "../types.js";
 import type { WorkspaceLocation, WorkspaceMetadata } from "./workspaceSnapshot.js";
+import { studioWorkspaceSecretPath } from "../domain/workspaceSecrets.js";
 
 /** 应用隔离改动，并返回 Host 自己的应用回执（操作 id 与 journal 文件名同源）。 */
 export async function applySnapshot(
@@ -49,6 +50,8 @@ export async function applySnapshot(
   let totalBytes = 0;
   for (const path of paths) {
     relativeFile(path);
+    if (studioWorkspaceSecretPath(path))
+      throw new Error("Credential files cannot be published from snapshots.");
     const before = await readSafeFile(location.baseline, path);
     const beforeHash = contentHash(before);
     if (beforeHash !== (metadata.baseline[path]?.hash ?? null))

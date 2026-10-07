@@ -1,5 +1,7 @@
 # Studio runtime
 
+`workspaceRuntime` queries or explicitly controls a runtime belonging to an existing run/step workspace. The app owner admits approved argv, persists token-fenced lifecycle facts, and delegates process/port IO to the Node adapter. Commands, environment and process output are never persisted. Recover verifies process birth identity before cleanup; failures retain truthful failed/interrupted/cleanup-required states. See `specs/knorvia-workspace-runtime.md`.
+
 Host owns accepted external conversations, groups and workflow runs. SQLite transactions admit idempotent commands; one fenced executor lease drives native calls. Renderers consume revisioned projections and never own an accepted run queue. Native Knorvia single chat retains its existing V4 owner.
 
 Public browser contract: `contract.ts`. Node composition: `node.ts`. Domain is pure, app uses explicit ports, adapters own I/O. Acknowledgement is admission, not completion. Unknown native side effects become interrupted on recovery and require explicit retry. Member sessions and workspace identities remain separate. See `specs/knorvia-backend.md` for invariants and acceptance.

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { lstat, mkdir, open, readdir, realpath, stat } from "node:fs/promises";
 import { dirname, isAbsolute, join, parse, relative, resolve } from "node:path";
 import { sameLocation } from "./longPath.js";
+import { studioWorkspaceSecretPath } from "../domain/workspaceSecrets.js";
 
 export const MAX_FILE_BYTES = 16 * 1024 * 1024;
 export const MAX_TOTAL_BYTES = 256 * 1024 * 1024;
@@ -147,6 +148,7 @@ export async function scanWorkspace(
         throw new Error("Workspace contains too many entries to isolate safely.");
       if (ignoredDirectories.has(entry.name.toLowerCase())) continue;
       const path = relativeFile(`${prefix}${entry.name}`);
+      if (studioWorkspaceSecretPath(path)) continue;
       const absolute = join(root, path);
       await safePath(absolute);
       const info = await lstat(absolute);
