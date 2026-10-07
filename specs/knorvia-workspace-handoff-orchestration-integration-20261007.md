@@ -339,3 +339,9 @@ seconds, while direct .NET birth-time inspection completes in 289 ms. Compare
 read-only System.Management WMI against the same Win32_Process fields and native
 netstat listener/PID output at the existing budgets. These use documented OS APIs,
 not installed modules or downloaded implementations. No production fix is yet applied.
+
+Module-independent WMI returns the existing PID/parent/UTC birth fields in 890 ms
+after initialization; native netstat attributes the owned listener in 20 ms.
+Its first two calls hit the legacy 2,500 ms budget. Measure one uninterrupted
+cold read at 7,500 ms before selecting a workspace-specific initialization bound.
+Legacy provider query mode and absolute cleanup deadlines must remain intact.

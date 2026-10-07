@@ -52,9 +52,9 @@ jobs:
           try {
             const wmiAll="[void][System.Reflection.Assembly]::LoadWithPartialName('System.Management'); $search=[System.Management.ManagementObjectSearcher]::new('SELECT ProcessId, ParentProcessId, CreationDate FROM Win32_Process'); try { $search.Get() | ForEach-Object { if ($_.CreationDate) { '{0} {1} {2}' -f $_.ProcessId, $_.ParentProcessId, ([System.Management.ManagementDateTimeConverter]::ToDateTime($_.CreationDate).ToUniversalTime().Ticks) } } } finally { $search.Dispose() }";
             const wmiFiltered=wmiAll.replace('FROM Win32_Process',`FROM Win32_Process WHERE ProcessId = ${child.pid}`);
-            await query('direct-WMI-existing-budget',selected,wmiAll,2500);
-            await query('direct-WMI-filtered-existing-budget',selected,wmiFiltered,2500);
-            await query('direct-WMI-completion-duration',selected,wmiAll,10000);
+            await query('direct-WMI-cold-initialization',selected,wmiAll,7500);
+            await query('direct-WMI-warm-filtered',selected,wmiFiltered,2500);
+            await query('direct-WMI-warm-completion',selected,wmiAll,2500);
             const start=Date.now();
             const result=await new Promise(resolve=>execFile('netstat.exe',['-ano','-p','TCP'],{env:selected,encoding:'utf8',windowsHide:true,timeout:1500},(error,stdout,stderr)=>resolve({error,stdout,stderr})));
             const listener=result.stdout.split(/\r?\n/).some(row=>{const fields=row.trim().split(/\s+/);return fields[0]==='TCP'&&fields[1]===`127.0.0.1:${port}`&&fields[2]==='0.0.0.0:0'&&fields[3]==='LISTENING'&&Number(fields[4])===child.pid});
