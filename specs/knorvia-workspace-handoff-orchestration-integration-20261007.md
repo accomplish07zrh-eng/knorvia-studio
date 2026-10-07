@@ -321,3 +321,9 @@ bounded probe may inspect the existing Windows process helper against its own
 long-lived synthetic child, report counts/timing/error codes as annotations,
 and compare only explicit safe OS projections. It must not print or forward
 ambient secrets, weaken birth identity checks or change product deadlines.
+
+The second probe confirms the all-process CIM helper is killed at 2,500 ms with
+zero rows under both selected and explicitly extended safe OS environments.
+A final small probe measures successful query duration, root-filtered CIM at the
+existing budget, and attribution of its own loopback listener. It distinguishes
+whole-table cost from startup and port module cost before changing production.
