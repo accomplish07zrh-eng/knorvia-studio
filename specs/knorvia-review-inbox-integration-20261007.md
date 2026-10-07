@@ -38,9 +38,9 @@
 ## 跨任务接口与先行约束
 
 - 批注任务拥有批注 spec、模型/版本锚点、编辑与保存/提交 UI、原 Agent 定向回改能力及相应测试。
-- 收件箱任务拥有收件箱 spec、跨内核事实投影、导航/已读 UI、读取游标（如确有需要）及相应测试。
-- 独立回归任务审核两者的真实组件/服务场景、来源与边界，不复制另一个产品实现。
-- 整合任务先拥有本 spec、跨功能验收与发布报告；收到功能 PR 后再做必要接口修复。不得提前改两条任务同时需要的公共 UI/服务文件。
+- 收件箱任务拥有收件箱 spec、跨内核事实投影、导航/已读 UI、读取游标（如确有需要）及相应测试。原任务因超出工具参数大小限制而失败，原线程重试仍失败，父任务已明确停止调用该失败线程；没有可见实现可接纳。
+- 按父任务后续分工，复用原独立回归任务 `01a114d9-8ba5-76ea-9e1c-9186dc652024` 承接收件箱与原生读取回包 CAS 防护。该任务负责 `taskQueryCacheStore`、`useWorkspaceTaskNavigation` 等必要生产修正及其功能回归，不新建替代线程，不复制另一个产品实现。
+- 整合任务拥有本 spec、独立跨功能验收与发布报告；收到功能 PR 后再做必要接口修复。整合任务尚未修改 CAS 生产文件，将独立验证接手任务的实现，不与其同时编辑共用缓存/导航文件。
 - 两任务如需修改 `studio-runtime/contract.ts`、`types.ts`、服务注册、`StudioClient`、共享消息或菜单入口，须先通过各 PR 评论报告公共字段、唯一写入者与冲突文件；独立回归/整合协调合并顺序，避免重复写入者。
 - 回改请求必须绑定 run/step、产物路径、内核/原 conversation、冻结内容摘要/版本、批注范围与明确用户文字；从 Host 已有收据解析归属，不信任 Renderer 自报绝对路径或切换后的 Agent。
 - 明确事件顺序：读取差异 → 建立锚点 → 编辑/持久草稿 → 提交时再核验 → 既有受理 → 回执 → 派生收件箱。await 前后校验连接/workspace/归属，旧请求结果不能覆盖新上下文。
@@ -53,6 +53,21 @@
 - 桌面连续流与已有远端连接使用既有契约；本轮不修改 mobile/replay 行为。
 
 ## 代表性验收与证据门槛
+
+### 整合任务的独立读取回包交互 gate
+
+整合任务将在真实 React DOM 中挂载现有 `useWorkspaceTaskNavigation`，点击触发真实 query cache 路径；仅替换服务/会话/tab 等外部 ports，用合成任务和受控 Promise 分别保留成功/失败回包。该辅助 gate 不修改共用生产文件，不预设接手任务的操作 token 字段。jsdom 为 `/tmp` 中的验收依赖，不加入产品依赖或发布包。
+
+必测：正常已读、新权威 marker 后旧成功/失败回包、第二次阅读后旧回包的 ABA、删除或清空后同 ID 重建、不同 workspaceIdentity 的隔离、旧 marker 查询与 Host CAS 回包。还须通过真实 `taskStatusUnreadSync` 入口验证后台 mark-unread 的旧成功回包不能覆盖后来显式阅读，旧失败 rollback 不能清新 marker 或回写旧 Dock 兼容投影。该共用异步消费端由收件箱/CAS owner 一并修正，整合只写独立测试。调用计数只能使用既有未读字段入口，不能调用 `answer`/`send`/`resume`。旧树须确实暴露反例；接手修复 head 的相同 gate 必须通过，不能修改断言来适应错误行为。
+
+这证明真实 React hook/cache 的交互和受控服务时序，不等于完整桌面 GUI、真实 provider 或真实账号。当前环境没有 Electron 已安装运行时、desktop main 输出或 Xvfb；这些缺失如实记录，完整桌面验收需补齐环境或在已有 CI 中实际执行，不能把 DOM gate 声称为已安装 GUI。
+
+辅助 gate：`packages/ui/test/integration-native-read-response.dom.mjs`，延续现有 `.dom.mjs` 辅助交互 gate 约定，需显式运行，不以普通离线入口通过替代它。旧生产树在 `55ea3339` 上的执行结果为 exit 1，12 tests / 4 pass / 8 fail / 0 cancelled / 0 skip；失败次序正是上述迟到回包/ABA/重建/新 membership/后台同步反例，不是测试框架加载失败。接手修复与最终整合 head 必须使同一 gate 全部通过。
+
+```bash
+npm install --prefix /tmp/knorvia-integration-dom --cache /tmp/knorvia-integration-npm-cache --no-audit --no-fund --ignore-scripts jsdom@26.1.0
+TSX_TSCONFIG_PATH="$PWD/packages/ui/tsconfig.json" KNORVIA_INTEGRATION_DOM_DEPS=/tmp/knorvia-integration-dom node --experimental-test-module-mocks --import tsx --test --test-concurrency=1 --test-timeout=120000 packages/ui/test/integration-native-read-response.dom.mjs
+```
 
 | 场景                                | 必须断言                                                                                             | 证据                                                        |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
