@@ -18,7 +18,8 @@ Host 可配置默认的并发、总子任务、深度、消息轮次、attempt�
 - `pnpm lint`：0 error；仅保留 `scripts/packaged-runtime-evidence.mjs:121` 既有 control-regex warning。
 - 新增文件 `oxlint --deny-warnings`：通过。
 - `pnpm architecture:check --changed`：0 violation / 0 baseline / 0 new；状态所有者未迁移。
-- 最终定向测试：45/45，通过真实 SQLite、fake kernels 与真实 stdio MCP 子进程。覆盖并发/重复命令、不同 payload、重复事件、丢 ACK、重新开库、旧 attempt、成员归属、跨回合复用、权限、模型能力、busy 复用、取消不确定性、资源上限、1205 个文件引用和完整/分段结果。
+- 最终定向测试：47/47，通过真实 SQLite、fake kernels 与真实 stdio MCP 子进程。覆盖并发/重复命令、不同 payload、重复事件、丢 ACK、重新开库、旧 attempt、成员归属、跨回合复用、权限、模型能力、busy 复用、取消不确定性、资源上限、1205 个文件引用和完整/分段结果。
+- `studio-agent-provider.test.ts` 使用生产 shared-capability wrapper / `startCodex`，断言线程级 MCP 配置启动真实 stdio 工具进程，完成目录查询、派发、结果/文件引用读取、ACK，回合返回后凭据失效；仅替换原生协议响应，不调用模型。Antigravity / SSH 测试验证原生 warning 保留、无 workspace 的选项也显示限制、群聊运行显示 progress、未创建 grant，SSH 未收到本机 MCP 路径或配置。
 - `pnpm test:studio`：810 个测试文件，8321 pass、8 skip、0 fail。广泛回归完成后，后续归属细化由上述最终定向测试再次验证。
 - 生成并检查 provenance inventory、`pnpm fmt:check`：提交前执行，结果以 PR / final 报告为准。现有 26 项第三方材料义务保留，无全项目原创/许可完成声明。
 
@@ -28,4 +29,6 @@ Host 可配置默认的并发、总子任务、深度、消息轮次、attempt�
 
 `turnExecutor` 增加 attempt fence 及持久化 caller 字段 `kernel` / `permission` / `workspacePath` / `conversationId`；为子任务使用 workspace manager 的物理 run/step 身份。`node.ts` 注入桥接，新增受信任 Host 参数 `agentPolicy` / `agentToolExecutablePath`，后者供打包环境提供能运行 Node `-e` 的执行程序。其他共同修改为 admission receipt helper、interaction/outcome outbox hook 与 shared MCP projection。未改 repository schema、`ports.ts`、renderer 或 runtime process controls。合并时重新生成合并后的 provenance 清单。
 
-Portable MCP 没有通用的主动模型消息接口：模型调用 `get_events` 接收并 ACK 持久通知，原有 Studio timeline 同时显示去重消息；通知不会启动新 native run。SSH 工具派发暂不支持，等待环境通道归属桥接；Antigravity 没有每回合 MCP 入口。Knorvia 原生 registry 尚不提供模型目录，因此不能验证显式模型覆盖时会失败关闭。未调用真实付费 provider、账号登录或凭据配置；Windows/macOS 打包及原生 provider 验收留给集成环境。移动端明确排除。Integrator 拥有合并、版本与发布。
+Portable MCP 没有通用的主动模型消息接口：模型调用 `get_events` 接收并 ACK 持久通知，原有 Studio timeline 同时显示去重消息；通知不会启动新 native run。SSH 工具派发暂不支持，等待环境通道归属桥接；Antigravity 没有每回合 MCP 入口。已配置 Agent bridge 时，两者在已有模型选项的共享资源兼容提示和会话 timeline progress 明示原因；普通内核回合继续执行。Knorvia 原生 registry 尚不提供模型目录，因此不能验证显式模型覆盖时会失败关闭。未调用真实付费 provider、账号登录或凭据配置；Windows/macOS 打包及原生 provider 验收留给集成环境。移动端明确排除。Integrator 拥有合并、版本与发布。
+
+安装环境中的 `codex-cli 0.159.0-alpha.3` 原生探测在 initialize 前失败：既有 Codex home 位于只读文件系统，app-server 不能初始化 SQLite state runtime。已停止探测，未改 HOME / CODEX_HOME、权限或凭据；未调用 `turn/start`。生产适配器路径有上述可重放离线证据，真实原生二进制接受注入仍需要可写的正常集成环境。

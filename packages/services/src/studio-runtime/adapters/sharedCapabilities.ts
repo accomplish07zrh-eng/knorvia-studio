@@ -174,10 +174,22 @@ export function withStudioSharedCapabilities(
   ) {
     return unavailable.map((item) => `${item.pluginId} / ${item.serverName}：${item.reason}`);
   }
+  function agentToolWarning(kernel: StudioKernelTurn["kernel"]): string | undefined {
+    if (!options.agentBridge) return;
+    if (parseRemoteStudioKernelId(kernel))
+      return "SSH 内核暂不支持 Studio Agent 工具；等待远端 Host 归属桥接接入";
+    if (kernel === "antigravity") return "Antigravity CLI 尚无每会话 Studio Agent 工具注入入口";
+  }
   return {
     ...registry,
     async options(params) {
-      const native = (await registry.options?.(params)) ?? { models: [] };
+      let native = (await registry.options?.(params)) ?? { models: [] };
+      const agentWarning = agentToolWarning(params.kernel);
+      if (agentWarning)
+        native = {
+          ...native,
+          sharedResourceWarnings: [...(native.sharedResourceWarnings ?? []), agentWarning],
+        };
       if (parseRemoteStudioKernelId(params.kernel)) return native;
       if (params.kernel === "knorvia" || !params.workspacePath) return native;
       const [plugin, mcp] = await Promise.all([
@@ -186,11 +198,12 @@ export function withStudioSharedCapabilities(
           .loadMcpFromUserDirectory({ workspacePath: params.workspacePath })
           .catch(() => undefined),
       ]);
-      const warnings = resourceWarnings(plugin.unavailable);
+      const warnings = [
+        ...(native.sharedResourceWarnings ?? []),
+        ...resourceWarnings(plugin.unavailable),
+      ];
       if (params.kernel === "antigravity" && options.creationBridge)
         warnings.push("Antigravity CLI 尚无每会话创作工具注入入口");
-      if (params.kernel === "antigravity" && options.agentBridge)
-        warnings.push("Antigravity CLI 尚无每会话 Studio Agent 工具注入入口");
       if (!mcp) warnings.push("无法读取 Studio MCP 配置；请检查设置后重试");
       else {
         try {
@@ -209,7 +222,17 @@ export function withStudioSharedCapabilities(
     adapter(kernel) {
       const adapter = registry.adapter(kernel);
       // 远端 Host 自己投影技能/MCP；本机绝对路径不能注入 SSH CLI。
-      if (parseRemoteStudioKernelId(kernel)) return adapter;
+      if (parseRemoteStudioKernelId(kernel)) {
+        const warning = agentToolWarning(kernel);
+        if (!warning) return adapter;
+        return {
+          async run(turn, sink, signal) {
+            // 修复原因：远端直接返回原 adapter 会静默跳过工具；只显示兼容提示，不投影本机凭据。
+            await sink.emit({ type: "progress", text: warning });
+            return adapter.run(turn, sink, signal);
+          },
+        };
+      }
       if (kernel === "knorvia") {
         if (!options.creationBridge && !options.agentBridge) return adapter;
         return {
@@ -253,6 +276,9 @@ export function withStudioSharedCapabilities(
           try {
             if (await recovery) throw new Error("Studio MCP 临时配置恢复清理失败");
             signal.throwIfAborted();
+            const agentWarning = agentToolWarning(kernel);
+            // 修复原因：群聊/工作流未必读取模型选项，运行时间线也必须说明工具缺失。
+            if (agentWarning) await sink.emit({ type: "progress", text: agentWarning });
             const nativeSlash = /^\/[^\s/]+(?:\s|$)/.test(turn.text.trimStart());
             const [listed, mcp, plugin] = await Promise.all([
               options.skills.list({ workspacePath: turn.workspacePath }),
