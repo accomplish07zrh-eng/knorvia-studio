@@ -147,11 +147,64 @@ Windows case variants. Update that lane's spec and rerun its checks. A successfu
 existing CI run cannot waive this confirmed acceptance failure. Review continues
 on the corrected feature head; no merge has been performed.
 
-Remaining dependencies are the corrected workspace PR and the handoff and
-orchestration PRs with finalized public interfaces. Cross-feature tests, final
-integration review, exact-head CI, merged source/version and new stable
-publication remain pending. No new release/tag, mobile change, signing setup or
-live website deployment has occurred.
+### Corrected workspace and all-lane integration
+
+Workspace head `c747a6aa188618919fa8334a932f35eed3026adf` replaces ambient
+inheritance with a bounded OS environment projection, including Windows casing.
+The original independent probe now exits 0: all four synthetic credential and
+captured-metadata keys are absent. Four corrected lifecycle/environment test
+files exit 0: 17 passed, zero failed/cancelled/skipped. Setup descendants and
+service launches are covered. Recovery only inspects and cleans proved process
+identities; it does not replay the setup or service command.
+
+[PR #43](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/43), initial
+head `01fc62aa54c2cd4636a3eda6d0e1a2d7e4e7aff2`, independently passes its three
+agent-focused files (15 tests) and five adjacent provider/native/recovery/shared
+capability files (45 tests), all exit 0 with no skips. Its Node bridge explicitly
+sets Electron Node mode. Follow-up `3c17d5bb772d971e24f4640b3a456df1698b207d`
+adds provider injection coverage and explicit unsupported-provider notices.
+
+[PR #44](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/44), head
+`3fa497e939f0752b0a45b8d0be7c30457b974b8d`, independently passes 24 focused
+handoff/schema tests and five Chromium scenarios with no browser errors. The
+browser checks reload, redaction, cancellation, stale references, repeat confirm,
+fixed native/external retry IDs, late results and desktop button reachability.
+Fourteen adjacent store/native-source tests also pass; the native V4 transport
+test initially fails because the direct command omitted the launcher's required
+`TSX_TSCONFIG_PATH`, then exits 0 (one test) with the existing UI alias config.
+Evidence is in `/tmp/knorvia-pr44-browser/results.json` and the review logs.
+
+All three feature heads are combined locally on the integration branch, with
+additive Studio dependency/constructor/type-export conflict resolution and a
+fresh combined provenance inventory. First integrated root typecheck (5,537
+matching locale keys) and full/changed architecture checks exit 0. Main remains
+unchanged. Feature checks and final source checks are still required.
+
+**Second release blocker confirmed:** Agent kernel discovery reads persisted
+`kernel-status` entries in `app/agentDispatch.ts`, but production
+`inspectStudioKernels` only persists remote entries. The lane fixtures directly
+seed local entries, concealing the empty production catalog. An independent
+SQLite/active-caller probe removes the fixture-only row, invokes the actual
+service inspection route returning an installed/configured kernel, and receives
+an empty agent catalog. Its assertion exits 1. Local probe/log:
+`/tmp/knorvia-agent-catalog-review.mjs`, `/tmp/knorvia-pr43-catalog-review.log`.
+The parent must route the correction to the orchestration owner and verify
+discovery through the existing owner without fixture-only status rows.
+
+The new integration scenario enters through `createStudioRuntimeService` and
+the actual external handoff create/send route. Its synthetic executable receives
+the real Codex thread MCP configuration and uses a real stdio child to call the
+Host. Without seeded local status it currently reproduces the same defect:
+parent result is failed with “Production discovery did not expose the configured
+kernel”; exit 1. It will continue through deduplicated dispatch, real snapshot
+output, explicit setup/service approval, safe child environments, loopback
+readiness/owned cleanup and a reopened durable ACK after the correction. This
+expected current failure is a release blocker, not a waived check. The fixture
+does not use real accounts or make model requests.
+
+Final integration review/tests, exact-head CI, merged source/version and stable
+publication remain pending. No release/tag, mobile change, signing setup or live
+website deployment has occurred.
 
 No installed human GUI, real model-task, signing or full legacy-user migration
 acceptance is claimed by this baseline investigation.

@@ -165,6 +165,25 @@ pure helper assertion does not establish interactive GUI acceptance.
 
 ## Integration and stable release gates
 
+The integration fixture must enter through the real Node composition and existing
+external handoff commands, without seeding local `kernel-status` rows. A local
+synthetic Codex executable receives the actual thread MCP configuration and uses
+the real stdio transport to list kernels, dispatch a child, read its durable
+completion/result/artifact references and ACK the event. Only provider responses
+are synthetic; discovery, admission, SQLite, snapshot placement and subprocess
+transport remain the production owners. This catches disconnected discovery
+paths that adapter-only fixtures can conceal.
+
+The same scenario reloads version-1 composer data and the saved structured goal,
+submits a redacted partial-history handoff, checks the child wrote only its
+isolated workspace, and explicitly approves setup and a loopback service after
+the parent and child finish. Real readiness and owned cleanup are required.
+Synthetic environment sentinels must be absent in both setup and service
+children and their saved reports; captured credential metadata never becomes a
+handoff or completion payload. A SQLite reopen must preserve the ACK and exactly
+one timeline notification without dispatching another provider turn. No real
+model, account login or human installed-GUI acceptance is implied by this test.
+
 1. Record fresh main and every feature PR head; review specs/contracts, changed
    files, tests, migrations and provenance. No partial three-feature release.
 2. Integrate all three checked lanes on an isolated branch. Recheck upstream
