@@ -352,3 +352,10 @@ read-only timeout retry outside cleanup. Native netstat uses strict owned TCP
 loopback listener matching. Rerun the original seven files plus the two new
 regressions against immutable corrected source; emit result counts as normal
 annotations. This focused check remains supplemental to full exact-source CI.
+
+The corrected immutable follow-up 225d3f06 uses the existing 2,000 ms Windows
+recovery grace to permit fresh birth verification, and the crash fixture accepts
+Windows Host-job cleanup while retaining interrupted/proof/recovery assertions.
+Add its real-process-owner synthetic PID-reuse regression to focused verification.
+The aggregate 71cddfe6 local full suite passed 8,380 tests with eight skips; its
+Windows focused run still failed these two cases, so it is not release-qualified.

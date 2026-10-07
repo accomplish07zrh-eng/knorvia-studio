@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 71cddfe6f620ab767aa8716a5d0161d54dc6f572
+          ref: 225d3f06e116954a92c767cee66abdf307eaf279
       - uses: pnpm/action-setup@v4
         with:
           version: 10.33.2
@@ -43,6 +43,7 @@ jobs:
             'process-helper-environment.test.ts',
             'process-workspace-windows-query.test.ts',
             'studio-workspace-windows-port.test.ts',
+            'studio-workspace-windows-recovery.test.ts',
             'studio-integrated-runtime.test.ts',
           ];
           const data = await mkdtemp(join(tmpdir(), 'knorvia-focused-windows-'));
