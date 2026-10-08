@@ -6,11 +6,11 @@
   },
   "scope": "Existing tracked and non-ignored untracked files; deleted files absent; symlinks not followed; no source contents. Not an authorship certification or a runtime dependency closure.",
   "summary": {
-    "total": 16434,
+    "total": 16435,
     "classifications": {
       "upstream-unchanged": 1478,
       "upstream-modified": 2413,
-      "unreviewed": 9092,
+      "unreviewed": 9093,
       "original": 703,
       "independent-replacement": 439,
       "reviewed-retained": 8,
@@ -15772,6 +15772,7 @@
     {"path":"specs/endpoint-scoped-builtin-source-independent.md","kind":"file","sha256":"fe276778337e60965ad4986c82ec418d4c93c658cbdb56713e04628b2653e373","normalizedSha256":"fe276778337e60965ad4986c82ec418d4c93c658cbdb56713e04628b2653e373","encoding":"utf8-lf","bytes":11091,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/endpoint-scoped-builtin-source-review-addendum.md","kind":"file","sha256":"b658afe06bb1659206117127d41b108a63bcb1a2e4868a576d02a9d1ae6189f9","normalizedSha256":"b658afe06bb1659206117127d41b108a63bcb1a2e4868a576d02a9d1ae6189f9","encoding":"utf8-lf","bytes":2128,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/knorvia-activity-rail.md","kind":"file","sha256":"cc62e8312a12f10d64201c1acc0923b08a40e7de3e06bc428074c00559aa2101","normalizedSha256":"cc62e8312a12f10d64201c1acc0923b08a40e7de3e06bc428074c00559aa2101","encoding":"utf8-lf","bytes":8178,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
+    {"path":"specs/knorvia-adapter-image-integration-20261008.md","kind":"file","sha256":"bc35a7ac2e352dc5e6de9aed212752d75fb62053ce5fb9b80b2a9256233ac29d","normalizedSha256":"bc35a7ac2e352dc5e6de9aed212752d75fb62053ce5fb9b80b2a9256233ac29d","encoding":"utf8-lf","bytes":15339,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/knorvia-agent-identity.md","kind":"file","sha256":"3d58efcca35d4c087221c614a1dba63963294fde6858bdc1b3530dc53c44b7ce","normalizedSha256":"3d58efcca35d4c087221c614a1dba63963294fde6858bdc1b3530dc53c44b7ce","encoding":"utf8-lf","bytes":1863,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/knorvia-agent-runtime-composition-20261003.md","kind":"file","sha256":"70b98c0151f40415d55c7d5167c8280c0f94fd8dcdabc25005dc07e49c791f15","normalizedSha256":"70b98c0151f40415d55c7d5167c8280c0f94fd8dcdabc25005dc07e49c791f15","encoding":"utf8-lf","bytes":2078,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/knorvia-agent-tool-invocation.md","kind":"file","sha256":"4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969","normalizedSha256":"4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969","encoding":"utf8-lf","bytes":7408,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
