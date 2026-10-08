@@ -64,3 +64,11 @@ Node 解码使用仓库已锁定的常规第三方 PNG/JPEG 编解码依赖并�
 - [Codex rust-v0.161.0 Model](https://raw.githubusercontent.com/openai/codex/rust-v0.161.0/codex-rs/app-server-protocol/schema/typescript/v2/Model.ts)：原生模型输入能力字段。
 - [Codex UserInput](https://raw.githubusercontent.com/openai/codex/rust-v0.161.0/codex-rs/app-server-protocol/schema/typescript/v2/UserInput.ts)：typed image URL 与 localImage 路径是不同输入形式。
 - [Codex TurnStartParams](https://raw.githubusercontent.com/openai/codex/rust-v0.161.0/codex-rs/app-server-protocol/schema/typescript/v2/TurnStartParams.ts)：原 turn/start 结构化输入。
+
+## 实现补充：受理回执与窗口恢复
+
+`StudioCommandResult.imageRejection` 表示 Host 明确在入队前拒绝，原草稿继续可编辑；传输错误仍为未知 ACK，原 CID 和冻结载荷绑定原服务重试。`timeline` 第五可选 `admissionCommandId` 只读查找原 command 回执并核验 run/target/CID，返回 `admission` 与该运行的完整引用；不创建新任务，不增加 RPC 方法（仍为 12）。该查找解决 reload 或历史分页淘汰后受理事实不可见的问题。没有回执且窗口已失去原图片时，显示需连接原 Host 检查的未知提交，不自动重新执行。
+
+未发送图片与待确认载荷共用窗口级 16 MiB 总内存预算，localStorage 仅保存元数据与待确认 CID/捕获 ID，不写截图 base64。明确放弃不明提交的策略不由图片工具擅自决定。
+
+贴图 UI 在原 prepared command 内冻结 `imageModel`（目录确认的实际模型）和现有 `kernelConfig` 权限/可执行文件快照；Host 拒绝与显式 selection 不一致的图片模型，再查询真实目录并核对原生响应。`imageModel` 只 pin 本次运行，不改变会话的 CLI 默认偏好。重试仍使用原快照，不能随新草稿模型或全局权限变化转用另一条执行路径。

@@ -32,6 +32,7 @@ const grokModels=[{modelId:'grok-4.7',name:'Grok 4.7',_meta:{supportsReasoningEf
 grokModels.push({...grokModels[0],modelId:'grok-expensive',name:'Expensive'});
 const claudeModels=[{value:'default',resolvedModel:'claude-opus-test',displayName:'Default',supportsEffort:true,supportedEffortLevels:['low','high']},{value:'sonnet',resolvedModel:'claude-sonnet-test',displayName:'Sonnet',supportsEffort:true,supportedEffortLevels:['low','high']},{value:'haiku',resolvedModel:'claude-haiku-test',displayName:'Haiku'}];
 const codexModels=[{id:'catalog-id',model:'gpt-5.6-luna',displayName:'Luna',defaultReasoningEffort:'medium',supportedReasoningEfforts:[{reasoningEffort:'low'},{reasoningEffort:'medium'}],isDefault:true},{model:'internal-only',displayName:'Internal',hidden:true,supportedReasoningEfforts:[{reasoningEffort:'max'}]}];
+if(scenario.imageModalities) for(const m of codexModels) m.inputModalities=scenario.imageModalities;
 const config=(effort)=>[{id:'model',name:'Model',type:'select',currentValue:scenario.reroute?'unexpected-expensive':model,options:grokModels.map(m=>({value:m.modelId,name:m.name}))},{id:'reasoning_effort',name:'Reasoning Effort',category:'thought_level',type:'select',currentValue:scenario.ignoreEffort?'high':effort,options:[{value:'economy',name:'Low'}]}];
 readline.createInterface({input:process.stdin}).on('line',line=>{
  const m=JSON.parse(line); fs.appendFileSync('wire.jsonl',JSON.stringify(m)+'\n');
@@ -43,6 +44,7 @@ readline.createInterface({input:process.stdin}).on('line',line=>{
  if(method==='initialized') return;
  if(method==='config/read') return reply(id,{config:scenario.actualDefault?{model:'gpt-5.6-terra',model_reasoning_effort:'ultra',unrelated_secret:'must-not-leave-process'}:{}});
  if(method==='model/list') return reply(id,scenario.empty?{data:[],nextCursor:null}:m.params.cursor?{data:[{model:'gpt-5.6-terra',displayName:'Terra',supportedReasoningEfforts:[{reasoningEffort:'ultra'}]}],nextCursor:scenario.repeatCursor?'page2':null}:{data:codexModels,nextCursor:'page2'});
+ if(scenario.imageReroute && (method==='thread/start'||method==='thread/resume')) m.params.model='wrong-model';
  if(method==='thread/start'||method==='thread/resume') return reply(id,{thread:{id:'native-session'},model:m.params.model||'gpt-5.6-luna'});
  if(method==='thread/read') return reply(id,{thread:{id:'native-session',cwd:process.cwd(),status:{type:'idle'}}});
  if(method==='thread/compact/start') {
@@ -51,6 +53,11 @@ readline.createInterface({input:process.stdin}).on('line',line=>{
   return send({method:'turn/completed',params:{threadId:'native-session',turn:{id:'compact-turn',status:'completed'}}});
  }
  if(method==='turn/start') {
+  for(const input of m.params.input) if(input.type==='image') {
+   const bytes=Buffer.from(input.url.split(',')[1],'base64');
+   const decoded=input.url.startsWith('data:image/png')?require(scenario.imagePngPath).PNG.sync.read(bytes):require(scenario.imageJpegPath).decode(bytes,{useTArray:true});
+   fs.appendFileSync('image-proof.jsonl',JSON.stringify({sha256:require('node:crypto').createHash('sha256').update(bytes).digest('hex'),width:decoded.width,height:decoded.height,pixels:Array.from(decoded.data)})+'\n');
+  }
   reply(id,{turn:{id:'native-turn'}});
   send({method:'item/agentMessage/delta',params:{threadId:'native-session',itemId:'answer',delta:'fixture reply'}});
   return send({method:'turn/completed',params:{threadId:'native-session',turn:{id:'native-turn',status:'completed'}}});

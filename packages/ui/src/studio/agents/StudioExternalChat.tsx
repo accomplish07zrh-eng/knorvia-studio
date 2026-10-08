@@ -1,5 +1,8 @@
+import { StudioChatPermissionControl } from "./StudioChatPermissionControl.js";
+import { StudioChatStopControl } from "./StudioChatStopControl.js";
+import { useStudioChatImages } from "./useStudioChatImages.js";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, ChevronDown, Hand, LoaderCircle, Square } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import type { LexicalChatInputHandle } from "@/LexicalChatInput.js";
 import { cn } from "@/components/lib/utils.js";
 import { Button } from "@/components/ui/button.js";
@@ -34,6 +37,7 @@ import { StudioChatModelControls, StudioChatOptionsNotice } from "./StudioChatMo
 import { useStudioChatOptions } from "./useStudioChatOptions.js";
 import { useStudioKernelCatalog } from "./useStudioKernelCatalog.js";
 import { StudioSessionActions } from "./StudioSessionActions.js";
+import { type StudioImageInput } from "@knorvia/services";
 import { exportStudioConversationMarkdown } from "./sessionHandoff.js";
 
 /** Same presentation components as Knorvia; native CLI state stays in the Host service. */
@@ -94,6 +98,21 @@ export function StudioExternalChat({
     config,
     selection.model,
   );
+  const imageInput = useStudioChatImages({
+    sessionId,
+    kernelId,
+    workspacePath,
+    selection,
+    conversationSelection: conversation?.selection,
+    config,
+    modelOptions,
+    runtime,
+    draft,
+    zh,
+    mounted,
+    setError,
+  });
+  const { images, capturing } = imageInput;
   const scope = `studio-external:${kernelId}:${sessionId}`;
   useEffect(() => {
     mounted.current = true;
@@ -116,7 +135,8 @@ export function StudioExternalChat({
       submissionInFlight.current ||
       !runtime.ready ||
       !remoteOnline ||
-      !value.trim() ||
+      (!value.trim() && !images.length && !draft?.imageSubmission) ||
+      capturing ||
       !workspacePath ||
       value.length > STUDIO_DRAFT_TEXT_LIMIT
     )
@@ -126,6 +146,8 @@ export function StudioExternalChat({
     setError("");
     setRefusal(null);
     try {
+      if (await imageInput.retry()) return;
+      imageInput.assertSend();
       // 发送前用当前内核的真实能力校验；被拒时不会发出任何命令，也不会改写模型或权限。
       await submitStudioChat(
         {
@@ -137,11 +159,13 @@ export function StudioExternalChat({
           permission,
           status,
           kernelName: kernel.name,
+          attachments: images.length ? (images as StudioImageInput[]) : undefined,
+          isCurrent: imageInput.isCurrent,
         },
-        runtime.command,
+        imageInput.command,
       );
       reportStudioFirstMessageAccepted();
-      acknowledgeDraft(sessionId, kernelId, value);
+      if (!images.length) acknowledgeDraft(sessionId, kernelId, value);
     } catch (error) {
       if (error instanceof StudioSendRefusalError) {
         if (mounted.current) setRefusal(error.refusal);
@@ -207,8 +231,14 @@ export function StudioExternalChat({
           )}
           submitLabel={zh ? "发送" : "Send"}
           submitDisabled={
-            !runtime.ready || !remoteOnline || submitting || !workspacePath || textTooLong
+            !runtime.ready ||
+            !remoteOnline ||
+            submitting ||
+            capturing ||
+            !workspacePath ||
+            textTooLong
           }
+          {...imageInput.editorProps}
           enableMentionPanel={false}
           enableSlashCommands={Boolean(modelOptions.options?.commands?.length)}
           nativeSlashCommands={modelOptions.options?.commands}
@@ -222,21 +252,7 @@ export function StudioExternalChat({
             return false;
           }}
           leadingActions={
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={onOpenAgentSettings}
-              aria-label={intl.formatMessage({ id: `studio.agents.permission.${permission}` })}
-              title={intl.formatMessage({ id: `studio.agents.permission.${permission}` })}
-              className="size-7 gap-1 rounded-lg p-0 text-ui-base @xl/composer:w-auto @xl/composer:px-2"
-            >
-              <Hand className="size-4" />
-              <span className="hidden @xl/composer:inline">
-                {intl.formatMessage({ id: `studio.agents.permission.${permission}` })}
-              </span>
-              <ChevronDown className="hidden size-3.5 @xl/composer:block" />
-            </Button>
+            <StudioChatPermissionControl permission={permission} onClick={onOpenAgentSettings} />
           }
           submitControl={
             <div className="flex min-w-0 items-center gap-1">
@@ -250,37 +266,13 @@ export function StudioExternalChat({
                 onRetry={modelOptions.retry}
               />
               {running && (
-                <Button
-                  type="button"
-                  size="icon-md"
-                  variant="outline"
-                  disabled={!runtime.service || stopping || running.cancelRequested}
-                  aria-label={
-                    stopping || running.cancelRequested
-                      ? zh
-                        ? "正在停止"
-                        : "Stopping"
-                      : zh
-                        ? "停止"
-                        : "Stop"
-                  }
-                  title={
-                    stopping || running.cancelRequested
-                      ? zh
-                        ? "正在停止"
-                        : "Stopping"
-                      : zh
-                        ? "停止"
-                        : "Stop"
-                  }
-                  onClick={() => void stop()}
-                >
-                  {stopping || running.cancelRequested ? (
-                    <LoaderCircle className="size-3.5 animate-spin" />
-                  ) : (
-                    <Square className="size-3.5" />
-                  )}
-                </Button>
+                <StudioChatStopControl
+                  running={running}
+                  stopping={stopping}
+                  enabled={Boolean(runtime.service)}
+                  zh={zh}
+                  onStop={stop}
+                />
               )}
               <Button
                 type="submit"
@@ -290,10 +282,19 @@ export function StudioExternalChat({
                   !remoteOnline ||
                   submitting ||
                   !workspacePath ||
-                  !text.trim() ||
+                  capturing ||
+                  (!text.trim() && !images.length && !draft?.imageSubmission) ||
                   textTooLong
                 }
-                aria-label={zh ? "发送" : "Send"}
+                aria-label={
+                  draft?.imageSubmission
+                    ? zh
+                      ? "重试原提交"
+                      : "Retry original submission"
+                    : zh
+                      ? "发送"
+                      : "Send"
+                }
                 className="rounded-lg bg-brand text-ui-base text-foreground-inverse hover:bg-brand/80"
               >
                 <ArrowUp className="size-4" />

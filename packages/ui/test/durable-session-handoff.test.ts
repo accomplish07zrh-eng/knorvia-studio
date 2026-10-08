@@ -223,7 +223,7 @@ test("version 1 preferences migrate without destructive writes; malformed task n
       message(1, "Objective"),
     ]);
     assert.equal(store.getState().saveHandoff(record), true);
-    assert.equal(JSON.parse(memory.raw()!).version, 2);
+    assert.equal(JSON.parse(memory.raw()!).version, 3);
     assert.equal(
       createStudioAgentStore(memory.storage).getState().drafts.old?.text,
       "Existing user data",

@@ -1,3 +1,7 @@
+import {
+  createStudioImageDraftActions,
+  type StudioImageDraftActions,
+} from "./studioImageDraftActions.js";
 import { useStore } from "zustand";
 import { createStore } from "zustand/vanilla";
 import type {
@@ -51,7 +55,7 @@ interface KernelManagementState extends ManagementParams {
   error: string;
 }
 
-export interface StudioAgentStoreState extends StudioAgentData {
+export interface StudioAgentStoreState extends StudioAgentData, StudioImageDraftActions {
   storageIssue: StudioAgentStorageIssue;
   actionError: StudioAgentActionError;
   dirty: boolean;
@@ -108,7 +112,12 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
       }
       if (writesBlocked) return false;
       try {
-        storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 2, data }));
+        storage.setItem(
+          STUDIO_AGENT_STORAGE_KEY,
+          JSON.stringify({ version: 3, data }, (key, value) =>
+            key === "dataBase64" ? undefined : value,
+          ),
+        );
         set({ dirty: false, storageIssue: null });
         return true;
       } catch {
@@ -122,6 +131,7 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
     };
     return {
       ...initial,
+      ...createStudioImageDraftActions(get, set, persist, fail),
       storageIssue: issue,
       actionError: null,
       dirty: false,
@@ -189,7 +199,13 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
         if (!previous && !text) return true;
         if (!previous && Object.keys(drafts).length >= STUDIO_DRAFT_COUNT_LIMIT)
           return fail("draft-limit");
-        if (!text && !previous?.workspacePath && previous?.selection === undefined)
+        if (
+          !text &&
+          !previous?.workspacePath &&
+          previous?.selection === undefined &&
+          !previous?.images?.length &&
+          !previous?.imageSubmission
+        )
           return get().deleteDraft(sessionId);
         return persist({
           configs,
@@ -212,7 +228,14 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
         let changed = false;
         for (const conversation of conversations) {
           const draft = next[conversation.id];
-          if (!draft || draft.kernelId !== conversation.kernel || draft.text) continue;
+          if (
+            !draft ||
+            draft.kernelId !== conversation.kernel ||
+            draft.text ||
+            draft.images?.length ||
+            draft.imageSubmission
+          )
+            continue;
           // 已有正式快照确认同一模型选择才回收空缓存，不能删除用户为下一轮改选的模型。
           if (
             draft.selection !== undefined &&
@@ -278,6 +301,7 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
         });
       },
       deleteDraft(sessionId) {
+        if (get().drafts[sessionId]?.imageSubmission) return fail("invalid-session");
         if (!isStudioDraftSessionId(sessionId)) return fail("invalid-session");
         const { configs, drafts } = get();
         const next = { ...drafts };
@@ -289,9 +313,11 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
         return persist({ configs, drafts });
       },
       resetLocalData() {
+        if (Object.values(get().drafts).some((draft) => draft.imageSubmission))
+          return fail("invalid-session");
         const empty = emptyStudioAgentData();
         try {
-          storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 2, data: empty }));
+          storage.setItem(STUDIO_AGENT_STORAGE_KEY, JSON.stringify({ version: 3, data: empty }));
           writesBlocked = false;
           set({ ...empty, dirty: false, storageIssue: null, actionError: null });
           return true;

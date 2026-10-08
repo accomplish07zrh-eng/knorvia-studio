@@ -1,3 +1,4 @@
+import { StudioMessageImages } from "./StudioMessageImages.js";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowDown, Check, Copy, LoaderCircle } from "lucide-react";
@@ -310,6 +311,15 @@ function StudioTimelineContent({
                         </div>
                       )}
                       <MessageContent>
+                        {message.attachments?.length && (
+                          <StudioMessageImages
+                            service={runtime.service}
+                            targetId={targetId}
+                            runId={message.runId}
+                            refs={message.attachments}
+                            zh={zh}
+                          />
+                        )}
                         {message.sender === "user" ? (
                           <div className="whitespace-pre-wrap break-words">{message.text}</div>
                         ) : (

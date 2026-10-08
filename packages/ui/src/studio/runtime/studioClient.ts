@@ -207,6 +207,24 @@ export class StudioClient {
     this.older.set(target, request);
     return request;
   }
+  prepare(input: CommandInput): StudioCommand {
+    const command = structuredClone({ ...input, commandId: crypto.randomUUID() }) as StudioCommand;
+    if (command.type === "send") {
+      for (const image of command.attachments ?? []) Object.freeze(image);
+      if (command.attachments) Object.freeze(command.attachments);
+      if (command.selection) Object.freeze(command.selection);
+      if (command.kernelConfig) Object.freeze(command.kernelConfig);
+    }
+    return Object.freeze(command);
+  }
+  async executePrepared(command: StudioCommand) {
+    if (!this.service) throw new Error("此连接不支持 Studio 运行服务");
+    try {
+      return await this.service.command(command);
+    } finally {
+      this.schedule();
+    }
+  }
   async execute(input: CommandInput) {
     if (!this.service) throw new Error("此连接不支持 Studio 运行服务");
     const key = JSON.stringify(input);

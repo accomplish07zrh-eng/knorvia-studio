@@ -30,6 +30,7 @@ export interface StudioConversation {
   updatedAt: number;
 }
 export interface StudioMessage {
+  attachments?: import("./imageTypes.js").StudioImageRef[];
   sequence?: number;
   id: string;
   targetId: string;
@@ -50,6 +51,8 @@ export interface StudioInteraction extends StudioKernelInteraction {
   status: "pending" | "answered" | "expired";
 }
 export interface StudioRun {
+  admissionCommandId?: string;
+  attachments?: import("./imageTypes.js").StudioImageRef[];
   workspaceStepIds?: string[];
   kernelConfig?: StudioKernelConfig;
   id: string;
@@ -216,6 +219,8 @@ export interface StudioOverview {
   runs: StudioRun[];
 }
 export interface StudioTimeline {
+  admission?: { commandId: string; runId: string };
+  image?: import("./imageTypes.js").StudioImageReadResult;
   reviewDrafts?: import("./workspaceReviewTypes.js").StudioReviewDraft[];
   revision: number;
   nextBefore?: number;

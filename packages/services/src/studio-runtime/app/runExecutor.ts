@@ -1,3 +1,4 @@
+import { readStudioImages } from "./imageStore.js";
 import type { StudioExecutionPort } from "./ports.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import { createHash } from "node:crypto";
@@ -254,7 +255,14 @@ export async function executeStudioRun(
     } else if (run.kind === "chat") {
       const conversation = db.read<StudioConversation>("conversation", run.targetId);
       if (!conversation) throw new Error("会话不存在");
-      result = await port.agent({ id: "reply", kernel: conversation.kernel, prompt: run.input });
+      result = await port.agent({
+        id: "reply",
+        kernel: conversation.kernel,
+        prompt: run.input,
+        ...(run.attachments?.length
+          ? { attachments: readStudioImages(deps.db, run.attachments) }
+          : {}),
+      });
     } else if (run.kind === "group") {
       const history = db
         .list<StudioMessage>("message", { scope: run.targetId, limit: 150 })

@@ -33,6 +33,7 @@ export interface StudioAgentStep {
   id: string;
   kernel: StudioKernelId;
   prompt: string;
+  attachments?: import("../imageTypes.js").StudioImageInput[];
   memberId?: string;
   permission?: StudioPermission;
   /**
