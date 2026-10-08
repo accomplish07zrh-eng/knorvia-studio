@@ -36,7 +36,7 @@ const fetch = api.createNetworkProxyFetch({
     throw new Error("unexpected direct path");
   },
 });
-void fetch("http://target.invalid/native-owned", { signal: cancel.signal })
+const settled = fetch("http://target.invalid/native-owned", { signal: cancel.signal })
   .then(
     async (response) => {
       if (mode === "body-abort") {
@@ -44,6 +44,12 @@ void fetch("http://target.invalid/native-owned", { signal: cancel.signal })
         assert.ok(reader);
         const first = await reader.read();
         const pending = reader.read();
+        // 回归：先强制垃圾回收再取消。修复前代理只持有临时 Request 的弱跟随 signal，
+        // 回收后取消传不到响应体，读取永久挂起（全量测试高负载下偶发）。
+        for (let round = 0; round < 3; round += 1) {
+          (globalThis as { gc?: () => void }).gc?.();
+          await new Promise((resolve) => setImmediate(resolve));
+        }
         cancel.abort(reason);
         try {
           const value = await pending;
@@ -73,6 +79,11 @@ void fetch("http://target.invalid/native-owned", { signal: cancel.signal })
   .catch((error) => {
     outcome = { state: "consumer-error", name: error?.name, message: error?.message };
   });
+// 先等请求链真正结束再取结果（上限 20s，真卡死仍以 pending 失败），再保留 500ms 观察期
+// 捕获迟到的逃逸异常；结果不依赖机器快慢。
+let limit: ReturnType<typeof setTimeout> | undefined;
+await Promise.race([settled, new Promise((resolve) => (limit = setTimeout(resolve, 20_000)))]);
+clearTimeout(limit);
 await new Promise((resolve) => setTimeout(resolve, 500));
 const snapshot = { outcome, errors: [...errors], requests: [...requests] };
 cancel.abort(new Error("owned child cleanup"));

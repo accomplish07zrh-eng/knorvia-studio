@@ -10,6 +10,7 @@ async function observe(mode: string) {
   const child = spawn(
     process.execPath,
     [
+      "--expose-gc",
       "--import",
       loader,
       fileURLToPath(new URL("./proxy-fetch-native-child.ts", import.meta.url)),

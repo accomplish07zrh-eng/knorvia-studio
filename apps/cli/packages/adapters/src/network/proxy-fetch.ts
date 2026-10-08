@@ -33,7 +33,10 @@ async function prepareRequest(
     url: new URL(request.url),
     method,
     headers: request.headers,
-    signal: request.signal,
+    // 修复代理请求取消偶发失效（停止后响应体读取永久挂起）：Request.signal 只经弱引用跟随
+    // 调用方的 signal，临时 Request 被垃圾回收后取消不再传到这里，高负载下 GC 频繁时尤其明显。
+    // 优先使用调用方原始 signal；没有时才用 Request 自身的（它只会因输入 Request 而取消）。
+    signal: init?.signal ?? (input instanceof Request ? input.signal : request.signal),
     body,
   };
 }

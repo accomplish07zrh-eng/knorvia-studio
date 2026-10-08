@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.11.2 - 2026-10-08
+
+- 单聊一致性：Codex、Claude Code、Grok 等内核的侧栏改为与 Knorvia 相同的列表样式
+  （单聊列表、按项目分组、相对时间、悬停删除）；未发送的草稿不再列出，切回该内核时
+  自动恢复到输入框。外部内核发送按钮与 Knorvia 外观一致，Knorvia 工作台格子在输入框
+  下方显示项目。
+- 思考强度条：档位统一从低到高（修复 Grok 反向）；未到当前模型最高档时为白色填充，
+  到达最高档时变为黑白渐变并带喷射光点动效。
+- 定时任务页：修复「创建定时任务」拼接按钮错位与「保持电脑唤醒」开关难以分辨开关。
+- 界面质感：菜单、弹出框、对话框与提示采用更柔和的分层阴影、细边、轻微磨砂与展开动效。
+- 修复通过代理的请求在点击停止后偶发无法中断网络读取的问题。
+- External kernels share the Knorvia chat list style, hide unsent drafts and restore
+  them when you return; the reasoning bar runs low to high with a white fill and an
+  animated black-and-white top level; automation controls and overlay surfaces are
+  refined; proxied requests now stop reliably when cancelled.
+
 ## 0.11.1 - 2026-10-08
 
 - 工作台：顶栏「新建任务」可直接新增格子，不必先收起已有格；满格时收起当前格后
