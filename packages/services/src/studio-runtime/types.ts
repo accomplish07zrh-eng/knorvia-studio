@@ -227,6 +227,7 @@ export interface StudioTimeline {
   groupMetrics?: StudioGroupMetrics;
 }
 export interface StudioWorkspaceChange {
+  imagePreview?: import("./workspaceImageTypes.js").StudioWorkspaceImagePair;
   version?: import("./workspaceReviewTypes.js").StudioReviewFileVersion;
   path: string;
   kind: "added" | "modified" | "deleted";

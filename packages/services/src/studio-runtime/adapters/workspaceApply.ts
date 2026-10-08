@@ -22,12 +22,15 @@ import { recoverWorkspaceJournal } from "./workspaceRecovery.js";
 import type { StudioApplyReceipt } from "../types.js";
 import type { WorkspaceLocation, WorkspaceMetadata } from "./workspaceSnapshot.js";
 import { studioWorkspaceSecretPath } from "../domain/workspaceSecrets.js";
+import type { StudioWorkspaceImageRequest } from "../workspaceImageTypes.js";
+import { sameImageVersion, validateReviewedVersions } from "../domain/workspaceImage.js";
 
 /** 应用隔离改动，并返回 Host 自己的应用回执（操作 id 与 journal 文件名同源）。 */
 export async function applySnapshot(
   location: WorkspaceLocation,
   metadata: WorkspaceMetadata,
   paths: string[],
+  reviewedVersions?: StudioWorkspaceImageRequest[],
 ): Promise<StudioApplyReceipt> {
   if (metadata.mode === "shared")
     throw new Error("Shared workspaces already write directly to the project.");
@@ -38,6 +41,7 @@ export async function applySnapshot(
       .size !== paths.length
   )
     throw new Error("Select distinct workspace files to apply.");
+  validateReviewedVersions(paths, reviewedVersions);
   const transactionId = randomUUID();
   const changes: JournalChange[] = [];
   const receipt = (): StudioApplyReceipt => ({
@@ -62,6 +66,17 @@ export async function applySnapshot(
     if (totalBytes > MAX_TOTAL_BYTES * 2)
       throw new Error("Selected changes exceed the workspace apply limit.");
     const current = await readSafeFile(metadata.sourcePath, path);
+    const reviewed = reviewedVersions?.find((entry) => entry.path === path);
+    // 必须核对实际进入 journal/staging 的字节；不能先验证预览再另读未审阅的产物。
+    if (
+      reviewed &&
+      !sameImageVersion(reviewed.version, {
+        beforeHash,
+        afterHash,
+        sourceHash: contentHash(current),
+      })
+    )
+      throw new Error(`Reviewed file version changed before apply: ${path}`);
     if (beforeHash === afterHash) throw new Error(`Selected file has no isolated changes: ${path}`);
     if (contentHash(current) === afterHash) continue;
     if (contentHash(current) !== beforeHash)

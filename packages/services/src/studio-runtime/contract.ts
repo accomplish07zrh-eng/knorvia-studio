@@ -23,6 +23,12 @@ export * from "./workflowTypes.js";
 export * from "./types.js";
 export * from "./workspaceRuntimeTypes.js";
 export * from "./workspaceReviewTypes.js";
+export * from "./workspaceImageTypes.js";
+export {
+  studioImagePath,
+  sameImageVersion,
+  STUDIO_IMAGE_PREVIEW_BYTES,
+} from "./domain/workspaceImage.js";
 export * from "./agentToolTypes.js";
 export * from "./attentionTypes.js";
 export * from "./domain/outputRef.js";
@@ -104,12 +110,16 @@ export interface IStudioRuntimeService {
     kernel: StudioKernelId;
     action: "install" | "update" | "uninstall" | "update-existing";
   }): Promise<StudioKernelStatus>;
-  workspaceChanges(params: { runId: string; stepId: string }): Promise<StudioWorkspaceChange[]>;
+  workspaceChanges(
+    params: import("./workspaceImageTypes.js").StudioWorkspaceChangesRequest,
+  ): Promise<StudioWorkspaceChange[]>;
   /**
    * 应用成功后由服务层写入验收记录（辅助证据，`apply-acceptance` kind）。
    * 该记录**不是**任务终态，`run` / `step-result` / `turn` 仍然是任务状态的唯一所有者。
    */
-  applyWorkspaceChanges(params: { runId: string; stepId: string; paths: string[] }): Promise<void>;
+  applyWorkspaceChanges(
+    params: import("./workspaceImageTypes.js").StudioWorkspaceApplyRequest,
+  ): Promise<void>;
   /** Called only by an authenticated Studio peer bound to this Host's remote workspace. */
   prepareAgentWorkspace(params: {
     runId: string;
@@ -117,19 +127,16 @@ export interface IStudioRuntimeService {
     sourcePath: string;
     mode: "isolated" | "shared";
   }): Promise<string>;
-  agentWorkspaceChanges(params: {
-    runId: string;
-    stepId: string;
-  }): Promise<StudioWorkspaceChange[]>;
+  agentWorkspaceChanges(
+    params: import("./workspaceImageTypes.js").StudioWorkspaceChangesRequest,
+  ): Promise<StudioWorkspaceChange[]>;
   /**
    * 远端 Host 可以返回它自己的应用回执；
    * 返回 `void` 时本地 Host 只能记录"未返回摘要"，**不得**当作已核验。
    */
-  applyAgentWorkspaceChanges(params: {
-    runId: string;
-    stepId: string;
-    paths: string[];
-  }): Promise<StudioApplyReceipt | void>;
+  applyAgentWorkspaceChanges(
+    params: import("./workspaceImageTypes.js").StudioWorkspaceApplyRequest,
+  ): Promise<StudioApplyReceipt | void>;
   onDidChange: Event<{ revision: number }>;
 }
 export const IStudioRuntimeService =

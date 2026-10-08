@@ -1,5 +1,7 @@
 # Studio runtime
 
+`workspaceChanges` optionally reads one version-bound PNG/JPEG pair from the owning snapshot, returning `imagePreview` alongside the existing change shape. Binary projections expose real file versions; image bytes remain transient and browser decode proves displayability. Existing apply methods optionally recheck `reviewedVersions` against the actual journal/staging bytes before writing. Public methods remain 12; legacy requests and text comments retain their behavior. See `specs/knorvia-workspace-image-compare.md`.
+
 `StudioOverview.attention` derives pending interactions and terminal events across all persisted history. `attention-read` admits a version-bound read receipt through the existing command transaction; it never answers, dispatches, resumes or cancels a task. Duplicate facts share one version, later attempts remain unread, and missing/retired targets retain historical identity. Native Knorvia unread remains with its V4 task-index owner. See `specs/knorvia-studio-attention-inbox.md`.
 
 `workspaceRuntime` queries or explicitly controls a runtime belonging to an existing run/step workspace. The app owner admits approved argv, persists token-fenced lifecycle facts, and delegates process/port IO to the Node adapter. Commands, environment and process output are never persisted. Recover verifies process birth identity before cleanup; failures retain truthful failed/interrupted/cleanup-required states. See `specs/knorvia-workspace-runtime.md`.

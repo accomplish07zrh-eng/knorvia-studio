@@ -11,6 +11,15 @@ import { studioProjectKey } from "../domain/projectIdentity.js";
 import { decodeStepOutputs } from "../domain/outputRef.js";
 import { requiredRun } from "./commandAdmission.js";
 import { STUDIO_ACCEPTANCE_KIND } from "./runOutcomeProjection.js";
+import type {
+  StudioWorkspaceImageRequest,
+  StudioWorkspaceApplyRequest,
+} from "../workspaceImageTypes.js";
+import {
+  sameImageVersion,
+  validateImageRequest,
+  validateReviewedVersions,
+} from "../domain/workspaceImage.js";
 
 interface WorkspaceReviewDependencies {
   db: StudioRepository;
@@ -27,6 +36,7 @@ export function reviewableWorkspace(
   stepId: string,
 ): StoredWorkspace {
   validStudioId(runId);
+  validStudioId(stepId);
   const run = requiredRun(deps.db, runId);
   if (
     activeRunStates.has(run.state) ||
@@ -50,7 +60,9 @@ export async function inspectStudioWorkspaceChanges(
   deps: WorkspaceReviewDependencies,
   runId: string,
   stepId: string,
+  imagePreview?: StudioWorkspaceImageRequest,
 ) {
+  if (imagePreview) validateImageRequest(imagePreview);
   const saved = reviewableWorkspace(deps, runId, stepId);
   const { db } = deps;
   const targetId = studioProjectKey(saved.sourcePath);
@@ -70,9 +82,32 @@ export async function inspectStudioWorkspaceChanges(
   if (saved.remoteKernelId && !remote)
     throw new Error("远端 Agent 连接不可用，请重新连接后查看修改");
   // The owning Host verifies its journal before the abandoned local lock is removed.
+  // 未请求图片时保持既有端口参数形状，旧适配器不会收到额外的 undefined 参数。
   const changes = remote
-    ? await remote.agentWorkspaceChanges({ runId: saved.runId, stepId: saved.stepId })
-    : await deps.workspaces.changes(saved.runId, saved.stepId);
+    ? await remote.agentWorkspaceChanges({
+        runId: saved.runId,
+        stepId: saved.stepId,
+        ...(imagePreview ? { imagePreview } : {}),
+      })
+    : imagePreview
+      ? await deps.workspaces.changes(saved.runId, saved.stepId, imagePreview)
+      : await deps.workspaces.changes(saved.runId, saved.stepId);
+  if (imagePreview) {
+    const latest = reviewableWorkspace(deps, runId, stepId);
+    // 异步读图后绑定可能已切换；不能把旧 owner 的字节交给新工作区。
+    if (
+      latest.runId !== saved.runId ||
+      latest.stepId !== saved.stepId ||
+      latest.path !== saved.path ||
+      latest.sourcePath !== saved.sourcePath ||
+      latest.remoteKernelId !== saved.remoteKernelId
+    )
+      throw new Error("Image workspace ownership changed while reading");
+    const pair = changes.find((change) => change.path === imagePreview.path)?.imagePreview;
+    if (!pair?.version) throw new Error("This Host does not provide versioned image previews");
+    if (!sameImageVersion(pair.version, imagePreview.version))
+      throw new Error("Host returned a different reviewed image version");
+  }
   if (lock)
     db.transaction(() => {
       if (db.read<{ token: string }>("apply-lock", targetId)?.token === lock.token)
@@ -88,11 +123,12 @@ export async function inspectStudioWorkspaceChanges(
  */
 export async function applyStudioWorkspaceChanges(
   deps: WorkspaceReviewDependencies,
-  params: { runId: string; stepId: string; paths: string[] },
+  params: StudioWorkspaceApplyRequest,
 ): Promise<void> {
   const saved = reviewableWorkspace(deps, params.runId, params.stepId);
   if (!Array.isArray(params.paths) || !params.paths.length || params.paths.length > 1000)
     throw new Error("请选择需要应用的文件");
+  validateReviewedVersions(params.paths, params.reviewedVersions);
   const { db, clock } = deps;
   const targetId = studioProjectKey(saved.sourcePath);
   const token = clock.id();
@@ -122,9 +158,19 @@ export async function applyStudioWorkspaceChanges(
             runId: saved.runId,
             stepId: saved.stepId,
             paths: params.paths,
+            ...(params.reviewedVersions ? { reviewedVersions: params.reviewedVersions } : {}),
           }),
         )
-      : toStudioApplyReceipt(await deps.workspaces.apply(saved.runId, saved.stepId, params.paths));
+      : toStudioApplyReceipt(
+          await (params.reviewedVersions === undefined
+            ? deps.workspaces.apply(saved.runId, saved.stepId, params.paths)
+            : deps.workspaces.apply(
+                saved.runId,
+                saved.stepId,
+                params.paths,
+                params.reviewedVersions,
+              )),
+        );
     applied = true;
     // 没有任何文件被发布（选中的路径已与项目一致）或旧实现没有回执：没有可验收的证据。
     if (!remote && (!receipt || !receipt.files.length)) return;

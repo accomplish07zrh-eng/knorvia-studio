@@ -3,6 +3,7 @@ import type { IStudioRuntimeService } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
+import { studioReviewedImageVersions } from "./studioWorkspaceImageVersions.js";
 import type { StudioHistoryReview, StudioRunHistoryActions } from "./studioRunHistoryActions.js";
 export function StudioWorkspaceApplyControls({
   service,
@@ -50,6 +51,7 @@ export function StudioWorkspaceApplyControls({
                 runId: review.run.id,
                 stepId: review.stepId,
                 paths,
+                reviewedVersions: studioReviewedImageVersions(review.changes ?? [], paths),
               });
             },
             () =>

@@ -16,6 +16,7 @@ import { StudioRunHistoryActions, studioReviewApplying } from "./studioRunHistor
 import { StudioWorkspaceApplyControls } from "./StudioWorkspaceApplyControls.js";
 import { StudioWorkspaceFeedback } from "./StudioWorkspaceFeedback.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
+import { studioReviewedImageVersions } from "./studioWorkspaceImageVersions.js";
 import { StudioWorkspaceRuntimeCard } from "./StudioWorkspaceRuntimeCard.js";
 import { studioFocusedHistoryWindow, useStudioRunHistoryFocus } from "./studioRunHistoryFocus.js";
 
@@ -341,6 +342,11 @@ export function StudioRunHistory({
                     key={change.path}
                     change={change}
                     feedback={feedback}
+                    imageContext={{
+                      service: runtime.service!,
+                      runId: review.run.id,
+                      stepId: review.stepId,
+                    }}
                     zh={zh}
                     busy={review.loading || Boolean(review.applying)}
                     applying={studioReviewApplying(review, change.path)}
@@ -354,6 +360,7 @@ export function StudioRunHistory({
                             runId: review.run.id,
                             stepId: review.stepId,
                             paths: [change.path],
+                            reviewedVersions: studioReviewedImageVersions([change], [change.path]),
                           }),
                         () =>
                           runtime.service!.workspaceChanges({

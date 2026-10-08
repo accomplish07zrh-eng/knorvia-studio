@@ -98,7 +98,11 @@ export async function safeDirectory(path: string): Promise<void> {
   if (!(await stat(path)).isDirectory()) throw new Error(`Expected directory: ${path}`);
 }
 
-export async function readSafeFile(root: string, path: string): Promise<Buffer | null> {
+export async function readSafeFile(
+  root: string,
+  path: string,
+  maxBytes = MAX_FILE_BYTES,
+): Promise<Buffer | null> {
   relativeFile(path);
   const absolute = join(root, path);
   if (!inside(root, absolute)) throw new Error("Workspace path escaped its root.");
@@ -110,17 +114,27 @@ export async function readSafeFile(root: string, path: string): Promise<Buffer |
   if (!info) return null;
   if (!info.isFile() || info.isSymbolicLink() || info.nlink > 1)
     throw new Error(`Expected an unlinked regular file: ${path}`);
-  if (info.size > MAX_FILE_BYTES) throw new Error(`Workspace file exceeds 16 MiB: ${path}`);
+  if (info.size > maxBytes)
+    throw new Error(`Workspace file exceeds ${maxBytes / 1024 / 1024} MiB: ${path}`);
   const handle = await open(absolute, "r");
   try {
     const opened = await handle.stat();
     if (opened.ino !== info.ino || opened.dev !== info.dev || opened.size !== info.size)
       throw new Error(`Workspace changed while reading: ${path}`);
-    const data = await handle.readFile();
+    // stat 后文件可能增长；固定有界缓冲区，不让 readFile 按新长度无限分配。
+    const buffer = Buffer.allocUnsafe(opened.size + 1);
+    let count = 0;
+    while (count < buffer.length) {
+      const { bytesRead } = await handle.read(buffer, count, buffer.length - count, count);
+      if (!bytesRead) break;
+      count += bytesRead;
+    }
+    const data = buffer.subarray(0, count);
     const final = await handle.stat();
     await safePath(absolute);
     if (
-      data.length > MAX_FILE_BYTES ||
+      data.length > maxBytes ||
+      data.length !== opened.size ||
       final.size !== opened.size ||
       final.mtimeMs !== opened.mtimeMs
     )
