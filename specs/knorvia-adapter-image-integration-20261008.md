@@ -72,7 +72,7 @@ sequenceDiagram
 
 ## B：输入/草稿接纳契约
 
-- 首批 PNG/JPEG；逐文件核验类型与实际字节、大小/数量/总量明确有界，错误明确且保留已有正文/附件。限制由 B 的 spec/typed 常量说明，不能混用二进制预览预算。
+- 首批静态 PNG/JPEG；APNG 不因 `image/png` MIME 自动接纳。逐文件核验类型与实际字节、大小/数量/总量明确有界，错误明确且保留已有正文/附件。限制由 B 的 spec/typed 常量说明，不能混用二进制预览预算。
 - 支持 image-only 和 text+image，复用一次 send/admission；只把有明确图片能力证据的目标接纳为支持。未知/不支持明确拒绝，零 native dispatch，不自动改内核、模型、权限或使用降级隐藏发送。
 - 本地 Codex 协议输入的形状由真实可核验协议/本项目合成 fixture 证实；原明确路径读图与 text-only 行为继续保留。
 - 粘贴/拖放只创建当前目标未提交草稿。读取取消、组件卸载、切换 kernel/session/workspace 和迟到 FileReader/ACK 都按目标及草稿代次隔离；不能清除或插入另一个目标的内容。
@@ -88,6 +88,7 @@ sequenceDiagram
 - 预览与读取之间任一字节/hash变化必须明确拒绝；重读获取新版本。读取前后都按安全文件/版本约束验证，路径穿越、链接、ADS/危险别名、秘密路径、跨 run/step/project 不得放宽。
 - 单侧 added/deleted 的 null hash/内容是预期缺侧；期待存在却缺失是失败，两者 UI 区分。保留过大、缺失、格式不支持、解码失败、版本过期的明确状态，不显示伪造空白旧图或悄悄截断为可用图片。
 - `readBinaryPreview` 默认及上限 25 MiB 保持；复用传输仍先由 Host 定位快照并复验版本，不放开任意路径。`readMediaPreview` 的 4/8 MiB 不作为本入口事实。
+- 压缩字节预算不能代替解码尺寸预算。C 单独规格规定每侧宽高各 ≤16,384、像素 ≤48,000,000，含边界；Host 在提供 base64 前检查 PNG IHDR 和每个 JPEG SOF，超界只返回 `unsupported/display-budget`，UI 不为该侧创建图片。该局部阈值不修改贴图、隔离、应用或背景的其他额度。
 - UI 弹窗请求代次/完整目标与版本绑定；关闭、切换文件/运行、迟到读取/图片 decode、重复打开、失败重试均不能覆盖新目标。图片错误不能阻断既有文本 diff/逐文件应用。
 - 旧 baseline metadata v1 和旧 `StudioWorkspaceChange` 无新字段时保留既有二进制说明；可以重新从真实完整 baseline 投影版本，不重建/伪造历史，也不迁移或自动应用源文件。
 
@@ -97,11 +98,19 @@ sequenceDiagram
 
 第二个独立基线 `packages/services/test/studio-image-legacy-schema.integration.test.ts` 实际执行 1/1 pass、0 fail/skip、exit 0。fixture 直接使用 main `34078257` 的 schema 2 DDL，种入旧 conversation/run/message/command、旧游标与未知字段；重开 owner 后逐字节复核原记录与旧表/索引，未使用新构造器建空库来冒充迁移。新图片写入、受理回执与重开恢复仍须在 B 冻结实现后扩展验证，此基线不能代替这些新行为验收。
 
-第三个独立基线 `packages/services/test/studio-image-rpc.integration.test.ts` 经真实二进制 RPC 与两个独立旧 SQLite Host 核对原 timeline 一/二/三参数、undefined 空位、focus run owner 和连接关闭后的另一 Host 隔离。初始 RPC 用例 1/1 pass、0 fail/skip、exit 0。复核旧 fixture 后将 command 调整为既有 canonical payload/result 真实回执形状，并补原请求重放/不同载荷同 CID 拒绝；修正后的结果单独回报。新增第四 imageId/第五 admissionCommandId 仍待 B 冻结后在同一 RPC 链路扩展，不能用直接 mock 方法调用冒充传输与归属验证。
+第三个独立基线 `packages/services/test/studio-image-rpc.integration.test.ts` 经真实二进制 RPC 与两个独立旧 SQLite Host 核对原 timeline 一/二/三参数、undefined 空位、focus run owner 和连接关闭后的另一 Host 隔离。初始 RPC 用例 1/1 pass、0 fail/skip、exit 0。复核旧 fixture 后将 command 调整为既有 canonical payload/result 真实回执形状，并补原请求重放/不同载荷同 CID 拒绝；修正后与前两个门禁合计 4/4 pass、exit 0，checkpoint `788c5ef9`。新增第四 imageId/第五 admissionCommandId 仍待 B 冻结后在同一 RPC 链路扩展，不能用直接 mock 方法调用冒充传输与归属验证。
 
 初始完整 `test:studio` 已完成：835 文件、8428 总数、8420 pass、0 fail/cancel、8 skip、exit 0。跳过项如实保留，为既有平台/环境条件，不是本轮新增图片验收；CLI 构建 17/17、主图标与 35 个生成资产核验也 exit 0。同一合法 thread 的旧 native turnId 四个 delta/tool/terminal/approval 用例由集成独立 stdio 在旧行为实际复现为 0/4、exit 1，仍等待 A 最小修正后复验，不在初始全量通过中隐去该失败。
 
-以下是三项功能的计划验收，尚未执行，不能提前记为覆盖或通过。
+### 冻结前独立复核
+
+- B 中间提交 `c071040e`：两张真实 PNG 各 <2 MiB、合计 <4 MiB 的受理被原单记录 4,000,000 字符上限拒绝，APNG 被实际 codec 接纳；独立 2/2 用例失败、exit 1，已交 B 修复。不能提高全局数据库预算或悄悄降低图片预算来消除反例。
+- 同一 B 中间提交：真实 Chromium 中，待确认图片提交绑定 service A；替换为 service B 后，B 的相同 target/CID 回执错误清空 A 的图片和提交，实际断言 0 != 1、exit 1。原 retry 的 service 检查不足以保护 overview/timeline ACK；要求保留原执行连接所有权。Desktop 入口经 `useBaseWorkspaceServices` 选启动注册的 base Host，并不等于可以忽略异步 service 更替。
+- C 中间提交 `f0191170`：独立真实 Runtime/SQLite/二进制 RPC 的精确两侧三哈希与双 Host、工作产物过期整批零源写入/零 apply journal、源文件过期单文件零覆盖及恢复后 added/deleted/modified 真正应用，3/3 pass。尺寸预算仍待 C 后续 head；最终边界按 C 的 16,384/48,000,000 局部额度重验，不套用 B 的 8192。
+- 独立合成图保存在 `test/fixtures/studio-independent-images.integration.*`：小图由 Pillow 编码，包含 PNG/JPEG/EXIF/APNG；原生 zlib/CRC 生成器独立构造两张 800×800 RGB PNG，各 1,921,153 bytes，合计 3,842,306 bytes、base64 5,123,080 characters。实际 B codec 完整解码两张大图与五张静态小图 exit 0；fixture 准备成功不是图片 admission 已通过。
+- `node scripts/licenses.mjs notices` 在实际安装后的 main `34078257` 与 B `c071040e` 两个 detached 工作树均 exit 1，完全相同缺项 `agent-base@6.0.2` / `https-proxy-agent@5.0.1`，不称完整 notices generator 通过。实际 services 导入的 `pngjs@7.0.0`、`jpeg-js@0.4.4` 完整许可文本及 SHA 与保留 inventory/notices 匹配、exit 0；不删除既有材料义务或改弱门禁。
+
+以下为最终共同 head 的计划验收；中间复核不能代替这些完整覆盖。
 
 1. A 的具体旧基线反例：合成协议实际失败、新实现通过；跨 thread/session/turn 的迟到/重复/取消与原审批请求仍归正确 owner。
 2. B 的 image-only、text+image、纯文字旧命令； PNG/JPEG 字节/格式/预算边界、未知/不支持能力零派发、图片失败保留草稿；单次提交原 kernel/session/工作区/授权不变。
