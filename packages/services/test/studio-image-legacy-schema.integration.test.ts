@@ -14,7 +14,7 @@ test("opening a genuine v0.10.0 schema preserves old entity bytes, scopes, curso
     const old = await seedLegacyStudioDatabase(path, join(root, "project"));
     const owner = new StudioDatabase(path);
     try {
-      assert.deepEqual(owner.read("command", "legacy-command"), { id: "legacy-run", revision: 23 });
+      assert.deepEqual(owner.read("command", "legacy-command"), JSON.parse(old.rows[3]!.value));
       assert.deepEqual(owner.read("conversation", "legacy-chat"), JSON.parse(old.rows[0]!.value));
       assert.equal(owner.revision(), 23);
       const messages = owner.list<{ sequence: number; text: string }>("message", {

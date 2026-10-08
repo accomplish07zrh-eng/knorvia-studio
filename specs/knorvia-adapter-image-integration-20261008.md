@@ -97,6 +97,10 @@ sequenceDiagram
 
 第二个独立基线 `packages/services/test/studio-image-legacy-schema.integration.test.ts` 实际执行 1/1 pass、0 fail/skip、exit 0。fixture 直接使用 main `34078257` 的 schema 2 DDL，种入旧 conversation/run/message/command、旧游标与未知字段；重开 owner 后逐字节复核原记录与旧表/索引，未使用新构造器建空库来冒充迁移。新图片写入、受理回执与重开恢复仍须在 B 冻结实现后扩展验证，此基线不能代替这些新行为验收。
 
+第三个独立基线 `packages/services/test/studio-image-rpc.integration.test.ts` 经真实二进制 RPC 与两个独立旧 SQLite Host 核对原 timeline 一/二/三参数、undefined 空位、focus run owner 和连接关闭后的另一 Host 隔离。初始 RPC 用例 1/1 pass、0 fail/skip、exit 0。复核旧 fixture 后将 command 调整为既有 canonical payload/result 真实回执形状，并补原请求重放/不同载荷同 CID 拒绝；修正后的结果单独回报。新增第四 imageId/第五 admissionCommandId 仍待 B 冻结后在同一 RPC 链路扩展，不能用直接 mock 方法调用冒充传输与归属验证。
+
+初始完整 `test:studio` 已完成：835 文件、8428 总数、8420 pass、0 fail/cancel、8 skip、exit 0。跳过项如实保留，为既有平台/环境条件，不是本轮新增图片验收；CLI 构建 17/17、主图标与 35 个生成资产核验也 exit 0。同一合法 thread 的旧 native turnId 四个 delta/tool/terminal/approval 用例由集成独立 stdio 在旧行为实际复现为 0/4、exit 1，仍等待 A 最小修正后复验，不在初始全量通过中隐去该失败。
+
 以下是三项功能的计划验收，尚未执行，不能提前记为覆盖或通过。
 
 1. A 的具体旧基线反例：合成协议实际失败、新实现通过；跨 thread/session/turn 的迟到/重复/取消与原审批请求仍归正确 owner。

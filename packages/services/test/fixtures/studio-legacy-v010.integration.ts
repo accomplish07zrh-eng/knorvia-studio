@@ -61,7 +61,11 @@ export async function seedLegacyStudioDatabase(path: string, workspacePath: stri
         kind: "command",
         id: "legacy-command",
         scope: "",
-        value: { id: "legacy-run", revision: 23 },
+        value: {
+          payload:
+            '{"commandId":"legacy-command","kind":"chat","targetId":"legacy-chat","text":"旧纯文字输入","type":"send"}',
+          result: { id: "legacy-run", revision: 23 },
+        },
       },
     ].map((row, index) => ({
       ...row,
