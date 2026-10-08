@@ -1,4 +1,9 @@
-import { syntheticOrientedJpeg } from "./studio-image-data.js";
+import { pngChunk, syntheticApng, syntheticOrientedJpeg } from "./studio-image-data.js";
+import {
+  verifyImageCaptureScope,
+  verifyStaticPngCapture,
+  verifyImageCaptureCancellation,
+} from "./studio-image-scope-browser.js";
 // Actual external-chat React and SQLite, synthetic images and controlled public protocol only.
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
@@ -217,6 +222,22 @@ try {
   );
   // Catalog and status are read-only public observations; wait until image capture is actually allowed.
   await page.waitForFunction(() => document.body.textContent?.includes("Vision"));
+  await verifyImageCaptureScope(page, paste, file(png));
+  results.push(
+    "Delayed capture failures after model/connection changes cannot write errors or end another scope",
+  );
+  await verifyStaticPngCapture(
+    page,
+    paste,
+    file(Buffer.from(syntheticApng().dataBase64, "base64")),
+    file(
+      Buffer.concat([
+        png.subarray(0, 33),
+        pngChunk("tEXt", Buffer.from("x")),
+        png.subarray(33, -1),
+      ]),
+    ),
+  );
   for (const bad of [
     [file(Buffer.alloc(2 * 1024 * 1024 + 1))],
     [file(png, "vector.svg", "image/svg+xml")],
@@ -236,31 +257,9 @@ try {
     createHash("sha256").update(rotated).digest("hex"),
   );
   await page.getByRole("button", { name: "Remove 方向.jpg", exact: true }).click();
-  const pauseRead = () =>
-    page.evaluate(() => {
-      const original = File.prototype.arrayBuffer;
-      File.prototype.arrayBuffer = function () {
-        File.prototype.arrayBuffer = original;
-        return new Promise<ArrayBuffer>((resolve) => {
-          (window as any).imageReadRelease = () => original.call(this).then(resolve);
-        });
-      };
-    });
-  const releaseRead = () => page.evaluate(() => (window as any).imageReadRelease());
-  await pauseRead();
-  await paste([file(png)]);
-  await page.getByRole("button", { name: "Cancel image reading", exact: true }).click();
-  await releaseRead();
-  assert.equal((await draft()).images?.length ?? 0, 0);
-  await pauseRead();
-  await paste([file(png)]);
-  await page.getByRole("button", { name: "Cancel image reading", exact: true }).waitFor();
-  await page.getByRole("button", { name: "Switch session", exact: true }).click();
-  await releaseRead();
-  assert.equal((await draft()).images?.length ?? 0, 0);
-  await page.getByRole("button", { name: "Switch session", exact: true }).click();
+  await verifyImageCaptureCancellation(page, paste, file(png));
   results.push(
-    "Bad MIME/data and count/size budgets reject; EXIF JPEG retains exact bytes; cancelled or old-session reads cannot append bytes",
+    "Bad MIME/data, APNG declarations, damaged chunks and count/size budgets reject; EXIF JPEG retains exact bytes; cancelled or old-session reads cannot append bytes",
   );
   await paste([file(png)]);
   await page.getByRole("button", { name: "Preview 合成.png", exact: true }).waitFor();
@@ -369,9 +368,7 @@ try {
     });
     return (await r.json()).runs.some((run: any) => run.state === "cancelled");
   });
-  results.push(
-    "Queued images dispatch through the owned turn with decoded bytes; running Stop receives confirmed cancellation",
-  );
+  results.push("Queued image run enters running state; original Stop owner confirms cancellation");
   assert.deepEqual(errors, []);
   const output = join(repo, "test-results", "studio-image-browser");
   await mkdir(output, { recursive: true });

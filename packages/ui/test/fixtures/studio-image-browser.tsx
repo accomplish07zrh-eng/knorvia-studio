@@ -37,6 +37,10 @@ const services = new Proxy(
   { studioRuntimeService: runtime },
   { get: (target, key) => (key in target ? target[key as keyof typeof target] : inert) },
 ) as unknown as IServiceAccessor;
+const reconnectedServices = new Proxy(
+  { studioRuntimeService: { ...runtime } },
+  { get: (target, key) => (key in target ? target[key as keyof typeof target] : inert) },
+) as unknown as IServiceAccessor;
 const platform = {
   type: "web",
   selectDirectory: async () => null,
@@ -44,6 +48,7 @@ const platform = {
 } as unknown as IPlatformService;
 function Fixture() {
   const [sessionId, setSession] = useState("chat");
+  const [reconnected, setReconnected] = useState(false);
   Object.assign(window, {
     imageFixture: {
       draft: (id = sessionId) => studioAgentStore.getState().drafts[id],
@@ -52,10 +57,11 @@ function Fixture() {
     },
   });
   return (
-    <>
+    <ServiceProvider services={reconnected ? reconnectedServices : services}>
       <button onClick={() => setSession(sessionId === "chat" ? "other" : "chat")}>
         Switch session
       </button>
+      <button onClick={() => setReconnected(!reconnected)}>Switch connection</button>
       <div style={{ height: "94vh" }}>
         <StudioExternalChat
           kernelId="codex"
@@ -72,21 +78,19 @@ function Fixture() {
           onNativeHandoffComplete={() => {}}
         />
       </div>
-    </>
+    </ServiceProvider>
   );
 }
 for (const id of ["chat", "other"])
   studioAgentStore.getState().setDraftSelection(id, "codex", { model: "vision" });
 createRoot(document.getElementById("root")!).render(
-  <ServiceProvider services={services}>
-    <PlatformProvider platform={platform}>
-      <TabStoreProvider>
-        <TooltipProvider>
-          <KnorviaIntlProvider initialLocale="en-US">
-            <Fixture />
-          </KnorviaIntlProvider>
-        </TooltipProvider>
-      </TabStoreProvider>
-    </PlatformProvider>
-  </ServiceProvider>,
+  <PlatformProvider platform={platform}>
+    <TabStoreProvider>
+      <TooltipProvider>
+        <KnorviaIntlProvider initialLocale="en-US">
+          <Fixture />
+        </KnorviaIntlProvider>
+      </TooltipProvider>
+    </TabStoreProvider>
+  </PlatformProvider>,
 );

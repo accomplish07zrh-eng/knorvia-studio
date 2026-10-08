@@ -1,0 +1,57 @@
+{
+  "baseline": "34078257b5d9d1e78c40308b34dab8ff45565156",
+  "results": [
+    {
+      "package": "pngjs@7.0.0",
+      "license": "MIT",
+      "baselineRecordIdentical": true,
+      "notices": [
+        {
+          "member": "LICENSE",
+          "sha256": "be75ef59c5cf59715588a17a82dff7dd3e83c4dba3c458676bb9311e05fbedc5",
+          "installedExactBytes": true,
+          "fullNoticeBlock": true
+        }
+      ]
+    },
+    {
+      "package": "jpeg-js@0.4.4",
+      "license": "BSD-3-Clause",
+      "baselineRecordIdentical": true,
+      "notices": [
+        {
+          "member": "LICENSE",
+          "sha256": "c0a8512eabe960492fefd4f287523eb3b5ca1518ca37ef0ec83344cd7f089cb8",
+          "installedExactBytes": true,
+          "fullNoticeBlock": true
+        },
+        {
+          "member": "README.md (license section)",
+          "sha256": "ae070da695f33eee9ad9a6f12cb2c2c5d8074103c8df5ce396ff5a65ede8ce37",
+          "installedExactBytes": true,
+          "fullNoticeBlock": true
+        }
+      ]
+    }
+  ],
+  "noticesIdenticalToBaseline": true,
+  "materialObligations": {
+    "current": 26,
+    "baseline": 26,
+    "identical": true
+  },
+  "generatorComparison": {
+    "command": "/tmp/knorvia-lane3-check node --input-type=module -e 'import { generateThirdPartyNotices } from \"./scripts/generate-third-party-notices.mjs\"; await generateThirdPartyNotices();'",
+    "node": "24.14.0",
+    "baselineCheckout": "detached 34078257b5d9d1e78c40308b34dab8ff45565156",
+    "environment": "Baseline worktree uses symlinks to the same installed package tree; no claim of a separate fresh baseline install.",
+    "baselineExitCode": 1,
+    "currentExitCode": 1,
+    "error": "Missing complete upstream notices: agent-base@6.0.2 / https-proxy-agent@5.0.1",
+    "logs": [
+      "/tmp/knorvia-images-notices-baseline.log",
+      "/tmp/knorvia-images-notices-current-followup.log"
+    ],
+    "newNoticeTextOrOverrides": false
+  }
+}

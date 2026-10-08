@@ -1,5 +1,6 @@
 import { STUDIO_IMAGE_LIMITS, type StudioImageInput, type StudioImageRef } from "../imageTypes.js";
 import type { StudioKernelOptions } from "../kernelTypes.js";
+import { validateStaticPng } from "./staticPng.js";
 
 export function studioImageRef(input: StudioImageInput): StudioImageRef {
   const { id, filename, mimeType, sizeBytes, width, height, sha256 } = input;
@@ -86,6 +87,8 @@ export function studioImageDimensions(
   ) {
     width = view.getUint32(16);
     height = view.getUint32(20);
+    validateStudioImageDimensions(width, height);
+    validateStaticPng(bytes);
   } else if (mime === "image/jpeg" && bytes[0] === 255 && bytes[1] === 216) {
     let offset = 2;
     while (offset + 3 < bytes.length) {

@@ -29,7 +29,7 @@ sequenceDiagram
 ```
 
 - UI 草稿唯一所有者仍为 `StudioAgentStore`。捕获直接读取 File 字节，复制为 immutable Blob/File；既有 object URL 与序列化只使用该副本。相同内容的重复 paste/drop 去重；移除后再加入生成新捕获身份，旧 ACK 不能清掉新图。
-- 首版限制：PNG/JPEG，每张 ≤2 MiB、一次 ≤4 张、合计 ≤4 MiB，任一边 ≤8192、像素 ≤16 Mi。限制独立于现有 readMediaPreview（最高 8 MiB）和 readBinaryPreview（25 MiB），不改全局额度，不照搬上游 32 MiB。检查声明 MIME、签名、实际完整解码、尺寸、规范 base64、字节数和 SHA-256。
+- 首版限制：静态 PNG/JPEG，每张 ≤2 MiB、一次 ≤4 张、合计 ≤4 MiB，任一边 ≤8192、像素 ≤16 Mi。限制独立于现有 readMediaPreview（最高 8 MiB）和 readBinaryPreview（25 MiB），不改全局额度，不照搬上游 32 MiB。检查声明 MIME、签名、实际完整解码、尺寸、规范 base64、字节数和 SHA-256。PNG 在预览和受理前按实际字节检查完整 chunk 边界、CRC 和结束标记；出现 acTL/fcTL/fdAT 动画声明立即明确拒绝，包括伪装成普通 image/png 文件的 APNG，避免动态预览与模型首帧不一致。不扩展动画或转码平台。
 - 最小 typed 图片包含捕获 id、文件名、MIME、尺寸、字节数、SHA-256、冻结 base64。`send.attachments` 仅 chat 可用；image-only 合法，文字＋多图合法。group/workflow、非本地 Codex、未知/非 image 模型明确拒绝；不静默转文字。
 - Host accepted 内容只写原 SQLite 所有者下的不可变图片实体，run/message 保存有界 owned 引用；不新增 accepted 队列。内容与 refs、冻结模型和原 command receipt 同事务提交。相同内容可复用，不允许同哈希不同内容覆盖。
 - `StudioKernelOptions.models[].inputModalities` 可选：缺失代表 unknown，明确无 image 代表不支持。UI 要核验所选或可核验的原生默认模型；Host 在受理与 Codex 提交前分别查询实际目录，不信任 UI 能力声明。排队时冻结实际模型，派发时必须仍支持 image，原生 thread 响应必须匹配。
@@ -38,9 +38,11 @@ sequenceDiagram
 
 ## 异步、ACK 与恢复
 
-捕获、模型目录读取和会话创建均绑定 service/kernel/session/project/selection 代际。卸载、移除或更换目标使旧回包失效；不会往另一个会话贴图。受理前重验原目标和配置，删除/过期目标不创建替代。
+捕获、模型目录读取和会话创建均绑定 service/kernel/session/project/selection 代际。卸载、移除或更换目标使旧回包失效；不会往另一个会话贴图。捕获的成功、错误和结束状态使用同一个 scope token；同会话更换模型或连接也立即结束旧读取，旧失败不能写进新范围或结束新读取。受理前重验原目标和配置，删除/过期目标不创建替代。
 
 原 `StudioClient` 继续拥有稳定 commandId 和重试身份。图片提交冻结全部载荷；重复点击共用同一 pending 操作。不确定 ACK 保留原请求，重试只重放原 payload/commandId，不能自动改用当前会话或模型；连接变化时先观察原历史，不盲目跨 Host 重发。新增 run 的受理 commandId 关联仅用于观察原受理事实，不替代执行状态或 lease。迟到 ACK/失败只影响原操作，不能清新图片、还原已移除图或重置新操作。排队和运行中发送仍由既有 Runtime 队列承接；取消仍由原 cancel owner 决定。
+
+图片回执复用原 command 记录并标记内部表示版本 1：canonical 载荷保留全部原文字、目标、模型、权限和图片元数据/内容地址，base64 仅保存在同事务的不可变 image-content 实体中一次。每次图片请求（包括 CID 重试）均先完整验证真实字节、哈希与解码；重放还逐字核对原内容实体，缺失或变化明确拒绝。不得仅信调用方 sha256，也不得把原有纯文字或旧完整图片 canonical 回执重写成新表示。旧回执仍按原完整载荷比较。此方案保持单记录 4,000,000 字符限制与对外合计 4 MiB 图片预算，不扩大全局数据库门禁。两张独立约 1.9 MB 静态 PNG 必须受理、原 CID 重试/重启无重复，且字节、元数据、模型、权限或目标变化必须拒绝。
 
 图片只通过真实 typed Codex `image` 输入发给原 native turn；`accepted` 表示 Host 受理，不能描述为模型已看图。图片附在 `/status`、`/compact` 等原生控制命令上需明确拒绝，不能消费控制命令后遗漏图片。失败草稿保留可重试；原生结果未知沿用 interrupted/明确重试规则，不擅自重复执行。
 
@@ -53,7 +55,7 @@ Node 解码使用仓库已锁定的常规第三方 PNG/JPEG 编解码依赖并�
 ## 必过验收
 
 1. image-only、文字＋多张小图、中文文件名；预览的实际 pixels/hash 与 fake app-server typed 输入一致，不能用 placeholder base64。
-2. 重复 paste/drop 去重、移除/取消、错误 MIME/损坏/截断文件、SVG/视频/外链拒绝，数量/字节/尺寸/像素边界。
+2. 重复 paste/drop 去重、移除/取消、错误 MIME/损坏/截断文件、APNG 声明/损坏 chunk、SVG/视频/外链拒绝，数量/字节/尺寸/像素边界。合法 ancillary 数据里只有 acTL 字样不误拒绝。
 3. 模型能力 known-image、known-no-image、unknown 分开；非本地 Codex 拒绝、模型/目标换代、目录更新、原生实际模型不符；无像素请求不得伪称支持。
 4. 创建/发送异步中换会话或模型、排队/运行中输入、重复点击、失 ACK、迟到 ACK/失败、重试与重启；只清冻结身份，不跨会话，不重复执行。
 5. 真实 Runtime/SQLite owner＋fake protocol endpoint 的模型目录和输入断言；实际 React 浏览器 paste/drop、缩略图/删除、按钮/状态/错误/重试与历史缺失媒体场景。
@@ -64,6 +66,7 @@ Node 解码使用仓库已锁定的常规第三方 PNG/JPEG 编解码依赖并�
 - [Codex rust-v0.161.0 Model](https://raw.githubusercontent.com/openai/codex/rust-v0.161.0/codex-rs/app-server-protocol/schema/typescript/v2/Model.ts)：原生模型输入能力字段。
 - [Codex UserInput](https://raw.githubusercontent.com/openai/codex/rust-v0.161.0/codex-rs/app-server-protocol/schema/typescript/v2/UserInput.ts)：typed image URL 与 localImage 路径是不同输入形式。
 - [Codex TurnStartParams](https://raw.githubusercontent.com/openai/codex/rust-v0.161.0/codex-rs/app-server-protocol/schema/typescript/v2/TurnStartParams.ts)：原 turn/start 结构化输入。
+- [W3C PNG animation chunks](https://www.w3.org/TR/png-3/#11AnimationChunks)：acTL、fcTL、fdAT 的实际 chunk 声明；首版明确拒绝动画输入。
 
 ## 实现补充：受理回执与窗口恢复
 

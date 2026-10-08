@@ -6,7 +6,10 @@ declare module "pngjs" {
     data: Buffer;
     static sync: {
       read(bytes: Buffer, options?: { checkCRC?: boolean }): PNG;
-      write(image: { width: number; height: number; data: Buffer }): Buffer;
+      write(
+        image: { width: number; height: number; data: Buffer },
+        options?: { colorType?: 2 | 6 },
+      ): Buffer;
     };
   }
 }

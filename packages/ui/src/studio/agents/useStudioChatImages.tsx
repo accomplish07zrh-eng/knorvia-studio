@@ -59,11 +59,12 @@ export function useStudioChatImages({
   ]);
   currentScope.current = currentKey;
   useEffect(() => {
+    // 修复：同会话换模型/连接也会使读取失效；成功、错误和结束必须共用同一 scope。
     setCapturing(false);
     return () => {
       captureGeneration.current++;
     };
-  }, [sessionId, kernelId]);
+  }, [currentKey]);
   useEffect(() => {
     const commandId = draft?.imageSubmission?.commandId;
     if (
@@ -117,10 +118,19 @@ export function useStudioChatImages({
       for (const image of captured) if (!unique.has(image.sha256)) unique.set(image.sha256, image);
       studioAgentStore.getState().setDraftImages(sessionId, kernelId, [...unique.values()]);
     } catch (cause) {
-      if (mounted.current && generation === captureGeneration.current)
+      if (
+        mounted.current &&
+        generation === captureGeneration.current &&
+        currentScope.current === key
+      )
         setError(cause instanceof Error ? cause.message : String(cause));
     } finally {
-      if (mounted.current && generation === captureGeneration.current) setCapturing(false);
+      if (
+        mounted.current &&
+        generation === captureGeneration.current &&
+        currentScope.current === key
+      )
+        setCapturing(false);
     }
   };
   const isCurrent = () =>

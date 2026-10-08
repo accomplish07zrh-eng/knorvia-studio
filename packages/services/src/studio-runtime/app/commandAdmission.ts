@@ -27,11 +27,9 @@ export function admitStudioCommand(
   images?: PreparedStudioImages,
 ): StudioCommandResult {
   validateStudioCommand(command);
-  return db.transaction(() =>
-    admitStudioCommandReceipt(db, clock, command, (repo, time, input) =>
-      applyStudioCommand(repo, time, input, images),
-    ),
-  );
+  const apply = (repo: StudioRepository, time: StudioClock, input: StudioCommand) =>
+    applyStudioCommand(repo, time, input, images);
+  return db.transaction(() => admitStudioCommandReceipt(db, clock, command, apply, images));
 }
 
 export function applyStudioCommand(

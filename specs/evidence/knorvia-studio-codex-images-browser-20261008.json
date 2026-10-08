@@ -1,11 +1,12 @@
 {
   "results": [
-    "Bad MIME/data and count/size budgets reject; EXIF JPEG retains exact bytes; cancelled or old-session reads cannot append bytes",
+    "Delayed capture failures after model/connection changes cannot write errors or end another scope",
+    "Bad MIME/data, APNG declarations, damaged chunks and count/size budgets reject; EXIF JPEG retains exact bytes; cancelled or old-session reads cannot append bytes",
     "Image-only PNG, exact preview pixels/hash, duplicate paste/drop and queued owner ACK",
     "Text plus PNG/JPEG; late ACK preserves re-added same-byte capture and edited text",
     "Known unsupported model preserves draft; lost ACK retry uses same command with no duplicate run",
     "Session isolation and reload: uncaptured bytes are explicitly unavailable, never silently dropped",
-    "Queued images dispatch through the owned turn with decoded bytes; running Stop receives confirmed cancellation"
+    "Queued image run enters running state; original Stop owner confirms cancellation"
   ],
   "pageErrors": [],
   "syntheticPixels": [127, 11, 31, 255, 33, 77, 201, 255],

@@ -1,4 +1,10 @@
-import { syntheticImage } from "./fixtures/studio-image-data.js";
+import {
+  imageWithBytes,
+  pngChunk,
+  syntheticApng,
+  syntheticImage,
+  syntheticLargePng,
+} from "./fixtures/studio-image-data.js";
 import assert from "node:assert/strict";
 import { crc32, deflateSync } from "node:zlib";
 import { createRequire } from "node:module";
@@ -18,6 +24,8 @@ import { StudioDatabase } from "../src/studio-runtime/adapters/studioDatabase.js
 import { StudioRuntimeService } from "../src/studio-runtime/app/studioRuntimeService.js";
 import { admitStudioCommand } from "../src/studio-runtime/app/commandAdmission.js";
 import { setup } from "./studio-kernels-model.fixture.js";
+import { studioImageDimensions } from "../src/studio-runtime/domain/imageInput.js";
+import { canonicalStudioValue } from "../src/studio-runtime/domain/canonicalValue.js";
 
 const options: StudioKernelOptions = {
   defaultModel: "vision",
@@ -130,6 +138,69 @@ test("PNG/JPEG actual decoding rejects wrong MIME, hash, dimensions, CRC, trunca
   );
 });
 
+test("static PNG boundary rejects animation chunks and damaged framing/CRC from actual bytes", () => {
+  const image = syntheticImage(),
+    bytes = Buffer.from(image.dataBase64, "base64");
+  for (const type of ["acTL", "fcTL", "fdAT"]) {
+    const animated =
+      type === "acTL"
+        ? syntheticApng()
+        : imageWithBytes(
+            image,
+            Buffer.concat([
+              bytes.subarray(0, 33),
+              pngChunk(type, Buffer.alloc(8)),
+              bytes.subarray(33),
+            ]),
+          );
+    assert.throws(
+      () => studioImageDimensions(Buffer.from(animated.dataBase64, "base64"), "image/png"),
+      /APNG/,
+    );
+    assert.throws(() => studioImageCodec.validate(animated), /APNG/);
+  }
+  const ancillary = Buffer.concat([
+    bytes.subarray(0, 33),
+    pngChunk("tEXt", Buffer.from("comment\0acTL is only text")),
+    bytes.subarray(33),
+  ]);
+  studioImageCodec.validate(imageWithBytes(image, ancillary));
+  const corrupt = Buffer.from(ancillary);
+  corrupt[40] ^= 1;
+  const overflow = Buffer.from(bytes);
+  overflow.writeUInt32BE(0xffffffff, 33);
+  const duplicateHeader = Buffer.concat([
+    bytes.subarray(0, 33),
+    bytes.subarray(8, 33),
+    bytes.subarray(33),
+  ]);
+  const malformedEnd = Buffer.concat([bytes.subarray(0, -12), pngChunk("IEND", Buffer.from([0]))]);
+  for (const damaged of [
+    corrupt,
+    overflow,
+    bytes.subarray(0, -1),
+    bytes.subarray(0, -12),
+    duplicateHeader,
+    malformedEnd,
+    Buffer.concat([bytes, Buffer.from([0])]),
+  ]) {
+    assert.throws(() => studioImageDimensions(damaged, "image/png"), /PNG/);
+    assert.throws(() => studioImageCodec.validate(imageWithBytes(image, damaged)), /PNG/);
+  }
+});
+
+test("APNG is rejected before Host admission without persisting a run", async () => {
+  const f = await fixture();
+  try {
+    const result = await f.service.command(f.command([syntheticApng()]));
+    assert.match(result.imageRejection!, /APNG/);
+    assert.equal(f.db.list("run").length, 0);
+    assert.equal(f.turns.length, 0);
+  } finally {
+    await f.cleanup();
+  }
+});
+
 test("interlaced PNG decodes actual pixels and bounded inflate rejects oversized decoded content", () => {
   const chunk = (type: string, data: Buffer) => {
     const name = Buffer.from(type),
@@ -239,6 +310,109 @@ test("durable original image command dedupes concurrent/lost ACK/restart; scoped
     assert.deepEqual(f.turns[0], input.type === "send" ? input.attachments : undefined);
     const different = { ...input, text: "changed" };
     assert.match((await f.service.command(different)).imageRejection!, /同一请求/);
+  } finally {
+    await f.cleanup();
+  }
+});
+
+test("two independent 1.9 MB PNGs retain full 4 MiB budget through bounded receipts and exact retries", async () => {
+  const f = await fixture();
+  try {
+    const images = [syntheticLargePng(17), syntheticLargePng(29)];
+    for (const image of images) {
+      assert.ok(image.sizeBytes > 1_900_000 && image.sizeBytes <= 2 * 1024 * 1024);
+      studioImageCodec.validate(image);
+    }
+    assert.ok(images.reduce((sum, image) => sum + image.sizeBytes, 0) <= 4 * 1024 * 1024);
+    const input = {
+      ...f.command(images, "compare large pixels"),
+      imageModel: "vision",
+      selection: { model: "vision" },
+      kernelConfig: { executablePath: "", permission: "ask" as const },
+    } as Extract<StudioCommand, { type: "send" }>;
+    const [first, second] = await Promise.all([f.service.command(input), f.service.command(input)]);
+    assert.equal(first.imageRejection, undefined);
+    assert.equal(second.id, first.id);
+    const receipt = f.db.read<{ payload: string; imagePayloadVersion?: number }>(
+      "command",
+      input.commandId,
+    )!;
+    assert.equal(receipt.imagePayloadVersion, 1);
+    assert.ok(receipt.payload.length < 4000);
+    assert.equal(receipt.payload.includes("dataBase64"), false);
+    assert.equal(f.db.list("image-content", { all: true }).length, 2);
+    assert.equal(f.db.list("run", { all: true }).length, 1);
+    for (const image of images)
+      assert.deepEqual(
+        (await f.service.timeline("chat", undefined, first.id, image.id)).image?.input,
+        image,
+      );
+    await f.restart();
+    f.options({ models: [] });
+    assert.equal((await f.service.command(input)).id, first.id);
+    const mutatedBytes = Buffer.from(images[0].dataBase64, "base64");
+    mutatedBytes[50] ^= 1;
+    const forged = { ...images[0], dataBase64: mutatedBytes.toString("base64") };
+    assert.match(
+      (await f.service.command({ ...input, attachments: [forged, images[1]] })).imageRejection!,
+      /哈希/,
+    );
+    for (const change of [
+      { attachments: [forged, images[1]] },
+      { attachments: [{ ...images[0], filename: "renamed.png" }, images[1]] },
+      { attachments: [{ ...images[0], id: randomUUID() }, images[1]] },
+      {
+        attachments: [{ ...images[1], id: images[0].id, filename: images[0].filename }, images[1]],
+      },
+      { attachments: [images[1], images[0]] },
+      { imageModel: "changed-model" },
+      { selection: { model: "changed-model" } },
+      { kernelConfig: { ...input.kernelConfig!, permission: "full-access" as const } },
+      { targetId: "other" },
+      { text: "changed text" },
+    ])
+      assert.ok((await f.service.command({ ...input, ...change })).imageRejection);
+    const stored = f.db.read<StudioImageInput>("image-content", images[0].sha256)!;
+    f.db.transaction(() =>
+      f.db.write("image-content", images[0].sha256, {
+        ...stored,
+        dataBase64: images[1].dataBase64,
+      }),
+    );
+    assert.ok((await f.service.command(input)).imageRejection);
+    f.db.transaction(() => f.db.remove("image-content", images[0].sha256));
+    assert.ok((await f.service.command(input)).imageRejection);
+    f.db.transaction(() => f.db.write("image-content", images[0].sha256, stored));
+    assert.equal((await f.service.command(input)).id, first.id);
+    assert.equal(f.db.list("run", { all: true }).length, 1);
+    assert.equal(f.db.list("image-content", { all: true }).length, 2);
+  } finally {
+    await f.cleanup();
+  }
+});
+
+test("legacy text and full-image canonical receipts keep their exact payload semantics", async () => {
+  const f = await fixture();
+  try {
+    const text = f.command([], "legacy plain text");
+    const textResult = await f.service.command(text);
+    assert.equal(
+      f.db.read<{ payload: string }>("command", text.commandId)!.payload,
+      canonicalStudioValue(text),
+    );
+    const input = f.command();
+    const result = await f.service.command(input);
+    f.db.transaction(() =>
+      f.db.write("command", input.commandId, { payload: canonicalStudioValue(input), result }),
+    );
+    await f.restart();
+    assert.deepEqual(await f.service.command(text), textResult);
+    assert.deepEqual(await f.service.command(input), result);
+    assert.equal(
+      f.db.read<{ payload: string }>("command", input.commandId)!.payload,
+      canonicalStudioValue(input),
+    );
+    assert.ok((await f.service.command({ ...input, text: "altered" })).imageRejection);
   } finally {
     await f.cleanup();
   }
