@@ -2,7 +2,7 @@
 
 2026-10-08。用户批准「修正＋贴图＋图片对比」，并已明确授权三项统一通过验收后合入 main、按既有 Windows/Linux 范围发布新的正式版。先交付新的 draft 集成 PR、独立回归和适用桌面构建；验收完成前不发布。集成/发布仅由本路线执行，不发布 preview/draft release，不部署网站、不增加手机/macOS矩阵、不修改签名配置或授权策略。
 
-本轮随后追加工作台：独立导航，一键平铺所有运行任务，同内核的不同任务各占一格，每格独立输入/批准/暂停，拖边调整宽高，支持 GUI/对应内核原生终端切换，以及零任务先布局。父线程正在确定协议进程与原生 TUI/PTY 的专门安全交接设计，尚未交付可集成实现；最终发布明确暂停等待工作台整合。现有三项继续验收，最后共同检查/发布必须覆盖确认后的本轮完整范围，不能只发布原三项。
+本轮随后追加工作台；用户最新取消原生终端切换，当前范围为 GUI-only：独立导航、一键平铺所有运行任务、同内核的不同任务各占一格，每格独立输入/批准/暂停，拖边调整宽高、保存布局、单格放大，以及零任务先布局。不增加 PTY 交接或原生 history 回灌。工作台路线尚未交付可集成实现，最终发布继续暂停等待工作台整合。现有三项继续验收，最后共同检查/发布必须覆盖确认后的本轮完整范围，不能只发布原三项。
 
 ## 基线与范围
 
@@ -126,9 +126,10 @@ sequenceDiagram
 4. C 的真实 baseline/working 两侧各异、源项目后来变化、added/deleted、过大/缺失/损坏/不支持；返回内容 hash 与声明一致，读取间修改失败，任意路径/错 run/step 拒绝。
 5. C 的真实浏览器并排显示、关闭/取消、切换目标、迟到 decode/响应、重复打开、失败恢复；旧文本 DiffViewer、review draft、apply、attention/read 与 native unread 继续可用。
 6. 跨路线组合：含图片的一次 native chat turn 经保真事件/取消/审批完成，原 session writeback 仍归同一持久运行；另在既有隔离 group/workflow run 验证图片差异审阅与该运行/步骤收据一致。现有 chat 使用源 cwd，不为组合用例擅自引入 chat 隔离。重开旧/新合成数据不隐式重发、不自动批准、不损失旧字段。
-7. 最后冻结的集成 exact head 执行 fmt、来源再生/check、lint、typecheck、全量及 changed architecture、CLI build、重点及完整 `test:studio`；图标/冻结来源按实际要求检查。先 fmt 后来源指纹再生。
-8. 运行适用桌面构建并绑定 exact commit。验收阶段优先使用已有非发布构建入口；构建成功不等于实际安装、人工 GUI 或全历史迁移验收。
-9. 选择项目策略一致、尚未占用的下一稳定 semver，更新真实用户变更/升级说明，冻结最后 head 并取得该 exact head 的 Windows/Linux CI。freshness 与 expected SHA guard 检查通过后仅由本路线合入 main；核对 merge tree 与验收候选一致，并在实际合并 SHA 上执行既有完整 Windows/Linux 发布矩阵。
-10. 发布矩阵的 resolve、两平台 quality、四变体 fresh packaging/实际包验收、aggregate validation、publish 全部监控到终态；失败先诊断、仅 bounded retry，不在结果未知时重复发布。匿名核验公开 tag/commit/latest/draft=false/prerelease=false、全部资产名字/数量/大小/hash/checksum/metadata与源链接/归档；Windows未签名如实报告，旧稳定版不覆盖。
+7. GUI-only 工作台：零任务时可布局且不隐式创建/启动任务；同内核两个任务按稳定任务身份分别绑定原 owner、草稿和输入/审批/暂停路径，不能按 kernel ID 合并。拖边、布局恢复、单格放大、换格/移除格只改变界面布局，不隐式取消、重新派发或批准。未知/退休目标与重载恢复不能冒领另一 Host 的任务；文字/图片输入继续原能力、CID、当前范围和审批门禁。布局只保存必要界面元数据，不复制接受队列、任务历史、原图或 service 引用。通过实际多任务浏览器场景与既有原生/外部流程组合验证，不引入终端/PTY/history 功能。
+8. 最后冻结的集成 exact head 执行 fmt、来源再生/check、lint、typecheck、全量及 changed architecture、CLI build、重点及完整 `test:studio`；图标/冻结来源按实际要求检查。先 fmt 后来源指纹再生。
+9. 运行适用桌面构建并绑定 exact commit。验收阶段优先使用已有非发布构建入口；构建成功不等于实际安装、人工 GUI 或全历史迁移验收。
+10. 选择项目策略一致、尚未占用的下一稳定 semver，更新真实用户变更/升级说明，冻结最后 head 并取得该 exact head 的 Windows/Linux CI。freshness 与 expected SHA guard 检查通过后仅由本路线合入 main；核对 merge tree 与验收候选一致，并在实际合并 SHA 上执行既有完整 Windows/Linux 发布矩阵。
+11. 发布矩阵的 resolve、两平台 quality、四变体 fresh packaging/实际包验收、aggregate validation、publish 全部监控到终态；失败先诊断、仅 bounded retry，不在结果未知时重复发布。匿名核验公开 tag/commit/latest/draft=false/prerelease=false、全部资产名字/数量/大小/hash/checksum/metadata与源链接/归档；Windows未签名如实报告，旧稳定版不覆盖。
 
 每项回报 executed/failed/skipped/not-run、真实 exit、exact head、日志或 PR/CI 链接。瞬时失败先诊断，仅 bounded retry，不删除真实断言或改变不相关语义。工作区 freshness 在吸收功能提交和最后冻结时复核；验收前 main 只读，验收后只发布完整统一版本，保留已有稳定 tag/release。
