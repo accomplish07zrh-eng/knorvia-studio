@@ -1,26 +1,26 @@
 # Knorvia Studio desktop installation
 
-Version: **0.10.0**. These instructions accompany the stable release packages
+Version: **0.11.0**. These instructions accompany the stable release packages
 for **Windows x64** and **Linux x64**. The exact checked source commit, package hashes,
 signature status and bounded acceptance results are in `release-metadata.json`.
 Verify downloads against `SHA256SUMS` or the corresponding `.sha256` attachment.
 
 ## Windows x64
 
-Download `Knorvia-Studio-0.10.0-win-x64-setup.exe` and follow the guided
+Download `Knorvia-Studio-0.11.0-win-x64-setup.exe` and follow the guided
 installer. Choose the installation directory and shortcut options. Reinstall or
 upgrade using the same product identity. Ordinary uninstall preserves your
 application data; remove it manually only when you explicitly want to discard
 it. Normal profiles use `%APPDATA%\Knorvia Studio`.
 
 Alternatively, extract
-`Knorvia-Studio-0.10.0-win-x64-portable.zip` into a writable directory
+`Knorvia-Studio-0.11.0-win-x64-portable.zip` into a writable directory
 and run `Knorvia Studio.exe`. Keep the included portable marker; portable data
 is saved beside the executable in `data/`. Back up that directory before
 moving or replacing the portable installation. Setup and portable profiles
 are distinct by their existing storage rules.
 
-The additional `Knorvia-Studio-0.10.0-win-x64-portable.exe` is a
+The additional `Knorvia-Studio-0.11.0-win-x64-portable.exe` is a
 self-extracting portable launcher. Keep it in a writable folder; its persistent
 `data/` is beside the original EXE, outside the temporary application extraction.
 
@@ -48,11 +48,26 @@ ordinary package removal preserves the existing profile. No package-manager
 signature is claimed; `SHA256SUMS` records integrity, not signer identity.
 
 For an adjacent portable profile instead, use
-`Knorvia-Studio-0.10.0-linux-x64-portable.AppImage` or extract
-`Knorvia-Studio-0.10.0-linux-x64-portable.tar.gz`. These separately marked
+`Knorvia-Studio-0.11.0-linux-x64-portable.AppImage` or extract
+`Knorvia-Studio-0.11.0-linux-x64-portable.tar.gz`. These separately marked
 products keep `data/` beside the original AppImage or extracted executable.
 Keep that directory when upgrading or moving the portable package. The ordinary
 AppImage and native deb/rpm/pacman packages retain normal system-user storage.
+
+## Upgrade and data continuity
+
+Back up the normal profile or portable `data/` before replacing the program.
+Keep the same profile location and portable marker. Existing sessions, text-only
+composer drafts, workspace services, handoffs and agent-tool receipts remain in
+their existing owners. Legacy tool text remains readable with the additive detail
+fields. Workbench layouts contain references and drafts, not a second task queue.
+
+Unsent image bytes and the original Host connection proof are transient. A reload
+can retain unknown pending-submission metadata; review the original history and
+choose the existing explicit recovery path before sending again. Switching Hosts
+never adopts a different Host's matching command receipt automatically. Controlled
+legacy SQLite and draft checks do not establish migration of every historical
+profile. The release metadata records the actual bounded package checks.
 
 ## Scope and retained notices
 

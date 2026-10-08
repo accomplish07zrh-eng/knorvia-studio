@@ -2,14 +2,14 @@
 
 2026-10-08。用户批准「修正＋贴图＋图片对比」，并已明确授权三项统一通过验收后合入 main、按既有 Windows/Linux 范围发布新的正式版。先交付新的 draft 集成 PR、独立回归和适用桌面构建；验收完成前不发布。集成/发布仅由本路线执行，不发布 preview/draft release，不部署网站、不增加手机/macOS矩阵、不修改签名配置或授权策略。
 
-本轮随后追加工作台；用户最新取消原生终端切换，当前范围为 GUI-only：独立导航、一键平铺所有运行任务、同内核的不同任务各占一格，每格独立输入/批准/暂停，拖边调整宽高、保存布局、单格放大，以及零任务先布局。不增加 PTY 交接或原生 history 回灌。工作台 PR #53 已交付初始实现；源码尚缺“一键平铺所有运行任务”，且四格上限需与完整范围核对，最终发布继续暂停等待工作台整合。现有三项继续验收，最后共同检查/发布必须覆盖确认后的本轮完整范围，不能只发布原三项。
+本轮随后追加工作台；用户最新取消原生终端切换，当前范围为 GUI-only：独立导航、汇总所有已知进行中任务、同内核的不同任务各占一格，每格独立输入/批准/停止，拖边调整宽高、保存布局、单格放大，以及零任务先布局。不增加 PTY 交接或原生 history 回灌。工作台 PR #53 修正 `faea83ac` 已安全吸收；最多四格同屏，完整已知任务列表保留所有超容量任务及显式换格/原页面入口，群聊和工作流进入既有页面。最终共同检查/发布覆盖 A/B/C 与完整 GUI-only 工作台范围，不能只发布原三项。
 
 ## 基线与范围
 
 - 开工远端 main：`34078257b5d9d1e78c40308b34dab8ff45565156`；最新稳定版 `v0.10.0`，根版本 `0.10.0`。
 - 原集成分支 `codex/review-inbox-integration-20261007` 在 `99b913857a0f7055bad8b06b180015cb7520824b`，无未提交改动；它是已合并候选，本轮不继续使用。
 - 新分支 `codex/adapter-images-integration-20261008` 从当前 `origin/main` 创建；freshness fetch 后及新分支检查均 exit 0，新分支 ahead 0 / behind 0。基线全仓架构检查 exit 0，违规/基线/新增均为 0。
-- 保留全部已有功能、黑白 UI、历史数据、旧记录兼容、根 LICENSE/NOTICE/THIRD-PARTY-NOTICES 和冻结来源证据。版本号暂保持 `0.10.0`；构建须标明候选 exact commit，不能冒充新的稳定版本。
+- 保留全部已有功能、黑白 UI、历史数据、旧记录兼容、根 LICENSE/NOTICE/THIRD-PARTY-NOTICES 和冻结来源证据。重新核对 main/latest 仍为 `34078257` / `v0.10.0`，`v0.11.0` 尚未存在；为最后共同候选准备根版本 `0.11.0`、双语用户变更与真实升级说明。准备版本不等于发布，构建与最终 CI 须绑定候选 exact commit。
 - 三项首批：合成协议证实的外部适配器信息/状态最小修正；本地 Codex 或明确核验图片输入能力的 PNG/JPEG 截图粘贴/拖放；既有隔离工作区精确快照的静态栅格 before/after 并排。
 - 矩形短评、文件反查任务、PR 面板、备份检查、评测平台、手机改动不在本轮。既有按明确路径读图能力保持，不把新增 composer 附件入口描述成此前不能读图。
 
@@ -133,6 +133,11 @@ sequenceDiagram
 - 工作台修正 `faea83ac3edf13cacc76b3aa2c97c65acc3fb0bf` 生产 UI/runtime/原 smoke/Host 与 `4085817e` 字节完全一致；新增精确 recent100/old queued/old unknown 顺序和 zero dispatch 断言。独立 exact detached sequencing + 10003 active 历史六项 exit 0，暂存改为该修正 head，再与共同树复核；不靠删除 active 条目或放宽数量范围过关。
 - 修正工作台 `faea83ac` 与已接受 B/C 暂存共同树：28 项针对性检查 exit 0；fmt、fmt:check、来源再生/check、typecheck、lint 与 full/changed architecture exit 0。该分支 Linux CI 已终态成功，Windows 仍在全量回归；原 `4085817e` 的失败不计为通过。冻结新 A `6aa37a7ba8aa5311db6dbf0f2634910d9b80705f` 已由父任务交付，须在保留 B/C typed input、图片呈现、版本审阅和工作台控制所有者的共同树上独立复验旧 turn 四例与 native 图片组合。
 - 原全 Desktop 导航 smoke 在新 detached 安装树因 `--ignore-scripts` 没有 Electron runtime/main bundle而未运行。真实 activity rail 及导航纯测试已执行，完整 Electron/安装 GUI/跨机 SSH/付费模型均未声称验证；最终适用桌面构建和 exact-head Windows/Linux CI 仍待全部范围就绪。
+
+- 新 A `6aa37a7b` 吸收后，保留原独立断言首次执行：旧 turn 四例 3 pass / 1 fail，native 图片组合 0 pass / 1 fail。两处都已越过旧终态、原 owner、显式当前 deny、工具双 IO/unknown、usage 与 typed 图片检查，仅因夹具要求旧请求 `result.decision=decline` 而实际收到明确 JSON-RPC `error`（适配器 -32601）。这是协议拒绝形式的夹具限制，不改生产语义：旧审批必须恰好一个明确拒绝，允许唯一 `{decision: decline}` result 或无 result 的整数 code/非空 message error；禁止允许、模糊结果、重复答复及冒领当前审批。当前 root 的显式 deny 仍精确等于唯一 `{decision: decline}`，旧请求不得落库或执行。
+- 上述协议有效拒绝断言复核后，独立旧 turn 四例 + native 图片/旧 SQLite/RPC 组合 5/5 pass、exit 0；adapter/模型/图片相关 100/100 pass、exit 0；B/C 最大真实 MessagePort、损坏内容/版本应用、旧 schema/CID 与工作台/history 34/34 pass、exit 0。共同树原 stdio→Runtime/SQLite→公共 service→React 的窄屏深色/宽屏浅色/label 答复/单次审批/工具分区浏览器四组 exit 0。最终全量、构建与精确 head CI 继续执行，不用这些重点结果替代它们。
+- 同一共同树工作台实际 Chromium 七组含精确原 Host interaction/run 控制定位全部 exit 0；工作区 ReviewCard/CSS/SQLite 的精确两侧、预算/动画/损坏/Adam7/透明/JPEG、迟到文件/run/Host 与版本应用浏览器 exit 0。0.11.0 typecheck（5573 对 i18n key）、CLI build（17/17）、fmt/check、lint、full/changed architecture、来源再生/check 均 exit 0。根版本变化首次触发真实第三方输入指纹检查失败；确认根 manifest 除版本外完全一致后，仅更新其已登记摘要再生，notices 与既有 26 项材料义务保持。
+- `faea83ac` 独立 CI 的 Windows 终态为 failure（受检合并 SHA `1021a54337446c01416b0b03ddf7c1b0c17283eb`）：8435 项、8429 pass / 1 fail / 5 skip；唯一未改动的 `creation-polish` 合成 good fixture 在 1000ms 轮询预算内仍 running，record write started3/completed2/pending991ms、provider poll尚未启动。已给原 owner 具体 IO 诊断，不将失败计为通过；最后共同 head 仍须取得 Windows/Linux 全量成功。
 
 以下为最终共同 head 的计划验收；中间复核不能代替这些完整覆盖。
 

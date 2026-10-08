@@ -1,3 +1,8 @@
+import {
+  nativeApprovalDetail,
+  nativeQuestionOptions,
+  acpToolUpdate,
+} from "../../domain/kernelPresentation.js";
 import { list, number, record, safeDetail, text } from "../../domain/kernelPolicy.js";
 import type { StudioKernelTurn } from "../../kernelTypes.js";
 import type { KernelRun } from "./kernelRun.js";
@@ -106,20 +111,7 @@ export async function grokMessage(run: KernelRun, message: Record<string, unknow
     const content = record(update.content);
     if (type === "agent_message_chunk") run.delta("answer", text(content.text));
     if (type === "agent_thought_chunk") run.emit({ type: "reasoning", text: text(content.text) });
-    if (type === "tool_call" || type === "tool_call_update")
-      run.emit({
-        type: "tool",
-        id: text(update.toolCallId),
-        name: text(update.title) || text(update.kind) || "tool",
-        state:
-          update.status === "completed"
-            ? "succeeded"
-            : update.status === "failed"
-              ? "failed"
-              : "running",
-        input: safeDetail(update.rawInput ?? ""),
-        output: safeDetail(update.content ?? update.rawOutput ?? ""),
-      });
+    if (type === "tool_call" || type === "tool_call_update") run.tool(acpToolUpdate(update));
     if (type === "usage_update")
       run.emit({
         type: "usage",
@@ -158,7 +150,7 @@ async function grokRequest(
         id: String(id),
         kind: "approval",
         title: text(record(params.toolCall).title) || "Grok 请求执行工具",
-        detail: safeDetail(params.toolCall),
+        detail: nativeApprovalDetail(params),
         choices: ["allow-once", "deny"],
       });
       const option = options.find(
@@ -178,7 +170,7 @@ async function grokRequest(
         return {
           id: String(index),
           title: text(q.question),
-          options: list(q.options).map((value) => text(record(value).label)),
+          options: nativeQuestionOptions(q.options),
           multiple: q.multiSelect === true,
         };
       });

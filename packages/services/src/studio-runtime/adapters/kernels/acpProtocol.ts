@@ -1,4 +1,5 @@
-import { list, number, record, safeDetail, text } from "../../domain/kernelPolicy.js";
+import { nativeApprovalDetail, acpToolUpdate } from "../../domain/kernelPresentation.js";
+import { list, number, record, text } from "../../domain/kernelPolicy.js";
 import type { KernelRun } from "./kernelRun.js";
 import { ProbeError } from "./probeResult.js";
 import { acpModelOptions, configOption, selectAcpOption } from "./acpOptions.js";
@@ -119,20 +120,7 @@ export async function acpMessage(run: KernelRun, message: Record<string, unknown
     run.delta(text(update.messageId) || "answer", text(content.text));
   else if (kind === "agent_thought_chunk")
     run.emit({ type: "reasoning", text: text(content.text) });
-  else if (kind === "tool_call" || kind === "tool_call_update")
-    run.emit({
-      type: "tool",
-      id: text(update.toolCallId),
-      name: text(update.title) || text(update.kind) || "tool",
-      state:
-        update.status === "completed"
-          ? "succeeded"
-          : update.status === "failed"
-            ? "failed"
-            : "running",
-      input: safeDetail(update.rawInput ?? ""),
-      output: safeDetail(update.rawOutput ?? update.content ?? ""),
-    });
+  else if (kind === "tool_call" || kind === "tool_call_update") run.tool(acpToolUpdate(update));
   else if (kind === "usage_update")
     run.emit({
       type: "usage",
@@ -163,7 +151,7 @@ async function acpRequest(
       id: String(id),
       kind: "approval",
       title: text(record(params.toolCall).title) || "CLI 请求执行工具",
-      detail: safeDetail(params.toolCall),
+      detail: nativeApprovalDetail(params),
       choices: ["allow-once", "deny"],
     });
     const expected = answer.decision === "allow-once" ? "allow_once" : "reject_once";

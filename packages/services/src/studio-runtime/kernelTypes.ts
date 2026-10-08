@@ -103,7 +103,7 @@ export type StudioSharedMcpServer =
 export interface StudioQuestion {
   id: string;
   title: string;
-  options: string[];
+  options: Array<string | { label: string; description?: string }>;
   multiple?: boolean;
 }
 export interface StudioKernelInteraction {
@@ -129,19 +129,34 @@ export interface StudioKernelUsage {
   contextMaxTokens?: number;
   modelSteps?: number;
 }
+export type StudioToolState =
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "cancelled"
+  | "interrupted"
+  | "unknown";
+/** 可选增量字段；缺省与显式空字符串有不同含义，旧记录仍使用 text。 */
+export interface StudioToolDetail {
+  input?: string;
+  output?: string;
+  /** 脱敏且有界的原生 typed content JSON；不是 raw output。 */
+  content?: string;
+  statusDetail?: string;
+}
 export type StudioKernelEvent =
   | { type: "session"; sessionId: string }
   | { type: "text"; text: string }
   | { type: "progress"; text: string }
   | { type: "reasoning"; text: string }
-  | {
+  | (StudioToolDetail & {
       type: "tool";
       id: string;
       name: string;
-      state: "running" | "succeeded" | "failed";
-      input?: string;
-      output?: string;
-    }
+      state: StudioToolState;
+      /** 旧远端消息只含 text 时传回原历史详情，不能把它推断为 output。 */
+      legacyText?: string;
+    })
   | ({ type: "usage" } & StudioKernelUsage);
 export interface StudioKernelTurn {
   runId: string;

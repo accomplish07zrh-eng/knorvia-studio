@@ -195,8 +195,17 @@ test(
           .map((frame) => frame.result),
         [{ decision: "decline" }],
       );
-      for (const reply of wire.filter((frame) => frame.id === "old-approval" && !frame.method))
-        assert.deepEqual(reply.result, { decision: "decline" });
+      const staleReplies = wire.filter((frame) => frame.id === "old-approval" && !frame.method);
+      assert.equal(staleReplies.length, 1, "The stale request must receive exactly one refusal");
+      for (const reply of staleReplies) {
+        // 原生未归属请求可用明确 JSON-RPC error 拒绝；不能把安全拒绝误判为必须消费当前答案。
+        if (reply.error !== undefined) {
+          assert.equal(reply.result, undefined);
+          assert.ok(Number.isSafeInteger(reply.error.code));
+          assert.equal(typeof reply.error.message, "string");
+          assert.ok(reply.error.message.trim());
+        } else assert.deepEqual(reply.result, { decision: "decline" });
+      }
       assert.equal(
         wire.some((frame) => frame.method === "turn/interrupt"),
         false,

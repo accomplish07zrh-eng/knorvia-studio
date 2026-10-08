@@ -4,6 +4,7 @@ import type {
   StudioKernelInteraction,
   StudioChatSelection,
   StudioKernelUsage,
+  StudioToolDetail,
 } from "./kernelTypes.js";
 import type {
   StudioCheckpoint,
@@ -29,7 +30,7 @@ export interface StudioConversation {
   createdAt: number;
   updatedAt: number;
 }
-export interface StudioMessage {
+export interface StudioMessage extends StudioToolDetail {
   attachments?: import("./imageTypes.js").StudioImageRef[];
   sequence?: number;
   id: string;

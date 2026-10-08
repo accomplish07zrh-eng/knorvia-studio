@@ -2,7 +2,7 @@
 
 Knorvia Studio brings multiple agent kernels into one desktop workspace. Individual chats, multi-agent collaboration, workflows, and image and video creation share a black-and-white interface that keeps projects, tools, tasks and their results together.
 
-This source version is **0.10.0**; see [CHANGELOG.md](CHANGELOG.md). Published Windows x64 and Linux x64 installers, portable packages and SHA-256 checksums are available from [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/latest). The project [website](https://knorvia.xyz) provides an introduction. 中文：[README.md](README.md)。
+This source version is **0.11.0**; see [CHANGELOG.md](CHANGELOG.md). Published Windows x64 and Linux x64 installers, portable packages and SHA-256 checksums are available from [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/latest). The project [website](https://knorvia.xyz) provides an introduction. 中文：[README.md](README.md)。
 
 ## Features
 

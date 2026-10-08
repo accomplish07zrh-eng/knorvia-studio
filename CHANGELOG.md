@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.11.0 - 2026-10-08
+
+- 外部代理保真：保留问题选项说明、完整且有界/脱敏的审批上下文，以及
+  独立工具输入、输出、原生内容和状态说明。未知状态如实显示；普通 Codex
+  轮次以启动响应确认归属，旧轮消息或审批不再污染或结束当前运行。
+- 聊天贴图：本地 Codex 可粘贴或拖入静态 PNG/JPEG，支持只发图片或图文
+  一起发送。发送仍要求明确的图片模型能力，沿用原会话、模型、思考档位、
+  审批和去重；失败保留草稿，Host 变更或未知回执不会自动重发。
+- 图片差异：在原隔离工作区审阅中并排查看精确 baseline/working 的
+  PNG/JPEG。损坏、超预算或过期内容明确拒绝；应用前重验显示过的文件版本，
+  不把源项目实时图片当作历史快照。
+- GUI 工作台：先布局再创建任务，同内核会话保持独立输入、审批和停止。
+  最多四格同屏，可拖边、放大、收起和恢复；汇总全部已知进行中任务并显示
+  超容量入口。群聊与工作流继续进入原页面；离线或未完整加载明确提示。
+- External adapters retain question descriptions, bounded redacted approval
+  context and separate tool input/output/content/status. Unknown results remain
+  unknown; stale Codex turns cannot consume the current approval or finish its run.
+- Local Codex accepts static PNG/JPEG clipboard and dropped images through the
+  existing capability, session, permission and idempotency gates. Image-only input
+  works; uncertain acknowledgement or a changed Host never triggers an automatic resend.
+- Snapshot image review shows the exact baseline and working pair, rejects
+  damaged or stale content and checks reviewed versions before applying changes.
+- The GUI workbench preserves independent conversation controls and drafts,
+  supports four visible panes and lists every known active task with overflow
+  navigation. Groups and workflows retain their existing pages.
+
+Existing profiles, sessions, text-only drafts, fast model/effort choices, workspace
+runtime, durable handoff, agent tools, inline review and attention remain available.
+New presentation fields are additive; legacy tool text remains readable. Accepted
+images belong to the existing Host records. Unsent image bytes and connection proof
+are transient; reload retains pending metadata as unknown and requires explicit
+review rather than resending. Back up the normal profile or portable `data/` before
+upgrading and retain that data beside the replacement program. Synthetic legacy
+SQLite and draft checks do not establish migration of every historical profile.
+
+Windows x64 and Linux x64 retain their existing package formats and unsigned status.
+There are no mobile changes, PTY/history additions or website deployment. Ordinary
+Codex turns use authoritative startup binding; `/compact` retains its separate
+legacy lifecycle. Validation uses offline native protocol fixtures and real browser
+components plus the release workflow's bounded package acceptance. Human installed
+GUI, real paid models, physical SSH and signing acceptance are not claimed.
+
 ## 0.10.0 - 2026-10-07
 
 - 行内批注回改：在 Studio Diff 的旧/新侧选行，编辑并保存带文件版本的

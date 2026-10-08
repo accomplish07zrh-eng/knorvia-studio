@@ -10,7 +10,9 @@ export function studioInteractionAnswers(
     questions.map((question) => {
       const text = custom[question.id]?.trim();
       const options = (selected[question.id] ?? []).filter((value) =>
-        question.options.includes(value),
+        question.options.some(
+          (option) => (typeof option === "string" ? option : option.label) === value,
+        ),
       );
       return [
         question.id,
