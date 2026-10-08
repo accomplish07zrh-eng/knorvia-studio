@@ -13,11 +13,18 @@ import {
 } from "../domain/workspaceImage.js";
 import { digest, readSafeFile, relativeFile } from "./workspaceFiles.js";
 import type { WorkspaceLocation, WorkspaceMetadata } from "./workspaceSnapshot.js";
+import { validWorkspacePngRaster } from "./workspacePngRaster.js";
 
 const hash = (bytes: Buffer | null) => (bytes === null ? null : digest(bytes));
-function side(path: string, bytes: Buffer | null): StudioWorkspaceImageSide | null {
+async function side(path: string, bytes: Buffer | null): Promise<StudioWorkspaceImageSide | null> {
   if (bytes === null) return null;
   const format = workspaceImageFormat(path, bytes);
+  if (
+    format.kind === "image" &&
+    format.mediaType === "image/png" &&
+    !(await validWorkspacePngRaster(bytes))
+  )
+    return { kind: "unsupported", reason: "invalid-format" };
   return format.kind === "unsupported"
     ? format
     : { ...format, dataBase64: bytes.toString("base64"), totalBytes: bytes.length };
@@ -53,6 +60,10 @@ export async function readWorkspaceImageChange(
     after: null,
     binary: true,
     conflict: version.sourceHash !== version.beforeHash && version.sourceHash !== version.afterHash,
-    imagePreview: { version, before: side(request.path, before), after: side(request.path, after) },
+    imagePreview: {
+      version,
+      before: await side(request.path, before),
+      after: await side(request.path, after),
+    },
   };
 }

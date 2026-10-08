@@ -27,6 +27,8 @@ Host 从已授权的 run/step 工作区记录解析物理 baseline/working/sourc
 
 压缩字节数不能约束解码像素。2026-10-08 复核补充局部静态图片预览预算：每侧声明宽高最多 16384 像素、乘积最多 48,000,000 像素（含边界）。像素值与既有背景图接纳值一致，但这里从 PNG IHDR / 每个 JPEG SOF 头在 Host 结构检查时判断，不能等浏览器 decode 后再拒绝；边长另外限制极端长条图。常量归属本预览 domain，不修改全局背景图、模型转码或文件预算。超限返回 `unsupported` / `display-budget`，不返回该侧 base64，UI 明确显示上限且不创建该侧 img。约束是局部声明尺寸接纳规则，不宣称界定浏览器全部内存开销，不引入完整解码器、重编码或缩图。
 
+2026-10-08 集成方进一步复现：CRC 正确但 zlib 解压为空或只有 3 字节的 3×2 PNG，Chromium 会 decode 成功并报告正尺寸；删除 JPEG 全部熵数据后也可被浏览器恢复。Host 的 domain 结构初筛通过后，PNG adapter 须在返回 base64 前验证所有 chunk CRC、合法 IHDR 色型/位深/方法、PLTE 与 IDAT 顺序、完整 zlib 流及校验和，并按非交错或 Adam7 的逐行字节布局验证精确行数和合法过滤字节。使用 Node 内建流式 inflate，只计数行布局、不重建像素，不分配整幅解压图；期望长度受既有尺寸预算约束，超出即终止。空/短/过长/截断流返回 `unsupported` / `invalid-format`，不能依靠浏览器恢复变成成功预览。JPEG 的每个 SOS 须具有真实非空熵载荷，不能只保留头与 EOI。合法全透明图、静态 PNG/JPEG、EXIF、正常过滤与 Adam7 均保留，不按透明像素判损坏；不增加转码或通用解码平台。此补充不改公开接口、原三哈希/journal 路径或任何预算值。
+
 ```mermaid
 sequenceDiagram
   participant UI as 既有审阅卡片

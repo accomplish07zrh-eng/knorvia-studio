@@ -152,23 +152,28 @@ function jpegFormat(bytes: Uint8Array): Format {
     offset += length;
     if (marker === 218) {
       scan = true;
+      let entropy = false;
       while (offset < bytes.length) {
         if (bytes[offset] !== 255) {
+          entropy = true;
           offset++;
           continue;
         }
         const next = bytes[offset + 1];
         if (next === 0 || (next !== undefined && next >= 208 && next <= 215)) {
+          if (next === 0) entropy = true;
           offset += 2;
           continue;
         }
         break;
       }
+      // 只保留 SOS 头与 EOI 时浏览器仍可能恢复空白；无熵载荷不能作为正常预览。
+      if (!entropy) return invalid();
     }
   }
   return invalid();
 }
-/** Structural admission only: browser decode proves displayability; no re-encoding or ICC changes. */
+/** Structural admission; adapter verifies PNG rows before browser display. No re-encoding or ICC changes. */
 export function workspaceImageFormat(path: string, bytes: Uint8Array): Format {
   return /\.png$/i.test(path) ? pngFormat(bytes) : jpegFormat(bytes);
 }

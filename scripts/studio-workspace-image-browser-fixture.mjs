@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Compile the real review card and product Tailwind CSS for browser assertions.
 import fs from "node:fs/promises";
+import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { join, resolve } from "node:path";
 import { build } from "esbuild";
@@ -21,7 +22,7 @@ import {KnorviaIntlProvider} from './packages/ui/src/i18n/IntlProvider.tsx';
 const initial=await(await fetch('/initial')).json();
 const services=Object.fromEntries(['one','two','three'].map(host=>[host,{async workspaceChanges(params){const response=await fetch('/changes?host='+host,{method:'POST',body:JSON.stringify(params)});const value=await response.json();if(!response.ok)throw new Error(value.error);return value;},async applyWorkspaceChanges(params){const response=await fetch('/apply?host='+host,{method:'POST',body:JSON.stringify(params)});const value=await response.json();if(!response.ok)throw new Error(value.error);return value;}}]));
 window.__brokenImages=[];document.addEventListener('error',event=>{if(event.target instanceof HTMLImageElement)window.__brokenImages.push({complete:event.target.complete,width:event.target.naturalWidth,height:event.target.naturalHeight});},true);
-function App(){const[host,setHost]=useState('one');const[run,setRun]=useState('original');const[index,setIndex]=useState(0);const[data,setData]=useState(initial);const[error,setError]=useState('');const change=data[host][run].filter(item=>/\\.(png|jpg)$/.test(item.path))[index];const service=services[host];return <KnorviaIntlProvider initialLocale="en-US"><nav>{['images/sample.png','other/sample.png','added.png','deleted.png','broken.png','broken.jpg','decode-error.png','animated.png','oriented.jpg','huge.png','huge.jpg'].map(path=><button key={path} onClick={()=>{setHost('one');setRun('original');setIndex(data.one.original.filter(item=>/\\.(png|jpg)$/.test(item.path)).findIndex(item=>item.path===path));setError('');}}>{path}</button>)}<button onClick={()=>{setRun('second-run');setHost('one');setIndex(0);setError('');}}>Second run</button><button onClick={()=>{setHost('two');setRun('original');setIndex(0);setError('');}}>Other Host</button><button onClick={()=>{setHost('three');setRun('original');setIndex(0);setError('');}}>Matching Host</button><button onClick={()=>{setHost('one');setRun('original');setIndex(data.one.original.filter(item=>/\\.(png|jpg)$/.test(item.path)).findIndex(item=>item.path==='images/sample.png'));setError('');}}>Original run</button></nav>{error&&<p role="alert">{error}</p>}<StudioWorkspaceReviewCard key={change.path} change={change} zh={false} busy={false} applying={false} selected={false} onToggle={()=>{}} imageContext={{service,runId:run,stepId:'step'}} onApply={async()=>{try{await service.applyWorkspaceChanges({runId:run,stepId:'step',paths:[change.path],reviewedVersions:studioReviewedImageVersions([change],[change.path])});const changes=await service.workspaceChanges({runId:run,stepId:'step'});setData(previous=>({...previous,[host]:{...previous[host],[run]:changes}}));setError('');}catch(error){setError(error.message);}}}/></KnorviaIntlProvider>;}createRoot(document.getElementById('root')).render(<App/>);`,
+function App(){const[host,setHost]=useState('one');const[run,setRun]=useState('original');const[index,setIndex]=useState(0);const[data,setData]=useState(initial);const[error,setError]=useState('');const change=data[host][run].filter(item=>/\\.(png|jpg)$/.test(item.path))[index];const service=services[host];return <KnorviaIntlProvider initialLocale="en-US"><nav>{['images/sample.png','other/sample.png','added.png','deleted.png','broken.png','broken.jpg','decode-error.png','animated.png','oriented.jpg','huge.png','huge.jpg','empty-raster.png','short-raster.png','truncated-raster.png','filter-raster.png','checksum-raster.png','crc-raster.png','extra-raster.png','transparent.png','interlaced.png','empty-scan.jpg'].map(path=><button key={path} onClick={()=>{setHost('one');setRun('original');setIndex(data.one.original.filter(item=>/\\.(png|jpg)$/.test(item.path)).findIndex(item=>item.path===path));setError('');}}>{path}</button>)}<button onClick={()=>{setRun('second-run');setHost('one');setIndex(0);setError('');}}>Second run</button><button onClick={()=>{setHost('two');setRun('original');setIndex(0);setError('');}}>Other Host</button><button onClick={()=>{setHost('three');setRun('original');setIndex(0);setError('');}}>Matching Host</button><button onClick={()=>{setHost('one');setRun('original');setIndex(data.one.original.filter(item=>/\\.(png|jpg)$/.test(item.path)).findIndex(item=>item.path==='images/sample.png'));setError('');}}>Original run</button></nav>{error&&<p role="alert">{error}</p>}<StudioWorkspaceReviewCard key={change.path} change={change} zh={false} busy={false} applying={false} selected={false} onToggle={()=>{}} imageContext={{service,runId:run,stepId:'step'}} onApply={async()=>{try{await service.applyWorkspaceChanges({runId:run,stepId:'step',paths:[change.path],reviewedVersions:studioReviewedImageVersions([change],[change.path])});const changes=await service.workspaceChanges({runId:run,stepId:'step'});setData(previous=>({...previous,[host]:{...previous[host],[run]:changes}}));setError('');}catch(error){setError(error.message);}}}/></KnorviaIntlProvider>;}createRoot(document.getElementById('root')).render(<App/>);`,
       },
       bundle: true,
       write: false,
@@ -66,4 +67,44 @@ function App(){const[host,setHost]=useState('one');const[run,setRun]=useState('o
   });
   const css = compiler.build(scanner.scan());
   return { source, css };
+}
+
+export const syntheticBrowserJpeg = async (seed, width, height, color) =>
+  Buffer.from(
+    await seed.evaluate(
+      ({ width, height, color }) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        context.fillStyle = color;
+        context.fillRect(0, 0, width, height);
+        return canvas.toDataURL("image/jpeg").split(",")[1];
+      },
+      { width, height, color },
+    ),
+    "base64",
+  );
+
+export async function verifyWorkspaceImageRasters(page, choose, ready) {
+  for (const path of [
+    "empty-raster.png",
+    "short-raster.png",
+    "truncated-raster.png",
+    "filter-raster.png",
+    "checksum-raster.png",
+    "crc-raster.png",
+    "extra-raster.png",
+    "empty-scan.jpg",
+  ]) {
+    await choose(path);
+    await page.getByRole("alert").filter({ hasText: "not a valid static" }).waitFor();
+    assert.equal(await page.locator('[data-image-side="after"] img').count(), 0, path);
+  }
+  for (const path of ["transparent.png", "interlaced.png"]) {
+    await choose(path);
+    await ready();
+    assert.match(await page.locator('[data-image-side="after"]').innerText(), /3 × 2/);
+    assert.equal(await page.locator('[data-image-side="after"] [role="alert"]').count(), 0);
+  }
 }
