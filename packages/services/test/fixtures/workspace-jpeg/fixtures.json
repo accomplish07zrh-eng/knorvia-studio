@@ -1,0 +1,54 @@
+{
+  "license": "Apache-2.0",
+  "provenance": "Synthetic local pixels encoded with Pillow 12.3.0; baseline is the integration-owned independent Pillow fixture. No user images.",
+  "images": {
+    "baseline": {
+      "width": 5,
+      "height": 4,
+      "mode": "RGB",
+      "progressive": false,
+      "bytes": 657,
+      "sha256": "e947e1b74fa2ba817bc3156b53c2075daa7e303b94d092d356df81e0d1c15dab"
+    },
+    "progressive": {
+      "width": 3,
+      "height": 2,
+      "mode": "RGB",
+      "progressive": true,
+      "bytes": 548,
+      "sha256": "04882d0c906ab633534a6d00619b1143f7907cc6845775f9ee08b531fc520d1c"
+    },
+    "gray": {
+      "width": 3,
+      "height": 2,
+      "mode": "L",
+      "progressive": false,
+      "bytes": 332,
+      "sha256": "b58e5c0dc814fbadc99aa39e8c2edb47755af5994c1b08bed7a32db62236de27"
+    },
+    "cmyk": {
+      "width": 3,
+      "height": 2,
+      "mode": "CMYK",
+      "progressive": false,
+      "bytes": 352,
+      "sha256": "1566f459f7c7d1933dd4b2fdaffb1bb69802ad573670dc2c6ed7de08e46c392c"
+    },
+    "edge": {
+      "width": 16384,
+      "height": 1,
+      "mode": "RGB",
+      "progressive": false,
+      "bytes": 4725,
+      "sha256": "7e32f52a230205202c53685ba9b8b5569ab7b7e96e74c3dac405072d6bf48a36"
+    },
+    "large-gray": {
+      "width": 6000,
+      "height": 3000,
+      "mode": "L",
+      "progressive": false,
+      "bytes": 211269,
+      "sha256": "f628f0ee88674e689723dbb85a88efd55e99dbce35bd958da6614e9a7517c157"
+    }
+  }
+}

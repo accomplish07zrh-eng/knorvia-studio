@@ -76,6 +76,65 @@ export function syntheticDeclaredJpeg(width: number, height: number) {
   ]);
 }
 
+export function syntheticRasterPng(
+  raw: Buffer,
+  options: {
+    colorType?: number;
+    bitDepth?: number;
+    interlace?: number;
+    palette?: Buffer;
+    compressed?: Buffer;
+  } = {},
+) {
+  const png = syntheticPng();
+  const header = Buffer.from(png.subarray(16, 29));
+  header[8] = options.bitDepth ?? 8;
+  header[9] = options.colorType ?? 6;
+  header[12] = options.interlace ?? 0;
+  return Buffer.concat([
+    png.subarray(0, 8),
+    pngChunk("IHDR", header),
+    ...(options.palette ? [pngChunk("PLTE", options.palette)] : []),
+    pngChunk("IDAT", options.compressed ?? deflateSync(raw)),
+    pngChunk("IEND", Buffer.alloc(0)),
+  ]);
+}
+export function workspaceImageRasterFiles() {
+  const before = syntheticPng();
+  const rows = Buffer.alloc(26);
+  const badFilter = Buffer.from(rows);
+  badFilter[13] = 5;
+  const badChecksum = deflateSync(rows);
+  badChecksum[badChecksum.length - 1]! ^= 1;
+  const badCrc = syntheticRasterPng(rows);
+  badCrc[29]! ^= 1;
+  return [
+    ["empty-raster.png", syntheticRasterPng(Buffer.alloc(0))],
+    ["short-raster.png", syntheticRasterPng(Buffer.from([0, 1, 2]))],
+    [
+      "truncated-raster.png",
+      syntheticRasterPng(rows, { compressed: deflateSync(rows).subarray(0, -2) }),
+    ],
+    ["filter-raster.png", syntheticRasterPng(badFilter)],
+    ["checksum-raster.png", syntheticRasterPng(rows, { compressed: badChecksum })],
+    ["crc-raster.png", badCrc],
+    ["extra-raster.png", syntheticRasterPng(Buffer.alloc(1024 * 1024))],
+    ["transparent.png", syntheticRasterPng(rows)],
+    ["interlaced.png", syntheticRasterPng(Buffer.alloc(28), { interlace: 1 })],
+  ].map(([path, after]) => ({ path: path as string, before, after: after as Buffer }));
+}
+export function jpegWithoutEntropy(jpeg: Buffer) {
+  let offset = 2;
+  while (offset < jpeg.length) {
+    if (jpeg[offset++] !== 255) throw new Error("Expected a synthetic JPEG marker");
+    while (jpeg[offset] === 255) offset++;
+    const marker = jpeg[offset++];
+    offset += jpeg.readUInt16BE(offset);
+    if (marker === 218) return Buffer.concat([jpeg.subarray(0, offset), Buffer.from([255, 217])]);
+  }
+  throw new Error("Expected a synthetic JPEG scan");
+}
+
 export async function workspaceImageFixture(
   t: Pick<TestContext, "after">,
   files = [

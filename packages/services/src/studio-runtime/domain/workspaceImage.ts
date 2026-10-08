@@ -56,7 +56,10 @@ export function validateReviewedVersions(
 type Format =
   | { kind: "image"; mediaType: "image/png" | "image/jpeg" }
   | Extract<StudioWorkspaceImageSide, { kind: "unsupported" }>;
-const invalid = (): Format => ({ kind: "unsupported", reason: "invalid-format" });
+const invalid = (): Extract<Format, { kind: "unsupported" }> => ({
+  kind: "unsupported",
+  reason: "invalid-format",
+});
 const exceedsDisplayBudget = (width: number, height: number) =>
   width > STUDIO_IMAGE_PREVIEW_MAX_DIMENSION ||
   height > STUDIO_IMAGE_PREVIEW_MAX_DIMENSION ||
@@ -111,12 +114,17 @@ function pngFormat(bytes: Uint8Array): Format {
   }
   return invalid();
 }
-function jpegFormat(bytes: Uint8Array): Format {
+type JpegFormat =
+  | Extract<Format, { kind: "unsupported" }>
+  | { kind: "image"; mediaType: "image/jpeg"; width: number; height: number };
+function jpegFormat(bytes: Uint8Array): JpegFormat {
   if (bytes.length < 4 || bytes[0] !== 255 || bytes[1] !== 216) return invalid();
   let offset = 2;
   let frame = false;
   let scan = false;
   let quantization = false;
+  let width = 0,
+    height = 0;
   while (offset < bytes.length) {
     if (bytes[offset++] !== 255) return invalid();
     while (bytes[offset] === 255) offset++;
@@ -124,7 +132,7 @@ function jpegFormat(bytes: Uint8Array): Format {
     if (marker === undefined) return invalid();
     if (marker === 217)
       return frame && scan && quantization && offset === bytes.length
-        ? { kind: "image", mediaType: "image/jpeg" }
+        ? { kind: "image", mediaType: "image/jpeg", width, height }
         : invalid();
     if (marker === 216 || marker === 0) return invalid();
     if (marker === 1 || (marker >= 208 && marker <= 215)) continue;
@@ -141,8 +149,8 @@ function jpegFormat(bytes: Uint8Array): Format {
       return { kind: "unsupported", reason: "multiple-images" };
     if ([192, 193, 194, 195, 197, 198, 199, 201, 202, 203, 205, 206, 207].includes(marker)) {
       if (length < 8) return invalid();
-      const height = bytes[offset + 3]! * 256 + bytes[offset + 4]!;
-      const width = bytes[offset + 5]! * 256 + bytes[offset + 6]!;
+      height = bytes[offset + 3]! * 256 + bytes[offset + 4]!;
+      width = bytes[offset + 5]! * 256 + bytes[offset + 6]!;
       if (!width || !height) return invalid();
       // 检查每个 SOF，不能让后续大帧绕过前一个小帧的接纳结果。
       if (exceedsDisplayBudget(width, height))
@@ -152,23 +160,35 @@ function jpegFormat(bytes: Uint8Array): Format {
     offset += length;
     if (marker === 218) {
       scan = true;
+      let entropy = false;
       while (offset < bytes.length) {
         if (bytes[offset] !== 255) {
+          entropy = true;
           offset++;
           continue;
         }
         const next = bytes[offset + 1];
         if (next === 0 || (next !== undefined && next >= 208 && next <= 215)) {
+          if (next === 0) entropy = true;
           offset += 2;
           continue;
         }
         break;
       }
+      // 只保留 SOS 头与 EOI 时浏览器仍可能恢复空白；无熵载荷不能作为正常预览。
+      if (!entropy) return invalid();
     }
   }
   return invalid();
 }
-/** Structural admission only: browser decode proves displayability; no re-encoding or ICC changes. */
+/** Structural admission; adapter verifies PNG rows and strictly decodes JPEG before browser display. No re-encoding or ICC changes. */
 export function workspaceImageFormat(path: string, bytes: Uint8Array): Format {
-  return /\.png$/i.test(path) ? pngFormat(bytes) : jpegFormat(bytes);
+  if (/\.png$/i.test(path)) return pngFormat(bytes);
+  const format = jpegFormat(bytes);
+  return format.kind === "image" ? { kind: "image", mediaType: format.mediaType } : format;
+}
+/** Encoded dimensions from the same JPEG admission parser, never browser EXIF display dimensions. */
+export function workspaceJpegDimensions(bytes: Uint8Array) {
+  const format = jpegFormat(bytes);
+  return format.kind === "image" ? { width: format.width, height: format.height } : null;
 }

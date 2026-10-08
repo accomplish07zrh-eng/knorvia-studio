@@ -336,3 +336,29 @@ test("actual snapshot RPC rejects incomplete PNG/JPEG rasters without rejecting 
     "Browsers can recover missing raster bytes as successful blank previews; Host must refuse incomplete content",
   );
 });
+
+// JPEG 严格核验不能通过拒绝合法渐进/CMYK 内容来消除截断反例；RPC 必须保留原图字节。
+test("independent progressive and CMYK originals cross snapshot RPC without transcode or source mutation", async (t) => {
+  const f = await fixture(t);
+  for (const name of ["progressiveJpeg", "cmykJpeg"]) {
+    const original = bytes(name);
+    await writeFile(join(f.working, "added.jpg"), original);
+    const projection = await f.service.workspaceChanges({
+      runId: "review-run",
+      stepId: "review-step",
+    });
+    const version = projection.find((change) => change.path === "added.jpg")!.version!;
+    const response = await f.service.workspaceChanges({
+      runId: "review-run",
+      stepId: "review-step",
+      imagePreview: { path: "added.jpg", version },
+    });
+    const side = response.find((change) => change.path === "added.jpg")!.imagePreview!.after;
+    assert.equal(side?.kind, "image", name);
+    if (side?.kind === "image") {
+      assert.deepEqual(Buffer.from(side.dataBase64, "base64"), original);
+      assert.equal(hash(original), fixtures[name]!.sha256);
+    }
+    await assert.rejects(readFile(join(f.source, "added.jpg")), { code: "ENOENT" });
+  }
+});

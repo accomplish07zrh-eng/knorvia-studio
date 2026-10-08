@@ -4,7 +4,13 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { createServer } from "node:http";
 import { join } from "node:path";
-import { compileWorkspaceImageBrowser } from "./studio-workspace-image-browser-fixture.mjs";
+import {
+  compileWorkspaceImageBrowser,
+  syntheticBrowserJpeg,
+  verifyWorkspaceImageRasters,
+  workspaceJpegBrowserFiles,
+  verifyWorkspaceJpegRasters,
+} from "./studio-workspace-image-browser-fixture.mjs";
 import { chromium } from "playwright-core";
 import {
   workspaceImageFixture,
@@ -12,6 +18,8 @@ import {
   pngChunk,
   syntheticDeclaredPng,
   syntheticDeclaredJpeg,
+  workspaceImageRasterFiles,
+  jpegWithoutEntropy,
 } from "../packages/services/test/studio-workspace-image-fixture.ts";
 
 const cleanup = [];
@@ -26,22 +34,7 @@ let delayNext = false;
 const previewRequests = [];
 try {
   const seed = await browser.newPage();
-  const jpeg = async (width, height, color) =>
-    Buffer.from(
-      await seed.evaluate(
-        ({ width, height, color }) => {
-          const canvas = document.createElement("canvas");
-          canvas.width = width;
-          canvas.height = height;
-          const context = canvas.getContext("2d");
-          context.fillStyle = color;
-          context.fillRect(0, 0, width, height);
-          return canvas.toDataURL("image/jpeg").split(",")[1];
-        },
-        { width, height, color },
-      ),
-      "base64",
-    );
+  const jpeg = (width, height, color) => syntheticBrowserJpeg(seed, width, height, color);
   const oriented = (bytes) => {
     const exif = Buffer.alloc(32);
     exif.write("Exif\0\0II", 0, "binary");
@@ -61,6 +54,7 @@ try {
     pngChunk("IDAT", Buffer.from("not zlib pixels")),
     pngChunk("IEND", Buffer.alloc(0)),
   ]);
+  const emptyScan = await jpeg(3, 2, "#884422");
   const files = [
     { path: "images/sample.png", before: valid, after: syntheticPng(5, 4, [10, 80, 180]) },
     {
@@ -88,6 +82,9 @@ try {
       before: oriented(await jpeg(3, 2, "#884422")),
       after: oriented(await jpeg(6, 4, "#224488")),
     },
+    ...workspaceImageRasterFiles(),
+    ...(await workspaceJpegBrowserFiles()),
+    { path: "empty-scan.jpg", before: emptyScan, after: jpegWithoutEntropy(emptyScan) },
   ];
   await seed.close();
   const one = await workspaceImageFixture({ after: (fn) => cleanup.push(fn) }, files);
@@ -287,6 +284,8 @@ try {
     await page.getByRole("alert").filter({ hasText: "Preview dimensions exceed" }).waitFor();
     assert.equal(await page.locator('[data-image-side="after"] img').count(), 0);
   }
+  await verifyWorkspaceImageRasters(page, choose, ready);
+  await verifyWorkspaceJpegRasters(page, choose, ready);
   await choose("oriented.jpg");
   await ready();
   assert.match(await page.locator('[data-image-side="before"]').innerText(), /2 × 3/);
@@ -358,7 +357,7 @@ try {
   assert.equal(one.calls.length + two.calls.length + three.calls.length, 0);
   assert.deepEqual(errors, []);
   console.log(
-    "Workspace image browser smoke passed: precise pair, single-sided images, actual image bounds, EXIF display size, invalid decode/broken complete, animation/dimension-budget refusal before image creation, repeated close, stale file/run/Host responses, identical-version Host switch and reviewed apply",
+    "Workspace image browser smoke passed: precise pair, single-sided images, actual image bounds, EXIF display size, invalid decode/broken complete, animation/dimension-budget/incomplete-raster refusal before image creation, complete transparency/Adam7, strict JPEG baseline/progressive/gray/CMYK and truncated entropy, repeated close, stale file/run/Host responses, identical-version Host switch and reviewed apply",
   );
 } catch (error) {
   if (page)

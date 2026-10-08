@@ -2,7 +2,7 @@
 
 2026-10-08。用户批准「修正＋贴图＋图片对比」，并已明确授权三项统一通过验收后合入 main、按既有 Windows/Linux 范围发布新的正式版。先交付新的 draft 集成 PR、独立回归和适用桌面构建；验收完成前不发布。集成/发布仅由本路线执行，不发布 preview/draft release，不部署网站、不增加手机/macOS矩阵、不修改签名配置或授权策略。
 
-本轮随后追加工作台；用户最新取消原生终端切换，当前范围为 GUI-only：独立导航、一键平铺所有运行任务、同内核的不同任务各占一格，每格独立输入/批准/暂停，拖边调整宽高、保存布局、单格放大，以及零任务先布局。不增加 PTY 交接或原生 history 回灌。工作台路线尚未交付可集成实现，最终发布继续暂停等待工作台整合。现有三项继续验收，最后共同检查/发布必须覆盖确认后的本轮完整范围，不能只发布原三项。
+本轮随后追加工作台；用户最新取消原生终端切换，当前范围为 GUI-only：独立导航、一键平铺所有运行任务、同内核的不同任务各占一格，每格独立输入/批准/暂停，拖边调整宽高、保存布局、单格放大，以及零任务先布局。不增加 PTY 交接或原生 history 回灌。工作台 PR #53 已交付初始实现；源码尚缺“一键平铺所有运行任务”，且四格上限需与完整范围核对，最终发布继续暂停等待工作台整合。现有三项继续验收，最后共同检查/发布必须覆盖确认后的本轮完整范围，不能只发布原三项。
 
 ## 基线与范围
 
@@ -115,6 +115,7 @@ sequenceDiagram
 - C 冻结 `1b9fde72ee76cc914be0f96af68b2fccf63311ee`：上述三项和真实合法 16,385×1 PNG 的 Host 预算拒绝共 4/4 pass、exit 0，已按 exact head 吸收至 draft 集成树。独立测试保存为 `studio-image-compare-rpc.integration.test.ts`。另用实际 Node MessageChannel 和产品 MessagePortProtocol/ChannelClient/ChannelServer 传输 16 MiB baseline 与 25 MiB working 的合法小像素 PNG，最大二进制 server frame 57,322,966 bytes，完整两侧长度/hash 一致、源文件未写，1/1 pass、exit 0；测试保存为 `studio-image-compare-messageport.integration.test.ts`，沿用全量测试已有的 120 秒单用例上限。Desktop expose 同样用 MessagePortProtocol，此事实不等于已验证 Electron GUI 或所有远端网络。
 - C 新反例撤销上述 head 的最终就绪状态：独立 PNG 保留真实 IHDR/正确 CRC/IEND，但有效 zlib 解压为空或仅三字节；两份 65/68 bytes 的输入缺少 3×2 像素行，Host 仍返回 image，Chromium decode 成功、正自然尺寸且显示透明空白。真实 ReviewCard/SQLite/快照链同样显示 ready 与 Apply this file，损坏提示断言 exit 1。另从 Pillow JPEG 保留 DQT/DHT/SOF/SOS，删除全部熵数据后接 EOI，649 bytes 的输入被 Host 和 Chromium 当作 5×4 可用图。真实旧 SQLite/公开二进制 RPC 的新增独立用例对这三份输入失败，同时完整 3×2 RGBA 透明 PNG 正常接纳、原 source 零写入；原四项 RPC 仍通过，合计 4 pass / 1 fail、exit 1。等待同一 C 路线最小有界完整内容修正与新冻结 head，不把此前正常用例通过当作此反例已通过。测试保存在 `studio-image-compare-rpc.integration.test.ts`。
 - C 同一 JPEG 问题不止空熵数据：仅保留原 1/2/4 字节熵数据再接 EOI 的 650/651/653 bytes 输入，在真实 Chromium 仍 decode 成功且自然尺寸 5×4，独立断言 exit 1。相同构造加入上述 RPC 回归；不能用“非空”或固定最少字节数冒充完整内容核验，也不能误拒合法小图。原 C 路线已收到该具体证据，等待新冻结实现后复验。
+- C 新冻结 `862ff8a134255051bf622cd7b1f6d06a62529d37`：原五项真实旧 SQLite/公开二进制 RPC 全通过，六份缺行/空熵及 1/2/4 字节截断输入全部 `unsupported/invalid-format`，完整透明图仍接纳、源文件零写入。另两份独立 Pillow progressive/CMYK JPEG 经实际 RPC 保留原字节/hash，正常更大 JPEG 与 16,384 边界路线测试 3/3 通过。真实 ReviewCard/CSS/SQLite 浏览器核验缺行/Adam7/EXIF/透明/正常与截断 JPEG/版本/应用通过；16 MiB＋25 MiB 最大合法对经实际 MessagePort，57,322,966 bytes server frame 完整保留，1/1 通过。C 的 jpeg-js 0.4.4 直接依赖已由 B 同版本纳入，合并后 manifest/lock 未改变；保留全部 notices，仅从最终树重生来源指纹。
 - 独立合成图保存在 `test/fixtures/studio-independent-images.integration.*`：小图由 Pillow 编码，包含 PNG/JPEG/EXIF/APNG；原生 zlib/CRC 生成器独立构造两张 800×800 RGB PNG，各 1,921,153 bytes，合计 3,842,306 bytes、base64 5,123,080 characters。实际 B codec 完整解码两张大图与五张静态小图 exit 0；fixture 准备成功不是图片 admission 已通过。
 - `node scripts/licenses.mjs notices` 在实际安装后的 main `34078257` 与 B `c071040e` 两个 detached 工作树均 exit 1，完全相同缺项 `agent-base@6.0.2` / `https-proxy-agent@5.0.1`，不称完整 notices generator 通过。实际 services 导入的 `pngjs@7.0.0`、`jpeg-js@0.4.4` 完整许可文本及 SHA 与保留 inventory/notices 匹配、exit 0；不删除既有材料义务或改弱门禁。
 
