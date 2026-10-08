@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 
 import { defineConfig } from "tsup";
 import { getBuildMetadata } from "./scripts/build-metadata.mjs";
+import { ESM_REQUIRE_BANNER } from "../../scripts/esm-require-banner.mjs";
 import { resolveDesktopProductFlavor } from "./scripts/desktop-product-identity.mjs";
 const buildMetadata = getBuildMetadata();
 
@@ -147,6 +148,8 @@ export default defineConfig([
       "@knorvia/cua",
     ],
     // OTLP 端点与鉴权只在运行时读取；构建环境中的凭据不能写进公开安装包。
+    // 内联的 CommonJS 依赖（如 pngjs）需要真实 require，见 scripts/esm-require-banner.mjs。
+    banner: { ...ESM_REQUIRE_BANNER },
     define: createSharedDefines(),
     // main/host 同时 watch 且共享 out 根目录时，默认 chunk 命名会互相覆盖，
     // 可能让 main 的 import 指向被 host 刚重写的 chunk，触发“缺少命名导出”的偶发启动报错。
@@ -204,6 +207,8 @@ export default defineConfig([
       "@knorvia/provider-node",
       "@knorvia/cua",
     ],
+    // 内联的 CommonJS 依赖（如 pngjs）需要真实 require，见 scripts/esm-require-banner.mjs。
+    banner: { ...ESM_REQUIRE_BANNER },
     define: createSharedDefines(),
     // 与 main 保持一致的 chunk 隔离策略，避免 host/main 产物相互覆盖。
     esbuildOptions(options) {
@@ -233,6 +238,8 @@ export default defineConfig([
       "@knorvia/provider-node",
       "@knorvia/cua",
     ],
+    // 内联的 CommonJS 依赖（如 pngjs）需要真实 require，见 scripts/esm-require-banner.mjs。
+    banner: { ...ESM_REQUIRE_BANNER },
     define: createSharedDefines(),
     esbuildOptions(options) {
       applyDesktopTsupEsbuildSecurityOptions(options);

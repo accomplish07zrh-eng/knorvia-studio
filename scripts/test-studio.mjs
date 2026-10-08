@@ -28,6 +28,7 @@ const testDirectories = [
 // 发布判定（release-gate）必须在这里，不能只靠质量工作流“碰巧”覆盖。
 const explicitTests = [
   "scripts/studio-test-arguments.test.mjs",
+  "scripts/esm-require-banner.test.mjs",
   "scripts/check-evidence-integrity.test.mjs",
   "scripts/knorvia-agent-base.test.ts",
   "scripts/release-gate.test.ts",

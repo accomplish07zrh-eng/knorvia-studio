@@ -181,3 +181,9 @@ sequenceDiagram
 11. 发布矩阵的 resolve、两平台 quality、四变体 fresh packaging/实际包验收、aggregate validation、publish 全部监控到终态；失败先诊断、仅 bounded retry，不在结果未知时重复发布。匿名核验公开 tag/commit/latest/draft=false/prerelease=false、全部资产名字/数量/大小/hash/checksum/metadata与源链接/归档；Windows未签名如实报告，旧稳定版不覆盖。
 
 每项回报 executed/failed/skipped/not-run、真实 exit、exact head、日志或 PR/CI 链接。瞬时失败先诊断，仅 bounded retry，不删除真实断言或改变不相关语义。工作区 freshness 在吸收功能提交和最后冻结时复核；验收前 main 只读，验收后只发布完整统一版本，保留已有稳定 tag/release。
+
+## 发布修复：ESM 产物中的 pngjs（2026-10-08）
+
+- 现象：0.11.0 候选 `63ae749d` 发布矩阵（run 37735730166）中 Windows 安装版、Windows 便携版与 Linux 便携版的实际包验收失败，主进程报 `Dynamic require of "util" is not supported`，未创建窗口。
+- 原因：services 图片编解码导入的 CommonJS 包 `pngjs@7.0.0` 被 tsup 内联进 desktop main/host/scheduler 与 server `entry-http` 的 ESM 产物，其 `require("util" | "stream" | "zlib" | "assert" | "buffer")` 落到 esbuild 垫片；ESM 作用域没有 `require`，加载即抛错。离线测试直接运行源码，不经过打包，因此未暴露。
+- 处理：不外置 pngjs（仓库根目录提升的是 `@fiahfy/icns` 依赖的 pngjs 6，外置会解析到错误版本）；改由 `scripts/esm-require-banner.mjs` 给上述 ESM 产物注入 `createRequire(import.meta.url)` 得到的真实 `require`。`scripts/esm-require-banner.test.mjs` 用 services 实际解析到的 pngjs 打包，验证无 banner 复现、有 banner 可编解码。最终以发布矩阵四变体实际包验收为准。

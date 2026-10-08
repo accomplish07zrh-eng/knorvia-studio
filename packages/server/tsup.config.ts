@@ -9,6 +9,9 @@ const { loadBuiltinProviderConfig } = await import(
 const { stageThirdPartyNotices } = await import(
   pathToFileURL(resolve(import.meta.dirname, "../../scripts/third-party-notices.mjs")).href
 );
+const { ESM_REQUIRE_BANNER } = await import(
+  pathToFileURL(resolve(import.meta.dirname, "../../scripts/esm-require-banner.mjs")).href
+);
 
 // tsup config 可能从不同 cwd 加载，基于配置文件自身目录解析仓库根 package.json。
 const rootPackageJsonPath = resolve(import.meta.dirname, "../../package.json");
@@ -70,6 +73,8 @@ export default defineConfig({
   // require("assert") / require("util") / require("url") 等动态 require，Node 的 ESM wrapper 下会直接报 Dynamic require not supported。
   // HTTP server 场景保留为外部依赖，交给 Node 原生加载；remote 单文件 bundle 仍由 build-remote.ts 负责内联。
   external: SERVER_HTTP_EXTERNAL_DEPENDENCIES,
+  // 内联的 CommonJS 依赖（如 pngjs）需要真实 require，见 scripts/esm-require-banner.mjs。
+  banner: { ...ESM_REQUIRE_BANNER },
   define: createSharedDefines(),
   // esbuild 不认识 tsconfig.json 里的 es2025，用专门的 tsconfig.build.json 消除 warning
   tsconfig: "tsconfig.build.json",
