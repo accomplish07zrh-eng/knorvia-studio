@@ -29,8 +29,20 @@ export function saveTurnEvent(
   }
   const id = `${turnId}:${event.type}${event.type === "tool" ? `:${event.id}` : ""}`;
   const old = db.read<StudioMessage>("message", id);
+  const details: Pick<StudioMessage, "input" | "output" | "content" | "statusDetail"> = {};
+  if (event.type === "tool") {
+    // 旧 text 不猜成 output；新字段独立合并，只有明确传入的空值才能清空旧值。
+    for (const key of ["input", "output", "content", "statusDetail"] as const) {
+      const field = event[key] ?? old?.[key];
+      if (field !== undefined) details[key] = redactDiagnosticText(field);
+    }
+    if (Object.values(details).reduce((size, value) => size + value.length, 0) > 1_000_000)
+      throw new Error("工具详情超过保存限制，任务已停止");
+  }
   const value = redactDiagnosticText(
-    event.type === "tool" ? (event.output ?? event.input ?? "") : (old?.text ?? "") + event.text,
+    event.type === "tool"
+      ? (details.output ?? details.content ?? details.input ?? event.legacyText ?? old?.text ?? "")
+      : (old?.text ?? "") + event.text,
   );
   if (value.length > 1_000_000) throw new Error("单条输出超过保存限制，任务已停止");
   const now = clock.now();
@@ -48,7 +60,7 @@ export function saveTurnEvent(
     ...(hostPhase
       ? { name: stepId.startsWith("group:review:") ? "主持人复核" : "主持人安排", state: "running" }
       : {}),
-    ...(event.type === "tool" ? { name: event.name, state: event.state } : {}),
+    ...(event.type === "tool" ? { name: event.name, state: event.state, ...details } : {}),
   };
   db.write("message", id, message, run.targetId);
 }

@@ -1,3 +1,4 @@
+import { StudioToolDetails } from "./StudioToolDetails.js";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowDown, Check, Copy, LoaderCircle } from "lucide-react";
@@ -143,27 +144,7 @@ function StudioTimelineContent({
             ? "排队中"
             : "Queued"
           : undefined;
-  const toolStates: Record<string, string> = zh
-    ? {
-        running: "执行中",
-        succeeded: "已完成",
-        completed: "已完成",
-        failed: "失败",
-        cancelled: "已停止",
-        denied: "已拒绝",
-        waiting: "等待确认",
-        queued: "排队中",
-      }
-    : {
-        running: "Running",
-        succeeded: "Completed",
-        completed: "Completed",
-        failed: "Failed",
-        cancelled: "Stopped",
-        denied: "Denied",
-        waiting: "Waiting for approval",
-        queued: "Queued",
-      };
+
   useLayoutEffect(() => {
     const el = scroll.current;
     if (!el) return;
@@ -279,18 +260,7 @@ function StudioTimelineContent({
                       <ReasoningContent>{message.text}</ReasoningContent>
                     </Reasoning>
                   ) : message?.kind === "tool" ? (
-                    <details
-                      data-studio-message-id={message.id}
-                      className="rounded-lg border border-border px-3 py-2 text-ui-sm"
-                    >
-                      <summary className="cursor-pointer text-foreground-subtle">
-                        {message.name}
-                        {message.state ? ` · ${toolStates[message.state] ?? message.state}` : ""}
-                      </summary>
-                      <pre className="mt-2 max-h-60 overflow-auto whitespace-pre-wrap break-words">
-                        {message.text}
-                      </pre>
-                    </details>
+                    <StudioToolDetails message={message} zh={zh} />
                   ) : message?.kind === "progress" ? (
                     <p
                       data-studio-message-id={message.id}

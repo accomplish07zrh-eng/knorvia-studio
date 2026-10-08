@@ -1,3 +1,4 @@
+import { nativeApprovalDetail, nativeQuestionOptions } from "../../domain/kernelPresentation.js";
 import { randomUUID } from "node:crypto";
 import { claudeInputTokens } from "../../domain/kernelUsage.js";
 import { list, number, record, safeDetail, text } from "../../domain/kernelPolicy.js";
@@ -72,22 +73,24 @@ export async function claudeMessage(
   message: Record<string, unknown>,
 ): Promise<void> {
   const type = text(message.type);
-  if (type === "control_request") return claudeRequest(run, message);
-  if (type === "control_cancel_request") {
-    run.invalidate(String(message.request_id));
-    return;
-  }
   if (text(message.session_id)) {
     if (run.sessionId && run.sessionId !== message.session_id)
       throw new Error("Claude Code 返回了其他会话的数据");
     run.setSession(text(message.session_id));
   }
+  if (type === "control_request") return claudeRequest(run, message);
+  if (type === "control_cancel_request") {
+    run.invalidate(String(message.request_id));
+    return;
+  }
   const state = stateFor(run);
   if (type === "stream_event") {
     const event = record(message.event);
     const eventType = text(event.type);
-    if (eventType === "message_start")
+    if (eventType === "message_start") {
       state.messageId = text(record(event.message).id) || state.messageId;
+      state.blocks.clear();
+    }
     if (eventType === "content_block_start") {
       const block = record(event.content_block);
       if (block.type === "tool_use") {
@@ -113,7 +116,7 @@ export async function claudeMessage(
     }
     if (eventType === "content_block_stop") {
       const block = state.blocks.get(number(event.index) ?? 0);
-      if (block)
+      if (block?.json)
         run.emit({
           type: "tool",
           id: block.id,
@@ -133,6 +136,25 @@ export async function claudeMessage(
         run.emit({ type: "usage", contextUsedTokens: inputTokens + outputTokens });
     }
     const id = text(body.id) || state.messageId;
+    if (type === "assistant" && id === state.messageId && Array.isArray(body.content)) {
+      const confirmed = new Set(
+        list(body.content)
+          .map(record)
+          .filter((block) => block.type === "tool_use")
+          .map((block) => text(block.id)),
+      );
+      // 流式工具只是提议；最终 assistant 未包含它时不能继续冒充执行中。
+      for (const block of state.blocks.values()) {
+        if (!confirmed.has(block.id))
+          run.tool({
+            id: block.id,
+            name: block.name,
+            state: "unknown",
+            statusDetail: "最终消息未确认此工具提议 / Unconfirmed tool proposal",
+          });
+      }
+      state.blocks.clear();
+    }
     list(body.content).forEach((value, index) => {
       const block = record(value);
       const blockType = text(block.type);
@@ -200,7 +222,7 @@ async function claudeRequest(run: KernelRun, message: Record<string, unknown>): 
         return {
           id: String(index),
           title: text(q.question),
-          options: list(q.options).map((o) => text(record(o).label)),
+          options: nativeQuestionOptions(q.options),
           multiple: q.multiSelect === true,
         };
       });
@@ -225,7 +247,7 @@ async function claudeRequest(run: KernelRun, message: Record<string, unknown>): 
       id: String(id),
       kind: "approval",
       title: `Claude Code 请求使用 ${name}`,
-      detail: safeDetail(input),
+      detail: nativeApprovalDetail(request),
       choices: ["allow-once", "deny"],
     });
     // 不把许可建议写回用户的全局或项目配置；一次批准仅作用于这个 tool_use。

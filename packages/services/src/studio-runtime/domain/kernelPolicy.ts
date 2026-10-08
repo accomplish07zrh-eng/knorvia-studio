@@ -97,13 +97,16 @@ export function number(value: unknown): number | undefined {
 }
 export function safeDetail(value: unknown): string {
   const result = typeof value === "string" ? value : JSON.stringify(value ?? {});
-  return result
+  const redacted = result
     .replace(/(Bearer\s+)[^\s"']+/gi, "$1[redacted]")
     .replace(
       /((?:api[_-]?key|access[_-]?token|authorization)["']?\s*[:=]\s*["']?)[^\s,"'}]+/gi,
       "$1[redacted]",
-    )
-    .slice(0, 24_000);
+    );
+  // 审批内容不能静默截断，否则用户会把不完整上下文误当作完整请求。
+  return redacted.length > 24_000
+    ? `${redacted.slice(0, 24_000)}\n[内容已截断 / truncated]`
+    : redacted;
 }
 export function errorText(error: unknown): string {
   return safeDetail(error instanceof Error ? error.message : String(error));

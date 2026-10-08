@@ -1,0 +1,718 @@
+{
+  "schema": 1,
+  "date": "2026-10-08",
+  "branch": "codex/external-state-rebuild-20261008",
+  "base": "34078257b5d9d1e78c40308b34dab8ff45565156",
+  "integrationObserved": "1b3ff0b3dbc93e0eff5d9d130ce3e5c50427bec9",
+  "environment": {
+    "platform": "Linux",
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "browser": "system Chromium via playwright-core",
+    "isolation": "Synthetic CLI processes over actual stdin/stdout, temporary cwd/SQLite, no paid models or real user profiles. Browser traffic limited to its local fixture server."
+  },
+  "reproduction": {
+    "source": "Detached worktree of the public base, unchanged production source; only this task's test files added and installed dependencies linked.",
+    "exitCode": 1,
+    "tests": 38,
+    "pass": 2,
+    "fail": 36,
+    "skip": 0,
+    "cancelled": 0,
+    "logSha256": "6eb41c0fba541b7bf7a3d0d0edcdda2dcf138e240e0092aaf9c6e75974759f8f",
+    "cases": [
+      {
+        "name": "real SQLite tool fields survive sparse update and reopen; old text stays readable",
+        "status": "fail"
+      },
+      {
+        "name": "remote bridge preserves and detects detail-only changes without inventing status",
+        "status": "fail"
+      },
+      {
+        "name": "remote unknown terminal cannot become a known failed result",
+        "status": "fail"
+      },
+      {
+        "name": "codex: real stdio preserves option descriptions and legacy strings",
+        "status": "fail"
+      },
+      {
+        "name": "grok: real stdio preserves option descriptions and legacy strings",
+        "status": "fail"
+      },
+      {
+        "name": "claude: real stdio preserves option descriptions and legacy strings",
+        "status": "fail"
+      },
+      {
+        "name": "codex: approval retains cwd, reason and context",
+        "status": "fail"
+      },
+      {
+        "name": "grok: approval retains cwd, reason and context",
+        "status": "fail"
+      },
+      {
+        "name": "acp: approval retains cwd, reason and context",
+        "status": "fail"
+      },
+      {
+        "name": "claude: approval retains cwd, reason and context",
+        "status": "fail"
+      },
+      {
+        "name": "acp: sparse tool changes preserve fields and distinguish native content",
+        "status": "fail"
+      },
+      {
+        "name": "grok: sparse tool changes preserve fields and distinguish native content",
+        "status": "fail"
+      },
+      {
+        "name": "Codex unknown native tool state is not success",
+        "status": "fail"
+      },
+      {
+        "name": "Codex stale approval and withdrawal cannot reuse a current request ID",
+        "status": "fail"
+      },
+      {
+        "name": "Codex legacy turn-less item events remain supported",
+        "status": "pass"
+      },
+      {
+        "name": "Codex terminal in the startup ACK batch does not send an interrupt after success",
+        "status": "fail"
+      },
+      {
+        "name": "Claude unconfirmed stream proposal settles before the final run result",
+        "status": "fail"
+      },
+      {
+        "name": "acp: explicit empty fields replace prior values",
+        "status": "fail"
+      },
+      {
+        "name": "grok: explicit empty fields replace prior values",
+        "status": "fail"
+      },
+      {
+        "name": "truncation is explicit after redaction",
+        "status": "fail"
+      },
+      {
+        "name": "long approval input cannot push cwd and reason behind the truncation boundary",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: stale-delta",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: stale-tool",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: stale-terminal",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: stale-approval",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: conflict-started",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: before-ack",
+        "status": "fail"
+      },
+      {
+        "name": "Codex current turn fence: thread-fence",
+        "status": "pass"
+      },
+      {
+        "name": "Codex unbound dispatch fails closed: buffer-count",
+        "status": "fail"
+      },
+      {
+        "name": "Codex unbound dispatch fails closed: buffer-bytes",
+        "status": "fail"
+      },
+      {
+        "name": "Codex unbound dispatch fails closed: missing-id",
+        "status": "fail"
+      },
+      {
+        "name": "codex: withdrawal before slow flush cannot open an approval",
+        "status": "fail"
+      },
+      {
+        "name": "claude: withdrawal before slow flush cannot open an approval",
+        "status": "fail"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: eof-complete",
+        "status": "fail"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: eof-failure",
+        "status": "fail"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: unresolved",
+        "status": "fail"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: failed-unresolved",
+        "status": "fail"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: cancel",
+        "status": "fail"
+      }
+    ]
+  },
+  "targeted": {
+    "command": "node --import tsx --test --test-reporter=tap packages/services/test/external-state-rebuild.test.ts packages/services/test/external-state-projection.test.ts packages/services/test/studio-kernels-protocol.test.ts packages/services/test/studio-kernels-transport.test.ts packages/services/test/studio-kernel-expansion.test.ts packages/services/test/studio-kernels-model-options.test.ts packages/services/test/studio-kernel-usage.test.ts packages/services/test/studio-remote-kernel-bridge.test.ts packages/services/test/studio-runtime.test.ts packages/ui/test/studio-backend-ui.test.ts",
+    "exitCode": 0,
+    "tests": 104,
+    "pass": 104,
+    "fail": 0,
+    "skip": 0,
+    "cancelled": 0,
+    "logSha256": "6565402ba6ca96f03cb19ef2a8c3cac16c2365f32e7e4e366408dbd99526446f",
+    "cases": [
+      {
+        "name": "real SQLite tool fields survive sparse update and reopen; old text stays readable",
+        "status": "pass"
+      },
+      {
+        "name": "remote bridge preserves and detects detail-only changes without inventing status",
+        "status": "pass"
+      },
+      {
+        "name": "remote unknown terminal cannot become a known failed result",
+        "status": "pass"
+      },
+      {
+        "name": "codex: real stdio preserves option descriptions and legacy strings",
+        "status": "pass"
+      },
+      {
+        "name": "grok: real stdio preserves option descriptions and legacy strings",
+        "status": "pass"
+      },
+      {
+        "name": "claude: real stdio preserves option descriptions and legacy strings",
+        "status": "pass"
+      },
+      {
+        "name": "codex: approval retains cwd, reason and context",
+        "status": "pass"
+      },
+      {
+        "name": "grok: approval retains cwd, reason and context",
+        "status": "pass"
+      },
+      {
+        "name": "acp: approval retains cwd, reason and context",
+        "status": "pass"
+      },
+      {
+        "name": "claude: approval retains cwd, reason and context",
+        "status": "pass"
+      },
+      {
+        "name": "acp: sparse tool changes preserve fields and distinguish native content",
+        "status": "pass"
+      },
+      {
+        "name": "grok: sparse tool changes preserve fields and distinguish native content",
+        "status": "pass"
+      },
+      {
+        "name": "Codex unknown native tool state is not success",
+        "status": "pass"
+      },
+      {
+        "name": "Codex stale approval and withdrawal cannot reuse a current request ID",
+        "status": "pass"
+      },
+      {
+        "name": "Codex legacy turn-less item events remain supported",
+        "status": "pass"
+      },
+      {
+        "name": "Codex terminal in the startup ACK batch does not send an interrupt after success",
+        "status": "pass"
+      },
+      {
+        "name": "Claude unconfirmed stream proposal settles before the final run result",
+        "status": "pass"
+      },
+      {
+        "name": "acp: explicit empty fields replace prior values",
+        "status": "pass"
+      },
+      {
+        "name": "grok: explicit empty fields replace prior values",
+        "status": "pass"
+      },
+      {
+        "name": "truncation is explicit after redaction",
+        "status": "pass"
+      },
+      {
+        "name": "long approval input cannot push cwd and reason behind the truncation boundary",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: stale-delta",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: stale-tool",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: stale-terminal",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: stale-approval",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: conflict-started",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: before-ack",
+        "status": "pass"
+      },
+      {
+        "name": "Codex current turn fence: thread-fence",
+        "status": "pass"
+      },
+      {
+        "name": "Codex unbound dispatch fails closed: buffer-count",
+        "status": "pass"
+      },
+      {
+        "name": "Codex unbound dispatch fails closed: buffer-bytes",
+        "status": "pass"
+      },
+      {
+        "name": "Codex unbound dispatch fails closed: missing-id",
+        "status": "pass"
+      },
+      {
+        "name": "codex: withdrawal before slow flush cannot open an approval",
+        "status": "pass"
+      },
+      {
+        "name": "claude: withdrawal before slow flush cannot open an approval",
+        "status": "pass"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: eof-complete",
+        "status": "pass"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: eof-failure",
+        "status": "pass"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: unresolved",
+        "status": "pass"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: failed-unresolved",
+        "status": "pass"
+      },
+      {
+        "name": "Claude lifecycle, including drained sink: cancel",
+        "status": "pass"
+      },
+      {
+        "name": "official ACP and safe custom IDs work across groups and workflows",
+        "status": "pass"
+      },
+      {
+        "name": "model selection rejects control characters before reaching a native CLI",
+        "status": "pass"
+      },
+      {
+        "name": "custom ACP configuration is persisted and appears in overview",
+        "status": "pass"
+      },
+      {
+        "name": "partial and repeated native snapshots preserve context without double-counting",
+        "status": "pass"
+      },
+      {
+        "name": "Codex uses last request for usage and its explicit context capacity",
+        "status": "pass"
+      },
+      {
+        "name": "ACP used/size are context, never billed input or output",
+        "status": "pass"
+      },
+      {
+        "name": "Claude normalizes cache input and exposes model steps without inventing throughput",
+        "status": "pass"
+      },
+      {
+        "name": "模型目录仅查询能力：分页完整、别名正确、隐藏模型不展示、不虚构思考选项",
+        "status": "pass"
+      },
+      {
+        "name": "Grok native slash commands are read from its session without sending a prompt",
+        "status": "pass"
+      },
+      {
+        "name": "Codex status and compact slash actions use app-server RPC without a model prompt",
+        "status": "pass"
+      },
+      {
+        "name": "模型和思考选择传入实际原生字段，续轮保留原生会话",
+        "status": "pass"
+      },
+      {
+        "name": "未知思考选项在发出任何用户输入前失败，不能忽略后运行默认档",
+        "status": "pass"
+      },
+      {
+        "name": "Claude 不给 Haiku 伪造 effort；完整模型名与目录别名匹配",
+        "status": "pass"
+      },
+      {
+        "name": "Grok 回显档位未采用或被路由到不同模型时不能继续发 prompt",
+        "status": "pass"
+      },
+      {
+        "name": "目录为空和循环分页明确报错，不把错误包装成可选默认模型",
+        "status": "pass"
+      },
+      {
+        "name": "正在握手的目录查询可取消并收回自有进程",
+        "status": "pass"
+      },
+      {
+        "name": "codex: duplex approval, question, streamed output and cold native resume",
+        "status": "pass"
+      },
+      {
+        "name": "codex: cancellation settles a pending native interaction",
+        "status": "pass"
+      },
+      {
+        "name": "codex: transport loss after submission is not a known failure",
+        "status": "pass"
+      },
+      {
+        "name": "claude-code: duplex approval, question, streamed output and cold native resume",
+        "status": "pass"
+      },
+      {
+        "name": "claude-code: cancellation settles a pending native interaction",
+        "status": "pass"
+      },
+      {
+        "name": "claude-code: transport loss after submission is not a known failure",
+        "status": "pass"
+      },
+      {
+        "name": "grok-build: duplex approval, question, streamed output and cold native resume",
+        "status": "pass"
+      },
+      {
+        "name": "grok-build: cancellation settles a pending native interaction",
+        "status": "pass"
+      },
+      {
+        "name": "grok-build: transport loss after submission is not a known failure",
+        "status": "pass"
+      },
+      {
+        "name": "Grok reports a definite 402 response without pretending success or transport uncertainty",
+        "status": "pass"
+      },
+      {
+        "name": "unsupported read-only mode fails before starting Claude/Grok; supplied paths cannot be shell snippets",
+        "status": "pass"
+      },
+      {
+        "name": "unbounded prompt request survives latency and fragmented Unicode, while handshake timeout remains bounded",
+        "status": "pass"
+      },
+      {
+        "name": "transport closes its own uncooperative process and never relies on a global process name",
+        "status": "pass"
+      },
+      {
+        "name": "remote member runs through its bound SSH service and project, never local path",
+        "status": "pass"
+      },
+      {
+        "name": "missing SSH connection fails before dispatch, without a local fallback",
+        "status": "pass"
+      },
+      {
+        "name": "one group routes local and two SSH Codex members independently",
+        "status": "pass"
+      },
+      {
+        "name": "an aborted remote interaction sends cancellation before marking result uncertain",
+        "status": "pass"
+      },
+      {
+        "name": "external kernel credentials in output and failure are absent from Studio SQLite",
+        "status": "pass"
+      },
+      {
+        "name": "native usage survives partial updates and restart without leaking into a queued turn",
+        "status": "pass"
+      },
+      {
+        "name": "group member usage and execution time come from durable turns after restart",
+        "status": "pass"
+      },
+      {
+        "name": "command admission is transactional and idempotent without context crossing kernels",
+        "status": "pass"
+      },
+      {
+        "name": "two Hosts share one executor and queue second turn with persisted native session",
+        "status": "pass"
+      },
+      {
+        "name": "approval survives renderer detach and duplicate or late answers are rejected",
+        "status": "pass"
+      },
+      {
+        "name": "cancel fences late output, expires questions and stops only the owned turn",
+        "status": "pass"
+      },
+      {
+        "name": "crash recovery does not replay uncertain native effects; explicit retry creates new attempt",
+        "status": "pass"
+      },
+      {
+        "name": "save or delete active definitions is rejected without losing saved draft",
+        "status": "pass"
+      },
+      {
+        "name": "definition saves based on a stale version are rejected without overwriting",
+        "status": "pass"
+      },
+      {
+        "name": "overview lists every conversation instead of silently truncating at the page limit",
+        "status": "pass"
+      },
+      {
+        "name": "backend group hydration preserves unsent text and deletion drops the draft after reload",
+        "status": "pass"
+      },
+      {
+        "name": "failed group send preserves draft and cannot send before definition acknowledgement",
+        "status": "pass"
+      },
+      {
+        "name": "accepted send clears only the submitted draft and active task input uses steering",
+        "status": "pass"
+      },
+      {
+        "name": "newer queued input does not hide the running task from stop and steering controls",
+        "status": "pass"
+      },
+      {
+        "name": "workflow backend refresh and save acknowledgements never overwrite newer unsaved edits",
+        "status": "pass"
+      },
+      {
+        "name": "stale backend snapshot cannot roll back an acknowledged workflow",
+        "status": "pass"
+      },
+      {
+        "name": "workflow contract excludes runtime badges and limits match backend admission",
+        "status": "pass"
+      },
+      {
+        "name": "oversized legacy workflow stays readable and can be reduced without truncation",
+        "status": "pass"
+      },
+      {
+        "name": "duplicating a workflow remaps references as well as edges",
+        "status": "pass"
+      },
+      {
+        "name": "workflow node states use persisted turns and never revive running nodes after interruption",
+        "status": "pass"
+      },
+      {
+        "name": "workflow drafts keep the server version they were based on until adopting a newer one",
+        "status": "pass"
+      }
+    ]
+  },
+  "browser": {
+    "command": "node --import tsx scripts/external-state-browser.mjs",
+    "exitCode": 0,
+    "results": [
+      "Native question/approval/tool fields survive real stdio, Host admission, SQLite and production GUI",
+      "360px knorvia-dark: descriptions and independent tool fields visible without page overflow",
+      "1200px knorvia-light: descriptions and independent tool fields visible without page overflow",
+      "GUI multi-select/legacy/custom answer returns labels to the native CLI; approval dispatches exactly once"
+    ],
+    "errors": [],
+    "legacyCheck": "Old undifferentiated details remain visible without an invented Output field, even with new statusDetail.",
+    "screenshots": [
+      {
+        "path": "360-knorvia-dark.png",
+        "sha256": "53fe84c72f7d14b5dee99f5136abe131d0d0ca4d8ada663862fa9fb68e581d99"
+      },
+      {
+        "path": "1200-knorvia-light.png",
+        "sha256": "87c296af99b70a470284466112775b550f472cf31e0bd235aceb3d85eccd34d8"
+      }
+    ]
+  },
+  "fullStudio": {
+    "initial": {
+      "command": "pnpm test:studio",
+      "exitCode": 1,
+      "files": 835,
+      "tests": 8463,
+      "pass": 8454,
+      "fail": 1,
+      "skip": 8,
+      "cancelled": 0,
+      "failedCase": "Codex uses last request for usage and its explicit context capacity",
+      "resolution": "No-turn thread usage now precedes turn-specific scope admission but remains behind the root-thread fence. Existing test plus real legacy stdio now pass in the targeted run.",
+      "logSha256": "e034b9cad94fbd13a42b534e18fa89147dcbe89be04a8b597bd98eccfddbcf04"
+    },
+    "final": {
+      "status": "running",
+      "command": "pnpm test:studio"
+    }
+  },
+  "cliBuild": {
+    "command": "pnpm build:cli-packages",
+    "exitCode": 0,
+    "tasks": 17,
+    "successful": 17,
+    "logSha256": "05f47bb7e43ca4cfcadd1453633ceba06f2a0f972201f3c6071c8bbefb30f529"
+  },
+  "limitations": [
+    "Windows execution and complete Electron desktop GUI/package were not run; Electron installation was unavailable in this environment.",
+    "No logged-in vendor CLI, paid model, real credentials/profile, or physical SSH host was used. Remote bridge was verified through the real adapter against a synthetic public-service port.",
+    "Strict authoritative ACK ownership applies to normal Codex turn/start. The existing /compact legacy RPC has no turn ID response and retains its separate started-event lifecycle; its existing regression passes.",
+    "Integration and release belong to the integration owner; image input, image review and GUI workbench were not implemented here."
+  ],
+  "sourceSha256": [
+    {
+      "path": "packages/services/src/studio-runtime/CONTRACT.md",
+      "sha256": "2e83e2364d5735c956623e5197f6b0445dafc5d10ac9c8b5a4d8abe4eeff8fe9"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProtocol.ts",
+      "sha256": "d1b1baf430e4000d27f80db188adb2c9274ff95bb81253ce1c50e70264e17336"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeProtocol.ts",
+      "sha256": "1f45e48279e545d816225bdff61caec155bbbfc4f3553bf13b5764d76a2af946"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/codexProtocol.ts",
+      "sha256": "f7de5b6023e98b715fc605c0bf64e335441b393da3bec3331ddb7963d89bd745"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/codexTurnScope.ts",
+      "sha256": "da5549bd3ebc2b62c4d8f7d9b51b4fae5024dfe4d7d763693a343a8a29a9cb68"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokProtocol.ts",
+      "sha256": "7345977c11e854649a1c1474da8854808ca9cc0bb21dcecc2a74ce2c974caff8"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRun.ts",
+      "sha256": "0876dc146aa2cb7b3bac7a2964297fabb41e4fdde6566c76a1ac37debcbf5dd1"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/processTransport.ts",
+      "sha256": "896df00db32140aa1fec239afef1093f64a9c40308303cc5e53bc81c6c2f500b"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelBridge.ts",
+      "sha256": "6359a5fc731811f1923ab96f797bb7d0792012e607ef85e2b0deec626399eeec"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnEvents.ts",
+      "sha256": "775cfaffd42508a02faae4bbd1ff5024d1e774fcdf3fb4dbdb3ba4368db917c8"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.example.ts",
+      "sha256": "55173947ec95f8ee2d1c05a362cd15812f1e7673d5ce73266401262e9b22c93b"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelPolicy.ts",
+      "sha256": "9be8ffd1d4f63f9a0694c5569e091c1744dbfbf87f9c26bbc458da571336b840"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelPresentation.ts",
+      "sha256": "eb7000ce377631c082f2f0a20a58944e056e58e97c845189333f124fa551dc7f"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/kernelTypes.ts",
+      "sha256": "af92bda105296187f0650ba6e02526a2de9821f410d6c748535ee36dfc064ba9"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/types.ts",
+      "sha256": "ba8097f6fa60b4851d867e8e20b98e1996e320dda816d81ad0330d6146387a26"
+    },
+    {
+      "path": "packages/services/test/external-state-projection.test.ts",
+      "sha256": "3cb1ef5f3606779e3a5c0265534af2e80338c7c003095c79d05b78a7e494009d"
+    },
+    {
+      "path": "packages/services/test/external-state-rebuild.fixture.ts",
+      "sha256": "b1c0fe0afdae46f69ed09c72dd8ed505c6cd38f64391b0d8bc2ea3ab53a9916c"
+    },
+    {
+      "path": "packages/services/test/external-state-rebuild.test.ts",
+      "sha256": "cc72987692bbff0bd3a6a8f3532b576e97ce395a65ef50473fca1c3cb853e880"
+    },
+    {
+      "path": "packages/services/test/fixtures/external-state-rebuild.cjs",
+      "sha256": "7472a5a2ae901423c4a32a017eed631122078fdb93999d54d40ba3013173e5f6"
+    },
+    {
+      "path": "packages/ui/src/studio/runtime/StudioInteractions.tsx",
+      "sha256": "bdb617f56228a7a10220240c713df1c059504b02d4f5a1ca36f35f415705a0df"
+    },
+    {
+      "path": "packages/ui/src/studio/runtime/StudioTimeline.tsx",
+      "sha256": "588d370c381ff402bf1bb0845b16a916b72090b02049993f2c1b6119bcf1eaf7"
+    },
+    {
+      "path": "packages/ui/src/studio/runtime/StudioToolDetails.tsx",
+      "sha256": "c4fb8368d18ab09860cef53c27a16a6153667471b68de5ccad33f04b9e56fdcf"
+    },
+    {
+      "path": "packages/ui/src/studio/runtime/studioInteractionAnswers.ts",
+      "sha256": "a55d7c2558b527a406bcc10e58a0060f3d9aa521dca63db34d64104aba185801"
+    },
+    {
+      "path": "packages/ui/test/fixtures/external-state-browser.tsx",
+      "sha256": "cdc50112ac93b64040cc40eab80f0acb864e3eb016786d263c4d09ead3f279cc"
+    },
+    {
+      "path": "scripts/external-state-browser.mjs",
+      "sha256": "7d5ee9147ef5de038a2487c367053c1d3ffddba92e63bb368c6dcd3f9f3d3f5a"
+    }
+  ]
+}

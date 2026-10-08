@@ -1,5 +1,30 @@
 import type { StudioCommand } from "./contract.js";
 import type { StudioReviewDraft } from "./contract.js";
+import type { StudioKernelInteraction, StudioKernelEvent } from "./contract.js";
+
+/** 描述是展示信息；答案仍是原生 label，旧 string 选项无需迁移。 */
+export const describedQuestion: StudioKernelInteraction = {
+  id: "native-question",
+  kind: "question",
+  title: "Choose a scope",
+  questions: [
+    {
+      id: "scope",
+      title: "Scope",
+      options: ["Legacy", { label: "Project", description: "Only the current project" }],
+    },
+  ],
+};
+export const unknownNativeTool: StudioKernelEvent = {
+  type: "tool",
+  id: "tool",
+  name: "Read",
+  state: "unknown",
+  statusDetail: "vendor_pending",
+  input: '{"path":"example.txt"}',
+  output: "",
+  content: '[{"type":"content","content":{"type":"text","text":"Pending"}}]',
+};
 
 /** This acknowledges the displayed event only; it cannot answer an approval. */
 export const markDisplayedAttentionRead: StudioCommand = {

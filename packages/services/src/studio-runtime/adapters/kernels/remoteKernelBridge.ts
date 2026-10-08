@@ -8,6 +8,7 @@ import type {
 } from "../../kernelTypes.js";
 import { parseRemoteStudioKernelId } from "../../domain/remoteAgentIdentity.js";
 import { remoteStudioKernelId } from "./remoteAgentIdentity.js";
+import { nativeToolState } from "../../domain/kernelPresentation.js";
 
 export interface RemoteStudioEnvironment {
   workspaceIdentity: string;
@@ -72,7 +73,7 @@ export function createRemoteKernelAdapter(
       const { service } = environment;
       const conversationId = requestId("remote_conv", `${kernelId}:${turn.conversationId}`);
       const dispatchId = requestId("remote_send", `${kernelId}:${turn.dispatchId ?? turn.turnId}`);
-      const seen = new Map<string, { text: string; state?: string }>();
+      const seen = new Map<string, { text: string; state?: string; toolSignature?: string }>();
       const handledInteractions = new Set<string>();
       let remoteRunId: string | undefined;
       let dispatched = false;
@@ -133,17 +134,33 @@ export function createRemoteKernelAdapter(
             )
               continue;
             const prior = seen.get(message.id);
+            const toolSignature = JSON.stringify([
+              message.name,
+              message.state,
+              message.text,
+              message.input,
+              message.output,
+              message.content,
+              message.statusDetail,
+            ]);
             if (message.kind === "tool") {
-              if (prior?.text !== message.text || prior?.state !== message.state)
+              if (prior?.toolSignature !== toolSignature)
                 await sink.emit({
                   type: "tool",
                   id: message.id,
                   name: message.name ?? "tool",
-                  state:
-                    message.state === "succeeded" || message.state === "failed"
-                      ? message.state
-                      : "running",
-                  output: message.text,
+                  state: nativeToolState(message.state),
+                  input: message.input,
+                  output: message.output,
+                  content: message.content,
+                  legacyText: message.text,
+                  // 远端未知字符串保留原值，不能转成 running 或成功。
+                  statusDetail:
+                    nativeToolState(message.state) === "unknown" && message.state !== "unknown"
+                      ? [message.state || "unknown", message.statusDetail]
+                          .filter(Boolean)
+                          .join(": ")
+                      : message.statusDetail,
                 });
             } else if (["text", "reasoning", "progress"].includes(message.kind)) {
               const delta = message.text.startsWith(prior?.text ?? "")
@@ -151,7 +168,7 @@ export function createRemoteKernelAdapter(
                 : message.text;
               if (delta) await sink.emit({ type: message.kind, text: delta } as StudioKernelEvent);
             }
-            seen.set(message.id, { text: message.text, state: message.state });
+            seen.set(message.id, { text: message.text, state: message.state, toolSignature });
           }
           if (timeline.usage?.runId === remoteRunId) {
             const { runId: _runId, turnId: _turnId, ...usage } = timeline.usage;
@@ -195,18 +212,21 @@ export function createRemoteKernelAdapter(
                 }
               }
             }
+            const knownTerminal = ["succeeded", "failed", "cancelled", "interrupted"].includes(
+              run.state,
+            );
             return {
               status:
                 run.state === "succeeded"
                   ? "succeeded"
                   : run.state === "cancelled"
                     ? "cancelled"
-                    : run.state === "interrupted"
-                      ? "interrupted"
-                      : "failed",
+                    : run.state === "failed"
+                      ? "failed"
+                      : "interrupted",
               text,
-              error: run.error,
-              resultKnown: run.resultKnown !== false,
+              error: knownTerminal ? run.error : `远端返回未知终态：${run.state}`,
+              resultKnown: knownTerminal && run.resultKnown !== false,
               workspacePath: remoteWorkspacePath,
               changesSummary,
             };

@@ -44,7 +44,7 @@ export class ProtocolProcess {
     args: string[],
     cwd: string,
     private mode: "codex" | "claude" | "acp" | "antigravity",
-    onMessage: (message: Record<string, unknown>) => void | Promise<void>,
+    private onMessage: (message: Record<string, unknown>) => void | Promise<void>,
     environment: NodeJS.ProcessEnv = {},
   ) {
     const env = { ...process.env, ...environment };
@@ -72,16 +72,14 @@ export class ProtocolProcess {
       while ((index = this.buffer.indexOf("\n")) >= 0) {
         const line = this.buffer.slice(0, index).trim();
         this.buffer = this.buffer.slice(index + 1);
-        if (!line) continue;
-        try {
-          const message = record(JSON.parse(line));
-          if (!Object.keys(message).length) throw new Error("CLI 返回了无效协议帧");
-          if (!this.acceptResponse(message))
-            Promise.resolve(onMessage(message)).catch((error) => this.fail(error));
-        } catch (error) {
-          this.fail(new Error(`CLI 协议解析失败：${errorText(error)}`));
-        }
+        this.acceptLine(line);
       }
+    });
+    this.child.stdout.on("end", () => {
+      // CLI 正常结束也可能不带末尾换行；完整 JSON 仍有效，残帧必须明确报错。
+      const tail = (this.buffer + this.decoder.end()).trim();
+      this.buffer = "";
+      this.acceptLine(tail);
     });
     this.child.on("close", (code, signal) => {
       this.ended = true;
@@ -92,6 +90,18 @@ export class ProtocolProcess {
         ),
       );
     });
+  }
+
+  private acceptLine(line: string): void {
+    if (!line) return;
+    try {
+      const message = record(JSON.parse(line));
+      if (!Object.keys(message).length) throw new Error("CLI 返回了无效协议帧");
+      if (!this.acceptResponse(message))
+        Promise.resolve(this.onMessage(message)).catch((error) => this.fail(error));
+    } catch (error) {
+      this.fail(new Error(`CLI 协议解析失败：${errorText(error)}`));
+    }
   }
 
   fail(error: unknown): void {

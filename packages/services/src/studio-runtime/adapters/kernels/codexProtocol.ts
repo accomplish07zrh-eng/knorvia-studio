@@ -1,10 +1,15 @@
+import {
+  nativeApprovalDetail,
+  nativeQuestionOptions,
+  nativeToolState,
+} from "../../domain/kernelPresentation.js";
 import { list, number, record, safeDetail, text } from "../../domain/kernelPolicy.js";
 import type { StudioSharedMcpServer } from "../../kernelTypes.js";
 import type { KernelRun } from "./kernelRun.js";
 import { assertReasoningOption, readCodexModelOptions } from "./modelOptions.js";
+import { acceptCodexMessage, beginCodexScope, bindCodexScope } from "./codexTurnScope.js";
 
 const toolOutputs = new WeakMap<KernelRun, Map<string, string>>();
-const activeTurnIds = new WeakMap<KernelRun, { id: string }>();
 
 export function codexArgs(): string[] {
   return ["app-server", "--listen", "stdio://"];
@@ -75,8 +80,14 @@ export async function startCodex(run: KernelRun): Promise<void> {
     // 恢复会话的实际模型由原生响应确定，不能拿目录默认模型代替。
     assertReasoningOption(options, model || text(started.model), effort);
   }
-  const activeTurn = { id: "" };
-  activeTurnIds.set(run, activeTurn);
+  const activeTurn = beginCodexScope(
+    run,
+    turn.text.trim() === "/compact"
+      ? "compact"
+      : turn.text.trim() === "/status"
+        ? "status"
+        : "turn",
+  );
   run.interrupt = async () => {
     if (activeTurn.id)
       await rpc.request("turn/interrupt", { threadId: id, turnId: activeTurn.id }, 2000);
@@ -98,6 +109,7 @@ export async function startCodex(run: KernelRun): Promise<void> {
   if (turn.text.trim() === "/compact") {
     run.submitted = true;
     await rpc.request("thread/compact/start", { threadId: id });
+    bindCodexScope(run, "", (message) => codexMessage(run, message));
     return;
   }
   run.submitted = true;
@@ -107,8 +119,9 @@ export async function startCodex(run: KernelRun): Promise<void> {
     ...(model ? { model } : {}),
     ...(effort !== undefined ? { effort } : {}),
   });
-  activeTurn.id = text(record(startedTurn.turn).id);
-  if (run.cancelled.signal.aborted) await run.interrupt();
+  bindCodexScope(run, text(record(startedTurn.turn).id), (message) => codexMessage(run, message));
+  // 缓冲重放可能已经收到真实终态；生命周期关闭不能被误当成用户取消。
+  if (run.cancelled.signal.aborted && !run.finished) await run.interrupt();
 }
 
 export function codexStudioMcpConfig(servers: StudioSharedMcpServer[]): {
@@ -135,7 +148,7 @@ export async function codexMessage(
 ): Promise<void> {
   const method = text(message.method);
   const params = record(message.params);
-  if (params.threadId && params.threadId !== run.sessionId) return;
+  if (!acceptCodexMessage(run, message)) return;
   if (message.id !== undefined && method) return codexRequest(run, message.id, method, params);
   if (method === "serverRequest/resolved") {
     run.invalidate(String(params.requestId));
@@ -177,11 +190,6 @@ export async function codexMessage(
       contextMaxTokens: number(tokenUsage.modelContextWindow),
     });
   }
-  if (method === "turn/started") {
-    const id = text(record(params.turn).id);
-    const active = activeTurnIds.get(run);
-    if (active && id) active.id = id;
-  }
   if (method === "item/started" || method === "item/completed") {
     const item = record(params.item);
     const type = text(item.type);
@@ -197,13 +205,18 @@ export async function codexMessage(
         id,
         name: text(item.tool) || type,
         state:
-          method === "item/started"
+          item.status === undefined && method === "item/started"
             ? "running"
-            : ["failed", "declined"].includes(text(item.status))
-              ? "failed"
-              : "succeeded",
-        input: safeDetail(item.command ?? item.arguments ?? item.changes),
-        output: safeDetail(item.aggregatedOutput ?? item.result ?? item.error ?? ""),
+            : nativeToolState(item.status),
+        ...(item.status !== undefined ? { statusDetail: safeDetail(item.status) } : {}),
+        ...(item.command !== undefined || item.arguments !== undefined || item.changes !== undefined
+          ? { input: safeDetail(item.command ?? item.arguments ?? item.changes) }
+          : {}),
+        ...(item.aggregatedOutput !== undefined ||
+        item.result !== undefined ||
+        item.error !== undefined
+          ? { output: safeDetail(item.aggregatedOutput ?? item.result ?? item.error) }
+          : {}),
       });
     }
   }
@@ -212,7 +225,9 @@ export async function codexMessage(
     const status = text(turn.status);
     if (status === "completed") run.finish("succeeded");
     else if (status === "interrupted") run.finish("cancelled");
-    else run.finish("failed", text(record(turn.error).message) || "Codex 调用失败");
+    else if (status === "failed")
+      run.finish("failed", text(record(turn.error).message) || "Codex 调用失败");
+    else run.finish("interrupted", `Codex 返回未知终态：${status || "unknown"}`, false);
   }
 }
 
@@ -231,7 +246,7 @@ async function codexRequest(
         id: String(id),
         kind: "approval",
         title: "Codex 请求额外文件或网络权限",
-        detail: safeDetail(params),
+        detail: nativeApprovalDetail(params),
         choices: ["allow-once", "allow-session", "deny"],
       });
       rpc.respond(id, {
@@ -256,7 +271,7 @@ async function codexRequest(
       return {
         id: text(q.id),
         title: text(q.question),
-        options: list(q.options).map((option) => text(record(option).label)),
+        options: nativeQuestionOptions(q.options),
       };
     });
     try {
@@ -288,7 +303,7 @@ async function codexRequest(
         id: String(id),
         kind: "approval",
         title: method.includes("commandExecution") ? "Codex 请求执行命令" : "Codex 请求修改文件",
-        detail: safeDetail(params.command ?? params.reason ?? params),
+        detail: nativeApprovalDetail(params),
         choices: [
           "allow-once",
           ...(choices.length === 0 || choices.includes("acceptForSession")

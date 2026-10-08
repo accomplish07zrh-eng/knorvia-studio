@@ -74,28 +74,39 @@ function InteractionCard({
         <fieldset key={question.id} disabled={disabled} className="mt-3 min-w-0 space-y-2">
           <legend className="max-w-full break-words text-ui-sm">{question.title}</legend>
           <div className="flex flex-wrap gap-2">
-            {question.options.map((option) => (
-              <Button
-                key={option}
-                size="sm"
-                className="h-auto max-w-full whitespace-normal break-words py-1.5 text-left"
-                variant={values[question.id]?.includes(option) ? "secondary" : "outline"}
-                aria-pressed={values[question.id]?.includes(option) ?? false}
-                onClick={() => {
-                  if (!question.multiple) setCustom((old) => ({ ...old, [question.id]: "" }));
-                  setValues((old) => ({
-                    ...old,
-                    [question.id]: question.multiple
-                      ? old[question.id]?.includes(option)
-                        ? (old[question.id] ?? []).filter((entry) => entry !== option)
-                        : [...(old[question.id] ?? []), option]
-                      : [option],
-                  }));
-                }}
-              >
-                {option}
-              </Button>
-            ))}
+            {question.options.map((option, index) => {
+              const label = typeof option === "string" ? option : option.label;
+              const description = typeof option === "string" ? undefined : option.description;
+              return (
+                <Button
+                  key={`${index}:${label}`}
+                  size="sm"
+                  className="h-auto max-w-full whitespace-normal break-words py-1.5 text-left"
+                  variant={values[question.id]?.includes(label) ? "secondary" : "outline"}
+                  aria-pressed={values[question.id]?.includes(label) ?? false}
+                  onClick={() => {
+                    if (!question.multiple) setCustom((old) => ({ ...old, [question.id]: "" }));
+                    setValues((old) => ({
+                      ...old,
+                      [question.id]: question.multiple
+                        ? old[question.id]?.includes(label)
+                          ? (old[question.id] ?? []).filter((entry) => entry !== label)
+                          : [...(old[question.id] ?? []), label]
+                        : [label],
+                    }));
+                  }}
+                >
+                  <span className="flex min-w-0 flex-col items-start gap-1">
+                    <span>{label}</span>
+                    {description && (
+                      <span className="text-ui-xs font-normal text-foreground-subtle">
+                        {description}
+                      </span>
+                    )}
+                  </span>
+                </Button>
+              );
+            })}
           </div>
           <Input
             aria-label={question.title}
