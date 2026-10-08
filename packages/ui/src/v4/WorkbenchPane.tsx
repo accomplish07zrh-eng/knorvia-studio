@@ -193,7 +193,7 @@ interface PaneRestoredGuardProps {
  * 必须挂在 V4PaneConversationProvider 内：useServices 取的是 pane 自己的 accessor
  * （远程 pane 走对应远程连接的 sessions-index，不误查本机 host）。
  */
-function PaneRestoredGuard({
+export function PaneRestoredGuard({
   paneId,
   scope,
   sessionId,

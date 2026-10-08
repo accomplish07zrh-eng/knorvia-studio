@@ -3,6 +3,7 @@ import {
   Images,
   ListTodo,
   MessageSquare,
+  PanelsTopLeft,
   Puzzle,
   Users,
   Workflow,
@@ -51,6 +52,12 @@ export function StudioActivityRail({
       testId: "studio-attention-open",
     },
     { id: "chat", label: "studio.single", icon: MessageSquare, testId: "studio-chats-open" },
+    {
+      id: "workbench",
+      label: "studio.workbench",
+      icon: PanelsTopLeft,
+      testId: "studio-workbench-open",
+    },
     { id: "groups", label: "studio.groups", icon: Users, testId: "studio-groups-open" },
     {
       id: "automations",
