@@ -233,6 +233,8 @@ export interface StudioTimeline {
   groupMetrics?: StudioGroupMetrics;
 }
 export interface StudioWorkspaceChange {
+  /** 仅 `artifactsOnly` 请求返回：该网页在本机隔离工作副本中的绝对路径，用于格子预览。 */
+  previewPath?: string;
   imagePreview?: import("./workspaceImageTypes.js").StudioWorkspaceImagePair;
   version?: import("./workspaceReviewTypes.js").StudioReviewFileVersion;
   path: string;

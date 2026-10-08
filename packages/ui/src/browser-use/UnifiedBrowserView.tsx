@@ -71,6 +71,7 @@ export function UnifiedBrowserView({
   deferEmptyGuest = false,
   initialHumanViewportPreference,
   onHumanViewportPreferenceChange,
+  displayOnly = false,
 }: {
   /** 受控视图 key（= tab.id / sessionId，agent 定位该 tab 用）。 */
   browserKey: string;
@@ -113,6 +114,11 @@ export function UnifiedBrowserView({
   deferEmptyGuest?: boolean;
   /** 仅 human Browser surface 传入；Agent Browser Use 必须保持 undefined。 */
   initialHumanViewportPreference?: EmbeddedBrowserViewportPreference;
+  /**
+   * 仅显示（工作台格子预览）：不向 main 登记 guest（不挂 CDP、不参与驻留/淘汰与重启恢复），
+   * 不提供元素拾取。见 specs/knorvia-workbench-artifact-preview-20261008.md。
+   */
+  displayOnly?: boolean;
   /** 只接收 human UI 主动变更；Agent viewport event 不得调用。 */
   onHumanViewportPreferenceChange?: (
     preference: EmbeddedBrowserViewportPreference,
@@ -300,7 +306,7 @@ export function UnifiedBrowserView({
 
   const reportBrowserGuest = useCallback(
     (active: boolean) => {
-      if (!webview) return;
+      if (!webview || displayOnly) return;
       if (typeof webview.getWebContentsId !== "function") return;
       const webContentsId = safeWebviewCall(() => webview.getWebContentsId(), 0);
       if (webContentsId <= 0) return;
@@ -353,6 +359,7 @@ export function UnifiedBrowserView({
         });
     },
     [
+      displayOnly,
       browserKey,
       platform,
       remoteSessionId,
@@ -674,7 +681,7 @@ export function UnifiedBrowserView({
 
   useEffect(() => {
     const effectiveWorkspaceKey = workspaceKey ?? (workspaceIdentity?.trim() || workspacePath);
-    if (!effectiveWorkspaceKey || !sessionId) return;
+    if (displayOnly || !effectiveWorkspaceKey || !sessionId) return;
     const restoreUrl =
       browserState.currentUrl && browserState.currentUrl !== DEFAULT_BROWSER_URL
         ? browserState.currentUrl
@@ -706,6 +713,7 @@ export function UnifiedBrowserView({
     browserState.currentUrl,
     browserState.isLoading,
     browserState.title,
+    displayOnly,
     faviconUrl,
     isCurrentTask,
     isSelected,
@@ -1033,7 +1041,7 @@ export function UnifiedBrowserView({
         onGoForward={handleGoForward}
         onOpenExternal={handleOpenExternal}
         onOpenDevTools={handleOpenDevTools}
-        onPickElement={handleTogglePicker}
+        onPickElement={displayOnly ? undefined : handleTogglePicker}
         onReload={handleReload}
         onToggleResponsiveMode={handleToggleResponsiveMode}
         onSubmit={handleSubmit}

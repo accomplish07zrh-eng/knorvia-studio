@@ -152,6 +152,8 @@ export interface StudioWorkspacePort {
     stepId: string,
     imagePreview?: import("../workspaceImageTypes.js").StudioWorkspaceImageRequest,
   ): Promise<StudioWorkspaceChange[]>;
+  /** 只读扫描隔离工作副本中的网页产物；不取项目锁，不执行应用恢复。旧实现可不提供。 */
+  artifacts?(runId: string, stepId: string): Promise<StudioWorkspaceChange[]>;
   /** 返回 Host 自己生成的应用回执；旧实现可以继续返回 `void`（此时无法取得操作 id）。 */
   apply(
     runId: string,

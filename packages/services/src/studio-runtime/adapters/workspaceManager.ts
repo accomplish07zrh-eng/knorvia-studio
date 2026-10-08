@@ -65,6 +65,32 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
       const location = workspaceLocation(storage, params.runId, params.stepId);
       return locked(location.root, () => prepareSnapshot(location, params, storage));
     },
+    async artifacts(runId, stepId) {
+      // 只读：不取项目锁、不执行应用恢复（specs/knorvia-workbench-artifact-preview-20261008.md）。
+      const location = workspaceLocation(storage, runId, stepId);
+      const metadata = await readWorkspace(location, runId, stepId);
+      if (!metadata || metadata.mode === "shared") return [];
+      const isolated = await scanWorkspace(location.working);
+      return Object.entries(isolated)
+        .filter(
+          ([path, record]) =>
+            /\.html?$/i.test(path) &&
+            !studioWorkspaceSecretPath(path) &&
+            metadata.baseline[path]?.hash !== record.hash,
+        )
+        .sort(([a], [b]) => a.localeCompare(b))
+        .slice(0, 50)
+        .map(
+          ([path]): StudioWorkspaceChange => ({
+            path,
+            kind: metadata.baseline[path] ? "modified" : "added",
+            before: null,
+            after: null,
+            previewPath: join(location.working, ...path.split("/")),
+          }),
+        )
+        .filter((item) => inside(location.working, item.previewPath!));
+    },
     async changes(runId, stepId, imagePreview) {
       const location = workspaceLocation(storage, runId, stepId);
       const metadata = await readWorkspace(location, runId, stepId);

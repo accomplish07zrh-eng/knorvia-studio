@@ -18,7 +18,10 @@ import { useWorkflowRunJournalSummaries } from "@/hooks/useWorkflowRunJournalSum
 import { useWorkspaceHomePath } from "@/hooks/useWorkspaceHomePath.js";
 import { prepareWorkspaceWithKnorviaSessionService } from "@/hooks/useWorkspacePrepare.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
-import type { AssistantPreviewCardsAutoOpenRequest } from "@/lib/assistantPreviewCards.js";
+import type {
+  AssistantPreviewCardsAutoOpenRequest,
+  AssistantPreviewWebsiteAutoOpenRequest,
+} from "@/lib/assistantPreviewCards.js";
 import { isProviderNotReadyError } from "@/lib/chatPrepareError.js";
 import { buildChatSessionScrollMemoryKey } from "@/lib/chatSessionScrollMemory.js";
 import { DEFAULT_CODE_PREVIEW_SETTINGS } from "@/lib/codePreviewSettings.js";
@@ -290,6 +293,8 @@ export interface SessionPaneProps {
   onOpenAutomationsMain?: OpenAutomationsMain;
   onOpenCodeViewer?: (source: CodeViewerSource) => void;
   onAutoOpenAssistantPptx?: (request: AssistantPreviewCardsAutoOpenRequest) => void;
+  /** 仅工作台格子使用：本轮网页产物自动在该格预览打开；常规聊天不传，行为不变。 */
+  onAutoOpenAssistantWebsite?: (request: AssistantPreviewWebsiteAutoOpenRequest) => void;
   onOpenFileLink?: (target: MessageFileLinkTarget) => void;
   onOpenBackgroundBash?: (request: OpenBackgroundBashSideTabRequest) => void;
   onOpenSubagentSession?: (request: OpenScopedSubagentSideTabRequest) => void;
@@ -468,6 +473,7 @@ export function SessionPane({
   onOpenAutomationsMain,
   onOpenCodeViewer,
   onAutoOpenAssistantPptx,
+  onAutoOpenAssistantWebsite,
   onOpenFileLink,
   onOpenSubagentSession,
   onOpenBackgroundBash,
@@ -651,6 +657,17 @@ export function SessionPane({
     },
     [onAutoOpenAssistantPptx],
   );
+  // 同一轮的卡片会随重渲染多次确认可见；每个 key 只交给工作台一次，换会话即清空。
+  const autoOpenedAssistantWebsiteKeysRef = useRef(new Set<string>());
+  const handleAutoOpenAssistantWebsite = useCallback(
+    (request: AssistantPreviewWebsiteAutoOpenRequest) => {
+      if (!onAutoOpenAssistantWebsite) return;
+      if (autoOpenedAssistantWebsiteKeysRef.current.has(request.key)) return;
+      autoOpenedAssistantWebsiteKeysRef.current.add(request.key);
+      onAutoOpenAssistantWebsite(request);
+    },
+    [onAutoOpenAssistantWebsite],
+  );
   const composerDraftStateRef = useRef({ hasContent: false, busy: false });
   const [queueEditOperation, setQueueEditOperation] = useState<{
     queueItemId: string;
@@ -745,6 +762,7 @@ export function SessionPane({
     // 防止切换 workspace/session/logEpoch 后沿用旧 key；key 本身已隔离，清理仅是
     // 生命周期边界，避免长时间 workbench 中 Set 随会话数增长。
     autoOpenedAssistantPptxKeysRef.current.clear();
+    autoOpenedAssistantWebsiteKeysRef.current.clear();
   }, [sessionId, snapshot?.logEpoch, workspaceKey]);
   const composerTextInsertRequest = useKnorviaSessionStore(
     (store) => store.getWorkspaceState(workspacePath, workspaceIdentity).composerTextInsertRequest,
@@ -1742,6 +1760,9 @@ export function SessionPane({
       onOpenAutomationsMain,
       onOpenCodeViewer,
       onAutoOpenAssistantPptx: handleAutoOpenAssistantPptx,
+      onAutoOpenAssistantWebsite: onAutoOpenAssistantWebsite
+        ? handleAutoOpenAssistantWebsite
+        : undefined,
       assistantPreviewPptxAutoOpenTarget,
       onOpenFileLink,
       onOpenSubagentSession: onOpenSubagentSession ? handleOpenSubagentSession : undefined,
@@ -1800,6 +1821,8 @@ export function SessionPane({
       onOpenAutomationsMain,
       onOpenCodeViewer,
       handleAutoOpenAssistantPptx,
+      handleAutoOpenAssistantWebsite,
+      onAutoOpenAssistantWebsite,
       assistantPreviewPptxAutoOpenTarget,
       onOpenFileLink,
       onOpenSubagentSession,

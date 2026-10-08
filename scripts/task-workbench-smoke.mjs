@@ -12,6 +12,7 @@ import { knorviaIconsPlugin } from "../packages/ui/vite/knorviaIconsPlugin.ts";
 import { workbenchHost } from "./task-workbench-host.mjs";
 import * as controlEvidence from "./task-workbench-control-evidence.mjs";
 import { verifyWorkbenchReloadOwnership } from "./task-workbench-reload-evidence.mjs";
+import { verifyWorkbenchTileViews } from "./task-workbench-preview-evidence.mjs";
 
 const root = process.cwd();
 const evidence = process.env.KNORVIA_WORKBENCH_EVIDENCE_DIR || "/tmp/knorvia-workbench-evidence";
@@ -192,6 +193,7 @@ try {
     "real GUI inputs target separate original-Host interactions and runs; approval succeeds only its cell and Stop preserves existing interrupted/unknown-result semantics",
   );
   await page.screenshot({ path: resolve(evidence, "gui-tasks.png") });
+  checks.push(await verifyWorkbenchTileViews(host, tiles.nth(1)));
   const sends = host.commands.filter((command) => command.type === "send").length;
   await page.getByTestId("studio-chats-open").click();
   await page.getByTestId("add-to-task-workbench").click();

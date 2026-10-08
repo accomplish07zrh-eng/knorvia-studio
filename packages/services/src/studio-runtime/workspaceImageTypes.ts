@@ -9,6 +9,11 @@ export interface StudioWorkspaceChangesRequest {
   runId: string;
   stepId: string;
   imagePreview?: StudioWorkspaceImageRequest;
+  /**
+   * 工作台格子预览（specs/knorvia-workbench-artifact-preview-20261008.md）：只读列出隔离副本中
+   * 改动的网页，返回项带 `previewPath`，不含内容；不加项目锁、不执行应用恢复，不要求同项目其他任务结束。
+   */
+  artifactsOnly?: boolean;
 }
 export interface StudioWorkspaceApplyRequest {
   runId: string;

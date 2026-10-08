@@ -7,6 +7,7 @@ import {
   type AssistantPreviewCard,
   type AssistantPreviewCardFileStatService,
   type AssistantPreviewCardsAutoOpenRequest,
+  type AssistantPreviewWebsiteAutoOpenRequest,
   getAssistantPreviewCardFilePath,
   shouldOpenAssistantHtmlInBrowser,
 } from "@/lib/assistantPreviewCards.js";
@@ -78,6 +79,9 @@ interface AssistantPreviewCardsProps {
   /** Desktop 完成态生成产物：批量打开本轮已通过校验的 PPTX。 */
   autoOpenPptxKey?: string;
   onAutoOpenPptx?: (request: AssistantPreviewCardsAutoOpenRequest) => void;
+  /** 仅工作台格子传入；与 PPTX 自动打开相同，只消费最终可见、可渲染的卡片。 */
+  autoOpenWebsiteKey?: string;
+  onAutoOpenWebsite?: (request: AssistantPreviewWebsiteAutoOpenRequest) => void;
 }
 
 function shouldRenderAssistantPreviewCardAsFile(
@@ -190,6 +194,8 @@ export function AssistantPreviewCards({
   onOpenCodeViewer,
   autoOpenPptxKey,
   onAutoOpenPptx,
+  autoOpenWebsiteKey,
+  onAutoOpenWebsite,
 }: AssistantPreviewCardsProps) {
   const { intl } = useKnorviaIntl();
   const { visibleCards, settled } = useAssistantPreviewCardValidation(cards, {
@@ -218,6 +224,27 @@ export function AssistantPreviewCards({
     visibleCards,
     workspaceIdentity,
     workspacePath,
+    workspaceRemoteSessionId,
+  ]);
+
+  useEffect(() => {
+    if (!settled || !autoOpenWebsiteKey || !onAutoOpenWebsite) return;
+    const scope = { workspaceIdentity, workspaceRemoteSessionId };
+    const card = visibleCards.find(
+      (item) => item.type === "website" && !shouldRenderAssistantPreviewCardAsFile(item, scope),
+    );
+    if (card?.type !== "website") return;
+    onAutoOpenWebsite({
+      key: `${autoOpenWebsiteKey}\u0000${card.url}`,
+      url: card.url,
+      title: card.title,
+    });
+  }, [
+    autoOpenWebsiteKey,
+    onAutoOpenWebsite,
+    settled,
+    visibleCards,
+    workspaceIdentity,
     workspaceRemoteSessionId,
   ]);
 

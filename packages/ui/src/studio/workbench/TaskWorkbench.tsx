@@ -13,8 +13,7 @@ import type { StudioDraftProjectMenuProps } from "../agents/StudioDraftProjectMe
 import { studioKernelOption } from "../types.js";
 import { useTaskWorkbench } from "./workbenchStore.js";
 import { workbenchMinimumSize } from "./workbenchModel.js";
-import { WorkbenchTileSetup } from "./WorkbenchTileSetup.js";
-import { WorkbenchConversation } from "./WorkbenchConversation.js";
+import { WorkbenchTileBody, WorkbenchViewToggle } from "./WorkbenchTileBody.js";
 import { WorkbenchTaskList } from "./WorkbenchTaskList.js";
 import type { StudioRoute } from "../useStudioNavigation.js";
 
@@ -108,6 +107,7 @@ export function TaskWorkbench({
                     {tile.scope.workspacePath.split(/[\\/]/).filter(Boolean).pop() ||
                       (zh ? "待命" : "Ready")}
                   </span>
+                  {tile.opened ? <WorkbenchViewToggle pane={paneId} tile={tile} /> : null}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -168,19 +168,15 @@ export function TaskWorkbench({
                   </Button>
                 </header>
                 <div className="min-h-0 flex-1 overflow-hidden">
-                  {tile.opened ? (
-                    <WorkbenchConversation
-                      pane={paneId}
-                      tile={tile}
-                      focused={focused}
-                      visible={visible}
-                      isDesktop={isDesktop}
-                      workspaceMenuProps={workspaceMenuProps}
-                      onOpenAgentSettings={onOpenAgentSettings}
-                    />
-                  ) : (
-                    <WorkbenchTileSetup pane={paneId} tile={tile} />
-                  )}
+                  <WorkbenchTileBody
+                    pane={paneId}
+                    tile={tile}
+                    focused={focused}
+                    visible={visible}
+                    isDesktop={isDesktop}
+                    workspaceMenuProps={workspaceMenuProps}
+                    onOpenAgentSettings={onOpenAgentSettings}
+                  />
                 </div>
               </section>
             );

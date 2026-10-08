@@ -10,6 +10,12 @@ import {
 } from "@/v4/paneLayoutTree.js";
 import { isStudioKernelId, type StudioKernelId } from "../types.js";
 
+/** 每格视图（specs/knorvia-workbench-artifact-preview-20261008.md）；缺省为聊天＋预览。 */
+export const WORKBENCH_TILE_VIEWS = ["split", "chat", "preview"] as const;
+export type WorkbenchTileView = (typeof WORKBENCH_TILE_VIEWS)[number];
+export function workbenchTileView(tile: Pick<WorkbenchTile, "view">): WorkbenchTileView {
+  return tile.view ?? "split";
+}
 export interface WorkbenchTile {
   id: string;
   kernel: StudioKernelId;
@@ -18,6 +24,7 @@ export interface WorkbenchTile {
   opened: boolean;
   existing?: boolean;
   configured?: boolean;
+  view?: WorkbenchTileView;
 }
 export interface TaskWorkbenchState {
   layout: PaneLayoutSnapshot;
@@ -174,6 +181,8 @@ export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
         existing: tile.existing === true,
         // 旧布局没有记录是否改过待命配置；保守保留，不让汇总替换用户选择。
         configured: tile.configured !== false,
+        // 未知视图值按默认处理，不让单个字段导致整套布局被拒绝。
+        ...(tile.view === "chat" || tile.view === "preview" ? { view: tile.view } : {}),
       };
     };
     for (const id of ids) {

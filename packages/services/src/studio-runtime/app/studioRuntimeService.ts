@@ -1,7 +1,6 @@
 import { errorText } from "../domain/kernelPolicy.js";
 import { admitStudioImages } from "./imageAdmission.js";
 import { readStudioImage, readStudioImageAdmission } from "./imageStore.js";
-import type { StudioImageCodec } from "./imagePort.js";
 import type { IStudioRuntimeService, StudioCommand, StudioCommandResult } from "../contract.js";
 import type { Event } from "@knorvia/rpc";
 import type {
@@ -14,7 +13,6 @@ import type { StudioAgentPolicy, StudioAgentTools } from "../agentToolTypes.js";
 import { studioAgentPolicy } from "../domain/agentToolPolicy.js";
 import { StudioAgentToolRuntime } from "./agentToolRuntime.js";
 import { enforceStudioAgentDeadlines, recordStudioAgentEvent } from "./agentOutbox.js";
-import type { ICreationService } from "../../creation/contract.js";
 import {
   activeRunStates,
   validStudioId,
@@ -23,8 +21,6 @@ import {
   validWorkspace,
 } from "../domain/validation.js";
 import type { StudioOverview, StudioTimeline } from "../types.js";
-import type { StudioKernelRegistry, StudioWorkspacePort } from "./ports.js";
-import type { StudioClock, StudioRepository } from "./storePort.js";
 import { admitWorkspaceReview } from "./workspaceReviewDraft.js";
 import { admitStudioCommand, requiredRun } from "./commandAdmission.js";
 import { executeStudioRun, expireRunInteractions } from "./runExecutor.js";
@@ -33,28 +29,17 @@ import { studioProjectKey } from "../domain/projectIdentity.js";
 import { StudioRuntimeLifecycle } from "./runtimeLifecycle.js";
 import { hasUnknownStudioRun } from "./runQueries.js";
 import { applyStudioWorkspaceChanges, inspectStudioWorkspaceChanges } from "./workspaceReview.js";
+import { listStudioWorkspaceArtifacts } from "./workspaceArtifacts.js";
 import { assertRemoteStudioMembersOnline } from "./remoteAdmission.js";
 import { inspectStudioKernels, manageStudioKernel } from "./kernelOperations.js";
 import { StudioWorkspaceRuntime } from "./workspaceRuntime.js";
-import type { WorkspaceRuntimePort } from "./workspaceRuntimePort.js";
 import {
   readStudioOverview,
   readStudioTimeline,
   studioKernelConfig,
 } from "./runtimeProjections.js";
-export interface StudioRuntimeDependencies {
-  db: StudioRepository;
-  clock: StudioClock;
-  kernels: StudioKernelRegistry;
-  workspaces: StudioWorkspacePort;
-  creation?: ICreationService;
-  onDidChange: Event<{ revision: number }>;
-  notify(revision: number): void;
-  process?: { id: number; alive(id: number): boolean };
-  workspaceRuntime?: WorkspaceRuntimePort;
-  agentPolicy?: Partial<StudioAgentPolicy>;
-  images?: StudioImageCodec;
-}
+import type { StudioRuntimeDependencies } from "./runtimeDependencies.js";
+export type { StudioRuntimeDependencies } from "./runtimeDependencies.js";
 export class StudioRuntimeService implements IStudioRuntimeService {
   readonly onDidChange: Event<{ revision: number }>;
   private readonly owner: string;
@@ -237,7 +222,14 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     params: import("../workspaceImageTypes.js").StudioWorkspaceChangesRequest,
   ) {
     return this.lifecycle.run(() =>
-      inspectStudioWorkspaceChanges(this.deps, params.runId, params.stepId, params.imagePreview),
+      params.artifactsOnly
+        ? listStudioWorkspaceArtifacts(this.deps, params)
+        : inspectStudioWorkspaceChanges(
+            this.deps,
+            params.runId,
+            params.stepId,
+            params.imagePreview,
+          ),
     );
   }
 

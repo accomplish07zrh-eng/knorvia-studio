@@ -1549,6 +1549,8 @@ const AssistantTextRowView = memo(function AssistantTextRowView({
             onOpenFileLink={context.onOpenFileLink}
             autoOpenPptxKey={previewCardsAutoOpenKey}
             onAutoOpenPptx={context.onAutoOpenAssistantPptx}
+            autoOpenWebsiteKey={`${context.sessionId ?? ""}\u0000${row.rowId}`}
+            onAutoOpenWebsite={context.onAutoOpenAssistantWebsite}
           />
         </div>
       ) : null}

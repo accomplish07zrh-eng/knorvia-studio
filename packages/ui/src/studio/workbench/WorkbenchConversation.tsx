@@ -12,6 +12,13 @@ import { useStudioRuntime } from "../runtime/useStudioRuntime.js";
 import { claimWorkbenchConnection } from "./workbenchConnection.js";
 import { WorkbenchConnectionNotice } from "./WorkbenchConnectionNotice.js";
 import { useTaskWorkbench } from "./workbenchStore.js";
+import { usePlatform } from "@/hooks/usePlatform.js";
+import { useWorkbenchArtifacts } from "./useWorkbenchArtifacts.js";
+import {
+  isWorkbenchPreviewUrl,
+  useWorkbenchPreview,
+  workbenchPreviewBinding,
+} from "./workbenchPreviewStore.js";
 import type { WorkbenchTile } from "./workbenchModel.js";
 
 export interface WorkbenchConversationProps {
@@ -63,6 +70,25 @@ function KnorviaConversation(props: WorkbenchConversationProps) {
   const [verified, setVerified] = useState("");
   const [missing, setMissing] = useState("");
   const update = useBindingUpdate(pane, tile, service);
+  const platform = usePlatform();
+  const openPreview = useWorkbenchPreview((state) => state.open);
+  const binding = workbenchPreviewBinding(tile);
+  // 本格产物只进本格预览；非本机网页仍交给系统浏览器（specs/knorvia-workbench-artifact-preview-20261008.md）。
+  const openBrowserUrl = useCallback(
+    (url: string) => {
+      if (!isWorkbenchPreviewUrl(url)) return platform.openExternal(url);
+      openPreview(tile.id, binding, { url, title: url });
+      // 用户主动点开时，仅聊天视图切到并排，避免页面在隐藏区域加载；自动打开不改视图。
+      if (tile.view === "chat")
+        useTaskWorkbench.getState().update(pane, { view: "split" }, tile.id);
+    },
+    [binding, openPreview, pane, platform, tile.id, tile.view],
+  );
+  const autoOpenWebsite = useCallback(
+    (request: { url: string; title: string }) =>
+      openPreview(tile.id, binding, { url: request.url, title: request.title }),
+    [binding, openPreview, tile.id],
+  );
   const confirm = useCallback(() => setVerified(target), [target]);
   const absent = useCallback(() => setMissing(target), [target]);
   if (!claimWorkbenchConnection(tile.id, service))
@@ -105,6 +131,8 @@ function KnorviaConversation(props: WorkbenchConversationProps) {
       isDesktop={isDesktop}
       focused={focused}
       telemetryVisible={visible}
+      onOpenBrowserUrl={openBrowserUrl}
+      onAutoOpenAssistantWebsite={autoOpenWebsite}
       onSessionCreated={(id) => {
         setVerified(`${generation}:${id}`);
         update({ sessionId: id, existing: true });
@@ -132,6 +160,12 @@ function ExternalConversation({
     conversation?.kernel === tile.kernel &&
     (!tile.existing || conversation.workspacePath === tile.scope.workspacePath);
   const sameHost = runtime.service && claimWorkbenchConnection(tile.id, runtime.service);
+  useWorkbenchArtifacts(
+    tile,
+    runtime.service,
+    runtime.timeline,
+    Boolean(sameHost && matched && runtime.ready),
+  );
   useEffect(() => {
     // 草稿项目仍由原聊天组件控制；首次受理后以 Host 的目录固化绑定。
     if (sameHost && matched && conversation && !tile.existing)

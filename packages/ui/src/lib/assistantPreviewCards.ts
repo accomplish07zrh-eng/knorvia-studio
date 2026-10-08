@@ -30,6 +30,13 @@ export type {
 export const ASSISTANT_PREVIEW_CARD_CANDIDATE_LIMIT = CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT;
 export const ASSISTANT_PREVIEW_CARD_VISIBLE_LIMIT = CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT;
 
+/** 工作台格子预览：本轮第一张可渲染网页卡片（specs/knorvia-workbench-artifact-preview-20261008.md）。 */
+export interface AssistantPreviewWebsiteAutoOpenRequest {
+  key: string;
+  url: string;
+  title: string;
+}
+
 export interface AssistantPreviewCardsAutoOpenRequest {
   key: string;
   sources: CodeViewerSource[];

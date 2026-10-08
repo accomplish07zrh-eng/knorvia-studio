@@ -12,6 +12,7 @@ import {
   untouchedWorkbenchTile,
   workbenchPaneFor,
 } from "./workbenchPlacement.js";
+import { useWorkbenchPreview } from "./workbenchPreviewStore.js";
 import {
   forgetWorkbenchConnection,
   isWorkbenchConnectionUnverified,
@@ -115,6 +116,8 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       let board = get().board;
       const tile = board?.tiles[pane];
       if (!board || !tile) return;
+      // 关闭格子即释放其预览；重新放回工作台时由会话自己的产物重新得出。
+      useWorkbenchPreview.getState().clear(tile.id);
       if (!untouchedWorkbenchTile(tile)) {
         if (board.shelved.length >= 64) return;
         board = { ...board, shelved: [...board.shelved, tile] };

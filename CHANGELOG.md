@@ -15,6 +15,11 @@
   最多四格同屏，可拖边、放大、收起和恢复；汇总全部已知进行中任务并显示
   超容量入口。群聊与工作流继续进入原页面；离线或未完整加载明确提示。
   重载后保留布局和草稿，并要求核对连接后显式重新加入会话或打开保存的输入。
+- 工作台并行预览：每格可切换「聊天＋预览」「仅聊天」「仅预览」，桌面版
+  在格内用会话侧栏同款网页视图并排观看各 Agent 的 HTML 产物。Knorvia 格
+  自动打开本轮网页卡片，外部内核格在运行结束后读取本次隔离修改中的网页；
+  预览只属于本格会话，不登记为 Agent 可控浏览器标签。Web、远程项目与远端
+  内核会明确说明暂不支持格内预览。
 - External adapters retain question descriptions, bounded redacted approval
   context and separate tool input/output/content/status. Unknown results remain
   unknown; stale Codex turns cannot consume the current approval or finish its run.
@@ -28,6 +33,13 @@
   navigation. Groups and workflows retain their existing pages.
   After reload, saved tiles retain their layout and drafts and require explicit
   connection verification before rejoining a chat or reopening saved input.
+- Each workbench tile can switch between chat and preview, chat only and preview
+  only. On desktop, tiles show their own agent's HTML output side by side with the
+  same web view as the session side panel: Knorvia tiles open the turn's web card,
+  external-kernel tiles read pages changed in the finished isolated run. Previews
+  stay bound to their tile and are never registered as agent-controlled browser
+  tabs. Web, remote projects and remote kernels state that in-tile preview is
+  unavailable.
 
 Existing profiles, sessions, text-only drafts, fast model/effort choices, workspace
 runtime, durable handoff, agent tools, inline review and attention remain available.

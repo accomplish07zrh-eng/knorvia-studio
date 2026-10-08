@@ -65,7 +65,8 @@ export function BrowserToolbar({
   onGoForward: () => void;
   onOpenExternal: () => void;
   onOpenDevTools: () => void;
-  onPickElement: () => void;
+  /** 缺省时不显示元素拾取（例如工作台格子的仅显示预览）。 */
+  onPickElement?: () => void;
   onReload: () => void;
   onToggleResponsiveMode: () => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -126,18 +127,20 @@ export function BrowserToolbar({
         active={isResponsiveMode}
         pressed={isResponsiveMode}
       />
-      <BrowserIconButton
-        icon={<MousePointerClick className="h-4 w-4" />}
-        title={formatMessage({
-          id: isElementPickerActive
-            ? "browser.elementPicker.cancel"
-            : "browser.elementPicker.start",
-        })}
-        disabled={!browserState.isReady}
-        dataTestId={TID_BROWSER_ELEMENT_PICKER_BUTTON}
-        onClick={onPickElement}
-        active={isElementPickerActive}
-      />
+      {onPickElement ? (
+        <BrowserIconButton
+          icon={<MousePointerClick className="h-4 w-4" />}
+          title={formatMessage({
+            id: isElementPickerActive
+              ? "browser.elementPicker.cancel"
+              : "browser.elementPicker.start",
+          })}
+          disabled={!browserState.isReady}
+          dataTestId={TID_BROWSER_ELEMENT_PICKER_BUTTON}
+          onClick={onPickElement}
+          active={isElementPickerActive}
+        />
+      ) : null}
       <BrowserToolbarMoreMenu
         canOpenExternal={
           browserState.isReady && isDefaultBrowserOpenableUrl(browserState.currentUrl)
