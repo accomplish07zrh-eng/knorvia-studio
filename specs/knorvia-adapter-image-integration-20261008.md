@@ -89,6 +89,7 @@ sequenceDiagram
 - 单侧 added/deleted 的 null hash/内容是预期缺侧；期待存在却缺失是失败，两者 UI 区分。保留过大、缺失、格式不支持、解码失败、版本过期的明确状态，不显示伪造空白旧图或悄悄截断为可用图片。
 - `readBinaryPreview` 默认及上限 25 MiB 保持；复用传输仍先由 Host 定位快照并复验版本，不放开任意路径。`readMediaPreview` 的 4/8 MiB 不作为本入口事实。
 - 压缩字节预算不能代替解码尺寸预算。C 单独规格规定每侧宽高各 ≤16,384、像素 ≤48,000,000，含边界；Host 在提供 base64 前检查 PNG IHDR 和每个 JPEG SOF，超界只返回 `unsupported/display-budget`，UI 不为该侧创建图片。该局部阈值不修改贴图、隔离、应用或背景的其他额度。
+- 完整静态内容的接纳也属于 Host：合法 zlib 头、CRC、正自然尺寸和浏览器 `decode()` 成功不能证明 PNG 像素行或 JPEG 熵数据完整；浏览器可能恢复为成功的空白图。损坏内容必须以明确的不可用侧返回，不创建成功图片。完整透明 PNG 仍合法，不能用可见像素数量判损坏；原始字节、EXIF、正常 PNG/JPEG、局部预算与既有文本/应用路径保持。
 - UI 弹窗请求代次/完整目标与版本绑定；关闭、切换文件/运行、迟到读取/图片 decode、重复打开、失败重试均不能覆盖新目标。图片错误不能阻断既有文本 diff/逐文件应用。
 - 旧 baseline metadata v1 和旧 `StudioWorkspaceChange` 无新字段时保留既有二进制说明；可以重新从真实完整 baseline 投影版本，不重建/伪造历史，也不迁移或自动应用源文件。
 
@@ -108,6 +109,7 @@ sequenceDiagram
 - 同一 B 中间提交：真实 Chromium 中，待确认图片提交绑定 service A；替换为 service B 后，B 的相同 target/CID 回执错误清空 A 的图片和提交，实际断言 0 != 1、exit 1。原 retry 的 service 检查不足以保护 overview/timeline ACK；要求保留原执行连接所有权。Desktop 入口经 `useBaseWorkspaceServices` 选启动注册的 base Host，并不等于可以忽略异步 service 更替。
 - C 中间提交 `f0191170`：独立真实 Runtime/SQLite/二进制 RPC 的精确两侧三哈希与双 Host、工作产物过期整批零源写入/零 apply journal、源文件过期单文件零覆盖及恢复后 added/deleted/modified 真正应用，3/3 pass。尺寸预算仍待 C 后续 head；最终边界按 C 的 16,384/48,000,000 局部额度重验，不套用 B 的 8192。
 - C 冻结 `1b9fde72ee76cc914be0f96af68b2fccf63311ee`：上述三项和真实合法 16,385×1 PNG 的 Host 预算拒绝共 4/4 pass、exit 0，已按 exact head 吸收至 draft 集成树。独立测试保存为 `studio-image-compare-rpc.integration.test.ts`。另用实际 Node MessageChannel 和产品 MessagePortProtocol/ChannelClient/ChannelServer 传输 16 MiB baseline 与 25 MiB working 的合法小像素 PNG，最大二进制 server frame 57,322,966 bytes，完整两侧长度/hash 一致、源文件未写，1/1 pass、exit 0；测试保存为 `studio-image-compare-messageport.integration.test.ts`，沿用全量测试已有的 120 秒单用例上限。Desktop expose 同样用 MessagePortProtocol，此事实不等于已验证 Electron GUI 或所有远端网络。
+- C 新反例撤销上述 head 的最终就绪状态：独立 PNG 保留真实 IHDR/正确 CRC/IEND，但有效 zlib 解压为空或仅三字节；两份 65/68 bytes 的输入缺少 3×2 像素行，Host 仍返回 image，Chromium decode 成功、正自然尺寸且显示透明空白。真实 ReviewCard/SQLite/快照链同样显示 ready 与 Apply this file，损坏提示断言 exit 1。另从 Pillow JPEG 保留 DQT/DHT/SOF/SOS，删除全部熵数据后接 EOI，649 bytes 的输入被 Host 和 Chromium 当作 5×4 可用图。真实旧 SQLite/公开二进制 RPC 的新增独立用例对这三份输入失败，同时完整 3×2 RGBA 透明 PNG 正常接纳、原 source 零写入；原四项 RPC 仍通过，合计 4 pass / 1 fail、exit 1。等待同一 C 路线最小有界完整内容修正与新冻结 head，不把此前正常用例通过当作此反例已通过。测试保存在 `studio-image-compare-rpc.integration.test.ts`。
 - 独立合成图保存在 `test/fixtures/studio-independent-images.integration.*`：小图由 Pillow 编码，包含 PNG/JPEG/EXIF/APNG；原生 zlib/CRC 生成器独立构造两张 800×800 RGB PNG，各 1,921,153 bytes，合计 3,842,306 bytes、base64 5,123,080 characters。实际 B codec 完整解码两张大图与五张静态小图 exit 0；fixture 准备成功不是图片 admission 已通过。
 - `node scripts/licenses.mjs notices` 在实际安装后的 main `34078257` 与 B `c071040e` 两个 detached 工作树均 exit 1，完全相同缺项 `agent-base@6.0.2` / `https-proxy-agent@5.0.1`，不称完整 notices generator 通过。实际 services 导入的 `pngjs@7.0.0`、`jpeg-js@0.4.4` 完整许可文本及 SHA 与保留 inventory/notices 匹配、exit 0；不删除既有材料义务或改弱门禁。
 

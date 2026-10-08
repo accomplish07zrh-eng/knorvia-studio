@@ -244,3 +244,93 @@ test("real Host preview rejects a genuine static PNG beyond the declared edge bu
     "Compressed file size alone is not a decoded-image budget",
   );
 });
+
+test("actual snapshot RPC rejects incomplete PNG/JPEG rasters without rejecting complete transparency", async (t) => {
+  const { crc32, deflateSync } = await import("node:zlib");
+  function ownChunk(type: string, value: Buffer) {
+    const result = Buffer.alloc(value.length + 12);
+    result.writeUInt32BE(value.length);
+    result.write(type, 4, "ascii");
+    value.copy(result, 8);
+    result.writeUInt32BE(crc32(result.subarray(4, -4)), result.length - 4);
+    return result;
+  }
+  const png = bytes("baselinePng");
+  const incompletePng = [Buffer.alloc(0), Buffer.from([0, 1, 2])].map((raw) =>
+    Buffer.concat([png.subarray(0, 33), ownChunk("IDAT", deflateSync(raw)), png.subarray(-12)]),
+  );
+  const jpeg = bytes("staticJpeg");
+  let offset = 2,
+    scanEnd = 0;
+  while (offset < jpeg.length) {
+    assert.equal(jpeg[offset++], 255);
+    while (jpeg[offset] === 255) offset++;
+    const marker = jpeg[offset++];
+    const length = jpeg.readUInt16BE(offset);
+    offset += length;
+    if (marker === 218) {
+      scanEnd = offset;
+      break;
+    }
+  }
+  assert.ok(scanEnd);
+  const incompleteJpeg = Buffer.concat([jpeg.subarray(0, scanEnd), Buffer.from([255, 217])]);
+  const f = await fixture(t);
+  const evidence = [];
+  for (const [path, value] of [
+    ["modified.png", incompletePng[0]!],
+    ["modified.png", incompletePng[1]!],
+    ["added.jpg", incompleteJpeg],
+  ] as const) {
+    await writeFile(join(f.working, path), value);
+    const change = (
+      await f.service.workspaceChanges({
+        runId: "review-run",
+        stepId: "review-step",
+        imagePreview: { path, version: { ...f.version(path), afterHash: hash(value) } },
+      })
+    )[0]!;
+    evidence.push({
+      path,
+      bytes: value.length,
+      sha256: hash(value),
+      side: change.imagePreview!.after!.kind,
+    });
+  }
+  const header = Buffer.from(png.subarray(16, 29));
+  header[9] = 6;
+  const transparent = Buffer.concat([
+    png.subarray(0, 8),
+    ownChunk("IHDR", header),
+    ownChunk("IDAT", deflateSync(Buffer.alloc((3 * 4 + 1) * 2))),
+    ownChunk("IEND", Buffer.alloc(0)),
+  ]);
+  await writeFile(join(f.working, "modified.png"), transparent);
+  const allowed = (
+    await f.service.workspaceChanges({
+      runId: "review-run",
+      stepId: "review-step",
+      imagePreview: {
+        path: "modified.png",
+        version: { ...f.version("modified.png"), afterHash: hash(transparent) },
+      },
+    })
+  )[0]!;
+  assert.equal(
+    allowed.imagePreview!.after!.kind,
+    "image",
+    "Complete transparent raster remains a legitimate PNG",
+  );
+  assert.deepEqual(await readFile(join(f.source, "modified.png")), originals.get("modified.png"));
+  console.log(
+    JSON.stringify({
+      incomplete: evidence,
+      completeTransparent: allowed.imagePreview!.after!.kind,
+    }),
+  );
+  assert.equal(
+    evidence.every((item) => item.side === "unsupported"),
+    true,
+    "Browsers can recover missing raster bytes as successful blank previews; Host must refuse incomplete content",
+  );
+});
