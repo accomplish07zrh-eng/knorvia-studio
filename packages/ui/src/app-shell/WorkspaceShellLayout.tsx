@@ -1963,6 +1963,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                         >
                           <Suspense fallback={null}>
                             <TaskWorkbench
+                              onOpenTarget={studioNavigation.navigate}
                               scope={{
                                 workspacePath: workspaceAbsPath,
                                 workspaceIdentity,

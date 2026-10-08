@@ -41,12 +41,19 @@ export async function workbenchHost() {
             turns.push({ host, ...turn });
             await sink.emit({ type: "text", text: `Working on ${turn.text}` });
             const answer = await sink.ask(
-              {
-                id: "approval",
-                kind: "approval",
-                title: `Approve ${turn.text}`,
-                choices: ["allow-once", "deny"],
-              },
+              turn.text.startsWith("question")
+                ? {
+                    id: "question",
+                    kind: "question",
+                    title: `Question ${turn.text}`,
+                    questions: [{ id: "choice", title: "Choose a path", options: ["One", "Two"] }],
+                  }
+                : {
+                    id: "approval",
+                    kind: "approval",
+                    title: `Approve ${turn.text}`,
+                    choices: ["allow-once", "deny"],
+                  },
               signal,
             );
             await sink.emit({ type: "text", text: `\nFinished ${turn.text}` });

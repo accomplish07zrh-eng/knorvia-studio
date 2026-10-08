@@ -98,6 +98,7 @@ function KnorviaConversation(props: WorkbenchConversationProps) {
     <SessionPane
       key={generation}
       paneId={`task-workbench-${tile.id}`}
+      draftScopeId={`workbench:${tile.id}`}
       sessionId={tile.sessionId}
       {...tile.scope}
       isDesktop={isDesktop}

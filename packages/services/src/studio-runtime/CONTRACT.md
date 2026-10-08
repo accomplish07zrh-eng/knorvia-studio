@@ -1,5 +1,7 @@
 # Studio runtime
 
+`StudioOverview.runs` and timeline history include every unresolved run plus the recent 100 records, without a hidden 10,000-row cutoff. Workbench collection reads this projection and current-attempt pending attention; it never admits execution commands. Completed history keeps its existing recent window.
+
 `StudioOverview.attention` derives pending interactions and terminal events across all persisted history. `attention-read` admits a version-bound read receipt through the existing command transaction; it never answers, dispatches, resumes or cancels a task. Duplicate facts share one version, later attempts remain unread, and missing/retired targets retain historical identity. Native Knorvia unread remains with its V4 task-index owner. See `specs/knorvia-studio-attention-inbox.md`.
 
 `workspaceRuntime` queries or explicitly controls a runtime belonging to an existing run/step workspace. The app owner admits approved argv, persists token-fenced lifecycle facts, and delegates process/port IO to the Node adapter. Commands, environment and process output are never persisted. Recover verifies process birth identity before cleanup; failures retain truthful failed/interrupted/cleanup-required states. See `specs/knorvia-workspace-runtime.md`.

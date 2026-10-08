@@ -7,6 +7,11 @@ import {
   type TaskWorkbenchState,
   type WorkbenchTile,
 } from "./workbenchModel.js";
+import {
+  placeWorkbenchTile,
+  untouchedWorkbenchTile,
+  workbenchPaneFor,
+} from "./workbenchPlacement.js";
 import { forgetWorkbenchConnection } from "./workbenchConnection.js";
 
 const key = "knorvia-task-workbench:v1";
@@ -21,9 +26,23 @@ interface Store {
   maximize(pane: string): void;
   focus(pane: string): void;
   add(tile: WorkbenchTile): boolean;
+  collect(tiles: WorkbenchTile[]): void;
+  show(tile: WorkbenchTile): boolean;
 }
 export const useTaskWorkbench = create<Store>((set, get) => {
   const save = (board: TaskWorkbenchState) => {
+    board = {
+      ...board,
+      layout: {
+        ...board.layout,
+        panes: Object.fromEntries(
+          Object.entries(board.tiles).map(([pane, tile]) => [
+            pane,
+            { workspaceScope: tile.scope, sessionId: tile.sessionId },
+          ]),
+        ),
+      },
+    };
     let storageError = false;
     try {
       localStorage.setItem(key, JSON.stringify({ version: 1, ...board }));
@@ -78,19 +97,24 @@ export const useTaskWorkbench = create<Store>((set, get) => {
             kernel: board.tiles[pane]!.kernel,
             sessionId: null,
             opened: false,
+            configured: false,
           },
         ),
       );
     },
     close(pane) {
-      const board = get().board,
-        tile = board?.tiles[pane];
+      let board = get().board;
+      const tile = board?.tiles[pane];
       if (!board || !tile) return;
-      forgetWorkbenchConnection(tile.id);
+      if (!untouchedWorkbenchTile(tile)) {
+        if (board.shelved.length >= 64) return;
+        board = { ...board, shelved: [...board.shelved, tile] };
+      }
       if (pane !== "workspace-main")
         return save(layoutWorkbench(board, { kind: "close", paneId: pane }));
       const other = leafPaneIds(board.layout.root).find((id) => id !== pane);
-      if (!other) return save(emptyWorkbench(tile.scope, crypto.randomUUID()));
+      if (!other)
+        return save({ ...emptyWorkbench(tile.scope, crypto.randomUUID()), shelved: board.shelved });
       const next = layoutWorkbench(board, { kind: "close", paneId: other });
       save({ ...next, tiles: { ...next.tiles, [pane]: board.tiles[other]! }, maximized: null });
     },
@@ -110,38 +134,37 @@ export const useTaskWorkbench = create<Store>((set, get) => {
     add(tile) {
       const board = get().board;
       if (!board) return false;
-      const existing = Object.entries(board.tiles).find(
-        ([, value]) =>
-          value.sessionId === tile.sessionId &&
-          value.kernel === tile.kernel &&
-          value.scope.workspacePath === tile.scope.workspacePath &&
-          value.scope.workspaceIdentity === tile.scope.workspaceIdentity &&
-          value.scope.remoteSessionId === tile.scope.remoteSessionId,
-      );
+      const existing = workbenchPaneFor(board, tile);
       if (existing) {
-        forgetWorkbenchConnection(existing[1].id);
-        save({ ...board, maximized: existing[0] });
+        // 单聊的显式重新加入已核对当前 Host；自动汇总/收起恢复不清除连接归属。
+        forgetWorkbenchConnection(board.tiles[existing]!.id);
+        save({ ...board, maximized: existing });
         return true;
       }
-      const empty = Object.entries(board.tiles).find(([, value]) => !value.opened);
-      if (empty) {
-        save({ ...board, tiles: { ...board.tiles, [empty[0]]: tile }, maximized: null });
+      const next = placeWorkbenchTile(board, tile);
+      if (!next) return false;
+      save(next);
+      return true;
+    },
+    collect(tiles) {
+      let board = get().board;
+      if (!board) return;
+      for (const tile of tiles) board = placeWorkbenchTile(board, tile) ?? board;
+      save({ ...board, maximized: null });
+    },
+    show(tile) {
+      const board = get().board;
+      if (!board) return false;
+      const existing = workbenchPaneFor(board, tile);
+      if (existing) {
+        save({ ...board, maximized: existing });
         return true;
       }
-      if (leafPaneIds(board.layout.root).length >= 4) return false;
-      save(
-        layoutWorkbench(
-          board,
-          {
-            kind: "split",
-            anchor: board.layout.focusedPaneId,
-            direction: "row",
-            before: false,
-            binding: { workspaceScope: tile.scope, sessionId: tile.sessionId },
-          },
-          tile,
-        ),
-      );
+      const next =
+        placeWorkbenchTile(board, tile) ??
+        placeWorkbenchTile(board, tile, board.layout.focusedPaneId);
+      if (!next) return false;
+      save(next);
       return true;
     },
   };

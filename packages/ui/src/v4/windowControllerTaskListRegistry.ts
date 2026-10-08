@@ -12,18 +12,32 @@ import {
   type WindowHostControllerCursor,
   type WindowHostControllerTaskFrame,
   type WindowHostControllerTaskRow,
+  type WindowHostControllerWorkspaceFact,
+  type WindowHostControllerWorkspaceFrame,
 } from "@knorvia/shared/protocol-v4";
 import { logger } from "@/logger.js";
 
 interface WindowControllerTaskListRegistry {
   subscribe(listener: () => void): () => void;
   getRevision(): number;
+  getWorkspaces(): ControllerWorkspaceSnapshot;
   list(
     queryKey: string,
     version: WindowControllerTaskListVersion,
     query: KnorviaTaskListQuery,
   ): Promise<WindowHostControllerTaskListResult>;
 }
+
+export interface ControllerWorkspaceSnapshot {
+  workspaces: WindowHostControllerWorkspaceFact[];
+  ready: boolean;
+  error: string;
+}
+export const EMPTY_CONTROLLER_WORKSPACES: ControllerWorkspaceSnapshot = {
+  workspaces: [],
+  ready: false,
+  error: "",
+};
 
 export interface WindowControllerTaskListVersion {
   controllerRevision: number;
@@ -84,6 +98,7 @@ export function getWindowControllerTaskListRegistry(
     }
   >();
   const taskRows = new Map<string, WindowHostControllerTaskRow>();
+  let workspaces: ControllerWorkspaceSnapshot = EMPTY_CONTROLLER_WORKSPACES;
   let revision = 0;
   let started = false;
   let generation = 0;
@@ -110,6 +125,7 @@ export function getWindowControllerTaskListRegistry(
     cursors.clear();
     queryCache.clear();
     taskRows.clear();
+    workspaces = EMPTY_CONTROLLER_WORKSPACES;
     const ids = Array.from(subscriptionIds);
     subscriptionIds.clear();
     for (const subscriptionId of ids) {
@@ -146,7 +162,22 @@ export function getWindowControllerTaskListRegistry(
         seq: frame.toSeq,
       });
       if (frame.topic === CONTROLLER_WORKSPACES_TOPIC) {
-        // workspace facts 不出现在 task list result；source 上下线/移除会另发 tasks-index delta。
+        // 共用已有观察器的权威工作区全集，包含没有标签页的 Host/远程任务。
+        const payload = (frame as WindowHostControllerWorkspaceFrame).payload;
+        const key = (scope: { workspaceIdentity?: string; workspacePath: string }) =>
+          scope.workspaceIdentity?.trim() || scope.workspacePath;
+        const facts = new Map(
+          (payload.kind === "snapshot" ? payload.snapshot.workspaces : workspaces.workspaces).map(
+            (scope) => [key(scope), scope],
+          ),
+        );
+        if (payload.kind === "deltas")
+          for (const delta of payload.deltas) {
+            if (delta.op === "workspace.upserted") facts.set(key(delta.workspace), delta.workspace);
+            else facts.delete(key(delta));
+          }
+        workspaces = { workspaces: [...facts.values()], ready: true, error: "" };
+        notifyOnce();
         return;
       }
       const taskFrame = frame as WindowHostControllerTaskFrame;
@@ -198,9 +229,12 @@ export function getWindowControllerTaskListRegistry(
         }
         subscriptionIds.add(result.ack.subscriptionId);
       }),
-    ).catch((error) =>
-      logger.warn("[windowControllerTaskListRegistry] Controller subscribe 失败", error),
-    );
+    ).catch((error) => {
+      if (!started || generation !== startGeneration) return;
+      workspaces = { ...workspaces, error: String(error) };
+      logger.warn("[windowControllerTaskListRegistry] Controller subscribe 失败", error);
+      notifyOnce();
+    });
   };
 
   const registry: WindowControllerTaskListRegistry = {
@@ -215,6 +249,7 @@ export function getWindowControllerTaskListRegistry(
     getRevision() {
       return revision;
     },
+    getWorkspaces: () => workspaces,
     list(queryKey, version, query) {
       const versionKey = cacheVersionKey(version);
       const cached = queryCache.get(queryKey);

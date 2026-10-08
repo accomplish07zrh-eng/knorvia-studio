@@ -2,7 +2,7 @@
 
 2026-10-08。工作台统一复用现有 GUI，提供独立导航、零任务预布局、每任务一格（同内核多个任务不同格）、各格独立输入/审批/停止、拖边调宽高、布局持久化、单格放大返回、结束原位保留。原单会话保留“加入工作台”，只建立同一会话的视图绑定。
 
-基线 main `34078257b5d9d1e78c40308b34dab8ff45565156`，分支 `codex/task-workbench-20261008`。本轮没有服务端协议/PTY/CLI/历史导入改动，不发布版本。保留黑白 UI、Apache-2.0、第三方来源、现有用户数据；不扩大手机、官网、签名范围。
+基线 main `34078257b5d9d1e78c40308b34dab8ff45565156`，分支 `codex/task-workbench-20261008`。不改执行协议/PTY/CLI/历史导入，不发布版本；只读运行历史投影去除未结束记录的截断。保留黑白 UI、Apache-2.0、第三方来源、现有用户数据；不扩大手机、官网、签名范围。
 
 ## 能力与所有者
 
@@ -37,6 +37,34 @@ stateDiagram-v2
 
 持久化版本化、有大小/深度/叶子数上限，拒绝非法/重复 key。只持久化引用及配置，不保存 Host 句柄、执行状态、批准结果或复制正文。存储失败仍保留本次内存布局并显示提示。刷新恢复后核对当前 Host 的会话；缺失/断连保留格子并显示原因，不能把不存在的历史会话当新任务自动启动。Host 服务代次更换时旧回调不得绑定新会话；未知提交沿原组件路径，不由工作台自动重试。
 
+## 一键汇总与收起恢复（首版遗漏补齐）
+
+“汇总进行中任务”一次纳入可用位置，并展开完整任务列表。进行中包括排队、运行、等待审批、等待输入；原生任务以 Controller activity/pendingInteractions 为准，外部任务以 StudioOverview 的 run + 当前 attempt 的 pending attention 为准。结束、已取消、旧 attempt 的批准不混入。去重键包含内核、工作区身份、远程连接、会话；同内核不同任务不能合并。
+
+读取范围是当前窗口 Host 的全部 Studio 运行记录与 Controller 已知工作区（包括远程和未打开的工作区），补充当前工作区、现有格子与工作区标签。扩展既有 Controller registry 的工作区只读投影，不另开执行/轮询通道；任务列表使用不分页查询，保留断连和查询失败提示，不将不完整结果称为全部。Studio 从既有 active 索引补入全部进行中记录，未知结果历史取消 10000 条截断，普通完成历史仍只取最近 100 条。
+
+四格仅是同屏布局容量，不是任务数量上限。已有布局/已配置待命格/草稿/完成格不被汇总覆盖；只消费未经配置的待命格或添加空余格。列表显示全部进行中数量、已显示数量、未纳入数量，各项都有状态与项目。超容量项可“切换到当前格”，被换出的格子进入“已收起”，布局比例不变；群聊/工作流保留原页面入口，不假装已经装入单聊格。汇总与切换只改视图引用，不发送 create/send/resume/approval/cancel/read-receipt。
+
+“收起格子”不停止任务；说明常驻显示，停止仍由格内既有按钮执行。已收起列表保存最多 64 个有界引用（不复制正文/运行状态），到上限阻止继续收起并提示，不静默删历史。恢复/切换保留 tile 身份、原会话 ID 与连接归属；同一窗口 Host 换代后不能借收起/恢复把旧格重绑新 Host。v1 布局缺省迁移为空收起列表；存储失败不丢本次内存引用。
+
+未发送原生草稿使用既有 V4 草稿 owner，以稳定 tile ID 派生专用 draft scope；普通单聊仍用原 root scope。首发 accepted 后只转移并清理本格作用域；收起与重载沿相同作用域恢复。外部草稿仍由原 per-session store 保存，本轮不修改 PR #52 的附件/ACK 路径。附件的持久性沿用既有组件保证，不额外宣称支持未提供的附件重载恢复。
+
+```mermaid
+sequenceDiagram
+    participant H as 当前 Host / Controller
+    participant P as 既有只读 projection / registry
+    participant W as 工作台布局 owner
+    participant D as 既有草稿 owner
+    H->>P: 运行 / 等待事实，连接代次
+    P->>W: 汇总所有进行中引用
+    W->>W: 保留已有格，填充余位，列出未纳入项
+    W->>W: 显式切换：当前格收起，目标引用进入原位置
+    W->>D: 同一 tile / session scope 恢复草稿
+    Note over H,W: Host 换代使旧异步结果失效；不触发执行命令
+```
+
+新增验收：超过四个任务含两类等待/远程身份/旧 attempt；配置和比例不被覆盖；所有未纳入项可达；收起/换入/刷新后未发送草稿恢复且无命令；两个原生待发送草稿各自保存/转移；Host 换代后的枚举与恢复隔离。工作台仍是 UI owner，Controller/Studio runtime 仍是状态 owner。新增原生 props 仅显式工作台调用使用，不修改常规聊天默认值。
+
 ## 源码边界与集成
 
 已核对 feature-boundary-planner 的 conversation-runtime / conversation-projection 及其 command-inbox、topic-publisher、connection-scope 一跳关系。工作台处于展示/布局边界，仅复用既有执行链。新增 UI/store 位于 `packages/ui/src/studio/workbench/`；导航改 `StudioActivityRail`、`WorkspaceShellLayout`、路由类型和 messages。
@@ -57,7 +85,7 @@ stateDiagram-v2
 
 验证只用离线合成协议和测试服务，不连接付费模型。用户取消的原生终端/真实 PTY 测试不再属于本轮要求。
 
-## 本环境验收记录
+## 本环境首版验收记录
 
 - `node scripts/check-workspace-freshness.mjs`：相对 origin/main ahead 0 / behind 0（提交前）。
 - `pnpm fmt:check`、`pnpm typecheck`（含 5573 个中英文键核对）、`pnpm verify:pre-push`：通过。Lint 0 error，1 条已有 `packaged-runtime-evidence.mjs` control-regex warning；架构 0 violation。
@@ -65,3 +93,12 @@ stateDiagram-v2
 - `node --import tsx scripts/task-workbench-smoke.mjs`：Chromium 实际 GUI + 真实 SQLite/命令接纳 + 合成内核，通过 5 组验收；有横纵拖动、稳定 DOM、放大返回、刷新布局、重挂载保留草稿、两个 Codex 格子独立输入/审批/停止、完成留位、重复加入不发送、Host A→B 同 ID 加迟到 ACK 不重放。
 - 浏览器没有 mock 聊天/工作台组件；平台目录选择与模型 adapter 为夹具。未运行付费模型、真实登录内核、完整 Desktop/Electron、Knorvia V4 的端到端发送或跨机器 SSH UI。普通终端没有改动，也不再属于本轮验收。
 - 当前改动不包含 PR #52；集成须保留它的外部聊天附件与跨 Host ACK 修复。其模块未被本工作台覆盖。
+
+## 一键汇总补齐验收记录
+
+- 最终 11 个针对性测试文件：64 pass / 0 fail。新增覆盖多于四项的两类等待、原生/Studio 同会话去重、远程身份、离线提示、收起上限、恢复、旧 Controller 代次，以及真实 SQLite 中 10003 个进行中记录不被最近完成记录挤出。
+- Chromium 实际 GUI + 真实 SQLite/runtime：7 组场景通过。新增 6 个进行中任务（审批与输入等待均有）；保留未发送草稿后显示 3 个已在格内、3 个未纳入，列表六项全部可达。显式换格、收起、重载恢复未发送文本，未产生新执行命令。
+- 原生 V4 草稿 owner 的浏览器探针：两格独立保存、卸载再挂载恢复、只转移 accepted 的作用域；未宣称跑过完整 V4 模型发送。
+- 全仓 `typecheck` 和 `verify:pre-push` 通过；中英文键 5573 对；架构 0 violation，lint 仍只有上述既有 warning。最终格式与来源指纹检查在提交前再次执行。
+- 提交前核对 main 仍为 `34078257`，本分支 ahead 1 / behind 0。与 PR #52 `f45d1900` 仅重叠生成文件 `licensing/current-files.json`；与 PR #50 `535146a1` 还重叠 `studio-runtime/CONTRACT.md`。集成应合并契约段落并重新生成来源指纹，不覆盖其他分支的功能。
+- 仍未运行付费模型、真实登录内核、完整 Electron、完整 Knorvia V4 发送、跨机器 SSH UI。

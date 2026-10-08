@@ -19,7 +19,8 @@ export function WorkbenchTileSetup({ pane, tile }: { pane: string; tile: Workben
     /^(?:[a-zA-Z]:[\\/]|\/)/.test(tile.scope.workspacePath) &&
     !/[\r\n]/.test(tile.scope.workspacePath) &&
     !tile.scope.workspacePath.includes("\0");
-  const patch = (value: Partial<WorkbenchTile>) => update(pane, value, tile.id);
+  const patch = (value: Partial<WorkbenchTile>) =>
+    update(pane, { ...value, configured: true }, tile.id);
   const open = () => {
     if (!validPath) return;
     const id = tile.kernel === "knorvia" ? null : crypto.randomUUID();

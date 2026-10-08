@@ -15,6 +15,7 @@ import { TaskWorkbench } from "../../src/studio/workbench/TaskWorkbench.js";
 import { AddToWorkbench } from "../../src/studio/workbench/AddToWorkbench.js";
 import { useTaskWorkbench } from "../../src/studio/workbench/workbenchStore.js";
 import { studioAgentStore } from "../../src/store/studioAgentStore.js";
+import { WorkbenchNativeDraftProbe } from "./workbench-native-draft-probe.js";
 import "../../src/styles.css";
 
 const none = () => ({ dispose() {} });
@@ -26,6 +27,7 @@ const platform = {
 } as unknown as IPlatformService;
 const fixture = { held: false, delivered: 0, release: null as null | (() => void) };
 function services(host: string) {
+  const listeners = new Set<(frame: unknown) => void>();
   const rpc = async (method: string, ...args: unknown[]) => {
     const response = await fetch(`/__workbench/${host}`, {
       method: "POST",
@@ -53,6 +55,41 @@ function services(host: string) {
   } as IStudioRuntimeService;
   return {
     studioRuntimeService: runtime,
+    windowControllerService: {
+      listTaskList: async () => ({ items: [], total: 0, hasMore: false }),
+      onDynamicControllerFrame: () => (listener: (frame: unknown) => void) => {
+        listeners.add(listener);
+        return { dispose: () => listeners.delete(listener) };
+      },
+      subscribeControllerV4: async ({ topic }: { topic: string }) => {
+        const subscriptionId = `${host}:${topic}`;
+        const frame = {
+          topic,
+          subscriptionId,
+          logEpoch: host,
+          fromSeq: 0,
+          toSeq: 0,
+          sentAt: Date.now(),
+          payload: {
+            kind: "snapshot",
+            snapshot: topic.endsWith("workspaces")
+              ? {
+                  workspaces: [
+                    {
+                      workspacePath: "/test/project",
+                      sourceAvailability: "online",
+                      connectionState: "online",
+                    },
+                  ],
+                }
+              : { tasks: [] },
+          },
+        };
+        queueMicrotask(() => listeners.forEach((listener) => listener(frame)));
+        return { ack: { subscriptionId } };
+      },
+      unsubscribeControllerV4: async () => {},
+    },
     broadcastService: broadcast,
     settingService: { get: async () => ({}), update: async () => {} },
     fileService: { resolvePath: async ({ path }: { path: string }) => path },
@@ -62,7 +99,8 @@ const hosts = { a: services("a"), b: services("b") };
 const scope = { workspacePath: "/test/project" };
 function App() {
   const [host, setHost] = useState<"a" | "b">("a");
-  const navigation = useStudioNavigation();
+  const [probe, setProbe] = useState(false);
+  const navigation = useStudioNavigation(() => {});
   Object.assign(window, {
     workbenchFixture: {
       setHost,
@@ -70,6 +108,7 @@ function App() {
       board: useTaskWorkbench,
       drafts: studioAgentStore,
       navigation,
+      setProbe,
     },
   });
   return (
@@ -79,6 +118,12 @@ function App() {
           <TabStoreProvider>
             <KnorviaIntlProvider initialLocale="en-US">
               <TooltipProvider>
+                {probe && (
+                  <div>
+                    <WorkbenchNativeDraftProbe id="a" />
+                    <WorkbenchNativeDraftProbe id="b" />
+                  </div>
+                )}
                 <div className="flex h-screen w-screen">
                   <StudioActivityRail
                     navigation={navigation}
@@ -88,6 +133,7 @@ function App() {
                   <div className="min-h-0 min-w-0 flex-1">
                     {navigation.route.view === "workbench" ? (
                       <TaskWorkbench
+                        onOpenTarget={navigation.navigate}
                         scope={scope}
                         workspaceMenuProps={{ workspaceTabs: [] }}
                         onOpenAgentSettings={() => {}}

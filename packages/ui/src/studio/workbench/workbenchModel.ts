@@ -17,11 +17,13 @@ export interface WorkbenchTile {
   sessionId: string | null;
   opened: boolean;
   existing?: boolean;
+  configured?: boolean;
 }
 export interface TaskWorkbenchState {
   layout: PaneLayoutSnapshot;
   tiles: Record<string, WorkbenchTile>;
   maximized: string | null;
+  shelved: WorkbenchTile[];
 }
 export function emptyWorkbench(scope: PaneWorkspaceScope, id: string): TaskWorkbenchState {
   return {
@@ -33,9 +35,11 @@ export function emptyWorkbench(scope: PaneWorkspaceScope, id: string): TaskWorkb
         kernel: "knorvia",
         sessionId: null,
         opened: false,
+        configured: false,
       },
     },
     maximized: null,
+    shelved: [],
   };
 }
 export function layoutWorkbench(
@@ -52,6 +56,7 @@ export function layoutWorkbench(
     tiles[id] = value;
   }
   return {
+    ...state,
     layout,
     tiles,
     maximized: state.maximized && tiles[state.maximized] ? state.maximized : null,
@@ -120,7 +125,7 @@ function tree(
 }
 /** 只恢复有界布局和会话引用；Host 句柄、状态、批准和提示词从不持久化于此。 */
 export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
-  if (raw.length > 65536) return;
+  if (raw.length > 1024 * 1024) return;
   try {
     const value = object(JSON.parse(raw));
     const layout = object(value?.layout),
@@ -132,8 +137,8 @@ export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
     const tiles: Record<string, WorkbenchTile> = {},
       panes: Record<string, { workspaceScope: PaneWorkspaceScope; sessionId: string | null }> = {};
     const tileIds = new Set<string>();
-    for (const id of ids) {
-      const tile = object(source[id]),
+    const readTile = (value: unknown): WorkbenchTile | undefined => {
+      const tile = object(value),
         scope = object(tile?.scope);
       if (
         !tile ||
@@ -159,18 +164,34 @@ export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
         workspaceIdentity: scope.workspaceIdentity as string | undefined,
         remoteSessionId: scope.remoteSessionId as string | undefined,
       };
-      tiles[id] = {
+      tileIds.add(tile.id);
+      return {
         id: tile.id,
         scope: workspaceScope,
         kernel: tile.kernel,
         sessionId: tile.sessionId as string | null,
-        opened: tile.opened === true && (tile.kernel !== "knorvia" || tile.sessionId !== null),
+        opened: tile.opened === true,
         existing: tile.existing === true,
+        // 旧布局没有记录是否改过待命配置；保守保留，不让汇总替换用户选择。
+        configured: tile.configured !== false,
       };
-      panes[id] = { workspaceScope, sessionId: tiles[id]!.sessionId };
-      tileIds.add(tile.id);
+    };
+    for (const id of ids) {
+      const tile = readTile(source[id]);
+      if (!tile) return;
+      tiles[id] = tile;
+      panes[id] = { workspaceScope: tile.scope, sessionId: tile.sessionId };
+    }
+    const storedShelf = value.shelved ?? [];
+    if (!Array.isArray(storedShelf) || storedShelf.length > 64) return;
+    const shelved: WorkbenchTile[] = [];
+    for (const value of storedShelf) {
+      const tile = readTile(value);
+      if (!tile) return;
+      shelved.push(tile);
     }
     return {
+      shelved,
       layout: {
         root,
         panes,

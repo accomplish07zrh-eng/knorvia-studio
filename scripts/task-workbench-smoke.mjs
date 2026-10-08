@@ -234,6 +234,139 @@ try {
   checks.push(
     "Host replacement and late source ACK fail closed with an identical session ID, without automatic replay",
   );
+  // Follow-up: six active runs (including questions and approvals) cannot be hidden by a four-tile capacity.
+  await page.evaluate(() => {
+    localStorage.removeItem("knorvia-task-workbench:v1");
+    window.workbenchFixture.board.setState({ board: null });
+    window.workbenchFixture.board.getState().initialize({ workspacePath: "/test/project" });
+  });
+  await tiles.first().getByTestId("workbench-kernel").selectOption("codex");
+  await tiles.first().getByRole("button", { name: "Open input" }).click();
+  await tiles.first().locator('[contenteditable="true"]').first().fill("keep this unsent draft");
+  const draftTileId = await tiles.first().getAttribute("data-tile-id");
+  for (let i = 0; i < 6; i++) {
+    await host.request("b", "command", [
+      {
+        commandId: `collect-create-${i}`,
+        type: "create-conversation",
+        id: `active-${i}`,
+        kernel: "codex",
+        workspacePath: "/test/project",
+        title: `Active ${i}`,
+      },
+    ]);
+    await host.request("b", "command", [
+      {
+        commandId: `collect-send-${i}`,
+        type: "send",
+        kind: "chat",
+        targetId: `active-${i}`,
+        text: i === 0 ? "question choice" : `active task ${i}`,
+      },
+    ]);
+  }
+  const beforeCollect = host.commands.length;
+  await page.getByRole("button", { name: /^Task list/ }).click();
+  await page.getByTestId("workbench-active-count").filter({ hasText: "6 active" }).waitFor();
+  await page.getByTestId("workbench-collect").click();
+  assert.equal(await tiles.count(), 4);
+  await page
+    .getByTestId("workbench-active-count")
+    .filter({ hasText: "6 active · 3 in tiles · 3 not included" })
+    .waitFor();
+  assert.equal(await page.getByTestId("workbench-active-row").count(), 6);
+  await page
+    .getByTestId("workbench-active-list")
+    .getByText(/Waiting for input/)
+    .first()
+    .waitFor();
+  await page
+    .getByTestId("workbench-active-list")
+    .getByText(/Waiting for approval/)
+    .first()
+    .waitFor();
+  assert.equal(await tiles.first().getAttribute("data-tile-id"), draftTileId);
+  assert.equal(
+    await tiles.first().locator('[contenteditable="true"]').first().innerText(),
+    "keep this unsent draft",
+  );
+  await tiles
+    .first()
+    .locator("header")
+    .click({ position: { x: 50, y: 20 } });
+  const fullTree = await page.evaluate(
+    () => window.workbenchFixture.board.getState().board.layout.root,
+  );
+  await page
+    .getByTestId("workbench-active-row")
+    .last()
+    .getByRole("button", { name: "Add / switch current tile" })
+    .click();
+  assert.deepEqual(
+    await page.evaluate(() => window.workbenchFixture.board.getState().board.layout.root),
+    fullTree,
+  );
+  await page.getByTestId("workbench-shelf-toggle").click();
+  await page
+    .getByTestId("workbench-shelved-row")
+    .first()
+    .getByRole("button", { name: "Restore / switch current tile" })
+    .click();
+  const recovered = page.locator(`[data-tile-id="${draftTileId}"]`);
+  assert.equal(
+    await recovered.locator('[contenteditable="true"]').first().innerText(),
+    "keep this unsent draft",
+  );
+  await recovered.getByRole("button", { name: "Shelve tile", exact: true }).click();
+  assert.equal(await tiles.count(), 3);
+  assert.equal(
+    host.commands.length,
+    beforeCollect,
+    "collect, swap, restore and shelve are view-only",
+  );
+  await page.reload();
+  // The fixture defaults to Host A on reload; switch to the original B before restoring its tile.
+  await page.evaluate(() => window.workbenchFixture.setHost("b"));
+  await page.getByTestId("studio-workbench-open").click();
+  await page.getByTestId("workbench-shelf-toggle").click();
+  const shelfDraft = page.getByTestId("workbench-shelved-row").last();
+  await shelfDraft.getByRole("button", { name: "Restore / switch current tile" }).click();
+  assert.equal(
+    await recovered.locator('[contenteditable="true"]').first().innerText(),
+    "keep this unsent draft",
+  );
+  assert.equal(host.commands.length, beforeCollect);
+  checks.push(
+    "one-click collection includes all six active tasks and both waiting states; overflow remains reachable; swap, shelve and reload restore unsent draft without commands",
+  );
+  await page.getByTestId("workbench-collect").click();
+  await page.screenshot({ path: resolve(evidence, "active-tasks-overflow.png") });
+  // The native hook is the actual V4 draft owner; two new tiles must not share __draft__.
+  await page.evaluate(() => window.workbenchFixture.setProbe(true));
+  await page.getByRole("textbox", { name: "Native draft a" }).fill("native draft A");
+  await page.getByRole("textbox", { name: "Native draft b" }).fill("native draft B");
+  await page.evaluate(() => window.workbenchFixture.setProbe(false));
+  await page.getByTestId("native-draft-a").waitFor({ state: "detached" });
+  await page.evaluate(() => window.workbenchFixture.setProbe(true));
+  assert.equal(
+    await page.getByRole("textbox", { name: "Native draft a" }).inputValue(),
+    "native draft A",
+  );
+  assert.equal(
+    await page.getByRole("textbox", { name: "Native draft b" }).inputValue(),
+    "native draft B",
+  );
+  await page.getByRole("button", { name: "Accept a", exact: true }).click();
+  const nativeScopes = await page.evaluate(
+    () =>
+      JSON.parse(localStorage.getItem("knorvia-v4-composer-drafts:v1:%2Ftest%2Fproject")).scopes,
+  );
+  assert.equal(nativeScopes["accepted-a"].text, "native draft A");
+  assert.equal(nativeScopes["workbench:a"], undefined);
+  assert.equal(nativeScopes["workbench:b"].text, "native draft B");
+  checks.push(
+    "native V4 draft owner keeps two tile scopes separate across remount and promotes only the accepted tile",
+  );
   assert.deepEqual(errors, []);
   await writeFile(
     resolve(evidence, "result.json"),

@@ -37,8 +37,8 @@ export function AddToWorkbench({
       {error && (
         <span role="alert">
           {zh
-            ? "工作台已有四格，请先移除一格。"
-            : "The workbench has four tiles. Remove one first."}
+            ? "工作台已有四格，请先收起一格；任务和草稿会保留。"
+            : "The workbench has four tiles. Shelve one first; tasks and drafts are kept."}
         </span>
       )}
       <Button

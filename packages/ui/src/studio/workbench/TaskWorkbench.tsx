@@ -15,17 +15,21 @@ import { useTaskWorkbench } from "./workbenchStore.js";
 import { workbenchMinimumSize } from "./workbenchModel.js";
 import { WorkbenchTileSetup } from "./WorkbenchTileSetup.js";
 import { WorkbenchConversation } from "./WorkbenchConversation.js";
+import { WorkbenchTaskList } from "./WorkbenchTaskList.js";
+import type { StudioRoute } from "../useStudioNavigation.js";
 
 export function TaskWorkbench({
   scope,
   isDesktop = false,
   workspaceMenuProps,
   onOpenAgentSettings,
+  onOpenTarget,
 }: {
   scope: PaneWorkspaceScope;
   isDesktop?: boolean;
   workspaceMenuProps: StudioDraftProjectMenuProps;
   onOpenAgentSettings(): void;
+  onOpenTarget(route: Partial<StudioRoute>): void;
 }) {
   const { locale } = useKnorviaIntl(),
     zh = locale.startsWith("zh");
@@ -55,6 +59,15 @@ export function TaskWorkbench({
           {layout.leaves.length} / 4
         </span>
       </div>
+      <WorkbenchTaskList
+        scopes={[
+          scope,
+          ...workspaceMenuProps.workspaceTabs,
+          ...Object.values(board.tiles).map((tile) => tile.scope),
+          ...board.shelved.map((tile) => tile.scope),
+        ]}
+        onOpenTarget={onOpenTarget}
+      />
       {state.storageError && (
         <p role="alert" className="px-4 py-2 text-ui-sm">
           {zh
@@ -143,12 +156,13 @@ export function TaskWorkbench({
                     size="sm"
                     className="h-7 px-2 text-ui-xs"
                     onClick={() => state.close(paneId)}
+                    disabled={board.shelved.length >= 64}
                     title={
                       zh
-                        ? "移除格子，后台会话继续保留"
-                        : "Remove tile; keep the background conversation"
+                        ? "收起格子，后台任务继续，草稿可恢复"
+                        : "Shelve tile; keep the task running and restore drafts later"
                     }
-                    aria-label={zh ? "移除格子" : "Remove tile"}
+                    aria-label={zh ? "收起格子" : "Shelve tile"}
                   >
                     ×
                   </Button>
