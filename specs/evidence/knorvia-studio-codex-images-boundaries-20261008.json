@@ -1,0 +1,79 @@
+{
+  "preFixHead": "c071040e013cc714fd4ab32b1bcb3a0460382be5",
+  "failureFirst": {
+    "apng": {
+      "head": "c071040e013cc714fd4ab32b1bcb3a0460382be5",
+      "apngDeclarationAccepted": true,
+      "mimeType": "image/png",
+      "filename": "合成-127.png",
+      "sha256": "ddace7d9a765c00c2f5256a58af0d7039410c687b7699ebf56ddbd1b9ac6ebd5"
+    },
+    "apngAdmission": "APNG rejection assertion failed because public Runtime.command accepted the declaration.",
+    "largeImages": "Public Runtime.command returned imageRejection=Studio 记录超过大小限制; fixed by versioned image-content receipts.",
+    "scope": "Actual React delayed File.arrayBuffer rejection after model change displayed old scope error (expected 0 alerts, actual 1).",
+    "logs": [
+      "/tmp/knorvia-images-apng-before.log",
+      "/tmp/knorvia-images-receipt-before.log",
+      "/tmp/knorvia-images-scope-before.log"
+    ]
+  },
+  "largeStaticPngFixture": {
+    "dimensions": [800, 800],
+    "sizeBytes": [1921453, 1921453],
+    "totalBytes": 3842906
+  },
+  "validatedReceiptSemantics": {
+    "imagePayloadVersion": 1,
+    "receiptPayloadChars": "<4000",
+    "databaseRecordLimitUnchanged": 4000000,
+    "imageContentRecords": 2,
+    "runsAfterConcurrentReplayAndRestart": 1,
+    "fullImageBodiesReadable": true,
+    "rejects": [
+      "same declared hash with changed actual bytes",
+      "valid different content",
+      "filename",
+      "capture ID",
+      "attachment order",
+      "model snapshot",
+      "selection model",
+      "permission",
+      "target",
+      "text",
+      "corrupted or missing stored content"
+    ],
+    "legacyTextAndFullImageCanonicalReceiptsUnchanged": true
+  },
+  "pngBoundary": {
+    "bytesNotFilenameOrMime": true,
+    "rejectedChunks": ["acTL", "fcTL", "fdAT"],
+    "rejects": [
+      "truncated chunks",
+      "length overflow",
+      "CRC corruption including ancillary chunks",
+      "duplicate IHDR",
+      "invalid IEND",
+      "missing IEND",
+      "trailing bytes"
+    ],
+    "accepts": "valid static ancillary text containing acTL"
+  },
+  "checkEvidence": {
+    "imageInputTests": {
+      "pass": 10,
+      "fail": 0
+    },
+    "expandedTargetedTests": {
+      "pass": 107,
+      "fail": 0
+    },
+    "fullSuite": "Final integration owns full offline rerun; this follow-up did not rerun it."
+  },
+  "limits": "No paid/provider execution, packaged Electron or mobile coverage claimed.",
+  "captureScope": {
+    "modelAndConnectionOldErrorsIgnored": true,
+    "oldFailureCannotEndNewCapture": true,
+    "currentFailureStillVisible": true,
+    "owner": "existing hook generation/currentScope and StudioAgentStore; no parallel state owner"
+  }
+}

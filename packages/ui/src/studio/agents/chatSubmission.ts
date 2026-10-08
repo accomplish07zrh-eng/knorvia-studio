@@ -8,7 +8,7 @@ import type {
 import { copyStudioChatSelection } from "./chatSelections.js";
 import { StudioSendRefusalError, studioSendRefusal } from "./kernelSendGate.js";
 
-type ChatSubmissionCommand =
+export type ChatSubmissionCommand =
   | Omit<Extract<StudioCommand, { type: "create-conversation" }>, "commandId">
   | Omit<Extract<StudioCommand, { type: "send" }>, "commandId">;
 
@@ -24,6 +24,8 @@ export interface StudioChatSubmission {
   status?: StudioKernelStatus;
   /** 用于可解释文案的内核显示名。 */
   kernelName: string;
+  attachments?: import("@knorvia/services").StudioImageInput[];
+  isCurrent?: () => boolean;
 }
 
 /**
@@ -43,8 +45,20 @@ export async function submitStudioChat(
     kernelName: input.kernelName,
   });
   if (refusal) throw new StudioSendRefusalError(refusal);
+  if (input.isCurrent && !input.isCurrent())
+    throw new Error("会话或模型已改变 / Session or model changed");
+  const attachments = input.attachments ? structuredClone(input.attachments) : undefined;
   const { sessionId, kernel, workspacePath, text } = input;
   const selection = copyStudioChatSelection(input.selection);
   await command({ type: "create-conversation", id: sessionId, kernel, workspacePath });
-  await command({ type: "send", kind: "chat", targetId: sessionId, text, selection });
+  if (input.isCurrent && !input.isCurrent())
+    throw new Error("会话或模型已改变 / Session or model changed");
+  return command({
+    type: "send",
+    kind: "chat",
+    targetId: sessionId,
+    text,
+    selection,
+    ...(attachments?.length ? { attachments } : {}),
+  });
 }

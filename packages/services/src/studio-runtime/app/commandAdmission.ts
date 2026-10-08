@@ -1,3 +1,4 @@
+import { persistStudioImages, type PreparedStudioImages } from "./imageStore.js";
 import type { StudioCommand, StudioCommandResult } from "../contract.js";
 import { activeRunStates, validateStudioCommand, validWorkspace } from "../domain/validation.js";
 import type { StudioConversation, StudioMessage } from "../types.js";
@@ -23,15 +24,19 @@ export function admitStudioCommand(
   db: StudioRepository,
   clock: StudioClock,
   command: StudioCommand,
+  images?: PreparedStudioImages,
 ): StudioCommandResult {
   validateStudioCommand(command);
-  return db.transaction(() => admitStudioCommandReceipt(db, clock, command, applyStudioCommand));
+  const apply = (repo: StudioRepository, time: StudioClock, input: StudioCommand) =>
+    applyStudioCommand(repo, time, input, images);
+  return db.transaction(() => admitStudioCommandReceipt(db, clock, command, apply, images));
 }
 
 export function applyStudioCommand(
   db: StudioRepository,
   clock: StudioClock,
   command: StudioCommand,
+  images?: PreparedStudioImages,
 ): string {
   const now = clock.now();
   switch (command.type) {
@@ -116,7 +121,7 @@ export function applyStudioCommand(
       return command.id;
     }
     case "send":
-      return queueRun(db, clock, command);
+      return queueRun(db, clock, command, images);
     case "steer": {
       const run = requiredRun(db, command.runId);
       if (
@@ -247,7 +252,10 @@ function queueRun(
   db: StudioRepository,
   clock: StudioClock,
   command: Extract<StudioCommand, { type: "send" }>,
+  images?: PreparedStudioImages,
 ): string {
+  if (command.attachments?.length && !images)
+    throw new Error("图片必须通过 Host 能力与解码校验受理");
   if (hasUnknownStudioRun(db, command.targetId))
     throw new Error("此会话有结果不确定的步骤，请先检查并继续该任务，或新建独立会话");
   const active = db.list<{ targetId: string }>("active");
@@ -294,7 +302,10 @@ function queueRun(
     workflowValues[STUDIO_WORKFLOW_PARAMS_KEY] = JSON.stringify(resolved.values);
     if (command.permission) workflowValues[STUDIO_WORKFLOW_PERMISSION_KEY] = command.permission;
   }
+  const attachments = images ? persistStudioImages(db, images.inputs) : undefined;
   const run: StoredRun = {
+    admissionCommandId: command.commandId,
+    ...(attachments?.length ? { attachments } : {}),
     id,
     kind: command.kind,
     targetId: command.targetId,
@@ -322,6 +333,7 @@ function queueRun(
                 reasoningEffort: selection.reasoningEffort || undefined,
               }
             : {}),
+          ...(images ? { model: images.model } : {}),
         }
       : undefined,
     checkpoint: { steps: {}, values: workflowValues, completedRounds: 0 },
@@ -332,11 +344,12 @@ function queueRun(
   };
   db.write("run", id, run, run.targetId);
   db.write("active", id, { id, targetId: run.targetId });
-  if (command.text.trim())
+  if (command.text.trim() || attachments?.length)
     db.write<StudioMessage>(
       "message",
       `${id}:user`,
       {
+        ...(attachments?.length ? { attachments } : {}),
         id: `${id}:user`,
         targetId: run.targetId,
         runId: id,
@@ -353,7 +366,8 @@ function queueRun(
     db.write("conversation", conversation.id, {
       ...conversation,
       selection: selection ?? conversation.selection,
-      title: conversation.title === "新对话" ? command.text.slice(0, 80) : conversation.title,
+      title:
+        conversation.title === "新对话" ? command.text.slice(0, 80) || "图片" : conversation.title,
       updatedAt: now,
     });
   }

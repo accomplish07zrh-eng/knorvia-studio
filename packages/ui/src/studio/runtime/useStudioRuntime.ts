@@ -23,6 +23,11 @@ export function useStudioRuntime(targetId?: string) {
   return {
     service,
     connectionKey: client.connectionKey,
+    prepareCommand: useCallback((input: CommandInput) => client.prepare(input), [client]),
+    executePrepared: useCallback(
+      (command: import("@knorvia/services").StudioCommand) => client.executePrepared(command),
+      [client],
+    ),
     overview: snapshot.overview,
     timeline: targetId ? snapshot.timelines.get(targetId) : undefined,
     error: (targetId ? snapshot.timelineErrors.get(targetId) : undefined) ?? snapshot.error,

@@ -85,6 +85,10 @@ export async function readCodexModelOptions(
       models.push({
         id,
         label: text(model.displayName) || id,
+        ...(Array.isArray(model.inputModalities) &&
+        model.inputModalities.every((v) => ["text", "image", "audio"].includes(v))
+          ? { inputModalities: model.inputModalities as Model["inputModalities"] }
+          : {}),
         ...(text(model.description) ? { description: text(model.description) } : {}),
         reasoning: reasoning(
           list(model.supportedReasoningEfforts).map((value) => ({

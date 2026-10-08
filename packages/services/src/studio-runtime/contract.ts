@@ -19,6 +19,8 @@ import type {
 import type { StudioGroupDefinition, StudioWorkflowDefinition } from "./workflowTypes.js";
 
 export * from "./kernelTypes.js";
+export * from "./imageTypes.js";
+export * from "./domain/imageInput.js";
 export * from "./workflowTypes.js";
 export * from "./types.js";
 export * from "./workspaceRuntimeTypes.js";
@@ -73,6 +75,9 @@ export type StudioCommand = { commandId: string } & (
       kind: "chat" | "group" | "workflow";
       targetId: string;
       text: string;
+      attachments?: import("./imageTypes.js").StudioImageInput[];
+      /** 本次贴图的目录模型快照；不改写会话的 CLI 默认偏好。 */
+      imageModel?: string;
       taskMode?: boolean;
       selection?: StudioChatSelection;
       /** A caller-owned per-turn snapshot; avoids mutating a remote Host's global CLI settings. */
@@ -89,6 +94,8 @@ export type StudioCommand = { commandId: string } & (
   | { type: "attention-read"; object: "run" | "interaction"; id: string; version: string }
 );
 export interface StudioCommandResult {
+  /** Host 明确在入队前拒绝图片；与传输失败/未知 ACK 区分。 */
+  imageRejection?: string;
   reviewDraft?: import("./workspaceReviewTypes.js").StudioReviewDraft;
   id: string;
   revision: number;
@@ -99,7 +106,13 @@ export interface IStudioRuntimeService {
     params: import("./workspaceRuntimeTypes.js").StudioWorkspaceRuntimeRequest,
   ): Promise<import("./workspaceRuntimeTypes.js").StudioWorkspaceRuntimeState>;
   overview(): Promise<StudioOverview>;
-  timeline(targetId: string, before?: number, focusRunId?: string): Promise<StudioTimeline>;
+  timeline(
+    targetId: string,
+    before?: number,
+    focusRunId?: string,
+    imageId?: string,
+    admissionCommandId?: string,
+  ): Promise<StudioTimeline>;
   command(command: StudioCommand): Promise<StudioCommandResult>;
   // 可选探测选项：refresh 表示用户显式要求重新探测，必须绕过探测缓存。
   inspectKernels(options?: StudioKernelInspectOptions): Promise<StudioKernelStatus[]>;

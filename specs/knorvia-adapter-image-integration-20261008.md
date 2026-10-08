@@ -2,6 +2,8 @@
 
 2026-10-08。用户批准「修正＋贴图＋图片对比」，并已明确授权三项统一通过验收后合入 main、按既有 Windows/Linux 范围发布新的正式版。先交付新的 draft 集成 PR、独立回归和适用桌面构建；验收完成前不发布。集成/发布仅由本路线执行，不发布 preview/draft release，不部署网站、不增加手机/macOS矩阵、不修改签名配置或授权策略。
 
+本轮随后追加工作台：独立导航，一键平铺所有运行任务，同内核的不同任务各占一格，每格独立输入/批准/暂停，拖边调整宽高，支持 GUI/对应内核原生终端切换，以及零任务先布局。父线程正在确定协议进程与原生 TUI/PTY 的专门安全交接设计，尚未交付可集成实现；最终发布明确暂停等待工作台整合。现有三项继续验收，最后共同检查/发布必须覆盖确认后的本轮完整范围，不能只发布原三项。
+
 ## 基线与范围
 
 - 开工远端 main：`34078257b5d9d1e78c40308b34dab8ff45565156`；最新稳定版 `v0.10.0`，根版本 `0.10.0`。
@@ -107,9 +109,12 @@ sequenceDiagram
 
 - B 中间提交 `c071040e`：两张真实 PNG 各 <2 MiB、合计 <4 MiB 的受理被原单记录 4,000,000 字符上限拒绝，APNG 被实际 codec 接纳；独立 2/2 用例失败、exit 1，已交 B 修复。不能提高全局数据库预算或悄悄降低图片预算来消除反例。
 - 同一 B 中间提交：真实 Chromium 中，待确认图片提交绑定 service A；替换为 service B 后，B 的相同 target/CID 回执错误清空 A 的图片和提交，实际断言 0 != 1、exit 1。原 retry 的 service 检查不足以保护 overview/timeline ACK；要求保留原执行连接所有权。Desktop 入口经 `useBaseWorkspaceServices` 选启动注册的 base Host，并不等于可以忽略异步 service 更替。
+- B 新冻结 `f45d19007bbf956ec3255007462b371ffaa0e7f2`：独立 APNG/预算 2/2、旧 SQLite/真实二进制 RPC/两个 Host/新增参数/持久重开/CID/零派发 3/3 均 pass、exit 0。独立真实 React hook/store 与 Chromium 的同 target/CID 跨 Host 原反例通过；实际 page.reload 后只剩元数据、丢失原内存 service 证明，再切换另一 Host 同 CID 仍保留图片与未知提交，未持久原图字节，exit 0。原路线 14 项 owner 浏览器回归也在该 detached exact head 独立执行 exit 0。仅按真实内部 API 给 `setDraftImages` 传原 service，未手造归属状态或降低断言；新 RPC 测试保存为 `studio-image-admission-rpc.integration.test.ts`。`connectionKey` 仅作窗口内范围证明，不持久化为 Host 身份；重载未知提交不得自动查询、认领或重发。
+- B/C 共同树首次完整/changed architecture 均 exit 1：`StudioRuntimeService` 412 行超过既有 400 行门禁。最小集成修正将 B 新增的 CID 只读受理投影移入既有 app `imageStore`，仍读取同一 `StudioRepository`，原 target/run/CID 验证与调用顺序保持；服务只接收投影并选择原 focus run，不保存第二状态、不增加 RPC 或放宽文件/架构限制。旧/新真实 RPC 回归核验搬移前后语义，实际 Chromium Host/reload 回归保存为 `fixtures/studio-image-owner.integration-browser.ts`。
 - C 中间提交 `f0191170`：独立真实 Runtime/SQLite/二进制 RPC 的精确两侧三哈希与双 Host、工作产物过期整批零源写入/零 apply journal、源文件过期单文件零覆盖及恢复后 added/deleted/modified 真正应用，3/3 pass。尺寸预算仍待 C 后续 head；最终边界按 C 的 16,384/48,000,000 局部额度重验，不套用 B 的 8192。
 - C 冻结 `1b9fde72ee76cc914be0f96af68b2fccf63311ee`：上述三项和真实合法 16,385×1 PNG 的 Host 预算拒绝共 4/4 pass、exit 0，已按 exact head 吸收至 draft 集成树。独立测试保存为 `studio-image-compare-rpc.integration.test.ts`。另用实际 Node MessageChannel 和产品 MessagePortProtocol/ChannelClient/ChannelServer 传输 16 MiB baseline 与 25 MiB working 的合法小像素 PNG，最大二进制 server frame 57,322,966 bytes，完整两侧长度/hash 一致、源文件未写，1/1 pass、exit 0；测试保存为 `studio-image-compare-messageport.integration.test.ts`，沿用全量测试已有的 120 秒单用例上限。Desktop expose 同样用 MessagePortProtocol，此事实不等于已验证 Electron GUI 或所有远端网络。
 - C 新反例撤销上述 head 的最终就绪状态：独立 PNG 保留真实 IHDR/正确 CRC/IEND，但有效 zlib 解压为空或仅三字节；两份 65/68 bytes 的输入缺少 3×2 像素行，Host 仍返回 image，Chromium decode 成功、正自然尺寸且显示透明空白。真实 ReviewCard/SQLite/快照链同样显示 ready 与 Apply this file，损坏提示断言 exit 1。另从 Pillow JPEG 保留 DQT/DHT/SOF/SOS，删除全部熵数据后接 EOI，649 bytes 的输入被 Host 和 Chromium 当作 5×4 可用图。真实旧 SQLite/公开二进制 RPC 的新增独立用例对这三份输入失败，同时完整 3×2 RGBA 透明 PNG 正常接纳、原 source 零写入；原四项 RPC 仍通过，合计 4 pass / 1 fail、exit 1。等待同一 C 路线最小有界完整内容修正与新冻结 head，不把此前正常用例通过当作此反例已通过。测试保存在 `studio-image-compare-rpc.integration.test.ts`。
+- C 同一 JPEG 问题不止空熵数据：仅保留原 1/2/4 字节熵数据再接 EOI 的 650/651/653 bytes 输入，在真实 Chromium 仍 decode 成功且自然尺寸 5×4，独立断言 exit 1。相同构造加入上述 RPC 回归；不能用“非空”或固定最少字节数冒充完整内容核验，也不能误拒合法小图。原 C 路线已收到该具体证据，等待新冻结实现后复验。
 - 独立合成图保存在 `test/fixtures/studio-independent-images.integration.*`：小图由 Pillow 编码，包含 PNG/JPEG/EXIF/APNG；原生 zlib/CRC 生成器独立构造两张 800×800 RGB PNG，各 1,921,153 bytes，合计 3,842,306 bytes、base64 5,123,080 characters。实际 B codec 完整解码两张大图与五张静态小图 exit 0；fixture 准备成功不是图片 admission 已通过。
 - `node scripts/licenses.mjs notices` 在实际安装后的 main `34078257` 与 B `c071040e` 两个 detached 工作树均 exit 1，完全相同缺项 `agent-base@6.0.2` / `https-proxy-agent@5.0.1`，不称完整 notices generator 通过。实际 services 导入的 `pngjs@7.0.0`、`jpeg-js@0.4.4` 完整许可文本及 SHA 与保留 inventory/notices 匹配、exit 0；不删除既有材料义务或改弱门禁。
 

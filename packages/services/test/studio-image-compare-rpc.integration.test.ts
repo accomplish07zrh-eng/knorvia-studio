@@ -274,13 +274,15 @@ test("actual snapshot RPC rejects incomplete PNG/JPEG rasters without rejecting 
     }
   }
   assert.ok(scanEnd);
-  const incompleteJpeg = Buffer.concat([jpeg.subarray(0, scanEnd), Buffer.from([255, 217])]);
+  const incompleteJpegs = [0, 1, 2, 4].map((retained) =>
+    Buffer.concat([jpeg.subarray(0, scanEnd + retained), Buffer.from([255, 217])]),
+  );
   const f = await fixture(t);
   const evidence = [];
   for (const [path, value] of [
     ["modified.png", incompletePng[0]!],
     ["modified.png", incompletePng[1]!],
-    ["added.jpg", incompleteJpeg],
+    ...incompleteJpegs.map((value) => ["added.jpg", value] as const),
   ] as const) {
     await writeFile(join(f.working, path), value);
     const change = (

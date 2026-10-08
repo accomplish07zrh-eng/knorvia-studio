@@ -1,5 +1,10 @@
 import { isStudioKernelId, type StudioKernelId } from "../types.js";
-import type { StudioChatSelection } from "@knorvia/services";
+import {
+  validateStudioImageRefs,
+  type StudioImageRef,
+  type StudioChatSelection,
+  type IStudioRuntimeService,
+} from "@knorvia/services";
 import { copyStudioChatSelection, isStudioChatSelection } from "./chatSelections.js";
 import { parseHandoffRecords, type SessionHandoffRecord } from "@knorvia/shared";
 
@@ -17,6 +22,10 @@ export interface StudioExternalDraft {
   text: string;
   workspacePath?: string;
   selection?: StudioChatSelection;
+  images?: Array<StudioImageRef & { dataBase64?: string }>;
+  /** 当前窗口内的执行连接证明；持久化前剥离，重载不能凭同名目标或 CID 重建。 */
+  imageOwnerService?: IStudioRuntimeService;
+  imageSubmission?: { commandId: string; text: string; imageIds: string[] };
   updatedAt: number;
 }
 
@@ -84,7 +93,7 @@ export function parseStudioAgentData(raw: string): StudioAgentData | null {
     const envelope: unknown = JSON.parse(raw);
     if (
       !isRecord(envelope) ||
-      ![1, 2].includes(envelope.version as number) ||
+      ![1, 2, 3].includes(envelope.version as number) ||
       !isRecord(envelope.data)
     )
       return null;
@@ -119,7 +128,35 @@ export function parseStudioAgentData(raw: string): StudioAgentData | null {
         draft.updatedAt > 8_640_000_000_000_000
       )
         return null;
+      if (draft.images !== undefined) validateStudioImageRefs(draft.images as StudioImageRef[]);
+      const pending = draft.imageSubmission;
+      if (
+        pending !== undefined &&
+        (!isRecord(pending) ||
+          !isStudioDraftSessionId(pending.commandId) ||
+          typeof pending.text !== "string" ||
+          pending.text.length > STUDIO_DRAFT_TEXT_LIMIT ||
+          !Array.isArray(pending.imageIds) ||
+          pending.imageIds.length > 4 ||
+          !pending.imageIds.every(isStudioDraftSessionId))
+      )
+        return null;
       result.drafts[id] = {
+        ...(draft.images
+          ? {
+              images: (draft.images as StudioImageRef[]).map((image) => {
+                const { id, filename, mimeType, sizeBytes, width, height, sha256 } = image;
+                return { id, filename, mimeType, sizeBytes, width, height, sha256 };
+              }),
+            }
+          : {}),
+        ...(pending
+          ? {
+              imageSubmission: pending as unknown as NonNullable<
+                StudioExternalDraft["imageSubmission"]
+              >,
+            }
+          : {}),
         sessionId: id,
         kernelId: draft.kernelId,
         text: draft.text,

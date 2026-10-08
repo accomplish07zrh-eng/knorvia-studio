@@ -1,3 +1,4 @@
+import { validateStudioTurnImages } from "./imagePort.js";
 import type { StudioKernelId, StudioKernelTurnResult } from "../kernelTypes.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import type { StudioConversation, StudioMessage } from "../types.js";
@@ -30,12 +31,8 @@ export interface StudioTurnDependencies {
   workspaces: StudioWorkspacePort;
   creation?: ICreationService;
   owner: string;
-  config(kernel: StudioKernelId): {
-    executablePath: string;
-    permission: "read-only" | "ask" | "full-access";
-    model?: string;
-    reasoningEffort?: string;
-  };
+  images?: import("./imagePort.js").StudioImageCodec;
+  config(kernel: StudioKernelId): import("../kernelTypes.js").StudioKernelConfig;
   acquire(key: string, signal: AbortSignal): Promise<() => void>;
 }
 
@@ -192,6 +189,7 @@ export async function executeStudioTurn(
           runId,
         );
     });
+    validateStudioTurnImages(deps.images, run.kind, step.kernel, step.attachments);
     dispatched = true;
     result = await deps.kernels.adapter(step.kernel).run(
       {
@@ -214,6 +212,7 @@ export async function executeStudioTurn(
         reasoningEffort: config.reasoningEffort,
         permission: step.permission ?? config.permission,
         text: step.prompt,
+        ...(step.attachments?.length ? { attachments: step.attachments } : {}),
       },
       {
         emit: async (event) => {

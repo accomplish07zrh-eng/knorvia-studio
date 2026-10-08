@@ -1,3 +1,4 @@
+import { studioImageCodec } from "./adapters/imageCodec.js";
 import { Emitter } from "@knorvia/rpc";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
@@ -81,6 +82,7 @@ export function createStudioRuntimeService(options: {
     workspaceRuntime: createWorkspaceRuntimePort(),
     creation: options.creationService,
     agentPolicy: options.agentPolicy,
+    images: studioImageCodec,
     onDidChange: emitter.event,
     notify: (revision) => emitter.fire({ revision }),
     process: {

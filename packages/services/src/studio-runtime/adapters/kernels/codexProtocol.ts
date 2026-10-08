@@ -1,3 +1,5 @@
+import { requireStudioImageModel, validateStudioImageInputs } from "../../domain/imageInput.js";
+import { studioImageCodec } from "../imageCodec.js";
 import { list, number, record, safeDetail, text } from "../../domain/kernelPolicy.js";
 import type { StudioSharedMcpServer } from "../../kernelTypes.js";
 import type { KernelRun } from "./kernelRun.js";
@@ -18,14 +20,21 @@ export async function startCodex(run: KernelRun): Promise<void> {
   });
   rpc.notify("initialized", {});
   const turn = run.turn;
+  const images = turn.attachments ?? [];
+  validateStudioImageInputs(images);
+  for (const image of images) studioImageCodec.validate(image);
+  if (images.length && ["/status", "/compact"].includes(turn.text.trim()))
+    throw new Error("此原生命令不能附带图片");
   const reset =
     !!turn.nativeSessionId && (turn.model === undefined || turn.reasoningEffort === undefined);
   const inspected =
-    reset || turn.reasoningEffort !== undefined
+    reset || turn.reasoningEffort !== undefined || images.length > 0
       ? await readCodexModelOptions(rpc, turn.workspacePath)
       : undefined;
   const options = inspected?.options;
-  const model = turn.model ?? (reset ? options?.defaultModel : undefined);
+  const model = images.length
+    ? requireStudioImageModel(options, turn.model)
+    : (turn.model ?? (reset ? options?.defaultModel : undefined));
   const listedModel = options?.models.find((item) => item.id === model);
   const configuredEffort =
     model === inspected?.configuredDefault?.model
@@ -62,7 +71,7 @@ export async function startCodex(run: KernelRun): Promise<void> {
   if (!id) throw new Error("Codex 没有返回会话 ID");
   if (turn.nativeSessionId && id !== turn.nativeSessionId)
     throw new Error("Codex 恢复到了不同会话");
-  if (model && (started.model || configuredReset) && started.model !== model)
+  if (model && (started.model || configuredReset || images.length) && started.model !== model)
     throw new Error("Codex 未采用指定模型，已停止执行");
   if (
     turn.permission !== "full-access" &&
@@ -103,7 +112,13 @@ export async function startCodex(run: KernelRun): Promise<void> {
   run.submitted = true;
   const startedTurn = await rpc.request("turn/start", {
     threadId: id,
-    input: [{ type: "text", text: turn.text }],
+    input: [
+      ...(turn.text.trim() || !images.length ? [{ type: "text", text: turn.text }] : []),
+      ...images.map((image) => ({
+        type: "image",
+        url: `data:${image.mimeType};base64,${image.dataBase64}`,
+      })),
+    ],
     ...(model ? { model } : {}),
     ...(effort !== undefined ? { effort } : {}),
   });

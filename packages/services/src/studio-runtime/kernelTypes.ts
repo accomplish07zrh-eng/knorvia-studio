@@ -45,6 +45,8 @@ export interface StudioKernelOptions {
     description?: string;
     reasoning: Array<{ id: string; label: string }>;
     defaultReasoning?: string;
+    /** 缺失表示未核验，空数组或只有 text 表示明确没有图片。 */
+    inputModalities?: Array<"text" | "image" | "audio">;
   }>;
   defaultModel?: string;
   error?: string;
@@ -158,6 +160,7 @@ export interface StudioKernelTurn {
   reasoningEffort?: string;
   permission: StudioPermission;
   text: string;
+  attachments?: import("./imageTypes.js").StudioImageInput[];
   sharedMcpServers?: StudioSharedMcpServer[];
   /** Studio-owned private per-turn bridge config; removed after the native CLI exits. */
   sharedMcpConfigPath?: string;

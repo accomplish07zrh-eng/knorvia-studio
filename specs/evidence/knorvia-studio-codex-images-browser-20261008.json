@@ -1,0 +1,18 @@
+{
+  "results": [
+    "Delayed capture failures after model/connection changes cannot write errors or end another scope",
+    "Bad MIME/data, APNG declarations, damaged chunks and count/size budgets reject; EXIF JPEG retains exact bytes; cancelled or old-session reads cannot append bytes",
+    "Image-only PNG, exact preview pixels/hash, duplicate paste/drop and queued owner ACK",
+    "Text plus PNG/JPEG; late ACK preserves re-added same-byte capture and edited text",
+    "Known unsupported model preserves draft; lost ACK retry uses same command with no duplicate run",
+    "Session isolation and reload: uncaptured bytes are explicitly unavailable, never silently dropped",
+    "Queued image run enters running state; original Stop owner confirms cancellation"
+  ],
+  "pageErrors": [],
+  "syntheticPixels": [127, 11, 31, 255, 33, 77, 201, 255],
+  "pngSha256": "186ab223c0c68afb14bfe9021f86d2ba51f7642a9c8f7730b4f62659da8df73e",
+  "transport": "production public command/timeline",
+  "runtime": "real SQLite owner",
+  "desktop": "not exercised",
+  "provider": "no paid/provider turn"
+}

@@ -1,3 +1,7 @@
+import { errorText } from "../domain/kernelPolicy.js";
+import { admitStudioImages } from "./imageAdmission.js";
+import { readStudioImage, readStudioImageAdmission } from "./imageStore.js";
+import type { StudioImageCodec } from "./imagePort.js";
 import type { IStudioRuntimeService, StudioCommand, StudioCommandResult } from "../contract.js";
 import type { Event } from "@knorvia/rpc";
 import type {
@@ -49,6 +53,7 @@ export interface StudioRuntimeDependencies {
   process?: { id: number; alive(id: number): boolean };
   workspaceRuntime?: WorkspaceRuntimePort;
   agentPolicy?: Partial<StudioAgentPolicy>;
+  images?: StudioImageCodec;
 }
 export class StudioRuntimeService implements IStudioRuntimeService {
   readonly onDidChange: Event<{ revision: number }>;
@@ -99,11 +104,32 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     return readStudioOverview(this.deps.db);
   }
 
-  async timeline(targetId: string, before?: number, focusRunId?: string): Promise<StudioTimeline> {
+  async timeline(
+    targetId: string,
+    before?: number,
+    focusRunId?: string,
+    imageId?: string,
+    admissionCommandId?: string,
+  ): Promise<StudioTimeline> {
     this.lifecycle.assertOpen();
     validStudioId(targetId);
     if (focusRunId) validStudioId(focusRunId);
-    return readStudioTimeline(this.deps.db, this.deps.clock.now(), targetId, before, focusRunId);
+    const admission = admissionCommandId
+      ? readStudioImageAdmission(this.deps.db, targetId, admissionCommandId)
+      : undefined;
+    if (admission) focusRunId = admission.runId;
+    if (imageId) validStudioId(imageId);
+    const timeline = readStudioTimeline(
+      this.deps.db,
+      this.deps.clock.now(),
+      targetId,
+      before,
+      focusRunId,
+    );
+    if (admission) timeline.admission = admission;
+    return imageId
+      ? { ...timeline, image: readStudioImage(this.deps, targetId, focusRunId, imageId) }
+      : timeline;
   }
 
   async command(command: StudioCommand): Promise<StudioCommandResult> {
@@ -111,6 +137,21 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     if (command.type === "workspace-review")
       return this.lifecycle.run(async () => {
         const result = await admitWorkspaceReview(this.deps, command);
+        this.changed();
+        return result;
+      });
+    if (command.type === "send" && command.attachments?.length)
+      return this.lifecycle.run(async () => {
+        let result: StudioCommandResult;
+        try {
+          result = await admitStudioImages(this.deps, command);
+        } catch (error) {
+          return {
+            id: "",
+            revision: this.deps.db.revision(),
+            imageRejection: errorText(error),
+          };
+        }
         this.changed();
         return result;
       });

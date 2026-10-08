@@ -1,3 +1,4 @@
+import { validateStudioImageInputs } from "./imageInput.js";
 import type { StudioCommand } from "../contract.js";
 import type { StudioKernelConfig, StudioKernelId } from "../kernelTypes.js";
 import { isStudioKernelId } from "./kernelIdentity.js";
@@ -135,6 +136,14 @@ export function validateStudioCommand(command: StudioCommand): void {
       if (command.workflow.workspacePath) validWorkspace(command.workflow.workspacePath);
       break;
     case "send":
+      if (command.attachments !== undefined) {
+        if (command.kind !== "chat") throw new Error("图片仅支持本地 Codex 单聊");
+        validateStudioImageInputs(command.attachments);
+      }
+      if (command.imageModel !== undefined) {
+        if (!command.attachments?.length) throw new Error("图片模型快照必须附带图片");
+        validModel(command.imageModel);
+      }
       validStudioId(command.targetId);
       text(command.text, 32000, "消息");
       if (command.selection) {
@@ -149,7 +158,7 @@ export function validateStudioCommand(command: StudioCommand): void {
       }
       if (
         !["chat", "group", "workflow"].includes(command.kind) ||
-        (command.kind !== "workflow" && !command.text.trim())
+        (command.kind !== "workflow" && !command.text.trim() && !command.attachments?.length)
       )
         throw new Error("请输入消息");
       break;
