@@ -17,7 +17,9 @@ export function AutomationSwitchToggle({
   color = "green",
   size = "default",
 }: AutomationSwitchToggleProps) {
-  const activeColor = color === "blue" ? "bg-brand" : "bg-success";
+  // 修复黑白主题下开关看不出开关：品牌色为纯黑白时，关闭态（白轨黑钮）与深色开启态（白轨黑钮）
+  // 一模一样，且关闭轨道与底色同色。关闭态改为浅灰轨道加白色带阴影的滑钮，开启态为前景色轨道。
+  const activeColor = color === "blue" ? "bg-foreground" : "bg-success";
   const isSmall = size === "sm";
 
   return (
@@ -30,7 +32,7 @@ export function AutomationSwitchToggle({
       onClick={() => onChange(!checked)}
       className={cn(
         "relative inline-flex shrink-0 items-center rounded-full transition-[background-color,box-shadow] hover:ring-2 hover:ring-border-hover focus-visible:ring-2 focus-visible:ring-input-border-focused/30",
-        checked ? activeColor : "bg-input",
+        checked ? activeColor : "bg-foreground/15",
         isSmall ? "h-4 w-8" : "h-5 w-9",
       )}
     >
@@ -39,9 +41,9 @@ export function AutomationSwitchToggle({
           "absolute inline-block size-3.5 rounded-full shadow transition-all duration-200",
           checked
             ? color === "blue"
-              ? "bg-foreground-inverse"
+              ? "bg-background"
               : "bg-success-foreground"
-            : "bg-primary",
+            : "bg-background",
           checked ? (isSmall ? "left-[17px]" : "left-[18px]") : "left-px",
         )}
       />

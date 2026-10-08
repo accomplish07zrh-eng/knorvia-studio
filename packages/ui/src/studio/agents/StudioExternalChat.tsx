@@ -295,7 +295,8 @@ export function StudioExternalChat({
                       ? "发送"
                       : "Send"
                 }
-                className="rounded-lg bg-brand text-ui-base text-foreground-inverse hover:bg-brand/80"
+                // 与 Knorvia 发送按钮同一外观：圆形；不可发送时退回中性色，避免空输入仍显示为可点的黑色。
+                className="rounded-full bg-primary text-ui-base text-primary-foreground hover:bg-primary/85 disabled:bg-secondary disabled:text-foreground-subtlest disabled:opacity-100"
               >
                 <ArrowUp className="size-4" />
               </Button>

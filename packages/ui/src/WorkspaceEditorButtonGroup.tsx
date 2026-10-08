@@ -128,7 +128,11 @@ export function WorkspaceEditorButtonGroup({
   }
 
   return (
-    <div className="flex items-center h-7 rounded-lg border border-border bg-input overflow-hidden p-0 hover:border-border-hover">
+    // 拼接按钮需声明 button-group，否则黑白主题的胶囊规则会把两半各自变成胶囊。
+    <div
+      data-slot="button-group"
+      className="flex items-center h-7 rounded-lg border border-border bg-input overflow-hidden p-0 hover:border-border-hover"
+    >
       <Button
         type="button"
         variant="ghost"

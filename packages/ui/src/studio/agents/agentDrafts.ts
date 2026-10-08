@@ -172,3 +172,21 @@ export function parseStudioAgentData(raw: string): StudioAgentData | null {
     return null;
   }
 }
+
+/**
+ * 切换到外部内核时恢复上次未发送的输入（specs/knorvia-ui-polish-20261008.md）：
+ * 取该内核最近更新、仍有正文或图片的草稿；没有时返回 undefined，由调用方新建会话。
+ * 未发送草稿不再列在侧栏，只靠这里回到输入框。
+ */
+export function latestStudioKernelDraftId(
+  drafts: Record<string, StudioExternalDraft>,
+  kernelId: StudioExternalKernelId,
+): string | undefined {
+  let latest: StudioExternalDraft | undefined;
+  for (const draft of Object.values(drafts)) {
+    if (draft.kernelId !== kernelId) continue;
+    if (!draft.text.trim() && !draft.images?.length && !draft.imageSubmission) continue;
+    if (!latest || draft.updatedAt > latest.updatedAt) latest = draft;
+  }
+  return latest?.sessionId;
+}

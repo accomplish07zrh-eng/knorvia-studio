@@ -1,3 +1,4 @@
+import { Folder } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useServices } from "@/hooks/useServices.js";
 import { useWorkspaceServicesResolution } from "@/hooks/useWorkspaceServices.js";
@@ -133,6 +134,9 @@ function KnorviaConversation(props: WorkbenchConversationProps) {
       telemetryVisible={visible}
       onOpenBrowserUrl={openBrowserUrl}
       onAutoOpenAssistantWebsite={autoOpenWebsite}
+      // 与外部内核格一致：输入框下方显示本格项目（specs/knorvia-ui-polish-20261008.md）。
+      // 格子打开后项目已固定，此处只读展示，不提供换项目入口。
+      draftComposerHeader={<WorkbenchProjectChip path={tile.scope.workspacePath} />}
       onSessionCreated={(id) => {
         setVerified(`${generation}:${id}`);
         update({ sessionId: id, existing: true });
@@ -238,5 +242,20 @@ function KnorviaScope(props: WorkbenchConversationProps) {
     <V4PaneConversationProvider scope={scope}>
       <KnorviaConversation {...props} tile={{ ...props.tile, scope }} />
     </V4PaneConversationProvider>
+  );
+}
+
+/** Knorvia 格的只读项目行，外观与外部内核格的项目菜单触发器一致。 */
+function WorkbenchProjectChip({ path }: { path: string }) {
+  const name = path.split(/[\\/]/).filter(Boolean).pop() || path;
+  return (
+    <span
+      className="inline-flex h-7 min-w-0 max-w-[15rem] items-center gap-1 rounded-full pr-2 pl-3 text-ui-base/relaxed text-foreground"
+      title={path}
+      data-testid="workbench-project-chip"
+    >
+      <Folder className="size-4 shrink-0 text-foreground-subtle" aria-hidden="true" />
+      <span className="block min-w-0 truncate">{name}</span>
+    </span>
   );
 }

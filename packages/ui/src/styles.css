@@ -2329,3 +2329,212 @@ body {
     transform: none;
   }
 }
+
+/* 思考强度条（specs/knorvia-composer-polish-20261008.md）：未到本模型最高档时填充为白色；
+   到最高档时填充变成黑白渐变，并有向右喷射的光点流动。只用黑白，跟随明暗主题反转。 */
+.knorvia-effort-track {
+  background: color-mix(in oklab, var(--color-foreground) 16%, transparent);
+  box-shadow: inset 0 1px 2px color-mix(in oklab, var(--color-foreground) 12%, transparent);
+}
+
+.knorvia-effort-fill {
+  position: relative;
+  background: linear-gradient(180deg, #ffffff, #f3f3f3);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, #0a0a0a 22%, transparent),
+    0 1px 4px color-mix(in oklab, #0a0a0a 18%, transparent);
+}
+
+.knorvia-effort-fill[data-max] {
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    var(--color-background) 0%,
+    color-mix(in oklab, var(--color-foreground) 55%, var(--color-background)) 45%,
+    var(--color-foreground) 100%
+  );
+  background-size: 200% 100%;
+  animation: knorvia-effort-flow 2.8s ease-in-out infinite alternate;
+  box-shadow: 0 0 10px color-mix(in oklab, var(--color-foreground) 28%, transparent);
+}
+
+/* 喷射光点：两层错速的细小亮点向右划过，形成拖尾。 */
+.knorvia-effort-fill[data-max]::before,
+.knorvia-effort-fill[data-max]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.knorvia-effort-fill[data-max]::before {
+  background-image:
+    radial-gradient(circle at 50% 35%, #fff 0 0.75px, transparent 1.4px),
+    radial-gradient(circle at 50% 70%, #fff 0 0.6px, transparent 1.2px);
+  background-size:
+    23px 100%,
+    37px 100%;
+  background-position:
+    0 0,
+    11px 0;
+  animation: knorvia-effort-jet 1.1s linear infinite;
+}
+
+.knorvia-effort-fill[data-max]::after {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0 40%,
+    color-mix(in oklab, #fff 70%, transparent) 50%,
+    transparent 60% 100%
+  );
+  background-size: 64px 100%;
+  opacity: 0.55;
+  animation: knorvia-effort-jet-wide 1.8s linear infinite;
+}
+
+.knorvia-effort-knob {
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, #0a0a0a 14%, transparent),
+    0 2px 6px color-mix(in oklab, #0a0a0a 22%, transparent);
+}
+
+.knorvia-effort-knob[data-max] {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, #0a0a0a 18%, transparent),
+    0 0 0 4px color-mix(in oklab, var(--color-foreground) 10%, transparent),
+    0 2px 10px color-mix(in oklab, var(--color-foreground) 30%, transparent);
+}
+
+@keyframes knorvia-effort-flow {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes knorvia-effort-jet {
+  from {
+    background-position:
+      0 0,
+      11px 0;
+  }
+  to {
+    background-position:
+      23px 0,
+      48px 0;
+  }
+}
+
+@keyframes knorvia-effort-jet-wide {
+  from {
+    background-position: -64px 0;
+  }
+  to {
+    background-position: 64px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knorvia-effort-fill[data-max],
+  .knorvia-effort-fill[data-max]::before,
+  .knorvia-effort-fill[data-max]::after {
+    animation: none;
+  }
+}
+
+/* ⑤ 质感提升（specs/knorvia-ui-polish-20261008.md）：浮层是悬浮的纸片——更柔的分层投影、
+   发丝边、轻微磨砂与短促的展开动效；菜单行圆角高亮；文字平滑。只用黑白与透明度。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) {
+  --knorvia-float:
+    0 0 0 1px color-mix(in oklab, var(--color-foreground) 7%, transparent),
+    0 2px 6px -2px color-mix(in oklab, #000 10%, transparent),
+    0 18px 40px -16px color-mix(in oklab, #000 26%, transparent);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  :is(
+    [data-slot="dropdown-menu-content"],
+    [data-slot="dropdown-menu-sub-content"],
+    [data-slot="context-menu-content"],
+    [data-slot="context-menu-sub-content"],
+    [data-slot="popover-content"],
+    [data-slot="select-content"],
+    [data-slot="hover-card-content"]
+  ) {
+  border-color: transparent;
+  border-radius: 0.875rem;
+  background-color: color-mix(
+    in oklab,
+    var(--color-popover, var(--color-background)) 94%,
+    transparent
+  );
+  backdrop-filter: blur(14px) saturate(1.1);
+  box-shadow: var(--knorvia-float);
+  animation: knorvia-float-in 0.16s var(--knorvia-ease);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  :is(
+    [data-slot="dropdown-menu-item"],
+    [data-slot="context-menu-item"],
+    [data-slot="select-item"],
+    [data-slot="dropdown-menu-radio-item"],
+    [data-slot="dropdown-menu-checkbox-item"]
+  ) {
+  border-radius: 0.5rem;
+  transition:
+    background-color 0.12s var(--knorvia-ease),
+    color 0.12s var(--knorvia-ease);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"]) {
+  border-radius: 1.25rem;
+  box-shadow: var(--knorvia-float);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-slot="dialog-overlay"] {
+  backdrop-filter: blur(3px);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-slot="tooltip-content"] {
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 18px -8px color-mix(in oklab, #000 40%, transparent);
+}
+
+@keyframes knorvia-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.theme-knorvia-light, .theme-knorvia-dark)
+    :is(
+      [data-slot="dropdown-menu-content"],
+      [data-slot="dropdown-menu-sub-content"],
+      [data-slot="context-menu-content"],
+      [data-slot="context-menu-sub-content"],
+      [data-slot="popover-content"],
+      [data-slot="select-content"],
+      [data-slot="hover-card-content"]
+    ) {
+    animation: none;
+  }
+}

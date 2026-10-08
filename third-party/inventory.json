@@ -1519,7 +1519,7 @@
     "packages/ui/src/components/ui/tooltip.tsx": "301dbf3a6f8b1bc496f9bdc6fbc5fe6202ed373182897f39cd1ecd19b00fdfbe",
     "packages/ui/src/components/ui/usePdfZoomOverlay.ts": "c8c91b003ce2fded32c7a2369dc6eac43aa4b9dc9c830a0f5ceccb21d366b610",
     "packages/ui/src/lib/builtinSkillI18n.ts": "fec3b38e5b472ea7647052a482e1c3d298f5b7061f1ae000aef54316bdd77bfa",
-    "packages/ui/src/styles.css": "c1ddfdc96b537e1b8bf8a10acbcf98de02e2b35eb4e2af292627d4cc3a1abb71",
+    "packages/ui/src/styles.css": "0b5b3cb294a7e8ef05ab2fb353d5c1226bb0d88b8e7edb6bbc64af5de83334d5",
     "packages/web/package.json": "cf49c382ac8ef89575c3cd168e508dd4de2bd935424e396afe5d12d569ba7aa9",
     "packages/web/public/material-icons/3d.svg": "9527b849f0fba57ca7640e2717b3a19cb5f5e046712cbbd8b75d73af338c68fb",
     "packages/web/public/material-icons/abap.svg": "1335bd7eb9a0ed49deb622330d680c2e97731726a7a5eee8e4f46dc1e5db4de4",

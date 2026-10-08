@@ -87,3 +87,34 @@ export function getThoughtLevelLabel(
 
   return getConfigOptionEntryLabel(intl, provider, option, entry);
 }
+
+const THOUGHT_LEVEL_RANKS: Record<string, number> = {
+  minimal: 1,
+  low: 2,
+  medium: 3,
+  enable: 4,
+  enabled: 4,
+  on: 4,
+  true: 4,
+  high: 4,
+  "extra-high": 5,
+  extra_high: 5,
+  xhigh: 5,
+  max: 6,
+  ultra: 7,
+};
+
+/**
+ * 强度轴必须从低到高（specs/knorvia-composer-polish-20261008.md）。修复 Grok 档位
+ * 反向：部分内核按「极高→低」上报，强度轴照原顺序画就把最高档放在最左。仅当每个
+ * 档位都能识别强弱时按强度稳定排序；含未知档位名时保留内核声明的顺序，不臆测。
+ */
+export function orderThoughtLevelsForAxis<T extends ThoughtLevelEntry>(entries: readonly T[]): T[] {
+  const rank = (entry: T) =>
+    isNoThoughtLevel(entry) ? 0 : THOUGHT_LEVEL_RANKS[normalizeThoughtLevelText(entry.value)];
+  if (entries.some((entry) => rank(entry) === undefined)) return [...entries];
+  return entries
+    .map((entry, index) => ({ entry, index }))
+    .sort((a, b) => rank(a.entry)! - rank(b.entry)! || a.index - b.index)
+    .map(({ entry }) => entry);
+}

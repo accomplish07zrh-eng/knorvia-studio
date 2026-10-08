@@ -110,7 +110,12 @@ export function AutomationCreateDropdown({
   const { intl } = useKnorviaIntl();
   return (
     <DropdownMenu>
-      <div className="inline-flex h-7 items-center overflow-hidden rounded-lg">
+      {/* 修复拼接按钮错位：外层未声明 button-group 时，黑白主题的胶囊规则会把两半各自变成胶囊，
+          被裁切后像一个黏在右侧的方块。声明分组后两半保持直角拼接，由外层统一成一枚胶囊。 */}
+      <div
+        data-slot="button-group"
+        className="inline-flex h-7 items-center overflow-hidden rounded-full"
+      >
         <Button
           type="button"
           variant="default"
@@ -128,7 +133,7 @@ export function AutomationCreateDropdown({
             size="icon-md"
             data-testid={TID_AUTOMATION_CREATE_MENU}
             aria-label={intl.formatMessage({ id: "automations.create" })}
-            className="!w-6 rounded-none border-0"
+            className="!w-7 rounded-none border-0 border-l border-primary-foreground/20 pr-0.5"
           >
             <AutomationChevronDownIcon size={14} />
           </Button>

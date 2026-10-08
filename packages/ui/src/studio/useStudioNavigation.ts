@@ -1,6 +1,8 @@
 import { useCallback, useMemo, useReducer } from "react";
 import type { WorkspaceMainView } from "@/app-shell/types.js";
 import type { StudioKernelId } from "@/studio/types.js";
+import { studioAgentStore } from "@/store/studioAgentStore.js";
+import { latestStudioKernelDraftId } from "@/studio/agents/agentDrafts.js";
 
 export interface StudioRoute {
   view: WorkspaceMainView;
@@ -129,6 +131,23 @@ export function useStudioNavigation(onCreateNativeTask: () => void) {
         return;
       }
       if (kernelId === "knorvia") onCreateNativeTask();
+      // 从其他内核切回时回到上次未发送的草稿，而不是总开一个空白新会话。
+      const draftId =
+        kernelId === "knorvia"
+          ? undefined
+          : latestStudioKernelDraftId(studioAgentStore.getState().drafts, kernelId);
+      if (draftId) {
+        navigate({
+          kernelId,
+          chatMode: "single",
+          view: "external-chat",
+          externalSessionId: draftId,
+          focusTargetId: undefined,
+          focusRunId: undefined,
+          workflowId: undefined,
+        });
+        return;
+      }
       selectKernel(kernelId);
     },
     [navigate, onCreateNativeTask, route.kernelId, selectKernel],

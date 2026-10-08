@@ -20,6 +20,7 @@ import {
 import {
   getThoughtLevelLabel,
   isNoThoughtLevel,
+  orderThoughtLevelsForAxis,
 } from "@/chat-input-toolbar/thoughtLevelOptions.js";
 import { RollingToolbarLabel } from "@/chat-input-toolbar/RollingToolbarLabel.js";
 import { ThoughtLevelSlider } from "@/chat-input-toolbar/ThoughtLevelSlider.js";
@@ -287,8 +288,8 @@ export function ThoughtLevelCycleControl({
         >
           <ThoughtLevelSlider
             title={intl.formatMessage({ id: "chat.toolbar.thoughtLevel.label" })}
-            index={shouldShowInvalidCurrentValue ? -1 : selectedEntryIndex}
-            entries={entries.map((entry) => ({
+            currentValue={shouldShowInvalidCurrentValue ? null : String(option.currentValue)}
+            entries={orderThoughtLevelsForAxis(entries).map((entry) => ({
               value: entry.value,
               label: getThoughtLevelLabel(intl, provider, option, entry),
             }))}

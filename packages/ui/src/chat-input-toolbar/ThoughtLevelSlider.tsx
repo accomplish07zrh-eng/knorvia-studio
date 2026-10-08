@@ -8,55 +8,51 @@ export interface ThoughtLevelSliderEntry {
 }
 
 /**
- * 聊天输入框的思考强度滑杆（specs/knorvia-composer-polish-20261008.md）：
- * 参照 Codex / Claude Code 的单条强度轴，档位按配置顺序从低到高排列，
- * 拖动、点刻度名或方向键即时切换；纯黑白深浅表达强度，不引入彩色。
+ * 聊天输入框的思考强度条（specs/knorvia-composer-polish-20261008.md）。
+ * 参照 Codex 的单条强度轴：档位已由调用方按从低到高排好；未到本模型最高档时填充为白色，
+ * 到达最高档时填充变为黑白渐变并带流动的喷射光点（`data-max`，动效见 styles.css）。
+ * 每个模型的最高档由其自身档位列表决定，不假定统一上限。
  */
 export function ThoughtLevelSlider({
   title,
   entries,
-  index,
+  currentValue,
   onSelect,
   onCommitCurrent,
 }: {
   title: ReactNode;
   entries: ThoughtLevelSliderEntry[];
-  /** 当前档位下标；-1 表示未选或失效，滑块停在最左但不点亮刻度。 */
-  index: number;
+  /** 当前档位值；null 或不在列表中时滑块停在最左且不点亮。 */
+  currentValue: string | null;
   onSelect(value: string): void;
   onCommitCurrent?(value: string): void;
 }) {
+  const index = currentValue === null ? -1 : entries.findIndex((e) => e.value === currentValue);
   const last = Math.max(1, entries.length - 1);
   const position = index < 0 ? 0 : index / last;
   const current = index >= 0 ? entries[index] : undefined;
+  const atMax = index >= 0 && index === entries.length - 1;
   return (
-    <div className="w-64 space-y-3" data-thought-level-slider="true">
+    <div className="w-72 space-y-3" data-thought-level-slider="true" data-max={atMax || undefined}>
       <div className="flex items-baseline justify-between gap-3 text-ui-sm">
         <span className="text-foreground-subtle">{title}</span>
-        <span className="font-medium text-foreground">{current?.label ?? "—"}</span>
+        <span className="font-medium text-foreground" data-testid="chat-thought-level-current">
+          {current?.label ?? "—"}
+        </span>
       </div>
-      <div className="relative h-6">
-        <div className="absolute inset-x-2 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden rounded-full bg-foreground/10">
+      <div className="relative h-7">
+        <div className="knorvia-effort-track absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 overflow-hidden rounded-full">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-foreground/25 to-foreground transition-[width] duration-200"
-            style={{ width: `${position * 100}%` }}
+            className="knorvia-effort-fill h-full rounded-full transition-[width] duration-300 ease-[cubic-bezier(0.34,1.36,0.64,1)]"
+            data-max={atMax || undefined}
+            style={{ width: `calc(0.75rem + (100% - 0.75rem) * ${position})` }}
           />
         </div>
-        {entries.map((entry, step) => (
-          <span
-            key={entry.value}
-            aria-hidden="true"
-            className={cn(
-              "absolute top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full",
-              index >= step ? "bg-background/80" : "bg-foreground/25",
-            )}
-            style={{ left: `calc(0.5rem + (100% - 1rem) * ${step / last})` }}
-          />
-        ))}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/20 bg-background shadow-sm transition-[left] duration-200"
-          style={{ left: `calc(0.5rem + (100% - 1rem) * ${position})` }}
+          className="knorvia-effort-knob pointer-events-none absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full transition-[left] duration-300 ease-[cubic-bezier(0.34,1.36,0.64,1)]"
+          data-max={atMax || undefined}
+          style={{ left: `calc(0.625rem + (100% - 1.25rem) * ${position})` }}
         />
         <input
           type="range"
@@ -84,8 +80,8 @@ export function ThoughtLevelSlider({
             className={cn(
               "min-w-0 flex-1 truncate rounded-full px-1 py-0.5 text-center text-ui-xs transition-colors",
               step === index
-                ? "bg-foreground/8 font-medium text-foreground"
-                : "text-foreground-subtle hover:text-foreground",
+                ? "font-medium text-foreground"
+                : "text-foreground-subtlest hover:text-foreground",
             )}
             onClick={() => {
               if (step === index) onCommitCurrent?.(entry.value);
