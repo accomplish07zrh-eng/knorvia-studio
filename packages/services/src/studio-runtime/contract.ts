@@ -28,6 +28,8 @@ export {
   studioImagePath,
   sameImageVersion,
   STUDIO_IMAGE_PREVIEW_BYTES,
+  STUDIO_IMAGE_PREVIEW_MAX_PIXELS,
+  STUDIO_IMAGE_PREVIEW_MAX_DIMENSION,
 } from "./domain/workspaceImage.js";
 export * from "./agentToolTypes.js";
 export * from "./attentionTypes.js";

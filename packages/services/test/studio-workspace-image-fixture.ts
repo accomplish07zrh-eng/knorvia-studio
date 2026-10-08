@@ -55,6 +55,27 @@ export function syntheticPng(
 export const imageHash = (bytes: Buffer | null) =>
   bytes === null ? null : createHash("sha256").update(bytes).digest("hex");
 
+/** Header admission fixture only: tiny pixel stream, no allocation at the declared dimensions. */
+export function syntheticDeclaredPng(width: number, height: number) {
+  const bytes = syntheticPng();
+  const header = Buffer.from(bytes.subarray(16, 29));
+  header.writeUInt32BE(width, 0);
+  header.writeUInt32BE(height, 4);
+  return Buffer.concat([bytes.subarray(0, 8), pngChunk("IHDR", header), bytes.subarray(33)]);
+}
+/** Structurally admitted SOF fixture; not used as evidence of successful JPEG decoding. */
+export function syntheticDeclaredJpeg(width: number, height: number) {
+  const frame = Buffer.from([255, 192, 0, 17, 8, 0, 2, 0, 3, 3, 1, 17, 0, 2, 17, 0, 3, 17, 0]);
+  frame.writeUInt16BE(height, 5);
+  frame.writeUInt16BE(width, 7);
+  return Buffer.concat([
+    Buffer.from([255, 216, 255, 219, 0, 67, 0]),
+    Buffer.alloc(64, 1),
+    frame,
+    Buffer.from([255, 218, 0, 12, 3, 1, 0, 2, 0, 3, 0, 0, 63, 0, 0, 0, 255, 217]),
+  ]);
+}
+
 export async function workspaceImageFixture(
   t: Pick<TestContext, "after">,
   files = [

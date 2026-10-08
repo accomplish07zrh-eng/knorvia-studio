@@ -19,7 +19,10 @@ export interface StudioWorkspaceApplyRequest {
 /** Verified raw bytes; browser load/decode still owns displayability and natural size. */
 export type StudioWorkspaceImageSide =
   | { kind: "image"; mediaType: "image/png" | "image/jpeg"; dataBase64: string; totalBytes: number }
-  | { kind: "unsupported"; reason: "animated" | "invalid-format" | "multiple-images" };
+  | {
+      kind: "unsupported";
+      reason: "animated" | "invalid-format" | "multiple-images" | "display-budget";
+    };
 export interface StudioWorkspaceImagePair {
   version: StudioReviewFileVersion;
   before: StudioWorkspaceImageSide | null;

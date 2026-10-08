@@ -7,10 +7,12 @@ import {
   useSyncExternalStore,
   type SyntheticEvent,
 } from "react";
-import type {
-  IStudioRuntimeService,
-  StudioReviewFileVersion,
-  StudioWorkspaceImageSide,
+import {
+  STUDIO_IMAGE_PREVIEW_MAX_PIXELS,
+  STUDIO_IMAGE_PREVIEW_MAX_DIMENSION,
+  type IStudioRuntimeService,
+  type StudioReviewFileVersion,
+  type StudioWorkspaceImageSide,
 } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { WorkspaceImageController, studioImageNaturalSize } from "./workspaceImageController.js";
@@ -60,6 +62,9 @@ function ImageSide({
           "invalid-format": zh
             ? "此版本不是有效的静态 PNG/JPEG"
             : "This version is not a valid static PNG/JPEG",
+          "display-budget": zh
+            ? `预览尺寸超限：单边最多 ${STUDIO_IMAGE_PREVIEW_MAX_DIMENSION.toLocaleString()} px，总计最多 ${STUDIO_IMAGE_PREVIEW_MAX_PIXELS.toLocaleString()} 像素`
+            : `Preview dimensions exceed the limit: ${STUDIO_IMAGE_PREVIEW_MAX_DIMENSION.toLocaleString()} px per edge / ${STUDIO_IMAGE_PREVIEW_MAX_PIXELS.toLocaleString()} pixels`,
         }[image.reason]
       : undefined;
   return (

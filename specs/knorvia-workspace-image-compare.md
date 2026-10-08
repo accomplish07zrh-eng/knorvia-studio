@@ -25,6 +25,8 @@ Host 从已授权的 run/step 工作区记录解析物理 baseline/working/sourc
 
 单侧图片读取上限为 25 MiB，与 `readBinaryPreview` / `readBinaryFilePreview` 默认及上限一致，不误用 `readMediaPreview` 的 4/8 MiB。现有隔离复制的 16 MiB 单文件、256 MiB 总量规则保持独立且不扩大；读取已拥有的图片快照可使用明确的 25 MiB 边界。读取在分配前限制大小，读取期间增长/替换须拒绝。
 
+压缩字节数不能约束解码像素。2026-10-08 复核补充局部静态图片预览预算：每侧声明宽高最多 16384 像素、乘积最多 48,000,000 像素（含边界）。像素值与既有背景图接纳值一致，但这里从 PNG IHDR / 每个 JPEG SOF 头在 Host 结构检查时判断，不能等浏览器 decode 后再拒绝；边长另外限制极端长条图。常量归属本预览 domain，不修改全局背景图、模型转码或文件预算。超限返回 `unsupported` / `display-budget`，不返回该侧 base64，UI 明确显示上限且不创建该侧 img。约束是局部声明尺寸接纳规则，不宣称界定浏览器全部内存开销，不引入完整解码器、重编码或缩图。
+
 ```mermaid
 sequenceDiagram
   participant UI as 既有审阅卡片
@@ -51,4 +53,4 @@ sequenceDiagram
 
 ## 验收
 
-合成图片测试覆盖两侧不同字节、新增/删除单侧、同名不同目录/Host、三哈希变化、损坏/缺失基线、越界及 symlink/hardlink、25 MiB 限额与读取竞态、格式/动画拒绝、浏览器解码失败与 broken complete、切文件/运行/Host迟到响应、反复开关、逐文件和批量应用前重新核验。真实浏览器验证并排侧别、自然显示尺寸、原图字节与容器/图像边界；不使用真实模型、用户 profile 或凭据。执行 fmt、lint、typecheck、完整/changed 架构、provenance 与相关旧工作区/审阅回归，记录通过、失败、跳过及未运行范围，由集成 owner 统一全量回归。
+合成图片测试覆盖两侧不同字节、新增/删除单侧、同名不同目录/Host、三哈希变化、损坏/缺失基线、越界及 symlink/hardlink、25 MiB 限额与读取竞态、正常/恰好边界/超界声明尺寸、极小文件声明极端 PNG/JPEG 尺寸时在 Host 拒绝且浏览器没有对应 img、格式/动画拒绝、浏览器解码失败与 broken complete、切文件/运行/Host迟到响应、反复开关、逐文件和批量应用前重新核验。真实浏览器验证并排侧别、自然显示尺寸、原图字节与容器/图像边界；不使用真实模型、用户 profile 或凭据。执行 fmt、lint、typecheck、完整/changed 架构、provenance 与相关旧工作区/审阅回归，记录通过、失败、跳过及未运行范围，由集成 owner 统一全量回归。

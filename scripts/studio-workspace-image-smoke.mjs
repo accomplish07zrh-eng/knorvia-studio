@@ -10,6 +10,8 @@ import {
   workspaceImageFixture,
   syntheticPng,
   pngChunk,
+  syntheticDeclaredPng,
+  syntheticDeclaredJpeg,
 } from "../packages/services/test/studio-workspace-image-fixture.ts";
 
 const cleanup = [];
@@ -61,7 +63,13 @@ try {
   ]);
   const files = [
     { path: "images/sample.png", before: valid, after: syntheticPng(5, 4, [10, 80, 180]) },
-    { path: "other/sample.png", before: syntheticPng(512, 128), after: syntheticPng(640, 64) },
+    {
+      path: "other/sample.png",
+      before: syntheticPng(512, 128),
+      after: syntheticPng(640, 64, [10, 80, 180]),
+    },
+    { path: "huge.png", before: valid, after: syntheticDeclaredPng(0xffffffff, 1) },
+    { path: "huge.jpg", before: null, after: syntheticDeclaredJpeg(65535, 65535) },
     { path: "added.png", before: null, after: syntheticPng(4, 7) },
     { path: "deleted.png", before: syntheticPng(8, 3), after: null },
     { path: "broken.png", before: valid, after: broken },
@@ -219,6 +227,11 @@ try {
   assert.match(await card.locator('[data-image-side="after"]').innerText(), /5 × 4/);
   await choose("other/sample.png");
   await ready();
+  await page.locator('[data-image-side="before"] img[data-image-display="ready"]').waitFor();
+  if (process.argv[3])
+    await page.locator('[data-workspace-review-path="other/sample.png"]').screenshot({
+      path: process.argv[3],
+    });
   const geometry = await page.locator('[data-image-side="after"] img').evaluate((image) => {
     const actual = image.getBoundingClientRect();
     const container = image.parentElement.getBoundingClientRect();
@@ -269,6 +282,11 @@ try {
   await choose("animated.png");
   await page.getByRole("alert").filter({ hasText: "Animated image" }).waitFor();
   assert.equal(await page.locator('[data-image-side="after"] img').count(), 0);
+  for (const path of ["huge.png", "huge.jpg"]) {
+    await choose(path);
+    await page.getByRole("alert").filter({ hasText: "Preview dimensions exceed" }).waitFor();
+    assert.equal(await page.locator('[data-image-side="after"] img').count(), 0);
+  }
   await choose("oriented.jpg");
   await ready();
   assert.match(await page.locator('[data-image-side="before"]').innerText(), /2 × 3/);
@@ -340,7 +358,7 @@ try {
   assert.equal(one.calls.length + two.calls.length + three.calls.length, 0);
   assert.deepEqual(errors, []);
   console.log(
-    "Workspace image browser smoke passed: precise pair, single-sided images, actual image bounds, EXIF display size, invalid decode/broken complete, animation refusal, repeated close, stale file/run/Host responses, identical-version Host switch and reviewed apply",
+    "Workspace image browser smoke passed: precise pair, single-sided images, actual image bounds, EXIF display size, invalid decode/broken complete, animation/dimension-budget refusal before image creation, repeated close, stale file/run/Host responses, identical-version Host switch and reviewed apply",
   );
 } catch (error) {
   if (page)

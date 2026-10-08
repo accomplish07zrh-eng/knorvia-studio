@@ -8,6 +8,9 @@ import type { StudioReviewFileVersion } from "../workspaceReviewTypes.js";
 import { studioWorkspaceSecretPath } from "./workspaceSecrets.js";
 
 export const STUDIO_IMAGE_PREVIEW_BYTES = 25 * 1024 * 1024;
+// 与背景图既有 48 MP 接纳值对齐，但必须在浏览器解码前由头部守住；长边另限极端长条。
+export const STUDIO_IMAGE_PREVIEW_MAX_PIXELS = 48_000_000;
+export const STUDIO_IMAGE_PREVIEW_MAX_DIMENSION = 16_384;
 export const studioImagePath = (path: string) => /\.(png|jpe?g)$/i.test(path);
 export function sameImageVersion(a: StudioReviewFileVersion, b: StudioReviewFileVersion) {
   return (
@@ -54,6 +57,10 @@ type Format =
   | { kind: "image"; mediaType: "image/png" | "image/jpeg" }
   | Extract<StudioWorkspaceImageSide, { kind: "unsupported" }>;
 const invalid = (): Format => ({ kind: "unsupported", reason: "invalid-format" });
+const exceedsDisplayBudget = (width: number, height: number) =>
+  width > STUDIO_IMAGE_PREVIEW_MAX_DIMENSION ||
+  height > STUDIO_IMAGE_PREVIEW_MAX_DIMENSION ||
+  width * height > STUDIO_IMAGE_PREVIEW_MAX_PIXELS;
 const uint32 = (bytes: Uint8Array, offset: number) =>
   bytes[offset]! * 0x1000000 +
   (bytes[offset + 1]! << 16) +
@@ -74,13 +81,12 @@ function pngFormat(bytes: Uint8Array): Format {
     const type = String.fromCharCode(...bytes.subarray(offset + 4, offset + 8));
     if (!/^[A-Za-z]{4}$/.test(type)) return invalid();
     if (!header) {
-      if (
-        type !== "IHDR" ||
-        length !== 13 ||
-        !uint32(bytes, offset + 8) ||
-        !uint32(bytes, offset + 12)
-      )
-        return invalid();
+      if (type !== "IHDR" || length !== 13) return invalid();
+      const width = uint32(bytes, offset + 8);
+      const height = uint32(bytes, offset + 12);
+      if (!width || !height) return invalid();
+      if (exceedsDisplayBudget(width, height))
+        return { kind: "unsupported", reason: "display-budget" };
       header = true;
     } else if (type === "IHDR") return invalid();
     if (type === "acTL") return { kind: "unsupported", reason: "animated" };
@@ -134,12 +140,13 @@ function jpegFormat(bytes: Uint8Array): Format {
     )
       return { kind: "unsupported", reason: "multiple-images" };
     if ([192, 193, 194, 195, 197, 198, 199, 201, 202, 203, 205, 206, 207].includes(marker)) {
-      if (
-        length < 8 ||
-        !(bytes[offset + 3]! * 256 + bytes[offset + 4]!) ||
-        !(bytes[offset + 5]! * 256 + bytes[offset + 6]!)
-      )
-        return invalid();
+      if (length < 8) return invalid();
+      const height = bytes[offset + 3]! * 256 + bytes[offset + 4]!;
+      const width = bytes[offset + 5]! * 256 + bytes[offset + 6]!;
+      if (!width || !height) return invalid();
+      // 检查每个 SOF，不能让后续大帧绕过前一个小帧的接纳结果。
+      if (exceedsDisplayBudget(width, height))
+        return { kind: "unsupported", reason: "display-budget" };
       frame = true;
     }
     offset += length;

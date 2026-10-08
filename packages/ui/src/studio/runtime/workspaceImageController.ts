@@ -62,7 +62,9 @@ export class WorkspaceImageController {
             throw new Error("Host returned an unproven absent image side");
           if (
             image?.kind === "unsupported" &&
-            ["animated", "invalid-format", "multiple-images"].includes(image.reason)
+            ["animated", "invalid-format", "multiple-images", "display-budget"].includes(
+              image.reason,
+            )
           )
             continue;
           if (
