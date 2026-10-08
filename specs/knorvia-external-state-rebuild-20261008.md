@@ -4,7 +4,7 @@
 
 ## 边界与现有实现证据
 
-开工 freshness 与 changed architecture 通过，工作区干净。Node/pnpm 按 mise.toml 对齐为 24.14.0/10.33.2。已读取 PR #50 公开集成分支 spec，开工观察到 head `4aba055374b7939fd5a8314fd04f98b571628459`，收尾复读时远端为 `1b3ff0b3dbc93e0eff5d9d130ce3e5c50427bec9`，该 spec 内容未变化；实际集成由原集成 owner 负责。
+开工 freshness 与 changed architecture 通过，工作区干净。Node/pnpm 按 mise.toml 对齐为 24.14.0/10.33.2。已读取 PR #50 公开集成分支 spec，开工观察到 head `4aba055374b7939fd5a8314fd04f98b571628459`，收尾显式更新远端跟踪引用后复读 `1b3ff0b3dbc93e0eff5d9d130ce3e5c50427bec9` 的 spec，确认新增的 C 冻结 `862ff8a1` 验收、GUI-only 工作台待补项及等待本 A 路线的组合回归；实际集成由原集成 owner 负责。
 
 只修改外部适配器信息/状态、既有 Host 投影、远端转发及原 GUI 展示。不修改图片输入、图片审阅、工作台、CLI 权限能力表或原生子代理审批。共享文件精确切片：`kernelTypes.ts` 的 question/interaction/tool event；`types.ts` 的 tool message；`codexProtocol.ts` 的通知/请求/终态/归属。B 的图片 input 与 turn 字段、C 的 workspace 类型保留。`StudioTimeline.tsx` 与 B/C 的图片呈现切片集成时同时保留。来源生成文件从最终树重生。
 
@@ -63,6 +63,10 @@ Desktop continuous 和 mobile replayable 继续使用原 Host owner/序列；本
 
 浏览器真实链路为合成原生子进程 stdio → StudioRuntimeService/SQLite → 公共服务传输 → 原交互与时间线 React 组件；验证描述、旧 string、多选/自定义答复只回 label、完整审批/脱敏/仅一次接纳、工具字段分区与未知状态、远端旧 text 不冒充 output。360px 深色与 1200px 浅色均断言实际主题背景色、无横向溢出、无 pageerror，并人工查看截图；四组结果通过，exit 0。
 
-CLI 构建实际 17/17 成功后运行全量 Studio。首轮 835 文件、8463 项：8454 pass、1 fail、8 skip、0 cancel，exit 1；唯一失败是既有 Codex 线程用量测试，确认新 gate 误挡无 turn 的线程通知，已修复并由上述 104 项及真实 stdio 覆盖。冻结实现的第二轮全量正在运行；最终结果待收尾追加，不能将首轮写为通过。
+CLI 构建实际 17/17 成功后运行全量 Studio。首轮 835 文件、8463 项：8454 pass、1 fail、8 skip、0 cancel，exit 1；唯一失败是既有 Codex 线程用量测试，确认新 gate 误挡无 turn 的线程通知，已修复并由上述 104 项及真实 stdio 覆盖。第二轮冻结实现全量：**8463 项、8455 pass、0 fail、8 skip、0 cancel，exit 0**，耗时 858107ms。被测源文件指纹逐一核对等于代码提交 `b6aeeeef4a16f40f2eb552450febf51de08edbe4`，后续提交只补文档和来源清单。
 
-未运行 Windows、完整 Electron GUI/安装包、已登录真实厂商 CLI、付费模型或物理 SSH 主机。浏览器为真实 Chromium 与产品 React 组件，远端为真实适配器对合成公共服务端口，不声称完整桌面或跨机器验收。依赖安装曾因 Electron 下载/重建不可用而失败，最终 frozen-lockfile + ignore-scripts 安装成功；未改 lockfile、根 Apache-2.0 或第三方声明。图片输入、图片审阅与 GUI-only 工作台仍由原路线交付。
+8 个跳过项为 7 个 Windows/PowerShell 条件测试和 1 个需显式设置 `KNORVIA_CLAUDE_OLD_ROOT` 的旧叶模块差分测试；未读取旧研究任务补丁来补这个环境参数。各用例名称与真实汇总见证据 JSON。fmt/check、typecheck（含 5572 对 i18n key）、lint、全量及 changed architecture、verify:pre-push、来源生成及 --check 均 exit 0；lint 为 0 error、1 条原有 `scripts/packaged-runtime-evidence.mjs:121` warning，架构违规 0，来源 reviewProblems 0。26 项既有第三方材料待核义务原样保留，未宣称清零。
+
+公开草稿为 [PR #54](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/54)。对集成 `1b3ff0b3` 与本次代码提交作 `git merge-tree` 模拟，未改动工作区或分支，exit 1 表示以下 6 个预期冲突：`licensing/current-files.json`（共同树再生）、`CONTRACT.md` 与 `contract.example.ts`（组合合同/示例）、`codexProtocol.ts`（同时保留 B 图片 input 构造与本次权威 ACK 绑定）、`types.ts`（同时保留 C workspace 类型与工具详情）、`StudioTimeline.tsx`（保留图片分支和工具分区组件）。`kernelTypes.ts` 无文本冲突，但仍须组合验证 B 的图片/能力字段。合入与发布继续只由集成 owner 执行。
+
+本地未运行 Windows、完整 Electron GUI/安装包、已登录真实厂商 CLI、付费模型或物理 SSH 主机；PR 的 Windows/Linux quality CI 由 GitHub 启动，终态以 PR 实际检查为准。浏览器为真实 Chromium 与产品 React 组件，远端为真实适配器对合成公共服务端口，不声称完整桌面或跨机器验收。依赖安装曾因 Electron 下载/重建不可用而失败，最终 frozen-lockfile + ignore-scripts 安装成功；未改 lockfile、根 Apache-2.0 或第三方声明。图片输入、图片审阅与 GUI-only 工作台仍由原路线交付。

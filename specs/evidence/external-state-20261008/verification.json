@@ -173,7 +173,8 @@
         "name": "Claude lifecycle, including drained sink: cancel",
         "status": "fail"
       }
-    ]
+    ],
+    "command": "node --import tsx --test --test-reporter=tap packages/services/test/external-state-rebuild.test.ts packages/services/test/external-state-projection.test.ts"
   },
   "targeted": {
     "command": "node --import tsx --test --test-reporter=tap packages/services/test/external-state-rebuild.test.ts packages/services/test/external-state-projection.test.ts packages/services/test/studio-kernels-protocol.test.ts packages/services/test/studio-kernels-transport.test.ts packages/services/test/studio-kernel-expansion.test.ts packages/services/test/studio-kernels-model-options.test.ts packages/services/test/studio-kernel-usage.test.ts packages/services/test/studio-remote-kernel-bridge.test.ts packages/services/test/studio-runtime.test.ts packages/ui/test/studio-backend-ui.test.ts",
@@ -596,8 +597,43 @@
       "logSha256": "e034b9cad94fbd13a42b534e18fa89147dcbe89be04a8b597bd98eccfddbcf04"
     },
     "final": {
-      "status": "running",
-      "command": "pnpm test:studio"
+      "status": "passed",
+      "command": "pnpm test:studio",
+      "codeCommit": "b6aeeeef4a16f40f2eb552450febf51de08edbe4",
+      "sourceFingerprintMatchesCommit": true,
+      "exitCode": 0,
+      "files": 835,
+      "tests": 8463,
+      "pass": 8455,
+      "fail": 0,
+      "skip": 8,
+      "cancelled": 0,
+      "durationMs": 858107.115274,
+      "summaryOutput": [
+        "ℹ tests 8463",
+        "ℹ suites 6",
+        "ℹ pass 8455",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 8",
+        "ℹ todo 0",
+        "ℹ duration_ms 858107.115274"
+      ],
+      "logSha256": "465ae67798e0e74ca10c2d5593f9a6902f586871f316b7921932db81c924b4e5",
+      "skippedCases": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced # SKIP"
+      ],
+      "skipReasons": [
+        "Seven Windows/PowerShell-only tests on Linux",
+        "One optional Claude old/new leaf differential test requires KNORVIA_CLAUDE_OLD_ROOT; this task does not read the old research patch."
+      ]
     }
   },
   "cliBuild": {
@@ -608,7 +644,7 @@
     "logSha256": "05f47bb7e43ca4cfcadd1453633ceba06f2a0f972201f3c6071c8bbefb30f529"
   },
   "limitations": [
-    "Windows execution and complete Electron desktop GUI/package were not run; Electron installation was unavailable in this environment.",
+    "Local Windows execution and complete Electron desktop GUI/package were not run; Electron installation was unavailable. GitHub Windows/Linux quality jobs were started for the public draft and are reported separately by the PR.",
     "No logged-in vendor CLI, paid model, real credentials/profile, or physical SSH host was used. Remote bridge was verified through the real adapter against a synthetic public-service port.",
     "Strict authoritative ACK ownership applies to normal Codex turn/start. The existing /compact legacy RPC has no turn ID response and retains its separate started-event lifecycle; its existing regression passes.",
     "Integration and release belong to the integration owner; image input, image review and GUI workbench were not implemented here."
@@ -714,5 +750,68 @@
       "path": "scripts/external-state-browser.mjs",
       "sha256": "7d5ee9147ef5de038a2487c367053c1d3ffddba92e63bb368c6dcd3f9f3d3f5a"
     }
-  ]
+  ],
+  "codeCommit": "b6aeeeef4a16f40f2eb552450febf51de08edbe4",
+  "pullRequest": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/54",
+  "quality": {
+    "verifiedSourceCommit": "b6aeeeef4a16f40f2eb552450febf51de08edbe4",
+    "typecheck": {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "i18nMatchingKeys": 5572,
+      "logSha256": "2a01e4ae048a2815fb131ba3e236862c006c0ed2d0b401aa2c68af75292b9ec3"
+    },
+    "formatting": {
+      "command": "pnpm fmt:check",
+      "exitCode": 0,
+      "matchedFiles": 7621,
+      "logSha256": "035d5ffdd37a7625ba4244bbcc91b35e51f1c89a486ea3fa8efac5c51986781c"
+    },
+    "prePush": {
+      "command": "pnpm verify:pre-push",
+      "exitCode": 0,
+      "lintErrors": 0,
+      "lintWarnings": 1,
+      "existingWarning": "scripts/packaged-runtime-evidence.mjs:121 no-control-regex",
+      "changedArchitectureViolations": 0,
+      "logSha256": "578365586f0c9916815d1cc9de71a54a0944a12e338ba81785de697235e0ab7a"
+    },
+    "architecture": {
+      "command": "pnpm architecture:check",
+      "exitCode": 0,
+      "violations": 0,
+      "logSha256": "c436e7bf88738f16ee7a7d3eb51214503e68663b30bb16b766203376a262b012"
+    },
+    "provenance": {
+      "commands": ["pnpm provenance:report", "pnpm provenance:check"],
+      "exitCodes": [0, 0],
+      "reviewProblems": 0,
+      "unresolvedExistingThirdPartyMaterialObligations": 26,
+      "logSha256": [
+        "011cd8ce46ee444c1235dcb1e64ba6b55c55f36b2b8837392e677ce1b5eb61ed",
+        "b37db16a6444ad52d37094848fa5b9358a1bdf4649a80f126d0426ddf04a25e1"
+      ]
+    },
+    "freshness": {
+      "command": "node scripts/check-workspace-freshness.mjs",
+      "exitCode": 0,
+      "behindMain": 0,
+      "remoteTrackingSynchronized": true,
+      "logSha256": "a5b15e8883fb0b7ab9dfcb621c1680995ed74da47dc96f4bc02e4a2b5daddcdf"
+    }
+  },
+  "integration": {
+    "observedHead": "1b3ff0b3dbc93e0eff5d9d130ce3e5c50427bec9",
+    "method": "git merge-tree --write-tree --name-only --no-messages (no branch/worktree modification)",
+    "exitCode": 1,
+    "conflicts": [
+      "licensing/current-files.json",
+      "packages/services/src/studio-runtime/CONTRACT.md",
+      "packages/services/src/studio-runtime/adapters/kernels/codexProtocol.ts",
+      "packages/services/src/studio-runtime/contract.example.ts",
+      "packages/services/src/studio-runtime/types.ts",
+      "packages/ui/src/studio/runtime/StudioTimeline.tsx"
+    ],
+    "meaning": "Expected integration conflicts, not a verification failure. Integration owner must preserve B/C slices and regenerate provenance after combining trees."
+  }
 }
