@@ -1,5 +1,10 @@
 import type { StudioCommand } from "./contract.js";
 import type { StudioReviewDraft } from "./contract.js";
+import type {
+  StudioWorkspaceApplyRequest,
+  StudioWorkspaceChangesRequest,
+  StudioWorkspaceImageRequest,
+} from "./contract.js";
 
 /** This acknowledges the displayed event only; it cannot answer an approval. */
 export const markDisplayedAttentionRead: StudioCommand = {
@@ -22,6 +27,18 @@ export function confirmPreparedWorkspaceReview(draft: StudioReviewDraft): Studio
     draftId: draft.id,
     baseRevision: draft.revision,
     previewId: draft.preview.id,
+  };
+}
+
+/** Use the displayed Host versions for both preview and the user's later apply action. */
+export function reviewedSnapshotImageRequests(
+  runId: string,
+  stepId: string,
+  reviewed: StudioWorkspaceImageRequest,
+): { preview: StudioWorkspaceChangesRequest; apply: StudioWorkspaceApplyRequest } {
+  return {
+    preview: { runId, stepId, imagePreview: reviewed },
+    apply: { runId, stepId, paths: [reviewed.path], reviewedVersions: [reviewed] },
   };
 }
 import type { StudioWorkspaceRuntimeRequest } from "./contract.js";

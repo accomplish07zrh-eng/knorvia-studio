@@ -18,6 +18,8 @@
 - 远端版本证明、原会话或连接不可用时拒绝发送并保留草稿，既有远端 diff/apply 不变；不以本地绝对路径或新会话替代。
 - 文本每批注最多 1,000 字符、最多 20 条，所选范围最多 20 行、上下文最多 2,400 字符，汇总最多 24,000 字符。超过限制明确报错，不静默截断用户批注。源文件与隔离文件都不由批注写入；应用仍走现有 hash/journal/冲突边界。
 
+2026-10-08：图片审阅扩展为二进制提供可核验版本（见 `knorvia-workspace-image-compare.md`），仍禁止把二进制版本用于文本行批注。
+
 ## 所有者、接口与顺序
 
 `StudioRuntimeService.command` 新增 `workspace-review` 类型（save-comment/delete-comment/prepare/send）；仍保留既有 12 个公开方法。`StudioCommandResult` 可带最新草稿投影，`StudioTimeline.reviewDrafts` 为可选字段，旧客户端／数据库可继续使用。`StudioWorkspaceChange.version` 为可选真实版本，缺失时不能创建可发送锚点。

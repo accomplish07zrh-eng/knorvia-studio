@@ -146,9 +146,18 @@ export interface StudioWorkspacePort {
     sourcePath: string;
     mode: "isolated" | "shared";
   }): Promise<string>;
-  changes(runId: string, stepId: string): Promise<StudioWorkspaceChange[]>;
+  changes(
+    runId: string,
+    stepId: string,
+    imagePreview?: import("../workspaceImageTypes.js").StudioWorkspaceImageRequest,
+  ): Promise<StudioWorkspaceChange[]>;
   /** 返回 Host 自己生成的应用回执；旧实现可以继续返回 `void`（此时无法取得操作 id）。 */
-  apply(runId: string, stepId: string, paths: string[]): Promise<StudioApplyReceipt | void>;
+  apply(
+    runId: string,
+    stepId: string,
+    paths: string[],
+    reviewedVersions?: import("../workspaceImageTypes.js").StudioWorkspaceImageRequest[],
+  ): Promise<StudioApplyReceipt | void>;
   /** 重新读取已发布的项目文件哈希，供验收取证；本地 Host 之外不适用。 */
   versions?(runId: string, stepId: string, paths: string[]): Promise<StudioFileVersion[]>;
   /**

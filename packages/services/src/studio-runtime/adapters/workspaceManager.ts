@@ -5,6 +5,7 @@ import type { StudioWorkspacePort } from "../app/ports.js";
 import type { StudioFileVersion, StudioWorkspaceChange } from "../types.js";
 import { applySnapshot } from "./workspaceApply.js";
 import { studioWorkspaceSecretPath } from "../domain/workspaceSecrets.js";
+import { readWorkspaceImageChange } from "./workspaceImage.js";
 import {
   digest,
   exclusiveWrite,
@@ -64,12 +65,13 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
       const location = workspaceLocation(storage, params.runId, params.stepId);
       return locked(location.root, () => prepareSnapshot(location, params, storage));
     },
-    async changes(runId, stepId) {
+    async changes(runId, stepId, imagePreview) {
       const location = workspaceLocation(storage, runId, stepId);
       const metadata = await readWorkspace(location, runId, stepId);
       if (!metadata) throw new Error("Isolated workspace not found.");
       return locked(sourceKey(metadata.sourcePath), async () => {
         await recoverSourceApplies(storage, metadata.sourcePath);
+        if (imagePreview) return [await readWorkspaceImageChange(location, metadata, imagePreview)];
         if (metadata.mode === "shared") return [];
         const isolated = await scanWorkspace(location.working);
         const paths = [
@@ -94,15 +96,11 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
           const after = preview(afterData);
           result.push({
             path,
-            ...(!before.binary && !after.binary
-              ? {
-                  version: {
-                    beforeHash: baselineHash,
-                    afterHash: isolatedHash,
-                    sourceHash: hash(current),
-                  },
-                }
-              : {}),
+            version: {
+              beforeHash: baselineHash,
+              afterHash: isolatedHash,
+              sourceHash: hash(current),
+            },
             kind: baselineHash === null ? "added" : isolatedHash === null ? "deleted" : "modified",
             before: before.text,
             after: after.text,
@@ -113,13 +111,13 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
         return result;
       });
     },
-    async apply(runId, stepId, paths) {
+    async apply(runId, stepId, paths, reviewedVersions) {
       const location = workspaceLocation(storage, runId, stepId);
       const metadata = await readWorkspace(location, runId, stepId);
       if (!metadata) throw new Error("Isolated workspace not found.");
       return locked(sourceKey(metadata.sourcePath), async () => {
         await recoverSourceApplies(storage, metadata.sourcePath);
-        return applySnapshot(location, metadata, paths);
+        return applySnapshot(location, metadata, paths, reviewedVersions);
       });
     },
     async versions(runId, stepId, paths) {

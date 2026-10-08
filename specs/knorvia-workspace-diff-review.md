@@ -9,6 +9,8 @@
 - 不接受 Renderer 自选绝对目标路径。Host 的运行/步骤收据确定源与隔离目录，用户仅选择 Host 返回的相对文件路径；路径穿越、ADS、保留名、大小写别名及危险链接在 Host 拒绝。多成员改同一文件时，先应用的真实结果会使另一个版本成为冲突，不能后写覆盖。
 - 共享目录模式没有隔离差异与应用边界，显示“没有文件修改”或真实错误，不暗示可以无冲突合并。保持 Knorvia 黑白层级与原有语义差异色。
 
+2026-10-08：静态图片的精确快照并排预览扩展见 `specs/knorvia-workspace-image-compare.md`；其他二进制仍不伪造文本预览。
+
 ## 状态与验收
 
 - Studio Runtime 是工作区基线、变更扫描、源文件重校验和应用锁的唯一写入者。`StudioRunHistory` 仅持有当前打开的审阅弹窗与请求状态；DiffViewer 读取同一 `workspaceChanges` 快照，应用仍调用现有 `applyWorkspaceChanges`。

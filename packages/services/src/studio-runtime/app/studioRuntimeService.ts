@@ -159,15 +159,21 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     });
   }
 
-  async agentWorkspaceChanges(params: { runId: string; stepId: string }) {
+  async agentWorkspaceChanges(
+    params: import("../workspaceImageTypes.js").StudioWorkspaceChangesRequest,
+  ) {
     return this.lifecycle.run(async () => {
       validStudioId(params.runId);
       validStudioId(params.stepId);
-      return this.deps.workspaces.changes(params.runId, params.stepId);
+      return params.imagePreview
+        ? this.deps.workspaces.changes(params.runId, params.stepId, params.imagePreview)
+        : this.deps.workspaces.changes(params.runId, params.stepId);
     });
   }
 
-  async applyAgentWorkspaceChanges(params: { runId: string; stepId: string; paths: string[] }) {
+  async applyAgentWorkspaceChanges(
+    params: import("../workspaceImageTypes.js").StudioWorkspaceApplyRequest,
+  ) {
     return this.lifecycle.run(async () => {
       validStudioId(params.runId);
       validStudioId(params.stepId);
@@ -175,21 +181,28 @@ export class StudioRuntimeService implements IStudioRuntimeService {
         throw new Error("请选择需要应用的文件");
       // 把所属 Host 的应用回执透传出去，调用方才能记录真实的操作标识；
       // 回执只证明“已应用”，不构成远端内容已被本地核验。
-      return this.deps.workspaces.apply(params.runId, params.stepId, params.paths);
+      return params.reviewedVersions === undefined
+        ? this.deps.workspaces.apply(params.runId, params.stepId, params.paths)
+        : this.deps.workspaces.apply(
+            params.runId,
+            params.stepId,
+            params.paths,
+            params.reviewedVersions,
+          );
     });
   }
 
-  async workspaceChanges(params: { runId: string; stepId: string }) {
+  async workspaceChanges(
+    params: import("../workspaceImageTypes.js").StudioWorkspaceChangesRequest,
+  ) {
     return this.lifecycle.run(() =>
-      inspectStudioWorkspaceChanges(this.deps, params.runId, params.stepId),
+      inspectStudioWorkspaceChanges(this.deps, params.runId, params.stepId, params.imagePreview),
     );
   }
 
-  async applyWorkspaceChanges(params: {
-    runId: string;
-    stepId: string;
-    paths: string[];
-  }): Promise<void> {
+  async applyWorkspaceChanges(
+    params: import("../workspaceImageTypes.js").StudioWorkspaceApplyRequest,
+  ): Promise<void> {
     return this.lifecycle.run(() => applyStudioWorkspaceChanges(this.deps, params));
   }
 

@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { test, type TestContext } from "node:test";
 import { createStudioWorkspaceManager } from "../src/studio-runtime/adapters/workspaceManager.js";
 import { sameLocation } from "../src/studio-runtime/adapters/longPath.js";
-import { MAX_FILE_BYTES } from "../src/studio-runtime/adapters/workspaceFiles.js";
+import { MAX_FILE_BYTES, digest } from "../src/studio-runtime/adapters/workspaceFiles.js";
 
 async function fixture(t: TestContext) {
   const root = await fs.mkdtemp(join(tmpdir(), "knorvia-studio-workspace-test-"));
@@ -239,6 +239,7 @@ test("binary preview is marked and oversize non-cache source fails explicitly", 
     after: null,
     binary: true,
     conflict: false,
+    version: { beforeHash: null, afterHash: digest(Buffer.from([0, 1, 2])), sourceHash: null },
   });
   await fs.writeFile(join(f.source, "large"), Buffer.alloc(MAX_FILE_BYTES + 1));
   await assert.rejects(

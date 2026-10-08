@@ -1,11 +1,16 @@
 import { useMemo, useState } from "react";
-import type { StudioWorkspaceChange } from "@knorvia/services";
+import {
+  studioImagePath,
+  type IStudioRuntimeService,
+  type StudioWorkspaceChange,
+} from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { DiffViewer } from "@/components/ui/diff-viewer.js";
 import { useKnorviaStore } from "@/store/StoreProvider.js";
 import { resolveTheme } from "@/useTheme.js";
 import type { WorkspaceFeedbackView } from "./StudioWorkspaceFeedback.js";
 import { studioWorkspaceDiff } from "./studioWorkspaceDiff.js";
+import { StudioWorkspaceImageCompare } from "./StudioWorkspaceImageCompare.js";
 
 export function StudioWorkspaceReviewCard({
   change,
@@ -16,6 +21,7 @@ export function StudioWorkspaceReviewCard({
   onToggle,
   onApply,
   feedback,
+  imageContext,
 }: {
   change: StudioWorkspaceChange;
   zh: boolean;
@@ -25,11 +31,14 @@ export function StudioWorkspaceReviewCard({
   onToggle: () => void;
   onApply: () => void;
   feedback?: WorkspaceFeedbackView;
+  imageContext?: { service: IStudioRuntimeService; runId: string; stepId: string };
 }) {
   const [expanded, setExpanded] = useState(false);
   const theme = useKnorviaStore((state) => state.theme);
   const codePreviewSettings = useKnorviaStore((state) => state.codePreviewSettings);
   const diff = useMemo(() => studioWorkspaceDiff(change), [change]);
+  const unsupportedImageFormat =
+    change.binary && /\.(apng|avif|bmp|gif|ico|svg|webp)$/i.test(change.path);
   const anchoredComments =
     feedback?.comments.filter((comment) => comment.anchor.path === change.path) ?? [];
   const sameVersion = (comment: (typeof anchoredComments)[number]) =>
@@ -43,7 +52,10 @@ export function StudioWorkspaceReviewCard({
     ? { added: "新增", modified: "修改", deleted: "删除" }[change.kind]
     : { added: "Added", modified: "Modified", deleted: "Deleted" }[change.kind];
   return (
-    <div className="rounded-lg border border-border p-3 text-ui-sm">
+    <div
+      className="rounded-lg border border-border p-3 text-ui-sm"
+      data-workspace-review-path={change.path}
+    >
       <div className="flex items-start gap-2">
         <input
           type="checkbox"
@@ -70,7 +82,24 @@ export function StudioWorkspaceReviewCard({
         </p>
       )}
       {expanded &&
-        (diff.canShowText && diff.oldFile && diff.newFile ? (
+        (change.binary && studioImagePath(change.path) ? (
+          imageContext && change.version ? (
+            <StudioWorkspaceImageCompare
+              service={imageContext.service}
+              runId={imageContext.runId}
+              stepId={imageContext.stepId}
+              path={change.path}
+              version={change.version}
+              zh={zh}
+            />
+          ) : (
+            <p role="status" className="mt-3 text-foreground-subtle">
+              {zh
+                ? "此 Host 未提供精确图片版本预览。"
+                : "This Host does not provide exact image version previews."}
+            </p>
+          )
+        ) : diff.canShowText && diff.oldFile && diff.newFile ? (
           <DiffViewer
             options={
               feedback && change.version
@@ -115,8 +144,12 @@ export function StudioWorkspaceReviewCard({
         ) : (
           <p className="mt-3 text-foreground-subtle">
             {zh
-              ? "二进制文件或无法读取的文本，没有可用的文字差异预览。"
-              : "Binary or unreadable file; no text diff is available."}
+              ? unsupportedImageFormat
+                ? "此图片格式不支持快照对比；首版仅支持静态 PNG/JPEG。"
+                : "二进制文件或无法读取的文本，没有可用的文字差异预览。"
+              : unsupportedImageFormat
+                ? "This image format has no snapshot comparison; only static PNG/JPEG are supported."
+                : "Binary or unreadable file; no text diff is available."}
           </p>
         ))}
       {expanded &&
