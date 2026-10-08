@@ -14,6 +14,7 @@ import {
 import { digest, readSafeFile, relativeFile } from "./workspaceFiles.js";
 import type { WorkspaceLocation, WorkspaceMetadata } from "./workspaceSnapshot.js";
 import { validWorkspacePngRaster } from "./workspacePngRaster.js";
+import { validWorkspaceJpegRaster } from "./workspaceJpegRaster.js";
 
 const hash = (bytes: Buffer | null) => (bytes === null ? null : digest(bytes));
 async function side(path: string, bytes: Buffer | null): Promise<StudioWorkspaceImageSide | null> {
@@ -23,6 +24,12 @@ async function side(path: string, bytes: Buffer | null): Promise<StudioWorkspace
     format.kind === "image" &&
     format.mediaType === "image/png" &&
     !(await validWorkspacePngRaster(bytes))
+  )
+    return { kind: "unsupported", reason: "invalid-format" };
+  if (
+    format.kind === "image" &&
+    format.mediaType === "image/jpeg" &&
+    !validWorkspaceJpegRaster(bytes)
   )
     return { kind: "unsupported", reason: "invalid-format" };
   return format.kind === "unsupported"

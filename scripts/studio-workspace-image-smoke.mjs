@@ -8,6 +8,8 @@ import {
   compileWorkspaceImageBrowser,
   syntheticBrowserJpeg,
   verifyWorkspaceImageRasters,
+  workspaceJpegBrowserFiles,
+  verifyWorkspaceJpegRasters,
 } from "./studio-workspace-image-browser-fixture.mjs";
 import { chromium } from "playwright-core";
 import {
@@ -81,6 +83,7 @@ try {
       after: oriented(await jpeg(6, 4, "#224488")),
     },
     ...workspaceImageRasterFiles(),
+    ...(await workspaceJpegBrowserFiles()),
     { path: "empty-scan.jpg", before: emptyScan, after: jpegWithoutEntropy(emptyScan) },
   ];
   await seed.close();
@@ -282,6 +285,7 @@ try {
     assert.equal(await page.locator('[data-image-side="after"] img').count(), 0);
   }
   await verifyWorkspaceImageRasters(page, choose, ready);
+  await verifyWorkspaceJpegRasters(page, choose, ready);
   await choose("oriented.jpg");
   await ready();
   assert.match(await page.locator('[data-image-side="before"]').innerText(), /2 × 3/);
@@ -353,7 +357,7 @@ try {
   assert.equal(one.calls.length + two.calls.length + three.calls.length, 0);
   assert.deepEqual(errors, []);
   console.log(
-    "Workspace image browser smoke passed: precise pair, single-sided images, actual image bounds, EXIF display size, invalid decode/broken complete, animation/dimension-budget/incomplete-raster refusal before image creation, complete transparency/Adam7, repeated close, stale file/run/Host responses, identical-version Host switch and reviewed apply",
+    "Workspace image browser smoke passed: precise pair, single-sided images, actual image bounds, EXIF display size, invalid decode/broken complete, animation/dimension-budget/incomplete-raster refusal before image creation, complete transparency/Adam7, strict JPEG baseline/progressive/gray/CMYK and truncated entropy, repeated close, stale file/run/Host responses, identical-version Host switch and reviewed apply",
   );
 } catch (error) {
   if (page)
