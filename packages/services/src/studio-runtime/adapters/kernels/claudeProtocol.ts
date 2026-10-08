@@ -132,8 +132,18 @@ export async function claudeMessage(
       const usage = record(body.usage);
       const inputTokens = claudeInputTokens(usage);
       const outputTokens = number(usage.output_tokens);
+      // 修复 Claude Code 对话中途 token／缓存命中停在「—」：每条 assistant 消息即一次模型请求，
+      // 以 request 口径上报计费用量与缓存；轮次结束的 result 再以 turn 口径整体替换。
       if (inputTokens !== undefined && outputTokens !== undefined)
-        run.emit({ type: "usage", contextUsedTokens: inputTokens + outputTokens });
+        run.emit({
+          type: "usage",
+          scope: "request",
+          inputTokens,
+          outputTokens,
+          cacheReadTokens: number(usage.cache_read_input_tokens),
+          cacheWriteTokens: number(usage.cache_creation_input_tokens),
+          contextUsedTokens: inputTokens + outputTokens,
+        });
     }
     const id = text(body.id) || state.messageId;
     if (type === "assistant" && id === state.messageId && Array.isArray(body.content)) {

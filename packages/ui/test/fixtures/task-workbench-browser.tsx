@@ -148,6 +148,9 @@ function App() {
                     {navigation.route.view === "workbench" ? (
                       <TaskWorkbench
                         onOpenTarget={navigation.navigate}
+                        onOpenAttention={(row) => {
+                          sessionStorage.setItem("workbench-fixture-attention", row.key);
+                        }}
                         scope={scope}
                         workspaceMenuProps={{ workspaceTabs: [] }}
                         onOpenAgentSettings={() => {}}

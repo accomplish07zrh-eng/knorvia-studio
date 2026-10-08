@@ -2235,10 +2235,26 @@ body {
 }
 
 /* ③ 三道笔画：问候上方三段深浅递减、带 K 斜度的短画。 */
+/* 问候语柔和化（specs/knorvia-composer-polish-20261008.md）：原 600 字重 + 收紧字距在雅黑下显得冷硬，
+   改为常规字重、略放开字距、略浅的前景色，并优先较圆润的中文系统字体。 */
 :is(.theme-knorvia-light, .theme-knorvia-dark) [data-v4-draft-greeting="true"] {
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--color-foreground);
+  font-family:
+    "Segoe UI Variable Display",
+    "Segoe UI",
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "HarmonyOS Sans SC",
+    "MiSans",
+    "PingFang SC",
+    "Microsoft YaHei UI",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    system-ui,
+    sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: color-mix(in oklab, var(--color-foreground) 82%, transparent);
 }
 
 :is(.theme-knorvia-light, .theme-knorvia-dark) [data-v4-draft-greeting="true"]::before {

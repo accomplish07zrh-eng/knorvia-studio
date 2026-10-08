@@ -6,7 +6,7 @@
 
 ## 行为与唯一所有者
 
-- 既有窄工具栏新增紧凑的待处理入口，沿用黑白视觉、共享按钮和 `text-ui-*`。页面聚合已保存的待审批／待输入、失败／中断及完成未读，可筛选状态、展开更多行、刷新、打开原目标、逐项已读。没有批准、重试、发送或自动恢复按钮；明确的人类审批仍在原对话里进行。
+- 2026-10-08 起入口从窄工具栏移入工作台顶栏「待办 (n)」浮层，独立页面路由移除（见 `knorvia-composer-polish-20261008.md`）。原规则：既有窄工具栏新增紧凑的待处理入口，沿用黑白视觉、共享按钮和 `text-ui-*`。页面聚合已保存的待审批／待输入、失败／中断及完成未读，可筛选状态、展开更多行、刷新、打开原目标、逐项已读。没有批准、重试、发送或自动恢复按钮；明确的人类审批仍在原对话里进行。
 - Studio Runtime 从全历史 run、当前 pending interaction 与冻结的原定义／turn 推导投影，不依赖 Renderer 已加载的 timeline、最近 100 个 run 或 12 个非活跃缓存。投影不保存另一份运行或审批状态，不启动 adapter、探测内核、读取账号凭据或会话全文。
 - 原生 Knorvia 单聊保持 V4 owner。收件箱复用 Window Controller／`useGlobalTaskList` 的 timeline、pinned、archived 分区与既有 task `unreadAt`、activity；没有新搜索／分组索引。未打开的任务同样可见，远端离线、加载失败及不完整结果有明确提示，不把读取失败当作权威空集。离线源保留可信旧行，已读和导航禁止同路径本地回退。
 - Studio 只新增 `attention-read` 阅读收据，按对象 ID 保存所见事件版本。终态版本包含 run 的 attempt、state 和更新时间；审批版本绑定 interaction、原 turn 和 attempt。相同事实重复投影不新增通知；旧 attempt／旧事件的读命令不能消除新版本。阅读 pending interaction 也不回答、过期或隐藏其待处理事实。

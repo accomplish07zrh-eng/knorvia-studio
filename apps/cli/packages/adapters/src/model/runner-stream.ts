@@ -71,6 +71,8 @@ export async function* runStreamText(input: RunStreamTextInput): AsyncGenerator<
       visible = false;
     let textLength = 0,
       reasoningLength = 0;
+    // 首个可见内容（文本、推理或工具调用）到达时刻，用于计算输出速度。
+    let firstContentAt: number | undefined;
     let finishEvent: Extract<ModelStreamEvent, { type: "finish" }> | undefined;
     const prelude: ModelStreamEvent[] = [];
     const assembler = new StreamingToolCallAssembler({ logger: input.logger });
@@ -210,6 +212,7 @@ export async function* runStreamText(input: RunStreamTextInput): AsyncGenerator<
                 };
               }
             }
+            if (visible) firstContentAt ??= Date.now();
             yield normalized;
           }
         }
@@ -284,6 +287,14 @@ export async function* runStreamText(input: RunStreamTextInput): AsyncGenerator<
           timestamp: new Date().toISOString(),
           attempt,
           durationMs: Date.now() - startedAt,
+          // 修复对话底部 tok/s 恒为「—」、步数与缓存不随请求更新：流式路径此前不上报用量与首内容耗时，
+          // 会话调试统计（session-debug）因此无法计算生成速度。与非流式路径（runner-generate）保持一致。
+          ...(finishEvent
+            ? { finishReason: finishEvent.finishReason, usage: finishEvent.usage }
+            : {}),
+          ...(firstContentAt !== undefined
+            ? { timeToFirstContentMs: firstContentAt - startedAt }
+            : {}),
           streamOutputCommitted: committed,
         } as never,
         targets,

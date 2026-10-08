@@ -15,6 +15,7 @@ import { WorkbenchTileBody } from "./WorkbenchTileBody.js";
 import { WorkbenchTileHeader } from "./WorkbenchTileHeader.js";
 import { WorkbenchTaskList } from "./WorkbenchTaskList.js";
 import type { StudioRoute } from "../useStudioNavigation.js";
+import type { StudioAttentionRow } from "../attention/attentionRows.js";
 
 export function TaskWorkbench({
   scope,
@@ -22,12 +23,14 @@ export function TaskWorkbench({
   workspaceMenuProps,
   onOpenAgentSettings,
   onOpenTarget,
+  onOpenAttention,
 }: {
   scope: PaneWorkspaceScope;
   isDesktop?: boolean;
   workspaceMenuProps: StudioDraftProjectMenuProps;
   onOpenAgentSettings(): void;
   onOpenTarget(route: Partial<StudioRoute>): void;
+  onOpenAttention(row: StudioAttentionRow): void;
 }) {
   const { locale } = useKnorviaIntl(),
     zh = locale.startsWith("zh");
@@ -60,7 +63,9 @@ export function TaskWorkbench({
           ...board.shelved.map((tile) => tile.scope),
         ]}
         count={layout.leaves.length}
+        workspaceTabs={[scope, ...workspaceMenuProps.workspaceTabs]}
         onOpenTarget={onOpenTarget}
+        onOpenAttention={onOpenAttention}
       />
       {state.storageError && (
         <p role="alert" className="px-4 py-2 text-ui-sm">

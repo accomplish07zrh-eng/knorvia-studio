@@ -322,7 +322,7 @@ export function ChatEmptyWorkspacePreviewMenu({
           </Button>
         </DropdownMenuTrigger>
       </div>
-      <DropdownMenuContent align="start" side="top" className="w-72 p-0">
+      <DropdownMenuContent align="start" side="bottom" className="w-72 p-0">
         <div
           data-slot="command-input-wrapper"
           className="p-1 border-b border-border"

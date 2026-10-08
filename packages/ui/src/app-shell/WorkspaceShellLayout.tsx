@@ -132,11 +132,6 @@ const StudioWorkflowPage = lazy(() =>
     default: m.StudioWorkflowPage,
   })),
 );
-const StudioAttentionInbox = lazy(() =>
-  import("@/studio/attention/StudioAttentionInbox.js").then((m) => ({
-    default: m.StudioAttentionInbox,
-  })),
-);
 const StudioCreationPage = lazy(() =>
   import("@/studio/creation/StudioCreationPage.js").then((m) => ({
     default: m.StudioCreationPage,
@@ -1964,6 +1959,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                           <Suspense fallback={null}>
                             <TaskWorkbench
                               onOpenTarget={studioNavigation.navigate}
+                              onOpenAttention={openAttentionTarget}
                               scope={{
                                 workspacePath: workspaceAbsPath,
                                 workspaceIdentity,
@@ -1983,8 +1979,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                         </StudioPageFrame>
                       ) : workspaceMainView === "workflows" ||
                         workspaceMainView === "groups" ||
-                        workspaceMainView === "creation" ||
-                        workspaceMainView === "attention" ? (
+                        workspaceMainView === "creation" ? (
                         <StudioPageFrame
                           label={intl.formatMessage({
                             id:
@@ -1992,9 +1987,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                                 ? "studio.workflows"
                                 : workspaceMainView === "creation"
                                   ? "studio.creation.title"
-                                  : workspaceMainView === "attention"
-                                    ? "studio.attention.title"
-                                    : "studio.groups",
+                                  : "studio.groups",
                           })}
                           isDesktop={isDesktop}
                           isMacDesktop={isMacDesktop}
@@ -2020,11 +2013,6 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                                 <StudioWorkflowPage
                                   workspacePath={workspaceAbsPath}
                                   selectedWorkflowId={studioNavigation.route.workflowId}
-                                />
-                              ) : workspaceMainView === "attention" ? (
-                                <StudioAttentionInbox
-                                  workspaceTabs={workspaceTabs}
-                                  onOpen={openAttentionTarget}
                                 />
                               ) : workspaceMainView === "creation" ? (
                                 <StudioCreationPage />

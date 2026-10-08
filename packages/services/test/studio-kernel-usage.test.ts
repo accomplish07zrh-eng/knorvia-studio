@@ -135,3 +135,25 @@ test("Claude normalizes cache input and exposes model steps without inventing th
     modelSteps: 2,
   });
 });
+
+test("Claude reports billed request usage mid-turn so the footer moves before the result", async () => {
+  const { run, events } = fixture();
+  await claudeMessage(run, {
+    type: "assistant",
+    message: {
+      content: [],
+      usage: { input_tokens: 10, output_tokens: 4, cache_read_input_tokens: 90 },
+    },
+  });
+  await run.flush();
+  const usages = events.filter((event) => event.type === "usage");
+  const midTurn = usages.reduce((previous, next) => mergeKernelUsage(previous, next), {});
+  // 轮次未结束时已有 request 口径的计费用量与缓存读取，不再停在「—」。
+  assert.deepEqual(midTurn, {
+    scope: "request",
+    inputTokens: 100,
+    outputTokens: 4,
+    cacheReadTokens: 90,
+    contextUsedTokens: 104,
+  });
+});

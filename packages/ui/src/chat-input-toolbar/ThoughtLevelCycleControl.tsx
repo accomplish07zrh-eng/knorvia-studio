@@ -10,6 +10,7 @@ import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import { ControlHintTooltip } from "@/ControlHintTooltip.js";
 import { cn } from "@/components/lib/utils.js";
 import { Button } from "@/components/ui/button.js";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.js";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select.js";
 import type { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import {
@@ -21,8 +22,9 @@ import {
   isNoThoughtLevel,
 } from "@/chat-input-toolbar/thoughtLevelOptions.js";
 import { RollingToolbarLabel } from "@/chat-input-toolbar/RollingToolbarLabel.js";
+import { ThoughtLevelSlider } from "@/chat-input-toolbar/ThoughtLevelSlider.js";
 
-type ThoughtLevelInteractionMode = "select" | "cycle";
+type ThoughtLevelInteractionMode = "select" | "cycle" | "slider";
 
 export function ThoughtLevelCycleControl({
   disabled,
@@ -232,6 +234,69 @@ export function ThoughtLevelCycleControl({
           {triggerContent}
         </span>
       </ControlHintTooltip>
+    );
+  }
+
+  if (interactionMode === "slider") {
+    const restoreFocus = (event: Event) => {
+      if (!restoreFocusSelector) return;
+      event.preventDefault();
+      if (
+        !shouldRestoreChatInputFocusAfterPickerClose({ isCoarseTouchDevice: isCoarseTouchDevice() })
+      )
+        return;
+      document.querySelector<HTMLElement>(restoreFocusSelector)?.focus();
+    };
+    return (
+      <Popover open={open} onOpenChange={onOpenChange}>
+        <ControlHintTooltip
+          title={effectiveTooltipTitle}
+          shortcut={shortcutLabel}
+          triggerRef={triggerRef}
+        >
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="default"
+              disabled={disabled}
+              data-chat-toolbar-popover-trigger="true"
+              data-testid={TID_CHAT_THOUGHT_LEVEL_SELECT_TRIGGER}
+              className={cn("gap-1 rounded-lg px-1.5 py-1.5 text-ui-base", triggerClassName)}
+              aria-label={currentLabel}
+            >
+              {triggerContent}
+              <ChevronDownIcon
+                className={cn(
+                  "pointer-events-none size-3.5 text-foreground-subtle",
+                  indicatorClassName,
+                )}
+              />
+            </Button>
+          </PopoverTrigger>
+        </ControlHintTooltip>
+        <PopoverContent
+          side="top"
+          align="end"
+          collisionPadding={8}
+          className="w-auto rounded-2xl p-3"
+          onCloseAutoFocus={restoreFocus}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") onOpenChange?.(false);
+          }}
+        >
+          <ThoughtLevelSlider
+            title={intl.formatMessage({ id: "chat.toolbar.thoughtLevel.label" })}
+            index={shouldShowInvalidCurrentValue ? -1 : selectedEntryIndex}
+            entries={entries.map((entry) => ({
+              value: entry.value,
+              label: getThoughtLevelLabel(intl, provider, option, entry),
+            }))}
+            onSelect={onValueChange}
+            onCommitCurrent={onCurrentValueCommit}
+          />
+        </PopoverContent>
+      </Popover>
     );
   }
 

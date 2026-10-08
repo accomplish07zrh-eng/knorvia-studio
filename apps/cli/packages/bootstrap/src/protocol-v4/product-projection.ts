@@ -4521,7 +4521,10 @@ export class ProductProjection {
                   maxTokens,
                   autoCompactThresholdTokens:
                     this.snapshot.usage.contextWindow?.autoCompactThresholdTokens ?? null,
-                  ...(payload.cacheHit ? { cache: payload.cacheHit } : {}),
+                  // 修复缓存命中忽然变回「—」：本次请求没有可计算的命中率时沿用上次累计值，不清除。
+                  ...((payload.cacheHit ?? this.snapshot.usage.contextWindow?.cache)
+                    ? { cache: payload.cacheHit ?? this.snapshot.usage.contextWindow?.cache }
+                    : {}),
                   ...(payload.contextUsageBreakdown && payload.contextUsageBreakdown.length > 0
                     ? { breakdown: payload.contextUsageBreakdown }
                     : {}),
@@ -4668,6 +4671,10 @@ export class ProductProjection {
                     maxTokens,
                     autoCompactThresholdTokens:
                       this.snapshot.usage.contextWindow?.autoCompactThresholdTokens ?? null,
+                    // 修复压缩后缓存命中显示「—」：压缩只改变上下文水位，累计命中率保持不变。
+                    ...(this.snapshot.usage.contextWindow?.cache
+                      ? { cache: this.snapshot.usage.contextWindow.cache }
+                      : {}),
                   },
           },
         },

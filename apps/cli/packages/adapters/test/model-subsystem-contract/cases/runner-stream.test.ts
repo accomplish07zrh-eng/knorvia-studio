@@ -30,12 +30,24 @@ test("streaming tool assembler waits for end, preserves provider execution, dedu
       toolName: "run",
       type: "tool_input_start",
     }),
-    [{ id: "c1", providerExecuted: true, toolName: "run", type: "tool_input_start" }],
+    [
+      {
+        id: "c1",
+        providerExecuted: true,
+        toolName: "run",
+        type: "tool_input_start",
+      },
+    ],
   );
   assembler.handle({ delta: '{"x":', id: "c1", type: "tool_input_delta" });
   assert.deepEqual(
     assembler.handle({
-      toolCall: { id: "c1", input: { x: 1 }, name: "run", providerExecuted: true },
+      toolCall: {
+        id: "c1",
+        input: { x: 1 },
+        name: "run",
+        providerExecuted: true,
+      },
       type: "tool_call",
     }),
     [],
@@ -45,7 +57,12 @@ test("streaming tool assembler waits for end, preserves provider execution, dedu
   assert.equal(ended.find((event) => event.type === "tool_call")?.toolCall.providerExecuted, true);
   assert.deepEqual(
     assembler.handle({
-      toolCall: { id: "c1", input: { x: 1 }, name: "run", providerExecuted: true },
+      toolCall: {
+        id: "c1",
+        input: { x: 1 },
+        name: "run",
+        providerExecuted: true,
+      },
       type: "tool_call",
     }),
     [],
@@ -70,10 +87,19 @@ test("idle timeout uses base plus 30 seconds per retry and linked abort cleanup 
     await loadTargetModule<typeof import("@target/stream-idle-timeout")>("stream-idle-timeout");
   assert.equal(module.resolveModelStreamIdleTimeoutMs({ baseTimeoutMs: 1_000 }), 1_000);
   assert.equal(
-    module.resolveModelStreamIdleTimeoutMs({ baseTimeoutMs: 1_000, retryNumber: 2 }),
+    module.resolveModelStreamIdleTimeoutMs({
+      baseTimeoutMs: 1_000,
+      retryNumber: 2,
+    }),
     61_000,
   );
-  assert.equal(module.resolveModelStreamIdleTimeoutMs({ baseTimeoutMs: 0, retryNumber: 5 }), 0);
+  assert.equal(
+    module.resolveModelStreamIdleTimeoutMs({
+      baseTimeoutMs: 0,
+      retryNumber: 5,
+    }),
+    0,
+  );
   const parent = new AbortController();
   const linked = module.createLinkedAbortController(parent.signal);
   parent.abort(new Error("parent"));
@@ -172,7 +198,13 @@ test("hidden provider finish business errors fail before finish reaches the cons
               type: "finish",
             },
           ],
-          { providerMetadata: Promise.resolve({ code: 1302, message: "busy", success: false }) },
+          {
+            providerMetadata: Promise.resolve({
+              code: 1302,
+              message: "busy",
+              success: false,
+            }),
+          },
         ) as never;
       },
     },
@@ -215,17 +247,33 @@ test(
       streamText() {
         calls += 1;
         return calls === 1
-          ? (streamResult([{ finishReason: "stop", totalUsage: emptyUsage, type: "finish" }], {
-              totalUsage: Promise.resolve(emptyUsage),
-            }) as never)
+          ? (streamResult(
+              [
+                {
+                  finishReason: "stop",
+                  totalUsage: emptyUsage,
+                  type: "finish",
+                },
+              ],
+              {
+                totalUsage: Promise.resolve(emptyUsage),
+              },
+            ) as never)
           : (streamResult(
               [
                 { id: "t", type: "text-start" },
                 { id: "t", text: "ok", type: "text-delta" },
                 { id: "t", type: "text-end" },
-                { finishReason: "stop", totalUsage: emptyUsage, type: "finish" },
+                {
+                  finishReason: "stop",
+                  totalUsage: emptyUsage,
+                  type: "finish",
+                },
               ],
-              { text: Promise.resolve("ok"), totalUsage: Promise.resolve(emptyUsage) },
+              {
+                text: Promise.resolve("ok"),
+                totalUsage: Promise.resolve(emptyUsage),
+              },
             ) as never);
       },
     };
@@ -279,7 +327,10 @@ test("compact replay boundary and actual output commit remain distinct on explic
   const stream = module.runStreamText({
     env: { KNORVIA_RUNTIME_ENV: "test" },
     modelIoFullRetentionEnabled: false,
-    request: runtimeRequest({ preserveProviderStreamBoundaries: true, statusSink: statuses }),
+    request: runtimeRequest({
+      preserveProviderStreamBoundaries: true,
+      statusSink: statuses,
+    }),
     resolveModel: () => resolvedModel() as never,
     resolved: resolvedModel() as never,
     retry: retryOptions(2),
@@ -291,7 +342,10 @@ test("compact replay boundary and actual output commit remain distinct on explic
         return streamResult([
           { rawValue: { type: "ping" }, type: "raw" },
           { rawValue: { type: "message_start" }, type: "raw" },
-          { error: Object.assign(new Error("body error"), { statusCode: 500 }), type: "error" },
+          {
+            error: Object.assign(new Error("body error"), { statusCode: 500 }),
+            type: "error",
+          },
         ]) as never;
       },
     },
@@ -381,7 +435,10 @@ test("stream cancellation rejects pending next and discards its late value", asy
     module.runStreamText({
       env: { KNORVIA_RUNTIME_ENV: "test" },
       modelIoFullRetentionEnabled: false,
-      request: runtimeRequest({ abortSignal: controller.signal, statusSink: statuses }),
+      request: runtimeRequest({
+        abortSignal: controller.signal,
+        statusSink: statuses,
+      }),
       resolveModel: () => resolvedModel() as never,
       resolved: resolvedModel() as never,
       retry: retryOptions(0),
@@ -399,7 +456,10 @@ test("stream cancellation rejects pending next and discards its late value", asy
   await Promise.resolve();
   controller.abort(new Error("cancel"));
   await assert.rejects(pending, hasCode("model_request_cancelled"));
-  late.resolve({ done: false, value: { id: "t", text: "late", type: "text-delta" } });
+  late.resolve({
+    done: false,
+    value: { id: "t", text: "late", type: "text-delta" },
+  });
   await Promise.resolve();
   assert.equal(
     statuses.events.some((event) => event.type === "model_request_completed"),
@@ -435,3 +495,61 @@ function hasCode(code: string): (error: unknown) => boolean {
   return (error) =>
     typeof error === "object" && error !== null && Reflect.get(error, "code") === code;
 }
+
+test("stream completion reports usage and time to first content for footer throughput", async (context) => {
+  useSeams(context);
+  const module = await loadTargetModule<typeof import("@target/runner-stream")>("runner-stream");
+  const statuses = createStatusSink();
+  await collect(
+    module.runStreamText({
+      env: { KNORVIA_RUNTIME_ENV: "test" },
+      modelIoFullRetentionEnabled: false,
+      request: runtimeRequest({ statusSink: statuses }),
+      resolveModel: () => resolvedModel() as never,
+      resolved: resolvedModel() as never,
+      retry: retryOptions(0),
+      streamIdleTimeoutMs: 1_000,
+      runtime: {
+        async generateText() {
+          throw new Error("not used");
+        },
+        streamText() {
+          return streamResult([
+            { type: "start" },
+            { id: "text", type: "text-start" },
+            { id: "text", text: "hello", type: "text-delta" },
+            { id: "text", type: "text-end" },
+            {
+              finishReason: "stop",
+              totalUsage: {
+                inputTokens: 10,
+                outputTokens: 4,
+                totalTokens: 14,
+                inputTokenDetails: { cacheReadTokens: 6 },
+              },
+              type: "finish",
+            },
+          ]) as never;
+        },
+      },
+    }),
+  );
+  const completed = statuses.events.find((event) => event.type === "model_request_completed") as
+    | {
+        usage?: {
+          inputTokens?: number;
+          outputTokens?: number;
+          cacheReadTokens?: number;
+        };
+        timeToFirstContentMs?: number;
+        finishReason?: string;
+      }
+    | undefined;
+  assert.ok(completed);
+  // 对话底部的 tok/s 与缓存命中依赖这两项；流式路径此前不上报。
+  assert.equal(completed.usage?.inputTokens, 10);
+  assert.equal(completed.usage?.outputTokens, 4);
+  assert.equal(completed.usage?.cacheReadTokens, 6);
+  assert.equal(completed.finishReason, "stop");
+  assert.equal(typeof completed.timeToFirstContentMs, "number");
+});

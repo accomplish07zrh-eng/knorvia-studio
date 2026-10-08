@@ -21,7 +21,7 @@ const supportRoot = path.join(testRoot, "model-subsystem-contract");
 const groupRunner = path.join(supportRoot, "group-runner.mjs");
 const CHILD_TIMEOUT_MS = 135_000;
 const MAX_CAPTURE_BYTES = 4 * 1024 * 1024;
-const EXPECTED_CASES = 75;
+const EXPECTED_CASES = 76;
 const EXPECTED_NETWORK_SURFACES = 83;
 const ownedInputSpecifiers = new Set([
   ...CONTROLLED_NODE_BUILTINS,

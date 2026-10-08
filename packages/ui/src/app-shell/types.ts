@@ -121,7 +121,6 @@ export type WorkspaceMainView =
   | "workflows"
   | "creation"
   | "groups"
-  | "attention"
   | "external-chat";
 
 export interface WorkspaceShellLayoutProps extends AppProps {

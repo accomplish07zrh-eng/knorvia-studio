@@ -293,6 +293,9 @@ export class AiSdkModelExecution {
           apiKey,
           headers,
           fetch,
+          // 修复对话底部 token／缓存命中不随轮次变化：OpenAI 兼容端点只有在请求
+          // stream_options.include_usage 时才在流末尾返回用量，否则累计值恒加 0。
+          includeUsage: true,
         })(input.modelId);
       return {
         baseURL,

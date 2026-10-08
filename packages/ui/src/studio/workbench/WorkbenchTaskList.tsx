@@ -8,6 +8,12 @@ import { studioKernelOption } from "../types.js";
 import { useTaskWorkbench } from "./workbenchStore.js";
 import { useWorkbenchTasks } from "./useWorkbenchTasks.js";
 import { workbenchPaneFor } from "./workbenchPlacement.js";
+import type { StudioAttentionRow } from "../attention/attentionRows.js";
+import {
+  useWorkbenchAttention,
+  WorkbenchAttentionIcon,
+  WorkbenchAttentionPanel,
+} from "./WorkbenchAttention.js";
 import { normalizeWorkbenchZoom, WORKBENCH_TILE_LIMIT, WORKBENCH_ZOOM } from "./workbenchModel.js";
 import type { WorkbenchTaskState } from "./workbenchTasks.js";
 
@@ -48,19 +54,29 @@ function ToolbarButton({
 export function WorkbenchTaskList({
   scopes,
   count,
+  workspaceTabs,
   onOpenTarget,
+  onOpenAttention,
 }: {
   scopes: PaneWorkspaceScope[];
   count: number;
+  workspaceTabs: PaneWorkspaceScope[];
   onOpenTarget(route: Partial<StudioRoute>): void;
+  onOpenAttention(row: StudioAttentionRow): void;
 }) {
   const { locale } = useKnorviaIntl(),
     zh = locale.startsWith("zh");
   const state = useTaskWorkbench(),
     board = state.board!;
   const tasks = useWorkbenchTasks(scopes);
-  const [expanded, setExpanded] = useState(false);
-  const [shelfOpen, setShelfOpen] = useState(false);
+  // 三个浮层互斥：任务列表、已收起、待办。
+  const [panel, setPanel] = useState<"tasks" | "shelf" | "attention" | null>(null);
+  const expanded = panel === "tasks",
+    shelfOpen = panel === "shelf";
+  const { attention, count: attentionCount } = useWorkbenchAttention(workspaceTabs, (row) => {
+    setPanel(null);
+    onOpenAttention(row);
+  });
   const [error, setError] = useState(false);
   const shown = tasks.rows.filter((row) => row.tile && workbenchPaneFor(board, row.tile)).length;
   const actionable = !tasks.loading && !tasks.error;
@@ -69,8 +85,7 @@ export function WorkbenchTaskList({
     const shown = state.show(tile);
     setError(!shown);
     if (!shown) return;
-    setExpanded(false);
-    setShelfOpen(false);
+    setPanel(null);
   };
   const zoom = normalizeWorkbenchZoom(board.zoom ?? 1);
   const full = count >= WORKBENCH_TILE_LIMIT;
@@ -108,8 +123,7 @@ export function WorkbenchTaskList({
                   : "Collect active tasks"
             }
             onClick={() => {
-              setExpanded(true);
-              setShelfOpen(false);
+              setPanel("tasks");
               state.collect(
                 tasks.rows.filter((row) => row.tile && !row.unavailable).map((row) => row.tile!),
               );
@@ -120,8 +134,7 @@ export function WorkbenchTaskList({
             label={`${zh ? "任务列表" : "Task list"} (${tasks.rows.length})`}
             aria-expanded={expanded}
             onClick={() => {
-              setExpanded(!expanded);
-              setShelfOpen(false);
+              setPanel(expanded ? null : "tasks");
             }}
           />
           <ToolbarButton
@@ -130,9 +143,15 @@ export function WorkbenchTaskList({
             label={`${zh ? "已收起" : "Shelved"} (${board.shelved.length})`}
             aria-expanded={shelfOpen}
             onClick={() => {
-              setShelfOpen(!shelfOpen);
-              setExpanded(false);
+              setPanel(shelfOpen ? null : "shelf");
             }}
+          />
+          <ToolbarButton
+            data-testid="workbench-attention-toggle"
+            icon={<WorkbenchAttentionIcon />}
+            label={`${zh ? "待办" : "Attention"} (${attentionCount})`}
+            aria-expanded={panel === "attention"}
+            onClick={() => setPanel(panel === "attention" ? null : "attention")}
           />
           <span
             className="flex shrink-0 items-center px-1 text-foreground-subtle"
@@ -204,21 +223,20 @@ export function WorkbenchTaskList({
           </span>
         </div>
       </div>
-      {(error || board.shelved.length >= 64) && !expanded && !shelfOpen && (
+      {(error || board.shelved.length >= 64) && !panel && (
         <p role="alert" className="border-t border-border px-4 py-1 text-ui-xs">
           {zh
             ? "已收起列表已满（64）；可恢复已有项来切换，不会丢弃草稿。"
             : "The shelf is full (64). Restore a shelved tile to swap without discarding drafts."}
         </p>
       )}
-      {(expanded || shelfOpen) && (
+      {panel && (
         <div
           data-testid="workbench-toolbar-panel"
           className="absolute top-full left-2 mt-1 max-h-[60vh] w-[min(36rem,calc(100%-1rem))] overflow-auto rounded-xl border border-border bg-background shadow-lg"
           onKeyDown={(event) => {
             if (event.key !== "Escape") return;
-            setExpanded(false);
-            setShelfOpen(false);
+            setPanel(null);
           }}
         >
           {expanded && (tasks.partial || tasks.error) && (
@@ -305,6 +323,7 @@ export function WorkbenchTaskList({
               )}
             </div>
           )}
+          {panel === "attention" && <WorkbenchAttentionPanel attention={attention} />}
           {shelfOpen && (
             <div data-testid="workbench-shelf" className="px-4 py-2">
               {board.shelved.map((tile) => (

@@ -41,6 +41,13 @@ export async function verifyWorkbenchUsability(page, host, evidence) {
   await page.keyboard.press("Escape");
   await page.getByTestId("workbench-shelf-toggle").click();
 
+  // 待办并入顶栏：浮层复用原待办视图，与其他浮层互斥，不改变画布高度。
+  await page.getByTestId("workbench-attention-toggle").click();
+  await page.getByTestId("workbench-toolbar-panel").getByTestId("studio-attention-inbox").waitFor();
+  assert.deepEqual(await canvas.boundingBox(), before);
+  assert.equal(await page.getByTestId("studio-attention-open").count(), 0, "rail entry removed");
+  await page.getByTestId("workbench-attention-toggle").click();
+
   // 画布缩放：作用于整个画布并随布局持久化。
   await page.getByTestId("workbench-zoom-out").click();
   await page.getByTestId("workbench-zoom-out").click();
@@ -62,9 +69,11 @@ export async function verifyWorkbenchUsability(page, host, evidence) {
       true,
       "tile header fits",
     );
-  await page.screenshot({ path: resolve(evidence, "workbench-usability-narrow.png") });
+  await page.screenshot({
+    path: resolve(evidence, "workbench-usability-narrow.png"),
+  });
   await page.setViewportSize(wide);
   await page.getByTestId("workbench-zoom-reset").click();
   assert.equal(host.commands.length, commands);
-  return "new task adds or reuses a ready tile without shelving, renew shelves only that tile, toolbar stays one row with overlay panels, zoom persists and narrow headers do not overflow";
+  return "attention inbox opens from the toolbar overlay, new task adds or reuses a ready tile without shelving, renew shelves only that tile, toolbar stays one row with overlay panels, zoom persists and narrow headers do not overflow";
 }

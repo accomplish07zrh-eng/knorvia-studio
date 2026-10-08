@@ -123,6 +123,7 @@ export function StudioChatModelControls({
       />
       {thoughtOption.options?.length ? (
         <ThoughtLevelCycleControl
+          interactionMode="slider"
           intl={intl}
           option={thoughtOption}
           triggerRef={thoughtRef}
