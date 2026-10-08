@@ -67,7 +67,7 @@ sequenceDiagram
 
 - 信息、工具更新、使用量、终态和错误必须保持原生含义；未知字段/状态不能静默等同成功，缺失数据保持未知。
 - 不同 session/turn、迟到事件、请求撤回、取消、重复通知不能污染活跃轮次；同一审批仍只有原 owner 接受显式答复。
-- 原生 child 权限归属属于高风险修正：先用本项目 fixture 证实 root/child 注册与审批链，再写所有者设计。保留根 thread fence；只有经本轮可信原生关系确认的 child 可关联回原 run/turn/审批 owner，未知 child、其他线程和迟到旧轮请求继续拒绝。不得只删除 threadId 判断来使 fixture 通过，任何超出既有权限语义的取舍交父线程确认。
+- 原生 child 权限归属属于高风险修正：先用本项目 fixture 证实 root/child 注册与审批链，保留根 thread fence。首批不擅自增加 child lineage 或新的授权 owner；若需扩展，先给父线程具体最小设计、归属证据和风险，取得范围确认后再实现。未知 child、其他线程和迟到旧轮请求继续拒绝，不得只删除 threadId 判断来使 fixture 通过。
 - 合成协议不得联网、调用付费模型、读取真实凭据或真实用户 profile。日志和持久投影不增加秘密或隐藏推理暴露。
 
 ## B：输入/草稿接纳契约
@@ -95,6 +95,8 @@ sequenceDiagram
 
 首个独立门禁 `packages/services/test/studio-adapter-image-integration.test.ts` 在 v0.10.0 基线实际执行：2/2 pass、0 fail/skip、exit 0。它经原生合成 stdio 与真实 registry/adapter 验证 unowned thread 不能输出、提前结束或打开审批，以及原 read-only owner 继续拒绝执行权限而不显示审批。该结果是保留边界的基线证据，不是三项新功能已完成。初始 fmt/provenance/lint/typecheck/verify:pre-push/fmt:check 均 exit 0；lint 只有原有一条 warning。
 
+第二个独立基线 `packages/services/test/studio-image-legacy-schema.integration.test.ts` 实际执行 1/1 pass、0 fail/skip、exit 0。fixture 直接使用 main `34078257` 的 schema 2 DDL，种入旧 conversation/run/message/command、旧游标与未知字段；重开 owner 后逐字节复核原记录与旧表/索引，未使用新构造器建空库来冒充迁移。新图片写入、受理回执与重开恢复仍须在 B 冻结实现后扩展验证，此基线不能代替这些新行为验收。
+
 以下是三项功能的计划验收，尚未执行，不能提前记为覆盖或通过。
 
 1. A 的具体旧基线反例：合成协议实际失败、新实现通过；跨 thread/session/turn 的迟到/重复/取消与原审批请求仍归正确 owner。
@@ -102,7 +104,7 @@ sequenceDiagram
 3. B 的真实浏览器粘贴/拖放、移除、取消、重复点击/Enter、切换目标、失败后恢复；迟到读取与旧 ACK 不清除新正文/附件。合成数据，不用付费 provider。
 4. C 的真实 baseline/working 两侧各异、源项目后来变化、added/deleted、过大/缺失/损坏/不支持；返回内容 hash 与声明一致，读取间修改失败，任意路径/错 run/step 拒绝。
 5. C 的真实浏览器并排显示、关闭/取消、切换目标、迟到 decode/响应、重复打开、失败恢复；旧文本 DiffViewer、review draft、apply、attention/read 与 native unread 继续可用。
-6. 跨路线组合：含图片的一次 native turn 经保真事件/取消/审批完成，原 session writeback 与后续差异审阅仍指向同一持久运行；重开旧/新合成数据不隐式重发、不自动批准、不损失旧字段。
+6. 跨路线组合：含图片的一次 native chat turn 经保真事件/取消/审批完成，原 session writeback 仍归同一持久运行；另在既有隔离 group/workflow run 验证图片差异审阅与该运行/步骤收据一致。现有 chat 使用源 cwd，不为组合用例擅自引入 chat 隔离。重开旧/新合成数据不隐式重发、不自动批准、不损失旧字段。
 7. 最后冻结的集成 exact head 执行 fmt、来源再生/check、lint、typecheck、全量及 changed architecture、CLI build、重点及完整 `test:studio`；图标/冻结来源按实际要求检查。先 fmt 后来源指纹再生。
 8. 运行适用桌面构建并绑定 exact commit。验收阶段优先使用已有非发布构建入口；构建成功不等于实际安装、人工 GUI 或全历史迁移验收。
 9. 选择项目策略一致、尚未占用的下一稳定 semver，更新真实用户变更/升级说明，冻结最后 head 并取得该 exact head 的 Windows/Linux CI。freshness 与 expected SHA guard 检查通过后仅由本路线合入 main；核对 merge tree 与验收候选一致，并在实际合并 SHA 上执行既有完整 Windows/Linux 发布矩阵。
