@@ -226,6 +226,8 @@ import {
 export interface SessionPaneProps {
   paneId: string;
   sessionId: string | null;
+  /** 显式工作台草稿身份；普通会话不传，沿用原 root 草稿。 */
+  draftScopeId?: string;
   /** 低基数打开入口，由 pane 宿主提供；缺省仅用于兼容旧调用。 */
   openTrigger?: SessionOpenTrigger;
   rootSessionId?: string;
@@ -430,6 +432,7 @@ function shouldRestoreQueuedComposerFromAck(status: CommandAck["status"]): boole
 export function SessionPane({
   paneId,
   sessionId,
+  draftScopeId,
   openTrigger,
   rootSessionId,
   readOnly = false,
@@ -818,6 +821,7 @@ export function SessionPane({
     workspaceIdentity,
     provider,
     sessionId,
+    draftScopeId,
     sessionConfig: snapshot?.sessionId === sessionId ? snapshot.config : null,
     agentStartupAllowed: draftAgentStartupAllowed,
     modelSelectionService,

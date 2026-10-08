@@ -1,4 +1,5 @@
 export const studioZhCN: Record<string, string> = {
+  "studio.workbench": "工作台",
   "studio.rail.tools": "工作区工具",
   "studio.rail.kernels": "内核",
   "studio.mascot.greet": "和 Knorvia 打个招呼",
@@ -20,6 +21,7 @@ export const studioZhCN: Record<string, string> = {
 };
 
 export const studioEnUS: Record<string, string> = {
+  "studio.workbench": "Workbench",
   "studio.rail.tools": "Workspace tools",
   "studio.rail.kernels": "Kernels",
   "studio.mascot.greet": "Say hello to Knorvia",

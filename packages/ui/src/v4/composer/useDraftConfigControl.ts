@@ -105,6 +105,8 @@ export function useDraftConfigControl(params: {
   provider?: KnorviaProvider;
   /** 会话切换读取对应 scope；已有空选择也必须保留。 */
   sessionId: string | null;
+  /** 工作台待发送格使用独立作用域；普通单聊仍使用原 root。 */
+  draftScopeId?: string;
   /** 仅匹配当前 Session 的首份投影可用作初始化；null 表示还没恢复完成。 */
   sessionConfig?: Partial<SessionConfigState> | null;
   /** provider registry 已通过 renderer readiness 门禁后才允许拉起 Agent。 */
@@ -116,6 +118,7 @@ export function useDraftConfigControl(params: {
     workspaceIdentity,
     provider,
     sessionId,
+    draftScopeId,
     sessionConfig,
     agentStartupAllowed = true,
     modelSelectionService,
@@ -125,7 +128,7 @@ export function useDraftConfigControl(params: {
   const sessionService = useSessionService(workspacePath, null, workspaceIdentity);
   const { settings: sharedSettings } = useSettings();
   const appFollowupMode = resolveAppFollowupMode(sharedSettings);
-  const scopeId = sessionId ?? V4_DRAFT_SCOPE_ROOT;
+  const scopeId = sessionId ?? draftScopeId ?? V4_DRAFT_SCOPE_ROOT;
   const scopeKey = JSON.stringify([workspaceKey, scopeId]);
   const loadedScope = useMemo(
     () => ({
@@ -303,7 +306,7 @@ export function useDraftConfigControl(params: {
 
   const promoteComposerDraft = useCallback(
     (createdSessionId: string) => {
-      if (stateRef.current.scopeKey !== scopeKey || scopeId !== V4_DRAFT_SCOPE_ROOT) return;
+      if (stateRef.current.scopeKey !== scopeKey || sessionId !== null) return;
       const targetSessionId = createdSessionId.trim();
       if (!targetSessionId) return;
       // 首发成功曾直接删除 Root scope，真实 Session 没有 Composer Draft，
@@ -315,9 +318,9 @@ export function useDraftConfigControl(params: {
         stateRef.current.draft,
       );
       if (!written) return;
-      clearV4ComposerDraft(workspacePath, workspaceIdentity, V4_DRAFT_SCOPE_ROOT);
+      clearV4ComposerDraft(workspacePath, workspaceIdentity, scopeId);
     },
-    [scopeId, scopeKey, workspaceIdentity, workspacePath],
+    [scopeId, scopeKey, sessionId, workspaceIdentity, workspacePath],
   );
 
   // ── workspace 目录水合（见文件头说明）──

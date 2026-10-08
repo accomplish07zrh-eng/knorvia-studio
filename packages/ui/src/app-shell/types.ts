@@ -115,6 +115,7 @@ export interface GitChangeSummary {
 }
 
 export type WorkspaceMainView =
+  | "workbench"
   | "chat"
   | "automations"
   | "workflows"

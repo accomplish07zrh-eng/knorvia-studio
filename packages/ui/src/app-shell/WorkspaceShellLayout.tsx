@@ -23,6 +23,7 @@ import { GitBranchSwitcher } from "@/GitBranchSwitcher.js";
 import { WorkspacePluginPreview } from "@/WorkspacePluginPreview.js";
 import { sidePaneTerminalSessionRegistry } from "@/terminal/sidePaneTerminalSessionRegistry.js";
 import { V4WorkspaceChatArea } from "@/v4/V4WorkspaceChatArea.js";
+import { AddToWorkbench } from "@/studio/workbench/AddToWorkbench.js";
 import { requestV4ComposerDraftWorkspaceTransfer } from "@/v4/composer/composerDraftWorkspaceTransfer.js";
 import type { ConversationDropTargetController } from "@/v4/composer/conversationDropTarget.js";
 import {
@@ -143,6 +144,11 @@ const StudioCreationPage = lazy(() =>
 );
 const StudioGroupsPage = lazy(() =>
   import("@/studio/groups/StudioGroupsPage.js").then((m) => ({ default: m.StudioGroupsPage })),
+);
+const TaskWorkbench = lazy(() =>
+  import("@/studio/workbench/TaskWorkbench.js").then((module) => ({
+    default: module.TaskWorkbench,
+  })),
 );
 const StudioExternalChat = lazy(() =>
   import("@/studio/agents/StudioExternalChat.js").then((m) => ({ default: m.StudioExternalChat })),
@@ -1948,6 +1954,33 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                             </div>
                           </AutomationsMainBreadcrumbFrame>
                         </main>
+                      ) : workspaceMainView === "workbench" ? (
+                        <StudioPageFrame
+                          label={intl.formatMessage({ id: "studio.workbench" })}
+                          isDesktop={isDesktop}
+                          isMacDesktop={isMacDesktop}
+                          isSidebarVisible={isSidebarPanelVisible}
+                        >
+                          <Suspense fallback={null}>
+                            <TaskWorkbench
+                              onOpenTarget={studioNavigation.navigate}
+                              scope={{
+                                workspacePath: workspaceAbsPath,
+                                workspaceIdentity,
+                                remoteSessionId: workspaceRemoteSessionId,
+                              }}
+                              isDesktop={isDesktop}
+                              workspaceMenuProps={{
+                                workspaceTabs,
+                                isWindowsDesktop,
+                                onConnectRemote,
+                                onSelectRemoteProject,
+                                onCancelRemoteProject,
+                              }}
+                              onOpenAgentSettings={openAgentSettings}
+                            />
+                          </Suspense>
+                        </StudioPageFrame>
                       ) : workspaceMainView === "workflows" ||
                         workspaceMainView === "groups" ||
                         workspaceMainView === "creation" ||
@@ -2009,11 +2042,17 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                         </StudioPageFrame>
                       ) : isExternalChat ? (
                         <main className="relative flex h-full min-h-0 flex-1 flex-col overflow-hidden">
+                          <AddToWorkbench
+                            kernel={studioNavigation.route.kernelId}
+                            sessionId={studioNavigation.route.externalSessionId}
+                            scope={{ workspacePath: workspaceAbsPath }}
+                            onOpen={() => studioNavigation.navigate({ view: "workbench" })}
+                          />
                           <ScopedErrorBoundary
                             scope="studio-external-chat"
                             resetKeys={[studioNavigation.route.externalSessionId]}
                             variant="panel"
-                            className="h-full"
+                            className="min-h-0 flex-1"
                           >
                             <Suspense fallback={null}>
                               <StudioExternalChat
@@ -2047,11 +2086,21 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                       ) : (
                         <main className="relative flex h-full min-h-0 flex-1 flex-col overflow-hidden">
                           {renderChatFindDialog()}
+                          <AddToWorkbench
+                            kernel="knorvia"
+                            sessionId={activeTaskId}
+                            scope={{
+                              workspacePath: workspaceAbsPath,
+                              workspaceIdentity,
+                              remoteSessionId: workspaceRemoteSessionId,
+                            }}
+                            onOpen={() => studioNavigation.navigate({ view: "workbench" })}
+                          />
                           <ScopedErrorBoundary
                             scope="workspace-chat"
                             resetKeys={workspaceDraftResetKeys}
                             variant="panel"
-                            className="h-full"
+                            className="min-h-0 flex-1"
                           >
                             {/* pane 绑定必须用原始选择态 activeTaskId，
                                 不能用 meta 派生的 activeSessionId——v4 createSession 刚建的会话

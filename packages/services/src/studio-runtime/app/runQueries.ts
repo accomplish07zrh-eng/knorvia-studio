@@ -14,6 +14,14 @@ export function hasUnknownStudioRun(
 /** Keep the recent window, then older unresolved runs in their original newest-first order. */
 export function studioRunHistory(db: StudioRepository, scope?: string): StoredRun[] {
   const recent = db.list<StoredRun>("run", { scope, limit: 100 });
-  const unknown = db.list<StoredRun>("run", { scope, unresolvedRunsOnly: true, limit: 10000 });
-  return [...new Map([...recent, ...unknown].map((run) => [run.id, run])).values()];
+  // 最近完成历史可能挤掉仍在等待的旧运行；从既有 active 索引读全量，不受并发上限影响。
+  const active = db
+    .list<{ id: string; targetId: string }>("active", { all: true })
+    .filter((entry) => scope === undefined || entry.targetId === scope)
+    .flatMap((entry) => {
+      const run = db.read<StoredRun>("run", entry.id);
+      return run && (scope === undefined || run.targetId === scope) ? [run] : [];
+    });
+  const unknown = db.list<StoredRun>("run", { scope, unresolvedRunsOnly: true, all: true });
+  return [...new Map([...recent, ...active, ...unknown].map((run) => [run.id, run])).values()];
 }
