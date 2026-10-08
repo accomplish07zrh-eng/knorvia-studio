@@ -169,6 +169,8 @@ export type PaneLayoutCommand =
       direction: SplitDirection;
       before: boolean;
       binding: PaneBinding;
+      /** 显式容量（工作台为 8）；缺省沿用常规分屏的 MAX_WORKBENCH_PANES。 */
+      limit?: number;
     }
   | { kind: "close" | "focus" | "confirm"; paneId: string }
   | { kind: "bind"; paneId: string; sessionId: string }
@@ -182,7 +184,11 @@ export function applyPaneLayoutCommand(
 ): PaneLayoutSnapshot {
   switch (command.kind) {
     case "split": {
-      if (!contains(state.root, command.anchor) || !canAddPane(state)) return state;
+      if (
+        !contains(state.root, command.anchor) ||
+        countPanes(state) >= (command.limit ?? MAX_WORKBENCH_PANES)
+      )
+        return state;
       const ids = nextIds(state.root);
       const oldLeaf: PaneLayoutNode = { type: "leaf", paneId: command.anchor };
       const added: PaneLayoutNode = { type: "leaf", paneId: ids.pane };

@@ -31,6 +31,55 @@ export interface TaskWorkbenchState {
   tiles: Record<string, WorkbenchTile>;
   maximized: string | null;
   shelved: WorkbenchTile[];
+  /** 画布缩放（specs/knorvia-workbench-usability-20261008.md）；缺省 1。 */
+  zoom?: number;
+}
+/** 最多上下两行、每行四格（specs/knorvia-workbench-usability-20261008.md）。 */
+export const WORKBENCH_TILE_LIMIT = 8;
+const MAX_ROWS = 2,
+  MAX_COLUMNS = 4;
+export const WORKBENCH_ZOOM = { min: 0.5, max: 1.5, step: 0.1 } as const;
+export function normalizeWorkbenchZoom(value: unknown): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return 1;
+  const clamped = Math.min(WORKBENCH_ZOOM.max, Math.max(WORKBENCH_ZOOM.min, value));
+  return Math.round(clamped * 10) / 10;
+}
+/** 叶子 1×1；左右分割列相加、行取大；上下分割行相加、列取大。 */
+export function workbenchGrid(node: PaneLayoutNode): { rows: number; columns: number } {
+  if (node.type === "leaf") return { rows: 1, columns: 1 };
+  const a = workbenchGrid(node.first),
+    b = workbenchGrid(node.second);
+  return node.direction === "row"
+    ? { rows: Math.max(a.rows, b.rows), columns: a.columns + b.columns }
+    : { rows: a.rows + b.rows, columns: Math.max(a.columns, b.columns) };
+}
+export function fitsWorkbenchGrid(root: PaneLayoutNode): boolean {
+  const grid = workbenchGrid(root);
+  return (
+    grid.rows <= MAX_ROWS &&
+    grid.columns <= MAX_COLUMNS &&
+    leafPaneIds(root).length <= WORKBENCH_TILE_LIMIT
+  );
+}
+/** 各叶子在画布中的数值占比，用于自动选位；不读取 DOM。 */
+export function workbenchLeafRects(
+  node: PaneLayoutNode,
+  rect = { width: 1, height: 1 },
+  out: Array<{ paneId: string; width: number; height: number }> = [],
+) {
+  if (node.type === "leaf") {
+    out.push({ paneId: node.paneId, width: rect.width, height: rect.height });
+    return out;
+  }
+  const ratio = clampSplitRatio(node.ratio);
+  if (node.direction === "row") {
+    workbenchLeafRects(node.first, { ...rect, width: rect.width * ratio }, out);
+    workbenchLeafRects(node.second, { ...rect, width: rect.width * (1 - ratio) }, out);
+  } else {
+    workbenchLeafRects(node.first, { ...rect, height: rect.height * ratio }, out);
+    workbenchLeafRects(node.second, { ...rect, height: rect.height * (1 - ratio) }, out);
+  }
+  return out;
 }
 export function emptyWorkbench(scope: PaneWorkspaceScope, id: string): TaskWorkbenchState {
   return {
@@ -54,8 +103,11 @@ export function layoutWorkbench(
   command: PaneLayoutCommand,
   tile?: WorkbenchTile,
 ): TaskWorkbenchState {
-  const layout = applyPaneLayoutCommand(state.layout, command);
-  if (layout === state.layout) return state;
+  const layout = applyPaneLayoutCommand(
+    state.layout,
+    command.kind === "split" ? { ...command, limit: WORKBENCH_TILE_LIMIT } : command,
+  );
+  if (layout === state.layout || !fitsWorkbenchGrid(layout.root)) return state;
   const tiles: Record<string, WorkbenchTile> = {};
   for (const id of leafPaneIds(layout.root)) {
     const value = state.tiles[id] ?? tile;
@@ -99,7 +151,8 @@ function tree(
   depth = 0,
 ): PaneLayoutNode | undefined {
   const node = object(value);
-  if (!node || depth > 3) return;
+  // 两行四列约束下最深为 4 层分割；校验上限留 1 层余量，最终仍以 fitsWorkbenchGrid 为准。
+  if (!node || depth > 5) return;
   if (
     node.type === "leaf" &&
     typeof node.paneId === "string" &&
@@ -140,7 +193,13 @@ export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
     if (value?.version !== 1 || !layout || !source) return;
     const ids = new Set<string>();
     const root = tree(layout.root, ids, new Set());
-    if (!root || ids.size > 4 || !ids.has("workspace-main")) return;
+    if (
+      !root ||
+      ids.size > WORKBENCH_TILE_LIMIT ||
+      !ids.has("workspace-main") ||
+      !fitsWorkbenchGrid(root)
+    )
+      return;
     const tiles: Record<string, WorkbenchTile> = {},
       panes: Record<string, { workspaceScope: PaneWorkspaceScope; sessionId: string | null }> = {};
     const tileIds = new Set<string>();
@@ -201,6 +260,7 @@ export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
     }
     return {
       shelved,
+      zoom: normalizeWorkbenchZoom(value.zoom ?? 1),
       layout: {
         root,
         panes,

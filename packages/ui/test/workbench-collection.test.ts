@@ -122,8 +122,10 @@ test("collect all running, queued, approval and input tasks beyond four without 
 test("collection preserves configured tiles, reports capacity and explicit swapping retains layout and recoverable draft references", () => {
   let board = emptyWorkbench(scope, "draft");
   board.tiles["workspace-main"] = { ...board.tiles["workspace-main"]!, configured: true };
-  for (const id of ["a", "b", "c"]) board = placeWorkbenchTile(board, tile(id))!;
-  assert.equal(Object.keys(board.tiles).length, 4);
+  // 容量为两行四列（specs/knorvia-workbench-usability-20261008.md）。
+  for (const id of ["a", "b", "c", "e", "f", "g", "h"])
+    board = placeWorkbenchTile(board, tile(id))!;
+  assert.equal(Object.keys(board.tiles).length, 8);
   assert.equal(placeWorkbenchTile(board, tile("d")), null);
   const root = board.layout.root;
   board = placeWorkbenchTile(board, tile("d"), "workspace-main")!;

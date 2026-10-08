@@ -4,10 +4,12 @@ import {
   decodeWorkbench,
   emptyWorkbench,
   layoutWorkbench,
+  normalizeWorkbenchZoom,
   type TaskWorkbenchState,
   type WorkbenchTile,
 } from "./workbenchModel.js";
 import {
+  autoSplitWorkbench,
   placeWorkbenchTile,
   untouchedWorkbenchTile,
   workbenchPaneFor,
@@ -35,6 +37,22 @@ interface Store {
   reopenInput(pane: string, expectedId: string): void;
   collect(tiles: WorkbenchTile[]): void;
   show(tile: WorkbenchTile): boolean;
+  /** 顶栏「新建任务」：复用待命格、自动选位，满八格时换出聚焦格。 */
+  create(): boolean;
+  /** 「在此格新建任务」：已动过的格子入收起，原位换成同内核同项目的待命格。 */
+  renew(pane: string, expectedId: string): boolean;
+  zoom(value: number): void;
+}
+/** 新待命格沿用参照格的内核与项目，不带会话与草稿。 */
+function freshTile(base: WorkbenchTile): WorkbenchTile {
+  return {
+    id: crypto.randomUUID(),
+    scope: base.scope,
+    kernel: base.kernel,
+    sessionId: null,
+    opened: false,
+    configured: false,
+  };
 }
 export const useTaskWorkbench = create<Store>((set, get) => {
   const save = (board: TaskWorkbenchState) => {
@@ -174,6 +192,45 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       if (!board) return;
       for (const tile of tiles) board = placeWorkbenchTile(board, tile) ?? board;
       save({ ...board, maximized: null });
+    },
+    create() {
+      const board = get().board;
+      if (!board) return false;
+      const ready = Object.entries(board.tiles).find(([, tile]) =>
+        untouchedWorkbenchTile(tile),
+      )?.[0];
+      if (ready) {
+        save({ ...layoutWorkbench(board, { kind: "focus", paneId: ready }), maximized: null });
+        return true;
+      }
+      const pane = board.layout.focusedPaneId;
+      const base = board.tiles[pane] ?? Object.values(board.tiles)[0]!;
+      const next = autoSplitWorkbench({ ...board, maximized: null }, freshTile(base));
+      if (next) {
+        save(next);
+        return true;
+      }
+      return get().renew(pane, base.id);
+    },
+    renew(pane, expectedId) {
+      const board = get().board,
+        old = board?.tiles[pane];
+      if (!board || !old || old.id !== expectedId) return false;
+      if (untouchedWorkbenchTile(old)) return true;
+      if (board.shelved.length >= 64) return false;
+      useWorkbenchPreview.getState().clear(old.id);
+      const tile = freshTile(old);
+      save({
+        ...board,
+        shelved: [...board.shelved, old],
+        tiles: { ...board.tiles, [pane]: tile },
+        maximized: null,
+      });
+      return true;
+    },
+    zoom(value) {
+      const board = get().board;
+      if (board) save({ ...board, zoom: normalizeWorkbenchZoom(value) });
     },
     show(tile) {
       const board = get().board;

@@ -13,6 +13,7 @@ import { workbenchHost } from "./task-workbench-host.mjs";
 import * as controlEvidence from "./task-workbench-control-evidence.mjs";
 import { verifyWorkbenchReloadOwnership } from "./task-workbench-reload-evidence.mjs";
 import { verifyWorkbenchTileViews } from "./task-workbench-preview-evidence.mjs";
+import { verifyWorkbenchUsability } from "./task-workbench-usability-evidence.mjs";
 
 const root = process.cwd();
 const evidence = process.env.KNORVIA_WORKBENCH_EVIDENCE_DIR || "/tmp/knorvia-workbench-evidence";
@@ -240,7 +241,7 @@ try {
   checks.push(
     "Host replacement and late source ACK fail closed with an identical session ID, without automatic replay",
   );
-  // Follow-up: six active runs (including questions and approvals) cannot be hidden by a four-tile capacity.
+  // Follow-up: ten active runs (including questions and approvals) cannot be hidden by the eight-tile capacity.
   await page.evaluate(() => {
     localStorage.removeItem("knorvia-task-workbench:v1");
     window.workbenchFixture.board.setState({ board: null });
@@ -250,7 +251,7 @@ try {
   await tiles.first().getByRole("button", { name: "Open input" }).click();
   await tiles.first().locator('[contenteditable="true"]').first().fill("keep this unsent draft");
   const draftTileId = await tiles.first().getAttribute("data-tile-id");
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 10; i++) {
     await host.request("b", "command", [
       {
         commandId: `collect-create-${i}`,
@@ -273,14 +274,14 @@ try {
   }
   const beforeCollect = host.commands.length;
   await page.getByRole("button", { name: /^Task list/ }).click();
-  await page.getByTestId("workbench-active-count").filter({ hasText: "6 active" }).waitFor();
+  await page.getByTestId("workbench-active-count").filter({ hasText: "10 active" }).waitFor();
   await page.getByTestId("workbench-collect").click();
-  assert.equal(await tiles.count(), 4);
+  assert.equal(await tiles.count(), 8);
   await page
     .getByTestId("workbench-active-count")
-    .filter({ hasText: "6 active · 3 in tiles · 3 not included" })
+    .filter({ hasText: "10 active · 7 in tiles · 3 not included" })
     .waitFor();
-  assert.equal(await page.getByTestId("workbench-active-row").count(), 6);
+  assert.equal(await page.getByTestId("workbench-active-row").count(), 10);
   await page
     .getByTestId("workbench-active-list")
     .getByText(/Waiting for input/)
@@ -296,10 +297,13 @@ try {
     await tiles.first().locator('[contenteditable="true"]').first().innerText(),
     "keep this unsent draft",
   );
+  // 任务列表是覆盖在格子上方的浮层：先收起再聚焦格子，然后重新打开列表。
+  await page.getByRole("button", { name: /^Task list/ }).click();
   await tiles
     .first()
     .locator("header")
     .click({ position: { x: 50, y: 20 } });
+  await page.getByRole("button", { name: /^Task list/ }).click();
   const fullTree = await page.evaluate(
     () => window.workbenchFixture.board.getState().board.layout.root,
   );
@@ -324,7 +328,7 @@ try {
     "keep this unsent draft",
   );
   await recovered.getByRole("button", { name: "Shelve tile", exact: true }).click();
-  assert.equal(await tiles.count(), 3);
+  assert.equal(await tiles.count(), 7);
   assert.equal(
     host.commands.length,
     beforeCollect,
@@ -344,12 +348,13 @@ try {
   );
   assert.equal(host.commands.length, beforeCollect);
   checks.push(
-    "one-click collection includes all six active tasks and both waiting states; overflow remains reachable; swap, shelve and reload restore unsent draft without commands",
+    "one-click collection includes all ten active tasks and both waiting states; overflow remains reachable; swap, shelve and reload restore unsent draft without commands",
   );
   await page.getByTestId("workbench-collect").click();
   await page.screenshot({ path: resolve(evidence, "active-tasks-overflow.png") });
   checks.push(await controlEvidence.verifyWorkbenchNativeDraftOwner(page));
   checks.push(await verifyWorkbenchReloadOwnership(browser, host, page.url(), evidence));
+  checks.push(await verifyWorkbenchUsability(page, host, evidence));
   assert.deepEqual(errors, []);
   await writeFile(
     resolve(evidence, "result.json"),
