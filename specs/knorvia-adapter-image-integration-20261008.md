@@ -119,6 +119,15 @@ sequenceDiagram
 - 独立合成图保存在 `test/fixtures/studio-independent-images.integration.*`：小图由 Pillow 编码，包含 PNG/JPEG/EXIF/APNG；原生 zlib/CRC 生成器独立构造两张 800×800 RGB PNG，各 1,921,153 bytes，合计 3,842,306 bytes、base64 5,123,080 characters。实际 B codec 完整解码两张大图与五张静态小图 exit 0；fixture 准备成功不是图片 admission 已通过。
 - `node scripts/licenses.mjs notices` 在实际安装后的 main `34078257` 与 B `c071040e` 两个 detached 工作树均 exit 1，完全相同缺项 `agent-base@6.0.2` / `https-proxy-agent@5.0.1`，不称完整 notices generator 通过。实际 services 导入的 `pngjs@7.0.0`、`jpeg-js@0.4.4` 完整许可文本及 SHA 与保留 inventory/notices 匹配、exit 0；不删除既有材料义务或改弱门禁。
 
+### GUI 工作台独立初检与共同链路
+
+- 初始工作台 `4c83811c16e4799e0668796cbb111d9fd22572e9` 实际 Chromium 五组、工作台/原导航九项测试 exit 0；尚未吸收。确认缺少用户要求的一键纳入所有运行/待输入/待审批任务，四格溢出正在原路线补齐。
+- 独立真实 Knorvia `SessionPane` / V4 transport / `ConversationV4Gateway` / `CommandInbox`（仅模型目录与执行 port 为合成）接纳同项目两格 alpha/beta 输入至两个不同 session，保持 low reasoning；零任务先分格时零命令、零模型请求，放大返回保留正文，exit 0。首次夹具按旧错误 wire version/不完整 ModelSelectionView 构造失败，修正为实际 wire version 3/真实 effectiveSelection 后通过，不将夹具问题报成产品 bug。
+- 同一真实浏览器补导航后 exit 1：未发送的 Knorvia 两格 `sessionId=null` 分别 alpha/beta，Chats→Workbench 后第一格变为 beta，两格共享最后正文。`SessionPane.useDraftConfigControl` 未带独立 pane scope，草稿保存键为 `[workspaceKey, __draft__]`。原工作台路线须在保留普通单聊默认、workspaceIdentity、原 prewarm owner 与提交路径的前提下隔离工作台未提交草稿；不得伪造工作区身份来分隔 UI。
+- 初始工作台与已接受 B/C 的临时共同树实际 Chromium：本格 image-only PNG 粘贴经原 SQLite owner 接纳、精确 hash/模型/CID，另一格正文独立；阻住 A 的实际查询/命令回包后更换真实 B SQLite owner，B 同 target/CID 但不同原图字节、迟到 A ACK 都不清除/重发原提交，实际 page.reload 后只恢复未知提交元数据，零原图持久化、零 B 自动发送，两组 exit 0。此验证不等于初始工作台完整就绪，也不证明恢复布局持有原 service 句柄。
+- `studio-native-image-combination.integration.test.ts` 在共同 B/C `535146a1` 首次真实旧 SQLite/二进制 RPC/合成原生 stdio 执行 exit 1：图片已接纳，旧显式 native turn 的 terminal 结束当前 run，命中“旧轮不得结束本轮”断言。该用例继续核验显式本轮审批、工具未知状态/双 IO、usage、原模型/effort/session 写回和重开 CID 不重发；等待新的 A 正式 PR 后全部通过，不能把早期 14 项通过当作此组合已通过。旧被拒 A 补丁不纳入，新 A 任务从公开基线独立重做。
+- 原全 Desktop 导航 smoke 在新 detached 安装树因 `--ignore-scripts` 没有 Electron runtime/main bundle而未运行。真实 activity rail 及导航纯测试已执行，完整 Electron/安装 GUI/跨机 SSH/付费模型均未声称验证；最终适用桌面构建和 exact-head Windows/Linux CI 仍待全部范围就绪。
+
 以下为最终共同 head 的计划验收；中间复核不能代替这些完整覆盖。
 
 1. A 的具体旧基线反例：合成协议实际失败、新实现通过；跨 thread/session/turn 的迟到/重复/取消与原审批请求仍归正确 owner。
