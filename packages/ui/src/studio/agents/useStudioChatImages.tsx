@@ -49,6 +49,8 @@ export function useStudioChatImages({
   const [capturing, setCapturing] = useState(false);
   const captureGeneration = useRef(0);
   const currentScope = useRef("");
+  const currentConnection = useRef(runtime.connectionKey);
+  currentConnection.current = runtime.connectionKey;
   const selectionKey = JSON.stringify(selection);
   const currentKey = JSON.stringify([
     sessionId,
@@ -69,28 +71,59 @@ export function useStudioChatImages({
     const commandId = draft?.imageSubmission?.commandId;
     if (
       commandId &&
+      mounted.current &&
+      currentConnection.current === runtime.connectionKey &&
+      runtime.service &&
+      pendingImage?.service === runtime.service &&
+      pendingImage.command.commandId === commandId &&
       runtime.overview?.runs.some(
         (run) => run.targetId === sessionId && run.admissionCommandId === commandId,
       )
     )
-      studioAgentStore.getState().acknowledgeImages(sessionId, commandId);
-  }, [draft?.imageSubmission?.commandId, runtime.overview, sessionId]);
+      studioAgentStore.getState().acknowledgeImages(sessionId, commandId, runtime.service);
+  }, [
+    draft?.imageSubmission?.commandId,
+    pendingImage,
+    runtime.connectionKey,
+    runtime.overview,
+    runtime.service,
+    sessionId,
+  ]);
   useEffect(() => {
     const commandId = draft?.imageSubmission?.commandId;
-    if (!commandId || !runtime.service) return;
+    const service = runtime.service,
+      connection = runtime.connectionKey;
+    if (
+      !commandId ||
+      !service ||
+      pendingImage?.service !== service ||
+      pendingImage.command.commandId !== commandId
+    )
+      return;
     let current = true;
     // 回执查找只读、绑定 target/CID；历史分页淘汰与换连接都不能触发新执行。
-    void runtime.service.timeline(sessionId, undefined, undefined, undefined, commandId).then(
+    void service.timeline(sessionId, undefined, undefined, undefined, commandId).then(
       (result) => {
-        if (current && result.admission?.commandId === commandId)
-          studioAgentStore.getState().acknowledgeImages(sessionId, commandId);
+        if (
+          current &&
+          mounted.current &&
+          currentConnection.current === connection &&
+          result.admission?.commandId === commandId
+        )
+          studioAgentStore.getState().acknowledgeImages(sessionId, commandId, service);
       },
       () => {},
     );
     return () => {
       current = false;
     };
-  }, [draft?.imageSubmission?.commandId, runtime.service, sessionId]);
+  }, [
+    draft?.imageSubmission?.commandId,
+    pendingImage,
+    runtime.connectionKey,
+    runtime.service,
+    sessionId,
+  ]);
   const capture = async (files: File[]) => {
     if (!files.length || capturing) return;
     const generation = ++captureGeneration.current;
@@ -116,7 +149,9 @@ export function useStudioChatImages({
         throw new Error(zh ? "请先移除失效图片" : "Remove unavailable images first");
       const unique = new Map(previous.map((image) => [image.sha256, image as StudioImageInput]));
       for (const image of captured) if (!unique.has(image.sha256)) unique.set(image.sha256, image);
-      studioAgentStore.getState().setDraftImages(sessionId, kernelId, [...unique.values()]);
+      studioAgentStore
+        .getState()
+        .setDraftImages(sessionId, kernelId, [...unique.values()], runtime.service!);
     } catch (cause) {
       if (
         mounted.current &&
@@ -147,16 +182,28 @@ export function useStudioChatImages({
     if (draft?.imageSubmission) {
       if (!pendingImage || pendingImage.service !== runtime.service)
         throw new Error(
-          zh
-            ? "原提交尚未确认；请连接原 Host 检查运行记录。不要重复发送。"
-            : "Submission unconfirmed. Reconnect the original Host and inspect its run history before sending again.",
+          pendingImage
+            ? zh
+              ? `原请求 ${draft.imageSubmission.commandId} 归属另一执行连接；请查看原 Host 运行记录或新建独立会话，不要重发。`
+              : `Submission ${draft.imageSubmission.commandId} belongs to another Host connection. Inspect the original Host run history or start a separate conversation; do not resend.`
+            : zh
+              ? `原请求 ${draft.imageSubmission.commandId} 仍未确认，原图片字节已不可恢复；请查看原 Host 运行记录或新建独立会话，不会自动重发。`
+              : `Submission ${draft.imageSubmission.commandId} remains unconfirmed and original image bytes are unavailable. Inspect the original Host run history or start a separate conversation; no automatic resend.`,
         );
+      const service = pendingImage.service,
+        connection = runtime.connectionKey;
       const result = await runtime.executePrepared(pendingImage.command);
       if (result.imageRejection) {
-        studioAgentStore.getState().rejectImages(sessionId, pendingImage.command.commandId);
+        if (mounted.current && currentConnection.current === connection)
+          studioAgentStore
+            .getState()
+            .rejectImages(sessionId, pendingImage.command.commandId, service);
         throw new Error(result.imageRejection);
       }
-      studioAgentStore.getState().acknowledgeImages(sessionId, pendingImage.command.commandId);
+      if (mounted.current && currentConnection.current === connection)
+        studioAgentStore
+          .getState()
+          .acknowledgeImages(sessionId, pendingImage.command.commandId, service);
       return true;
     }
     return false;
@@ -170,6 +217,12 @@ export function useStudioChatImages({
         throw new Error(
           zh ? "图片内容已失效，请重新添加" : "Image content unavailable; add it again",
         );
+      if (!runtime.service || draft?.imageOwnerService !== runtime.service)
+        throw new Error(
+          zh
+            ? "图片属于另一 Host 或归属无法确认，请返回原连接或移除后重新添加"
+            : "Images belong to another Host or ownership is unknown; return to the original connection or remove and add them again",
+        );
     }
   };
   const command = async (input: ChatSubmissionCommand) => {
@@ -179,13 +232,18 @@ export function useStudioChatImages({
       imageModel: requireStudioImageModel(modelOptions.options, input.selection?.model),
       kernelConfig: { ...(config ?? { executablePath: "", permission: "ask" as const }) },
     });
-    studioAgentStore.getState().sealImageSubmission(sessionId, runtime.service!, command);
+    const service = runtime.service!,
+      connection = runtime.connectionKey;
+    studioAgentStore.getState().sealImageSubmission(sessionId, service, command);
     const result = await runtime.executePrepared(command);
     if (result.imageRejection) {
-      studioAgentStore.getState().rejectImages(sessionId, command.commandId);
+      if (mounted.current && currentConnection.current === connection)
+        studioAgentStore.getState().rejectImages(sessionId, command.commandId, service);
       throw new Error(result.imageRejection);
     }
-    studioAgentStore.getState().acknowledgeImages(sessionId, command.commandId);
+    // 修复：直接返回也绑定原连接；A 的迟到结果不能清除当前 B scope 的草稿。
+    if (mounted.current && currentConnection.current === connection)
+      studioAgentStore.getState().acknowledgeImages(sessionId, command.commandId, service);
     return result;
   };
   const content = (
@@ -216,9 +274,17 @@ export function useStudioChatImages({
       )}
       {draft?.imageSubmission && (
         <p role="status" className="px-3 py-1 text-ui-xs text-foreground-subtle">
-          {zh
-            ? "已发送，等待 Host 确认；重试将使用原图片和请求编号。"
-            : "Sent; awaiting Host confirmation. Retry uses the original images and request ID."}
+          {!pendingImage
+            ? zh
+              ? `原 Host 归属无法确认；请求 ${draft.imageSubmission.commandId} 仍未知，原图片字节已不可恢复。请查看原 Host 运行记录或新建独立会话，不会自动重发。`
+              : `Original Host ownership cannot be verified; submission ${draft.imageSubmission.commandId} remains unconfirmed and original image bytes are unavailable. Inspect the original Host run history or start a separate conversation. No automatic resend.`
+            : pendingImage.service !== runtime.service
+              ? zh
+                ? `原请求 ${draft.imageSubmission.commandId} 属于另一 Host 连接；请查看原 Host 运行记录或新建独立会话，当前连接不会重发。`
+                : `Submission ${draft.imageSubmission.commandId} belongs to another Host connection. Inspect the original Host run history or start a separate conversation; this connection will not resend it.`
+              : zh
+                ? "已发送，等待 Host 确认；重试将使用原图片和请求编号。"
+                : "Sent; awaiting Host confirmation. Retry uses the original images and request ID."}
         </p>
       )}
     </>

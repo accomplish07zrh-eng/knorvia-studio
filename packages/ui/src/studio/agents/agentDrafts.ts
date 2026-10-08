@@ -3,6 +3,7 @@ import {
   validateStudioImageRefs,
   type StudioImageRef,
   type StudioChatSelection,
+  type IStudioRuntimeService,
 } from "@knorvia/services";
 import { copyStudioChatSelection, isStudioChatSelection } from "./chatSelections.js";
 import { parseHandoffRecords, type SessionHandoffRecord } from "@knorvia/shared";
@@ -22,6 +23,8 @@ export interface StudioExternalDraft {
   workspacePath?: string;
   selection?: StudioChatSelection;
   images?: Array<StudioImageRef & { dataBase64?: string }>;
+  /** 当前窗口内的执行连接证明；持久化前剥离，重载不能凭同名目标或 CID 重建。 */
+  imageOwnerService?: IStudioRuntimeService;
   imageSubmission?: { commandId: string; text: string; imageIds: string[] };
   updatedAt: number;
 }

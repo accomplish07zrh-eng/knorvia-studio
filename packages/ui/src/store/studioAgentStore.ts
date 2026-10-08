@@ -112,9 +112,16 @@ export function createStudioAgentStore(storage: StudioAgentStorage) {
       }
       if (writesBlocked) return false;
       try {
+        // 修复：service 只能证明当前窗口归属；先剥离再编码，不能持久化或调用其 toJSON。
+        const drafts = Object.fromEntries(
+          Object.entries(data.drafts).map(([id, draft]) => {
+            const { imageOwnerService: _owner, ...stored } = draft;
+            return [id, stored];
+          }),
+        );
         storage.setItem(
           STUDIO_AGENT_STORAGE_KEY,
-          JSON.stringify({ version: 3, data }, (key, value) =>
+          JSON.stringify({ version: 3, data: { ...data, drafts } }, (key, value) =>
             key === "dataBase64" ? undefined : value,
           ),
         );
