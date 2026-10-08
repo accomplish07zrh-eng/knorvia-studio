@@ -1,6 +1,6 @@
 # 外部适配器保真、聊天贴图与工作区图片对比集成
 
-2026-10-08。用户批准「修正＋贴图＋图片对比」。本轮交付新的 draft 集成 PR、独立回归和适用桌面构建；不合入 main、不创建 tag/GitHub Release、不部署网站、不修改签名配置或授权策略。
+2026-10-08。用户批准「修正＋贴图＋图片对比」，并已明确授权三项统一通过验收后合入 main、按既有 Windows/Linux 范围发布新的正式版。先交付新的 draft 集成 PR、独立回归和适用桌面构建；验收完成前不发布。集成/发布仅由本路线执行，不发布 preview/draft release，不部署网站、不增加手机/macOS矩阵、不修改签名配置或授权策略。
 
 ## 基线与范围
 
@@ -46,7 +46,7 @@ sequenceDiagram
 
 ## 三路交接与共享文件边界
 
-各路独立新分支、中文提交、独立 draft PR；通过本集成 PR 回报 spec、exact head、最小契约补丁、旧基线复现和验证证据。集成路按冻结 head 吸收提交，不 merge 到 main、不 force-push。首次共享契约改动前先在集成 PR 贴出字段/事件与所属文件，避免各路各自发明图片类型或改写同一段。
+各路独立新分支、中文提交、独立 draft PR；通过本集成 PR 回报 spec、exact head、最小契约补丁、旧基线复现和验证证据。集成路按冻结 head 吸收提交，完成全部 gate 后才统一合入 main；任何路线不得 force-push main 或覆盖 tag/release。首次共享契约改动前先在集成 PR 贴出字段/事件与所属文件，避免各路各自发明图片类型或改写同一段。
 
 | 路线            | 首要拥有文件/语义                                                              | 共享切片与交接规则                                                                                                                                                                                     |
 | --------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -93,7 +93,9 @@ sequenceDiagram
 
 ## 独立验收与交付 gate
 
-以下是计划验收，除上面的 baseline freshness/architecture 外尚未执行，不能提前记为覆盖或通过。
+首个独立门禁 `packages/services/test/studio-adapter-image-integration.test.ts` 在 v0.10.0 基线实际执行：2/2 pass、0 fail/skip、exit 0。它经原生合成 stdio 与真实 registry/adapter 验证 unowned thread 不能输出、提前结束或打开审批，以及原 read-only owner 继续拒绝执行权限而不显示审批。该结果是保留边界的基线证据，不是三项新功能已完成。初始 fmt/provenance/lint/typecheck/verify:pre-push/fmt:check 均 exit 0；lint 只有原有一条 warning。
+
+以下是三项功能的计划验收，尚未执行，不能提前记为覆盖或通过。
 
 1. A 的具体旧基线反例：合成协议实际失败、新实现通过；跨 thread/session/turn 的迟到/重复/取消与原审批请求仍归正确 owner。
 2. B 的 image-only、text+image、纯文字旧命令； PNG/JPEG 字节/格式/预算边界、未知/不支持能力零派发、图片失败保留草稿；单次提交原 kernel/session/工作区/授权不变。
@@ -102,6 +104,8 @@ sequenceDiagram
 5. C 的真实浏览器并排显示、关闭/取消、切换目标、迟到 decode/响应、重复打开、失败恢复；旧文本 DiffViewer、review draft、apply、attention/read 与 native unread 继续可用。
 6. 跨路线组合：含图片的一次 native turn 经保真事件/取消/审批完成，原 session writeback 与后续差异审阅仍指向同一持久运行；重开旧/新合成数据不隐式重发、不自动批准、不损失旧字段。
 7. 最后冻结的集成 exact head 执行 fmt、来源再生/check、lint、typecheck、全量及 changed architecture、CLI build、重点及完整 `test:studio`；图标/冻结来源按实际要求检查。先 fmt 后来源指纹再生。
-8. 运行适用桌面构建并绑定 exact commit。优先使用已有非发布构建入口；若另用自动化，先核实其无 main/tag/release/部署副作用。构建成功不等于实际安装、人工 GUI 或全历史迁移验收。
+8. 运行适用桌面构建并绑定 exact commit。验收阶段优先使用已有非发布构建入口；构建成功不等于实际安装、人工 GUI 或全历史迁移验收。
+9. 选择项目策略一致、尚未占用的下一稳定 semver，更新真实用户变更/升级说明，冻结最后 head 并取得该 exact head 的 Windows/Linux CI。freshness 与 expected SHA guard 检查通过后仅由本路线合入 main；核对 merge tree 与验收候选一致，并在实际合并 SHA 上执行既有完整 Windows/Linux 发布矩阵。
+10. 发布矩阵的 resolve、两平台 quality、四变体 fresh packaging/实际包验收、aggregate validation、publish 全部监控到终态；失败先诊断、仅 bounded retry，不在结果未知时重复发布。匿名核验公开 tag/commit/latest/draft=false/prerelease=false、全部资产名字/数量/大小/hash/checksum/metadata与源链接/归档；Windows未签名如实报告，旧稳定版不覆盖。
 
-每项回报 executed/failed/skipped/not-run、真实 exit、exact head、日志或 PR/CI 链接。瞬时失败先诊断，仅 bounded retry，不删除真实断言或改变不相关语义。工作区 freshness 在吸收功能提交和最后冻结时复核；main 只读，稳定 tag/release 保持原样。
+每项回报 executed/failed/skipped/not-run、真实 exit、exact head、日志或 PR/CI 链接。瞬时失败先诊断，仅 bounded retry，不删除真实断言或改变不相关语义。工作区 freshness 在吸收功能提交和最后冻结时复核；验收前 main 只读，验收后只发布完整统一版本，保留已有稳定 tag/release。
