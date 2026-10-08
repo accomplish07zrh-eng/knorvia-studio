@@ -202,12 +202,22 @@ test("crash recovery fences preaccepted follow-ups and old uncertainty survives 
     assert.equal(calls, 0);
     const timeline = await f.service.timeline("chat");
     const overview = await f.service.overview();
+    const recentIds = Array.from({ length: 100 }, (_, index) => `historical-${1099 - index}`);
     for (const runs of [timeline.runs, overview.runs]) {
-      assert.equal(runs.length, 101);
-      assert.equal(runs.at(-1)?.id, first.id);
+      // 工作台补全 active 索引后，旧排队项也必须可见；可见不代表已获准执行。
+      assert.deepEqual(
+        runs.map((run) => run.id),
+        [...recentIds, queued.id, first.id],
+      );
+      assert.equal(runs.find((run) => run.id === queued.id)?.state, "queued");
+      assert.equal(runs.find((run) => run.id === first.id)?.state, "interrupted");
+      assert.equal(runs.find((run) => run.id === first.id)?.resultKnown, false);
       assert.equal(new Set(runs.map((run) => run.id)).size, runs.length);
-      assert.equal(runs[0]?.id, "historical-1099");
     }
+    f.service.tick();
+    await sleep(10);
+    assert.equal(calls, 0, "reading all active history must not dispatch a fenced follow-up");
+    assert.equal(f.db.read<StoredRun>("run", queued.id)?.state, "queued");
   } finally {
     await f.service.disposeAllAndWait();
   }

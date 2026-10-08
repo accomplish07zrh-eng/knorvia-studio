@@ -102,3 +102,9 @@ sequenceDiagram
 - 全仓 `typecheck` 和 `verify:pre-push` 通过；中英文键 5573 对；架构 0 violation，lint 仍只有上述既有 warning。最终格式与来源指纹检查在提交前再次执行。
 - 提交前核对 main 仍为 `34078257`，本分支 ahead 1 / behind 0。与 PR #52 `f45d1900` 仅重叠生成文件 `licensing/current-files.json`；与 PR #50 `535146a1` 还重叠 `studio-runtime/CONTRACT.md`。集成应合并契约段落并重新生成来源指纹，不覆盖其他分支的功能。
 - 仍未运行付费模型、真实登录内核、完整 Electron、完整 Knorvia V4 发送、跨机器 SSH UI。
+
+## 全量回归的历史投影断言
+
+PR #53 的 `4085817e` 在 CI run `37720024724`（实际检出合并 SHA `ae38ba37e9e8fdaede0508e04c920d9268012a99`）出现一个失败：`studio-runtime-sequencing.test.ts` 的崩溃恢复历史用例原本只预期最近 100 条记录加 1 条旧未知结果。本轮 active 索引补入了旧排队任务，真实结果是 102 条，本环境同版本可复现。
+
+验收应明确验证最近 100 条记录的完整 ID 顺序、旧排队任务和未知结果各出现一次，以及排队仍被未知结果阻挡、读取投影没有启动内核。不得仅放宽数量范围，也不得为迁就旧断言删除应展示的进行中任务。修正后须运行该用例、全量 `test:studio`，并按新 head 核对 CI；此前本地 64 项结果不能替代全量回归。
