@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.11.1 - 2026-10-08
+
+- 工作台：顶栏「新建任务」可直接新增格子，不必先收起已有格；满格时收起当前格后
+  原位放入，也可在格内「⋯」菜单里「在此格新建任务」。容量改为最多两行、每行
+  四格（共八格）。说明行与工具行合并为单行顶栏，任务列表、已收起与待办改为浮层，
+  不再压缩格子高度；新增画布缩放（50%–150%），窄窗口下顶栏与格子标题栏自适应。
+- 待办并入工作台顶栏「待办 (n)」，左侧窄工具栏不再单独放置入口。
+- 聊天输入：思考强度改为强度滑杆；项目选择与插件／分支移到输入框下方；空会话
+  问候改为更柔和的字重与字体。Knorvia 与所有外部内核同步生效。
+- 用量统计：修复对话底部 tok/s 恒为「—」、OpenAI 兼容服务商 token 不增长、
+  缓存命中偶尔变回「—」，以及 Claude Code 轮次中用量不更新的问题。
+- The workbench adds New task without shelving, up to two rows of four tiles,
+  a single-row toolbar with overlay panels, canvas zoom and narrow-window layouts;
+  the attention inbox moves into the workbench toolbar.
+- Chat input uses a reasoning-effort slider, places project and plugin controls
+  below the input and softens the empty-chat greeting for every kernel.
+- Footer usage now updates for streamed requests, OpenAI-compatible providers,
+  compaction and mid-turn Claude Code requests.
+
 ## 0.11.0 - 2026-10-08
 
 - 外部代理保真：保留问题选项说明、完整且有界/脱敏的审批上下文，以及
