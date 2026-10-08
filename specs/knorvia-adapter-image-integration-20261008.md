@@ -97,6 +97,33 @@ sequenceDiagram
 
 ## 独立验收与交付 gate
 
+### 工作台重载原连接证明（失败先行）
+
+共同候选 `2980e035` 的真实 Chromium/SQLite 反例：A/B 各有相同 `saved` 会话、Codex 和 `/test/project`，但运行正文分别属于 A/B。从 Chats 把 A 加入后切到 B，窗口内守卫正确拒绝；真实 reload 保持当前 B 后，原 tile/layout/session/project 不变却展示 B 的正文和审批。断言 exit 1，pageerror 为空。内存 service Map 丢失后的当前索引匹配不能证明原 Host；这是发布 blocker，不以 Linux/Windows CI 通过代替。
+
+唯一连接证明 owner 仍为 `workbenchConnection`；持久布局只保存引用。恢复的已打开或带会话引用格（含已收起格）登记为连接 unknown，不能自动认领当前 service。自动汇总、显示/换格/收起、布局更新和迟到目标更新不解除 unknown；显式当前 Chats 重新加入才解除已有会话的守卫，并保留原 tile ID/布局/草稿。显式重新加入已收起引用也须作用于恢复的原 tile，而非传入新 ID。
+
+未发送输入不能因 fail-closed 而无法恢复：原生 `sessionId=null`，或尚未绑定且当前权威 Host 不存在该 external draft 会话时，展示保存的内核/项目坐标，用户显式“打开保存输入”后才解锁该原 tile/draft scope。外部索引仍加载、已有当前同 ID 会话、既有绑定均不得走此入口。该动作只解除未发送输入的视图证明，不创建/发送/恢复/批准任务；原附件 owner 的重载 unknown 保持，不恢复原图字节或自动重发。未打开的零任务布局无需会话证明，保持原准备流程。
+
+真实 V4 验收区分任务执行和既有输入准备：显式打开原生输入复用 SessionPane，可能准备不含 `firstInput` 的空 `createSession`，沿原有空会话清理/重挂载规则；不派发模型输入。重载本身及用户点击前不产生新命令。原文本在两个稳定 tile draft scope 中恢复，随后仅用户逐格 Send 各受理一次独立 `sendText`。不宣称重新打开输入没有任何 native 命令。
+
+```mermaid
+sequenceDiagram
+    participant L as 持久布局引用
+    participant C as 窗口连接证明 owner
+    participant U as 用户
+    participant H as 当前 Host
+    L->>C: 重载 opened/session 引用（含收起）
+    C->>C: 原 service 证明 unknown；阻止自动认领
+    H-->>C: 同 ID/内核/项目索引不能解除 unknown
+    U->>H: Chats 核对并显式重新加入既有会话
+    U->>C: 或核对未发送输入坐标并显式重新打开
+    C->>C: 只重新绑定该 tile 的视图
+    Note over U,H: 没有 create/send/resume/approval/cancel
+```
+
+先运行不修改产品源码的失败用例，再实施最小修正；复验跨 Host 真实 reload、当前原 Host reload、收起/自动汇总不得绕过、显式重加保持稳定 ID，以及原生/外部未发送草稿恢复。新共同 head 重新取得 fmt/provenance/lint/typecheck/architecture/full tests 和精确双 OS CI，之后才允许合入/发布。
+
 首个独立门禁 `packages/services/test/studio-adapter-image-integration.test.ts` 在 v0.10.0 基线实际执行：2/2 pass、0 fail/skip、exit 0。它经原生合成 stdio 与真实 registry/adapter 验证 unowned thread 不能输出、提前结束或打开审批，以及原 read-only owner 继续拒绝执行权限而不显示审批。该结果是保留边界的基线证据，不是三项新功能已完成。初始 fmt/provenance/lint/typecheck/verify:pre-push/fmt:check 均 exit 0；lint 只有原有一条 warning。
 
 第二个独立基线 `packages/services/test/studio-image-legacy-schema.integration.test.ts` 实际执行 1/1 pass、0 fail/skip、exit 0。fixture 直接使用 main `34078257` 的 schema 2 DDL，种入旧 conversation/run/message/command、旧游标与未知字段；重开 owner 后逐字节复核原记录与旧表/索引，未使用新构造器建空库来冒充迁移。新图片写入、受理回执与重开恢复仍须在 B 冻结实现后扩展验证，此基线不能代替这些新行为验收。

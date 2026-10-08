@@ -10,6 +10,7 @@ import { StudioExternalChat } from "../agents/StudioExternalChat.js";
 import type { StudioDraftProjectMenuProps } from "../agents/StudioDraftProjectMenu.js";
 import { useStudioRuntime } from "../runtime/useStudioRuntime.js";
 import { claimWorkbenchConnection } from "./workbenchConnection.js";
+import { WorkbenchConnectionNotice } from "./WorkbenchConnectionNotice.js";
 import { useTaskWorkbench } from "./workbenchStore.js";
 import type { WorkbenchTile } from "./workbenchModel.js";
 
@@ -66,11 +67,11 @@ function KnorviaConversation(props: WorkbenchConversationProps) {
   const absent = useCallback(() => setMissing(target), [target]);
   if (!claimWorkbenchConnection(tile.id, service))
     return (
-      <Notice>
-        {zh
-          ? "连接已变化，请在单聊核对并重新加入工作台。"
-          : "The Host changed. Verify this conversation in Chats and add it again."}
-      </Notice>
+      <WorkbenchConnectionNotice
+        pane={pane}
+        tile={tile}
+        canReopenInput={!tile.existing && tile.sessionId === null}
+      />
     );
   if (missing === target)
     return (
@@ -142,11 +143,11 @@ function ExternalConversation({
   }, [sameHost, matched, conversation, tile.existing, tile.id, pane, update]);
   if (!sameHost)
     return (
-      <Notice>
-        {zh
-          ? "连接不可用或已变化，请在单聊核对后重新加入工作台。"
-          : "The Host is unavailable or changed. Verify the chat before adding it again."}
-      </Notice>
+      <WorkbenchConnectionNotice
+        pane={pane}
+        tile={tile}
+        canReopenInput={runtime.ready && !conversation && !tile.existing}
+      />
     );
   if (!runtime.ready)
     return (

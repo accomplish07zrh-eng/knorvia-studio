@@ -14,6 +14,7 @@
 - GUI 工作台：先布局再创建任务，同内核会话保持独立输入、审批和停止。
   最多四格同屏，可拖边、放大、收起和恢复；汇总全部已知进行中任务并显示
   超容量入口。群聊与工作流继续进入原页面；离线或未完整加载明确提示。
+  重载后保留布局和草稿，并要求核对连接后显式重新加入会话或打开保存的输入。
 - External adapters retain question descriptions, bounded redacted approval
   context and separate tool input/output/content/status. Unknown results remain
   unknown; stale Codex turns cannot consume the current approval or finish its run.
@@ -25,6 +26,8 @@
 - The GUI workbench preserves independent conversation controls and drafts,
   supports four visible panes and lists every known active task with overflow
   navigation. Groups and workflows retain their existing pages.
+  After reload, saved tiles retain their layout and drafts and require explicit
+  connection verification before rejoining a chat or reopening saved input.
 
 Existing profiles, sessions, text-only drafts, fast model/effort choices, workspace
 runtime, durable handoff, agent tools, inline review and attention remain available.

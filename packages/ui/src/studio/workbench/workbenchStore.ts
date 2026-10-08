@@ -12,7 +12,12 @@ import {
   untouchedWorkbenchTile,
   workbenchPaneFor,
 } from "./workbenchPlacement.js";
-import { forgetWorkbenchConnection } from "./workbenchConnection.js";
+import {
+  forgetWorkbenchConnection,
+  isWorkbenchConnectionUnverified,
+  resetWorkbenchConnection,
+  restoreWorkbenchConnection,
+} from "./workbenchConnection.js";
 
 const key = "knorvia-task-workbench:v1";
 interface Store {
@@ -26,6 +31,7 @@ interface Store {
   maximize(pane: string): void;
   focus(pane: string): void;
   add(tile: WorkbenchTile): boolean;
+  reopenInput(pane: string, expectedId: string): void;
   collect(tiles: WorkbenchTile[]): void;
   show(tile: WorkbenchTile): boolean;
 }
@@ -62,6 +68,9 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       } catch {
         set({ storageError: true });
       }
+      if (saved)
+        for (const tile of [...Object.values(saved.tiles), ...saved.shelved])
+          if (tile.opened || tile.sessionId) restoreWorkbenchConnection(tile.id);
       set({ board: saved ?? emptyWorkbench(scope, crypto.randomUUID()) });
     },
     update(pane, patch, expectedId) {
@@ -74,7 +83,7 @@ export const useTaskWorkbench = create<Store>((set, get) => {
         (patch.kernel && patch.kernel !== old.kernel) ||
         (patch.scope && patch.scope !== old.scope)
       )
-        forgetWorkbenchConnection(old.id);
+        resetWorkbenchConnection(old.id);
       save({ ...board, tiles: { ...board.tiles, [pane]: { ...old, ...patch, id: old.id } } });
     },
     split(pane, direction) {
@@ -143,8 +152,19 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       }
       const next = placeWorkbenchTile(board, tile);
       if (!next) return false;
+      const placed = workbenchPaneFor(next, tile);
+      // 显式重加可能恢复收起的原 tile，不能只解除传入的新 ID。
+      if (placed) forgetWorkbenchConnection(next.tiles[placed]!.id);
       save(next);
       return true;
+    },
+    reopenInput(pane, expectedId) {
+      const board = get().board,
+        tile = board?.tiles[pane];
+      if (!board || !tile || tile.id !== expectedId || tile.existing) return;
+      if (!isWorkbenchConnectionUnverified(tile.id)) return;
+      forgetWorkbenchConnection(tile.id);
+      save({ ...board, tiles: { ...board.tiles, [pane]: { ...tile, opened: true } } });
     },
     collect(tiles) {
       let board = get().board;

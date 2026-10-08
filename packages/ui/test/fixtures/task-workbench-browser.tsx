@@ -95,15 +95,29 @@ function services(host: string) {
     fileService: { resolvePath: async ({ path }: { path: string }) => path },
   } as unknown as IServiceAccessor;
 }
-const hosts = { a: services("a"), b: services("b") };
+const hostPrefix =
+  new URLSearchParams(location.search).get("fixture") === "reload" ? "reload-" : "";
+const hosts = { a: services(`${hostPrefix}a`), b: services(`${hostPrefix}b`) };
 const scope = { workspacePath: "/test/project" };
 function App() {
-  const [host, setHost] = useState<"a" | "b">("a");
+  const [host, setHost] = useState<"a" | "b">(() =>
+    sessionStorage.getItem("workbench-fixture-host") === "b" ? "b" : "a",
+  );
+  const [chat, setChat] = useState(
+    () => sessionStorage.getItem("workbench-fixture-chat") || "saved",
+  );
   const [probe, setProbe] = useState(false);
   const navigation = useStudioNavigation(() => {});
   Object.assign(window, {
     workbenchFixture: {
-      setHost,
+      setHost: (next: "a" | "b") => {
+        sessionStorage.setItem("workbench-fixture-host", next);
+        setHost(next);
+      },
+      setChat: (next: string) => {
+        sessionStorage.setItem("workbench-fixture-chat", next);
+        setChat(next);
+      },
       fixture,
       board: useTaskWorkbench,
       drafts: studioAgentStore,
@@ -141,7 +155,7 @@ function App() {
                     ) : (
                       <AddToWorkbench
                         kernel="codex"
-                        sessionId="saved"
+                        sessionId={chat}
                         scope={scope}
                         onOpen={() => navigation.navigate({ view: "workbench" })}
                       />

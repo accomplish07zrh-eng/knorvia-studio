@@ -27,7 +27,7 @@ export async function workbenchHost() {
       fullAccess: true,
     },
   }));
-  for (const host of ["a", "b"]) {
+  for (const host of ["a", "b", "reload-a", "reload-b"]) {
     const service = new StudioRuntimeService({
       db: new StudioDatabase(join(root, `${host}.sqlite`)),
       clock: {

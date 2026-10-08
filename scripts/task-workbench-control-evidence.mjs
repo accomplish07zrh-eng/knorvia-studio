@@ -34,3 +34,29 @@ export async function assertWorkbenchControlTargets(host, expected) {
   assert.equal(stopped.state, "interrupted");
   assert.equal(stopped.resultKnown, false);
 }
+
+export async function verifyWorkbenchNativeDraftOwner(page) {
+  await page.evaluate(() => window.workbenchFixture.setProbe(true));
+  await page.getByRole("textbox", { name: "Native draft a" }).fill("native draft A");
+  await page.getByRole("textbox", { name: "Native draft b" }).fill("native draft B");
+  await page.evaluate(() => window.workbenchFixture.setProbe(false));
+  await page.getByTestId("native-draft-a").waitFor({ state: "detached" });
+  await page.evaluate(() => window.workbenchFixture.setProbe(true));
+  assert.equal(
+    await page.getByRole("textbox", { name: "Native draft a" }).inputValue(),
+    "native draft A",
+  );
+  assert.equal(
+    await page.getByRole("textbox", { name: "Native draft b" }).inputValue(),
+    "native draft B",
+  );
+  await page.getByRole("button", { name: "Accept a", exact: true }).click();
+  const scopes = await page.evaluate(
+    () =>
+      JSON.parse(localStorage.getItem("knorvia-v4-composer-drafts:v1:%2Ftest%2Fproject")).scopes,
+  );
+  assert.equal(scopes["accepted-a"].text, "native draft A");
+  assert.equal(scopes["workbench:a"], undefined);
+  assert.equal(scopes["workbench:b"].text, "native draft B");
+  return "native V4 draft owner keeps two tile scopes separate across remount and promotes only the accepted tile";
+}

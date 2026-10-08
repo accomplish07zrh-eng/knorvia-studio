@@ -11,6 +11,7 @@ import { chromium } from "playwright-core";
 import { knorviaIconsPlugin } from "../packages/ui/vite/knorviaIconsPlugin.ts";
 import { workbenchHost } from "./task-workbench-host.mjs";
 import * as controlEvidence from "./task-workbench-control-evidence.mjs";
+import { verifyWorkbenchReloadOwnership } from "./task-workbench-reload-evidence.mjs";
 
 const root = process.cwd();
 const evidence = process.env.KNORVIA_WORKBENCH_EVIDENCE_DIR || "/tmp/knorvia-workbench-evidence";
@@ -63,7 +64,7 @@ const server = await createServer({
             response.end();
             return;
           }
-          if (request.url !== "/") return next();
+          if (request.url?.split("?")[0] !== "/") return next();
           response.setHeader("Content-Type", "text/html");
           response.end(
             await vite.transformIndexHtml(
@@ -328,12 +329,13 @@ try {
     "collect, swap, restore and shelve are view-only",
   );
   await page.reload();
-  // The fixture defaults to Host A on reload; switch to the original B before restoring its tile.
+  // 夹具只保留当前执行 Host；恢复引用仍须显式核对，不能把同 ID 索引当原连接。
   await page.evaluate(() => window.workbenchFixture.setHost("b"));
   await page.getByTestId("studio-workbench-open").click();
   await page.getByTestId("workbench-shelf-toggle").click();
   const shelfDraft = page.getByTestId("workbench-shelved-row").last();
   await shelfDraft.getByRole("button", { name: "Restore / switch current tile" }).click();
+  await recovered.getByRole("button", { name: "Open saved input in this project" }).click();
   assert.equal(
     await recovered.locator('[contenteditable="true"]').first().innerText(),
     "keep this unsent draft",
@@ -344,32 +346,8 @@ try {
   );
   await page.getByTestId("workbench-collect").click();
   await page.screenshot({ path: resolve(evidence, "active-tasks-overflow.png") });
-  // The native hook is the actual V4 draft owner; two new tiles must not share __draft__.
-  await page.evaluate(() => window.workbenchFixture.setProbe(true));
-  await page.getByRole("textbox", { name: "Native draft a" }).fill("native draft A");
-  await page.getByRole("textbox", { name: "Native draft b" }).fill("native draft B");
-  await page.evaluate(() => window.workbenchFixture.setProbe(false));
-  await page.getByTestId("native-draft-a").waitFor({ state: "detached" });
-  await page.evaluate(() => window.workbenchFixture.setProbe(true));
-  assert.equal(
-    await page.getByRole("textbox", { name: "Native draft a" }).inputValue(),
-    "native draft A",
-  );
-  assert.equal(
-    await page.getByRole("textbox", { name: "Native draft b" }).inputValue(),
-    "native draft B",
-  );
-  await page.getByRole("button", { name: "Accept a", exact: true }).click();
-  const nativeScopes = await page.evaluate(
-    () =>
-      JSON.parse(localStorage.getItem("knorvia-v4-composer-drafts:v1:%2Ftest%2Fproject")).scopes,
-  );
-  assert.equal(nativeScopes["accepted-a"].text, "native draft A");
-  assert.equal(nativeScopes["workbench:a"], undefined);
-  assert.equal(nativeScopes["workbench:b"].text, "native draft B");
-  checks.push(
-    "native V4 draft owner keeps two tile scopes separate across remount and promotes only the accepted tile",
-  );
+  checks.push(await controlEvidence.verifyWorkbenchNativeDraftOwner(page));
+  checks.push(await verifyWorkbenchReloadOwnership(browser, host, page.url(), evidence));
   assert.deepEqual(errors, []);
   await writeFile(
     resolve(evidence, "result.json"),

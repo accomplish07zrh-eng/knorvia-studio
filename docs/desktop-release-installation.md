@@ -61,6 +61,9 @@ Keep the same profile location and portable marker. Existing sessions, text-only
 composer drafts, workspace services, handoffs and agent-tool receipts remain in
 their existing owners. Legacy tool text remains readable with the additive detail
 fields. Workbench layouts contain references and drafts, not a second task queue.
+After reload, verify an existing conversation in Chats and explicitly add it again.
+For an unsent input, verify its saved project and explicitly reopen it. Saved tile
+IDs and drafts are retained; a matching session on another Host is not adopted.
 
 Unsent image bytes and the original Host connection proof are transient. A reload
 can retain unknown pending-submission metadata; review the original history and
