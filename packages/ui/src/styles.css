@@ -2538,3 +2538,191 @@ body {
     animation: none;
   }
 }
+
+/* ⑥ 视觉升级（specs/knorvia-visual-upgrade-20261009.md）：只改观感不改布局，全部限定在
+   Knorvia 明暗主题内，只用黑白与透明度；减少动态效果时全部动画停用。 */
+
+/* 工作面：顶部一道极淡的高光，让整张纸片有受光面。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-studio-workspace-sheet="true"] {
+  box-shadow:
+    var(--knorvia-paper-edge),
+    inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent),
+    0 12px 32px -24px color-mix(in oklab, #000 30%, transparent);
+}
+
+.theme-knorvia-dark [data-studio-workspace-sheet="true"] {
+  box-shadow:
+    var(--knorvia-paper-edge),
+    inset 0 1px 0 color-mix(in oklab, #fff 6%, transparent),
+    0 12px 32px -20px color-mix(in oklab, #000 70%, transparent);
+}
+
+/* 活动栏：选中项是浮起的纸片，左侧一道短指示条；悬停时图标轻微上浮。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-testid="studio-activity-rail"] button {
+  position: relative;
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  [data-testid="studio-activity-rail"]
+  button[aria-pressed="true"] {
+  background-color: var(--knorvia-paper);
+  box-shadow: var(--knorvia-paper-edge);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  [data-testid="studio-activity-rail"]
+  button[aria-pressed="true"]::before {
+  content: "";
+  position: absolute;
+  left: -0.625rem;
+  top: 50%;
+  width: 3px;
+  height: 1rem;
+  border-radius: 9999px;
+  background: var(--color-foreground);
+  transform: translateY(-50%);
+  animation: knorvia-indicator-in 0.22s var(--knorvia-ease);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  [data-testid="studio-activity-rail"]
+  button:not(:disabled):hover
+  svg {
+  transform: translateY(-1px);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-testid="studio-activity-rail"] svg {
+  transition: transform 0.18s var(--knorvia-ease);
+}
+
+/* 输入卡：顶部内高光；悬停边缘略深；聚焦为柔和的双层光晕。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-knorvia-composer]:not(:focus-within) {
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, #fff 70%, transparent),
+    var(--knorvia-lift);
+}
+
+.theme-knorvia-dark [data-knorvia-composer]:not(:focus-within) {
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, #fff 7%, transparent),
+    var(--knorvia-lift);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-knorvia-composer]:hover:not(:focus-within) {
+  border-color: color-mix(in oklab, var(--color-foreground) 22%, transparent);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-knorvia-composer]:focus-within {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--color-foreground) 18%, transparent),
+    0 0 0 5px var(--knorvia-ring),
+    0 18px 40px -22px color-mix(in oklab, #000 34%, transparent);
+}
+
+/* 主按钮：极轻的纵向渐变与内高光，像一枚有厚度的胶囊；悬停略提亮。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-slot="button"][data-variant="default"] {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-primary-foreground) 10%, transparent),
+    transparent 60%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-primary-foreground) 16%, transparent),
+    0 1px 2px color-mix(in oklab, #000 18%, transparent);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  [data-slot="button"][data-variant="default"]:not(:disabled):hover {
+  filter: brightness(1.12);
+}
+
+.theme-knorvia-dark [data-slot="button"][data-variant="default"]:not(:disabled):hover {
+  filter: brightness(0.92);
+}
+
+/* 发送按钮可用时悬停轻微放大。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  :is([data-testid="chat-send-button"], [data-testid="v4-composer-send"]):not(:disabled):hover {
+  transform: scale(1.06);
+}
+
+/* 卡片：悬停时轻微浮起。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-slot="card"] {
+  transition:
+    box-shadow 0.2s var(--knorvia-ease),
+    transform 0.2s var(--knorvia-ease),
+    border-color 0.2s var(--knorvia-ease);
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-slot="card"]:hover {
+  border-color: color-mix(in oklab, var(--color-foreground) 16%, transparent);
+  box-shadow: 0 10px 28px -18px color-mix(in oklab, #000 30%, transparent);
+}
+
+/* 用户消息：从平面灰块变为一张纸片。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-v4-user-input-bubble="true"] {
+  background-color: var(--knorvia-paper);
+  box-shadow: var(--knorvia-paper-edge);
+}
+
+/* 空会话问候：轻轻上浮淡入；三道笔画依次画出。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-v4-draft-greeting="true"] {
+  animation: knorvia-greeting-in 0.5s var(--knorvia-ease) both;
+}
+
+:is(.theme-knorvia-light, .theme-knorvia-dark) [data-v4-draft-greeting="true"]::before {
+  animation: knorvia-strokes-in 0.7s var(--knorvia-ease) 0.12s both;
+}
+
+@keyframes knorvia-greeting-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes knorvia-strokes-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes knorvia-indicator-in {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: 1rem;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.theme-knorvia-light, .theme-knorvia-dark)
+    :is(
+      [data-v4-draft-greeting="true"],
+      [data-v4-draft-greeting="true"]::before,
+      [data-testid="studio-activity-rail"] button[aria-pressed="true"]::before
+    ) {
+    animation: none;
+  }
+
+  :is(.theme-knorvia-light, .theme-knorvia-dark)
+    :is(
+      [data-testid="studio-activity-rail"] svg,
+      [data-slot="card"],
+      [data-testid="chat-send-button"],
+      [data-testid="v4-composer-send"]
+    ) {
+    transition: none;
+    transform: none !important;
+  }
+}
