@@ -264,7 +264,7 @@ export function StudioCreationPage() {
               </Button>
             </div>
           ) : null}
-          <div className="rounded-xl border border-input-border bg-card shadow-sm focus-within:border-input-border-focused">
+          <div className="rounded-2xl border border-input-border bg-card shadow-sm transition-shadow focus-within:border-input-border-focused">
             <Textarea
               value={prompt}
               onChange={(event) => {
@@ -275,7 +275,8 @@ export function StudioCreationPage() {
               rows={3}
               placeholder={t(kind === "image" ? "imageHint" : "videoHint")}
               aria-label={t(kind === "image" ? "imageHint" : "videoHint")}
-              className="min-h-24 resize-y border-0 bg-transparent px-4 py-3 shadow-none focus-visible:ring-0"
+              // 随内容自动增高（上限 16rem），不再显示原生拖拽角，与聊天输入框一致。
+              className="field-sizing-content max-h-64 min-h-24 resize-none border-0 bg-transparent px-4 py-3 shadow-none focus-visible:ring-0"
               onKeyDown={(event) => {
                 if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
                   event.preventDefault();

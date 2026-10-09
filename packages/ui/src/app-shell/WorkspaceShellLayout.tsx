@@ -77,6 +77,11 @@ import {
   resolveWorkspaceShellWindowChromeClass,
 } from "@/app-shell/workspaceShellWindowChrome.js";
 import { cn } from "@/components/lib/utils.js";
+import {
+  NARROW_SIDEBAR_DRAWER_CLASSNAME,
+  NarrowSidebarDrawerControls,
+  narrowSidebarDrawerStateClassName,
+} from "./NarrowSidebarDrawer.js";
 import { KnorviaCompanion } from "@/components/knorvia/KnorviaCompanion.js";
 import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable.js";
 import { toast } from "@/components/ui/toast.js";
@@ -1622,6 +1627,12 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
           // CSS 变量驱动的专用 split，普通窗口 resize 只走浏览器布局，不触发 React 状态。
         )}
       >
+        <NarrowSidebarDrawerControls
+          enabled={!hasActivityRail && hasContextSidebar}
+          open={isSidebarPanelVisible}
+          closeKey={`${workspaceMainView}\u0000${activeTaskId ?? ""}\u0000${studioNavigation.route.externalSessionId ?? ""}`}
+          onToggle={handleToggleSidebar}
+        />
         <div
           ref={workspaceSidebarPanelElementRef}
           data-panel=""
@@ -1633,6 +1644,8 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
             // 拖动侧栏宽度时如果继续过渡 width，会让指针移动和实际宽度之间产生滞后。
             // 拖拽 active 通过 DOM 标记切 transition，避免 pointerdown/up 为了切 class 重渲染整棵 workspace。
             isSidebarPanelVisible ? "opacity-100" : "pointer-events-none opacity-0",
+            !hasActivityRail && NARROW_SIDEBAR_DRAWER_CLASSNAME,
+            !hasActivityRail && narrowSidebarDrawerStateClassName(isSidebarPanelVisible),
           )}
         >
           <aside

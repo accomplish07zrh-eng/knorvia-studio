@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button.js";
 import { useSelectDirectory } from "@/hooks/usePlatform.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
@@ -38,35 +39,48 @@ export function WorkbenchTileSetup({ pane, tile }: { pane: string; tile: Workben
     <div className="flex h-full min-h-0 items-center justify-center overflow-auto p-6">
       <div className="w-full max-w-sm space-y-4 text-ui-sm">
         <div>
-          <h2 className="font-medium">{zh ? "准备一个任务格" : "Prepare a task tile"}</h2>
+          <h2 className="text-ui-base font-medium">
+            {zh ? "准备一个任务格" : "Prepare a task tile"}
+          </h2>
           <p className="mt-1 text-foreground-subtle">
             {zh
               ? "先选内核和项目，排好布局后逐格输入。"
               : "Choose a kernel and project, arrange your tiles, then enter each task."}
           </p>
         </div>
-        <label className="block space-y-1">
-          <span>{zh ? "内核" : "Kernel"}</span>
-          <select
-            data-testid="workbench-kernel"
-            className="h-9 w-full rounded-md border border-border bg-background px-2 text-ui-sm"
-            value={tile.kernel}
-            onChange={(event) => patch({ kernel: event.target.value as StudioKernelId })}
-          >
-            {STUDIO_KERNELS.filter((kernel) => !remote || kernel.id === "knorvia").map((kernel) => (
-              <option key={kernel.id} value={kernel.id}>
-                {kernel.name}
-              </option>
-            ))}
-          </select>
+        <label className="block space-y-1.5">
+          <span className="text-ui-sm text-foreground-subtle">{zh ? "内核" : "Kernel"}</span>
+          {/* 与设置页胶囊输入同一外观（specs/knorvia-layout-polish-20261009.md）。 */}
+          <span className="relative block">
+            <select
+              data-testid="workbench-kernel"
+              className="h-9 w-full appearance-none rounded-full border border-border bg-background pr-9 pl-3.5 text-ui-sm transition-colors hover:border-border-hover focus-visible:border-foreground-subtle"
+              value={tile.kernel}
+              onChange={(event) => patch({ kernel: event.target.value as StudioKernelId })}
+            >
+              {STUDIO_KERNELS.filter((kernel) => !remote || kernel.id === "knorvia").map(
+                (kernel) => (
+                  <option key={kernel.id} value={kernel.id}>
+                    {kernel.name}
+                  </option>
+                ),
+              )}
+            </select>
+            <ChevronDown
+              className="pointer-events-none absolute top-1/2 right-3 size-3.5 -translate-y-1/2 text-foreground-subtle"
+              aria-hidden="true"
+            />
+          </span>
         </label>
-        <label className="block space-y-1">
-          <span>{zh ? "项目目录" : "Project directory"}</span>
+        <label className="block space-y-1.5">
+          <span className="text-ui-sm text-foreground-subtle">
+            {zh ? "项目目录" : "Project directory"}
+          </span>
           <input
             data-testid="workbench-directory"
             value={tile.scope.workspacePath}
             readOnly={remote}
-            className="h-9 w-full rounded-md border border-border bg-background px-2 text-ui-sm"
+            className="h-9 w-full rounded-full border border-border bg-background px-3.5 text-ui-sm transition-colors hover:border-border-hover focus-visible:border-foreground-subtle read-only:text-foreground-subtle"
             onChange={(event) => patch({ scope: { workspacePath: event.target.value } })}
           />
         </label>
