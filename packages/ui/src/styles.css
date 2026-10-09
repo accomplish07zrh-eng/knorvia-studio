@@ -2674,14 +2674,13 @@ body {
   animation: knorvia-strokes-in 0.7s var(--knorvia-ease) 0.12s both;
 }
 
+/* 只做淡入不做位移：位移会让入场期间的布局几何与稳定态不同（输入框对齐验收会测到）。 */
 @keyframes knorvia-greeting-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
