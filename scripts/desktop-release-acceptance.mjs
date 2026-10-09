@@ -203,10 +203,19 @@ try {
     // Only create this fixture on a fresh hosted account; refuse any existing data.
     assert.ok(ownedDefaultProfile);
     const install = async () => {
-      const result = await ps(
-        `$p=Start-Process -FilePath ${psQuote(setup)} -ArgumentList @('/S',${psQuote("/D=" + installed)}) -PassThru -Wait; if ($p.ExitCode -ne 0) { throw "Installer exit $($p.ExitCode)" }; Write-Output $p.ExitCode`,
-        env,
-      );
+      const startedAt = new Date();
+      let result;
+      try {
+        result = await ps(
+          `$p=Start-Process -FilePath ${psQuote(setup)} -ArgumentList @('/S',${psQuote("/D=" + installed)}) -PassThru -Wait; if ($p.ExitCode -ne 0) { throw "Installer exit $($p.ExitCode)" }; Write-Output $p.ExitCode`,
+          env,
+        );
+      } catch (error) {
+        // 修复依据：安装器偶发 0xC0000005 退出时，阶段日志位于随后删除的 fixture（TEMP），
+        // 输出只剩退出码，无法定位崩溃阶段与故障模块；失败时先保留安装器阶段日志与系统崩溃记录。
+        error.installerFailure = await collectInstallerFailure(startedAt);
+        throw error;
+      }
       assert.equal(result.stdout.trim(), "0");
       const exe = join(installed, "Knorvia Studio.exe");
       assert.ok((await stat(exe)).isFile());
@@ -214,6 +223,25 @@ try {
         code: "ENOENT",
       });
       return exe;
+    };
+    const collectInstallerFailure = async (startedAt) => {
+      const evidence = {};
+      try {
+        const log = await readFile(join(fixture, "Knorvia-Studio-installer.log"), "utf8");
+        evidence.installerLog = log.split(/\r?\n/).filter(Boolean).slice(-40);
+      } catch (error) {
+        evidence.installerLog = `unavailable: ${error.code || error.message}`;
+      }
+      try {
+        const since = startedAt.toISOString();
+        const events = await ps(
+          `@(Get-WinEvent -FilterHashtable @{LogName='Application'; Id=@(1000,1001,1005); StartTime=[datetime]::Parse(${psQuote(since)}).ToLocalTime()} -MaxEvents 6 -ErrorAction SilentlyContinue | ForEach-Object { [ordered]@{id=$_.Id; provider=$_.ProviderName; message=$_.Message} }) | ConvertTo-Json -Compress -Depth 3`,
+        );
+        evidence.crashEvents = events.stdout.trim() ? JSON.parse(events.stdout) : [];
+      } catch (error) {
+        evidence.crashEvents = `unavailable: ${error.message}`;
+      }
+      return evidence;
     };
     const exe = await install();
     const profile = join(appdata, "Knorvia Studio");
@@ -305,6 +333,7 @@ try {
   report.status = "failed";
   report.error = error.stack || String(error);
   if (error.report) report.runtimeFailure = error.report;
+  if (error.installerFailure) report.installerFailure = error.installerFailure;
   process.exitCode = 1;
 } finally {
   // 清理只限 mkdtemp/已创建的 hosted profile；错误不能覆盖原验收失败或留下通过清单。
@@ -334,6 +363,7 @@ try {
       deliveredSha,
       checks: report.checks,
       error: report.error,
+      installerFailure: report.installerFailure,
     }),
   );
 }
