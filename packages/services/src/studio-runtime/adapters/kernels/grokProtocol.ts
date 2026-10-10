@@ -9,6 +9,8 @@ import type { KernelRun } from "./kernelRun.js";
 import { assertReasoningOption, grokModelOptions } from "./modelOptions.js";
 import { projectAcpMcpServers } from "./acpMcp.js";
 import { authenticateGrok } from "./grokAuth.js";
+import { acpContentMedia, acpToolMedia } from "../../domain/kernelMedia.js";
+import { acpPermissionOptionId } from "../../domain/acpPermission.js";
 
 const replaying = new WeakSet<KernelRun>();
 export function grokArgs(turn: StudioKernelTurn): string[] {
@@ -109,9 +111,16 @@ export async function grokMessage(run: KernelRun, message: Record<string, unknow
   if (method === "session/update") {
     const type = text(update.sessionUpdate);
     const content = record(update.content);
-    if (type === "agent_message_chunk") run.delta("answer", text(content.text));
+    if (type === "agent_message_chunk") {
+      run.delta("answer", text(content.text));
+      // 修复依据：非文本内容块（原生图片/视频生成结果等）此前因无 text 被静默丢弃。
+      run.media(acpContentMedia(update.content));
+    }
     if (type === "agent_thought_chunk") run.emit({ type: "reasoning", text: text(content.text) });
-    if (type === "tool_call" || type === "tool_call_update") run.tool(acpToolUpdate(update));
+    if (type === "tool_call" || type === "tool_call_update") {
+      run.tool(acpToolUpdate(update));
+      run.media(acpToolMedia(update));
+    }
     if (type === "usage_update")
       run.emit({
         type: "usage",
@@ -153,13 +162,10 @@ async function grokRequest(
         detail: nativeApprovalDetail(params),
         choices: ["allow-once", "deny"],
       });
-      const option = options.find(
-        (value) => value.kind === (answer.decision === "allow-once" ? "allow_once" : "reject_once"),
-      );
+      const optionId = acpPermissionOptionId(options, answer.decision);
       rpc.respond(id, {
-        outcome: option
-          ? { outcome: "selected", optionId: option.optionId }
-          : { outcome: "cancelled" },
+        outcome:
+          optionId !== undefined ? { outcome: "selected", optionId } : { outcome: "cancelled" },
       });
       return;
     }

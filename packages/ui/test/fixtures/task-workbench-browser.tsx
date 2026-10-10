@@ -92,7 +92,15 @@ function services(host: string) {
     },
     broadcastService: broadcast,
     settingService: { get: async () => ({}), update: async () => {} },
-    fileService: { resolvePath: async ({ path }: { path: string }) => path },
+    fileService: {
+      resolvePath: async ({ path }: { path: string }) => path,
+      // 媒体消息证据：任意本机路径读出一张固定的 PNG。
+      readMediaPreview: async () => ({
+        mediaType: "image/png",
+        dataBase64:
+          "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAFklEQVR42mNkYGD4z0AEYBxVSF+FAP5FDvcfRYWgAAAAAElFTkSuQmCC",
+      }),
+    },
   } as unknown as IServiceAccessor;
 }
 const hostPrefix =

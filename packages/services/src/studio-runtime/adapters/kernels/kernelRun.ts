@@ -49,6 +49,10 @@ export class KernelRun {
     this.events = this.events.then(() => this.sink.emit(event));
     this.events.catch((error) => this.process?.fail(error));
   }
+  /** 内核产出的媒体；空列表不发事件。 */
+  media(items: import("../../kernelTypes.js").StudioKernelMedia[]): void {
+    if (items.length) this.emit({ type: "media", items });
+  }
   tool(
     update: { id: string } & Partial<Omit<Extract<StudioKernelEvent, { type: "tool" }>, "type">>,
   ): void {

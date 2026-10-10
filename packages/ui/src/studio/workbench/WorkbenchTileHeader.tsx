@@ -16,7 +16,7 @@ import { WorkbenchViewToggle } from "./WorkbenchTileBody.js";
 
 /**
  * 格子标题栏按自身宽度自适应（specs/knorvia-workbench-usability-20261008.md）：
- * 宽格显示「左右」「上下」文字按钮；窄格只留标题、视图切换、放大与收起，
+ * 宽格显示「左右」「上下」文字按钮；窄格只留标题、视图切换、放大与移出，
  * 分格与「在此格新建任务」始终在「⋯」菜单里。
  */
 export function WorkbenchTileHeader({ pane, tile }: { pane: string; tile: WorkbenchTile }) {
@@ -27,7 +27,6 @@ export function WorkbenchTileHeader({ pane, tile }: { pane: string; tile: Workbe
   const maximized = board.maximized === pane;
   const canRight = !board.maximized && canSplitWorkbenchPane(board, pane, "row");
   const canDown = !board.maximized && canSplitWorkbenchPane(board, pane, "column");
-  const shelfFull = board.shelved.length >= 64;
   const icon = "size-3.5";
   const project = tile.scope.workspacePath.split(/[\\/]/).filter(Boolean).pop();
   return (
@@ -91,7 +90,6 @@ export function WorkbenchTileHeader({ pane, tile }: { pane: string; tile: Workbe
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               data-testid="workbench-renew"
-              disabled={shelfFull}
               onSelect={() => state.renew(pane, tile.id)}
             >
               {zh ? "在此格新建任务" : "New task in this tile"}
@@ -110,13 +108,13 @@ export function WorkbenchTileHeader({ pane, tile }: { pane: string; tile: Workbe
           size="sm"
           className="h-7 w-7 shrink-0 p-0"
           onClick={() => state.close(pane)}
-          disabled={shelfFull}
+          data-testid="workbench-remove-tile"
           title={
             zh
-              ? "收起格子，后台任务继续，草稿可恢复"
-              : "Shelve tile; keep the task running and restore drafts later"
+              ? "移出工作台：任务继续运行，会话仍在原内核记录中，可随时再添加"
+              : "Remove from workbench: the task keeps running and the conversation stays in its kernel history"
           }
-          aria-label={zh ? "收起格子" : "Shelve tile"}
+          aria-label={zh ? "移出工作台" : "Remove from workbench"}
         >
           <X className={icon} aria-hidden="true" />
         </Button>

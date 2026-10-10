@@ -92,14 +92,7 @@ function KnorviaConversation(props: WorkbenchConversationProps) {
   );
   const confirm = useCallback(() => setVerified(target), [target]);
   const absent = useCallback(() => setMissing(target), [target]);
-  if (!claimWorkbenchConnection(tile.id, service))
-    return (
-      <WorkbenchConnectionNotice
-        pane={pane}
-        tile={tile}
-        canReopenInput={!tile.existing && tile.sessionId === null}
-      />
-    );
+  if (!claimWorkbenchConnection(tile.id, service)) return <WorkbenchConnectionNotice />;
   if (missing === target)
     return (
       <Notice>
@@ -179,14 +172,7 @@ function ExternalConversation({
         tile.id,
       );
   }, [sameHost, matched, conversation, tile.existing, tile.id, pane, update]);
-  if (!sameHost)
-    return (
-      <WorkbenchConnectionNotice
-        pane={pane}
-        tile={tile}
-        canReopenInput={runtime.ready && !conversation && !tile.existing}
-      />
-    );
+  if (!sameHost) return <WorkbenchConnectionNotice />;
   if (!runtime.ready)
     return (
       <Notice>{runtime.error || (zh ? "正在连接会话…" : "Connecting to the conversation…")}</Notice>

@@ -28,6 +28,7 @@ import { parseRemoteStudioKernelId } from "../../domain/remoteAgentIdentity.js";
 import { remoteStudioKernelId } from "./remoteAgentIdentity.js";
 import { inspectRemoteStudioKernels } from "./remoteKernelCatalog.js";
 import { externalUpdatePlan, runExternalUpdate } from "./externalUpdate.js";
+import { withMaterializedMedia } from "./mediaSink.js";
 
 /** 注册表句柄：端口方法 + 显式重探参数（`inspect` 的加宽签名，向后兼容）。 */
 export interface StudioKernelRegistryHandle extends StudioKernelRegistry {
@@ -126,7 +127,8 @@ export function createStudioKernelRegistry(options: {
           return runKernelProtocol({
             kernel,
             turn,
-            sink,
+            // 内联媒体落盘后再进运行时（specs/knorvia-kernel-native-media-20261010.md）。
+            sink: withMaterializedMedia(sink, join(options.dataDir, "media")),
             signal: controller.signal,
             executable: async () => {
               if (turn.kernel !== kernel) throw new Error("内核与执行请求不一致");

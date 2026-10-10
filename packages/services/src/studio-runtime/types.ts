@@ -30,15 +30,19 @@ export interface StudioConversation {
   createdAt: number;
   updatedAt: number;
 }
+/** 媒体消息的引用；字节在文件中，消息只保存位置。 */
+export type StudioMediaRef = Omit<import("./kernelTypes.js").StudioKernelMedia, "dataBase64">;
 export interface StudioMessage extends StudioToolDetail {
   attachments?: import("./imageTypes.js").StudioImageRef[];
+  /** `kind: "media"` 时的内核产出媒体。 */
+  media?: StudioMediaRef[];
   sequence?: number;
   id: string;
   targetId: string;
   runId: string;
   turnId?: string;
   sender: "user" | StudioKernelId | "system";
-  kind: "text" | "reasoning" | "tool" | "progress";
+  kind: "text" | "reasoning" | "tool" | "progress" | "media";
   text: string;
   name?: string;
   state?: string;

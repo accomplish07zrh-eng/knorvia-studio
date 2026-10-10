@@ -93,34 +93,33 @@ export function workbenchPaneFor(
     ([, value]) => value.id === tile.id || sameWorkbenchTarget(value, tile),
   )?.[0];
 }
+/**
+ * 已打开输入但尚未被 Host 受理（原生无会话 ID，外部内核只有草稿 ID）；
+ * 首次受理后 `existing` 才置位，因此以它为准。
+ */
+export function unsentWorkbenchInput(tile: WorkbenchTile): boolean {
+  return tile.opened && !tile.existing;
+}
 export function untouchedWorkbenchTile(tile: WorkbenchTile): boolean {
   return !tile.opened && !tile.configured && tile.sessionId === null;
 }
-/** 汇总只填余位；显式指定位置时才换出已有格，始终保留草稿引用与布局比例。 */
+/**
+ * 汇总只填余位；显式指定位置时才换下已有格，布局比例不变。
+ * 被换下的格子只离开工作台，会话仍在原内核记录中（specs/knorvia-workbench-conversations-20261010.md）。
+ */
 export function placeWorkbenchTile(
   board: TaskWorkbenchState,
-  incoming: WorkbenchTile,
+  tile: WorkbenchTile,
   replacePane?: string,
 ): TaskWorkbenchState | null {
-  if (workbenchPaneFor(board, incoming)) return board;
-  const stored = board.shelved.find(
-    (tile) => tile.id === incoming.id || sameWorkbenchTarget(tile, incoming),
-  );
-  const tile = stored ?? incoming;
-  const shelved = board.shelved.filter((value) => value !== stored);
+  if (workbenchPaneFor(board, tile)) return board;
   const pane =
     replacePane ??
     Object.entries(board.tiles).find(([, value]) => untouchedWorkbenchTile(value))?.[0];
   if (pane) {
-    const old = board.tiles[pane];
-    if (!old) return null;
-    if (!untouchedWorkbenchTile(old)) {
-      if (shelved.length >= 64) return null;
-      shelved.push(old);
-    }
+    if (!board.tiles[pane]) return null;
     return {
       ...board,
-      shelved,
       tiles: { ...board.tiles, [pane]: tile },
       maximized: null,
       layout: {
@@ -132,5 +131,5 @@ export function placeWorkbenchTile(
       },
     };
   }
-  return autoSplitWorkbench({ ...board, shelved, maximized: null }, tile);
+  return autoSplitWorkbench({ ...board, maximized: null }, tile);
 }

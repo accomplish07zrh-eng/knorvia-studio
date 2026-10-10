@@ -10,17 +10,13 @@ import {
 } from "./workbenchModel.js";
 import {
   autoSplitWorkbench,
+  unsentWorkbenchInput,
   placeWorkbenchTile,
   untouchedWorkbenchTile,
   workbenchPaneFor,
 } from "./workbenchPlacement.js";
 import { useWorkbenchPreview } from "./workbenchPreviewStore.js";
-import {
-  forgetWorkbenchConnection,
-  isWorkbenchConnectionUnverified,
-  resetWorkbenchConnection,
-  restoreWorkbenchConnection,
-} from "./workbenchConnection.js";
+import { forgetWorkbenchConnection, resetWorkbenchConnection } from "./workbenchConnection.js";
 
 const key = "knorvia-task-workbench:v1";
 interface Store {
@@ -34,12 +30,13 @@ interface Store {
   maximize(pane: string): void;
   focus(pane: string): void;
   add(tile: WorkbenchTile): boolean;
-  reopenInput(pane: string, expectedId: string): void;
   collect(tiles: WorkbenchTile[]): void;
+  /** 「添加对话」：按顺序放入空位，返回实际放入数量；已在工作台的只计为已放入。 */
+  addMany(tiles: WorkbenchTile[]): number;
   show(tile: WorkbenchTile): boolean;
-  /** 顶栏「新建任务」：复用待命格、自动选位，满八格时换出聚焦格。 */
+  /** 顶栏「新建任务」：复用待命格、自动选位；满八格时不换下任何格子，返回 false。 */
   create(): boolean;
-  /** 「在此格新建任务」：已动过的格子入收起，原位换成同内核同项目的待命格。 */
+  /** 「在此格新建任务」：原格移出工作台（会话仍在内核记录中），原位换成同内核同项目的待命格。 */
   renew(pane: string, expectedId: string): boolean;
   zoom(value: number): void;
 }
@@ -87,9 +84,9 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       } catch {
         set({ storageError: true });
       }
-      if (saved)
-        for (const tile of [...Object.values(saved.tiles), ...saved.shelved])
-          if (tile.opened || tile.sessionId) restoreWorkbenchConnection(tile.id);
+      // 重新打开直接恢复上次布局（specs/knorvia-workbench-conversations-20261010.md）：
+      // 各格首次渲染时由当前窗口 Host 认领，并按内核、工作区身份与会话 ID 核对真实索引，
+      // 不再要求用户逐格重新加入。
       set({ board: saved ?? emptyWorkbench(scope, crypto.randomUUID()) });
     },
     update(pane, patch, expectedId) {
@@ -131,20 +128,17 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       );
     },
     close(pane) {
-      let board = get().board;
+      const board = get().board;
       const tile = board?.tiles[pane];
       if (!board || !tile) return;
-      // 关闭格子即释放其预览；重新放回工作台时由会话自己的产物重新得出。
+      // 移出工作台只删视图引用，不停止任务、不删除会话；预览随格子释放。
       useWorkbenchPreview.getState().clear(tile.id);
-      if (!untouchedWorkbenchTile(tile)) {
-        if (board.shelved.length >= 64) return;
-        board = { ...board, shelved: [...board.shelved, tile] };
-      }
+      forgetWorkbenchConnection(tile.id);
       if (pane !== "workspace-main")
         return save(layoutWorkbench(board, { kind: "close", paneId: pane }));
       const other = leafPaneIds(board.layout.root).find((id) => id !== pane);
       if (!other)
-        return save({ ...emptyWorkbench(tile.scope, crypto.randomUUID()), shelved: board.shelved });
+        return save({ ...emptyWorkbench(tile.scope, crypto.randomUUID()), zoom: board.zoom });
       const next = layoutWorkbench(board, { kind: "close", paneId: other });
       save({ ...next, tiles: { ...next.tiles, [pane]: board.tiles[other]! }, maximized: null });
     },
@@ -174,24 +168,31 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       const next = placeWorkbenchTile(board, tile);
       if (!next) return false;
       const placed = workbenchPaneFor(next, tile);
-      // 显式重加可能恢复收起的原 tile，不能只解除传入的新 ID。
       if (placed) forgetWorkbenchConnection(next.tiles[placed]!.id);
       save(next);
       return true;
-    },
-    reopenInput(pane, expectedId) {
-      const board = get().board,
-        tile = board?.tiles[pane];
-      if (!board || !tile || tile.id !== expectedId || tile.existing) return;
-      if (!isWorkbenchConnectionUnverified(tile.id)) return;
-      forgetWorkbenchConnection(tile.id);
-      save({ ...board, tiles: { ...board.tiles, [pane]: { ...tile, opened: true } } });
     },
     collect(tiles) {
       let board = get().board;
       if (!board) return;
       for (const tile of tiles) board = placeWorkbenchTile(board, tile) ?? board;
       save({ ...board, maximized: null });
+    },
+    addMany(tiles) {
+      let board = get().board;
+      if (!board) return 0;
+      let placed = 0;
+      for (const tile of tiles) {
+        const next = placeWorkbenchTile(board, tile);
+        if (!next) break;
+        board = next;
+        const pane = workbenchPaneFor(board, tile);
+        // 用户从当前 Host 列表显式挑选，视为已核对。
+        if (pane) forgetWorkbenchConnection(board.tiles[pane]!.id);
+        placed++;
+      }
+      save({ ...board, maximized: null });
+      return placed;
     },
     create() {
       const board = get().board;
@@ -206,23 +207,20 @@ export const useTaskWorkbench = create<Store>((set, get) => {
       const pane = board.layout.focusedPaneId;
       const base = board.tiles[pane] ?? Object.values(board.tiles)[0]!;
       const next = autoSplitWorkbench({ ...board, maximized: null }, freshTile(base));
-      if (next) {
-        save(next);
-        return true;
-      }
-      return get().renew(pane, base.id);
+      if (!next) return false;
+      save(next);
+      return true;
     },
     renew(pane, expectedId) {
       const board = get().board,
         old = board?.tiles[pane];
       if (!board || !old || old.id !== expectedId) return false;
       if (untouchedWorkbenchTile(old)) return true;
-      if (board.shelved.length >= 64) return false;
       useWorkbenchPreview.getState().clear(old.id);
+      forgetWorkbenchConnection(old.id);
       const tile = freshTile(old);
       save({
         ...board,
-        shelved: [...board.shelved, old],
         tiles: { ...board.tiles, [pane]: tile },
         maximized: null,
       });
@@ -240,9 +238,13 @@ export const useTaskWorkbench = create<Store>((set, get) => {
         save({ ...board, maximized: existing });
         return true;
       }
+      const focused = board.tiles[board.layout.focusedPaneId];
+      // 满格时换下聚焦格；它若有未发送输入则拒绝，避免工作台专用草稿随格子丢失。
       const next =
         placeWorkbenchTile(board, tile) ??
-        placeWorkbenchTile(board, tile, board.layout.focusedPaneId);
+        (focused && unsentWorkbenchInput(focused)
+          ? null
+          : placeWorkbenchTile(board, tile, board.layout.focusedPaneId));
       if (!next) return false;
       save(next);
       return true;

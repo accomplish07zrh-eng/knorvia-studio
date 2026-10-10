@@ -4,6 +4,8 @@ import type { KernelRun } from "./kernelRun.js";
 import { ProbeError } from "./probeResult.js";
 import { acpModelOptions, configOption, selectAcpOption } from "./acpOptions.js";
 import { projectAcpMcpServers } from "./acpMcp.js";
+import { acpContentMedia, acpToolMedia } from "../../domain/kernelMedia.js";
+import { acpPermissionOptionId } from "../../domain/acpPermission.js";
 
 const replaying = new WeakSet<KernelRun>();
 
@@ -116,12 +118,16 @@ export async function acpMessage(run: KernelRun, message: Record<string, unknown
   const update = record(params.update);
   const kind = text(update.sessionUpdate);
   const content = record(update.content);
-  if (kind === "agent_message_chunk")
+  if (kind === "agent_message_chunk") {
     run.delta(text(update.messageId) || "answer", text(content.text));
-  else if (kind === "agent_thought_chunk")
+    // 修复依据：非文本内容块（原生生成的图片、音频、资源链接）此前因无 text 被静默丢弃。
+    run.media(acpContentMedia(update.content));
+  } else if (kind === "agent_thought_chunk")
     run.emit({ type: "reasoning", text: text(content.text) });
-  else if (kind === "tool_call" || kind === "tool_call_update") run.tool(acpToolUpdate(update));
-  else if (kind === "usage_update")
+  else if (kind === "tool_call" || kind === "tool_call_update") {
+    run.tool(acpToolUpdate(update));
+    run.media(acpToolMedia(update));
+  } else if (kind === "usage_update")
     run.emit({
       type: "usage",
       scope: "reported",
@@ -154,12 +160,10 @@ async function acpRequest(
       detail: nativeApprovalDetail(params),
       choices: ["allow-once", "deny"],
     });
-    const expected = answer.decision === "allow-once" ? "allow_once" : "reject_once";
-    const option = choices.find((item) => item.kind === expected);
+    const optionId = acpPermissionOptionId(choices, answer.decision);
     rpc.respond(id, {
-      outcome: option
-        ? { outcome: "selected", optionId: option.optionId }
-        : { outcome: "cancelled" },
+      outcome:
+        optionId !== undefined ? { outcome: "selected", optionId } : { outcome: "cancelled" },
     });
   } catch {
     try {

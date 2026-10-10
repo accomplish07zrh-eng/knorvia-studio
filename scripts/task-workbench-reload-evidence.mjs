@@ -38,58 +38,29 @@ export async function verifyWorkbenchReloadOwnership(browser, host, url, evidenc
       JSON.stringify(window.workbenchFixture.board.getState().board),
     );
     const before = host.commands.length;
+    // 同一窗口内 Host 换代：旧格不借同 ID 重绑新 Host（specs/knorvia-workbench-conversations-20261010.md）。
     await page.evaluate(() => window.workbenchFixture.setHost("b"));
-    await page.getByText(/Host is unavailable or changed/).waitFor();
-    await page.reload();
-    await page.getByTestId("studio-workbench-open").click();
-    await page.waitForFunction(
-      () =>
-        document.body.textContent.includes("Host is unavailable or changed") ||
-        document.body.textContent.includes("Working on FOREIGN HOST B TASK"),
-    );
+    await page.getByText(/connection changed and this tile was not rebound/).waitFor();
     assert.equal(
       await page.getByText("Working on FOREIGN HOST B TASK", { exact: true }).count(),
       0,
     );
-    await page.getByText(/Verify the original connection after reload/).waitFor();
-    assert.equal(
-      await page.getByRole("button", { name: "Open saved input in this project" }).count(),
-      0,
-    );
+    // 重新打开：直接恢复上次布局并显示原会话，无需逐格重新加入，也不发送命令。
+    await page.evaluate(() => window.workbenchFixture.setHost("a"));
+    await page.reload();
+    await page.getByTestId("studio-workbench-open").click();
+    await page.getByText("Working on ORIGINAL HOST A TASK", { exact: true }).waitFor();
     const restored = await page.evaluate(() =>
       JSON.parse(JSON.stringify(window.workbenchFixture.board.getState().board)),
     );
     const prior = JSON.parse(original);
     assert.deepEqual(restored.layout, prior.layout);
-    assert.deepEqual(restored.shelved, prior.shelved);
     assert.equal(restored.maximized, prior.maximized);
     for (const [pane, tile] of Object.entries(prior.tiles))
       assert.deepEqual(restored.tiles[pane], { ...tile, configured: tile.configured !== false });
     assert.equal(host.commands.length, before);
-    await page.screenshot({ path: resolve(evidence, "reload-owner-unverified.png") });
-    await page.getByTestId("studio-chats-open").click();
-    await page.getByTestId("add-to-task-workbench").click();
-    await page.getByText("Working on FOREIGN HOST B TASK", { exact: true }).waitFor();
-    const rebound = await page.evaluate(() => window.workbenchFixture.board.getState().board);
-    assert.equal(rebound.tiles["workspace-main"].id, prior.tiles["workspace-main"].id);
-    assert.deepEqual(rebound.layout.root, prior.layout.root);
-    assert.equal(host.commands.length, before);
-    await page.evaluate(() => window.workbenchFixture.setHost("a"));
-    await page.getByText(/Host is unavailable or changed/).waitFor();
-    await page.getByTestId("studio-chats-open").click();
-    await page.getByTestId("add-to-task-workbench").click();
-    await page.getByText("Working on ORIGINAL HOST A TASK", { exact: true }).waitFor();
-    await page.reload();
-    await page.getByTestId("studio-workbench-open").click();
-    await page.getByText(/Verify the original connection after reload/).waitFor();
-    assert.equal(
-      await page.getByText("Working on ORIGINAL HOST A TASK", { exact: true }).count(),
-      0,
-    );
-    await page.getByTestId("studio-chats-open").click();
-    await page.getByTestId("add-to-task-workbench").click();
-    await page.getByText("Working on ORIGINAL HOST A TASK", { exact: true }).waitFor();
-    assert.equal(host.commands.length, before);
+    await page.screenshot({ path: resolve(evidence, "reload-restored.png") });
+    const rebound = restored;
     assert.deepEqual(errors, []);
     await writeFile(
       resolve(evidence, "reload-owner.json"),
@@ -105,7 +76,7 @@ export async function verifyWorkbenchReloadOwnership(browser, host, url, evidenc
         2,
       ),
     );
-    return "real reload cannot adopt another Host's identical session/project; explicit Chats rejoin preserves the original tile and issues no commands";
+    return "a window-local Host change never rebinds a tile; reopening restores the saved layout and original conversation directly without commands";
   } finally {
     await context.close();
   }

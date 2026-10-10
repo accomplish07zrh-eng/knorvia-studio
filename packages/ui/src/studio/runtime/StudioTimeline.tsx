@@ -1,4 +1,5 @@
 import { StudioMessageImages } from "./StudioMessageImages.js";
+import { StudioMessageMedia } from "./StudioMessageMedia.js";
 import { StudioToolDetails } from "./StudioToolDetails.js";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -80,6 +81,10 @@ function StudioTimelineContent({
   showInteractions = true,
 }: TimelineProps) {
   const runtime = useStudioRuntime(targetId);
+  // 回答中的相对路径图片需按会话工作区解析（specs/knorvia-kernel-native-media-20261010.md）。
+  const workspacePath = runtime.overview?.conversations.find(
+    (item) => item.id === targetId,
+  )?.workspacePath;
   const { statuses } = useStudioKernelCatalog();
   const { locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
@@ -106,7 +111,7 @@ function StudioTimelineContent({
     estimateSize: (index) => {
       if (hasOlder && index === 0) return 36;
       const kind = messages[index - Number(hasOlder)]?.kind;
-      return kind === "progress" ? 36 : kind === "tool" ? 76 : 160;
+      return kind === "progress" ? 36 : kind === "tool" ? 76 : kind === "media" ? 240 : 160;
     },
     overscan: 5,
     gap: 20,
@@ -262,6 +267,12 @@ function StudioTimelineContent({
                     </Reasoning>
                   ) : message?.kind === "tool" ? (
                     <StudioToolDetails message={message} zh={zh} />
+                  ) : message?.kind === "media" ? (
+                    <StudioMessageMedia
+                      messageId={message.id}
+                      media={message.media ?? []}
+                      zh={zh}
+                    />
                   ) : message?.kind === "progress" ? (
                     <p
                       data-studio-message-id={message.id}
@@ -293,7 +304,9 @@ function StudioTimelineContent({
                         {message.sender === "user" ? (
                           <div className="whitespace-pre-wrap break-words">{message.text}</div>
                         ) : (
-                          <MessageResponse>{message.text}</MessageResponse>
+                          <MessageResponse workspacePath={workspacePath}>
+                            {message.text}
+                          </MessageResponse>
                         )}
                       </MessageContent>
                       <MessageActions>

@@ -144,8 +144,21 @@ export interface StudioToolDetail {
   content?: string;
   statusDetail?: string;
 }
+/** 内核原生产出的媒体（specs/knorvia-kernel-native-media-20261010.md）；`uri` 与 `dataBase64` 二选一。 */
+export interface StudioKernelMedia {
+  kind: "image" | "video" | "audio" | "file";
+  mimeType?: string;
+  name?: string;
+  /** http(s)、file:// 或本机绝对路径。 */
+  uri?: string;
+  /** 内联内容；由内核注册表落盘为文件后改为 `uri`，不进入数据库。 */
+  dataBase64?: string;
+  /** 内联内容超过保存上限时只保留名称。 */
+  omitted?: "too-large";
+}
 export type StudioKernelEvent =
   | { type: "session"; sessionId: string }
+  | { type: "media"; items: StudioKernelMedia[] }
   | { type: "text"; text: string }
   | { type: "progress"; text: string }
   | { type: "reasoning"; text: string }

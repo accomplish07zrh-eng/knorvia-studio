@@ -5,6 +5,7 @@ import { list, number, record, safeDetail, text } from "../../domain/kernelPolic
 import type { StudioKernelTurn } from "../../kernelTypes.js";
 import type { KernelRun } from "./kernelRun.js";
 import { assertReasoningOption, claudeModelOptions } from "./modelOptions.js";
+import { claudeContentMedia } from "../../domain/kernelMedia.js";
 
 interface ClaudeState {
   messageId: string;
@@ -170,6 +171,9 @@ export async function claudeMessage(
       const blockType = text(block.type);
       if (type === "assistant" && blockType === "text")
         run.whole(`${id}:${index}`, text(block.text));
+      // 修复依据：assistant 图片块此前被丢弃，tool_result 中的图片被字符串化截断。
+      if (blockType === "image" || blockType === "tool_result")
+        run.media(claudeContentMedia(block));
       if (blockType === "tool_use") {
         const toolId = text(block.id);
         const name = text(block.name);

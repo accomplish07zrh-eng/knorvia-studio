@@ -30,7 +30,6 @@ export interface TaskWorkbenchState {
   layout: PaneLayoutSnapshot;
   tiles: Record<string, WorkbenchTile>;
   maximized: string | null;
-  shelved: WorkbenchTile[];
   /** 画布缩放（specs/knorvia-workbench-usability-20261008.md）；缺省 1。 */
   zoom?: number;
 }
@@ -95,7 +94,6 @@ export function emptyWorkbench(scope: PaneWorkspaceScope, id: string): TaskWorkb
       },
     },
     maximized: null,
-    shelved: [],
   };
 }
 export function layoutWorkbench(
@@ -250,16 +248,9 @@ export function decodeWorkbench(raw: string): TaskWorkbenchState | undefined {
       tiles[id] = tile;
       panes[id] = { workspaceScope: tile.scope, sessionId: tile.sessionId };
     }
-    const storedShelf = value.shelved ?? [];
-    if (!Array.isArray(storedShelf) || storedShelf.length > 64) return;
-    const shelved: WorkbenchTile[] = [];
-    for (const value of storedShelf) {
-      const tile = readTile(value);
-      if (!tile) return;
-      shelved.push(tile);
-    }
+    // 旧版「已收起」列表不再读取（specs/knorvia-workbench-conversations-20261010.md）：
+    // 收起项只是视图引用，会话仍在各内核记录中，可从「添加对话」重新放回。
     return {
-      shelved,
       zoom: normalizeWorkbenchZoom(value.zoom ?? 1),
       layout: {
         root,

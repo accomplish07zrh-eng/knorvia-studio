@@ -60,7 +60,6 @@ export function TaskWorkbench({
           scope,
           ...workspaceMenuProps.workspaceTabs,
           ...Object.values(board.tiles).map((tile) => tile.scope),
-          ...board.shelved.map((tile) => tile.scope),
         ]}
         count={layout.leaves.length}
         workspaceTabs={[scope, ...workspaceMenuProps.workspaceTabs]}

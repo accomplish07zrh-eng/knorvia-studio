@@ -25,21 +25,21 @@ export async function verifyWorkbenchUsability(page, host, evidence) {
   await page.getByTestId("workbench-new-task").click();
   assert.equal(await tiles.count(), 2);
 
-  // 在此格新建：原会话进入已收起，原位出现待命格。
+  // 在此格新建：原格移出工作台（无「已收起」），原位出现待命格。
   await tiles.first().locator('[contenteditable="true"]').first().fill("draft before renew");
   await tiles.first().getByTestId("workbench-tile-menu").click();
   await page.getByTestId("workbench-renew").click();
   await tiles.first().getByRole("button", { name: "Open input" }).waitFor();
-  await page.getByRole("button", { name: "Shelved (1)" }).waitFor();
+  assert.equal(await page.getByTestId("workbench-shelf-toggle").count(), 0);
 
-  // 顶栏单行；浮层不改变画布高度。
+  // 顶栏单行；「添加对话」浮层不改变画布高度。
   const canvas = page.getByTestId("workbench-canvas");
   const before = await canvas.boundingBox();
-  await page.getByTestId("workbench-shelf-toggle").click();
-  await page.getByTestId("workbench-shelf").waitFor();
+  await page.getByTestId("workbench-add-conversations").click();
+  await page.getByTestId("workbench-conversation-picker").waitFor();
   assert.deepEqual(await canvas.boundingBox(), before);
   await page.keyboard.press("Escape");
-  await page.getByTestId("workbench-shelf-toggle").click();
+  await page.getByTestId("workbench-conversation-picker").waitFor({ state: "detached" });
 
   // 待办并入顶栏：浮层复用原待办视图，与其他浮层互斥，不改变画布高度。
   await page.getByTestId("workbench-attention-toggle").click();
@@ -75,5 +75,5 @@ export async function verifyWorkbenchUsability(page, host, evidence) {
   await page.setViewportSize(wide);
   await page.getByTestId("workbench-zoom-reset").click();
   assert.equal(host.commands.length, commands);
-  return "attention inbox opens from the toolbar overlay, new task adds or reuses a ready tile without shelving, renew shelves only that tile, toolbar stays one row with overlay panels, zoom persists and narrow headers do not overflow";
+  return "attention inbox opens from the toolbar overlay, new task adds or reuses a ready tile, renew removes only that tile from the workbench, add-conversations opens as an overlay, toolbar stays one row, zoom persists and narrow headers do not overflow";
 }

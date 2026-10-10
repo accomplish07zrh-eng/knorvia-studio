@@ -3,6 +3,8 @@ import type { StudioKernelEvent, StudioKernelId, StudioKernelUsage } from "../ke
 import type { StudioMessage } from "../types.js";
 import type { StoredRun, StudioClock, StudioRepository } from "./storePort.js";
 import { mergeKernelUsage } from "../domain/kernelUsage.js";
+import { fingerprint } from "../domain/kernelMedia.js";
+import type { StudioKernelMedia } from "../kernelTypes.js";
 
 /**
  * 把内核事件写成 turn 记录。
@@ -27,6 +29,7 @@ export function saveTurnEvent(
       db.write("usage", turnId, usage, run.id);
     return;
   }
+  if (event.type === "media") return saveTurnMedia(db, clock, run, turnId, kernel, event.items);
   const id = `${turnId}:${event.type}${event.type === "tool" ? `:${event.id}` : ""}`;
   const old = db.read<StudioMessage>("message", id);
   const details: Pick<StudioMessage, "input" | "output" | "content" | "statusDetail"> = {};
@@ -63,4 +66,40 @@ export function saveTurnEvent(
     ...(event.type === "tool" ? { name: event.name, state: event.state, ...details } : {}),
   };
   db.write("message", id, message, run.targetId);
+}
+
+/**
+ * 内核产出的媒体：每个位置一条 `media` 消息（specs/knorvia-kernel-native-media-20261010.md）。
+ * 消息 ID 由 turn 与位置构成，工具多次更新同一结果时幂等；只保存引用，不保存字节。
+ */
+function saveTurnMedia(
+  db: StudioRepository,
+  clock: StudioClock,
+  run: StoredRun,
+  turnId: string,
+  kernel: StudioKernelId,
+  items: StudioKernelMedia[],
+): void {
+  for (const item of items) {
+    const { dataBase64: _inline, ...ref } = item;
+    // 未落盘的内联内容不进数据库，只保留名称与超限标记。
+    const media =
+      _inline !== undefined && !ref.uri ? { ...ref, omitted: "too-large" as const } : ref;
+    const id = `${turnId}:media:${fingerprint(media.uri ?? `${media.name ?? ""}:${media.kind}`)}`;
+    if (db.read<StudioMessage>("message", id)) continue;
+    const now = clock.now();
+    const message: StudioMessage = {
+      id,
+      targetId: run.targetId,
+      runId: run.id,
+      turnId,
+      sender: kernel,
+      kind: "media",
+      text: redactDiagnosticText(media.name ?? media.uri ?? media.kind),
+      media: [media],
+      createdAt: now,
+      updatedAt: now,
+    };
+    db.write("message", id, message, run.targetId);
+  }
 }

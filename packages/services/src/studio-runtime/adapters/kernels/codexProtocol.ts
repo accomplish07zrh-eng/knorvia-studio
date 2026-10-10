@@ -10,6 +10,7 @@ import type { StudioSharedMcpServer } from "../../kernelTypes.js";
 import type { KernelRun } from "./kernelRun.js";
 import { assertReasoningOption, readCodexModelOptions } from "./modelOptions.js";
 import { acceptCodexMessage, beginCodexScope, bindCodexScope } from "./codexTurnScope.js";
+import { acpContentMedia, codexItemMedia } from "../../domain/kernelMedia.js";
 
 const toolOutputs = new WeakMap<KernelRun, Map<string, string>>();
 
@@ -210,6 +211,14 @@ export async function codexMessage(
     const type = text(item.type);
     const id = text(item.id);
     if (type === "agentMessage" && method === "item/completed") run.whole(id, text(item.text));
+    // 修复依据：图片生成、查看图片条目与 MCP 工具返回的图片此前被丢弃或字符串化截断。
+    if (method === "item/completed") {
+      run.media(codexItemMedia(item));
+      if (type === "mcpToolCall") {
+        const blocks = record(item.result).content;
+        if (Array.isArray(blocks)) run.media(blocks.flatMap(acpContentMedia));
+      }
+    }
     if (
       ["commandExecution", "fileChange", "mcpToolCall", "webSearch", "dynamicToolCall"].includes(
         type,

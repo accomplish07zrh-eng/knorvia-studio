@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Archive, Info, List, ListChecks, Plus, ZoomIn, ZoomOut } from "lucide-react";
+import { Info, List, ListChecks, MessageSquarePlus, Plus, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import type { PaneWorkspaceScope } from "@/v4/paneLayoutTree.js";
@@ -7,7 +7,7 @@ import type { StudioRoute } from "../useStudioNavigation.js";
 import { studioKernelOption } from "../types.js";
 import { useTaskWorkbench } from "./workbenchStore.js";
 import { useWorkbenchTasks } from "./useWorkbenchTasks.js";
-import { workbenchPaneFor } from "./workbenchPlacement.js";
+import { unsentWorkbenchInput, workbenchPaneFor } from "./workbenchPlacement.js";
 import type { StudioAttentionRow } from "../attention/attentionRows.js";
 import {
   useWorkbenchAttention,
@@ -16,6 +16,7 @@ import {
 } from "./WorkbenchAttention.js";
 import { normalizeWorkbenchZoom, WORKBENCH_TILE_LIMIT, WORKBENCH_ZOOM } from "./workbenchModel.js";
 import type { WorkbenchTaskState } from "./workbenchTasks.js";
+import { WorkbenchConversationPicker } from "./WorkbenchConversationPicker.js";
 
 const labels: Record<WorkbenchTaskState, [string, string]> = {
   running: ["运行中", "Running"],
@@ -50,7 +51,17 @@ function ToolbarButton({
   );
 }
 
-/** 工作台顶栏：一行容纳新建、汇总、列表、收起与缩放；列表与收起以浮层展开，不挤压格子。 */
+function WorkbenchPlacementError({ reason, zh }: { reason: "full" | "draft"; zh: boolean }) {
+  if (reason === "draft")
+    return zh
+      ? "当前格有未发送的输入，不会被换下；请先发送，或选中其他格子再切换。"
+      : "The focused tile has an unsent input and was not replaced. Send it or focus another tile first.";
+  return zh
+    ? "工作台已满 8 格；请先移出一个格子，会话仍保留在原内核记录中。"
+    : "The workbench is full (8 tiles). Remove a tile first; its conversation stays in the kernel history.";
+}
+
+/** 工作台顶栏：一行容纳新建、添加对话、汇总、列表、待办与缩放；面板以浮层展开，不挤压格子。 */
 export function WorkbenchTaskList({
   scopes,
   count,
@@ -69,21 +80,25 @@ export function WorkbenchTaskList({
   const state = useTaskWorkbench(),
     board = state.board!;
   const tasks = useWorkbenchTasks(scopes);
-  // 三个浮层互斥：任务列表、已收起、待办。
-  const [panel, setPanel] = useState<"tasks" | "shelf" | "attention" | null>(null);
-  const expanded = panel === "tasks",
-    shelfOpen = panel === "shelf";
+  // 浮层互斥：添加对话、任务列表、待办。
+  const [panel, setPanel] = useState<"add" | "tasks" | "attention" | null>(null);
+  const expanded = panel === "tasks";
   const { attention, count: attentionCount } = useWorkbenchAttention(workspaceTabs, (row) => {
     setPanel(null);
     onOpenAttention(row);
   });
-  const [error, setError] = useState(false);
+  // 放入失败的原因：满 8 格，或满格时聚焦格有未发送输入（不会被换下）。
+  const [error, setError] = useState<"full" | "draft" | null>(null);
+  const failure = () => {
+    const focused = board.tiles[board.layout.focusedPaneId];
+    return focused && unsentWorkbenchInput(focused) ? "draft" : "full";
+  };
   const shown = tasks.rows.filter((row) => row.tile && workbenchPaneFor(board, row.tile)).length;
   const actionable = !tasks.loading && !tasks.error;
   // 浮层覆盖在格子上方：成功放入/恢复后收起浮层，直接露出目标格子。
   const reveal = (tile: Parameters<typeof state.show>[0]) => {
     const shown = state.show(tile);
-    setError(!shown);
+    setError(shown ? null : failure());
     if (!shown) return;
     setPanel(null);
   };
@@ -92,8 +107,8 @@ export function WorkbenchTaskList({
   const icon = "size-3.5";
   const createLabel = full
     ? zh
-      ? "新建任务（已满 8 格：收起当前格后放入）"
-      : "New task (8 tiles: shelves the focused tile)"
+      ? "新建任务（已满 8 格，请先移出一个格子）"
+      : "New task (8 tiles full; remove a tile first)"
     : zh
       ? "新建任务"
       : "New task";
@@ -107,7 +122,14 @@ export function WorkbenchTaskList({
             icon={<Plus className={icon} aria-hidden="true" />}
             label={createLabel}
             text={zh ? "新建任务" : "New task"}
-            onClick={() => setError(!state.create())}
+            onClick={() => setError(state.create() ? null : "full")}
+          />
+          <ToolbarButton
+            data-testid="workbench-add-conversations"
+            icon={<MessageSquarePlus className={icon} aria-hidden="true" />}
+            label={zh ? "添加对话" : "Add conversations"}
+            aria-expanded={panel === "add"}
+            onClick={() => setPanel(panel === "add" ? null : "add")}
           />
           <ToolbarButton
             data-testid="workbench-collect"
@@ -138,15 +160,6 @@ export function WorkbenchTaskList({
             }}
           />
           <ToolbarButton
-            data-testid="workbench-shelf-toggle"
-            icon={<Archive className={icon} aria-hidden="true" />}
-            label={`${zh ? "已收起" : "Shelved"} (${board.shelved.length})`}
-            aria-expanded={shelfOpen}
-            onClick={() => {
-              setPanel(shelfOpen ? null : "shelf");
-            }}
-          />
-          <ToolbarButton
             data-testid="workbench-attention-toggle"
             icon={<WorkbenchAttentionIcon />}
             label={`${zh ? "待办" : "Attention"} (${attentionCount})`}
@@ -158,13 +171,13 @@ export function WorkbenchTaskList({
             role="note"
             aria-label={
               zh
-                ? "每格独立输入、审批和停止；收起不停止任务，草稿保留；停止请用格内按钮。"
-                : "Each tile has its own input, approvals and stop. Shelving keeps tasks and drafts."
+                ? "每格独立输入、审批和停止；移出工作台不停止任务，会话仍在各内核记录中；停止请用格内按钮。"
+                : "Each tile has its own input, approvals and stop. Removing a tile keeps the task and its conversation."
             }
             title={
               zh
-                ? "每格独立输入、审批和停止；收起不停止任务，草稿保留；停止请用格内按钮。"
-                : "Each tile has its own input, approvals and stop. Shelving keeps tasks and drafts."
+                ? "每格独立输入、审批和停止；移出工作台不停止任务，会话仍在各内核记录中；停止请用格内按钮。"
+                : "Each tile has its own input, approvals and stop. Removing a tile keeps the task and its conversation."
             }
           >
             <Info className={icon} aria-hidden="true" />
@@ -223,11 +236,9 @@ export function WorkbenchTaskList({
           </span>
         </div>
       </div>
-      {(error || board.shelved.length >= 64) && !panel && (
+      {error && !panel && (
         <p role="alert" className="border-t border-border px-4 py-1 text-ui-xs">
-          {zh
-            ? "已收起列表已满（64）；可恢复已有项来切换，不会丢弃草稿。"
-            : "The shelf is full (64). Restore a shelved tile to swap without discarding drafts."}
+          <WorkbenchPlacementError reason={error} zh={zh} />
         </p>
       )}
       {panel && (
@@ -250,11 +261,9 @@ export function WorkbenchTaskList({
               </Button>
             </p>
           )}
-          {(error || board.shelved.length >= 64) && (
+          {error && (
             <p role="alert" className="px-4 pt-2 text-ui-xs">
-              {zh
-                ? "已收起列表已满（64）；可恢复已有项来切换，不会丢弃草稿。"
-                : "The shelf is full (64). Restore a shelved tile to swap without discarding drafts."}
+              <WorkbenchPlacementError reason={error} zh={zh} />
             </p>
           )}
           {expanded && (
@@ -324,29 +333,17 @@ export function WorkbenchTaskList({
             </div>
           )}
           {panel === "attention" && <WorkbenchAttentionPanel attention={attention} />}
-          {shelfOpen && (
-            <div data-testid="workbench-shelf" className="px-4 py-2">
-              {board.shelved.map((tile) => (
-                <div
-                  key={tile.id}
-                  data-testid="workbench-shelved-row"
-                  className="flex items-center gap-3 py-1"
-                >
-                  <span className="min-w-0 flex-1 truncate" title={tile.scope.workspacePath}>
-                    {studioKernelOption(tile.kernel).name} · {tile.scope.workspacePath} ·{" "}
-                    {tile.sessionId || (zh ? "未发送草稿 / 待命配置" : "Unsent draft / setup")}
-                  </span>
-                  <Button size="sm" variant="outline" onClick={() => reveal(tile)}>
-                    {zh ? "恢复 / 切换当前格" : "Restore / switch current tile"}
-                  </Button>
-                </div>
-              ))}
-              {!board.shelved.length && (
-                <p className="text-foreground-subtle">
-                  {zh ? "暂无已收起格子。" : "No shelved tiles."}
-                </p>
-              )}
-            </div>
+          {panel === "add" && (
+            <WorkbenchConversationPicker
+              board={board}
+              rows={tasks.conversations}
+              loading={tasks.loading}
+              onAdd={(rows) => {
+                const placed = state.addMany(rows.map((row) => row.tile));
+                setError(placed < rows.length ? "full" : null);
+                if (placed === rows.length) setPanel(null);
+              }}
+            />
           )}
         </div>
       )}

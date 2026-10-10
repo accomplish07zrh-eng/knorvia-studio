@@ -123,7 +123,9 @@ test("layout store rejects late tile and directory callbacks, keeps siblings on 
   assert.equal(Object.keys(store.getState().board!.tiles).length, 2);
 });
 
-test("restored visible and shelved references cannot claim a matching foreign Host until explicit rejoining", async () => {
+test("restored references reopen directly on the current Host and a window-local Host change still cannot rebind them", async () => {
+  // 重新打开直接恢复上次布局（specs/knorvia-workbench-conversations-20261010.md）；
+  // 旧存档中的收起列表被丢弃，会话仍在内核记录中。
   const tile = {
     id: "restored-visible",
     kernel: "codex" as const,
@@ -145,58 +147,39 @@ test("restored visible and shelved references cannot claim a matching foreign Ho
   const { useTaskWorkbench: store } = await import("../src/studio/workbench/workbenchStore.js");
   store.setState({ board: null, storageError: false });
   store.getState().initialize(scope);
-  const foreign = {};
-  assert.equal(claimWorkbenchConnection(tile.id, foreign), false);
-  assert.equal(claimWorkbenchConnection("restored-shelved", foreign), false);
-  assert.deepEqual(
-    store.getState().board!.tiles["workspace-main"],
-    decodeWorkbench(JSON.stringify({ version: 1, ...saved }))!.tiles["workspace-main"],
-  );
+  const board = store.getState().board!;
+  assert.equal(board.tiles["workspace-main"]?.sessionId, "matching-id");
+  assert.equal("shelved" in board, false);
+  const current = {},
+    replaced = {};
+  assert.equal(claimWorkbenchConnection(tile.id, current), true);
+  // 同一窗口内 Host 换代：旧格不能借同 ID 重绑新 Host，自动汇总/目标更新也不解除。
+  assert.equal(claimWorkbenchConnection(tile.id, replaced), false);
   store.getState().collect([{ ...tile, id: "automatic-id" }]);
   store.getState().show(tile);
-  store.getState().reopenInput("workspace-main", tile.id);
-  assert.equal(claimWorkbenchConnection(tile.id, foreign), false);
-  store.getState().update("workspace-main", { scope: { ...scope }, existing: true }, tile.id);
-  assert.equal(claimWorkbenchConnection(tile.id, foreign), false);
-  const shelved = saved.shelved[0]!;
-  store.getState().show(shelved);
-  assert.equal(claimWorkbenchConnection(shelved.id, foreign), false);
-  const shelfPane = Object.entries(store.getState().board!.tiles).find(
-    ([, value]) => value.id === shelved.id,
-  )![0];
-  store.getState().close(shelfPane);
-  assert.equal(
-    store.getState().board!.shelved.some((value) => value.id === shelved.id),
-    true,
-  );
-  assert.equal(store.getState().add({ ...shelved, id: "explicit-new-id" }), true);
-  assert.equal(claimWorkbenchConnection(shelved.id, foreign), true);
+  assert.equal(claimWorkbenchConnection(tile.id, replaced), false);
+  // 用户显式重新加入才解除旧认领。
   assert.equal(store.getState().add({ ...tile, id: "explicit-visible-id" }), true);
-  assert.equal(claimWorkbenchConnection(tile.id, foreign), true);
+  assert.equal(claimWorkbenchConnection(tile.id, replaced), true);
+  // 移出工作台同样解除认领，且不影响会话本身。
+  store.getState().close("workspace-main");
   assert.equal(
     Object.values(store.getState().board!.tiles).some((value) => value.id === tile.id),
-    true,
+    false,
   );
+  assert.equal(claimWorkbenchConnection(tile.id, current), true);
   forgetWorkbenchConnection(tile.id);
-  forgetWorkbenchConnection(shelved.id);
 });
 
-test("restored unsent inputs reopen explicitly with the original tile and draft scope, never an existing binding", async () => {
+test("restored unsent inputs keep the original tile and draft scope without an existing binding", async () => {
   const native = {
     ...emptyWorkbench(scope, "restored-native-input").tiles["workspace-main"]!,
     opened: true,
-  };
-  const external = {
-    ...native,
-    id: "restored-external-input",
-    kernel: "codex" as const,
-    sessionId: "draft-id",
   };
   let encoded = JSON.stringify({
     version: 1,
     ...emptyWorkbench(scope, native.id),
     tiles: { "workspace-main": native },
-    shelved: [external],
   });
   Object.defineProperty(globalThis, "localStorage", {
     configurable: true,
@@ -205,21 +188,10 @@ test("restored unsent inputs reopen explicitly with the original tile and draft 
   const { useTaskWorkbench: store } = await import("../src/studio/workbench/workbenchStore.js");
   store.setState({ board: null, storageError: false });
   store.getState().initialize(scope);
-  const current = {};
-  assert.equal(claimWorkbenchConnection(native.id, current), false);
-  store.getState().reopenInput("workspace-main", "stale-id");
-  assert.equal(claimWorkbenchConnection(native.id, current), false);
-  store.getState().reopenInput("workspace-main", native.id);
-  assert.equal(claimWorkbenchConnection(native.id, current), true);
-  assert.equal(store.getState().board!.tiles["workspace-main"]!.sessionId, null);
-  store.getState().show(external);
-  const pane = Object.entries(store.getState().board!.tiles).find(
-    ([, value]) => value.id === external.id,
-  )![0];
-  assert.equal(claimWorkbenchConnection(external.id, current), false);
-  store.getState().reopenInput(pane, external.id);
-  assert.equal(claimWorkbenchConnection(external.id, current), true);
-  assert.equal(store.getState().board!.tiles[pane]!.sessionId, external.sessionId);
+  const restored = store.getState().board!.tiles["workspace-main"]!;
+  assert.equal(restored.id, native.id);
+  assert.equal(restored.opened, true);
+  assert.equal(restored.sessionId, null);
+  assert.equal(claimWorkbenchConnection(native.id, {}), true);
   forgetWorkbenchConnection(native.id);
-  forgetWorkbenchConnection(external.id);
 });

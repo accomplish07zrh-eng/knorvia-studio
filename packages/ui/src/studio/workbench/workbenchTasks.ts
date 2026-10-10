@@ -134,3 +134,84 @@ export function activeWorkbenchTasks(
   }
   return [...rows.values()];
 }
+
+/** 「添加对话」列表的一项：只引用已被 Host 受理的会话，不含未发送草稿。 */
+export interface WorkbenchConversationRow {
+  key: string;
+  kernel: WorkbenchTile["kernel"];
+  title: string;
+  workspacePath: string;
+  updatedAt: number;
+  unavailable: boolean;
+  tile: WorkbenchTile;
+}
+/**
+ * 各内核已有对话（specs/knorvia-workbench-conversations-20261010.md）：原生会话来自 Controller
+ * 未归档列表，外部内核来自 Studio 概览；同一真实会话按目标键去重，原生优先。按更新时间倒序。
+ */
+export function workbenchConversationRows(
+  overview: StudioOverview | undefined,
+  native: WindowHostControllerTaskListItem[],
+): WorkbenchConversationRow[] {
+  const rows = new Map<string, WorkbenchConversationRow>();
+  for (const item of native) {
+    const tile: WorkbenchTile = {
+      id: crypto.randomUUID(),
+      kernel: "knorvia",
+      sessionId: item.taskId,
+      opened: true,
+      existing: true,
+      configured: true,
+      scope: {
+        workspacePath: item.workspacePath,
+        workspaceIdentity: item.workspaceIdentity,
+        remoteSessionId: item.remoteSessionId,
+      },
+    };
+    // 会话 ID 恒存在，目标键不会为 null。
+    const key = workbenchTargetKey(tile)!;
+    rows.set(key, {
+      key,
+      kernel: "knorvia",
+      title: item.title,
+      workspacePath: item.workspacePath,
+      updatedAt: item.updatedAt,
+      unavailable: item.sourceAvailability !== "online",
+      tile,
+    });
+  }
+  for (const conversation of overview?.conversations ?? []) {
+    const sessionId =
+      conversation.kernel === "knorvia" ? conversation.nativeSessionId : conversation.id;
+    if (!sessionId) continue;
+    const tile: WorkbenchTile = {
+      id: crypto.randomUUID(),
+      kernel: conversation.kernel,
+      scope: { workspacePath: conversation.workspacePath },
+      sessionId,
+      opened: true,
+      existing: true,
+      configured: true,
+    };
+    const key = workbenchTargetKey(tile)!;
+    // Studio 内置单聊同时出现在 Controller 中时以原生项为准。
+    if (
+      rows.has(key) ||
+      (conversation.kernel === "knorvia" &&
+        [...rows.values()].some(
+          (row) => row.kernel === "knorvia" && row.tile.sessionId === sessionId,
+        ))
+    )
+      continue;
+    rows.set(key, {
+      key,
+      kernel: conversation.kernel,
+      title: conversation.title,
+      workspacePath: conversation.workspacePath,
+      updatedAt: conversation.updatedAt,
+      unavailable: false,
+      tile,
+    });
+  }
+  return [...rows.values()].sort((a, b) => b.updatedAt - a.updatedAt);
+}

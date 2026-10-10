@@ -40,6 +40,16 @@ export async function workbenchHost() {
           async run(turn, sink, signal) {
             turns.push({ host, ...turn });
             await sink.emit({ type: "text", text: `Working on ${turn.text}` });
+            // 原生媒体产出（specs/knorvia-kernel-native-media-20261010.md）：只给位置，不带字节。
+            if (turn.text.startsWith("media")) {
+              await sink.emit({
+                type: "media",
+                items: [
+                  { kind: "image", uri: "/test/project/generated.png", name: "generated.png" },
+                ],
+              });
+              return { status: "succeeded", text: `Finished ${turn.text}`, resultKnown: true };
+            }
             const answer = await sink.ask(
               turn.text.startsWith("question")
                 ? {

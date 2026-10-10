@@ -1,21 +1,14 @@
-// 仅存视图所绑定的 Host 引用；不保存执行状态，不把新 Host 的同 ID 当原会话。
-const connections = new Map<string, object | null>();
+// 仅存视图所绑定的 Host 引用；不保存执行状态。窗口内 Host 换代后，旧格不能借同 ID 重绑新 Host。
+const connections = new Map<string, object>();
 export function claimWorkbenchConnection(tileId: string, service: object): boolean {
   const previous = connections.get(tileId);
-  if (connections.has(tileId)) return previous === service;
+  if (previous) return previous === service;
   connections.set(tileId, service);
   return true;
 }
-export function restoreWorkbenchConnection(tileId: string) {
-  // 重载丢失原 service 证明；当前 Host 的同 ID/项目索引不能证明原连接。
-  connections.set(tileId, null);
-}
-export function isWorkbenchConnectionUnverified(tileId: string): boolean {
-  return connections.get(tileId) === null;
-}
+/** 内核或项目变化、移出工作台、用户显式重新加入时解除旧认领。 */
 export function resetWorkbenchConnection(tileId: string) {
-  // 自动目标更新不能解除恢复引用的 unknown；只有用户明确重新加入/打开才可解除。
-  if (!isWorkbenchConnectionUnverified(tileId)) connections.delete(tileId);
+  connections.delete(tileId);
 }
 export function forgetWorkbenchConnection(tileId: string) {
   connections.delete(tileId);

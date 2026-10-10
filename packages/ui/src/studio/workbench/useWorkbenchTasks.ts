@@ -7,7 +7,7 @@ import {
   getWindowControllerTaskListRegistry,
 } from "@/v4/windowControllerTaskListRegistry.js";
 import { useStudioRuntime } from "../runtime/useStudioRuntime.js";
-import { activeWorkbenchTasks } from "./workbenchTasks.js";
+import { activeWorkbenchTasks, workbenchConversationRows } from "./workbenchTasks.js";
 
 const nothing = () => () => {};
 const empty = () => EMPTY_CONTROLLER_WORKSPACES;
@@ -44,6 +44,11 @@ export function useWorkbenchTasks(scopes: PaneWorkspaceScope[]) {
     () => activeWorkbenchTasks(runtime.overview, [...active.items, ...archived.items]),
     [runtime.overview, active.items, archived.items],
   );
+  // 「添加对话」与任务列表共用同一次读取；归档会话不列入，与侧栏一致。
+  const conversations = useMemo(
+    () => workbenchConversationRows(runtime.overview, active.items),
+    [runtime.overview, active.items],
+  );
   const loading =
     Boolean(runtime.service && !runtime.overview && !runtime.error) ||
     active.loading ||
@@ -52,6 +57,7 @@ export function useWorkbenchTasks(scopes: PaneWorkspaceScope[]) {
   const error = runtime.error || active.error || archived.error || sources.error;
   return {
     rows,
+    conversations,
     loading,
     error,
     partial:

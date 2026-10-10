@@ -14,6 +14,7 @@ import * as controlEvidence from "./task-workbench-control-evidence.mjs";
 import { verifyWorkbenchReloadOwnership } from "./task-workbench-reload-evidence.mjs";
 import { verifyWorkbenchTileViews } from "./task-workbench-preview-evidence.mjs";
 import { verifyWorkbenchUsability } from "./task-workbench-usability-evidence.mjs";
+import { verifyWorkbenchKernelMedia } from "./task-workbench-media-evidence.mjs";
 
 const root = process.cwd();
 const evidence = process.env.KNORVIA_WORKBENCH_EVIDENCE_DIR || "/tmp/knorvia-workbench-evidence";
@@ -219,7 +220,7 @@ try {
   await page.evaluate(() => window.workbenchFixture.setHost("b"));
   await page
     .locator('[data-testid="workbench-tile"]:visible')
-    .getByText(/Host is unavailable or changed/)
+    .getByText(/connection changed and this tile was not rebound/)
     .first()
     .waitFor();
   assert.equal(host.commands.filter((command) => command.host === "b").length, 0);
@@ -230,7 +231,7 @@ try {
   await page.waitForFunction(() => window.workbenchFixture.fixture.delivered === 1);
   await page.waitForFunction(() =>
     [...document.querySelectorAll('[role="status"]')].some((element) =>
-      element.textContent.includes("Host is unavailable or changed"),
+      element.textContent.includes("connection changed and this tile was not rebound"),
     ),
   );
   assert.equal(
@@ -307,54 +308,71 @@ try {
   const fullTree = await page.evaluate(
     () => window.workbenchFixture.board.getState().board.layout.root,
   );
-  await page
+  // 聚焦格有未发送输入时不会被换下（specs/knorvia-workbench-conversations-20261010.md）。
+  const lastActive = page
     .getByTestId("workbench-active-row")
     .last()
-    .getByRole("button", { name: "Add / switch current tile" })
-    .click();
+    .getByRole("button", { name: "Add / switch current tile" });
+  await lastActive.click();
+  await page
+    .getByText(/has an unsent input and was not replaced/)
+    .first()
+    .waitFor();
+  assert.equal(await tiles.first().getAttribute("data-tile-id"), draftTileId);
+  // 聚焦另一格后再切换：被换下的格子只离开工作台，布局不变。
+  await page.getByRole("button", { name: /^Task list/ }).click();
+  const swapped = await tiles.nth(1).getAttribute("data-tile-id");
+  await tiles
+    .nth(1)
+    .locator("header")
+    .click({ position: { x: 50, y: 20 } });
+  await page.getByRole("button", { name: /^Task list/ }).click();
+  await lastActive.click();
   assert.deepEqual(
     await page.evaluate(() => window.workbenchFixture.board.getState().board.layout.root),
     fullTree,
   );
-  await page.getByTestId("workbench-shelf-toggle").click();
-  await page
-    .getByTestId("workbench-shelved-row")
-    .first()
-    .getByRole("button", { name: "Restore / switch current tile" })
-    .click();
-  const recovered = page.locator(`[data-tile-id="${draftTileId}"]`);
-  assert.equal(
-    await recovered.locator('[contenteditable="true"]').first().innerText(),
-    "keep this unsent draft",
-  );
-  await recovered.getByRole("button", { name: "Shelve tile", exact: true }).click();
+  assert.equal(await page.locator(`[data-tile-id="${swapped}"]`).count(), 0);
+  assert.equal(await page.getByTestId("workbench-shelf-toggle").count(), 0, "no shelf");
+  // 移出工作台：格子消失，会话仍可从「添加对话」重新放回。
+  await tiles.nth(2).getByTestId("workbench-remove-tile").click();
   assert.equal(await tiles.count(), 7);
-  assert.equal(
-    host.commands.length,
-    beforeCollect,
-    "collect, swap, restore and shelve are view-only",
+  await page.getByTestId("workbench-add-conversations").click();
+  const picker = page.getByTestId("workbench-conversation-picker");
+  await picker.waitFor();
+  const rows = picker.getByTestId("workbench-conversation-row");
+  assert.ok((await rows.count()) >= 8, "picker lists accepted conversations");
+  assert.ok(
+    (await picker.getByText("In workbench").count()) >= 6,
+    "tiles already shown are marked",
   );
+  const free = picker.locator('button[role="checkbox"]:not([disabled])');
+  await free.first().click();
+  await page.screenshot({ path: resolve(evidence, "add-conversations.png") });
+  await picker.getByTestId("workbench-conversation-add").click();
+  await picker.waitFor({ state: "detached" });
+  assert.equal(await tiles.count(), 8);
+  const recovered = page.locator(`[data-tile-id="${draftTileId}"]`);
+  assert.equal(host.commands.length, beforeCollect, "collect, swap, remove and add are view-only");
   await page.reload();
-  // 夹具只保留当前执行 Host；恢复引用仍须显式核对，不能把同 ID 索引当原连接。
+  // 重新打开直接恢复上次布局：未发送输入原样可编辑，无需逐格重新核对。
   await page.evaluate(() => window.workbenchFixture.setHost("b"));
   await page.getByTestId("studio-workbench-open").click();
-  await page.getByTestId("workbench-shelf-toggle").click();
-  const shelfDraft = page.getByTestId("workbench-shelved-row").last();
-  await shelfDraft.getByRole("button", { name: "Restore / switch current tile" }).click();
-  await recovered.getByRole("button", { name: "Open saved input in this project" }).click();
+  assert.equal(await tiles.count(), 8);
   assert.equal(
     await recovered.locator('[contenteditable="true"]').first().innerText(),
     "keep this unsent draft",
   );
   assert.equal(host.commands.length, beforeCollect);
   checks.push(
-    "one-click collection includes all ten active tasks and both waiting states; overflow remains reachable; swap, shelve and reload restore unsent draft without commands",
+    "one-click collection includes all ten active tasks and both waiting states; swap keeps unsent input; remove and add-conversations are view-only; reload restores the layout and unsent draft directly",
   );
   await page.getByTestId("workbench-collect").click();
   await page.screenshot({ path: resolve(evidence, "active-tasks-overflow.png") });
   checks.push(await controlEvidence.verifyWorkbenchNativeDraftOwner(page));
   checks.push(await verifyWorkbenchReloadOwnership(browser, host, page.url(), evidence));
   checks.push(await verifyWorkbenchUsability(page, host, evidence));
+  checks.push(await verifyWorkbenchKernelMedia(browser, host, page.url().split("?")[0], evidence));
   assert.deepEqual(errors, []);
   await writeFile(
     resolve(evidence, "result.json"),
