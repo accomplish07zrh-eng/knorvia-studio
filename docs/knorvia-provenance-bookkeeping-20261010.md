@@ -6280,18 +6280,21 @@ SHA256SUMS、sources.json、third-party/\*.json 是清单数据而不是第三�
 - 阶段 B：https://github.com/accomplish07zrh-eng/knorvia-studio/pull/61（不合并）
 - 阶段 C：https://github.com/accomplish07zrh-eng/knorvia-studio/pull/62（不合并）
 - 阶段 D：https://github.com/accomplish07zrh-eng/knorvia-studio/pull/63（不合并）
+- 阶段 A–D（整条分支的主 PR）：https://github.com/accomplish07zrh-eng/knorvia-studio/pull/64（不合并）
 
 ## 10. 偏离本 Goal 的地方
 
 - 本机没有安装 mise，无法使用 mise.toml 声明的工具链；改为在仓库外 D:\provenance-work\toolchain 安装 Node 24.14.0 与 pnpm 10.33.2（版本与 mise.toml 完全一致），所有命令都用这两个版本执行。
 - 上游只读对象库沿用本机已有的 D:\tools.cache\knorvia-provenance\upstream.git（仓库外、浅克隆），没有重新克隆；该对象库含固定提交 872ad960，且该提交树全部 6973 个条目、6886 个文本文件的 blob 都已成功读出，未把任何上游内容复制进仓库。
-- 批次 A1 第一次提交时仓库没有配置 git 身份，git commit 返回 128（Author identity unknown）；已按仓库既有历史设置仓库级 user.name/user.email，用 git checkout HEAD -- 撤回该批已暂存的改动后重跑，第二次该批全部门禁通过并提交。
+- 批次 A1 第一次提交时仓库没有配置 git 身份，git commit 返回 128（Author identity unknown）；已按仓库既有历史设置仓库级 user.name/user.email，用 git checkout HEAD -- 撤回该批已暂存的改动后重跑，第二次该批全部门禁通过并提交。这次失败保留在批次表里。
 - 提交身份与仓库既有提交一致（Claude <noreply@anthropic.com>），本机没有全局 git 身份配置。
+- 第 12 批的门禁与提交已成功，但随后为该批做的抽查被一次运维动作打断（处理卡住的诊断用 git grep 时结束了 git 进程），循环因此在抽查处停止；随后单独补跑第 13、14 批，并重新完整执行第 1–14 批的抽查，14 批各 10 条全部通过。仓库没有被破坏：工作树干净、无 index.lock、提交历史连续。
+- 阶段 D 的条件 4 最初尝试用一次 git grep 带 158 个模式做全仓搜索，该调用耗时异常（超过 10 分钟仍未结束），已终止并改为逐候选调用 git grep -F -l 完成，结论不变。
 - 阶段 B/C 的四条判断全部由仓库外脚本计算（首次加入提交逐文件用 git log --follow 复算，相似度用倒排索引加对角线种子扩展），每批另行抽查 10 条记录并复算首次加入提交与阈值。
 - 阶段 A 的 37 个 7-Zip/LZMA SDK 通知文件正文只声明 public domain，SPDX 许可列表没有对应标识，按「正文无法明确对应一个 SPDX 标识」交还；如需登记请根 Agent 给出取值口径（例如 LicenseRef-PublicDomain 或 reviewed-retained/NOASSERTION）。
 - 阶段 A 的 64 个 third-party/upstream/\*.txt 缺少 Publisher-declared license 与 Evidence 头部行，按规则交还；其中多数正文本身是标准许可正文（Apache-2.0、MIT、Unicode、FreeType 等），若根 Agent 允许按正文判定，可以再补一批。
 - 阶段 A 的 8 条清单数据（SHA256SUMS、sources.json、third-party/\*.json）按目标文档不登记，只列在报告里。
 - third-party/ 下 60 个 unreviewed 文件（含 third-party/source-verification-20261003/_.json）与阶段 A 路径范围内 36 个 unreviewed 的 third-party/upstream/_.txt，目标文档没有给出处理规则（阶段 A 限定 upstream-\*，阶段 C 明确排除 third-party/），只列出、不登记、不删除。
-- 报告文件 docs/knorvia-provenance-bookkeeping-20261010.md 由本次工作新增，不在开工时的 9230 个 unreviewed 范围内；为保持台账完整，它单独用一条 original 记录登记，首次加入提交即交付该报告的提交。
+- 报告文件 docs/knorvia-provenance-bookkeeping-20261010.md 由本次工作新增，不在开工时固定的 9230 个 unreviewed 范围内，也没有登记：它是本次工作的交付物，交付前仍会修订，登记会立刻过期。因此收工清单的 unreviewed 比阶段 A–C 的登记结果多 1，报告第 2 节已写明。
 - 提交正文的「交还 N 条」按阶段累计口径记录（该阶段截至本批的交还总数），因为交还清单不由批次切分；阶段末批的数字即该阶段交还总数。
-- 阶段 PR 用阶段末的快照分支（provenance-bookkeeping-phase-a/b/c/d）打开，指向同一个 provenance-bookkeeping 分支在各阶段结束时的提交，均不合并。
+- 阶段 PR 用阶段末的快照分支（provenance-bookkeeping-phase-a/b/c/d）打开，指向同一个 provenance-bookkeeping 分支在各阶段结束时的提交；另有覆盖整条分支的主 PR。全部不合并。
