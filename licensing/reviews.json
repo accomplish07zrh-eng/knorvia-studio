@@ -42101,8 +42101,8 @@
       "path": "third-party/native-search/licenses/7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8.txt",
       "normalizedSha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
       "decision": "third-party",
-      "license": "BSD-3-Clause",
-      "basis": "Third-party material retained from the fixed upstream snapshot: zstd@1.5.6 notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8.txt) and the component registry entry; this record does not relicense the material or claim Knorvia authorship.",
+      "license": "BSD-3-Clause OR GPL-2.0-only",
+      "basis": "Third-party material retained from the fixed upstream snapshot: zstd@1.5.6 notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8.txt) and the component registry entry; zstd is dual-licensed and Knorvia distributes it under the BSD-3-Clause alternative (third-party/native-search/sources.json licenseSelections); this record does not relicense the material or claim Knorvia authorship.",
       "evidence": [
         "third-party/native-search/sources.json",
         "third-party/native-search/licenses/7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8.txt"
@@ -42222,8 +42222,8 @@
       "path": "third-party/native-search/licenses/8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt",
       "normalizedSha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
       "decision": "third-party",
-      "license": "GPL-3.0-only",
-      "basis": "Third-party material retained from the fixed upstream snapshot: gcc-gpl3@see binary/build provenance notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt) and the component registry entry; this record does not relicense the material or claim Knorvia authorship.",
+      "license": "GPL-3.0-or-later WITH GCC-exception-3.1",
+      "basis": "Third-party material retained from the fixed upstream snapshot: gcc-gpl3@see binary/build provenance notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt) and the component registry entry; the GPL text and the runtime library exception apply together to the GCC runtime (third-party/native-search/sources.json licenseSelections); this record does not relicense the material or claim Knorvia authorship.",
       "evidence": [
         "third-party/native-search/sources.json",
         "third-party/native-search/licenses/8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt"
@@ -42277,8 +42277,8 @@
       "path": "third-party/native-search/licenses/9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74.txt",
       "normalizedSha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
       "decision": "third-party",
-      "license": "GCC-exception-3.1",
-      "basis": "Third-party material retained from the fixed upstream snapshot: gcc-runtime-exception@see binary/build provenance notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74.txt) and the component registry entry; this record does not relicense the material or claim Knorvia authorship.",
+      "license": "GPL-3.0-or-later WITH GCC-exception-3.1",
+      "basis": "Third-party material retained from the fixed upstream snapshot: gcc-runtime-exception@see binary/build provenance notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74.txt) and the component registry entry; the GPL text and the runtime library exception apply together to the GCC runtime (third-party/native-search/sources.json licenseSelections); this record does not relicense the material or claim Knorvia authorship.",
       "evidence": [
         "third-party/native-search/sources.json",
         "third-party/native-search/licenses/9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74.txt"
@@ -42530,8 +42530,8 @@
       "path": "third-party/native-search/licenses/f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505.txt",
       "normalizedSha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505",
       "decision": "third-party",
-      "license": "GPL-2.0-only",
-      "basis": "Third-party material retained from the fixed upstream snapshot: zstd@1.5.6 notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505.txt) and the component registry entry; this record does not relicense the material or claim Knorvia authorship.",
+      "license": "BSD-3-Clause OR GPL-2.0-only",
+      "basis": "Third-party material retained from the fixed upstream snapshot: zstd@1.5.6 notice retained in the component registry. License determined from the retained notice text (third-party/native-search/licenses/f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505.txt) and the component registry entry; zstd is dual-licensed and Knorvia distributes it under the BSD-3-Clause alternative (third-party/native-search/sources.json licenseSelections); this record does not relicense the material or claim Knorvia authorship.",
       "evidence": [
         "third-party/native-search/sources.json",
         "third-party/native-search/licenses/f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505.txt"
