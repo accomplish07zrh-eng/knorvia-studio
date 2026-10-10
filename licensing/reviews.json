@@ -76400,6 +76400,656 @@
         "licensing/upstream-baseline.json",
         "specs/knorvia-causality-reduction-target.md"
       ]
+    },
+    {
+      "path": "specs/knorvia-core-attachment-plan-owner-integration-20261003.md",
+      "normalizedSha256": "ca5b46a6370cab3b2059478db408b7d661b0c04ba8d6e4e77d0aa64c9e19f30d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit bffae9a3 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.18 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:bffae9a34fe3f729e29e66614695cb3fb6a23e90",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-attachment-plan-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-context-provider-owner-integration-20261003.md",
+      "normalizedSha256": "420f5f4b8cc5164242bfc8a1cca11b5bc7c40c750f3dd07cd83a4d24a63cd195",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 13d2a590 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.18 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:13d2a5902f536cc8e73db816098d8cfe11db8b37",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-context-provider-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-error-telemetry-owner-integration-20261003.md",
+      "normalizedSha256": "1507f818997cecc0ab8bb405b3f292e65925db34749b66063676f9c7a41e6dc5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit df26566e (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.18 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:df26566ec09e7032f75b822ecd349e10dfadce26",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-error-telemetry-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-hydration-owners-20261003.md",
+      "normalizedSha256": "94e0cb06d003041c63ce69004d8614ac256bcecd8c52ec4cdad3a5e96c6fb0f1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit e2e3a1fe (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.07 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:e2e3a1fe59ccf034a8da82ba8c8ecc3d70cec732",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-hydration-owners-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-mcp-owners-20261003.md",
+      "normalizedSha256": "d62594784fa46d12fa300c034b247e079501fc97b50116413856cf92ab42cb7e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 76b7fdff (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.06 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:76b7fdff0496950a4b6c16674478be4a8e35f078",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-mcp-owners-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-memory-owner-integration-20261003.md",
+      "normalizedSha256": "689d29ad042a0e7787a3d38ad02e0d118cf283165e5e8ad1e3305dec02e90d0a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit c2fe9497 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.18 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:c2fe9497ee0b90960b5b77009d57257da5c645bc",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-memory-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-model-context-session-owner-integration-20261003.md",
+      "normalizedSha256": "520aae9fa49f25423f8a5854215d1a9e6a402647b70f407c3f737e57075dccd6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit db9854cc (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.15 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:db9854cc238266615d5991ba88b4cc79101f7c21",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-model-context-session-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-model-media-owner-integration-20261003.md",
+      "normalizedSha256": "03b22997b48febf7b40d201c5fabc01d383bd681e3d8c0b383b335e316230935",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 49ca0267 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.18 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:49ca0267d4d51aac1c5423b22cf42a1f27ca39bb",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-core-model-media-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-create-workflow-graph-quotient.md",
+      "normalizedSha256": "a9d1537bdcccf0541afa68a346e4374eeafd3a8b04ca24c9412c2cef36012be4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 637fbadb (2026-10-01) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 7 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:637fbadb23b9e2c687ce18144e6e803b55712794",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-create-workflow-graph-quotient.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-critic-loop-20261002.md",
+      "normalizedSha256": "32380400051d754161830e3c8733999a019fdd687427614e57b648185d896d58",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 93adfd8f (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.08 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:93adfd8f2ee416e6049ab646d6bdf85150dbb8e4",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-critic-loop-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-cua-restricted.md",
+      "normalizedSha256": "f2484cebf3a8dc57c76839e9a12241662b6c1449a8ba342fa4883a2d19b3a38a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit dc51d26b (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.02 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:dc51d26b504ac268d132d92634ec7a989e50d0a2",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-cua-restricted.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-definition-ownership.md",
+      "normalizedSha256": "186f5d4d4f592dc440df4b3210ca248dd358d6b00f29e6d7c7709b539f4ad5cb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 530a6470 (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.11 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:530a64700d61d80715e4a120682a3942075395bc",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-definition-ownership.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-desktop-network-owner-20261003.md",
+      "normalizedSha256": "a7a7fecf50676c70e577fb0e4b52235e1ab07ff18d934dd6239cb03be32d0ed0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit b2c58b67 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 4 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:b2c58b67915ec98f21f952aec6fb588f177fad0d",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-desktop-network-owner-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-event-log-owner-integration-20261002.md",
+      "normalizedSha256": "5a6c7b3e05147affa1e38558969f470f8bf80b72476ea6a865b25e63c92a0c98",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 0a85acce (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 6 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:0a85acce48de26d2c5b1c81004fcfaa8aafc532a",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-event-log-owner-integration-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-expert-queue-20261002.md",
+      "normalizedSha256": "42717e012d5731c24f2383cd52d17b2e2e4d6323068e199652aa5cd8f9fe22d8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 684cc92f (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:684cc92f14cd9ea96b43aa2ac910a6c973c1e5c2",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-expert-queue-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-graph-boundaries-20261002.md",
+      "normalizedSha256": "8b3d99681580d5819707b53c946a05e693e43f0efcbe0a304d35b770015a2077",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit b040b391 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.05 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:b040b3919c982f722adec8f33c194944a7fee874",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-graph-boundaries-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-group-progress.md",
+      "normalizedSha256": "b29d749488cda8e0e7f0ccce9a28ee6b81a625f68d6047fcbb620bb62c7c50df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit acc54740 (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:acc547409bc0edf042371456eb394dd00645efe3",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-group-progress.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-kernel-native-media-20261010.md",
+      "normalizedSha256": "c0ae3769145cb249e3335f871d897be6c5075d0b9bc0b7c4b84dffd1671b3820",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 00a62b64 (2026-10-10) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:00a62b64be3342a065cc2e85cfc74fc8b1342c6a",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-kernel-native-media-20261010.md",
+        "specs/knorvia-workbench-conversations-20261010.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-layout-polish-20261009.md",
+      "normalizedSha256": "a08019c9a90285058b20859f6c42b516992e33d5a036622bb4194e9c1bf7a2d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit c98ae5a7 (2026-10-09) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:c98ae5a742e7709a827baca081a93120b57a9157",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-layout-polish-20261009.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-linux-zombie-cleanup-20261003.md",
+      "normalizedSha256": "d2f24e8398990af1a1dca68a8f52d061034f7799d3d7f657214f65ec3f44993f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit e4e5fb4a (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.01 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:e4e5fb4a590272b237b88c1a79f0937a377b55e7",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-linux-zombie-cleanup-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-config-methods-20261003.md",
+      "normalizedSha256": "7993f8758038d0ab378ec8f3d702ca1da3268c6c68ff6158d7711ae1c9298c92",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 51ade7da (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.18 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:51ade7da49cf0e15bf7ac7bd3714a9f3ff8b89a0",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-mcp-config-methods-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-next-services-final-failure-repair-20261003.md",
+      "normalizedSha256": "40247ce301f499810691484fa8fb56e902e37c55532a01adfc8e5681b5724311",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 0e73eb3c (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:0e73eb3cd6159e91be41e20d40cded0fc493ec03",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-next-services-final-failure-repair-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-node-runner-owner-integration-20261003.md",
+      "normalizedSha256": "219776d9148b439a0579e6cedfaacca983c262d4c733cc4db4dac6f1ae1115b4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit dfae259b (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 6 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:dfae259be47287be6642ab8469009b008a01bdb2",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-node-runner-owner-integration-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-performance-baseline.md",
+      "normalizedSha256": "0b49c75b315d07f94ec43d326db59f6722018fb1abd14b9dd9ce4c7c46d8a773",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 5edcf479 (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:5edcf479c3f54e3d191812818804df399cbd739a",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-performance-baseline.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-provider-file-codec-owner-20261003.md",
+      "normalizedSha256": "372ce54270fed946d843525bf0a7a90b279e1fff3622dfcfdbfdbb89d36eb7b8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 5e3e1ab8 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 5 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:5e3e1ab8e44a6a2b85e1f7da73e12e43cdb44fc8",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-provider-file-codec-owner-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-proxy-abort-20261008.md",
+      "normalizedSha256": "f0769fd039ef78cc07f48e6dbd7e9c318f0411a1130e9ba778b13206ccd96009",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 796d0fe1 (2026-10-08) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:796d0fe1ab9c1427f25c4799ffee66073c55f614",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-proxy-abort-20261008.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-ready-node-ordering-20261002.md",
+      "normalizedSha256": "3c4928b4c2b9c611d5192bd1cb9436f81d1163ab61357ef9bfe62120674996ad",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 08273a71 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.06 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:08273a711b8e899dff5d035fc257df048c9ec7dd",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-ready-node-ordering-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-cdn-20261003.md",
+      "normalizedSha256": "a96c4b845fb66b009e799eae87319dbcb7af9190b1e9ec5ad7ef971a006f5fc7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 17f779d2 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:17f779d2cd65b90a5d2c2effba92f386e3d2da70",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-cdn-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-client-20261003.md",
+      "normalizedSha256": "05102011fe19049903fcb1702025f1954ae523e70d30642da9cf6633a8219b60",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 46e2ba0c (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:46e2ba0c27e2f4f1e4ba80db25da26be3a874235",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-client-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-data-preview-20261003.md",
+      "normalizedSha256": "abd272eadb1740b7bd3dba8913851a53dd07a291e65793c4c8af788a3ac123e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 9d92be5f (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:9d92be5f35e89539e0077e79005f786f00778202",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-data-preview-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-desktop-lifecycle-20261003.md",
+      "normalizedSha256": "f593c44ca48cbf7285343fc953e7e320d6cba3bea6c14e40bca5aab31bcea460",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit a6e45df7 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:a6e45df70e057a0cc0c51511ba83e64433d28054",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-desktop-lifecycle-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-ipc-remote-20261003.md",
+      "normalizedSha256": "e4781e30921dfe91bbe88e9583854a2ad1b77dae98385b9a743ce36ef72153eb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 2a1bdb5b (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 4 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:2a1bdb5bfc44d9e78227d0035b45cd781fb52ffd",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-ipc-remote-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-preview-merge-20261003.md",
+      "normalizedSha256": "991874b32403d4cef6e080f42ce124353d9d7326f5ae236cab1bfd5d67206b37",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 5b5e4d28 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:5b5e4d2882109cbbd3fece1a275942c8423c74e3",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-preview-merge-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-remote-cache-20261003.md",
+      "normalizedSha256": "ad96b92802b82b8bcd4ceaf0749779288afa9b35671eebe1b245bb102fd49ea8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit ffed1019 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 5 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:ffed10195f13f11c0726ae9df5976dd790b9b666",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-remote-cache-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-startup-links-20261003.md",
+      "normalizedSha256": "0ff868abb6afa116c1f940fb562f33049ee047cb6f8362d0fc2a90c46dff5f20",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 2844b1c2 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:2844b1c214b479a83cd80392cfe52306ed9b0f5c",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-startup-links-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-upload-progress-20261003.md",
+      "normalizedSha256": "55204d0bafdb0775494e919fd201abed12ef55dd53bebc64b1cd533e6037242d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 24743bd7 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:24743bd73b836a2fae878817a5159ab9f6fe0c8c",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-upload-progress-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-root-window-commands-20261003.md",
+      "normalizedSha256": "3435b75b6e904892d16b87b6f85679eb8107168e27a14f371ebf5b42b6b988a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 5a050ec0 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 3 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:5a050ec0c98328e47fba01af98e29f95a7927abf",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-root-window-commands-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-run-loop-20261002.md",
+      "normalizedSha256": "69b7b9381c32581a4fe8a5b8b9cf40af01dac443d815795b8514b64d2227b6f0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 7f7ecd01 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.07 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:7f7ecd01540ef151294dffad9af513125972fd47",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-run-loop-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-runtime-attribution-three-20261003.md",
+      "normalizedSha256": "489e20c5946f04ca4be13fa7def1062f4a907976043b887ac62608360b588dd8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit afed3f43 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 5 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:afed3f43ce4dfe5e0bad21e0046f9be4d21ce440",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-runtime-attribution-three-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-runtime-lifecycle-five-20261003.md",
+      "normalizedSha256": "a4f32d2d7c16cde6a1192ceb405738f4560fc6ad9b0f74dc38208c0988db53de",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit d3f910ff (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 5 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:d3f910ff32918f16e2f5687e6d686d545090e3ee",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-runtime-lifecycle-five-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-runtime-publication-owners-20261003.md",
+      "normalizedSha256": "dd0f3b145d4172c2cbc1edfd2918671c4bbb9029771fe7fcd1a061d3d0c4b702",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 254e452a (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.03 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:254e452ac0f0902e647fb5dc006206771f551677",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-runtime-publication-owners-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-runtime-stream-five-20261003.md",
+      "normalizedSha256": "d97600164b7a50212a6a916589e2dfa7c8b954c35bf010f3d6663d038550bea8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 64d0478b (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 6 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:64d0478b802e763fd0a72ca9604754678fd357f2",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-runtime-stream-five-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-runtime-tooling-owners-20261003.md",
+      "normalizedSha256": "8ef794d09200bf54aff79fe12e183877c3ee7aad43a0282de6d1ba88f1df1a24",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 8296aeca (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 5 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:8296aecadc3631613a2a58ba77a8ecef45fba967",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-runtime-tooling-owners-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-ssh-safety-owners-20261003.md",
+      "normalizedSha256": "33cd597e9e2ad1f9291728c64da6d187abf7c7bafe19407cb31aa0971dbc21e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit f1fed7da (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.07 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:f1fed7dadccfa5f2331f08b904c09b45cb68b5ba",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-ssh-safety-owners-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-admission-fast-20261001.md",
+      "normalizedSha256": "d5c57605bda6e0c7af727502f6e8d7276e1f3c4cd5844bc4a29f4c28188ffacd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit ac92f1fc (2026-10-01) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.02 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:ac92f1fc8050ea04636c45e66c7626971b84d6cd",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-terminal-lifecycle-admission-fast-20261001.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-corrective-fast-20261001.md",
+      "normalizedSha256": "fcefd9a04102094ca5c2435b3cc48f5738f698b456a82bd2bf7dbb482f0e37a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 71aeb07d (2026-10-01) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.01 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:71aeb07dd2c1189cd204b1d4357046457962b41b",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-terminal-lifecycle-corrective-fast-20261001.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-test-stability.md",
+      "normalizedSha256": "d65ad5931c1c47db94c288bb617bcbe7073a7941290d476a20f1a6c1bc9845a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 657a00b3 (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.05 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:657a00b365f64e0e3d4c6ed72795377f2c9c6871",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-test-stability.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-result-media-order.md",
+      "normalizedSha256": "57b7bd23fbdec20d86dd4c6a187fae0c1f0f6e8fe9fe3cbfe1826535eede67e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit e13ce00d (2026-10-05) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 9 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:e13ce00dd83b3124ff07b65a13a6f9974b43e19f",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-tool-result-media-order.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-ui-workspace-service-hooks-20261003.md",
+      "normalizedSha256": "ad888959b6ec8e124ff8ffb96478d34051dca7fb5b2810dc441ca060e034b691",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit e229f601 (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.03 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:e229f601267a5a41b37d0e25391a186215cf2c46",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-ui-workspace-service-hooks-20261003.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-unified-mode-onboarding-settings.md",
+      "normalizedSha256": "7f9a54b85884729710e47f7013d481cd601acfa69a37629ea3b15ce80fa2194b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 88880bea (2026-10-05) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.02 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:88880bea5acc81aac2513680d61116d61df2ec40",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-unified-mode-onboarding-settings.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-workbench-conversations-20261010.md",
+      "normalizedSha256": "09246f1e6955d3e3f152d94f2d03d3eb8dc7cd6a18fb79823d7c76571e66d271",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit 00a62b64 (2026-10-10) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:00a62b64be3342a065cc2e85cfc74fc8b1342c6a",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-kernel-native-media-20261010.md",
+        "specs/knorvia-workbench-conversations-20261010.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-workflow-events-author-packet-20261002.md",
+      "normalizedSha256": "7cc03d62e1058edbd26cc1738e2fecc80f975a50f92ac3c2652a3ff084d8e1ca",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit f3302dff (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:f3302dffd2b597703da465fb4510ca7132624cdd",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-workflow-events-author-packet-20261002.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-workspace-inline-review-feedback.md",
+      "normalizedSha256": "8620e1dc9629a36448f376bfa5c94c0be100acd440a53dfef6a35f206ccad94f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit f0965ba5 (2026-10-07) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.02 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:f0965ba53403083d5d08eec5412002ebca857925",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-workspace-inline-review-feedback.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-workspace-runtime.md",
+      "normalizedSha256": "8b475e12728badb0d42203a3f08066b4783ee681b578caf005276d8edf12cb19",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Created by Knorvia commit c6a81655 (2026-10-07) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.02 (.agents/skills/agent-browser/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
+      "evidence": [
+        "git:c6a8165529fa3ead5b559ab3a245cb2554c2a1df",
+        "licensing/upstream-baseline.json",
+        "specs/knorvia-workspace-runtime.md"
+      ]
     }
   ]
 }
