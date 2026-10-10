@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Info, List, ListChecks, MessageSquarePlus, Plus, ZoomIn, ZoomOut } from "lucide-react";
+import { Info, List, ListChecks, MessageCirclePlus, Plus, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import type { PaneWorkspaceScope } from "@/v4/paneLayoutTree.js";
@@ -126,7 +126,7 @@ export function WorkbenchTaskList({
           />
           <ToolbarButton
             data-testid="workbench-add-conversations"
-            icon={<MessageSquarePlus className={icon} aria-hidden="true" />}
+            icon={<MessageCirclePlus className={icon} aria-hidden="true" />}
             label={zh ? "添加对话" : "Add conversations"}
             aria-expanded={panel === "add"}
             onClick={() => setPanel(panel === "add" ? null : "add")}
