@@ -13,7 +13,7 @@
 | 类别                                                                                  | 文件     | 体量         | 处理                                                                                                                                     |
 | ------------------------------------------------------------------------------------- | -------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | 产品源码，需重写                                                                      | 约 2,770 | 约 51 万行   | 按 79 个替换包重写                                                                                                                       |
-| 其中：终端交互界面                                                                    | 120      | 1.6 万行     | 删除（M0-9，见“原待定事项：已拍板”）                                                                                                     |
+| 其中：终端交互界面                                                                    | 120      | 1.6 万行     | 保留，按包重写（见“原待定事项：已拍板”）                                                                                                 |
 | knip 确认无用的源码                                                                   | 97       | —            | 删除                                                                                                                                     |
 | 开发工具（debug、formal-proof、swift-bridge、prompt-trajectory、harness、.vscode 等） | 58       | 1.0 万行     | 删除，不随产品发布                                                                                                                       |
 | 第三方来源（shadcn 45、ai-elements 46、VS Code RPC 约 21、Fig 命令注册表 1）          | 113      | 2.2 万行     | 与固定上游版本比对后登记为 third-party；ZCode 改过的部分并入对应替换包重写                                                               |
@@ -57,7 +57,7 @@
 
 以下三项已经定下，执行中不再讨论。
 
-**1. 终端交互模式：删除（你 2026-10-10 决定）。** 删除 tui 包与终端命令中心，步骤见 M0-9。无子命令运行 CLI 时输出帮助；app-server、`--prompt` 等无界面模式不变，桌面与 Web 不受影响。
+**1. 终端交互模式：保留，按包重写（你 2026-10-10 决定）。** tui 包与终端命令中心排在 M2 末尾，和其他包一样写合同、跑旧门、重写。交互、快捷键与斜杠命令行为保持不变。
 
 **2. 不建沙箱，不做隔离（你 2026-10-10 决定）。** 执行 Agent 在主仓工作，可以读旧代码。把关靠合同测试和两道相似度门槛，见“团队、分工与交付方式”。这与仓库规格一致：旧实现可以用来提取行为和对照验收，但不能当逐行重写的模板。
 
@@ -205,11 +205,11 @@
 | `ui-v4-04`                              | M5     | `packages/ui/src/v4`                                                                                                 | 1    | 156    | 低   | 并入 ui-v4-03                                                                                        |
 | `ui-vite-01`                            | M5     | `packages/ui/vite`                                                                                                   | 1    | 81     | 低   | Vite 插件                                                                                            |
 | `scripts-01`                            | M6     | `scripts` · ., architecture, release-it                                                                              | 34   | 5,944  | 低   | 构建、架构检查与发布脚本                                                                             |
-| `cli-01`                                | M0     | `apps/cli/packages/cli/src` · command-center, command-center/handlers, internal-search                               | 25   | 2,668  | 中   | 终端命令中心，删除（M0-9）；其中 internal-search 不属终端界面，并入 cli-02                           |
-| `tui-01`                                | M0     | `apps/cli/packages/tui/src`                                                                                          | 60   | 9,468  | 中   | 终端界面，删除（M0-9）                                                                               |
-| `tui-02`                                | M0     | `apps/cli/packages/tui/src`                                                                                          | 24   | 3,776  | 中   | 终端界面，删除（M0-9）                                                                               |
-| `tui-scripts-01`                        | M0     | `apps/cli/packages/tui/scripts`                                                                                      | 1    | 37     | 低   | 终端界面脚本，删除（M0-9）                                                                           |
-| `tui-theme-01`                          | M0     | `apps/cli/packages/tui/src/theme`                                                                                    | 6    | 362    | 低   | 终端界面，删除（M0-9）                                                                               |
+| `cli-01`                                | M2     | `apps/cli/packages/cli/src` · command-center, command-center/handlers, internal-search                               | 25   | 2,668  | 中   | 终端命令中心，M2 末尾重写；其中 internal-search 不属终端界面，并入 cli-02                            |
+| `tui-01`                                | M2     | `apps/cli/packages/tui/src`                                                                                          | 60   | 9,468  | 中   | 终端界面，M2 末尾重写                                                                                |
+| `tui-02`                                | M2     | `apps/cli/packages/tui/src`                                                                                          | 24   | 3,776  | 中   | 终端界面，M2 末尾重写                                                                                |
+| `tui-scripts-01`                        | M2     | `apps/cli/packages/tui/scripts`                                                                                      | 1    | 37     | 低   | 终端界面脚本，M2 末尾重写                                                                            |
+| `tui-theme-01`                          | M2     | `apps/cli/packages/tui/src/theme`                                                                                    | 6    | 362    | 低   | 终端界面，M2 末尾重写                                                                                |
 
 ## 各区域难点与做法
 
@@ -268,7 +268,6 @@ M0 不写任何替换实现，只做四件事：把账记完、把该删的删�
 | M0-6  | 第三方核实：shadcn 45、ai-elements 46、VS Code RPC 约 21、Fig 1、material-icons 8                                                   | 执行 3                                | 主仓 PR 与逐文件比对表                                            | 每个文件写明上游地址、固定版本、规范化比对结果                                                                                                             |
 | M0-7  | 29 个品牌图标登记 original；`docs/evidence` 中 1 个上游类型摘录归入例外                                                             | 我                                    | `licensing/reviews.json` 记录                                     | 依据写“用户提供的 Knorvia 品牌资产”                                                                                                                        |
 | M0-8  | 相似度工具 `scripts/provenance/similarity.mjs`（行相似度与结构相似度）                                                              | 执行 1 写，我审                       | 工具、测试与校准报告                                              | 见下方要求                                                                                                                                                 |
-| M0-9  | 删除终端交互模式（tui 包与终端命令中心）                                                                                            | 执行 4                                | 主仓 PR                                                           | 见下方步骤；桌面打包实测通过                                                                                                                               |
 | M0-10 | `pnpm test:studio` 收录 `specs/contracts/*/tests`，让已合并的合同在 CI 里持续守住旧行为                                             | 执行 1                                | 主仓 PR                                                           | 没有合同时空跑通过                                                                                                                                         |
 | M0-11 | UI 截图基线工具 `scripts/ui-baseline/`（capture 与 compare）                                                                        | 执行 5 写，我审                       | 工具、测试与首批页面清单                                          | 见下方要求                                                                                                                                                 |
 | M0-12 | 记录替换前基线：继承文件数、`pnpm perf:baseline`、Electron 侧栏与布局冒烟、工作台冒烟                                               | 我                                    | `docs/knorvia-replacement-baseline-<日期>.md`                     | 写明主仓提交号，数字可复现                                                                                                                                 |
@@ -290,17 +289,6 @@ M0 不写任何替换实现，只做四件事：把账记完、把该删的删�
 6. `AGENTS.md` 中“代码改动使用 `.agents/skills/architecture-governance/SKILL.md`…”一行改为：“代码改动先运行 `pnpm architecture:check --changed`，再用 `pnpm architecture:context <module-id>` 读取目标模块的受控上下文。”
 7. `knip.json` 的 ignore 去掉 `.agents/**`；`.oxlintrc.json` 的忽略列表去掉 `.agents/skills`。
 8. 依次运行 `pnpm provenance:report`、`pnpm provenance:check`、`scripts/provenance/` 下的全部 `*.test.mjs`，再跑全量门禁。`licensing/reviews.json` 只追加，已删文件的旧记录不删；检查若对已删路径报错，按工具对已删文件的现有处理方式走。
-
-### 删除终端交互模式的确切步骤
-
-1. 先在 `specs/knorvia-independent-implementation.md` 的“当前决定”下补一条：2026-10-10 用户决定删除终端交互模式（tui 与终端命令中心），这是用户明确接受的功能删减，其余“不降低功能”要求不变。`specs/` 里描述终端界面的规格，标注“已删除”。
-2. 删除 `apps/cli/packages/tui` 整个包、`apps/cli/packages/cli/src/command-center/` 与 `command-center*.ts`，以及 `cli/src` 下只服务终端界面的 `tui-*.ts` 和它们的测试。`clipboard-*.ts`、`prompt-command.ts` 等文件，先用 `pnpm dep:refs` 确认只被终端界面使用再删。
-3. `cli/src/run.ts`：没有子命令时不再进入终端界面，改为输出帮助并以退出码 2 结束。参数定义与帮助文本中删去 `tui` 子命令及只对它有意义的参数，相关报错文案中的 “or tui” 一并去掉。`main.ts` 里只为终端界面拦截 stderr 的逻辑一并删除。`app-server`、`--prompt`、`--target` 等无界面模式的行为不变。
-4. `cli/src/internal-search` 保留，归入 cli-02。
-5. 更新构建与打包对 tui 的引用：pnpm workspace、`apps/cli` 构建脚本、`packages/desktop/scripts/prepare-agent-node-bundle.mjs`、`scripts/distribution-smoke.mjs`、`scripts/test-studio.mjs`。只被终端界面使用的依赖从 `package.json` 删掉，用 `pnpm install` 重新生成锁文件，不手改。
-6. 删除只属于终端界面的文案键，`pnpm i18n:check` 通过。
-7. 依赖变少后用 `node scripts/licenses.mjs notices` 重新生成第三方声明，运行 `pnpm provenance:report` 与 `pnpm provenance:check`。
-8. 跑全量门禁，再打一次 Windows 安装版与便携版，用 `scripts/desktop-release-acceptance.mjs` 确认桌面端 Agent 启动不受影响。
 
 ### 第三方核实的做法
 
@@ -345,63 +333,20 @@ M0 不写任何替换实现，只做四件事：把账记完、把该删的删�
 ### M0 退出条件
 
 - unreviewed 只剩书面列出、各有理由的例外。
-- `.agents`、无用文件、开发工具与终端交互模式已删，远端 CI 在 Linux 与 Windows 上全绿，桌面打包实测通过。
+- `.agents`、无用文件、开发工具已删，远端 CI 在 Linux 与 Windows 上全绿，桌面打包实测通过。
 - 第三方比对表完成：一致的已登记，改过的已分到 UI 包。
 - 相似度工具（含校准报告）、截图工具与 `test:studio` 收录改动已合入 main，各自测试通过。
 - 试点 1 的合同已合并：契约测试在旧实现上全过，在桩上全失败。
 - 替换前基线文档已写。
 
-## 执行 Agent goal
+## 执行做法
 
-下面这份 goal 原样发给每个执行 Agent，内容都一样；谁做什么由认领决定。
-
-```text
-目标：把 Knorvia Studio 仓库里仍继承自 ZCode 的实现全部替换成 Knorvia 自己的实现，一直做到
-《Knorvia 独立替换任务计划书》“最终完成（M6）”清单全部满足为止。按阶段推进：
-M0 → M1 → M2/M3 → M4/M5 → M6，不设时间限制。
-
-开工前必须读完：
-1. 《Knorvia 独立替换任务计划书》（以下简称任务书）全文：
-   https://claude.ai/code/artifact/bd736ed1-1eb1-4efc-bddb-c3a7cf8aad41
-   仓库里的同步副本：docs/knorvia-independent-replacement-plan.md
-   范围、已定选择、流程、门槛、默认裁决都以任务书为准。
-2. 仓库 accomplish07zrh-eng/knorvia-studio（从最新 main 开分支）：
-   - 根目录 AGENTS.md：必读，全部规则都适用；
-   - 改 UI 前读 DESIGN.md 与 specs/knorvia-visual-language.md，改插件相关前读 CONTEXT.md；
-   - specs/knorvia-independent-implementation.md（替换总规格），以及和你手上任务相关的 specs/；
-   - licensing/current-files.json（哪些文件是继承的）、licensing/reviews.json（来源登记）、
-     scripts/provenance/（来源工具）、third-party/（第三方登记）。
-3. 运行 node scripts/check-workspace-freshness.mjs；Node 版本按 mise.toml；常用命令见 AGENTS.md。
-
-怎么领活：
-- 在主仓开 issue「认领：<M0 编号或包 ID>」认领，已被认领的不碰，一次只领一项。
-  进展和 PR 链接记在这个 issue 里，做完一项再领下一项。
-- 先做任务书“M0 任务清单”里的任务（按“M0 任务做法”；M0-1 按任务书附录），
-  M0 退出条件满足后再领包。
-- 包按任务书“阶段”和“各区域难点与做法”里的先后领；它依赖的包还没合并的，先不领。
-- 每个包按任务书“每包流程”做：选包 → 合同与旧门（合同 PR）→ 重写 → 接入与登记（替换 PR）。
-
-旧代码：可以读，用来弄清行为、边界和调用方，也可以对照验收。新代码依据合同写，不复制、
-不改名照搬、不逐行改写。行相似度和结构相似度两道门槛不过就重写，不调门槛。
-
-交付：全部通过主仓 PR，标题按任务书的格式；不推 main，不合并 PR。PR 描述贴门禁命令的
-结尾输出，失败如实写，不把失败写成通过。
-
-遇到问题：先查任务书。任务书没覆盖、又会影响功能、数据或范围的，问用户，写清是哪个包、
-哪条规则、你倾向的做法和理由。小问题按任务书的默认裁决表处理，在 PR 里写明用了哪一条。
-
-红线：
-- 不跳过、不禁用、不放宽测试；不调相似度门槛。
-- 不改用户数据格式、协议字段、环境变量与数据目录（KNORVIA_、.knorvia-studio）。
-- 除任务书写明的删除（终端交互模式、开发工具、无用代码等）外，不减少产品功能，不改界面样子。
-- 不恢复 2026-09-22 前已废弃的实现。
-- 不在代码、日志、夹具、PR 中写入凭据、真实用户数据和内部服务地址。
-```
+执行 Agent 在主仓 issue 里认领 M0 任务或包，已被认领的不碰，一次只领一项。下面是 M0 任务和每个包的具体做法。
 
 ### M0 任务做法
 
 - 每个任务单独开主仓分支 `m0/<编号>-<简名>`，单独提 PR，标题以「M0-<编号>」开头。
-- 删除类任务每批不超过 20 个文件；M0-4 与 M0-9 各自一次做完。
+- 删除类任务每批不超过 20 个文件；M0-4 一次做完。
 - 提 PR 前跑：`pnpm typecheck`、`pnpm lint`、`pnpm fmt:check`、`pnpm architecture:check`、`pnpm build:cli-packages`、`pnpm test:studio`、`pnpm knip`、`pnpm provenance:check`。
 - 工具类任务先写测试再写工具，测试用 node:test；路径、换行、大小写兼容 Windows 与 POSIX。
 - 删除前用 `pnpm dep:refs` 与全仓搜索确认无引用。
@@ -543,7 +488,7 @@ known-differences.md、acceptance.md、stubs/。
 
 - [ ] **M0**：见“M0 任务清单”的退出条件。
 - [ ] **M1**：两个试点包合并。复盘写回本书：合同规模与测试数、退回轮数与原因、两道相似度分布，并据此调整合同写法与包大小。
-- [ ] **M2**：`apps/cli` 继承文件归零（终端交互模式已在 M0 删除）。桌面与 Web 用新 CLI 跑通工作台冒烟与外部内核冒烟。打一次 Windows 安装版与便携版，用 `scripts/desktop-release-acceptance.mjs` 验收。桌面端依赖打包后的 CLI，所以从 M2 起就要打包实测。
+- [ ] **M2**：`apps/cli` 继承文件归零（含终端交互模式）。桌面与 Web 用新 CLI 跑通工作台冒烟与外部内核冒烟。打一次 Windows 安装版与便携版，用 `scripts/desktop-release-acceptance.mjs` 验收。桌面端依赖打包后的 CLI，所以从 M2 起就要打包实测。
 - [ ] **M3**：共享、服务、RPC、服务端目录归零。手机远控的 web-remote-replayable 恢复链路冒烟通过。SSH、WSL、Docker 远程连接的人工验收项做完；未做的如实标注。
 - [ ] **M4**：`packages/desktop` 归零；安装版、便携版实机启动通过；Electron 冒烟全部通过。
 - [ ] **M5**：`packages/ui` 归零；全部页面截图对比通过。我目视检查关键页面（你想看随时可以看，不阻塞）：主界面、工作台、单聊与群聊、工作流、创作、设置、插件管理。
@@ -561,7 +506,7 @@ known-differences.md、acceptance.md、stubs/。
   - LICENSE、NOTICE.md；
   - README 中英文；
   - 官网。
-- [ ] 发布新版本：Windows 安装版与便携版验收通过；发布说明写明替换范围，以及终端交互模式已移除
+- [ ] 发布新版本：Windows 安装版与便携版验收通过；发布说明写明替换范围
 - [ ] 性能不劣于替换前基线 10% 以上
 
 ### 进度怎么算
@@ -589,7 +534,6 @@ known-differences.md、acceptance.md、stubs/。
 | 5 个包并行带来的合并冲突                             | 替换 PR 反复需要解冲突                                     | 只并行互不依赖的包；接入前先合并最新 main；冲突按 main 的行为调整，合同语义不变                           | 执行 Agent     |
 | 与功能开发冲突                                       | 冻结中的文件出现功能改动                                   | 同时最多冻结 5 个包。紧急修复先在主仓修，同步进合同并重跑旧门                                             | 我             |
 | Agent 额度或中断（此前遇到过限流）                   | 报限流，或长时间没有产出                                   | 每个阶段都留下可接续的产物：PR 与跟踪 issue 状态行。换人可以接着做，不依赖对话记忆                        | 我             |
-| 删除终端交互模式后，有人依赖在命令行里直接对话       | 用户反馈或 issue                                           | 无子命令时输出帮助；无界面模式不变；发布说明写明已移除                                                    | 我             |
 | 权限误用：有人推了 main 或自行合并 PR                | 主仓出现非预期的推送或合并                                 | 只有我合并 PR；goal 写明不推 main、不合并；合并前我核对提交来源                                           | 我             |
 | 进度虚高                                             | 汇报的“完成”与 summary 数字对不上                          | 只按完成口径计数，数字一律取自来源报告                                                                    | 我             |
 | 性能退化                                             | `perf:baseline` 慢 10% 以上；长会话滚动掉帧                | 每包跑基线；时间线单列万条消息的帧率基准                                                                  | 执行 Agent     |
