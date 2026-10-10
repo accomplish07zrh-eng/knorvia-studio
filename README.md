@@ -2,7 +2,7 @@
 
 Knorvia Studio 是把多个 Agent 内核放进同一工作空间的桌面工作台。单聊、多 Agent 协作、工作流与图片视频创作共用一套黑白界面，让任务、工具、项目和执行结果保持连贯。
 
-本源码版本：**0.11.3**，变更见 [CHANGELOG.md](CHANGELOG.md)。已发布的 Windows x64 和 Linux x64 安装版、便携版及 SHA-256 校验文件见 [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/latest)。项目 [官网](https://knorvia.xyz) 另有介绍。English: [README.en.md](README.en.md)。
+本源码版本：**0.11.4**，变更见 [CHANGELOG.md](CHANGELOG.md)。已发布的 Windows x64 和 Linux x64 安装版、便携版及 SHA-256 校验文件见 [GitHub Releases](https://github.com/accomplish07zrh-eng/knorvia-studio/releases/latest)。项目 [官网](https://knorvia.xyz) 另有介绍。English: [README.en.md](README.en.md)。
 
 安装包目前未签名，请按 [下载校验说明](CODE_SIGNING.md) 用 SHA-256 校验后再运行。
 

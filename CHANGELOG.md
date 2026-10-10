@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.11.4 - 2026-10-10
+
+- 工作台：去掉「已收起」，格子「×」改为移出工作台（任务继续运行，对话仍在原内核记录中）；
+  顶栏新增「添加对话」，按内核分组、可搜索、多选，把各内核已发送的对话放进工作台；
+  重新打开直接恢复上次布局，不再逐格重新核对；满 8 格时新建任务不再顶掉已有格子，
+  有未发送输入的格子也不会被换下。
+- 外部内核原生能力：Grok Build、Codex、Claude Code 等生成的图片、视频、音频与文件链接
+  不再被丢弃或截断，直接显示在对话中；回答里的相对路径图片可正常显示；内核只提供
+  「始终允许」选项时，点「允许」不再被当成拒绝。
+- Workbench: the shelf is gone; closing a tile removes it from the workbench while the
+  conversation stays in its kernel history. A new Add conversations picker lists sent
+  conversations from every kernel with search and multi-select, and reopening restores
+  the saved layout directly.
+- External kernels: images, videos, audio and file links they generate now appear in the
+  chat instead of being dropped; relative image paths in answers resolve; allowing a
+  permission that only offers an "always" option no longer counts as a denial.
+
 ## 0.11.3 - 2026-10-09
 
 - 视觉升级：工作面顶部受光高光与柔和投影；活动栏选中项为浮起纸片并带指示条；
