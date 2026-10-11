@@ -71,12 +71,13 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
   };
 }
 
-function registrationsForMatcher(
-  options: ConfiguredHookRunnerOptions,
-  event: HookEventName,
-  matcherConfig: HookMatcherConfig,
-  matcherIndex: number,
-): HookRegistration[] {
+function registrationsForMatcher(input: {
+  options: ConfiguredHookRunnerOptions;
+  event: HookEventName;
+  matcherConfig: HookMatcherConfig;
+  matcherIndex: number;
+}): HookRegistration[] {
+  const { options, event, matcherConfig, matcherIndex } = input;
   const maxOutputBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
   return matcherConfig.hooks.flatMap((hook, hookIndex) => {
     if (hook.enabled === false) return [];
@@ -108,7 +109,14 @@ function configuredRegistrations(options: ConfiguredHookRunnerOptions): HookRegi
   for (const [eventName, matcherConfigs] of Object.entries(options.config.events)) {
     const event = eventName as HookEventName;
     for (const [matcherIndex, matcherConfig] of (matcherConfigs ?? []).entries()) {
-      registrations.push(...registrationsForMatcher(options, event, matcherConfig, matcherIndex));
+      registrations.push(
+        ...registrationsForMatcher({
+          options: options,
+          event: event,
+          matcherConfig: matcherConfig,
+          matcherIndex: matcherIndex,
+        }),
+      );
     }
   }
   return registrations;
