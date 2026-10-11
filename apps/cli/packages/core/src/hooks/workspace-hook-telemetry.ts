@@ -1,38 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-// 受限遥测：把一次准入/审核事件压成"短摘要 + 稳定 reason"，任何能还原命令、脚本或真实路径的
-// 内容都不出现在这里。字段先收集成条目再统一过滤，避免逐字段分支拼接。
+// 受限遥测发射端：把一次准入/审核事件压成"短摘要 + 稳定 reason"，任何能还原命令、脚本或
+// 真实路径的内容都不出现在这里。事件名与字段的声明在 types.ts（兼容面），本文件只发射。
 import { createHash } from "node:crypto";
-import type { Logger, WorkspaceHookReasonCode } from "@knorvia/contracts";
+import type { Logger } from "@knorvia/contracts";
+import type {
+  WorkspaceHookTelemetryEvent,
+  WorkspaceHookTelemetryFields,
+} from "./types.js";
 
-export type WorkspaceHookTelemetryEvent =
-  | "workspace_hook.feature_disabled"
-  | "workspace_hook.review_request_created"
-  | "workspace_hook.trust_selected"
-  | "workspace_hook.review_timeout"
-  | "workspace_hook.review_superseded"
-  | "workspace_hook.snapshot_mismatch"
-  | "workspace_hook.policy_blocked"
-  | "workspace_hook.trust_store_failure"
-  | "workspace_hook.toggle_failure"
-  | "workspace_hook.config_rebuild_failure"
-  | "workspace_hook.revoked"
-  | "workspace_hook.stale_response";
-
-export interface WorkspaceHookTelemetryFields {
-  workspaceIdentity?: string;
-  bundleDigest?: string;
-  declarationDigest?: string;
-  reasonCode?: WorkspaceHookReasonCode;
-  source?: string;
-  action?: string;
-  generation?: number;
-  /** 领域错误的短消息；禁止放命令正文、脚本内容或 workspace 路径。 */
-  errorMessage?: string;
-  requestItemCount?: number;
-  requestEnabledCount?: number;
-  grantedRecordCount?: number;
-  revokedCount?: number;
-}
+export type { WorkspaceHookTelemetryEvent, WorkspaceHookTelemetryFields } from "./types.js";
 
 const SHORT_ID_LENGTH = 12;
 const TEXT_BUDGET = 300;

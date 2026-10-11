@@ -14,6 +14,7 @@ import type {
   PermissionRequestHookDecision,
   SessionEvent,
   WorkspaceHookBundleSnapshot,
+  WorkspaceHookReasonCode,
 } from "@knorvia/contracts";
 
 import type { WorkspaceHookRuntimeAdmissionPort } from "./workspace-hook-runtime-admission.js";
@@ -102,4 +103,38 @@ export interface ConfiguredHookRunnerOptions {
   logger?: Logger;
   workspaceHookAdmission?: WorkspaceHookRuntimeAdmissionPort;
   workspaceHookSnapshot?: WorkspaceHookBundleSnapshot;
+}
+
+/**
+ * 遥测事件名与字段属兼容面（字段名即跨模块约定），声明集中在本文件；
+ * 运行时模块只负责发射，不再重复声明。
+ */
+export type WorkspaceHookTelemetryEvent =
+  | "workspace_hook.feature_disabled"
+  | "workspace_hook.review_request_created"
+  | "workspace_hook.trust_selected"
+  | "workspace_hook.review_timeout"
+  | "workspace_hook.review_superseded"
+  | "workspace_hook.snapshot_mismatch"
+  | "workspace_hook.policy_blocked"
+  | "workspace_hook.trust_store_failure"
+  | "workspace_hook.toggle_failure"
+  | "workspace_hook.config_rebuild_failure"
+  | "workspace_hook.revoked"
+  | "workspace_hook.stale_response";
+
+export interface WorkspaceHookTelemetryFields {
+  workspaceIdentity?: string;
+  bundleDigest?: string;
+  declarationDigest?: string;
+  reasonCode?: WorkspaceHookReasonCode;
+  source?: string;
+  action?: string;
+  generation?: number;
+  /** 领域错误的短消息；禁止放命令正文、脚本内容或 workspace 路径。 */
+  errorMessage?: string;
+  requestItemCount?: number;
+  requestEnabledCount?: number;
+  grantedRecordCount?: number;
+  revokedCount?: number;
 }
