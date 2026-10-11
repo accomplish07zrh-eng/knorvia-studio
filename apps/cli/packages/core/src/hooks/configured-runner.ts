@@ -116,12 +116,17 @@ function workspaceEntryConfig(
   entry: CanonicalWorkspaceHookEntry,
 ): HookConfig {
   const sourcePath = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath;
-  const common = {
-    command: entry.command,
-    source: { kind: "project" as const, ...(sourcePath ? { path: sourcePath } : {}) },
-    ...(entry.statusMessage ? { statusMessage: entry.statusMessage } : {}),
-    timeoutMs: entry.resolvedTimeoutMs,
-  };
+  const commonFields: Array<[string, unknown]> = [["command", entry.command]];
+  commonFields.push([
+    "source",
+    { kind: "project" as const, ...(sourcePath ? { path: sourcePath } : {}) },
+  ]);
+  if (entry.statusMessage) commonFields.push(["statusMessage", entry.statusMessage]);
+  commonFields.push(["timeoutMs", entry.resolvedTimeoutMs]);
+  const common = Object.fromEntries(commonFields) as Omit<
+    Extract<HookConfig, { type: "process" }>,
+    "type" | "args"
+  >;
   return entry.type === "command"
     ? {
         ...common,
