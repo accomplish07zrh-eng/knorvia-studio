@@ -163,3 +163,32 @@ node scripts/provenance/similarity.mjs --repo . --candidate <新文件> --candid
 - 二进制文件按计划书跳过两道门槛（报告里标 `binary`），只记录跳过。
 - 候选文件若本身位于 `--upstream-dir` 树内，工具不会拿它与自己比较（`--upstream-dir` 一般应指向仓库外的上游缓存，不包含候选）。
 - 本报告的全量复跑在 PR 分支上执行；工具与文件内容与合入后一致，合入后如需再跑，用第 7 节命令即可。
+
+## 9. 规范化细化：剔除 SPDX/许可头行（2026-10-11）
+
+计划书选择 13 强制新文件带 `// SPDX-License-Identifier: Apache-2.0`，上游（ZCode）文件普遍也有同一行。桶文件归一化后可能只剩 2 行，其中 1 行就是这行 SPDX：命中上游 → 包含率 0.5 ≠ 0，而「<10 行必须包含率为 0」→ 规则不可满足。裁定与既有规范化规则（去首尾空白、空行、import/re-export、纯分隔符行）同类：SPDX 行是计划书强制的样板，既不是实现也不是可改写文案，两侧文件一视同仁地在规范化阶段剔除，并连带剔除紧随其后的版权行。
+
+影响（439 个 `independent-replacement` 文件全量复跑，与第 3/4 节基准逐候选比对）：
+
+| 指标              | 基准      | 细化后                                          |
+| ----------------- | --------- | ----------------------------------------------- |
+| 行数变化          | —         | 439/439 都有行被剔除（分母变小）                |
+| 行包含率          | —         | **431 个上升**、0 个下降、8 个不变              |
+| 最长相同段        | —         | 439 个全部不变                                  |
+| 通过 / 不通过     | 136 / 303 | **129 / 310**（7 个 pass→fail，0 个 fail→pass） |
+| 结构相似度最大值  | 1.000     | **1.000**（门槛仍按规则取 0.4）                 |
+| 超过 0.4 的文件数 | 23        | **23**（替换队列不变）                          |
+
+7 个 pass→fail 的逐条原因（都是分母变小导致，不是放宽门槛；门槛常量未动）：
+
+| 文件                                                                             | 行数      | 包含率        | 失败原因                    |
+| -------------------------------------------------------------------------------- | --------- | ------------- | --------------------------- |
+| `apps/cli/packages/adapters/src/model/runner-network-headers.ts`                 | 10 → 9    | 0.100 → 0.111 | 掉到 <10 行，包含率必须为 0 |
+| `apps/cli/packages/adapters/src/plugins/archive-entry.ts`                        | 47 → 45   | 0.191 → 0.200 | 包含率恰好到 0.2            |
+| `apps/cli/packages/adapters/src/storage/session-store/repositories/usage-app.ts` | 147 → 145 | 0.197 → 0.200 | 包含率恰好到 0.2            |
+| `apps/cli/packages/cli/src/tui-permission-broker.ts`                             | 21 → 19   | 0.190 → 0.211 | 包含率超过 0.2              |
+| `apps/cli/packages/core/src/tool/executor/permission-flow/publication.ts`        | 57 → 55   | 0.193 → 0.200 | 包含率恰好到 0.2            |
+| `apps/cli/packages/node-repl-host/src/request-context.ts`                        | 41 → 39   | 0.195 → 0.205 | 包含率超过 0.2              |
+| `packages/shared/src/browser-use/nodeReplBroker.ts`                              | 37 → 35   | 0.189 → 0.200 | 包含率恰好到 0.2            |
+
+结论：这次细化让行门槛**更严**（不是放宽），结构门槛的校准结论（0.4、23 个超限文件）完全不变；门槛常量 0.2 / 8 / 0.4 未动。普通模式与声明模式都使用同一套规范化。

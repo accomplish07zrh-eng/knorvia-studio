@@ -18,6 +18,10 @@ export const THRESHOLDS = {
 const PUNCTUATION_ONLY = /^[{}()[\];,]+$/u;
 // 记账口径：丢弃 import 与 re-export 行；注释行保留。
 const DROPPED_PREFIXES = ["import ", "export * from", "export {"];
+// 计划书强制新文件带 SPDX 头，上游也普遍有同一行：它是强制的样板，不是实现或可改写文案，
+// 计入「保留表达」没有意义，因此规范化阶段两侧一视同仁地剔除它（以及紧随其后的版权行）。
+const LICENSE_HEADER = /SPDX-License-Identifier/u;
+const COPYRIGHT_LINE = /copyright/iu;
 
 function normalizeLine(raw) {
   const line = raw.trim();
@@ -28,9 +32,14 @@ function normalizeLine(raw) {
 }
 
 export function normalizeLines(text) {
+  const raw = text.split(/\r?\n/u);
   const lines = [];
-  for (const raw of text.split(/\r?\n/u)) {
-    const line = normalizeLine(raw);
+  for (let index = 0; index < raw.length; index += 1) {
+    if (LICENSE_HEADER.test(raw[index])) {
+      if (COPYRIGHT_LINE.test(raw[index + 1] ?? "")) index += 1;
+      continue;
+    }
+    const line = normalizeLine(raw[index]);
     if (line !== null) lines.push(line);
   }
   return lines;

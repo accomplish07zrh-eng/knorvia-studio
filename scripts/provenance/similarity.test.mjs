@@ -585,3 +585,50 @@ test("声明模式：嵌套声明整块剔除且不吞掉后面的实现代码",
     },
   );
 });
+test("SPDX/许可头行不参与行相似度（桶文件可过、两侧同头不计入、无头文件不变）", () => {
+  // ① 只有 SPDX 头 + 一行正文的桶文件：剔除头行后 <10 行且包含率为 0，可以通过。
+  const bucket = [
+    "// SPDX-License-Identifier: Apache-2.0",
+    "// Copyright (c) 2026 Knorvia Studio contributors",
+    "export {};",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/bucket.ts": "export {};",
+    },
+    (root) => {
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        writeCandidate(root, "bucket.ts", bucket),
+      ]);
+      assert.equal(result.status, 0, result.stdout);
+      assert.match(result.stdout, /lines=0/);
+      assert.match(result.stdout, /containment=0\.000/);
+    },
+  );
+
+  // ② 两侧带同一 SPDX 头时，该行不参与包含率：正文不同 → 包含率 0。
+  const header =
+    "// SPDX-License-Identifier: Apache-2.0\n// Copyright (c) 2026 Knorvia Studio contributors\n";
+  withTree({ "upstream/other.ts": `${header}${fillerLines("other", 12)}` }, (root) => {
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      writeCandidate(root, "same-header.ts", `${header}${fillerLines("mine", 12)}`),
+    ]);
+    assert.equal(result.status, 0, result.stdout);
+    assert.match(result.stdout, /lines=12/);
+    assert.match(result.stdout, /containment=0\.000/);
+  });
+
+  // ③ 不含 SPDX 的文件：规范化结果与既有规则一致（注释保留、空行/分隔符/import 丢弃）。
+  assert.deepEqual(normalizeLines("// 注释\n\nconst value = 1;\nimport { a } from 'b';\n}\n"), [
+    "// 注释",
+    "const value = 1;",
+  ]);
+});
