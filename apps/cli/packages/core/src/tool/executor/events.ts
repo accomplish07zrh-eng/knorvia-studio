@@ -18,18 +18,20 @@ import type { ToolExecutorDeps } from "./types.js";
 import { summarizeInput } from "./utils.js";
 
 type Deps = ToolExecutorDeps;
+type ToolCall = ExecutableToolCall;
+type Trace = TraceContext;
+type OptionalTurnId = TurnId | undefined;
+type ToolCallId = string;
+type RequestId = string;
+type TimestampMs = number;
+type OptionalText = string | undefined;
 type EventType = (typeof SessionEventType)[keyof typeof SessionEventType];
 
 const INITIAL_SEQUENCE_NUMBER = 0;
 
 // 会话事件信封：所有工具事件共用的七个字段，payload 由各 emit 函数补。
 // turnId 的取法留在调用方：多数入口直接用参数，权限类入口回退到 deps.turnId。
-function eventEnvelope(
-  deps: Deps,
-  type: EventType,
-  traceContext: TraceContext,
-  turnId: TurnId | undefined,
-) {
+function eventEnvelope(deps: Deps, type: EventType, traceContext: Trace, turnId: OptionalTurnId) {
   return {
     id: crypto.randomUUID() as any,
     sessionId: deps.sessionId,
@@ -42,11 +44,11 @@ function eventEnvelope(
 }
 
 export async function emitToolCallStarted(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  traceContext: TraceContext,
-  turnId: TurnId | undefined,
-  startTime: number,
+  deps: Deps,
+  toolCall: ToolCall,
+  traceContext: Trace,
+  turnId: OptionalTurnId,
+  startTime: TimestampMs,
   display?: ToolResultDisplayPayload,
   // 解析后的副作用能力（与权限判定同源）：订阅者据此在工具动手前知道「要写了」。
   capability?: { readOnly?: boolean; sideEffectScope?: ToolSideEffectScope },
@@ -67,12 +69,12 @@ export async function emitToolCallStarted(
 }
 
 export async function emitToolCallResult(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  traceContext: TraceContext,
-  turnId: TurnId | undefined,
+  deps: Deps,
+  toolCall: ToolCall,
+  traceContext: Trace,
+  turnId: OptionalTurnId,
   serialization: ToolResultSerialization,
-  durationMs: number,
+  durationMs: TimestampMs,
   display: ToolResultDisplayPayload | undefined,
   perf: ToolExecutionTelemetry | undefined,
   skillMetadata: SkillTelemetryMetadata | undefined,
@@ -99,10 +101,10 @@ export async function emitToolCallResult(
 }
 
 export async function emitToolCallError(
-  deps: ToolExecutorDeps,
-  toolCallId: string,
-  traceContext: TraceContext,
-  turnId: TurnId | undefined,
+  deps: Deps,
+  toolCallId: ToolCallId,
+  traceContext: Trace,
+  turnId: OptionalTurnId,
   error: ToolExecutionResult["error"],
   skillMetadata?: SkillTelemetryMetadata,
 ): Promise<void> {
@@ -117,9 +119,9 @@ export async function emitToolCallError(
 }
 
 export async function emitSkippedToolError(
-  deps: ToolExecutorDeps,
+  deps: Deps,
   result: ToolExecutionResult,
-  traceContext?: TraceContext,
+  traceContext?: Trace,
 ): Promise<void> {
   const eventTraceContext =
     traceContext ??
@@ -140,14 +142,14 @@ export async function emitSkippedToolError(
 }
 
 export async function emitPermissionRequested(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
+  deps: Deps,
+  toolCall: ToolCall,
   input: unknown,
-  requestId: string,
+  requestId: RequestId,
   riskLevel: PermissionContext["riskLevel"],
-  reason: string | undefined,
+  reason: OptionalText,
   suggestedPermissionUpdates: PermissionUpdate[],
-  traceContext: TraceContext,
+  traceContext: Trace,
   approval?: { display?: ToolResultDisplayPayload; optionsPolicy?: PermissionOptionsPolicy },
 ): Promise<void> {
   await deps.emitEvent({
@@ -175,11 +177,11 @@ export async function emitPermissionRequested(
 }
 
 export async function emitPermissionResolved(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  requestId: string,
+  deps: Deps,
+  toolCall: ToolCall,
+  requestId: RequestId,
   decision: PermissionBrokerResult,
-  traceContext: TraceContext,
+  traceContext: Trace,
 ): Promise<void> {
   await deps.emitEvent({
     ...eventEnvelope(
@@ -199,10 +201,10 @@ export async function emitPermissionResolved(
 }
 
 export async function emitPermissionDenied(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  reason: string | undefined,
-  traceContext: TraceContext,
+  deps: Deps,
+  toolCall: ToolCall,
+  reason: OptionalText,
+  traceContext: Trace,
 ): Promise<void> {
   await deps.emitEvent({
     ...eventEnvelope(
