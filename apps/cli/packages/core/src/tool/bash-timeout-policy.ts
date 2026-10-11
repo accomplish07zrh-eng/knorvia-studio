@@ -12,6 +12,11 @@
 // 与调用点的分工：调用点只关心「这次要等多久」，策略解析、非法值兜底与上限夹取都在这里完成，
 // 因此任何调用点都不会因为环境变量写错而拿到 0 或 NaN 超时。
 
+/** 环境变量视图（值可能缺省）。 */
+type EnvVars = Readonly<Record<string, string | undefined>>;
+/** 可缺省的毫秒数。 */
+type OptionalMs = number | undefined;
+
 export interface BashTimeoutPolicy {
   /** 调用方没给超时时使用的默认值。 */
   defaultTimeoutMs: number;
@@ -37,19 +42,14 @@ function buildPolicy(defaultMs: number, maxMs: number): BashTimeoutPolicy {
 }
 
 /** 读一个十进制正整数时长；空串、非数字与 <= 0 一律返回 undefined。 */
-function readDuration(
-  env: Readonly<Record<string, string | undefined>>,
-  key: string,
-): number | undefined {
+function readDuration(env: EnvVars, key: string): number | undefined {
   const raw = env[key]?.trim();
   if (!raw) return undefined;
   const parsed = Number.parseInt(raw, 10);
   return parsed > 0 ? parsed : undefined;
 }
 
-export function resolveBashTimeoutPolicy(
-  env: Readonly<Record<string, string | undefined>>,
-): BashTimeoutPolicy {
+export function resolveBashTimeoutPolicy(env: EnvVars): BashTimeoutPolicy {
   const configuredDefaultMs = readDuration(env, DEFAULT_TIMEOUT_KEY);
   const configuredMaxMs = readDuration(env, MAX_TIMEOUT_KEY);
   return buildPolicy(
@@ -64,7 +64,7 @@ function clampToMax(value: number, max: number): number {
 }
 
 export function resolveBashTimeoutMs(
-  inputTimeoutMs: number | undefined,
+  inputTimeoutMs: OptionalMs,
   policy: BashTimeoutPolicy,
 ): number {
   const requestedMs = inputTimeoutMs ? inputTimeoutMs : policy.defaultTimeoutMs;
