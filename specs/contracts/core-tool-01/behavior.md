@@ -91,7 +91,7 @@
 - 平台差异：无。
 - 状态所有者：无（纯出口）。
 - 日志级别：无。
-- 可测断言：`capability.readOnly` 为 `undefined` 时 `payload` **没有** `readOnly` 键；为 `false` 时**有** `readOnly: false`（不能用 truthy 判断省略）；`sideEffectScope` 同理；`display` 为 `undefined` 时省略该键。
+- 可测断言：`capability.readOnly` 为 `undefined` 时 `payload` **没有** `readOnly` 键；为 `false` 时**有** `readOnly: false`（不能用 truthy 判断省略）；`sideEffectScope` 同理；`display` **总是存在**——未传时该键存在且值为 `undefined`（实测：`display` 是无条件写入的，只有 `readOnly`/`sideEffectScope` 走条件展开）。
 
 ### B6 `ToolCallResult` 的载荷
 
@@ -1238,7 +1238,7 @@
   - B73 的三个名字：快照源取 `deps.dynamicWorkflowRunPort.getTask`；等待者取 `waitForTask`（是函数才可用）；`cancellable` 取决于 `cancel`。
   - `Workflow`：快照源取 `deps.workflowPort.getTask`；等待者取 `workflowPort.waitForTask`；`cancellable` 恒 `false`。
   - `Bash`：快照源取 `deps.executionPort.getBackgroundTask`；等待者取 `executionPort.waitForBackgroundTask`；`cancellable` 取决于 `executionPort.cancelBackgroundTask`。
-  - 其他名字：三者都缺席。
+  - **其他名字（含未知名字）**：走**同一个 executionPort 兜底分支**——只要 `deps.executionPort.getBackgroundTask` 存在就有快照源，`cancellable` 取决于 `executionPort.cancelBackgroundTask`；但等待者只对 `Bash` 开放（`name === "Bash"` 才读 `waitForBackgroundTask`）。即「未知名字」**不是**「三者都缺席」。
 - 错误语义：`readTaskSnapshot`/`waitForTaskSnapshot` 在没有对应端口时返回 `undefined`（不抛错）；端口方法自身抛错原样传播。
 - 时序与并发：解析是纯函数；实际读取是异步。
 - 幂等：是。
