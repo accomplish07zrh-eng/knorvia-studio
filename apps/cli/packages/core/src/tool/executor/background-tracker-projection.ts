@@ -19,64 +19,109 @@ export type TaskSnapshot =
   | SubagentTaskSnapshot
   | WorkflowTaskSnapshot
   | DynamicWorkflowRunSnapshot;
-type ReadTask = (taskId: string) => Promise<TaskSnapshot | undefined>;
-type WaitCandidate = { waitForBackgroundTask?: ReadTask };
-type DynamicCandidate = {
-  getTask: ReadTask;
-  waitForTask?: ReadTask;
-  cancel?: unknown;
-};
 
-function resolveProvider(
-  deps: ToolExecutorDeps,
-  name: string,
-): {
-  snapshot?: ReadTask;
-  wait?: ReadTask;
-  cancellable: boolean;
-} {
-  if (isSubagentDispatchToolName(name)) {
-    const method = deps.subagentPort?.getTask;
-    return {
-      snapshot: method ? (id) => method.call(deps.subagentPort, id) : undefined,
-      cancellable: Boolean(deps.subagentPort?.stopTask),
-    };
-  }
-  if (isDynamicWorkflowRunDispatchToolName(name)) {
-    const port = deps.dynamicWorkflowRunPort as unknown as DynamicCandidate | undefined;
-    return {
-      snapshot: port !== undefined ? (id) => port.getTask(id) : undefined,
-      wait:
-        port !== undefined && typeof port.waitForTask === "function"
-          ? (id) => port.waitForTask!(id)
-          : undefined,
-      cancellable: port !== undefined && typeof port.cancel === "function",
-    };
-  }
-  if (name === "Workflow") {
-    const method = deps.workflowPort?.getTask;
-    const candidate = deps.workflowPort;
-    return {
-      snapshot: method ? (id) => method.call(deps.workflowPort, id) : undefined,
-      wait:
-        candidate && typeof candidate.waitForTask === "function"
-          ? (id) => candidate.waitForTask!(id)
-          : undefined,
-      cancellable: false,
-    };
-  }
-  const candidate =
-    name === "Bash" ? (deps.executionPort as unknown as WaitCandidate | undefined) : undefined;
+/** 读一次任务快照；拿不到时返回 undefined。 */
+type TaskReader = (taskId: string) => Promise<TaskSnapshot | undefined>;
+/** 带等待入口的执行端口（只有 Bash 走这条）。 */
+type WaitCapablePort = { readonly waitForBackgroundTask?: TaskReader };
+/** 动态工作流运行端口。 */
+type DynamicRunPort = {
+  readonly getTask: TaskReader;
+  readonly waitForTask?: TaskReader;
+  readonly cancel?: unknown;
+};
+/** 某个工具名的快照来源。 */
+interface TaskProvider {
+  readonly snapshot?: TaskReader;
+  readonly wait?: TaskReader;
+  readonly cancellable: boolean;
+}
+
+type Deps = ToolExecutorDeps;
+
+const WORKFLOW_TOOL_NAME = "Workflow";
+const BASH_TOOL_NAME = "Bash";
+
+function makeProvider(
+  snapshot: TaskReader | undefined,
+  wait: TaskReader | undefined,
+  cancellable: boolean,
+): TaskProvider {
+  const provider = {} as { snapshot?: TaskReader; wait?: TaskReader; cancellable: boolean };
+  provider.snapshot = snapshot;
+  provider.wait = wait;
+  provider.cancellable = cancellable;
+  return provider;
+}
+
+// 把「对象 + 方法」绑成独立读取器，调用点不必再关心 this。
+function readerOf(owner: unknown, method: TaskReader | undefined): TaskReader | undefined {
+  if (method === undefined) return undefined;
+  return (taskId: string) => method.call(owner, taskId);
+}
+
+function resolveSubagentProvider(deps: Deps): TaskProvider {
+  const port = deps.subagentPort;
+  return makeProvider(readerOf(port, port?.getTask), undefined, Boolean(port?.stopTask));
+}
+
+function resolveDynamicWorkflowProvider(deps: Deps): TaskProvider {
+  const port = deps.dynamicWorkflowRunPort as unknown as DynamicRunPort | undefined;
+  return makeProvider(
+    port === undefined ? undefined : (taskId: string) => port.getTask(taskId),
+    port !== undefined && typeof port.waitForTask === "function"
+      ? (taskId: string) => port.waitForTask!(taskId)
+      : undefined,
+    port !== undefined && typeof port.cancel === "function",
+  );
+}
+
+function resolveWorkflowProvider(deps: Deps): TaskProvider {
+  const port = deps.workflowPort;
+  return makeProvider(
+    readerOf(port, port?.getTask),
+    port !== undefined && typeof port.waitForTask === "function"
+      ? (taskId: string) => port.waitForTask!(taskId)
+      : undefined,
+    false,
+  );
+}
+
+// 执行端口是所有未命中专门分支的工具名的兜底来源；只有 Bash 额外带等待入口。
+function resolveExecutionPortProvider(deps: Deps): TaskProvider {
+  const port = deps.executionPort;
+  return makeProvider(
+    readerOf(port, port?.getBackgroundTask),
+    undefined,
+    Boolean(port?.cancelBackgroundTask),
+  );
+}
+
+function resolveBashProvider(deps: Deps): TaskProvider {
+  const port = deps.executionPort as unknown as WaitCapablePort | undefined;
   const wait =
-    typeof candidate?.waitForBackgroundTask === "function"
-      ? (id: string) => candidate.waitForBackgroundTask!(id)
+    typeof port?.waitForBackgroundTask === "function"
+      ? (taskId: string) => port.waitForBackgroundTask!(taskId)
       : undefined;
-  const method = deps.executionPort?.getBackgroundTask;
-  return {
-    snapshot: method ? (id) => method.call(deps.executionPort, id) : undefined,
-    wait,
-    cancellable: Boolean(deps.executionPort?.cancelBackgroundTask),
-  };
+  const fallback = resolveExecutionPortProvider(deps);
+  return makeProvider(fallback.snapshot, wait, fallback.cancellable);
+}
+
+// 候选表：自上而下取第一个匹配的解析器；最后一条是兜底。
+const PROVIDER_RESOLVERS: readonly {
+  readonly matches: (name: string) => boolean;
+  readonly resolve: (deps: Deps) => TaskProvider;
+}[] = [
+  { matches: isSubagentDispatchToolName, resolve: resolveSubagentProvider },
+  { matches: isDynamicWorkflowRunDispatchToolName, resolve: resolveDynamicWorkflowProvider },
+  { matches: (name) => name === WORKFLOW_TOOL_NAME, resolve: resolveWorkflowProvider },
+  { matches: (name) => name === BASH_TOOL_NAME, resolve: resolveBashProvider },
+  { matches: () => true, resolve: resolveExecutionPortProvider },
+];
+
+function resolveProvider(deps: Deps, name: string): TaskProvider {
+  const entry = PROVIDER_RESOLVERS.find((candidate) => candidate.matches(name));
+  return entry === undefined ? makeProvider(undefined, undefined, false) : entry.resolve(deps);
 }
 
 export function hasSnapshotProvider(deps: ToolExecutorDeps, name: string): boolean {
