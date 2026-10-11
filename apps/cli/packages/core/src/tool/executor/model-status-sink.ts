@@ -1,3 +1,11 @@
+// SPDX-License-Identifier: Apache-2.0
+// 工具内部模型请求的默认状态出口。
+//
+// statusSink 不该由每个调用点各自负责：漏设时请求照样过准入闸门、照样排队，但 runner 发出的
+// queued / admitted / 429 事件没有去处——执行器的 deadline 不知道要暂停，driver 也看不见子代理在等。
+// 处置与准入端口一致：默认值绑在**边界**上（执行器交给 handler 的 context.model 先套一层），
+// 调用点没设 sink 时补会话事件出口，自己设了则原样保留（默认值不压调用层）。
+
 import {
   SessionEventType,
   getCurrentModelInvocationContext,
@@ -8,44 +16,53 @@ import {
 import { withModelInvocationContext } from "../../runtime/methods/runtime-model.js";
 import type { ToolExecutionContext } from "../types.js";
 
-/**
- * 工具内部模型请求的默认状态出口。
- *
- * `statusSink` 不能是每个调用点各自的职责——WebSearch 记得设，WebFetch 处理没有。
- * 没有 sink 的请求照样过准入闸门、照样排队，但 runner 发的 queued / admitted / 429 事件没有去处：
- * 执行器的 deadline 不知道该暂停（实测 18 次 WebFetch 在队里等了 20–45 s 后按
- * 60 s 超时被取消，错误里 `queuedMs: 0`），driver 也看不见这个子代理在等。
- * 与准入端口同一处置：默认值绑在**边界**上而不是靠调用点记得——执行器交给 handler 的
- * `context.model` 先套一层，调用点没设 sink 时补上会话事件出口；调用点自己设了则原样保留。
- */
-export function createToolModelStatusSink(
-  context: Pick<ToolExecutionContext, "emitEvent" | "sessionId" | "turnId" | "traceId">,
-): ModelStatusSink | undefined {
-  if (!context.emitEvent) return undefined;
+const MODEL_NETWORK_STATUS_EVENT = SessionEventType.ModelNetworkStatus;
+const INITIAL_SEQUENCE_NUMBER = 0;
 
+/** 模型网络状态事件。 */
+type NetworkStatusEvent = ModelNetworkStatusEvent;
+
+type StatusSinkContext = Pick<
+  ToolExecutionContext,
+  "emitEvent" | "sessionId" | "turnId" | "traceId"
+>;
+type OptionalModel = Model | undefined;
+type OptionalStatusSink = ModelStatusSink | undefined;
+
+// 所有会话事件共用的信封字段；payload 由调用方补。
+function sessionEnvelope(scope: StatusSinkContext) {
+  const eventId = crypto.randomUUID() as never;
+  const timestamp = new Date();
   return {
-    publish: async (statusEvent: ModelNetworkStatusEvent) => {
-      await context.emitEvent?.({
-        id: crypto.randomUUID() as never,
-        sessionId: context.sessionId,
-        turnId: context.turnId,
-        type: SessionEventType.ModelNetworkStatus,
-        timestamp: new Date(),
-        traceId: context.traceId,
-        sequenceNumber: 0,
-        payload: statusEvent,
-      });
+    id: eventId,
+    sessionId: scope.sessionId,
+    turnId: scope.turnId,
+    type: MODEL_NETWORK_STATUS_EVENT,
+    timestamp,
+    traceId: scope.traceId,
+    sequenceNumber: INITIAL_SEQUENCE_NUMBER,
+  };
+}
+
+export function createToolModelStatusSink(context: StatusSinkContext): OptionalStatusSink {
+  const emit = context.emitEvent;
+  if (emit === undefined) return undefined;
+  return {
+    publish: async (statusEvent: NetworkStatusEvent) => {
+      await emit({ ...sessionEnvelope(context), payload: statusEvent });
     },
   };
 }
 
-/** 调用点未设 `statusSink` 时补默认出口；设了的保留（默认值不压调用层）。 */
+function hasStatusSink(): boolean {
+  return getCurrentModelInvocationContext()?.statusSink !== undefined;
+}
+
 export function withDefaultToolModelStatusSink(
-  model: Model | undefined,
-  sink: ModelStatusSink | undefined,
-): Model | undefined {
-  if (model === undefined || sink === undefined) return model;
-  return withModelInvocationContext(model, () =>
-    getCurrentModelInvocationContext()?.statusSink === undefined ? { statusSink: sink } : {},
-  );
+  model: OptionalModel,
+  sink: OptionalStatusSink,
+): OptionalModel {
+  if (model === undefined) return model;
+  if (sink === undefined) return model;
+  return withModelInvocationContext(model, () => (hasStatusSink() ? {} : { statusSink: sink }));
 }
