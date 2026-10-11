@@ -21893,7 +21893,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21901,7 +21904,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21909,7 +21915,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21917,7 +21926,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21925,7 +21937,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21933,7 +21948,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21941,7 +21959,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21949,7 +21970,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21957,7 +21981,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21965,7 +21992,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21973,7 +22003,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21981,7 +22014,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -35044,7 +35080,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
     },
     {
@@ -35052,7 +35090,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     },
     {
@@ -35060,7 +35100,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "9ce3f3ede16592f12b07bedd651ae7bfa499e93c1c69495433cad41a2b974703"
     },
     {
@@ -35068,7 +35110,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "d0d0b043e02ddffce0b7b4a586ee0d95380fddd4da99e4b25c956d62e9bcd089"
     },
     {
@@ -35076,7 +35120,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "83bb8b8cf2e550dd0bdd7216bba1cf28796787b8f1228f138b668269fac3b79b"
     },
     {
@@ -95347,7 +95393,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/acceptance.md",
-      "normalizedSha256": "165aa9f3b36b8d3c4444429dbeab2888eca9c5a5eb48e469d60e9e0565490762",
+      "normalizedSha256": "045ca7c556eb96e4d1ef971041a0c57abcddfc9789655a79718a17c9d308a0f5",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -95407,7 +95453,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/gate-old.json",
-      "normalizedSha256": "104db1b0d52b402c4392bc8cec011563bc97f58d0efb7f5800dbe216ad4640e9",
+      "normalizedSha256": "c6530cb2ed477c6f9338e4f9b8512e04a92de136ca3647eb2d85240724d8c859",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -95443,7 +95489,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/README.md",
-      "normalizedSha256": "fe52072f860f320f82f607ab218b946ac36c51754af8150b3529eaf497193c12",
+      "normalizedSha256": "29537b39ca55a76853f7f09182ea5cbc8427205f170a7bf5d24a89da1ab86168",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -96139,7 +96185,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/tests/build-case-map.mjs",
-      "normalizedSha256": "806176cf8aed485f11b0a277a0c09185236d62905fbe3bbfe88c46775aed4b7f",
+      "normalizedSha256": "37efba60283526aebd6183c3655667a761cae8ea792e506973b1ea2ed822ab1f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -96163,7 +96209,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/tests/config.test.ts",
-      "normalizedSha256": "9c8b104f00511fc9ccd196c22cd291269e4565dea829104a9a903e7c069e2a03",
+      "normalizedSha256": "903f6b5399400cec83d6c3d7edb55b40758da1276bd3967f29a1f2ec41dcf590",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -97024,6 +97070,28 @@
         "docs/knorvia-third-party-verification-20261011.md",
         "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
         "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
+      ]
+    },
+    {
+      "path": "scripts/contract-test-discovery.mjs",
+      "normalizedSha256": "b1b2175932e85f67d29de7eed3158a455ecb59c9bb0d2c7b587a2fc0ba8bd82b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/contract-test-discovery.test.mjs",
+      "normalizedSha256": "8c86fd35e75a227e5fd5a4bf7fd11cf15c334c8418e5099542fcde46f4cda75e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
       ]
     }
   ]
