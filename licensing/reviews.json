@@ -81935,7 +81935,7 @@
     },
     {
       "path": "packages/web/src/perfStudioTimeline.tsx",
-      "normalizedSha256": "52ae56ea81995c705e98f075aa81e615e1b90636e450bd21f39446241fb5ff73",
+      "normalizedSha256": "d0e9e2d4f75bb13af2b9a99ffc9ca5671ee8ed8660fb2a16731b0634e24c0c4c",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 5edcf479 (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.04 (apps/zcode-cli/packages/debug/server/analyzer.ts), longest identical run 2 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",

@@ -43,7 +43,8 @@ const service = {
     listeners.add(listener);
     return { dispose: () => listeners.delete(listener) };
   },
-  overview: async () => ({ revision }),
+  // StudioOverview.conversations 是契约必填字段，时间线按它解析会话目录；缺了会在挂载时抛错，基准永远跑不完。
+  overview: async () => ({ revision, conversations: [] }),
   inspectKernels: async () => [],
   timeline: async (_targetId: string, before?: number) => {
     if (before !== undefined) {
