@@ -82092,6 +82092,22 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "scripts/contract-test-discovery.mjs",
+      "normalizedSha256": "b1b2175932e85f67d29de7eed3158a455ecb59c9bb0d2c7b587a2fc0ba8bd82b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "scripts/contract-test-discovery.test.mjs",
+      "normalizedSha256": "8c86fd35e75a227e5fd5a4bf7fd11cf15c334c8418e5099542fcde46f4cda75e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     }
   ]
 }

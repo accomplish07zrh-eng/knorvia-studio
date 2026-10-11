@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
-import { mkdtemp, readdir, rm } from "node:fs/promises";
+import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, relative, resolve, sep } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { collectStudioTests, discoverContractTestDirectories } from "./contract-test-discovery.mjs";
 import { compactStudioTestArguments } from "./studio-test-arguments.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -28,6 +29,8 @@ const testDirectories = [
 // 发布判定（release-gate）必须在这里，不能只靠质量工作流“碰巧”覆盖。
 const explicitTests = [
   "scripts/studio-test-arguments.test.mjs",
+  // M0-10：合同测试收集逻辑的测试。放在数组开头，避免与 M0-11（在末尾追加截图工具测试）冲突。
+  "scripts/contract-test-discovery.test.mjs",
   "scripts/esm-require-banner.test.mjs",
   "scripts/check-evidence-integrity.test.mjs",
   "scripts/knorvia-agent-base.test.ts",
@@ -70,25 +73,29 @@ const explicitTests = [
   "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
   "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
 ];
-const tests = [...explicitTests];
+// 合同契约测试：specs/contracts/<包 ID>/tests 一旦存在就随离线回归一起跑；
+// 还没有合同时集合为空，test:studio 照常空跑通过。
+const contractDirectories = await discoverContractTestDirectories(repoRoot);
+const { tests, directories } = await collectStudioTests({
+  repoRoot,
+  explicitTests,
+  testDirectories,
+  contractDirectories,
+});
 
-for (const directory of testDirectories) {
-  const absoluteDirectory = resolve(repoRoot, directory);
-  const names = (await readdir(absoluteDirectory))
-    .filter((name) => /\.test\.(?:ts|mjs)$/u.test(name))
-    .sort();
-  if (names.length === 0) {
-    throw new Error(`No offline studio tests found in ${directory}`);
-  }
-  tests.push(
-    ...names.map((name) => relative(repoRoot, join(absoluteDirectory, name)).split(sep).join("/")),
+// --list：只列出将要运行的测试文件（含合同测试），不启动测试运行器；用于核对合同是否被收录。
+if (process.argv.includes("--list")) {
+  console.log(
+    `[test:studio] ${tests.length} offline test files (contract test directories: ${contractDirectories.length})`,
   );
+  for (const test of tests) console.log(test);
+  process.exit(0);
 }
 
 const testArguments = await compactStudioTestArguments({
   repoRoot,
   explicitTests,
-  testDirectories,
+  testDirectories: directories,
   discoveredTests: tests,
 });
 
@@ -124,7 +131,7 @@ if (testTimeoutMs !== configuredTimeout) {
 }
 
 console.log(
-  `[test:studio] ${tests.length} offline test files, Node ${process.version}, per-test timeout ${testTimeoutMs}ms`,
+  `[test:studio] ${tests.length} offline test files (contract test directories: ${contractDirectories.length}), Node ${process.version}, per-test timeout ${testTimeoutMs}ms`,
 );
 try {
   const child = spawn(
