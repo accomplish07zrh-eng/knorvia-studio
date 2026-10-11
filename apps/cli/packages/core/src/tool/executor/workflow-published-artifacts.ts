@@ -37,20 +37,18 @@ type ManifestKind = WorkflowArtifactManifestEntry["kind"];
 type OptionalText = string | undefined;
 type OptionalCount = number | undefined;
 
-/** 交付物 `description` 的长度上界，与 shared 侧 zod 的 `ARTIFACT_CAPS.maxDescriptionLength` 同值。 */
-const WORKFLOW_ARTIFACT_DESCRIPTION_MAX_CHARS = 500;
+/** 与 shared 侧 zod 的 ARTIFACT_CAPS 同值的一张表：四处长度界集中在一处，便于逐条对照。 */
+const ARTIFACT_LIMITS = {
+  description: 500,
+  title: 120,
+  id: 64,
+  contentType: 255,
+} as const;
 
 /** 完成通知 `<artifacts>` 的行数上限；文本行数与载荷上界刻意保持同一个值。 */
 export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8;
 /** `GetWorkflowRun` 文本截面的行数上限，取自 `ARTIFACT_CAPS` 的每 run 上界（32）。 */
 export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32;
-/** manifest 载荷里 title 的长度上界，与 shared 侧 zod 的 `ARTIFACT_CAPS.maxTitleLength` 同值。 */
-const WORKFLOW_ARTIFACT_TITLE_MAX_CHARS = 120;
-/** id 的长度上界，与 shared 侧 zod 的 `ARTIFACT_CAPS.maxIdLength` 同值。 */
-const WORKFLOW_ARTIFACT_ID_MAX_CHARS = 64;
-/** contentType 的长度上界，与 shared 侧 zod 同值；合法 MIME 远达不到这个长度。 */
-const WORKFLOW_ARTIFACT_CONTENT_TYPE_MAX_CHARS = 255;
-
 /** 预置看板的四个种类：不产出字节，数据量取自 report 标签条数。 */
 const PRESET_ARTIFACT_KINDS: ReadonlySet<string> = new Set(["chart", "table", "metrics", "board"]);
 
@@ -167,14 +165,14 @@ function trimmed(value: OptionalText): OptionalText {
 
 // 超界与空值一律整条丢弃的字段：id（chip 的身份键）、version（zod 要求正整数）。
 function hasUsableIdentity(artifact: ArtifactSummary): boolean {
-  if (artifact.id.length === 0 || artifact.id.length > WORKFLOW_ARTIFACT_ID_MAX_CHARS) return false;
+  if (artifact.id.length === 0 || artifact.id.length > ARTIFACT_LIMITS.id) return false;
   return Number.isInteger(artifact.version) && artifact.version >= 1;
 }
 
 // contentType 只是 chip 上的装饰：超界丢这一个键，而不是整条。
 function usableContentType(artifact: ArtifactSummary): OptionalText {
   const value = artifact.contentType;
-  if (value === undefined || value.length > WORKFLOW_ARTIFACT_CONTENT_TYPE_MAX_CHARS) {
+  if (value === undefined || value.length > ARTIFACT_LIMITS.contentType) {
     return undefined;
   }
   return value;
@@ -191,7 +189,7 @@ function manifestEntryFor(artifact: ArtifactSummary): WorkflowArtifactManifestEn
   entry.version = artifact.version;
 
   const title = trimmed(artifact.title);
-  if (title !== undefined) entry.title = title.slice(0, WORKFLOW_ARTIFACT_TITLE_MAX_CHARS);
+  if (title !== undefined) entry.title = title.slice(0, ARTIFACT_LIMITS.title);
 
   const contentType = usableContentType(artifact);
   if (contentType !== undefined) entry.contentType = contentType;
@@ -200,7 +198,7 @@ function manifestEntryFor(artifact: ArtifactSummary): WorkflowArtifactManifestEn
     entry.primary = true;
     const description = trimmed(artifact.description);
     if (description !== undefined) {
-      entry.description = description.slice(0, WORKFLOW_ARTIFACT_DESCRIPTION_MAX_CHARS);
+      entry.description = description.slice(0, ARTIFACT_LIMITS.description);
     }
   }
   return entry;
