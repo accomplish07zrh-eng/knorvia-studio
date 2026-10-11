@@ -21893,7 +21893,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21901,7 +21904,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21909,7 +21915,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21917,7 +21926,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21925,7 +21937,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21933,7 +21948,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21941,7 +21959,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21949,7 +21970,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21957,7 +21981,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21965,7 +21992,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21973,7 +22003,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21981,7 +22014,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -35044,7 +35080,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
     },
     {
@@ -35052,7 +35090,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     },
     {
@@ -35060,7 +35100,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "9ce3f3ede16592f12b07bedd651ae7bfa499e93c1c69495433cad41a2b974703"
     },
     {
@@ -35068,7 +35110,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "d0d0b043e02ddffce0b7b4a586ee0d95380fddd4da99e4b25c956d62e9bcd089"
     },
     {
@@ -35076,7 +35120,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "83bb8b8cf2e550dd0bdd7216bba1cf28796787b8f1228f138b668269fac3b79b"
     },
     {
@@ -83676,6 +83722,89 @@
         "docs/knorvia-independent-replacement-plan.md",
         "docs/knorvia-provenance-bookkeeping-20261010.md",
         "scripts/provenance/inherited-triage.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity.mjs",
+      "normalizedSha256": "88194f2efc54c0366d10abc856a7d8a102b68455a25e24f08019b4ed08adf5d9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-lines.mjs",
+      "normalizedSha256": "59d777952362c0d9b5eca1cc2041a73162eb725870e2f5de161d36ac8de8ee92",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Line normalization, containment and longest-run metrics.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-structural.mjs",
+      "normalizedSha256": "ab1cc82407b9134e66756c9a859aa979d75e09fd46ef76daff2a7b3c45b38a51",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Token normalization with the repository TypeScript lexer and winnowing fingerprints.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity.test.mjs",
+      "normalizedSha256": "1b19fc3ddbfc77d8dbfe60cbd9b88c40d2caeea311bd4c19dd92eeefb09c7a6d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-similarity-calibration-20261011.md",
+      "normalizedSha256": "5f76f81e0f07150e42f3fe97754d087cade8d30dc5b617ff7a13b9781bf10d6d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
+      "evidence": [
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-inputs.mjs",
+      "normalizedSha256": "1bfbc9319e6bdab98d7c88e6cbcf8ba135731aa4a18ee2e18dea2f9782a077fb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Input loading for the upstream tree, candidates and replaced old files.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-declarations.mjs",
+      "normalizedSha256": "223f04948d6221fc3d1e3dddbeb5ce4ea00aa4ddf4d0034419ace39473a6bbc9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
       ]
     }
   ]
