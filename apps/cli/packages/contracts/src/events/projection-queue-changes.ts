@@ -61,25 +61,19 @@ export function queueAdmissionChanges(
   projection: SessionProjection,
   event: SessionEvent,
 ): SessionProjectionChanges {
-  const payload = event.payload as TurnSteerQueuedPayload;
+  const admission = event.payload as TurnSteerQueuedPayload;
   const rows = toQueueRows(projection.pendingSteerInputs);
-  const previous = rows.get(payload.pendingInputId);
+  const previous = rows.get(admission.pendingInputId);
 
-  const admitted: PendingSteerInputInfo = {
-    pendingInputId: payload.pendingInputId,
-    ...mergeDefinedFields(
-      payload as unknown as PendingSteerInputInfo,
-      previous,
-      ADMISSION_CONTENT_KEYS,
-    ),
-    ...mergeDefinedFields(
-      payload as unknown as PendingSteerInputInfo,
-      previous,
-      ADMISSION_CARRIED_KEYS,
-    ),
-    queuedAt: previous?.queuedAt ?? event.timestamp,
-    traceId: event.traceId,
-  };
+  const incoming = admission as unknown as PendingSteerInputInfo;
+  const entry: Array<readonly [string, unknown]> = [
+    ["pendingInputId", admission.pendingInputId],
+    ...Object.entries(mergeDefinedFields(incoming, previous, ADMISSION_CONTENT_KEYS)),
+    ...Object.entries(mergeDefinedFields(incoming, previous, ADMISSION_CARRIED_KEYS)),
+    ["queuedAt", previous?.queuedAt ?? event.timestamp],
+    ["traceId", event.traceId],
+  ];
+  const admitted = Object.fromEntries(entry) as unknown as PendingSteerInputInfo;
   rows.set(admitted.pendingInputId, admitted);
   return { pendingSteerInputs: toRowArray(rows) };
 }
@@ -99,13 +93,13 @@ export function queueDeliveryChanges(
   const incoming = payload.intent;
   const delivered =
     incoming === undefined || incoming === null
-      ? row.intent && {
-          ...row.intent,
+      ? row.intent &&
+        Object.assign({}, row.intent, {
           admittedDelivery: payload.admittedDelivery,
           fallbackReasonCode: payload.fallbackReasonCode,
-        }
+        })
       : incoming;
-  rows.set(row.pendingInputId, { ...row, intent: delivered });
+  rows.set(row.pendingInputId, Object.assign({}, row, { intent: delivered }));
   return { pendingSteerInputs: toRowArray(rows) };
 }
 
@@ -118,12 +112,12 @@ export function queueOrderChanges(
   payload: TurnSteerReorderedPayload,
 ): SessionProjectionChanges {
   const rows = toQueueRows(projection.pendingSteerInputs);
-  const requested = new Set(payload.orderedPendingInputIds);
+  const requestedIds = new Set(payload.orderedPendingInputIds);
 
   const leading = payload.orderedPendingInputIds
     .map((id) => rows.get(id))
     .filter((row): row is PendingSteerInputInfo => row !== undefined);
-  const trailing = toRowArray(rows).filter((row) => !requested.has(row.pendingInputId));
+  const trailing = toRowArray(rows).filter((row) => !requestedIds.has(row.pendingInputId));
 
   return {
     pendingSteerInputs: [...leading, ...trailing].map((row, queuePosition) =>
@@ -150,18 +144,18 @@ export function sessionModeChanges(
   projection: SessionProjection,
   payload: SessionModeChangedPayload,
 ): SessionProjectionChanges {
-  const changes: SessionProjectionChanges = {
-    mode: payload.mode,
-    planEnabled: payload.planEnabled ?? payload.mode === "plan",
-  };
+  const changes = Object.fromEntries([
+    ["mode", payload.mode],
+    ["planEnabled", payload.planEnabled ?? payload.mode === "plan"],
+  ]) as SessionProjectionChanges;
   const granted = payload.permissionGrant;
   if (!granted) return changes;
 
   const grantedIds = new Set(granted.queueItemIds);
-  changes.pendingSteerInputs = projection.pendingSteerInputs.map((row) =>
+  const promoted = projection.pendingSteerInputs.map((row) =>
     row.intent && grantedIds.has(row.pendingInputId)
-      ? { ...row, intent: { ...row.intent, mode: "yolo" as const } }
+      ? Object.assign({}, row, { intent: Object.assign({}, row.intent, { mode: "yolo" as const }) })
       : row,
   );
-  return changes;
+  return { ...changes, pendingSteerInputs: promoted };
 }
