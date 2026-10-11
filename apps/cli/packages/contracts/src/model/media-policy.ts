@@ -82,9 +82,14 @@ export function getUnsupportedModelInputMediaKind(
   return unsupported?.kind;
 }
 
-/** 不支持媒体的降级文案模板：占位文本 + 一行说明。 */
+/** 降级说明的固定头与尾：中间嵌「不支持哪一类媒体」。两段拼接后的整句是外部可见文案。 */
+const MEDIA_NOTICE_PREFIX =
+  "[Media omitted from provider request because the selected model does not support ";
+const MEDIA_NOTICE_SUFFIX = ".]";
+
+/** 不支持媒体的降级说明整句。 */
 function omittedMediaNotice(unsupportedKind: UnsupportedModelInputMediaKind): string {
-  return `[Media omitted from provider request because the selected model does not support ${unsupportedKind}.]`;
+  return `${MEDIA_NOTICE_PREFIX}${unsupportedKind}${MEDIA_NOTICE_SUFFIX}`;
 }
 
 export function createUnsupportedModelInputMediaText(
