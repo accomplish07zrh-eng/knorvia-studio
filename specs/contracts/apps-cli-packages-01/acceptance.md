@@ -8,6 +8,8 @@
 > 推导（默认 → `KNORVIA_DATA_BASE_DIR` → `KNORVIA_HOME`），断言语义不变，并新增「默认路径必须
 > 落在覆盖出来的数据根之下」的校验；已在真实环境、`KNORVIA_DATA_BASE_DIR`、`KNORVIA_HOME`
 > 三种环境下各跑 42/42（全量 118/118）。该缺陷属测试自身假设问题，未放宽任何断言。
+> 另外把 uild-case-map.mjs --check 改成**按单元格语义**比较（忽略表格填充空白、分隔行横线长度与
+> oxfmt 的 \\\* 转义），使该自查在 pnpm fmt 之后仍然可重复。
 
 ## 一、范围与切包
 
