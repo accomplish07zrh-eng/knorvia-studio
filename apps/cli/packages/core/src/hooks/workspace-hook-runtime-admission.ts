@@ -101,11 +101,11 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
 
   async activate(source: WorkspaceHookActivationSource, signal?: AbortSignal): Promise<void> {
     if (signal) signal.throwIfAborted();
-    const firstTime = this.phase === "cold";
+    const firstRun = this.phase === "cold";
 
     const featureOff = !this.switchOn;
     if (featureOff) {
-      if (firstTime) {
+      if (firstRun) {
         this.phase = "ready";
         this.reportOnce(
           "workspace_hook.feature_disabled",
@@ -120,12 +120,12 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
       return;
     }
 
-    if (firstTime) {
+    if (firstRun) {
       let bootstrapFailed = false;
       try {
         await abortableWait(this.readyWhen, signal);
-      } catch (error) {
-        if (signal?.aborted) throw signal.reason ?? error;
+      } catch (failure) {
+        if (signal?.aborted) throw signal.reason ?? failure;
         bootstrapFailed = true;
       }
       this.phase = bootstrapFailed ? "failed" : "ready";
@@ -239,8 +239,7 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
   }
 
   private recompute(input: { safe: boolean }): void {
-    if (!this.switchOn || this.phase === "failed" || this.invalidReason !== undefined)
-      return;
+    if (!this.switchOn || this.phase === "failed" || this.invalidReason !== undefined) return;
     try {
       const evaluation = this.trust.evaluateSnapshot({ snapshot: this.snapshotBook.snapshot });
       this.lastEvaluation = evaluation;
