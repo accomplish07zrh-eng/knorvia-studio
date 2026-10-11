@@ -8,10 +8,10 @@
   "file": "light-820.png",
   "imageSha256": "7154247a8445d4aaeb3e3de434cc7e2baca0f0be5787fbce326b554756bb032e",
   "bytes": 59802,
-  "generatedAt": "2026-10-11T12:15:21.522Z",
+  "generatedAt": "2026-10-11T17:09:13.005Z",
   "commit": {
-    "head": "a89c2627708ace13f70cb6397493edc179f54a47",
-    "headSubject": "M0-11 截图工具与页面清单（夹具确定性修复中）",
+    "head": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
+    "headSubject": "M0-11 刷新 chrome.mjs 的来源摘要（改已登记文件后必须重跑来源工具）",
     "branch": "m0/11-ui-baseline",
     "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
     "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
@@ -25,13 +25,13 @@
       "version": "148.0.7778.96"
     },
     "webUrl": "http://127.0.0.1:5173/",
-    "serverUrl": "http://127.0.0.1:52394",
+    "serverUrl": "http://127.0.0.1:63705",
     "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
     "fixtureProfile": "default",
     "fixedClock": "2026-11-01T00:00:00.000Z",
     "fixedTimezone": "UTC"
   },
-  "screenshotMs": 72,
+  "screenshotMs": 86,
   "geometry": {
     "studio-activity-rail": {
       "matches": 1,
@@ -216,6 +216,8 @@
     "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 管理模型 发送 workspace",
     "bodyTextSha256": "a17e8b9147d3b233351ff1a154f1f54021ae01ac3233d2d19a7bbe97a37ec76c",
     "bodyTextLength": 202,
-    "consoleErrors": []
+    "consoleErrors": [
+      "console: Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    ]
   }
 }

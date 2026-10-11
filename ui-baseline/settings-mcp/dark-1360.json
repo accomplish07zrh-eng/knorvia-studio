@@ -8,10 +8,10 @@
   "file": "dark-1360.png",
   "imageSha256": "6d08818d1a359cd0166760d984589dd66359701c1bc998357bb18f40d054b119",
   "bytes": 72236,
-  "generatedAt": "2026-10-11T12:33:41.146Z",
+  "generatedAt": "2026-10-11T17:27:36.258Z",
   "commit": {
-    "head": "a89c2627708ace13f70cb6397493edc179f54a47",
-    "headSubject": "M0-11 截图工具与页面清单（夹具确定性修复中）",
+    "head": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
+    "headSubject": "M0-11 刷新 chrome.mjs 的来源摘要（改已登记文件后必须重跑来源工具）",
     "branch": "m0/11-ui-baseline",
     "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
     "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
@@ -25,13 +25,13 @@
       "version": "148.0.7778.96"
     },
     "webUrl": "http://127.0.0.1:5173/",
-    "serverUrl": "http://127.0.0.1:52394",
+    "serverUrl": "http://127.0.0.1:63705",
     "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
     "fixtureProfile": "default",
     "fixedClock": "2026-11-01T00:00:00.000Z",
     "fixedTimezone": "UTC"
   },
-  "screenshotMs": 58,
+  "screenshotMs": 68,
   "geometry": {
     "settings-page": {
       "matches": 1,

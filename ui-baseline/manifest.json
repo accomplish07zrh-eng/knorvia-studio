@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "tool": "scripts/ui-baseline",
-  "generatedAt": "2026-10-11T12:38:40.427Z",
+  "generatedAt": "2026-10-11T17:33:05.476Z",
   "commit": {
-    "head": "a89c2627708ace13f70cb6397493edc179f54a47",
-    "headSubject": "M0-11 截图工具与页面清单（夹具确定性修复中）",
+    "head": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
+    "headSubject": "M0-11 刷新 chrome.mjs 的来源摘要（改已登记文件后必须重跑来源工具）",
     "branch": "m0/11-ui-baseline",
     "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
     "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
@@ -18,7 +18,7 @@
       "version": "148.0.7778.96"
     },
     "webUrl": "http://127.0.0.1:5173/",
-    "serverUrl": "http://127.0.0.1:52394",
+    "serverUrl": "http://127.0.0.1:63705",
     "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
     "fixtureProfile": "default",
     "fixedClock": "2026-11-01T00:00:00.000Z",
@@ -53,9 +53,9 @@
       "file": "chat-single/light-1360.png",
       "imageSha256": "65d0fc4f32f36e3a05dc4c6de0b36cc28c871d0e112e78aa2192aa43830eb287",
       "bytes": 66251,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 82
+      "screenshotMs": 245
     },
     {
       "page": "chat-single",
@@ -65,9 +65,9 @@
       "file": "chat-single/light-820.png",
       "imageSha256": "7154247a8445d4aaeb3e3de434cc7e2baca0f0be5787fbce326b554756bb032e",
       "bytes": 59802,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 72
+      "screenshotMs": 86
     },
     {
       "page": "chat-single",
@@ -77,9 +77,9 @@
       "file": "chat-single/light-390.png",
       "imageSha256": "44184aad70e641e984812b8de57c1019e566d6b8044e2562ad5c6dba4cae9a27",
       "bytes": 34229,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 73
     },
     {
       "page": "chat-single",
@@ -89,9 +89,9 @@
       "file": "chat-single/dark-1360.png",
       "imageSha256": "725fb27abb3aad8599d0ba3c2c9f7b4f69ce93a14c465011e8cd39b7fc6f7664",
       "bytes": 63199,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 65
+      "screenshotMs": 76
     },
     {
       "page": "chat-single",
@@ -101,9 +101,9 @@
       "file": "chat-single/dark-820.png",
       "imageSha256": "9393f9b7be5b975346641c298bbcf898e756a1c2ebbcf51ce5abdd064d488458",
       "bytes": 56473,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 57
     },
     {
       "page": "chat-single",
@@ -113,9 +113,9 @@
       "file": "chat-single/dark-390.png",
       "imageSha256": "02fb78f0f291721a190f548ae8626798776d56b9e83a0c9cb3e48d1d729de4d9",
       "bytes": 31769,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 36
     },
     {
       "page": "workbench",
@@ -123,11 +123,11 @@
       "width": 1360,
       "height": 900,
       "file": "workbench/light-1360.png",
-      "imageSha256": "8a057a4dc13c84aaf1b1ee4484b0f14aa58f6b8b5ed92aad993388974344dc50",
-      "bytes": 45020,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "7be7cff368444480495ee437f42863490a0a64640513a81dcb11b043a189fcb1",
+      "bytes": 45025,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 79
+      "screenshotMs": 55
     },
     {
       "page": "workbench",
@@ -137,9 +137,9 @@
       "file": "workbench/light-820.png",
       "imageSha256": "7ef93fcb3eac3d055a99d87917cde1835fb5092b0c8755035e0a3f831f15437a",
       "bytes": 42158,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 44
+      "screenshotMs": 149
     },
     {
       "page": "workbench",
@@ -149,9 +149,9 @@
       "file": "workbench/light-390.png",
       "imageSha256": "0852021872446a074d52d318c95e74287977babb5e519b10df88c02e3d566332",
       "bytes": 30677,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 56
+      "screenshotMs": 58
     },
     {
       "page": "workbench",
@@ -159,11 +159,11 @@
       "width": 1360,
       "height": 900,
       "file": "workbench/dark-1360.png",
-      "imageSha256": "a242571a1c32536d4c2dc96ba606a14f7876e355b7770d16ed31797f36e2ed0f",
-      "bytes": 44630,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "fb96d268ced63a9d4f642955d38ac0798932d8d0f613012bbf3b423ce2228ea1",
+      "bytes": 44619,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 67
+      "screenshotMs": 61
     },
     {
       "page": "workbench",
@@ -173,9 +173,9 @@
       "file": "workbench/dark-820.png",
       "imageSha256": "bf9667de86e86ca7d079c34bfe207607b4496689811dd49ec4b9d1cd94ec74d6",
       "bytes": 41821,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 52
+      "screenshotMs": 42
     },
     {
       "page": "workbench",
@@ -185,9 +185,9 @@
       "file": "workbench/dark-390.png",
       "imageSha256": "c0dde5ac04808a16be2ad652e3ae84ff8d5c8457654c1563a84fe765d642e3dd",
       "bytes": 29014,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 51
+      "screenshotMs": 59
     },
     {
       "page": "groups",
@@ -195,11 +195,11 @@
       "width": 1360,
       "height": 900,
       "file": "groups/light-1360.png",
-      "imageSha256": "819ec4a4706066479942f3c67377a96777926e048b1ab62a8c65cbbc82d3776c",
-      "bytes": 42594,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "7e983409131ff18c691ff527dd8e802e886d775bcf7f3c0ad86d46a55bfc9f86",
+      "bytes": 42630,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 60
     },
     {
       "page": "groups",
@@ -209,9 +209,9 @@
       "file": "groups/light-820.png",
       "imageSha256": "ef5b7f1fba4e4a59d54e30967ad61259afb81b7a8a6407e5709aaa77a686cea4",
       "bytes": 39904,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 58
+      "screenshotMs": 60
     },
     {
       "page": "groups",
@@ -221,9 +221,9 @@
       "file": "groups/light-390.png",
       "imageSha256": "2c5d8ecf496b0128bf8177056000d43e5c90b82665e6d1f55d657cc57bbcbd56",
       "bytes": 24748,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 80
+      "screenshotMs": 48
     },
     {
       "page": "groups",
@@ -231,11 +231,11 @@
       "width": 1360,
       "height": 900,
       "file": "groups/dark-1360.png",
-      "imageSha256": "aa2c076aaf1b7437c58c2f7e539fe1be34db843a4955138831e6f1ac7eb26ffd",
+      "imageSha256": "02b54b49fbf8b6ba0239607097842a0ed6f8e46951ae0516679345315910e92f",
       "bytes": 41665,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 73
+      "screenshotMs": 59
     },
     {
       "page": "groups",
@@ -245,9 +245,9 @@
       "file": "groups/dark-820.png",
       "imageSha256": "9d16beffeebde686051a0ce53906e2d5cb3e01b4634626cb0cc89396e1eed6b1",
       "bytes": 38823,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 61
+      "screenshotMs": 43
     },
     {
       "page": "groups",
@@ -257,9 +257,9 @@
       "file": "groups/dark-390.png",
       "imageSha256": "a0eef2df43dbcc7d278ea70f20d395f442073e766bfaded34f2ba616c17c7807",
       "bytes": 23466,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 46
+      "screenshotMs": 48
     },
     {
       "page": "workflows",
@@ -267,11 +267,11 @@
       "width": 1360,
       "height": 900,
       "file": "workflows/light-1360.png",
-      "imageSha256": "b5cc32db4e67456fdc6db4156be291bf7238f7bc8f29d2db5b6cb53d28eb2053",
-      "bytes": 72195,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "b28b866b4157f88b5374f5faf532a1e7668cffcb761c91d69689c2b1b754051e",
+      "bytes": 72193,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 71
+      "screenshotMs": 69
     },
     {
       "page": "workflows",
@@ -281,9 +281,9 @@
       "file": "workflows/light-820.png",
       "imageSha256": "4aa5350c8e19cda53db5ac5e03bf9f0f7ee08b58101803dda9c32a4d8586f2de",
       "bytes": 67082,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 62
+      "screenshotMs": 58
     },
     {
       "page": "workflows",
@@ -293,9 +293,9 @@
       "file": "workflows/light-390.png",
       "imageSha256": "8f627e7fc188b59ac67b8ed1af81965951069c3f35d1108eb7cd815458b04376",
       "bytes": 32536,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 64
+      "screenshotMs": 48
     },
     {
       "page": "workflows",
@@ -303,11 +303,11 @@
       "width": 1360,
       "height": 900,
       "file": "workflows/dark-1360.png",
-      "imageSha256": "0ad58074ff3bb99bc40a5e60b4a1c6cd7142d5423e29fed75fe293255182c758",
-      "bytes": 71434,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "b62bdcc60fbf047688998aeca29065b5256bb64e806730dec09c7dbaf13ad35e",
+      "bytes": 71438,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 99
+      "screenshotMs": 88
     },
     {
       "page": "workflows",
@@ -317,9 +317,9 @@
       "file": "workflows/dark-820.png",
       "imageSha256": "f0e43383cbd8b9050a496ac721fe0b5694c149e7c33c105d052a048ed9b052fc",
       "bytes": 66300,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 48
+      "screenshotMs": 49
     },
     {
       "page": "workflows",
@@ -329,9 +329,9 @@
       "file": "workflows/dark-390.png",
       "imageSha256": "20b19b189d854789eb26fe68be5d84361b656e09dd3167b298e3a1a581b571db",
       "bytes": 31002,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 57
+      "screenshotMs": 105
     },
     {
       "page": "creation",
@@ -339,11 +339,11 @@
       "width": 1360,
       "height": 900,
       "file": "creation/light-1360.png",
-      "imageSha256": "efb6e9b669652728a80ad0e079caed1108844d09fe429347d4fb1798729853ef",
-      "bytes": 51017,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "4903d669971dc8c761d62a0603900f6f4a55a203d55d2fc0dd626ed75bc8ffbf",
+      "bytes": 51037,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 57
+      "screenshotMs": 50
     },
     {
       "page": "creation",
@@ -353,9 +353,9 @@
       "file": "creation/light-820.png",
       "imageSha256": "216d41d67b2db81b5e5328ec0c71fa30b9bd5323b7f66dacbce7aae143100764",
       "bytes": 46881,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 49
+      "screenshotMs": 54
     },
     {
       "page": "creation",
@@ -365,9 +365,9 @@
       "file": "creation/light-390.png",
       "imageSha256": "2be4aa458a2e6ca1915c0dc2d3613e9df57fbf41437580103caf4c402c67e247",
       "bytes": 32976,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 53
+      "screenshotMs": 88
     },
     {
       "page": "creation",
@@ -375,11 +375,11 @@
       "width": 1360,
       "height": 900,
       "file": "creation/dark-1360.png",
-      "imageSha256": "c3ee776dcd57a541e85f3187b6278f83b45eabf105035604cdca0d143ff85da0",
-      "bytes": 50448,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "ba18221b0ea93f60ef122289da50e40657bd2406e096211d229a77c05a4d4f64",
+      "bytes": 50520,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 63
     },
     {
       "page": "creation",
@@ -389,9 +389,9 @@
       "file": "creation/dark-820.png",
       "imageSha256": "801f950ce445e6685607416507e752035ee54d36f4e3d55ff3d12629dda207a5",
       "bytes": 46295,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 60
+      "screenshotMs": 143
     },
     {
       "page": "creation",
@@ -401,9 +401,9 @@
       "file": "creation/dark-390.png",
       "imageSha256": "8c30cf552c765cd1b8dfa5750c0c203227730a26d3fcdd13da7286bc05b323b6",
       "bytes": 31123,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 57
+      "screenshotMs": 59
     },
     {
       "page": "plugins",
@@ -413,9 +413,9 @@
       "file": "plugins/light-1360.png",
       "imageSha256": "a81fc3daec1d73a5ca459c8567ebbdb0d6b78ecaf7f61d6f31f0a542ad739892",
       "bytes": 40503,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 60
+      "screenshotMs": 67
     },
     {
       "page": "plugins",
@@ -425,9 +425,9 @@
       "file": "plugins/light-820.png",
       "imageSha256": "0cc5bc7e355eb04c6e529e01f34b218fb25d268eb661e606908e3d848321f423",
       "bytes": 37532,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 62
+      "screenshotMs": 38
     },
     {
       "page": "plugins",
@@ -437,9 +437,9 @@
       "file": "plugins/light-390.png",
       "imageSha256": "a683fdaca0741bce4ed8a60ae81a9e9b471af20208ed11c985ef9f78a10d940c",
       "bytes": 34551,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 48
+      "screenshotMs": 29
     },
     {
       "page": "plugins",
@@ -449,9 +449,9 @@
       "file": "plugins/dark-1360.png",
       "imageSha256": "b5aa5177479c962619d288f44c413419330767aab9859f70ef7f5ce8be54717b",
       "bytes": 40082,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 118
+      "screenshotMs": 54
     },
     {
       "page": "plugins",
@@ -461,9 +461,9 @@
       "file": "plugins/dark-820.png",
       "imageSha256": "8775e43fb4be23293ca3cc89d721085c0016793133cb6e33bcf5bf277dda1e41",
       "bytes": 37014,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 51
+      "screenshotMs": 43
     },
     {
       "page": "plugins",
@@ -473,9 +473,9 @@
       "file": "plugins/dark-390.png",
       "imageSha256": "5f8ec50dd80c0b6160784d92281bd492f61e604941eaf81bf67f3755c23a57df",
       "bytes": 33975,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 38
+      "screenshotMs": 40
     },
     {
       "page": "settings-general",
@@ -485,9 +485,9 @@
       "file": "settings-general/light-1360.png",
       "imageSha256": "825d97e3f07920c22fc177f35f2e3180a8ea0ccb74eea892bc20963dfe3587db",
       "bytes": 110564,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 81
+      "screenshotMs": 140
     },
     {
       "page": "settings-general",
@@ -497,9 +497,9 @@
       "file": "settings-general/light-820.png",
       "imageSha256": "839e9335aca9db2ca9d953190a887e7f072e777dad6a77c18667ec8209096770",
       "bytes": 84381,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 65
+      "screenshotMs": 47
     },
     {
       "page": "settings-general",
@@ -509,9 +509,9 @@
       "file": "settings-general/light-390.png",
       "imageSha256": "9b8bcb1cff054a8f411b25760ff204b7e42498e6a0b4232c221d5c75dad64324",
       "bytes": 57101,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 63
+      "screenshotMs": 54
     },
     {
       "page": "settings-general",
@@ -521,9 +521,9 @@
       "file": "settings-general/dark-1360.png",
       "imageSha256": "f6d264da3366a047a201a35267bb05b0158a2b0d3b70daeb066d301944b689c7",
       "bytes": 108521,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 129
+      "screenshotMs": 68
     },
     {
       "page": "settings-general",
@@ -533,9 +533,9 @@
       "file": "settings-general/dark-820.png",
       "imageSha256": "1bffa5c7e9d8e03b31ebc78807111aec8b74a16855a71d864acba2cece19b8bc",
       "bytes": 82301,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 79
+      "screenshotMs": 66
     },
     {
       "page": "settings-general",
@@ -545,9 +545,9 @@
       "file": "settings-general/dark-390.png",
       "imageSha256": "cef9f294b5002b4a58d3c73ecfd26a2654c85b350f79ea8e1b40e43900a195d7",
       "bytes": 55424,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 91
+      "screenshotMs": 44
     },
     {
       "page": "settings-appearance",
@@ -557,9 +557,9 @@
       "file": "settings-appearance/light-1360.png",
       "imageSha256": "1543664278f29c8ea4f8aace0a7a9dce0dccb0a74cf8b688c4f6fbda43838a65",
       "bytes": 141286,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 103
+      "screenshotMs": 87
     },
     {
       "page": "settings-appearance",
@@ -569,9 +569,9 @@
       "file": "settings-appearance/light-820.png",
       "imageSha256": "963dd1ef95fbc68d31cf80785e998efc98e4bcb8a3f78565f5c0514a3ae650ef",
       "bytes": 135855,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 89
+      "screenshotMs": 94
     },
     {
       "page": "settings-appearance",
@@ -581,9 +581,9 @@
       "file": "settings-appearance/light-390.png",
       "imageSha256": "84a6e9f07a1a28a16a98757cea857e8babfdd973dd6e49dd9c9c9861baaa1998",
       "bytes": 62987,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 55
+      "screenshotMs": 52
     },
     {
       "page": "settings-appearance",
@@ -593,9 +593,9 @@
       "file": "settings-appearance/dark-1360.png",
       "imageSha256": "00085dc734e2e9031f615aafe1953ce87fd439e554b0a277df11af1389adb223",
       "bytes": 135064,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 116
+      "screenshotMs": 83
     },
     {
       "page": "settings-appearance",
@@ -605,9 +605,9 @@
       "file": "settings-appearance/dark-820.png",
       "imageSha256": "4955fe2ef3d819a089576bae033b8c56ec770c80f0aeea3508413ec7566cad70",
       "bytes": 123076,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 87
+      "screenshotMs": 88
     },
     {
       "page": "settings-appearance",
@@ -617,9 +617,9 @@
       "file": "settings-appearance/dark-390.png",
       "imageSha256": "1f738fd47121da8e5c21ed6a3fa876822e93360912e0d9920ed4cce0bf95c8df",
       "bytes": 60747,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 52
+      "screenshotMs": 45
     },
     {
       "page": "settings-model-provider",
@@ -629,9 +629,9 @@
       "file": "settings-model-provider/light-1360.png",
       "imageSha256": "6ee0e61f1117456cf23707424d14940a9a34286e7e4ab67af8bfb05291667214",
       "bytes": 109823,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 72
+      "screenshotMs": 84
     },
     {
       "page": "settings-model-provider",
@@ -641,9 +641,9 @@
       "file": "settings-model-provider/light-820.png",
       "imageSha256": "18418d049557ea312df4aa9c144fdb4b0bc5acfc0f074127cf1a79225d96728a",
       "bytes": 82763,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 57
+      "screenshotMs": 60
     },
     {
       "page": "settings-model-provider",
@@ -653,9 +653,9 @@
       "file": "settings-model-provider/light-390.png",
       "imageSha256": "2b78642b96d60e5916eca66bf803a5375a97026821a16f403f3228464b4b8576",
       "bytes": 55430,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 35
     },
     {
       "page": "settings-model-provider",
@@ -665,9 +665,9 @@
       "file": "settings-model-provider/dark-1360.png",
       "imageSha256": "059f17f30eae3573eed86f2690756f9e54a0f965f89730b5065e82349bad7dac",
       "bytes": 107376,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 100
+      "screenshotMs": 74
     },
     {
       "page": "settings-model-provider",
@@ -677,9 +677,9 @@
       "file": "settings-model-provider/dark-820.png",
       "imageSha256": "028d2cfdc626c99aaac673ff0460277c2d82991b7c9d2d89fb424e6a1388985a",
       "bytes": 81240,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 60
+      "screenshotMs": 52
     },
     {
       "page": "settings-model-provider",
@@ -689,9 +689,9 @@
       "file": "settings-model-provider/dark-390.png",
       "imageSha256": "c1a48931e4670ff68313962d77c749fbd2ad9d3f3070cbc52b6c7172159f573b",
       "bytes": 54218,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 67
+      "screenshotMs": 53
     },
     {
       "page": "settings-agents",
@@ -701,9 +701,9 @@
       "file": "settings-agents/light-1360.png",
       "imageSha256": "e2445ebb0fc006750e4503bc5f34e24472002dc2415ec0f373e69f2ea17aa4dd",
       "bytes": 138024,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 96
+      "screenshotMs": 74
     },
     {
       "page": "settings-agents",
@@ -713,9 +713,9 @@
       "file": "settings-agents/light-820.png",
       "imageSha256": "11fb59dce0a3a3b5e93a65bde63b2788bc111b23816345007e935e9d62225474",
       "bytes": 112112,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 110
+      "screenshotMs": 64
     },
     {
       "page": "settings-agents",
@@ -725,9 +725,9 @@
       "file": "settings-agents/light-390.png",
       "imageSha256": "a1641ad560d40962a0e048d54e78fd9d9efeee234c1404e38b1c7d77faaa2404",
       "bytes": 66036,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 42
+      "screenshotMs": 53
     },
     {
       "page": "settings-agents",
@@ -737,9 +737,9 @@
       "file": "settings-agents/dark-1360.png",
       "imageSha256": "98496ac735736edaf325aa572f5bc164c54ca6b0be1659dda6112e804e566fd5",
       "bytes": 134878,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 88
+      "screenshotMs": 76
     },
     {
       "page": "settings-agents",
@@ -749,9 +749,9 @@
       "file": "settings-agents/dark-820.png",
       "imageSha256": "abfd704f6b3bf75d187f9df47731f986697359764a047edf5b96d9f9f0aab177",
       "bytes": 109189,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 95
+      "screenshotMs": 59
     },
     {
       "page": "settings-agents",
@@ -761,9 +761,9 @@
       "file": "settings-agents/dark-390.png",
       "imageSha256": "0d8bea01826afb38664662c3b265c4c4be309d20b63e81f951022f9d9c4130a3",
       "bytes": 64264,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 38
+      "screenshotMs": 44
     },
     {
       "page": "settings-usage",
@@ -773,9 +773,9 @@
       "file": "settings-usage/light-1360.png",
       "imageSha256": "a8d5a9646075605f5cf256277bece0e0c5632a4627411d54f0d541cbcee3c5c3",
       "bytes": 72227,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 93
+      "screenshotMs": 74
     },
     {
       "page": "settings-usage",
@@ -785,9 +785,9 @@
       "file": "settings-usage/light-820.png",
       "imageSha256": "ceea25673da0aad9f0c582a03005b1d10c61c25aa3e67012493652a35a2918e5",
       "bytes": 49692,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 46
+      "screenshotMs": 49
     },
     {
       "page": "settings-usage",
@@ -797,9 +797,9 @@
       "file": "settings-usage/light-390.png",
       "imageSha256": "d36b381177e13ac2abe7eac4d950e041807a0377407c7d574dee06ad54e8abe4",
       "bytes": 38751,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 44
+      "screenshotMs": 35
     },
     {
       "page": "settings-usage",
@@ -809,9 +809,9 @@
       "file": "settings-usage/dark-1360.png",
       "imageSha256": "c6883a4d8134d1b9b9276a084c6cff2c52d32b8735169dce71a5387c542787a1",
       "bytes": 71506,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 124
+      "screenshotMs": 57
     },
     {
       "page": "settings-usage",
@@ -821,9 +821,9 @@
       "file": "settings-usage/dark-820.png",
       "imageSha256": "1b7d8f7e122f37053f9c3c24b841860243629332ae907432f675bf12d42d4b6d",
       "bytes": 49297,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 81
+      "screenshotMs": 48
     },
     {
       "page": "settings-usage",
@@ -833,9 +833,9 @@
       "file": "settings-usage/dark-390.png",
       "imageSha256": "b0ba2c41f8439d540c38ee77848eac7ae1c23c5f2f1426981bdd4f019603585a",
       "bytes": 38557,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 32
     },
     {
       "page": "settings-subagents",
@@ -843,11 +843,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-subagents/light-1360.png",
-      "imageSha256": "5a89fb37818e1851154e4af8174477354c25547c268dc5f1b429439b105f75c3",
-      "bytes": 88256,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "60d90219d7ea9ac1958b6e2d4112a410e4c970f41fe2c21b812e3cdca44d7eed",
+      "bytes": 88247,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 75
+      "screenshotMs": 109
     },
     {
       "page": "settings-subagents",
@@ -857,9 +857,9 @@
       "file": "settings-subagents/light-820.png",
       "imageSha256": "c7a313e3be1858ad1f0ae79b7f0baa796565345777fd6c8953f0f32c8ec8be9c",
       "bytes": 63345,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 46
+      "screenshotMs": 78
     },
     {
       "page": "settings-subagents",
@@ -869,7 +869,7 @@
       "file": "settings-subagents/light-390.png",
       "imageSha256": "b0dcb267acf601d1f9656f80112faa40ee3b8ef487bd07d7ecdb5412d00fc671",
       "bytes": 51079,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
       "screenshotMs": 45
     },
@@ -879,11 +879,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-subagents/dark-1360.png",
-      "imageSha256": "706cddc27843baa5736ca7c4a3804f8886c85b68a7173439595d03a7c856c810",
-      "bytes": 87479,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "imageSha256": "70cc3a642dbaf906264a0eb431a3cceab9e4d331f160f3ace74e7544fbb7626d",
+      "bytes": 87472,
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 69
+      "screenshotMs": 55
     },
     {
       "page": "settings-subagents",
@@ -893,9 +893,9 @@
       "file": "settings-subagents/dark-820.png",
       "imageSha256": "9e61ae5f5aca29b3776c5c7d90c19f4cd6c03267cd328f00d2cdc164af5ad9f4",
       "bytes": 63384,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 748
+      "screenshotMs": 54
     },
     {
       "page": "settings-subagents",
@@ -905,9 +905,9 @@
       "file": "settings-subagents/dark-390.png",
       "imageSha256": "b2323d8c9af731196390619d5451253c2aa1ca72a719a6623bbf52c81250586c",
       "bytes": 51133,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 41
+      "screenshotMs": 47
     },
     {
       "page": "settings-memory",
@@ -917,9 +917,9 @@
       "file": "settings-memory/light-1360.png",
       "imageSha256": "f41018d0e9427462eb651fe96a1b6729db08882231f72d6c668f46de5a134280",
       "bytes": 64964,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 67
+      "screenshotMs": 59
     },
     {
       "page": "settings-memory",
@@ -929,9 +929,9 @@
       "file": "settings-memory/light-820.png",
       "imageSha256": "a6cfaa965520cef66ae1c2d64258dc39887134b04616d2295426f2c3667678e8",
       "bytes": 41109,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 49
+      "screenshotMs": 63
     },
     {
       "page": "settings-memory",
@@ -941,9 +941,9 @@
       "file": "settings-memory/light-390.png",
       "imageSha256": "0bbe1f846ad004e27e8ab0d01a5e95b2eda384b76b3296eeb5da4c7f2bd54c78",
       "bytes": 32407,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 37
+      "screenshotMs": 50
     },
     {
       "page": "settings-memory",
@@ -953,9 +953,9 @@
       "file": "settings-memory/dark-1360.png",
       "imageSha256": "9837ea50c56fcaf1e5fe694f52a27f9f18f9c5e3ebebdb65790f047ded2cd7a4",
       "bytes": 63926,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 71
+      "screenshotMs": 108
     },
     {
       "page": "settings-memory",
@@ -965,9 +965,9 @@
       "file": "settings-memory/dark-820.png",
       "imageSha256": "e6416ebff669fffbad653b0923389066fa86b3a416e79dc345e289857bb4535e",
       "bytes": 40677,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 36
+      "screenshotMs": 73
     },
     {
       "page": "settings-memory",
@@ -977,9 +977,9 @@
       "file": "settings-memory/dark-390.png",
       "imageSha256": "f02e41b53ec2089ef66fc5837fa49552eefd4ffa3668ebc9e2bf581fefe664e3",
       "bytes": 32021,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 30
+      "screenshotMs": 45
     },
     {
       "page": "settings-skill",
@@ -989,9 +989,9 @@
       "file": "settings-skill/light-1360.png",
       "imageSha256": "7ecd1b2437c62e61d7dd9f18963aa730f11d0d347e00cbf75cefc6b227b33aab",
       "bytes": 69029,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 106
+      "screenshotMs": 96
     },
     {
       "page": "settings-skill",
@@ -1001,9 +1001,9 @@
       "file": "settings-skill/light-820.png",
       "imageSha256": "36d59cbbb14c3071e65451aea4e0729699c285f356f469f8cb917273ad8f4659",
       "bytes": 44791,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 44
+      "screenshotMs": 67
     },
     {
       "page": "settings-skill",
@@ -1013,9 +1013,9 @@
       "file": "settings-skill/light-390.png",
       "imageSha256": "7dce8b389f4faff02d53625b54fc983440dfe7a7fe7b1109d0a6642b489868ad",
       "bytes": 34479,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 59
+      "screenshotMs": 43
     },
     {
       "page": "settings-skill",
@@ -1025,9 +1025,9 @@
       "file": "settings-skill/dark-1360.png",
       "imageSha256": "eb414969e1004585ea6069400fbdbf93574fae0ed67d21b9d505873341c54beb",
       "bytes": 67706,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 77
+      "screenshotMs": 97
     },
     {
       "page": "settings-skill",
@@ -1037,9 +1037,9 @@
       "file": "settings-skill/dark-820.png",
       "imageSha256": "59060b6d17723a88bc519509c4fc2c0d3e22f837a8fc45bedee653ba98d0f599",
       "bytes": 44115,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 36
+      "screenshotMs": 59
     },
     {
       "page": "settings-skill",
@@ -1049,9 +1049,9 @@
       "file": "settings-skill/dark-390.png",
       "imageSha256": "b9bcdeed81134eec198a2e2958606cef6f4dc4ca8939b058402c4729b9ec864f",
       "bytes": 34014,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 27
+      "screenshotMs": 48
     },
     {
       "page": "settings-mcp",
@@ -1061,9 +1061,9 @@
       "file": "settings-mcp/light-1360.png",
       "imageSha256": "67886d5d46581aafda5e425cce177ee87f7816a54eeb2569412a8563ecf7ce84",
       "bytes": 73829,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 72
+      "screenshotMs": 95
     },
     {
       "page": "settings-mcp",
@@ -1073,9 +1073,9 @@
       "file": "settings-mcp/light-820.png",
       "imageSha256": "9e942cf290d3e77c95ef1fc0c44d94e35c2eedc606049b10c496af6e1d92eb9d",
       "bytes": 49158,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 45
+      "screenshotMs": 52
     },
     {
       "page": "settings-mcp",
@@ -1085,9 +1085,9 @@
       "file": "settings-mcp/light-390.png",
       "imageSha256": "d398e34b8fc1328b84f89571a6cf1b7515f2f068246db8055496b876b688273d",
       "bytes": 38614,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 39
+      "screenshotMs": 34
     },
     {
       "page": "settings-mcp",
@@ -1097,9 +1097,9 @@
       "file": "settings-mcp/dark-1360.png",
       "imageSha256": "6d08818d1a359cd0166760d984589dd66359701c1bc998357bb18f40d054b119",
       "bytes": 72236,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 58
+      "screenshotMs": 68
     },
     {
       "page": "settings-mcp",
@@ -1109,9 +1109,9 @@
       "file": "settings-mcp/dark-820.png",
       "imageSha256": "13bfb0b88c4bbe27a09ca4cde9c127ae1bee137ffc8bde8c82222ff67ac81528",
       "bytes": 48122,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 47
+      "screenshotMs": 48
     },
     {
       "page": "settings-mcp",
@@ -1121,9 +1121,9 @@
       "file": "settings-mcp/dark-390.png",
       "imageSha256": "5a55c90a78b8c10572a4cd96bb63875f05834726c2f7a50da7e5aa4bebf5c372",
       "bytes": 37908,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 44
+      "screenshotMs": 39
     },
     {
       "page": "settings-commands",
@@ -1133,9 +1133,9 @@
       "file": "settings-commands/light-1360.png",
       "imageSha256": "984fb0f68a4a93602a3f5252fc4021a8942041d5fbe81ead266a54c0d307f0bb",
       "bytes": 66104,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 61
+      "screenshotMs": 62
     },
     {
       "page": "settings-commands",
@@ -1145,9 +1145,9 @@
       "file": "settings-commands/light-820.png",
       "imageSha256": "c12aa8bf735fb4a4e73a61302835ffa35e9c9136992e22b8ca8369d50fbd9502",
       "bytes": 42083,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 57
+      "screenshotMs": 46
     },
     {
       "page": "settings-commands",
@@ -1157,9 +1157,9 @@
       "file": "settings-commands/light-390.png",
       "imageSha256": "79afbfb101d4134cb7b157db527aae558fb3c8f09a752d302cfb4b7c3bb7d26b",
       "bytes": 32127,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 36
+      "screenshotMs": 31
     },
     {
       "page": "settings-commands",
@@ -1169,9 +1169,9 @@
       "file": "settings-commands/dark-1360.png",
       "imageSha256": "c4e3d261e6b16d841bd2129fb2f75efb33b872331a9165e23f07afd2a2e12ac1",
       "bytes": 64838,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 51
+      "screenshotMs": 56
     },
     {
       "page": "settings-commands",
@@ -1181,9 +1181,9 @@
       "file": "settings-commands/dark-820.png",
       "imageSha256": "b57fdf693c0ecfaf2c68df94b1c220a5ee944cea34b53324252d2b86f3d10458",
       "bytes": 41358,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 46
+      "screenshotMs": 36
     },
     {
       "page": "settings-commands",
@@ -1193,9 +1193,9 @@
       "file": "settings-commands/dark-390.png",
       "imageSha256": "9f30709d6238ef994971244141e576be03c7c3ec479b0baef65c1db14c324316",
       "bytes": 31469,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 41
+      "screenshotMs": 38
     },
     {
       "page": "settings-hooks",
@@ -1205,9 +1205,9 @@
       "file": "settings-hooks/light-1360.png",
       "imageSha256": "d1e88e0a92fe7cec5cd2b63df7f1a9ba80c4a81c73a2b595bb9fca86cda0212e",
       "bytes": 73785,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 55
+      "screenshotMs": 153
     },
     {
       "page": "settings-hooks",
@@ -1217,9 +1217,9 @@
       "file": "settings-hooks/light-820.png",
       "imageSha256": "91eff3aaa777e5af5b59e9d6fe3e9cfff99fe5476e6aab3a0684163554eb47eb",
       "bytes": 49870,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 45
+      "screenshotMs": 65
     },
     {
       "page": "settings-hooks",
@@ -1229,9 +1229,9 @@
       "file": "settings-hooks/light-390.png",
       "imageSha256": "311e72905a2d58f7d0e2d7e300469cdd87bfdd9601a2ce35068ed56d7bcd6455",
       "bytes": 39564,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 60
     },
     {
       "page": "settings-hooks",
@@ -1241,9 +1241,9 @@
       "file": "settings-hooks/dark-1360.png",
       "imageSha256": "1416ef35146543dafd15c1aa77b360bc84554ad57d2e74fcbe79bad7fcac33f2",
       "bytes": 72450,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 74
+      "screenshotMs": 106
     },
     {
       "page": "settings-hooks",
@@ -1253,9 +1253,9 @@
       "file": "settings-hooks/dark-820.png",
       "imageSha256": "06ffad28e3418b76216da82379752710996244fd0f148213fa9a0c22923593c8",
       "bytes": 49102,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 47
+      "screenshotMs": 42
     },
     {
       "page": "settings-hooks",
@@ -1265,9 +1265,9 @@
       "file": "settings-hooks/dark-390.png",
       "imageSha256": "3c98598769bbf4aa15e9f33aef269c1e440d24ef3d1d0b88a8dcaa769c8018ae",
       "bytes": 39043,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 41
+      "screenshotMs": 29
     },
     {
       "page": "settings-browser",
@@ -1277,9 +1277,9 @@
       "file": "settings-browser/light-1360.png",
       "imageSha256": "cd853646d2b041daf63c78bc7f45cb25a71f55fc03260a76e4e2fe9c59d5697d",
       "bytes": 104835,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 76
+      "screenshotMs": 81
     },
     {
       "page": "settings-browser",
@@ -1289,9 +1289,9 @@
       "file": "settings-browser/light-820.png",
       "imageSha256": "6c4b6a0b52abddc3f24f137cd24eff6a3d50c3f1ca089f1b29ee856a3f47f2a9",
       "bytes": 81088,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 60
+      "screenshotMs": 49
     },
     {
       "page": "settings-browser",
@@ -1301,9 +1301,9 @@
       "file": "settings-browser/light-390.png",
       "imageSha256": "70e65c325de0a1d4f5582e038f28872e02871f68acd14fe432b12bd741e67ae2",
       "bytes": 63214,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 42
+      "screenshotMs": 40
     },
     {
       "page": "settings-browser",
@@ -1313,9 +1313,9 @@
       "file": "settings-browser/dark-1360.png",
       "imageSha256": "7ac7f4344847c24f4b58b70d3ffd871f630c72c406275655f25f42b2bfd358b1",
       "bytes": 103611,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 62
+      "screenshotMs": 74
     },
     {
       "page": "settings-browser",
@@ -1325,9 +1325,9 @@
       "file": "settings-browser/dark-820.png",
       "imageSha256": "97a8cf75b7df42860a4e66b9838bdd76d9648dc9e2fe524ef3eaf145fd3ca833",
       "bytes": 78996,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 56
+      "screenshotMs": 62
     },
     {
       "page": "settings-browser",
@@ -1337,9 +1337,9 @@
       "file": "settings-browser/dark-390.png",
       "imageSha256": "d2eaf47d1d11492ea46834750399ccc70a68678a8360a323ee2fa5534632f64c",
       "bytes": 62614,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 35
+      "screenshotMs": 39
     },
     {
       "page": "settings-shortcuts",
@@ -1349,9 +1349,9 @@
       "file": "settings-shortcuts/light-1360.png",
       "imageSha256": "b9a19dfc10f8049024506432686844c9203247340dc673207fd55a49932f7d8c",
       "bytes": 83186,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 76
+      "screenshotMs": 61
     },
     {
       "page": "settings-shortcuts",
@@ -1361,9 +1361,9 @@
       "file": "settings-shortcuts/light-820.png",
       "imageSha256": "bbe282f9e9e44ffde3aeaf0a4f2f8cbbcbfd0ed879ce4d0102c768c86b699a7b",
       "bytes": 58017,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 65
+      "screenshotMs": 59
     },
     {
       "page": "settings-shortcuts",
@@ -1373,9 +1373,9 @@
       "file": "settings-shortcuts/light-390.png",
       "imageSha256": "b910e109fc486a8b1e13488ed3cf870ccbe8a816c22c40e66107d9df39f56f01",
       "bytes": 39706,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 43
+      "screenshotMs": 47
     },
     {
       "page": "settings-shortcuts",
@@ -1385,9 +1385,9 @@
       "file": "settings-shortcuts/dark-1360.png",
       "imageSha256": "9b3ff8b27cba6eb5e43f4a7af7574e601d6212e2f2092367f5422b36fd8bee46",
       "bytes": 81874,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 95
     },
     {
       "page": "settings-shortcuts",
@@ -1397,9 +1397,9 @@
       "file": "settings-shortcuts/dark-820.png",
       "imageSha256": "f44663ccf8938b9eca3e2b75af3e31b77c2246e443b3faa5284d74576ee9325b",
       "bytes": 57278,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 60
+      "screenshotMs": 59
     },
     {
       "page": "settings-shortcuts",
@@ -1409,9 +1409,9 @@
       "file": "settings-shortcuts/dark-390.png",
       "imageSha256": "f9b7d342230e122961c6f4081b3d5b228c40d35dc7dbb262698b964a6bd9c2a0",
       "bytes": 39368,
-      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
+      "commit": "79d69fcc6a6a52d762b48fb051bf298fbfa71213",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 39
+      "screenshotMs": 94
     }
   ]
 }
