@@ -77,5 +77,7 @@ export async function writeKnorviaNotificationSound(root = repoRoot) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const written = await writeKnorviaNotificationSound();
-  console.log(`Knorvia notification sound: ${KNORVIA_NOTIFICATION_SOUND_PATH} (${written.bytes} bytes)`);
+  console.log(
+    `Knorvia notification sound: ${KNORVIA_NOTIFICATION_SOUND_PATH} (${written.bytes} bytes)`,
+  );
 }
