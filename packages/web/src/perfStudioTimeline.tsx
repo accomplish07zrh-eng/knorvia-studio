@@ -43,7 +43,7 @@ const service = {
     listeners.add(listener);
     return { dispose: () => listeners.delete(listener) };
   },
-  overview: async () => ({ revision }),
+  overview: async () => ({ revision, conversations: [] }),
   inspectKernels: async () => [],
   timeline: async (_targetId: string, before?: number) => {
     if (before !== undefined) {
