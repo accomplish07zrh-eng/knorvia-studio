@@ -82691,6 +82691,65 @@
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/gate-old.json"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/read-state-query.ts",
+      "normalizedSha256": "a17d090ede511711f3e81a3326a47e16389e6de958aa554d776e8b6ffc065428",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Gate-verified rewrite of the inherited module at the same public path: the public path keeps a logic-free alias shell and the implementation moved here with its own module split, semantic type aliases and control flow. Behaviour was observed from the prior code and the contract tests (81/81); licence/source clearance for the inherited behaviour remains separate.",
+      "evidence": [
+        "specs/contracts/core-tool-01/gate-similarity-batch4c.json",
+        "specs/contracts/core-tool-01/gate-similarity-batch7a.json",
+        "docs/knorvia-core-tool-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/read-state-codec.ts",
+      "normalizedSha256": "f314865194387d20c2bdc76616a1932d659188991bc6e7e1293348558d138905",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Gate-verified rewrite of the inherited module at the same public path: the public path keeps a logic-free alias shell and the implementation moved here with its own module split, semantic type aliases and control flow. Behaviour was observed from the prior code and the contract tests (81/81); licence/source clearance for the inherited behaviour remains separate.",
+      "evidence": [
+        "specs/contracts/core-tool-01/gate-similarity-batch4c.json",
+        "specs/contracts/core-tool-01/gate-similarity-batch7a.json",
+        "docs/knorvia-core-tool-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/tool-visibility-rules.ts",
+      "normalizedSha256": "937ca09a9d1df3934958126e0f7b50dc7103d81a480e9952d893f4fbd004c96e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Gate-verified rewrite of the inherited module at the same public path: the public path keeps a logic-free alias shell and the implementation moved here with its own module split, semantic type aliases and control flow. Behaviour was observed from the prior code and the contract tests (81/81); licence/source clearance for the inherited behaviour remains separate.",
+      "evidence": [
+        "specs/contracts/core-tool-01/gate-similarity-batch4c.json",
+        "specs/contracts/core-tool-01/gate-similarity-batch7a.json",
+        "docs/knorvia-core-tool-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/internal/tool-executor.ts",
+      "normalizedSha256": "0df474bf44ade877b4064aaf2bb021513ab86e16cc611ec848afa9a526076ca3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Gate-verified rewrite of the inherited module at the same public path: the public path keeps a logic-free alias shell and the implementation moved here with its own module split, semantic type aliases and control flow. Behaviour was observed from the prior code and the contract tests (81/81); licence/source clearance for the inherited behaviour remains separate.",
+      "evidence": [
+        "specs/contracts/core-tool-01/gate-similarity-batch4c.json",
+        "specs/contracts/core-tool-01/gate-similarity-batch7a.json",
+        "docs/knorvia-core-tool-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-01/design.md",
+      "normalizedSha256": "a8e3f103e12ebc8c14b10bedba87aa9581d88a4c1d096ab5b13a539296728861",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Replacement design note for the core-tool-01 rewrite: state owners, module split table, sequence diagrams for the two long chains and the B1-B88 landing table. Written for the Knorvia independent-replacement plan from the contract documents; describes the documented work, not any file's origin.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-tool-01/behavior.md"
+      ]
     }
   ]
 }
