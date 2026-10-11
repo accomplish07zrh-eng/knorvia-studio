@@ -726,3 +726,317 @@
 - 状态所有者：无。
 - 日志级别：无。
 - 可测断言：本文件在替换阶段的删除依据是「同等行为已被 B20、B21、B26、B37–B46 与批次 C 的文件配置条目覆盖」——对应测试见 README 的「条目 → 测试」对照表；在第 5 步契约测试跑通（源码与 dist 双入口）之前不得删除该文件。
+
+## C. 文件配置与上下文（`config/file-config.adapter.ts`、`context/`）
+
+状态所有者：无长期状态。`file-config.adapter` 每次调用都「读文件 → 改内存对象 → 原子写回」，写回是**整个文件的替换**（临时文件 + `rename`），不带锁；`context/` 每次调用重算快照，不缓存、不写盘。
+
+### B49 配置路径的解析与默认路径
+
+- 来源：`config/file-config.adapter.ts`（`resolvePath`、`getDefaultConfigPath`、`hasDefaultConfigFile`）
+- 输入：路径字符串；或 `{baseDir?, configFileName?}`。
+- 输出：`resolvePath` 只把**以 `~/` 开头**的路径展开成 `join(homedir(), path.slice(2))`，其余一律 `resolve(path)`（因此单独的 `"~"` 被当作相对路径解析成 `<cwd>/~`）；默认基目录是**模块加载时**算出的 `join(resolveKnorviaDataRoot(), "cli")`，默认文件名逐字 `config.json`；`getDefaultConfigPath()` 返回默认基目录下的该文件名；`hasDefaultConfigFile()` 只做一次 `existsSync`。
+- 错误语义：不抛错。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`homedir()`/`resolve`/`join` 都是 `node:os`/`node:path` 语义，Windows 盘符与分隔符由其处理；`~/` 只在 POSIX 形态下被展开。
+- 状态所有者：无（默认目录是模块常量）。
+- 日志级别：无。
+- 可测断言：`resolvePath("~/config.json") === join(homedir(), "config.json")`；`resolvePath("~") === resolve("~")`（不等于 `homedir()`）；`getDefaultConfigPath()` 等于 `join(resolve(join(resolveKnorviaDataRoot(), "cli")), "config.json")` 且以 `config.json` 结尾；`hasDefaultConfigFile()` 返回布尔。
+
+### B50 `loadFileConfig` 的加载、诊断与默认补全
+
+- 来源：`config/file-config.adapter.ts`（`loadFileConfig`、`invalidMessage`）
+- 输入：`filePath?`（给定时优先）或 `options.baseDir`/`options.configFileName`；缺省用默认基目录与 `config.json`。
+- 输出：文件不存在 → `{config:{}, diagnostics:[], path, loaded:false}`；存在且可解析 → `{config: <schema 映射结果>, diagnostics: <归一化诊断且每条补上 filePath>, path, loaded:true}`，其中**只有 `filePath === undefined` 的诊断**被补成该文件路径；解析/读取任一步抛错 → `{config:{}, diagnostics:[{code:"config_file_invalid", filePath, message, severity:"error"}], path, loaded:false}`。
+- 错误语义（逐字保持）：zod 错误的消息按 `<issue.path 或 <config>>: <issue.message>` 用 `"; "` 连接；非 zod 的 `Error` 用其 `message`；其它值用逐字 `Unable to parse config file.`。读取失败与 JSON 解析失败都走同一分支（都变成该单条 error 诊断，不抛给调用方）。
+- 时序与并发：同步；`existsSync` 在读取前。
+- 幂等：是（不写文件，见 B51 的迁移例外）。
+- 资源释放：无（同步读取随作用域结束）。
+- 平台差异：路径来自 `resolvePath`；CJK/多字节内容按 `utf-8` 读取。
+- 状态所有者：无。
+- 日志级别：无（诊断以数据返回，由 `config-factory` 打 `warn`）。
+- 可测断言：`loadFileConfig(<临时目录里不存在的文件>)` → `loaded === false`、`config` 为 `{}`、`diagnostics` 为 `[]`、`path` 等于解析后的绝对路径；写一个内容为 `{"storage":{"dir":"/tmp/a"},"unknown":1}` 的文件 → `loaded === true`、`config.storage.dir === "/tmp/a"`；写内容为非 JSON（如 `{`）→ `loaded === false`、`diagnostics[0].code === "config_file_invalid"`、`severity === "error"`、`filePath` 等于该文件路径；`loadFileConfig("", {baseDir, configFileName:""})`（空文件名）→ `path` 等于 `baseDir` 解析后的目录本身，且文件不存在时 `loaded === false`。
+
+### B51 读取时的 CUA 别名迁移与「尽力而为」落盘
+
+- 来源：`config/file-config.adapter.ts`（`migration`、`saveMigration`）
+- 输入：从文件里 `JSON.parse` 出来的**原始**值。
+- 输出：只有「值是对象且 `value.plugins` 是对象」时才检查；对 `enabledPlugins` 与 `options` 两个字段：该字段是对象且**自有** `LEGACY_CUA_PLUGIN_ID` 键时，做一次浅拷贝，`CANONICAL` 缺失才把 legacy 的值赋给它，然后删除 legacy 键；对 `suppressedBuiltins`：是数组时把其中的 legacy 逐项换成 canonical，**只有字符串化结果与原文不同**才算改动。整体只有 `changed === true` 才返回新对象（`{...value, plugins}`），否则返回 `undefined`（不落盘）。
+- 落盘方式（逐字保持）：`saveMigration` 写 `path + ".migrate." + process.pid + "." + Date.now() + ".tmp"`，内容 `JSON.stringify(value, null, 2) + "\n"`、编码 `utf-8`、`mode: 0o600`，然后 `renameSync` 覆盖原文件；**任何失败都被吞掉**（`catch` 里只尝试 `unlinkSync(temp)`，失败也不再抛）。
+- 关键点：`loadFileConfig` 把**原始**（未迁移）值交给 `parseConfigFileToRuntimePatchWithDiagnostics`，迁移只影响落盘的文件内容，不影响本次返回值。
+- 错误语义：迁移失败静默；调用方拿不到迁移异常。
+- 时序与并发：同步；在解析配置之前发生；两个进程同时迁移可能互相覆盖（没有锁，也没有重读校验）。
+- 幂等：是（迁移后文件里不再有 legacy 键，第二次读取不再改动、不落盘）。
+- 资源释放：临时文件在成功时被 `rename` 消耗，失败时尽力删除。
+- 平台差异：路径拼接用字符串 `+`（临时文件与原文件同目录）；Windows 上 `renameSync` 覆盖已存在文件由 Node 保证。
+- 状态所有者：配置文件（`knorvia.json` 的 `plugins` 分区）。
+- 日志级别：无（静默迁移，这是「尽力而为」的既有语义）。
+- 可测断言：文件内容 `{"plugins":{"enabledPlugins":{"cua@knorvia-plugins-bundled":true}}}}` → 读取后文件内容变成 `plugins.enabledPlugins` 只有 `computer-use@knorvia-plugins-bundled`（且 JSON 为 2 空格缩进 + 末尾换行）；同时 `loadFileConfig` 的返回值里若 schema 判定 legacy 键有效则保留 legacy 语义（返回值按原始值解析）；第二次调用不再改写文件（比较写入前后 `mtime`/内容不变）；`suppressedBuiltins:["cua@knorvia-plugins-bundled"]` → 落盘为 `["computer-use@knorvia-plugins-bundled"]`；文件里没有 legacy 键时不产生任何 `.migrate.*.tmp` 残留。
+
+### B52 写回路径的读取与原子保存契约
+
+- 来源：`config/file-config.adapter.ts`（`readJson`、`readJsonOrEmpty`、`saveJson`）
+- 输入：目标路径（调用方已 `resolvePath`）。
+- 输出：读取失败抛逐字 `Unable to read config file: <path>`（`cause` 是原始错误）；JSON 解析失败抛逐字 `Unable to parse config file as JSON: <path>`；解析结果不是普通对象抛逐字 `Config file must contain a JSON object: <path>`。`readJsonOrEmpty` 只把 `cause.code === "ENOENT"` 的读取失败当成 `{}`，其它错误照抛。`saveJson` 先 `mkdir(dirname(path), {recursive:true})`，再写临时文件 `join(dir, "." + basename(path) + "." + process.pid + "." + Date.now() + "." + Math.random().toString(16).slice(2) + ".tmp")`（**与原文件同目录**、文件名以 `.` 开头、以 `.tmp` 结尾），内容 `JSON.stringify(value, null, 2) + "\n"`、`mode: 0o600`，成功后 `rename` 到目标；写入或 `rename` 失败时先尽力 `unlink` 临时文件，再抛逐字 `Unable to write config file: <path>`（`cause` 是原始错误）。
+- 错误语义：`mkdir` 在 `try` 之外，其失败**原样冒泡**（不带包装、不删临时文件，因为还没创建）；`unlink` 的失败被吞掉。
+- 时序与并发：异步；每次保存都是「先写临时文件再 rename」，不存在「先截断原文件」的窗口；没有锁，并发保存后写者胜。
+- 幂等：内容相同则写出相同字节（但临时文件名不同）。
+- 资源释放：`readFile`/`writeFile`/`rename`/`unlink` 都是 `node:fs/promises`，句柄随调用释放；临时文件在异常路径被清理。
+- 平台差异：临时文件通过 `join` 构造，避免手写分隔符；`mode: 0o600` 在 Windows 上被忽略（不报错）。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：对空目录里的新路径调用 `updateUiLocaleInFileConfig` → 目录被递归创建、文件内容逐字等于 `{\n  "ui": {\n    "locale": "en"\n  }\n}\n`、目录里没有残留 `*.tmp`；对内容为 `"[]"` 的文件调用任一更新函数 → 抛 `Config file must contain a JSON object: <path>`；对内容为 `not json` → 抛 `Unable to parse config file as JSON: <path>` 且 `cause` 是 `SyntaxError`；目标路径的父目录不可创建（例如父路径是一个已存在的**文件**）→ 抛出的是 `mkdir` 的原始 `Error`（`message` 不含 `Unable to write config file:`）。
+
+### B53 `updateUiLocaleInFileConfig` 的读写语义
+
+- 来源：`config/file-config.adapter.ts`（`updateUiLocaleInFileConfig`）
+- 输入：`filePath`、`locale`（`UiLocale`）。
+- 输出：读入现有 JSON（缺失文件按 `{}`），写回 `{...value, ui: {...record(value.ui), locale}}`——即保留全部未知顶层键与 `ui` 下其它键，只覆盖/新增 `locale`；返回 `{locale, path}`（`path` 是 `resolvePath(filePath)` 的结果，`locale` 原样回传）。
+- 错误语义：读/写错误按 B52 抛错（错误消息里带解析后的路径）。
+- 时序与并发：异步、单次读改写。
+- 幂等：是（同值重复调用内容相同）。
+- 资源释放：同 B52。
+- 平台差异：同 B52。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：`{"unknown":{"keep":1},"ui":{"theme":"dark"}}` + `updateUiLocaleInFileConfig(p,"zh-CN")` → 文件里 `unknown` 与 `ui.theme` 保留、`ui.locale === "zh-CN"`；返回值为 `{locale:"zh-CN", path:<绝对路径>}`；文件不存在时创建 `{"ui":{"locale":...}}`。
+
+### B54 `updatePluginEnabledInFileConfig` 的别名清理与显式取值
+
+- 来源：`config/file-config.adapter.ts`（`updatePluginEnabledInFileConfig`、`deleteAliases`）
+- 输入：`filePath`、`pluginId`、`enabled`。
+- 输出：`canonical = canonicalizePluginId(pluginId)`；把现有 `plugins.enabledPlugins` 的**全部别名键**（`pluginIdAliases(canonical)`，即 CUA 时的 canonical + legacy）先删掉，再写入 `enabledPlugins[canonical] = enabled`（显式 `true`/`false`，不做「缺省即启用」的省略）；`plugins` 下其它键与文件其它顶层键保留。返回 `{enabled, path, pluginId}`——`pluginId` 是**调用方传入的原值**（不做规范化）。
+- 错误语义：`enabledPlugins` 不是对象时按 `{}` 处理（不抛错）；读写错误按 B52。
+- 时序与并发：异步；一次读改写。
+- 幂等：是。
+- 资源释放：同 B52。
+- 平台差异：无（插件 id 大小写敏感）。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：文件里 `{"plugins":{"enabledPlugins":{"cua@knorvia-plugins-bundled":false,"other":false},"options":{"cua@knorvia-plugins-bundled":{"keep":1}}}}` 上调 `(p,"cua@knorvia-plugins-bundled",true)` → 文件里只有 `{"other":false,"computer-use@knorvia-plugins-bundled":true}`，`options` 未被本次调用改动；返回值 `pluginId === "cua@knorvia-plugins-bundled"`；对非 CUA id 调用只影响该 id 一个键。
+
+### B55 `enablePluginsByDefaultInFileConfig` 的「只补未声明项」
+
+- 来源：`config/file-config.adapter.ts`（`enablePluginsByDefaultInFileConfig`）
+- 输入：`filePath`、`pluginIds`（只读数组）。
+- 输出：`pluginIds` 为空 → **不读文件、不写文件**，直接返回 `{enabledIds: [], path}`；否则读入现有 `enabledPlugins`（非对象按 `{}`），`enabledIds = pluginIds.filter(id => !owns(current, id))`（**保留重复项与顺序**，只看键是否存在，不看值）；`enabledIds` 非空才写回 `{...current, ...每个 id: true}`（后出现的重复 id 在对象里合并）；返回 `{enabledIds, path}`，其中 `enabledIds` 是过滤后的数组（含重复）。
+- 错误语义：读写错误按 B52。
+- 时序与并发：异步；一次读改写。
+- 幂等：是（第二次调用 `enabledIds` 为空、不再写文件）。
+- 资源释放：同 B52。
+- 平台差异：无。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：现有 `{"other":false}` + `["other","fresh","fresh"]` → 返回 `enabledIds` 深度等于 `["fresh","fresh"]`，文件里 `enabledPlugins` 为 `{other:false, fresh:true}`；`[]` → 不产生任何写（可用只读目录或 `mtime` 不变验证）；同一次再次调用 → `enabledIds` 为空数组且不写。
+
+### B56 `updatePluginOptionsInFileConfig` 的基线选择与清理键
+
+- 来源：`config/file-config.adapter.ts`（`updatePluginOptionsInFileConfig`）
+- 输入：`filePath`、`pluginId`、`options`、`clearOptionKeys = []`。
+- 输出：`canonical = canonicalizePluginId(pluginId)`、`aliases = pluginIdAliases(canonical)`；基线 `current` 取**先 canonical 后 legacy**：`outer[canonical]` 是对象就用它，否则用 `outer[aliases[1]]`（非 CUA 时 `aliases[1]` 不存在 → `{}`）；从基线里删掉 `clearOptionKeys` 的键，再与传入 `options` 做 `{...retained, ...options}`（传入值覆盖）；原 `options` 的两个别名键都被删除后写入 `options[canonical]`；返回 `{clearedOptionKeys: clearOptionKeys, options, path, pluginId}`——`options` 是**调用方传入的对象原引用**，`pluginId` 是传入原值。
+- 错误语义：基线值不是对象按 `{}`；读写错误按 B52。
+- 时序与并发：异步；一次读改写。
+- 幂等：是同值时（但清理键会持续生效）。
+- 资源释放：同 B52。
+- 平台差异：无。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：文件里 `options:{"cua@…":{"keep":"yes","drop":"no"},"other":{"v":3}}` 上调 `(p,"cua@…",{drop:"readded",new:1},["drop"])` → 文件里 canonical 的 options 为 `{keep:"yes",drop:"readded",new:1}`、`other` 不变、legacy 键消失；返回 `clearedOptionKeys` 与传入数组同一引用；传 `[]` 的 `clearOptionKeys` → 只做覆盖合并。
+
+### B57 `removePluginFromFileConfig` 与 `removePluginEnabledFromFileConfig` 的删除语义
+
+- 来源：`config/file-config.adapter.ts`（`removePluginFromFileConfig`、`removePluginEnabledFromFileConfig`）
+- 输入：`filePath`、`pluginId`。
+- 输出：两者都用 `pluginIdAliases(pluginId)`（**不先规范化**，传入 legacy 时同时命中 canonical 与 legacy）；`removePluginFromFileConfig` 的 `removedEnabled`/`removedOptions` 用 `alias in table` 判定（含值 `false` 的键也算命中），任一为真才写回（同时清理 `enabledPlugins` 与 `options` 的别名键），返回 `{path, pluginId, removedEnabled, removedOptions}`；`removePluginEnabledFromFileConfig` 用 `owns(current, alias)` 判定，只清理 `enabledPlugins`，返回 `{path, pluginId, removedEnabled}`。两者在没有任何命中时**不写文件**。
+- 错误语义：读写错误按 B52；表不是对象按 `{}`。
+- 时序与并发：异步；一次读改写。
+- 幂等：是（第二次调用两个 flag 都是 `false`，不写）。
+- 资源释放：同 B52。
+- 平台差异：无。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：对不存在的 id 调用 `removePluginEnabledFromFileConfig` → 返回 `removedEnabled === false` 且文件 `mtime`/内容不变；对 `{"enabledPlugins":{"other":false},"options":{"cua@…":{"x":1}}}` 调用 `removePluginFromFileConfig(p,"cua@…")` → `{removedEnabled:false, removedOptions:true}`，文件里 `enabledPlugins` 保留 `other`、`options` 里 legacy 键被删。
+
+### B58 抑制内置插件（suppressedBuiltins）的登记与移除
+
+- 来源：`config/file-config.adapter.ts`（`addSuppressedBuiltinInFileConfig`、`removeSuppressedBuiltinInFileConfig`、`stringList`）
+- 输入：`filePath`、`pluginId`。
+- 输出：读取时用 `stringList`——非数组按 `[]`，数组里**只保留字符串**项（非字符串被静默丢弃）。`add…` 用 `canonicalizePluginId` + `pluginIdAliases(canonical)`：先删掉所有别名项，若「没有删掉任何项」且「原数组已含 canonical」则**不写**；否则写回 `[...retained, canonical]`（canonical 追加到末尾），返回 `{path, pluginId, suppressed: true}`。`remove…` 用 `pluginIdAliases(pluginId)`（不规范化）：过滤掉别名项，长度变化才写回，返回 `{path, pluginId, suppressed: false}`。
+- 错误语义：读写错误按 B52；非字符串项被丢弃是既有语义（不是错误）。
+- 时序与并发：异步；一次读改写。
+- 幂等：`add` 重复调用第二次不写；`remove` 重复调用不写。
+- 资源释放：同 B52。
+- 平台差异：无。
+- 状态所有者：配置文件。
+- 日志级别：无。
+- 可测断言：`suppressedBuiltins:["cua@knorvia-plugins-bundled","other"]` + `add("cua@…")` → `["other","computer-use@knorvia-plugins-bundled"]`；`["other","computer-use@knorvia-plugins-bundled"]` + `add("cua@…")` → 不写（内容不变）；`remove("cua@…")` 从 `["other","computer-use@knorvia-plugins-bundled"]` → `["other"]`；数组里混入 `4` → 写回时被丢弃。
+
+### B59 `file-config.adapter.ts` 的导出面
+
+- 来源：`config/file-config.adapter.ts`
+- 输入：无。
+- 输出：按 `interface.md` 导出 6 个类型/接口（`LoadedConfig`、`UiLocalePatchResult`、`PluginEnabledPatchResult`、`PluginOptionsPatchResult`、`PluginRemovePatchResult`、`SuppressedBuiltinPatchResult`）与 12 个函数（`resolvePath`、`getDefaultConfigPath`、`hasDefaultConfigFile`、`loadFileConfig`、`updateUiLocaleInFileConfig`、`updatePluginEnabledInFileConfig`、`enablePluginsByDefaultInFileConfig`、`updatePluginOptionsInFileConfig`、`removePluginFromFileConfig`、`removePluginEnabledFromFileConfig`、`addSuppressedBuiltinInFileConfig`、`removeSuppressedBuiltinInFileConfig`），共 18 个声明；`FileConfigOptions` **不导出**（内部接口），`migration`/`saveMigration`/`readJson`/`saveJson` 也不导出。`config/index.ts` 再导出其中 14 个（12 个函数 + `PluginEnabledPatchResult`、`PluginOptionsPatchResult`、`PluginRemovePatchResult`、`SuppressedBuiltinPatchResult`、`UiLocalePatchResult` 5 个类型里的 4 个，见 interface.md 的 `config/index.ts` 段）。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`Object.keys(await import("…/config/file-config.adapter.js")).sort()` 与 `interface.md` 的 18 个名字一致；`mod.FileConfigOptions === undefined`。
+
+### B60 git 快照只跑只读命令，且有固定超时与缓冲上限
+
+- 来源：`context/git-snapshot.ts`（`execGitNoThrow`）
+- 输入：`workingDirectory` 与 git 参数数组。
+- 输出：固定用 `execFile("git", args, {cwd, encoding:"utf8", maxBuffer: 1 MiB, timeout: 3000 ms, windowsHide: true}`；成功返回 `{code:0, stdout, stderr}`（`Buffer` 或字符串都按 `utf8` 转字符串），失败返回 `{code: 数字 code 或 1, stdout:"", stderr:""}`——**失败时丢弃全部输出**，不把不可靠的输出写进 provider 可见上下文。
+- 错误语义：所有 git 失败都被吞成结果对象（`resolveGitSnapshot` 不抛错）。
+- 时序与并发：串行 `await`；单条命令 3 s 超时。
+- 幂等：只读命令（`rev-parse`、`symbolic-ref`、`show-ref --verify --quiet`、`config user.name`、`--no-optional-locks status --short`、`--no-optional-locks log --oneline -n 5`），不修改仓库状态、不写索引锁（`--no-optional-locks`）。
+- 资源释放：`execFile` 的子进程随 promise 结束回收，超时会杀掉。
+- 平台差异：`windowsHide: true` 在 Windows 上不闪窗；命令名统一 `git`（依赖 PATH）。
+- 状态所有者：无（快照对象每次新建）。
+- 日志级别：无。
+- 可测断言：对**非仓库**目录调用 `resolveGitSnapshot` → `isGitRepository === false`、`gitStatus === "not_repo"`（且不受路径不存在影响，git 失败被吞）；对临时 git 仓库调用 → `isGitRepository === true` 且后续字段齐全（见 B61）；调用前后仓库的 `HEAD`、`git status --short` 输出不变。
+
+### B61 git 仓库快照的字段与状态判定
+
+- 来源：`context/git-snapshot.ts`（`resolveGitSnapshot`、`resolveGitBranch`、`resolveGitUser`、`splitNonEmptyLines`）
+- 输入：工作目录。
+- 输出：先 `git rev-parse --is-inside-work-tree`，输出去空白后**必须逐字等于 `"true"`** 才继续；否则返回 `{isGitRepository:false, gitStatus:"not_repo"}`。仓库内返回：`gitBranch` 取 `rev-parse --abbrev-ref HEAD` 去空白，空则逐字 `"HEAD"`（分离头指针场景）；`gitMainBranch` 见 B64；`gitUser` 取 `git config user.name` 去空白（未配置为 `undefined`）；`gitStatusLines` 来自 `--no-optional-locks status --short`；`gitStatus` 是 `lines.length > 0 ? "dirty" : "clean"`；`recentCommits` 取 `log --oneline -n 5` 的非空行、每行 `trimEnd`、最多 5 条。
+- 错误语义：任一条命令失败都按空输出处理（不会抛错）。
+- 时序与并发：串行；先判仓库再取四项信息。
+- 幂等：是（只读）。
+- 资源释放：无。
+- 平台差异：换行按 `/\r?\n/u` 切分，Windows 的 CRLF 与 POSIX 的 LF 都兼容。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：临时仓库（`git init` + 提交一次）且工作区干净 → `isGitRepository === true`、`gitStatus === "clean"`、`gitStatusLines` 为空数组、`recentCommits` 长度为 1 且是 `--oneline` 形态（`<sha> <subject>`）；新建一个未跟踪文件后 → `gitStatus === "dirty"` 且 `gitStatusLines` 含 `?? <file>`；`gitUser` 在 `git config --local user.name` 设置后等于该名字。
+
+### B62 `git status` 的 2k 字符截断与平台提示
+
+- 来源：`context/git-snapshot.ts`（`splitGitStatusForContext`、`gitStatusToolName`）
+- 输入：`git status --short` 的原始输出（已 `trim`）。
+- 输出：空串 → 空数组；长度 ≤ 2000 个字符 → 按 `/\r?\n/u` 切分后**丢弃空行**；长度 > 2000 → 取前 2000 个字符，追加换行与逐字固定后缀 `... (truncated because it exceeds 2k characters. If you need more information, run "git status" using <Bash|PowerShell>)`（`win32` 用 `PowerShell`，其它平台用 `Bash`），再逐行切分并丢弃空行。截断**按字符数**，不按文件条目数。
+- 错误语义：不抛错。
+- 时序与并发：纯函数（在快照流程里同步调用）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：提示里的工具名随 `process.platform === "win32"` 切换。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：干净仓库 → `gitStatusLines` 为 `[]`；制造超过 2000 字符的未跟踪文件列表 → 最后一行逐字等于 `... (truncated because it exceeds 2k characters. If you need more information, run "git status" using Bash)`（Windows 上为 `PowerShell`），且列表里没有任何空行。
+
+### B63 git 主分支的候选顺序
+
+- 来源：`context/git-snapshot.ts`（`resolveMainBranch`）
+- 输入：工作目录。
+- 输出：先读 `symbolic-ref --short refs/remotes/origin/HEAD`，去掉前缀 `origin/` 得到候选 0；候选序列是 `[originHeadBranch?, "main", "master"]`（没有 `origin/HEAD` 时就是 `["main","master"]`）；返回**第一个** `show-ref --verify --quiet refs/remotes/origin/<候选>` 成功的候选；一个都不成功时返回逐字 `"main"`。
+- 错误语义：不抛错（命令失败按「不存在」处理）。
+- 时序与并发：串行探测。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无（只用 git 的引用名）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：临时仓库没有任何 `origin/*` 远端引用 → `gitMainBranch === "main"`；把 `master` 作为本地默认分支且存在 `refs/remotes/origin/master`（用 `git update-ref` 造出来）→ `gitMainBranch === "master"`；存在 `refs/remotes/origin/trunk` 且 `origin/HEAD` 指向它 → `gitMainBranch === "trunk"`。
+
+### B64 `NodeContextSourceAdapter` 的快照装配
+
+- 来源：`context/index.ts`（`NodeContextSourceAdapter.resolveContextSources`、`createNodeContextSourceAdapter`）
+- 输入：`ContextSourceRequest`（`workingDirectory` 必填；`envInfo`、`userInstructions`、`projectContext`、`currentDate`、`effectiveShellDisplayName` 可选）与构造参数 `{env?}`。
+- 输出：`workingDirectory` 先 `resolve`；`envInfo` 优先用请求里的，否则 `detectEnvInfo(...)`；`projectRoot` 由 `.git` 标记向上查找（见 B69），`userInstructions` 只有在请求里给了才解析，并把 `workingDirectory`（缺省用解析后的工作目录）与 `projectRoot`（缺省用找到的项目根，找不到时为 `undefined`）补进去；`projectContext` 优先用请求里的，否则项目根存在时才探测；`currentDate` 缺省用 `formatLocalIsoDate(new Date())`；`diagnostics` 是本次新建的数组（只由指令文件读取失败填充）；返回对象固定含 `workingDirectory`、`envInfo`、`currentDate`、`userInstructions`、`projectContext`、`diagnostics`。
+- 错误语义：不抛错（文件读取失败进诊断，git 失败按空输出）。
+- 时序与并发：异步串行；一次调用算一份快照。
+- 幂等：是（除 `currentDate` 取决于当前时间）。
+- 资源释放：无（`readFile`/`stat` 句柄随调用释放）。
+- 平台差异：`.git` 标记既可能是目录也可能是文件（worktree/submodule），`stat` 都能命中；路径比较用 `resolve` 后的绝对路径。
+- 状态所有者：无（快照对象）。
+- 日志级别：无。
+- 可测断言：`request.envInfo` 传值 → 返回同一对象引用；`request.projectContext` 传值 → 同一引用且不读盘；`request.currentDate` 传值 → 原样返回，不传时等于 `formatLocalIsoDate(new Date())`（同一分钟内相等）；`createNodeContextSourceAdapter().resolveContextSources({workingDirectory})` 返回的 `workingDirectory` 等于 `resolve(workingDirectory)`。
+
+### B65 `detectEnvInfo` 的 shell 与版本字段
+
+- 来源：`context/index.ts`（`NodeContextSourceAdapter.detectEnvInfo`）
+- 输入：解析后的工作目录、可选 `effectiveShellDisplayName`。
+- 输出：`shellPath = env.SHELL ?? env.ComSpec ?? env.COMSPEC ?? ""`；`shell = effectiveShellDisplayName ?? (shellPath ? basename(shellPath) : "unknown")`；其余字段逐字为 `cwd: <解析后目录>`、`platform: process.platform`、`osVersion: "<platform> <release()> <arch()>"`、`nodeVersion: process.version`，最后展开 `resolveGitSnapshot(workingDirectory)` 的结果（`isGitRepository`、`gitBranch`、`gitMainBranch`、`gitUser`、`gitStatus` 及其余）。
+- 错误语义：不抛错。
+- 时序与并发：异步（内部跑 git）。
+- 幂等：是（除 `gitUser` 等取决于仓库状态）。
+- 资源释放：无。
+- 平台差异：Windows 上通常没有 `SHELL`，退回 `ComSpec`/`COMSPEC`（值形如 `C:\Windows\system32\cmd.exe`，`basename` 得到 `cmd.exe`）；`effectiveShellDisplayName` 优先于环境变量，跨平台一致。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`new NodeContextSourceAdapter({env:{SHELL:"/bin/zsh"}})` 在非仓库临时目录上 `resolveContextSources` → `envInfo.shell === "zsh"`、`envInfo.cwd === resolve(dir)`、`envInfo.isGitRepository === false`；`env` 为空对象且请求带 `effectiveShellDisplayName:"knorvia-shell"` → `shell === "knorvia-shell"`；`env` 里只有 `ComSpec` → `shell === basename(ComSpec)`；都没有 → `shell === "unknown"`。
+
+### B66 用户指令文件的发现顺序与合并
+
+- 来源：`context/index.ts`（`resolveUserInstructions`、`findDefaultUserInstructionFile`、`findInstructionFile`、`dedupeInstructionFileCandidates`、`mergeInstructionSources`）
+- 输入：`UserInstructionsOptions`（`workingDirectory`、`priorityFiles?`、`maxBytes?`、`projectRoot?`）与注入的 `env`。
+- 输出：`priorityFiles` 缺省逐字 `["AGENTS.md"]`，`maxBytes` 缺省 `100 * 1024`；候选按「用户级 → 工作区级」两台车：用户级文件是 `join(resolveKnorviaDataRoot(env), "AGENTS.md")`，**只有 `priorityFiles` 含 `AGENTS.md` 时才查**；工作区级从 `workingDirectory` 起向上逐级、每级按 `priorityFiles` 顺序找第一个存在的文件，到 `projectRoot` 那一级或文件系统根停止（两者都含）。候选按 `resolve(filePath)` 去重（保留先出现的）。逐候选读取，全部失败则整体 `undefined`；否则合并：`filePath`/`fileName` 取**第一个 `scope === "workspace"` 的候选**（没有工作区候选时取第一个用户级候选），`content` 是各候选内容用 `"\n\n"` 连接，`bytesRead`/`sizeBytes` 是求和，`truncated` 是「任一所截断」。
+- 错误语义：单个文件读失败 → 诊断 `{code:"user_instructions_read_failed", message: <Error.message 或 "Failed to read user instructions">, path: <文件路径>}` 并跳过该候选，不影响其它候选。
+- 时序与并发：异步串行；每候选一次 `stat` + 一次 `readFile`。
+- 幂等：是。
+- 资源释放：`stat`/`readFile` 句柄随调用释放。
+- 平台差异：向上查找用 `dirname` 与 `resolve`；`resolveKnorviaDataRoot(env)` 支持 `KNORVIA_DATA_BASE_DIR`/`KNORVIA_HOME` 覆盖（用户数据目录规则不在本包改，只用它）；Windows 根目录判断由 `dirname(current) === current` 处理（避免死循环）。
+- 状态所有者：无。
+- 日志级别：无（诊断以数据返回）。
+- 可测断言：临时项目根（存放 `.git` 目录）+ `AGENTS.md` + 子目录 → 在子目录调用 `resolveContextSources({workingDirectory: 子目录, userInstructions:{}})` → `userInstructions.scope` 为 `"workspace"`、`filePath` 是项目根下的 `AGENTS.md`、`content` 等于文件内容；`priorityFiles:["OTHER.md"]` 且只有 `AGENTS.md` 存在 → `userInstructions === undefined`；用户级 `KNORVIA_HOME` 指向含 `AGENTS.md` 的临时目录 + 工作区也有 → `sources` 长度为 2、`content` 是两者以 `"\n\n"` 连接、`filePath` 取工作区那个；把工作区 `AGENTS.md` 换成不可读（用目录顶替文件）→ `diagnostics` 含一条 `user_instructions_read_failed`。
+
+### B67 指令内容的截断语义
+
+- 来源：`context/index.ts`（`readInstructionSource`、`readFirstTextBytes`）
+- 输入：候选文件与 `maxBytes`。
+- 输出：先 `stat` 取 `size`，`bytesToRead = min(size, maxBytes)`，读取该字节数并按 `utf8` 解码；返回 `{scope, filePath, fileName, content, bytesRead: Buffer.byteLength(content), sizeBytes: info.size, truncated: info.size > maxBytes}`。**`truncated` 只看原始大小是否超过 `maxBytes`**；`bytesRead` 是解码后内容的字节数（多字节字符被截断到一个不完整序列时，`bytesRead` 可能与 `bytesToRead` 不等）。
+- 错误语义：`stat`/`readFile` 失败走 B66 的诊断分支。
+- 时序与并发：异步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：按字节截断，不按字符；`utf8` 解码对多字节字符的处理由 Node 决定。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：写一个内容长于 `maxBytes:8` 的纯 ASCII 文件（如 20 个字母）→ `truncated === true`、`content.length === 8`、`bytesRead === 8`、`sizeBytes === 20`；文件短于上限 → `truncated === false`、`content` 是全文。
+
+### B68 项目根标记与项目类型探测
+
+- 来源：`context/index.ts`（`findProjectRoot`、`hasGitMarker`、`detectProjectContext`）
+- 输入：起始目录 / 项目根。
+- 输出：`findProjectRoot` 从 `resolve(startDir)` 起逐级向上，第一个存在 `.git`（文件或目录）的目录即项目根；走到 `dirname(current) === current` 时停止且**根目录本身不检查**；一个都没有返回 `null`。`detectProjectContext(projectRoot)` 按固定顺序判定：`package.json` 存在 → `type: "node"`（同时尝试取 `scripts` 对象，JSON 解析失败仍是 `"node"`）；否则依次看 `requirements.txt`、`pyproject.toml`、`setup.py`、`Pipfile` → `"python"`；再 `Cargo.toml` → `"rust"`；再 `go.mod` → `"go"`；再 `pom.xml`/`build.gradle`/`build.gradle.kts` → `"java"`；都没有 → `"unknown"`。`packageManager` 独立判定，顺序 `pnpm-lock.yaml` → `pnpm`、`yarn.lock` → `yarn`、`bun.lockb` → `bun`、`package-lock.json` → `npm`，都没有则 `undefined`。`buildFiles` 按 `Makefile`、`docker-compose.yml`、`docker-compose.yaml`、`Dockerfile` 顺序收集存在的项，**为空时返回 `undefined`**（不是空数组）。`scripts` 只在 `package.json` 是对象且 `scripts` 是对象时给出（其它情况 `undefined`）。
+- 错误语义：所有探测都吞掉文件系统错误（`isFile` 返回 `false`）。
+- 时序与并发：异步；每个候选一次 `stat`（`package.json` 多一次 `readFile`）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`join`/`resolve`/`stat` 跨平台；大小写敏感性由文件系统决定。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：临时目录里放 `.git` 目录与 `package.json`（含 `scripts:{build:"x"}`）→ 在更深子目录调用 `resolveContextSources({workingDirectory: 深目录, projectContext 不传})` → `projectContext.type === "node"`、`scripts` 深度等于 `{build:"x"}`；同一目录加 `pnpm-lock.yaml` 与 `Dockerfile` → `packageManager === "pnpm"`、`buildFiles` 深度等于 `["Dockerfile"]`；只有 `Cargo.toml` → `type === "rust"`；什么都没有 → `type === "unknown"`、`packageManager === undefined`、`buildFiles === undefined`；`.git` 不是标记时（放在子目录的下级）项目根取最近的祖先。
+
+### B69 `context/index.ts` 的导出面
+
+- 来源：`context/index.ts`
+- 输入：无。
+- 输出：只导出 `NodeContextSourceAdapterOptions`、`NodeContextSourceAdapter`、`createNodeContextSourceAdapter` 三个声明；`resolveUserInstructions`、`findInstructionFile`、`detectProjectContext`、`findProjectRoot` 是内部函数，不得导出（`createNodeContextSourceAdapter(options)` 返回一个 `NodeContextSourceAdapter` 实例）。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`Object.keys(await import("…/context/index.js")).sort()` 与 `interface.md` 的三个名字一致；`createNodeContextSourceAdapter() instanceof NodeContextSourceAdapter`；`mod.detectProjectContext === undefined`。
+
+### B70 `git-snapshot.ts` 的导出面
+
+- 来源：`context/git-snapshot.ts`
+- 输入：无。
+- 输出：只导出 `resolveGitSnapshot(workingDirectory): Promise<Partial<EnvInfo>>` 一个声明；`splitGitStatusForContext`、`execGitNoThrow`、`resolveMainBranch`、`resolveGitBranch`、`resolveGitUser` 都是内部函数。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`Object.keys(await import("…/context/git-snapshot.js"))` 深度等于 `["resolveGitSnapshot"]`。
