@@ -48,6 +48,7 @@ const explicitTests = [
   "scripts/provenance/dependency-platform-qa-regressions.test.mjs",
   "scripts/provenance/dependency-history-qa-regressions.test.mjs",
   "scripts/provenance/ui-alias-lineage.test.mjs",
+  "scripts/provenance/similarity.test.mjs",
   "packages/cua/test/stage-windows-driver.test.mjs",
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
   "apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
