@@ -80,7 +80,8 @@ function registrationsForMatcher(input: {
   const { options, event, matcherConfig, matcherIndex } = input;
   const maxOutputBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
   return matcherConfig.hooks.flatMap((hook, hookIndex) => {
-    if (hook.enabled === false) return [];
+    const disabledHook = hook.enabled === false;
+    if (disabledHook) return [];
     const sourceKind = hook.plugin ? "plugin" : (hook.source?.kind ?? "internal");
     return [
       registrationFromHook({
