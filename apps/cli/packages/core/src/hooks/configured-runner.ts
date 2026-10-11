@@ -35,17 +35,28 @@ type HookRegistrationInput = import("./configured-runner-types.js").HookRegistra
 /** 单条配置 Hook → 登记项。`async` 只对 command 类型成立。 */
 function registrationFromHook(input: HookRegistrationInput): HookRegistration {
   const { budget, event, hook, hookIndex, matcher, matcherIndex, options } = input;
+  const registrationEntries: Array<[string, unknown]> = [
+    ["async", hook.type === "command" && hook.async === true],
+    [
+      "callback",
+      createConfiguredHookCallback({
+        budget,
+        event,
+        hook,
+        hookIndex: hookIndex,
+        matcherIndex: matcherIndex,
+        options: options,
+      }),
+    ],
+    ["event", event],
+    ["matcher", matcher],
+    ["source", input.source],
+    ["sourceKind", input.sourceKind],
+    ["timeoutMs", budget.timeoutMs],
+  ];
+  if (input.admission) registrationEntries.push(["admission", input.admission]);
   return {
-    ...(input.admission ? { admission: input.admission } : {}),
-    async: hook.type === "command" && hook.async === true,
-    callback: createConfiguredHookCallback({
-      budget,
-      event,
-      hook,
-      hookIndex: hookIndex,
-      matcherIndex: matcherIndex,
-      options: options,
-    }),
+    ...(Object.fromEntries(registrationEntries) as Omit<HookRegistration, "descriptor">),
     descriptor: (hookInput) =>
       createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
         try {
@@ -60,11 +71,6 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
           return value;
         }
       }),
-    event,
-    matcher,
-    source: input.source,
-    sourceKind: input.sourceKind,
-    timeoutMs: budget.timeoutMs,
   };
 }
 
