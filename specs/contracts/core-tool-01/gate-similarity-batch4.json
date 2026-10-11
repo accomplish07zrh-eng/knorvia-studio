@@ -80,9 +80,7 @@
         "line": false,
         "structural": true
       },
-      "violations": [
-        "containment 0.439 >= 0.2"
-      ],
+      "violations": ["containment 0.439 >= 0.2"],
       "pass": false
     },
     {
@@ -112,10 +110,7 @@
         "line": false,
         "structural": true
       },
-      "violations": [
-        "containment 0.449 >= 0.2",
-        "longest identical run 14 >= 8"
-      ],
+      "violations": ["containment 0.449 >= 0.2", "longest identical run 14 >= 8"],
       "pass": false
     },
     {
@@ -145,10 +140,7 @@
         "line": false,
         "structural": false
       },
-      "violations": [
-        "containment 0.514 >= 0.2",
-        "structural 0.433 >= 0.4"
-      ],
+      "violations": ["containment 0.514 >= 0.2", "structural 0.433 >= 0.4"],
       "pass": false
     },
     {

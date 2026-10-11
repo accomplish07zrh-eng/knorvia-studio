@@ -82680,6 +82680,17 @@
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/gate-old.json"
       ]
+    },
+    {
+      "path": "docs/knorvia-core-tool-01-acceptance.md",
+      "normalizedSha256": "c1f4d3a813ab13ad92e543bbc4e33593fd2cf14ba3ce85eb0da17e7781f6fdb3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New acceptance document for the core-tool-01 replacement: scope, per-file similarity gate results, facade-to-internal-module mapping, stub-replacement evidence, the accumulated rewrite method list and the remaining work. Written for the Knorvia independent-replacement plan from this round's measurements; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-tool-01/gate-old.json"
+      ]
     }
   ]
 }
