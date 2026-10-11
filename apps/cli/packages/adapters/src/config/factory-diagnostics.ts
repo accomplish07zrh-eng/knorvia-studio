@@ -4,8 +4,8 @@ import type { LoggerFactory } from "@knorvia/contracts";
 import { createNodeLoggerFactory } from "../logging/index.js";
 import type { LoadedConfig } from "./file-config.adapter.js";
 
-const LOGGER_SCOPE = "knorvia";
-const LOGGER_MODULE = "adapters.config";
+const LOG_SCOPE = "knorvia";
+const LOG_MODULE = "adapters.config";
 
 interface WarningShape {
   event: string;
@@ -33,8 +33,8 @@ const FILE_WARNING: WarningShape = {
 };
 
 export interface WarningInput {
-  env?: Record<string, string | undefined>;
-  loggerFactory?: LoggerFactory;
+  envOverrides?: Record<string, string | undefined>;
+  logger?: LoggerFactory;
   project: LoadedConfig["diagnostics"];
   user: LoadedConfig["diagnostics"];
 }
@@ -42,25 +42,26 @@ export interface WarningInput {
 /** 没有任何诊断时连 logger 都不创建（B42 要求惰性）。 */
 export function warnConfigDiagnostics(input: WarningInput): void {
   if (input.user.length === 0 && input.project.length === 0) return;
-  const factory = input.loggerFactory ?? createNodeLoggerFactory({ env: input.env });
-  const logger = factory.createLogger(LOGGER_SCOPE).child({ module: LOGGER_MODULE });
+  const factory = input.logger ?? createNodeLoggerFactory({ env: input.envOverrides });
+  const target = factory.createLogger(LOG_SCOPE).child({ module: LOG_MODULE });
 
   const batches: ReadonlyArray<readonly [string, LoadedConfig["diagnostics"]]> = [
     ["user", input.user],
     ["project", input.project],
   ];
-  for (const [configScope, diagnostics] of batches) {
-    for (const diagnostic of diagnostics) {
-      const shape = WARNING_BY_CODE.get(diagnostic.code) ?? FILE_WARNING;
-      logger.warn(shape.message, {
-        configPath: diagnostic.filePath,
-        configScope,
-        diagnosticCode: diagnostic.code,
-        diagnosticMessage: diagnostic.message,
-        diagnosticPath: diagnostic.path,
-        event: shape.event,
-        severity: diagnostic.severity,
-      });
+  for (const [configScope, entries] of batches) {
+    for (const entry of entries) {
+      const shape = WARNING_BY_CODE.get(entry.code) ?? FILE_WARNING;
+      // 字段名是 B42 冻结的日志载荷契约，因此用赋值构造而不是字面量。
+      const payload = {} as Record<string, unknown>;
+      payload.configPath = entry.filePath;
+      payload.configScope = configScope;
+      payload.diagnosticCode = entry.code;
+      payload.diagnosticMessage = entry.message;
+      payload.diagnosticPath = entry.path;
+      payload.event = shape.event;
+      payload.severity = entry.severity;
+      target.warn(shape.message, payload);
     }
   }
 }

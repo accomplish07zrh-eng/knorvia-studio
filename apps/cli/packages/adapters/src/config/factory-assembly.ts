@@ -189,8 +189,8 @@ export function assembleConfig(options: ConfigFactoryOptions = {}): ConfigResult
   const user = loadUserStage(options);
   const project = loadProjectStage(options);
   warnConfigDiagnostics({
-    env: options.env,
-    loggerFactory: options.loggerFactory,
+    envOverrides: options.env,
+    logger: options.loggerFactory,
     project: project.discovery.diagnostics,
     user: user.result.diagnostics,
   });
