@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// core/hooks 的公开入口：稳定对外面（interface.md 的 44 个导出）。
-// 保留的已独立候选文件（runner*、output*）不从这里之外的路径被外部依赖；
-// 内部实现的模块划分可自由调整，但本文件的导出名与签名不可变。
+// hooks 模块的桶入口。对外只暴露 interface.md 列出的名字；内部文件怎么拆不从这里可见。
 export { createConfiguredHookRunner } from "./configured-runner.js";
 export { createHookExecutionDescriptor, sanitizeHookDisplayText } from "./display-metadata.js";
 export { InMemoryHookRunner, createInMemoryHookRunner } from "./runner.js";
