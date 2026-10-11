@@ -29,6 +29,6 @@
 - **`executor/batch-runner.ts` 的 `executeSchedule` 转发漏掉 `offPeakTurn`**：已由 `specs/knorvia-tool-batch-execution.md` 登记为唯一预期修复，同样属已独立替换文件。
 - 本包的 `executor/impl.ts` 只做装配与委托，不重复这两处修复。
 
-## 待补
+## 状态
 
-`acceptance.md` 与 `gate-old.json` 未完成；dist 入口的旧门未跑；B1–B15、B19–B20、B59–B67、B79–B84、B87、B88 的测试未写。这些都在 PR 描述里列明，不当作通过。
+K1–K3 每条都有对应测试；`acceptance.md`、`gate-old.json` 已完成，dist 入口旧门已跑（`dist-entry-loader.mjs`），B1–B88 全部有用例（对照表见 `README.md` 文末）。见 `gate-old.json`。

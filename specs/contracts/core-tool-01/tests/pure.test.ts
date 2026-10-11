@@ -864,3 +864,54 @@ test("B75/B76/B77/B78 registry lifecycle through the public helpers", async () =
   mod.removeRuntimeBackgroundTask(deps, bash, "t1");
   assert.equal(entries.has("t1"), false);
 });
+
+test("B74 tool name maps to the documented runtime task type", async () => {
+  const mod =
+    await import("../../../../apps/cli/packages/core/src/tool/executor/background-task-registry.js");
+  const entries = new Map<string, Record<string, unknown>>();
+  const registryCalls: string[] = [];
+  const deps = {
+    runtimeTaskRegistry: {
+      get: (id: string) => {
+        registryCalls.push("get");
+        return entries.get(id);
+      },
+      register: (entry: Record<string, unknown>) => {
+        registryCalls.push("register");
+        entries.set(String(entry.taskId), entry);
+      },
+      update: (id: string, fn: (current: Record<string, unknown>) => Record<string, unknown>) => {
+        registryCalls.push("update");
+        const current = entries.get(id);
+        if (!current) return undefined;
+        const next = fn(current);
+        entries.set(id, next);
+        return next;
+      },
+      remove: (id: string) => {
+        registryCalls.push("remove");
+        entries.delete(id);
+      },
+    },
+  } as never;
+  const cases: [string, string][] = [
+    ["Bash", "local_bash"],
+    ["Workflow", "local_workflow"],
+    ["CreateWorkflow", "local_dynamic_workflow"],
+    ["AmendWorkflow", "local_dynamic_workflow"],
+    ["ResumeWorkflowRun", "local_dynamic_workflow"],
+  ];
+  for (const [name, taskType] of cases) {
+    const call = { id: `call-${name}`, name, input: {} } as never;
+    mod.registerRuntimeBackgroundTask(deps, call, `t-${name}`, {});
+    assert.equal(entries.get(`t-${name}`)!.taskType, taskType, name);
+  }
+
+  // 未知工具名：不登记、不认领，也不触碰 registry（即使 registry 存在）。
+  const unknown = { id: "call-read", name: "Read", input: {} } as never;
+  mod.registerRuntimeBackgroundTask(deps, unknown, "t-read", {});
+  assert.equal(entries.has("t-read"), false);
+  registryCalls.length = 0;
+  assert.equal(mod.claimRuntimeBackgroundTaskNotification(deps, unknown, "t-read"), true);
+  assert.deepEqual(registryCalls, []);
+});

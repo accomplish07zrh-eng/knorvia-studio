@@ -7,7 +7,9 @@
         ".release-it.mjs",
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
-        "scripts/mise-run.mjs"
+        "scripts/mise-run.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/dist-entry-loader.mjs"
       ]
     },
     "packages/desktop": {
@@ -29,5 +31,5 @@
       "entry": ["src/browser-client.ts"]
     }
   },
-  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**"]
+  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**", "specs/contracts/*/stubs/**"]
 }
