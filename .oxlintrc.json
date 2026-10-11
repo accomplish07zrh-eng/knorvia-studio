@@ -66,7 +66,6 @@
     "packages/ui/src/components/ui",
     "packages/ui/src/components/ai-elements",
     ".agents/skills",
-    "packages/formal-proof",
     "apps/cli",
     "docs/evidence",
     "licensing/evidence",
