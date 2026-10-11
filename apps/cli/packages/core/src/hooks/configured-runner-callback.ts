@@ -203,31 +203,33 @@ function executionRequest(
   const expand = (value: string) =>
     expandPluginVariables(value, hook.plugin, input, workingDirectory);
 
-  return {
-    command:
-      hook.type === "command"
-        ? { command: expand(hook.command), mode: "shell" as const, shell: hook.shell }
-        : {
-            args: (hook.args ?? []).map(expand),
-            file: expand(hook.command),
-            mode: "argv" as const,
-          },
+  const limits = Object.fromEntries([
+    ["maxBufferBytes", budget.maxOutputBytes],
+    ["maxInlineBytes", budget.maxOutputBytes],
+    ["persistOutput", "none"],
+  ]);
+  const span = Object.fromEntries([
+    ["attributes", trace],
+    ["sessionId", input.sessionId],
+    ["traceId", input.traceId],
+    ["turnId", input.turnId],
+  ]);
+  const command =
+    hook.type === "command"
+      ? { command: expand(hook.command), mode: "shell", shell: hook.shell }
+      : { args: (hook.args ?? []).map(expand), file: expand(hook.command), mode: "argv" };
+
+  const request = {} as Parameters<ConfiguredHookRunnerOptions["executionPort"]["run"]>[0];
+  Object.assign(request, {
+    command,
     cwd: input.cwd || workingDirectory,
     env: createPluginEnvOverlay(hook.plugin, input, workingDirectory),
-    outputLimit: {
-      maxBufferBytes: budget.maxOutputBytes,
-      maxInlineBytes: budget.maxOutputBytes,
-      persistOutput: "none" as const,
-    },
+    outputLimit: limits,
     stdin,
     timeoutMs: budget.timeoutMs,
-    trace: {
-      attributes: trace,
-      sessionId: input.sessionId,
-      traceId: input.traceId,
-      turnId: input.turnId,
-    },
-  };
+    trace: span,
+  });
+  return request;
 }
 
 /**
