@@ -73,6 +73,7 @@ export type WorkspaceHookAdmissionClass = z.infer<typeof workspaceHookAdmissionC
 // 原因码取值清单。读取失败与写入失败必须可区分：config_write_failed 曾被 mutation 在
 // readFile / JSON.parse 失败时抛出，误导用户去重试「写入」。
 const WORKSPACE_HOOK_REASON_CODE_NAMES = [
+  // 准入与信任状态
   "workspace_hooks_no_enabled_hooks",
   "workspace_hooks_not_applicable",
   "workspace_hooks_pending_trust",
@@ -80,19 +81,22 @@ const WORKSPACE_HOOK_REASON_CODE_NAMES = [
   "workspace_hooks_blocked_untrusted",
   "workspace_hooks_blocked_by_policy",
   "workspace_hooks_policy_requires_pretrust",
+  "workspace_hooks_revoked",
+  "workspace_hooks_feature_disabled",
+  // 声明与 bundle 快照
   "workspace_hook_declaration_changed",
   "workspace_hooks_bundle_changed",
+  "workspace_hooks_snapshot_mismatch",
+  "workspace_hooks_unknown_execution_field",
+  // 复核流程与宿主能力
   "workspace_hooks_require_trust_capable_host",
   "workspace_hooks_interaction_timeout",
-  "workspace_hooks_trust_store_corrupt",
-  "workspace_hooks_snapshot_mismatch",
   "workspace_hooks_review_superseded",
+  // 信任存储与配置读写
+  "workspace_hooks_trust_store_corrupt",
   "workspace_hooks_config_write_failed",
   "workspace_hooks_config_unreadable",
   "workspace_hooks_config_rebuild_failed",
-  "workspace_hooks_revoked",
-  "workspace_hooks_unknown_execution_field",
-  "workspace_hooks_feature_disabled",
 ] as const;
 
 export const workspaceHookReasonCodeSchema = z.enum(WORKSPACE_HOOK_REASON_CODE_NAMES);
@@ -300,25 +304,22 @@ export const workspaceHookReviewFlowStateSchema = z
   .strict()
   .superRefine((flow, context) => {
     if (flow.deadlineAt < flow.createdAt) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["deadlineAt"],
-        message: "deadlineAt must not precede createdAt",
-      });
+      addMismatchIssue(context, "deadlineAt", "deadlineAt must not precede createdAt");
     }
-    if (flow.state === "superseded" && !flow.supersededByInteractionId) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["supersededByInteractionId"],
-        message: "superseded flow requires its replacement interaction id",
-      });
+    const hasReplacement = Boolean(flow.supersededByInteractionId);
+    if (flow.state === "superseded" && !hasReplacement) {
+      addMismatchIssue(
+        context,
+        "supersededByInteractionId",
+        "superseded flow requires its replacement interaction id",
+      );
     }
-    if (flow.state !== "superseded" && flow.supersededByInteractionId) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["supersededByInteractionId"],
-        message: "only a superseded flow may reference a replacement interaction",
-      });
+    if (flow.state !== "superseded" && hasReplacement) {
+      addMismatchIssue(
+        context,
+        "supersededByInteractionId",
+        "only a superseded flow may reference a replacement interaction",
+      );
     }
   });
 export type WorkspaceHookReviewFlowState = z.infer<typeof workspaceHookReviewFlowStateSchema>;
