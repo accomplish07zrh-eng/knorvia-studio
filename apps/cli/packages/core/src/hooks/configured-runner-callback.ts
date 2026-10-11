@@ -119,16 +119,20 @@ function withDiagnostics(output: HookJSONOutput | undefined, result: ExecutionRe
   const stderrPreview = preview(result.stderr.text);
   const stdoutPreview =
     result.exitCode === EXIT_CODE_BLOCK ? preview(result.stdout.text) : undefined;
-  if (!stderrPreview && !stdoutPreview) return output;
+  const hasDiagnostics = stderrPreview !== undefined || stdoutPreview !== undefined;
+  if (!hasDiagnostics) return output;
 
-  return {
-    diagnostics: {
-      ...(stderrPreview ? { errorMessage: stderrPreview, stderrPreview } : {}),
-      ...(stdoutPreview ? { stdoutPreview } : {}),
-    },
-    ...(output ? { output } : {}),
-    kind: "hookCallbackResult",
-  };
+  const diagnosticEntries: (readonly [string, unknown])[] = [];
+  if (stderrPreview !== undefined)
+    diagnosticEntries.push(["errorMessage", stderrPreview], ["stderrPreview", stderrPreview]);
+  if (stdoutPreview !== undefined) diagnosticEntries.push(["stdoutPreview", stdoutPreview]);
+
+  const envelope: (readonly [string, unknown])[] = [
+    ["diagnostics", Object.fromEntries(diagnosticEntries)],
+    ["kind", "hookCallbackResult"],
+  ];
+  if (output !== undefined) envelope.push(["output", output]);
+  return Object.fromEntries(envelope) as unknown as HookOutput;
 }
 
 /** 失败时的统一错误工厂：上下文用条目归约，错误身份靠 cause 保留原始消息。 */
