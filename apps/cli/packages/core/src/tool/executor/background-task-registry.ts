@@ -202,34 +202,32 @@ export function removeRuntimeBackgroundTask(
   deps.runtimeTaskRegistry.remove(taskId);
 }
 
+/** 固定名字 → 任务种类的对照表；表外名字再交给 dwf 谓词判断。 */
+const TASK_TYPE_BY_TOOL_NAME: readonly (readonly [toolName: string, taskType: RuntimeTaskType])[] =
+  [
+    ["Bash", "local_bash"],
+    ["Workflow", "local_workflow"],
+  ];
+
 function runtimeTaskTypeForToolCall(toolCall: ExecutableToolCall): RuntimeTaskType | undefined {
-  switch (toolCall.name) {
-    case "Bash":
-      return "local_bash";
-    case "Workflow":
-      return "local_workflow";
-    default:
-      // dwf 的两个入口（CreateWorkflow / ResumeWorkflowRun）共用同一个 taskType；一旦缺席，
-      // registerRuntimeBackgroundTask 会直接 return，会话回收护栏与 TaskOutput 可见性同时失效。
-      return isDynamicWorkflowRunDispatchToolName(toolCall.name)
-        ? "local_dynamic_workflow"
-        : undefined;
-  }
+  const named = TASK_TYPE_BY_TOOL_NAME.find(([toolName]) => toolName === toolCall.name);
+  if (named !== undefined) return named[1];
+  // dwf 的两个入口（CreateWorkflow / ResumeWorkflowRun）共用同一个 taskType；一旦缺席，
+  // registerRuntimeBackgroundTask 会直接 return，会话回收护栏与 TaskOutput 可见性同时失效。
+  return isDynamicWorkflowRunDispatchToolName(toolCall.name) ? "local_dynamic_workflow" : undefined;
 }
 
+/** 各类任务的默认描述；调用方自己给了描述时不用这张表。 */
+const DEFAULT_TASK_DESCRIPTION: Readonly<Record<RuntimeTaskType, string>> = {
+  local_bash: "Bash background command",
+  local_workflow: "Workflow background task",
+  local_dynamic_workflow: "Dynamic workflow run",
+  local_agent: "Agent background task",
+  monitor_mcp: "Monitor background task",
+};
+
 function defaultRuntimeTaskDescription(taskType: RuntimeTaskType): string {
-  switch (taskType) {
-    case "local_bash":
-      return "Bash background command";
-    case "local_workflow":
-      return "Workflow background task";
-    case "local_dynamic_workflow":
-      return "Dynamic workflow run";
-    case "local_agent":
-      return "Agent background task";
-    case "monitor_mcp":
-      return "Monitor background task";
-  }
+  return DEFAULT_TASK_DESCRIPTION[taskType];
 }
 
 function normalizeRuntimeTaskStatus(status: string): RuntimeTaskSnapshot["status"] {
