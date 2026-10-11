@@ -1,11 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
-// 命令 frontmatter：分隔符定位、键值行解析与标量/列表归一化。
+// frontmatter 解析：分隔符定位 + 头部键值行扫描 + 标量/列表归一化。
 const DELIMITER = "---";
 const DESCRIPTION_LIMIT = 1024;
+
+/** 头部条目：形如 `key: value`；行首禁止空白（缩进视为续行），`#` 开头是注释。 */
+const HEADER_ENTRY = /^([^\s:#][^:]*):(.*)$/u;
+const INDENTED_LINE = /^\s/u;
 
 export interface FrontmatterSection {
   end: number;
   lines: string[];
+}
+
+/** 头部结束行的下标（第一个 `---` 行）；`exactOpening` 为真时首行必须逐字是 `---`。 */
+function findClosingLine(lines: string[], exactOpening: boolean): number {
+  if (exactOpening && lines[0]?.trim() !== DELIMITER) return -1;
+  return lines.findIndex((line, index) => index > 0 && line.trim() === DELIMITER);
 }
 
 export function frontmatterLines(
@@ -15,8 +25,7 @@ export function frontmatterLines(
   const normalized = content.replace(/^\uFEFF/u, "");
   if (!normalized.startsWith(DELIMITER)) return undefined;
   const lines = normalized.split(/\r?\n/u);
-  if (exactOpening && lines[0]?.trim() !== DELIMITER) return undefined;
-  const end = lines.findIndex((line, index) => index > 0 && line.trim() === DELIMITER);
+  const end = findClosingLine(lines, exactOpening);
   return end < 0 ? undefined : { end, lines };
 }
 
@@ -35,20 +44,27 @@ export function scalar(value: string | undefined): string | undefined {
   return quoted ? trimmed.slice(1, -1).trim() : trimmed;
 }
 
-export function list(value: string | undefined): string[] {
-  const text = scalar(value);
-  if (!text) return [];
-  return text
-    .replace(/^\[/u, "")
-    .replace(/\]$/u, "")
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
+const BRACKETS = /^\[|\]$/gu;
+
+function trimmedEntries(text: string): string[] {
+  const entries: string[] = [];
+  for (const part of text.split(",")) {
+    const item = part.trim();
+    if (item.length > 0) entries.push(item);
+  }
+  return entries;
 }
 
+export function list(value: string | undefined): string[] {
+  const text = scalar(value);
+  return text === undefined ? [] : trimmedEntries(text.replace(BRACKETS, ""));
+}
+
+const TRUTHY_VALUES: ReadonlySet<string> = new Set(["true", "yes"]);
+
 export function enabled(value: string | undefined): boolean {
-  const text = scalar(value)?.toLowerCase();
-  return text === "true" || text === "yes";
+  const text = scalar(value);
+  return text !== undefined && TRUTHY_VALUES.has(text.toLowerCase());
 }
 
 export interface ParsedHeader {
@@ -56,33 +72,33 @@ export interface ParsedHeader {
   values: Record<string, string>;
 }
 
-/** 逐行解析头部：空行、`#` 注释与缩进续行跳过；缺冒号的行写诊断但继续。 */
+/** 逐行扫描头部；空行、注释与缩进续行跳过，缺冒号的行交给回调记诊断。 */
 export function parseHeader(
   header: string,
-  onInvalidLine: (lineNumber: number) => void,
+  onUnparsableLine: (lineNumber: number) => void,
 ): ParsedHeader {
   const keys: string[] = [];
   const values: Record<string, string> = {};
-  const lines = header.split(/\r?\n/u);
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index] ?? "";
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#") || /^\s/u.test(line)) continue;
-    const colon = line.indexOf(":");
-    if (colon <= 0) {
-      onInvalidLine(index + 1);
+  const rows = header.split(/\r?\n/u);
+  for (let position = 0; position < rows.length; position += 1) {
+    const raw = rows[position] ?? "";
+    const label = raw.trim();
+    if (label.length === 0 || label.startsWith("#") || INDENTED_LINE.test(raw)) continue;
+    const entry = HEADER_ENTRY.exec(raw);
+    if (entry === null) {
+      onUnparsableLine(position + 1);
       continue;
     }
-    const key = line.slice(0, colon).trim();
+    const key = entry[1]!.trim();
     keys.push(key);
-    values[key] = line.slice(colon + 1).trim();
+    values[key] = (entry[2] ?? "").trim();
   }
   return { keys, values };
 }
 
-/** 正文首行（去掉标题/列表前缀）作为 description 的回退值。 */
+/** 正文首行（去掉 `#` 标题与列表前缀）作为 description 的回退值。 */
 export function bodyDescription(body: string): string {
-  const line = body
+  const firstLine = body
     .split(/\r?\n/u)
     .map((raw) =>
       raw
@@ -91,7 +107,7 @@ export function bodyDescription(body: string): string {
         .trim(),
     )
     .find((text) => Boolean(text));
-  return line?.slice(0, DESCRIPTION_LIMIT) ?? "";
+  return firstLine?.slice(0, DESCRIPTION_LIMIT) ?? "";
 }
 
 export { DESCRIPTION_LIMIT };

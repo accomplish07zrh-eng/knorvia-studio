@@ -50,9 +50,32 @@ export function commandName(rootPath: string, path: string): string {
     .toLowerCase();
 }
 
-function headerOf(content: string): string | undefined {
+function headerText(content: string): string | undefined {
   const section = frontmatterLines(content, true);
   return section?.lines.slice(1, section.end).join("\n");
+}
+
+/** 元数据构造：字段一次性赋值，调用方只读。 */
+function buildMetadata(
+  name: string,
+  path: string,
+  root: CustomCommandRoot,
+  fields: { description: string; header: ReturnType<typeof parseHeader> },
+): CustomCommandMetadata {
+  const metadata = { name } as CustomCommandMetadata;
+  metadata.path = path;
+  metadata.rootPath = root.path;
+  metadata.scope = root.scope;
+  metadata.source = root.source;
+  metadata.plugin = root.plugin;
+  metadata.description = fields.description.slice(0, DESCRIPTION_LIMIT);
+  metadata.argumentHint = scalar(fields.header.values["argument-hint"]);
+  metadata.model = scalar(fields.header.values.model);
+  metadata.allowedTools = list(fields.header.values["allowed-tools"]);
+  metadata.skills = list(fields.header.values.skills);
+  metadata.disableNonInteractive = enabled(fields.header.values["disable-noninteractive"]);
+  metadata.frontmatterKeys = fields.header.keys;
+  return metadata;
 }
 
 export async function readMetadata(
@@ -83,7 +106,7 @@ export async function readMetadata(
     return null;
   }
 
-  const header = headerOf(content);
+  const header = headerText(content);
   const parsed =
     header === undefined
       ? { keys: [] as string[], values: {} as Record<string, string> }
@@ -115,19 +138,5 @@ export async function readMetadata(
       path,
     });
   }
-
-  const metadata = { name } as CustomCommandMetadata;
-  metadata.path = path;
-  metadata.rootPath = root.path;
-  metadata.scope = root.scope;
-  metadata.source = root.source;
-  metadata.plugin = root.plugin;
-  metadata.description = description.slice(0, DESCRIPTION_LIMIT);
-  metadata.argumentHint = scalar(parsed.values["argument-hint"]);
-  metadata.model = scalar(parsed.values.model);
-  metadata.allowedTools = list(parsed.values["allowed-tools"]);
-  metadata.skills = list(parsed.values.skills);
-  metadata.disableNonInteractive = enabled(parsed.values["disable-noninteractive"]);
-  metadata.frontmatterKeys = parsed.keys;
-  return metadata;
+  return buildMetadata(name, path, root, { description, header: parsed });
 }
