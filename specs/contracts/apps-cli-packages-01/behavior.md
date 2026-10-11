@@ -1040,3 +1040,375 @@
 - 状态所有者：无。
 - 日志级别：无。
 - 可测断言：`Object.keys(await import("…/context/git-snapshot.js"))` 深度等于 `["resolveGitSnapshot"]`。
+
+## D. 自定义命令、进程探测与图片（`commands/`、`device/`、`image/`）
+
+状态所有者：`NodeCustomCommandAdapter` 实例独占 `disabled` 集合与构造时的根选项（命令元数据每次调用重算）；`createProcessProbe` 的**连续失败计数**归实例所有，每次采样另有自己的截止；`cli-device-mid` 的**单飞缓存**是模块级 `Map<statePath, Promise<string>>`，同一路径只接受一次初始化；图片适配器无状态，全部输入输出走参数。
+
+### B71 自定义命令的默认根发现与优先级
+
+- 来源：`commands/roots.ts`（`resolveDefaultCustomCommandRoots`、`resolveProjectDirectories`、`findWorktreeRoot`）
+- 输入：`workingDirectory`；`CustomCommandRootResolutionOptions`（`extraRoots?`、`extraResolvedRoots?`、`homeDirectory?`、`includeKnorviaCommands?`）。
+- 输出：`workingDirectory` 先 `resolve`；`includeKnorviaCommands` 缺省 `true`、`homeDirectory` 缺省 `homedir()`；优先级从 0 起**每加入一个根 +10**，顺序固定：
+  1. 每个 `extraRoots` 项 → `scope: "project"`、`source: "knorvia"`；
+  2. （`includeKnorvia` 时）用户私有根 `join(privateRoot, "commands")`，其中 `privateRoot = options.homeDirectory ? join(home, ".knorvia-studio") : resolveKnorviaDataRoot()`，`scope: "user"`、`source: "knorvia"`；
+  3. （同上）`join(home, ".agents", "commands")`，`scope: "user"`、`source: "agents"`；
+  4. 对**项目目录链**的每一层依次加入 `join(dir, ".knorvia-studio", "commands")`（source `knorvia`）与 `join(dir, ".agents", "commands")`（source `agents`），`scope: "project"`——同一层 `.knorvia-studio` 在前（同名命令「先到先赢」）；
+  5. `extraResolvedRoots` 原样追加（**不改 priority、不 resolve、不重生对象**）。
+- 项目目录链：从 `workingDirectory` 起向上找第一个含 `.git` 标记的目录（`findWorktreeRoot`，用 `stat`，文件或目录都算）；找到则链是「工作目录 → … → 该目录」（含两端），找不到时链**只有工作目录自己**。`projectDirectories` 是异步逐级 `stat`。
+- 错误语义：不抛错（`pathExists` 吞掉 `stat` 失败）。
+- 时序与并发：异步串行 `stat`；纯读取，不写盘。
+- 幂等：是（同样的目录树给出同样的根与优先级）。
+- 资源释放：无。
+- 平台差异：`resolve`/`join`/`dirname` 处理盘符与分隔符；Windows 根目录由 `dirname(current) === current` 终止。
+- 状态所有者：无（每次调用新建数组）。
+- 日志级别：无。
+- 可测断言：注入 `homeDirectory` 到临时目录（避免碰真实主目录）→ 返回根的 `priority` 依次为 `10,20,30,…`（步长 10）；临时项目根（有 `.git`）里的深层子目录 → `project` 根覆盖子目录、父目录到项目根；`extraResolvedRoots:[{path:"/x",scope:"user",source:"agents",priority:7}]` → 该对象**同一引用**出现在结果末尾；`includeKnorviaCommands:false` → 结果里没有任何用户级/项目级 `.knorvia-studio`/`.agents` 根（只剩 `extraRoots`）；每个根的 `path` 都是 `resolve` 后的绝对路径。
+
+### B72 配置根路径的展开与根对象形状
+
+- 来源：`commands/roots.ts`（`resolveConfiguredRoot`、`root`、`HOME_PREFIX`）
+- 输入：`extraRoots` 里的路径字符串、工作目录、home。
+- 输出：以 `"~/"` 开头的路径展开为 `join(home, path.slice(2))`；展开后是绝对路径就原样使用，否则 `resolve(workingDirectory, 展开值)`；最终根对象的 `path` 一定再经过 `resolve`，字段固定为 `{path, scope, source, priority}`（不多不少）。
+- 错误语义：不抛错（空串会 `resolve` 成工作目录）。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`isAbsolute` 对 Windows 盘符路径返回 `true`。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`extraRoots:["~/cmds"]` 且 `homeDirectory:"/home/x"` → 第一个根 `path === resolve("/home/x/cmds")`；`extraRoots:["rel/cmds"]` → `path === resolve(workingDirectory, "rel/cmds")`；`extraRoots:["/abs/cmds"]` → `path === resolve("/abs/cmds")`；根的 own keys 排序后为 `["path","priority","scope","source"]`。
+
+### B73 `discoverCommands` 的扫描、禁用、去重与排序
+
+- 来源：`commands/index.ts`（`NodeCustomCommandAdapter.discoverCommands`）
+- 输入：`{roots?, workingDirectory}` 与可选 `{signal}`。
+- 输出：`roots` 缺省用 `resolveDefaultCustomCommandRoots(cwd, this.rootOptions)`；按 `priority` **升序稳定排序**（`toSorted`）逐根扫描；每个文件解析出元数据后，若 `this.disabled` 含 `resolve(metadata.path)` 则**完全跳过**（不计入 `totalDiscovered`）；同名命令只保留**先到者**，后来的产出 `custom_command_duplicate_name` 诊断（`message` 逐字 `Duplicate custom command ignored: <name>`、`severity: "warning"`）；`totalDiscovered` 统计通过禁用过滤与元数据校验的文件数（含被去重者）；返回的 `commands` 按 `name.localeCompare` 升序。
+- 错误语义：单文件/单目录问题只写诊断（见 B74/B75），不抛错；`signal` 已中止时抛 `Custom command operation cancelled`（见 B77）。
+- 时序与并发：异步串行（逐根、逐文件 `await`）；每次调用重建 `selected`/`diagnostics`。
+- 幂等：是（同一文件系统状态同一结果）。
+- 资源释放：无（`readdir`/`readFile` 句柄随调用释放）。
+- 平台差异：路径用 `resolve` 比较禁用集合（构造时也 `resolve`），大小写在 Windows 上由文件系统决定。
+- 状态所有者：`disabled` 集合在适配器实例上。
+- 日志级别：无（诊断以数据返回）。
+- 可测断言：两个根（优先级 10 与 20）各有一个同名 `foo.md` → `commands` 里只有先扫描到的那个，诊断含 1 条 `custom_command_duplicate_name`、`totalDiscovered === 2`；构造时传 `disabledPaths:[<后被发现的文件绝对路径>]` → 该文件不出现在结果、`totalDiscovered` 计 1；返回的 `commands` 名字按字典序（如 `a`、`b`、`z`）。
+
+### B74 命令目录的枚举规则
+
+- 来源：`commands/index.ts`（`enumerateDirectory`、`enumerateRoot`）
+- 输入：根目录路径与诊断数组。
+- 输出：`stat(root.path)` 不是目录 → 空；`ENOENT` → 空且**不写诊断**；其它 `stat` 失败 → 写 `{code:"custom_command_scan_failed", message:<Error.message 或 "Failed to scan command root: <path>">, path, severity:"warning"}` 后返回空。递归枚举：深度超过 **12** 直接返回（`depth > MAX_DEPTH`）；`DIR` 类型的目录递归；符号链接用 `stat` 解析（目录→递归、文件→按 `.md` 判定；解析失败**静默跳过**）；只收**文件名小写后以 `.md` 结尾**的普通文件；`readdir` 失败写 `custom_command_scan_failed`（message 缺省逐字 `Failed to scan command directory: <dir>`）并返回。
+- 错误语义：所有失败都是诊断或静默跳过，不抛错。
+- 时序与并发：异步；目录顺序沿用 `readdir` 返回顺序（不排序）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`.md` 判定用 `toLowerCase()`，Windows 上 `FOO.MD` 也能收；符号链接解析在 Windows 需要权限时按「解析失败即跳过」处理。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：根目录里放 `a.md`、`b.MD`、`c.txt` 与子目录 `sub/d.md` → 发现 3 个 `.md`（不含 `c.txt`）；把根路径指向一个**文件** → 返回空且无诊断；指向不存在的路径 → 空且无诊断；嵌套超过 12 层 → 深层文件不被发现；指向一个不存在的路径时 `diagnostics` 为空数组。
+
+### B75 命令元数据的解析、校验与诊断
+
+- 来源：`commands/index.ts`（`readMetadata`、`normalizeName`、`frontmatterLines`、`removeFrontmatter`、`scalar`、`list`、`enabled`）
+- 输入：`.md` 文件绝对路径与它所属的根。
+- 输出：`name` = `relative(root.path, path)` 去掉 `.md` 扩展名后把 `[\\/]+` 换成 `":"`，再 `trim`、去掉开头 `/`、转小写；必须匹配 `^[a-z0-9][a-z0-9_:-]{0,63}$`，否则写 `custom_command_invalid_name`（`message` 逐字 `Invalid custom command name: <name>`、`severity:"error"`、带 `commandName`）并跳过该文件。frontmatter 必须**以 `---` 开头且第一行 trim 后逐字为 `---`**，以另一行 trim 后为 `---` 结束（支持 CRLF，忽略开头 BOM）；`end < 0` 视为没有 frontmatter。头部分行解析：空行、`#` 注释行、**以空白开头**的续行跳过；`indexOf(":") <= 0` 的行写 `custom_command_invalid_frontmatter`（`message` 逐字 `Invalid frontmatter line <行号> in <文件名>`，行号从 1 起、含 `---` 行）并继续；键值对同名后者覆盖，`frontmatterKeys` 保留出现顺序（含重复）。`description` 取 `description` 键的标量值，缺省时取正文第一个非空行（去掉行首 `#`/`-`/`*` 与空白后截断到 **1024** 字符）；两者都为空 → 写 `custom_command_invalid_frontmatter`（`message` 逐字 `Custom command must include a description or non-empty body: <path>`、`severity:"error"`）并跳过。未知键逐键写 `custom_command_unknown_frontmatter`（`message` 逐字 `Unknown custom command frontmatter key: <key>`、`severity:"warning"`），已知键集合逐字为 `allowed-tools`、`argument-hint`、`description`、`disable-noninteractive`、`model`、`skills`。
+- 字段输出：`allowedTools`/`skills` 是 `list`（先去标量引号，去掉首 `[`、尾 `]`，按 `,` 切分、trim、丢空项）；`argumentHint`/`model` 是标量（`undefined` 表示缺省或空）；`description` 截断到 1024；`disableNonInteractive` 是 `enabled`（标量转小写等于 `"true"` 或 `"yes"`）；`plugin`/`scope`/`source`/`rootPath` 来自根对象；`path` 是文件绝对路径。
+- 错误语义：读取失败：`ENOENT` 静默跳过；其它错误写 `{code:"custom_command_read_failed", message:<Error.message 或 "Failed to read custom command: <path>">, path, severity:"warning"}` 并跳过。
+- 时序与并发：异步；单文件一次 `readFile`。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：换行 `/\r?\n/`；BOM 被去掉；文件名大小写在 Windows 上不敏感（`normalizeName` 统一小写）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`sub/dir/MyCommand.md` 且正文为 `# Title\n\nDo it` → `name === "sub:dir:mycommand"`、`description === "Title"`、无诊断；frontmatter 含 `description: "quoted"` → `description === "quoted"`；含 `allowed-tools: [Read, Write]` → `["Read","Write"]`；含 `disable-noninteractive: yes` → `true`；含 `unknown-key: 1` → 一条 `custom_command_unknown_frontmatter`；名字含大写与空格的文件 → `custom_command_invalid_name` 且该命令不出现；只有空白正文且无 `description` → `custom_command_invalid_frontmatter`（error）且不出现；一行 `nocolon` → `custom_command_invalid_frontmatter`（warning）但命令仍然出现。
+
+### B76 `loadCommand` 的查找、截断与正文
+
+- 来源：`commands/index.ts`（`loadCommand`）
+- 输入：`{name, maxBytes?, roots?, workingDirectory}` 与可选 `signal`。
+- 输出：先用同一套 `discoverCommands` 解析出命令表；`name` 经 `normalizeName`（trim、去前导 `/`、小写）后精确查找；找不到 → 抛逐字 `Custom command not found: <request.name>`（**用调用方原值**，不规范化）；找到后 `maxBytes` 缺省 **100000**；`stat` 取 `sizeBytes = info.size`，`truncated = sizeBytes > maxBytes`；截断时用文件句柄只读前 `maxBytes` 字节（`Buffer.alloc(Math.max(0, maxBytes))` + `handle.read(..., 0)`），读完 `close`；未截断时整读。返回 `{metadata, bytesRead: <实际读取字节数>, content: removeFrontmatter(<读取内容按 utf8 解码>).trim(), sizeBytes, truncated}`。
+- 错误语义：取消语义见 B77；`stat` 失败按 Node 的原错误抛出（因为元数据校验刚通过，路径应存在）；`open`/`readFile` 失败同样原样抛错。
+- 时序与并发：异步；先做一次完整发现再读文件（同一 `maxBytes` 内不做缓存）。
+- 幂等：是。
+- 资源释放：截断分支用 `try/finally` 关闭句柄（`close` 失败会冒泡）。
+- 平台差异：文件路径来自发现阶段；`readFile` 与 `open` 都是 `node:fs/promises`。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`maxBytes` 小于文件大小 → `truncated === true`、`bytesRead === maxBytes`、`content` 是被截断内容去掉 frontmatter 后 `trim` 的结果；不传 `maxBytes` 且文件小于 100000 → `truncated === false`、`bytesRead === sizeBytes`；名字传 `/FOO` 或 `" FOO "` → 命中 `foo`；名字不存在 → 抛出的 `message` 逐字包含 `Custom command not found: ` 与传入原值。
+
+### B77 自定义命令的取消语义
+
+- 来源：`commands/index.ts`（`cancelled`）
+- 输入：`CustomCommandOperationOptions.signal`。
+- 输出：`discoverCommands` 与 `loadCommand` 在**进入时、每根开始前、每个文件开始前**检查 `signal.aborted`；一旦为真就抛逐字 `Custom command operation cancelled`，不再继续扫描或读取。`loadCommand` 中 `discoverCommands` 的检查也会生效（因为它在同一调用栈里）。
+- 错误语义：抛错（`Error`，消息逐字固定）。
+- 时序与并发：同步检查，无竞态（只看 `aborted` 标志）。
+- 幂等：中止后的重复调用同样立刻抛错。
+- 资源释放：抛错前不会打开句柄（检查在 `open` 之前）。
+- 平台差异：无。
+- 状态所有者：调用方的 `AbortSignal`。
+- 日志级别：无。
+- 可测断言：传入已 `abort()` 的 `AbortController.signal` → `discoverCommands` 与 `loadCommand` 都以 `Custom command operation cancelled` 拒绝；扫描进行中（第一根文件多）abort → 拒绝且不返回部分结果。
+
+### B78 `commands/` 的导出面
+
+- 来源：`commands/index.ts`、`commands/roots.ts`
+- 输入：无。
+- 输出：`commands/index.ts` 导出 `NodeCustomCommandAdapterOptions`、`NodeCustomCommandAdapter`、`createNodeCustomCommandAdapter` 三个声明（`cancelled`、`enumerateDirectory`、`enumerateRoot`、`readMetadata`、`normalizeName`、`frontmatterLines` 等内部函数不导出）；`commands/roots.ts` 导出 `CustomCommandRootResolutionOptions`、`resolveDefaultCustomCommandRoots` 两个声明（`findWorktreeRoot`、`pathExists`、`commandRootsForBase`、`root`、`resolveConfiguredRoot`、常量不导出）。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：两个模块的 `Object.keys` 分别等于 `interface.md` 里的 3 个与 2 个名字；`mod.normalizeName === undefined`、`mod.findWorktreeRoot === undefined`。
+
+### B79 进程探测的失败预算与单次截止
+
+- 来源：`device/process-probe.ts`（`createProcessProbe` 的 `sample`）
+- 输入：`createProcessProbe(options)` 的调用序列（`platform`、`execFile`、`listProcDirectory`、`readProcFile`、`onSampleFailed`）。
+- 输出：`failures` 是**实例级**连续失败计数；`failures >= 3` 时后续 `sampleProcessTrees`/`sampleProcessGroup` 直接返回 `undefined`（**不执行操作、不发起新命令**）；每次采样各自设定绝对截止 `Date.now() + PROCESS_PROBE_SAMPLE_TIMEOUT_MS`（1000 ms）并起一个 `setTimeout`（`unref` 过），超时以 `ProcessProbeFailure("采样超过 1000 毫秒")` 拒绝；操作与截止 `Promise.race`；成功 → `failures = 0`；失败或超时 → `failures++`、调用一次 `options.onSampleFailed(error.message)`，**`onSampleFailed` 自身抛错被吞掉**，最终返回 `undefined`；`finally` 里清掉定时器。
+- 错误语义：所有失败都降级成 `undefined`，不向调用方抛错；`reset()` 把 `failures` 清零。
+- 时序与并发：`onSampleFailed` 与操作同栈同步调用；同一实例可并发采样，各自计时（注释写明这是保留的原有并发语义）。
+- 幂等：采样失败不会改变平台分派与参数。
+- 资源释放：`clearTimeout` 在 `finally`；操作侧的句柄由各平台实现负责。
+- 平台差异：`PROCESS_PROBE_SAMPLE_TIMEOUT_MS` 跨平台一致（1000 ms）。
+- 状态所有者：实例（`failures`）。
+- 日志级别：无（失败通过 `onSampleFailed` 回调外传）。
+- 可测断言：注入一个总是抛错的 `execFile`（win32 平台）→ 三次调用都得到 `undefined`、`onSampleFailed` 收到 3 次；第四次时注入的 `execFile` **不再被调用**（调用计数停在 3）；`reset()` 后再调用一次 → 恢复调用且成功时 `failures` 归零；注入一个永不返回的 `execFile` → 调用在约 1000 ms 内以 `undefined` 结束（超时路径），`onSampleFailed` 收到含 `1000` 的消息；`onSampleFailed` 抛错时调用仍然返回 `undefined`。
+
+### B80 `sampleProcessTrees` 的入口处理与平台分派
+
+- 来源：`device/process-probe.ts`（`sampleProcessTrees`、`treeScope`）
+- 输入：`readonly number[]` 根 PID。
+- 输出：先去重（`new Set`，**保留首次出现顺序**）并过滤 `isSamplablePid`（正整数整数）；过滤后为空 → 直接返回**空 `Map`**（不进入 `sample`，不影响失败计数）；否则按平台分派：`linux` → `sampleLinuxProcessTrees(readers(isExpired), requested)`；`win32` → `readWindowsProcessMemory(executor, requested)` 后 `new Map(rows.map(row => [row.pid, [row]]))`（**每行只有自己一个样本，无父子关系**）；其它平台（含 `darwin`）→ `groupProcessTrees(await readDarwinProcessTable(executor), requested)`。`treeScope` 在实例上固定：`win32 → "direct_process"`，其余 `"process_tree"`。
+- 错误语义：失败/超时按 B79 返回 `undefined`（`sample` 的返回类型是 `T | undefined`）。
+- 时序与并发：分派后交给对应平台实现；`sampleProcessTrees` 可并发。
+- 幂等：是（除失败计数副作用）。
+- 资源释放：无。
+- 平台差异：`treeScope` 与分派完全由 `platform` 决定；macOS（darwin）走 `ps` 路径，**未在 macOS 实机验证**（见 README 的说明），Windows 只报「直接进程」。
+- 状态所有者：实例级 `failures`。
+- 日志级别：无。
+- 可测断言：`createProcessProbe({platform:"linux", listProcDirectory: async () => [], readProcFile: async () => ""})` 且传空数组 → 返回空 `Map` 且不抛错；`platform:"win32"` + 假 `execFile` 返回两行 tasklist CSV（含目标 pid 与其它 pid）→ 结果只有目标 pid、值长度为 1；`platform:"darwin"` + 假 `execFile` 返回 `ps -eo pid=,ppid=,rss=,cputime=` 文本 → 结果按父子关系分组；`treeScope` 在 win32 上为 `"direct_process"`、在 linux 上为 `"process_tree"`；重复 pid 与非法 pid（`0`、`-1`、`1.5`）不产生额外遍历。
+
+### B81 `sampleProcessGroup` 的平台与 PID 约束
+
+- 来源：`device/process-probe.ts`（`sampleProcessGroup`）
+- 输入：进程组 id。
+- 输出：平台是 `win32` 或 `processGroupId` 不是可采样 PID（非正整数整数）→ **直接返回 `undefined`**（不进入 `sample`、不计失败）；否则 `linux` → `sampleLinuxProcessGroup(readers, gid)`；其它平台 → `readDarwinProcessGroup(executor, gid)` 后 `.map(toSample)`。
+- 错误语义：失败/超时为 `undefined`。
+- 时序与并发：与 `sampleProcessTrees` 独立计时。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：Windows 不支持进程组采样（返回 `undefined` 而不是空数组）。
+- 状态所有者：实例级 `failures`。
+- 日志级别：无。
+- 可测断言：`platform:"win32"` 且传 1 → `undefined` 且注入的 `execFile` 调用计数为 0；`platform:"linux"` 且传 `0`/`1.5` → `undefined`；`platform:"linux"` 且 `/proc` 假数据里两条同组、一条不同组 → 只返回同组两条，且都含 `pid`/`rssKb`（有 `cpuTimeMs`）。
+
+### B82 进程探测共享工具的纯函数与命令契约
+
+- 来源：`device/process-probe-shared.ts`
+- 输入：`ProcessRelation[]`/`ProcessRow[]`、根 PID、`execFile` 替身。
+- 输出：
+  - `PROCESS_PROBE_SAMPLE_TIMEOUT_MS` 逐字 **1000**；`ProcessProbeFailure extends Error`；`isSamplablePid` 只接受正整数整数。
+  - `toSample(row)` 取 `{pid, rssKb}`，`cpuTimeMs !== undefined` 时才带上。
+  - `collectProcessTreePids(relations, rootPids)`：先按**输入顺序**建 `parentPid → children[]` 索引（同 PID 的多行只影响该行自身，不抹掉此前建立的父子边），再对每个根做**去重 DFS**（`visited` 防环），返回 `Map<根, 成员数组>`；两个根共用的子进程会在各自的树里各出现一次；根不在 `relations` 里则不出现在结果中；空 `rootPids` 返回空 `Map`。
+  - `groupProcessTrees(rows, rootPids)`：每个 pid 取**最后一行**作为样本（`latest` 覆盖），按树成员映射成 `toSample` 结果（树内成员一定有行）。
+  - `runProbeCommand(execFile, file, args, extraOptions?)`：固定 `{encoding:"utf8", maxBuffer: 8 MiB, timeout: 1000, ...extraOptions}`；`status !== 0` 或 `error` 存在 → 抛 `ProcessProbeFailure("<file> 采样失败: <stderr.trim() 或 String(status)>")`；否则返回 `stdout`。
+  - `defaultProbeExecFile`：包 `node:child_process.execFile` 回调成 Promise：无错误 → `{status: 0, stderr, stdout}`；有错误 → `{error, status: typeof error.code === "number" ? code : null, stderr, stdout}`（**不 reject**）。
+- 错误语义：只有 `runProbeCommand` 抛 `ProcessProbeFailure`，其它函数不抛。
+- 时序与并发：纯函数同步；`defaultProbeExecFile` 一次一个子进程。
+- 幂等：纯函数幂等。
+- 资源释放：`defaultProbeExecFile` 的子进程随回调结束回收；超时由 `execFile` 的 `timeout` 承担。
+- 平台差异：`maxBuffer`/`timeout` 跨平台一致；`windowsHide` 由调用方通过 `extraOptions` 传入（Windows 专用，见 B84）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`collectProcessTreePids([{pid:1},{pid:2,parentPid:1},{pid:3,parentPid:1}], [1])` → `1 → [1,2,3]`；同一 `pid` 出现两行且第一行带 `parentPid` 时，子进程仍挂在父下；`rootPids` 含不存在的 pid → 不含它；`groupProcessTrees` 里同一 pid 两行 → 用**最后一行**的 `rssKb`；`runProbeCommand` 的 `status:1` + `stderr:"boom"` → 抛 `ProcessProbeFailure` 且消息含 `采样失败: boom`；`status:1` 且 `stderr:""` → 消息含 `1`；`defaultProbeExecFile` 对不存在的命令返回带 `error` 与 `status === null` 的结果而不是 reject。
+
+### B83 Linux `/proc` 解析契约
+
+- 来源：`device/process-probe-linux.ts`（`relation`、`scan`、`relations`、`samples`、`sampleLinuxProcessTrees`、`sampleLinuxProcessGroup`）
+- 输入：`LinuxProcReaders`（`listProcDirectory`、`readProcFile`、可选 `isExpired`）与根 PID / 进程组 id。
+- 输出：
+  - 每批最多 **64** 个 pid 并发读取；单个 pid 的读取异常被吞成 `undefined`（不影响同批其它 pid）；每批 `await` 后调 `checkDeadline`，`isExpired()` 为真 → 抛 `ProcessProbeFailure("/proc 扫描超时")`。
+  - `listProcDirectory` 抛错 → `ProcessProbeFailure("/proc 不可读: <String(error)>")`；目录名先按 `^\d+$` 过滤、`Number` 转换、`isSamplablePid` 过滤。
+  - `stat` 解析：取最后一个 `)` 之后按空白切分；字段 1 是 `ppid`（整数且 ≥ 0）、字段 2 是 `pgrp`（整数）、字段 11/12 是 `utime`/`stime`（有限数）；任一不满足 → 该行 `undefined`；`cpuTimeMs = Math.round(((utime + stime) / 100) * 1000)`（**100 tick/秒**，有限小数也按同一浮点运算再取整）。
+  - `status` 解析：`/^VmRSS:\s+(\d+)\s*kB$/mu`（单位前允许 0 个或多个空白）；不匹配或非有限 → 该 pid 没有样本。
+  - `sampleLinuxProcessTrees`：先用整表建树，`selected` 是所有树的成员并集；**只对 selected 读 `status`**；每个根返回「树成员 ∩ 有样本的成员」，缺样本的成员被跳过（不会补零）；根不在表里则不出现在结果。
+  - `sampleLinuxProcessGroup(gid)`：整表里 `processGroupId === gid` 的行读 `status`；返回样本数组（顺序按表中的出现顺序，批内并发返回顺序固定）。
+- 错误语义：见上；不向调用方抛除 `ProcessProbeFailure` 以外的错误。
+- 时序与并发：批内 `Promise.all` 并发、批间串行；每批后检查截止（不伪造取消已进入的读取）。
+- 幂等：是（只读 `/proc` 快照，同一份假数据同一结果）。
+- 资源释放：无（reader 由调用方提供）。
+- 平台差异：只在 Linux 使用；`/proc/<pid>/stat` 与 `status` 的格式假设写在实现里，**macOS 未实机验证**。
+- 状态所有者：无（读者函数由 `createProcessProbe` 注入）。
+- 日志级别：无。
+- 可测断言：假 `/proc` 数据（`1` 为根、`2` 子、`3` 同组不同父）→ `sampleLinuxProcessTrees(readers,[1])` 得到 `1 → [1,2]` 的样本（含 `rssKb` 与 `cpuTimeMs`）；`sampleLinuxProcessGroup(readers, 3)` 返回组内两条；某 pid 的 `status` 缺 `VmRSS` 行 → 该 pid 从树的样本里被跳过但仍在成员集合里（不影响其它成员）；`isExpired: () => true` → 抛 `ProcessProbeFailure`；`listProcDirectory` 抛错 → 抛 `ProcessProbeFailure` 且消息含 `/proc 不可读`。
+
+### B84 Windows `tasklist` CSV 解析契约
+
+- 来源：`device/process-probe-windows.ts`（`readWindowsProcessMemory`、`columns`）
+- 输入：`execFile` 替身与 pid 集合。
+- 输出：固定跑 `tasklist /FO CSV /NH`（`extraOptions` 带 `windowsHide: true`）；按 `\r?\n` 切行、每行 `trim` 后做 CSV 解析：逗号在引号外才分列，引号内 `""` 表示一个字面 `"`；**引号未闭合的行整行丢弃**；列数 ≤ 4 丢弃；第 1 列 `Number` 后必须有限且在该 pid 集合里，否则丢弃；第 4 列去掉所有非数字字符后必须非空，`Number` 有限才产出；结果 `{pid, rssKb}`（**无 `cpuTimeMs`**），顺序按输出行序。
+- 错误语义：命令失败按 B82 抛 `ProcessProbeFailure`（消息含 `tasklist 采样失败`）；解析不出任何行时返回空数组（不抛错）。
+- 时序与并发：单次命令、顺序解析。
+- 幂等：是。
+- 资源释放：子进程由 `execFile` 回收。
+- 平台差异：`windowsHide: true` 避免闪窗；`tasklist` 的本地化列名不影响（只按列位取值），内存列的 `1,234 K` 形式由「去非数字」处理。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：输入 `"node.exe","1234","Console","12,345 K"` 与 `"other.exe","9999","Console","1 K"` 且 pid 集合只有 `1234` → 返回 `[{pid:1234, rssKb:12345}]`；引号未闭合的行被丢弃；第 4 列为 `"N/A"` → 丢弃；pid 不在集合里 → 丢弃。
+
+### B85 Darwin `ps` 解析契约
+
+- 来源：`device/process-probe-darwin.ts`（`readDarwinProcessTable`、`readDarwinProcessGroup`、`parse`、`elapsed`）
+- 输入：`execFile` 替身与进程组 id。
+- 输出：整表固定跑 `ps -eo pid=,ppid=,rss=,cputime=`（**4 列**）；进程组固定跑 `ps -o pid=,rss=,cputime= -g <gid>`（**3 列**）。每行 `trim` 后按空白切分，**列数不等于期望列数就丢弃**；`pid` 必须是可采样 PID；`rssKb` 有限且 ≥ 0；带父列时 `parentPid` 必须是整数且 ≥ 0；`cputime` 由 `elapsed` 解析：按 `-` 切成 1–2 段（更多段丢弃），第 1 段是「天」（非负有限数），最后一段按 `:` 切 1–3 段（每段非负有限数），按 `[1,60,3600]` 权重从秒位起加权，天 × 86400，最后 `Math.round(秒 × 1000)` 得毫秒；任一不合法则**该行不带 `cpuTimeMs`**（但仍保留该行）。
+- 错误语义：命令失败按 B82 抛 `ProcessProbeFailure`；解析不出行时返回空数组。
+- 时序与并发：单次命令、顺序解析。
+- 幂等：是。
+- 资源释放：子进程由 `execFile` 回收。
+- 平台差异：**本机无法在 macOS 实机验证**，仅按 `ps` 的公开输出格式与现有测试锁定；列宽/空白由 `split(/\s+/)` 处理。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`"1 0 100 01:02"` → 一行 `{pid:1,parentPid:0,rssKb:100,cpuTimeMs:62000}`；`"1 0 100 1-00:00:01"` → `cpuTimeMs === 86401000`；`"1 0 100 bogus"` → 行仍存在但 `cpuTimeMs === undefined`；列数多/少一列 → 整行丢弃；`readDarwinProcessGroup` 用 3 列文本 → 行的 `parentPid === undefined`。
+
+### B86 `device/` 的导出面
+
+- 来源：`device/` 六个文件
+- 输入：无。
+- 输出：按 `interface.md` 逐个保持：`cli-device-mid.ts` 只导出 `ensureCliDeviceMid`（`EnsureCliDeviceMidOptions` 不导出）；`process-probe-darwin.ts` 导出 `readDarwinProcessTable`、`readDarwinProcessGroup`；`process-probe-linux.ts` 导出 `LinuxProcReaders`、`sampleLinuxProcessTrees`、`sampleLinuxProcessGroup`；`process-probe-shared.ts` 导出 13 个声明（`ProcessProbeSample`、`ProcessProbeCommandResult`、`ProcessProbeExecFile`、`ProcessRelation`、`ProcessRow`、`PROCESS_PROBE_SAMPLE_TIMEOUT_MS`、`ProcessProbeFailure`、`isSamplablePid`、`toSample`、`collectProcessTreePids`、`groupProcessTrees`、`runProbeCommand`、`defaultProbeExecFile`）；`process-probe-windows.ts` 导出 `readWindowsProcessMemory`；`process-probe.ts` 导出 `ProcessTreeScope`、`ProcessProbe`、`createProcessProbe` 并对 shared 做 4 个名字的 re-export（`CreateProcessProbeOptions` 不导出）。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：六个模块的 `Object.keys` 分别等于 `interface.md` 的导出集合（`process-probe.ts` 含 4 个 re-export 名字）；`mod.CreateProcessProbeOptions === undefined`、`mod.defaultProbeExecFile`（在 shared 里）已定义。
+
+### B87 CLI 设备标识（deviceMid）的生成、单飞与落盘
+
+- 来源：`device/cli-device-mid.ts`（`ensureCliDeviceMid`、`IdentityRequest`）
+- 输入：`{baseDir?, createId?, env?}`。
+- 输出：数据目录按 `baseDir ?? env.KNORVIA_DATA_BASE_DIR?.trim() ?? homedir()` 取；**空串回退 `homedir()`**；`"~"` → `homedir()`；`"~/x"` → `join(homedir(), "x")`；其它 → `resolve`；状态文件是 `<目录>/.knorvia-studio/v2/telemetry-state.json`，锁是**同目录**的 `telemetry-state.lock`。**模块级单飞**：同一状态文件路径只初始化一次，后续调用返回同一个 Promise；已存在的 `deviceMid`（非空字符串）直接复用；初始化整体失败（`initialize` 抛错）时返回 `createId()` 生成值（用 `owner.generated()`，**同一请求内只生成一次**）。
+- 锁与落盘：`open(lock, "wx")` 排他创建；写入 `{createdAt: Date.now(), pid: process.pid}`；拿到锁后**再读一次**状态文件，已有 `deviceMid` 就用它（不覆盖）；否则生成并把 `deviceMid` 写进状态对象，用「同目录 `.name.pid.ts.random.tmp` + `rename`」原子发布（`JSON.stringify(state, null, 2)`，无结尾换行），失败时尽力 `unlink` 临时文件并抛出；`finally` 里先 `close` 再尽力 `unlink` 锁（`close` 失败则不继续 `unlink`，外层用同一请求的 fallback）。锁冲突（`EEXIST`）时最多重试 **200** 次、每次等 **10 ms**；超过就抛逐字 `CLI telemetry state lock timeout`。
+- 回收：锁的 `mtime` 距今 **< 5 分钟**时先解析锁内容——`pid`/`createdAt` 不是数字则**不回收**（返回 `false`）；`pid` 是正整数时用 `process.kill(pid, 0)` 探活，活着（或 `EPERM`）则不回收；否则删锁并返回 `true` 继续重试。锁的 `stat` 失败、解析失败等都按「不回收」处理。
+- 错误语义：读状态文件失败/内容不是对象 → 当 `{}`；初始化最终失败 → 回退生成值（**不 reject**）；仅「锁超时」这一条会抛错。
+- 时序与并发：进程内单飞；跨进程靠锁；等待是 10 ms 轮询（既有语义，不用 sleep 之外的手段）。
+- 幂等：同一路径重复调用返回同一值；已有 `deviceMid` 时不再改写文件。
+- 资源释放：文件句柄 `close` 在 `finally`；锁在 `finally` 里删除；临时文件失败时尽力删除。
+- 平台差异：`process.kill(pid, 0)` 在 Windows 上对不存在进程抛 `ESRCH`（按不可变行为处理）；`open(..., "wx")` 与 `rename` 跨平台一致。
+- 状态所有者：模块级 `Map<statePath, Promise<string>>`（单飞缓存）+ 状态文件里的 `deviceMid`。
+- 日志级别：无。
+- 可测断言：`baseDir` 指向临时目录、`createId: () => "id-1"` → 返回 `"id-1"`，`<tmp>/.knorvia-studio/v2/telemetry-state.json` 内容为 `{"deviceMid":"id-1"}`（2 空格缩进、无结尾换行），同目录不再有锁与 `.tmp` 残留；再次调用（新 `createId: () => "id-2"`）返回 `"id-1"`（读文件）；并发两次 `ensureCliDeviceMid` 返回同一个 Promise/同一值；预置状态文件 `{"deviceMid":"keep"}` → 返回 `"keep"` 且文件不被改写；预置一个 `mtime` 为当前、内容为有效 `{pid:<不存在的 pid>, createdAt:...}` 的锁文件 → 调用仍能成功（回收死锁）；锁内容不是有效 JSON → 调用在 200 次重试后抛 `CLI telemetry state lock timeout`。
+
+### B88 `resizeToFit` 的尺寸与直通语义
+
+- 来源：`image/index.ts`（`createJimpImageProcessorAdapter().resizeToFit`）
+- 输入：`{data, mediaType, maxDimension}` 与 `{signal?}`。
+- 输出：先 `throwIfAborted`；`maxDimension` 不是有限数或 ≤ 0 → 抛**普通 `Error`**，消息逐字 `Image resize maxDimension must be a positive finite number`；`data` 立刻 `Buffer.from(request.data)` 复制一份（返回值不复用调用方 buffer）；`mediaType === "image/webp"` → **不解码不缩放**，直接返回 `{data: 复制后的 buffer, mediaType: request.mediaType, resized: false}`（没有 `width`/`height`/`originalWidth`/`originalHeight`）；否则解码并取原始尺寸，宽高都 ≤ `maxDimension` → 返回原 buffer 与 `{originalWidth, originalHeight, width, height, resized: false}`；需要缩放时用 `scaleToFit({w: limit, h: limit, mode: ResizeStrategy.BICUBIC})`，输出 MIME 由 `jimpOutputMediaType(request.mediaType, decoded.mime)` 决定，返回 `{data: <编码后>, mediaType: <该 MIME>, originalWidth, originalHeight, width, height, resized: true}`。
+- 错误语义：解码失败由 `Jimp.read` 抛（不包装）；取消抛 `Image resize was cancelled`（见 B92）。
+- 时序与并发：异步；每次调用独立解码，不共享可变状态。
+- 幂等：除编码字节可能因编解码器细节不同外，尺寸与 `resized` 判定稳定。
+- 资源释放：`Jimp.read` 的解码结果只在本次调用内使用（无显式释放接口）。
+- 平台差异：无（纯 JS 编解码）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`maxDimension: 0`/`NaN` → 抛消息逐字为上述文案的 `Error`；`mediaType:"image/webp"` + 任意小字节 → 返回的 `data` 与输入字节相同但**不是同一个 Buffer 对象**、`resized === false`；1×1 PNG + `maxDimension: 8` → `resized === false` 且 `width === height === 1`；4×2 PNG + `maxDimension: 2` → `resized === true`、`width === 2`、`height === 1`、`originalWidth === 4`、`originalHeight === 2`。
+
+### B89 `prepareForModel` 的入口校验与空数据
+
+- 来源：`image/jimp-compression.ts`（`prepareJimpImageForModel`）
+- 输入：`ImagePrepareForModelRequest` 与 `{signal?}`。
+- 输出：顺序固定：`throwIfAborted` → `validatePrepareRequest`（`maxDimension`/`maxBase64Bytes`/`maxRawBytes` 都必须是正有限数，否则 `createImageProcessorError({code:"invalid_request", ...})`，消息逐字分别为 `Image resize maxDimension must be a positive finite number`、`Image maxBase64Bytes must be a positive finite number`、`Image maxRawBytes must be a positive finite number`）→ `Buffer.from(request.data)` → **0 字节** → 抛 `createImageProcessorError({code:"empty", message:"Image file is empty (0 bytes)"})`。
+- 错误语义：`createImageProcessorError` 的错误对象带 `code`（`invalid_request`/`empty`/`processing_failed`/`too_large`/`unsupported`）与 `message`；解码失败包成 `processing_failed`（`message` 逐字 `Unable to decode image data`，`cause` 是原错误）。
+- 时序与并发：异步；取消检查在解码前后各一次。
+- 幂等：是（同一输入同一结果）。
+- 资源释放：无（输入被复制）。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`maxRawBytes: 0` → 抛 `code === "invalid_request"`、消息逐字 `Image maxRawBytes must be a positive finite number`；`data` 为空 Buffer → 抛 `code === "empty"`、消息逐字 `Image file is empty (0 bytes)`；`data` 是随机非图片字节且三上限合法 → 抛 `code === "processing_failed"`、消息逐字 `Unable to decode image data`；已 abort 的 signal → 抛 `Image resize was cancelled` 且**先于**校验发生（传 `maxRawBytes:0` 也抛取消）。
+
+### B90 未超预算的原图直通与 WebP 直通
+
+- 来源：`image/jimp-compression.ts`、`image/webp-passthrough.ts`
+- 输入：`request`（媒体类型、三上限）与输入字节。
+- 输出：
+  - 媒体类型判定：`detectImageMediaType(input) ?? normalizeMediaType(request.mediaType)`；检测到 `image/webp` → 走 `prepareWebpPassthrough`，**不经过 jimp 解码**。
+  - WebP 直通：做 `createImageBudget(request)` 后 `fitsImageBudget` 判定，超预算 → 抛 `createImageProcessorError({code:"unsupported", message:"WebP image exceeds the model image budget and the current image adapter cannot transcode WebP"})`；未超 → 返回**输入 Buffer 原引用**，`{mediaType:"image/webp", originalSizeBytes, resized:false, compressed:false, strategy:"original", transformedSizeBytes}`（没有 `width`/`height`/`originalWidth`/`originalHeight`）。
+  - 非 WebP 且尺寸在 `maxDimension` 内、且**原始字节**满足预算 → 直接返回输入（`mediaType` 是规范化后的来源类型、`resized:false`、`compressed:false`、`strategy:"original"`，并带 `originalWidth/originalHeight/width/height` 与 `originalSizeBytes`/`transformedSizeBytes`）。
+- 错误语义：见 B89；预算不够时 WebP 是 `unsupported`，其它格式进入 B93 的策略选择。
+- 时序与并发：异步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：1×1 PNG + 宽松预算 + `maxDimension:8` → `strategy === "original"`、`compressed === false`、`data` 字节等于输入；同一输入 + `maxRawBytes` 小于输入长度 → 不返回 `original`（要么换策略要么 `too_large`）；WebP 魔数的小字节（`RIFF....WEBP`）+ 宽松预算 → `strategy === "original"`、`resized === false`、`data` 与输入同一引用；同输入 + `maxRawBytes: 1` → 抛 `code === "unsupported"`。
+
+### B91 图片预算的计算与判定
+
+- 来源：`image/image-budget.ts`
+- 输入：`ImagePrepareForModelRequest` / `(buffer, budget)`。
+- 输出：`createImageBudget` 返回 `{maxBase64Bytes: Math.floor(request.maxBase64Bytes), maxRawBytes: Math.floor(request.maxRawBytes), maxTokens: request.maxTokens, tokenToBase64CharRatio: request.tokenToBase64CharRatio ?? 0.125}`（**缺省比例逐字 0.125**）。`fitsImageBudget` 依次判定：`buffer.byteLength > maxRawBytes` → `false`；`base64EncodedLength = Math.ceil(byteLength / 3) * 4` 大于 `maxBase64Bytes` → `false`；`maxTokens === undefined` → `true`；否则 `Math.ceil(base64Bytes * tokenToBase64CharRatio) <= maxTokens`。
+- 错误语义：不抛错（`validatePrepareRequest` 才抛）。
+- 时序与并发：纯同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{maxBase64Bytes: 10.9, maxRawBytes: 3.7, tokenToBase64CharRatio: undefined}` → `{maxBase64Bytes:10, maxRawBytes:3, tokenToBase64CharRatio:0.125}`；3 字节 buffer 且 `maxRawBytes:3`、`maxBase64Bytes:4` → `true`，`maxBase64Bytes:3` → `false`；4 字节 buffer → base64 长度 8（`ceil(4/3)*4`）；`maxTokens:1` 且 base64 长度 8、比例 0.125 → `ceil(1) <= 1` 为 `true`，`maxTokens:0` → `false`。
+
+### B92 媒体类型与取消语义的工具函数
+
+- 来源：`image/jimp-media.ts`
+- 输入：媒体类型字符串 / `AbortSignal | undefined`。
+- 输出：`normalizeMediaType` 先把输入转小写：`image/jpg` → 逐字 `image/jpeg`；`image/jpeg`、`image/png`、`image/gif`、`image/webp` 原样返回（小写形态）；其它（含 `image/bmp`、空串）→ `JimpMime.png`（逐字 `image/png`）。`jimpOutputMediaType(requested, detected)`：`requested` 属于 `{image/bmp, image/gif, image/jpeg, image/png, image/tiff}` 就用它；否则 `detected` 属于该集合就用 `detected`；都不行 → `image/png`。`throwIfAborted(signal)`：`signal?.aborted` 为真时抛逐字 `Image resize was cancelled`，否则原样返回。该模块还 re-export `detectImageMediaType`（来自 `@knorvia/contracts`）。
+- 错误语义：只有 `throwIfAborted` 抛错。
+- 时序与并发：纯同步。
+- 幂等：`normalizeMediaType` 幂等。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`normalizeMediaType("IMAGE/JPG") === "image/jpeg"`；`normalizeMediaType("image/bmp") === "image/png"`；`jimpOutputMediaType("image/tiff","image/png") === "image/tiff"`；`jimpOutputMediaType("image/avif","image/gif") === "image/gif"`；`jimpOutputMediaType("image/avif","image/avif") === "image/png"`；已 abort 的 signal → 抛消息逐字 `Image resize was cancelled`；`mod.detectImageMediaType` 是函数。
+
+### B93 压缩策略的选择顺序与结果语义
+
+- 来源：`image/jimp-compression.ts`（`selectEncoding`、`trySourceFormat`、`tryJpegLevels`、`encodeChoice`、`copyWithinEdge`）
+- 输入：解码后的图片、来源媒体类型、`maxDimension`、原始宽高、预算、signal。
+- 输出：选择顺序固定（每个候选都先判预算）：
+  1. 原尺寸在 `maxDimension` 内时先试**来源格式**：PNG → `deflateLevel: 9`、`deflateStrategy: 3`，策略名逐字 `png-optimized`；JPEG → 依次试质量 `[80, 60, 40, 20]`，策略名逐字 `jpeg-quality`；GIF → 保持格式，策略名逐字 `preserve-format`；其它来源格式**不试**。
+  2. 非 PNG 且按 `maxDimension` 缩放后尺寸变了 → 用输出 MIME 编码一次，策略名逐字 `resized`。
+  3. 非 PNG 时在缩放后的图上再试一次来源格式（策略名同上）。
+  4. 缩放后的图依次试 JPEG 质量 `[80,60,40,20]`（`jpeg-quality`）。
+  5. 依次用收缩因子 `[0.75, 0.5, 0.25]`（边缘 `Math.max(1, Math.round(当前最长边 × 因子))`）再试来源格式（非 PNG）与 JPEG 质量。
+  6. 依次用边缘 `[1000, 800, 600, 400, 300, 200]` 与 `Math.min(edge, maxDimension)` 编码 JPEG 质量 **20**，策略名逐字 `jpeg-fallback`。
+     全部失败 → `undefined`，调用方抛 `too_large`（消息含输入字节数与 `within the requested model image budget`）。
+- 输出字段：非直通路径的结果里 `mediaType` 是 `normalizeMediaType(choice.mediaType)`、`resized` 是「最终宽高与原始宽高不同」、`compressed` 是「`data.byteLength < input.byteLength` **或** 编码后 MIME 与来源 MIME 不同」、`transformedSizeBytes` 是编码后字节数、`originalSizeBytes` 是输入字节数、`strategy` 是上述策略名之一。
+- 错误语义：`undefined` → `too_large`；取消在两处编码前后检查，抛 `Image resize was cancelled`。
+- 时序与并发：串行依次编码（每次都可能较慢）；不做并行编码。
+- 幂等：是（同一输入同一策略选择，除非编码器本身不确定）。
+- 资源释放：`clone()` 出的临时图只在本函数内使用。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：小尺寸 PNG 且宽松预算 → `strategy === "original"`；把 `maxTokens` 压到 1 且图片噪声较大 → 结果 `strategy` 属于 `{png-optimized, jpeg-quality, resized, jpeg-fallback}` 且 `fitsImageBudget(result.data, createImageBudget(request)) === true`（预算必须真的被满足）；把 `maxRawBytes` 压到极低（如 50）→ 抛 `code === "too_large"` 且消息含输入字节数；`resized === true` 时 `width <= maxDimension && height <= maxDimension`。
+
+### B94 `image/` 的导出面
+
+- 来源：`image/` 五个文件
+- 输入：无。
+- 输出：按 `interface.md`：`image-budget.ts` 导出 `ImageBudget`、`createImageBudget`、`validatePrepareRequest`、`fitsImageBudget`（4 个）；`image/index.ts` 导出 `createJimpImageProcessorAdapter`（1 个）；`image/jimp-compression.ts` 导出 `prepareJimpImageForModel`（1 个）；`image/jimp-media.ts` 导出 `normalizeMediaType`、`jimpOutputMediaType`、`throwIfAborted` 并对 `@knorvia/contracts` 做 `detectImageMediaType` re-export；`image/webp-passthrough.ts` 导出 `prepareWebpPassthrough`（1 个）。内部函数与内部类型（`copyWithinEdge`、`encodeChoice`、`selectEncoding`、`tryJpegLevels`、`EncodedChoice` 等）不得导出。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：五个模块的 `Object.keys` 分别等于 `interface.md` 的导出集合；`mod.selectEncoding === undefined`、`mod.EncodedChoice === undefined`、`mod.QUALITY_LEVELS === undefined`。

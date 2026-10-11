@@ -178,8 +178,8 @@ browser-use-plugin/tsconfig.json              u-unchanged
 | A    | `storage/session-store*`（会话存储迁移，计划书点名）                                         | B1–B17  | **已完成** `2bd3671b` |
 | B1   | `config/`：env 解析、作用域优先级、合并语义、`ConfigStore`/`ConfigPortImpl`、项目配置发现    | B18–B27 | **已完成** `cd22bf61` |
 | B2   | `config/`：schema、MCP normalization、`config-factory`（provenance）、`owners.test`          | B28–B48 | **已完成** `e76494f7` |
-| C    | `config/file-config.adapter.ts`、`context/*`（git 快照与 context barrel）                    | B49–B70 | **已完成**（本提交）  |
-| D    | `commands/*`、`device/*`（进程探测）、`image/*`（图片压缩）                                  | —       | 待写                  |
+| C    | `config/file-config.adapter.ts`、`context/*`（git 快照与 context barrel）                    | B49–B70 | **已完成** `00a6ff48` |
+| D    | `commands/*`、`device/*`（进程探测、deviceMid）、`image/*`（图片压缩）                       | B71–B94 | **已完成**（本提交）  |
 | D2   | `fs/*`（文件 IO、搜索、ripgrep、文本窗口）、`logging/*`（日志、保留、脱敏）                  | —       | 待写                  |
 | E    | 会话存储迁移的夹具与断言组织说明；`mailbox`、`pdf`、`provider`、`skills`、`workflow`、barrel | —       | 待写                  |
 | F    | `tests/`、`fixtures/`、`stubs/`、`known-differences.md`、`acceptance.md`、`gate-old.json`    | —       | 待写                  |
