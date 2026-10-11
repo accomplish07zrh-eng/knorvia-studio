@@ -55,5 +55,5 @@
     "errors": 1,
     "note": "与 v1 同口径：194 warnings / 1 error（既有 max-lines）。"
   },
-  "versionNote": "v2: B49 默认路径期望值按同一解析入口推导（兼容 test:studio 的 KNORVIA_DATA_BASE_DIR）；并入 main 后两入口重跑 118/118。"
+  "versionNote": "v2: B49 默认路径期望值按同一解析入口推导（兼容 test:studio 的 KNORVIA_DATA_BASE_DIR）；并入 main 后两入口重跑 118/118；桩替换与 lint 结论继承本 PR 早前完整运行。"
 }
