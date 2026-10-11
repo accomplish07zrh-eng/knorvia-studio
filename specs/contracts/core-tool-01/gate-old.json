@@ -43,6 +43,18 @@
   ],
   "preregisteredDifferences": [],
   "assertionsWeakened": false,
+  "stubReplacement": {
+    "command": "copy specs/contracts/core-tool-01/stubs/** over the 32 in-scope files, then node <node24> --import tsx --test specs/contracts/core-tool-01/tests/*.test.ts",
+    "entry": "source",
+    "tests": 9,
+    "pass": 0,
+    "fail": 9,
+    "skipped": 0,
+    "exitCode": 1,
+    "failuresCarryNotImplemented": true,
+    "note": "0 of the 81 contract tests pass with the stubs in place; every failure message is 'not implemented: core-tool-01'. Test files abort while importing because constant stubs throw on evaluation, so the runner reports 9 failing test-level entries rather than 81 individual assertion failures.",
+    "verifiedOn": "2026-10-11"
+  },
   "coverage": {
     "behaviors": "B1-B88",
     "map": {
@@ -138,10 +150,11 @@
     "emptyRows": 0
   },
   "callers": {
-    "tool": "pnpm dep:refs (same ts-morph logic as scripts/dep-refs.mjs)",
+    "tool": "pnpm dep:refs (fixed CLI globs, wt/tool-deprefs) plus a ts-morph reference scan using the same logic over packages/*/{src,test}, apps/cli/packages/*/{src,test}, specs/contracts/** and scripts/**",
     "listExportsFiles": 32,
-    "listExportsRows": 248,
+    "listExportsRows": 183,
     "symbolsScanned": 184,
+    "note": "The official --list-exports lists declaration exports (183 rows over the 32 files). The reference scan covers 184 names because executor/workflow-artifact.ts also re-exports the local binding serializeWorkflowArtifact via export { … }, which has no references anywhere.",
     "externalCallerFiles": 228,
     "productionCallerFiles": 169,
     "testCallerFiles": 59,

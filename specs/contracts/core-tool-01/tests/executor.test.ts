@@ -2,7 +2,7 @@
 // core-tool-01 contract tests, part 2: executor assembly, events, turn control,
 // telemetry, background tracker and projection. Test doubles are in-memory only.
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { mock, test } from "node:test";
 
 import {
   createToolExecutor,
@@ -556,25 +556,65 @@ test("B63/B65 tracker reaches a terminal state through the snapshot poll", async
 });
 
 test("B67 tracker keeps polling when the waiter rejects but a snapshot source exists", async () => {
-  const sink = eventSink();
-  const deps = sink.deps({
-    executionPort: {
-      getBackgroundTask: async () => ({ status: "running" }),
-      waitForBackgroundTask: async () => {
-        throw new Error("wait down");
+  mock.timers.enable({ apis: ["setInterval", "setTimeout"] });
+  try {
+    const sink = eventSink();
+    const warnings: unknown[][] = [];
+    let snapshot: Record<string, unknown> = { status: "running", pid: 1 };
+    const deps = sink.deps({
+      executionPort: {
+        getBackgroundTask: async () => snapshot,
+        waitForBackgroundTask: async () => {
+          throw new Error("wait down");
+        },
       },
-    },
-    runtimeTaskRegistry: undefined,
-  });
-  const tracker = new BackgroundTaskTracker(deps);
-  await tracker.trackBackgroundTask(
-    { id: "c1", name: "Bash", input: {} } as never,
-    { status: "backgrounded", backgroundTaskId: "t1" },
-    trace,
-    undefined,
-  );
-  await new Promise((resolve) => setTimeout(resolve, 50));
-  assert.equal(sink.events.filter((event) => event.type === "background_task_completed").length, 0);
+      runtimeTaskRegistry: undefined,
+      logger: {
+        warn: (...args: unknown[]) => void warnings.push(args),
+        info: () => undefined,
+        debug: () => undefined,
+      },
+    });
+    const tracker = new BackgroundTaskTracker(deps);
+    await tracker.trackBackgroundTask(
+      { id: "c1", name: "Bash", input: {} } as never,
+      { status: "backgrounded", backgroundTaskId: "t1" },
+      trace,
+      undefined,
+    );
+    await new Promise((resolve) => setImmediate(resolve));
+    // 等待者被拒绝 → 写 warn；有快照来源时追踪不停止。
+    assert.ok(warnings.some((entry) => String(entry[0]).includes("Background task wait failed")));
+    assert.equal(
+      sink.events.filter((event) => event.type === "background_task_completed").length,
+      0,
+    );
+
+    // 时钟推进两轮：仍在轮询（快照一直是 running），没有终态事件。
+    mock.timers.tick(1000);
+    await new Promise((resolve) => setImmediate(resolve));
+    mock.timers.tick(1000);
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(
+      sink.events.filter((event) => event.type === "background_task_completed").length,
+      0,
+    );
+
+    // 快照变终态后，同一条追踪仍能收口：证明它没有在等待者失败时被停掉。
+    snapshot = { status: "completed", pid: 1 };
+    mock.timers.tick(1000);
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(
+      sink.events.filter((event) => event.type === "background_task_completed").length,
+      1,
+    );
+    assert.equal(
+      sink.events.filter((event) => event.type === "background_task_completed")[0]!.payload.status,
+      "completed",
+    );
+  } finally {
+    mock.timers.reset();
+  }
 });
 
 test("B87 workflow manifest bounds result, error and duration", async () => {

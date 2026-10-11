@@ -82131,7 +82131,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/callers.md",
-      "normalizedSha256": "10683027fa83b31a7be483f4c528a14006316f01492f3264bac7c7fe10a100ae",
+      "normalizedSha256": "fa12c68cbfe1e69abbcc750ef919fe6dfabf1acb03a2e92f67108a05dd0e76ee",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82155,7 +82155,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/acceptance.md",
-      "normalizedSha256": "59ff27648602e70ae381f9e99e3264e0d87cb6c4ad735f7cfba29bff576437b2",
+      "normalizedSha256": "d93079315104e18f311c5a8d0b6a15617e01ec98d997abb3ab65e70694271652",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82167,10 +82167,10 @@
     },
     {
       "path": "specs/contracts/core-tool-01/gate-old.json",
-      "normalizedSha256": "79403707c15041ee146e891cf6044ee67c92f9324fdf631aee6bbef37d248fa4",
+      "normalizedSha256": "f2256f08720ca514d8bc24f5b4033d61ecf1c2dcbabc2946996137cee448c73b",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "New machine-readable old-gate record for the core-tool-01 contract: test counts, per-entry results, preregistered differences, coverage map and caller scan totals. Produced by running the contract tests against the unmodified implementation on both the source entry and the built dist entry; no code was copied from the replaced implementation.",
+      "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
@@ -82191,10 +82191,10 @@
     },
     {
       "path": "specs/contracts/core-tool-01/tests/executor.test.ts",
-      "normalizedSha256": "e7caa6789f16f8782cae795385d3559694198b1633cfb611b0b87665a9df05ae",
+      "normalizedSha256": "37fa7625fda9784935bc71fd95f18632ec89f72ad376112f2192c417aa1d496c",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "New core-tool-01 contract tests authored from behavior.md. They assert the documented behavior through public entry points only, use in-memory doubles and node:test fake timers instead of sleeps, and pass on the unmodified implementation as the old gate on both the source and the built entry. No assertion was weakened and no code was copied, renamed or rewritten line by line.",
+      "basis": "New core-tool-01 contract tests authored from behavior.md. They assert the documented behavior through public entry points only, use in-memory doubles and node:test fake timers instead of sleeps (B67 included), and pass on the unmodified implementation as the old gate on both the source and the built entry. No assertion was weakened and no code was copied, renamed or rewritten line by line.",
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",

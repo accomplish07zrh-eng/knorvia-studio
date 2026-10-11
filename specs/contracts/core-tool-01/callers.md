@@ -5,7 +5,7 @@ v1。目的：重写时不得破坏这些调用方依赖的模块路径、导出
 ## 扫描口径
 
 - `pnpm dep:refs` 的默认 glob 是 `packages/*/src/**`、`apps/*/src/**` 等，**不覆盖 `apps/cli/packages/**`**；因此对 32 个在范围文件另用同一 ts-morph 逻辑（`getExportedDeclarations()`+`findReferences()`）在更宽的 glob 上批量跑了一遍：`packages/_/{src,test}`、`apps/cli/packages/_/{src,test}`、`specs/contracts/**`、`scripts/**`。
-- `pnpm dep:refs --list-exports --scope apps/cli/packages/core/src/tool <file>` 对 32 个文件逐个跑通，共列出 248 行导出（含 `tool/index.ts` 的 47 条 re-export）。逐符号引用扫描覆盖 184 个导出名，其中 181 个在仓库内有引用、3 个只有 re-export（见文末）。
+- `pnpm dep:refs --list-exports <file>`（修复 CLI glob 后的版本）对 32 个文件逐个跑通，共列出 **183 行声明导出**。逐符号引用扫描覆盖 **184 个导出名**：多出的一个是 `executor/workflow-artifact.ts` 用 `export { serializeWorkflowArtifact }` 再导出的本地绑定，全仓没有任何引用（见文末）。
 - 引用方共 228 个文件（生产 169 / 测试与夹具 59），全部在 `apps/cli/packages/core` 与 `specs/contracts/core-tool-01` 内。**本包之外没有调用方**，所以兼容面就是这些文件依赖的模块路径与导出名。
 
 ## 包入口
