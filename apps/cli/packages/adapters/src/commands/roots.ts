@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// 自定义命令根发现：用户级（knorvia/agents）→ 项目目录链（逐级到 worktree 根）→ 额外根。
+// 自定义命令根发现：先额外根，再用户级两个根，最后项目目录链的两类候选，末尾追加显式根。
 import { stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -8,10 +8,16 @@ import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
 
 const COMMANDS_DIRECTORY = "commands";
 const WORKTREE_MARKER = ".git";
-const HOME_PREFIX = "~/";
-const PRIORITY_STEP = 10;
+const HOME_MARKER = "~/";
+const PRIORITY_GAP = 10;
 const PRIVATE_DIRECTORY = ".knorvia-studio";
 const COMPAT_DIRECTORY = ".agents";
+
+/** 目录名与来源的固定配对；顺序即扫描顺序。 */
+const LEVEL_SOURCES: readonly (readonly [string, CustomCommandSource])[] = [
+  [PRIVATE_DIRECTORY, "knorvia"],
+  [COMPAT_DIRECTORY, "agents"],
+];
 
 export interface CustomCommandRootResolutionOptions {
   extraRoots?: string[];
@@ -22,83 +28,96 @@ export interface CustomCommandRootResolutionOptions {
 
 type RootScope = CustomCommandRoot["scope"];
 
-interface RootInput {
+interface RootSpec {
   path: string;
   priority: number;
   scope: RootScope;
   source: CustomCommandSource;
 }
 
-function root(input: RootInput): CustomCommandRoot {
-  return {
-    path: resolve(input.path),
-    scope: input.scope,
-    source: input.source,
-    priority: input.priority,
+function buildRoot(spec: RootSpec): CustomCommandRoot {
+  const entry = {} as CustomCommandRoot;
+  entry.path = resolve(spec.path);
+  entry.scope = spec.scope;
+  entry.source = spec.source;
+  entry.priority = spec.priority;
+  return entry;
+}
+
+/** 单调递增的优先级发号器：每取一次前进一个步长（首号为步长本身）。 */
+function priorityIssuer(step: number): () => number {
+  let issued = 0;
+  return () => {
+    issued += step;
+    return issued;
   };
 }
 
-async function exists(path: string): Promise<boolean> {
-  return await stat(path).then(
+async function markerPresent(directory: string): Promise<boolean> {
+  return await stat(join(directory, WORKTREE_MARKER)).then(
     () => true,
     () => false,
   );
 }
 
-/** 从工作目录向上的目录链：遇到 worktree 标记即返回（含该层），到文件系统根返回起点。 */
-async function* projectLevels(workingDirectory: string): AsyncGenerator<string> {
+/** 逐级向上的目录链；遇到 worktree 标记的那一层即为最后一层，否则只产出起点。 */
+async function* upwardLevels(workingDirectory: string): AsyncGenerator<string> {
   const start = resolve(workingDirectory);
   let level = start;
   for (;;) {
     yield level;
-    if (await exists(join(level, WORKTREE_MARKER))) return;
+    if (await markerPresent(level)) return;
     const parent = dirname(level);
     if (parent === level) return;
     level = parent;
   }
 }
 
-/** 一层目录的两个候选根：原生 `.knorvia-studio` 先于兼容 `.agents`。 */
-function* candidatesForLevel(
-  level: string,
+/** 给定基目录，按固定配对产出该类作用域的根（原生目录在前）。 */
+function scopedRoots(
+  baseDirectory: string,
   scope: RootScope,
-  takePriority: () => number,
-): Generator<CustomCommandRoot> {
-  yield root({
-    path: join(level, PRIVATE_DIRECTORY, COMMANDS_DIRECTORY),
-    priority: takePriority(),
-    scope,
-    source: "knorvia",
-  });
-  yield root({
-    path: join(level, COMPAT_DIRECTORY, COMMANDS_DIRECTORY),
-    priority: takePriority(),
-    scope,
-    source: "agents",
-  });
+  issue: () => number,
+): CustomCommandRoot[] {
+  const produced: CustomCommandRoot[] = [];
+  for (const [directoryName, source] of LEVEL_SOURCES) {
+    produced.push(
+      buildRoot({
+        path: join(baseDirectory, directoryName, COMMANDS_DIRECTORY),
+        priority: issue(),
+        scope,
+        source,
+      }),
+    );
+  }
+  return produced;
 }
 
-/** `~/` 展开用给定 home；相对路径按工作目录解析。 */
-function resolveConfigured(path: string, workingDirectory: string, home: string): string {
-  const expanded = path.startsWith(HOME_PREFIX) ? join(home, path.slice(HOME_PREFIX.length)) : path;
-  return isAbsolute(expanded) ? expanded : resolve(workingDirectory, expanded);
+/** `~/` 先展开成用户目录，仍是相对路径时再按工作目录解析。 */
+function toAbsolutePath(configured: string, workingDirectory: string, home: string): string {
+  const withoutHome = configured.startsWith(HOME_MARKER)
+    ? configured.slice(HOME_MARKER.length)
+    : undefined;
+  const expanded = withoutHome === undefined ? configured : join(home, withoutHome);
+  if (isAbsolute(expanded)) return expanded;
+  return resolve(workingDirectory, expanded);
 }
 
-function userLevelRoots(
+function userScopeRoots(
   home: string,
   privateRoot: string,
-  takePriority: () => number,
+  issue: () => number,
 ): CustomCommandRoot[] {
   return [
-    root({
+    buildRoot({
       path: join(privateRoot, COMMANDS_DIRECTORY),
-      priority: takePriority(),
+      priority: issue(),
       scope: "user",
       source: "knorvia",
     }),
-    root({
+    buildRoot({
       path: join(home, COMPAT_DIRECTORY, COMMANDS_DIRECTORY),
-      priority: takePriority(),
+      priority: issue(),
       scope: "user",
       source: "agents",
     }),
@@ -110,20 +129,16 @@ export async function resolveDefaultCustomCommandRoots(
   options: CustomCommandRootResolutionOptions = {},
 ): Promise<CustomCommandRoot[]> {
   const cwd = resolve(workingDirectory);
-  const home = options.homeDirectory ?? homedir();
+  const homeDirectory = options.homeDirectory ?? homedir();
   const includeNative = options.includeKnorviaCommands ?? true;
-  const roots: CustomCommandRoot[] = [];
-  let priority = 0;
-  const takePriority = () => {
-    priority += PRIORITY_STEP;
-    return priority;
-  };
+  const issue = priorityIssuer(PRIORITY_GAP);
+  const collected: CustomCommandRoot[] = [];
 
   for (const extra of options.extraRoots ?? []) {
-    roots.push(
-      root({
-        path: resolveConfigured(extra, cwd, home),
-        priority: takePriority(),
+    collected.push(
+      buildRoot({
+        path: toAbsolutePath(extra, cwd, homeDirectory),
+        priority: issue(),
         scope: "project",
         source: "knorvia",
       }),
@@ -132,15 +147,14 @@ export async function resolveDefaultCustomCommandRoots(
 
   if (includeNative) {
     const privateRoot = options.homeDirectory
-      ? join(home, PRIVATE_DIRECTORY)
+      ? join(homeDirectory, PRIVATE_DIRECTORY)
       : resolveKnorviaDataRoot();
-    roots.push(...userLevelRoots(home, privateRoot, takePriority));
-    for await (const level of projectLevels(cwd)) {
-      for (const candidate of candidatesForLevel(level, "project", takePriority))
-        roots.push(candidate);
+    collected.push(...userScopeRoots(homeDirectory, privateRoot, issue));
+    for await (const level of upwardLevels(cwd)) {
+      collected.push(...scopedRoots(level, "project", issue));
     }
   }
 
-  roots.push(...(options.extraResolvedRoots ?? []));
-  return roots;
+  collected.push(...(options.extraResolvedRoots ?? []));
+  return collected;
 }

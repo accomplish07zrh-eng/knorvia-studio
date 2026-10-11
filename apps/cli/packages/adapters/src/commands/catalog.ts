@@ -70,12 +70,13 @@ function admit(
   if (metadata === null || disabled.has(resolve(metadata.path))) return;
   state.totalDiscovered += 1;
   if (state.selected.has(metadata.name)) {
-    warnInvalid(state.diagnostics, {
-      code: DUPLICATE_NAME,
-      commandName: metadata.name,
-      message: "Duplicate custom command ignored: " + metadata.name,
+    warnInvalid(
+      state.diagnostics,
+      DUPLICATE_NAME,
       path,
-    });
+      "Duplicate custom command ignored: " + metadata.name,
+      metadata.name,
+    );
     return;
   }
   state.selected.set(metadata.name, metadata);

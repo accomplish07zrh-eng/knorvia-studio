@@ -1,54 +1,59 @@
 // SPDX-License-Identifier: Apache-2.0
-// frontmatter 解析：分隔符定位 + 头部键值行扫描 + 标量/列表归一化。
-const DELIMITER = "---";
-const DESCRIPTION_LIMIT = 1024;
+// frontmatter 解析：围栏定位 + 头部键值扫描 + 标量/列表/布尔归一化。
+const FRONTMATTER_FENCE = "---";
+const DESCRIPTION_MAX_CHARS = 1024;
+const BOM = /^\uFEFF/u;
+const LINE_BREAK = /\r?\n/u;
 
-/** 头部条目：形如 `key: value`；行首禁止空白（缩进视为续行），`#` 开头是注释。 */
+/** 头部条目：形如 `key: value`；首字符不能是空白或 `#`（缩进是续行、`#` 是注释）。 */
 const HEADER_ENTRY = /^([^\s:#][^:]*):(.*)$/u;
 const INDENTED_LINE = /^\s/u;
+const QUOTES = new Set(["'", '"']);
 
 export interface FrontmatterSection {
   end: number;
   lines: string[];
 }
 
-/** 头部结束行的下标（第一个 `---` 行）；`exactOpening` 为真时首行必须逐字是 `---`。 */
-function findClosingLine(lines: string[], exactOpening: boolean): number {
-  if (exactOpening && lines[0]?.trim() !== DELIMITER) return -1;
-  return lines.findIndex((line, index) => index > 0 && line.trim() === DELIMITER);
-}
-
+/** 围栏必须出现在首行；返回结束行下标与切好的行数组。 */
 export function frontmatterLines(
   content: string,
   exactOpening: boolean,
 ): FrontmatterSection | undefined {
-  const normalized = content.replace(/^\uFEFF/u, "");
-  if (!normalized.startsWith(DELIMITER)) return undefined;
-  const lines = normalized.split(/\r?\n/u);
-  const end = findClosingLine(lines, exactOpening);
-  return end < 0 ? undefined : { end, lines };
+  const text = content.replace(BOM, "");
+  if (text.slice(0, FRONTMATTER_FENCE.length) !== FRONTMATTER_FENCE) return undefined;
+  const rows = text.split(LINE_BREAK);
+  if (exactOpening && rows[0]?.trim() !== FRONTMATTER_FENCE) return undefined;
+  for (let index = 1; index < rows.length; index += 1) {
+    if (rows[index]?.trim() === FRONTMATTER_FENCE) return { end: index, lines: rows };
+  }
+  return undefined;
 }
 
 export function removeFrontmatter(content: string): string {
   const section = frontmatterLines(content, false);
-  return section ? section.lines.slice(section.end + 1).join("\n") : content;
+  if (section === undefined) return content;
+  return section.lines.slice(section.end + 1).join("\n");
+}
+
+function unquote(text: string): string {
+  const head = text.charAt(0);
+  const tail = text.charAt(text.length - 1);
+  const wrapped = text.length > 1 && head === tail && QUOTES.has(head);
+  return wrapped ? text.slice(1, -1).trim() : text;
 }
 
 export function scalar(value: string | undefined): string | undefined {
-  if (value === undefined) return undefined;
-  const trimmed = value.trim();
-  if (!trimmed) return undefined;
-  const quoted =
-    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-    (trimmed.startsWith("'") && trimmed.endsWith("'"));
-  return quoted ? trimmed.slice(1, -1).trim() : trimmed;
+  const text = value?.trim();
+  if (text === undefined || text.length === 0) return undefined;
+  return unquote(text);
 }
 
-const BRACKETS = /^\[|\]$/gu;
+const SURROUNDING_BRACKETS = /^\[|\]$/gu;
 
-function trimmedEntries(text: string): string[] {
+function trimmedEntries(csv: string): string[] {
   const entries: string[] = [];
-  for (const part of text.split(",")) {
+  for (const part of csv.split(",")) {
     const item = part.trim();
     if (item.length > 0) entries.push(item);
   }
@@ -57,7 +62,7 @@ function trimmedEntries(text: string): string[] {
 
 export function list(value: string | undefined): string[] {
   const text = scalar(value);
-  return text === undefined ? [] : trimmedEntries(text.replace(BRACKETS, ""));
+  return text === undefined ? [] : trimmedEntries(text.replace(SURROUNDING_BRACKETS, ""));
 }
 
 const TRUTHY_VALUES: ReadonlySet<string> = new Set(["true", "yes"]);
@@ -79,35 +84,37 @@ export function parseHeader(
 ): ParsedHeader {
   const keys: string[] = [];
   const values: Record<string, string> = {};
-  const rows = header.split(/\r?\n/u);
-  for (let position = 0; position < rows.length; position += 1) {
-    const raw = rows[position] ?? "";
-    const label = raw.trim();
-    if (label.length === 0 || label.startsWith("#") || INDENTED_LINE.test(raw)) continue;
+  const rawRows = header.split(LINE_BREAK);
+  for (let position = 0; position < rawRows.length; position += 1) {
+    const raw = rawRows[position] ?? "";
+    const text = raw.trim();
+    if (text.length === 0 || text.startsWith("#") || INDENTED_LINE.test(raw)) continue;
     const entry = HEADER_ENTRY.exec(raw);
     if (entry === null) {
       onUnparsableLine(position + 1);
       continue;
     }
     const key = entry[1]!.trim();
-    keys.push(key);
+    keys[keys.length] = key;
     values[key] = (entry[2] ?? "").trim();
   }
   return { keys, values };
 }
 
-/** 正文首行（去掉 `#` 标题与列表前缀）作为 description 的回退值。 */
-export function bodyDescription(body: string): string {
-  const firstLine = body
-    .split(/\r?\n/u)
-    .map((raw) =>
-      raw
-        .replace(/^#+\s*/u, "")
-        .replace(/^[-*]\s*/u, "")
-        .trim(),
-    )
-    .find((text) => Boolean(text));
-  return firstLine?.slice(0, DESCRIPTION_LIMIT) ?? "";
+function stripLineMarkers(raw: string): string {
+  return raw
+    .replace(/^#+\s*/u, "")
+    .replace(/^[-*]\s*/u, "")
+    .trim();
 }
 
-export { DESCRIPTION_LIMIT };
+/** 正文首个非空行（去掉标题与列表前缀）作为 description 的回退值。 */
+export function bodyDescription(body: string): string {
+  for (const raw of body.split(LINE_BREAK)) {
+    const text = stripLineMarkers(raw);
+    if (text.length > 0) return text.slice(0, DESCRIPTION_MAX_CHARS);
+  }
+  return "";
+}
+
+export { DESCRIPTION_MAX_CHARS as DESCRIPTION_LIMIT };

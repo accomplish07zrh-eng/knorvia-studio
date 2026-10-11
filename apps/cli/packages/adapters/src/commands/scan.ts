@@ -31,22 +31,14 @@ export async function filesUnderRoot(
 ): Promise<string[]> {
   const rootInfo = await stat(rootPath).catch((error: unknown) => {
     if (!isMissing(error)) {
-      warnInvalid(diagnostics, {
-        code: SCAN_FAILED,
-        message: describe(error, ROOT_FALLBACK + rootPath),
-        path: rootPath,
-      });
+      warnInvalid(diagnostics, SCAN_FAILED, rootPath, describe(error, ROOT_FALLBACK + rootPath));
     }
     return undefined;
   });
   if (rootInfo === undefined || !rootInfo.isDirectory()) return [];
 
   const rootEntries = await readdir(rootPath, { withFileTypes: true }).catch((error: unknown) => {
-    warnInvalid(diagnostics, {
-      code: SCAN_FAILED,
-      message: describe(error, DIRECTORY_FALLBACK + rootPath),
-      path: rootPath,
-    });
+    warnInvalid(diagnostics, SCAN_FAILED, rootPath, describe(error, DIRECTORY_FALLBACK + rootPath));
     return undefined;
   });
   if (rootEntries === undefined) return [];
@@ -69,11 +61,12 @@ export async function filesUnderRoot(
     if (isDirectory) {
       if (frame.depth + 1 > MAX_DEPTH) continue;
       const entries = await readdir(absolute, { withFileTypes: true }).catch((error: unknown) => {
-        warnInvalid(diagnostics, {
-          code: SCAN_FAILED,
-          message: describe(error, DIRECTORY_FALLBACK + absolute),
-          path: absolute,
-        });
+        warnInvalid(
+          diagnostics,
+          SCAN_FAILED,
+          absolute,
+          describe(error, DIRECTORY_FALLBACK + absolute),
+        );
         return undefined;
       });
       if (entries !== undefined)
