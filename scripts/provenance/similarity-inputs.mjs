@@ -4,7 +4,7 @@
 import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
-import { stripDeclarationLines } from "./similarity-declarations.mjs";
+import { stripDeclarationBlocks, stripDeclarationLines } from "./similarity-declarations.mjs";
 import { fileKind, isBinary, normalizeLines } from "./similarity-lines.mjs";
 
 export function readPathList(file) {
@@ -71,25 +71,48 @@ export function loadUpstream(root) {
   return { files, binary, kindCounts, byKind };
 }
 
-/** 候选文件：可选先按 interface.md 剔除兼容行。 */
+/**
+ * 候选文件：`--declaration --interface` 模式下先按 interface.md 剔除整块声明
+ * （interface/type/class/enum，含成员与嵌套），再剔除剩余含兼容名字的行；
+ * 普通模式不做任何剔除，行为与输出保持不变。
+ */
 export function loadCandidate({ repo, givenPath, declarationNames }) {
   const path = resolve(repo, givenPath);
   const bytes = readFileSync(path);
   const kind = fileKind(path);
   if (isBinary(bytes))
-    return { path, givenPath, kind, binary: true, text: null, lines: [], declarationLines: 0 };
+    return {
+      path,
+      givenPath,
+      kind,
+      binary: true,
+      text: null,
+      lines: [],
+      declaration: false,
+      linesBeforeStrip: 0,
+      strippedBlocks: 0,
+    };
   const original = bytes.toString("utf8");
-  const stripped = declarationNames.length
-    ? stripDeclarationLines(original, declarationNames)
-    : { text: original, removed: 0 };
+  const declaration = declarationNames.length > 0;
+  let text = original;
+  let strippedBlocks = 0;
+  if (declaration) {
+    const blocks = stripDeclarationBlocks(original, declarationNames);
+    text = blocks.text;
+    strippedBlocks = blocks.strippedBlocks;
+    text = stripDeclarationLines(text, declarationNames).text;
+  }
+  const lines = normalizeLines(text);
   return {
     path,
     givenPath,
     kind,
     binary: false,
-    text: stripped.text,
-    lines: normalizeLines(stripped.text),
-    declarationLines: stripped.removed,
+    text,
+    lines,
+    declaration,
+    linesBeforeStrip: declaration ? normalizeLines(original).length : lines.length,
+    strippedBlocks,
   };
 }
 

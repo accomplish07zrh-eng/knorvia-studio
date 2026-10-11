@@ -162,12 +162,18 @@ process.exit(failed.length === 0 ? 0 : 1);
 
 function evaluateLines(candidate) {
   const structuralSkipped = !candidate.binary && candidate.kind !== "script";
+  const residualLines = candidate.binary ? 0 : candidate.lines.length;
+  const linesBeforeStrip = candidate.binary ? 0 : candidate.linesBeforeStrip;
   const base = {
     path: candidate.givenPath,
     kind: candidate.kind,
-    lines: candidate.binary ? 0 : candidate.lines.length,
+    lines: residualLines,
     binary: candidate.binary,
-    declarationLines: candidate.declarationLines,
+    declaration: candidate.declaration ?? false,
+    linesBeforeStrip,
+    strippedLines: linesBeforeStrip - residualLines,
+    residualLines,
+    strippedBlocks: candidate.strippedBlocks ?? 0,
     maxContainment: null,
     longestRun: null,
     structural: null,
@@ -295,7 +301,9 @@ function applyStructural(results) {
 
 function describe(result) {
   if (result.binary) return `SKIP  ${result.path} binary`;
-  const declaration = values.declaration ? ` declaration-lines=${result.declarationLines}` : "";
+  const declaration = result.declaration
+    ? ` declaration=true declaration-lines=${result.strippedLines} residual-lines=${result.residualLines} stripped-blocks=${result.strippedBlocks}`
+    : " declaration=false";
   const line =
     gates === "structural"
       ? " line=skipped"

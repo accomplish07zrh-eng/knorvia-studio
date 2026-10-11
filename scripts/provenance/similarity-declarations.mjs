@@ -87,3 +87,54 @@ export function stripDeclarationLines(text, names) {
   }
   return { text: kept.join("\n"), removed };
 }
+
+const DECLARATION_START =
+  /^\s*(?:export\s+)?(?:declare\s+)?(interface|type|class|enum)\s+([A-Za-z_$][\w$]*)/u;
+
+/**
+ * 声明模式：按 interface.md 列出的名字定位**整块**声明（interface / type / class / enum，
+ * 含成员行与嵌套），整块剔除。只按名字精确匹配，不做启发式、不做通配。
+ * 只应在 `--declaration --interface` 模式下调用；普通模式继续用 stripDeclarationLines。
+ */
+export function stripDeclarationBlocks(text, names) {
+  const wanted = new Set(names);
+  const lines = text.split(/\r?\n/u);
+  const kept = [];
+  let strippedBlocks = 0;
+  let index = 0;
+  while (index < lines.length) {
+    const start = DECLARATION_START.exec(lines[index]);
+    if (!start || !wanted.has(start[2])) {
+      kept.push(lines[index]);
+      index += 1;
+      continue;
+    }
+    const kind = start[1];
+    const end = findDeclarationEnd(lines, index, kind);
+    strippedBlocks += 1;
+    index = end + 1;
+  }
+  return { text: kept.join("\n"), strippedBlocks };
+}
+
+/** 找到声明块的结束行：interface/class/enum 到花括号归零，type 到深度 0 且以分号结尾。 */
+function findDeclarationEnd(lines, start, kind) {
+  let depth = 0;
+  let opened = false;
+  for (let index = start; index < lines.length; index += 1) {
+    for (const char of lines[index]) {
+      if (char === "{" || char === "(" || char === "[") depth += 1;
+      else if (char === "}" || char === ")" || char === "]") depth -= 1;
+    }
+    if (depth > 0) {
+      opened = true;
+      continue;
+    }
+    if (kind === "type") {
+      if (/;\s*$/u.test(lines[index])) return index;
+      continue;
+    }
+    if (opened || /\}\s*;?\s*$/u.test(lines[index])) return index;
+  }
+  return lines.length - 1;
+}

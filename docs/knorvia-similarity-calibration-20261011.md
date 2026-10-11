@@ -157,6 +157,7 @@ node scripts/provenance/similarity.mjs --repo . --candidate <新文件> --candid
 
 ## 8. 范围决定与已知限制
 
+- 声明模式（`--declaration --interface`）按 interface.md 列出的名字定位**整块**声明（`interface` / `type` / `class` / `enum`，含成员行与嵌套）整块剔除，再剔除剩余含兼容名字的行；JSON 报告逐文件给出 `declaration`、`linesBeforeStrip`、`strippedLines`、`residualLines`、`strippedBlocks`。**该改进只影响 `--declaration` 分支：普通模式（不带 `--declaration`）的代码路径与输出未变**——已用第 7 节命令对 439 个 `independent-replacement` 文件全量复跑并与本报告第 3/4 节数值逐候选比对，**0 差异**（439/439，含行数、包含率与对应文件、最长段与对应文件、结构相似度与对应文件、违规项与结论）。门槛常量（0.2 / 8 / 0.4）未动。
 - 结构指纹只用于脚本文件（`ts/tsx/mts/cts/js/jsx/mjs/cjs`）；非脚本文本文件只走行门槛，报告里标 `structural=not-a-script`。理由：结构口径按计划书定义在 TypeScript 词法分析器上；本次 439 个校准样本全部是脚本文件，覆盖不受影响。
 - 结构相似度是“候选指纹落在同一个比较文件里的比例”，对同一比较文件内的重复指纹只计一次；候选指纹不足 25 个 token（含被声明剔除清空）时按 0 计。
 - 二进制文件按计划书跳过两道门槛（报告里标 `binary`），只记录跳过。

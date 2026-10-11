@@ -430,6 +430,10 @@ test("the JSON report carries lines, containment, run and structural fields", ()
     assert.equal(entry.path, candidate);
     assert.equal(entry.lines, 100);
     assert.equal(entry.binary, false);
+    assert.equal(entry.declaration, false);
+    assert.equal(entry.linesBeforeStrip, 100);
+    assert.equal(entry.strippedLines, 0);
+    assert.equal(entry.residualLines, 100);
     assert.equal(entry.maxContainment.value, 0.19);
     assert.equal(entry.maxContainment.file, "a.ts");
     assert.equal(entry.longestRun.value, 1);
@@ -482,3 +486,102 @@ function scatter(count) {
   const lines = normalizeLines(upstreamLines(200));
   return Array.from({ length: count }, (_, index) => lines[index * 7]).join("\n");
 }
+test("声明模式：具名导出类型整块剔除，普通模式数值不变", () => {
+  const declaration = [
+    "export interface WorkspaceHookTelemetryFields {",
+    "  workspaceIdentity?: string;",
+    "  sessionCount: number;",
+    "  enabled: boolean;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/hook-fields.ts": declaration,
+      "contract/interface.md": "# interface\n\n- 类型：`WorkspaceHookTelemetryFields`\n",
+    },
+    (root) => {
+      const upstreamDir = join(root, "upstream");
+      const candidate = writeCandidate(root, "hook-fields.ts", declaration);
+      // 普通模式：与改动前一致（4 行、包含率 1.000、最长段 4），不带 --declaration。
+      const normal = runTool(["--upstream-dir", upstreamDir, "--candidate", candidate]);
+      assert.equal(normal.status, 1, normal.stdout);
+      assert.match(normal.stdout, /declaration=false/);
+      assert.match(normal.stdout, /lines=4/);
+      assert.match(normal.stdout, /containment=1\.000/);
+      assert.match(normal.stdout, /run=4/);
+      // 声明模式：整块剔除，残留行 0。
+      const stripped = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        candidate,
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(stripped.status, 0, stripped.stdout);
+      assert.match(stripped.stdout, /declaration=true/);
+      assert.match(stripped.stdout, /declaration-lines=4/);
+      assert.match(stripped.stdout, /residual-lines=0/);
+      assert.match(stripped.stdout, /stripped-blocks=1/);
+    },
+  );
+});
+
+test("声明模式：成员名不在 interface.md 的声明块不被剔除", () => {
+  const notListed = ["export interface NotListedShape {", "  alpha: string;", "}"].join("\n");
+  withTree(
+    {
+      "upstream/not-listed.ts": notListed,
+      "contract/interface.md": "# interface\n\n- 类型：`SomeOtherShape`\n",
+    },
+    (root) => {
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        writeCandidate(root, "not-listed.ts", notListed),
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /stripped-blocks=0/);
+      assert.match(result.stdout, /residual-lines=2/);
+      assert.match(result.stdout, /containment=1\.000/);
+    },
+  );
+});
+
+test("声明模式：嵌套声明整块剔除且不吞掉后面的实现代码", () => {
+  const mixed = [
+    "export interface ListedShape {",
+    "  nested: { value: string };",
+    '  union: "a" | "b";',
+    "}",
+    "export function afterTheBlock(value: string): string {",
+    "  return value.trim();",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/mixed.ts": mixed,
+      "contract/interface.md": "# interface\n\n- 类型：`ListedShape`\n",
+    },
+    (root) => {
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        writeCandidate(root, "mixed.ts", mixed),
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 整块 4 行被剔除；后面的函数保留 2 个规范化行（`}` 是纯括号行，本来就不计）。
+      assert.match(result.stdout, /stripped-blocks=1/);
+      assert.match(result.stdout, /residual-lines=2/);
+      assert.match(result.stdout, /lines=2/);
+    },
+  );
+});
