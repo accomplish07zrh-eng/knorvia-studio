@@ -10,7 +10,9 @@
         "scripts/mise-run.mjs",
         "specs/contracts/*/tests/*.test.ts",
         "specs/contracts/*/tests/*.test.mjs",
-        "specs/contracts/*/tests/fixtures/*.mjs"
+        "specs/contracts/*/tests/fixtures/*.mjs",
+        "scripts/provenance/inherited-triage.mjs",
+        "scripts/provenance/inherited-triage.test.mjs"
       ]
     },
     "packages/desktop": {
