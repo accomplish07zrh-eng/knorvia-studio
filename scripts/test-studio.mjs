@@ -1,95 +1,39 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
-import { mkdtemp, readdir, rm } from "node:fs/promises";
+import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, relative, resolve, sep } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compactStudioTestArguments } from "./studio-test-arguments.mjs";
+import { explicitTests, testDirectories } from "./studio-test-manifest.mjs";
+import { CONTRACT_TESTS_ROOT, selectStudioTests } from "./studio-test-selection.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const testDirectories = [
-  "packages/services/test",
-  "packages/ui/test",
-  "packages/desktop/test",
-  "packages/desktop/src/host",
-  "packages/desktop/src/main/browserView",
-  "packages/desktop/src/preload",
-  "packages/server/test",
-  "packages/server-cli/test",
-  "packages/shared/test",
-  "packages/rpc/test",
-  "apps/cli/packages/core/test",
-  "apps/cli/packages/contracts/test",
-  "apps/cli/packages/adapters/test",
-  "apps/cli/packages/plugin-creator-plugin/test",
-  "apps/cli/packages/node-repl-host/test",
-];
-// `scripts/` 不在上面的目录扫描范围内，必须逐个显式列入，否则不会被统一入口跑到。
-// 发布判定（release-gate）必须在这里，不能只靠质量工作流“碰巧”覆盖。
-const explicitTests = [
-  "scripts/studio-test-arguments.test.mjs",
-  "scripts/esm-require-banner.test.mjs",
-  "scripts/check-evidence-integrity.test.mjs",
-  "scripts/knorvia-agent-base.test.ts",
-  "scripts/release-gate.test.ts",
-  "scripts/desktop-release-manifest.test.mjs",
-  "scripts/desktop-release-channel.test.mjs",
-  "scripts/desktop-release-notes.test.mjs",
-  "scripts/desktop-release-publish.test.mjs",
-  "scripts/desktop-release-variant-selection.test.mjs",
-  "scripts/desktop-release-portable-launch.test.mjs",
-  "scripts/provenance/provenance.test.mjs",
-  "scripts/provenance/retained-review.test.mjs",
-  "scripts/provenance/third-party-audit.test.mjs",
-  "scripts/provenance/patch-inventory.test.mjs",
-  "scripts/provenance/material-icon-references.test.mjs",
-  "scripts/provenance/third-party-platform.test.mjs",
-  "scripts/provenance/retained-npm-notices.test.mjs",
-  "scripts/provenance/dependency-platform-qa-regressions.test.mjs",
-  "scripts/provenance/dependency-history-qa-regressions.test.mjs",
-  "scripts/provenance/ui-alias-lineage.test.mjs",
-  "packages/cua/test/stage-windows-driver.test.mjs",
-  "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
-  "apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/session-projection-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/session-snapshot-images-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/session-snapshot-contract.test.ts",
-  "apps/cli/packages/cli/test/argument-admission-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/resident-pool-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/script-child-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/script-child-consumer.test.ts",
-  "apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts",
-  "apps/cli/packages/cli/test/custom-command-expansion-consumer.test.ts",
-  "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs",
-  "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs",
-  "apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts",
-  "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
-  "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
-  "apps/cli/packages/bootstrap/test/interaction-preparation.test.ts",
-  "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
-  "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
-  "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
-];
-const tests = [...explicitTests];
-
-for (const directory of testDirectories) {
-  const absoluteDirectory = resolve(repoRoot, directory);
-  const names = (await readdir(absoluteDirectory))
-    .filter((name) => /\.test\.(?:ts|mjs)$/u.test(name))
-    .sort();
-  if (names.length === 0) {
-    throw new Error(`No offline studio tests found in ${directory}`);
+// 契约测试要对源码入口与 dist 入口分别运行（计划书二.合同）。入口由收集器唯一决定并传导给测试进程，
+// 取值不合法时在启动任何用例前失败，避免把错误配置静默当成源码入口跑出一片绿（规格 R9）。
+const CONTRACT_ENTRY_ENV = "KNORVIA_CONTRACT_ENTRY";
+const CONTRACT_ENTRY_VALUES = ["source", "dist"];
+const DEFAULT_CONTRACT_ENTRY = "source";
+function resolveContractEntry(value) {
+  if (value === undefined || value === "") return DEFAULT_CONTRACT_ENTRY;
+  if (!CONTRACT_ENTRY_VALUES.includes(value)) {
+    throw new Error(
+      `[test:studio] 无效的 ${CONTRACT_ENTRY_ENV}=${JSON.stringify(value)}；只接受 ${CONTRACT_ENTRY_VALUES.join(" | ")}`,
+    );
   }
-  tests.push(
-    ...names.map((name) => relative(repoRoot, join(absoluteDirectory, name)).split(sep).join("/")),
-  );
+  return value;
 }
-
-const testArguments = await compactStudioTestArguments({
+let contractEntry;
+try {
+  contractEntry = resolveContractEntry(process.env[CONTRACT_ENTRY_ENV]);
+} catch (error) {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(1);
+}
+// 收录范围 = 清单 + specs/contracts/*/tests 扫描；对账不一致会在启动测试前抛错，不静默少跑。
+const { tests, argumentsList, contractTests } = await selectStudioTests({
   repoRoot,
   explicitTests,
   testDirectories,
-  discoveredTests: tests,
 });
 
 const testHome = await mkdtemp(join(tmpdir(), "knorvia-studio-test-"));
@@ -98,6 +42,8 @@ const env = {
   KNORVIA_ENV: "test",
   KNORVIA_DATA_BASE_DIR: testHome,
   KNORVIA_STORAGE_DIR: join(testHome, "cli"),
+  // 契约测试据此选择被测实现来自源码入口还是 dist 入口；未设置时按默认入口显式写入。
+  [CONTRACT_ENTRY_ENV]: contractEntry,
   // 根目录没有 tsconfig；UI 的 @/ 别名需显式使用其已有配置。
   TSX_TSCONFIG_PATH: resolve(repoRoot, "packages/ui/tsconfig.json"),
 };
@@ -126,6 +72,12 @@ if (testTimeoutMs !== configuredTimeout) {
 console.log(
   `[test:studio] ${tests.length} offline test files, Node ${process.version}, per-test timeout ${testTimeoutMs}ms`,
 );
+if (contractTests.length > 0) {
+  // 已合并的合同是否真的被跑到、按哪个入口跑，只能从这里看出来；没有合同时不打这一行（规格 R2、R8、R9）。
+  console.log(
+    `[test:studio] ${contractTests.length} contract test files from ${CONTRACT_TESTS_ROOT} (entry: ${contractEntry})`,
+  );
+}
 try {
   const child = spawn(
     process.execPath,
@@ -136,7 +88,7 @@ try {
       "--test",
       "--test-concurrency=2",
       `--test-timeout=${testTimeoutMs}`,
-      ...testArguments,
+      ...argumentsList,
     ],
     { cwd: repoRoot, env, stdio: "inherit" },
   );

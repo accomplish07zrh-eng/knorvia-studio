@@ -1,16 +1,22 @@
 import { glob } from "node:fs/promises";
 import { sep } from "node:path";
 
+function directoryPattern(directory) {
+  return `${directory}/{*.test,.*.test,.test}.{ts,mjs}`;
+}
+
 export async function compactStudioTestArguments({
   repoRoot,
   explicitTests,
   testDirectories,
+  contractTestDirectories = [],
   discoveredTests,
 }) {
   // 修复：逐文件 argv 在 CI224 超出 Windows 长度限制；原扫描仍是覆盖范围的唯一依据。
   const argumentsList = [
     ...explicitTests,
-    ...testDirectories.map((directory) => `${directory}/{*.test,.*.test,.test}.{ts,mjs}`),
+    ...testDirectories.map(directoryPattern),
+    ...contractTestDirectories.map(directoryPattern),
   ];
   const expected = new Set(discoveredTests);
   if (expected.size !== discoveredTests.length || expected.size === 0) {
