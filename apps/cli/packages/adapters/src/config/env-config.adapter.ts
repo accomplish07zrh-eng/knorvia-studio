@@ -1,5 +1,5 @@
-// Env Config Adapter - Parse the intentionally small KNORVIA_* environment surface.
-
+// SPDX-License-Identifier: Apache-2.0
+// 环境变量配置：把刻意收窄的 KNORVIA_* 变量面解析成配置补丁。
 import type { RuntimeConfigPatch } from "@knorvia/contracts";
 
 interface EnvConfigOptions {
@@ -7,83 +7,82 @@ interface EnvConfigOptions {
 }
 
 const DEFAULT_PREFIX = "KNORVIA_";
+const TEXT_LOG_FORMAT = "text";
+const JSON_LOG_FORMAT = "json";
+const DEFAULT_TOOL_CONCURRENCY = "10";
+const TOOL_CONCURRENCY_ENV = "KNORVIA_MAX_TOOL_CONCURRENCY";
 
-/**
- * Parse KNORVIA_* environment variables into config
- */
+/** 环境变量名（去掉前缀后）→ 写入配置的落点。 */
+type Placement = (patch: RuntimeConfigPatch, value: string) => void;
+
+function intoStorage(field: "dir" | "sessionDbPath"): Placement {
+  return (patch, value) => {
+    if (!patch.storage) patch.storage = {};
+    patch.storage[field] = value;
+  };
+}
+
+function intoNetwork(field: "httpProxy" | "noProxy" | "caCertFile" | "timeout"): Placement {
+  return (patch, value) => {
+    if (!patch.network) patch.network = {};
+    if (field === "timeout") patch.network.timeout = normalizeNumber(value);
+    else patch.network[field] = value;
+  };
+}
+
+const PLACEMENTS = new Map<string, Placement>([
+  ["STORAGE_DIR", intoStorage("dir")],
+  ["SESSION_DB_PATH", intoStorage("sessionDbPath")],
+  ["SESSION_DB", intoStorage("sessionDbPath")],
+  ["HTTP_PROXY", intoNetwork("httpProxy")],
+  ["NO_PROXY", intoNetwork("noProxy")],
+  ["AGENT_CA_CERT", intoNetwork("caCertFile")],
+  ["HTTP_TIMEOUT", intoNetwork("timeout")],
+  ["TIMEOUT", intoNetwork("timeout")],
+  [
+    "LOG_FORMAT",
+    (patch, value) => {
+      if (!patch.logging) patch.logging = {};
+      patch.logging.format = normalizeLogFormat(value);
+    },
+  ],
+  [
+    "MAX_TOOL_CONCURRENCY",
+    (patch, value) => {
+      if (!patch.toolConcurrency) patch.toolConcurrency = {};
+      patch.toolConcurrency.maxConcurrency = normalizeNumber(value);
+    },
+  ],
+]);
+
+/** 只认识表里的变量名；未列出的 KNORVIA_* 一律忽略。 */
 export function parseEnvConfig(
   env: Record<string, string | undefined> = process.env,
   options: EnvConfigOptions = {},
 ): RuntimeConfigPatch {
   const prefix = options.prefix ?? DEFAULT_PREFIX;
-  const config: RuntimeConfigPatch = {};
-
-  for (const [key, value] of Object.entries(env)) {
-    if (!key.startsWith(prefix) || value === undefined) continue;
-
-    const configKey = key.slice(prefix.length);
-    // Storage config
-    if (configKey === "STORAGE_DIR") {
-      if (!config.storage) config.storage = {};
-      config.storage.dir = value;
-    } else if (configKey === "SESSION_DB_PATH" || configKey === "SESSION_DB") {
-      if (!config.storage) config.storage = {};
-      config.storage.sessionDbPath = value;
-    }
-
-    // Network config
-    else if (configKey === "HTTP_PROXY") {
-      if (!config.network) config.network = {};
-      config.network.httpProxy = value;
-    } else if (configKey === "NO_PROXY") {
-      if (!config.network) config.network = {};
-      config.network.noProxy = value;
-    } else if (configKey === "AGENT_CA_CERT") {
-      if (!config.network) config.network = {};
-      config.network.caCertFile = value;
-    } else if (configKey === "HTTP_TIMEOUT" || configKey === "TIMEOUT") {
-      if (!config.network) config.network = {};
-      config.network.timeout = normalizeNumber(value);
-    }
-
-    // Logging config
-    else if (configKey === "LOG_FORMAT") {
-      if (!config.logging) config.logging = {};
-      config.logging.format = normalizeLogFormat(value);
-    }
-
-    // Tool Concurrency config
-    else if (configKey === "MAX_TOOL_CONCURRENCY") {
-      if (!config.toolConcurrency) config.toolConcurrency = {};
-      config.toolConcurrency.maxConcurrency = normalizeNumber(value);
-    }
+  const patch: RuntimeConfigPatch = {};
+  for (const [name, value] of Object.entries(env)) {
+    if (value === undefined || !name.startsWith(prefix)) continue;
+    const placement = PLACEMENTS.get(name.slice(prefix.length));
+    if (placement === undefined) continue;
+    placement(patch, value);
   }
-
-  return config;
+  return patch;
 }
 
-/**
- * Get tool concurrency config from environment
- */
+/** 工具并发上限：每次调用都重读环境变量，非法值归零。 */
 export function getToolConcurrencyConfig(): { maxConcurrency: number } {
-  return {
-    maxConcurrency: normalizeNumber(process.env.KNORVIA_MAX_TOOL_CONCURRENCY ?? "10"),
-  };
+  const raw = process.env[TOOL_CONCURRENCY_ENV] ?? DEFAULT_TOOL_CONCURRENCY;
+  return { maxConcurrency: normalizeNumber(raw) };
 }
-
-// ============================================================
-// Helpers
-// ============================================================
 
 function normalizeNumber(value: string): number {
-  const num = Number(value);
-  return isNaN(num) ? 0 : num;
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
 }
 
 function normalizeLogFormat(value: string): "text" | "json" {
-  const format = value.toLowerCase();
-  if (format === "text" || format === "json") {
-    return format;
-  }
-  return "text";
+  const lowered = value.toLowerCase();
+  return lowered === JSON_LOG_FORMAT ? JSON_LOG_FORMAT : TEXT_LOG_FORMAT;
 }
