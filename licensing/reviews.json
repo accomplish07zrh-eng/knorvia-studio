@@ -82119,13 +82119,12 @@
     },
     {
       "path": "packages/ui/test/knorvia-notification-sound.test.ts",
-      "normalizedSha256": "7ad465389fc548bbbf45700abd98a03ce45406c4ff725e74cd29b2151da75229",
+      "normalizedSha256": "97926a09e0eddd3b990143efda4fc0b14d72ed1816cb2d9c5554d0fb6f74e104",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "New test authored for M0-5 in Knorvia commit 428a3643 (2026-10-11); asserts the checked-in Knorvia notification sound matches its generator byte for byte, is mono 44.1kHz 16-bit PCM with actual content, and that the player references the .wav asset. No upstream test is copied.",
+      "basis": "New test authored for M0-5 in Knorvia commit 428a3643 (2026-10-11); asserts the checked-in Knorvia notification sound matches its generator byte for byte, is mono 44.1kHz 16-bit PCM with actual content, and that the player references the .wav asset. No upstream test is copied. SPDX header corrected to Apache-2.0 per plan choice 13.",
       "evidence": [
-        "git:428a36439671c0986b0ff1493aa86195a50aba95",
-        "licensing/upstream-baseline.json",
+        "docs/knorvia-independent-replacement-plan.md",
         "scripts/generate-knorvia-notification-sound.mjs"
       ]
     }
