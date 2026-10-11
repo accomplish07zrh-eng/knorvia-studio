@@ -82095,7 +82095,7 @@
     },
     {
       "path": "scripts/generate-knorvia-notification-sound.mjs",
-      "normalizedSha256": "263ac7a0033551d674e8b34e977bba0bc5046a08f8f86c85e33c2e257e7bdad1",
+      "normalizedSha256": "83225034e55fe5d746ddafab9a32f3386d839e010cc328af70323d553a2f1366",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New file authored for M0-5 in Knorvia commit 428a3643 (2026-10-11). It synthesizes the product notification sound from Node built-ins (deterministic 44.1kHz mono 16-bit PCM WAV) and replaces the inherited upstream mp3; no upstream code or audio material is copied. The checked-in asset is produced by this script and guarded by packages/ui/test/knorvia-notification-sound.test.ts.",

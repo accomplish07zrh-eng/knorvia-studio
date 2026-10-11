@@ -3,7 +3,15 @@
   "tags": ["-lintignore"],
   "workspaces": {
     ".": {
-      "entry": [".release-it.mjs", "scripts/check-workspace-freshness.mjs", "scripts/mise-run.mjs"]
+      "entry": [
+        ".release-it.mjs",
+        "scripts/check-workspace-freshness.mjs",
+        "scripts/mise-run.mjs",
+        "scripts/generate-knorvia-notification-sound.mjs"
+      ]
+    },
+    "packages/ui": {
+      "entry": ["test/knorvia-notification-sound.test.ts"]
     },
     "packages/desktop": {
       "entry": [
