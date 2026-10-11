@@ -3,9 +3,14 @@ import type { HookConfig, HookEventName, HookSourceKind } from "@knorvia/contrac
 import type { ConfiguredHookRunnerOptions, HookRegistration } from "./types.js";
 
 /** 单条配置 Hook → 登记项的输入形状（模块内部参数，不进入公开导出面）。 */
+export interface Budget {
+  maxOutputBytes: number;
+  timeoutMs: number;
+}
+
 export interface HookRegistrationInput {
   admission?: HookRegistration["admission"];
-  budget: { maxOutputBytes: number; timeoutMs: number };
+  budget: Budget;
   event: HookEventName;
   hook: HookConfig;
   hookIndex: number;

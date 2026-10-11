@@ -82539,7 +82539,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/hooks/configured-runner-types.ts",
-      "normalizedSha256": "2ac28c03f7a0544c080befb4e4798c149d141597661821bcb804b6d4cd5da8c2",
+      "normalizedSha256": "040606898c150fe4dc4ac5ae52a9aa1c726c220e42bf117398732b152d62de6f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Written from the M0-13 core/hooks contract (specs/contracts/core-hooks): the registration-input type shape was re-declared as a named module-internal type per the replacement plan; no upstream text was copied or renamed.",

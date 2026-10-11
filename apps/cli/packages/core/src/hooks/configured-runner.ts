@@ -14,13 +14,9 @@ import { expandPluginVariables, resolveHookTimeoutMs } from "./configured-runner
 import { createHookExecutionDescriptor } from "./display-metadata.js";
 import { InMemoryHookRunner } from "./runner.js";
 import type { ConfiguredHookRunnerOptions, HookRegistration, HookRunner } from "./types.js";
+import type { Budget } from "./configured-runner-types.js";
 
 const USER_SOURCE_KIND: HookSourceKind = "user";
-
-interface Budget {
-  maxOutputBytes: number;
-  timeoutMs: number;
-}
 
 function configSource(
   event: HookEventName,
