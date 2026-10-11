@@ -5,6 +5,7 @@ import {
   type PermissionBrokerResult,
   type PermissionOptionsPolicy,
   type PermissionUpdate,
+  type SessionEvent,
   type ToolResultDisplayPayload,
   type ToolSideEffectScope,
   type ToolExecutionTelemetry,
@@ -26,21 +27,41 @@ type RequestId = string;
 type TimestampMs = number;
 type OptionalText = string | undefined;
 type EventType = (typeof SessionEventType)[keyof typeof SessionEventType];
+type EmitResult = Promise<void>;
+type ToolOutcome = ToolExecutionResult;
+type ToolError = ToolExecutionResult["error"];
+type EventDisplay = ToolResultDisplayPayload;
+type OptionalDisplay = ToolResultDisplayPayload | undefined;
+type OptionalPerf = ToolExecutionTelemetry | undefined;
+type OptionalSkillMetadata = SkillTelemetryMetadata | undefined;
+type ResultSerialization = ToolResultSerialization;
 
 const INITIAL_SEQUENCE_NUMBER = 0;
 
 // 会话事件信封：所有工具事件共用的七个字段，payload 由各 emit 函数补。
 // turnId 的取法留在调用方：多数入口直接用参数，权限类入口回退到 deps.turnId。
 function eventEnvelope(deps: Deps, type: EventType, traceContext: Trace, turnId: OptionalTurnId) {
-  return {
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId,
-    type,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: INITIAL_SEQUENCE_NUMBER,
-  };
+  const envelope = {} as Record<string, unknown>;
+  envelope.id = crypto.randomUUID() as any;
+  envelope.sessionId = deps.sessionId;
+  envelope.turnId = turnId;
+  envelope.type = type;
+  envelope.timestamp = new Date();
+  envelope.traceId = traceContext.traceId;
+  envelope.sequenceNumber = INITIAL_SEQUENCE_NUMBER;
+  return envelope;
+}
+
+// 发事件：信封 + 负载拼在一起，六个 emit 函数共用同一条出口。
+async function emitWithPayload(
+  deps: Deps,
+  type: EventType,
+  traceContext: Trace,
+  turnId: OptionalTurnId,
+  payload: Record<string, unknown>,
+): EmitResult {
+  const event = { ...eventEnvelope(deps, type, traceContext, turnId), payload } as SessionEvent;
+  await deps.emitEvent(event);
 }
 
 export async function emitToolCallStarted(
@@ -49,14 +70,17 @@ export async function emitToolCallStarted(
   traceContext: Trace,
   turnId: OptionalTurnId,
   startTime: TimestampMs,
-  display?: ToolResultDisplayPayload,
-  // 解析后的副作用能力（与权限判定同源）：订阅者据此在工具动手前知道「要写了」。
+  display?: EventDisplay,
+  // 解析后的副作用能力与权限判定同源：订阅者据此在工具动手前就知道「要写了」。
   capability?: ToolSideEffectCapability,
-): Promise<void> {
-  await deps.emitEvent({
-    ...eventEnvelope(deps, SessionEventType.ToolCallStarted, traceContext, turnId),
-    payload: startedPayload(toolCall, startTime, display, capability),
-  });
+): EmitResult {
+  await emitWithPayload(
+    deps,
+    SessionEventType.ToolCallStarted,
+    traceContext,
+    turnId,
+    startedPayload(toolCall, startTime, display, capability),
+  );
 }
 
 export async function emitToolCallResult(
@@ -64,16 +88,19 @@ export async function emitToolCallResult(
   toolCall: ToolCall,
   traceContext: Trace,
   turnId: OptionalTurnId,
-  serialization: ToolResultSerialization,
+  serialization: ResultSerialization,
   durationMs: TimestampMs,
-  display: ToolResultDisplayPayload | undefined,
-  perf: ToolExecutionTelemetry | undefined,
-  skillMetadata: SkillTelemetryMetadata | undefined,
-): Promise<void> {
-  await deps.emitEvent({
-    ...eventEnvelope(deps, SessionEventType.ToolCallResult, traceContext, turnId),
-    payload: resultPayload(toolCall, serialization, durationMs, display, perf, skillMetadata),
-  });
+  display: OptionalDisplay,
+  perf: OptionalPerf,
+  skillMetadata: OptionalSkillMetadata,
+): EmitResult {
+  await emitWithPayload(
+    deps,
+    SessionEventType.ToolCallResult,
+    traceContext,
+    turnId,
+    resultPayload(toolCall, serialization, durationMs, display, perf, skillMetadata),
+  );
 }
 
 export async function emitToolCallError(
@@ -81,24 +108,24 @@ export async function emitToolCallError(
   toolCallId: ToolCallId,
   traceContext: Trace,
   turnId: OptionalTurnId,
-  error: ToolExecutionResult["error"],
-  skillMetadata?: SkillTelemetryMetadata,
-): Promise<void> {
-  await deps.emitEvent({
-    ...eventEnvelope(deps, SessionEventType.ToolCallError, traceContext, turnId),
-    payload: errorPayload(toolCallId, error, skillMetadata),
-  });
+  error: ToolError,
+  skillMetadata?: OptionalSkillMetadata,
+): EmitResult {
+  await emitWithPayload(
+    deps,
+    SessionEventType.ToolCallError,
+    traceContext,
+    turnId,
+    errorPayload(toolCallId, error, skillMetadata),
+  );
 }
 
 export async function emitSkippedToolError(
   deps: Deps,
-  result: ToolExecutionResult,
+  result: ToolOutcome,
   traceContext?: Trace,
-): Promise<void> {
-  const eventTraceContext =
-    traceContext ??
-    deps.traceContext ??
-    createRootTraceContext({ sessionId: deps.sessionId, turnId: deps.turnId });
+): EmitResult {
+  const eventTraceContext = resolveEventTraceContext(deps, traceContext);
   const turnId = eventTraceContext.turnId ?? deps.turnId;
 
   await emitToolCallError(deps, result.toolCallId, eventTraceContext, turnId, result.error);
@@ -116,15 +143,13 @@ export async function emitPermissionRequested(
   suggestedPermissionUpdates: PermissionUpdate[],
   traceContext: Trace,
   approval?: { display?: ToolResultDisplayPayload; optionsPolicy?: PermissionOptionsPolicy },
-): Promise<void> {
-  await deps.emitEvent({
-    ...eventEnvelope(
-      deps,
-      SessionEventType.PermissionRequested,
-      traceContext,
-      traceContext.turnId ?? deps.turnId,
-    ),
-    payload: permissionRequestedPayload(deps, {
+): EmitResult {
+  await emitWithPayload(
+    deps,
+    SessionEventType.PermissionRequested,
+    traceContext,
+    traceContext.turnId ?? deps.turnId,
+    permissionRequestedPayload(deps, {
       toolCall,
       input,
       requestId,
@@ -133,7 +158,7 @@ export async function emitPermissionRequested(
       suggestedPermissionUpdates,
       approval,
     }),
-  });
+  );
 }
 
 export async function emitPermissionResolved(
@@ -142,16 +167,14 @@ export async function emitPermissionResolved(
   requestId: RequestId,
   decision: PermissionBrokerResult,
   traceContext: Trace,
-): Promise<void> {
-  await deps.emitEvent({
-    ...eventEnvelope(
-      deps,
-      SessionEventType.PermissionResolved,
-      traceContext,
-      traceContext.turnId ?? deps.turnId,
-    ),
-    payload: permissionResolvedPayload(toolCall, requestId, decision),
-  });
+): EmitResult {
+  await emitWithPayload(
+    deps,
+    SessionEventType.PermissionResolved,
+    traceContext,
+    traceContext.turnId ?? deps.turnId,
+    permissionResolvedPayload(toolCall, requestId, decision),
+  );
 }
 
 export async function emitPermissionDenied(
@@ -159,16 +182,14 @@ export async function emitPermissionDenied(
   toolCall: ToolCall,
   reason: OptionalText,
   traceContext: Trace,
-): Promise<void> {
-  await deps.emitEvent({
-    ...eventEnvelope(
-      deps,
-      SessionEventType.PermissionDenied,
-      traceContext,
-      traceContext.turnId ?? deps.turnId,
-    ),
-    payload: permissionDeniedPayload(toolCall, reason),
-  });
+): EmitResult {
+  await emitWithPayload(
+    deps,
+    SessionEventType.PermissionDenied,
+    traceContext,
+    traceContext.turnId ?? deps.turnId,
+    permissionDeniedPayload(toolCall, reason),
+  );
 }
 
 // 以下四个负载构造器把「字段拼接」从 emit 函数里挪出来：emit 只负责发事件。
@@ -176,8 +197,8 @@ export async function emitPermissionDenied(
 
 function errorPayload(
   toolCallId: ToolCallId,
-  error: ToolExecutionResult["error"],
-  skillMetadata: SkillTelemetryMetadata | undefined,
+  error: ToolError,
+  skillMetadata: OptionalSkillMetadata,
 ): Record<string, unknown> {
   const payload = {} as Record<string, unknown>;
   payload.toolCallId = toolCallId;
@@ -256,7 +277,7 @@ const FAILED_LOG_STATUS = "failed";
 function startedPayload(
   toolCall: ToolCall,
   startTime: TimestampMs,
-  display: ToolResultDisplayPayload | undefined,
+  display: OptionalDisplay,
   capability: ToolSideEffectCapability | undefined,
 ): Record<string, unknown> {
   const payload = {} as Record<string, unknown>;
@@ -274,11 +295,11 @@ function startedPayload(
 
 function resultPayload(
   toolCall: ToolCall,
-  serialization: ToolResultSerialization,
+  serialization: ResultSerialization,
   durationMs: TimestampMs,
-  display: ToolResultDisplayPayload | undefined,
-  perf: ToolExecutionTelemetry | undefined,
-  skillMetadata: SkillTelemetryMetadata | undefined,
+  display: OptionalDisplay,
+  perf: OptionalPerf,
+  skillMetadata: OptionalSkillMetadata,
 ): Record<string, unknown> {
   const payload = {} as Record<string, unknown>;
   payload.toolCallId = toolCall.id;
@@ -290,9 +311,9 @@ function resultPayload(
 
 // 成功结果的正文：字节账与截断策略都从序列化结果里取，不在这里重算。
 function resultBody(
-  serialization: ToolResultSerialization,
-  display: ToolResultDisplayPayload | undefined,
-  perf: ToolExecutionTelemetry | undefined,
+  serialization: ResultSerialization,
+  display: OptionalDisplay,
+  perf: OptionalPerf,
 ): Record<string, unknown> {
   const body = {} as Record<string, unknown>;
   body.success = true;
@@ -309,7 +330,7 @@ function resultBody(
 
 // 跳过工具的日志上下文：trace 字段展开在前，事件与模块标识随后，最后是被跳过的工具身份。
 function skippedToolLogContext(
-  result: ToolExecutionResult,
+  result: ToolOutcome,
   traceContext: TraceContext,
 ): Record<string, unknown> {
   const context = { ...traceContextToLogContext(traceContext) } as Record<string, unknown>;
@@ -319,4 +340,11 @@ function skippedToolLogContext(
   context.toolCallId = result.toolCallId;
   context.toolName = result.toolName;
   return context;
+}
+
+// 事件用的 trace 上下文：优先用调用方给的，其次复用执行器上下文，最后按会话根重建。
+function resolveEventTraceContext(deps: Deps, traceContext: Trace | undefined): Trace {
+  if (traceContext !== undefined) return traceContext;
+  if (deps.traceContext !== undefined) return deps.traceContext;
+  return createRootTraceContext({ sessionId: deps.sessionId, turnId: deps.turnId });
 }
