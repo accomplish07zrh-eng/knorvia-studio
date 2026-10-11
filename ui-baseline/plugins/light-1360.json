@@ -6,12 +6,12 @@
   "width": 1360,
   "height": 900,
   "file": "light-1360.png",
-  "imageSha256": "60ab9586f5eed9f52f8ff667e2d293cdbf9ee2a42635fd9d36502c8d60cd02e2",
-  "bytes": 39926,
-  "generatedAt": "2026-10-11T07:52:22.938Z",
+  "imageSha256": "a81fc3daec1d73a5ca459c8567ebbdb0d6b78ecaf7f61d6f31f0a542ad739892",
+  "bytes": 40503,
+  "generatedAt": "2026-10-11T12:21:13.443Z",
   "commit": {
-    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "head": "a89c2627708ace13f70cb6397493edc179f54a47",
+    "headSubject": "M0-11 截图工具与页面清单（夹具确定性修复中）",
     "branch": "m0/11-ui-baseline",
     "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
     "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
@@ -19,19 +19,19 @@
   "environment": {
     "platform": "win32",
     "arch": "x64",
-    "node": "v26.3.0",
+    "node": "v24.14.0",
     "chromium": {
       "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
       "version": "148.0.7778.96"
     },
     "webUrl": "http://127.0.0.1:5173/",
-    "serverUrl": "http://127.0.0.1:63338",
+    "serverUrl": "http://127.0.0.1:52394",
     "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
     "fixtureProfile": "default",
     "fixedClock": "2026-11-01T00:00:00.000Z",
     "fixedTimezone": "UTC"
   },
-  "screenshotMs": 94,
+  "screenshotMs": 60,
   "geometry": {
     "settings-page": {
       "matches": 1,
@@ -164,8 +164,8 @@
       "workspace-list"
     ],
     "kernelOptions": [],
-    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 变更前确认 管理模型 发送 workspace 插件 安装、启用与管理插件。 用户 插件 0 MCP 0 技能 2 已安装 0 来源 创建插件 尚未安装插件 已安装的插件会显示在这里，可配置、启停、更新和卸载。",
-    "bodyTextSha256": "ea3fb7a3e498c1b3d7849a351b3dfc574e79670f5aef09191cbb58c4d3e4a12f",
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 变更前确认 管理模型 发送 workspace 插件 安装、启用与管理插件。 用户 插件 0 MCP 0 技能 0 已安装 0 来源 创建插件 尚未安装插件 已安装的插件会显示在这里，可配置、启停、更新和卸载。",
+    "bodyTextSha256": "3195e9fea2d3cd8983188322c4dfff26e1557682ac8151255ceee8d291ee702b",
     "bodyTextLength": 290,
     "consoleErrors": [
       "console: [2026-11-01 00:00:00.000] [ui] [plugins] overview/list failed {workspacePath: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, workspaceKey: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, lastFailedPluginId: null, error: Knorvia Studio agent server command is not configu… KNORVIA_AGENT_SERVER_COMMAND before integration.}",

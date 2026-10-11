@@ -6,12 +6,12 @@
   "width": 820,
   "height": 900,
   "file": "dark-820.png",
-  "imageSha256": "4958aac84e29b42607a47a4b4a0c8261ff8c03f166e1625e9da770e29fe32d99",
-  "bytes": 37547,
-  "generatedAt": "2026-10-11T07:50:23.327Z",
+  "imageSha256": "9d16beffeebde686051a0ce53906e2d5cb3e01b4634626cb0cc89396e1eed6b1",
+  "bytes": 38823,
+  "generatedAt": "2026-10-11T12:18:23.117Z",
   "commit": {
-    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "head": "a89c2627708ace13f70cb6397493edc179f54a47",
+    "headSubject": "M0-11 截图工具与页面清单（夹具确定性修复中）",
     "branch": "m0/11-ui-baseline",
     "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
     "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
@@ -19,19 +19,19 @@
   "environment": {
     "platform": "win32",
     "arch": "x64",
-    "node": "v26.3.0",
+    "node": "v24.14.0",
     "chromium": {
       "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
       "version": "148.0.7778.96"
     },
     "webUrl": "http://127.0.0.1:5173/",
-    "serverUrl": "http://127.0.0.1:63338",
+    "serverUrl": "http://127.0.0.1:52394",
     "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
     "fixtureProfile": "default",
     "fixedClock": "2026-11-01T00:00:00.000Z",
     "fixedTimezone": "UTC"
   },
-  "screenshotMs": 52,
+  "screenshotMs": 61,
   "geometry": {
     "studio-activity-rail": {
       "matches": 1,

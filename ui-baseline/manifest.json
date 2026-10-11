@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "tool": "scripts/ui-baseline",
-  "generatedAt": "2026-10-11T08:05:06.629Z",
+  "generatedAt": "2026-10-11T12:38:40.427Z",
   "commit": {
-    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "head": "a89c2627708ace13f70cb6397493edc179f54a47",
+    "headSubject": "M0-11 截图工具与页面清单（夹具确定性修复中）",
     "branch": "m0/11-ui-baseline",
     "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
     "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
@@ -12,20 +12,20 @@
   "environment": {
     "platform": "win32",
     "arch": "x64",
-    "node": "v26.3.0",
+    "node": "v24.14.0",
     "chromium": {
       "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
       "version": "148.0.7778.96"
     },
     "webUrl": "http://127.0.0.1:5173/",
-    "serverUrl": "http://127.0.0.1:63338",
+    "serverUrl": "http://127.0.0.1:52394",
     "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
     "fixtureProfile": "default",
     "fixedClock": "2026-11-01T00:00:00.000Z",
     "fixedTimezone": "UTC"
   },
   "pagesFile": "scripts/ui-baseline/pages.json",
-  "pagesSha256": "3c58d9dce874d640ead75f956009bf62326880667ad97b512f99a76a54c204bb",
+  "pagesSha256": "f5e86af6b1b0f1e0973fadb49e2cde9fd5d5d04e71cf92589b57e6d8d8e3dcd3",
   "themes": [
     "light",
     "dark"
@@ -51,9 +51,9 @@
       "width": 1360,
       "height": 900,
       "file": "chat-single/light-1360.png",
-      "imageSha256": "0d65f44b5ad06514b38819872f9fc9690313c07b73d020cb7d77795f382e699c",
-      "bytes": 65163,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "65d0fc4f32f36e3a05dc4c6de0b36cc28c871d0e112e78aa2192aa43830eb287",
+      "bytes": 66251,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
       "screenshotMs": 82
     },
@@ -63,11 +63,11 @@
       "width": 820,
       "height": 900,
       "file": "chat-single/light-820.png",
-      "imageSha256": "c60b3558f2c199282bb018d704d1348268a417cdc6456ded8e40aad4acc1bba4",
-      "bytes": 58171,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "7154247a8445d4aaeb3e3de434cc7e2baca0f0be5787fbce326b554756bb032e",
+      "bytes": 59802,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 65
+      "screenshotMs": 72
     },
     {
       "page": "chat-single",
@@ -75,11 +75,11 @@
       "width": 390,
       "height": 844,
       "file": "chat-single/light-390.png",
-      "imageSha256": "09ad5fba099331e1c79b831f85bdf0b2916ca53e5f552cf94421959b93ec62f3",
-      "bytes": 33728,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "44184aad70e641e984812b8de57c1019e566d6b8044e2562ad5c6dba4cae9a27",
+      "bytes": 34229,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 53
+      "screenshotMs": 54
     },
     {
       "page": "chat-single",
@@ -87,11 +87,11 @@
       "width": 1360,
       "height": 900,
       "file": "chat-single/dark-1360.png",
-      "imageSha256": "dddb1efe9d659335be667e60462f0c0a98bc002e3f2ba4170d9d253af047c6a5",
-      "bytes": 61103,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "725fb27abb3aad8599d0ba3c2c9f7b4f69ce93a14c465011e8cd39b7fc6f7664",
+      "bytes": 63199,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 77
+      "screenshotMs": 65
     },
     {
       "page": "chat-single",
@@ -99,11 +99,11 @@
       "width": 820,
       "height": 900,
       "file": "chat-single/dark-820.png",
-      "imageSha256": "510cab3c7943ff726bcfec5e08506343b26e93d4c25f23813f697f1a4f7e0c3d",
-      "bytes": 54208,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9393f9b7be5b975346641c298bbcf898e756a1c2ebbcf51ce5abdd064d488458",
+      "bytes": 56473,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 56
+      "screenshotMs": 54
     },
     {
       "page": "chat-single",
@@ -111,11 +111,11 @@
       "width": 390,
       "height": 844,
       "file": "chat-single/dark-390.png",
-      "imageSha256": "c64a4876b14e57213d1ae9ca5624fa6aa37aeab708e23218a1161883ba1f468b",
-      "bytes": 30504,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "02fb78f0f291721a190f548ae8626798776d56b9e83a0c9cb3e48d1d729de4d9",
+      "bytes": 31769,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 79
+      "screenshotMs": 40
     },
     {
       "page": "workbench",
@@ -123,11 +123,11 @@
       "width": 1360,
       "height": 900,
       "file": "workbench/light-1360.png",
-      "imageSha256": "d28b318f10fc926e8c17047da04306ceb5ac7cb29ae37e2588ecd10b100b813c",
-      "bytes": 43781,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "8a057a4dc13c84aaf1b1ee4484b0f14aa58f6b8b5ed92aad993388974344dc50",
+      "bytes": 45020,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 81
+      "screenshotMs": 79
     },
     {
       "page": "workbench",
@@ -135,11 +135,11 @@
       "width": 820,
       "height": 900,
       "file": "workbench/light-820.png",
-      "imageSha256": "1105b1d889331effb8b5b800e04117e2739e93ba14507bcb492f7588d25869ac",
-      "bytes": 40724,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "7ef93fcb3eac3d055a99d87917cde1835fb5092b0c8755035e0a3f831f15437a",
+      "bytes": 42158,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 65
+      "screenshotMs": 44
     },
     {
       "page": "workbench",
@@ -147,11 +147,11 @@
       "width": 390,
       "height": 844,
       "file": "workbench/light-390.png",
-      "imageSha256": "a58581782dc815ea3565e05c578c60627c70499c19d1f5c57be2c722d784e9aa",
-      "bytes": 30359,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "0852021872446a074d52d318c95e74287977babb5e519b10df88c02e3d566332",
+      "bytes": 30677,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 56
     },
     {
       "page": "workbench",
@@ -159,11 +159,11 @@
       "width": 1360,
       "height": 900,
       "file": "workbench/dark-1360.png",
-      "imageSha256": "827d4f1f366377f8623d319974cd5f2f2dae810a0cab3efc0916084218a01ae4",
-      "bytes": 43451,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a242571a1c32536d4c2dc96ba606a14f7876e355b7770d16ed31797f36e2ed0f",
+      "bytes": 44630,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 82
+      "screenshotMs": 67
     },
     {
       "page": "workbench",
@@ -171,11 +171,11 @@
       "width": 820,
       "height": 900,
       "file": "workbench/dark-820.png",
-      "imageSha256": "52d76fe85579b1c4c7626a1fa4d43eb45aa6e5f351860cddeb347c684fa9bb50",
-      "bytes": 40567,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "bf9667de86e86ca7d079c34bfe207607b4496689811dd49ec4b9d1cd94ec74d6",
+      "bytes": 41821,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 55
+      "screenshotMs": 52
     },
     {
       "page": "workbench",
@@ -183,11 +183,11 @@
       "width": 390,
       "height": 844,
       "file": "workbench/dark-390.png",
-      "imageSha256": "393a0f30fe66f8612c44742c301154921d4953593b211d9c9631231505987a2e",
-      "bytes": 28610,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c0dde5ac04808a16be2ad652e3ae84ff8d5c8457654c1563a84fe765d642e3dd",
+      "bytes": 29014,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 51
     },
     {
       "page": "groups",
@@ -195,11 +195,11 @@
       "width": 1360,
       "height": 900,
       "file": "groups/light-1360.png",
-      "imageSha256": "5f9987da934af79e047122a610e91ffc2c5778557691fbb6cf76b90754072645",
-      "bytes": 41405,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "819ec4a4706066479942f3c67377a96777926e048b1ab62a8c65cbbc82d3776c",
+      "bytes": 42594,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 77
+      "screenshotMs": 66
     },
     {
       "page": "groups",
@@ -207,11 +207,11 @@
       "width": 820,
       "height": 900,
       "file": "groups/light-820.png",
-      "imageSha256": "1c8b6358a520d9a40867c3d6083794ff08208fec52099112af8119687005ae8d",
-      "bytes": 38488,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "ef5b7f1fba4e4a59d54e30967ad61259afb81b7a8a6407e5709aaa77a686cea4",
+      "bytes": 39904,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 58
     },
     {
       "page": "groups",
@@ -219,11 +219,11 @@
       "width": 390,
       "height": 844,
       "file": "groups/light-390.png",
-      "imageSha256": "2123e991b924db828df81de5c67f82998d2d35958e2d483b576a6cb66823552b",
-      "bytes": 24454,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "2c5d8ecf496b0128bf8177056000d43e5c90b82665e6d1f55d657cc57bbcbd56",
+      "bytes": 24748,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 35
+      "screenshotMs": 80
     },
     {
       "page": "groups",
@@ -231,11 +231,11 @@
       "width": 1360,
       "height": 900,
       "file": "groups/dark-1360.png",
-      "imageSha256": "e08e884f8a4787c90f263e347b8cbdf1d27e5ae674f57b617808e77a7588a38d",
-      "bytes": 40439,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "aa2c076aaf1b7437c58c2f7e539fe1be34db843a4955138831e6f1ac7eb26ffd",
+      "bytes": 41665,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 140
+      "screenshotMs": 73
     },
     {
       "page": "groups",
@@ -243,11 +243,11 @@
       "width": 820,
       "height": 900,
       "file": "groups/dark-820.png",
-      "imageSha256": "4958aac84e29b42607a47a4b4a0c8261ff8c03f166e1625e9da770e29fe32d99",
-      "bytes": 37547,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9d16beffeebde686051a0ce53906e2d5cb3e01b4634626cb0cc89396e1eed6b1",
+      "bytes": 38823,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 52
+      "screenshotMs": 61
     },
     {
       "page": "groups",
@@ -255,11 +255,11 @@
       "width": 390,
       "height": 844,
       "file": "groups/dark-390.png",
-      "imageSha256": "6dca31730fa6421e8b33e251e3833f14d7a174ace0a56f9ef5b1a0d816f4e5f1",
-      "bytes": 23090,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a0eef2df43dbcc7d278ea70f20d395f442073e766bfaded34f2ba616c17c7807",
+      "bytes": 23466,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 46
     },
     {
       "page": "workflows",
@@ -267,11 +267,11 @@
       "width": 1360,
       "height": 900,
       "file": "workflows/light-1360.png",
-      "imageSha256": "02d1fd46215ecf1ca98af12bbdebf3716232332a0e85429ddf12ac8ae5d2e986",
-      "bytes": 71115,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b5cc32db4e67456fdc6db4156be291bf7238f7bc8f29d2db5b6cb53d28eb2053",
+      "bytes": 72195,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 88
+      "screenshotMs": 71
     },
     {
       "page": "workflows",
@@ -279,11 +279,11 @@
       "width": 820,
       "height": 900,
       "file": "workflows/light-820.png",
-      "imageSha256": "2064e82d29766b4ff558d851a9e5717611a627468ff7b297f0d27a9bd1feba46",
-      "bytes": 66748,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "4aa5350c8e19cda53db5ac5e03bf9f0f7ee08b58101803dda9c32a4d8586f2de",
+      "bytes": 67082,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 74
+      "screenshotMs": 62
     },
     {
       "page": "workflows",
@@ -291,11 +291,11 @@
       "width": 390,
       "height": 844,
       "file": "workflows/light-390.png",
-      "imageSha256": "625f709e770d409fd318b15c41cb585e17845394712f824241443f901e3e9d93",
-      "bytes": 32503,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "8f627e7fc188b59ac67b8ed1af81965951069c3f35d1108eb7cd815458b04376",
+      "bytes": 32536,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 62
+      "screenshotMs": 64
     },
     {
       "page": "workflows",
@@ -303,11 +303,11 @@
       "width": 1360,
       "height": 900,
       "file": "workflows/dark-1360.png",
-      "imageSha256": "c1cce81b1a2b6e29b1343789f6a7998d2f6bb3f6d7b0edab1ec540e74f42aa59",
-      "bytes": 70296,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "0ad58074ff3bb99bc40a5e60b4a1c6cd7142d5423e29fed75fe293255182c758",
+      "bytes": 71434,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 91
+      "screenshotMs": 99
     },
     {
       "page": "workflows",
@@ -315,11 +315,11 @@
       "width": 820,
       "height": 900,
       "file": "workflows/dark-820.png",
-      "imageSha256": "8e52ef7ff4fca5dabac15b12b9b39a6f55307b61f9d2e51fe79524aa3a9d7038",
-      "bytes": 65843,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "f0e43383cbd8b9050a496ac721fe0b5694c149e7c33c105d052a048ed9b052fc",
+      "bytes": 66300,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 97
+      "screenshotMs": 48
     },
     {
       "page": "workflows",
@@ -327,11 +327,11 @@
       "width": 390,
       "height": 844,
       "file": "workflows/dark-390.png",
-      "imageSha256": "4d6439b5d48ca6f9e133b07fa1898c5465377faf10e612c6e3a9db886fb49850",
-      "bytes": 30670,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "20b19b189d854789eb26fe68be5d84361b656e09dd3167b298e3a1a581b571db",
+      "bytes": 31002,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 59
+      "screenshotMs": 57
     },
     {
       "page": "creation",
@@ -339,11 +339,11 @@
       "width": 1360,
       "height": 900,
       "file": "creation/light-1360.png",
-      "imageSha256": "8860b618313c07753f2bb239ae46f2a0cc4a3c0165001e7cba951b8b6df390af",
-      "bytes": 49772,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "efb6e9b669652728a80ad0e079caed1108844d09fe429347d4fb1798729853ef",
+      "bytes": 51017,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 97
+      "screenshotMs": 57
     },
     {
       "page": "creation",
@@ -351,11 +351,11 @@
       "width": 820,
       "height": 900,
       "file": "creation/light-820.png",
-      "imageSha256": "b14d68ddf4d03eab0834d3c07711050a5425ac568edf30d8f7354cb796b572c3",
-      "bytes": 45480,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "216d41d67b2db81b5e5328ec0c71fa30b9bd5323b7f66dacbce7aae143100764",
+      "bytes": 46881,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 61
+      "screenshotMs": 49
     },
     {
       "page": "creation",
@@ -363,11 +363,11 @@
       "width": 390,
       "height": 844,
       "file": "creation/light-390.png",
-      "imageSha256": "00c2d4a37b36debb7ef3b49818d262e79511a1e48310ebad7b7ff0b1ed45ec8d",
-      "bytes": 32955,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "2be4aa458a2e6ca1915c0dc2d3613e9df57fbf41437580103caf4c402c67e247",
+      "bytes": 32976,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 127
+      "screenshotMs": 53
     },
     {
       "page": "creation",
@@ -375,11 +375,11 @@
       "width": 1360,
       "height": 900,
       "file": "creation/dark-1360.png",
-      "imageSha256": "d5c5843dca48f592365e84ad54cd65e56b24e0923c9c449b02d3160e9e2f35fb",
-      "bytes": 49249,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c3ee776dcd57a541e85f3187b6278f83b45eabf105035604cdca0d143ff85da0",
+      "bytes": 50448,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 97
+      "screenshotMs": 66
     },
     {
       "page": "creation",
@@ -387,11 +387,11 @@
       "width": 820,
       "height": 900,
       "file": "creation/dark-820.png",
-      "imageSha256": "34ddb7f4824daf0b4861c79fa6a163f387b853592133bf44ac6054220b58fe16",
-      "bytes": 45080,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "801f950ce445e6685607416507e752035ee54d36f4e3d55ff3d12629dda207a5",
+      "bytes": 46295,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 69
+      "screenshotMs": 60
     },
     {
       "page": "creation",
@@ -399,11 +399,11 @@
       "width": 390,
       "height": 844,
       "file": "creation/dark-390.png",
-      "imageSha256": "e1ce8b6c7e1480201e96012bafa32a29412d0167b0d65c0bbc7ea53f021ed073",
-      "bytes": 30715,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "8c30cf552c765cd1b8dfa5750c0c203227730a26d3fcdd13da7286bc05b323b6",
+      "bytes": 31123,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 57
     },
     {
       "page": "plugins",
@@ -411,11 +411,11 @@
       "width": 1360,
       "height": 900,
       "file": "plugins/light-1360.png",
-      "imageSha256": "60ab9586f5eed9f52f8ff667e2d293cdbf9ee2a42635fd9d36502c8d60cd02e2",
-      "bytes": 39926,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a81fc3daec1d73a5ca459c8567ebbdb0d6b78ecaf7f61d6f31f0a542ad739892",
+      "bytes": 40503,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 94
+      "screenshotMs": 60
     },
     {
       "page": "plugins",
@@ -423,11 +423,11 @@
       "width": 820,
       "height": 900,
       "file": "plugins/light-820.png",
-      "imageSha256": "4ac1b7f1a8f6aa2fa92de0b5306bf32d7d4c68f412b76b3c4e1fedf9af13e543",
-      "bytes": 36848,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "0cc5bc7e355eb04c6e529e01f34b218fb25d268eb661e606908e3d848321f423",
+      "bytes": 37532,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 55
+      "screenshotMs": 62
     },
     {
       "page": "plugins",
@@ -435,11 +435,11 @@
       "width": 390,
       "height": 844,
       "file": "plugins/light-390.png",
-      "imageSha256": "0c9567655c1dd262d35bafdf9fac896d90cc8d3dcf65228f55ff3a8df8ec8fdc",
-      "bytes": 33590,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a683fdaca0741bce4ed8a60ae81a9e9b471af20208ed11c985ef9f78a10d940c",
+      "bytes": 34551,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 71
+      "screenshotMs": 48
     },
     {
       "page": "plugins",
@@ -447,11 +447,11 @@
       "width": 1360,
       "height": 900,
       "file": "plugins/dark-1360.png",
-      "imageSha256": "f58e5289672ef0f10d3fbb57508a2ba00d450a2b7cef6b2f634cd562e1494f27",
-      "bytes": 39006,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b5aa5177479c962619d288f44c413419330767aab9859f70ef7f5ce8be54717b",
+      "bytes": 40082,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 79
+      "screenshotMs": 118
     },
     {
       "page": "plugins",
@@ -459,11 +459,11 @@
       "width": 820,
       "height": 900,
       "file": "plugins/dark-820.png",
-      "imageSha256": "57f0aa1cfb0d0d7439b0b60247f316f1d6c43e9c2d6c0de215f9a0f391ba7de9",
-      "bytes": 35955,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "8775e43fb4be23293ca3cc89d721085c0016793133cb6e33bcf5bf277dda1e41",
+      "bytes": 37014,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 51
     },
     {
       "page": "plugins",
@@ -471,11 +471,11 @@
       "width": 390,
       "height": 844,
       "file": "plugins/dark-390.png",
-      "imageSha256": "b80239dc35d527fcaf079353e63f3dbbd989d4faee3040af4723abf2887a0482",
-      "bytes": 33130,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "5f8ec50dd80c0b6160784d92281bd492f61e604941eaf81bf67f3755c23a57df",
+      "bytes": 33975,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 44
+      "screenshotMs": 38
     },
     {
       "page": "settings-general",
@@ -483,11 +483,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-general/light-1360.png",
-      "imageSha256": "247cd27fc7255c2b642db50184e61164936b4a54736ce2b59c75a801365a4fec",
-      "bytes": 109401,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "825d97e3f07920c22fc177f35f2e3180a8ea0ccb74eea892bc20963dfe3587db",
+      "bytes": 110564,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 115
+      "screenshotMs": 81
     },
     {
       "page": "settings-general",
@@ -495,11 +495,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-general/light-820.png",
-      "imageSha256": "341521ed5483a5eb03b96a6af22d04ac3688f6deae7c0f7f5f72dce9de55c578",
-      "bytes": 82924,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "839e9335aca9db2ca9d953190a887e7f072e777dad6a77c18667ec8209096770",
+      "bytes": 84381,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 75
+      "screenshotMs": 65
     },
     {
       "page": "settings-general",
@@ -507,11 +507,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-general/light-390.png",
-      "imageSha256": "7cb27503a4d3a0cc3d6f4da5b4aa56c9a9f4620e7a39fe2df135323d16bb593e",
-      "bytes": 56178,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9b8bcb1cff054a8f411b25760ff204b7e42498e6a0b4232c221d5c75dad64324",
+      "bytes": 57101,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 53
+      "screenshotMs": 63
     },
     {
       "page": "settings-general",
@@ -519,11 +519,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-general/dark-1360.png",
-      "imageSha256": "b905ee2b0fb55d26072c647c2353d5dbf6fac3e50362f41c56cec6e55c496f85",
-      "bytes": 106648,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "f6d264da3366a047a201a35267bb05b0158a2b0d3b70daeb066d301944b689c7",
+      "bytes": 108521,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 95
+      "screenshotMs": 129
     },
     {
       "page": "settings-general",
@@ -531,11 +531,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-general/dark-820.png",
-      "imageSha256": "a2030b78d77634b128b44fa639c9005918f5e49a1d4ca48a840fdb331c8f5f62",
-      "bytes": 80459,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "1bffa5c7e9d8e03b31ebc78807111aec8b74a16855a71d864acba2cece19b8bc",
+      "bytes": 82301,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 76
+      "screenshotMs": 79
     },
     {
       "page": "settings-general",
@@ -543,11 +543,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-general/dark-390.png",
-      "imageSha256": "b29803fb057e0ba7ebd4b9c7edccf5bf2c12f3d53c8c8c3fbe365661bc22007f",
-      "bytes": 54431,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "cef9f294b5002b4a58d3c73ecfd26a2654c85b350f79ea8e1b40e43900a195d7",
+      "bytes": 55424,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 49
+      "screenshotMs": 91
     },
     {
       "page": "settings-appearance",
@@ -555,11 +555,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-appearance/light-1360.png",
-      "imageSha256": "404793c8bc9aa732b491f69b198cdce12301dc62c4492f6ed2437e0969a7773d",
-      "bytes": 140711,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "1543664278f29c8ea4f8aace0a7a9dce0dccb0a74cf8b688c4f6fbda43838a65",
+      "bytes": 141286,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 112
+      "screenshotMs": 103
     },
     {
       "page": "settings-appearance",
@@ -567,11 +567,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-appearance/light-820.png",
-      "imageSha256": "310da19a2de28000d5149ff8a320fff78cd574c7d74bd095ed6d9f670cc3d77d",
-      "bytes": 140624,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "963dd1ef95fbc68d31cf80785e998efc98e4bcb8a3f78565f5c0514a3ae650ef",
+      "bytes": 135855,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 122
+      "screenshotMs": 89
     },
     {
       "page": "settings-appearance",
@@ -579,11 +579,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-appearance/light-390.png",
-      "imageSha256": "390fafb80301b09f61aaec265041fead4cf7c9746d2914a54fb70586baf5a0b5",
-      "bytes": 63220,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "84a6e9f07a1a28a16a98757cea857e8babfdd973dd6e49dd9c9c9861baaa1998",
+      "bytes": 62987,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 58
+      "screenshotMs": 55
     },
     {
       "page": "settings-appearance",
@@ -591,11 +591,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-appearance/dark-1360.png",
-      "imageSha256": "bca2eecbfdb8d2823a8edc52e6bbec251f9ecc7679360eb4085f49cec8add659",
-      "bytes": 133426,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "00085dc734e2e9031f615aafe1953ce87fd439e554b0a277df11af1389adb223",
+      "bytes": 135064,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 113
+      "screenshotMs": 116
     },
     {
       "page": "settings-appearance",
@@ -603,11 +603,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-appearance/dark-820.png",
-      "imageSha256": "906dfb6451f31f1f97d8790a76bb314bd507058381341ee5f9e66cc2bd768ffa",
-      "bytes": 123562,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "4955fe2ef3d819a089576bae033b8c56ec770c80f0aeea3508413ec7566cad70",
+      "bytes": 123076,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 106
+      "screenshotMs": 87
     },
     {
       "page": "settings-appearance",
@@ -615,11 +615,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-appearance/dark-390.png",
-      "imageSha256": "969ddfcc3d6faab91348db536c67dde155d32867be596c279eb9c484f498499e",
-      "bytes": 60423,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "1f738fd47121da8e5c21ed6a3fa876822e93360912e0d9920ed4cce0bf95c8df",
+      "bytes": 60747,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 52
     },
     {
       "page": "settings-model-provider",
@@ -627,11 +627,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-model-provider/light-1360.png",
-      "imageSha256": "8f30d6f42cfc4ae09a493156a9fcf1c8f3dcce8a8a61eec51c3d99eaa33dbee2",
-      "bytes": 108315,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "6ee0e61f1117456cf23707424d14940a9a34286e7e4ab67af8bfb05291667214",
+      "bytes": 109823,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 94
+      "screenshotMs": 72
     },
     {
       "page": "settings-model-provider",
@@ -639,11 +639,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-model-provider/light-820.png",
-      "imageSha256": "83215b643982fb4f6229cf7254552de8dc5617658e3e5d0be456385f0d760e17",
-      "bytes": 80972,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "18418d049557ea312df4aa9c144fdb4b0bc5acfc0f074127cf1a79225d96728a",
+      "bytes": 82763,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 71
+      "screenshotMs": 57
     },
     {
       "page": "settings-model-provider",
@@ -651,11 +651,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-model-provider/light-390.png",
-      "imageSha256": "be686ff06bf945db6817eb11c69b6d7768e41c8006d3201e073fa0d9587ad244",
-      "bytes": 54407,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "2b78642b96d60e5916eca66bf803a5375a97026821a16f403f3228464b4b8576",
+      "bytes": 55430,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 45
+      "screenshotMs": 54
     },
     {
       "page": "settings-model-provider",
@@ -663,11 +663,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-model-provider/dark-1360.png",
-      "imageSha256": "83dd282dd4d93e50d5f135d433867e04f3a12fef58e506c957802d858fb0f968",
-      "bytes": 105764,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "059f17f30eae3573eed86f2690756f9e54a0f965f89730b5065e82349bad7dac",
+      "bytes": 107376,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 87
+      "screenshotMs": 100
     },
     {
       "page": "settings-model-provider",
@@ -675,11 +675,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-model-provider/dark-820.png",
-      "imageSha256": "6cdbbd75d0b3dabc60f1b4015bb89173edeec35c4b9de3715f5307e9415e603a",
-      "bytes": 79917,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "028d2cfdc626c99aaac673ff0460277c2d82991b7c9d2d89fb424e6a1388985a",
+      "bytes": 81240,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 71
+      "screenshotMs": 60
     },
     {
       "page": "settings-model-provider",
@@ -687,11 +687,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-model-provider/dark-390.png",
-      "imageSha256": "f4b62099c64ba77ae0b4326d6e0ccdbd632ebb75877bb1f84f36e489ad59f6ca",
-      "bytes": 53727,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c1a48931e4670ff68313962d77c749fbd2ad9d3f3070cbc52b6c7172159f573b",
+      "bytes": 54218,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 48
+      "screenshotMs": 67
     },
     {
       "page": "settings-agents",
@@ -699,11 +699,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-agents/light-1360.png",
-      "imageSha256": "8a130d166bfa0948f80eaa1c2f8a45e0067cea5c8867e95439be25b486c360a0",
-      "bytes": 128434,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "e2445ebb0fc006750e4503bc5f34e24472002dc2415ec0f373e69f2ea17aa4dd",
+      "bytes": 138024,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 98
+      "screenshotMs": 96
     },
     {
       "page": "settings-agents",
@@ -711,11 +711,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-agents/light-820.png",
-      "imageSha256": "ac5f5cf859df9e71d2c25354a6da86c88a556008a601199b43989a6c64646c80",
-      "bytes": 102325,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "11fb59dce0a3a3b5e93a65bde63b2788bc111b23816345007e935e9d62225474",
+      "bytes": 112112,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 82
+      "screenshotMs": 110
     },
     {
       "page": "settings-agents",
@@ -723,11 +723,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-agents/light-390.png",
-      "imageSha256": "9557d8063c10e823e6f65cbe4b9ed7a0739e1b100f39dff0ea17f7aba700bccd",
-      "bytes": 64683,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a1641ad560d40962a0e048d54e78fd9d9efeee234c1404e38b1c7d77faaa2404",
+      "bytes": 66036,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 51
+      "screenshotMs": 42
     },
     {
       "page": "settings-agents",
@@ -735,11 +735,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-agents/dark-1360.png",
-      "imageSha256": "bcc90f434a36290c28c46839b5aeba19dc5c29ed8770c81f038f02336326e9b3",
-      "bytes": 125101,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "98496ac735736edaf325aa572f5bc164c54ca6b0be1659dda6112e804e566fd5",
+      "bytes": 134878,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 101
+      "screenshotMs": 88
     },
     {
       "page": "settings-agents",
@@ -747,11 +747,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-agents/dark-820.png",
-      "imageSha256": "40e487bf7a90f1c02045fbc36c23aa44729d8c1f3c78bbafce7f06c80b421a3f",
-      "bytes": 108900,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "abfd704f6b3bf75d187f9df47731f986697359764a047edf5b96d9f9f0aab177",
+      "bytes": 109189,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 80
+      "screenshotMs": 95
     },
     {
       "page": "settings-agents",
@@ -759,11 +759,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-agents/dark-390.png",
-      "imageSha256": "bc964cb67e2beb2679a4509151a31e9bd3b3f10a896df623401ebc8265b55cff",
-      "bytes": 63209,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "0d8bea01826afb38664662c3b265c4c4be309d20b63e81f951022f9d9c4130a3",
+      "bytes": 64264,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 50
+      "screenshotMs": 38
     },
     {
       "page": "settings-usage",
@@ -771,11 +771,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-usage/light-1360.png",
-      "imageSha256": "c97f785cebbff8d8e626da8589e7625dd562ec0a29ee7214950db91cd56da5f3",
-      "bytes": 71015,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a8d5a9646075605f5cf256277bece0e0c5632a4627411d54f0d541cbcee3c5c3",
+      "bytes": 72227,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 86
+      "screenshotMs": 93
     },
     {
       "page": "settings-usage",
@@ -783,11 +783,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-usage/light-820.png",
-      "imageSha256": "4f3e6694858bb983b450cc7d5478699faf7517b1d0d804f9668feefeab25c8c6",
-      "bytes": 48158,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "ceea25673da0aad9f0c582a03005b1d10c61c25aa3e67012493652a35a2918e5",
+      "bytes": 49692,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 60
+      "screenshotMs": 46
     },
     {
       "page": "settings-usage",
@@ -795,11 +795,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-usage/light-390.png",
-      "imageSha256": "3ccd385d25715585bc94e57e876868e8db8d7aa17f08700888c2e7e7e033db6d",
-      "bytes": 37843,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "d36b381177e13ac2abe7eac4d950e041807a0377407c7d574dee06ad54e8abe4",
+      "bytes": 38751,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 52
+      "screenshotMs": 44
     },
     {
       "page": "settings-usage",
@@ -807,11 +807,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-usage/dark-1360.png",
-      "imageSha256": "fe7ddff8e8d5c9794f5e074f27bd9304bb536fcc55408623e5e79d69ed978d5f",
-      "bytes": 69437,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c6883a4d8134d1b9b9276a084c6cff2c52d32b8735169dce71a5387c542787a1",
+      "bytes": 71506,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 102
+      "screenshotMs": 124
     },
     {
       "page": "settings-usage",
@@ -819,11 +819,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-usage/dark-820.png",
-      "imageSha256": "d800dcc025ba2bbb527a70965c7393c5be311a6de2977527af5c53af9049a633",
-      "bytes": 47584,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "1b7d8f7e122f37053f9c3c24b841860243629332ae907432f675bf12d42d4b6d",
+      "bytes": 49297,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 81
     },
     {
       "page": "settings-usage",
@@ -831,11 +831,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-usage/dark-390.png",
-      "imageSha256": "5bd6a09b6a4f544320c70d0c59c190020cef2c3f50f394421ecb1b3a2258d621",
-      "bytes": 37790,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b0ba2c41f8439d540c38ee77848eac7ae1c23c5f2f1426981bdd4f019603585a",
+      "bytes": 38557,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 54
+      "screenshotMs": 66
     },
     {
       "page": "settings-subagents",
@@ -843,11 +843,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-subagents/light-1360.png",
-      "imageSha256": "a509821449c8b44dbdc8244ae79e700e283b0f9b2ef3e33a66f82a6e6163bae2",
-      "bytes": 86829,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "5a89fb37818e1851154e4af8174477354c25547c268dc5f1b429439b105f75c3",
+      "bytes": 88256,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 106
+      "screenshotMs": 75
     },
     {
       "page": "settings-subagents",
@@ -855,11 +855,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-subagents/light-820.png",
-      "imageSha256": "f68146971b0779c978daa61a671aaa93c575d8bf61e81f8db7c1f253a4359f07",
-      "bytes": 61543,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c7a313e3be1858ad1f0ae79b7f0baa796565345777fd6c8953f0f32c8ec8be9c",
+      "bytes": 63345,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 70
+      "screenshotMs": 46
     },
     {
       "page": "settings-subagents",
@@ -867,11 +867,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-subagents/light-390.png",
-      "imageSha256": "fbf46614cef3ca1c74eda48122bbe0db5f15607cf783a2b5296cc636b87d13fa",
-      "bytes": 49860,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b0dcb267acf601d1f9656f80112faa40ee3b8ef487bd07d7ecdb5412d00fc671",
+      "bytes": 51079,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 48
+      "screenshotMs": 45
     },
     {
       "page": "settings-subagents",
@@ -879,11 +879,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-subagents/dark-1360.png",
-      "imageSha256": "762f7aa728639435228b8ab3413c86c7c7b892a4fee4ec9bcdabb135c80a42b4",
-      "bytes": 85545,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "706cddc27843baa5736ca7c4a3804f8886c85b68a7173439595d03a7c856c810",
+      "bytes": 87479,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 96
+      "screenshotMs": 69
     },
     {
       "page": "settings-subagents",
@@ -891,11 +891,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-subagents/dark-820.png",
-      "imageSha256": "82976bdcdb9e495d901c095ae5ca3c25b446c0cba64032fdf4d98db257d0ae27",
-      "bytes": 61515,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9e61ae5f5aca29b3776c5c7d90c19f4cd6c03267cd328f00d2cdc164af5ad9f4",
+      "bytes": 63384,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 56
+      "screenshotMs": 748
     },
     {
       "page": "settings-subagents",
@@ -903,11 +903,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-subagents/dark-390.png",
-      "imageSha256": "c3db3f52ef8dc32239294a1ad9039748f1e6d619d393003d323700f1edf1a426",
-      "bytes": 49833,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b2323d8c9af731196390619d5451253c2aa1ca72a719a6623bbf52c81250586c",
+      "bytes": 51133,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 85
+      "screenshotMs": 41
     },
     {
       "page": "settings-memory",
@@ -915,11 +915,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-memory/light-1360.png",
-      "imageSha256": "5f53a31f5d609452bcc0e9d206ab038dd820741c266c0526c3ca1ae79fe377f1",
-      "bytes": 63746,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "f41018d0e9427462eb651fe96a1b6729db08882231f72d6c668f46de5a134280",
+      "bytes": 64964,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 88
+      "screenshotMs": 67
     },
     {
       "page": "settings-memory",
@@ -927,11 +927,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-memory/light-820.png",
-      "imageSha256": "e5c31fd08ea1c2cb9c29d774024fb68ea1c66e9a934e24d39c30535bbabdb444",
-      "bytes": 39426,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "a6cfaa965520cef66ae1c2d64258dc39887134b04616d2295426f2c3667678e8",
+      "bytes": 41109,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 49
     },
     {
       "page": "settings-memory",
@@ -939,11 +939,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-memory/light-390.png",
-      "imageSha256": "78f35eeaa46c281eac1336bdec1fb4ca7b06dec791292a98f0b4744efa93c3ed",
-      "bytes": 31418,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "0bbe1f846ad004e27e8ab0d01a5e95b2eda384b76b3296eeb5da4c7f2bd54c78",
+      "bytes": 32407,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 50
+      "screenshotMs": 37
     },
     {
       "page": "settings-memory",
@@ -951,11 +951,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-memory/dark-1360.png",
-      "imageSha256": "cc59ec9fa680fa9439fd5f4fc75d805e8b4831845bc8eec7dbd43e726e320131",
-      "bytes": 62365,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9837ea50c56fcaf1e5fe694f52a27f9f18f9c5e3ebebdb65790f047ded2cd7a4",
+      "bytes": 63926,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 91
+      "screenshotMs": 71
     },
     {
       "page": "settings-memory",
@@ -963,11 +963,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-memory/dark-820.png",
-      "imageSha256": "5e26e9fef2586d69e12eb0072815546706f877eb02f0a39c10db64ca9fcb0784",
-      "bytes": 39148,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "e6416ebff669fffbad653b0923389066fa86b3a416e79dc345e289857bb4535e",
+      "bytes": 40677,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 86
+      "screenshotMs": 36
     },
     {
       "page": "settings-memory",
@@ -975,11 +975,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-memory/dark-390.png",
-      "imageSha256": "840e1cee695246570e177c1b45de82cbe73f14e58f2c3c2943f9e0303fed6ccf",
-      "bytes": 31069,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "f02e41b53ec2089ef66fc5837fa49552eefd4ffa3668ebc9e2bf581fefe664e3",
+      "bytes": 32021,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 51
+      "screenshotMs": 30
     },
     {
       "page": "settings-skill",
@@ -987,11 +987,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-skill/light-1360.png",
-      "imageSha256": "c81064a79de15ed17b17dd9ac9f368e4ab98248830a09418c2c8abddb903c67e",
-      "bytes": 71061,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "7ecd1b2437c62e61d7dd9f18963aa730f11d0d347e00cbf75cefc6b227b33aab",
+      "bytes": 69029,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 86
+      "screenshotMs": 106
     },
     {
       "page": "settings-skill",
@@ -999,11 +999,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-skill/light-820.png",
-      "imageSha256": "ddda383b40b57ee07e0538a4cd92296e9d7bc1c91b3e310a65fdc056fba84eb9",
-      "bytes": 45903,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "36d59cbbb14c3071e65451aea4e0729699c285f356f469f8cb917273ad8f4659",
+      "bytes": 44791,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 68
+      "screenshotMs": 44
     },
     {
       "page": "settings-skill",
@@ -1011,11 +1011,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-skill/light-390.png",
-      "imageSha256": "6f3c747d90d90fe8acfba50376f4249beeed24e8f8f0191488e2c97b933aabf7",
-      "bytes": 30203,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "7dce8b389f4faff02d53625b54fc983440dfe7a7fe7b1109d0a6642b489868ad",
+      "bytes": 34479,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 228
+      "screenshotMs": 59
     },
     {
       "page": "settings-skill",
@@ -1023,11 +1023,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-skill/dark-1360.png",
-      "imageSha256": "a5875664a43818d91385ac7b950f67b5e8a8967f163f6347bfa034e45a0b094a",
-      "bytes": 69786,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "eb414969e1004585ea6069400fbdbf93574fae0ed67d21b9d505873341c54beb",
+      "bytes": 67706,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 100
+      "screenshotMs": 77
     },
     {
       "page": "settings-skill",
@@ -1035,11 +1035,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-skill/dark-820.png",
-      "imageSha256": "d2f5e38f3223506c66a29a591befe4ae0ab8797cf914fa001eeba49916f7d5af",
-      "bytes": 45739,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "59060b6d17723a88bc519509c4fc2c0d3e22f837a8fc45bedee653ba98d0f599",
+      "bytes": 44115,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 71
+      "screenshotMs": 36
     },
     {
       "page": "settings-skill",
@@ -1047,11 +1047,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-skill/dark-390.png",
-      "imageSha256": "1362cacb0a4e64321fc10bc9091f0373e5e543411ea1143a9274db06325a4ea4",
-      "bytes": 30747,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b9bcdeed81134eec198a2e2958606cef6f4dc4ca8939b058402c4729b9ec864f",
+      "bytes": 34014,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 40
+      "screenshotMs": 27
     },
     {
       "page": "settings-mcp",
@@ -1059,11 +1059,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-mcp/light-1360.png",
-      "imageSha256": "40be49f5a8647f1af75ec8f446d2e7747b37fcac04aad2054c888128b73edfbd",
-      "bytes": 72554,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "67886d5d46581aafda5e425cce177ee87f7816a54eeb2569412a8563ecf7ce84",
+      "bytes": 73829,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 99
+      "screenshotMs": 72
     },
     {
       "page": "settings-mcp",
@@ -1071,11 +1071,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-mcp/light-820.png",
-      "imageSha256": "be4e9bcc16bb3f1ffcf8e464a9d50f102e7c7e03a4c97cce4bc5e2edeccfb4d8",
-      "bytes": 47517,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9e942cf290d3e77c95ef1fc0c44d94e35c2eedc606049b10c496af6e1d92eb9d",
+      "bytes": 49158,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 65
+      "screenshotMs": 45
     },
     {
       "page": "settings-mcp",
@@ -1083,11 +1083,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-mcp/light-390.png",
-      "imageSha256": "e4e01c462410644d1c00e8caf70ca7384c952e4bc99c5bf48ca165f6cff1dc5f",
-      "bytes": 37402,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "d398e34b8fc1328b84f89571a6cf1b7515f2f068246db8055496b876b688273d",
+      "bytes": 38614,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 49
+      "screenshotMs": 39
     },
     {
       "page": "settings-mcp",
@@ -1095,11 +1095,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-mcp/dark-1360.png",
-      "imageSha256": "2d77f5dca0eae42590fc4e9d92dd2c8af949ad61a770736a0bfb24ed1d7cce35",
-      "bytes": 70619,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "6d08818d1a359cd0166760d984589dd66359701c1bc998357bb18f40d054b119",
+      "bytes": 72236,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 78
+      "screenshotMs": 58
     },
     {
       "page": "settings-mcp",
@@ -1107,11 +1107,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-mcp/dark-820.png",
-      "imageSha256": "e9da09228c138f7322015abed1aef04c49185bfca38cfbcd4fe01627bdda518c",
-      "bytes": 46725,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "13bfb0b88c4bbe27a09ca4cde9c127ae1bee137ffc8bde8c82222ff67ac81528",
+      "bytes": 48122,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 66
+      "screenshotMs": 47
     },
     {
       "page": "settings-mcp",
@@ -1119,11 +1119,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-mcp/dark-390.png",
-      "imageSha256": "be1ff494fe613a59896d1d3dd99214f69ae5dc18bd6e00387ca80ca2e7182a2c",
-      "bytes": 36953,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "5a55c90a78b8c10572a4cd96bb63875f05834726c2f7a50da7e5aa4bebf5c372",
+      "bytes": 37908,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 47
+      "screenshotMs": 44
     },
     {
       "page": "settings-commands",
@@ -1131,11 +1131,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-commands/light-1360.png",
-      "imageSha256": "3d7b721d12e1506a2a1be40fe6850f5ff60551f7b99924d870749c0e085150a9",
-      "bytes": 64842,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "984fb0f68a4a93602a3f5252fc4021a8942041d5fbe81ead266a54c0d307f0bb",
+      "bytes": 66104,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 85
+      "screenshotMs": 61
     },
     {
       "page": "settings-commands",
@@ -1143,11 +1143,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-commands/light-820.png",
-      "imageSha256": "c1fba66b82479777bd6f63336e0e972a1117f2cffb0023c33d27b6ec4c16759f",
-      "bytes": 40521,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c12aa8bf735fb4a4e73a61302835ffa35e9c9136992e22b8ca8369d50fbd9502",
+      "bytes": 42083,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 62
+      "screenshotMs": 57
     },
     {
       "page": "settings-commands",
@@ -1155,11 +1155,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-commands/light-390.png",
-      "imageSha256": "fe105a4a1e7f9a128d096b4e0db2ff2723c5aaf8c5d342a4b466e5f7a04fef06",
-      "bytes": 30863,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "79afbfb101d4134cb7b157db527aae558fb3c8f09a752d302cfb4b7c3bb7d26b",
+      "bytes": 32127,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 42
+      "screenshotMs": 36
     },
     {
       "page": "settings-commands",
@@ -1167,11 +1167,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-commands/dark-1360.png",
-      "imageSha256": "834c1f5894552015c10efbd01450693174c1b1c6330d3b6af1554d960ee01e73",
-      "bytes": 63080,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "c4e3d261e6b16d841bd2129fb2f75efb33b872331a9165e23f07afd2a2e12ac1",
+      "bytes": 64838,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 87
+      "screenshotMs": 51
     },
     {
       "page": "settings-commands",
@@ -1179,11 +1179,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-commands/dark-820.png",
-      "imageSha256": "d510527606ee4e13b7fb506737c0a5381d31ead40251b81aa635042a74d31fae",
-      "bytes": 39862,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b57fdf693c0ecfaf2c68df94b1c220a5ee944cea34b53324252d2b86f3d10458",
+      "bytes": 41358,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 64
+      "screenshotMs": 46
     },
     {
       "page": "settings-commands",
@@ -1191,11 +1191,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-commands/dark-390.png",
-      "imageSha256": "bd1ff08f0e66337bc6e9d0beb849f28c98a302856cf48df8991af13e86bced22",
-      "bytes": 30531,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9f30709d6238ef994971244141e576be03c7c3ec479b0baef65c1db14c324316",
+      "bytes": 31469,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 50
+      "screenshotMs": 41
     },
     {
       "page": "settings-hooks",
@@ -1203,11 +1203,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-hooks/light-1360.png",
-      "imageSha256": "2d7060cb2f3dd3008fab2482628d49ff43eee06a44a6c55a33f45360ffdcd461",
-      "bytes": 72304,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "d1e88e0a92fe7cec5cd2b63df7f1a9ba80c4a81c73a2b595bb9fca86cda0212e",
+      "bytes": 73785,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 84
+      "screenshotMs": 55
     },
     {
       "page": "settings-hooks",
@@ -1215,11 +1215,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-hooks/light-820.png",
-      "imageSha256": "3eccb2e9c95853416f5f8123ca5500a12676b4ea3db559fbec422aac7c330970",
-      "bytes": 48190,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "91eff3aaa777e5af5b59e9d6fe3e9cfff99fe5476e6aab3a0684163554eb47eb",
+      "bytes": 49870,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 67
+      "screenshotMs": 45
     },
     {
       "page": "settings-hooks",
@@ -1227,11 +1227,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-hooks/light-390.png",
-      "imageSha256": "89bc734b1516870af7cdc5a8f1674d40fd4699fd51ea11f2f020f0945b784a1e",
-      "bytes": 38406,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "311e72905a2d58f7d0e2d7e300469cdd87bfdd9601a2ce35068ed56d7bcd6455",
+      "bytes": 39564,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 51
+      "screenshotMs": 40
     },
     {
       "page": "settings-hooks",
@@ -1239,11 +1239,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-hooks/dark-1360.png",
-      "imageSha256": "d6fc54338851c9c343804562e38e7d6b21f7a9a7bb5320306dffdd4a0ec65337",
-      "bytes": 70638,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "1416ef35146543dafd15c1aa77b360bc84554ad57d2e74fcbe79bad7fcac33f2",
+      "bytes": 72450,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 103
+      "screenshotMs": 74
     },
     {
       "page": "settings-hooks",
@@ -1251,11 +1251,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-hooks/dark-820.png",
-      "imageSha256": "3d25ea3c9ff2afea30cd5df3d72e2920edc928ac438e72b760a2706c5a250221",
-      "bytes": 48960,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "06ffad28e3418b76216da82379752710996244fd0f148213fa9a0c22923593c8",
+      "bytes": 49102,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 59
+      "screenshotMs": 47
     },
     {
       "page": "settings-hooks",
@@ -1263,11 +1263,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-hooks/dark-390.png",
-      "imageSha256": "9ff74ead681fb7832b10c69eceb702e3ba4f6f58b56239604edd74a1d9d6f79d",
-      "bytes": 37963,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "3c98598769bbf4aa15e9f33aef269c1e440d24ef3d1d0b88a8dcaa769c8018ae",
+      "bytes": 39043,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 42
+      "screenshotMs": 41
     },
     {
       "page": "settings-browser",
@@ -1275,11 +1275,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-browser/light-1360.png",
-      "imageSha256": "bc225eb1d07e8b47b21a4eca447eda88b32f50f183e6857a990e034b8a255775",
-      "bytes": 103631,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "cd853646d2b041daf63c78bc7f45cb25a71f55fc03260a76e4e2fe9c59d5697d",
+      "bytes": 104835,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 111
+      "screenshotMs": 76
     },
     {
       "page": "settings-browser",
@@ -1287,11 +1287,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-browser/light-820.png",
-      "imageSha256": "9f5728103d60ca0d509029f7221860ee2d68649cab179fe47cd35bc22b4ce50d",
-      "bytes": 79701,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "6c4b6a0b52abddc3f24f137cd24eff6a3d50c3f1ca089f1b29ee856a3f47f2a9",
+      "bytes": 81088,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 67
+      "screenshotMs": 60
     },
     {
       "page": "settings-browser",
@@ -1299,11 +1299,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-browser/light-390.png",
-      "imageSha256": "7b39193029b290f8fbda9004ef726c63036620f93c96c1203595e1af88341293",
-      "bytes": 62581,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "70e65c325de0a1d4f5582e038f28872e02871f68acd14fe432b12bd741e67ae2",
+      "bytes": 63214,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 49
+      "screenshotMs": 42
     },
     {
       "page": "settings-browser",
@@ -1311,11 +1311,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-browser/dark-1360.png",
-      "imageSha256": "8150d7060edb4fccf8a7efee6c610a1b15f9c41ef41b740dea4a07f124314186",
-      "bytes": 102182,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "7ac7f4344847c24f4b58b70d3ffd871f630c72c406275655f25f42b2bfd358b1",
+      "bytes": 103611,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 89
+      "screenshotMs": 62
     },
     {
       "page": "settings-browser",
@@ -1323,11 +1323,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-browser/dark-820.png",
-      "imageSha256": "44504ab2ed4c7db30c4711e48c8192dbe4a7849ac518e871a931dbaf0d131e97",
-      "bytes": 77512,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "97a8cf75b7df42860a4e66b9838bdd76d9648dc9e2fe524ef3eaf145fd3ca833",
+      "bytes": 78996,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 74
+      "screenshotMs": 56
     },
     {
       "page": "settings-browser",
@@ -1335,11 +1335,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-browser/dark-390.png",
-      "imageSha256": "7cd2832035ea80f1add46a2343655303bcf32f3978482efafb63d8ef57ffa4e6",
-      "bytes": 61934,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "d2eaf47d1d11492ea46834750399ccc70a68678a8360a323ee2fa5534632f64c",
+      "bytes": 62614,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 52
+      "screenshotMs": 35
     },
     {
       "page": "settings-shortcuts",
@@ -1347,11 +1347,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-shortcuts/light-1360.png",
-      "imageSha256": "301f8ca480a02d8a26aa7015e5d8c03d7583f1e88383b676abc1326984df243c",
-      "bytes": 82032,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b9a19dfc10f8049024506432686844c9203247340dc673207fd55a49932f7d8c",
+      "bytes": 83186,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 112
+      "screenshotMs": 76
     },
     {
       "page": "settings-shortcuts",
@@ -1359,11 +1359,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-shortcuts/light-820.png",
-      "imageSha256": "ae47f26fa9c0a37f90ce1602b52cd501d34e59dbdcfd2a63ed80bd2b4f3188ac",
-      "bytes": 56779,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "bbe282f9e9e44ffde3aeaf0a4f2f8cbbcbfd0ed879ce4d0102c768c86b699a7b",
+      "bytes": 58017,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 85
+      "screenshotMs": 65
     },
     {
       "page": "settings-shortcuts",
@@ -1371,11 +1371,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-shortcuts/light-390.png",
-      "imageSha256": "7764ce2f9a5cf866d26c5a7de53b28f83363ac19e565f65ed6cc2f66e6a635cc",
-      "bytes": 39017,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "b910e109fc486a8b1e13488ed3cf870ccbe8a816c22c40e66107d9df39f56f01",
+      "bytes": 39706,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 56
+      "screenshotMs": 43
     },
     {
       "page": "settings-shortcuts",
@@ -1383,11 +1383,11 @@
       "width": 1360,
       "height": 900,
       "file": "settings-shortcuts/dark-1360.png",
-      "imageSha256": "6328527613b6988e159769a1a6c5f5afecd538f6b1747510ac6c3425b2fdfd79",
-      "bytes": 80510,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "9b3ff8b27cba6eb5e43f4a7af7574e601d6212e2f2092367f5422b36fd8bee46",
+      "bytes": 81874,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 108
+      "screenshotMs": 66
     },
     {
       "page": "settings-shortcuts",
@@ -1395,11 +1395,11 @@
       "width": 820,
       "height": 900,
       "file": "settings-shortcuts/dark-820.png",
-      "imageSha256": "41a357e8c913651b68c90efe7a4f042a187b55adc5e28d409ad8281ac5485afc",
-      "bytes": 56115,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "f44663ccf8938b9eca3e2b75af3e31b77c2246e443b3faa5284d74576ee9325b",
+      "bytes": 57278,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 84
+      "screenshotMs": 60
     },
     {
       "page": "settings-shortcuts",
@@ -1407,11 +1407,11 @@
       "width": 390,
       "height": 844,
       "file": "settings-shortcuts/dark-390.png",
-      "imageSha256": "876ad22ab2f056f677a5a2152704425c37e417ecf6e464c06ddc3dd151f5f621",
-      "bytes": 38734,
-      "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+      "imageSha256": "f9b7d342230e122961c6f4081b3d5b228c40d35dc7dbb262698b964a6bd9c2a0",
+      "bytes": 39368,
+      "commit": "a89c2627708ace13f70cb6397493edc179f54a47",
       "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
-      "screenshotMs": 68
+      "screenshotMs": 39
     }
   ]
 }
