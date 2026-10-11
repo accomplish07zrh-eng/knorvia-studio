@@ -7,7 +7,9 @@
         ".release-it.mjs",
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
-        "scripts/mise-run.mjs"
+        "scripts/mise-run.mjs",
+        "scripts/contract-gate.mjs",
+        "scripts/contract-gate.test.mjs"
       ]
     },
     "packages/desktop": {

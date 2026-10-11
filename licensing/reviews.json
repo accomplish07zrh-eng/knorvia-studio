@@ -82092,6 +82092,30 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "scripts/contract-gate.mjs",
+      "normalizedSha256": "bff2914b9777c9c6c62e9d7dcd85f8df486d67d2fd53d442df16a1c8fdfdc8b0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored replacement-process tooling: a shared runner for a package contract's old gate (source and dist entries) that also records the stub-replacement check into the standard gate-old.json shape. Replaces per-package ad-hoc runners; no thresholds or product code are involved.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "licensing/README.md"
+      ]
+    },
+    {
+      "path": "scripts/contract-gate.test.mjs",
+      "normalizedSha256": "a5afac032fd56b8be37b491a3e3e6cc006ee94f2c248b034380536dbea18f509",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored replacement-process tooling: a shared runner for a package contract's old gate (source and dist entries) that also records the stub-replacement check into the standard gate-old.json shape. Replaces per-package ad-hoc runners; no thresholds or product code are involved.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "licensing/README.md"
+      ]
     }
   ]
 }
