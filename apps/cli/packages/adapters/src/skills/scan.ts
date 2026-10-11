@@ -1,113 +1,28 @@
-import { lstatSync, readdirSync, statSync } from "node:fs";
-import { lstat, readdir, stat } from "node:fs/promises";
-import { join } from "node:path";
-import { SKILL_FILE_NAME, shouldWalkSkillDirectoryEntry } from "@knorvia/shared";
+// SPDX-License-Identifier: Apache-2.0
+// 技能目录扫描入口：异步与同步两条路径分别转发给 scan-async / scan-sync。
+import { collectSkillFiles } from "./scan-async.js";
+import { collectSkillFilesSync } from "./scan-sync.js";
 
 interface ScanSkillFilesOptions {
   followSymbolicLinks?: boolean;
 }
 
-const MISSING_FILE_CODE = "ENOENT";
+const FOLLOW_BY_DEFAULT = true;
 
-function isMissing(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    error.code === MISSING_FILE_CODE
-  );
-}
+type ScanOptions = ScanSkillFilesOptions;
 
-async function readStatus(path: string) {
-  try {
-    return await stat(path);
-  } catch (error) {
-    if (isMissing(error)) return null;
-    throw error;
-  }
-}
-
-function readStatusSync(path: string) {
-  try {
-    return statSync(path);
-  } catch (error) {
-    if (isMissing(error)) return null;
-    throw error;
-  }
-}
-
-async function isLink(path: string): Promise<boolean> {
-  try {
-    return (await lstat(path)).isSymbolicLink();
-  } catch {
-    return false;
-  }
-}
-
-function isLinkSync(path: string): boolean {
-  try {
-    return lstatSync(path).isSymbolicLink();
-  } catch {
-    return false;
-  }
-}
-
-async function canLoad(path: string, follow: boolean): Promise<boolean> {
-  if (!follow && (await isLink(path))) return false;
-  const info = await readStatus(path);
-  return info?.isFile() ?? false;
-}
-
-function canLoadSync(path: string, follow: boolean): boolean {
-  if (!follow && isLinkSync(path)) return false;
-  const info = readStatusSync(path);
-  return info?.isFile() ?? false;
+/** 缺省跟随软链接（插件来源由调用方显式关闭）。 */
+function dereferenceOf(options: ScanOptions): boolean {
+  return options.followSymbolicLinks ?? FOLLOW_BY_DEFAULT;
 }
 
 export async function scanSkillFilesUnderRoot(
   rootPath: string,
-  options: ScanSkillFilesOptions = {},
+  options: ScanOptions = {},
 ): Promise<string[]> {
-  const follow = options.followSymbolicLinks ?? true;
-  if (!follow && (await isLink(rootPath))) return [];
-  const rootInfo = await readStatus(rootPath);
-  if (rootInfo === null || !rootInfo.isDirectory()) return [];
-
-  const files: string[] = [];
-  const own = join(rootPath, SKILL_FILE_NAME);
-  if (await canLoad(own, follow)) files.push(own);
-
-  const entries = await readdir(rootPath, { withFileTypes: true });
-  for (const entry of entries) {
-    const walkable = entry.isDirectory() || (follow && entry.isSymbolicLink());
-    if (!walkable) continue;
-    if (!shouldWalkSkillDirectoryEntry(entry.name)) continue;
-    const candidate = join(rootPath, entry.name, SKILL_FILE_NAME);
-    if (await canLoad(candidate, follow)) files.push(candidate);
-  }
-  return files;
+  return await collectSkillFiles(rootPath, dereferenceOf(options));
 }
 
-export function scanSkillFilesUnderRootSync(
-  rootPath: string,
-  options: ScanSkillFilesOptions = {},
-): string[] {
-  const follow = options.followSymbolicLinks ?? true;
-  if (!follow && isLinkSync(rootPath)) return [];
-  const rootInfo = readStatusSync(rootPath);
-  if (rootInfo === null || !rootInfo.isDirectory()) return [];
-
-  const files: string[] = [];
-  const own = join(rootPath, SKILL_FILE_NAME);
-  if (canLoadSync(own, follow)) files.push(own);
-
-  const entries = readdirSync(rootPath, { withFileTypes: true });
-  for (const entry of entries) {
-    const walkable = entry.isDirectory() || (follow && entry.isSymbolicLink());
-    if (!walkable) continue;
-    if (!shouldWalkSkillDirectoryEntry(entry.name)) continue;
-    const candidate = join(rootPath, entry.name, SKILL_FILE_NAME);
-    if (canLoadSync(candidate, follow)) files.push(candidate);
-  }
-  return files;
+export function scanSkillFilesUnderRootSync(rootPath: string, opts: ScanOptions = {}): string[] {
+  return collectSkillFilesSync(rootPath, dereferenceOf(opts));
 }

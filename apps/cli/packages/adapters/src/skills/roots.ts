@@ -1,15 +1,23 @@
+// SPDX-License-Identifier: Apache-2.0
+// 技能根发现：用户级两个根 → 项目目录链 → 额外根；优先级按产出顺序每级 +10。
 import { stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import type { SkillRoot, SkillSource } from "@knorvia/contracts";
 import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
 
-const GIT_MARKER = ".git";
-const HOME_PREFIX = "~/";
-const PRIORITY_STEP = 10;
-const SKILLS_DIR = "skills";
-const KNORVIA_DIR = ".knorvia-studio";
-const AGENTS_DIR = ".agents";
+const SKILLS_DIRECTORY = "skills";
+const WORKTREE_MARKER = ".git";
+const HOME_MARKER = "~/";
+const PRIORITY_GAP = 10;
+const PRIVATE_DIRECTORY = ".knorvia-studio";
+const COMPAT_DIRECTORY = ".agents";
+
+/** 目录名与来源的固定配对；顺序即同层扫描顺序。 */
+const LEVEL_SOURCES: readonly (readonly [string, SkillSource])[] = [
+  [PRIVATE_DIRECTORY, "knorvia"],
+  [COMPAT_DIRECTORY, "agents"],
+];
 
 export interface SkillRootResolutionOptions {
   homeDirectory?: string;
@@ -18,112 +26,107 @@ export interface SkillRootResolutionOptions {
   includeKnorviaSkills?: boolean;
 }
 
+type RootScope = SkillRoot["scope"];
+
+function makeRoot(
+  path: string,
+  scope: RootScope,
+  source: SkillSource,
+  priority: number,
+): SkillRoot {
+  const entry = {} as SkillRoot;
+  entry.path = resolve(path);
+  entry.scope = scope;
+  entry.source = source;
+  entry.priority = priority;
+  return entry;
+}
+
+/** 单调递增的优先级发号器：每取一次前进一个步长（首号为步长本身）。 */
+function priorityIssuer(step: number): () => number {
+  let issued = 0;
+  return () => {
+    issued += step;
+    return issued;
+  };
+}
+
+async function markerPresent(directory: string): Promise<boolean> {
+  return await stat(join(directory, WORKTREE_MARKER)).then(
+    () => true,
+    () => false,
+  );
+}
+
+/** 逐级向上的目录链；遇到 worktree 标记的那一层即为最后一层，否则只产出起点。 */
+async function* upwardLevels(workingDirectory: string): AsyncGenerator<string> {
+  const start = resolve(workingDirectory);
+  let level = start;
+  for (;;) {
+    yield level;
+    if (await markerPresent(level)) return;
+    const parent = dirname(level);
+    if (parent === level) return;
+    level = parent;
+  }
+}
+
+function levelRoots(level: string, scope: RootScope, issue: () => number): SkillRoot[] {
+  const produced: SkillRoot[] = [];
+  for (const [directoryName, source] of LEVEL_SOURCES) {
+    produced.push(makeRoot(join(level, directoryName, SKILLS_DIRECTORY), scope, source, issue()));
+  }
+  return produced;
+}
+
+/**
+ * `~/` 一律展开成**真实**用户目录（技能根的历史行为，不接受 homeDirectory 覆盖）；
+ * 其余相对路径按工作目录解析。
+ */
+function toAbsolutePath(configured: string, workingDirectory: string): string {
+  if (configured.startsWith(HOME_MARKER)) {
+    const rest = configured.slice(HOME_MARKER.length);
+    return rest.length === 0 ? homedir() : join(homedir(), rest);
+  }
+  return isAbsolute(configured) ? configured : resolve(workingDirectory, configured);
+}
+
+function userScopeRoots(
+  homeDirectory: string,
+  privateRoot: string,
+  issue: () => number,
+): SkillRoot[] {
+  const produced: SkillRoot[] = [];
+  for (const [directoryName, source] of LEVEL_SOURCES) {
+    const base = source === "knorvia" ? privateRoot : join(homeDirectory, directoryName);
+    produced.push(makeRoot(join(base, SKILLS_DIRECTORY), "user", source, issue()));
+  }
+  return produced;
+}
+
 export async function resolveDefaultSkillRoots(
   workingDirectory: string,
   options: SkillRootResolutionOptions = {},
 ): Promise<SkillRoot[]> {
-  const resolvedWorkingDirectory = resolve(workingDirectory);
-  const roots: SkillRoot[] = [];
-  const includeKnorvia = options.includeKnorviaSkills ?? true;
-  const home = options.homeDirectory ?? homedir();
-  let priority = 0;
-  const nextPriority = () => {
-    priority += PRIORITY_STEP;
-    return priority;
-  };
+  const cwd = resolve(workingDirectory);
+  const includeNative = options.includeKnorviaSkills ?? true;
+  const issue = priorityIssuer(PRIORITY_GAP);
+  const collected: SkillRoot[] = [];
 
-  for (const extraRoot of options.extraRoots ?? []) {
-    roots.push(
-      root(
-        resolveConfiguredRoot(extraRoot, resolvedWorkingDirectory),
-        "project",
-        "knorvia",
-        nextPriority(),
-      ),
-    );
+  for (const extra of options.extraRoots ?? []) {
+    collected.push(makeRoot(toAbsolutePath(extra, cwd), "project", "knorvia", issue()));
   }
 
-  if (includeKnorvia) {
-    const privateRoot = options.homeDirectory ? join(home, KNORVIA_DIR) : resolveKnorviaDataRoot();
-    roots.push(root(join(privateRoot, SKILLS_DIR), "user", "knorvia", nextPriority()));
-    roots.push(root(join(home, AGENTS_DIR, SKILLS_DIR), "user", "agents", nextPriority()));
-  }
-
-  const projectDirectories = await resolveProjectSkillDirectories(resolvedWorkingDirectory);
-  for (const directory of projectDirectories) {
-    if (includeKnorvia) {
-      roots.push(...skillRootsForBase(directory, "project", nextPriority));
+  if (includeNative) {
+    const privateRoot = options.homeDirectory
+      ? join(options.homeDirectory, PRIVATE_DIRECTORY)
+      : resolveKnorviaDataRoot();
+    collected.push(...userScopeRoots(options.homeDirectory ?? homedir(), privateRoot, issue));
+    for await (const level of upwardLevels(cwd)) {
+      collected.push(...levelRoots(level, "project", issue));
     }
   }
 
-  roots.push(...(options.extraResolvedRoots ?? []));
-
-  return roots;
-}
-
-async function resolveProjectSkillDirectories(workingDirectory: string): Promise<string[]> {
-  const worktreeRoot = await findWorktreeRoot(workingDirectory);
-  if (!worktreeRoot) return [workingDirectory];
-
-  const directories: string[] = [];
-  let current = workingDirectory;
-  while (true) {
-    directories.push(current);
-    if (current === worktreeRoot || current === dirname(current)) break;
-    current = dirname(current);
-  }
-  return directories;
-}
-
-async function findWorktreeRoot(workingDirectory: string): Promise<string | null> {
-  let current = workingDirectory;
-  while (true) {
-    if (await pathExists(join(current, GIT_MARKER))) return current;
-    const parent = dirname(current);
-    if (parent === current) return null;
-    current = parent;
-  }
-}
-
-async function pathExists(path: string): Promise<boolean> {
-  try {
-    await stat(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function skillRootsForBase(
-  baseDirectory: string,
-  scope: SkillRoot["scope"],
-  nextPriority: () => number,
-): SkillRoot[] {
-  // 合并而不是 fallback：用户可能同时安装原生 `.knorvia-studio` skill 和兼容 `.agents` skill。
-  // 同一级别仍保持 `.knorvia-studio` 优先，后续同名按 root 顺序解析。
-  return [
-    root(join(baseDirectory, KNORVIA_DIR, SKILLS_DIR), scope, "knorvia", nextPriority()),
-    root(join(baseDirectory, AGENTS_DIR, SKILLS_DIR), scope, "agents", nextPriority()),
-  ];
-}
-
-function root(
-  path: string,
-  scope: SkillRoot["scope"],
-  source: SkillSource,
-  priority: number,
-): SkillRoot {
-  return {
-    path: resolve(path),
-    scope,
-    source,
-    priority,
-  };
-}
-
-function resolveConfiguredRoot(path: string, workingDirectory: string): string {
-  const expanded = path.startsWith(HOME_PREFIX)
-    ? join(homedir(), path.slice(HOME_PREFIX.length))
-    : path;
-  return isAbsolute(expanded) ? expanded : resolve(workingDirectory, expanded);
+  collected.push(...(options.extraResolvedRoots ?? []));
+  return collected;
 }
