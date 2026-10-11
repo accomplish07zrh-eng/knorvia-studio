@@ -106,10 +106,7 @@ export interface ConfiguredHookRunnerOptions {
   workspaceHookSnapshot?: WorkspaceHookBundleSnapshot;
 }
 
-/**
- * 遥测事件名与字段属兼容面（字段名即跨模块约定），声明集中在本文件；
- * 运行时模块只负责发射，不再重复声明。
- */
+/** 遥测事件名与字段属兼容面（字段名即跨模块约定），声明集中在本文件； 运行时模块只负责发射，不再重复声明。 */
 export type WorkspaceHookTelemetryEvent =
   | "workspace_hook.feature_disabled"
   | "workspace_hook.review_request_created"
@@ -140,10 +137,7 @@ export interface WorkspaceHookTelemetryFields {
   revokedCount?: number;
 }
 
-/**
- * workspace 运行时准入的兼容声明（状态、分派决定、端口与选项）。运行时实现见
- * workspace-hook-runtime-admission.ts，该文件按原路径再导出这些名字。
- */
+/** workspace 运行时准入的兼容声明（状态、分派决定、端口与选项）。运行时实现见 workspace-hook-runtime-admission.ts，该文件按原路径再导出这些名字。 */
 export type WorkspaceHookActivationSource = "startup" | "resume" | "clear" | "compact";
 
 export interface WorkspaceHookDispatchInput {
@@ -182,10 +176,7 @@ export interface WorkspaceHookRuntimeAdmissionOptions {
   snapshot: WorkspaceHookBundleSnapshot;
 }
 
-/**
- * workspace 策略的兼容声明（变更通知与提供者端口）。实现见 workspace-hook-policy.ts，
- * 该文件按原路径再导出这两个名字。
- */
+/** workspace 策略的兼容声明（变更通知与提供者端口）。实现见 workspace-hook-policy.ts， 该文件按原路径再导出这两个名字。 */
 export interface WorkspaceHookPolicyChange {
   workspaceIdentity?: string;
   policy: WorkspaceHookPolicy;
