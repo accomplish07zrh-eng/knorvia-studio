@@ -1,0 +1,232 @@
+// M0-3 分诊规则表：路径前缀 → 处置与归属包。规则按顺序匹配，先匹配者生效。
+// 依据《Knorvia 独立替换任务计划书》M0-3 完成标准、类别表与默认裁决表。
+
+/** M0-3 的处置规则，按顺序匹配，先匹配者生效。 */
+export const TRIAGE_RULES = [
+  { re: /^docs\/evidence\//, disposition: "exception", clause: "冻结证据包中的上游摘录", pkg: "—" },
+  {
+    re: /^licensing\/evidence\//,
+    disposition: "exception",
+    clause: "冻结证据包中的上游摘录",
+    pkg: "—",
+  },
+  {
+    re: /^docs\/knorvia-(task-registry|workflow-scheduler)-author-inputs-/,
+    disposition: "exception",
+    clause: "冻结证据包中的上游摘录",
+    pkg: "—",
+  },
+  {
+    re: /^licensing\/.*\.txt$/,
+    disposition: "nature-review",
+    clause: "标准许可正文性质复核",
+    pkg: "—",
+  },
+  {
+    re: /^FORK-NOTES\.md$/,
+    disposition: "keep-record",
+    clause: "来源基线记录（工具输入）",
+    pkg: "—",
+  },
+  { re: /^\.github\//, disposition: "nature-review", clause: "功能配置性质复核", pkg: "—" },
+  { re: /^config\//, disposition: "nature-review", clause: "功能配置性质复核", pkg: "—" },
+  { re: /^docs\//, disposition: "doc-rewrite", clause: "文档（用自己的话重写）", pkg: "—" },
+  { re: /^specs\//, disposition: "doc-rewrite", clause: "文档（用自己的话重写）", pkg: "—" },
+  {
+    re: /^packages\/formal-proof\//,
+    disposition: "delete",
+    clause: "开发工具，删除（随 packages-01）",
+    pkg: "packages-01",
+  },
+  {
+    re: /^apps\/cli\/packages\/debug\//,
+    disposition: "delete",
+    clause: "开发工具，删除（随 apps-cli-packages-02）",
+    pkg: "apps-cli-packages-02",
+  },
+  {
+    re: /^apps\/cli\/packages\/bootstrap\/src\/app\//,
+    disposition: "inherited",
+    pkg: "bootstrap-app-01/02（选包时按 60 文件上限重切）",
+  },
+  { re: /^apps\/cli\/packages\/bootstrap\//, disposition: "inherited", pkg: "bootstrap-01" },
+  {
+    re: /^apps\/cli\/packages\/cli\/src\/command-center\//,
+    disposition: "inherited",
+    pkg: "cli-01",
+  },
+  {
+    re: /^apps\/cli\/packages\/cli\/src\/internal-search\//,
+    disposition: "inherited",
+    pkg: "cli-02",
+  },
+  { re: /^apps\/cli\/packages\/cli\/src\//, disposition: "inherited", pkg: "cli-02" },
+  { re: /^apps\/cli\/packages\/cli\/scripts\//, disposition: "inherited", pkg: "cli-scripts-01" },
+  {
+    re: /^apps\/cli\/packages\/contracts\/src\//,
+    disposition: "inherited",
+    pkg: "contracts-01/02（按分包总表列出的子目录切）",
+  },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/tool\/handlers\/saved-workflows\//,
+    disposition: "inherited",
+    pkg: "core-tool-handlers-saved-workflows-01（并入 core-tool-handlers-02）",
+  },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/tool\/handlers\//,
+    disposition: "inherited",
+    pkg: "core-tool-handlers-01/02（按分包总表 60 文件上限切）",
+  },
+  { re: /^apps\/cli\/packages\/core\/src\/tool\//, disposition: "inherited", pkg: "core-tool-01" },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/runtime\/helpers\//,
+    disposition: "inherited",
+    pkg: "core-runtime-helpers-01",
+  },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/runtime\/methods\//,
+    disposition: "inherited",
+    pkg: "core-runtime-methods-01/02（按分包总表 60 文件上限切）",
+  },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/runtime\//,
+    disposition: "inherited",
+    pkg: "core-runtime-01",
+  },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/(agent|compact|context|embedded-search|hooks|mcp)\//,
+    disposition: "inherited",
+    pkg: "core-01（hooks 子目录为试点 1，先单独做）",
+  },
+  {
+    re: /^apps\/cli\/packages\/core\/src\/(memory|model|permission|plugin-reference|runtime-task|session|subagent)/,
+    disposition: "inherited",
+    pkg: "core-02",
+  },
+  { re: /^apps\/cli\/packages\/core\//, disposition: "inherited", pkg: "core-03" },
+  { re: /^apps\/cli\/packages\/adapters\//, disposition: "inherited", pkg: "apps-cli-packages-01" },
+  {
+    re: /^apps\/cli\/packages\/browser-use-plugin\//,
+    disposition: "inherited",
+    pkg: "apps-cli-packages-01",
+  },
+  {
+    re: /^apps\/cli\/packages\/(dynamic-workflow-runtime|i18n|node-repl-host|shared-types|telemetry)\//,
+    disposition: "inherited",
+    pkg: "apps-cli-packages-02",
+  },
+  {
+    re: /^apps\/cli\/packages\/dynamic-workflow\/src\/(analysis|compiler)\//,
+    disposition: "inherited",
+    pkg: "dynamic-workflow-01",
+  },
+  {
+    re: /^apps\/cli\/packages\/dynamic-workflow\/src\//,
+    disposition: "inherited",
+    pkg: "dynamic-workflow-02",
+  },
+  {
+    re: /^apps\/cli\/packages\/dynamic-workflow\/(scratch|scripts)\//,
+    disposition: "delete",
+    clause: "开发脚本，删除（M0 包 dynamic-workflow-03）",
+    pkg: "dynamic-workflow-03",
+  },
+  { re: /^apps\/cli\/packages\/tui\/src\/theme\//, disposition: "inherited", pkg: "tui-theme-01" },
+  { re: /^apps\/cli\/packages\/tui\/scripts\//, disposition: "inherited", pkg: "tui-scripts-01" },
+  {
+    re: /^apps\/cli\/packages\/tui\/src\//,
+    disposition: "inherited",
+    pkg: "tui-01/02（按分包总表 60 文件上限切）",
+  },
+  {
+    re: /^apps\/cli\/packages\/[a-z-]+-plugin\//,
+    disposition: "inherited",
+    pkg: "分包总表未单列（插件包）：选包时按依赖重切，≤60 文件，与 `apps-cli-packages-*` 同批并在分包总表补行",
+  },
+  {
+    re: /^apps\/cli\/packages\//,
+    disposition: "inherited",
+    pkg: "分包总表未单列：选包时按依赖重切，≤60 文件，并在分包总表补行",
+  },
+  { re: /^apps\/cli\//, disposition: "inherited", pkg: "apps-cli-01" },
+  {
+    re: /^packages\/ui\/src\/ToolCallBlocks\/renderers\//,
+    disposition: "inherited",
+    pkg: "ui-ToolCallBlocks-renderers-01/02",
+  },
+  {
+    re: /^packages\/ui\/src\/ToolCallBlocks\//,
+    disposition: "inherited",
+    pkg: "ui-ToolCallBlocks-01",
+  },
+  {
+    re: /^packages\/ui\//,
+    disposition: "inherited",
+    pkg: "ui 各族（ui-01…ui-07、`ui-lib-*`、`ui-hooks-*`、`ui-settings-*`、`ui-v4-*`、`ui-components-*`；按分包总表路径切）",
+  },
+  { re: /^packages\/services\/src\/session\//, disposition: "inherited", pkg: "services-03" },
+  {
+    re: /^packages\/services\/src\/(credential|git|files|commands|broadcast|conversation-telemetry|agent)\//,
+    disposition: "inherited",
+    pkg: "services-01",
+  },
+  {
+    re: /^packages\/services\/src\/(onboarding|plugin-sync|plugins|process|prompt-attachment-transfer|providers)\//,
+    disposition: "inherited",
+    pkg: "services-02",
+  },
+  {
+    re: /^packages\/services\/src\//,
+    disposition: "inherited",
+    pkg: "services-01…04（其余子目录；分包总表该行范围被截断，选包时按 60 文件上限切）",
+  },
+  {
+    re: /^packages\/services\/test\//,
+    disposition: "inherited",
+    pkg: "随所属 services 包（继承测试由契约测试替代后删除）",
+  },
+  {
+    re: /^packages\/ui\/test\//,
+    disposition: "inherited",
+    pkg: "随所属 ui 包（继承测试由契约测试替代后删除）",
+  },
+  {
+    re: /^packages\/shared\/src\/(node|protocol-v4)\//,
+    disposition: "inherited",
+    pkg: "shared-01",
+  },
+  {
+    re: /^packages\/shared\//,
+    disposition: "inherited",
+    pkg: "shared-02/03/04（按分包总表 60 文件上限切）",
+  },
+  {
+    re: /^packages\/desktop\//,
+    disposition: "inherited",
+    pkg: "desktop-01 / `desktop-main-0*` / desktop-scheduler-01 / desktop-scripts-01（按分包总表路径切）",
+  },
+  { re: /^packages\/server-cli\//, disposition: "inherited", pkg: "packages-03" },
+  { re: /^packages\/server\//, disposition: "inherited", pkg: "packages-03" },
+  { re: /^packages\/provider-node\//, disposition: "inherited", pkg: "packages-02" },
+  {
+    re: /^packages\/rpc\//,
+    disposition: "inherited",
+    pkg: "packages-02（VS Code 派生部分先核实登记）",
+  },
+  { re: /^packages\/provider\//, disposition: "inherited", pkg: "packages-01" },
+  { re: /^packages\/cua\//, disposition: "inherited", pkg: "packages-01" },
+  { re: /^packages\/client\//, disposition: "inherited", pkg: "packages-01" },
+  { re: /^packages\/model-option-map\//, disposition: "inherited", pkg: "packages-01" },
+  {
+    re: /^packages\/web\//,
+    disposition: "inherited",
+    pkg: "分包总表未单列：M3 顺序里的 web，选包时补一行（≤60 文件）",
+  },
+  { re: /^scripts\//, disposition: "inherited", pkg: "scripts-01" },
+  {
+    re: /^examples\//,
+    disposition: "inherited",
+    pkg: "分包总表未单列（示例插件）：选包时随插件相关包处理并在分包总表补行",
+  },
+];
+
