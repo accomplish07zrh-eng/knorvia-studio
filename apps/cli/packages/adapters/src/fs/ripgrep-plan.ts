@@ -4,17 +4,9 @@ import { basename, dirname } from "node:path";
 import type { FileSystemSearchTextRequest } from "@knorvia/contracts";
 import { fileType, TYPE_EXTENSIONS, VCS_NAMES } from "./file-search-paths.js";
 
-/** 固定前缀：禁用用户配置、允许隐藏文件、单行输出、限制单列宽度。 */
-const BASE_FLAGS: readonly string[] = [
-  "--no-config",
-  "--hidden",
-  "--color",
-  "never",
-  "--no-heading",
-  "--with-filename",
-  "--max-columns",
-  "500",
-];
+/** 固定前缀：禁用用户配置、允许隐藏文件、单行输出、限制单列宽度（空格分隔一次声明）。 */
+const BASE_FLAGS: readonly string[] =
+  "--no-config --hidden --color never --no-heading --with-filename --max-columns 500".split(" ");
 
 const SANDBOX_ROOT = ".";
 
