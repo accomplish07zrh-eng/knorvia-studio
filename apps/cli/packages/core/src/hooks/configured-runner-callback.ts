@@ -131,32 +131,64 @@ function withDiagnostics(output: HookJSONOutput | undefined, result: ExecutionRe
   };
 }
 
+/** 失败时的统一错误工厂：上下文用条目归约，错误身份靠 cause 保留原始消息。 */
+function executionFailure(result: ExecutionResult, event: HookEventName): Error {
+  const stderrPreview = preview(result.stderr.text);
+  const fallback = `Hook process exited with status ${result.status}`;
+  const message = result.error?.message ?? stderrPreview ?? fallback;
+  const context = Object.fromEntries([
+    ["exitCode", result.exitCode],
+    ["hookEventName", event],
+    ["status", result.status],
+    ["stderrPreview", stderrPreview],
+    ["stdoutPreview", preview(result.stdout.text)],
+  ]);
+  return createCoreError(CoreErrorType.ToolExecutionFailed, "Hook process failed", {
+    cause: new Error(message),
+    context,
+    recoverable: true,
+  });
+}
+
+type ResultInterpreter = (
+  input: HookInput,
+  result: ExecutionResult,
+  event: HookEventName,
+) => HookOutput;
+
+/**
+ * 结果 → 输出的处理器表：顺序即优先级（正常完成 → 退出码 2 阻断 → 失败）。
+ * 表驱动让「哪种结果走哪条解释」一眼可见，也避免嵌套分支。
+ */
+const RESULT_INTERPRETERS: readonly {
+  matches: (result: ExecutionResult) => boolean;
+  interpret: ResultInterpreter;
+}[] = [
+  {
+    matches: (result) => result.status === "completed" && (result.exitCode ?? 0) === 0,
+    interpret: (_input, result, event) =>
+      withDiagnostics(parseStdout(result.stdout.text, event), result),
+  },
+  {
+    matches: (result) => result.exitCode === EXIT_CODE_BLOCK,
+    interpret: (input, result) => withDiagnostics(exitCodeBlockOutput(input, result), result),
+  },
+  {
+    matches: () => true,
+    interpret: (_input, result, event) => {
+      throw executionFailure(result, event);
+    },
+  },
+];
+
 function resultToOutput(
   input: HookInput,
   result: ExecutionResult,
   event: HookEventName,
 ): HookOutput {
-  if (result.status === "completed" && (result.exitCode ?? 0) === 0)
-    return withDiagnostics(parseStdout(result.stdout.text, event), result);
-
-  if (result.exitCode === EXIT_CODE_BLOCK)
-    return withDiagnostics(exitCodeBlockOutput(input, result), result);
-
-  const message =
-    result.error?.message ??
-    preview(result.stderr.text) ??
-    `Hook process exited with status ${result.status}`;
-  throw createCoreError(CoreErrorType.ToolExecutionFailed, "Hook process failed", {
-    cause: new Error(message),
-    context: {
-      exitCode: result.exitCode,
-      hookEventName: event,
-      status: result.status,
-      stderrPreview: preview(result.stderr.text),
-      stdoutPreview: preview(result.stdout.text),
-    },
-    recoverable: true,
-  });
+  const hit = RESULT_INTERPRETERS.find((entry) => entry.matches(result));
+  if (hit === undefined) throw executionFailure(result, event);
+  return hit.interpret(input, result, event);
 }
 
 function executionRequest(
