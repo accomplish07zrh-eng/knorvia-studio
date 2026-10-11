@@ -140,16 +140,30 @@ export async function startWebEnvironment({
   childEnv.KNORVIA_HOME = fixture.home;
   childEnv.KNORVIA_ENV = "test";
   delete childEnv.KNORVIA_WEB_STATIC_ROOT;
-  // 外部 CLI 内核探测会读 PATH 与 home 下的固定目录（~/.local/bin、~/.grok/bin 等）。
-  // 探测要起子进程、有超时，同一提交两次运行可能一次探到、一次超时，界面因此不同。
-  // 把这两处都指向夹具：夹具状态固定为「没有安装任何外部内核」，基线也因此与机器无关。
+  // 外部 CLI 内核探测按 PATH、home 与 APPDATA/LOCALAPPDATA 下的固定目录找 CLI（~/.local/bin、
+  // ~/.grok/bin、%LOCALAPPDATA%/Microsoft/WinGet/Links、%LOCALAPPDATA%/antigravity 等），
+  // 并为每个候选起子进程做版本/协议探测（带超时）。同一提交两次运行可能一次探到、一次超时，
+  // 界面因此不同（实测活动栏会晚 1s 左右多出一个内核图标）。把这些位置全部指向夹具：
+  // 夹具状态固定为「没有安装任何外部内核」，基线也因此与本机装了哪些 CLI 无关。
   const fixtureBin = join(fixture.root, "bin");
   const fixtureHome = join(fixture.root, "os-home");
+  const fixtureAppData = join(fixtureHome, "AppData", "Roaming");
+  const fixtureLocalAppData = join(fixtureHome, "AppData", "Local");
   await mkdir(fixtureBin, { recursive: true });
-  await mkdir(fixtureHome, { recursive: true });
+  await mkdir(fixtureAppData, { recursive: true });
+  await mkdir(fixtureLocalAppData, { recursive: true });
   const pathKey = Object.keys(childEnv).find((key) => key.toUpperCase() === "PATH") ?? "PATH";
   childEnv[pathKey] = [fixtureBin, dirname(process.execPath)].filter(Boolean).join(delimiter);
-  childEnv[process.platform === "win32" ? "USERPROFILE" : "HOME"] = fixtureHome;
+  if (process.platform === "win32") {
+    childEnv.USERPROFILE = fixtureHome;
+    childEnv.APPDATA = fixtureAppData;
+    childEnv.LOCALAPPDATA = fixtureLocalAppData;
+  } else {
+    childEnv.HOME = fixtureHome;
+    childEnv.XDG_DATA_HOME = join(fixtureHome, ".local", "share");
+    childEnv.XDG_CACHE_HOME = join(fixtureHome, ".cache");
+    childEnv.XDG_CONFIG_HOME = join(fixtureHome, ".config");
+  }
   serverLog = [];
   const server = spawn(process.execPath, [serverEntry], {
     cwd: fixture.workspace,

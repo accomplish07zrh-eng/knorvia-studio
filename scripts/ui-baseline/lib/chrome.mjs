@@ -82,10 +82,15 @@ export function resolveChromiumExecutable() {
   );
 }
 
-/** 启动参数：固定色彩配置与字体栅格化，减少跨机器与跨次运行的渲染差异。 */
+/**
+ * 启动参数：固定色彩配置与字体栅格化，减少跨机器与跨次运行的渲染差异。
+ * `--disable-gpu` 让光栅化走软件路径：GPU 路径下同一页面两次截图会出现个位数像素、
+ * 单通道差 1 的抖动，那正是计划书里说的「字体抗锯齿误报」来源。
+ */
 export const CHROMIUM_ARGS = [
   "--no-sandbox",
   "--disable-dev-shm-usage",
+  "--disable-gpu",
   "--force-color-profile=srgb",
   "--font-render-hinting=none",
   "--disable-lcd-text",
