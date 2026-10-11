@@ -68,7 +68,7 @@ export class InMemorySessionEventStore implements SessionEventStorePort {
     for (const journal of this.journals.values()) {
       const current = journal.stats();
       totals.events += current.events;
-      totals.evictedEvents += current.evictedEvents;
+      totals.evictedEvents += current.evicted;
       totals.retainedTransient += current.retainedTransient;
     }
     return totals;

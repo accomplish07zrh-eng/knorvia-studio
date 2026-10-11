@@ -54,6 +54,11 @@ const UNSET_SESSION_FIELDS: { [Key in UnsetSessionFieldKey]: SessionProjection[K
 
 const DEFAULT_CONTEXT_WINDOW = 200_000;
 
+/** 取一次当前时间；初值里调用两次，因此 createdAt 与 updatedAt 不是同一个 Date 实例。 */
+function moduleStartTime(): Date {
+  return new Date();
+}
+
 /** 标量默认值：协作模式、会话状态与各种计数。 */
 const SESSION_SCALAR_DEFAULTS = {
   mode: "build" as CollaborationMode,
@@ -64,13 +69,10 @@ const SESSION_SCALAR_DEFAULTS = {
   contextWindow: DEFAULT_CONTEXT_WINDOW,
 };
 
-/**
- * 投影初值。`createdAt` 与 `updatedAt` 各取一次当前时间，因此是两个不同的 Date 实例；
- * 时间只在这里读取，之后投影上的时间戳一律来自事件自身。
- */
+/** 投影初值。`createdAt` 与 `updatedAt` 各取一次当前时间，因此是两个不同的 Date 实例；时间只在这里读取，之后投影上的时间戳一律来自事件自身。 */
 export const initialSessionProjection = {
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: moduleStartTime(),
+  updatedAt: moduleStartTime(),
   ...SESSION_SCALAR_DEFAULTS,
   ...EMPTY_SESSION_COLLECTIONS,
   ...UNSET_SESSION_FIELDS,

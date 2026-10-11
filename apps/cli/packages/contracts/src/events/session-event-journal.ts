@@ -8,10 +8,10 @@ import {
   type SessionEventRetentionPolicy,
 } from "./session-event-retention.js";
 
-/** 单个会话的事件统计。 */
+/** 单个会话的事件统计；字段名只在本包内使用。 */
 interface JournalStats {
   events: number;
-  evictedEvents: number;
+  evicted: number;
   retainedTransient: number;
 }
 
@@ -56,7 +56,7 @@ export class SessionEventJournal {
   stats(): JournalStats {
     return {
       events: this.residents.length,
-      evictedEvents: this.discardedCount,
+      evicted: this.discardedCount,
       retainedTransient: this.countResidentTransient(),
     };
   }
