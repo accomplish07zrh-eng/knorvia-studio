@@ -60,10 +60,15 @@ const LINE_PREFIX = "- ";
  * 三个出口都先排序再截断，因此上界永远砍不到交付物。端口的 `artifactsOf` 已排过一遍；
  * 这里再排是为了快照与通知那条路径——它们拿到的是投影顺序，不保证已排。
  */
+// 交付物排 0、其余排 1：比较函数只读这一个序号，排序因此是稳定的。
+function primaryRank(artifact: { primary?: true }): number {
+  return artifact.primary === true ? 0 : 1;
+}
+
 function primaryFirst<T extends { primary?: true }>(artifacts: readonly T[]): T[] {
-  return [...artifacts].sort(
-    (left, right) => Number(right.primary === true) - Number(left.primary === true),
-  );
+  const ordered = [...artifacts];
+  ordered.sort((left, right) => primaryRank(left) - primaryRank(right));
+  return ordered;
 }
 
 // 预置看板的「大小」是点数不是字节：字节数对一张图没有意义（它根本没有字节）。
@@ -183,10 +188,11 @@ function manifestEntryFor(artifact: ArtifactSummary): WorkflowArtifactManifestEn
   const kind = manifestArtifactKind(artifact.kind);
   if (kind === undefined || !hasUsableIdentity(artifact)) return undefined;
 
-  const entry = {} as WorkflowArtifactManifestEntry;
-  entry.id = artifact.id;
-  entry.kind = kind;
-  entry.version = artifact.version;
+  const entry: WorkflowArtifactManifestEntry = {
+    id: artifact.id,
+    kind,
+    version: artifact.version,
+  };
 
   const title = trimmed(artifact.title);
   if (title !== undefined) entry.title = title.slice(0, ARTIFACT_LIMITS.title);
@@ -238,6 +244,34 @@ export function buildWorkflowArtifactsManifestSection(
   return { artifacts: entries };
 }
 
+/** 原样照抄的文本字段：类型不对就整键不写。 */
+const SUMMARY_TEXT_FIELDS: readonly string[] = ["title", "contentType", "description"];
+/** 原样照抄的数值字段。 */
+const SUMMARY_COUNT_FIELDS: readonly string[] = ["itemCount"];
+
+// 按字段名表照抄文本键：坏类型（或缺失）的键直接不出现，而不是写成 undefined。
+function copyTextFields(
+  source: Record<string, unknown>,
+  target: Record<string, unknown>,
+  keys: readonly string[],
+): void {
+  for (const key of keys) {
+    const value = source[key];
+    if (typeof value === "string") target[key] = value;
+  }
+}
+
+function copyCountFields(
+  source: Record<string, unknown>,
+  target: Record<string, unknown>,
+  keys: readonly string[],
+): void {
+  for (const key of keys) {
+    const value = source[key];
+    if (typeof value === "number") target[key] = value;
+  }
+}
+
 // 最新版的字节数：端口的顶层刻意不带 bytes，只有版本项上有，而清单要描述的正是最新版。
 function latestVersionBytes(record: Record<string, unknown>): OptionalCount {
   const versions = Array.isArray(record.versions) ? record.versions : undefined;
@@ -253,28 +287,13 @@ function summaryOf(record: Record<string, unknown>): ArtifactSummary | undefined
   const version = typeof record.version === "number" ? record.version : undefined;
   if (id === undefined || kind === undefined || version === undefined) return undefined;
 
-  const summary = {} as {
-    id: string;
-    kind: string;
-    version: number;
-    title?: string;
-    contentType?: string;
-    bytes?: number;
-    itemCount?: number;
-    primary?: true;
-    description?: string;
-  };
-  summary.id = id;
-  summary.kind = kind;
-  summary.version = version;
-  if (typeof record.title === "string") summary.title = record.title;
-  if (typeof record.contentType === "string") summary.contentType = record.contentType;
+  const summary = { id, kind, version } as Record<string, unknown>;
+  copyTextFields(record, summary, SUMMARY_TEXT_FIELDS);
   const bytes = latestVersionBytes(record);
   if (bytes !== undefined) summary.bytes = bytes;
-  if (typeof record.itemCount === "number") summary.itemCount = record.itemCount;
+  copyCountFields(record, summary, SUMMARY_COUNT_FIELDS);
   if (record.primary === true) summary.primary = true;
-  if (typeof record.description === "string") summary.description = record.description;
-  return summary;
+  return summary as unknown as ArtifactSummary;
 }
 
 /**
