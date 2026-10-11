@@ -82094,65 +82094,20 @@
       ]
     },
     {
-      "path": "packages/ui/src/components/ai-elements/canvas.tsx",
-      "normalizedSha256": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
-      "decision": "third-party",
-      "license": "Apache-2.0",
-      "basis": "Byte-identical to vercel/ai-elements at the pinned reference 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd: packages/elements/src/canvas.tsx is 618 bytes and the local file has the same sha256 and normalized sha256 (7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687). Verified file by file during M0-6 against an external clone of the pinned upstream revision. The file carries no ZCode or Knorvia modification and no added provenance header, so it is an unmodified upstream component under Apache-2.0, not Knorvia-authored code. The other files in the same directory differ from the pinned upstream revision and are not covered by this decision.",
-      "evidence": [
-        "third-party/source-verification-20261011/third-party-file-comparison.json",
-        "docs/knorvia-third-party-verification-20261011.md",
-        "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
-        "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
-      ]
+      "path": "scripts/contract-test-discovery.mjs",
+      "normalizedSha256": "b1b2175932e85f67d29de7eed3158a455ecb59c9bb0d2c7b587a2fc0ba8bd82b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     },
     {
-      "path": "scripts/provenance/inherited-triage.mjs",
-      "normalizedSha256": "02530bdd224fae7874d44fc246456370df7993dee083461873d368b3e64f9c1e",
+      "path": "scripts/contract-test-discovery.test.mjs",
+      "normalizedSha256": "8c86fd35e75a227e5fd5a4bf7fd11cf15c334c8418e5099542fcde46f4cda75e",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan: it parses the round-1 bookkeeping report return tables and applies the plan triage rules to every returned path. Node built-ins only; no upstream implementation was copied, renamed or rewritten. The author read the returned paths, stages and reasons to understand what each returned file is, not to reproduce any implementation. Regression cases were written first and pass 13/13.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-provenance-bookkeeping-20261010.md",
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "scripts/provenance/inherited-triage.test.mjs"
-      ]
-    },
-    {
-      "path": "scripts/provenance/inherited-triage-rules.mjs",
-      "normalizedSha256": "adda50a20464d5cf181a13759545fa8c6e42c7f77f033201e37bc9f8f1a4f161",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-3 triage rule table authored for the Knorvia independent-replacement plan: one path-prefix to disposition mapping with the package each inherited file joins. Rules were written from the plan category table and default-ruling table; no upstream implementation was copied, renamed or rewritten. Kept in its own module so the tool entry point stays under the repository max-lines rule.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "scripts/provenance/inherited-triage.test.mjs"
-      ]
-    },
-    {
-      "path": "scripts/provenance/inherited-triage.test.mjs",
-      "normalizedSha256": "b237a90dc18d1577722dfa9b179f325c17a2db3e17584b5c6d9cd6a787d56cc5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New regression tests for the M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan. They assert return-reason bucketing, CRLF tolerance, disposition and package mapping, rule precedence, unmapped reporting, summary counts, table padding stability and rendered rows. Node built-ins only; no upstream test was copied or adapted.",
-      "evidence": [
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "scripts/provenance/inherited-triage.mjs"
-      ]
-    },
-    {
-      "path": "docs/knorvia-inherited-triage-2026-10-11.md",
-      "normalizedSha256": "1aab8442e58d227f10be2e05ce7e1a58d383b53164b8a56d4ef535511fd51e3c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-3 triage table generated from the round-1 bookkeeping report return list by scripts/provenance/inherited-triage.mjs. It records dispositions and package assignments for the 1,547 returned files the plan counts as first-snapshot or upstream-similar; it states the exception class for frozen-evidence upstream excerpts. No upstream text is reproduced.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-provenance-bookkeeping-20261010.md",
-        "scripts/provenance/inherited-triage.mjs"
-      ]
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/acceptance.md",
@@ -83100,6 +83055,67 @@
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/apps-cli-packages-01/README.md",
         "specs/contracts/apps-cli-packages-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/canvas.tsx",
+      "normalizedSha256": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Byte-identical to vercel/ai-elements at the pinned reference 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd: packages/elements/src/canvas.tsx is 618 bytes and the local file has the same sha256 and normalized sha256 (7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687). Verified file by file during M0-6 against an external clone of the pinned upstream revision. The file carries no ZCode or Knorvia modification and no added provenance header, so it is an unmodified upstream component under Apache-2.0, not Knorvia-authored code. The other files in the same directory differ from the pinned upstream revision and are not covered by this decision.",
+      "evidence": [
+        "third-party/source-verification-20261011/third-party-file-comparison.json",
+        "docs/knorvia-third-party-verification-20261011.md",
+        "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
+        "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage.mjs",
+      "normalizedSha256": "02530bdd224fae7874d44fc246456370df7993dee083461873d368b3e64f9c1e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan: it parses the round-1 bookkeeping report return tables and applies the plan triage rules to every returned path. Node built-ins only; no upstream implementation was copied, renamed or rewritten. The author read the returned paths, stages and reasons to understand what each returned file is, not to reproduce any implementation. Regression cases were written first and pass 13/13.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-provenance-bookkeeping-20261010.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage-rules.mjs",
+      "normalizedSha256": "adda50a20464d5cf181a13759545fa8c6e42c7f77f033201e37bc9f8f1a4f161",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 triage rule table authored for the Knorvia independent-replacement plan: one path-prefix to disposition mapping with the package each inherited file joins. Rules were written from the plan category table and default-ruling table; no upstream implementation was copied, renamed or rewritten. Kept in its own module so the tool entry point stays under the repository max-lines rule.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage.test.mjs",
+      "normalizedSha256": "b237a90dc18d1577722dfa9b179f325c17a2db3e17584b5c6d9cd6a787d56cc5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New regression tests for the M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan. They assert return-reason bucketing, CRLF tolerance, disposition and package mapping, rule precedence, unmapped reporting, summary counts, table padding stability and rendered rows. Node built-ins only; no upstream test was copied or adapted.",
+      "evidence": [
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.mjs"
+      ]
+    },
+    {
+      "path": "docs/knorvia-inherited-triage-2026-10-11.md",
+      "normalizedSha256": "1aab8442e58d227f10be2e05ce7e1a58d383b53164b8a56d4ef535511fd51e3c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 triage table generated from the round-1 bookkeeping report return list by scripts/provenance/inherited-triage.mjs. It records dispositions and package assignments for the 1,547 returned files the plan counts as first-snapshot or upstream-similar; it states the exception class for frozen-evidence upstream excerpts. No upstream text is reproduced.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-provenance-bookkeeping-20261010.md",
+        "scripts/provenance/inherited-triage.mjs"
       ]
     },
     {
