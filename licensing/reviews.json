@@ -21893,7 +21893,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21901,7 +21904,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21909,7 +21915,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21917,7 +21926,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21925,7 +21937,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21933,7 +21948,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21941,7 +21959,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21949,7 +21970,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21957,7 +21981,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21965,7 +21992,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21973,7 +22003,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21981,7 +22014,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -35044,7 +35080,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
     },
     {
@@ -35052,7 +35090,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     },
     {
@@ -35060,7 +35100,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "9ce3f3ede16592f12b07bedd651ae7bfa499e93c1c69495433cad41a2b974703"
     },
     {
@@ -35068,7 +35110,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "d0d0b043e02ddffce0b7b4a586ee0d95380fddd4da99e4b25c956d62e9bcd089"
     },
     {
@@ -35076,7 +35120,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "83bb8b8cf2e550dd0bdd7216bba1cf28796787b8f1228f138b668269fac3b79b"
     },
     {
@@ -82091,6 +82137,607 @@
         "licensing/upstream-baseline.json",
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
+      ]
+    },
+    {
+      "path": "public/icon_512@2x.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/1024x1024.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/128x128.png",
+      "normalizedSha256": "9711baaa79ab102cc03f47e9a5a9342a53a8fb5246a1f8bf885eb3193f5946ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/16x16.png",
+      "normalizedSha256": "9c2c6fb0fbd58b076c7ca0eb4912d5fb535e177dc12ef6547c4fe2600142f15e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/24x24.png",
+      "normalizedSha256": "527e924b6333ca708c6e4305c50d0a927772fe38983bbb4386a408545ec08bb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/256x256.png",
+      "normalizedSha256": "08ef11f4d34d9fa7c4c06938f2ff652ea78f9ae696c1fd9e17f6b92d52e8034a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/32x32.png",
+      "normalizedSha256": "685b99191e54d468dffad64094c704750ca65f43a6020aea1196e1b97262394a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/48x48.png",
+      "normalizedSha256": "b0b4e3c7a3710872919084cce59003d84749c7443a5973a3679d3fd6dc2ee6a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/512x512.png",
+      "normalizedSha256": "f696c81363776c235b431c059a03a282a2829294ab54114582f6ae56889276f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/64x64.png",
+      "normalizedSha256": "2e252ca7b97ae81468a403203947d84b75f32cfc2b55d8d4c71daef70d3c9937",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/icon.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "public/logo/icons/icon.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/.knorvia-plugin/compatibility.json",
+      "normalizedSha256": "b652bf74f1ffc61d0f8887d67331cd6dae752e78584c9a577fb582e33a5f0d85",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/.knorvia-plugin/plugin.json",
+      "normalizedSha256": "33d945ed11f110f7fb3e6d6849e34aeb408ffb19ef86d7aeeba464ba88b810ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/README.md",
+      "normalizedSha256": "b87d09d08a0c5af205a1645ea69f0359fd81a97dadc743bd88dcd98864c02615",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/fixtures/missing-input.json",
+      "normalizedSha256": "d4ee0f2dd119c69b58eef12de67fb1104934d6b0f1124fbd4015394edb1d0dd2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/fixtures/near-miss.json",
+      "normalizedSha256": "40da9a309b6dadc520ff28efcfd8fa78854c07cb9bcc07910bcb7bad6be3115c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/fixtures/normal-use.json",
+      "normalizedSha256": "eb4769d96e127f8dc1728d93547eada2035b82ec968cefa328be78ba011f3fa7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/fixtures/repeat-invocation.json",
+      "normalizedSha256": "71db63bbef9b89f38d987cbdefa3ba0aec8ca84ead8348cf83edb0a89acf86de",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/fixtures/tool-failure.json",
+      "normalizedSha256": "e3657d211d77c196291071576b264a110ef9b2884e53d31be64a0836d9e7aa09",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/skills/document-quality-check/SKILL.md",
+      "normalizedSha256": "8660cd59269f20d09b1f559f4f258f7e3b2cdd3c91216383f70bef54e42f00e6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/skills/document-quality-check/skill-contract.json",
+      "normalizedSha256": "403100c4acee22792cca26a84044876cc3cae4e3fc5e4b3d19723fa42b165826",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/.knorvia-plugin/compatibility.json",
+      "normalizedSha256": "5d992b52f9c962aee3f1bf12dfe011282fc5a676b85e8c389d6e367c809571cf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/.knorvia-plugin/plugin.json",
+      "normalizedSha256": "64324e4ac700bd2091a44a8d65376fedff106978c9e13d644825b2403e8dc5ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/README.md",
+      "normalizedSha256": "7f59afd4fa36212dd71cb4e07d736b276e33ab990c4da877d944faa6a8c9d253",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/fixtures/missing-input.json",
+      "normalizedSha256": "88d501f1d9a308c3bfe92a0f986239a6b7e9ce34ac59c66bd34473eedaf5d035",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/fixtures/near-miss.json",
+      "normalizedSha256": "f727c2bd628726dddecbf81befe0aba8b14222a619d8b019335c2aec5efe4efa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/fixtures/normal-use.json",
+      "normalizedSha256": "b1d1b209017f6556a85a80ee21e780dce0296aa437b84bfb799cf47a2d88e585",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/fixtures/repeat-invocation.json",
+      "normalizedSha256": "94e8788fd6da1062754570f70d17a1dedd79f61d892c3f19e439ebb4165c2302",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/fixtures/tool-failure.json",
+      "normalizedSha256": "dd4d52a41fbcfe811756efb9cb1dd5fac7c5f71bc34ae0044e0967aa48921e41",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/skills/material-organizer/SKILL.md",
+      "normalizedSha256": "af1875f1d6aaa971201880479d6a0449fe77b8825d6078775e10f3d6a32b4ccd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/skills/material-organizer/skill-contract.json",
+      "normalizedSha256": "2bc2bfcbae39a07a7d2bc2f07ec84b5d8cb89f40ceb455deb3ee6d1acadbf689",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-brief/.knorvia-plugin/plugin.json",
+      "normalizedSha256": "ee41c8f927e82b416171e75f89970f49779bad5c805383fb048eb56fe04c9d42",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-brief/README.md",
+      "normalizedSha256": "9d11ee1d7eae85d5de4a05d92f38373e7a60e9d6b83ddca803562833c125b6c6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-brief/skills/project-brief/SKILL.md",
+      "normalizedSha256": "e20aa0ed7ccd1a46f834b7407717feac43c838c5791f1e77f4c243db6d67a5b2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/.knorvia-plugin/compatibility.json",
+      "normalizedSha256": "ce21944d3411d2fafed236c6ce2d467950c51e44b086cfcba47c7831cc267a0f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/.knorvia-plugin/plugin.json",
+      "normalizedSha256": "8e3d3afdcab075c4c5a5bd7b41d588b3a78ecdf57b35ff70b8ab32ec4b96ee7f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/README.md",
+      "normalizedSha256": "697e3d781c8729b28f022c4df772bbfa9e97508f7d9d1fe1fc3955d1bec7e892",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/fixtures/missing-input.json",
+      "normalizedSha256": "4ed02facb389ff405a21c4b18672314ca1ddd90c84a4a65a7bf825b348d5cff8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/fixtures/near-miss.json",
+      "normalizedSha256": "06b717dd88b48198503eba2c4fd8bc2e5451273e25e3916ef8ca86e317e3b7a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/fixtures/normal-use.json",
+      "normalizedSha256": "9690e910e4e2dc96efcea0bc915402268d8dc29b8e6ab6a88721fe0efbade029",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/fixtures/repeat-invocation.json",
+      "normalizedSha256": "a34afb4fe6c01d5be0164806ef4cb077dbd7bc9feebce48e9d95a81ec1cb8c41",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/fixtures/tool-failure.json",
+      "normalizedSha256": "e297d93a349b18a8b960189e97316988326af0d587de50d9ad559d1ef32cab8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/skills/project-handoff/SKILL.md",
+      "normalizedSha256": "e38ebd413c8d419ccfd585fc79aa13718dadfa62a55676edeeb1e6d2be981c9e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/skills/project-handoff/skill-contract.json",
+      "normalizedSha256": "7df5cf63448d859e8208c5d2903eb7c4b075d581ebbbf5ce743718aa72bf155a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/document-quality-check/LICENSE.txt",
+      "normalizedSha256": "6e0a0b039fb0879034f6337a8bcec3939c2c6e9c8735293141bd00e590699456",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "standard-license-text",
+      "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/material-organizer/LICENSE.txt",
+      "normalizedSha256": "6e0a0b039fb0879034f6337a8bcec3939c2c6e9c8735293141bd00e590699456",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "standard-license-text",
+      "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-brief/LICENSE.txt",
+      "normalizedSha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "standard-license-text",
+      "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "examples/plugins/project-handoff/LICENSE.txt",
+      "normalizedSha256": "6e0a0b039fb0879034f6337a8bcec3939c2c6e9c8735293141bd00e590699456",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "standard-license-text",
+      "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "config/README.md",
+      "normalizedSha256": "2c832f14992f4a591f538bfea49cdef1dec0ab056d35382d24e4233b41f589b0",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "functional-configuration",
+      "basis": "Functional configuration surface (default config, builtin provider config and its README). Reviewed and retained as configuration data rather than rewritten as implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "config/default.json",
+      "normalizedSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "functional-configuration",
+      "basis": "Functional configuration surface (default config, builtin provider config and its README). Reviewed and retained as configuration data rather than rewritten as implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "config/provider/builtin.json",
+      "normalizedSha256": "95da0fbc843785d7b166a76a29f445e5f52682c4424d0fe960b471e23d90bd69",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "functional-configuration",
+      "basis": "Functional configuration surface (default config, builtin provider config and its README). Reviewed and retained as configuration data rather than rewritten as implementation.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "patches/@ai-sdk__anthropic@3.0.81.patch",
+      "normalizedSha256": "d3a7c381eba7f5157f765a0528003af17cf84544911dfb7412c7800168e01c18",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Third-party dependency patches recorded in pnpm-workspace.yaml patchedDependencies (@ai-sdk/anthropic, @ai-sdk/openai-compatible); retained as third-party material and rewritten/removed together with the packages that consume them.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "patches/@ai-sdk__openai-compatible@2.0.60.patch",
+      "normalizedSha256": "9632fe9d821b3dc20939ae509cc35b968d90d018bbd1d812390718898182a38b",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Third-party dependency patches recorded in pnpm-workspace.yaml patchedDependencies (@ai-sdk/anthropic, @ai-sdk/openai-compatible); retained as third-party material and rewritten/removed together with the packages that consume them.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "licensing/current-files.json"
       ]
     }
   ]
