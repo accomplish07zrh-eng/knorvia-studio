@@ -21,7 +21,13 @@ export type TaskSnapshot =
   | DynamicWorkflowRunSnapshot;
 
 /** 读一次任务快照；拿不到时返回 undefined。 */
-type TaskReader = (taskId: string) => Promise<TaskSnapshot | undefined>;
+type TaskReader = (taskId: TaskId) => Promise<TaskSnapshot | undefined>;
+/** 工具名（用来挑快照来源）。 */
+type TaskName = string;
+/** 后台任务 id（也是终端 id）。 */
+type TaskId = string;
+/** 会话事件的初始序号。 */
+const INITIAL_SEQUENCE_NUMBER = 0;
 /** 带等待入口的执行端口（只有 Bash 走这条）。 */
 type WaitCapablePort = { readonly waitForBackgroundTask?: TaskReader };
 /** 动态工作流运行端口。 */
@@ -124,25 +130,32 @@ function resolveProvider(deps: Deps, name: string): TaskProvider {
   return entry === undefined ? makeProvider(undefined, undefined, false) : entry.resolve(deps);
 }
 
-export function hasSnapshotProvider(deps: ToolExecutorDeps, name: string): boolean {
-  return Boolean(resolveProvider(deps, name).snapshot);
+export function hasSnapshotProvider(deps: Deps, name: TaskName): boolean {
+  const provider = resolveProvider(deps, name);
+  return provider.snapshot !== undefined;
 }
-export function hasDirectWaiter(deps: ToolExecutorDeps, name: string): boolean {
-  return Boolean(resolveProvider(deps, name).wait);
+
+export function hasDirectWaiter(deps: Deps, name: TaskName): boolean {
+  const provider = resolveProvider(deps, name);
+  return provider.wait !== undefined;
 }
+
 export async function readTaskSnapshot(
-  deps: ToolExecutorDeps,
-  name: string,
-  taskId: string,
+  deps: Deps,
+  name: TaskName,
+  taskId: TaskId,
 ): Promise<TaskSnapshot | undefined> {
-  return resolveProvider(deps, name).snapshot?.(taskId);
+  const reader = resolveProvider(deps, name).snapshot;
+  return reader === undefined ? undefined : reader(taskId);
 }
+
 export async function waitForTaskSnapshot(
-  deps: ToolExecutorDeps,
-  name: string,
-  taskId: string,
+  deps: Deps,
+  name: TaskName,
+  taskId: TaskId,
 ): Promise<TaskSnapshot | undefined> {
-  return resolveProvider(deps, name).wait?.(taskId);
+  const reader = resolveProvider(deps, name).wait;
+  return reader === undefined ? undefined : reader(taskId);
 }
 
 type UnknownSnapshot = object | undefined;
@@ -275,21 +288,32 @@ export function taskPayload(
   };
 }
 
+// 会话事件信封：所有会话事件共用的字段，payload 由调用方补。
+function sessionEventEnvelope(
+  deps: Deps,
+  type: SessionEvent["type"],
+  traceContext: TraceContext,
+  turnId: TurnId | undefined,
+): SessionEvent {
+  const envelope = {} as SessionEvent;
+  envelope.id = crypto.randomUUID() as SessionEvent["id"];
+  envelope.sessionId = deps.sessionId;
+  envelope.turnId = turnId;
+  envelope.type = type;
+  envelope.timestamp = new Date();
+  envelope.traceId = traceContext.traceId;
+  envelope.sequenceNumber = INITIAL_SEQUENCE_NUMBER;
+  return envelope;
+}
+
 export async function emitBackgroundTaskEvent(
-  deps: ToolExecutorDeps,
+  deps: Deps,
   type: SessionEvent["type"],
   payload: Record<string, unknown>,
   traceContext: TraceContext,
   turnId: TurnId | undefined,
 ): Promise<void> {
-  await deps.emitEvent({
-    id: crypto.randomUUID() as SessionEvent["id"],
-    sessionId: deps.sessionId,
-    turnId,
-    type,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
-    payload,
-  });
+  const event = sessionEventEnvelope(deps, type, traceContext, turnId);
+  event.payload = payload;
+  await deps.emitEvent(event);
 }
