@@ -27,7 +27,7 @@ function changesFrom(entries: readonly ChangesEntry[]): SessionProjectionChanges
 
 /** 追加一行；返回新数组，入参不变。 */
 export function appendProjectionRow<Row>(rows: Row[], row: Row): Row[] {
-  return [...rows, row];
+  return rows.concat(row);
 }
 
 /** 唯一提交点：旧投影打底、changes 覆盖、最后写事件时间戳。 */
@@ -59,12 +59,14 @@ export function compactProjectionChanges(
   payload: unknown,
   timestamp: Date,
 ): SessionProjectionChanges {
-  const boundary = parseCompactBoundaryPayload(payload);
+  const parsedBoundary = parseCompactBoundaryPayload(payload);
   // 三档回落：真实的后紧凑计数优先，其次是估计值，最后保持当前上下文用量不动。
   const contextUsed =
-    boundary.truePostCompactTokenCount ?? boundary.postCompactTokenCount ?? projection.contextUsed;
+    parsedBoundary.truePostCompactTokenCount ??
+    parsedBoundary.postCompactTokenCount ??
+    projection.contextUsed;
   const projected = Object.fromEntries(
-    COMPACT_PROJECTION_FIELDS.map((field) => [field, boundary[field]]),
+    COMPACT_PROJECTION_FIELDS.map((field) => [field, parsedBoundary[field]]),
   );
   return changesFrom([
     ["contextUsed", contextUsed],
@@ -141,10 +143,14 @@ const TASK_SNAPSHOT_FIELDS = TASK_SNAPSHOT_FIELD_SOURCE.split(" ") as readonly T
 /** 起始快照还没有完成时刻，`completedAt` 只在完成快照里出现。 */
 const COMPLETION_ONLY_FIELD = "completedAt";
 
-function backgroundSnapshot(
-  payload: BackgroundTaskStartedPayload | BackgroundTaskCompletedPayload,
-  completed: boolean,
-): BackgroundTaskInfo {
+/** 建快照需要知道 payload 与「是否已完成」两件事，包成一个请求对象避免位置参数越排越长。 */
+interface TaskSnapshotRequest {
+  payload: BackgroundTaskStartedPayload | BackgroundTaskCompletedPayload;
+  completed: boolean;
+}
+
+function backgroundSnapshot(request: TaskSnapshotRequest): BackgroundTaskInfo {
+  const { payload, completed } = request;
   const fields = completed
     ? TASK_SNAPSHOT_FIELDS
     : TASK_SNAPSHOT_FIELDS.filter((field) => field !== COMPLETION_ONLY_FIELD);
@@ -154,18 +160,21 @@ function backgroundSnapshot(
   ) as unknown as BackgroundTaskInfo;
 }
 
+/** 叠加请求：目标行 + 要覆盖的字段。 */
+interface TaskOverlayRequest {
+  row: BackgroundTaskInfo;
+  patch: Partial<BackgroundTaskInfo>;
+}
+
 /**
  * 按「只覆盖已定义字段」的规则叠加一行后台任务。
  *
  * 用 `Object.defineProperty` 而不是直接赋值：payload 可能带 `__proto__` 这类扩展键，
  * 直接赋值会改到原型而不是写 own 数据属性。undefined 不参与覆盖（与 update 语义一致）。
  */
-function overlayDefinedTaskFields(
-  current: BackgroundTaskInfo,
-  fields: Partial<BackgroundTaskInfo>,
-): BackgroundTaskInfo {
-  const next = { ...current };
-  for (const [key, value] of Object.entries(fields)) {
+function overlayDefinedTaskFields(request: TaskOverlayRequest): BackgroundTaskInfo {
+  const next = { ...request.row };
+  for (const [key, value] of Object.entries(request.patch)) {
     if (value === undefined) continue;
     Object.defineProperty(next, key, {
       value,
@@ -183,10 +192,10 @@ export function backgroundStartedChanges(
   payload: BackgroundTaskStartedPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
-  const snapshot = backgroundSnapshot(payload, false);
-  snapshot.startedAt = payload.startedAt ?? timestamp;
-  const others = projection.backgroundTasks.filter((row) => row.taskId !== payload.taskId);
-  return changesFrom([["backgroundTasks", [...others, snapshot]]]);
+  const snapshot = backgroundSnapshot({ payload, completed: false });
+  Object.assign(snapshot, { startedAt: payload.startedAt ?? timestamp });
+  const retained = projection.backgroundTasks.filter((row) => row.taskId !== payload.taskId);
+  return changesFrom([["backgroundTasks", [...retained, snapshot]]]);
 }
 
 /** 同 taskId 的行只覆盖 payload 里已定义的字段，其余保持原值。 */
@@ -195,7 +204,7 @@ export function backgroundUpdatedChanges(
   payload: BackgroundTaskUpdatedPayload,
 ): SessionProjectionChanges {
   const rows = projection.backgroundTasks.map((row) =>
-    row.taskId === payload.taskId ? overlayDefinedTaskFields(row, payload) : row,
+    row.taskId === payload.taskId ? overlayDefinedTaskFields({ row, patch: payload }) : row,
   );
   return changesFrom([["backgroundTasks", rows]]);
 }
@@ -206,7 +215,7 @@ export function backgroundCompletedChanges(
   payload: BackgroundTaskCompletedPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
-  const snapshot = backgroundSnapshot(payload, true);
+  const snapshot = backgroundSnapshot({ payload, completed: true });
   snapshot.completedAt = payload.completedAt ?? timestamp;
 
   const rows = projection.backgroundTasks;
@@ -218,7 +227,7 @@ export function backgroundCompletedChanges(
     [
       "backgroundTasks",
       rows.map((row, index) =>
-        index === targetIndex ? overlayDefinedTaskFields(row, snapshot) : row,
+        index === targetIndex ? overlayDefinedTaskFields({ row, patch: snapshot }) : row,
       ),
     ],
   ]);
