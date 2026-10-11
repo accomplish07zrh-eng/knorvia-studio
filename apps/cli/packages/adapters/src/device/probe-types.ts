@@ -66,3 +66,10 @@ export interface CreateProcessProbeOptions {
   platform?: NodeJS.Platform;
   readProcFile?: (path: string) => Promise<string>;
 }
+
+/** Linux 采样器需要的最小读取面；由工厂注入，测试可给假实现。 */
+export interface LinuxProcReaders {
+  listProcDirectory: () => Promise<readonly string[]>;
+  readProcFile: (path: string) => Promise<string>;
+  isExpired?: () => boolean;
+}

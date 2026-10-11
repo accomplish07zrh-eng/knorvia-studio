@@ -1,57 +1,69 @@
 // SPDX-License-Identifier: Apache-2.0
 // macOS 采样：解析 `ps` 输出（整表四列 / 进程组三列），cputime 折算成毫秒。
-import {
-  isSamplablePid,
-  runProbeCommand,
-  type ProcessProbeExecFile,
-  type ProcessRow,
-} from "./process-probe-shared.js";
+import { runProbeCommand } from "./probe-command.js";
+import { isSamplablePid, type ProcessProbeExecFile, type ProcessRow } from "./probe-types.js";
 
 const PS = "ps";
-const TABLE_ARGS = ["-eo", "pid=,ppid=,rss=,cputime="];
-const GROUP_PREFIX_ARGS = ["-o", "pid=,rss=,cputime="];
+const TABLE_QUERY = ["-eo", "pid=,ppid=,rss=,cputime="];
+const GROUP_QUERY = ["-o", "pid=,rss=,cputime="];
 const SECONDS_PER_DAY = 24 * 60 * 60;
 const MILLIS_PER_SECOND = 1_000;
 /** 从最低位开始的时间分量权重：秒、分、小时。 */
-const COMPONENT_WEIGHTS = [1, 60, 60 * 60];
+const WEIGHT = [1, 60, 60 * 60];
+/** ps 的 cputime 列：`[dd-]hh:mm[:ss]`。 */
+const ELAPSED_TEXT = /^\d+(?:-\d+)?(?::\d+){1,3}$/u;
 
 /** `[dd-]hh:mm[:ss]` → 毫秒；段数过多或出现负数/非数字时返回 undefined。 */
-function elapsedMs(text: string): number | undefined {
-  const segments = text.split("-");
-  if (segments.length > 2) return undefined;
-  const days = segments.length === 2 ? Number(segments[0]) : 0;
-  const clock = (segments[segments.length - 1] ?? "").split(":").map(Number);
-  if (clock.length > COMPONENT_WEIGHTS.length) return undefined;
+function clockToMillis(text: string): number | undefined {
+  const daySplit = text.split("-");
+  if (daySplit.length > 2) return undefined;
+  const days = daySplit.length === 2 ? Number(daySplit[0]) : 0;
   if (!Number.isFinite(days) || days < 0) return undefined;
-  if (clock.some((value) => !Number.isFinite(value) || value < 0)) return undefined;
+  const units = (daySplit[daySplit.length - 1] ?? "").split(":").map(Number);
+  if (units.length > WEIGHT.length) return undefined;
+  if (units.some((unit) => !Number.isFinite(unit) || unit < 0)) return undefined;
   let seconds = days * SECONDS_PER_DAY;
-  for (let index = 0; index < clock.length; index += 1) {
-    seconds += clock[clock.length - 1 - index]! * COMPONENT_WEIGHTS[index]!;
+  for (let index = 0; index < units.length; index += 1) {
+    seconds += units[units.length - 1 - index]! * WEIGHT[index]!;
   }
   return Math.round(seconds * MILLIS_PER_SECOND);
 }
 
-/** 解析一行；列数不等于期望值时整行丢弃。 */
-function rowFromLine(line: string, includeParent: boolean): ProcessRow | undefined {
-  const fields = line.trim().split(/\s+/u);
-  const expected = includeParent ? 4 : 3;
-  if (fields.length !== expected) return undefined;
-  const pid = Number(fields[0]);
-  const rssKb = Number(fields[includeParent ? 2 : 1]);
-  const parentPid = includeParent ? Number(fields[1]) : undefined;
+/** cputime 列：看起来不像时间就直接给 undefined（该行仍然保留）。 */
+function cpuMillis(cell: string | undefined): number | undefined {
+  if (cell === undefined || !ELAPSED_TEXT.test(cell)) return undefined;
+  return clockToMillis(cell);
+}
+
+interface Columns {
+  parentIndex?: number;
+  pidIndex: number;
+  rssIndex: number;
+}
+
+/** 一行按空白切分并逐列校验；列数不符或关键列为负时整行丢弃。 */
+function rowFromCells(cells: string[], columns: Columns): ProcessRow | undefined {
+  const pid = Number(cells[columns.pidIndex]);
+  const rssKb = Number(cells[columns.rssIndex]);
   if (!isSamplablePid(pid) || !Number.isFinite(rssKb) || rssKb < 0) return undefined;
-  if (parentPid !== undefined && (!Number.isInteger(parentPid) || parentPid < 0)) return undefined;
   const row = { pid, rssKb } as ProcessRow;
-  if (parentPid !== undefined) row.parentPid = parentPid;
-  const cpuTimeMs = elapsedMs(fields[expected - 1]!);
+  if (columns.parentIndex !== undefined) {
+    const parentPid = Number(cells[columns.parentIndex]);
+    if (!Number.isInteger(parentPid) || parentPid < 0) return undefined;
+    row.parentPid = parentPid;
+  }
+  const cpuTimeMs = cpuMillis(cells[cells.length - 1]);
   if (cpuTimeMs !== undefined) row.cpuTimeMs = cpuTimeMs;
   return row;
 }
 
-function parseRows(source: string, includeParent: boolean): ProcessRow[] {
+function parseTable(source: string, columns: Columns): ProcessRow[] {
+  const expected = columns.parentIndex === undefined ? 3 : 4;
   const rows: ProcessRow[] = [];
   for (const line of source.split(/\r?\n/u)) {
-    const row = rowFromLine(line, includeParent);
+    const cells = line.trim().split(/\s+/u);
+    if (cells.length !== expected) continue;
+    const row = rowFromCells(cells, columns);
     if (row !== undefined) rows.push(row);
   }
   return rows;
@@ -60,13 +72,17 @@ function parseRows(source: string, includeParent: boolean): ProcessRow[] {
 export async function readDarwinProcessTable(
   execFile: ProcessProbeExecFile,
 ): Promise<readonly ProcessRow[]> {
-  return parseRows(await runProbeCommand(execFile, PS, TABLE_ARGS), true);
+  return parseTable(await runProbeCommand(execFile, PS, TABLE_QUERY), {
+    parentIndex: 1,
+    pidIndex: 0,
+    rssIndex: 2,
+  });
 }
 
 export async function readDarwinProcessGroup(
   execFile: ProcessProbeExecFile,
-  processGroupId: number,
+  groupId: number,
 ): Promise<readonly ProcessRow[]> {
-  const args = [...GROUP_PREFIX_ARGS, "-g", String(processGroupId)];
-  return parseRows(await runProbeCommand(execFile, PS, args), false);
+  const query = [...GROUP_QUERY, "-g", String(groupId)];
+  return parseTable(await runProbeCommand(execFile, PS, query), { pidIndex: 0, rssIndex: 1 });
 }
