@@ -131,10 +131,16 @@ export const WORKSPACE_HOOK_STATE_ADMISSION_MAP = Object.fromEntries(
   ]),
 ) as Record<WorkspaceHookTrustState, StateAdmission>;
 
-const nonEmptyStringSchema = z.string().trim().min(1);
-const sha256DigestSchema = z.string().regex(/^[a-f0-9]{64}$/u);
-const positiveIntegerSchema = z.number().int().positive();
-const nonnegativeIntegerSchema = z.number().int().nonnegative();
+// 基础字段类型：四个常量在本文件与 workspace-hook-trust-store.ts 之间保持同名同义。
+const trimmedNonEmptyText = z.string().trim().min(1);
+const hexDigestSchema = z.string().regex(/^[a-f0-9]{64}$/u);
+const strictlyPositiveIntSchema = z.number().int().positive();
+const nonNegativeIntSchema = z.number().int().nonnegative();
+
+/** 布尔字段；集中一处便于后续统一加描述。 */
+function booleanSchema(): z.ZodBoolean {
+  return z.boolean();
+}
 
 /** 加一条自定义 issue；四处校验只有 path 与 message 不同，骨架共用。 */
 function addMismatchIssue(context: z.RefinementCtx, path: string, message: string): void {
@@ -143,19 +149,19 @@ function addMismatchIssue(context: z.RefinementCtx, path: string, message: strin
 
 export const workspaceHookEffectiveStateSchema = z
   .object({
-    reviewItemId: nonEmptyStringSchema,
-    sourceRootEnabled: z.boolean(),
-    declarationEnabled: z.boolean(),
-    runtimeHooksEnabled: z.boolean(),
-    configuredEnabled: z.boolean(),
-    editable: z.boolean(),
+    reviewItemId: trimmedNonEmptyText,
+    sourceRootEnabled: booleanSchema(),
+    declarationEnabled: booleanSchema(),
+    runtimeHooksEnabled: booleanSchema(),
+    configuredEnabled: booleanSchema(),
+    editable: booleanSchema(),
     trustState: workspaceHookTrustStateSchema,
     admissionClass: workspaceHookAdmissionClassSchema,
-    effectiveRunnable: z.boolean(),
-    workspaceIdentity: nonEmptyStringSchema.optional(),
-    bundleDigest: sha256DigestSchema.optional(),
-    hookDeclarationDigest: sha256DigestSchema.optional(),
-    sourcePaths: z.array(nonEmptyStringSchema),
+    effectiveRunnable: booleanSchema(),
+    workspaceIdentity: trimmedNonEmptyText.optional(),
+    bundleDigest: hexDigestSchema.optional(),
+    hookDeclarationDigest: hexDigestSchema.optional(),
+    sourcePaths: z.array(trimmedNonEmptyText),
     reasonCode: workspaceHookReasonCodeSchema.optional(),
   })
   .strict()
@@ -202,24 +208,24 @@ const WORKSPACE_HOOK_EVENT_NAMES = [
 export const workspaceHookEventNameSchema = z.enum(WORKSPACE_HOOK_EVENT_NAMES);
 
 const canonicalEntryBaseShape = {
-  reviewItemId: nonEmptyStringSchema,
+  reviewItemId: trimmedNonEmptyText,
   event: workspaceHookEventNameSchema,
-  matcherIndex: nonnegativeIntegerSchema,
-  hookIndex: nonnegativeIntegerSchema,
-  sourceFileIndex: nonnegativeIntegerSchema,
-  sourceRelativePath: nonEmptyStringSchema,
+  matcherIndex: nonNegativeIntSchema,
+  hookIndex: nonNegativeIntSchema,
+  sourceFileIndex: nonNegativeIntSchema,
+  sourceRelativePath: trimmedNonEmptyText,
   matcher: z.string().nullable(),
-  command: nonEmptyStringSchema,
-  resolvedTimeoutMs: positiveIntegerSchema,
-  resolvedMaxOutputBytes: positiveIntegerSchema,
-  statusMessage: nonEmptyStringSchema.optional(),
-  sourceRootEnabled: z.boolean(),
-  declarationEnabled: z.boolean(),
-  runtimeHooksEnabled: z.boolean(),
-  configuredEnabled: z.boolean(),
-  editable: z.boolean(),
+  command: trimmedNonEmptyText,
+  resolvedTimeoutMs: strictlyPositiveIntSchema,
+  resolvedMaxOutputBytes: strictlyPositiveIntSchema,
+  statusMessage: trimmedNonEmptyText.optional(),
+  sourceRootEnabled: booleanSchema(),
+  declarationEnabled: booleanSchema(),
+  runtimeHooksEnabled: booleanSchema(),
+  configuredEnabled: booleanSchema(),
+  editable: booleanSchema(),
   declarationDigestAlgorithm: z.literal("sha256"),
-  hookDeclarationDigest: sha256DigestSchema,
+  hookDeclarationDigest: hexDigestSchema,
 } as const;
 
 export const canonicalWorkspaceHookEntrySchema = z.discriminatedUnion("type", [
@@ -228,7 +234,7 @@ export const canonicalWorkspaceHookEntrySchema = z.discriminatedUnion("type", [
       ...canonicalEntryBaseShape,
       type: z.literal("command"),
       async: z.boolean().optional(),
-      shell: z.union([z.literal(true), nonEmptyStringSchema]).optional(),
+      shell: z.union([z.literal(true), trimmedNonEmptyText]).optional(),
     })
     .strict(),
   z
@@ -244,17 +250,17 @@ export type CanonicalWorkspaceHookEntry = z.infer<typeof canonicalWorkspaceHookE
 export const workspaceHookBundleSnapshotSchema = z
   .object({
     schemaVersion: z.literal(WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION),
-    workspaceIdentity: nonEmptyStringSchema,
+    workspaceIdentity: trimmedNonEmptyText,
     discoveredAt: z.string().datetime(),
     sourceFiles: z.array(
       z
         .object({
-          canonicalPath: nonEmptyStringSchema,
-          baseDir: nonEmptyStringSchema,
-          discoveryOrder: nonnegativeIntegerSchema,
+          canonicalPath: trimmedNonEmptyText,
+          baseDir: trimmedNonEmptyText,
+          discoveryOrder: nonNegativeIntSchema,
           configFileKind: z.enum(["knorvia.json", ".knorvia-studio/config.json", "explicit"]),
-          explicitProjectConfig: z.boolean(),
-          editable: z.boolean(),
+          explicitProjectConfig: booleanSchema(),
+          editable: booleanSchema(),
           hooksRoot: z
             .object({
               enabled: z.boolean().optional(),
@@ -267,7 +273,7 @@ export const workspaceHookBundleSnapshotSchema = z
     ),
     hooks: z.array(canonicalWorkspaceHookEntrySchema),
     digestAlgorithm: z.literal("sha256"),
-    bundleDigest: sha256DigestSchema,
+    bundleDigest: hexDigestSchema,
   })
   .strict();
 export type WorkspaceHookBundleSnapshot = Readonly<
@@ -280,16 +286,16 @@ export function createWorkspaceHookBundleSnapshot(value: unknown): WorkspaceHook
 
 export const workspaceHookReviewFlowStateSchema = z
   .object({
-    reviewFlowId: nonEmptyStringSchema,
-    generation: positiveIntegerSchema,
-    interactionId: nonEmptyStringSchema,
-    sessionId: nonEmptyStringSchema,
-    workspaceIdentity: nonEmptyStringSchema,
-    bundleDigest: sha256DigestSchema,
+    reviewFlowId: trimmedNonEmptyText,
+    generation: strictlyPositiveIntSchema,
+    interactionId: trimmedNonEmptyText,
+    sessionId: trimmedNonEmptyText,
+    workspaceIdentity: trimmedNonEmptyText,
+    bundleDigest: hexDigestSchema,
     state: z.enum(["pending", "resolved", "superseded", "cancelled", "timed_out"]),
-    supersededByInteractionId: nonEmptyStringSchema.optional(),
-    createdAt: nonnegativeIntegerSchema,
-    deadlineAt: nonnegativeIntegerSchema,
+    supersededByInteractionId: trimmedNonEmptyText.optional(),
+    createdAt: nonNegativeIntSchema,
+    deadlineAt: nonNegativeIntSchema,
   })
   .strict()
   .superRefine((flow, context) => {
@@ -318,7 +324,7 @@ export const workspaceHookReviewFlowStateSchema = z
 export type WorkspaceHookReviewFlowState = z.infer<typeof workspaceHookReviewFlowStateSchema>;
 
 export const workspaceHookSecurityRevisionSchema = z
-  .object({ coordinatorEpoch: nonEmptyStringSchema, counter: nonnegativeIntegerSchema })
+  .object({ coordinatorEpoch: trimmedNonEmptyText, counter: nonNegativeIntSchema })
   .strict();
 export type WorkspaceHookSecurityRevision = z.infer<typeof workspaceHookSecurityRevisionSchema>;
 
