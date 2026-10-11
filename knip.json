@@ -8,6 +8,8 @@
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
+        "scripts/provenance/similarity.mjs",
+        "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/inherited-triage.mjs",
         "scripts/provenance/inherited-triage.test.mjs",
         "specs/contracts/*/tests/*.test.ts",
@@ -34,5 +36,5 @@
       "entry": ["src/browser-client.ts"]
     }
   },
-  "ignore": ["docs/**", "packages/ui/src/components/**", ".agents/**", "specs/contracts/*/stubs/**"]
+  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**", "specs/contracts/*/stubs/**"]
 }
