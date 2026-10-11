@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "page": "groups",
+  "pageTitle": "主界面 · 群聊",
+  "theme": "dark",
+  "width": 1360,
+  "height": 900,
+  "file": "dark-1360.png",
+  "imageSha256": "e08e884f8a4787c90f263e347b8cbdf1d27e5ae674f57b617808e77a7588a38d",
+  "bytes": 40439,
+  "generatedAt": "2026-10-11T07:50:13.979Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 140,
+  "geometry": {
+    "studio-activity-rail": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 56,
+        "height": 900,
+        "visible": true
+      }
+    },
+    "studio-groups-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 325,
+        "y": 41,
+        "width": 1030,
+        "height": 854,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "conversation",
+      "conversation-column",
+      "desktop-top-nav-back",
+      "knorvia-companion",
+      "knorvia-companion-dock",
+      "resizable-handle",
+      "sidebar",
+      "studio-activity-rail",
+      "studio-chats-open",
+      "studio-creation-open",
+      "studio-groups-open",
+      "studio-groups-page",
+      "studio-kernel-rail",
+      "studio-plugins-open",
+      "studio-rail-kernel-knorvia",
+      "studio-rail-kernels-more",
+      "studio-search-open",
+      "studio-window-titlebar",
+      "studio-workbench-open",
+      "studio-workflows-open",
+      "task-new-button",
+      "task-settings-button"
+    ],
+    "kernelOptions": [],
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 群聊 新建任务 Ctrl+N 新建群聊 暂无群聊 群聊 新建群聊 把 Agent 聚在一起 为一个共同目标建立群聊，选择成员，准备协作内容。 新建群聊",
+    "bodyTextSha256": "86f2666d0b0ccbdd6db6c66f80b4535ee1c5fd271816850f44ebf93f1e1575f9",
+    "bodyTextLength": 115,
+    "consoleErrors": []
+  }
+}

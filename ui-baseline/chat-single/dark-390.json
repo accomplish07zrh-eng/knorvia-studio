@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "page": "chat-single",
+  "pageTitle": "主界面 · 单聊（内置内核）",
+  "theme": "dark",
+  "width": 390,
+  "height": 844,
+  "file": "dark-390.png",
+  "imageSha256": "c64a4876b14e57213d1ae9ca5624fa6aa37aeab708e23218a1161883ba1f468b",
+  "bytes": 30504,
+  "generatedAt": "2026-10-11T07:48:52.542Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 79,
+  "geometry": {
+    "studio-activity-rail": {
+      "matches": 0,
+      "visibleMatches": 0,
+      "box": null
+    },
+    "studio-window-titlebar": {
+      "matches": 0,
+      "visibleMatches": 0,
+      "box": null
+    },
+    "sidebar": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": -320,
+        "y": 0,
+        "width": 320,
+        "height": 844,
+        "visible": true
+      }
+    },
+    "conversation": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "visible": true
+      }
+    },
+    "v4-session-title": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1,
+        "visible": true
+      }
+    },
+    "v4-timeline": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 1,
+        "y": 1,
+        "width": 388,
+        "height": 842,
+        "visible": true
+      }
+    },
+    "chat-empty": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 17,
+        "y": 245.75,
+        "width": 356,
+        "height": 92.8,
+        "visible": true
+      }
+    },
+    "chat-error-banner": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 17,
+        "y": 350.55,
+        "width": 356,
+        "height": 42,
+        "visible": true
+      }
+    },
+    "v4-composer": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 17,
+        "y": 350.55,
+        "width": 356,
+        "height": 212,
+        "visible": true
+      }
+    },
+    "v4-composer-input": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 30,
+        "y": 429.55,
+        "width": 330,
+        "height": 40,
+        "visible": true
+      }
+    },
+    "v4-composer-send": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 332,
+        "y": 481.55,
+        "width": 28,
+        "height": 28,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_t_",
+      "_r_v_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "chat-attachment-button",
+      "chat-empty",
+      "chat-error-banner",
+      "chat-mode-select-trigger",
+      "chat-model-select-trigger",
+      "composer-project-detach",
+      "composer-workspace-trigger",
+      "conversation",
+      "conversation-bottom-dock-transition",
+      "conversation-bottom-dock-transition-layer",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "desktop-top-nav-back",
+      "knorvia-companion",
+      "knorvia-companion-dock",
+      "narrow-sidebar-toggle",
+      "project-add",
+      "project-section",
+      "sidebar",
+      "studio-creation-open",
+      "studio-kernel-select",
+      "studio-search-open",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "terminal",
+      "v4-composer",
+      "v4-composer-input",
+      "v4-composer-send",
+      "v4-model-config",
+      "v4-pane-shell-workspace-main",
+      "v4-session-pane-workspace-main",
+      "v4-session-title",
+      "v4-timeline",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "命令面板 搜索并执行当前工作区可用的命令。 新建任务 Ctrl+N 自动化 工作流 创作 单聊 群聊 Knorvia 单聊列表 项目 workspace 暂无任务 任务 还没有任务 Knorvia Studio 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 发送 workspace",
+    "bodyTextSha256": "82b48614217cf426859fd1e64978473827d0f69132eb7d354d31ebbd98dd67fa",
+    "bodyTextLength": 211,
+    "consoleErrors": []
+  }
+}

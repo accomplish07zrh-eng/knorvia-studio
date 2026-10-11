@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "page": "settings-appearance",
+  "pageTitle": "设置 · 外观",
+  "theme": "dark",
+  "width": 1360,
+  "height": 900,
+  "file": "dark-1360.png",
+  "imageSha256": "bca2eecbfdb8d2823a8edc52e6bbec251f9ecc7679360eb4085f49cec8add659",
+  "bytes": 133426,
+  "generatedAt": "2026-10-11T07:54:35.400Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 113,
+  "geometry": {
+    "settings-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 41,
+        "width": 1298,
+        "height": 854,
+        "visible": true
+      }
+    },
+    "settings-nav-search": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 69,
+        "y": 161,
+        "width": 243,
+        "height": 32,
+        "visible": true
+      }
+    },
+    "settings-section-nav-appearance": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 69,
+        "y": 239,
+        "width": 243,
+        "height": 32,
+        "visible": true
+      }
+    },
+    "appearance-materials": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 424,
+        "y": 495.25,
+        "width": 832,
+        "height": 689,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "appearance-materials",
+      "automations-open",
+      "browser",
+      "chat-attachment-button",
+      "chat-empty",
+      "chat-error-banner",
+      "chat-mode-select-trigger",
+      "chat-model-select-trigger",
+      "composer-project-detach",
+      "composer-workspace-trigger",
+      "conversation",
+      "conversation-bottom-dock-transition",
+      "conversation-bottom-dock-transition-layer",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "project-add",
+      "project-section",
+      "resizable-handle",
+      "settings-back-button",
+      "settings-nav-search",
+      "settings-open-onboarding",
+      "settings-page",
+      "settings-section-nav-agents",
+      "settings-section-nav-appearance",
+      "settings-section-nav-browser",
+      "settings-section-nav-commands",
+      "settings-section-nav-general",
+      "settings-section-nav-hooks",
+      "settings-section-nav-mcp",
+      "settings-section-nav-memory",
+      "settings-section-nav-modelProvider",
+      "settings-section-nav-shortcuts",
+      "settings-section-nav-skill",
+      "settings-section-nav-subagents",
+      "settings-section-nav-usage",
+      "sidebar",
+      "studio-activity-rail",
+      "studio-chats-open",
+      "studio-creation-open",
+      "studio-groups-open",
+      "studio-kernel-rail",
+      "studio-kernel-select",
+      "studio-plugins-open",
+      "studio-rail-kernel-knorvia",
+      "studio-rail-kernels-more",
+      "studio-window-titlebar",
+      "studio-workbench-open",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "terminal",
+      "v4-composer",
+      "v4-composer-input",
+      "v4-composer-send",
+      "v4-model-config",
+      "v4-pane-shell-workspace-main",
+      "v4-session-pane-workspace-main",
+      "v4-session-title",
+      "v4-timeline",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 变更前确认 管理模型 发送 workspace 返回工作区 设置 常规 外观 模型设置 Agent 管理 使用统计 子智能体 记忆 技能 MCP 服务器 命令 钩子 浏览器控制 键盘快捷键 引导 重新查看入门引导 外观 主题、界面字号与代码预览样式。 界面设置 设置应用主题和界面文字大小。 界面主题 选择浅色、深色或跟随系统主题。 深色 界面字号 调整应用界面的文字大小，图标和布局尺寸不受影响。 px Knorvia 小助手 在主布局右下角陪伴，随视线和输入轻轻回应。遵循系统减少动态效果设置。 动态 玻璃效果 磨砂玻璃质感，阅读区域清晰易读。 Knorvia 给下一个灵感留点空间 静下来，好好想一想。 开始对话… 透明度 62% 数值越高，背景越明显。 阅读区域底色 86% 让输入框、菜单和卡片的底色更实。 当前环境不支持系统磨砂；仍可使用背景图片。关闭后保留调整，系统减少透明度的设置优先。 重置玻璃效果 背景图片 上传或拖入图片。切换页面时，背景也会保留。 选一幅喜欢的风景 JPG、PNG、WebP · 最大 20 MB 上传图片 仅保存在此设备，重启后保留，不会发送给模型。大图会适当缩小。 代码设置 设置代码内容的主题、字号和显示方式，不受界面字号影响。 浅色代码主题 浅色界面下代码内容使用的高亮主题。 GitHub Light 深色代码主题 深色界面下代码内容使用的高亮主题。 GitHub Dark 显示行号 在代码内容和差异视图中显示行号。 长行自动换行 代码内容过长时自动换行。 代码字号 调整代码块、文件预览和差异视图的默认字号。 px 代码预览 同时预览浅色与深色代码主题，当前界面使用的主题会标记为“当前生效”。 浅色预览 GitHub Light 浅色 深色预览 GitHub Dark 当前生效",
+    "bodyTextSha256": "d48a58ab455c795925c016579df9ac5f602ad7f4912af9c9ac2ed338ee1ecfaf",
+    "bodyTextLength": 952,
+    "consoleErrors": []
+  }
+}

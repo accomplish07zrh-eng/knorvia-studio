@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "page": "settings-general",
+  "pageTitle": "设置 · 常规",
+  "theme": "light",
+  "width": 390,
+  "height": 844,
+  "file": "light-390.png",
+  "imageSha256": "7cb27503a4d3a0cc3d6f4da5b4aa56c9a9f4620e7a39fe2df135323d16bb593e",
+  "bytes": 56178,
+  "generatedAt": "2026-10-11T07:53:32.785Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 53,
+  "geometry": {
+    "settings-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "visible": true
+      }
+    },
+    "settings-nav-search": {
+      "matches": 1,
+      "visibleMatches": 0,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "visible": false
+      }
+    },
+    "settings-section-nav-general": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 14,
+        "y": 100,
+        "width": 40,
+        "height": 40,
+        "visible": true
+      }
+    },
+    "settings-locale-select-trigger": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 102,
+        "y": 238.75,
+        "width": 254,
+        "height": 32,
+        "visible": true
+      }
+    },
+    "settings-native-search-switch": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 102,
+        "y": 1054.5,
+        "width": 32,
+        "height": 18,
+        "visible": true
+      }
+    },
+    "settings-ask-user-question-auto-resolution-switch": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 102,
+        "y": 2393.75,
+        "width": 32,
+        "height": 18,
+        "visible": true
+      }
+    },
+    "settings-actual-data-location": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 86,
+        "y": 3562.75,
+        "width": 286,
+        "height": 141.75,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "chat-attachment-button",
+      "chat-empty",
+      "chat-error-banner",
+      "chat-mode-select-trigger",
+      "chat-model-select-trigger",
+      "composer-project-detach",
+      "composer-workspace-trigger",
+      "conversation",
+      "conversation-bottom-dock-transition",
+      "conversation-bottom-dock-transition-layer",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "narrow-sidebar-backdrop",
+      "project-add",
+      "project-section",
+      "resizable-handle",
+      "settings-actual-data-location",
+      "settings-ask-user-question-auto-resolution-switch",
+      "settings-back-button",
+      "settings-locale-select-trigger",
+      "settings-native-search-switch",
+      "settings-nav-search",
+      "settings-open-onboarding",
+      "settings-page",
+      "settings-section-nav-agents",
+      "settings-section-nav-appearance",
+      "settings-section-nav-browser",
+      "settings-section-nav-commands",
+      "settings-section-nav-general",
+      "settings-section-nav-hooks",
+      "settings-section-nav-mcp",
+      "settings-section-nav-memory",
+      "settings-section-nav-modelProvider",
+      "settings-section-nav-plugin",
+      "settings-section-nav-shortcuts",
+      "settings-section-nav-skill",
+      "settings-section-nav-subagents",
+      "settings-section-nav-usage",
+      "sidebar",
+      "studio-creation-open",
+      "studio-kernel-select",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "terminal",
+      "v4-composer",
+      "v4-composer-input",
+      "v4-composer-send",
+      "v4-model-config",
+      "v4-pane-shell-workspace-main",
+      "v4-session-pane-workspace-main",
+      "v4-session-title",
+      "v4-timeline",
+      "workspace-help-menu-trigger",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "命令面板 搜索并执行当前工作区可用的命令。 新建任务 Ctrl+N 自动化 工作流 创作 单聊 群聊 Knorvia 单聊列表 项目 workspace 暂无任务 任务 还没有任务 Knorvia Studio 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 发送 workspace 返回工作区 设置 常规 外观 模型设置 Agent 管理 使用统计 子智能体 记忆 插件 技能 MCP 服务器 命令 钩子 浏览器控制 键盘快捷键 引导 重新查看入门引导 常规 语言、终端、网络、系统行为与数据存储。 语言与助手 界面语言 选择应用 UI 的显示语言。 中文简体 主动任务推荐 在新对话中显示任务建议，点击后填入输入框。 终端与搜索 继承系统终端 Profile 启动内置终端时尽量继承登录 shell 环境、代理、Kube 变量和本机终端字体。 终端字体 留空时自动探测系统终端配置；填写后作为 Knorvia Studio 终端的字体覆盖。 保存 集成终端Shell 仅新会话生效。Windows 下 Bash 工具用此 shell；自动优先 Git Bash，找不到回退 cmd.exe。 自动选择 增强 Find 和 Grep 在新建会话或应用重启后恢复的会话中使用增强 Find 和 Grep。当前会话保持现有设置；Windows 的 Find 保持不变。 网络 HTTP 代理 模型、MCP、命令工具与应用渲染层的出口流量将经此代理，不读取系统环境变量。留空时这些流量直连，内置浏览器则跟随系统代理设置。修改后需重启应用生效。 保存 不使用代理的地址 匹配这些主机的请求将直连，不经过 HTTP 代理。多个规则用英文逗号分隔。修改后需重启应用生效。 保存 自定义证书 可选。填写 PEM 根证书路径后，会作为 NODE_EXTRA_CA_CERTS 注入模型、MCP 与命令工具，并用于渲染层证书校验。修改后需重启应用生效。 保存 系统 任务通知 任务完成、失败或需要确认时发送桌面通知。 通知声音 通知开启后，可单独关闭任务通知提示音。 对话与工具 交互行为 在 Knorvia Studio 运行时将后续操作加入队列，或引导至下一轮工具调用后运行。 队列 提问自动继续 开启后，Agent 提问 5 分钟未回答会自动继续；关闭后，当前和后续提问会一直等待你的回答。 完整保留模型 I/O 保留完整的模型请求和响应，不自动压缩、限制大小或删除旧记录。 显示思考过程 在消息流中展示完整的模型思考内容；关闭时每轮仍展示第一次思考。 显示待办 在消息流中展示 Todo 工具卡片。 分组探索工具 将连续的读取和搜索工具聚合为 Explore 分组。 分组终端命令 将连续的非只读 Shell 命令聚合为 Terminal 分组。 分组文件更改 将连续的 Write、Edit 和 ApplyPatch 调用聚合为 Changes 分组。 任务归档 自动归档旧任务 定时扫描最近打开过的工作区，将已完成、无未读、未置顶且超过保留期的任务自动归档。 归档保留时长 任务最后更新时间早于该时长后，才会进入自动归档候选。 7 天后归档 数据存储 数据存储路径 C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\home 当前运行配置已固定此数据目录，无法在这里迁移。",
+    "bodyTextSha256": "c69ebc7181f10a390491631a73633e8c6c21b7096a0b960b3afcc2709a5bdf75",
+    "bodyTextLength": 1483,
+    "consoleErrors": []
+  }
+}

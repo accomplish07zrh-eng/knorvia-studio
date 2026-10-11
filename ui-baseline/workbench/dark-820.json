@@ -1,0 +1,250 @@
+{
+  "schema": 1,
+  "page": "workbench",
+  "pageTitle": "主界面 · 工作台",
+  "theme": "dark",
+  "width": 820,
+  "height": 900,
+  "file": "dark-820.png",
+  "imageSha256": "52d76fe85579b1c4c7626a1fa4d43eb45aa6e5f351860cddeb347c684fa9bb50",
+  "bytes": 40567,
+  "generatedAt": "2026-10-11T07:49:32.285Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 55,
+  "geometry": {
+    "studio-activity-rail": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 56,
+        "height": 900,
+        "visible": true
+      }
+    },
+    "task-workbench": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 41,
+        "width": 758,
+        "height": 854,
+        "visible": true
+      }
+    },
+    "workbench-new-task": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 65,
+        "y": 45,
+        "width": 76,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-add-conversations": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 145,
+        "y": 45,
+        "width": 76,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-collect": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 225,
+        "y": 45,
+        "width": 106,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-tile-count": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 778.84,
+        "y": 51.5,
+        "width": 28.16,
+        "height": 15,
+        "visible": true
+      }
+    },
+    "workbench-zoom-out": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 674.84,
+        "y": 45,
+        "width": 28,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-zoom-reset": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 702.84,
+        "y": 45,
+        "width": 44,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-zoom-in": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 746.84,
+        "y": 45,
+        "width": 28,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-canvas": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 78,
+        "width": 758,
+        "height": 817,
+        "visible": true
+      }
+    },
+    "workbench-tile": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 78,
+        "width": 758,
+        "height": 817,
+        "visible": true
+      }
+    },
+    "workbench-kernel": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 244,
+        "y": 470.5,
+        "width": 384,
+        "height": 36,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "conversation",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "desktop-top-nav-back",
+      "knorvia-companion",
+      "knorvia-companion-dock",
+      "project-add",
+      "project-section",
+      "sidebar",
+      "studio-activity-rail",
+      "studio-chats-open",
+      "studio-creation-open",
+      "studio-groups-open",
+      "studio-kernel-rail",
+      "studio-kernel-select",
+      "studio-plugins-open",
+      "studio-rail-kernel-knorvia",
+      "studio-rail-kernels-more",
+      "studio-window-titlebar",
+      "studio-workbench-open",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "task-workbench",
+      "workbench-add-conversations",
+      "workbench-attention-toggle",
+      "workbench-canvas",
+      "workbench-collect",
+      "workbench-directory",
+      "workbench-kernel",
+      "workbench-new-task",
+      "workbench-open-input",
+      "workbench-remove-tile",
+      "workbench-tile",
+      "workbench-tile-count",
+      "workbench-tile-menu",
+      "workbench-zoom-in",
+      "workbench-zoom-out",
+      "workbench-zoom-reset",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [
+      "antigravity",
+      "auggie",
+      "claude-code",
+      "cline",
+      "codex",
+      "copilot",
+      "cursor",
+      "deepseek-harness",
+      "devin",
+      "factory-droid",
+      "goose",
+      "grok-build",
+      "hermes",
+      "junie",
+      "kimi-cli",
+      "knorvia",
+      "mistral-vibe",
+      "opencode",
+      "qoder",
+      "qoder-cn",
+      "qwen-code"
+    ],
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 新建任务 添加对话 汇总进行中任务 任务列表 (0) 待办 (0) 100% 1 / 8 Knorvia · workspace 左右 上下 准备一个任务格 先选内核和项目，排好布局后逐格输入。 内核 Knorvia Codex Claude Code Grok Build OpenCode Qoder CLI Qoder CN CLI Hermes Agent Qwen Code Mistral Vibe DeepSeek Harness Google Antigravity CLI Goose Kimi Code GitHub Copilot CLI Devin CLI Cursor Agent Factory Droid Cline Augment Auggie JetBrains Junie 项目目录 选择目录 开始输入",
+    "bodyTextSha256": "421d9a0b5192588db5e7dafb064ba8860756156b87bb88711b8d471e0cf98342",
+    "bodyTextLength": 461,
+    "consoleErrors": []
+  }
+}

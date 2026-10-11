@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "page": "creation",
+  "pageTitle": "主界面 · 创作",
+  "theme": "dark",
+  "width": 820,
+  "height": 900,
+  "file": "dark-820.png",
+  "imageSha256": "34ddb7f4824daf0b4861c79fa6a163f387b853592133bf44ac6054220b58fe16",
+  "bytes": 45080,
+  "generatedAt": "2026-10-11T07:52:05.670Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 69,
+  "geometry": {
+    "studio-activity-rail": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 56,
+        "height": 900,
+        "visible": true
+      }
+    },
+    "studio-creation-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 41,
+        "width": 758,
+        "height": 854,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "conversation",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "desktop-top-nav-back",
+      "knorvia-companion",
+      "knorvia-companion-dock",
+      "project-add",
+      "project-section",
+      "sidebar",
+      "studio-activity-rail",
+      "studio-chats-open",
+      "studio-creation-open",
+      "studio-creation-page",
+      "studio-groups-open",
+      "studio-kernel-rail",
+      "studio-kernel-select",
+      "studio-plugins-open",
+      "studio-rail-kernel-knorvia",
+      "studio-rail-kernels-more",
+      "studio-window-titlebar",
+      "studio-workbench-open",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 图片 视频 创作模型 在下方输入描述，开始第一次图片创作。 还没有可用的图片模型。配置 API 后即可开始。 配置模型 生成 生成可能产生服务费用；任务开始后关闭此页面，状态仍会保存在本机。 同一次提交会沿用同一个生成编号；修改描述、模型或参考图后才会换新编号。",
+    "bodyTextSha256": "2886079fa88d5bb47b394f6748c7011d6b8e907465e0e3e67cefe4f5cfe97164",
+    "bodyTextLength": 223,
+    "consoleErrors": []
+  }
+}

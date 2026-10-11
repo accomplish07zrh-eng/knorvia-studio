@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "page": "plugins",
+  "pageTitle": "设置 · 插件",
+  "theme": "light",
+  "width": 1360,
+  "height": 900,
+  "file": "light-1360.png",
+  "imageSha256": "60ab9586f5eed9f52f8ff667e2d293cdbf9ee2a42635fd9d36502c8d60cd02e2",
+  "bytes": 39926,
+  "generatedAt": "2026-10-11T07:52:22.938Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 94,
+  "geometry": {
+    "settings-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 41,
+        "width": 1298,
+        "height": 854,
+        "visible": true
+      }
+    },
+    "settings-back-button": {
+      "matches": 1,
+      "visibleMatches": 0,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "visible": false
+      }
+    },
+    "plugin-settings-scope-trigger": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 297,
+        "y": 186,
+        "width": 86,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "plugin-settings-search": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 859,
+        "y": 182,
+        "width": 256,
+        "height": 36,
+        "visible": true
+      }
+    },
+    "plugin-settings-add": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 1030,
+        "y": 249,
+        "width": 92,
+        "height": 28,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "chat-attachment-button",
+      "chat-empty",
+      "chat-error-banner",
+      "chat-mode-select-trigger",
+      "chat-model-select-trigger",
+      "composer-project-detach",
+      "composer-workspace-trigger",
+      "conversation",
+      "conversation-bottom-dock-transition",
+      "conversation-bottom-dock-transition-layer",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "plugin-settings-add",
+      "plugin-settings-scope-trigger",
+      "plugin-settings-search",
+      "plugin-settings-sources",
+      "project-add",
+      "project-section",
+      "resizable-handle",
+      "settings-back-button",
+      "settings-nav-search",
+      "settings-open-onboarding",
+      "settings-page",
+      "settings-section-nav-agents",
+      "settings-section-nav-appearance",
+      "settings-section-nav-browser",
+      "settings-section-nav-commands",
+      "settings-section-nav-general",
+      "settings-section-nav-hooks",
+      "settings-section-nav-mcp",
+      "settings-section-nav-memory",
+      "settings-section-nav-modelProvider",
+      "settings-section-nav-shortcuts",
+      "settings-section-nav-skill",
+      "settings-section-nav-subagents",
+      "settings-section-nav-usage",
+      "sidebar",
+      "studio-activity-rail",
+      "studio-chats-open",
+      "studio-creation-open",
+      "studio-groups-open",
+      "studio-kernel-rail",
+      "studio-kernel-select",
+      "studio-plugins-open",
+      "studio-rail-kernel-knorvia",
+      "studio-rail-kernels-more",
+      "studio-window-titlebar",
+      "studio-workbench-open",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "terminal",
+      "v4-composer",
+      "v4-composer-input",
+      "v4-composer-send",
+      "v4-model-config",
+      "v4-pane-shell-workspace-main",
+      "v4-session-pane-workspace-main",
+      "v4-session-title",
+      "v4-timeline",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 变更前确认 管理模型 发送 workspace 插件 安装、启用与管理插件。 用户 插件 0 MCP 0 技能 2 已安装 0 来源 创建插件 尚未安装插件 已安装的插件会显示在这里，可配置、启停、更新和卸载。",
+    "bodyTextSha256": "ea3fb7a3e498c1b3d7849a351b3dfc574e79670f5aef09191cbb58c4d3e4a12f",
+    "bodyTextLength": 290,
+    "consoleErrors": [
+      "console: [2026-11-01 00:00:00.000] [ui] [plugins] overview/list failed {workspacePath: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, workspaceKey: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, lastFailedPluginId: null, error: Knorvia Studio agent server command is not configu… KNORVIA_AGENT_SERVER_COMMAND before integration.}",
+      "console: [2026-11-01 00:00:00.000] [ui] [plugins] list fallback failed {workspacePath: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, workspaceKey: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, lastFailedPluginId: null, error: Knorvia Studio agent server command is not configu… KNORVIA_AGENT_SERVER_COMMAND before integration.}"
+    ]
+  }
+}

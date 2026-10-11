@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "page": "settings-agents",
+  "pageTitle": "设置 · Agent",
+  "theme": "dark",
+  "width": 390,
+  "height": 844,
+  "file": "dark-390.png",
+  "imageSha256": "bc964cb67e2beb2679a4509151a31e9bd3b3f10a896df623401ebc8265b55cff",
+  "bytes": 63209,
+  "generatedAt": "2026-10-11T07:56:42.741Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 50,
+  "geometry": {
+    "settings-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "visible": true
+      }
+    },
+    "settings-nav-search": {
+      "matches": 1,
+      "visibleMatches": 0,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "visible": false
+      }
+    },
+    "settings-section-nav-agents": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 14,
+        "y": 226,
+        "width": 40,
+        "height": 40,
+        "visible": true
+      }
+    },
+    "studio-agents-section": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 85,
+        "y": 156,
+        "width": 288,
+        "height": 8067.25,
+        "visible": true
+      }
+    },
+    "cli-switch-status-claude-code": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 102,
+        "y": 303.75,
+        "width": 243.3,
+        "height": 36,
+        "visible": true
+      }
+    },
+    "cli-switch-status-codex": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 102,
+        "y": 451.5,
+        "width": 243.3,
+        "height": 36,
+        "visible": true
+      }
+    },
+    "cli-switch-status-grok-build": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 102,
+        "y": 599.25,
+        "width": 243.3,
+        "height": 36,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "chat-attachment-button",
+      "chat-empty",
+      "chat-error-banner",
+      "chat-mode-select-trigger",
+      "chat-model-select-trigger",
+      "cli-switch-select-claude-code",
+      "cli-switch-select-codex",
+      "cli-switch-select-grok-build",
+      "cli-switch-status-claude-code",
+      "cli-switch-status-codex",
+      "cli-switch-status-grok-build",
+      "composer-project-detach",
+      "composer-workspace-trigger",
+      "conversation",
+      "conversation-bottom-dock-transition",
+      "conversation-bottom-dock-transition-layer",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "narrow-sidebar-backdrop",
+      "project-add",
+      "project-section",
+      "resizable-handle",
+      "settings-back-button",
+      "settings-nav-search",
+      "settings-open-onboarding",
+      "settings-page",
+      "settings-section-nav-agents",
+      "settings-section-nav-appearance",
+      "settings-section-nav-browser",
+      "settings-section-nav-commands",
+      "settings-section-nav-general",
+      "settings-section-nav-hooks",
+      "settings-section-nav-mcp",
+      "settings-section-nav-memory",
+      "settings-section-nav-modelProvider",
+      "settings-section-nav-plugin",
+      "settings-section-nav-shortcuts",
+      "settings-section-nav-skill",
+      "settings-section-nav-subagents",
+      "settings-section-nav-usage",
+      "sidebar",
+      "studio-agents-section",
+      "studio-creation-open",
+      "studio-kernel-select",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "terminal",
+      "v4-composer",
+      "v4-composer-input",
+      "v4-composer-send",
+      "v4-model-config",
+      "v4-pane-shell-workspace-main",
+      "v4-session-pane-workspace-main",
+      "v4-session-title",
+      "v4-timeline",
+      "workspace-help-menu-trigger",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "命令面板 搜索并执行当前工作区可用的命令。 新建任务 Ctrl+N 自动化 工作流 创作 单聊 群聊 Knorvia 单聊列表 项目 workspace 暂无任务 任务 还没有任务 Knorvia Studio 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 发送 workspace 返回工作区 设置 常规 外观 模型设置 Agent 管理 使用统计 子智能体 记忆 插件 技能 MCP 服务器 命令 钩子 浏览器控制 键盘快捷键 引导 重新查看入门引导 Agent 管理 自动发现本机已有的 CLI Agent，也可连接自定义 ACP 内核。 CLI 模型配置 让 Claude Code、Codex、Grok Build 使用这里配置的模型，或回到各自的官方订阅。修改的是 CLI 的全局配置：终端与 Studio 中的该 CLI 都会使用所选模型，各 CLI 互不影响。 Claude Code 当前使用官方订阅与登录。 暂无协议兼容的模型。 官方订阅 Codex 当前使用官方订阅与登录。 暂无协议兼容的模型。 官方订阅 Grok Build 当前使用官方订阅与登录。 暂无协议兼容的模型。 官方订阅 Agent 内核 Studio 技能与 MCP 可供接入内核使用；插件中的技能和 MCP 可共享。兼容能力以当前内核为准，插件原生命令与钩子不跨内核共享。 检测本机 Agent Knorvia 已检测到 Knorvia Studio 重新探测 模型设置 使用 Knorvia 的原生对话与工具能力。模型和 API Key 在模型设置中管理。 自动查找本机安装 应用内置 变更前确认 续聊 · 支持 (按当前接入声明) 操作确认 · 支持 (按当前接入声明) 提问 · 支持 (按当前接入声明) 强制只读 · 不支持 (不支持) 完全访问模式 · 支持 (按当前接入声明) Codex 已检测到 OpenAI · 0.151.0 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 D:\\node-v26.3.0-win-x64\\codex.cmd 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 跳过 账号 · 跳过 479 ms 查看诊断 续聊 · 支持 (已核验) 操作确认 · 支持 (已核验) 提问 · 支持 (已核验) 强制只读 · 支持 (已核验) 完全访问模式 · 支持 (已核验) Claude Code 已检测到 Anthropic · 2.1.283 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 C:\\Users\\17018\\.local\\bin\\claude.exe 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 跳过 账号 · 跳过 395 ms 查看诊断 续聊 · 支持 (已核验) 操作确认 · 支持 (已核验) 提问 · 支持 (已核验) 强制只读 · 不支持 (不支持) 完全访问模式 · 支持 (已核验) Grok Build 已检测到 xAI · 1.0.3 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 C:\\Users\\17018\\.grok\\bin\\grok.exe 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 跳过 账号 · 跳过 207 ms 查看诊断 续聊 · 支持 (已核验) 操作确认 · 支持 (已核验) 提问 · 支持 (已核验) 强制只读 · 不支持 (不支持) 完全访问模式 · 支持 (已核验) OpenCode 未检测到安装 OpenCode 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 910 ms 查看诊断 opencode 未安装或指定路径无效 Qoder CLI 未检测到安装 Qoder 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 455 ms 查看诊断 qoder 未安装或指定路径无效 Qoder CN CLI 已检测到 Qoder CN · 1.1.68 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 C:\\Users\\17018\\.qoder-cn\\bin\\qoderclicn\\qoderclicn.exe 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 通过 账号 · 跳过 1821 ms 协议段来自缓存 查看诊断 续聊 · 支持 (按当前接入声明) 操作确认 · 支持 (按当前接入声明) 提问 · 不支持 (不支持) 强制只读 · 不支持 (不支持) 完全访问模式 · 不支持 (不支持) 这里显示 Studio 已接通的控制能力；没有完全访问模式，不代表 CLI 本身不能在确认后修改文件。 Hermes Agent 已检测到 Nous Research · 2026.9.11 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 D:\\HermesAgent\\bin\\hermes.exe 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 通过 账号 · 跳过 2403 ms 协议段来自缓存 查看诊断 续聊 · 支持 (按当前接入声明) 操作确认 · 支持 (按当前接入声明) 提问 · 不支持 (不支持) 强制只读 · 不支持 (不支持) 完全访问模式 · 不支持 (不支持) 这里显示 Studio 已接通的控制能力；没有完全访问模式，不代表 CLI 本身不能在确认后修改文件。 Qwen Code 未检测到安装 Alibaba Cloud 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 451 ms 查看诊断 qwen 未安装或指定路径无效 Mistral Vibe 未检测到安装 Mistral AI 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 298 ms 查看诊断 vibe-acp 未安装或指定路径无效 DeepSeek Harness 已检测到 DeepSeek · 0.1.7-alpha.2 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 C:\\Users\\17018\\AppData\\Local\\npm-cache\\_npx\\1e7f6d9597241db0\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 通过 账号 · 跳过 969 ms 协议段来自缓存 查看诊断 续聊 · 支持 (按当前接入声明) 操作确认 · 支持 (按当前接入声明) 提问 · 不支持 (不支持) 强制只读 · 不支持 (不支持) 完全访问模式 · 不支持 (不支持) 这里显示 Studio 已接通的控制能力；没有完全访问模式，不代表 CLI 本身不能在确认后修改文件。 该 CLI 仍是官方预发布版本，行为可能随更新变化。 Google Antigravity CLI 已检测到 Google · 1.3.3 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 C:\\Users\\17018\\AppData\\Local\\agy\\bin\\agy.exe 本机已有安装 变更前确认 定位 · 通过 版本 · 通过 协议 · 跳过 账号 · 跳过 1258 ms 查看诊断 续聊 · 支持 (已核验) 操作确认 · 不支持 (不支持) 提问 · 不支持 (不支持) 强制只读 · 不支持 (不支持) 完全访问模式 · 支持 (已核验) 使用 agy 原生会话。无界面运行时需审批的工具会按 CLI 规则拒绝；Studio 暂不能向本轮注入 MCP。 goose 未检测到安装 Block 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 487 ms 查看诊断 goose 未安装或指定路径无效 Kimi Code 未检测到安装 Moonshot AI 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 923 ms 查看诊断 kimi 未安装或指定路径无效 GitHub Copilot CLI 未检测到安装 GitHub 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 533 ms 查看诊断 copilot 未安装或指定路径无效 Devin CLI 未检测到安装 Cognition 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 948 ms 查看诊断 devin 未安装或指定路径无效 Cursor Agent 未检测到安装 Cursor 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 983 ms 查看诊断 cursor-agent 未安装或指定路径无效 Factory Droid 未检测到安装 Factory 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 705 ms 查看诊断 droid 未安装或指定路径无效 Cline 未检测到安装 Cline 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 814 ms 查看诊断 cline 未安装或指定路径无效 Augment Auggie 未检测到安装 Augment Code 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 796 ms 查看诊断 auggie 未安装或指定路径无效 JetBrains Junie 未检测到安装 JetBrains 重新探测 安装与维护 配置 沿用 CLI 自己的认证配置。检测到安装不代表已经登录或拥有可用额度。 自动查找本机安装 尚未找到 变更前确认 定位 · 失败 版本 · 跳过 协议 · 跳过 账号 · 跳过 925 ms 查看诊断 junie 未安装或指定路径无效",
+    "bodyTextSha256": "3ea6a3d7d6b7d923fe0c35287c3e6f68c02375ade5e7e880e0e76ce8a623cd0d",
+    "bodyTextLength": 5138,
+    "consoleErrors": []
+  }
+}

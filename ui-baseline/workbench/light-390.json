@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "page": "workbench",
+  "pageTitle": "主界面 · 工作台",
+  "theme": "light",
+  "width": 390,
+  "height": 844,
+  "file": "light-390.png",
+  "imageSha256": "a58581782dc815ea3565e05c578c60627c70499c19d1f5c57be2c722d784e9aa",
+  "bytes": 30359,
+  "generatedAt": "2026-10-11T07:49:16.385Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 40,
+  "geometry": {
+    "studio-activity-rail": {
+      "matches": 0,
+      "visibleMatches": 0,
+      "box": null
+    },
+    "task-workbench": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 5,
+        "y": 49,
+        "width": 384,
+        "height": 794,
+        "visible": true
+      }
+    },
+    "workbench-new-task": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 13,
+        "y": 53,
+        "width": 32,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-add-conversations": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 49,
+        "y": 53,
+        "width": 32,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-collect": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 85,
+        "y": 53,
+        "width": 32,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-tile-count": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 352.84,
+        "y": 59.5,
+        "width": 28.16,
+        "height": 15,
+        "visible": true
+      }
+    },
+    "workbench-zoom-out": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 248.84,
+        "y": 53,
+        "width": 28,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-zoom-reset": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 276.84,
+        "y": 53,
+        "width": 44,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-zoom-in": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 320.84,
+        "y": 53,
+        "width": 28,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "workbench-canvas": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 5,
+        "y": 86,
+        "width": 384,
+        "height": 757,
+        "visible": true
+      }
+    },
+    "workbench-tile": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 5,
+        "y": 86,
+        "width": 384,
+        "height": 757,
+        "visible": true
+      }
+    },
+    "workbench-kernel": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 30,
+        "y": 448.5,
+        "width": 334,
+        "height": 36,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "conversation",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "desktop-top-nav-back",
+      "knorvia-companion",
+      "knorvia-companion-dock",
+      "narrow-sidebar-backdrop",
+      "project-add",
+      "project-section",
+      "resizable-handle",
+      "sidebar",
+      "studio-creation-open",
+      "studio-kernel-select",
+      "studio-search-open",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "task-workbench",
+      "workbench-add-conversations",
+      "workbench-attention-toggle",
+      "workbench-canvas",
+      "workbench-collect",
+      "workbench-directory",
+      "workbench-kernel",
+      "workbench-new-task",
+      "workbench-open-input",
+      "workbench-remove-tile",
+      "workbench-tile",
+      "workbench-tile-count",
+      "workbench-tile-menu",
+      "workbench-zoom-in",
+      "workbench-zoom-out",
+      "workbench-zoom-reset",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [
+      "antigravity",
+      "auggie",
+      "claude-code",
+      "cline",
+      "codex",
+      "copilot",
+      "cursor",
+      "deepseek-harness",
+      "devin",
+      "factory-droid",
+      "goose",
+      "grok-build",
+      "hermes",
+      "junie",
+      "kimi-cli",
+      "knorvia",
+      "mistral-vibe",
+      "opencode",
+      "qoder",
+      "qoder-cn",
+      "qwen-code"
+    ],
+    "bodyText": "命令面板 搜索并执行当前工作区可用的命令。 新建任务 Ctrl+N 自动化 工作流 创作 单聊 群聊 Knorvia 单聊列表 项目 workspace 暂无任务 任务 还没有任务 Knorvia Studio 工作台 100% 1 / 8 Knorvia · workspace 准备一个任务格 先选内核和项目，排好布局后逐格输入。 内核 Knorvia Codex Claude Code Grok Build OpenCode Qoder CLI Qoder CN CLI Hermes Agent Qwen Code Mistral Vibe DeepSeek Harness Google Antigravity CLI Goose Kimi Code GitHub Copilot CLI Devin CLI Cursor Agent Factory Droid Cline Augment Auggie JetBrains Junie 项目目录 选择目录 开始输入",
+    "bodyTextSha256": "898362553870f7351d0d1a0a926aa32b3705016ceac89be58133b03cbb012658",
+    "bodyTextLength": 439,
+    "consoleErrors": []
+  }
+}

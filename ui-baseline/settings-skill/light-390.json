@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "page": "settings-skill",
+  "pageTitle": "设置 · 技能",
+  "theme": "light",
+  "width": 390,
+  "height": 844,
+  "file": "light-390.png",
+  "imageSha256": "6f3c747d90d90fe8acfba50376f4249beeed24e8f8f0191488e2c97b933aabf7",
+  "bytes": 30203,
+  "generatedAt": "2026-10-11T07:59:53.623Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 228,
+  "geometry": {
+    "settings-page": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "visible": true
+      }
+    },
+    "settings-nav-search": {
+      "matches": 1,
+      "visibleMatches": 0,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "visible": false
+      }
+    },
+    "settings-section-nav-skill": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 14,
+        "y": 436,
+        "width": 40,
+        "height": 40,
+        "visible": true
+      }
+    },
+    "plugin-settings-scope-trigger": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 92,
+        "y": 144,
+        "width": 86,
+        "height": 28,
+        "visible": true
+      }
+    },
+    "plugin-settings-search": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 92,
+        "y": 182,
+        "width": 274,
+        "height": 36,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "chat-attachment-button",
+      "chat-empty",
+      "chat-error-banner",
+      "chat-mode-select-trigger",
+      "chat-model-select-trigger",
+      "composer-project-detach",
+      "composer-workspace-trigger",
+      "conversation",
+      "conversation-bottom-dock-transition",
+      "conversation-bottom-dock-transition-layer",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "narrow-sidebar-backdrop",
+      "plugin-settings-scope-trigger",
+      "plugin-settings-search",
+      "project-add",
+      "project-section",
+      "resizable-handle",
+      "settings-back-button",
+      "settings-nav-search",
+      "settings-open-onboarding",
+      "settings-page",
+      "settings-section-nav-agents",
+      "settings-section-nav-appearance",
+      "settings-section-nav-browser",
+      "settings-section-nav-commands",
+      "settings-section-nav-general",
+      "settings-section-nav-hooks",
+      "settings-section-nav-mcp",
+      "settings-section-nav-memory",
+      "settings-section-nav-modelProvider",
+      "settings-section-nav-plugin",
+      "settings-section-nav-shortcuts",
+      "settings-section-nav-skill",
+      "settings-section-nav-subagents",
+      "settings-section-nav-usage",
+      "sidebar",
+      "studio-creation-open",
+      "studio-kernel-select",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "terminal",
+      "v4-composer",
+      "v4-composer-input",
+      "v4-composer-send",
+      "v4-model-config",
+      "v4-pane-shell-workspace-main",
+      "v4-session-pane-workspace-main",
+      "v4-session-title",
+      "v4-timeline",
+      "workspace-help-menu-trigger",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "命令面板 搜索并执行当前工作区可用的命令。 新建任务 Ctrl+N 自动化 工作流 创作 单聊 群聊 Knorvia 单聊列表 项目 workspace 暂无任务 任务 还没有任务 Knorvia Studio 夜深啦，别忘了照顾好自己哦 当前没有可用模型。请在模型设置中添加供应商和模型。 配置 向 Knorvia Studio 提问，使用 @ 添加上下文，使用 / 选择命令或能力 添加上下文 发送 workspace 返回工作区 设置 常规 外观 模型设置 Agent 管理 使用统计 子智能体 记忆 插件 技能 MCP 服务器 命令 钩子 浏览器控制 键盘快捷键 引导 重新查看入门引导 技能 管理 Agent 可使用的技能。 用户 技能 2 已安装 2 新建 agently-mail 操作邮箱中的邮件：搜索、读取、收发、整理和下载附件。纯邮件起草、翻译或润色不触发。 tabbit Use for browser navigation, inspection, interaction, and visual verification through Tabbit's installed CLI.",
+    "bodyTextSha256": "546d6afb8b1588d871630010f17884dec3c0d3eef7f66c523b3e37e52591e26a",
+    "bodyTextLength": 505,
+    "consoleErrors": [
+      "console: [2026-11-01 00:00:00.000] [ui] [plugins] overview/list failed {workspacePath: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, workspaceKey: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, lastFailedPluginId: null, error: Knorvia Studio agent server command is not configu… KNORVIA_AGENT_SERVER_COMMAND before integration.}",
+      "console: [2026-11-01 00:00:00.000] [ui] [plugins] list fallback failed {workspacePath: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, workspaceKey: C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace, lastFailedPluginId: null, error: Knorvia Studio agent server command is not configu… KNORVIA_AGENT_SERVER_COMMAND before integration.}"
+    ]
+  }
+}

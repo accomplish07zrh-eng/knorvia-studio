@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "page": "workflows",
+  "pageTitle": "主界面 · 工作流",
+  "theme": "dark",
+  "width": 1360,
+  "height": 900,
+  "file": "dark-1360.png",
+  "imageSha256": "c1cce81b1a2b6e29b1343789f6a7998d2f6bb3f6d7b0edab1ec540e74f42aa59",
+  "bytes": 70296,
+  "generatedAt": "2026-10-11T07:51:05.247Z",
+  "commit": {
+    "head": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "headSubject": "docs: 计划书副本写明执行基线 beff12b5",
+    "branch": "m0/11-ui-baseline",
+    "mainTip": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+    "mainBase": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8"
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.3.0",
+    "chromium": {
+      "executablePath": "C:\\Users\\17018\\AppData\\Local\\ms-playwright\\chromium-1223\\chrome-win64\\chrome.exe",
+      "version": "148.0.7778.96"
+    },
+    "webUrl": "http://127.0.0.1:5173/",
+    "serverUrl": "http://127.0.0.1:63338",
+    "fixtureRoot": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline",
+    "fixtureProfile": "default",
+    "fixedClock": "2026-11-01T00:00:00.000Z",
+    "fixedTimezone": "UTC"
+  },
+  "screenshotMs": 91,
+  "geometry": {
+    "studio-activity-rail": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 56,
+        "height": 900,
+        "visible": true
+      }
+    },
+    "studio-workflows": {
+      "matches": 1,
+      "visibleMatches": 1,
+      "box": {
+        "x": 57,
+        "y": 41,
+        "width": 1298,
+        "height": 854,
+        "visible": true
+      }
+    }
+  },
+  "signals": {
+    "route": "/",
+    "testIds": [
+      "_r_16_",
+      "_r_18_",
+      "app-preferences-trigger",
+      "automations-open",
+      "browser",
+      "conversation",
+      "conversation-column",
+      "conversation-new-task",
+      "conversation-section",
+      "desktop-top-nav-back",
+      "knorvia-companion",
+      "knorvia-companion-dock",
+      "project-add",
+      "project-section",
+      "sidebar",
+      "studio-activity-rail",
+      "studio-chats-open",
+      "studio-creation-open",
+      "studio-groups-open",
+      "studio-kernel-rail",
+      "studio-kernel-select",
+      "studio-plugins-open",
+      "studio-rail-kernel-knorvia",
+      "studio-rail-kernels-more",
+      "studio-window-titlebar",
+      "studio-workbench-open",
+      "studio-workflows",
+      "studio-workflows-open",
+      "task-empty",
+      "task-list",
+      "task-new-button",
+      "task-settings-button",
+      "workspace-item-C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-ui-baseline\\workspace",
+      "workspace-list"
+    ],
+    "kernelOptions": [],
+    "bodyText": "内核 Knorvia Studio 命令面板 搜索并执行当前工作区可用的命令。 Knorvia 新建任务 Ctrl+N 单聊列表 项目 workspace 暂无任务 任务 还没有任务 工作流 新建工作流 把任务串成工作流 从空白画布开始，或选择一个结构。节点与连接会保存在本机。 空白画布 自行添加节点与连接 顺序执行 Agent 完成任务后，交给你确认 并行协作 分配并行任务，汇合后继续 条件分支 根据条件选择后续路径 发版前检查 核对构建、测试和发布风险 4 个参数 代码审查 检查改动并整理审查结论 2 个参数 文档整理 盘点并修正文档问题 3 个参数 内容与插图交付包 串联文案、参考素材、插图与交付清单 2 个参数",
+    "bodyTextSha256": "60c580ca56485fe70aeacd55f66b68efe31e6cdad6c5b24029e36ce7cb6a25b9",
+    "bodyTextLength": 313,
+    "consoleErrors": []
+  }
+}
