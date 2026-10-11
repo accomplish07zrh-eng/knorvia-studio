@@ -1,52 +1,64 @@
 // SPDX-License-Identifier: Apache-2.0
-// 信任记录构造：把"用户同意这批声明"的决策变成持久记录所需的字段快照。
+// 记录构造：把"用户同意这些声明"折算成持久记录。每条记录保存授权当时的槽位与展示命令，
+// 供之后判断内容是否被改过；未知 item 或缺失 source 是调用方错误，直接抛。
 import {
   workspaceHookTrustRecordSchema,
   type WorkspaceHookBundleSnapshot,
   type WorkspaceHookTrustRecord,
 } from "@knorvia/contracts";
 
-function displayCommand(entry: WorkspaceHookBundleSnapshot["hooks"][number]): string {
-  return entry.type === "process" ? [entry.command, ...(entry.args ?? [])].join(" ") : entry.command;
+type SnapshotEntry = WorkspaceHookBundleSnapshot["hooks"][number];
+
+/** 展示命令：进程类拼参数，命令类就是命令本身。 */
+function displayCommand(entry: SnapshotEntry): string {
+  const args = entry.type === "process" ? (entry.args ?? []) : [];
+  return [entry.command, ...args].join(" ");
 }
 
-function unique(values: readonly string[]): string[] {
-  return [...new Set(values)];
+function dedupe(values: readonly string[]): string[] {
+  const seen = new Set<string>();
+  const kept: string[] = [];
+  for (const value of values) {
+    if (seen.has(value)) continue;
+    seen.add(value);
+    kept.push(value);
+  }
+  return kept;
 }
 
-/**
- * 每条声明一条记录。记录保存"授权当时"的槽位与命令展示，供后续判断是否 stale
- * （声明内容变了仍是同一槽位）。未知 item 或缺失 source 属调用方编程错误，直接抛错。
- */
 export function createWorkspaceHookTrustRecords(input: {
   snapshot: WorkspaceHookBundleSnapshot;
   reviewItemIds: readonly string[];
   grantedAt: string;
   appVersion?: string;
 }): WorkspaceHookTrustRecord[] {
-  const byReviewItemId = new Map(input.snapshot.hooks.map((entry) => [entry.reviewItemId, entry]));
+  const declared = new Map<string, SnapshotEntry>(
+    input.snapshot.hooks.map((entry) => [entry.reviewItemId, entry]),
+  );
 
-  return unique(input.reviewItemIds).map((reviewItemId) => {
-    const entry = byReviewItemId.get(reviewItemId);
-    if (!entry) throw new Error(`Unknown Workspace Hook review item: ${reviewItemId}`);
+  return dedupe(input.reviewItemIds).map((reviewItemId) => {
+    const entry = declared.get(reviewItemId);
+    if (entry === undefined) throw new Error(`Unknown Workspace Hook review item: ${reviewItemId}`);
     const source = input.snapshot.sourceFiles[entry.sourceFileIndex];
-    if (!source) throw new Error(`Workspace Hook source is missing for ${reviewItemId}`);
+    if (source === undefined)
+      throw new Error(`Workspace Hook source is missing for ${reviewItemId}`);
 
-    return workspaceHookTrustRecordSchema.parse({
-      bundleDigestAtGrant: input.snapshot.bundleDigest,
-      decision: "trusted",
-      digestAlgorithm: "sha256",
-      displayCommandAtGrant: displayCommand(entry),
-      eventAtGrant: entry.event,
-      grantedAt: input.grantedAt,
-      hookDeclarationDigest: entry.hookDeclarationDigest,
-      hookIndexAtGrant: entry.hookIndex,
-      matcherAtGrant: entry.matcher,
-      matcherIndexAtGrant: entry.matcherIndex,
-      sourceDiscoveryOrderAtGrant: source.discoveryOrder,
-      sourcePathAtGrant: entry.sourceRelativePath,
-      workspaceIdentity: input.snapshot.workspaceIdentity,
-      ...(input.appVersion ? { appVersionAtGrant: input.appVersion } : {}),
-    });
+    const pairs: (readonly [string, unknown])[] = [
+      ["bundleDigestAtGrant", input.snapshot.bundleDigest],
+      ["decision", "trusted"],
+      ["digestAlgorithm", "sha256"],
+      ["displayCommandAtGrant", displayCommand(entry)],
+      ["eventAtGrant", entry.event],
+      ["grantedAt", input.grantedAt],
+      ["hookDeclarationDigest", entry.hookDeclarationDigest],
+      ["hookIndexAtGrant", entry.hookIndex],
+      ["matcherAtGrant", entry.matcher],
+      ["matcherIndexAtGrant", entry.matcherIndex],
+      ["sourceDiscoveryOrderAtGrant", source.discoveryOrder],
+      ["sourcePathAtGrant", entry.sourceRelativePath],
+      ["workspaceIdentity", input.snapshot.workspaceIdentity],
+    ];
+    if (input.appVersion) pairs.push(["appVersionAtGrant", input.appVersion]);
+    return workspaceHookTrustRecordSchema.parse(Object.fromEntries(pairs));
   });
 }
