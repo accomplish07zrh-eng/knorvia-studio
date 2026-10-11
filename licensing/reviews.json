@@ -82092,6 +82092,54 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage.mjs",
+      "normalizedSha256": "02530bdd224fae7874d44fc246456370df7993dee083461873d368b3e64f9c1e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan: it parses the round-1 bookkeeping report return tables and applies the plan triage rules to every returned path. Node built-ins only; no upstream implementation was copied, renamed or rewritten. The author read the returned paths, stages and reasons to understand what each returned file is, not to reproduce any implementation. Regression cases were written first and pass 13/13.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-provenance-bookkeeping-20261010.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage-rules.mjs",
+      "normalizedSha256": "adda50a20464d5cf181a13759545fa8c6e42c7f77f033201e37bc9f8f1a4f161",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 triage rule table authored for the Knorvia independent-replacement plan: one path-prefix to disposition mapping with the package each inherited file joins. Rules were written from the plan category table and default-ruling table; no upstream implementation was copied, renamed or rewritten. Kept in its own module so the tool entry point stays under the repository max-lines rule.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage.test.mjs",
+      "normalizedSha256": "b237a90dc18d1577722dfa9b179f325c17a2db3e17584b5c6d9cd6a787d56cc5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New regression tests for the M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan. They assert return-reason bucketing, CRLF tolerance, disposition and package mapping, rule precedence, unmapped reporting, summary counts, table padding stability and rendered rows. Node built-ins only; no upstream test was copied or adapted.",
+      "evidence": [
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.mjs"
+      ]
+    },
+    {
+      "path": "docs/knorvia-inherited-triage-2026-10-11.md",
+      "normalizedSha256": "1aab8442e58d227f10be2e05ce7e1a58d383b53164b8a56d4ef535511fd51e3c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 triage table generated from the round-1 bookkeeping report return list by scripts/provenance/inherited-triage.mjs. It records dispositions and package assignments for the 1,547 returned files the plan counts as first-snapshot or upstream-similar; it states the exception class for frozen-evidence upstream excerpts. No upstream text is reproduced.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-provenance-bookkeeping-20261010.md",
+        "scripts/provenance/inherited-triage.mjs"
+      ]
     }
   ]
 }
