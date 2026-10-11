@@ -76,31 +76,64 @@ type EventHandler = (state: ProjectionState, event: SessionEvent) => SessionProj
 /** 没有任何领域影响时的返回值；未知事件也走它。 */
 const NO_CHANGES: SessionProjectionChanges = {};
 
+/**
+ * 按字段清单取值：给「投影字段清单」一类兼容形状用。
+ * 清单本身是外部可见的持久化形状，改字段要在这里改。
+ */
+function pickFields<Source extends object, Field extends keyof Source>(
+  source: Source,
+  fields: readonly Field[],
+): Record<string, unknown> {
+  return Object.fromEntries(fields.map((field) => [field, source[field]]));
+}
+
+/** checkpoint 投影的字段清单。 */
+const CHECKPOINT_PROJECTION_FIELDS = [
+  "checkpointId",
+  "compactBoundaryId",
+  "coveredByCompact",
+  "fileCount",
+  "messageId",
+  "targetMessageId",
+  "toolMessageId",
+  "scope",
+  "snapshotRef",
+] as const;
+
+/** rewind 投影的字段清单。 */
+const REWIND_PROJECTION_FIELDS = [
+  "compactBoundaryId",
+  "reason",
+  "rewindId",
+  "scope",
+  "strategy",
+  "targetCheckpointId",
+  "targetMessageId",
+] as const;
+
 // ── 工具调用与权限 ────────────────────────────────────────────────
 
 /** 覆盖 activeToolCalls 里同 toolCallId 的行字段；没有命中就不动。 */
 function patchToolCall(
   state: ProjectionState,
-  toolCallId: string,
-  fields: Partial<ActiveToolCall>,
+  callId: string,
+  patch: Partial<ActiveToolCall>,
 ): ActiveToolCall[] {
   return state.projection.activeToolCalls.map((row) =>
-    row.toolCallId === toolCallId ? { ...row, ...fields } : row,
+    row.toolCallId === callId ? Object.assign({}, row, patch) : row,
   );
 }
 
 /** 权限了结：待批列表移除该 tool call，并把工具调用状态推进到给定状态。 */
 function settlePermissionChanges(
   state: ProjectionState,
-  toolCallId: string,
-  status: ActiveToolCall["status"],
+  callId: string,
+  nextStatus: ActiveToolCall["status"],
 ): SessionProjectionChanges {
-  const remaining = state.projection.pendingPermissions.filter(
-    (row) => row.toolCallId !== toolCallId,
-  );
+  const remaining = state.projection.pendingPermissions.filter((row) => row.toolCallId !== callId);
   return {
     pendingPermissions: remaining,
-    activeToolCalls: patchToolCall(state, toolCallId, { status }),
+    activeToolCalls: patchToolCall(state, callId, { status: nextStatus }),
   };
 }
 
@@ -111,12 +144,9 @@ function goalVerificationQueryChanges(
   state: ProjectionState,
   payload: ModelCompletePayload,
 ): SessionProjectionChanges {
-  return {
-    targetCompletionVerifications: appendProjectionRow(
-      state.projection.targetCompletionVerifications,
-      parseGoalCompletionVerificationText(payload.content),
-    ),
-  };
+  const conclusion = parseGoalCompletionVerificationText(payload.content);
+  const rows = appendProjectionRow(state.projection.targetCompletionVerifications, conclusion);
+  return { targetCompletionVerifications: rows };
 }
 
 /** 只有主会话可见的上下文才代表「当前窗口用了多少」；sidecar 与缺失用量都不能把旧值清零。 */
@@ -221,15 +251,17 @@ const SESSION_HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
   }),
   [SessionEventType.TurnError]: (_state, event) => {
     const error = (event.payload as TurnErrorPayload).error;
+    // 必填字段先入条目，可选字段只在给到时入条目；投影只留这四个可选位。
+    const entries: Array<readonly [string, unknown]> = [
+      ["type", error.type],
+      ["message", error.message],
+    ];
+    if (error.code) entries.push(["code", error.code]);
+    if (error.detail) entries.push(["detail", error.detail]);
+    if (error.attribution) entries.push(["attribution", error.attribution]);
     return {
       status: "error",
-      lastError: {
-        type: error.type,
-        ...(error.code ? { code: error.code } : {}),
-        message: error.message,
-        ...(error.detail ? { detail: error.detail } : {}),
-        ...(error.attribution ? { attribution: error.attribution } : {}),
-      },
+      lastError: Object.fromEntries(entries) as unknown as SessionProjection["lastError"],
     };
   },
   [SessionEventType.ModelComplete]: (state, event) => {
@@ -328,21 +360,23 @@ const EXECUTION_HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
   },
   [SessionEventType.PermissionRequested]: (state, event) => {
     const payload = event.payload as PermissionRequestedPayload;
-    const request: PendingPermission = {
-      input: payload.input,
-      reason: payload.reason,
-      requestId: payload.requestId,
-      toolCallId: payload.toolCallId,
-      toolName: payload.toolName,
-      ...(payload.suggestedPermissionUpdates
-        ? { suggestedPermissionUpdates: payload.suggestedPermissionUpdates }
-        : {}),
-      ...(payload.origin ? { origin: payload.origin } : {}),
-      ...(payload.display ? { display: payload.display } : {}),
-      ...(payload.optionsPolicy ? { optionsPolicy: payload.optionsPolicy } : {}),
-      riskLevel: payload.riskLevel,
-      requestedAt: event.timestamp,
-    };
+    // 必填字段先入条目，可选字段只在给到时入条目，避免写成一大串条件展开。
+    const entries: Array<readonly [string, unknown]> = [
+      ["input", payload.input],
+      ["reason", payload.reason],
+      ["requestId", payload.requestId],
+      ["toolCallId", payload.toolCallId],
+      ["toolName", payload.toolName],
+    ];
+    if (payload.suggestedPermissionUpdates) {
+      entries.push(["suggestedPermissionUpdates", payload.suggestedPermissionUpdates]);
+    }
+    if (payload.origin) entries.push(["origin", payload.origin]);
+    if (payload.display) entries.push(["display", payload.display]);
+    if (payload.optionsPolicy) entries.push(["optionsPolicy", payload.optionsPolicy]);
+    entries.push(["riskLevel", payload.riskLevel], ["requestedAt", event.timestamp]);
+
+    const request = Object.fromEntries(entries) as unknown as PendingPermission;
     return {
       pendingPermissions: appendProjectionRow(state.projection.pendingPermissions, request),
     };
@@ -367,34 +401,21 @@ const EXECUTION_HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
     compactProjectionChanges(state.projection, event.payload, event.timestamp),
   [SessionEventType.CheckpointCreated]: (_state, event) => {
     const checkpoint = parseCheckpointCreatedPayload(event.payload);
+    // 投影只留这十个字段：来源对象上还挂着写库用的内部字段，不能整份透传。
     return {
       lastCheckpoint: {
-        checkpointId: checkpoint.checkpointId,
-        compactBoundaryId: checkpoint.compactBoundaryId,
-        coveredByCompact: checkpoint.coveredByCompact,
+        ...pickFields(checkpoint, CHECKPOINT_PROJECTION_FIELDS),
         createdAt: event.timestamp,
-        fileCount: checkpoint.fileCount,
-        messageId: checkpoint.messageId,
-        targetMessageId: checkpoint.targetMessageId,
-        toolMessageId: checkpoint.toolMessageId,
-        scope: checkpoint.scope,
-        snapshotRef: checkpoint.snapshotRef,
-      },
+      } as SessionProjection["lastCheckpoint"],
     };
   },
   [SessionEventType.RewindTriggered]: (_state, event) => {
     const rewind = parseRewindTriggeredPayload(event.payload);
     return {
       lastRewind: {
-        compactBoundaryId: rewind.compactBoundaryId,
-        reason: rewind.reason,
-        rewindId: rewind.rewindId,
-        scope: rewind.scope,
-        strategy: rewind.strategy,
-        targetCheckpointId: rewind.targetCheckpointId,
-        targetMessageId: rewind.targetMessageId,
+        ...pickFields(rewind, REWIND_PROJECTION_FIELDS),
         triggeredAt: event.timestamp,
-      },
+      } as SessionProjection["lastRewind"],
     };
   },
   [SessionEventType.StreamingToolLedgerUpdated]: (state, event) =>
