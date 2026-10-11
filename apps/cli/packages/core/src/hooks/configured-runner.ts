@@ -59,13 +59,9 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
     ...(Object.fromEntries(registrationEntries) as Omit<HookRegistration, "descriptor">),
     descriptor: (hookInput) =>
       createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
+        const workingDirectory = options.getWorkingDirectory();
         try {
-          return expandPluginVariables(
-            value,
-            hook.plugin,
-            hookInput,
-            options.getWorkingDirectory(),
-          );
+          return expandPluginVariables(value, hook.plugin, hookInput, workingDirectory);
         } catch {
           // 展示元数据不得引入新的执行失败。
           return value;
