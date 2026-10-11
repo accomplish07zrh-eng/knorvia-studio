@@ -33,19 +33,11 @@ function configSource(
     : `config.${event}.${matcherIndex}.${hookIndex}`;
 }
 
+/** 登记项输入形状的本地别名：类型本体在 configured-runner-types.ts，避免动导入块。 */
+type HookRegistrationInput = import("./configured-runner-types.js").HookRegistrationInput;
+
 /** 单条配置 Hook → 登记项。`async` 只对 command 类型成立。 */
-function registrationFromHook(input: {
-  admission?: HookRegistration["admission"];
-  budget: Budget;
-  event: HookEventName;
-  hook: HookConfig;
-  hookIndex: number;
-  matcher: string | undefined;
-  matcherIndex: number;
-  options: ConfiguredHookRunnerOptions;
-  source: string;
-  sourceKind: HookSourceKind;
-}): HookRegistration {
+function registrationFromHook(input: HookRegistrationInput): HookRegistration {
   const { budget, event, hook, hookIndex, matcher, matcherIndex, options } = input;
   return {
     ...(input.admission ? { admission: input.admission } : {}),
