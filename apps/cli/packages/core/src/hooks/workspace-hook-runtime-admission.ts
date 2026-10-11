@@ -78,39 +78,43 @@ function indexSnapshot(snapshot: WorkspaceHookBundleSnapshot): Map<string, strin
  * （快照不匹配、未获授权）都只是规则表里的一行；命中即分派，且每条原因只透传一次遥测。
  */
 export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmissionPort {
-  private readonly coordinator: WorkspaceHookTrustCoordinator;
-  private readonly enabled: boolean;
-  private readonly logger?: Logger;
-  private readonly readiness: Promise<void>;
-  private readonly notifyAdmissionState?: WorkspaceHookAdmissionStateCallback;
-  private readonly reportedTelemetry = new Set<string>();
-  private book: SnapshotBook;
-  private evaluation?: WorkspaceHookSnapshotEvaluation;
-  private revisionSeen?: WorkspaceHookSecurityRevision;
-  private blockedByInvalidation?: WorkspaceHookReasonCode;
-  private state: "cold" | "ready" | "failed" = "cold";
+  private readonly trust: WorkspaceHookTrustCoordinator;
+  private readonly switchOn: boolean;
+  private readonly sink?: Logger;
+  private readonly readyWhen: Promise<void>;
+  private readonly notify?: WorkspaceHookAdmissionStateCallback;
+  private readonly reported = new Set<string>();
+  private snapshotBook: SnapshotBook;
+  private lastEvaluation?: WorkspaceHookSnapshotEvaluation;
+  private lastRevision?: WorkspaceHookSecurityRevision;
+  private invalidReason?: WorkspaceHookReasonCode;
+  private phase: "cold" | "ready" | "failed" = "cold";
 
-  constructor(options: WorkspaceHookRuntimeAdmissionOptions) {
-    this.coordinator = options.coordinator;
-    this.enabled = options.enabled ?? true;
-    this.logger = options.logger;
-    this.readiness = options.ready;
-    this.notifyAdmissionState = options.onAdmissionStateChanged;
-    this.book = { digestOf: indexSnapshot(options.snapshot), snapshot: options.snapshot };
+  constructor(settings: WorkspaceHookRuntimeAdmissionOptions) {
+    this.trust = settings.coordinator;
+    this.switchOn = settings.enabled ?? true;
+    this.sink = settings.logger;
+    this.readyWhen = settings.ready;
+    this.notify = settings.onAdmissionStateChanged;
+    this.snapshotBook = { digestOf: indexSnapshot(settings.snapshot), snapshot: settings.snapshot };
   }
 
   async activate(source: WorkspaceHookActivationSource, signal?: AbortSignal): Promise<void> {
-    signal?.throwIfAborted();
-    const firstTime = this.state === "cold";
+    if (signal) signal.throwIfAborted();
+    const firstTime = this.phase === "cold";
 
-    if (!this.enabled) {
+    const featureOff = !this.switchOn;
+    if (featureOff) {
       if (firstTime) {
-        this.state = "ready";
-        this.reportOnce("workspace_hook.feature_disabled", {
-          reasonCode: "workspace_hooks_feature_disabled",
-          source,
-          workspaceIdentity: this.book.snapshot.workspaceIdentity,
-        });
+        this.phase = "ready";
+        this.reportOnce(
+          "workspace_hook.feature_disabled",
+          Object.fromEntries([
+            ["reasonCode", "workspace_hooks_feature_disabled"],
+            ["source", source],
+            ["workspaceIdentity", this.snapshotBook.snapshot.workspaceIdentity],
+          ]),
+        );
         this.publishAdmissionState();
       }
       return;
@@ -119,12 +123,12 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
     if (firstTime) {
       let bootstrapFailed = false;
       try {
-        await abortableWait(this.readiness, signal);
+        await abortableWait(this.readyWhen, signal);
       } catch (error) {
         if (signal?.aborted) throw signal.reason ?? error;
         bootstrapFailed = true;
       }
-      this.state = bootstrapFailed ? "failed" : "ready";
+      this.phase = bootstrapFailed ? "failed" : "ready";
     }
 
     this.recompute({ safe: true });
@@ -132,13 +136,14 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
   }
 
   evaluateDispatch(input: WorkspaceHookDispatchInput): WorkspaceHookDispatchDecision {
-    const snapshot = this.book.snapshot;
+    const snapshot = this.snapshotBook.snapshot;
     const mismatch = (fields: WorkspaceHookTelemetryFields) => {
-      this.reportOnce("workspace_hook.snapshot_mismatch", {
-        reasonCode: "workspace_hooks_snapshot_mismatch",
-        workspaceIdentity: snapshot.workspaceIdentity,
-        ...fields,
-      });
+      const entries: (readonly [string, unknown])[] = [
+        ["reasonCode", "workspace_hooks_snapshot_mismatch"],
+        ["workspaceIdentity", snapshot.workspaceIdentity],
+      ];
+      entries.push(...Object.entries(fields));
+      this.reportOnce("workspace_hook.snapshot_mismatch", Object.fromEntries(entries));
       return reject("workspace_hooks_snapshot_mismatch");
     };
 
@@ -147,26 +152,29 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
         bundleDigest: input.bundleDigest,
         declarationDigest: input.hookDeclarationDigest,
       });
-    if (this.book.digestOf.get(input.reviewItemId) !== input.hookDeclarationDigest)
+    if (this.snapshotBook.digestOf.get(input.reviewItemId) !== input.hookDeclarationDigest)
       return mismatch({
         bundleDigest: snapshot.bundleDigest,
         declarationDigest: input.hookDeclarationDigest,
       });
 
-    if (this.blockedByInvalidation !== undefined) return reject(this.blockedByInvalidation);
-    if (this.state === "cold") return reject("workspace_hooks_pending_trust");
-    if (!this.enabled) return reject("workspace_hooks_feature_disabled");
-    if (this.state === "failed") {
-      this.reportOnce("workspace_hook.trust_store_failure", {
-        reasonCode: "workspace_hooks_trust_store_corrupt",
-        workspaceIdentity: snapshot.workspaceIdentity,
-      });
+    if (this.invalidReason !== undefined) return reject(this.invalidReason);
+    if (this.phase === "cold") return reject("workspace_hooks_pending_trust");
+    if (!this.switchOn) return reject("workspace_hooks_feature_disabled");
+    if (this.phase === "failed") {
+      this.reportOnce(
+        "workspace_hook.trust_store_failure",
+        Object.fromEntries([
+          ["reasonCode", "workspace_hooks_trust_store_corrupt"],
+          ["workspaceIdentity", snapshot.workspaceIdentity],
+        ]),
+      );
       return reject("workspace_hooks_trust_store_corrupt");
     }
 
     const revisionFresh =
-      this.revisionSeen !== undefined &&
-      this.coordinator.validateSecurityRevision(snapshot.workspaceIdentity, this.revisionSeen);
+      this.lastRevision !== undefined &&
+      this.trust.validateSecurityRevision(snapshot.workspaceIdentity, this.lastRevision);
     if (!revisionFresh) {
       // 外部改过信任状态（例如设置页预授权）时会走到这里；刷新后必须重发状态，
       // pendingCount 为 0 也要发，用来清空提示条。
@@ -174,7 +182,7 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
       this.publishAdmissionState();
     }
 
-    const evaluated = this.evaluation?.items.find(
+    const evaluated = this.lastEvaluation?.items.find(
       (item) => item.reviewItemId === input.reviewItemId,
     );
     if (evaluated === undefined || evaluated.hookDeclarationDigest !== input.hookDeclarationDigest)
@@ -186,17 +194,20 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
 
     const reasonCode = evaluated.reasonCode ?? "workspace_hooks_blocked_untrusted";
     if (reasonCode === "workspace_hooks_blocked_by_policy")
-      this.reportOnce("workspace_hook.policy_blocked", {
-        bundleDigest: snapshot.bundleDigest,
-        declarationDigest: evaluated.hookDeclarationDigest,
-        reasonCode,
-        workspaceIdentity: snapshot.workspaceIdentity,
-      });
+      this.reportOnce(
+        "workspace_hook.policy_blocked",
+        Object.fromEntries([
+          ["bundleDigest", snapshot.bundleDigest],
+          ["declarationDigest", evaluated.hookDeclarationDigest],
+          ["reasonCode", reasonCode],
+          ["workspaceIdentity", snapshot.workspaceIdentity],
+        ]),
+      );
     return reject(reasonCode, evaluated.configuredEnabled ? {} : { skipLifecycle: true });
   }
 
   getCurrentSnapshot(): WorkspaceHookBundleSnapshot {
-    return this.book.snapshot;
+    return this.snapshotBook.snapshot;
   }
 
   /**
@@ -204,58 +215,58 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
    * 调用点必须先提交自己的写入，并在本地处理该异常，不能让它上升到 turn。
    */
   replaceSnapshot(snapshot: WorkspaceHookBundleSnapshot): void {
-    if (snapshot.workspaceIdentity !== this.book.snapshot.workspaceIdentity)
+    if (snapshot.workspaceIdentity !== this.snapshotBook.snapshot.workspaceIdentity)
       throw new Error("Cannot replace a Workspace Hook snapshot across workspace identities");
 
-    this.book = { digestOf: indexSnapshot(snapshot), snapshot };
+    this.snapshotBook = { digestOf: indexSnapshot(snapshot), snapshot };
     this.forgetEvaluation();
-    this.blockedByInvalidation = undefined;
-    if (this.state !== "cold") {
+    this.invalidReason = undefined;
+    if (this.phase !== "cold") {
       this.recompute({ safe: false });
       this.publishAdmissionState();
     }
   }
 
   invalidate(reasonCode: WorkspaceHookReasonCode): void {
-    this.blockedByInvalidation = reasonCode;
+    this.invalidReason = reasonCode;
     this.forgetEvaluation();
   }
 
   /** 评估结果与已校验修订必须一起失效；只清一个会留下不一致的判断依据。 */
   private forgetEvaluation(): void {
-    this.evaluation = undefined;
-    this.revisionSeen = undefined;
+    this.lastEvaluation = undefined;
+    this.lastRevision = undefined;
   }
 
   private recompute(input: { safe: boolean }): void {
-    if (!this.enabled || this.state === "failed" || this.blockedByInvalidation !== undefined)
+    if (!this.switchOn || this.phase === "failed" || this.invalidReason !== undefined)
       return;
     try {
-      const evaluation = this.coordinator.evaluateSnapshot({ snapshot: this.book.snapshot });
-      this.evaluation = evaluation;
-      this.revisionSeen = evaluation.securityRevision;
+      const evaluation = this.trust.evaluateSnapshot({ snapshot: this.snapshotBook.snapshot });
+      this.lastEvaluation = evaluation;
+      this.lastRevision = evaluation.securityRevision;
     } catch (error) {
       // 记录畸形时评估会抛错；不能让它冒泡出 activate（否则整个 turn 一起失败）：
       // 转成"引导失败"并保持 fail-closed。
       if (!input.safe) throw error;
-      this.state = "failed";
-      this.evaluation = undefined;
-      this.revisionSeen = undefined;
+      this.phase = "failed";
+      this.lastEvaluation = undefined;
+      this.lastRevision = undefined;
     }
   }
 
   private publishAdmissionState(): void {
-    if (!this.notifyAdmissionState) return;
-    const pendingCount = this.evaluation
-      ? this.evaluation.items.filter(
+    if (!this.notify) return;
+    const pendingCount = this.lastEvaluation
+      ? this.lastEvaluation.items.filter(
           (item) => item.configuredEnabled && item.admissionClass === "pending",
         ).length
       : 0;
-    this.notifyAdmissionState({
-      bundleDigest: this.book.snapshot.bundleDigest,
+    this.notify({
+      bundleDigest: this.snapshotBook.snapshot.bundleDigest,
       pendingCount,
-      ...(this.book.snapshot.workspaceIdentity
-        ? { workspaceIdentity: this.book.snapshot.workspaceIdentity }
+      ...(this.snapshotBook.snapshot.workspaceIdentity
+        ? { workspaceIdentity: this.snapshotBook.snapshot.workspaceIdentity }
         : {}),
     });
   }
@@ -271,10 +282,10 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
       fields.declarationDigest,
       fields.source,
     ].join("|");
-    if (this.reportedTelemetry.has(fingerprint)) return;
-    this.reportedTelemetry.add(fingerprint);
+    if (this.reported.has(fingerprint)) return;
+    this.reported.add(fingerprint);
     const forward = emitWorkspaceHookTelemetry;
-    forward(this.logger, event, fields);
+    forward(this.sink, event, fields);
   }
 }
 
