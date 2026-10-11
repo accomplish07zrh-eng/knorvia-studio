@@ -65,12 +65,12 @@ export function compactProjectionChanges(
     parsedBoundary.truePostCompactTokenCount ??
     parsedBoundary.postCompactTokenCount ??
     projection.contextUsed;
-  const projected = Object.fromEntries(
+  const lastCompactFields = Object.fromEntries(
     COMPACT_PROJECTION_FIELDS.map((field) => [field, parsedBoundary[field]]),
   );
   return changesFrom([
     ["contextUsed", contextUsed],
-    ["lastCompact", { ...projected, compactedAt: timestamp }],
+    ["lastCompact", Object.assign({}, lastCompactFields, { compactedAt: timestamp })],
   ]);
 }
 
@@ -83,14 +83,14 @@ export function streamingLedgerChanges(
   payload: StreamingToolLedgerPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
-  const incoming = { ...payload, updatedAt: timestamp };
-  const key = `${payload.attemptId}\u0000${payload.toolCallId}`;
-  const byKey = new Map(
+  const incoming = Object.assign({}, payload, { updatedAt: timestamp });
+  const ledgerKey = `${payload.attemptId}\u0000${payload.toolCallId}`;
+  const rowsByKey = new Map(
     projection.streamingToolLedger.map((row) => [`${row.attemptId}\u0000${row.toolCallId}`, row]),
   );
-  const previous = byKey.get(key);
-  byKey.set(key, previous ? { ...previous, ...incoming } : incoming);
-  return changesFrom([["streamingToolLedger", [...byKey.values()]]]);
+  const previousRow = rowsByKey.get(ledgerKey);
+  rowsByKey.set(ledgerKey, previousRow ? Object.assign({}, previousRow, incoming) : incoming);
+  return changesFrom([["streamingToolLedger", [...rowsByKey.values()]]]);
 }
 
 /** 流恢复锚点：整块替换为最新一个锚点。 */
@@ -98,7 +98,8 @@ export function recoveryAnchorChanges(
   payload: StreamRecoveryAnchorPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
-  return changesFrom([["lastStreamRecoveryAnchor", { ...payload, updatedAt: timestamp }]]);
+  const anchor = Object.assign({}, payload, { updatedAt: timestamp });
+  return changesFrom([["lastStreamRecoveryAnchor", anchor]]);
 }
 
 // 后台任务快照的兼容白名单：顺序即写入顺序，字段集合是外部可见的持久化形状，不可增删。
@@ -166,6 +167,9 @@ interface TaskOverlayRequest {
   patch: Partial<BackgroundTaskInfo>;
 }
 
+/** 写 own 数据属性要带的描述符位：三个标志固定，值随字段走。 */
+const OWN_DATA_PROPERTY_FLAGS = { enumerable: true, configurable: true, writable: true } as const;
+
 /**
  * 按「只覆盖已定义字段」的规则叠加一行后台任务。
  *
@@ -173,17 +177,14 @@ interface TaskOverlayRequest {
  * 直接赋值会改到原型而不是写 own 数据属性。undefined 不参与覆盖（与 update 语义一致）。
  */
 function overlayDefinedTaskFields(request: TaskOverlayRequest): BackgroundTaskInfo {
-  const next = { ...request.row };
+  const overlaid = { ...request.row };
   for (const [key, value] of Object.entries(request.patch)) {
-    if (value === undefined) continue;
-    Object.defineProperty(next, key, {
-      value,
-      enumerable: true,
-      configurable: true,
-      writable: true,
-    });
+    if (value === undefined) {
+      continue;
+    }
+    Object.defineProperty(overlaid, key, { ...OWN_DATA_PROPERTY_FLAGS, value });
   }
-  return next;
+  return overlaid;
 }
 
 /** 同 taskId 的旧行整行替换，并补开始时间。 */
@@ -192,10 +193,10 @@ export function backgroundStartedChanges(
   payload: BackgroundTaskStartedPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
-  const snapshot = backgroundSnapshot({ payload, completed: false });
-  Object.assign(snapshot, { startedAt: payload.startedAt ?? timestamp });
+  const runningSnapshot = backgroundSnapshot({ payload, completed: false });
+  Object.assign(runningSnapshot, { startedAt: payload.startedAt ?? timestamp });
   const retained = projection.backgroundTasks.filter((row) => row.taskId !== payload.taskId);
-  return changesFrom([["backgroundTasks", [...retained, snapshot]]]);
+  return changesFrom([["backgroundTasks", [...retained, runningSnapshot]]]);
 }
 
 /** 同 taskId 的行只覆盖 payload 里已定义的字段，其余保持原值。 */
@@ -203,10 +204,10 @@ export function backgroundUpdatedChanges(
   projection: SessionProjection,
   payload: BackgroundTaskUpdatedPayload,
 ): SessionProjectionChanges {
-  const rows = projection.backgroundTasks.map((row) =>
+  const updatedRows = projection.backgroundTasks.map((row) =>
     row.taskId === payload.taskId ? overlayDefinedTaskFields({ row, patch: payload }) : row,
   );
-  return changesFrom([["backgroundTasks", rows]]);
+  return changesFrom([["backgroundTasks", updatedRows]]);
 }
 
 /** 命中同 taskId 则覆盖并补完成时间，未命中则追加一行。 */
@@ -215,19 +216,19 @@ export function backgroundCompletedChanges(
   payload: BackgroundTaskCompletedPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
-  const snapshot = backgroundSnapshot({ payload, completed: true });
-  snapshot.completedAt = payload.completedAt ?? timestamp;
+  const completedSnapshot = backgroundSnapshot({ payload, completed: true });
+  Object.assign(completedSnapshot, { completedAt: payload.completedAt ?? timestamp });
 
-  const rows = projection.backgroundTasks;
-  const targetIndex = rows.findIndex((row) => row.taskId === payload.taskId);
-  if (targetIndex === -1) {
-    return changesFrom([["backgroundTasks", appendProjectionRow(rows, snapshot)]]);
+  const taskRows = projection.backgroundTasks;
+  const matchedIndex = taskRows.findIndex((row) => row.taskId === payload.taskId);
+  if (matchedIndex < 0) {
+    return changesFrom([["backgroundTasks", appendProjectionRow(taskRows, completedSnapshot)]]);
   }
   return changesFrom([
     [
       "backgroundTasks",
-      rows.map((row, index) =>
-        index === targetIndex ? overlayDefinedTaskFields({ row, patch: snapshot }) : row,
+      taskRows.map((row, index) =>
+        index === matchedIndex ? overlayDefinedTaskFields({ row, patch: completedSnapshot }) : row,
       ),
     ],
   ]);
