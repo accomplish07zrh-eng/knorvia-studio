@@ -6,11 +6,11 @@
   },
   "scope": "Existing tracked and non-ignored untracked files; deleted files absent; symlinks not followed; no source contents. Not an authorship certification or a runtime dependency closure.",
   "summary": {
-    "total": 16575,
+    "total": 16577,
     "classifications": {
       "upstream-unchanged": 1369,
       "upstream-modified": 2414,
-      "unreviewed": 5730,
+      "unreviewed": 5732,
       "original": 4206,
       "third-party": 2408,
       "independent-replacement": 439,
@@ -15889,6 +15889,8 @@
     {"path":"scripts/windows-cua-smoke-fixture.mjs","kind":"file","sha256":"9b9fcca0f0c175f74786a3b1c314da32ddede0d1de2e1b78ac0b149618febc0d","normalizedSha256":"9b9fcca0f0c175f74786a3b1c314da32ddede0d1de2e1b78ac0b149618febc0d","encoding":"utf8-lf","bytes":4098,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"scripts/windows-cua-smoke-host.mjs","kind":"file","sha256":"da3ebe02894be1f93b2073dbe2abec57ae3d54db78743677b0e9a3e73c1e3765","normalizedSha256":"da3ebe02894be1f93b2073dbe2abec57ae3d54db78743677b0e9a3e73c1e3765","encoding":"utf8-lf","bytes":9963,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/contracts/apps-cli-packages-01/README.md","kind":"file","sha256":"67ef8aaae2e3c0c362c8aa828ec0ce7a09031b57d1ec51b8a53ca35d9f8baa6c","normalizedSha256":"67ef8aaae2e3c0c362c8aa828ec0ce7a09031b57d1ec51b8a53ca35d9f8baa6c","encoding":"utf8-lf","bytes":11560,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
+    {"path":"specs/contracts/apps-cli-packages-01/callers.md","kind":"file","sha256":"d5710f59678aa01ed2296497b3876069e7de64a9089d8319729332610841aa73","normalizedSha256":"d5710f59678aa01ed2296497b3876069e7de64a9089d8319729332610841aa73","encoding":"utf8-lf","bytes":21811,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
+    {"path":"specs/contracts/apps-cli-packages-01/interface.md","kind":"file","sha256":"fbf45f9c9ea127a8fc99607b676d74e18bc22f438eb080a1b888072f6c25d4b5","normalizedSha256":"fbf45f9c9ea127a8fc99607b676d74e18bc22f438eb080a1b888072f6c25d4b5","encoding":"utf8-lf","bytes":52282,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/endpoint-scoped-builtin-source-independent.md","kind":"file","sha256":"fe276778337e60965ad4986c82ec418d4c93c658cbdb56713e04628b2653e373","normalizedSha256":"fe276778337e60965ad4986c82ec418d4c93c658cbdb56713e04628b2653e373","encoding":"utf8-lf","bytes":11091,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/endpoint-scoped-builtin-source-review-addendum.md","kind":"file","sha256":"b658afe06bb1659206117127d41b108a63bcb1a2e4868a576d02a9d1ae6189f9","normalizedSha256":"b658afe06bb1659206117127d41b108a63bcb1a2e4868a576d02a9d1ae6189f9","encoding":"utf8-lf","bytes":2128,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
     {"path":"specs/evidence/external-state-20261008/1200-knorvia-light.png","kind":"file","sha256":"87c296af99b70a470284466112775b550f472cf31e0bd235aceb3d85eccd34d8","normalizedSha256":"87c296af99b70a470284466112775b550f472cf31e0bd235aceb3d85eccd34d8","encoding":"binary","bytes":53785,"classification":"unreviewed","upstream":null,"license":"NOASSERTION","defaultLicense":"Apache-2.0; explicit file/component licenses continue to apply","thirdParty":[],"review":null},
