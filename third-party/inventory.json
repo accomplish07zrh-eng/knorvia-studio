@@ -2675,7 +2675,7 @@
     "scripts/license-texts/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "scripts/native-search-tools-config.mjs": "ece0770f3c961b72658e47b0b76924094abb7ab82a2eb2d3837e7f56dcc6a661",
     "scripts/remote-native-search-tools-config.mjs": "472322a66f84c7452f96aa9e16e9c4e0600f7c2588a03dc6bc869229161b1cb2",
-    "third-party/copied-components.json": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177",
+    "third-party/copied-components.json": "6e642e07bbd731b980eb97201fe7c3f6c8ac7a9d603809de6021a4b923e0645e",
     "third-party/embedded-components.json": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a",
     "third-party/native-search/licenses/00373c9bf56a894b2ed67586596bc1e8b0630cabbaf1ab46c75fc754b6bcd1ce.txt": "00373c9bf56a894b2ed67586596bc1e8b0630cabbaf1ab46c75fc754b6bcd1ce",
     "third-party/native-search/licenses/01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f.txt": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
@@ -19329,7 +19329,7 @@
         "packages/ui/src/components/ui",
         "packages/ui/src/styles.css"
       ],
-      "scope": "Upstream-derived portions only; ZCode-specific files in the same directory are not attributed to the upstream project.",
+      "scope": "Upstream-derived portions only; ZCode-specific files in the same directory are not attributed to the upstream project. M0-6 per-file verification against a87a63b2ca25143d26c8bd0903e4e9bc77b3f824 (2026-09-17; selected by comparing every upstream commit that touched the registry ui directories between 2025-06-01 and the ZCode snapshot, and content-identical for this file set to the newest full-coverage minimum-difference commit c257f688cf4de7ec10cc1be84cad29cd4631182c) found 0 of 46 files byte-identical: 32 have an upstream counterpart but were locally modified, and 14 have no upstream file with that basename. No file in this directory is registered as third-party content on the strength of this declaration; the modified and unmatched files are assigned to the ui-components-02 replacement package. See docs/knorvia-third-party-verification-20261011.md and third-party/source-verification-20261011/third-party-file-comparison.json.",
       "license": "MIT",
       "files": [
         {
@@ -19531,7 +19531,7 @@
         "packages/ui/src/components/ai-elements",
         ".agents/skills/ai-elements"
       ],
-      "scope": "Upstream-derived UI components, skill instructions, reference documentation and example scripts only; locally adapted for ZCode imports, styling and agent workflow. Original import revision not recorded.",
+      "scope": "Upstream-derived UI components, skill instructions, reference documentation and example scripts only; locally adapted for ZCode imports, styling and agent workflow. Original import revision not recorded. M0-6 per-file verification against 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd found 1 of 46 files byte-identical (packages/ui/src/components/ai-elements/canvas.tsx, registered as third-party on that basis, which confirms the pinned revision reproduces upstream bytes exactly for at least one file), 31 files modified locally, and 14 files with no counterpart in any revision of vercel/ai-elements. The other 45 files are not covered by this declaration; the modified and unmatched files are assigned to the ui-components-01 replacement package. See docs/knorvia-third-party-verification-20261011.md.",
       "license": "Apache-2.0",
       "modifiedFiles": [
         "packages/ui/src/components/ai-elements/agent.tsx",
@@ -20391,6 +20391,7 @@
       "historicalRoots": [
         "apps/zcode-cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts"
       ],
+      "scope": "Deterministic generated aggregation of @withfig/autocomplete@2.692.3, produced by apps/cli/scripts/generate-bash-command-registry.mjs. The npm release metadata gitHead equals the pinned reference revision aef52acff84c45edde61ae610cc2c964802b9a38, so the pinned GitHub revision and the npm release are the same source. The upstream LICENSE file is MIT (Copyright (c) 2021 Hercules Labs Inc. (Fig)) while the upstream package.json declares \"license\": \"ISC\"; this entry records MIT from the retained LICENSE file and the discrepancy is left for a publisher-declaration review. No upstream file corresponds one-to-one: M0-6 found the local artifact is a single-line generated structure, not a copy of any upstream file, so it is recorded as locally modified generated data rather than registered third-party content. The data is assigned to core-tool-handlers-01 and the generator to apps-cli-01 for reimplementation. See docs/knorvia-third-party-verification-20261011.md.",
       "files": [
         {
           "file": "apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts",
@@ -20411,6 +20412,7 @@
       "sha256": "cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670",
       "referenceRevision": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
       "importRevision": null,
+      "scope": "Byte-exact asset comparison against the pinned publisher revision; 2284 of the 2292 recorded SVGs match upstream exactly and are registered as third-party on that basis. M0-6 verification of the 8 previously unresolved files found no upstream counterpart for any of them: docx.svg, pptx.svg and xlsx.svg never existed in any revision of the upstream repository, and icons/folder.svg was removed upstream in 8a0e6b14c44aab9b8be157d38154fd02c4aae789 (2017-11-07) with entirely different content, so the local file is only same-named. Those 8 files are local assets, not third-party material, and are assigned to the desktop renderer and web static-asset owners for replacement. See docs/knorvia-third-party-verification-20261011.md.",
       "files": [
         {
           "file": "packages/desktop/src/renderer/public/material-icons/3d.svg",
@@ -29700,7 +29702,7 @@
         "packages/rpc/examples",
         "packages/shared/src/protocol-v4/wire-codec.ts"
       ],
-      "scope": "Upstream-derived IPC, serialization, buffer, lifecycle and event portions only. Local RPC extensions, transports and envelope measurement are ZCode adaptations; inclusion does not attribute all local code to Microsoft.",
+      "scope": "Upstream-derived IPC, serialization, buffer, lifecycle and event portions only. Local RPC extensions, transports and envelope measurement are ZCode adaptations; inclusion does not attribute all local code to Microsoft. M0-6 per-file verification against 44825207bf4389c3bd17c92d3ec28cf784c324cc found 0 of 21 files byte-identical because these are extracts of larger upstream sources: buffer.ts derives from src/vs/base/common/buffer.ts; ipc.ts, channelClient.ts, channelServer.ts, channels.shared.ts, delayedChannel.ts, proxy-channel.ts and serialization.ts from src/vs/base/parts/ipc/common/ipc.ts; protocol.ts and persistent-protocol.ts from src/vs/base/parts/ipc/common/ipc.net.ts; remote.ts from src/vs/platform/remote/common/remoteAgentConnection.ts, uriTransformer.ts, remoteSocketFactoryService.ts and remoteAuthorityResolver.ts. 13 files differ from their upstream source and 8 have no upstream counterpart (rpc/src/channels.ts, rpc/src/logging-middleware.ts, rpc/src/network-telemetry-middleware.ts, rpc/examples/01-04, shared/src/protocol-v4/wire-codec.ts). None of the 21 is registered as third-party content on the strength of this declaration; they are assigned to the packages-02 and shared-01 replacement packages, where only upstream-verbatim portions may later be registered as third-party. See docs/knorvia-third-party-verification-20261011.md.",
       "license": "MIT",
       "historicalRoots": [
         "packages/rpc/src",

@@ -82092,6 +82092,19 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/canvas.tsx",
+      "normalizedSha256": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Byte-identical to vercel/ai-elements at the pinned reference 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd: packages/elements/src/canvas.tsx is 618 bytes and the local file has the same sha256 and normalized sha256 (7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687). Verified file by file during M0-6 against an external clone of the pinned upstream revision. The file carries no ZCode or Knorvia modification and no added provenance header, so it is an unmodified upstream component under Apache-2.0, not Knorvia-authored code. The other files in the same directory differ from the pinned upstream revision and are not covered by this decision.",
+      "evidence": [
+        "third-party/source-verification-20261011/third-party-file-comparison.json",
+        "docs/knorvia-third-party-verification-20261011.md",
+        "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
+        "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
+      ]
     }
   ]
 }
