@@ -2,22 +2,18 @@
 // 策略提供者：默认"用户自行决定"，可按 workspace 覆盖。写入先校验，值没变就不广播，
 // 这样上层的安全修订只反映真实变化。内部用"覆盖表 + 订阅者集合 + 变更类型"表达。
 import { workspaceHookPolicySchema, type WorkspaceHookPolicy } from "@knorvia/contracts";
+import type {
+  WorkspaceHookPolicyChange,
+  WorkspaceHookPolicyProvider,
+} from "./types.js";
+
+export type { WorkspaceHookPolicyChange, WorkspaceHookPolicyProvider } from "./types.js";
 
 /** 默认策略冻结，避免调用方通过返回值改写共享默认值。 */
 const BUILTIN_DEFAULT: WorkspaceHookPolicy = Object.freeze({
   mode: "user_decides",
   policyRevision: "builtin:user-decides:v1",
 });
-
-export interface WorkspaceHookPolicyChange {
-  workspaceIdentity?: string;
-  policy: WorkspaceHookPolicy;
-}
-
-export interface WorkspaceHookPolicyProvider {
-  getPolicy(workspaceIdentity: string): WorkspaceHookPolicy;
-  subscribe(listener: (change: WorkspaceHookPolicyChange) => void): () => void;
-}
 
 /** 变更类型表：写明每种写入影响的是"某个 workspace"还是"所有 workspace"。 */
 const CHANGE_SCOPE = { default: "all", workspace: "one" } as const;

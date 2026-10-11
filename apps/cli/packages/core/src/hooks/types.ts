@@ -14,6 +14,7 @@ import type {
   PermissionRequestHookDecision,
   SessionEvent,
   WorkspaceHookBundleSnapshot,
+  WorkspaceHookPolicy,
   WorkspaceHookReasonCode,
 } from "@knorvia/contracts";
 import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
@@ -179,4 +180,18 @@ export interface WorkspaceHookRuntimeAdmissionOptions {
   ready: Promise<void>;
   onAdmissionStateChanged?: WorkspaceHookAdmissionStateCallback;
   snapshot: WorkspaceHookBundleSnapshot;
+}
+
+/**
+ * workspace 策略的兼容声明（变更通知与提供者端口）。实现见 workspace-hook-policy.ts，
+ * 该文件按原路径再导出这两个名字。
+ */
+export interface WorkspaceHookPolicyChange {
+  workspaceIdentity?: string;
+  policy: WorkspaceHookPolicy;
+}
+
+export interface WorkspaceHookPolicyProvider {
+  getPolicy(workspaceIdentity: string): WorkspaceHookPolicy;
+  subscribe(listener: (change: WorkspaceHookPolicyChange) => void): () => void;
 }
