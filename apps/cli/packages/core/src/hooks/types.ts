@@ -1,3 +1,7 @@
+import type {
+  WorkspaceHookReviewDecision,
+  WorkspaceHookReviewRequestPayload,
+} from "@knorvia/shared/protocol-v4";
 // SPDX-License-Identifier: Apache-2.0
 // core-hooks 的公开类型面：调用方（含保留的 runner/output 文件与 bootstrap）按这些名字构造与消费对象。
 // 字段名与可选性属兼容面（interface.md），实现内部不得新增必填字段。
@@ -16,6 +20,7 @@ import type {
   WorkspaceHookBundleSnapshot,
   WorkspaceHookPolicy,
   WorkspaceHookReasonCode,
+  WorkspaceHookReviewFlowState,
 } from "@knorvia/contracts";
 import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
 
@@ -185,4 +190,36 @@ export interface WorkspaceHookPolicyChange {
 export interface WorkspaceHookPolicyProvider {
   getPolicy(workspaceIdentity: string): WorkspaceHookPolicy;
   subscribe(listener: (change: WorkspaceHookPolicyChange) => void): () => void;
+}
+
+/** 审核代的兼容声明：目标、结果、结算返回与流程对象。实现见 workspace-hook-review-flow.ts。 */
+export interface WorkspaceHookReviewTarget {
+  sessionId: string;
+  taskId: string;
+  runId: string;
+  remoteSessionId?: string;
+  workspaceIdentity: string;
+  bundleDigest: string;
+  reviewFlowId: string;
+  generation: number;
+  interactionId: string;
+}
+
+export interface WorkspaceHookReviewOutcome {
+  action: WorkspaceHookReviewDecision["action"] | "no_change";
+  reviewItemIds: string[];
+  reasonCode: WorkspaceHookReasonCode | undefined;
+}
+
+export type WorkspaceHookReviewResolveResult =
+  | { accepted: true; reviewItemIds: string[] }
+  | {
+      accepted: false;
+      reasonCode: "workspace_hooks_review_superseded" | "workspace_hooks_snapshot_mismatch";
+    };
+
+export interface WorkspaceHookReviewFlow {
+  readonly request: WorkspaceHookReviewRequestPayload;
+  readonly result: Promise<WorkspaceHookReviewOutcome>;
+  readonly state: WorkspaceHookReviewFlowState;
 }

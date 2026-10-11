@@ -11,7 +11,10 @@ import {
   type WorkspaceHookTrustRecord,
   type WorkspaceHookTrustState,
 } from "@knorvia/contracts";
-import type { WorkspaceHookTrustStoreStatus } from "./workspace-hook-trust-types.js";
+import type {
+  WorkspaceHookEntryEvaluationInput,
+  WorkspaceHookTrustStoreStatus,
+} from "./workspace-hook-trust-types.js";
 
 /** 复合键用 NUL 连接，避免 workspace 文本与摘要拼接歧义。 */
 export function trustKey(workspaceIdentity: string, hookDeclarationDigest: string): string {
@@ -84,14 +87,9 @@ function classify(context: EntryContext): WorkspaceHookTrustState {
  * 求值一条声明。返回对象必须通过契约 schema：准入分类、reasonCode 与可运行性
  * 都要与契约判定表一致，任何不一致会在这里暴露成错误而不是静默放行。
  */
-export function evaluateWorkspaceHookEntry(input: {
-  entry: CanonicalWorkspaceHookEntry;
-  snapshot: WorkspaceHookBundleSnapshot;
-  policy: WorkspaceHookPolicy;
-  persistentRecords: ReadonlyMap<string, WorkspaceHookTrustRecord>;
-  revokedKeys: ReadonlySet<string>;
-  storeStatus: WorkspaceHookTrustStoreStatus;
-}): WorkspaceHookEffectiveState {
+export function evaluateWorkspaceHookEntry(
+  input: WorkspaceHookEntryEvaluationInput,
+): WorkspaceHookEffectiveState {
   const { entry, snapshot, policy } = input;
   const key = trustKey(snapshot.workspaceIdentity, entry.hookDeclarationDigest);
   const persistent = input.persistentRecords.get(key);
