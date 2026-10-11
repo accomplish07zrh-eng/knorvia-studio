@@ -17,6 +17,30 @@ import type { ExecutableToolCall, ToolExecutionResult, ToolResultSerialization }
 import type { ToolExecutorDeps } from "./types.js";
 import { summarizeInput } from "./utils.js";
 
+type Deps = ToolExecutorDeps;
+type EventType = (typeof SessionEventType)[keyof typeof SessionEventType];
+
+const INITIAL_SEQUENCE_NUMBER = 0;
+
+// 会话事件信封：所有工具事件共用的七个字段，payload 由各 emit 函数补。
+// turnId 的取法留在调用方：多数入口直接用参数，权限类入口回退到 deps.turnId。
+function eventEnvelope(
+  deps: Deps,
+  type: EventType,
+  traceContext: TraceContext,
+  turnId: TurnId | undefined,
+) {
+  return {
+    id: crypto.randomUUID() as any,
+    sessionId: deps.sessionId,
+    turnId,
+    type,
+    timestamp: new Date(),
+    traceId: traceContext.traceId,
+    sequenceNumber: INITIAL_SEQUENCE_NUMBER,
+  };
+}
+
 export async function emitToolCallStarted(
   deps: ToolExecutorDeps,
   toolCall: ExecutableToolCall,
@@ -28,13 +52,7 @@ export async function emitToolCallStarted(
   capability?: { readOnly?: boolean; sideEffectScope?: ToolSideEffectScope },
 ): Promise<void> {
   await deps.emitEvent({
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId,
-    type: SessionEventType.ToolCallStarted,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
+    ...eventEnvelope(deps, SessionEventType.ToolCallStarted, traceContext, turnId),
     payload: {
       toolCallId: toolCall.id,
       toolName: toolCall.name,
@@ -60,13 +78,7 @@ export async function emitToolCallResult(
   skillMetadata: SkillTelemetryMetadata | undefined,
 ): Promise<void> {
   await deps.emitEvent({
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId,
-    type: SessionEventType.ToolCallResult,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
+    ...eventEnvelope(deps, SessionEventType.ToolCallResult, traceContext, turnId),
     payload: {
       toolCallId: toolCall.id,
       ...(skillMetadata ? { skillMetadata } : {}),
@@ -95,13 +107,7 @@ export async function emitToolCallError(
   skillMetadata?: SkillTelemetryMetadata,
 ): Promise<void> {
   await deps.emitEvent({
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId,
-    type: SessionEventType.ToolCallError,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
+    ...eventEnvelope(deps, SessionEventType.ToolCallError, traceContext, turnId),
     payload: {
       toolCallId,
       error,
@@ -145,13 +151,12 @@ export async function emitPermissionRequested(
   approval?: { display?: ToolResultDisplayPayload; optionsPolicy?: PermissionOptionsPolicy },
 ): Promise<void> {
   await deps.emitEvent({
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId: traceContext.turnId ?? deps.turnId,
-    type: SessionEventType.PermissionRequested,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
+    ...eventEnvelope(
+      deps,
+      SessionEventType.PermissionRequested,
+      traceContext,
+      traceContext.turnId ?? deps.turnId,
+    ),
     payload: {
       requestId,
       toolCallId: toolCall.id,
@@ -177,13 +182,12 @@ export async function emitPermissionResolved(
   traceContext: TraceContext,
 ): Promise<void> {
   await deps.emitEvent({
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId: traceContext.turnId ?? deps.turnId,
-    type: SessionEventType.PermissionResolved,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
+    ...eventEnvelope(
+      deps,
+      SessionEventType.PermissionResolved,
+      traceContext,
+      traceContext.turnId ?? deps.turnId,
+    ),
     payload: {
       requestId,
       toolCallId: toolCall.id,
@@ -201,13 +205,12 @@ export async function emitPermissionDenied(
   traceContext: TraceContext,
 ): Promise<void> {
   await deps.emitEvent({
-    id: crypto.randomUUID() as any,
-    sessionId: deps.sessionId,
-    turnId: traceContext.turnId ?? deps.turnId,
-    type: SessionEventType.PermissionDenied,
-    timestamp: new Date(),
-    traceId: traceContext.traceId,
-    sequenceNumber: 0,
+    ...eventEnvelope(
+      deps,
+      SessionEventType.PermissionDenied,
+      traceContext,
+      traceContext.turnId ?? deps.turnId,
+    ),
     payload: {
       toolCallId: toolCall.id,
       toolName: toolCall.name,
