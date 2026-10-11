@@ -82102,7 +82102,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82114,7 +82114,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82126,7 +82126,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82138,7 +82138,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82150,7 +82150,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82162,7 +82162,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82174,7 +82174,7 @@
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
+        "specs/contracts/core-tool-01/behavior.md"
       ]
     },
     {
@@ -82663,6 +82663,18 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 test helper: a Node module resolve hook that redirects the contract tests' imports from apps/cli/packages/core/src/tool/** to the built apps/cli/packages/core/dist/tool/** so one copy of the tests runs on both entries. It only rewrites resolved specifiers and copies no implementation code.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-tool-01/README.md",
+        "specs/contracts/core-tool-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-01/tests/run-old-gate.mjs",
+      "normalizedSha256": "fd747921ffa49e23328d1e0de16532a5bd5139f8bc4454ffef9e91f49782dda1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New core-tool-01 gate runner: it runs the one copy of the contract tests against the unmodified implementation on both the source entry and the built dist entry and reports the counts. It copies no implementation code and weakens no assertion.",
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/core-tool-01/README.md",
