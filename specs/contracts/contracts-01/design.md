@@ -18,15 +18,15 @@
 
 ## 2. 状态所有者
 
-| 状态                    | 所有者                                      | 说明                                                                     |
-| ----------------------- | ------------------------------------------- | ------------------------------------------------------------------------ |
-| 会话事件的**持久化事实** | 存储适配器（本包只给端口 `SessionEventStorePort`） | `sequenceNumber` 由存储分配，从 1 单调递增                                |
-| 单会话的**驻留事件链**   | `SessionEventJournal`（每 session 一个实例）  | 序号高水位、驻留条目、被淘汰计数都只在这里；对外只交出数组投影             |
-| **保留策略**的 sealed 集合 | `SessionEventRetentionPolicy`（每 session 一个） | `turn-window` 模式下的 sealed turn 链与首次 sealed 时间                    |
-| session → journal 的**注册表** | `InMemorySessionEventStore`              | 只做创建与删除；不缓存事件、不自己分配序号                                 |
-| **投影**                 | 调用方（`EventReducer` 不持有）              | `reduce`/`apply` 每次返回新对象；模块级只有一份 `initialSessionProjection` 模板 |
-| **数据目录与默认配置**   | `config/index.ts` 的模块常量                 | 调用方不得原地修改 `DefaultRuntimeConfig`                                  |
-| **模型调用上下文**       | `AsyncLocalStorage`（`model/invocation-context.ts`） | `runWithModelInvocationContext` 之外读不到上下文                    |
+| 状态                           | 所有者                                               | 说明                                                                            |
+| ------------------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 会话事件的**持久化事实**       | 存储适配器（本包只给端口 `SessionEventStorePort`）   | `sequenceNumber` 由存储分配，从 1 单调递增                                      |
+| 单会话的**驻留事件链**         | `SessionEventJournal`（每 session 一个实例）         | 序号高水位、驻留条目、被淘汰计数都只在这里；对外只交出数组投影                  |
+| **保留策略**的 sealed 集合     | `SessionEventRetentionPolicy`（每 session 一个）     | `turn-window` 模式下的 sealed turn 链与首次 sealed 时间                         |
+| session → journal 的**注册表** | `InMemorySessionEventStore`                          | 只做创建与删除；不缓存事件、不自己分配序号                                      |
+| **投影**                       | 调用方（`EventReducer` 不持有）                      | `reduce`/`apply` 每次返回新对象；模块级只有一份 `initialSessionProjection` 模板 |
+| **数据目录与默认配置**         | `config/index.ts` 的模块常量                         | 调用方不得原地修改 `DefaultRuntimeConfig`                                       |
+| **模型调用上下文**             | `AsyncLocalStorage`（`model/invocation-context.ts`） | `runWithModelInvocationContext` 之外读不到上下文                                |
 
 约束：**没有隐藏的全局可变状态**。三个类（`EventReducer`、`SessionEventJournal`、`InMemorySessionEventStore`）与两个工厂
 （`createSessionEventRetentionPolicy`、`createInMemorySessionEventStore`）之外，模块级导出都是常量、纯函数或类型。
@@ -75,10 +75,10 @@
 
 拆包实现（相对旧文件结构的变化，属「换模块切法」，公开模块路径不变）：
 
-| 旧结构                       | 新结构                                     | 理由                                                       |
-| ---------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
-| `config/index.ts`（410 行）   | `config/index.ts` + `config/runtime-config.ts` | 常量与默认值留在入口，`RuntimeConfig*` 声明族独立成文件      |
-| `hooks/index.ts`（433 行）    | `hooks/index.ts` + `hooks/hook-config.ts`   | hook 配置/JSON 输出 schema 与 workspace hook 信任状态机分离  |
+| 旧结构                      | 新结构                                         | 理由                                                        |
+| --------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| `config/index.ts`（410 行） | `config/index.ts` + `config/runtime-config.ts` | 常量与默认值留在入口，`RuntimeConfig*` 声明族独立成文件     |
+| `hooks/index.ts`（433 行）  | `hooks/index.ts` + `hooks/hook-config.ts`      | hook 配置/JSON 输出 schema 与 workspace hook 信任状态机分离 |
 
 ## 4. 事件顺序（events/）
 
@@ -142,34 +142,34 @@ flowchart TD
 
 ## 5. B1–B26 落点
 
-| 条目 | 落点（模块 · 导出）                                                                     |
-| ---- | ---------------------------------------------------------------------------------------- |
-| B1   | 全部 `index.ts` 的导出面（`capabilities` 允许零导出；`events`/`model`/`compact`/`config`/`hooks`/`plugins` 子入口） |
-| B2   | `interfaces/shared.ts` · `createSessionId` 等 11 个工厂（前缀 + 单次调用内唯一片段；`createTraceId` 为裸 UUID） |
-| B3   | `logging/logger.ts` · `LogLevel`、`LogLevelName`                                          |
-| B4   | `commands/index.ts` · `splitCustomCommandArguments`（状态表驱动分词）                      |
-| B5   | `commands/index.ts` · `expandCustomCommandTemplate`                                       |
-| B6   | `commands/index.ts` · `formatCustomCommandPrompt`                                         |
-| B7   | `commands/index.ts` · `detectUnsupportedDynamicSyntax` / `expandCustomCommandPrompt`       |
-| B8   | `commands/index.ts` · `CustomCommandScope` / `CustomCommandSource` / 诊断码类型            |
-| B9   | `compact/index.ts` · `CompactTrigger` 等 9 个常量对象                                      |
-| B10  | `compact/index.ts` · `compactBoundaryPayloadSchema` / `parseCompactBoundaryPayload`        |
-| B11  | `compact/index.ts` · `compactTimelinePayloadSchema` / `parseCompactTimelinePayload`（transform 丢 `text`） |
-| B12  | `compact/index.ts` · `microcompactBoundaryPayloadSchema` / `parseMicrocompactBoundaryPayload` |
-| B13  | `compact/index.ts` · `isCompactBoundaryItem`、`buildPostCompactItems`、`getItemsAfterLastCompactBoundary`、`annotateBoundaryWithPreservedSegment` |
-| B14  | `events/event-reducer-helpers.ts` · `initialSessionProjection`（模块求值一次，调用方不得原地修改） |
-| B15  | `events/event-reducer.ts` · `EventReducer` / `reduce` / `apply`                            |
+| 条目 | 落点（模块 · 导出）                                                                                                                                                     |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| B1   | 全部 `index.ts` 的导出面（`capabilities` 允许零导出；`events`/`model`/`compact`/`config`/`hooks`/`plugins` 子入口）                                                     |
+| B2   | `interfaces/shared.ts` · `createSessionId` 等 11 个工厂（前缀 + 单次调用内唯一片段；`createTraceId` 为裸 UUID）                                                         |
+| B3   | `logging/logger.ts` · `LogLevel`、`LogLevelName`                                                                                                                        |
+| B4   | `commands/index.ts` · `splitCustomCommandArguments`（状态表驱动分词）                                                                                                   |
+| B5   | `commands/index.ts` · `expandCustomCommandTemplate`                                                                                                                     |
+| B6   | `commands/index.ts` · `formatCustomCommandPrompt`                                                                                                                       |
+| B7   | `commands/index.ts` · `detectUnsupportedDynamicSyntax` / `expandCustomCommandPrompt`                                                                                    |
+| B8   | `commands/index.ts` · `CustomCommandScope` / `CustomCommandSource` / 诊断码类型                                                                                         |
+| B9   | `compact/index.ts` · `CompactTrigger` 等 9 个常量对象                                                                                                                   |
+| B10  | `compact/index.ts` · `compactBoundaryPayloadSchema` / `parseCompactBoundaryPayload`                                                                                     |
+| B11  | `compact/index.ts` · `compactTimelinePayloadSchema` / `parseCompactTimelinePayload`（transform 丢 `text`）                                                              |
+| B12  | `compact/index.ts` · `microcompactBoundaryPayloadSchema` / `parseMicrocompactBoundaryPayload`                                                                           |
+| B13  | `compact/index.ts` · `isCompactBoundaryItem`、`buildPostCompactItems`、`getItemsAfterLastCompactBoundary`、`annotateBoundaryWithPreservedSegment`                       |
+| B14  | `events/event-reducer-helpers.ts` · `initialSessionProjection`（模块求值一次，调用方不得原地修改）                                                                      |
+| B15  | `events/event-reducer.ts` · `EventReducer` / `reduce` / `apply`                                                                                                         |
 | B16  | `events/session-event-retention.ts` · `TRANSIENT_SESSION_EVENT_TYPES`、`SEALED_TURN_TRANSIENT_GRACE_MS`、`isTransientSessionEvent`、`createSessionEventRetentionPolicy` |
-| B17  | `events/in-memory-session-event-store.ts` + `events/session-event-journal.ts`               |
-| B18  | `events/session-projection-ledgers.ts` · `commitSessionProjection` 与各领域 changes        |
-| B19  | `events/session-projection-queue.ts` · `queueAdmissionChanges` 等 5 个 changes 函数        |
-| B20  | `model/media-policy.ts` · `isProviderVisibleModelInputMediaBlock`、`getUnsupportedModelInputMediaKind`、`createUnsupportedModelInputMediaText` |
-| B21  | `network/public-egress-ip.ts` · `normalizeIpAddressLiteral`、`getIpAddressVersion`、`getPublicEgressIpBlockReason`（网段表驱动） |
-| B22  | `path/git-bash.ts` · `windowsPathToGitBashPath`、`gitBashPathToWindowsPath`（规则表驱动）；`path/index.ts` 转发 |
-| B23  | `plugins/index.ts` + `config/index.ts` 的导出面（逐 schema 行为见 B25/B26）                 |
-| B24  | `hooks/index.ts`（+ `hooks/hook-config.ts`）的导出面；逐条判定归 `specs/contracts/core-hooks` |
-| B25  | `config/index.ts` · `ConfigKey`、`ConfigScope`、`ConfigScopePriority`、`DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS`、`DefaultRuntimeConfig` |
-| B26  | `plugins/index.ts` · 4 个 `KNORVIA_*` 常量与 `isOfficialMarketplaceId`                      |
+| B17  | `events/in-memory-session-event-store.ts` + `events/session-event-journal.ts`                                                                                           |
+| B18  | `events/session-projection-ledgers.ts` · `commitSessionProjection` 与各领域 changes                                                                                     |
+| B19  | `events/session-projection-queue.ts` · `queueAdmissionChanges` 等 5 个 changes 函数                                                                                     |
+| B20  | `model/media-policy.ts` · `isProviderVisibleModelInputMediaBlock`、`getUnsupportedModelInputMediaKind`、`createUnsupportedModelInputMediaText`                          |
+| B21  | `network/public-egress-ip.ts` · `normalizeIpAddressLiteral`、`getIpAddressVersion`、`getPublicEgressIpBlockReason`（网段表驱动）                                        |
+| B22  | `path/git-bash.ts` · `windowsPathToGitBashPath`、`gitBashPathToWindowsPath`（规则表驱动）；`path/index.ts` 转发                                                         |
+| B23  | `plugins/index.ts` + `config/index.ts` 的导出面（逐 schema 行为见 B25/B26）                                                                                             |
+| B24  | `hooks/index.ts`（+ `hooks/hook-config.ts`）的导出面；逐条判定归 `specs/contracts/core-hooks`                                                                           |
+| B25  | `config/index.ts` · `ConfigKey`、`ConfigScope`、`ConfigScopePriority`、`DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS`、`DefaultRuntimeConfig`                                   |
+| B26  | `plugins/index.ts` · 4 个 `KNORVIA_*` 常量与 `isOfficialMarketplaceId`                                                                                                  |
 
 ## 6. 与「内部逻辑写自己的单元测试」的对应
 
