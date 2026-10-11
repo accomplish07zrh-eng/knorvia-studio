@@ -267,3 +267,211 @@ third-party/source-verification-20261011/third-party-file-comparison.json
 3. **8 个 Material 图标与 44 个无上游文件**仍会在 `third-party/inventory.json` 的 `reviewRequired` 中体现（前者由图标证据的 unresolved 条目派生），这是有意保留：它们确实没有可登记的第三方来源。
 4. **77 个 ZCode 改过文件的最终登记推迟到对应替换包**，届时必须写明 Knorvia 的修改并保留上游许可与署名；本文件的指标可作为该步骤的输入。
 5. `third-party/copied-components.json` 与 `third-party/inventory.json` 同时是 M0-4 的改动对象（`.agents/` 条目剔除）。本 PR 只改 `scope` 文本与 `inputs` 摘要，未触碰 `roots`、`files` 与 `modifiedFiles`；若两者先后合并出现冲突，按「两者都要」解，不丢任一侧的改动。
+
+## 四、选包输入清单（按目标替换包分组）
+
+本节把上一节的结论落到**选包输入**：第三方的 121 个待处理文件（ZCode 改过 77 + 无上游 44）按计划书分包总表分组，写清每个包要处理哪些文件、上游对应版本、规范化差异行数，以及要做的事是**换回原版再按合同实现**还是**视同 ZCode 代码重写**。
+
+数据全部来自 `third-party/source-verification-20261011/third-party-file-comparison.json`（同一份比对表生成的机器可读结果），不另作判断；**1 个逐字节一致的文件**（`packages/ui/src/components/ai-elements/canvas.tsx`）已在 `licensing/reviews.json` 登记为 third-party，不出现在本清单里。
+
+每个包的做法（计划书《第三方核实的做法》）：
+
+1. **换回原版再按合同实现**（对应「ZCode 改过」）：先从固定上游提交取回原版文件替换本仓副本，再按本包合同与两条相似度门槛在其上实现 Knorvia 需要的差异（黑白视觉取值、`cn` 导入路径、必要注释等），最终登记 third-party 并写明 Knorvia 的修改。
+2. **视同 ZCode 代码重写**（对应「无上游」）：不按第三方来源登记；按本包合同重写，登记 original，basis 如实写明作者读过被替换实现。
+
+**拿不准的一律按「ZCode 改过」处理**（计划书默认裁决表），所以本清单里没有把任何边界文件登记为 third-party。
+
+### ui-components-01
+
+计划书：`packages/ui/src/components` · ai-elements、icons、lib。
+
+共 **45** 个文件：换回原版再按合同实现 **31**、视同 ZCode 代码重写 **14**。
+
+| 文件                                                                 | 上游仓库           | 固定提交   | 上游路径                                 | 规范化差异行数 | 实质差异行 | 结论       | 本包要做的事                                       |
+| -------------------------------------------------------------------- | ------------------ | ---------- | ---------------------------------------- | -------------- | ---------- | ---------- | -------------------------------------------------- |
+| `packages/ui/src/components/ai-elements/agent.tsx`                   | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/agent.tsx`        | 59             | 15         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/artifact.tsx`                | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/artifact.tsx`     | 47             | 8          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/attachments.tsx`             | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/attachments.tsx`  | 211            | 101        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/chat-loading.tsx`            | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/checkpoint.tsx`              | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/checkpoint.tsx`   | 25             | 4          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/code-block.tsx`              | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/code-block.tsx`   | 559            | 204        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/commit.tsx`                  | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/commit.tsx`       | 168            | 32         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/confirmation.tsx`            | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/confirmation.tsx` | 53             | 9          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/connection.tsx`              | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/connection.tsx`   | 22             | 2          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/context.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/context.tsx`      | 210            | 76         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/controls.tsx`                | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/controls.tsx`     | 8              | 0          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/conversation.tsx`            | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/conversation.tsx` | 57             | 11         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/diagram-preview-dialog.tsx`  | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/edge.tsx`                    | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/edge.tsx`         | 22             | 3          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/image-preview-dialog.tsx`    | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/image-thumbnail-gallery.tsx` | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/image.tsx`                   | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/image.tsx`        | 17             | 2          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/markdown-blockquote.tsx`     | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/markdown-image.tsx`          | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/markdown-list.tsx`           | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/markdown-table.tsx`          | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/mermaid-block.tsx`           | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/message.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/message.tsx`      | 1108           | 750        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/node.tsx`                    | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/node.tsx`         | 18             | 3          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/panel.tsx`                   | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/panel.tsx`        | 10             | 1          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/persona.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/persona.tsx`      | 65             | 16         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/plan.tsx`                    | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/plan.tsx`         | 35             | 6          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/prompt-input-actions.tsx`    | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/prompt-input-buttons.tsx`    | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/prompt-input-primitives.tsx` | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/prompt-input-textarea.tsx`   | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/prompt-input.tsx`            | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/prompt-input.tsx` | 585            | 23         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/queue.tsx`                   | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/queue.tsx`        | 124            | 39         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/reasoning.tsx`               | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/reasoning.tsx`    | 409            | 243        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/sandbox.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/sandbox.tsx`      | 60             | 12         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/shimmer.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/shimmer.tsx`      | 20             | 3          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/snippet.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/snippet.tsx`      | 30             | 5          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/sources.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/sources.tsx`      | 38             | 5          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/streamdown-controls.ts`      | vercel/ai-elements | `6a9d5b18` | —                                        | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ai-elements/suggestion.tsx`              | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/suggestion.tsx`   | 16             | 2          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/task.tsx`                    | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/task.tsx`         | 53             | 13         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/terminal.tsx`                | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/terminal.tsx`     | 69             | 13         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/test-results.tsx`            | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/test-results.tsx` | 177            | 32         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/tool.tsx`                    | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/tool.tsx`         | 52             | 16         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ai-elements/toolbar.tsx`                 | vercel/ai-elements | `6a9d5b18` | `packages/elements/src/toolbar.tsx`      | 10             | 1          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+
+### ui-components-02
+
+计划书：`packages/ui/src/components` · ui、workflow-graph、workflow-run-line。
+
+共 **46** 个文件：换回原版再按合同实现 **32**、视同 ZCode 代码重写 **14**。
+
+| 文件                                                                     | 上游仓库     | 固定提交   | 上游路径                                            | 规范化差异行数 | 实质差异行 | 结论       | 本包要做的事                                       |
+| ------------------------------------------------------------------------ | ------------ | ---------- | --------------------------------------------------- | -------------- | ---------- | ---------- | -------------------------------------------------- |
+| `packages/ui/src/components/ui/AboutLogo.tsx`                            | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/accordion.tsx`                            | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/accordion.tsx`     | 40             | 10         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/alert-dialog.tsx`                         | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/alert-dialog.tsx`  | 91             | 19         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/alert.tsx`                                | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/alert.tsx`         | 27             | 11         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/avatar.tsx`                               | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/avatar.tsx`        | 41             | 8          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/badge.tsx`                                | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/badge.tsx`         | 22             | 8          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/button-group.tsx`                         | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/button-group.tsx`  | 24             | 6          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/button.tsx`                               | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/button.tsx`        | 42             | 18         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/card.tsx`                                 | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/card.tsx`          | 35             | 8          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/chart.tsx`                                | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/chart.tsx`         | 177            | 16         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/checkbox.tsx`                             | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/checkbox.tsx`      | 35             | 13         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/code-viewer.tsx`                          | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/collapsible.tsx`                          | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/collapsible.tsx`   | 40             | 23         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/command.tsx`                              | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/command.tsx`       | 86             | 21         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/context-menu.tsx`                         | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/context-menu.tsx`  | 189            | 10         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/dialog.tsx`                               | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/dialog.tsx`        | 81             | 24         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/diff-viewer.tsx`                          | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/dropdown-menu.tsx`                        | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/dropdown-menu.tsx` | 122            | 20         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/flip-metric-value.tsx`                    | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/GlmMonochromeIcon.tsx`                    | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/highlighted-lightweight-diff-preview.tsx` | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/hover-card.tsx`                           | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/hover-card.tsx`    | 20             | 4          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/input-group.tsx`                          | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/input-group.tsx`   | 65             | 16         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/input.tsx`                                | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/input.tsx`         | 29             | 22         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/kbd.tsx`                                  | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/kbd.tsx`           | 16             | 2          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/label.tsx`                                | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/base/ui/label.tsx`          | 9              | 2          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/lightweight-diff-preview.tsx`             | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/pdf-viewer.tsx`                           | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/popover.tsx`                              | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/popover.tsx`       | 36             | 8          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/pptx-preview-viewer.tsx`                  | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/pptx-selection-action-bar.tsx`            | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/progress.tsx`                             | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/progress.tsx`      | 44             | 28         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/README.md`                                | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/resizable.tsx`                            | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/resizable.tsx`     | 104            | 45         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/scroll-area.tsx`                          | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/scroll-area.tsx`   | 24             | 9          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/scroll-fade-viewport.tsx`                 | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/components/ui/select.tsx`                               | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/select.tsx`        | 150            | 59         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/separator.tsx`                            | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/separator.tsx`     | 6              | 0          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/spinner.tsx`                              | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/spinner.tsx`       | 7              | 3          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/switch.tsx`                               | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/switch.tsx`        | 12             | 2          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/tabs.tsx`                                 | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/radix/ui/tabs.tsx`          | 32             | 9          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/textarea.tsx`                             | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/textarea.tsx`      | 11             | 5          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/toast.tsx`                                | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/bases/base/ui/toast.tsx`          | 322            | 101        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/tooltip.tsx`                              | shadcn-ui/ui | `a87a63b2` | `apps/v4/registry/new-york-v4/ui/tooltip.tsx`       | 21             | 4          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/ui/src/components/ui/usePdfZoomOverlay.ts`                     | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/ui/src/styles.css`                                             | shadcn-ui/ui | `a87a63b2` | —                                                   | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+
+### packages-02
+
+计划书：`packages` · provider-node/src、rpc/examples、rpc/src。
+
+共 **20** 个文件：换回原版再按合同实现 **13**、视同 ZCode 代码重写 **7**。
+
+| 文件                                               | 上游仓库         | 固定提交   | 上游路径                                                   | 规范化差异行数 | 实质差异行 | 结论       | 本包要做的事                                       |
+| -------------------------------------------------- | ---------------- | ---------- | ---------------------------------------------------------- | -------------- | ---------- | ---------- | -------------------------------------------------- |
+| `packages/rpc/examples/01-basic-ipc.ts`            | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/examples/02-proxy-channel.ts`        | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/examples/03-ipc-server-client.ts`    | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/examples/04-remote-connection.ts`    | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/src/buffer.ts`                       | microsoft/vscode | `44825207` | `src/vs/base/common/buffer.ts`                             | 362            | 27         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/channelClient.ts`                | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 993            | 105        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/channels.shared.ts`              | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 926            | 30         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/channels.ts`                     | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/src/channelServer.ts`                | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 1000           | 109        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/delayedChannel.ts`               | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 909            | 5          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/foundation.ts`                   | microsoft/vscode | `44825207` | `src/vs/base/common/event.ts`                              | 1501           | 83         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/index.ts`                        | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 938            | 0          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/ipc.ts`                          | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 960            | 86         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/logging-middleware.ts`           | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/src/network-telemetry-middleware.ts` | microsoft/vscode | `44825207` | —                                                          | —              | —          | 无上游     | 视同 ZCode 代码，随替换包重写                      |
+| `packages/rpc/src/persistent-protocol.ts`          | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.net.ts`                  | 996            | 137        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/protocol.ts`                     | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.net.ts`                  | 1002           | 152        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/proxy-channel.ts`                | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 979            | 69         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/remote.ts`                       | microsoft/vscode | `44825207` | `src/vs/platform/remote/common/remoteAuthorityResolver.ts` | 207            | 99         | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+| `packages/rpc/src/serialization.ts`                | microsoft/vscode | `44825207` | `src/vs/base/parts/ipc/common/ipc.ts`                      | 1023           | 110        | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+
+### shared-01
+
+计划书：`packages/shared/src` · node、protocol-v4。
+
+共 **1** 个文件：换回原版再按合同实现 **0**、视同 ZCode 代码重写 **1**。
+
+| 文件                                            | 上游仓库         | 固定提交   | 上游路径 | 规范化差异行数 | 实质差异行 | 结论   | 本包要做的事                  |
+| ----------------------------------------------- | ---------------- | ---------- | -------- | -------------- | ---------- | ------ | ----------------------------- |
+| `packages/shared/src/protocol-v4/wire-codec.ts` | microsoft/vscode | `44825207` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+
+### core-tool-handlers-01
+
+计划书：`apps/cli/packages/core/src/tool/handlers`（继承 148 文件，选包时必须重切）。
+
+共 **1** 个文件：换回原版再按合同实现 **1**、视同 ZCode 代码重写 **0**。
+
+| 文件                                                                          | 上游仓库             | 固定提交   | 上游路径 | 规范化差异行数 | 实质差异行 | 结论       | 本包要做的事                                       |
+| ----------------------------------------------------------------------------- | -------------------- | ---------- | -------- | -------------- | ---------- | ---------- | -------------------------------------------------- |
+| `apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts` | withfig/autocomplete | `aef52acf` | —        | —              | —          | ZCode 改过 | 换回原版再按合同实现（`specs/contracts/<包 ID>/`） |
+
+### 未单列，选包时按依赖重切
+
+桌面渲染层静态资产；分包总表没有 material-icons 行，随桌面包或 Web 包处理。
+
+共 **8** 个文件：换回原版再按合同实现 **0**、视同 ZCode 代码重写 **8**。
+
+| 文件                                                             | 上游仓库                                       | 固定提交   | 上游路径 | 规范化差异行数 | 实质差异行 | 结论   | 本包要做的事                  |
+| ---------------------------------------------------------------- | ---------------------------------------------- | ---------- | -------- | -------------- | ---------- | ------ | ----------------------------- |
+| `packages/desktop/src/renderer/public/material-icons/docx.svg`   | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/desktop/src/renderer/public/material-icons/folder.svg` | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/desktop/src/renderer/public/material-icons/pptx.svg`   | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/desktop/src/renderer/public/material-icons/xlsx.svg`   | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/web/public/material-icons/docx.svg`                    | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/web/public/material-icons/folder.svg`                  | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/web/public/material-icons/pptx.svg`                    | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+| `packages/web/public/material-icons/xlsx.svg`                    | material-extensions/vscode-material-icon-theme | `cb1dfb6d` | —        | —              | —          | 无上游 | 视同 ZCode 代码，随替换包重写 |
+
+### 清单核对
+
+| 目标包                   | 换回原版再按合同实现 | 视同 ZCode 代码重写 | 合计    |
+| ------------------------ | -------------------- | ------------------- | ------- |
+| ui-components-01         | 31                   | 14                  | 45      |
+| ui-components-02         | 32                   | 14                  | 46      |
+| packages-02              | 13                   | 7                   | 20      |
+| shared-01                | 0                    | 1                   | 1       |
+| core-tool-handlers-01    | 1                    | 0                   | 1       |
+| 未单列，选包时按依赖重切 | 0                    | 8                   | 8       |
+| **合计**                 | **77**               | **44**              | **121** |
+
+与比对表一致：ZCode 改过 77、无上游 44、合计 121 个文件全部落进上表，无遗漏。
+
+### 相邻文件（不属本清单，但选包时会遇到）
+
+- `apps/cli/scripts/generate-bash-command-registry.mjs`（生成器）属 `apps-cli-01`；它生成的 `apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts` 属 `core-tool-handlers-01`，两者要一起处理，做法是按固定的 `@withfig/autocomplete@2.692.3` 重新生成，不手写数据表。
+- `packages/desktop/src/renderer/public/material-icons` 与 `packages/web/public/material-icons` 里已登记 third-party 的 2284 个图标不进本清单（它们逐字节一致）；只有上表那 8 个需要重写或换成 Knorvia 自制资产。
+- `tool/handlers` 继承 148 个文件，**超过单包 60 文件上限**，选包时必须重切（`core-tool-handlers-01/02` 两行不够）。
