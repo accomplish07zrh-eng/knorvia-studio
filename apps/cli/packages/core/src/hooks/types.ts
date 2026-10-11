@@ -17,6 +17,9 @@ import type {
   Logger,
   PermissionRequestHookDecision,
   SessionEvent,
+  SessionId,
+  SessionMailboxPort,
+  TraceContext,
   WorkspaceHookBundleSnapshot,
   WorkspaceHookPolicy,
   WorkspaceHookReasonCode,
@@ -222,4 +225,11 @@ export interface WorkspaceHookReviewFlow {
   readonly request: WorkspaceHookReviewRequestPayload;
   readonly result: Promise<WorkspaceHookReviewOutcome>;
   readonly state: WorkspaceHookReviewFlowState;
+}
+
+/** session mailbox 登记项的输入形状（兼容声明）：会话、邮箱端口与可选入队通道。 */
+export interface SessionMailboxRegistrationOptions {
+  enqueuePendingInput?: (input: string, traceContext: TraceContext) => Promise<void>;
+  mailbox: SessionMailboxPort;
+  sessionId: SessionId;
 }
