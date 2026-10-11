@@ -89,10 +89,44 @@ function isAsyncIterable(value: unknown): value is AsyncIterable<unknown> {
   return typeof iteratorFactory === "function";
 }
 
+/** 迭代器上需要延续上下文的方法名；三个一起绑，避免漏掉 return/throw 这两条收尾路径。 */
+const ITERATOR_METHODS = ["next", "return", "throw"] as const;
+
+type IteratorMethod = (typeof ITERATOR_METHODS)[number];
+
+/** 把一个调用包进上下文：每次调用都重新进 `run`，而不是只在创建时进一次。 */
+function inInvocationScope<Args extends unknown[], Result>(
+  context: ModelInvocationContext,
+  invoke: (...args: Args) => Result,
+): (...args: Args) => Result {
+  return (...args) => invocationScope.run(context, () => invoke(...args));
+}
+
+/** 底层迭代器缺少某个方法时的兜底：`return` 正常收尾，其余继续抛。 */
+const MISSING_METHOD_FALLBACKS: Record<
+  IteratorMethod,
+  (args: unknown[]) => Promise<IteratorResult<unknown>>
+> = {
+  next: (args) => Promise.reject(args[0]),
+  return: (args) => Promise.resolve({ done: true, value: args[0] }),
+  throw: (args) => Promise.reject(args[0]),
+};
+
+/** 调底层迭代器方法；方法缺失时走兜底表。 */
+function callIteratorMethod(
+  upstream: AsyncIterator<unknown>,
+  method: IteratorMethod,
+  args: unknown[],
+): Promise<IteratorResult<unknown>> {
+  const handler = upstream[method] as ((...callArgs: unknown[]) => unknown) | undefined;
+  if (typeof handler !== "function") return MISSING_METHOD_FALLBACKS[method](args);
+  return handler.apply(upstream, args) as Promise<IteratorResult<unknown>>;
+}
+
 /**
  * 把异步迭代器的每一步都放回给定上下文里执行。
  * 直接 `run(context, () => source)` 只在创建迭代器时生效，之后每次 `next()` 都会脱离上下文；
- * 所以这里逐个方法包一层。
+ * 所以三个方法都按同一张表绑一遍。
  */
 function wrapAsyncIterableWithContext(
   context: ModelInvocationContext,
@@ -101,20 +135,13 @@ function wrapAsyncIterableWithContext(
   return {
     [Symbol.asyncIterator]() {
       const upstream = source[Symbol.asyncIterator]();
-      return {
-        next: (value?: unknown) =>
-          invocationScope.run(context, () => upstream.next(value as never)),
-        return: (value?: unknown) =>
-          invocationScope.run(context, () =>
-            upstream.return
-              ? upstream.return(value as never)
-              : Promise.resolve({ done: true, value }),
-          ),
-        throw: (error?: unknown) =>
-          invocationScope.run(context, () =>
-            upstream.throw ? upstream.throw(error) : Promise.reject(error),
-          ),
-      };
+      const boundMethods = ITERATOR_METHODS.map((method) => [
+        method,
+        inInvocationScope(context, (...args: unknown[]) =>
+          callIteratorMethod(upstream, method, args),
+        ),
+      ]);
+      return Object.fromEntries(boundMethods) as unknown as AsyncIterator<unknown>;
     },
   };
 }
