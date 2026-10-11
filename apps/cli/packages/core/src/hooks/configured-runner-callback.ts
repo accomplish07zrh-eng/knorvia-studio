@@ -38,6 +38,19 @@ function preview(value: string): string | undefined {
   return trimmed.length <= PREVIEW_LIMIT ? trimmed : `${trimmed.slice(0, PREVIEW_LIMIT)}...`;
 }
 
+/** 统一的 schema 违例错误工厂：context 用条目归约，避免逐字段散落。 */
+function schemaViolation(event: HookEventName, issues: readonly unknown[]): Error {
+  const context = Object.fromEntries([
+    ["errors", issues.slice(0, MAX_SCHEMA_ERRORS)],
+    ["hookEventName", event],
+  ]);
+  return createCoreError(
+    CoreErrorType.ToolExecutionFailed,
+    "Hook stdout failed HookJSONOutput schema validation",
+    { context, recoverable: true },
+  );
+}
+
 /**
  * 解析 stdout：只有 `{` 开头的文本才当作 JSON；解析失败按诊断文本忽略，
  * schema 不符则报可恢复错误（不能让不合规输出悄悄变成放行）。
@@ -54,51 +67,51 @@ function parseStdout(stdout: string, event: HookEventName): HookJSONOutput | und
   }
 
   const validation = HookJSONOutputSchema.safeParse(parsed);
-  if (!validation.success)
-    throw createCoreError(
-      CoreErrorType.ToolExecutionFailed,
-      "Hook stdout failed HookJSONOutput schema validation",
-      {
-        context: {
-          errors: validation.error.errors.slice(0, MAX_SCHEMA_ERRORS),
-          hookEventName: event,
-        },
-        recoverable: true,
-      },
-    );
+  if (!validation.success) throw schemaViolation(event, validation.error.errors);
   return validation.data as HookJSONOutput;
 }
 
-/** 退出码 2 的阻断语义：按事件给出该事件能理解的阻断输出。 */
+type HookSpecificOutput = NonNullable<HookJSONOutput["hookSpecificOutput"]>;
+type BlockOutputBuilder = (reason: string) => HookJSONOutput;
+
+/** 按事件给出该事件能理解的阻断输出；未列出的事件用默认形态。 */
+const BLOCK_OUTPUT_BUILDERS = new Map<string, BlockOutputBuilder>([
+  [
+    HookEventName.PreToolUse,
+    (reason) => {
+      const specific = Object.fromEntries([
+        ["hookEventName", HookEventName.PreToolUse],
+        ["permissionDecision", "deny"],
+        ["permissionDecisionReason", reason],
+      ]) as HookSpecificOutput;
+      return { continue: false, hookSpecificOutput: specific, reason };
+    },
+  ],
+  [
+    HookEventName.PermissionRequest,
+    (reason) => {
+      const specific = Object.fromEntries([
+        ["decision", { behavior: "deny", message: reason }],
+        ["hookEventName", HookEventName.PermissionRequest],
+      ]) as HookSpecificOutput;
+      return { continue: false, hookSpecificOutput: specific, reason };
+    },
+  ],
+  [
+    HookEventName.Stop,
+    (reason) =>
+      Object.fromEntries([
+        ["decision", "block"],
+        ["reason", reason],
+      ]) as HookJSONOutput,
+  ],
+]);
+
 function exitCodeBlockOutput(input: HookInput, result: ExecutionResult): HookJSONOutput {
   const reason =
     preview(result.stderr.text) ?? preview(result.stdout.text) ?? "Hook blocked execution";
-
-  switch (input.hookEventName) {
-    case HookEventName.PreToolUse:
-      return {
-        continue: false,
-        hookSpecificOutput: {
-          hookEventName: HookEventName.PreToolUse,
-          permissionDecision: "deny",
-          permissionDecisionReason: reason,
-        },
-        reason,
-      };
-    case HookEventName.PermissionRequest:
-      return {
-        continue: false,
-        hookSpecificOutput: {
-          decision: { behavior: "deny", message: reason },
-          hookEventName: HookEventName.PermissionRequest,
-        },
-        reason,
-      };
-    case HookEventName.Stop:
-      return { decision: "block", reason };
-    default:
-      return { continue: false, reason };
-  }
+  const build = BLOCK_OUTPUT_BUILDERS.get(input.hookEventName);
+  return build === undefined ? { continue: false, reason } : build(reason);
 }
 
 /** 把执行诊断附加到输出上；没有诊断时保持原样（可能是 undefined）。 */
