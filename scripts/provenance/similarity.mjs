@@ -15,9 +15,11 @@ import { loadCandidate, loadUpstream, readOldFile, readPathList } from "./simila
 import {
   THRESHOLDS,
   containment,
+  explainContainment,
   format,
   lineViolations,
   longestRun,
+  longestRunDetail,
 } from "./similarity-lines.mjs";
 import {
   structuralFingerprints,
@@ -49,6 +51,8 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --gates <all|line|structural>  默认 all
   --json <file>             输出 JSON 报告
   --calibrate               校准模式：打印（并写入报告）由候选集合推导的结构门槛
+  --explain                 逐文件列出命中的归一化行（行号 + 文本）与最长连续段位置，
+                            便于按行改写；不改变任何判定结果
   --help
 `;
 
@@ -73,6 +77,7 @@ const { values } = parseArgs({
     gates: { type: "string" },
     json: { type: "string" },
     calibrate: { type: "boolean" },
+    explain: { type: "boolean" },
     help: { type: "boolean" },
   },
 });
@@ -121,6 +126,7 @@ for (const result of results) result.pass = result.violations.length === 0;
 
 const failed = results.filter((result) => !result.pass);
 for (const result of results) process.stdout.write(`${describe(result)}\n`);
+if (values.explain) explainResults(candidates, results);
 const summary = {
   candidates: results.length,
   passed: results.length - failed.length,
@@ -297,6 +303,45 @@ function applyStructural(results) {
         );
     }
   }
+}
+
+/**
+ * --explain：逐文件列出「命中的归一化行」与「最长连续段位置」，让改写可以按行进行。
+ * 只输出诊断信息，不参与任何判定。
+ */
+function explainResults(candidates, results) {
+  const comparedLinesByPath = new Map();
+  for (const file of oldFiles) comparedLinesByPath.set(file.path, file.lines);
+  for (const file of upstream.files) {
+    if (!comparedLinesByPath.has(file.path)) comparedLinesByPath.set(file.path, file.lines);
+  }
+  results.forEach((result, index) => {
+    if (result.binary || !result.maxContainment?.file) return;
+    const candidateLines = candidates[index]?.lines ?? [];
+    const comparedLines = comparedLinesByPath.get(result.maxContainment.file) ?? [];
+    const matched = explainContainment(candidateLines, comparedLines);
+    process.stdout.write(
+      `EXPLAIN ${result.path} 命中 ${matched.length}/${candidateLines.length}（containment ${format(result.maxContainment.value)}）比较文件 ${result.maxContainment.file}\n`,
+    );
+    const shown = matched.slice(0, 30);
+    for (const item of shown)
+      process.stdout.write(`  #${item.index}  ${item.line.slice(0, 140)}\n`);
+    if (matched.length > shown.length) {
+      process.stdout.write(`  …（其余 ${matched.length - shown.length} 行略）\n`);
+    }
+    const run = longestRunDetail(candidateLines, comparedLines);
+    if (run.length > 0) {
+      process.stdout.write(
+        `  最长连续段 ${run.length} 行：候选 #${run.candidateStart}…#${run.candidateStart + run.length - 1} ↔ 比较文件 #${run.comparedStart}…\n`,
+      );
+      for (let offset = 0; offset < Math.min(run.length, 10); offset += 1) {
+        process.stdout.write(
+          `    ${(candidateLines[run.candidateStart + offset] ?? "").slice(0, 140)}\n`,
+        );
+      }
+      if (run.length > 10) process.stdout.write(`    …（其余 ${run.length - 10} 行略）\n`);
+    }
+  });
 }
 
 function describe(result) {

@@ -10,7 +10,14 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
-import { THRESHOLDS, containment, longestRun, normalizeLines } from "./similarity-lines.mjs";
+import {
+  THRESHOLDS,
+  containment,
+  explainContainment,
+  longestRun,
+  longestRunDetail,
+  normalizeLines,
+} from "./similarity-lines.mjs";
 import { structuralFingerprints, structuralOverlap } from "./similarity-structural.mjs";
 
 const tool = fileURLToPath(new URL("./similarity.mjs", import.meta.url));
@@ -685,4 +692,24 @@ test("多行 import 语句被整条丢弃后，包含率只反映实现行", () 
   const lines = normalizeLines(newText);
   assert.deepEqual(lines, ["const value = alpha * 2 + beta;"]);
   assert.equal(containment(lines, normalizeLines(oldText)), 0);
+});
+
+test("--explain 辅助：命中行下标与最长连续段位置", () => {
+  const candidate = ["a();", "b();", "c();", "d();"];
+  const compared = ["x();", "a();", "b();", "c();"];
+  assert.deepEqual(
+    explainContainment(candidate, compared).map((item) => item.index),
+    [0, 1, 2],
+  );
+  assert.deepEqual(longestRunDetail(candidate, compared), {
+    length: 3,
+    candidateStart: 0,
+    comparedStart: 1,
+  });
+  assert.equal(longestRun(candidate, compared), 3);
+  assert.deepEqual(longestRunDetail(["q();"], ["w();"]), {
+    length: 0,
+    candidateStart: -1,
+    comparedStart: -1,
+  });
 });

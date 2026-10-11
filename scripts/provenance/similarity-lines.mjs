@@ -105,6 +105,11 @@ export function containment(candidateLines, comparedLines) {
  * 同一对角线只从最先出现的候选位置向前延伸一次，并记录结束位置以避免跳段。
  */
 export function longestRun(candidateLines, comparedLines) {
+  return longestRunDetail(candidateLines, comparedLines).length;
+}
+
+/** 与 longestRun 同算法，但返回位置，便于 --explain 指路。 */
+export function longestRunDetail(candidateLines, comparedLines) {
   const positions = new Map();
   comparedLines.forEach((line, index) => {
     const list = positions.get(line);
@@ -120,7 +125,7 @@ export function longestRun(candidateLines, comparedLines) {
       else diagonals.set(diagonal, [index, position]);
     }
   });
-  let longest = 0;
+  let longest = { length: 0, candidateStart: -1, comparedStart: -1 };
   for (const pairs of diagonals.values()) {
     let covered = -1;
     for (let offset = 0; offset < pairs.length; offset += 2) {
@@ -139,10 +144,22 @@ export function longestRun(candidateLines, comparedLines) {
         compared += 1;
       }
       covered = candidate - 1;
-      if (length > longest) longest = length;
+      if (length > longest.length) {
+        longest = { length, candidateStart: index, comparedStart: pairs[offset + 1] };
+      }
     }
   }
   return longest;
+}
+
+/** 逐行解释：候选里哪些行在比较文件中出现过（0 基下标 + 文本），供 --explain 指路。 */
+export function explainContainment(candidateLines, comparedLines) {
+  const present = new Set(comparedLines);
+  const matched = [];
+  candidateLines.forEach((line, index) => {
+    if (present.has(line)) matched.push({ index, line });
+  });
+  return matched;
 }
 
 /** 行门槛：≥10 行时包含率 < 0.2 且最长段 < 8；<10 行时包含率必须为 0。 */
