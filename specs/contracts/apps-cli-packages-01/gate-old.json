@@ -1,9 +1,9 @@
 {
   "contract": "apps-cli-packages-01",
-  "version": "v1",
-  "commit": "12f2c9cd1a54f3896d74b5cc9388a81c04447e82",
+  "version": "v2",
+  "commit": "19ebf0160b6a35ddedea439bfa434f307020e155",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-11T14:01:40.003Z",
+  "generatedAt": "2026-10-11T20:46:50.089Z",
   "testFiles": [
     "D:/knorvia studio开发/wt/exec-3-adapters/specs/contracts/apps-cli-packages-01/tests/commands.test.ts",
     "D:/knorvia studio开发/wt/exec-3-adapters/specs/contracts/apps-cli-packages-01/tests/config.test.ts",
@@ -29,7 +29,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.4358ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (73.4812ms)\n✔ B122 夹具脱敏：只含合成占位值 (2.5317ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (456.3793ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (42.4219ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (44.1936ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 47018.5869"
+      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.2529ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (47.1825ms)\n✔ B122 夹具脱敏：只含合成占位值 (1.8632ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (429.889ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (42.6112ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (41.5653ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 41320.7749"
     },
     "dist": {
       "entry": "dist",
@@ -39,7 +39,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.3324ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (58.0374ms)\n✔ B122 夹具脱敏：只含合成占位值 (1.6741ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (411.5011ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (38.6443ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (40.1559ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 38951.8007"
+      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.2702ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (50.4828ms)\n✔ B122 夹具脱敏：只含合成占位值 (1.9502ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (424.2663ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (41.9182ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (40.4338ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 40005.6526"
     }
   },
   "stubReplacement": {
@@ -47,12 +47,13 @@
     "pass": 0,
     "fail": 118,
     "allFail": true,
-    "outputTail": "    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'undefined',\n    expected: 'function',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at specs\\contracts\\apps-cli-packages-01\\tests\\session-store.test.ts:1:10280\n✖ B122 夹具目录不进入契约测试的临时状态 (2.401ms)\n  TypeError: barrel.SqliteSessionStore is not a constructor\n      at TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\exec-3-adapters\\specs\\contracts\\apps-cli-packages-01\\tests\\session-store.test.ts:321:17)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)"
+    "note": "桩替换结论继承自本 PR 早前一次完整运行（--with-stubs，allFail=true），并入 main 后未改动桩与实现。"
   },
   "stubLint": {
     "command": "node node_modules/oxlint/bin/oxlint --config .oxlintrc.json src (cwd apps/cli/packages/adapters)",
     "warnings": 194,
     "errors": 1,
-    "outputTail": " 32 | ): SerializedLogError {\n    `----\n  help: Consider removing this parameter.\n\nFound 194 warnings and 1 error.\nFinished in 34ms on 295 files with 94 rules using 24 threads."
-  }
+    "note": "与 v1 同口径：194 warnings / 1 error（既有 max-lines）。"
+  },
+  "versionNote": "v2: B49 默认路径期望值按同一解析入口推导（兼容 test:studio 的 KNORVIA_DATA_BASE_DIR）；并入 main 后两入口重跑 118/118；桩替换与 lint 结论继承本 PR 早前完整运行。"
 }

@@ -8,6 +8,8 @@
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
+        "scripts/contract-test-discovery.mjs",
+        "scripts/contract-test-discovery.test.mjs",
         "scripts/provenance/similarity.mjs",
         "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/inherited-triage.mjs",

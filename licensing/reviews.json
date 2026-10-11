@@ -82094,357 +82094,24 @@
       ]
     },
     {
-      "path": ".env.development",
-      "normalizedSha256": "8fb564bcdab70dbd7c83ff479ed56c34c835c90436fb7551ecc588770bf9042e",
+      "path": "scripts/contract-test-discovery.mjs",
+      "normalizedSha256": "b1b2175932e85f67d29de7eed3158a455ecb59c9bb0d2c7b587a2fc0ba8bd82b",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     },
     {
-      "path": ".env.example",
-      "normalizedSha256": "58fb87c2146eb46979b8ba77b4ea619e805e83b99aa70235582f93673dbb3760",
+      "path": "scripts/contract-test-discovery.test.mjs",
+      "normalizedSha256": "8c86fd35e75a227e5fd5a4bf7fd11cf15c334c8418e5099542fcde46f4cda75e",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": ".env.production",
-      "normalizedSha256": "7e927d9824ecc19c77362c0216e80f6428a0d100a27f8ff111b167b0c0d10681",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "NOTICE.md",
-      "normalizedSha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "README.md",
-      "normalizedSha256": "3ecce38de2b5218be065e125b273b1978f638445788538efb69ef425904e339c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/browser-use-plugin/README.md",
-      "normalizedSha256": "d268facf19c630de8110a7491d361a09faa47a7eb76cb729ed6efe4d13c08871",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/browser-use-plugin/docs/overview.md",
-      "normalizedSha256": "e1001caa03a96fb922ba8be2d24481788f376449747a3e8907cecfb843b60930",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/browser-use-plugin/docs/recording.md",
-      "normalizedSha256": "1781998aa6ad76845542c24b52f1edefe8ddeb3c83311648a86f532ee91a9712",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/browser-use-plugin/docs/workflow.md",
-      "normalizedSha256": "47674f568f5ce1dd476dee660dcf440f26eb76db20d4af89126afc597b113d95",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/cli/src/command-center/slash-command-help.ts",
-      "normalizedSha256": "e52b174578bc29a42921e4c5a0f35196615237439f4ab486e1ff197d961322a4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/cli/src/index.ts",
-      "normalizedSha256": "5255325799a1f2a4e8efc13e7fad5bcb17069c40b1d54bde877ed3470b336e54",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
-      "normalizedSha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/node-repl-host/README.md",
-      "normalizedSha256": "785322b2f4c93221a3a8997b6a824a493fa29577ac87368f3ef1890f1bc76ea0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/tui/src/app-locale.ts",
-      "normalizedSha256": "e4fa290f847b8b3f0727a3821eb6a02be3318826619fb85a4eb0638ebea94c5a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "config/default.json",
-      "normalizedSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/desktop/src/host/windowHostControllerService.ts",
-      "normalizedSha256": "51dee698b622c8785a8b58ba05624b955bbff95bc2c4361ce7d7e46fb3084200",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/desktop/src/host/windowHostSessionsIndexObserver.ts",
-      "normalizedSha256": "33bad8c578ef3662d6aefc66fb6057628c36aea367351238b6b95254bd2d1f14",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/desktop/src/main/desktopArchitectureGuard.ts",
-      "normalizedSha256": "d3211bed87259b848a5997d02342d2b2eaa0b5eac627720fbdddc002e1fb13ff",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/provider-node/src/index.ts",
-      "normalizedSha256": "126f73715270d328a4289156b4095e889f9bd774eb29eabae16a838c671a4269",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/services/src/storage-startup.ts",
-      "normalizedSha256": "7c5675f88950233126ca96ec3f581ee69f86b1a2339cd6d685b803c289cf467f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/ui/src/hooks/useDynamicWorkflowAvailability.ts",
-      "normalizedSha256": "ab3e986daca74b53a8a1282b1409c170c71975c003d301016298720e16da5575",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/ui/src/hooks/useWorkspacePrepare.ts",
-      "normalizedSha256": "668ae01592baeefd2bf67353654dd2850cd9132b9ac6716ad751b99f278b97f5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "packages/ui/src/workspace-file-search/workspaceFileSearch.ts",
-      "normalizedSha256": "8a7108024da36fa5c13d7460efbca5f93a99521b3ed56a08dce4b20fde43e89f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
-      "evidence": [
-        "docs/knorvia-m14-review-2026-10-11.md",
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs"
-      ]
-    },
-    {
-      "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "48b256fb53e620f407f4ab7e99bd3097552282950fa6b84f6a5fdc910aa7a206",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
-      "evidence": [
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "docs/knorvia-replacement-baseline-2026-10-11.md",
-        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
-      ]
-    },
-    {
-      "path": "docs/knorvia-provenance-bookkeeping-20261010.md",
-      "normalizedSha256": "0cd5b0fdea2f96ec9878be0f4686aa536343c4d241b348f4aa76be4e7a5f44e5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored round-1 provenance bookkeeping report, already merged on main: it lists the returned paths with their reasons, the classification counts and the stage PRs. Written by the Knorvia team; it contains paths and reasons, not upstream source text.",
-      "evidence": [
-        "licensing/reviews.json",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
-      ]
-    },
-    {
-      "path": "licensing/frozen-evidence.json",
-      "normalizedSha256": "a7d9f8e43d3cb28f215b974eb2604b609e42abe898dde56583463da94eaace00",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Integrity manifest generated by the Knorvia provenance tooling for the frozen evidence pack (baseline commit 19f6ccf7): each entry is a path, a sha256 and a byte count. It contains audit metadata only, no upstream source text, and is refreshed explicitly by the tooling. Registered as original audit data so the manifest itself is accounted for.",
-      "evidence": [
-        "specs/knorvia-independent-implementation.md",
-        "scripts/check-evidence-integrity.mjs",
-        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
-      ]
-    },
-    {
-      "path": "licensing/upstream-baseline.json",
-      "normalizedSha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Inventory generated by the Knorvia provenance tooling from the pinned upstream commit 872ad960de7ec172591f7e1952f7849229f94521: paths, modes, blob ids and normalized digests, with no upstream file contents. Derived audit data, not an upstream implementation; registered as original so the inventory itself is accounted for.",
-      "evidence": [
-        "specs/knorvia-independent-implementation.md",
-        "scripts/provenance/cli.mjs",
-        "licensing/current-files.json",
-        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
-      ]
-    },
-    {
-      "path": "docs/knorvia-m14-review-2026-10-11.md",
-      "normalizedSha256": "b5eb96f31ff974978ca37490c628a7582d7ae6b054cddfb68e5fb6f8f4d13235",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-14 review report authored for the Knorvia independent-replacement plan: it records the comparison object and thresholds, the 23 files whose replaced implementation has no measurable retained expression, the one file returned to a replacement package, and the documented difference from the plan figure. No upstream source text is reproduced.",
-      "evidence": [
-        "licensing/current-files.json",
-        "scripts/provenance/similarity.mjs",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "docs/knorvia-m15-unreviewed-closure-2026-10-11.md",
-      "normalizedSha256": "9f3bf24135d9496d50fee49a96385af1ac6dfdeee04640140092fef0dfa92d47",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-15 closure report authored for the Knorvia independent-replacement plan: it lists the four repository-owned audit/documentation files registered as original and the single written self-reference exception for licensing/reviews.json. No upstream source text is reproduced.",
-      "evidence": [
-        "licensing/current-files.json",
-        "specs/knorvia-independent-implementation.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/acceptance.md",
-      "normalizedSha256": "165aa9f3b36b8d3c4444429dbeab2888eca9c5a5eb48e469d60e9e0565490762",
+      "normalizedSha256": "045ca7c556eb96e4d1ef971041a0c57abcddfc9789655a79718a17c9d308a0f5",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -82504,7 +82171,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/gate-old.json",
-      "normalizedSha256": "104db1b0d52b402c4392bc8cec011563bc97f58d0efb7f5800dbe216ad4640e9",
+      "normalizedSha256": "c6530cb2ed477c6f9338e4f9b8512e04a92de136ca3647eb2d85240724d8c859",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -82540,7 +82207,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/README.md",
-      "normalizedSha256": "fe52072f860f320f82f607ab218b946ac36c51754af8150b3529eaf497193c12",
+      "normalizedSha256": "29537b39ca55a76853f7f09182ea5cbc8427205f170a7bf5d24a89da1ab86168",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -83236,7 +82903,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/tests/build-case-map.mjs",
-      "normalizedSha256": "806176cf8aed485f11b0a277a0c09185236d62905fbe3bbfe88c46775aed4b7f",
+      "normalizedSha256": "37efba60283526aebd6183c3655667a761cae8ea792e506973b1ea2ed822ab1f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -83260,7 +82927,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/tests/config.test.ts",
-      "normalizedSha256": "9c8b104f00511fc9ccd196c22cd291269e4565dea829104a9a903e7c069e2a03",
+      "normalizedSha256": "903f6b5399400cec83d6c3d7edb55b40758da1276bd3967f29a1f2ec41dcf590",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01 contract v1 deliverables, authored for this contract (no copy, rename or line-by-line rewrite of the replaced implementation). Contract docs (README.md, behavior.md, interface.md, callers.md, known-differences.md, acceptance.md, gate-old.json): behaviour spec written in our own words; interface and callers extracted with the TypeScript compiler API from the source text. Contract tests (tests/**, node:test, public-entry black-box, source AND dist entries, 118 cases, 0 skipped): written against the frozen old implementation; old gate 118/118 on both entries; stub replacement makes all 118 fail. Fixtures (fixtures/session-store/**: synthetic ledger checksums and a sanitized old-write slice): no real user data, credentials or internal addresses. Stubs (stubs/**, one minimal stub per deleted module path with the interface.md exports and signatures, bodies throw Error(\"not implemented: apps-cli-packages-01\")): generated by stubs/build-stubs.mjs.",
@@ -83388,6 +83055,67 @@
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/apps-cli-packages-01/README.md",
         "specs/contracts/apps-cli-packages-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/canvas.tsx",
+      "normalizedSha256": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Byte-identical to vercel/ai-elements at the pinned reference 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd: packages/elements/src/canvas.tsx is 618 bytes and the local file has the same sha256 and normalized sha256 (7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687). Verified file by file during M0-6 against an external clone of the pinned upstream revision. The file carries no ZCode or Knorvia modification and no added provenance header, so it is an unmodified upstream component under Apache-2.0, not Knorvia-authored code. The other files in the same directory differ from the pinned upstream revision and are not covered by this decision.",
+      "evidence": [
+        "third-party/source-verification-20261011/third-party-file-comparison.json",
+        "docs/knorvia-third-party-verification-20261011.md",
+        "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
+        "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage.mjs",
+      "normalizedSha256": "02530bdd224fae7874d44fc246456370df7993dee083461873d368b3e64f9c1e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan: it parses the round-1 bookkeeping report return tables and applies the plan triage rules to every returned path. Node built-ins only; no upstream implementation was copied, renamed or rewritten. The author read the returned paths, stages and reasons to understand what each returned file is, not to reproduce any implementation. Regression cases were written first and pass 13/13.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-provenance-bookkeeping-20261010.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage-rules.mjs",
+      "normalizedSha256": "adda50a20464d5cf181a13759545fa8c6e42c7f77f033201e37bc9f8f1a4f161",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 triage rule table authored for the Knorvia independent-replacement plan: one path-prefix to disposition mapping with the package each inherited file joins. Rules were written from the plan category table and default-ruling table; no upstream implementation was copied, renamed or rewritten. Kept in its own module so the tool entry point stays under the repository max-lines rule.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/provenance/inherited-triage.test.mjs",
+      "normalizedSha256": "b237a90dc18d1577722dfa9b179f325c17a2db3e17584b5c6d9cd6a787d56cc5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New regression tests for the M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan. They assert return-reason bucketing, CRLF tolerance, disposition and package mapping, rule precedence, unmapped reporting, summary counts, table padding stability and rendered rows. Node built-ins only; no upstream test was copied or adapted.",
+      "evidence": [
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "scripts/provenance/inherited-triage.mjs"
+      ]
+    },
+    {
+      "path": "docs/knorvia-inherited-triage-2026-10-11.md",
+      "normalizedSha256": "1aab8442e58d227f10be2e05ce7e1a58d383b53164b8a56d4ef535511fd51e3c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-3 triage table generated from the round-1 bookkeeping report return list by scripts/provenance/inherited-triage.mjs. It records dispositions and package assignments for the 1,547 returned files the plan counts as first-snapshot or upstream-similar; it states the exception class for frozen-evidence upstream excerpts. No upstream text is reproduced.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-provenance-bookkeeping-20261010.md",
+        "scripts/provenance/inherited-triage.mjs"
       ]
     },
     {
@@ -83631,54 +83359,6 @@
       ]
     },
     {
-      "path": "scripts/provenance/inherited-triage.mjs",
-      "normalizedSha256": "02530bdd224fae7874d44fc246456370df7993dee083461873d368b3e64f9c1e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan: it parses the round-1 bookkeeping report return tables and applies the plan triage rules to every returned path. Node built-ins only; no upstream implementation was copied, renamed or rewritten. The author read the returned paths, stages and reasons to understand what each returned file is, not to reproduce any implementation. Regression cases were written first and pass 13/13.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-provenance-bookkeeping-20261010.md",
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "scripts/provenance/inherited-triage.test.mjs"
-      ]
-    },
-    {
-      "path": "scripts/provenance/inherited-triage-rules.mjs",
-      "normalizedSha256": "adda50a20464d5cf181a13759545fa8c6e42c7f77f033201e37bc9f8f1a4f161",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-3 triage rule table authored for the Knorvia independent-replacement plan: one path-prefix to disposition mapping with the package each inherited file joins. Rules were written from the plan category table and default-ruling table; no upstream implementation was copied, renamed or rewritten. Kept in its own module so the tool entry point stays under the repository max-lines rule.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "scripts/provenance/inherited-triage.test.mjs"
-      ]
-    },
-    {
-      "path": "scripts/provenance/inherited-triage.test.mjs",
-      "normalizedSha256": "b237a90dc18d1577722dfa9b179f325c17a2db3e17584b5c6d9cd6a787d56cc5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New regression tests for the M0-3 inheritance-triage tooling authored for the Knorvia independent-replacement plan. They assert return-reason bucketing, CRLF tolerance, disposition and package mapping, rule precedence, unmapped reporting, summary counts, table padding stability and rendered rows. Node built-ins only; no upstream test was copied or adapted.",
-      "evidence": [
-        "docs/knorvia-inherited-triage-2026-10-11.md",
-        "scripts/provenance/inherited-triage.mjs"
-      ]
-    },
-    {
-      "path": "docs/knorvia-inherited-triage-2026-10-11.md",
-      "normalizedSha256": "1aab8442e58d227f10be2e05ce7e1a58d383b53164b8a56d4ef535511fd51e3c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-3 triage table generated from the round-1 bookkeeping report return list by scripts/provenance/inherited-triage.mjs. It records dispositions and package assignments for the 1,547 returned files the plan counts as first-snapshot or upstream-similar; it states the exception class for frozen-evidence upstream excerpts. No upstream text is reproduced.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-provenance-bookkeeping-20261010.md",
-        "scripts/provenance/inherited-triage.mjs"
-      ]
-    },
-    {
       "path": "scripts/provenance/similarity.mjs",
       "normalizedSha256": "88194f2efc54c0366d10abc856a7d8a102b68455a25e24f08019b4ed08adf5d9",
       "decision": "original",
@@ -83758,6 +83438,355 @@
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": ".env.development",
+      "normalizedSha256": "8fb564bcdab70dbd7c83ff479ed56c34c835c90436fb7551ecc588770bf9042e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": ".env.example",
+      "normalizedSha256": "58fb87c2146eb46979b8ba77b4ea619e805e83b99aa70235582f93673dbb3760",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": ".env.production",
+      "normalizedSha256": "7e927d9824ecc19c77362c0216e80f6428a0d100a27f8ff111b167b0c0d10681",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "NOTICE.md",
+      "normalizedSha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "README.md",
+      "normalizedSha256": "3ecce38de2b5218be065e125b273b1978f638445788538efb69ef425904e339c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/browser-use-plugin/README.md",
+      "normalizedSha256": "d268facf19c630de8110a7491d361a09faa47a7eb76cb729ed6efe4d13c08871",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/browser-use-plugin/docs/overview.md",
+      "normalizedSha256": "e1001caa03a96fb922ba8be2d24481788f376449747a3e8907cecfb843b60930",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/browser-use-plugin/docs/recording.md",
+      "normalizedSha256": "1781998aa6ad76845542c24b52f1edefe8ddeb3c83311648a86f532ee91a9712",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/browser-use-plugin/docs/workflow.md",
+      "normalizedSha256": "47674f568f5ce1dd476dee660dcf440f26eb76db20d4af89126afc597b113d95",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/cli/src/command-center/slash-command-help.ts",
+      "normalizedSha256": "e52b174578bc29a42921e4c5a0f35196615237439f4ab486e1ff197d961322a4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/cli/src/index.ts",
+      "normalizedSha256": "5255325799a1f2a4e8efc13e7fad5bcb17069c40b1d54bde877ed3470b336e54",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+      "normalizedSha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/README.md",
+      "normalizedSha256": "785322b2f4c93221a3a8997b6a824a493fa29577ac87368f3ef1890f1bc76ea0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/tui/src/app-locale.ts",
+      "normalizedSha256": "e4fa290f847b8b3f0727a3821eb6a02be3318826619fb85a4eb0638ebea94c5a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "config/default.json",
+      "normalizedSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0 (gate not applicable to this file kind), both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostControllerService.ts",
+      "normalizedSha256": "51dee698b622c8785a8b58ba05624b955bbff95bc2c4361ce7d7e46fb3084200",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostSessionsIndexObserver.ts",
+      "normalizedSha256": "33bad8c578ef3662d6aefc66fb6057628c36aea367351238b6b95254bd2d1f14",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopArchitectureGuard.ts",
+      "normalizedSha256": "d3211bed87259b848a5997d02342d2b2eaa0b5eac627720fbdddc002e1fb13ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/index.ts",
+      "normalizedSha256": "126f73715270d328a4289156b4095e889f9bd774eb29eabae16a838c671a4269",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/services/src/storage-startup.ts",
+      "normalizedSha256": "7c5675f88950233126ca96ec3f581ee69f86b1a2339cd6d685b803c289cf467f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/ui/src/hooks/useDynamicWorkflowAvailability.ts",
+      "normalizedSha256": "ab3e986daca74b53a8a1282b1409c170c71975c003d301016298720e16da5575",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/ui/src/hooks/useWorkspacePrepare.ts",
+      "normalizedSha256": "668ae01592baeefd2bf67353654dd2850cd9132b9ac6716ad751b99f278b97f5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "packages/ui/src/workspace-file-search/workspaceFileSearch.ts",
+      "normalizedSha256": "8a7108024da36fa5c13d7460efbca5f93a99521b3ed56a08dce4b20fde43e89f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inherited file whose replaced implementation has no measurable retained expression: max normalized-line containment against the pinned upstream 872ad960 is 0.00 and structural similarity is 0.0000, both below every acceptance threshold. Reviewed file by file under plan M0-14; the file is registered as original and is not rewritten. Upstream path and digest relation stay recorded in licensing/current-files.json.",
+      "evidence": [
+        "docs/knorvia-m14-review-2026-10-11.md",
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "docs/knorvia-independent-replacement-plan.md",
+      "normalizedSha256": "48b256fb53e620f407f4ab7e99bd3097552282950fa6b84f6a5fdc910aa7a206",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
+      "evidence": [
+        "docs/knorvia-inherited-triage-2026-10-11.md",
+        "docs/knorvia-replacement-baseline-2026-10-11.md",
+        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-provenance-bookkeeping-20261010.md",
+      "normalizedSha256": "0cd5b0fdea2f96ec9878be0f4686aa536343c4d241b348f4aa76be4e7a5f44e5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored round-1 provenance bookkeeping report, already merged on main: it lists the returned paths with their reasons, the classification counts and the stage PRs. Written by the Knorvia team; it contains paths and reasons, not upstream source text.",
+      "evidence": [
+        "licensing/reviews.json",
+        "docs/knorvia-m02-registration-2026-10-11.md",
+        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "licensing/frozen-evidence.json",
+      "normalizedSha256": "a7d9f8e43d3cb28f215b974eb2604b609e42abe898dde56583463da94eaace00",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Integrity manifest generated by the Knorvia provenance tooling for the frozen evidence pack (baseline commit 19f6ccf7): each entry is a path, a sha256 and a byte count. It contains audit metadata only, no upstream source text, and is refreshed explicitly by the tooling. Registered as original audit data so the manifest itself is accounted for.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "scripts/check-evidence-integrity.mjs",
+        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "normalizedSha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Inventory generated by the Knorvia provenance tooling from the pinned upstream commit 872ad960de7ec172591f7e1952f7849229f94521: paths, modes, blob ids and normalized digests, with no upstream file contents. Derived audit data, not an upstream implementation; registered as original so the inventory itself is accounted for.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "scripts/provenance/cli.mjs",
+        "licensing/current-files.json",
+        "docs/knorvia-m15-unreviewed-closure-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-m14-review-2026-10-11.md",
+      "normalizedSha256": "b5eb96f31ff974978ca37490c628a7582d7ae6b054cddfb68e5fb6f8f4d13235",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-14 review report authored for the Knorvia independent-replacement plan: it records the comparison object and thresholds, the 23 files whose replaced implementation has no measurable retained expression, the one file returned to a replacement package, and the documented difference from the plan figure. No upstream source text is reproduced.",
+      "evidence": [
+        "licensing/current-files.json",
+        "scripts/provenance/similarity.mjs",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-m15-unreviewed-closure-2026-10-11.md",
+      "normalizedSha256": "9f3bf24135d9496d50fee49a96385af1ac6dfdeee04640140092fef0dfa92d47",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-15 closure report authored for the Knorvia independent-replacement plan: it lists the four repository-owned audit/documentation files registered as original and the single written self-reference exception for licensing/reviews.json. No upstream source text is reproduced.",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/knorvia-independent-implementation.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     }

@@ -139,7 +139,10 @@ browser-use-plugin/tsconfig.json              u-unchanged
 3. 本包内 knip 确认无用的代码删除（单独提交；`debug` 已在 M0-5 删除，不再删）。
 4. `README` / `behavior.md`（B 编号）/ `interface.md` / `callers.md` 初稿。
 5. `tests/` + `fixtures/`（含会话存储迁移往返测试）。
-6. `stubs/` + 旧门（源码入口与 dist 入口都过）→ `gate-old.json` → `known-differences.md` / `acceptance.md` → PR `contract: apps-cli-packages-01 v1`。
+6. `stubs/` + 旧门（源码入口与 dist 入口都过）→ `gate-old.json` → `known-differences.md` / `acceptance.md` → PR `contract: apps-cli-packages-01 v1`（已合并为 main `02dfa2d9`）。
+7. **v2（2026-10-12）**：修 B49 的环境假设缺陷——默认路径期望值改为按同一解析入口推导（默认 →
+   `KNORVIA_DATA_BASE_DIR` → `KNORVIA_HOME`），兼容 `test:studio` 注入的临时数据根；断言语义不变。
+   → PR `contract: apps-cli-packages-01 v2`，旧门两入口重跑（源码 + dist 各 118/118）。
 
 门禁顺序：`fmt` → `fmt:check` → `provenance:report` → `provenance:check` → commit。
 
