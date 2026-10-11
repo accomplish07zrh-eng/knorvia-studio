@@ -231,8 +231,7 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
       throw new Error("Cannot replace a Workspace Hook snapshot across workspace identities");
 
     this.book = { digestOf: indexSnapshot(snapshot), snapshot };
-    this.evaluation = undefined;
-    this.revisionSeen = undefined;
+    this.forgetEvaluation();
     this.blockedByInvalidation = undefined;
     if (this.state !== "cold") {
       this.recompute({ safe: false });
@@ -242,6 +241,11 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
 
   invalidate(reasonCode: WorkspaceHookReasonCode): void {
     this.blockedByInvalidation = reasonCode;
+    this.forgetEvaluation();
+  }
+
+  /** 评估结果与已校验修订必须一起失效；只清一个会留下不一致的判断依据。 */
+  private forgetEvaluation(): void {
     this.evaluation = undefined;
     this.revisionSeen = undefined;
   }
@@ -285,12 +289,14 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
     const fingerprint = [event, fields.reasonCode, fields.bundleDigest, fields.declarationDigest, fields.source].join("|");
     if (this.reportedTelemetry.has(fingerprint)) return;
     this.reportedTelemetry.add(fingerprint);
-    emitWorkspaceHookTelemetry(this.logger, event, fields);
+    const forward = emitWorkspaceHookTelemetry;
+    forward(this.logger, event, fields);
   }
 }
 
 export function createWorkspaceHookRuntimeAdmission(
   options: WorkspaceHookRuntimeAdmissionOptions,
 ): WorkspaceHookRuntimeAdmission {
-  return new WorkspaceHookRuntimeAdmission(options);
+  const admission = new WorkspaceHookRuntimeAdmission(options);
+  return admission;
 }

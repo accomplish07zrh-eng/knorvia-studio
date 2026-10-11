@@ -73,13 +73,21 @@ function fieldPlan(fields: WorkspaceHookTelemetryFields): readonly [string, unkn
 }
 
 /** 单一出口：没有 logger 时静默返回，调用点不需要各自判空。 */
-export function emitWorkspaceHookTelemetry(
-  logger: Logger | undefined,
-  event: WorkspaceHookTelemetryEvent,
-  fields: WorkspaceHookTelemetryFields = {},
+function publishTelemetry(
+  sink: Logger | undefined,
+  marker: WorkspaceHookTelemetryEvent,
+  detail: WorkspaceHookTelemetryFields,
 ): void {
-  const sink = logger;
   if (sink === undefined) return;
-  const present = fieldPlan(fields).filter(([, value]) => value !== undefined);
-  sink.info(LOG_TEXT, Object.fromEntries([["event", event], ["module", LOG_MODULE], ...present]));
+  const present = fieldPlan(detail).filter(([, value]) => value !== undefined);
+  const envelope = [["event", marker], ["module", LOG_MODULE], ...present];
+  sink.info(LOG_TEXT, Object.fromEntries(envelope));
+}
+
+export function emitWorkspaceHookTelemetry(
+  target: Logger | undefined,
+  marker: WorkspaceHookTelemetryEvent,
+  detail: WorkspaceHookTelemetryFields = {},
+): void {
+  publishTelemetry(target, marker, detail);
 }

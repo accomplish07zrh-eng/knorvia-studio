@@ -15,8 +15,10 @@ import type { WorkspaceHookTrustStoreStatus } from "./workspace-hook-trust-types
 
 /** 复合键用 NUL 连接，避免 workspace 文本与摘要拼接歧义。 */
 export function trustKey(workspaceIdentity: string, hookDeclarationDigest: string): string {
-  return `${workspaceIdentity}\u0000${hookDeclarationDigest}`;
+  return [workspaceIdentity, hookDeclarationDigest].join(KEY_SEPARATOR);
 }
+
+const KEY_SEPARATOR = "\u0000";
 
 interface EntryContext {
   entry: CanonicalWorkspaceHookEntry;
@@ -34,19 +36,9 @@ function slotSignature(source: string, entry: CanonicalWorkspaceHookEntry): stri
 }
 
 function recordSignature(record: WorkspaceHookTrustRecord): string | undefined {
-  if (
-    record.sourceDiscoveryOrderAtGrant === undefined ||
-    record.matcherIndexAtGrant === undefined ||
-    record.hookIndexAtGrant === undefined
-  )
-    return undefined;
-  return [
-    record.sourceDiscoveryOrderAtGrant,
-    record.eventAtGrant,
-    record.matcherIndexAtGrant,
-    record.hookIndexAtGrant,
-    record.matcherAtGrant ?? "",
-  ].join("\u0001");
+  const slot = [record.sourceDiscoveryOrderAtGrant, record.matcherIndexAtGrant, record.hookIndexAtGrant];
+  if (slot.some((value) => value === undefined)) return undefined;
+  return [record.sourceDiscoveryOrderAtGrant, record.eventAtGrant, record.matcherIndexAtGrant, record.hookIndexAtGrant, record.matcherAtGrant ?? ""].join("\u0001");
 }
 
 /** 是否存在"同一槽位、不同摘要"的历史记录（内容被改过）。 */

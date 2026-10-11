@@ -74,15 +74,13 @@ const SNAPSHOT_FIELDS = [
 ] as const;
 
 function sameFields(
-  request: WorkspaceHookReviewRequestPayload,
-  target: WorkspaceHookReviewTarget,
-  fields: readonly string[],
+  payload: WorkspaceHookReviewRequestPayload,
+  probe: WorkspaceHookReviewTarget,
+  keys: readonly string[],
 ): boolean {
-  return fields.every(
-    (field) =>
-      (request as unknown as Record<string, unknown>)[field] ===
-      (target as unknown as Record<string, unknown>)[field],
-  );
+  const actual = payload as unknown as Record<string, unknown>;
+  const expected = probe as unknown as Record<string, unknown>;
+  return keys.every((key) => actual[key] === expected[key]);
 }
 
 /** 同一代 = 流程 id、代次与交互 id 都对上（摘要不参与，摘要变的是快照）。 */
@@ -102,15 +100,16 @@ function isSameSnapshot(
 }
 
 function isSameRequest(
-  left: WorkspaceHookReviewRequestPayload,
-  right: WorkspaceHookReviewRequestPayload,
+  earlier: WorkspaceHookReviewRequestPayload,
+  later: WorkspaceHookReviewRequestPayload,
 ): boolean {
-  return (
-    left.reviewFlowId === right.reviewFlowId &&
-    left.generation === right.generation &&
-    left.interactionId === right.interactionId &&
-    left.bundleDigest === right.bundleDigest
-  );
+  const pairs = [
+    earlier.reviewFlowId === later.reviewFlowId,
+    earlier.generation === later.generation,
+    earlier.interactionId === later.interactionId,
+    earlier.bundleDigest === later.bundleDigest,
+  ];
+  return pairs.every(Boolean);
 }
 
 /**
@@ -211,12 +210,12 @@ export class WorkspaceHookReviewFlowRegistry {
     return this.close(target, "resolved", undefined);
   }
 
-  getCurrentFlow(sessionId: string): WorkspaceHookReviewFlow | undefined {
-    return this.flows.get(sessionId)?.publicFlow;
+  getCurrentFlow(sessionKey: string): WorkspaceHookReviewFlow | undefined {
+    return this.flows.get(sessionKey)?.publicFlow;
   }
 
-  getCurrent(sessionId: string): WorkspaceHookReviewFlowState | undefined {
-    const state = this.flows.get(sessionId)?.state;
+  getCurrent(sessionKey: string): WorkspaceHookReviewFlowState | undefined {
+    const state = this.flows.get(sessionKey)?.state;
     return state ? { ...state } : undefined;
   }
 
