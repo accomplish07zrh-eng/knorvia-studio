@@ -82092,6 +82092,450 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/README.md",
+      "normalizedSha256": "6c87bdc069cc655158f104cecfc78087cfe15f45ab216243cf23fd3df6cd32d6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/behavior.md",
+      "normalizedSha256": "884718bb8e62f619034f9d5ad236abe6e85a0c92c745d79fe43da7fa4c70c21a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/interface.md",
+      "normalizedSha256": "82e275efe7eaf3958015ac1bb1f73e1682e19af86c385616faabbd647908ce49",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/callers.md",
+      "normalizedSha256": "91c4ece710bfb00c5c008587ef5b2dc9ebeec828f8484be56566bc797cdaf098",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/known-differences.md",
+      "normalizedSha256": "8f50a64c234528152d546c3ec5912ba0710ec13d3f6b5660282d05de092606f8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/acceptance.md",
+      "normalizedSha256": "cffdb0c8cd1dcdab98f149c25460027a4989ffb869bea120887a7312a61e34ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/gate-old.json",
+      "normalizedSha256": "8eabf6e34f0399709fe1133b531a65a9852686674f99fc40e1d3d5b68a9877d1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/configured-runner.test.ts",
+      "normalizedSha256": "7c666cb0ff93ed7a11cf0a14a0cc5fe6e5735f2b5c4e002f1ef65ab37a79c053",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/display-metadata.test.ts",
+      "normalizedSha256": "5e1b74cd65c1a3e7926e348456dc4e3950a526c99d632b528337915789799c53",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/exports.test.ts",
+      "normalizedSha256": "beb6e31f16178186906d0b1a7b9d4a9377a1bdff6cc840b442df61404833343c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/review-and-admission.test.ts",
+      "normalizedSha256": "a7272550a50384ef47d07625c71e4dd9cd5f9a75057c786219b486724c636d34",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/session-mailbox.test.ts",
+      "normalizedSha256": "c772c5cfce7093ccf667ff124e6162e7bba308f149c3e23c92e8023c06145725",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/workspace-trust.test.ts",
+      "normalizedSha256": "20cf0f837792febeb5b1c1c628d994b75ebd441766b962ff3c934bd57b3858a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/entry.mjs",
+      "normalizedSha256": "1028e6d6243e1c7bdeafc437d301a2f47adb4e924bba431455446c9b175fdc17",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/tests/run-old-gate.mjs",
+      "normalizedSha256": "91bd16f49c38623a80c9d8eb0b81da5bfb52389f8d8991609df575c50dc0c707",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/fixtures/builders.mjs",
+      "normalizedSha256": "2f40ebf5299db4608c7fa48a48329f8022dd56fc53614307118dab390660f538",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-hooks contract v1 black-box tests authored for M0-13 pilot 1: node:test cases asserting behavior B1..B19 only through the public entry (source and dist), including event-sequence style assertions for the review flow and runtime admission. Fixtures are synthetic; no real user data, credentials or internal addresses. The replaced implementation was read to extract behavior; no test was copied or renamed from the upstream tree. Old gate: 33/33 on both entries.",
+      "evidence": [
+        "specs/contracts/core-hooks/README.md",
+        "specs/contracts/core-hooks/behavior.md",
+        "specs/contracts/core-hooks/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/apply.mjs",
+      "normalizedSha256": "145e2cd1ab71e6dd03f8bea4044d1856e0a5f57df266d90a99b4c0f05e3218a3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/build-stubs.mjs",
+      "normalizedSha256": "31aa1c6a80b56b1edcb18a3160f35b3058edfafafc4e7bca5f8428db0742c338",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/definitions-runner.mjs",
+      "normalizedSha256": "e2b10e537577c1983ce472e802ea63205e4a804775cf4aee25339930cf469873",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/definitions-trust.mjs",
+      "normalizedSha256": "a850a38701bc7f65def89592d6486248453f822d3befda72743d54b68dc193db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/shared.mjs",
+      "normalizedSha256": "c28f8e697a0f68640d42f69ab6d99f3215ffba9e7cfa2f381a561134c3f1dc20",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/configured-runner-callback.ts",
+      "normalizedSha256": "c656ba906eac365db8c5ed2bc30a72439b3eec48803869746da9bc8bc803c5eb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/configured-runner-input.ts",
+      "normalizedSha256": "5b6e73e22d21183912953ceccebb92a3890ad421a387fe1785a24246efc71fe2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/configured-runner.ts",
+      "normalizedSha256": "a367b56165cda78c870f81f1e464b373c6c33abb9d8ab0aac1a074708974ddfe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/display-metadata.ts",
+      "normalizedSha256": "1be310aca24315e2a388b5f3103a56b572ab679853ecf43871c32c033383bd65",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/index.ts",
+      "normalizedSha256": "249c6091ec3aca7411fbb844d26a12d4f1af88744b7f592ce274a7517e60c089",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/session-mailbox.ts",
+      "normalizedSha256": "1a25d85e4c339914dc06870b5d870afc0971298fd0ff5303a3b7d41622d13198",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/types.ts",
+      "normalizedSha256": "ea49a2d374993673baa36b90beecc5d0ee9119a9fcbbe1c96640c8c4a1d8473e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-policy.ts",
+      "normalizedSha256": "4bf2a03daa625ee49e00bc293eb7a6ca147251591ea63862c121d0e0ec57793e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-review-flow.ts",
+      "normalizedSha256": "d44235102e9462d56b96e7d5a3452bfa727329b1ff4990c00bd52098c7c4f363",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-runtime-admission.ts",
+      "normalizedSha256": "9e7fee099c18ede5d556c8510f72765629e02a0abba442275c3e8bbf99ce9a87",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-telemetry.ts",
+      "normalizedSha256": "b8caed418d8764814f9a148f17d8caf5d1d662dc3b3da6d9940d446372baf02d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-trust-coordinator.ts",
+      "normalizedSha256": "7f708cbeb43459e0aabfe0d0eb45ec021b37ea64c61b24660d6905533de62654",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-trust-domain.ts",
+      "normalizedSha256": "94b18572916874ceb42155b90db3de7c93ac0d34e9d4f5772f686c5fafcd723a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-trust-evaluation.ts",
+      "normalizedSha256": "90db6b65adbf5d6e5441813cb58ef8d93829071cef626ba27a33b1d2d9f6763a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-trust-records.ts",
+      "normalizedSha256": "d395eb2b78a29fb34e5e6005fcd60ed151ccb5fbe431fec42e61894989a44135",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-hooks/stubs/hooks/workspace-hook-trust-types.ts",
+      "normalizedSha256": "8fcad15dfcda0862507d3e33cdbca3a283834fe0b034fa68367407f668c636c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Temporary minimal stubs and their generator/apply scripts for core-hooks contract v1 (M0-13 pilot 1). Each stub carries only the signatures listed in interface.md and throws 'not implemented: core-hooks'; the rewrite step copies them over the 16 inherited files to prove the contract tests fail (0 pass / 33 fail) and then deletes them together with the old implementation. Not shipped in any product artifact.",
+      "evidence": [
+        "specs/contracts/core-hooks/interface.md",
+        "specs/contracts/core-hooks/gate-old.json",
+        "specs/contracts/core-hooks/acceptance.md"
+      ]
     }
   ]
 }
