@@ -3,44 +3,41 @@ import { z } from "zod";
 export const WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION = 1 as const;
 export const WORKSPACE_HOOK_REVIEW_TIMEOUT_MS = 10 * 60 * 1000;
 
+/** 字段清单写成一段以空格分隔的文本再切开：字段名只有一处来源，改字段只改这一行。 */
+function fieldList(source: string): readonly string[] {
+  return source.split(" ");
+}
+
+/** hook 配置里各层允许出现的字段名。 */
 export const WORKSPACE_HOOK_SCHEMA_FIELDS = {
-  root: ["enabled", "timeoutMs", "maxOutputBytes", "events"],
-  matcher: ["matcher", "hooks"],
-  events: [
-    "SessionStart",
-    "UserPromptSubmit",
-    "PreToolUse",
-    "PermissionRequest",
-    "PostToolUse",
-    "PostToolUseFailure",
-    "Stop",
-  ],
-  process: ["type", "command", "enabled", "args", "timeoutMs", "statusMessage"],
-  command: [
-    "type",
-    "command",
-    "enabled",
-    "async",
-    "shell",
-    "timeout",
-    "timeoutMs",
-    "statusMessage",
-  ],
-} as const;
+  root: fieldList("enabled timeoutMs maxOutputBytes events"),
+  matcher: fieldList("matcher hooks"),
+  events: fieldList(
+    "SessionStart UserPromptSubmit PreToolUse PermissionRequest PostToolUse PostToolUseFailure Stop",
+  ),
+  process: fieldList("type command enabled args timeoutMs statusMessage"),
+  command: fieldList("type command enabled async shell timeout timeoutMs statusMessage"),
+};
 
-export const WorkspaceHookTrustState = {
-  NotApplicable: "not_applicable",
-  PendingTrust: "pending_trust",
-  TrustedPersistent: "trusted_persistent",
-  BlockedUntrusted: "blocked_untrusted",
-  BlockedPolicy: "blocked_policy",
-  Revoked: "revoked",
-  StaleDigest: "stale_digest",
-} as const;
-export type WorkspaceHookTrustState =
-  (typeof WorkspaceHookTrustState)[keyof typeof WorkspaceHookTrustState];
+/** 取值 → 常量键：`pending_trust` → `PendingTrust`。 */
+function toPascalKey(value: string): string {
+  return value
+    .split("_")
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join("");
+}
 
-export const workspaceHookTrustStateSchema = z.enum([
+/** 由取值清单建常量表；键由取值推导，顺序即清单顺序。 */
+function buildValueTable<const Values extends readonly string[]>(
+  values: Values,
+): {
+  readonly [Value in Values[number] as Capitalize<Value> extends string ? string : string]: Value;
+} {
+  return Object.fromEntries(values.map((value) => [toPascalKey(value), value])) as never;
+}
+
+/** 信任状态的取值清单：常量表与 schema 都由它推出。 */
+const WORKSPACE_HOOK_TRUST_STATE_NAMES = [
   "not_applicable",
   "pending_trust",
   "trusted_persistent",
@@ -48,7 +45,22 @@ export const workspaceHookTrustStateSchema = z.enum([
   "blocked_policy",
   "revoked",
   "stale_digest",
-]);
+] as const;
+
+export const WorkspaceHookTrustState = Object.fromEntries(
+  WORKSPACE_HOOK_TRUST_STATE_NAMES.map((value) => [toPascalKey(value), value]),
+) as unknown as {
+  readonly NotApplicable: "not_applicable";
+  readonly PendingTrust: "pending_trust";
+  readonly TrustedPersistent: "trusted_persistent";
+  readonly BlockedUntrusted: "blocked_untrusted";
+  readonly BlockedPolicy: "blocked_policy";
+  readonly Revoked: "revoked";
+  readonly StaleDigest: "stale_digest";
+};
+export type WorkspaceHookTrustState = (typeof WORKSPACE_HOOK_TRUST_STATE_NAMES)[number];
+
+export const workspaceHookTrustStateSchema = z.enum(WORKSPACE_HOOK_TRUST_STATE_NAMES);
 
 export const workspaceHookAdmissionClassSchema = z.enum([
   "not_applicable",
@@ -58,7 +70,9 @@ export const workspaceHookAdmissionClassSchema = z.enum([
 ]);
 export type WorkspaceHookAdmissionClass = z.infer<typeof workspaceHookAdmissionClassSchema>;
 
-export const workspaceHookReasonCodeSchema = z.enum([
+// 原因码取值清单。读取失败与写入失败必须可区分：config_write_failed 曾被 mutation 在
+// readFile / JSON.parse 失败时抛出，误导用户去重试「写入」。
+const WORKSPACE_HOOK_REASON_CODE_NAMES = [
   "workspace_hooks_no_enabled_hooks",
   "workspace_hooks_not_applicable",
   "workspace_hooks_pending_trust",
@@ -74,14 +88,14 @@ export const workspaceHookReasonCodeSchema = z.enum([
   "workspace_hooks_snapshot_mismatch",
   "workspace_hooks_review_superseded",
   "workspace_hooks_config_write_failed",
-  // 读取失败与写入失败必须可区分：config_write_failed 曾被 mutation 在
-  // readFile/JSON.parse 失败时抛出，误导用户重试「写入」。
   "workspace_hooks_config_unreadable",
   "workspace_hooks_config_rebuild_failed",
   "workspace_hooks_revoked",
   "workspace_hooks_unknown_execution_field",
   "workspace_hooks_feature_disabled",
-]);
+] as const;
+
+export const workspaceHookReasonCodeSchema = z.enum(WORKSPACE_HOOK_REASON_CODE_NAMES);
 export type WorkspaceHookReasonCode = z.infer<typeof workspaceHookReasonCodeSchema>;
 
 export const WORKSPACE_HOOK_STATE_ADMISSION_MAP = {
