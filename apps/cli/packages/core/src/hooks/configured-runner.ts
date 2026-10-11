@@ -50,7 +50,7 @@ function registrationFromHook(input: {
   return {
     ...(input.admission ? { admission: input.admission } : {}),
     async: hook.type === "command" && hook.async === true,
-    callback: createConfiguredHookCallback(options, event, hook, matcherIndex, hookIndex, budget),
+    callback: createConfiguredHookCallback({ budget, event, hook, hookIndex, matcherIndex, options }),
     descriptor: (hookInput) =>
       createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
         try {

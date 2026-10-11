@@ -236,14 +236,18 @@ function executionRequest(
  * 生成一条配置 Hook 的回调。stdin 临时目录在 `finally` 释放；
  * 变量展开抛错时同样释放（展开发生在执行请求构造阶段，仍处于 try 块内）。
  */
-export function createConfiguredHookCallback(
-  options: ConfiguredHookRunnerOptions,
-  event: HookEventName,
-  hook: HookConfig,
-  matcherIndex: number,
-  hookIndex: number,
-  budget: ExecutionBudget,
-): HookCallback {
+/** 一条回调所需的全部输入；打包成内部记录，公开面不含该类型。 */
+export interface ConfiguredCallbackSpec {
+  budget: ExecutionBudget;
+  event: HookEventName;
+  hook: HookConfig;
+  hookIndex: number;
+  matcherIndex: number;
+  options: ConfiguredHookRunnerOptions;
+}
+
+export function createConfiguredHookCallback(spec: ConfiguredCallbackSpec): HookCallback {
+  const { budget, event, hook, hookIndex, matcherIndex, options } = spec;
   return async (input, context) => {
     const stdin = await createCompatibleHookStdin(input);
     try {
