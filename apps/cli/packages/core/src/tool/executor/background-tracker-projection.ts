@@ -145,16 +145,38 @@ export async function waitForTaskSnapshot(
   return resolveProvider(deps, name).wait?.(taskId);
 }
 
-export function field(snapshot: object | undefined, key: string): unknown {
-  return snapshot && key in snapshot ? (snapshot as Record<string, unknown>)[key] : undefined;
-}
-export function stringField(value: object | undefined, key: string): string | undefined {
-  const result = (value as Record<string, unknown> | undefined)?.[key];
-  return typeof result === "string" ? result : undefined;
-}
-export function snapshotString(snapshot: object | undefined, key: string): string | undefined {
-  const value = field(snapshot, key);
+type UnknownSnapshot = object | undefined;
+
+// 取值只有三种语义，各自一个实现：原样取、按属性取、取文本。
+// 公开的三个读取器都只是「查表 + 一次转换」，不再各自重复类型判断。
+function asText(value: unknown): string | undefined {
   return typeof value === "string" ? value : undefined;
+}
+
+function rawField(source: UnknownSnapshot, key: string): unknown {
+  return (source as Record<string, unknown> | undefined)?.[key];
+}
+
+export function field(snapshot: UnknownSnapshot, key: string): unknown {
+  if (snapshot === undefined || snapshot === null) return undefined;
+  if (!(key in snapshot)) return undefined;
+  return rawField(snapshot, key);
+}
+
+export function stringField(value: UnknownSnapshot, key: string): string | undefined {
+  return asText(rawField(value, key));
+}
+
+export function snapshotString(snapshot: UnknownSnapshot, key: string): string | undefined {
+  return asText(field(snapshot, key));
+}
+
+// 依次尝试各候选来源，返回第一个真正给出的文本；用于「按优先级回退」的取值链。
+function firstText(...candidates: (string | undefined)[]): string | undefined {
+  for (const candidate of candidates) {
+    if (candidate !== undefined) return candidate;
+  }
+  return undefined;
 }
 
 export function workflowSubject(
@@ -164,15 +186,16 @@ export function workflowSubject(
   launch?: Record<string, unknown>,
 ): string {
   const input = isRecord(call.input) ? call.input : undefined;
-  return (
-    stringField(input, "description") ??
-    snapshotString(snapshot, "description") ??
-    snapshotString(snapshot, "name") ??
-    stringField(launch, "name") ??
-    stringField(input, "name") ??
-    stringField(input, "scriptPath") ??
-    taskId
+  // 优先级：调用入参描述 → 快照描述 → 快照名 → 启动输出名 → 入参名 → 脚本路径 → 任务 id。
+  const subject = firstText(
+    stringField(input, "description"),
+    snapshotString(snapshot, "description"),
+    snapshotString(snapshot, "name"),
+    stringField(launch, "name"),
+    stringField(input, "name"),
+    stringField(input, "scriptPath"),
   );
+  return subject ?? taskId;
 }
 
 export function errorMessage(error: unknown): string {
