@@ -1,0 +1,59 @@
+{
+  "package": "contracts-01",
+  "contractVersion": "v1",
+  "repositoryCommit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+  "recordedAt": "2026-10-11",
+  "toolchain": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2"
+  },
+  "entries": [
+    {
+      "entry": "source",
+      "command": "node --import tsx --test specs/contracts/contracts-01/tests/api-surface.test.mjs specs/contracts/contracts-01/tests/behavior.test.mjs",
+      "tests": 27,
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "preRegisteredDifferences": 0,
+      "files": [
+        {
+          "file": "tests/api-surface.test.mjs",
+          "tests": 4,
+          "passed": 4
+        },
+        {
+          "file": "tests/behavior.test.mjs",
+          "tests": 23,
+          "passed": 23
+        }
+      ]
+    },
+    {
+      "entry": "dist",
+      "command": "pnpm build:cli-packages && KNORVIA_CONTRACTS_ENTRY=dist node --import tsx --test specs/contracts/contracts-01/tests/api-surface.test.mjs specs/contracts/contracts-01/tests/behavior.test.mjs",
+      "tests": 27,
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "preRegisteredDifferences": 0,
+      "files": [
+        {
+          "file": "tests/api-surface.test.mjs",
+          "tests": 4,
+          "passed": 4
+        },
+        {
+          "file": "tests/behavior.test.mjs",
+          "tests": 23,
+          "passed": 23
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "契约测试只通过公开入口做黑盒断言，未 import 任何内部实现文件。",
+    "旧门断言的是旧实现的既有行为；没有为了让测试通过而放宽断言，也没有预登记差异。",
+    "behavior.md 的 B1–B24 每条至少被一个断言覆盖，对照表见 README.md。"
+  ]
+}
