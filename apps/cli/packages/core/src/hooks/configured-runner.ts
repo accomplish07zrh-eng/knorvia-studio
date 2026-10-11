@@ -46,9 +46,9 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
       budget,
       event,
       hook,
-      hookIndex,
-      matcherIndex,
-      options,
+      hookIndex: hookIndex,
+      matcherIndex: matcherIndex,
+      options: options,
     }),
     descriptor: (hookInput) =>
       createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
