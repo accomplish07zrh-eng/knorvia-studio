@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "fixtures": {
+    "empty-workspace": {
+      "storage": {},
+      "steps": []
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "主界面",
+      "route": "/",
+      "readyTestId": "chat-input",
+      "testids": ["studio-activity-rail", "studio-window-titlebar", "chat-input"],
+      "fixtures": ["empty-workspace"],
+      "steps": []
+    },
+    {
+      "id": "chat-single",
+      "title": "单聊",
+      "route": "/",
+      "readyTestId": "chat-input",
+      "testids": ["studio-activity-rail", "studio-window-titlebar", "chat-input"],
+      "fixtures": ["empty-workspace"],
+      "steps": [{ "click": "studio-chats-open" }]
+    },
+    {
+      "id": "chat-group",
+      "title": "群聊",
+      "route": "/",
+      "readyTestId": "chat-input",
+      "testids": ["studio-activity-rail", "studio-window-titlebar", "chat-input"],
+      "fixtures": ["empty-workspace"],
+      "steps": [{ "click": "studio-groups-open" }]
+    },
+    {
+      "id": "workbench",
+      "title": "工作台",
+      "route": "/",
+      "readyTestId": "studio-activity-rail",
+      "testids": ["studio-activity-rail", "studio-window-titlebar"],
+      "fixtures": ["empty-workspace"],
+      "steps": [{ "click": "studio-workbench-open" }]
+    },
+    {
+      "id": "settings-plugins",
+      "title": "设置：插件管理",
+      "route": "/",
+      "readyTestId": "settings-breadcrumb-section",
+      "testids": ["studio-activity-rail", "settings-breadcrumb-section"],
+      "fixtures": ["empty-workspace"],
+      "steps": [{ "click": "studio-plugins-open" }]
+    }
+  ]
+}

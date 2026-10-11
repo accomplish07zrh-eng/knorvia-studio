@@ -21893,7 +21893,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21901,7 +21904,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21909,7 +21915,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21917,7 +21926,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21925,7 +21937,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21933,7 +21948,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21941,7 +21959,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21949,7 +21970,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21957,7 +21981,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21965,7 +21992,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21973,7 +22003,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21981,7 +22014,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -35044,7 +35080,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
     },
     {
@@ -35052,7 +35090,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     },
     {
@@ -35060,7 +35100,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "9ce3f3ede16592f12b07bedd651ae7bfa499e93c1c69495433cad41a2b974703"
     },
     {
@@ -35068,7 +35110,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "d0d0b043e02ddffce0b7b4a586ee0d95380fddd4da99e4b25c956d62e9bcd089"
     },
     {
@@ -35076,7 +35120,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "83bb8b8cf2e550dd0bdd7216bba1cf28796787b8f1228f138b668269fac3b79b"
     },
     {
@@ -82091,6 +82137,105 @@
         "licensing/upstream-baseline.json",
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/README.md",
+      "normalizedSha256": "1e9c93a70c5e775a59ad9f3882e78fa5a2ab457a6baa13ededf5dfaca1126bd4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/capture.browser.test.mjs",
+      "normalizedSha256": "69f58110fc66498804fdeb5141f6a3882792c6022293636e22e6f89f1b3da6bf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/capture.mjs",
+      "normalizedSha256": "101440456c7db7f17b3ea0e30db15e9e59bf624fbee687e84506fff0db11c6fa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/capture.test.mjs",
+      "normalizedSha256": "5b35b0c194523166969fd138aa511ff733a1d3896ce6fb819cc9ac99848e47d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/compare.mjs",
+      "normalizedSha256": "f8a04beafbeb727b4490dc0c6aa02eab001de07596865080316debbda0f823da",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/compare.test.mjs",
+      "normalizedSha256": "9032f80b5fcb0e1f02b30ae2295dcc68d2a45314a99db62f347eeced0cfe2853",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/pages.json",
+      "normalizedSha256": "d7d91b91183b6dceb10d6391342bf77aef3c01358cdd308462dc361dddb99966",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/png.mjs",
+      "normalizedSha256": "2ae50ad852043eab331dbd7f3da96701c18283bf1045fd149e564e172aacc1a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
+      ]
+    },
+    {
+      "path": "scripts/ui-baseline/png.test.mjs",
+      "normalizedSha256": "51483f446ade145e3f2aa23d08244c7e5d89e77c118370435fbcf55b52929399",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New Knorvia UI screenshot baseline tooling authored for M0-11 (capture/compare/page list/README). Written from the plan's tool requirements; no upstream implementation was copied, renamed or rewritten. Browser determinism check (two consecutive captures of the same fixture): pixel and geometry differences 0.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "https://github.com/accomplish07zrh-eng/knorvia-studio/issues/69"
       ]
     }
   ]
