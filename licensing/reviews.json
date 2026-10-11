@@ -82092,6 +82092,14 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "docs/knorvia-desktop-packaging-m0-20261012.md",
+      "normalizedSha256": "4366196090347ff07301bf6992127345f2f0bc49765ef44b19cd99b6a428cf7b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "M0 desktop packaging acceptance report for Windows NSIS installer and portable artifacts, recorded on the main baseline commit; documents the environment-specific fs.cpSync(recursive) crash, the minimal fix, artifacts, acceptance results and unverified items.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
     }
   ]
 }
