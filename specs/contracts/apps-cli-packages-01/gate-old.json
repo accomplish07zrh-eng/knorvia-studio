@@ -1,9 +1,9 @@
 {
   "contract": "apps-cli-packages-01",
   "version": "v1",
-  "commit": "860bd3bea00e1ccc1c8ebc0b4ae88477d094a351",
+  "commit": "12f2c9cd1a54f3896d74b5cc9388a81c04447e82",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-11T13:55:01.068Z",
+  "generatedAt": "2026-10-11T14:01:40.003Z",
   "testFiles": [
     "D:/knorvia studio开发/wt/exec-3-adapters/specs/contracts/apps-cli-packages-01/tests/commands.test.ts",
     "D:/knorvia studio开发/wt/exec-3-adapters/specs/contracts/apps-cli-packages-01/tests/config.test.ts",
@@ -29,7 +29,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.4319ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (71.7638ms)\n✔ B122 夹具脱敏：只含合成占位值 (2.6813ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (535.9806ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (42.6403ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (46.2977ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 59988.2763"
+      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.4358ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (73.4812ms)\n✔ B122 夹具脱敏：只含合成占位值 (2.5317ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (456.3793ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (42.4219ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (44.1936ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 47018.5869"
     },
     "dist": {
       "entry": "dist",
@@ -39,7 +39,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.348ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (59.6468ms)\n✔ B122 夹具脱敏：只含合成占位值 (1.9829ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (447.1679ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (40.2796ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (41.4564ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 64038.4554"
+      "outputTail": "✔ B11/B12/B13 三条冻结迁移引用各自的常量 (0.3324ms)\n✔ B14/B15 类型模块与 barrel 的兼容面 (58.0374ms)\n✔ B122 夹具脱敏：只含合成占位值 (1.6741ms)\n✔ B17/B124 旧写 → 新读 → 新写 → 旧读 往返 (411.5011ms)\n✔ B16/B134 会话存储 barrel 的兼容面 (38.6443ms)\n✔ B122 夹具目录不进入契约测试的临时状态 (40.1559ms)\nℹ tests 118\nℹ suites 0\nℹ pass 118\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 38951.8007"
     }
   },
   "stubReplacement": {
@@ -47,12 +47,12 @@
     "pass": 0,
     "fail": 118,
     "allFail": true,
-    "outputTail": "    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'undefined',\n    expected: 'function',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at specs\\contracts\\apps-cli-packages-01\\tests\\session-store.test.ts:1:10280\n✖ B122 夹具目录不进入契约测试的临时状态 (2.7698ms)\n  TypeError: barrel.SqliteSessionStore is not a constructor\n      at TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\exec-3-adapters\\specs\\contracts\\apps-cli-packages-01\\tests\\session-store.test.ts:264:17)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)"
+    "outputTail": "    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'undefined',\n    expected: 'function',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at specs\\contracts\\apps-cli-packages-01\\tests\\session-store.test.ts:1:10280\n✖ B122 夹具目录不进入契约测试的临时状态 (2.401ms)\n  TypeError: barrel.SqliteSessionStore is not a constructor\n      at TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\exec-3-adapters\\specs\\contracts\\apps-cli-packages-01\\tests\\session-store.test.ts:321:17)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)"
   },
   "stubLint": {
     "command": "node node_modules/oxlint/bin/oxlint --config .oxlintrc.json src (cwd apps/cli/packages/adapters)",
     "warnings": 194,
     "errors": 1,
-    "outputTail": " 18 |   throw new Error(\"not implemented: apps-cli-packages-01\");\n    `----\n  help: Consider removing this parameter.\n\nFound 194 warnings and 1 error.\nFinished in 41ms on 295 files with 94 rules using 24 threads."
+    "outputTail": " 32 | ): SerializedLogError {\n    `----\n  help: Consider removing this parameter.\n\nFound 194 warnings and 1 error.\nFinished in 34ms on 295 files with 94 rules using 24 threads."
   }
 }
