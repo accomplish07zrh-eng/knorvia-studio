@@ -76,6 +76,12 @@ type EventHandler = (state: ProjectionState, event: SessionEvent) => SessionProj
 /** 没有任何领域影响时的返回值；未知事件也走它。 */
 const NO_CHANGES: SessionProjectionChanges = {};
 
+/** 校验在「没有拿到持久化结论」的情况下收口的状态：这两种要补一条兜底结论。 */
+const CLOSED_WITHOUT_RESULT: ReadonlySet<TargetCompletionVerificationPayload["status"]> = new Set([
+  "failed_closed",
+  "cancelled",
+]);
+
 /**
  * 按字段清单取值：给「投影字段清单」一类兼容形状用。
  * 清单本身是外部可见的持久化形状，改字段要在这里改。
@@ -151,34 +157,36 @@ function goalVerificationQueryChanges(
 
 /** 只有主会话可见的上下文才代表「当前窗口用了多少」；sidecar 与缺失用量都不能把旧值清零。 */
 function modelTurnContextChanges(payload: ModelCompletePayload): SessionProjectionChanges {
-  const countsForMainContext =
-    payload.querySource === undefined
-      ? payload.stopReason !== "tool_internal"
-      : payload.querySource === "main_turn";
+  const hasExplicitSource = payload.querySource !== undefined;
+  const countsForMainContext = hasExplicitSource
+    ? payload.querySource === "main_turn"
+    : payload.stopReason !== "tool_internal";
   if (!countsForMainContext) return NO_CHANGES;
 
-  const contextUsed = getModelUsageContextTokens(payload.usage);
-  if (contextUsed === undefined) return NO_CHANGES;
-  return { contextUsed };
+  const usedTokens = getModelUsageContextTokens(payload.usage);
+  if (usedTokens === undefined) return NO_CHANGES;
+  return { contextUsed: usedTokens };
 }
 
 /**
  * 目标完成校验：按 verificationId 命中，或同一目标同一迭代号，认定为同一条时间线，
  * 因此 started/completed 重放只推进那一行，不会留下重影。失败与取消另补一条兜底结论。
  */
+function isSameVerificationLine(
+  row: SessionProjection["targetCompletionVerificationTimeline"][number],
+  payload: TargetCompletionVerificationPayload,
+): boolean {
+  if (row.verificationId === payload.verificationId) return true;
+  if (payload.goalIteration === undefined) return false;
+  return row.targetId === payload.targetId && row.goalIteration === payload.goalIteration;
+}
 function goalVerificationChanges(
   state: ProjectionState,
   payload: TargetCompletionVerificationPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
   const timeline = state.projection.targetCompletionVerificationTimeline;
-  const line = timeline.find(
-    (row) =>
-      row.verificationId === payload.verificationId ||
-      (payload.goalIteration !== undefined &&
-        row.targetId === payload.targetId &&
-        row.goalIteration === payload.goalIteration),
-  );
+  const line = timeline.find((row) => isSameVerificationLine(row, payload));
   const startedAt = line?.startedAt ?? (payload.status === "started" ? timestamp : undefined);
   const assistantAnchor = payload.anchorAssistantMessageId ?? line?.anchorAssistantMessageId;
   const turnAnchor = payload.anchorTurnId ?? line?.anchorTurnId;
@@ -209,13 +217,14 @@ function goalVerificationChanges(
       : appendProjectionRow(timeline, nextRow),
     targetCompletionVerifications: state.projection.targetCompletionVerifications,
   };
-  if (payload.status === "failed_closed" || payload.status === "cancelled") {
+  if (CLOSED_WITHOUT_RESULT.has(payload.status)) {
+    const fallback = failedGoalCompletionVerification(
+      "The completion verifier did not return a persisted result.",
+    );
+    const conclusion = payload.verification ?? fallback;
     changes.targetCompletionVerifications = appendProjectionRow(
       state.projection.targetCompletionVerifications,
-      payload.verification ??
-        failedGoalCompletionVerification(
-          "The completion verifier did not return a persisted result.",
-        ),
+      conclusion,
     );
   }
   return changes;
@@ -225,30 +234,37 @@ function goalVerificationChanges(
 
 const SESSION_HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
   [SessionEventType.SessionCreated]: (_state, event) => {
-    const payload = event.payload as SessionCreatedPayload;
-    return {
-      id: event.sessionId,
-      mode: payload.mode,
-      planEnabled: payload.planEnabled ?? payload.mode === "plan",
-      contextWindow: payload.contextWindow,
-      createdAt: event.timestamp,
-      status: "idle",
-    };
+    const created = event.payload as SessionCreatedPayload;
+    const entries: Array<readonly [string, unknown]> = [
+      ["id", event.sessionId],
+      ["mode", created.mode],
+      ["planEnabled", created.planEnabled ?? created.mode === "plan"],
+      ["contextWindow", created.contextWindow],
+      ["createdAt", event.timestamp],
+      ["status", "idle"],
+    ];
+    return Object.fromEntries(entries) as SessionProjectionChanges;
   },
   [SessionEventType.SessionModeChanged]: (state, event) =>
     sessionModeChanges(state.projection, event.payload as SessionModeChangedPayload),
   // 新轮被接受后，上一轮的 provider 错误不再是当前事实；冷重建也据此清掉错误横幅。
-  [SessionEventType.TurnStarted]: (state, event) => ({
-    currentTurnId: event.turnId,
-    lastError: undefined,
-    turnCount: state.projection.turnCount + 1,
-    status: "running",
-  }),
-  [SessionEventType.TurnComplete]: (state, event) => ({
-    status: "idle",
-    totalTokenCount:
-      state.projection.totalTokenCount + (event.payload as TurnCompletePayload).tokenCount,
-  }),
+  [SessionEventType.TurnStarted]: (state, event) => {
+    const entries: Array<readonly [string, unknown]> = [
+      ["currentTurnId", event.turnId],
+      ["lastError", undefined],
+      ["turnCount", state.projection.turnCount + 1],
+      ["status", "running"],
+    ];
+    return Object.fromEntries(entries) as SessionProjectionChanges;
+  },
+  [SessionEventType.TurnComplete]: (state, event) => {
+    const tokenCount = (event.payload as TurnCompletePayload).tokenCount;
+    const entries: Array<readonly [string, unknown]> = [
+      ["status", "idle"],
+      ["totalTokenCount", state.projection.totalTokenCount + tokenCount],
+    ];
+    return Object.fromEntries(entries) as SessionProjectionChanges;
+  },
   [SessionEventType.TurnError]: (_state, event) => {
     const error = (event.payload as TurnErrorPayload).error;
     // 必填字段先入条目，可选字段只在给到时入条目；投影只留这四个可选位。
@@ -259,10 +275,10 @@ const SESSION_HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
     if (error.code) entries.push(["code", error.code]);
     if (error.detail) entries.push(["detail", error.detail]);
     if (error.attribution) entries.push(["attribution", error.attribution]);
-    return {
-      status: "error",
-      lastError: Object.fromEntries(entries) as unknown as SessionProjection["lastError"],
-    };
+    return Object.fromEntries([
+      ["status", "error"],
+      ["lastError", Object.fromEntries(entries) as unknown as SessionProjection["lastError"]],
+    ]) as SessionProjectionChanges;
   },
   [SessionEventType.ModelComplete]: (state, event) => {
     const payload = event.payload as ModelCompletePayload;
@@ -275,15 +291,16 @@ const SESSION_HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
     const payload = event.payload as TargetChangedPayload;
     const switchedTarget =
       payload.action === "set" && payload.previousTarget?.targetID !== payload.target?.targetID;
-    return {
-      target: payload.target,
-      targetCompletionVerifications: switchedTarget
-        ? []
-        : state.projection.targetCompletionVerifications,
-      targetCompletionVerificationTimeline: switchedTarget
-        ? []
-        : state.projection.targetCompletionVerificationTimeline,
-    };
+    const entries: Array<readonly [string, unknown]> = [["target", payload.target]];
+    entries.push([
+      "targetCompletionVerifications",
+      switchedTarget ? [] : state.projection.targetCompletionVerifications,
+    ]);
+    entries.push([
+      "targetCompletionVerificationTimeline",
+      switchedTarget ? [] : state.projection.targetCompletionVerificationTimeline,
+    ]);
+    return Object.fromEntries(entries) as SessionProjectionChanges;
   },
   [SessionEventType.TargetCompletionVerification]: (state, event) =>
     goalVerificationChanges(
