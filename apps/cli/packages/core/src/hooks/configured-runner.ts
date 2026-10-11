@@ -18,12 +18,13 @@ import type { Budget } from "./configured-runner-types.js";
 
 const USER_SOURCE_KIND: HookSourceKind = "user";
 
-function configSource(
-  event: HookEventName,
-  matcherIndex: number,
-  hookIndex: number,
-  plugin?: HookConfig["plugin"],
-): string {
+function configSource(input: {
+  event: HookEventName;
+  hookIndex: number;
+  matcherIndex: number;
+  plugin?: HookConfig["plugin"];
+}): string {
+  const { event, hookIndex, matcherIndex, plugin } = input;
   return plugin
     ? `plugin.${plugin.id}.${event}.${matcherIndex}.${hookIndex}`
     : `config.${event}.${matcherIndex}.${hookIndex}`;
@@ -89,7 +90,12 @@ function registrationsForMatcher(
         matcher: matcherConfig.matcher,
         matcherIndex,
         options,
-        source: configSource(event, matcherIndex, hookIndex, hook.plugin),
+        source: configSource({
+          event: event,
+          hookIndex: hookIndex,
+          matcherIndex: matcherIndex,
+          plugin: hook.plugin,
+        }),
         sourceKind,
       }),
     ];
