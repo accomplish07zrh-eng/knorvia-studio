@@ -49,6 +49,7 @@ export interface ModelRequestTarget {
 }
 
 interface ModelNetworkStatusBase {
+  // 网络状态事件的公共字段；具体事件在此基础上加判别字段
   timestamp: string;
   traceId: TraceId;
   queryId?: QueryId;
@@ -56,27 +57,24 @@ interface ModelNetworkStatusBase {
   turnId?: TurnId;
   parentSessionId?: SessionId;
   toolCallId?: string;
-  spanId?: string;
-  parentSpanId?: string;
-  querySource?: string;
+  spanId?: string; // 当前 span
+  parentSpanId?: string; // 父 span
+  querySource?: string; // 本次调用的来源（主轮 / sidecar）
   requestId: string;
   providerId: ModelProviderId;
   modelId: ModelId;
-  baseURL?: string;
-  providerKind?: string;
+  baseURL?: string; // 实际请求的 base URL
+  providerKind?: string; // provider 适配器种类
   transport: ModelTransportKind;
-  attempt: number;
-  /**
-   * 本次请求的重试预算总尝试数（含首次）。**`0` = 无上限**（`ModelRetryBudget.Unbounded`）：`Infinity` 不可序列化，而 0 不占用任何既有合法值。
-   * 消费方渲染「第 n/N 次」或推导 maxRetries 时必须特判 0。
-   */
+  attempt: number; // 第几次物理尝试，从 1 起
+  // 重试预算总尝试数（含首次）；0 = 无上限（Infinity 不可序列化，0 不占用既有合法值），消费方渲染「第 n/N 次」时必须特判 0。
   maxAttempts: number;
   streamRecovery?: ModelStreamRecoveryStatus;
   requestHeaders?: Record<string, string>;
   responseHeaders?: Record<string, string>;
-  requestHeaderCount?: number;
-  responseHeaderCount?: number;
-  modelCall?: ResolvedModelApiCallObservation;
+  requestHeaderCount?: number; // 请求头条数（不落头内容）
+  responseHeaderCount?: number; // 响应头条数（不落头内容）
+  modelCall?: ResolvedModelApiCallObservation; // 本次调用的观测记录
 }
 
 export interface ModelStreamRecoveryStatus {
