@@ -199,16 +199,35 @@ export function workflowSubject(
 }
 
 export function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
+  if (error instanceof Error) return error.message;
+  return String(error);
 }
+
+// 运行签名只看这几个量：它们变化就说明任务还在推进（pid 或任一输出量变了）。
+const RUNNING_SIGNATURE_FIELDS = [
+  "pid",
+  "stderrBytes",
+  "stderrTail",
+  "stdoutBytes",
+  "stdoutTail",
+] as const;
+
 export function runningSignature(snapshot: TaskSnapshot): string {
-  return JSON.stringify({
-    pid: field(snapshot, "pid"),
-    stderrBytes: field(snapshot, "stderrBytes"),
-    stderrTail: field(snapshot, "stderrTail"),
-    stdoutBytes: field(snapshot, "stdoutBytes"),
-    stdoutTail: field(snapshot, "stdoutTail"),
-  });
+  const facts: Record<string, unknown> = {};
+  for (const key of RUNNING_SIGNATURE_FIELDS) facts[key] = field(snapshot, key);
+  return JSON.stringify(facts);
+}
+
+const SUBAGENT_TASK_KIND = "subagent";
+const WORKFLOW_TASK_KIND = "workflow";
+const BASH_TASK_KIND = "bash";
+const RUNNING_STATUS = "running";
+
+// 任务种类由工具名决定：子代理派发 → subagent，动态工作流 → workflow，其余按 bash 记。
+function taskKindOf(name: string): string {
+  if (isSubagentDispatchToolName(name)) return SUBAGENT_TASK_KIND;
+  if (isDynamicWorkflowRunDispatchToolName(name)) return WORKFLOW_TASK_KIND;
+  return BASH_TASK_KIND;
 }
 
 export function taskPayload(
@@ -221,25 +240,25 @@ export function taskPayload(
 ) {
   const input = isRecord(call.input) ? call.input : {};
   const metadata = backgroundTaskOutputMetadata(snapshot, launch);
+  const pid = field(snapshot, "pid");
+  const cancellable =
+    status === RUNNING_STATUS ? resolveProvider(deps, call.name).cancellable : false;
+  const command = typeof input.command === "string" ? input.command : undefined;
   return {
     taskId,
     toolCallId: call.id,
     toolName: call.name,
-    taskKind: isSubagentDispatchToolName(call.name)
-      ? "subagent"
-      : isDynamicWorkflowRunDispatchToolName(call.name)
-        ? "workflow"
-        : "bash",
+    taskKind: taskKindOf(call.name),
     childSessionId: metadata.childSessionId,
-    cancellable: status === "running" ? resolveProvider(deps, call.name).cancellable : false,
-    command: typeof input.command === "string" ? input.command : undefined,
+    cancellable,
+    command,
     description: isDynamicWorkflowRunDispatchToolName(call.name)
       ? workflowSubject(call, taskId, snapshot, launch)
       : typeof input.description === "string"
         ? input.description
         : field(snapshot, "description"),
     status,
-    pid: field(snapshot, "pid"),
+    pid,
     startedAt: snapshot?.startedAt,
     completedAt: snapshot?.completedAt,
     outputPath: metadata.outputFile,
