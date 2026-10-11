@@ -79,10 +79,12 @@ function registrationsForMatcher(input: {
 }): HookRegistration[] {
   const { options, event, matcherConfig, matcherIndex } = input;
   const maxOutputBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
-  return matcherConfig.hooks.flatMap((hook, hookIndex) => {
+  const matcherHooks = matcherConfig.hooks;
+  return matcherHooks.flatMap((hook, hookIndex) => {
     const disabledHook = hook.enabled === false;
     if (disabledHook) return [];
-    const sourceKind = hook.plugin ? "plugin" : (hook.source?.kind ?? "internal");
+    const pluginSource = hook.plugin ? "plugin" : undefined;
+    const sourceKind = pluginSource ?? hook.source?.kind ?? "internal";
     return [
       registrationFromHook({
         budget: { maxOutputBytes, timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs) },
