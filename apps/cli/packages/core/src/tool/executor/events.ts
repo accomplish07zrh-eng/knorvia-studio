@@ -51,20 +51,11 @@ export async function emitToolCallStarted(
   startTime: TimestampMs,
   display?: ToolResultDisplayPayload,
   // 解析后的副作用能力（与权限判定同源）：订阅者据此在工具动手前知道「要写了」。
-  capability?: { readOnly?: boolean; sideEffectScope?: ToolSideEffectScope },
+  capability?: ToolSideEffectCapability,
 ): Promise<void> {
   await deps.emitEvent({
     ...eventEnvelope(deps, SessionEventType.ToolCallStarted, traceContext, turnId),
-    payload: {
-      toolCallId: toolCall.id,
-      toolName: toolCall.name,
-      startedAt: new Date(startTime),
-      display,
-      ...(capability?.readOnly === undefined ? {} : { readOnly: capability.readOnly }),
-      ...(capability?.sideEffectScope === undefined
-        ? {}
-        : { sideEffectScope: capability.sideEffectScope }),
-    },
+    payload: startedPayload(toolCall, startTime, display, capability),
   });
 }
 
@@ -81,22 +72,7 @@ export async function emitToolCallResult(
 ): Promise<void> {
   await deps.emitEvent({
     ...eventEnvelope(deps, SessionEventType.ToolCallResult, traceContext, turnId),
-    payload: {
-      toolCallId: toolCall.id,
-      ...(skillMetadata ? { skillMetadata } : {}),
-      result: {
-        success: true,
-        content: serialization.content,
-        display,
-        perf,
-        truncated: serialization.truncated,
-        originalBytes: serialization.originalBytes,
-        returnedBytes: serialization.returnedBytes,
-        budgetStrategy: serialization.budgetStrategy,
-        artifactPath: serialization.artifactPath,
-      },
-      duration: durationMs,
-    },
+    payload: resultPayload(toolCall, serialization, durationMs, display, perf, skillMetadata),
   });
 }
 
@@ -127,14 +103,7 @@ export async function emitSkippedToolError(
 
   await emitToolCallError(deps, result.toolCallId, eventTraceContext, turnId, result.error);
 
-  deps.logger?.warn("Tool call skipped after blocking failure", {
-    ...traceContextToLogContext(eventTraceContext),
-    event: "tool.call.skipped",
-    module: "core.tool.executor",
-    status: "failed",
-    toolCallId: result.toolCallId,
-    toolName: result.toolName,
-  });
+  deps.logger?.warn(SKIPPED_TOOL_LOG_MESSAGE, skippedToolLogContext(result, eventTraceContext));
 }
 
 export async function emitPermissionRequested(
@@ -271,4 +240,83 @@ function permissionDeniedPayload(
   payload.reason = reason ?? `Permission denied for ${toolCall.name}`;
   payload.inputSummary = summarizeInput(toolCall.input);
   return payload;
+}
+
+/** 解析后的副作用能力；订阅者据此在工具动手前知道「要写了」。 */
+type ToolSideEffectCapability = {
+  readOnly?: boolean;
+  sideEffectScope?: ToolSideEffectScope;
+};
+
+const SKIPPED_TOOL_LOG_MESSAGE = "Tool call skipped after blocking failure";
+const SKIPPED_TOOL_LOG_EVENT = "tool.call.skipped";
+const TOOL_EXECUTOR_MODULE = "core.tool.executor";
+const FAILED_LOG_STATUS = "failed";
+
+function startedPayload(
+  toolCall: ToolCall,
+  startTime: TimestampMs,
+  display: ToolResultDisplayPayload | undefined,
+  capability: ToolSideEffectCapability | undefined,
+): Record<string, unknown> {
+  const payload = {} as Record<string, unknown>;
+  payload.toolCallId = toolCall.id;
+  payload.toolName = toolCall.name;
+  payload.startedAt = new Date(startTime);
+  payload.display = display;
+  // 能力字段只在真的解析出来时才出现，未解析与「解析为无能力」在事件里可区分。
+  if (capability?.readOnly !== undefined) payload.readOnly = capability.readOnly;
+  if (capability?.sideEffectScope !== undefined) {
+    payload.sideEffectScope = capability.sideEffectScope;
+  }
+  return payload;
+}
+
+function resultPayload(
+  toolCall: ToolCall,
+  serialization: ToolResultSerialization,
+  durationMs: TimestampMs,
+  display: ToolResultDisplayPayload | undefined,
+  perf: ToolExecutionTelemetry | undefined,
+  skillMetadata: SkillTelemetryMetadata | undefined,
+): Record<string, unknown> {
+  const payload = {} as Record<string, unknown>;
+  payload.toolCallId = toolCall.id;
+  if (skillMetadata) payload.skillMetadata = skillMetadata;
+  payload.result = resultBody(serialization, display, perf);
+  payload.duration = durationMs;
+  return payload;
+}
+
+// 成功结果的正文：字节账与截断策略都从序列化结果里取，不在这里重算。
+function resultBody(
+  serialization: ToolResultSerialization,
+  display: ToolResultDisplayPayload | undefined,
+  perf: ToolExecutionTelemetry | undefined,
+): Record<string, unknown> {
+  const body = {} as Record<string, unknown>;
+  body.success = true;
+  body.content = serialization.content;
+  body.display = display;
+  body.perf = perf;
+  body.truncated = serialization.truncated;
+  body.originalBytes = serialization.originalBytes;
+  body.returnedBytes = serialization.returnedBytes;
+  body.budgetStrategy = serialization.budgetStrategy;
+  body.artifactPath = serialization.artifactPath;
+  return body;
+}
+
+// 跳过工具的日志上下文：trace 字段展开在前，事件与模块标识随后，最后是被跳过的工具身份。
+function skippedToolLogContext(
+  result: ToolExecutionResult,
+  traceContext: TraceContext,
+): Record<string, unknown> {
+  const context = { ...traceContextToLogContext(traceContext) } as Record<string, unknown>;
+  context.event = SKIPPED_TOOL_LOG_EVENT;
+  context.module = TOOL_EXECUTOR_MODULE;
+  context.status = FAILED_LOG_STATUS;
+  context.toolCallId = result.toolCallId;
+  context.toolName = result.toolName;
+  return context;
 }
