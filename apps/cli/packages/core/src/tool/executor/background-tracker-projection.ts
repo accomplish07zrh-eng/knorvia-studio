@@ -243,49 +243,80 @@ function taskKindOf(name: string): string {
   return BASH_TASK_KIND;
 }
 
+// 后台任务快照事件（background_task_update）的负载形状。
+// 字段与 tracker 的对外契约一一对应：身份、状态、新鲜度与输出位置。
+// 注意：用 type 而不是 interface —— interface 没有隐式索引签名，会无法赋给 Record<string, unknown> 参数（调用点就是这种用法）。
+type BackgroundTaskPayload = {
+  taskId: TaskId;
+  toolCallId: string;
+  toolName: string;
+  taskKind: string;
+  childSessionId: string | undefined;
+  cancellable: boolean;
+  command: string | undefined;
+  description: unknown;
+  status: string;
+  pid: unknown;
+  startedAt: TaskSnapshot["startedAt"] | undefined;
+  completedAt: TaskSnapshot["completedAt"] | undefined;
+  outputPath: string | undefined;
+  stderrPersistedOutputPath: string | undefined;
+  stdoutPersistedOutputPath: string | undefined;
+  outputBytes: number | undefined;
+  outputTruncated: boolean | undefined;
+  outputTail: string | undefined;
+  stderrBytes: number | undefined;
+  stderrTail: string | undefined;
+  stdoutBytes: number | undefined;
+  stdoutTail: string | undefined;
+  terminalId: TaskId;
+};
+
 export function taskPayload(
-  deps: ToolExecutorDeps,
+  deps: Deps,
   call: ExecutableToolCall,
-  taskId: string,
+  taskId: TaskId,
   status: string,
   launch: Record<string, unknown>,
   snapshot?: TaskSnapshot,
-) {
+): BackgroundTaskPayload {
   const input = isRecord(call.input) ? call.input : {};
   const metadata = backgroundTaskOutputMetadata(snapshot, launch);
   const pid = field(snapshot, "pid");
   const cancellable =
     status === RUNNING_STATUS ? resolveProvider(deps, call.name).cancellable : false;
   const command = typeof input.command === "string" ? input.command : undefined;
-  return {
-    taskId,
-    toolCallId: call.id,
-    toolName: call.name,
-    taskKind: taskKindOf(call.name),
-    childSessionId: metadata.childSessionId,
-    cancellable,
-    command,
-    description: isDynamicWorkflowRunDispatchToolName(call.name)
-      ? workflowSubject(call, taskId, snapshot, launch)
-      : typeof input.description === "string"
-        ? input.description
-        : field(snapshot, "description"),
-    status,
-    pid,
-    startedAt: snapshot?.startedAt,
-    completedAt: snapshot?.completedAt,
-    outputPath: metadata.outputFile,
-    stderrPersistedOutputPath: metadata.stderrFile,
-    stdoutPersistedOutputPath: metadata.stdoutFile,
-    outputBytes: metadata.outputBytes,
-    outputTruncated: metadata.outputTruncated,
-    outputTail: metadata.outputTail,
-    stderrBytes: metadata.stderrBytes,
-    stderrTail: metadata.stderrTail,
-    stdoutBytes: metadata.stdoutBytes,
-    stdoutTail: metadata.stdoutTail,
-    terminalId: taskId,
-  };
+  const description = isDynamicWorkflowRunDispatchToolName(call.name)
+    ? workflowSubject(call, taskId, snapshot, launch)
+    : typeof input.description === "string"
+      ? input.description
+      : field(snapshot, "description");
+
+  const payload = {} as BackgroundTaskPayload;
+  payload.taskId = taskId;
+  payload.toolCallId = call.id;
+  payload.toolName = call.name;
+  payload.taskKind = taskKindOf(call.name);
+  payload.childSessionId = metadata.childSessionId;
+  payload.cancellable = cancellable;
+  payload.command = command;
+  payload.description = description;
+  payload.status = status;
+  payload.pid = pid;
+  payload.startedAt = snapshot?.startedAt;
+  payload.completedAt = snapshot?.completedAt;
+  payload.outputPath = metadata.outputFile;
+  payload.stderrPersistedOutputPath = metadata.stderrFile;
+  payload.stdoutPersistedOutputPath = metadata.stdoutFile;
+  payload.outputBytes = metadata.outputBytes;
+  payload.outputTruncated = metadata.outputTruncated;
+  payload.outputTail = metadata.outputTail;
+  payload.stderrBytes = metadata.stderrBytes;
+  payload.stderrTail = metadata.stderrTail;
+  payload.stdoutBytes = metadata.stdoutBytes;
+  payload.stdoutTail = metadata.stdoutTail;
+  payload.terminalId = taskId;
+  return payload;
 }
 
 // 会话事件信封：所有会话事件共用的字段，payload 由调用方补。
