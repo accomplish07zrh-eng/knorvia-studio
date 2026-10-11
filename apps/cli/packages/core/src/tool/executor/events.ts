@@ -110,11 +110,7 @@ export async function emitToolCallError(
 ): Promise<void> {
   await deps.emitEvent({
     ...eventEnvelope(deps, SessionEventType.ToolCallError, traceContext, turnId),
-    payload: {
-      toolCallId,
-      error,
-      ...(skillMetadata ? { skillMetadata } : {}),
-    },
+    payload: errorPayload(toolCallId, error, skillMetadata),
   });
 }
 
@@ -159,20 +155,15 @@ export async function emitPermissionRequested(
       traceContext,
       traceContext.turnId ?? deps.turnId,
     ),
-    payload: {
-      requestId,
-      toolCallId: toolCall.id,
-      toolName: toolCall.name,
-      riskLevel,
-      reason: reason ?? `Tool ${toolCall.name} requires approval`,
+    payload: permissionRequestedPayload(deps, {
+      toolCall,
       input,
+      requestId,
+      riskLevel,
+      reason,
       suggestedPermissionUpdates,
-      ...(approval?.display ? { display: approval.display } : {}),
-      ...(approval?.optionsPolicy ? { optionsPolicy: approval.optionsPolicy } : {}),
-      ...(deps.sessionModePort?.supportsPermissionFullAccess?.()
-        ? { fullAccessSupported: true }
-        : {}),
-    },
+      approval,
+    }),
   });
 }
 
@@ -190,13 +181,7 @@ export async function emitPermissionResolved(
       traceContext,
       traceContext.turnId ?? deps.turnId,
     ),
-    payload: {
-      requestId,
-      toolCallId: toolCall.id,
-      decision: decision.decision,
-      reason: decision.reason,
-      modifiedInput: decision.modifiedInput,
-    },
+    payload: permissionResolvedPayload(toolCall, requestId, decision),
   });
 }
 
@@ -213,11 +198,77 @@ export async function emitPermissionDenied(
       traceContext,
       traceContext.turnId ?? deps.turnId,
     ),
-    payload: {
-      toolCallId: toolCall.id,
-      toolName: toolCall.name,
-      reason: reason ?? `Permission denied for ${toolCall.name}`,
-      inputSummary: summarizeInput(toolCall.input),
-    },
+    payload: permissionDeniedPayload(toolCall, reason),
   });
+}
+
+// 以下四个负载构造器把「字段拼接」从 emit 函数里挪出来：emit 只负责发事件。
+// 返回 Record<string, unknown> 而不是 interface —— 事件的 payload 参数就是这个形状。
+
+function errorPayload(
+  toolCallId: ToolCallId,
+  error: ToolExecutionResult["error"],
+  skillMetadata: SkillTelemetryMetadata | undefined,
+): Record<string, unknown> {
+  const payload = {} as Record<string, unknown>;
+  payload.toolCallId = toolCallId;
+  payload.error = error;
+  if (skillMetadata) payload.skillMetadata = skillMetadata;
+  return payload;
+}
+
+function permissionRequestedPayload(
+  deps: Deps,
+  request: {
+    toolCall: ToolCall;
+    input: unknown;
+    requestId: RequestId;
+    riskLevel: PermissionContext["riskLevel"];
+    reason: OptionalText;
+    suggestedPermissionUpdates: PermissionUpdate[];
+    approval:
+      | { display?: ToolResultDisplayPayload; optionsPolicy?: PermissionOptionsPolicy }
+      | undefined;
+  },
+): Record<string, unknown> {
+  const payload = {} as Record<string, unknown>;
+  payload.requestId = request.requestId;
+  payload.toolCallId = request.toolCall.id;
+  payload.toolName = request.toolCall.name;
+  payload.riskLevel = request.riskLevel;
+  payload.reason = request.reason ?? `Tool ${request.toolCall.name} requires approval`;
+  payload.input = request.input;
+  payload.suggestedPermissionUpdates = request.suggestedPermissionUpdates;
+  if (request.approval?.display) payload.display = request.approval.display;
+  if (request.approval?.optionsPolicy) payload.optionsPolicy = request.approval.optionsPolicy;
+  if (deps.sessionModePort?.supportsPermissionFullAccess?.() === true) {
+    payload.fullAccessSupported = true;
+  }
+  return payload;
+}
+
+function permissionResolvedPayload(
+  toolCall: ToolCall,
+  requestId: RequestId,
+  decision: PermissionBrokerResult,
+): Record<string, unknown> {
+  const payload = {} as Record<string, unknown>;
+  payload.requestId = requestId;
+  payload.toolCallId = toolCall.id;
+  payload.decision = decision.decision;
+  payload.reason = decision.reason;
+  payload.modifiedInput = decision.modifiedInput;
+  return payload;
+}
+
+function permissionDeniedPayload(
+  toolCall: ToolCall,
+  reason: OptionalText,
+): Record<string, unknown> {
+  const payload = {} as Record<string, unknown>;
+  payload.toolCallId = toolCall.id;
+  payload.toolName = toolCall.name;
+  payload.reason = reason ?? `Permission denied for ${toolCall.name}`;
+  payload.inputSummary = summarizeInput(toolCall.input);
+  return payload;
 }
