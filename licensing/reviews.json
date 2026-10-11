@@ -82094,242 +82094,85 @@
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/README.md",
-      "normalizedSha256": "e9042faf9abf8970dd3e130e46ace125818f5f27f150e51f911ec42848feab83",
+      "path": "scripts/provenance/similarity.mjs",
+      "normalizedSha256": "88194f2efc54c0366d10abc856a7d8a102b68455a25e24f08019b4ed08adf5d9",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/acceptance.md",
-      "normalizedSha256": "5edac7ff2a36ee1c9bd47345fc8a3e3c145ca94793c29e2c84ff088c56e048b2",
+      "path": "scripts/provenance/similarity-lines.mjs",
+      "normalizedSha256": "59d777952362c0d9b5eca1cc2041a73162eb725870e2f5de161d36ac8de8ee92",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Line normalization, containment and longest-run metrics.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/behavior.md",
-      "normalizedSha256": "bd03bc9039289dac3d862149dc3f6dc43243eb58306fb7616ac49470c58b46ce",
+      "path": "scripts/provenance/similarity-structural.mjs",
+      "normalizedSha256": "ab1cc82407b9134e66756c9a859aa979d75e09fd46ef76daff2a7b3c45b38a51",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Token normalization with the repository TypeScript lexer and winnowing fingerprints.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/callers.md",
-      "normalizedSha256": "96dfd669f6cc2db932a57f50cc8b3d8b30e5a80cbaa175c508d360cb25599131",
+      "path": "scripts/provenance/similarity.test.mjs",
+      "normalizedSha256": "1b19fc3ddbfc77d8dbfe60cbd9b88c40d2caeea311bd4c19dd92eeefb09c7a6d",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/gate-old.json",
-      "normalizedSha256": "7fdbff465dbc728aa53e463377918d9cccafecce442a2d309c9c5d0b9ca7f561",
+      "path": "docs/knorvia-similarity-calibration-20261011.md",
+      "normalizedSha256": "5f76f81e0f07150e42f3fe97754d087cade8d30dc5b617ff7a13b9781bf10d6d",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/interface.md",
-      "normalizedSha256": "1aa4dd4bff92900c09f2143799d86a7e2cb32cc12e791a773eac43c736dc8878",
+      "path": "scripts/provenance/similarity-inputs.mjs",
+      "normalizedSha256": "1bfbc9319e6bdab98d7c88e6cbcf8ba135731aa4a18ee2e18dea2f9782a077fb",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Input loading for the upstream tree, candidates and replaced old files.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
     {
-      "path": "specs/contracts/contracts-01/known-differences.md",
-      "normalizedSha256": "70e29badebab901b6e6fa6ca3a6281cc827cb21328c3b11ec29e995e403f7344",
+      "path": "scripts/provenance/similarity-declarations.mjs",
+      "normalizedSha256": "223f04948d6221fc3d1e3dddbeb5ce4ea00aa4ddf4d0034419ace39473a6bbc9",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/capabilities/index.ts",
-      "normalizedSha256": "2c8c14a780a74d1d12eab3787e8861a608d961ceba404e4bebb741ff8ecf4e7c",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/commands/index.ts",
-      "normalizedSha256": "0b3275becf89aa93c853aef558103b7779d52bc9e425ed6bf930d4154426fea3",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/compact/index.ts",
-      "normalizedSha256": "486f9f018bda78e8af73a2d09393f984348ced4b43e7481638c0f4ac37c5ec12",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/config/index.ts",
-      "normalizedSha256": "555ecfd1c73fbad836d6d2cb006c4b949a01e33e8e22c234c5f83f70ab0f404d",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/events/index.ts",
-      "normalizedSha256": "c17c518b220f2a01949897ab2b0907f229345f040689ba184b3da2108cb614f3",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/hooks/index.ts",
-      "normalizedSha256": "aaecfb503ab9bc51a2c6ee0760af37c88f9d5979270bd7d42fbacde065d940df",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/index.ts",
-      "normalizedSha256": "2c8c14a780a74d1d12eab3787e8861a608d961ceba404e4bebb741ff8ecf4e7c",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/interfaces/index.ts",
-      "normalizedSha256": "e7b42d179c26f03beee59a739c4c20c8542e07b8077ea1e9686a7ae181f1319d",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/model/index.ts",
-      "normalizedSha256": "2ebd7b00b7fb73c3b56b1f8d6e8a22a368e511a00deb578753b1f18c58a8c27a",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/stubs/src/plugins/index.ts",
-      "normalizedSha256": "dd67d5820f2d36f19a0afe84a8465ecea628335ff367b1653ee662152593fa6f",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/tests/api-surface.test.mjs",
-      "normalizedSha256": "61e12e18f48be7d383de078f833482a3c845e8405b16c429f4c03a3fbec30e1d",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/tests/behavior.test.mjs",
-      "normalizedSha256": "2e96c4390260e3755f41a53359c5576e6907cc79b540000f1d0f86cc6977fde6",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/contracts-01/tests/entry.mjs",
-      "normalizedSha256": "50441ffa97dba1a8863dfc8dbad64e41b19d8746e9b1b438a1e00dd00daecf5e",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
-      "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     },
@@ -83327,6 +83170,246 @@
         "docs/knorvia-independent-replacement-plan.md",
         "docs/knorvia-provenance-bookkeeping-20261010.md",
         "scripts/provenance/inherited-triage.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/README.md",
+      "normalizedSha256": "e9042faf9abf8970dd3e130e46ace125818f5f27f150e51f911ec42848feab83",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/acceptance.md",
+      "normalizedSha256": "5edac7ff2a36ee1c9bd47345fc8a3e3c145ca94793c29e2c84ff088c56e048b2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/behavior.md",
+      "normalizedSha256": "bd03bc9039289dac3d862149dc3f6dc43243eb58306fb7616ac49470c58b46ce",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/callers.md",
+      "normalizedSha256": "96dfd669f6cc2db932a57f50cc8b3d8b30e5a80cbaa175c508d360cb25599131",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/gate-old.json",
+      "normalizedSha256": "7fdbff465dbc728aa53e463377918d9cccafecce442a2d309c9c5d0b9ca7f561",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/interface.md",
+      "normalizedSha256": "1aa4dd4bff92900c09f2143799d86a7e2cb32cc12e791a773eac43c736dc8878",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/known-differences.md",
+      "normalizedSha256": "70e29badebab901b6e6fa6ca3a6281cc827cb21328c3b11ec29e995e403f7344",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/capabilities/index.ts",
+      "normalizedSha256": "2c8c14a780a74d1d12eab3787e8861a608d961ceba404e4bebb741ff8ecf4e7c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/commands/index.ts",
+      "normalizedSha256": "0b3275becf89aa93c853aef558103b7779d52bc9e425ed6bf930d4154426fea3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/compact/index.ts",
+      "normalizedSha256": "486f9f018bda78e8af73a2d09393f984348ced4b43e7481638c0f4ac37c5ec12",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/config/index.ts",
+      "normalizedSha256": "555ecfd1c73fbad836d6d2cb006c4b949a01e33e8e22c234c5f83f70ab0f404d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/events/index.ts",
+      "normalizedSha256": "c17c518b220f2a01949897ab2b0907f229345f040689ba184b3da2108cb614f3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/hooks/index.ts",
+      "normalizedSha256": "aaecfb503ab9bc51a2c6ee0760af37c88f9d5979270bd7d42fbacde065d940df",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/index.ts",
+      "normalizedSha256": "2c8c14a780a74d1d12eab3787e8861a608d961ceba404e4bebb741ff8ecf4e7c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/interfaces/index.ts",
+      "normalizedSha256": "e7b42d179c26f03beee59a739c4c20c8542e07b8077ea1e9686a7ae181f1319d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/model/index.ts",
+      "normalizedSha256": "2ebd7b00b7fb73c3b56b1f8d6e8a22a368e511a00deb578753b1f18c58a8c27a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stubs/src/plugins/index.ts",
+      "normalizedSha256": "dd67d5820f2d36f19a0afe84a8465ecea628335ff367b1653ee662152593fa6f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/tests/api-surface.test.mjs",
+      "normalizedSha256": "61e12e18f48be7d383de078f833482a3c845e8405b16c429f4c03a3fbec30e1d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/tests/behavior.test.mjs",
+      "normalizedSha256": "2e96c4390260e3755f41a53359c5576e6907cc79b540000f1d0f86cc6977fde6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/tests/entry.mjs",
+      "normalizedSha256": "50441ffa97dba1a8863dfc8dbad64e41b19d8746e9b1b438a1e00dd00daecf5e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "evidence": [
+        "specs/contracts/contracts-01/README.md",
+        "specs/contracts/contracts-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
       ]
     }
   ]
