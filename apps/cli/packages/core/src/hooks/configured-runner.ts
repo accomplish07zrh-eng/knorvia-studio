@@ -127,14 +127,29 @@ function workspaceEntryConfig(
     Extract<HookConfig, { type: "process" }>,
     "type" | "args"
   >;
-  return entry.type === "command"
-    ? {
-        ...common,
-        type: "command",
-        ...(entry.async === undefined ? {} : { async: entry.async }),
-        ...(entry.shell === undefined ? {} : { shell: entry.shell }),
-      }
-    : { ...common, type: "process", ...(entry.args ? { args: [...entry.args] } : {}) };
+  const buildCommand = (
+    commandEntry: Extract<CanonicalWorkspaceHookEntry, { type: "command" }>,
+    base: typeof common,
+  ): HookConfig => {
+    const extra: Array<[string, unknown]> = [["type", "command"]];
+    if (commandEntry.async !== undefined) extra.push(["async", commandEntry.async]);
+    if (commandEntry.shell !== undefined) extra.push(["shell", commandEntry.shell]);
+    return { ...base, ...Object.fromEntries(extra) } as unknown as HookConfig;
+  };
+
+  const buildProcess = (
+    processEntry: Extract<CanonicalWorkspaceHookEntry, { type: "process" }>,
+    base: typeof common,
+  ): HookConfig => {
+    const extra: Array<[string, unknown]> = [["type", "process"]];
+    if (processEntry.args) extra.push(["args", [...processEntry.args]]);
+    return { ...base, ...Object.fromEntries(extra) } as unknown as HookConfig;
+  };
+
+  if (entry.type === "command") return buildCommand(entry, common);
+  if (entry.type === "process") return buildProcess(entry, common);
+  // 快照条目的 type 由契约限定为两种，走到这里说明上游多出了未支持的类型。
+  throw new Error("Unsupported workspace Hook entry type");
 }
 
 function workspaceRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
