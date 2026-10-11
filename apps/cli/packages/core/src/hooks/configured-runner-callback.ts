@@ -59,7 +59,10 @@ function parseStdout(stdout: string, event: HookEventName): HookJSONOutput | und
       CoreErrorType.ToolExecutionFailed,
       "Hook stdout failed HookJSONOutput schema validation",
       {
-        context: { errors: validation.error.errors.slice(0, MAX_SCHEMA_ERRORS), hookEventName: event },
+        context: {
+          errors: validation.error.errors.slice(0, MAX_SCHEMA_ERRORS),
+          hookEventName: event,
+        },
         recoverable: true,
       },
     );
@@ -101,7 +104,8 @@ function exitCodeBlockOutput(input: HookInput, result: ExecutionResult): HookJSO
 /** 把执行诊断附加到输出上；没有诊断时保持原样（可能是 undefined）。 */
 function withDiagnostics(output: HookJSONOutput | undefined, result: ExecutionResult): HookOutput {
   const stderrPreview = preview(result.stderr.text);
-  const stdoutPreview = result.exitCode === EXIT_CODE_BLOCK ? preview(result.stdout.text) : undefined;
+  const stdoutPreview =
+    result.exitCode === EXIT_CODE_BLOCK ? preview(result.stdout.text) : undefined;
   if (!stderrPreview && !stdoutPreview) return output;
 
   return {
@@ -197,14 +201,11 @@ export function createConfiguredHookCallback(
     const stdin = await createCompatibleHookStdin(input);
     try {
       const result = await options.executionPort.run(
-        executionRequest(
-          options,
-          hook,
-          input,
-          stdin.value,
-          budget,
-          { hookEventName: event, hookIndex, matcherIndex },
-        ),
+        executionRequest(options, hook, input, stdin.value, budget, {
+          hookEventName: event,
+          hookIndex,
+          matcherIndex,
+        }),
         { signal: context.signal },
       );
       return resultToOutput(input, result, event);

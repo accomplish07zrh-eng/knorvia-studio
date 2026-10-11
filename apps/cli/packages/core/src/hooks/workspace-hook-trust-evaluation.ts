@@ -35,13 +35,25 @@ interface EntryContext {
 
 /** 槽位签名：同一位置/事件/matcher 视为同一把"椅子"，摘要不同即为内容已改。 */
 function slotSignature(source: string, entry: CanonicalWorkspaceHookEntry): string {
-  return [source, entry.event, entry.matcherIndex, entry.hookIndex, entry.matcher ?? ""].join("\u0001");
+  return [source, entry.event, entry.matcherIndex, entry.hookIndex, entry.matcher ?? ""].join(
+    "\u0001",
+  );
 }
 
 function recordSignature(record: WorkspaceHookTrustRecord): string | undefined {
-  const slot = [record.sourceDiscoveryOrderAtGrant, record.matcherIndexAtGrant, record.hookIndexAtGrant];
+  const slot = [
+    record.sourceDiscoveryOrderAtGrant,
+    record.matcherIndexAtGrant,
+    record.hookIndexAtGrant,
+  ];
   if (slot.some((value) => value === undefined)) return undefined;
-  return [record.sourceDiscoveryOrderAtGrant, record.eventAtGrant, record.matcherIndexAtGrant, record.hookIndexAtGrant, record.matcherAtGrant ?? ""].join("\u0001");
+  return [
+    record.sourceDiscoveryOrderAtGrant,
+    record.eventAtGrant,
+    record.matcherIndexAtGrant,
+    record.hookIndexAtGrant,
+    record.matcherAtGrant ?? "",
+  ].join("\u0001");
 }
 
 /** 是否存在"同一槽位、不同摘要"的历史记录（内容被改过）。 */
@@ -105,8 +117,10 @@ export function evaluateWorkspaceHookEntry(
     storeStatus: input.storeStatus,
   });
   const admission = WORKSPACE_HOOK_STATE_ADMISSION_MAP[trustState];
-  const runnable = admission.admissionClass === "admitted" && entry.configuredEnabled && policy.mode !== "deny";
-  const origin = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath ?? entry.sourceRelativePath;
+  const runnable =
+    admission.admissionClass === "admitted" && entry.configuredEnabled && policy.mode !== "deny";
+  const origin =
+    snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath ?? entry.sourceRelativePath;
   const pairs: readonly (readonly [string, unknown])[] = [
     ["admissionClass", admission.admissionClass],
     ["bundleDigest", snapshot.bundleDigest],

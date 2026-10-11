@@ -3,10 +3,7 @@
 // 真实路径的内容都不出现在这里。事件名与字段的声明在 types.ts（兼容面），本文件只发射。
 import { createHash } from "node:crypto";
 import type { Logger } from "@knorvia/contracts";
-import type {
-  WorkspaceHookTelemetryEvent,
-  WorkspaceHookTelemetryFields,
-} from "./types.js";
+import type { WorkspaceHookTelemetryEvent, WorkspaceHookTelemetryFields } from "./types.js";
 
 export type { WorkspaceHookTelemetryEvent, WorkspaceHookTelemetryFields } from "./types.js";
 
@@ -33,9 +30,15 @@ export function workspaceIdentitySummary(value: string): string {
  */
 function fieldPlan(fields: WorkspaceHookTelemetryFields): readonly [string, unknown][] {
   return [
-    ["workspaceIdentityDigest", fields.workspaceIdentity ? workspaceIdentitySummary(fields.workspaceIdentity) : undefined],
+    [
+      "workspaceIdentityDigest",
+      fields.workspaceIdentity ? workspaceIdentitySummary(fields.workspaceIdentity) : undefined,
+    ],
     ["bundleDigest", fields.bundleDigest ? digestSummary(fields.bundleDigest) : undefined],
-    ["declarationDigest", fields.declarationDigest ? digestSummary(fields.declarationDigest) : undefined],
+    [
+      "declarationDigest",
+      fields.declarationDigest ? digestSummary(fields.declarationDigest) : undefined,
+    ],
     ["reasonCode", fields.reasonCode],
     ["source", fields.source],
     ["action", fields.action],

@@ -2,10 +2,7 @@
 // 策略提供者：默认"用户自行决定"，可按 workspace 覆盖。写入先校验，值没变就不广播，
 // 这样上层的安全修订只反映真实变化。内部用"覆盖表 + 订阅者集合 + 变更类型"表达。
 import { workspaceHookPolicySchema, type WorkspaceHookPolicy } from "@knorvia/contracts";
-import type {
-  WorkspaceHookPolicyChange,
-  WorkspaceHookPolicyProvider,
-} from "./types.js";
+import type { WorkspaceHookPolicyChange, WorkspaceHookPolicyProvider } from "./types.js";
 
 export type { WorkspaceHookPolicyChange, WorkspaceHookPolicyProvider } from "./types.js";
 

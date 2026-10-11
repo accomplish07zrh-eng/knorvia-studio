@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+
 # core-hooks 设计（替换实现，合同 v1）
 
 本文件说明替换实现的状态所有者、模块划分、关键数据结构与事件顺序，并给出每条 B 的落点。
@@ -6,18 +7,18 @@
 
 ## 1. 状态所有者
 
-| 状态 | 所有者 | 生命周期 |
-| ---- | ------ | -------- |
-| 登记项列表与单次运行结果 | `InMemoryHookRunner`（保留的 `runner.ts`） | 运行器实例 / 单次 `run` |
-| 配置快照（`HooksRuntimeConfig`） | 调用方（bootstrap） | 传入即只读；本包不缓存 |
-| workspace 快照与准入判定 | `WorkspaceHookRuntimeAdmission` | 实例；`replaceSnapshot` 换一份 |
-| 持久信任记录（内存镜像） | `WorkspaceHookTrustCoordinator` | 实例；真实文件由 adapters 的 Trust store 拥有 |
-| 安全修订计数（`coordinatorEpoch` + counter） | `WorkspaceHookTrustCoordinator` | 实例；不持久化 |
-| 撤销集合 | `WorkspaceHookTrustCoordinator` | 实例；重新授权时清除 |
-| 策略（默认 + 按 workspace） | 策略提供者实现（`InMemoryWorkspaceHookPolicyProvider`） | 提供者实例 |
-| 审核流程的当前代 | `WorkspaceHookReviewFlowRegistry` | 实例；每个 session 一份 |
-| 临时 stdin 目录 | 每次回调（`createCompatibleHookStdin` 的 `cleanup`） | 单次调用 |
-| telemetry 去重键 | `WorkspaceHookRuntimeAdmission` | 实例 |
+| 状态                                         | 所有者                                                  | 生命周期                                      |
+| -------------------------------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| 登记项列表与单次运行结果                     | `InMemoryHookRunner`（保留的 `runner.ts`）              | 运行器实例 / 单次 `run`                       |
+| 配置快照（`HooksRuntimeConfig`）             | 调用方（bootstrap）                                     | 传入即只读；本包不缓存                        |
+| workspace 快照与准入判定                     | `WorkspaceHookRuntimeAdmission`                         | 实例；`replaceSnapshot` 换一份                |
+| 持久信任记录（内存镜像）                     | `WorkspaceHookTrustCoordinator`                         | 实例；真实文件由 adapters 的 Trust store 拥有 |
+| 安全修订计数（`coordinatorEpoch` + counter） | `WorkspaceHookTrustCoordinator`                         | 实例；不持久化                                |
+| 撤销集合                                     | `WorkspaceHookTrustCoordinator`                         | 实例；重新授权时清除                          |
+| 策略（默认 + 按 workspace）                  | 策略提供者实现（`InMemoryWorkspaceHookPolicyProvider`） | 提供者实例                                    |
+| 审核流程的当前代                             | `WorkspaceHookReviewFlowRegistry`                       | 实例；每个 session 一份                       |
+| 临时 stdin 目录                              | 每次回调（`createCompatibleHookStdin` 的 `cleanup`）    | 单次调用                                      |
+| telemetry 去重键                             | `WorkspaceHookRuntimeAdmission`                         | 实例                                          |
 
 本包不新增进程级单例、全局可变状态或跨运行缓存；所有状态都挂在调用方传入并在构造函数中保存的依赖上。
 
@@ -63,8 +64,11 @@ graph LR
 ### 3.1 信任键与修订
 
 ```ts
-type TrustKey = `${string}\u0000${string}`;        // workspaceIdentity + hookDeclarationDigest
-interface SecurityRevision { coordinatorEpoch: string; counter: number }
+type TrustKey = `${string}\u0000${string}`; // workspaceIdentity + hookDeclarationDigest
+interface SecurityRevision {
+  coordinatorEpoch: string;
+  counter: number;
+}
 ```
 
 - `coordinatorEpoch` 构造时固定；`counter` 每发生一次影响准入的变化 +1（策略变更、记录替换、撤销）。
@@ -74,7 +78,12 @@ interface SecurityRevision { coordinatorEpoch: string; counter: number }
 
 ```ts
 type TrustState =
-  | "blocked_policy" | "blocked_untrusted" | "trusted_persistent" | "revoked" | "stale_digest" | "pending_trust";
+  | "blocked_policy"
+  | "blocked_untrusted"
+  | "trusted_persistent"
+  | "revoked"
+  | "stale_digest"
+  | "pending_trust";
 ```
 
 判定顺序严格按 `behavior.md` B12 的表格；`admissionClass` 与 `reasonCode` 直接取
@@ -85,10 +94,10 @@ type TrustState =
 
 ```ts
 interface ReviewFlow {
-  request: WorkspaceHookReviewRequestPayload;   // 一次性快照，不再变
-  state: WorkspaceHookReviewFlowState;          // pending → resolved/superseded/timed_out/cancelled
-  result: Promise<WorkspaceHookReviewOutcome>;  // 只结算一次
-  timer?: NodeJS.Timeout;                        // unref
+  request: WorkspaceHookReviewRequestPayload; // 一次性快照，不再变
+  state: WorkspaceHookReviewFlowState; // pending → resolved/superseded/timed_out/cancelled
+  result: Promise<WorkspaceHookReviewOutcome>; // 只结算一次
+  timer?: NodeJS.Timeout; // unref
 }
 ```
 
@@ -144,27 +153,27 @@ sequenceDiagram
 
 ## 5. 每条 B 的落点
 
-| 条目 | 实现位置 |
-| ---- | -------- |
-| B1 兼容 stdin | `configured-runner-input.ts`：`createCompatibleHookStdin` + transcript 写入 |
-| B2 环境/变量 | `configured-runner-input.ts`：`createPluginEnvOverlay`、`expandPluginVariables`、`resolveHookTimeoutMs` |
-| B3 描述元数据 | `display-metadata.ts`：`createHookExecutionDescriptor` + 引号规则 |
-| B4 脱敏 | `display-metadata.ts`：`sanitizeHookDisplayText`（按顺序应用遮蔽规则） |
-| B5 配置登记 | `configured-runner.ts`：`createConfiguredHookRunner` + 目录遍历 |
-| B6 workspace 项与顺序 | `configured-runner.ts`：`createWorkspaceHookRegistrations` + `insertWorkspaceHooks` |
-| B7 执行映射 | `configured-runner-callback.ts`：两种 `hook.type` 的 `ExecutionPort.run` 入参 |
-| B8 结果解析 | `configured-runner-callback.ts`：`processHookExecutionResult` |
-| B9 stdout / exit 2 | `configured-runner-callback.ts`：`parseHookStdout`、`createExitCodeBlockOutput` |
-| B10 策略提供者 | `workspace-hook-policy.ts` |
-| B11 协调者 | `workspace-hook-trust-coordinator.ts` |
-| B12 单条求值 | `workspace-hook-trust-evaluation.ts` |
-| B13 审核流程 | `workspace-hook-review-flow.ts` |
-| B14 运行时准入 | `workspace-hook-runtime-admission.ts` |
-| B15 telemetry | `workspace-hook-telemetry.ts` |
-| B16 信任记录 | `workspace-hook-trust-records.ts` |
-| B17 session mailbox | `session-mailbox.ts` |
-| B18 公开面 | `index.ts`、`types.ts`、`workspace-hook-trust-domain.ts` |
-| B19 平台/资源 | `configured-runner-input.ts`（临时目录）、全部模块（`node:os`/`node:path`、无 stdout 写入） |
+| 条目                  | 实现位置                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
+| B1 兼容 stdin         | `configured-runner-input.ts`：`createCompatibleHookStdin` + transcript 写入                             |
+| B2 环境/变量          | `configured-runner-input.ts`：`createPluginEnvOverlay`、`expandPluginVariables`、`resolveHookTimeoutMs` |
+| B3 描述元数据         | `display-metadata.ts`：`createHookExecutionDescriptor` + 引号规则                                       |
+| B4 脱敏               | `display-metadata.ts`：`sanitizeHookDisplayText`（按顺序应用遮蔽规则）                                  |
+| B5 配置登记           | `configured-runner.ts`：`createConfiguredHookRunner` + 目录遍历                                         |
+| B6 workspace 项与顺序 | `configured-runner.ts`：`createWorkspaceHookRegistrations` + `insertWorkspaceHooks`                     |
+| B7 执行映射           | `configured-runner-callback.ts`：两种 `hook.type` 的 `ExecutionPort.run` 入参                           |
+| B8 结果解析           | `configured-runner-callback.ts`：`processHookExecutionResult`                                           |
+| B9 stdout / exit 2    | `configured-runner-callback.ts`：`parseHookStdout`、`createExitCodeBlockOutput`                         |
+| B10 策略提供者        | `workspace-hook-policy.ts`                                                                              |
+| B11 协调者            | `workspace-hook-trust-coordinator.ts`                                                                   |
+| B12 单条求值          | `workspace-hook-trust-evaluation.ts`                                                                    |
+| B13 审核流程          | `workspace-hook-review-flow.ts`                                                                         |
+| B14 运行时准入        | `workspace-hook-runtime-admission.ts`                                                                   |
+| B15 telemetry         | `workspace-hook-telemetry.ts`                                                                           |
+| B16 信任记录          | `workspace-hook-trust-records.ts`                                                                       |
+| B17 session mailbox   | `session-mailbox.ts`                                                                                    |
+| B18 公开面            | `index.ts`、`types.ts`、`workspace-hook-trust-domain.ts`                                                |
+| B19 平台/资源         | `configured-runner-input.ts`（临时目录）、全部模块（`node:os`/`node:path`、无 stdout 写入）             |
 
 ## 6. 错误与日志语义
 

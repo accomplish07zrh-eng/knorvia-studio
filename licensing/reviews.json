@@ -82119,7 +82119,7 @@
     },
     {
       "path": "specs/contracts/core-hooks/interface.md",
-      "normalizedSha256": "82e275efe7eaf3958015ac1bb1f73e1682e19af86c385616faabbd647908ce49",
+      "normalizedSha256": "54d8637f859b67933148bca569057383e928128200b67972967df954104565e9",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",

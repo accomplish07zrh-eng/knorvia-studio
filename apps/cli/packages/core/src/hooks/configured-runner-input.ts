@@ -50,7 +50,8 @@ function transcriptLine(role: "assistant" | "user", text: string): string {
 function transcriptFor(input: HookInput): string {
   if (input.hookEventName === HookEventName.Stop)
     return transcriptLine("assistant", input.responseText ?? input.responsePreview);
-  if (input.hookEventName === HookEventName.UserPromptSubmit) return transcriptLine("user", input.prompt);
+  if (input.hookEventName === HookEventName.UserPromptSubmit)
+    return transcriptLine("user", input.prompt);
   return "";
 }
 

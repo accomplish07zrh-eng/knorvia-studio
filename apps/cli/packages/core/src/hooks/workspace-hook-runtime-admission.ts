@@ -142,10 +142,7 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
       return reject("workspace_hooks_snapshot_mismatch");
     };
 
-    if (
-      input.bundleDigest !== undefined &&
-      input.bundleDigest !== snapshot.bundleDigest
-    )
+    if (input.bundleDigest !== undefined && input.bundleDigest !== snapshot.bundleDigest)
       return mismatch({
         bundleDigest: input.bundleDigest,
         declarationDigest: input.hookDeclarationDigest,
@@ -156,8 +153,7 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
         declarationDigest: input.hookDeclarationDigest,
       });
 
-    if (this.blockedByInvalidation !== undefined)
-      return reject(this.blockedByInvalidation);
+    if (this.blockedByInvalidation !== undefined) return reject(this.blockedByInvalidation);
     if (this.state === "cold") return reject("workspace_hooks_pending_trust");
     if (!this.enabled) return reject("workspace_hooks_feature_disabled");
     if (this.state === "failed") {
@@ -181,11 +177,11 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
     const evaluated = this.evaluation?.items.find(
       (item) => item.reviewItemId === input.reviewItemId,
     );
-    if (
-      evaluated === undefined ||
-      evaluated.hookDeclarationDigest !== input.hookDeclarationDigest
-    )
-      return mismatch({ bundleDigest: snapshot.bundleDigest, declarationDigest: input.hookDeclarationDigest });
+    if (evaluated === undefined || evaluated.hookDeclarationDigest !== input.hookDeclarationDigest)
+      return mismatch({
+        bundleDigest: snapshot.bundleDigest,
+        declarationDigest: input.hookDeclarationDigest,
+      });
     if (evaluated.effectiveRunnable) return { allowed: true };
 
     const reasonCode = evaluated.reasonCode ?? "workspace_hooks_blocked_untrusted";
@@ -232,7 +228,8 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
   }
 
   private recompute(input: { safe: boolean }): void {
-    if (!this.enabled || this.state === "failed" || this.blockedByInvalidation !== undefined) return;
+    if (!this.enabled || this.state === "failed" || this.blockedByInvalidation !== undefined)
+      return;
     try {
       const evaluation = this.coordinator.evaluateSnapshot({ snapshot: this.book.snapshot });
       this.evaluation = evaluation;
@@ -267,7 +264,13 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
     event: WorkspaceHookTelemetryEvent,
     fields: WorkspaceHookTelemetryFields,
   ): void {
-    const fingerprint = [event, fields.reasonCode, fields.bundleDigest, fields.declarationDigest, fields.source].join("|");
+    const fingerprint = [
+      event,
+      fields.reasonCode,
+      fields.bundleDigest,
+      fields.declarationDigest,
+      fields.source,
+    ].join("|");
     if (this.reportedTelemetry.has(fingerprint)) return;
     this.reportedTelemetry.add(fingerprint);
     const forward = emitWorkspaceHookTelemetry;

@@ -38,7 +38,12 @@ interface CoordinatorState {
 }
 
 function freshState(): CoordinatorState {
-  return { counters: new Map(), records: new Map(), revoked: new Set(), store: { status: "missing" } };
+  return {
+    counters: new Map(),
+    records: new Map(),
+    revoked: new Set(),
+    store: { status: "missing" },
+  };
 }
 
 function distinct(values: readonly string[]): string[] {
@@ -148,7 +153,8 @@ export class WorkspaceHookTrustCoordinator {
       ["workspaceIdentity", workspaceIdentity],
     ];
     const failure =
-      resolved.reasonCode ?? (this.state.store.status === "corrupt" ? "workspace_hooks_trust_store_corrupt" : undefined);
+      resolved.reasonCode ??
+      (this.state.store.status === "corrupt" ? "workspace_hooks_trust_store_corrupt" : undefined);
     if (failure) pairs.push(["reasonCode", failure]);
     return Object.fromEntries(pairs) as unknown as WorkspaceHookSnapshotEvaluation;
   }
@@ -159,10 +165,7 @@ export class WorkspaceHookTrustCoordinator {
     return { coordinatorEpoch: this.epoch, counter };
   }
 
-  validateSecurityRevision(
-    identity: string,
-    revision: WorkspaceHookSecurityRevision,
-  ): boolean {
+  validateSecurityRevision(identity: string, revision: WorkspaceHookSecurityRevision): boolean {
     const matches = [
       revision.coordinatorEpoch === this.epoch,
       revision.counter === this.getSecurityRevision(identity).counter,

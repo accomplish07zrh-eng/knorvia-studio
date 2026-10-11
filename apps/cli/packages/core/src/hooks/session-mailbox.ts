@@ -26,7 +26,10 @@ function escapeAttribute(value: string): string {
     [/"/gu, "&quot;"],
     [/</gu, "&lt;"],
   ];
-  return escapes.reduce((text, [pattern, replacement]) => text.replace(pattern, replacement), value);
+  return escapes.reduce(
+    (text, [pattern, replacement]) => text.replace(pattern, replacement),
+    value,
+  );
 }
 
 type MailboxMessage = Awaited<ReturnType<SessionMailboxPort["drainUnread"]>>[number];
@@ -39,9 +42,13 @@ function renderMessage(message: MailboxMessage): string {
     `from_session="${escapeAttribute(message.fromSessionId)}"`,
     `created_at="${escapeAttribute(message.createdAt)}"`,
   ].join(" ");
-  return [`<session-message ${attrs}>`, SKIP_NOTICE, "", message.content, "</session-message>"].join(
-    "\n",
-  );
+  return [
+    `<session-message ${attrs}>`,
+    SKIP_NOTICE,
+    "",
+    message.content,
+    "</session-message>",
+  ].join("\n");
 }
 
 /** 事件 → 投递策略：PostToolUse 走 pending input 逐条入队，其余并入上下文。 */
@@ -73,7 +80,8 @@ export function createSessionMailboxHookRegistrations(
       ["turnId", input.turnId],
     ]) as unknown as TraceContext;
     if (DELIVERY[input.hookEventName] === "pending" && options.enqueuePendingInput) {
-      for (const message of unread) await options.enqueuePendingInput(renderMessage(message), traceContext);
+      for (const message of unread)
+        await options.enqueuePendingInput(renderMessage(message), traceContext);
       return;
     }
 
@@ -89,7 +97,11 @@ export function createSessionMailboxHookRegistrations(
       : contextual;
   };
 
-  const handledEvents = [HookEventName.UserPromptSubmit, HookEventName.PostToolUse, HookEventName.Stop];
+  const handledEvents = [
+    HookEventName.UserPromptSubmit,
+    HookEventName.PostToolUse,
+    HookEventName.Stop,
+  ];
   return handledEvents.map((event) => ({
     callback: handle,
     descriptor: INTERNAL_VIEW,

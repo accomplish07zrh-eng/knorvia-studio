@@ -22,7 +22,12 @@ interface Budget {
   timeoutMs: number;
 }
 
-function configSource(event: HookEventName, matcherIndex: number, hookIndex: number, plugin?: HookConfig["plugin"]): string {
+function configSource(
+  event: HookEventName,
+  matcherIndex: number,
+  hookIndex: number,
+  plugin?: HookConfig["plugin"],
+): string {
   return plugin
     ? `plugin.${plugin.id}.${event}.${matcherIndex}.${hookIndex}`
     : `config.${event}.${matcherIndex}.${hookIndex}`;
@@ -49,7 +54,12 @@ function registrationFromHook(input: {
     descriptor: (hookInput) =>
       createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
         try {
-          return expandPluginVariables(value, hook.plugin, hookInput, options.getWorkingDirectory());
+          return expandPluginVariables(
+            value,
+            hook.plugin,
+            hookInput,
+            options.getWorkingDirectory(),
+          );
         } catch {
           // 展示元数据不得引入新的执行失败。
           return value;
@@ -165,7 +175,8 @@ function withWorkspaceOrdering(
   for (const event of new Set(workspace.map((registration) => registration.event))) {
     const forEvent = workspace.filter((registration) => registration.event === event);
     const insertAt = ordered.findIndex(
-      (registration) => registration.event === event && registration.sourceKind !== USER_SOURCE_KIND,
+      (registration) =>
+        registration.event === event && registration.sourceKind !== USER_SOURCE_KIND,
     );
     if (insertAt < 0) ordered.push(...forEvent);
     else ordered.splice(insertAt, 0, ...forEvent);
@@ -177,7 +188,10 @@ function withWorkspaceOrdering(
 export function createConfiguredHookRunner(
   options: ConfiguredHookRunnerOptions,
 ): HookRunner | undefined {
-  const hooks = withWorkspaceOrdering(configuredRegistrations(options), workspaceRegistrations(options));
+  const hooks = withWorkspaceOrdering(
+    configuredRegistrations(options),
+    workspaceRegistrations(options),
+  );
   if (hooks.length === 0) return undefined;
 
   return new InMemoryHookRunner({

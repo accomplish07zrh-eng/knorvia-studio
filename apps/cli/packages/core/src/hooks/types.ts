@@ -27,7 +27,6 @@ import type {
 } from "@knorvia/contracts";
 import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
 
-
 /** 回调收到的运行上下文：索引是运行器给的位置，abort 信号由运行器拥有。 */
 export interface HookCallbackContext {
   hookIndex: number;
@@ -51,7 +50,11 @@ export interface HookCallbackResult {
 export type HookCallback = (
   input: HookInput,
   context: HookCallbackContext,
-) => HookJSONOutput | HookCallbackResult | void | Promise<HookJSONOutput | HookCallbackResult | void>;
+) =>
+  | HookJSONOutput
+  | HookCallbackResult
+  | void
+  | Promise<HookJSONOutput | HookCallbackResult | void>;
 
 /** 准入判定。拒绝时 reasonCode 会进入事件与日志；skipLifecycle 表示不产生任何生命周期事件。 */
 export interface HookRunAdmissionDecision {

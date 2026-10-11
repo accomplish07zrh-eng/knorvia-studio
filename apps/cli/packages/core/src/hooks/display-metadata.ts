@@ -6,7 +6,8 @@ import type { HookConfig, HookExecutionDescriptor } from "@knorvia/contracts";
 const INTERNAL_LABEL = "internal";
 const REDACTION = "••••";
 const BARE_SAFE = /^[A-Za-z0-9_./:@%+=,-]+$/u;
-const SECRET_WORD = "(?:access[_-]?token|api[_-]?key|credential|password|private[_-]?key|secret|token)";
+const SECRET_WORD =
+  "(?:access[_-]?token|api[_-]?key|credential|password|private[_-]?key|secret|token)";
 const SECRET_NAME = `(?:[A-Za-z0-9]+[_-])*${SECRET_WORD}(?:[_-][A-Za-z0-9]+)*`;
 const VALUE = "(?:\"[^\"]*\"|'[^']*'|[^\\s,\"']+)";
 const VARIABLE = "${...} 形态的占位符，交给调用方注入";
@@ -18,10 +19,7 @@ function quoteFragment(fragment: string): string {
   return BARE_SAFE.test(fragment) ? fragment : JSON.stringify(fragment);
 }
 
-function renderCommandLine(
-  parts: readonly string[],
-  expand: DisplayExpander,
-): string {
+function renderCommandLine(parts: readonly string[], expand: DisplayExpander): string {
   const fragments = parts.map((part) => quoteFragment(expand(part)));
   return fragments.join(" ");
 }
@@ -73,7 +71,11 @@ type RedactionRule = readonly [source: string, replacement: string, flags: strin
 /** 规则顺序：越具体的凭据形态越先处理，避免泛化规则先吃掉上下文。 */
 const REDACTION_RULES: readonly RedactionRule[] = [
   ["([a-z][a-z0-9+.-]*:\\/\\/)[^\\s/:@]+:[^\\s/@]+@", `$1${REDACTION}:${REDACTION}@`, "giu"],
-  ["(authorization\\s*:\\s*(?:basic|bearer)\\s+)(?:\"[^\"]*\"|'[^']*'|[^\\s,;\"']+)", `$1${REDACTION}`, "giu"],
+  [
+    "(authorization\\s*:\\s*(?:basic|bearer)\\s+)(?:\"[^\"]*\"|'[^']*'|[^\\s,;\"']+)",
+    `$1${REDACTION}`,
+    "giu",
+  ],
   [`([?&](?:authorization|${SECRET_NAME})=)[^&\\s"']+`, `$1${REDACTION}`, "giu"],
   ["(\\bauthorization\\b\\s*=\\s*)(?:\"[^\"]*\"|'[^']*'|[^\\s,\"']+)", `$1${REDACTION}`, "giu"],
   [`((?:"${SECRET_NAME}"|'${SECRET_NAME}')\\s*[:=]\\s*)${VALUE}`, `$1${REDACTION}`, "giu"],
@@ -81,13 +83,15 @@ const REDACTION_RULES: readonly RedactionRule[] = [
   [`((?:--)?${SECRET_NAME})(\\s+)${VALUE}`, `$1$2${REDACTION}`, "giu"],
 ];
 
-const COMPILED = REDACTION_RULES.map(([pattern, replacement, flags]) => [
-  new RegExp(pattern, flags),
-  replacement,
-] as const);
+const COMPILED = REDACTION_RULES.map(
+  ([pattern, replacement, flags]) => [new RegExp(pattern, flags), replacement] as const,
+);
 
 /** 遮蔽凭据。命中即替换，其余文本逐字保留；空串直接返回。 */
 export function sanitizeHookDisplayText(value: string): string {
   if (value.length === 0) return value;
-  return COMPILED.reduce((text, [pattern, replacement]) => text.replace(pattern, replacement), value);
+  return COMPILED.reduce(
+    (text, [pattern, replacement]) => text.replace(pattern, replacement),
+    value,
+  );
 }

@@ -56,7 +56,10 @@ interface FlowRecord {
 }
 
 /** 终态 → 结果载荷。表驱动让"哪一种结束方式给什么结果"一眼可见。 */
-const TERMINAL_OUTCOMES: Record<TerminalState, (reason: WorkspaceHookReasonCode | undefined) => WorkspaceHookReviewOutcome> = {
+const TERMINAL_OUTCOMES: Record<
+  TerminalState,
+  (reason: WorkspaceHookReasonCode | undefined) => WorkspaceHookReviewOutcome
+> = {
   cancelled: (reasonCode) => ({ action: "no_change", reasonCode, reviewItemIds: [] }),
   resolved: () => ({ action: "no_change", reasonCode: undefined, reviewItemIds: [] }),
   superseded: (reasonCode) => ({ action: "no_change", reasonCode, reviewItemIds: [] }),
@@ -163,8 +166,14 @@ export class WorkspaceHookReviewFlowRegistry {
     decisionValue: WorkspaceHookReviewDecision,
   ): WorkspaceHookReviewResolveResult {
     const current = this.flows.get(target.sessionId);
-    const superseded = { accepted: false as const, reasonCode: "workspace_hooks_review_superseded" as const };
-    const mismatch = { accepted: false as const, reasonCode: "workspace_hooks_snapshot_mismatch" as const };
+    const superseded = {
+      accepted: false as const,
+      reasonCode: "workspace_hooks_review_superseded" as const,
+    };
+    const mismatch = {
+      accepted: false as const,
+      reasonCode: "workspace_hooks_snapshot_mismatch" as const,
+    };
 
     if (!current || current.state.state !== "pending" || !isSameGeneration(current.request, target))
       return superseded;
@@ -186,8 +195,7 @@ export class WorkspaceHookReviewFlowRegistry {
     if (!validation.accepted) return validation;
 
     const current = this.flows.get(target.sessionId);
-    if (!current)
-      return { accepted: false, reasonCode: "workspace_hooks_review_superseded" };
+    if (!current) return { accepted: false, reasonCode: "workspace_hooks_review_superseded" };
 
     const decision = workspaceHookReviewDecisionSchema.parse(decisionValue);
     if (current.state.state === "pending") {
