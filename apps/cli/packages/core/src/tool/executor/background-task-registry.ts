@@ -52,8 +52,11 @@ export function registerRuntimeBackgroundTask(
   turnId?: RuntimeTaskSnapshot["turnId"],
 ): void {
   const taskType = runtimeTaskTypeForToolCall(toolCall);
-  if (!taskType || !deps.runtimeTaskRegistry) return;
-  const existing = deps.runtimeTaskRegistry.get(taskId);
+  if (taskType === undefined) return;
+  const registry = deps.runtimeTaskRegistry;
+  if (registry === undefined) return;
+
+  const existing = registry.get(taskId);
   const description =
     runtimeTaskDescription(toolCall, output) ?? defaultRuntimeTaskDescription(taskType);
   const outputFile = backgroundTaskOutputMetadata(output).outputFile;
@@ -85,37 +88,38 @@ export function registerRuntimeBackgroundTask(
   // 终态通知于是再次失踪。仍在 running 的既有条目不属于新生命，继续用 update 的合并语义，
   // 保留它自己的分支代。
   const newLife = rearm && existing !== undefined && isTerminalRuntimeTask(existing);
-  const next: RuntimeTaskSnapshot = {
-    ...existing,
-    agentId: existing?.agentId ?? taskId,
-    agentType: existing?.agentType ?? taskType,
-    description: existing?.description ?? description,
-    isBackgrounded: true,
-    outputFile: outputFile ?? existing?.outputFile,
-    parentToolCallId: existing?.parentToolCallId ?? toolCall.id,
-    startedAt: existing?.startedAt ?? new Date(),
-    status: "running",
-    taskId,
-    taskType,
-    type: taskType,
-    turnId: existing?.turnId ?? turnId,
-    // 结算面复位：仅限重臂（等于开启新的一轮生命周期）；非重臂的重挂载保留既有结算面。
-    notified: rearm ? false : (existing?.notified ?? false),
-    completedAt: rearm ? undefined : existing?.completedAt,
-    error: rearm ? undefined : existing?.error,
-    exitCode: rearm ? undefined : existing?.exitCode,
-    resultText: rearm ? undefined : existing?.resultText,
-    pid: rearm ? undefined : existing?.pid,
-    // 上一轮由谁停止，与新生命无关，一并清掉。
-    stopInitiator: rearm ? undefined : existing?.stopInitiator,
-  };
-  if (existing && !newLife) {
-    deps.runtimeTaskRegistry.update(taskId, () => next);
+  const next = { ...existing } as RuntimeTaskSnapshot;
+  // 身份面：既有条目优先，缺席时用本次登记的事实补齐。
+  next.agentId = existing?.agentId ?? taskId;
+  next.agentType = existing?.agentType ?? taskType;
+  next.description = existing?.description ?? description;
+  next.parentToolCallId = existing?.parentToolCallId ?? toolCall.id;
+  next.startedAt = existing?.startedAt ?? new Date();
+  next.turnId = existing?.turnId ?? turnId;
+  next.taskId = taskId;
+  next.taskType = taskType;
+  next.type = taskType;
+  next.isBackgrounded = true;
+  next.status = RUNNING_STATUS;
+  next.outputFile = outputFile ?? existing?.outputFile;
+
+  // 结算面：仅重臂复位（重臂等于开启新的一轮生命周期）；非重臂的重挂载保留既有结算面。
+  next.notified = rearm ? false : (existing?.notified ?? false);
+  next.completedAt = settledAfterRearm(rearm, existing?.completedAt);
+  next.error = settledAfterRearm(rearm, existing?.error);
+  next.exitCode = settledAfterRearm(rearm, existing?.exitCode);
+  next.resultText = settledAfterRearm(rearm, existing?.resultText);
+  next.pid = settledAfterRearm(rearm, existing?.pid);
+  // 上一轮由谁停止，与新生命无关，一并清掉。
+  next.stopInitiator = settledAfterRearm(rearm, existing?.stopInitiator);
+
+  if (existing !== undefined && !newLife) {
+    registry.update(taskId, () => next);
     return;
   }
   // 首次登记或新生命：先剥掉继承来的 branchGeneration，再由 register 按当前 active 分支盖章。
   const { branchGeneration: _previousLife, ...fresh } = next;
-  deps.runtimeTaskRegistry.register(fresh);
+  registry.register(fresh);
 }
 
 export function updateRuntimeBackgroundTask(
@@ -208,6 +212,13 @@ const TASK_TYPE_BY_TOOL_NAME: readonly (readonly [toolName: string, taskType: Ru
     ["Bash", "local_bash"],
     ["Workflow", "local_workflow"],
   ];
+
+const RUNNING_STATUS: RuntimeTaskSnapshot["status"] = "running";
+
+// 结算面的复位规则：重臂时整段清空（上一轮的结算事实属于旧生命周期），否则沿用既有值。
+function settledAfterRearm<T>(rearm: boolean, current: T | undefined): T | undefined {
+  return rearm ? undefined : current;
+}
 
 function runtimeTaskTypeForToolCall(toolCall: ExecutableToolCall): RuntimeTaskType | undefined {
   const named = TASK_TYPE_BY_TOOL_NAME.find(([toolName]) => toolName === toolCall.name);
