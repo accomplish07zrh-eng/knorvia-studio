@@ -1412,3 +1412,392 @@
 - 状态所有者：无。
 - 日志级别：无。
 - 可测断言：五个模块的 `Object.keys` 分别等于 `interface.md` 的导出集合；`mod.selectEncoding === undefined`、`mod.EncodedChoice === undefined`、`mod.QUALITY_LEVELS === undefined`。
+
+## D2. 文件系统与日志（`fs/`、`logging/`）
+
+状态所有者：`NodeFileSystemAdapter` 的**唯一错误转换入口**是门面（内部策略不重复包装错误），`textSearchEngine` 选项归适配器实例；`TextLineWindow` 是流式行扫描的唯一状态所有者（每行只留选中行）；`NodeFileLogger` 的设置对象不可变、`createNodeLoggerFactory` 的 `minimum` 与 `cleanupAdmitted` 归工厂实例；日志文件本身是 `appendFileSync` 的追加目标（无内存队列）。
+
+### B95 文件系统门面的错误转换与基础操作
+
+- 来源：`fs/index.ts`（`NodeFileSystemAdapter.createDirectory`/`stat`/`listDirectory`/`removeFile`、`createNodeFileSystemAdapter`）
+- 输入：`FileSystemPort` 的请求对象（`path` 必须是绝对路径）。
+- 输出：所有公开方法先 `absolute(request.path)`（非绝对 → `createFileSystemError({code:"invalid_path", message:"FileSystemPort requires an absolute path: <path>"})`；绝对路径会被 `normalize`）。`createDirectory` 调故障注入钩子后 `mkdir(path,{recursive:true})`，返回 `{path}`；`stat` 返回 `{path, kind, sizeBytes, mtimeMs, revision}`（`kind` 由 `nodeKind` 判定，只有 `"file"` 才带 `revision`，`revision.id` 逐字为 `mtime:<trunc(mtimeMs)>:size:<size>`）；`listDirectory` 见 B100；`removeFile` 见下；所有 `node:fs` 失败经 `failure` 归一（见 B108）。
+- 错误语义：`removeFile` 在 `unlink` 失败且 `request.missingOk === true` 且归一后的 code 是 `not_found` 时返回 `{path, removed:false}`（不抛错），其它错误照抛；`aborted(signal)` 在操作前检查。
+- 时序与并发：异步；每个方法独立，不共享可变状态。
+- 幂等：`createDirectory` 幂等；`removeFile` + `missingOk` 幂等。
+- 资源释放：`rm`/`mkdir` 由 Node 管理；无句柄泄漏。
+- 平台差异：`normalize` 统一分隔符；`EPERM` 与 `EACCES` 都映射 `permission_denied`。
+- 状态所有者：适配器实例（仅 `textSearchEngine` 选项）。
+- 日志级别：无（错误以 `FileSystemPortError` 形式抛出）。
+- 可测断言：`createNodeFileSystemAdapter()` 返回新实例；相对路径 `"a.txt"` → 抛 `code === "invalid_path"`；`createDirectory` 后目录存在且返回 `{path: normalize(绝对路径)}`；`stat` 文件返回 `kind === "file"` 且 `revision.id` 匹配 `/^mtime:\d+:size:\d+$/`；`removeFile` 不存在的路径 + `missingOk:true` → `{removed:false}`；不带 `missingOk` → 抛 `not_found`；`removeFile` 已存在的文件 → `{removed:true}`。
+
+### B96 `readTextFile` 的编码、行尾与截断
+
+- 来源：`fs/index.ts`（`readTextFile`）
+- 输入：`{path, encoding?, maxBytes?}`。
+- 输出：`stat` 后 `regular(info, path, "text")`（目录 → `is_directory`，非文件 → `not_file`）；`truncated = maxBytes !== undefined && info.size > maxBytes`，截断时只读前 `maxBytes` 字节（`prefix`），否则整读；`decodeTextBuffer({buffer, encoding, path})` 得到 `{content, encoding}`；`shouldNormalizeLineEndings(encoding)` 为真时返回 `normalizeLineEndings(content)`（CRLF → LF）并给出 `lineEndings = detectLineEndings(原始内容)`，`base64`/`base64url`/`hex` 等**传输编码**不规范化且 `lineEndings === undefined`；返回 `{path, content, encoding, lineEndings?, bytesRead: <实际字节数>, sizeBytes, truncated, revision: revision(info, bytes)}`（**带 `hash: sha256:<hex>`**）。
+- 错误语义：见 B108 的映射；编码检测失败 → `unsupported`（`Unsupported or binary text encoding: <path>`）。
+- 时序与并发：异步；`stat` → 读 → 解码串行。
+- 幂等：是（只读）。
+- 资源释放：`prefix` 的句柄在 `finally` 关闭。
+- 平台差异：换行检测跨平台统一按 `\n` 与前置 `\r` 判断。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：CRLF 文本文件（`"a\r\nb\r\n"`）→ `content === "a\nb\n"`、`lineEndings === "CRLF"`、`encoding === "utf8"`；纯 LF → `lineEndings === "LF"`；`maxBytes` 小于文件 → `truncated === true`、`bytesRead === maxBytes`、`sizeBytes` 仍是原大小；含 NUL 字节 → 抛 `code === "unsupported"`；`revision.hash` 以 `sha256:` 开头；目录路径 → `code === "is_directory"`。
+
+### B97 `readBinaryFile` 的大小上限与短读推进
+
+- 来源：`fs/index.ts`（`readBinaryFile`）、`fs/node-file-io.ts`（`bounded`）
+- 输入：`{path, maxBytes?}`。
+- 输出：`regular(info, path, "binary")`；`maxBytes` 给定且 `info.size > maxBytes` → 立刻抛 `too_large`，消息逐字 `File content (<byteCount(size)>) exceeds maximum allowed size (<byteCount(maxBytes)>). Use a smaller file.`；否则 `maxBytes === undefined ? readFile : bounded(path, maxBytes + 1, info.size)`（`bounded` 读满 `capacity` 或到 EOF，首块 `min(capacity, max(1, initialSize+1))`、后续块 `min(64 KiB, 剩余)`）；读回字节数仍 `> maxBytes`（`stat` 之后文件被追加）→ 抛第二条 `too_large`，消息逐字 `File content exceeds maximum allowed size (<byteCount(maxBytes)>). Use a smaller file.`；成功返回 `{path, content: <Buffer>, bytesRead, sizeBytes, revision(info, bytes)}`。
+- 错误语义：两条 `too_large` 的文案不同（第二条没有实际大小），不得合并。
+- 时序与并发：异步；`stat` 与读取之间不加锁，允许竞态但必须由「读 `max+1` 字节」兜住。
+- 幂等：是（只读）。
+- 资源释放：`bounded` 的句柄在 `finally` 关闭。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：1024 字节文件 + `maxBytes: 1024` → 成功且 `bytesRead === 1024`；`maxBytes: 1023` → 抛 `too_large` 且消息含 `1024B` 与 `1023B`；无 `maxBytes` → 全文返回且 `revision.hash` 存在；`byteCount` 的形态见 B108。
+
+### B98 `writeTextFile` 的 revision、父目录与原子写
+
+- 来源：`fs/index.ts`（`writeTextFile`）
+- 输入：`{path, content, encoding?, lineEndings?, expectedRevision?, createParents?, atomic?}`。
+- 输出：`encodeTextContent({content: applyRequestedLineEndings(content, lineEndings), encoding: encoding ?? "utf8", path})` **在 `try` 之外**完成（编码不支持的错误原样抛出，不经 `failure` 包装）；进入 `try` 后：`expectedRevision` 给定且 `revision(await stat(path)).id !== expectedRevision.id` → 抛 `stale_write`，消息逐字 `File changed since it was read: <path>`；`createParents` 为真 → 故障注入钩子 + `mkdir(dirname(path),{recursive:true})`；`atomic ?? true` 为真走 `publish`（见 B107），否则故障注入钩子 + `writeFile(path, bytes)`；最后 `stat` 一次并返回 `{path, bytesWritten, revision: revision(info, bytes)}`。
+- 错误语义：编码错误（如中文编码往返不一致 → `unsupported`）不包装；其它错误按 B108 映射。
+- 时序与并发：异步；`expectedRevision` 只做一次检查（无锁），并发写后写者胜。
+- 幂等：内容与行尾相同则结果相同；`expectedRevision` 使第二次写可能因 `mtime` 变化而失败（这是刻意的）。
+- 资源释放：`publish` 内部句柄自管；无泄漏。
+- 平台差异：`publish` 的 `O_NOFOLLOW` 在 Windows 上语义有限（见 B107）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：写入 `"a\nb"` + `lineEndings:"CRLF"` → 文件字节是 `a\r\nb`；写入后 `bytesWritten` 等于编码后字节数、`revision.id` 匹配 `mtime:` 前缀；`createParents:true` 且父目录不存在 → 创建成功；`createParents` 缺省且父目录不存在 → 抛 `not_found`（`ENOENT` 映射）；先 `stat` 取 `revision` 写入，文件被外部修改后再用旧 `revision` 写 → 抛 `stale_write` 且消息逐字 `File changed since it was read: <path>`；`atomic:false` → 文件内容正确（走直接覆盖分支）。
+
+### B99 `readTextFileRange` 的选行与流式扫描
+
+- 来源：`fs/index.ts`（`readTextFileRange`）、`fs/text-range-reader.ts`（`readTextFileRangeFromNode`、`wholeFile`、`scanFile`、`sampleEncoding`）
+- 输入：`{path, offsetLine?, limitLines?, maxBytes?, encoding?}` 与 `{signal?}`。
+- 输出：门面先 `stat` + `regular(..., "text")`，再交给 `readTextFileRangeFromNode(request, info, signal)`：先查取消；`maxBytes` 给定且 `!(size <= maxBytes)` → 抛 `too_large`，消息逐字 `File content (<displaySize(size)>) exceeds maximum allowed size (<displaySize(maxBytes)>). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.`；`offset = max(0, trunc(offsetLine ?? 0))`、`limit = limitLines === undefined ? undefined : max(0, trunc(limitLines))`；**`size <= 10 MiB` 走整读**（`readFile` + 解码 + 行尾规范化 + `split("\n")` 后切片），**超过 10 MiB 走流式扫描**（`createReadStream` + 流式解码器 + `TextLineWindow`，编码缺省时先读前 4096 字节检测）；返回 `{path, content: <选中行用 "\n" 连接>, encoding, lineEndings, bytesRead, lineCount: <选中行数>, totalLines: <文件总行数>, sizeBytes, truncated: false, startLine: offset + 1, revision: {id, mtimeMs, sizeBytes}}`（**range 的 revision 没有 `hash`**）。
+- 错误语义：取消时抛 `AbortError`（消息 `File system operation was cancelled: <path>`）；扫描中 `signal` 中止会 `destroy` 流并以同一 AbortError 结束。空文件 → `lines` 为空数组、`totalLines === 0`、`content === ""`。
+- 时序与并发：异步；整读一次性，扫描逐块（`for await`）。
+- 幂等：是（只读）。
+- 资源释放：流读在 `finally` 里移除 abort 监听；句柄随流关闭。
+- 平台差异：`\r\n` 在非传输编码下被规范化后再切行；`TextLineWindow` 保证行内容不含行尾 `\r`。
+- 状态所有者：`TextLineWindow`（单次调用内）。
+- 日志级别：无。
+- 可测断言：`"a\nb\nc\n"` + `offsetLine:1, limitLines:1` → `content === "b"`、`startLine === 2`、`lineCount === 1`、`totalLines === 3`；`offsetLine` 超过总行数 → `content === ""`、`lineCount === 0`；`limitLines:0` → 空内容但 `totalLines` 仍是真实值；文件大于 `maxBytes` → 抛 `too_large` 且消息含 `offset and limit parameters`；`revision` 没有 `hash` 字段；`offsetLine:-5` → 等同于 0。
+
+### B100 `listDirectory` 的排序与计时
+
+- 来源：`fs/index.ts`（`listDirectory`）
+- 输入：`{path}` 与 `{signal?}`。
+- 输出：`startedAt` 在**进入 `try` 之前**取；`aborted` 检查后 `stat`，不是目录 → 抛 `not_file`，消息逐字 `Directory listing path must be a directory: <path>`；`readdir(..., {withFileTypes:true})` 后再次 `aborted`；条目映射为 `{kind: nodeKind(entry), name, path: join(path, name)}` 并按 `name.localeCompare` 升序；返回 `{path, durationMs: max(0, Date.now()-startedAt), entries, numEntries}`。
+- 错误语义：`not_file`、`not_found`、`permission_denied` 等按 B108；取消经 `failure` 变 `cancelled`。
+- 时序与并发：异步；`readdir` 一次拿全表（不分页）。
+- 幂等：是（只读）。
+- 资源释放：无。
+- 平台差异：排序用 `localeCompare`（与操作系统无关，避免 `readdir` 顺序差异导致结果不稳定）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：目录里 `b.txt`、`a/`、`c` → `numEntries === 3`、`entries` 名字升序、`kind` 分别是 `file`/`directory`；`durationMs` 是非负整数；对文件调用 → 抛 `not_file` 且消息含 `must be a directory`；对不存在的路径 → `not_found`。
+
+### B101 `searchFiles` 的 glob 遍历、排序与分页
+
+- 来源：`fs/node-search.ts`（`searchFiles`）
+- 输入：`{path, pattern, offset?, maxResults?}` 与 `signal?`。
+- 输出：`pattern.trim()` 为空 → 抛 `invalid_pattern`，消息逐字 `Glob pattern must not be empty`；`stat` 不是目录 → 抛 `not_file`，消息逐字 `Glob search path must be a directory: <path>`；用 `glob(pattern)` 与 `walk` 收集 `{path, mtimeMs}` 候选；按 `recent` 排序（`mtimeMs` 降序，相同则路径升序）；`offset ?? 0`、`maxResults ?? 100`；`files` 取 `rows.slice(offset, offset + max)` 的路径；`truncated = rows.length > offset + max`；返回 `{path, pattern: <trim 后>, durationMs, files, numFiles: files.length, truncated}`。
+- 错误语义：取消经 `failure` 变 `cancelled`；`ENOENT` → `not_found`。
+- 时序与并发：异步；`walk` 是显式栈 DFS（顺序为 `readdir` 顺序）。
+- 幂等：是（同一文件系统状态同一结果）。
+- 资源释放：无。
+- 平台差异：相对路径统一转 POSIX（`posixRelative`）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：目录里 `x.ts`、`y.md`、子目录 `sub/z.ts` → `pattern:"**/*.ts"` 得到两个 `.ts` 路径（不含 `.md`）；`pattern:""` → `invalid_pattern`；对文件路径调用 → `not_file`；`maxResults:1` 且候选 2 个 → `numFiles === 1`、`truncated === true`；`offset:1, maxResults:1` → 返回第二个候选。
+
+### B102 `searchText` 的引擎选择与 ripgrep 降级
+
+- 来源：`fs/node-search.ts`（`searchText`、`ripgrep`、`javascript`、`expression`、`grepRequest`）、`fs/ripgrep-worker.ts`（`RipgrepRuntimeFailure`）
+- 输入：搜索请求与引擎选项 `"javascript"|"ripgrep"|undefined`、`signal?`。
+- 输出：`engine === "javascript"` 直接走纯 JS；否则先走 ripgrep，只有抛 `RipgrepRuntimeFailure`（WASM 无法运行）时**才降级**到纯 JS，其它错误不降级而是经 `failure(error, request.path)` 抛出。ripgrep 路径：`stat` 既不是文件也不是目录 → `not_file`（消息 `Grep search path must be a file or directory: <path>`）；`searchPlan` 生成参数；`code === 2` → `ripgrepFailure(...)`（见 B112）；`code` 既不是 0 也不是 1 → `io_error`，消息逐字 `ripgrep exited with code <code>: <stderr 或 "unknown error">`；否则 `parseOutput(stdout, plan.root, request)`、`sortFiles`、`finish`。两条路径都先做取消检查与空 pattern 校验（`Grep pattern must not be empty`）。
+- `javascript` 细节：`candidates` 得到候选文件并逐个 `readFile(utf8)`，**含 `\0` 的文件跳过**；`matchContent` 计数 0 的文件跳过；`mode = outputMode ?? "files_with_matches"`，`content` 模式保留 `onlyMatching`，其它模式强制 `onlyMatching:false`；`files_with_matches` 收集 `files`，`count` 收集 `{path, count}`，`content` 收集匹配条目；`numMatches` 是各文件匹配数之和；最后 `matched.sort(recent)` 再 `finish`。
+- 错误语义：正则不合法 → `invalid_pattern`（消息 `Invalid grep regular expression: <pattern>`，带 `cause`）；取消 → `cancelled`。
+- 时序与并发：异步；纯 JS 逐文件串行读，ripgrep 单 worker。
+- 幂等：是。
+- 资源释放：worker 在结果/超时/取消时 `terminate`（见 B106）。
+- 平台差异：ripgrep 走捆绑 WASM（`nodeWasi:false` + `preopens`），不依赖系统 `rg`。
+- 状态所有者：`textSearchEngine` 归适配器实例。
+- 日志级别：无。
+- 可测断言：`textSearchEngine:"javascript"` 时对含 `foo` 的两文件目录搜索 → `files` 两个、`numMatches === 2`；`outputMode:"count"` → `entries` 为 `{path, count}`；`outputMode:"content"` → `entries` 含 `lineNumber`、`text`、`matched:true`；`pattern:"("` → `invalid_pattern`；含 NUL 的文件不计入；把 worker 工厂替换成必然抛错的实现（`setRipgrepWorkerFactoryForTests`）→ 走纯 JS 且结果一致；`setRipgrepTimeoutMsForTests(1)` 且查询较慢 → 抛超时错误而**不**降级。
+
+### B103 搜索路径、glob token 扫描与类型过滤
+
+- 来源：`fs/file-search-paths.ts`（`VCS_NAMES`、`posixRelative`、`glob`、`TYPE_EXTENSIONS`、`fileType`、`matchesType`、`filter`、`recent`）
+- 输入：glob 模式、路径、`type`。
+- 输出：`VCS_NAMES` 逐字 `[".git",".svn",".hg",".bzr",".jj",".sl"]`；`posixRelative(root,file)` 把平台分隔符换成 `/`；`glob(pattern)`：先把 `\` 归一成 `/`、去掉开头 `./`，然后逐字符扫描成**锚定**正则——`*` → `[^/]*`，`**` → `.*`，`**/` → `(?:.*/)?`，`?` → `[^/]`，`{a,b}` → `(?:a|b)`（brace 内是字面 alternatives，`{` 没有配对 `}` 时按字面），其它字符按正则字面转义；匹配「POSIX 相对路径」或（模式不含 `/` 时）文件名。`TYPE_EXTENSIONS` 是固定扩展名表（如 `js → [.js,.jsx,.mjs,.cjs]`、`ts → [.ts,.tsx,.mts,.cts]`、`md/markdown → [.md,.markdown]`），`fileType` 小写化并去掉前导 `.`，`matchesType` 取 `extname(path).toLowerCase()` 与表或 `["." + type]` 比较；`filter(root, request)` = glob 与 type 同时满足；`recent(a,b)` 是 `mtimeMs` 降序、相同则路径 `localeCompare` 升序。
+- 错误语义：不抛错（正则来自受控扫描，不含用户正则）。
+- 时序与并发：纯同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：先把 `\` 归一为 `/`，因此 Windows 风格模式在 POSIX 上也按 `/` 处理。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`glob("**/*.ts")("src/a.ts","a.ts") === true`、`glob("**/*.ts")("a.md","a.md") === false`；`glob("*.md")("sub/a.md","a.md") === true`（模式不含 `/` 时退到文件名匹配）；`glob("{a,b}.ts")("b.ts") === true`；`glob("{a,b.ts")("a") === false`；`glob("?.ts")("a.ts") === true`、`glob("?.ts")("ab.ts") === false`；`glob("src/**")("src/a/b.ts") === true`；`matchesType("a.TS","ts") === true`；`matchesType("a.txt",".txt") === true`；`matchesType("a.ts","python") === false`；`recent` 对同 `mtimeMs` 返回路径升序。
+
+### B104 `walk` 的递归规则与取消
+
+- 来源：`fs/file-search-paths.ts`（`walk`、`candidates`）
+- 输入：根路径、`signal`、访问回调。
+- 输出：显式栈 DFS（目录帧保存 `{path, entries, cursor}`），**只递归普通目录，跳过名字在 `VCS_NAMES` 里的目录**；只对普通文件调用 `visit(child, await stat(child))`；每个条目与每次压栈前都查 `aborted(signal)`；`candidates(path, info, request, signal)`：`root = info.isDirectory() ? path : dirname(path)`；文件路径只把自己加入；既非文件也非目录 → 抛 `not_file`，消息逐字 `Grep search path must be a file or directory: <path>`；目录时 `walk` 收集 `{path, mtimeMs: Number(info.mtimeMs)}`，随后按路径 `localeCompare` 升序排序。
+- 错误语义：取消抛 `AbortError`（`name === "AbortError"`）；`readdir`/`stat` 的原始错误直接冒泡（由调用方 `failure` 归一）。
+- 时序与并发：异步；串行 DFS，不并发 `readdir`。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：目录分隔符由 `join` 处理；VCS 目录名大小写敏感（`.GIT` 不会被跳过，这是既有语义）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：目录 `a/x.txt`、`.git/config`、`b/y.txt` → 访问回调收到 `x.txt` 与 `y.txt`（`.git` 内的文件不访问）；对文件调用 `candidates` → 只含该文件；`candidates` 结果的路径按字典序。
+
+### B105 ripgrep 参数计划
+
+- 来源：`fs/ripgrep-plan.ts`（`searchPlan`）
+- 输入：`FileSystemSearchTextRequest` 与「是否为目录」。
+- 输出：`root = directory ? request.path : dirname(request.path)`；参数以固定前缀开头，逐字为 `--no-config`、`--hidden`、`--color`、`never`、`--no-heading`、`--with-filename`、`--max-columns`、`500`；对每个 VCS 名追加 `--glob`、`!<name>`、`--glob`、`!**/<name>/**`；`multiline` → `-U`、`--multiline-dotall`；`ignoreCase` → `-i`；`outputMode === "content"` → `--json`（+ `--only-matching` 当 `onlyMatching`；+ `-C <context>` 或 `-B/-A`）；否则 `-c`；`glob` 按空白切分，含 `{` 与 `}` 的片段整体作为一个 glob，否则按 `,` 再切，逐段 `--glob <trim>`；`type` 先 `fileType` 规范化，匹配 `/^[a-z0-9_+-]+$/i` 时对每个扩展名追加 `--glob *<ext>` 与 `--glob **/*<ext>`；结尾固定 `-e`、`pattern.trim()`、`--`、目录时 `.` 否则文件 `basename(request.path)`；`preopens` 逐字 `{".": root}`。
+- 错误语义：不抛错。
+- 时序与并发：纯同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`preopens` 用绝对 `root`，WASM 侧看到的 `.` 就是该根；Windows 盘符路径原样作为值传递。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：目录搜索 `{path:"/abs/dir", pattern:"a b", outputMode:"content", onlyMatching:true, context:2, type:"ts", ignoreCase:true, multiline:true}` → `root === "/abs/dir"`、参数含 `--json`、`--only-matching`、`-C 2`（作为相邻两元素）、`-i`、`-U`、`--multiline-dotall` 与 `--glob *` 系列，最后四项是 `-e`、`a b`、`--`、`.`；文件搜索 → `root === dirname(path)` 且结尾是 `basename(path)`；`glob:"**/*.ts, *.md"` → 两个 `--glob` 值；`outputMode` 缺省 → 含 `-c`；`preopens` 深度等于 `{".": root}`。
+
+### B106 ripgrep worker 的超时、取消与错误分类
+
+- 来源：`fs/ripgrep-worker.ts`（`runSearch`、`execute`、`setRipgrepWorkerFactoryForTests`、`setRipgrepTimeoutMsForTests`、`RipgrepRuntimeFailure`）
+- 输入：`args`、`preopens`、`signal?`。
+- 输出：默认超时 **30000 ms**（可被 `setRipgrepTimeoutMsForTests` 覆盖，返回的函数用于还原）；worker 由 `factoryOverride` 或 `new Worker(WORKER_PROGRAM, {eval:true, workerData})` 创建，内部用捆绑 ripgrep WASM（`buffer:true`、`env:{}`、`nodeWasi:false`、`preopens`、`returnOnExit:true`）；信号已中止 → 以 `AbortError`（消息逐字 `ripgrep search was cancelled before it started`）拒绝；运行中 `abort` → `terminate()` 后以 `AbortError`（消息逐字 `ripgrep search was cancelled`）拒绝；超时 → `terminate()` 后以逐字消息 `ripgrep search timed out after <timeout>ms. The search was terminated before it completed.` 拒绝；worker 的 `message` 里 `type:"result"` 才 resolve，`type:"error"` 用序列化的 `{message,name,stack,code}` 还原错误，其它消息 → `Error("ripgrep worker returned an unknown message")`；`error` 事件直接 reject；`exit` 在无结果时 → `Error("ripgrep worker exited before returning a result: <code>")`；`runSearch` 只把超时与 `AbortError` 原样抛出，**其它错误统一包成 `RipgrepRuntimeFailure`**（消息逐字 `Bundled ripgrep WASM failed to run`，`cause` 是原错误，`name` 逐字 `RipgrepRuntimeFailure`）。每次 `settle` 只发生一次，并清理定时器与 abort 监听。
+- 错误语义：见上；`terminate()` 返回的 Promise 被吞掉。
+- 时序与并发：单 worker 单结果；`done` 标志保证事件竞争下只结算一次。
+- 幂等：同一参数重复搜索是独立的两次运行（工厂覆盖是全局的，测试要还原）。
+- 资源释放：结果/超时/取消都 `terminate` worker；定时器与监听在 `settle` 清理。
+- 平台差异：`nodeWasi:false` 让 WASM 走 Node 的预开放目录，避免平台路径差异。
+- 状态所有者：模块级 `factoryOverride`/`timeoutOverride`（仅供测试注入）。
+- 日志级别：无。
+- 可测断言：`setRipgrepTimeoutMsForTests(5)` + 工厂返回永不发消息的假 worker（`once` 挂起、`terminate` 记录调用）→ 拒绝消息逐字为 `ripgrep search timed out after 5ms. The search was terminated before it completed.`、`terminate` 被调用一次、`name === "RipgrepTimeoutFailure"`；已 abort 的 signal → 拒绝消息逐字 `ripgrep search was cancelled before it started`；运行中 abort → `terminate` 被调用且消息逐字 `ripgrep search was cancelled`；工厂返回 `once("error")` 立即触发的假 worker → `RipgrepRuntimeFailure` 且 `cause` 是原错误；工厂抛错 → `RipgrepRuntimeFailure`；还原函数调用后超时回到 30000。
+
+### B107 `prefix` / `bounded` / `publish` 的读写原语
+
+- 来源：`fs/node-file-io.ts`
+- 输入：路径、容量、字节。
+- 输出：`prefix(path, capacity)` 只读前 `capacity` 字节（`Buffer.alloc(max(0,capacity))`，句柄在 `finally` 关闭）；`bounded(path, capacity, initialSize)` 用首块 `min(capacity, max(1, initialSize+1))`、后续块 `min(64 KiB, capacity - position)` 反复短读推进直到读满 `capacity` 或 EOF，合并成单个 `Buffer`（零块 → 空 Buffer）；`publish(path, bytes)` 先 `lstat` 目标：目标是符号链接 → 抛 `SymlinkWriteRefusedError`，消息逐字 `Refusing to write through symlink: <path>. Resolve the symlink and pass the real target path explicitly.`；存在则记录 `mode` 供后续 `chmod`；`lstat` 的 `ENOENT` 被忽略；然后在**同目录**写 `<path>.tmp.<pid>.<12 位随机 hex>`（`O_WRONLY|O_CREAT|O_NOFOLLOW|O_EXCL`），写入、`chmod`（有原 mode 时）、`fsync`、`close`，最后 `rename` 覆盖目标；主路径任一步失败 → 尽力 `unlink` 临时文件，再尝试 `O_WRONLY|O_CREAT|O_NOFOLLOW|O_TRUNC` **就地覆盖**（兜底路径）；兜底 `open` 遇到 `ELOOP` → 抛 `SymlinkWriteRefusedError`，消息逐字 `Refusing to write through symlink: <path> (O_NOFOLLOW)`。
+- 错误语义：见上；兜底路径的写入错误原样抛。
+- 时序与并发：异步；两次写同一路径不做锁（临时文件名含随机量，避免互相覆盖）。
+- 幂等：内容相同则结果相同；`publish` 每次都会重建临时文件。
+- 资源释放：所有句柄在 `finally`/成功路径关闭；临时文件在失败时尽力删除。
+- 平台差异：`O_NOFOLLOW` 在 Windows 上不生效（`ELOOP` 分支不会触发）；`chmod` 在 Windows 上通常无效但不报错。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：1024 字节文件 + `prefix(path, 10)` → 10 字节；`bounded(path, 5, 1024)` → 5 字节；`bounded(path, 5000, 3)` → 全部内容（EOF 提前结束）；`publish` 到普通文件 → 内容正确、目录里没有 `.tmp.*` 残留；`publish` 对已存在文件 → 覆盖成功；可创建符号链接的平台上传符号链接目标 → 抛 `SymlinkWriteRefusedError` 且消息含 `Refusing to write through symlink`（Windows 上该分支跳过并在测试里写明平台）。
+
+### B108 文件系统错误策略与 revision/大小格式化
+
+- 来源：`fs/node-file-policy.ts`（`absolute`、`code`、`failure`、`aborted`、`abortError`、`nodeKind`、`regular`、`revision`、`byteCount`）
+- 输入：任意错误、路径、`Stats` 形状对象、字节数。
+- 输出：`absolute` 见 B95；`code(error)` 取对象上的 `code`（否则 `undefined`）；`failure(error, path)`：已是 `FileSystemPortError`（`name` 逐字 `FileSystemPortError`）就原样返回；`name === "AbortError"` → `cancelled`（消息逐字 `File system operation was cancelled: <path>`，带 `cause`）；否则按 `code` 映射——`ENOENT → not_found`/`File not found: <path>`、`EACCES|EPERM → permission_denied`/`Permission denied for path: <path>`、`EISDIR → is_directory`/`Path is a directory: <path>`、`ENAMETOOLONG → invalid_path`/`Invalid path: <path>`，其它 → `io_error` 且消息取 `error.message`，非 `Error` 时逐字 `File system error for path: <path>`；`aborted(signal)` 在 `signal.aborted` 时抛 `abortError("File system operation was cancelled")`（`name === "AbortError"`）；`nodeKind` 按 `file → directory → symlink → other` 顺序判定；`regular(info, path, kind)`：目录 → `is_directory`（消息 `Cannot read directory as <text|binary> file: <path>`），非文件 → `not_file`（消息 `Cannot read non-file path as <text|binary>: <path>`）；`revision(info, bytes?)` 返回 `{id: "mtime:<trunc>:size:<size>", mtimeMs, sizeBytes}`，`bytes` 给定再加 `hash: "sha256:<hex>"`；`byteCount`：`< 1024` → `<n>B`，`< 1 MiB` → 以 KB（整数不带小数、否则一位小数且去掉 `.0`），否则 MB。
+- 错误语义：不抛错（除 `absolute`/`aborted`/`regular` 的显式抛出）。
+- 时序与并发：纯同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`EACCES` 与 `EPERM` 合并；Windows 上目录被写可能报 `EPERM`，同样映射 `permission_denied`。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`absolute("rel")` → `invalid_path`；`absolute("/a/../b")` → `/b`；`failure(Object.assign(new Error("x"),{code:"ENOENT"}), "p")` → `code === "not_found"` 且消息逐字 `File not found: p`；`EACCES` 与 `EPERM` 都得 `permission_denied`；未知 code → `io_error` 且消息是原 `message`；`aborted(已 abort)` → `name === "AbortError"`；`nodeKind` 对四种形状返回 `file`/`directory`/`symlink`/`other`；`revision({mtimeMs: 1.9, size: 3})` → `id === "mtime:1:size:3"`（截断）且没有 `hash`；`byteCount(1023) === "1023B"`、`byteCount(1024) === "1KB"`、`byteCount(1025) === "1KB"`、`byteCount(1536) === "1.5KB"`、`byteCount(1048576) === "1MB"`。
+
+### B109 文本编码检测与行尾工具
+
+- 来源：`fs/text-metadata.ts`
+- 输入：`Buffer`、可选 `path`、编码名、内容。
+- 输出：`detectTextEncoding`：UTF-8 BOM（`EF BB BF`）→ `utf8`；UTF-16LE BOM（`FF FE`）→ `utf16le`；遇到 `0x00` → 抛 `unsupported`（消息 `Unsupported or binary text encoding` + 可选 `: <path>`）；控制字符（`< 9` 或 `> 13 且 < 32`）占比 **> 0.3** → `unsupported`；`new TextDecoder("utf-8",{fatal:true})` 成功 → `utf8`；否则依次试 `gb2312`、`gbk`、`gb18030`——从末尾逐字节往前（最多回退 **3** 字节）找可**逐字节往返**的非空前缀，成功即返回该编码；都不行 → `unsupported`。`decodeTextBuffer`：编码缺省时检测，返回 `{content, encoding}`。`encodeTextContent`：编码缺省 `utf8`；中文编码时若 `encode` 后再 `decode` 不等于原文 → 抛 `unsupported`（消息 `Content cannot be encoded as <encoding>` + 可选 `: <path>`）。`createStreamingTextDecoder`：中文编码用 `iconv.getDecoder`，其它用 `StringDecoder`。`shouldNormalizeLineEndings`：编码（小写）不属于 `{base64, base64url, hex}` 时为真。`detectLineEndings`：按 `\n` 计数，前一个字符是 `\r` 记 +1、否则 -1，`balance > 0` → `CRLF`，否则 `LF`。`normalizeLineEndings` 把 `\r\n` 换成 `\n`；`applyRequestedLineEndings(content, undefined)` 原样返回，`CRLF` 时先规范化再把 `\n` 换成 `\r\n`，`LF` 时只规范化。
+- 错误语义：见上（`unsupported` 是 `FileSystemPortError`）。
+- 时序与并发：同步（流式解码器是有状态对象，不能跨流共享）。
+- 幂等：纯函数幂等。
+- 资源释放：无（`StringDecoder`/iconv decoder 无外部句柄）。
+- 平台差异：中文编码用 `iconv-lite`，跨平台一致；BOM 检测按字节。
+- 状态所有者：每个 `createStreamingTextDecoder` 返回的 decoder 实例。
+- 日志级别：无。
+- 可测断言：`detectTextEncoding(Buffer.from("hi")) === "utf8"`；含 `0x00` 的 buffer → 抛 `unsupported`；大量 `0x01`（占比 > 0.3）→ 抛；GBK 编码的中文字节 → 返回 `gbk`/`gb2312`/`gb18030` 之一且解码回来是原文；`shouldNormalizeLineEndings("base64") === false`、`("utf8") === true`；`detectLineEndings("a\r\nb") === "CRLF"`、`("a\nb") === "LF"`；`normalizeLineEndings("a\r\nb") === "a\nb"`；`applyRequestedLineEndings("a\r\nb","CRLF") === "a\r\nb"`、`("a\nb","LF") === "a\nb"`。
+
+### B110 `TextLineWindow` 的行窗口语义
+
+- 来源：`fs/text-line-window.ts`
+- 输入：`offset`、`limit`，以及分段写入的文本与结尾尾巴。
+- 输出：`write(text)` 按 `\n` 切分：每段先 `append`（只记录最后一个字符、选中时累积片段），遇到换行调 `complete(true)`；末尾残留段留到下一个 `write` 或 `finish`。`complete(newline)`：`last === "\r"` 时切掉行尾的 `\r`；`newline` 为真时按「行尾是 CRLF」记 `newlineBalance +1` 否则 `-1`；只有 `selected()` 为真才把选中的行 push 进 `lines`；`totalLines++` 后清空片段与尾字符。`selected()` 判定逐字为 `!(totalLines < offset) && (limit === undefined || lines.length < limit)`。`finish(decoderTail, sawBytes)`：先 `append(decoderTail)`，`sawBytes` 为真时再 `complete(false)`（补最后一行）。`lineEndings` 是 `newlineBalance > 0 ? "CRLF" : "LF"`。
+- 错误语义：不抛错。
+- 时序与并发：同步；实例是单次扫描的状态所有者，不可并发写入。
+- 幂等：同一输入序列产生同一 `lines`/`totalLines`。
+- 资源释放：无。
+- 平台差异：CRLF/LF 由前一个字符判定，不依赖平台换行约定。
+- 状态所有者：实例（`lines`、`totalLines`、`fragments`、`last`、`newlineBalance`）。
+- 日志级别：无。
+- 可测断言：`new TextLineWindow(1, 2)` 依次 `write("a\nb\nc\nd\n")` + `finish("", true)` → `lines` 深度等于 `["b","c"]`、`totalLines === 4`；`limit:0` → `lines` 为空但 `totalLines` 正确；`offset` 为 `NaN` → `selected()` 恒真，收集所有行；`write("x\r\ny")` + `finish("", true)` → `lines` 为 `["x","y"]`（行内不含 `\r`）且 `lineEndings === "CRLF"`；不调用 `finish` 时最后一行不计入 `totalLines`。
+
+### B111 `matchContent` 与匹配片段的行号语义
+
+- 来源：`fs/text-search-lines.ts`（`matchingFragments`、`LineStarts`、`contextIndexes`、`matchContent`）
+- 输入：`path`、`content`、`regex`、`FileSystemSearchTextRequest`。
+- 输出：`matchingFragments(path, text, lineNumber?)`：空文本 → 单条 `{path, lineNumber, text:"", matched:true}`；否则按 `\r?\n` 拆分，非空片段各成一条，`lineNumber` 缺省 `undefined`、否则是 `lineNumber + index`。`matchContent`：
+  - 行数组：`content` 为空 → `[]`；否则先去掉**结尾一处**换行（`/\r?\n$/`）再按 `\r?\n` 切分。
+  - `multiline`：用 `LineStarts`（预扫 `\n` 位置 + 二分查找行号）把 `matchAll` 的每个匹配定位到**起始行号**；`matchCount` 按匹配数累加；`onlyMatching` 为假时每条匹配只取 `match[0]` 的第一行文本；为真时把匹配跨的行区间记成 span，并用 `matchingFragments` 拆成多条按行条目，然后直接返回（**multiline + onlyMatching 不进入上下文窗口逻辑**）。
+  - 非 multiline：逐行；`onlyMatching` 用 `matchAll` 收集该行片段（无片段则跳过该行并**不计入 `matchCount`**）；否则用 `regex.test` 判行；每命中一行 `matchCount++` 并记 `{start: line, end: line}` span。**这里的 `matchCount` 是「命中行数」**。
+  - 条目：`contextIndexes(lines.length, spans, request)` 按 `beforeContext ?? context ?? 0` 与 `afterContext ?? context ?? 0` 展开每行的上下文索引（去重、升序、钳制到 `[0, length-1]`）；`onlyMatching` 时优先输出该行的匹配片段、已匹配但无片段的行走 `continue` 跳过、上下文行走 `matched:false` 的整行条目；非 `onlyMatching` 时每条都带 `matched = matched.has(line)`。
+- 错误语义：不抛错（正则由调用方编译）。
+- 时序与并发：纯同步；正则使用 `lastIndex` 时必须每次重置（实现里已处理）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`\r\n` 与 `\n` 都按一行处理。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`content:"a\nb\nc"` + `regex:/b/` + 无上下文 → `matchCount === 1`、`entries` 只有 `{lineNumber:2, text:"b", matched:true}`；`beforeContext:1, afterContext:1` → 三条条目、只有中间 `matched === true`；`onlyMatching:true` + 正则 `/b/` → 条目文本是 `b` 且 `matched` 为真；`multiline:true` + 正则 `/a\nb/` → `matchCount === 1`、条目文本是 `a`；`multiline:true` + `onlyMatching:true` + 同一正则 → 两条条目（`a` 与 `b`）、行号 1 与 2；`content:""` → `matchCount === 0`、`entries` 为空。
+
+### B112 搜索结果的截断、解析与失败分类
+
+- 来源：`fs/text-search-results.ts`（`limit`、`finish`、`outputLines`、`outputPath`、`parseOutput`、`sortFiles`、`ripgrepFailure`、`SearchHits`）
+- 输入：`request`、`startedAt`、命中集合，或 ripgrep 的 `stdout`/`stderr`。
+- 输出：`limit`：`offset = offset ?? 0`、`maximum = headLimit ?? 250`；`truncated = maximum !== 0 && items.length - offset > maximum`；`items = maximum === 0 ? items.slice(offset) : items.slice(offset, offset + maximum)`；`appliedLimit` 只在截断时给 `maximum`；`appliedOffset` 只在 `offset > 0` 时给。`finish` 返回 `{path, pattern: <trim>, mode: outputMode ?? "files_with_matches", durationMs: max(0, Date.now()-startedAt), files, entries, numMatches, truncated, appliedLimit?, appliedOffset?}`——`files_with_matches` 模式下 `files` 被分页而 `entries` 为 `[]`；`count`/`content` 模式下 `files` 是**未分页**的全集、`entries` 被分页。`outputLines`：按 `\n` 切分、去掉行尾 `\r`、丢掉空行（**最后一行即使为空也保留**）。`outputPath`：绝对路径 `normalize`，否则 `join(root, 去掉开头 "./")` 后 `normalize`。
+- `parseOutput`：非 `content` 模式逐行取**最后一个 `:`** 之后为计数（`parseInt`）；`separator <= 0`、计数非有限或 `<= 0` 的行跳过；路径经 `filter` 保留判定；产出 `files`（Set 去重）与 `{path, count}` 条目、`numMatches` 累加。`content` 模式逐行 `JSON.parse`，失败 → 抛 `io_error`（消息逐字 `Failed to parse ripgrep JSON output`，带 `cause`）；只处理 `type === "match" | "context"`、`data.path.text` 存在的行；`keep` 过滤；`match` 计入 `files` 与 `numMatches++`；`onlyMatching && match && submatches.length` 时按每个 submatch 用 `matchingFragments` 拆条，否则产出 `{path, lineNumber?, text: <lines.text 去尾换行>, matched: <是否 match>}`。
+- `sortFiles`：`Set` 去重、逐个 `stat` 取 `mtimeMs`（失败记 0），按 `recent` 排序后返回路径数组。`ripgrepFailure`：消息取 `stderr.trim()`，为空时逐字 `ripgrep failed while searching <path>`；小写后含 `regex parse error`/`error parsing regex`/`unclosed` → `invalid_pattern`（消息 `Invalid grep regular expression: <pattern>`）；含 `permission denied`/`os error 13` → `permission_denied`；含 `no such file`/`os error 2` → `not_found`；否则 `io_error`（消息就是上面的 message）。
+- 错误语义：`parseOutput` 只在 JSON 行不可解析时抛 `io_error`；`ripgrepFailure` 总是返回错误对象。
+- 时序与并发：纯同步（`sortFiles` 用 `Promise.all` 并发 `stat`）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`outputPath` 兼容 ripgrep 输出的 `./` 前缀；Windows 绝对路径由 `isAbsolute` 识别。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`headLimit:1` + 两个命中 → `truncated === true`、`appliedLimit === 1`、条目长度 1；`headLimit:0` → 不截断且返回 `offset` 之后的全部；`offset:1` → `appliedOffset === 1`；`parseOutput("a.ts:2\nb.md:0\n", root, {outputMode:"count"})` → 只有 `a.ts`、`numMatches === 2`；`parseOutput("{bad json}\n", root, {outputMode:"content"})` → 抛 `io_error` 且消息逐字；JSON 行 `{"type":"match","data":{"path":{"text":"./a.ts"},"line_number":3,"lines":{"text":"x\n"},"submatches":[{"match":{"text":"x"}}]}}` → 一条 `{path: <root>/a.ts, lineNumber:3, text:"x", matched:true}`；`ripgrepFailure("regex parse error", "p", "(")` → `invalid_pattern`；`ripgrepFailure("Permission denied", "p", "x")` → `permission_denied`；`ripgrepFailure("no such file", "p", "x")` → `not_found`；`ripgrepFailure("", "p", "x")` → `io_error` 且消息含 `ripgrep failed while searching p`。
+
+### B113 `fs/` 的导出面
+
+- 来源：`fs/` 十二个文件
+- 输入：无。
+- 输出：按 `interface.md` 保持：`index.ts` 导出 `setRipgrepWorkerFactoryForTests`、`setRipgrepTimeoutMsForTests`、`NodeFileSystemAdapterOptions`、`NodeFileSystemAdapter`、`createNodeFileSystemAdapter`；`file-search-paths.ts` 导出 `VCS_NAMES`、`Candidate`、`posixRelative`、`glob`、`TYPE_EXTENSIONS`、`fileType`、`matchesType`、`filter`、`walk`、`candidates`、`recent`；`node-file-io.ts` 导出 `prefix`、`bounded`、`publish`；`node-file-policy.ts` 导出 `absolute`、`code`、`failure`、`aborted`、`abortError`、`nodeKind`、`regular`、`revision`、`byteCount`；`node-search.ts` 导出 `searchFiles`、`searchText`；`ripgrep-plan.ts` 导出 `searchPlan`；`ripgrep-worker.ts` 导出 `RipgrepRuntimeFailure`、`setRipgrepWorkerFactoryForTests`、`setRipgrepTimeoutMsForTests`、`runSearch`；`text-line-window.ts` 导出 `TextLineWindow`；`text-metadata.ts` 导出 `detectTextEncoding`、`decodeTextBuffer`、`encodeTextContent`、`createStreamingTextDecoder`、`shouldNormalizeLineEndings`、`detectLineEndings`、`normalizeLineEndings`、`applyRequestedLineEndings`；`text-range-reader.ts` 导出 `readTextFileRangeFromNode`；`text-search-lines.ts` 导出 `LineMatches`、`matchingFragments`、`matchContent`；`text-search-results.ts` 导出 `SearchHits`、`finish`、`parseOutput`、`sortFiles`、`ripgrepFailure`。内部实现（`RipgrepTimeoutFailure`、`LineStarts`、`SymlinkWriteRefusedError`、`codec`、`limit`、`outputLines`、`outputPath`、`scan`、`enumerateDirectory` 等）不得导出；`fs/index.ts` 的两个 `setRipgrep*` 是 `ripgrep-worker.ts` 同名函数的薄包装（转发而非各留一份状态）。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：十二个模块的 `Object.keys` 分别等于 `interface.md` 的导出集合；`mod.RipgrepTimeoutFailure === undefined`、`mod.SymlinkWriteRefusedError === undefined`、`mod.outputLines === undefined`。
+
+### B114 `NodeFileLogger` 的级别门控与写入路径
+
+- 来源：`logging/index.ts`（`NodeFileLogger`）
+- 输入：`FileLoggerOptions`（`category`、`defaultContext?`、`getMinLevel`、`logDir`、`consoleStream?`、`includeErrorStack?`、`redactor`）与调用 `debug/info/warn/error`。
+- 输出：构造时把缺省值固化（`defaultContext ?? {}`、`includeErrorStack ?? false`）；`debug/info/warn` 走同一 `write(level, message, context)`，`error(message, error?, context?)` 额外带 `error`；`write` 首先 `if (level < settings.getMinLevel.call(this)) return`（**数值比较，低级别直接丢弃**，既不写文件也不写 console）；否则 `merged = {...defaultContext, ...context}`（后者覆盖，含键存在但值为 `undefined` 的情况）、`projectLogEntry(...)`、`JSON.stringify(toSerializableEntry(entry, redactor))`、`appendLogRecord(logDir, json)`（磁盘失败不抛），配置了 `consoleStream` 时再写一行 `formatConsoleLine(entry) + "\n"`；`child(context)` 返回新的 `NodeFileLogger`，其 `defaultContext` 是 `{...原 defaultContext, ...context}`，共享同一 `getMinLevel` 引用与其余设置。
+- 错误语义：文件写入失败不阻断执行（见 B117）；`redactor.redact`/`formatConsoleLine` 的异常会传播。
+- 时序与并发：同步追加（`appendFileSync`）；`child` 不影响父实例。
+- 幂等：同一消息重复写会重复追加（日志语义）。
+- 资源释放：无长期句柄（每次 `appendFileSync` 自开自闭）。
+- 平台差异：文件路径由 `join` 构造；换行固定 `\n`。
+- 状态所有者：`settings` 对象（构造后不被修改）。
+- 日志级别：`debug|info|warn|error` 四级，门控来自工厂的 `getMinLevel`。
+- 可测断言：把 `getMinLevel` 绑定到一个可变的级别变量 → 先 `debug`/`info` 不产生文件、把它改成 `warn` 后 `warn` 产生一条 JSONL；`level < minLevel` 时不调用 console 流；`child({sessionId:"s"})` 写出的条目带 `sessionId` 且父实例写出的条目不带；`error(msg, new Error("boom"), {event:"x"})` 的条目 `error.name === "Error"`；console 流的每一行以 `level [category]` 开头。
+
+### B115 `createNodeLoggerFactory` 的默认值与调度
+
+- 来源：`logging/index.ts`（`createNodeLoggerFactory`、`initialLevel`、`getDefaultLogDir`）
+- 输入：`NodeLoggerFactoryOptions`（`env?`、`logDir?`、`minLevel?`、`console?`、`includeErrorStack?`、`redactor?`）。
+- 输出：`state.minimum = options.minLevel ?? initialLevel(options.env ?? process.env)`；`initialLevel` 按 `normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY])`：`development` → `debug`；`production`/`test` → `info`；其余看 `process.argv[1]`——以 `.ts` 结尾且包含 `join("packages","cli","src")` → `debug`，否则 `info`。日志目录 `options.logDir ?? options.env?.KNORVIA_LOG_DIR ?? getDefaultLogDir()`，`getDefaultLogDir()` 逐字是 `join(resolveKnorviaDataRoot(), "cli", "log")`（不新增环境变量、不换数据目录）。console 输出：`console` 是对象 → 用它的 `stream`；`console === true` **或** `env.KNORVIA_LOG_CONSOLE === "1"` → `process.stderr`；否则无。`redactor` 缺省 `new DefaultLogRedactor()`。返回对象：`createLogger(category)`、`withContext(context)`（等价 `create("root", context)`）、`setLevel(level)`（改 `state.minimum`，对已创建的 logger 生效）、`getLogDir()`、`scheduleLogRetentionCleanup(request?)`——**同一个工厂只调度一次**（`cleanupAdmitted` 为真后返回 `undefined`），未传 `logger` 时用 `create("knorvia", {module:"adapters.logging"})`。
+- 错误语义：不抛错（目录不存在由 sink 处理）。
+- 时序与并发：同步创建；`setLevel` 立即生效。
+- 幂等：`scheduleLogRetentionCleanup` 第二次调用返回 `undefined`。
+- 资源释放：调度返回的 timer 由调用方持有（`unref` 见 B120）。
+- 平台差异：`process.argv[1]` 的路径片段用 `join` 匹配，Windows 反斜杠也成立。
+- 状态所有者：工厂实例（`minimum`、`cleanupAdmitted`）。
+- 日志级别：默认级别规则如上。
+- 可测断言：`createNodeLoggerFactory({env:{KNORVIA_LOG_DIR: <tmp>, KNORVIA_LOG_CONSOLE: "1"}, minLevel:"debug"})` → `getLogDir() === <tmp>`、写一条 `info` 后 `<tmp>/knorvia-<今天>.jsonl` 存在且内容是一行 JSON；`env:{}` → `getLogDir()` 以 `cli/log` 结尾；`env:{KNORVIA_RUNTIME_ENV:"development"}` → 默认级别 `debug`（`debug` 消息落盘）；`env:{KNORVIA_RUNTIME_ENV:"production"}` → `debug` 不落盘；`setLevel("error")` 后 `warn` 不落盘、`error` 落盘；`withContext({a:1})` 产出的条目 `context` 含 `a`；同一工厂调用两次 `scheduleLogRetentionCleanup({delayMs:0, setTimeout: <假 timer>})` → 第二次 `undefined`。
+
+### B116 日志条目的字段投影
+
+- 来源：`logging/entry.ts`（`projectLogEntry`）
+- 输入：`category`、`level`、`message`、`context`、`error`、`includeStack`。
+- 输出：初始条目 `{timestamp: new Date(), level, levelName: LogLevelName[level], message}`；随后按逐字固定顺序 `event`、`module`、`sessionId`、`turnId`、`spanId`、`parentSpanId`、`toolCallId` 处理：值是字符串就写同名字段；不是字符串时**只有 `module`** 会退回 `category`；处理 `module` 这一轮**同时**把 `context.traceId` 原样写进 `entry.traceId`（不做类型检查）；`context.durationMs` 是数字才写 `durationMs`；`isLogStatus(context.status)` 为真才写 `status`；`entry.context = stripReservedContext(context)`；`error` 存在时 `entry.error = serializeLogError(error, includeStack)`。
+- 错误语义：不抛错（`context` 是普通对象）。
+- 时序与并发：同步；读取 `context` 自有属性的顺序固定（先触碰保留键，见 B118）。
+- 幂等：是（除 `timestamp`）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无（级别由调用方给）。
+- 可测断言：`projectLogEntry("cat", Level.Info, "m", {module:"mod", traceId:"t", event:"e", sessionId:"s", durationMs:5, status:"completed", extra:1}, undefined, false)` → `entry.module === "mod"`、`entry.traceId === "t"`、`entry.event === "e"`、`entry.durationMs === 5`、`entry.status === "completed"`、`entry.context` 深度等于 `{extra:1}`、没有 `error`；`{module: 1}`（非字符串）→ `entry.module === category`；`{traceId: 42}` → `entry.traceId === 42`（原样）；`{status:"bogus"}` → 无 `status` 键；`{event:""}` → `entry.event === ""`。
+
+### B117 日志文件的追加与失败吞掉
+
+- 来源：`logging/file-sink.ts`（`appendLogRecord`）
+- 输入：日志目录与一行 JSON。
+- 输出：目录不存在时先过故障注入钩子（`{operation:"mkdir", path:directory}`）再 `mkdirSync(directory,{recursive:true})`；目标文件逐字是 `join(directory, "knorvia-" + formatLocalLogDate(new Date()) + ".jsonl")`；追加前再过故障注入钩子（`{operation:"appendFile", path:destination}`）；`appendFileSync(destination, json + "\n", "utf8")`。
+- 错误语义：**整个函数体在一个 `catch {}` 里，任何错误都被吞掉**（文件失败不阻断执行，这是 logger 的 `void` 合同）；JSON 序列化与脱敏在调用层（见 B114）所以不会被吞。
+- 时序与并发：同步；同一天的文件只追加、从不修改或截断。
+- 幂等：追加不幂等（每次写一行）。
+- 资源释放：每次同步写自开自闭。
+- 平台差异：文件名用本地日历日期（见 B120），跨时区/夏令时由 `Date` 的本地字段决定。
+- 状态所有者：日志文件（追加目标）。
+- 日志级别：无（本函数不判断级别）。
+- 可测断言：`appendLogRecord(<tmp>, '{"a":1}')` → `<tmp>/knorvia-<今天>.jsonl` 内容逐字 `{"a":1}\n`；目录不存在时被递归创建；同一目录两次调用 → 两行；把目录路径指向一个**已存在的文件**（`mkdirSync` 必失败）→ 不抛错且该文件内容不被改动。
+
+### B118 日志脱敏器与保留键剥离
+
+- 来源：`logging/serialize.ts`（`DefaultLogRedactor`、`stripReservedContext`、`isLogStatus`、`HIDDEN_KEY`、`MAX_DEPTH`）
+- 输入：任意值。
+- 输出：`DefaultLogRedactor.redact` 用**显式栈**遍历（不递归），规则：字符串 → `redactDiagnosticText(value)`；`depth > 8` → 逐字 `[Redacted:DepthLimit]`；`null` 与非对象原样；同一对象第二次出现 → 逐字 `[Redacted:Circular]`；数组保留长度（稀疏空槽不产出）；普通对象按 `Object.entries` 的键顺序建结果，键名匹配 `HIDDEN_KEY` 正则 `/(?:api[-_]?key|authorization|cookie|credential|password|secret|token)/i` 的直接写成逐字 `[Redacted]`（只按自身键名匹配）；结果对象的键通过 `defineProperty` 写成可枚举自有属性。`stripReservedContext(context)`：先按固定顺序（`durationMs`、`event`、`module`、`parentSpanId`、`sessionId`、`spanId`、`status`、`toolCallId`、`traceId`、`turnId`）触碰这些键，然后只复制**不在保留集合里且可枚举的自有字符串键**，无剩余键时返回 `undefined`。`isLogStatus` 只看五个状态字面量。
+- 错误语义：不抛错（属性 getter 抛错会传播）。
+- 时序与并发：同步；无共享状态。
+- 幂等：是（同一输入同一输出）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无（每次 `redact` 新建 `WeakSet`）。
+- 日志级别：无。
+- 可测断言：`redact({apiKey:"x", nested:{token:"y"}, keep:"z"})` → `{apiKey:"[Redacted]", nested:{token:"[Redacted]"}, keep:"z"}`；`redact({a:[1,,3]})` → 数组长度 3、索引 1 不存在；深嵌套超过 8 层 → 深层是 `[Redacted:DepthLimit]`；`const o={}; o.self=o; redact(o)` → `self` 是 `[Redacted:Circular]`；`stripReservedContext({traceId:"t", extra:1})` → `{extra:1}`；`stripReservedContext({traceId:"t"})` → `undefined`；`isLogStatus("waiting") === true`、`isLogStatus("running") === false`。
+
+### B119 日志序列化、console 行与错误链
+
+- 来源：`logging/serialize.ts`（`toSerializableEntry`、`formatConsoleLine`、`serializeLogError`、`ENTRY_ORDER`）
+- 输入：`LogEntry`、`LogRedactor`、错误对象。
+- 输出：`toSerializableEntry` 按**固定键序** `timestamp`、`level`、`event`、`module`、`message`、`traceId`、`spanId`、`parentSpanId`、`sessionId`、`turnId`、`toolCallId`、`durationMs`、`status`、`context`、`error` 输出：`timestamp` 用 `toISOString()`、`level` 用 `levelName.toLowerCase()`、`message`/`context`/`error` 过 `redactor.redact`、其余原值；值为 `undefined` 的键**不出现**。`formatConsoleLine` 逐字拼 `"<level> [<module 或 log>]"`，有 `traceId` 时追加 `"trace=<前 8 字符>"`，有 `event` 时追加 `"event=<event>"`，最后追加 `redactDiagnosticText(message)`，单空格连接（**level 小写**）。`serializeLogError(error, includeStack, seen?, depth?)` 迭代走 `cause` 链：`depth > 8` → `{name:"ErrorCauseDepthLimit", message:"Error cause chain exceeded the serialization depth limit."}`；同一对象再次出现 → `{name:"ErrorCauseCircularReference", message:"Error cause chain contained a circular reference."}`；非对象 → `{name:"UnknownError", message:String(input)}`；对象节点取 `name`（字符串或逐字 `Error`）、`message`（字符串或 `String(input)`）、非空字符串 `code`/`type`、`includeStack` 时的 `stack`、原型是 `null` 或 `Object.prototype` 时的 `context` 原对象；链上下一节点挂在 `cause` 上。
+- 错误语义：`toSerializableEntry` 的 `redactor.redact` 抛错会传播；`serializeLogError` 自身不抛。
+- 时序与并发：纯同步。
+- 幂等：是（除 `timestamp` 由入参决定）。
+- 资源释放：无。
+- 平台差异：`toISOString` 与平台无关。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`toSerializableEntry({timestamp:new Date("2026-01-02T03:04:05.678Z"), level:2, levelName:"WARN", message:"m", module:"mod", traceId:"abcdefghijk", context:{a:1}, error:{name:"E",message:"x"}}, new DefaultLogRedactor())` → 键序逐字为 `["timestamp","level","module","message","traceId","context","error"]`、`timestamp === "2026-01-02T03:04:05.678Z"`、`level === "warn"`；`formatConsoleLine({levelName:"INFO", module:"m", traceId:"1234567890", event:"e", message:"hi"})` → 逐字 `info [m] trace=12345678 event=e hi`；无 `module` 时用 `[log]`；`serializeLogError(new Error("boom"), false)` → `{name:"Error", message:"boom"}` 且没有 `stack`；`includeStack:true` → 有 `stack`；`const a=new Error("a"); a.cause=a; serializeLogError(a,false)` → `cause.name === "ErrorCauseCircularReference"`；`code`/`type` 为空串时不带键。
+
+### B120 日志保留清理
+
+- 来源：`logging/retention.ts`（`cleanupLogRetention`、`daysToKeep`、`formatLocalLogDate`、`logCalendarDate`、`reportFailure`、`failure`、`scheduleLogRetentionCleanup`）
+- 输入：`{logDir, logger?, now?, retentionDays?}`；调度额外有 `delayMs?`、`now?: () => Date`、`setTimeout?`。
+- 输出：常量逐字 `LOG_RETENTION_DAYS = 7`、`LOG_CLEANUP_STARTUP_DELAY_MS = 60000`；`daysToKeep`：`undefined` 或非有限数 → 7，否则 `max(1, trunc)`。`cutoff = new Date(本地年, 本地月, 本地日 - retentionDays + 1)`，`cutoffDate` 是 `formatLocalLogDate(cutoff)`（本地 `YYYY-MM-DD`，年份 `padStart(4)`、其余 `padStart(2)`）。`readdir(logDir,{withFileTypes:true})` 失败：`ENOENT` → 直接返回结果（**不写日志**）；其它错误 → `status: "failed"` 并 `logger.warn("Log retention cleanup failed", {cutoffDate, error:{code,message,name}, event:"log.retention.cleanup.failed", logDir, module:"adapters.logging", retentionDays, status:"failed"})`。逐条目：非普通文件跳过；文件名必须 `knorvia-<YYYY-MM-DD>.jsonl` 且日期**可往返**（如 `2026-02-31` 被拒）；`scannedFiles++`；`date >= cutoffDate`（字符串比较）→ 保留；否则 `unlink`，成功进 `deletedFiles`；`ENOENT` → 静默跳过；其它错误 → `failedFiles` + `status:"failed"` + `logger.warn("Log retention file delete failed", {..., fileName, event:"log.retention.delete.failed"})`。最后 `logger.debug("Log retention cleanup completed", {cutoffDate, deletedFileCount, event:"log.retention.cleanup.completed", failedFileCount, logDir, module, retentionDays, scannedFiles, status})`。`scheduleLogRetentionCleanup`：`delayMs ?? 60000`；先 `logger.info("Log retention cleanup scheduled", {delayMs, event:"log.retention.cleanup.scheduled", logDir, module, retentionDays, status:"waiting"})`；注册回调（缺省 `setTimeout`），回调里用 `now?.() ?? new Date()` 调 `cleanupLogRetention`（`void`，不等待）；`timer.unref?.()` 后返回 timer。
+- 错误语义：清理失败不抛错（`status: "failed"` + warn 日志）；`unlink` 的 `ENOENT` 视为已删除。
+- 时序与并发：异步串行删除；调度是「启动后延迟一次」，不重复。
+- 幂等：重复清理是幂等的。
+- 资源释放：timer 由调用方 `unref` 后可随进程退出。
+- 平台差异：日期是**本地日历**，不做 UTC 转换；文件名格式固定。
+- 状态所有者：`logDir` 下的日志文件。
+- 日志级别：`info`（调度）、`debug`（完成）、`warn`（失败）。
+- 可测断言：临时目录里放 `knorvia-2026-01-01.jsonl`、`knorvia-2026-01-05.jsonl`、`other.jsonl`、`knorvia-bad.jsonl`、同名目录 `knorvia-2026-01-01.jsonl/` → `now: new Date(2026,0,6)` 且 `retentionDays` 缺省 → `cutoffDate === "2026-01-01"`、`scannedFiles === 2`、`deletedFiles` 为空；`now: new Date(2026,0,9)` → `cutoffDate === "2026-01-03"`、`deletedFiles` 只含 `knorvia-2026-01-01.jsonl`；`retentionDays:0` → 视为 1；`NaN` → 7；`logDir` 不存在 → `status === "completed"`、`scannedFiles === 0`、`logger.warn` 未被调用；`scheduleLogRetentionCleanup({delayMs:5, now: () => new Date(2026,0,9), setTimeout: (fn)=>{captured = fn; return {unref(){unrefed = true}}}})` → `unref` 被调用、`logger.info` 收到 `status:"waiting"`、执行 `captured()` 后（等一个微任务）目标文件被删除且 `logger.debug` 收到 `status:"completed"`。
+
+### B121 `logging/` 的导出面
+
+- 来源：`logging/` 五个文件
+- 输入：无。
+- 输出：按 `interface.md`：`index.ts` 导出 `NodeLoggerFactoryOptions`、`NodeLogRetentionScheduleOptions`、`NodeLoggerFactory`、`NodeFileLogger`、`getDefaultLogDir`、`createNodeLoggerFactory`，并对 `retention.ts` 与 `serialize.ts` 做 re-export（`LOG_CLEANUP_STARTUP_DELAY_MS`、`LOG_RETENTION_DAYS`、`cleanupLogRetention`、`formatLocalLogDate`、`scheduleLogRetentionCleanup`、4 个类型、`DefaultLogRedactor`、`SerializableLogEntry`、`SerializedLogError`）；`entry.ts` 导出 `projectLogEntry`；`file-sink.ts` 导出 `appendLogRecord`；`retention.ts` 导出 `LOG_RETENTION_DAYS`、`LOG_CLEANUP_STARTUP_DELAY_MS`、`LogRetentionCleanupOptions`、`LogRetentionCleanupResult`、`LogRetentionTimer`、`LogRetentionScheduleOptions`、`formatLocalLogDate`、`cleanupLogRetention`、`scheduleLogRetentionCleanup`；`serialize.ts` 导出 `SerializedLogError`、`SerializableLogEntry`、`DefaultLogRedactor`、`stripReservedContext`、`toSerializableEntry`、`formatConsoleLine`、`isLogStatus`、`serializeLogError`。内部函数（`initialLevel`、`errorNode`、`daysToKeep`、`logCalendarDate`、`failure`、`reportFailure`、`isMissing`、`codec`、`unsupported`）不得导出。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：五个模块的 `Object.keys` 分别等于 `interface.md` 的导出集合；`mod.initialLevel === undefined`、`mod.daysToKeep === undefined`、`mod.errorNode === undefined`；`index.ts` 的 `DefaultLogRedactor` 与 `serialize.ts` 的是同一个函数对象。
