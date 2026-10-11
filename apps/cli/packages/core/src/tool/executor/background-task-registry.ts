@@ -130,27 +130,32 @@ export function updateRuntimeBackgroundTask(
   snapshot?: BackgroundTaskSnapshot,
 ): void {
   const taskType = runtimeTaskTypeForToolCall(toolCall);
-  if (!taskType || !deps.runtimeTaskRegistry) return;
-  deps.runtimeTaskRegistry.update(taskId, (current) => ({
-    ...(isTerminalRuntimeTask(current)
-      ? current
-      : {
-          ...current,
-          completedAt: runtimeTaskCompletedAt(status, snapshot) ?? current.completedAt,
-          description: runtimeTaskDescription(toolCall, undefined, snapshot) ?? current.description,
-          error: runtimeTaskError(snapshot) ?? current.error,
-          exitCode: runtimeTaskExitCode(snapshot) ?? current.exitCode,
-          isBackgrounded: true,
-          outputFile: backgroundTaskOutputMetadata(snapshot).outputFile ?? current.outputFile,
-          pid: runtimeTaskPid(snapshot) ?? current.pid,
-          // 用 `?? current.resultText`：undefined 绝不允许清掉已经存下的产物——中途的 running
-          // 快照与产物缺席的终态都会走到这一行。
-          resultText: runtimeTaskResultText(toolCall, status, snapshot) ?? current.resultText,
-          status: normalizeRuntimeTaskStatus(status),
-          taskType,
-          type: taskType,
-        }),
-  }));
+  if (taskType === undefined) return;
+  const registry = deps.runtimeTaskRegistry;
+  if (registry === undefined) return;
+
+  registry.update(taskId, (current) => {
+    // 已结算的条目不再改写：终态事实比后到的 running 快照更权威。
+    if (isTerminalRuntimeTask(current)) return { ...current } as RuntimeTaskSnapshot;
+
+    const merged = { ...current } as RuntimeTaskSnapshot;
+    // 每个字段都遵循「新值缺席就保留旧值」：`?? current.x` 是这里的统一写法。
+    merged.completedAt = runtimeTaskCompletedAt(status, snapshot) ?? current.completedAt;
+    merged.description =
+      runtimeTaskDescription(toolCall, undefined, snapshot) ?? current.description;
+    merged.error = runtimeTaskError(snapshot) ?? current.error;
+    merged.exitCode = runtimeTaskExitCode(snapshot) ?? current.exitCode;
+    merged.outputFile = backgroundTaskOutputMetadata(snapshot).outputFile ?? current.outputFile;
+    merged.pid = runtimeTaskPid(snapshot) ?? current.pid;
+    // resultText 用 `?? current.resultText`：undefined 绝不允许清掉已经存下的产物——中途的
+    // running 快照与产物缺席的终态都会走到这一行。
+    merged.resultText = runtimeTaskResultText(toolCall, status, snapshot) ?? current.resultText;
+    merged.status = normalizeRuntimeTaskStatus(status);
+    merged.isBackgrounded = true;
+    merged.taskType = taskType;
+    merged.type = taskType;
+    return merged;
+  });
 }
 
 /**
