@@ -58,15 +58,17 @@ export class WorkspaceHookTrustCoordinator {
 
   constructor(options: WorkspaceHookTrustCoordinatorOptions) {
     const epoch = options.coordinatorEpoch.trim();
-    if (epoch.length === 0) throw new Error("coordinatorEpoch must not be empty");
+    const epochMissing = epoch.length === 0;
+    if (epochMissing) throw new Error("coordinatorEpoch must not be empty");
     this.epoch = epoch;
     this.policies = options.policyProvider ?? new InMemoryWorkspaceHookPolicyProvider();
     this.policies.subscribe((change) => {
-      const targets =
-        change.workspaceIdentity === undefined
-          ? Array.from(this.knownWorkspaces())
-          : [change.workspaceIdentity];
-      for (const workspace of targets) this.commit(workspace);
+      const scope = change.workspaceIdentity;
+      if (scope === undefined) {
+        for (const workspace of this.knownWorkspaces()) this.commit(workspace);
+      } else {
+        this.commit(scope);
+      }
     });
   }
 
@@ -105,8 +107,8 @@ export class WorkspaceHookTrustCoordinator {
     }
     this.state = next;
 
-    if (store.status === "corrupt")
-      for (const workspace of this.knownWorkspaces()) touched.add(workspace);
+    const corruptStore = store.status === "corrupt";
+    if (corruptStore) for (const workspace of this.knownWorkspaces()) touched.add(workspace);
     for (const workspace of touched) this.commit(workspace);
   }
 
@@ -127,12 +129,12 @@ export class WorkspaceHookTrustCoordinator {
   }): WorkspaceHookSnapshotEvaluation {
     const workspaceIdentity = request.snapshot.workspaceIdentity;
     if (!this.state.counters.has(workspaceIdentity)) this.state.counters.set(workspaceIdentity, 0);
-    const { policy, reasonCode } = this.resolvePolicy(workspaceIdentity);
+    const resolved = this.resolvePolicy(workspaceIdentity);
     const items = request.snapshot.hooks.map((entry) =>
       evaluateWorkspaceHookEntry({
         entry,
         persistentRecords: this.state.records,
-        policy,
+        policy: resolved.policy,
         revokedKeys: this.state.revoked,
         snapshot: request.snapshot,
         storeStatus: this.state.store.status,
@@ -142,13 +144,13 @@ export class WorkspaceHookTrustCoordinator {
     const pairs: (readonly [string, unknown])[] = [
       ["bundleDigest", request.snapshot.bundleDigest],
       ["items", items],
-      ["policy", policy],
+      ["policy", resolved.policy],
       ["securityRevision", this.getSecurityRevision(workspaceIdentity)],
       ["storeStatus", this.state.store.status],
       ["workspaceIdentity", workspaceIdentity],
     ];
     const failure =
-      reasonCode ?? (this.state.store.status === "corrupt" ? "workspace_hooks_trust_store_corrupt" : undefined);
+      resolved.reasonCode ?? (this.state.store.status === "corrupt" ? "workspace_hooks_trust_store_corrupt" : undefined);
     if (failure) pairs.push(["reasonCode", failure]);
     return Object.fromEntries(pairs) as unknown as WorkspaceHookSnapshotEvaluation;
   }
