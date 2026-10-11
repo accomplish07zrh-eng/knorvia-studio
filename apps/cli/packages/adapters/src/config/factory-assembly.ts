@@ -147,12 +147,12 @@ interface SourceTableInput {
 function describeSourceTable(input: SourceTableInput): ConfigResult["sources"] {
   const userConfig = input.user.result.config;
   const projectConfig = input.project.project.config;
-  const plugins = describePluginSources(
-    userConfig,
+  const plugins = describePluginSources({
     projectConfig,
-    input.user.result.path,
-    input.project.project.path,
-  );
+    projectConfigPath: input.project.project.path,
+    userConfig,
+    userConfigPath: input.user.result.path,
+  });
   const projectSources: ConfigResult["sources"]["project"] = {
     diagnostics: input.discovery.diagnostics,
     hasMcpServers: projectConfig.mcp?.servers !== undefined,

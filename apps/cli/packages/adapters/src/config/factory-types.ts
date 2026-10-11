@@ -9,7 +9,17 @@ import type {
 } from "@knorvia/contracts";
 import type { WorkspaceHookRuntimeRoot } from "@knorvia/shared/workspace-hook-discovery";
 import type { LoadedConfig } from "./file-config.adapter.js";
-import type { McpServerConfigSource, PluginConfigSources } from "./factory-sources.js";
+
+export type McpServerConfigSource = "system" | "project" | "user" | "env" | "cli";
+export type PluginConfigScope = "user" | "workspace";
+
+export interface PluginConfigSources {
+  dirs: { user: string[]; workspace: string[] };
+  enabled: Record<string, PluginConfigScope>;
+  marketplaces: Record<string, PluginConfigScope>;
+  options: Record<string, Record<string, PluginConfigScope>>;
+  paths: { user: string; workspace: string | undefined };
+}
 
 export interface ConfigFactoryOptions {
   userConfigPath?: string;
