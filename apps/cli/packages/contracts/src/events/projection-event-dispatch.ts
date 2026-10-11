@@ -153,17 +153,25 @@ function goalVerificationChanges(
   const assistantAnchor = payload.anchorAssistantMessageId ?? line?.anchorAssistantMessageId;
   const turnAnchor = payload.anchorTurnId ?? line?.anchorTurnId;
 
-  const nextRow: SessionProjection["targetCompletionVerificationTimeline"][number] = {
-    targetId: payload.targetId,
-    status: payload.status,
-    verificationId: payload.verificationId,
-    ...(payload.verification ? { verification: payload.verification } : {}),
-    goalIteration: payload.goalIteration ?? line?.goalIteration ?? timeline.length + 1,
-    ...(assistantAnchor ? { anchorAssistantMessageId: assistantAnchor } : {}),
-    ...(turnAnchor ? { anchorTurnId: turnAnchor } : {}),
-    ...(startedAt ? { startedAt } : {}),
-    updatedAt: timestamp,
-  };
+  // 行内容按「字段 → 值」条目归约：可选字段只在有值时才进条目，等价于原来的条件展开。
+  const rowEntries: Array<readonly [string, unknown]> = [
+    ["targetId", payload.targetId],
+    ["status", payload.status],
+    ["verificationId", payload.verificationId],
+  ];
+  if (payload.verification) rowEntries.push(["verification", payload.verification]);
+  rowEntries.push([
+    "goalIteration",
+    payload.goalIteration ?? line?.goalIteration ?? timeline.length + 1,
+  ]);
+  if (assistantAnchor) rowEntries.push(["anchorAssistantMessageId", assistantAnchor]);
+  if (turnAnchor) rowEntries.push(["anchorTurnId", turnAnchor]);
+  if (startedAt) rowEntries.push(["startedAt", startedAt]);
+  rowEntries.push(["updatedAt", timestamp]);
+
+  const nextRow = Object.fromEntries(
+    rowEntries,
+  ) as unknown as SessionProjection["targetCompletionVerificationTimeline"][number];
 
   const changes: SessionProjectionChanges = {
     targetCompletionVerificationTimeline: line
