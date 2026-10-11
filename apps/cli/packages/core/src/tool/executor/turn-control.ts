@@ -15,7 +15,28 @@ import {
 } from "@knorvia/contracts";
 import type { ToolEntry, ToolExecutionResult } from "../types.js";
 
+type ToolOutcome = ToolExecutionResult;
 type FeedbackSource = "plan_approval_feedback" | "workflow_refine_feedback";
+type TurnStopReason = NonNullable<ToolExecutionResult["turnControl"]>["reason"];
+
+interface AutomationLimitInput {
+  error: unknown;
+  toolName: string;
+}
+
+interface PlanExitInput {
+  mode: CollaborationMode;
+  planEnabled?: boolean;
+  toolName: string;
+}
+
+interface WorkflowRefineInput {
+  toolName: string;
+}
+
+interface TerminalToolInput {
+  entry: ToolEntry;
+}
 
 const PLAN_APPROVAL_FEEDBACK: FeedbackSource = "plan_approval_feedback";
 const WORKFLOW_REFINE_FEEDBACK: FeedbackSource = "workflow_refine_feedback";
@@ -33,49 +54,46 @@ const PLAN_NOT_APPROVED_CONTENT = "The plan was not approved by the user.";
 const WORKFLOW_NOT_APPROVED_CONTENT = "The workflow run was not approved by the user.";
 
 // 终止 turn 的结果形状只有一个来源，避免各分支写出不一致的 turnControl。
-type TurnStopReason = NonNullable<ToolExecutionResult["turnControl"]>["reason"];
-
-function stopTurnAfterResult(
-  result: ToolExecutionResult,
-  reason: TurnStopReason,
-): ToolExecutionResult {
-  return { ...result, turnControl: { reason, stopTurnAfterResult: true } };
+function stopTurnAfterResult(result: ToolOutcome, reason: TurnStopReason): ToolOutcome {
+  const next = { ...result } as ToolOutcome;
+  next.turnControl = { reason, stopTurnAfterResult: true };
+  return next;
 }
 
 function followUpInput(
-  result: ToolExecutionResult,
+  result: ToolOutcome,
   input: string,
   reasonSource: FeedbackSource,
   modelContent: string,
-): ToolExecutionResult {
-  return { ...result, followUpUserInput: { input, reasonSource }, modelContent };
+): ToolOutcome {
+  const next = { ...result } as ToolOutcome;
+  next.followUpUserInput = { input, reasonSource };
+  next.modelContent = modelContent;
+  return next;
 }
 
-function feedbackMessage(result: ToolExecutionResult, source: FeedbackSource): string | undefined {
-  if (result.error?.type !== CoreErrorType.PermissionDenied) return undefined;
-  if (result.error.reasonSource !== source) return undefined;
-  const trimmed = result.error.message.trim();
+function feedbackMessage(result: ToolOutcome, source: FeedbackSource): string | undefined {
+  const error = result.error;
+  if (error === undefined) return undefined;
+  if (error.type !== CoreErrorType.PermissionDenied) return undefined;
+  if (error.reasonSource !== source) return undefined;
+  const trimmed = error.message.trim();
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
 export function withAutomationCreateLimitTurnStop(
-  result: ToolExecutionResult,
-  input: { error: unknown; toolName: string },
-): ToolExecutionResult {
+  result: ToolOutcome,
+  input: AutomationLimitInput,
+): ToolOutcome {
   if (result.success) return result;
   if (input.toolName !== CRON_CREATE_TOOL_NAME) return result;
   if (!isAutomationCreateLimitError(input.error)) return result;
-  return {
-    ...result,
-    modelContent: AUTOMATION_LIMIT_CONTENT,
-    turnControl: { reason: AUTOMATION_CREATE_LIMIT_REASON, stopTurnAfterResult: true },
-  };
+  const next = stopTurnAfterResult(result, AUTOMATION_CREATE_LIMIT_REASON);
+  next.modelContent = AUTOMATION_LIMIT_CONTENT;
+  return next;
 }
 
-export function withPlanExitDeniedTurnStop(
-  result: ToolExecutionResult,
-  input: { mode: CollaborationMode; planEnabled?: boolean; toolName: string },
-): ToolExecutionResult {
+export function withPlanExitDeniedTurnStop(result: ToolOutcome, input: PlanExitInput): ToolOutcome {
   const planEnabled = input.planEnabled ?? (input.mode as string) === PLAN_MODE;
   if (!planEnabled || result.success) return result;
   if (input.toolName !== EXIT_PLAN_MODE_TOOL_NAME) return result;
@@ -89,21 +107,24 @@ export function withPlanExitDeniedTurnStop(
 }
 
 export function withWorkflowRefineDeniedFollowUp(
-  result: ToolExecutionResult,
-  input: { toolName: string },
-): ToolExecutionResult {
+  result: ToolOutcome,
+  input: WorkflowRefineInput,
+): ToolOutcome {
   const isWorkflowRefineTool =
     input.toolName === CREATE_WORKFLOW_TOOL_NAME || input.toolName === AMEND_WORKFLOW_TOOL_NAME;
   if (!isWorkflowRefineTool || result.success) return result;
+
   const feedback = feedbackMessage(result, WORKFLOW_REFINE_FEEDBACK);
-  if (feedback === undefined) return result;
-  return followUpInput(result, feedback, WORKFLOW_REFINE_FEEDBACK, WORKFLOW_NOT_APPROVED_CONTENT);
+  if (feedback !== undefined) {
+    return followUpInput(result, feedback, WORKFLOW_REFINE_FEEDBACK, WORKFLOW_NOT_APPROVED_CONTENT);
+  }
+  return result;
 }
 
 export function withTerminalToolTurnStop(
-  result: ToolExecutionResult,
-  input: { entry: ToolEntry },
-): ToolExecutionResult {
+  result: ToolOutcome,
+  input: TerminalToolInput,
+): ToolOutcome {
   if (!result.success) return result;
   if (input.entry.metadata.stopTurnOnSuccess !== true) return result;
   return stopTurnAfterResult(result, SUBAGENT_TERMINAL_REASON);
