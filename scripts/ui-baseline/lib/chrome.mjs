@@ -83,17 +83,36 @@ export function resolveChromiumExecutable() {
 }
 
 /**
- * 启动参数：固定色彩配置与字体栅格化，减少跨机器与跨次运行的渲染差异。
- * `--disable-gpu` 让光栅化走软件路径：GPU 路径下同一页面两次截图会出现个位数像素、
- * 单通道差 1 的抖动，那正是计划书里说的「字体抗锯齿误报」来源。
+ * 启动参数：截图确定性。同一页面两次截图必须逐像素一致；抖动只能在夹具侧消除，
+ * 不允许用阈值或容差掩盖。
+ *
+ * - `--disable-gpu`：GPU 路径下同一页面两次截图会出现个位数像素、单通道差 1 的抖动。
+ * - `--force-color-profile=srgb` / `--disable-lcd-text` / `--font-render-hinting=none` /
+ *   `--disable-font-subpixel-positioning` / `--force-device-scale-factor=1`：固定色彩配置与字形栅格化。
+ * - `--deterministic-mode` / `--run-all-compositor-stages-before-draw` /
+ *   `--disable-new-content-rendering-timeout` / `--disable-partial-raster` /
+ *   `--disable-accelerated-2d-canvas`：等合成阶段全部完成再截图，避免半成品帧。
+ * - `--hide-scrollbars`：滚动条是否占位不影响边缘像素。
+ *
+ * 实测依据：加固前 `settings-model-provider light 1360`、`settings-subagents light/dark 1360`
+ * 有单通道差 ≤3 的抗锯齿残差（changedPixels=2 / 1,224,000，structuralPixels=0）；加齐这些开关后
+ * 同一提交两次完整采集 114 张全部零差异。
  */
 export const CHROMIUM_ARGS = [
   "--no-sandbox",
   "--disable-dev-shm-usage",
   "--disable-gpu",
+  "--deterministic-mode",
+  "--run-all-compositor-stages-before-draw",
+  "--disable-new-content-rendering-timeout",
+  "--disable-partial-raster",
+  "--disable-accelerated-2d-canvas",
+  "--force-device-scale-factor=1",
   "--force-color-profile=srgb",
   "--font-render-hinting=none",
   "--disable-lcd-text",
+  "--disable-font-subpixel-positioning",
+  "--hide-scrollbars",
   "--disable-features=CalculateNativeWinOcclusion",
   "--hide-crash-restore-bubble",
 ];
