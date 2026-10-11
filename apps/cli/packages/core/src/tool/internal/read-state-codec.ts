@@ -109,10 +109,15 @@ interface PersistedSnapshotRequest {
 }
 
 // 缺少任一新鲜度字段就不产出快照：不用当前磁盘或展示文本补齐，否则恢复后会把外部修改误认作已读。
-function lacksFreshnessFields(entry: ReadFileStateEntry): boolean {
-  return (
-    entry.revisionId.length === 0 || entry.mtimeMs === undefined || entry.sizeBytes === undefined
-  );
+// 用类型谓词而不是布尔返回，调用点才能拿到收窄后的字段类型。
+type FreshReadFileStateEntry = ReadFileStateEntry & {
+  revisionId: string;
+  mtimeMs: number;
+  sizeBytes: number;
+};
+
+function hasFreshnessFields(entry: ReadFileStateEntry): entry is FreshReadFileStateEntry {
+  return Boolean(entry.revisionId) && entry.mtimeMs !== undefined && entry.sizeBytes !== undefined;
 }
 
 export function createReadFileStateMetadataFromEntry(
@@ -120,7 +125,7 @@ export function createReadFileStateMetadataFromEntry(
 ): PersistedMetadataResult {
   const { entry } = input;
   if (entry === undefined) return;
-  if (lacksFreshnessFields(entry)) {
+  if (!hasFreshnessFields(entry)) {
     return;
   }
 
@@ -159,12 +164,11 @@ export function createReadFileStateMetadata(
 
   const output = ReadOutputSchema.safeParse(input.output);
   if (!output.success) return;
-  const { filePath, type } = output.data;
-  if (type !== "text" && type !== "file_unchanged") return;
+  if (output.data.type !== "text" && output.data.type !== "file_unchanged") return;
 
   const window = asPlainRecord(input.toolInput);
   const key = createReadFileStateKey(
-    filePath,
+    output.data.filePath,
     isFiniteNumber(window?.offset) ? window.offset : undefined,
     isFiniteNumber(window?.limit) ? window.limit : undefined,
   );
