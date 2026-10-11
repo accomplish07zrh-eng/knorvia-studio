@@ -71,7 +71,8 @@
 ### B5 session_target 两次重建（0004、0005）
 
 - 来源：`migrations.ts`（`0004_session_target`、`0005_session_target_accounting`）
-- 输入：`0004` 建 `session_target`（`status` 只允许 `active|paused|complete`）；`0005` 建 `session_target_next`（`status` 增加 `budget_limited`，并新增 `token_budget`（可空）、`tokens_used`（默认 0）、`time_used_seconds`（默认 0）），把旧行迁过去（`token_budget` 置 null、计数置 0），再 `drop table session_target` 并 `rename session_target_next → session_target`。
+- 输入：已应用 `0003` 及之前迁移、且可能已有 `session_target` 行的旧库。
+- 输出：`0004` 建 `session_target`（`status` 只允许 `active|paused|complete`）；`0005` 建 `session_target_next`（`status` 增加 `budget_limited`，并新增 `token_budget`（可空）、`tokens_used`（默认 0）、`time_used_seconds`（默认 0）），把旧行迁过去（`token_budget` 置 null、计数置 0），再 `drop table session_target` 并 `rename session_target_next → session_target`——迁移后表名仍是 `session_target`，列是两个版本的并集。
 - 错误语义：改名前的数据已复制，`drop` 只删旧表。
 - 时序与并发：两条迁移按序。
 - 幂等：`0004` 是 `if not exists`；`0005` **不是**幂等（依赖 `0004` 建出的旧表形状），只在未应用过时跑一次。
@@ -373,7 +374,7 @@
 - 来源：`config/index.ts`（`ConfigPortImpl.get`、`getAll`）
 - 输入：`new ConfigPortImpl(initial?)`（缺席时用 `DefaultRuntimeConfig`）；`get(key)`；`getAll()`。
 - 输出：`get` 先查 store，未命中再查默认值，仍未命中**抛 `Config key not found: ${key}`**；`getAll()` 返回完整 `RuntimeConfig`，其中 `features.*` 缺省为 **`true`**、`storage.dir`/`sessionDbPath`、`network.timeout`、`memory.use`、`mcp.servers`、`plugins.*` 取 `DefaultRuntimeConfig`（`plugins.dirs`/`enabled`/`enabledPlugins`/`extraKnownMarketplaces`），`permission.*` 与 `network.httpProxy/noProxy/caCertFile` **不兜底**（按 store 值，可能是 `undefined`）。
-- 错误语义：`get` 抛错只发生在既无 store 值又无默认值的键。
+- 错误语义：`get` 抛错只发生在既无 store 值又无默认值的键；`has` 是 `store.has(key) || 该键有默认值`（因此 `permission.mode`、`features.*` 等有默认值的键即使没写过也返回 `true`，判定「本次是否写入」要用 `getSources(key).length`）。
 - 时序与并发：同步。
 - 幂等：`getAll` 每次重新拼装（返回新对象）。
 - 资源释放：无。
@@ -503,7 +504,7 @@
 - 输出：
   - `skills` 的四个声明字段 `enabled`/`includeInstructions`/`metadataBudget`/`roots` 中**至少一个存在**才写 `config.skills`；全部缺席则不写该键（`config.skills === undefined`）。
   - `skills` 的其余键（catchall，值是 `{enable?: boolean}`）与 `skill` 分区（`Record<路径, {enable?}>`，允许未知键）里**只有绝对路径 key** 才进 `skillOverrides`：`path.startsWith("/") || path.startsWith("\\") || /^[A-Za-z]:[\\/]/.test(path)`；值必须是「对象且 `enable` 缺席或是布尔」。
-  - `skillOverrides` 的合并顺序是 `skills`（plural）先、`skill` 后 → 同 key 以 `skill` 为准；合并结果为空则不写该键。
+  - `skillOverrides` 的合并顺序是 `skill` 分区在前、`skills`（plural）的 catchall 键在**后** → 同 key 以 plural `skills` 为准；合并结果为空则不写该键。
   - `command` 分区原样写入 `config.commandOverrides`（不筛绝对路径）。
 - 错误语义：不抛错（非法子值被当作不可识别条目跳过）。
 - 时序与并发：纯函数；`Object.entries` 顺序。
@@ -675,7 +676,7 @@
 
 - 来源：`config/config-factory.ts`（`resolveWorkspaceStorageDir`）
 - 输入：`{env?, workingDirectory}`。
-- 输出：`env ?? project ?? base`。`base = createConfig({env: input.env}).config.storage.dir`（系统默认 `~/.knorvia-studio`，除非 env 覆盖）；`project` 遍历 `loadProjectConfigs(workingDirectory).files`，取**最后一个** `file.config.storage?.dir`，判据是 `!== null && !== undefined`（**空串也算值**，会覆盖前面的）；`env` 是 `parseEnvConfig(env ?? process.env).storage?.dir`。环境变量优先级最高。
+- 输出：`env ?? project ?? base`。`base = createConfig({env: input.env}).config.storage.dir`（系统默认 `~/.knorvia-studio`，除非 env 覆盖）；`project` 遍历 `loadProjectConfigs(workingDirectory).files`，取**最后一个** `file.config.storage?.dir`，判据是 `!== null && !== undefined`（空串在实现判据里算值，但 schema 的 `storage.dir: min(1)` 让空串在真实配置文件里不可达）；`env` 是 `parseEnvConfig(env ?? process.env).storage?.dir`。环境变量优先级最高。
 - 错误语义：不抛错。
 - 时序与并发：同步读文件。
 - 幂等：是。
@@ -1338,7 +1339,7 @@
 - 输入：`request`（媒体类型、三上限）与输入字节。
 - 输出：
   - 媒体类型判定：`detectImageMediaType(input) ?? normalizeMediaType(request.mediaType)`；检测到 `image/webp` → 走 `prepareWebpPassthrough`，**不经过 jimp 解码**。
-  - WebP 直通：做 `createImageBudget(request)` 后 `fitsImageBudget` 判定，超预算 → 抛 `createImageProcessorError({code:"unsupported", message:"WebP image exceeds the model image budget and the current image adapter cannot transcode WebP"})`；未超 → 返回**输入 Buffer 原引用**，`{mediaType:"image/webp", originalSizeBytes, resized:false, compressed:false, strategy:"original", transformedSizeBytes}`（没有 `width`/`height`/`originalWidth`/`originalHeight`）。
+  - WebP 直通：做 `createImageBudget(request)` 后 `fitsImageBudget` 判定，超预算 → 抛 `createImageProcessorError({code:"unsupported", message:"WebP image exceeds the model image budget and the current image adapter cannot transcode WebP"})`；未超 → 返回**输入副本**（`prepareJimpImageForModel` 先 `Buffer.from(request.data)`，因此内容相同但不是同一引用；直接调用 `prepareWebpPassthrough` 时才是原引用），`{mediaType:"image/webp", originalSizeBytes, resized:false, compressed:false, strategy:"original", transformedSizeBytes}`（没有 `width`/`height`/`originalWidth`/`originalHeight`）。
   - 非 WebP 且尺寸在 `maxDimension` 内、且**原始字节**满足预算 → 直接返回输入（`mediaType` 是规范化后的来源类型、`resized:false`、`compressed:false`、`strategy:"original"`，并带 `originalWidth/originalHeight/width/height` 与 `originalSizeBytes`/`transformedSizeBytes`）。
 - 错误语义：见 B89；预算不够时 WebP 是 `unsupported`，其它格式进入 B93 的策略选择。
 - 时序与并发：异步。
@@ -1477,7 +1478,7 @@
 
 - 来源：`fs/index.ts`（`readTextFileRange`）、`fs/text-range-reader.ts`（`readTextFileRangeFromNode`、`wholeFile`、`scanFile`、`sampleEncoding`）
 - 输入：`{path, offsetLine?, limitLines?, maxBytes?, encoding?}` 与 `{signal?}`。
-- 输出：门面先 `stat` + `regular(..., "text")`，再交给 `readTextFileRangeFromNode(request, info, signal)`：先查取消；`maxBytes` 给定且 `!(size <= maxBytes)` → 抛 `too_large`，消息逐字 `File content (<displaySize(size)>) exceeds maximum allowed size (<displaySize(maxBytes)>). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.`；`offset = max(0, trunc(offsetLine ?? 0))`、`limit = limitLines === undefined ? undefined : max(0, trunc(limitLines))`；**`size <= 10 MiB` 走整读**（`readFile` + 解码 + 行尾规范化 + `split("\n")` 后切片），**超过 10 MiB 走流式扫描**（`createReadStream` + 流式解码器 + `TextLineWindow`，编码缺省时先读前 4096 字节检测）；返回 `{path, content: <选中行用 "\n" 连接>, encoding, lineEndings, bytesRead, lineCount: <选中行数>, totalLines: <文件总行数>, sizeBytes, truncated: false, startLine: offset + 1, revision: {id, mtimeMs, sizeBytes}}`（**range 的 revision 没有 `hash`**）。
+- 输出：门面先 `stat` + `regular(..., "text")`，再交给 `readTextFileRangeFromNode(request, info, signal)`：先查取消；`maxBytes` 给定且 `!(size <= maxBytes)` → 抛 `too_large`，消息逐字 `File content (<displaySize(size)>) exceeds maximum allowed size (<displaySize(maxBytes)>). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.`；`offset = max(0, trunc(offsetLine ?? 0))`、`limit = limitLines === undefined ? undefined : max(0, trunc(limitLines))`；**`size <= 10 MiB` 走整读**（`readFile` + 解码 + 行尾规范化 + `split("\n")` 后切片），**超过 10 MiB 走流式扫描**（`createReadStream` + 流式解码器 + `TextLineWindow`，编码缺省时先读前 4096 字节检测）；返回 `{path, content: <选中行用 "\n" 连接>, encoding, lineEndings, bytesRead, lineCount: <选中行数>, totalLines: <按 "\n" 切分后的段数>, sizeBytes, truncated: false, startLine: offset + 1, revision: {id, mtimeMs, sizeBytes}}`（**range 的 revision 没有 `hash`**）。`totalLines` 的口径与整读一致：**以换行结尾的内容会多算一个末尾空段**（`"a\nb\nc\n"` → 4、`"a\nb\nc"` → 3；流式路径由 `finish(decoderTail, sawBytes)` 的收尾 `complete(false)` 补齐同一条语义）。
 - 错误语义：取消时抛 `AbortError`（消息 `File system operation was cancelled: <path>`）；扫描中 `signal` 中止会 `destroy` 流并以同一 AbortError 结束。空文件 → `lines` 为空数组、`totalLines === 0`、`content === ""`。
 - 时序与并发：异步；整读一次性，扫描逐块（`for await`）。
 - 幂等：是（只读）。
@@ -1632,7 +1633,7 @@
 
 - 来源：`fs/text-line-window.ts`
 - 输入：`offset`、`limit`，以及分段写入的文本与结尾尾巴。
-- 输出：`write(text)` 按 `\n` 切分：每段先 `append`（只记录最后一个字符、选中时累积片段），遇到换行调 `complete(true)`；末尾残留段留到下一个 `write` 或 `finish`。`complete(newline)`：`last === "\r"` 时切掉行尾的 `\r`；`newline` 为真时按「行尾是 CRLF」记 `newlineBalance +1` 否则 `-1`；只有 `selected()` 为真才把选中的行 push 进 `lines`；`totalLines++` 后清空片段与尾字符。`selected()` 判定逐字为 `!(totalLines < offset) && (limit === undefined || lines.length < limit)`。`finish(decoderTail, sawBytes)`：先 `append(decoderTail)`，`sawBytes` 为真时再 `complete(false)`（补最后一行）。`lineEndings` 是 `newlineBalance > 0 ? "CRLF" : "LF"`。
+- 输出：`write(text)` 按 `\n` 切分：每段先 `append`（只记录最后一个字符、选中时累积片段），遇到换行调 `complete(true)`；末尾残留段留到下一个 `write` 或 `finish`。`complete(newline)`：`last === "\r"` 时切掉行尾的 `\r`；`newline` 为真时按「行尾是 CRLF」记 `newlineBalance +1` 否则 `-1`；只有 `selected()` 为真才把选中的行 push 进 `lines`；`totalLines++` 后清空片段与尾字符。`selected()` 判定逐字为 `!(totalLines < offset) && (limit === undefined || lines.length < limit)`。`finish(decoderTail, sawBytes)`：先 `append(decoderTail)`，`sawBytes` 为真时再 `complete(false)`（补最后一行——**因此以换行结尾的内容会多出一个末尾空段**，与整读路径的 `split("\n")` 口径一致）。`lineEndings` 是 `newlineBalance > 0 ? "CRLF" : "LF"`。
 - 错误语义：不抛错。
 - 时序与并发：同步；实例是单次扫描的状态所有者，不可并发写入。
 - 幂等：同一输入序列产生同一 `lines`/`totalLines`。
@@ -1786,7 +1787,7 @@
 - 平台差异：日期是**本地日历**，不做 UTC 转换；文件名格式固定。
 - 状态所有者：`logDir` 下的日志文件。
 - 日志级别：`info`（调度）、`debug`（完成）、`warn`（失败）。
-- 可测断言：临时目录里放 `knorvia-2026-01-01.jsonl`、`knorvia-2026-01-05.jsonl`、`other.jsonl`、`knorvia-bad.jsonl`、同名目录 `knorvia-2026-01-01.jsonl/` → `now: new Date(2026,0,6)` 且 `retentionDays` 缺省 → `cutoffDate === "2026-01-01"`、`scannedFiles === 2`、`deletedFiles` 为空；`now: new Date(2026,0,9)` → `cutoffDate === "2026-01-03"`、`deletedFiles` 只含 `knorvia-2026-01-01.jsonl`；`retentionDays:0` → 视为 1；`NaN` → 7；`logDir` 不存在 → `status === "completed"`、`scannedFiles === 0`、`logger.warn` 未被调用；`scheduleLogRetentionCleanup({delayMs:5, now: () => new Date(2026,0,9), setTimeout: (fn)=>{captured = fn; return {unref(){unrefed = true}}}})` → `unref` 被调用、`logger.info` 收到 `status:"waiting"`、执行 `captured()` 后（等一个微任务）目标文件被删除且 `logger.debug` 收到 `status:"completed"`。
+- 可测断言：临时目录里放 `knorvia-2026-01-01.jsonl`、`knorvia-2026-01-05.jsonl`、`other.jsonl`、`knorvia-bad.jsonl`、同名目录 `knorvia-2026-01-01.jsonl/` → `now: new Date(2026,0,6)` 且 `retentionDays` 缺省（7）→ `cutoff = now - (7-1) 天`、`cutoffDate === "2025-12-31"`、`scannedFiles === 2`、`deletedFiles` 为空；`now: new Date(2026,0,9)` → `cutoffDate === "2026-01-03"`、`deletedFiles` 只含 `knorvia-2026-01-01.jsonl`；`retentionDays:0` → 视为 1；`NaN` → 7；`logDir` 不存在 → `status === "completed"`、`scannedFiles === 0`、`logger.warn` 未被调用；`scheduleLogRetentionCleanup({delayMs:5, now: () => new Date(2026,0,9), setTimeout: (fn)=>{captured = fn; return {unref(){unrefed = true}}}})` → `unref` 被调用、`logger.info` 收到 `status:"waiting"`、执行 `captured()` 后（等一个微任务）目标文件被删除且 `logger.debug` 收到 `status:"completed"`。
 
 ### B121 `logging/` 的导出面
 

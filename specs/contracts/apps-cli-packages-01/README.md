@@ -181,11 +181,189 @@ browser-use-plugin/tsconfig.json              u-unchanged
 | C    | `config/file-config.adapter.ts`、`context/*`（git 快照与 context barrel）                    | B49–B70   | **已完成** `00a6ff48` |
 | D    | `commands/*`、`device/*`（进程探测、deviceMid）、`image/*`（图片压缩）                       | B71–B94   | **已完成** `a7fb063f` |
 | D2   | `fs/*`（文件 IO、搜索、ripgrep、文本窗口）、`logging/*`（日志、保留、脱敏）                  | B95–B121  | **已完成** `2b977ba8` |
-| E    | 会话存储迁移的夹具与断言组织说明；`mailbox`、`pdf`、`provider`、`skills`、`workflow`、barrel | B122–B134 | **已完成**（本提交）  |
-| F    | `tests/`、`fixtures/`、`stubs/`、`known-differences.md`、`acceptance.md`、`gate-old.json`    | —         | 待写                  |
+| E    | 会话存储迁移的夹具与断言组织说明；`mailbox`、`pdf`、`provider`、`skills`、`workflow`、barrel | B122–B134 | **已完成** `860bd3be` |
+| F    | `tests/`、`fixtures/`、`stubs/`、`known-differences.md`、`acceptance.md`、`gate-old.json`    | —         | **已完成**（本提交）  |
 
 批次按「先高风险、后外围」推进：B1/B2 覆盖配置（含 `KNORVIA_*` 键名与来源追踪），C/D/D2 覆盖与文件系统、进程、图片、日志打交道的适配器，E 收口会话存储迁移的夹具组织（B17 的往返契约已在批次 A 写出），F 落地契约测试与旧门。编号只追加、不复用、不重排：批次 B2 从 B28 续到 B48（含 `owners.test.mjs` 的覆盖与删除依据条目）。
 
 批次 A 的 17 条覆盖：迁移账本的追加式与不可变约束、0001–0019 各批表结构与索引形状、0020/0021/0022 三条冻结迁移的身份映射与判据、`options.ts`/`rows.ts` 的公开声明、`session-store.ts` barrel 兼容面，以及**旧数据必须继续可读**的往返契约（B17）。
 
 **条目 → 测试对照表**等第 5 步（`tests/`）落地后补进本 README，届时每行给出测试文件与用例名，不留空行。
+
+## 八、条目 → 测试对照表
+
+每个 B 条目至少一个用例；表由 `node specs/contracts/apps-cli-packages-01/tests/build-case-map.mjs` 生成（`--check` 在缺条目时退出码非 0，用来防止对照表出现空行）。
+
+<!-- CASE-MAP:START -->
+
+| 条目 | 测试文件                                                     | 用例                                                                        |
+| ---- | ------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| B1   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B1/B2/B123 迁移账本是追加式、有序、按 checksum 记账的冻结文本               |
+| B2   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B1/B2/B123 迁移账本是追加式、有序、按 checksum 记账的冻结文本               |
+| B3   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B4   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B5   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B6   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B7   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B8   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B9   | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B10  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）                     |
+| B11  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）（另有 1 处）        |
+| B12  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）（另有 1 处）        |
+| B13  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B3–B13 各批迁移的关键 DDL 形状（0001、0019 与冻结编号）（另有 1 处）        |
+| B14  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B14/B15 类型模块与 barrel 的兼容面                                          |
+| B15  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B14/B15 类型模块与 barrel 的兼容面                                          |
+| B16  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B16/B134 会话存储 barrel 的兼容面                                           |
+| B17  | [tests/session-store.test.ts](./tests/session-store.test.ts) | B17/B124 旧写 → 新读 → 新写 → 旧读 往返                                     |
+| B18  | [tests/config.test.ts](./tests/config.test.ts)               | B18 环境变量解析：键名映射、数值归一与未知键忽略                            |
+| B19  | [tests/config.test.ts](./tests/config.test.ts)               | B19 工具并发配置：默认 10、非法值归一为 0、每次重读                         |
+| B20  | [tests/config.test.ts](./tests/config.test.ts)               | B20 作用域优先级：取值来自 ConfigScopePriority 且顺序无关                   |
+| B21  | [tests/config.test.ts](./tests/config.test.ts)               | B21 mergeConfigs：浅覆盖、插件并集/逐键、hooks 追加与 Project 丢弃额外市场  |
+| B22  | [tests/config.test.ts](./tests/config.test.ts)               | B22 ConfigStore 键值与来源：set 只保留最后一次来源                          |
+| B23  | [tests/config.test.ts](./tests/config.test.ts)               | B23 通知顺序与订阅生命周期：key 先于 all、退订后静默、handler 抛错冒泡      |
+| B24  | [tests/config.test.ts](./tests/config.test.ts)               | B24 merge(patch) 的判空差异、累积式钩子与异常守护合并                       |
+| B25  | [tests/config.test.ts](./tests/config.test.ts)               | B25 ConfigPortImpl 读取与缺省：features 缺省 true、未知 key 逐字消息        |
+| B26  | [tests/config.test.ts](./tests/config.test.ts)               | B26 项目配置发现：baseDir、hooks 待信任诊断与 stdio cwd 解析                |
+| B27  | [tests/config.test.ts](./tests/config.test.ts)               | B27 config/index.ts 的导出面                                                |
+| B28  | [tests/config.test.ts](./tests/config.test.ts)               | B28 配置文件 schema 顶层字段与约束                                          |
+| B29  | [tests/config.test.ts](./tests/config.test.ts)               | B29 MCP server 输入归一化                                                   |
+| B30  | [tests/config.test.ts](./tests/config.test.ts)               | B30 MCP servers 逐项诊断与部分保留                                          |
+| B31  | [tests/config.test.ts](./tests/config.test.ts)               | B31 MCP 三种传输与 OAuth 的 strict 形状                                     |
+| B32  | [tests/config.test.ts](./tests/config.test.ts)               | B32 plugins 与额外市场 schema                                               |
+| B33  | [tests/config.test.ts](./tests/config.test.ts)               | B33 skills/skill/command 的解析与覆盖映射                                   |
+| B34  | [tests/config.test.ts](./tests/config.test.ts)               | B34 插件 id 规范化与别名                                                    |
+| B35  | [tests/config.test.ts](./tests/config.test.ts)               | B35 配置文件里的插件别名迁移                                                |
+| B36  | [tests/config.test.ts](./tests/config.test.ts)               | B36 配置文件到 RuntimeConfigPatch 的映射与诊断                              |
+| B37  | [tests/config.test.ts](./tests/config.test.ts)               | B37 createConfig 装配顺序与来源优先级                                       |
+| B38  | [tests/config.test.ts](./tests/config.test.ts)               | B38 项目发现元数据与 UI 来源路径                                            |
+| B39  | [tests/config.test.ts](./tests/config.test.ts)               | B39 plugins 来源归属                                                        |
+| B40  | [tests/config.test.ts](./tests/config.test.ts)               | B40 MCP 生效表与来源归属                                                    |
+| B41  | [tests/config.test.ts](./tests/config.test.ts)               | B41 hooks 来源标记                                                          |
+| B42  | [tests/config.test.ts](./tests/config.test.ts)               | B42 配置诊断告警日志：映射、顺序与抛错中断                                  |
+| B43  | [tests/config.test.ts](./tests/config.test.ts)               | B43 项目发现三个入口分支                                                    |
+| B44  | [tests/config.test.ts](./tests/config.test.ts)               | B44 工作区 hook 运行时根与快照                                              |
+| B45  | [tests/config.test.ts](./tests/config.test.ts)               | B45 resolveWorkspaceStorageDir 优先级：env → 最后项目文件（空串也算）→ 默认 |
+| B46  | [tests/config.test.ts](./tests/config.test.ts)               | B46 skipUserConfig 与来源元数据                                             |
+| B47  | [tests/config.test.ts](./tests/config.test.ts)               | B47 config-factory 导出面：运行时只暴露 2 个函数、内部函数不导出            |
+| B48  | [tests/config.test.ts](./tests/config.test.ts)               | B48 owners.test.mjs 的归属行为由本包契约测试覆盖                            |
+| B49  | [tests/config.test.ts](./tests/config.test.ts)               | B49 配置路径解析与默认路径                                                  |
+| B50  | [tests/config.test.ts](./tests/config.test.ts)               | B50 loadFileConfig 加载、诊断与默认补全                                     |
+| B51  | [tests/config.test.ts](./tests/config.test.ts)               | B51 读取时的 CUA 别名迁移与尽力而为落盘                                     |
+| B52  | [tests/config.test.ts](./tests/config.test.ts)               | B52 写回路径的读取与原子保存契约                                            |
+| B53  | [tests/config.test.ts](./tests/config.test.ts)               | B53 updateUiLocaleInFileConfig 的读写语义                                   |
+| B54  | [tests/config.test.ts](./tests/config.test.ts)               | B54 updatePluginEnabledInFileConfig 别名清理与显式取值                      |
+| B55  | [tests/config.test.ts](./tests/config.test.ts)               | B55 enablePluginsByDefaultInFileConfig 只补未声明项                         |
+| B56  | [tests/config.test.ts](./tests/config.test.ts)               | B56 updatePluginOptionsInFileConfig 基线选择与清理键                        |
+| B57  | [tests/config.test.ts](./tests/config.test.ts)               | B57 removePlugin\* 的删除语义与无命中不写                                   |
+| B58  | [tests/config.test.ts](./tests/config.test.ts)               | B58 suppressedBuiltins 的登记与移除                                         |
+| B59  | [tests/config.test.ts](./tests/config.test.ts)               | B59 file-config 导出面：运行时 12 个函数、内部类型与函数不导出              |
+| B60  | [tests/context.test.ts](./tests/context.test.ts)             | B60 git 快照只跑只读命令且失败被吞                                          |
+| B61  | [tests/context.test.ts](./tests/context.test.ts)             | B61 仓库快照字段与 dirty/clean 判定                                         |
+| B62  | [tests/context.test.ts](./tests/context.test.ts)             | B62 git status 的 2k 截断与平台提示                                         |
+| B63  | [tests/context.test.ts](./tests/context.test.ts)             | B63 主分支候选顺序：origin/HEAD → main → master → 兜底 main                 |
+| B64  | [tests/context.test.ts](./tests/context.test.ts)             | B64 NodeContextSourceAdapter 的快照装配与请求覆盖                           |
+| B65  | [tests/context.test.ts](./tests/context.test.ts)             | B65 detectEnvInfo 的 shell 与版本字段                                       |
+| B66  | [tests/context.test.ts](./tests/context.test.ts)             | B66 用户指令发现顺序与合并                                                  |
+| B67  | [tests/context.test.ts](./tests/context.test.ts)             | B67 指令内容按字节截断                                                      |
+| B68  | [tests/context.test.ts](./tests/context.test.ts)             | B68 项目根标记与项目类型探测                                                |
+| B69  | [tests/context.test.ts](./tests/context.test.ts)             | B69/B70 context 导出面：barrel 与 git-snapshot                              |
+| B70  | [tests/context.test.ts](./tests/context.test.ts)             | B69/B70 context 导出面：barrel 与 git-snapshot                              |
+| B71  | [tests/commands.test.ts](./tests/commands.test.ts)           | B71 默认根发现顺序与优先级                                                  |
+| B72  | [tests/commands.test.ts](./tests/commands.test.ts)           | B72 extraRoots 的 ~/ 展开与根对象形状                                       |
+| B73  | [tests/commands.test.ts](./tests/commands.test.ts)           | B73 discoverCommands 的扫描、禁用、去重与排序                               |
+| B74  | [tests/commands.test.ts](./tests/commands.test.ts)           | B74 目录枚举规则：.md 大小写、非目录根、缺失根与深度上限                    |
+| B75  | [tests/commands.test.ts](./tests/commands.test.ts)           | B75 元数据解析、校验与诊断                                                  |
+| B76  | [tests/commands.test.ts](./tests/commands.test.ts)           | B76 loadCommand 的查找、截断与正文                                          |
+| B77  | [tests/commands.test.ts](./tests/commands.test.ts)           | B77 取消语义：Custom command operation cancelled                            |
+| B78  | [tests/commands.test.ts](./tests/commands.test.ts)           | B78 commands 导出面                                                         |
+| B79  | [tests/device.test.ts](./tests/device.test.ts)               | B79 进程探测的失败预算与单次截止                                            |
+| B80  | [tests/device.test.ts](./tests/device.test.ts)               | B80 sampleProcessTrees 的入口处理与平台分派                                 |
+| B81  | [tests/device.test.ts](./tests/device.test.ts)               | B81 sampleProcessGroup 的平台与 PID 约束                                    |
+| B82  | [tests/device.test.ts](./tests/device.test.ts)               | B82 共享纯函数与命令契约                                                    |
+| B83  | [tests/device.test.ts](./tests/device.test.ts)               | B83 Linux /proc 解析契约                                                    |
+| B84  | [tests/device.test.ts](./tests/device.test.ts)               | B84 Windows tasklist CSV 解析                                               |
+| B85  | [tests/device.test.ts](./tests/device.test.ts)               | B85 Darwin ps 解析                                                          |
+| B86  | [tests/device.test.ts](./tests/device.test.ts)               | B86 device 导出面                                                           |
+| B87  | [tests/device.test.ts](./tests/device.test.ts)               | B87 设备标识生成、单飞与落盘                                                |
+| B88  | [tests/image.test.ts](./tests/image.test.ts)                 | B88 resizeToFit 的尺寸与直通语义                                            |
+| B89  | [tests/image.test.ts](./tests/image.test.ts)                 | B89 prepareForModel 的入口校验与空数据                                      |
+| B90  | [tests/image.test.ts](./tests/image.test.ts)                 | B90 原图直通与 WebP 直通                                                    |
+| B91  | [tests/image.test.ts](./tests/image.test.ts)                 | B91 图片预算计算与判定                                                      |
+| B92  | [tests/image.test.ts](./tests/image.test.ts)                 | B92 媒体类型工具与取消语义                                                  |
+| B93  | [tests/image.test.ts](./tests/image.test.ts)                 | B93 压缩策略选择与结果语义                                                  |
+| B94  | [tests/image.test.ts](./tests/image.test.ts)                 | B94 image 导出面                                                            |
+| B95  | [tests/fs.test.ts](./tests/fs.test.ts)                       | B95 门面错误转换与基础操作                                                  |
+| B96  | [tests/fs.test.ts](./tests/fs.test.ts)                       | B96 readTextFile 的编码、行尾与截断                                         |
+| B97  | [tests/fs.test.ts](./tests/fs.test.ts)                       | B97 readBinaryFile 的大小上限与短读推进                                     |
+| B98  | [tests/fs.test.ts](./tests/fs.test.ts)                       | B98 writeTextFile 的 revision、父目录与原子写                               |
+| B99  | [tests/fs.test.ts](./tests/fs.test.ts)                       | B99 readTextFileRange 的选行与流式扫描                                      |
+| B100 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B100 listDirectory 的排序与计时                                             |
+| B101 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B101 searchFiles 的 glob 遍历、排序与分页                                   |
+| B102 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B102 searchText 的引擎选择与降级                                            |
+| B103 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B103 glob、类型过滤与排序工具                                               |
+| B104 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B104 walk 的递归规则与取消                                                  |
+| B105 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B105 ripgrep 参数计划                                                       |
+| B106 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B106 ripgrep worker 的超时、取消与错误分类                                  |
+| B107 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B107 prefix / bounded / publish 读写原语                                    |
+| B108 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B108 错误策略与 revision/大小格式化                                         |
+| B109 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B109 编码检测与行尾工具                                                     |
+| B110 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B110 TextLineWindow 的行窗口语义                                            |
+| B111 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B111 matchContent 与匹配片段                                                |
+| B112 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B112 搜索结果截断、解析与失败分类                                           |
+| B113 | [tests/fs.test.ts](./tests/fs.test.ts)                       | B113 fs 导出面                                                              |
+| B114 | [tests/logging.test.ts](./tests/logging.test.ts)             | B114 NodeFileLogger 的级别门控与写入路径                                    |
+| B115 | [tests/logging.test.ts](./tests/logging.test.ts)             | B115 createNodeLoggerFactory 的默认值与调度                                 |
+| B116 | [tests/logging.test.ts](./tests/logging.test.ts)             | B116 日志条目字段投影                                                       |
+| B117 | [tests/logging.test.ts](./tests/logging.test.ts)             | B117 日志文件追加与失败吞掉                                                 |
+| B118 | [tests/logging.test.ts](./tests/logging.test.ts)             | B118 脱敏器与保留键剥离                                                     |
+| B119 | [tests/logging.test.ts](./tests/logging.test.ts)             | B119 序列化、console 行与错误链                                             |
+| B120 | [tests/logging.test.ts](./tests/logging.test.ts)             | B120 日志保留清理与调度                                                     |
+| B121 | [tests/logging.test.ts](./tests/logging.test.ts)             | B121 logging 导出面                                                         |
+| B122 | [tests/session-store.test.ts](./tests/session-store.test.ts) | B122 夹具脱敏：只含合成占位值（另有 1 处）                                  |
+| B123 | [tests/session-store.test.ts](./tests/session-store.test.ts) | B1/B2/B123 迁移账本是追加式、有序、按 checksum 记账的冻结文本               |
+| B124 | [tests/session-store.test.ts](./tests/session-store.test.ts) | B17/B124 旧写 → 新读 → 新写 → 旧读 往返                                     |
+| B125 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B125 会话信箱的目录迁移语义                                                 |
+| B126 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B126 技能根发现（与 commands 同构，但 ~/ 用真实 homedir）                   |
+| B127 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B127 技能目录扫描（异步与同步同结果）                                       |
+| B128 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B128 技能元数据解析、发现与加载                                             |
+| B129 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B129 PDF 渲染适配器                                                         |
+| B130 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B130/B131 工作流 run 侧与定义存储                                           |
+| B131 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B130/B131 工作流 run 侧与定义存储                                           |
+| B132 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B132/B133 provider 空模块与根 barrel 的导出面                               |
+| B133 | [tests/misc.test.ts](./tests/misc.test.ts)                   | B132/B133 provider 空模块与根 barrel 的导出面                               |
+| B134 | [tests/session-store.test.ts](./tests/session-store.test.ts) | B16/B134 会话存储 barrel 的兼容面                                           |
+
+<!-- CASE-MAP:END -->
+
+## 九、旧门与桩替换（结果见 `gate-old.json`）
+
+命令（仓库根目录，Node v24.14.0）：
+
+```text
+pnpm build:cli-packages
+node specs/contracts/apps-cli-packages-01/tests/run-old-gate.mjs --with-stubs
+```
+
+| 项                                         | 结果                                                                                            |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| 用例数 / 测试文件                          | 118 / 9                                                                                         |
+| 源码入口                                   | 118 通过、0 失败、0 跳过                                                                        |
+| dist 入口（`KNORVIA_ADAPTERS_ENTRY=dist`） | 118 通过、0 失败、0 跳过                                                                        |
+| 预登记差异                                 | 0                                                                                               |
+| 断言放宽                                   | 无                                                                                              |
+| 桩替换（`stubs/apply.mjs --apply`）        | 0 通过 / 118 失败（`allFail: true`），随后 `--restore`                                          |
+| 桩替换时的包级 lint                        | 194 warnings / 1 error（1 个 error 是非本包文件既有的 `max-lines`，warning 全是桩的未使用参数） |
+
+唯一无法通过桩替换变成失败的条目是 B14/B15（`options.ts`/`rows.ts` 是纯类型模块），理由与证据见
+`known-differences.md` 第二节；该条目所在的用例仍带行为断言，因此在桩替换下整体失败。
+
+## 十、替换阶段交接
+
+1. **重写按 `GATE-PLAYBOOK.md`**（Lead 汇总）：换模块切法、换控制流形态、换内部数据形状，注释/日志/错误
+   文案全部重写，不沿用旧文件边界；纯声明与桶文件按 `interface.md` 剔兼容名后把残留包含率压到 0；
+   必要重合（`KNORVIA_*` 键名、`.knorvia-studio`、schema/列名、逐字错误消息）写进 `known-differences.md`
+   并给理由与测试。门槛不调。
+2. **`interface.md` 是重写的输入**：55 个文件的模块路径与导出签名不得变；新实现内部怎么拆文件自定。
+3. **每个新文件 ≤ 400 行**（AGENTS.md），并且不能新增包级 `oxlint src` 的问题（见 `known-differences.md` §三）。
+4. **删除顺序**：先用桩替换确认契约测试全部失败（本 PR 已记录），再删旧文件与 `owners.test.mjs`
+   （依据 B48），最后跑两道相似度门槛与接入门禁。
