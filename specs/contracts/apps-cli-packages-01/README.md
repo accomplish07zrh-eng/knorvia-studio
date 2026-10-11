@@ -142,3 +142,29 @@ browser-use-plugin/tsconfig.json              u-unchanged
 6. `stubs/` + 旧门（源码入口与 dist 入口都过）→ `gate-old.json` → `known-differences.md` / `acceptance.md` → PR `contract: apps-cli-packages-01 v1`。
 
 门禁顺序：`fmt` → `fmt:check` → `provenance:report` → `provenance:check` → commit。
+
+## 六、第 3 步：本包内 knip 无用代码复核（结论：不删）
+
+命令：`pnpm knip`（Node 24.14.0）。只看本包范围（`apps/cli/packages/adapters/**`、`apps/cli/packages/browser-use-plugin/**`）的结果：
+
+**knip 的 `Unused files` 与本包相交的只有 1 个**：`apps/cli/packages/adapters/src/config/owners.test.mjs`（继承分类 `unreviewed`）。其余 2 个 `adapters/src/model/*` 不在本包的 55 个继承文件里（属已登记 `independent-replacement`），不动。
+
+**决定：保留，不删。** 依据计划书默认裁决表「不确定某段代码是否还有用 → 保留并写进合同，不删」，以及红线「不跳过、不禁用、不放宽测试」：
+
+- 该文件是**测试文件**，虽然 `scripts/test-studio.mjs` 只收集 `apps/cli/packages/adapters/test`（不含 `src/`），因此当前没有 runner 执行它；knip 判它无入口、全仓 `git grep "owners.test"` 命中 0 次。
+- 在替换包里删掉一个测试文件，会与「不放宽测试」的红线产生歧义；把它写进合同、由第 5 步的契约测试覆盖同等行为（配置 owners 的归属与优先级）更稳妥。**到本包重写时由契约测试替代后再删除**，不在第 3 步删。
+
+**knip 报的「无用导出」落在本包 55 个文件里的（同样不删，留待重写时逐符号确认）**：
+
+| 文件                        | 导出                                                                | 类型      |
+| --------------------------- | ------------------------------------------------------------------- | --------- |
+| `device/process-probe.ts`   | `PROCESS_PROBE_SAMPLE_TIMEOUT_MS`                                   | 常量      |
+| `config/config-factory.ts`  | `McpServerConfigSource`、`PluginConfigScope`、`PluginConfigSources` | 类型/接口 |
+| `fs/text-search-lines.ts`   | `LineMatches`                                                       | 接口      |
+| `fs/text-search-results.ts` | `SearchHits`                                                        | 接口      |
+| `fs/file-search-paths.ts`   | `matchesType`                                                       | 函数      |
+| `image/image-budget.ts`     | `ImageBudget`                                                       | 类型      |
+
+不删的理由：这些是**导出**，删掉就是改兼容面，而 `interface.md` 是重写的输入；`pnpm dep:refs` 对本包不可用（见第 2 步），无法用工具在符号级确认「全仓无引用」。计划书第 3 步允许删无用导出，但本包选择**保守**：重写时按 `interface.md` 逐个判定，knip 的这一批作为「可以不复现」的候选。
+
+**结论：第 3 步没有可安全删除的文件或导出，本次提交只记录证据与决定，不删任何文件。**
