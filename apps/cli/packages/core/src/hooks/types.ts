@@ -16,8 +16,8 @@ import type {
   WorkspaceHookBundleSnapshot,
   WorkspaceHookReasonCode,
 } from "@knorvia/contracts";
+import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
 
-import type { WorkspaceHookRuntimeAdmissionPort } from "./workspace-hook-runtime-admission.js";
 
 /** 回调收到的运行上下文：索引是运行器给的位置，abort 信号由运行器拥有。 */
 export interface HookCallbackContext {
@@ -137,4 +137,46 @@ export interface WorkspaceHookTelemetryFields {
   requestEnabledCount?: number;
   grantedRecordCount?: number;
   revokedCount?: number;
+}
+
+/**
+ * workspace 运行时准入的兼容声明（状态、分派决定、端口与选项）。运行时实现见
+ * workspace-hook-runtime-admission.ts，该文件按原路径再导出这些名字。
+ */
+export type WorkspaceHookActivationSource = "startup" | "resume" | "clear" | "compact";
+
+export interface WorkspaceHookDispatchInput {
+  /** 持有 bundle 目标的调用方用它做一致性断言；运行时登记项不传。 */
+  bundleDigest?: string;
+  hookDeclarationDigest: string;
+  reviewItemId: string;
+}
+
+export type WorkspaceHookDispatchDecision =
+  | { allowed: true }
+  | { allowed: false; reasonCode: WorkspaceHookReasonCode; skipLifecycle?: boolean };
+
+export interface WorkspaceHookAdmissionState {
+  pendingCount: number;
+  bundleDigest: string;
+  workspaceIdentity?: string;
+}
+
+export type WorkspaceHookAdmissionStateCallback = (state: WorkspaceHookAdmissionState) => void;
+
+export interface WorkspaceHookRuntimeAdmissionPort {
+  activate(source: WorkspaceHookActivationSource, signal?: AbortSignal): Promise<void>;
+  evaluateDispatch(input: WorkspaceHookDispatchInput): WorkspaceHookDispatchDecision;
+  getCurrentSnapshot(): WorkspaceHookBundleSnapshot;
+  replaceSnapshot(snapshot: WorkspaceHookBundleSnapshot): void;
+  invalidate(reasonCode: WorkspaceHookReasonCode): void;
+}
+
+export interface WorkspaceHookRuntimeAdmissionOptions {
+  coordinator: WorkspaceHookTrustCoordinator;
+  enabled?: boolean;
+  logger?: Logger;
+  ready: Promise<void>;
+  onAdmissionStateChanged?: WorkspaceHookAdmissionStateCallback;
+  snapshot: WorkspaceHookBundleSnapshot;
 }

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // 信任域的对外形状：store 状态、快照求值结果。判定表与状态形状来自 @knorvia/contracts，不在此复制。
+import type { WorkspaceHookPolicyProvider } from "./workspace-hook-policy.js";
 import type {
   WorkspaceHookEffectiveState,
   WorkspaceHookPolicy,
@@ -23,4 +24,9 @@ export interface WorkspaceHookSnapshotEvaluation {
   storeStatus: WorkspaceHookTrustStoreStatus;
   reasonCode?: WorkspaceHookReasonCode;
   items: WorkspaceHookEffectiveState[];
+}
+
+export interface WorkspaceHookTrustCoordinatorOptions {
+  coordinatorEpoch: string;
+  policyProvider?: WorkspaceHookPolicyProvider;
 }

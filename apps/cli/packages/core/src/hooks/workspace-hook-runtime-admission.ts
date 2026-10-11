@@ -14,44 +14,25 @@ import {
 } from "./workspace-hook-telemetry.js";
 import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
 import type { WorkspaceHookSnapshotEvaluation } from "./workspace-hook-trust-types.js";
+import type {
+  WorkspaceHookActivationSource,
+  WorkspaceHookAdmissionState,
+  WorkspaceHookAdmissionStateCallback,
+  WorkspaceHookDispatchDecision,
+  WorkspaceHookDispatchInput,
+  WorkspaceHookRuntimeAdmissionOptions,
+  WorkspaceHookRuntimeAdmissionPort,
+} from "./types.js";
 
-export type WorkspaceHookActivationSource = "startup" | "resume" | "clear" | "compact";
-
-export interface WorkspaceHookDispatchInput {
-  /** 持有 bundle 目标的调用方用它做一致性断言；运行时登记项不传。 */
-  bundleDigest?: string;
-  hookDeclarationDigest: string;
-  reviewItemId: string;
-}
-
-export type WorkspaceHookDispatchDecision =
-  | { allowed: true }
-  | { allowed: false; reasonCode: WorkspaceHookReasonCode; skipLifecycle?: boolean };
-
-export interface WorkspaceHookAdmissionState {
-  pendingCount: number;
-  bundleDigest: string;
-  workspaceIdentity?: string;
-}
-
-export type WorkspaceHookAdmissionStateCallback = (state: WorkspaceHookAdmissionState) => void;
-
-export interface WorkspaceHookRuntimeAdmissionPort {
-  activate(source: WorkspaceHookActivationSource, signal?: AbortSignal): Promise<void>;
-  evaluateDispatch(input: WorkspaceHookDispatchInput): WorkspaceHookDispatchDecision;
-  getCurrentSnapshot(): WorkspaceHookBundleSnapshot;
-  replaceSnapshot(snapshot: WorkspaceHookBundleSnapshot): void;
-  invalidate(reasonCode: WorkspaceHookReasonCode): void;
-}
-
-export interface WorkspaceHookRuntimeAdmissionOptions {
-  coordinator: WorkspaceHookTrustCoordinator;
-  enabled?: boolean;
-  logger?: Logger;
-  ready: Promise<void>;
-  onAdmissionStateChanged?: WorkspaceHookAdmissionStateCallback;
-  snapshot: WorkspaceHookBundleSnapshot;
-}
+export type {
+  WorkspaceHookActivationSource,
+  WorkspaceHookAdmissionState,
+  WorkspaceHookAdmissionStateCallback,
+  WorkspaceHookDispatchDecision,
+  WorkspaceHookDispatchInput,
+  WorkspaceHookRuntimeAdmissionOptions,
+  WorkspaceHookRuntimeAdmissionPort,
+} from "./types.js";
 
 /** 拒绝结果的小构造器；统一形状便于规则表直接返回。 */
 function reject(
@@ -293,6 +274,8 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
     forward(this.logger, event, fields);
   }
 }
+
+void (0 as unknown as WorkspaceHookRuntimeAdmissionPort);
 
 export function createWorkspaceHookRuntimeAdmission(
   options: WorkspaceHookRuntimeAdmissionOptions,

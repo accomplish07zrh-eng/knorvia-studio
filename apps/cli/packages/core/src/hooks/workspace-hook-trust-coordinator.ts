@@ -17,8 +17,11 @@ import {
 } from "./workspace-hook-policy.js";
 import type {
   WorkspaceHookSnapshotEvaluation,
+  WorkspaceHookTrustCoordinatorOptions,
   WorkspaceHookTrustStoreState,
 } from "./workspace-hook-trust-types.js";
+
+export type { WorkspaceHookTrustCoordinatorOptions } from "./workspace-hook-trust-types.js";
 
 /** 策略不可用时的兜底：一律拒绝，并把失败原因写在策略自身上。 */
 const FALLBACK_POLICY: WorkspaceHookPolicy = {
@@ -26,11 +29,6 @@ const FALLBACK_POLICY: WorkspaceHookPolicy = {
   policyRevision: "provider-error:fail-closed",
   reason: "Workspace Hook policy provider unavailable",
 };
-
-export interface WorkspaceHookTrustCoordinatorOptions {
-  coordinatorEpoch: string;
-  policyProvider?: WorkspaceHookPolicyProvider;
-}
 
 interface CoordinatorState {
   records: Map<string, WorkspaceHookTrustRecord>;
