@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-// Workspace Hook 的受限遥测：只发稳定 reason、摘要和短消息，绝不带命令、路径或 Trust payload。
+// 受限遥测：把一次准入/审核事件压成"短摘要 + 稳定 reason"，任何能还原命令、脚本或真实路径的
+// 内容都不出现在这里。字段先收集成条目再统一过滤，避免逐字段分支拼接。
 import { createHash } from "node:crypto";
 import type { Logger, WorkspaceHookReasonCode } from "@knorvia/contracts";
 
@@ -25,7 +26,7 @@ export interface WorkspaceHookTelemetryFields {
   source?: string;
   action?: string;
   generation?: number;
-  /** 领域错误的短消息；不得放命令正文、脚本内容或 workspace 路径。 */
+  /** 领域错误的短消息；禁止放命令正文、脚本内容或 workspace 路径。 */
   errorMessage?: string;
   requestItemCount?: number;
   requestEnabledCount?: number;
@@ -33,56 +34,52 @@ export interface WorkspaceHookTelemetryFields {
   revokedCount?: number;
 }
 
-const ERROR_MESSAGE_LIMIT = 300;
-const DIGEST_SUMMARY_LENGTH = 12;
-const TELEMETRY_MESSAGE = "Workspace Hook Trust telemetry";
-const TELEMETRY_MODULE = "workspace_hook_trust";
+const SHORT_ID_LENGTH = 12;
+const TEXT_BUDGET = 300;
+const LOG_TEXT = "Workspace Hook Trust telemetry";
+const LOG_MODULE = "workspace_hook_trust";
 
-/** 摘要只保留前 12 个字符：足够关联同一次评估，不足以还原原文。 */
+/** 只保留前 12 个字符：够关联同一次评估，不足以还原原始摘要。 */
 export function digestSummary(value: string): string {
-  return value.length <= DIGEST_SUMMARY_LENGTH ? value : value.slice(0, DIGEST_SUMMARY_LENGTH);
+  const head = value.substring(0, SHORT_ID_LENGTH);
+  return head.length === value.length ? value : head;
 }
 
-/** workspace identity 可能是绝对路径，进入日志前统一取 SHA-256 前 12 位。 */
+/** workspace identity 可能是绝对路径，先哈希再取前缀。 */
 export function workspaceIdentitySummary(value: string): string {
-  return createHash("sha256").update(value).digest("hex").slice(0, DIGEST_SUMMARY_LENGTH);
+  const digest = createHash("sha256");
+  return digest.update(value).digest("hex").substring(0, SHORT_ID_LENGTH);
 }
 
-function optionalFields(fields: WorkspaceHookTelemetryFields): Record<string, unknown> {
-  return {
-    ...(fields.workspaceIdentity
-      ? { workspaceIdentityDigest: workspaceIdentitySummary(fields.workspaceIdentity) }
-      : {}),
-    ...(fields.bundleDigest ? { bundleDigest: digestSummary(fields.bundleDigest) } : {}),
-    ...(fields.declarationDigest ? { declarationDigest: digestSummary(fields.declarationDigest) } : {}),
-    ...(fields.reasonCode ? { reasonCode: fields.reasonCode } : {}),
-    ...(fields.source ? { source: fields.source } : {}),
-    ...(fields.action ? { action: fields.action } : {}),
-    ...(fields.generation === undefined ? {} : { generation: fields.generation }),
-    ...(fields.errorMessage
-      ? { errorMessage: fields.errorMessage.slice(0, ERROR_MESSAGE_LIMIT) }
-      : {}),
-    ...(fields.requestItemCount === undefined ? {} : { requestItemCount: fields.requestItemCount }),
-    ...(fields.requestEnabledCount === undefined
-      ? {}
-      : { requestEnabledCount: fields.requestEnabledCount }),
-    ...(fields.grantedRecordCount === undefined
-      ? {}
-      : { grantedRecordCount: fields.grantedRecordCount }),
-    ...(fields.revokedCount === undefined ? {} : { revokedCount: fields.revokedCount }),
-  };
+/**
+ * 字段清单：`[输出键, 取值函数]`。取值为 undefined 的条目整体丢弃，
+ * 因此这里不需要每个字段各写一次条件展开。
+ */
+function fieldPlan(fields: WorkspaceHookTelemetryFields): readonly [string, unknown][] {
+  return [
+    ["workspaceIdentityDigest", fields.workspaceIdentity ? workspaceIdentitySummary(fields.workspaceIdentity) : undefined],
+    ["bundleDigest", fields.bundleDigest ? digestSummary(fields.bundleDigest) : undefined],
+    ["declarationDigest", fields.declarationDigest ? digestSummary(fields.declarationDigest) : undefined],
+    ["reasonCode", fields.reasonCode],
+    ["source", fields.source],
+    ["action", fields.action],
+    ["generation", fields.generation],
+    ["errorMessage", fields.errorMessage ? fields.errorMessage.slice(0, TEXT_BUDGET) : undefined],
+    ["requestItemCount", fields.requestItemCount],
+    ["requestEnabledCount", fields.requestEnabledCount],
+    ["grantedRecordCount", fields.grantedRecordCount],
+    ["revokedCount", fields.revokedCount],
+  ];
 }
 
-/** 统一出口：没有 logger 时静默返回，调用方不需要每个事件点重复判空。 */
+/** 单一出口：没有 logger 时静默返回，调用点不需要各自判空。 */
 export function emitWorkspaceHookTelemetry(
   logger: Logger | undefined,
   event: WorkspaceHookTelemetryEvent,
   fields: WorkspaceHookTelemetryFields = {},
 ): void {
-  if (!logger) return;
-  logger.info(TELEMETRY_MESSAGE, {
-    event,
-    module: TELEMETRY_MODULE,
-    ...optionalFields(fields),
-  });
+  const sink = logger;
+  if (sink === undefined) return;
+  const present = fieldPlan(fields).filter(([, value]) => value !== undefined);
+  sink.info(LOG_TEXT, Object.fromEntries([["event", event], ["module", LOG_MODULE], ...present]));
 }

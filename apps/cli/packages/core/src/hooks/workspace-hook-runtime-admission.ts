@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-// 运行时准入：把信任求值结果变成每个 workspace Hook 的"能不能跑"，并承担
-// 评估刷新、修订校验、admission 状态上报与受限遥测去重。
+// 准入状态机：回答"这条 workspace 声明现在能不能跑"。判定写成有序规则表 + 单一分派器，
+// 刷新、修订校验、状态上报与遥测去重各自独立，避免把拒绝原因埋进嵌套分支。
 import type {
   Logger,
   WorkspaceHookBundleSnapshot,
@@ -53,245 +53,239 @@ export interface WorkspaceHookRuntimeAdmissionOptions {
   snapshot: WorkspaceHookBundleSnapshot;
 }
 
-function waitForAdmission<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
-  if (!signal) return promise;
+/** 拒绝结果的小构造器；统一形状便于规则表直接返回。 */
+function reject(
+  reasonCode: WorkspaceHookReasonCode,
+  extra: { skipLifecycle?: boolean } = {},
+): WorkspaceHookDispatchDecision {
+  return { allowed: false, reasonCode, ...extra };
+}
+
+function abortableWait<T>(pending: Promise<T>, signal?: AbortSignal): Promise<T> {
+  if (!signal) return pending;
   signal.throwIfAborted();
-  return new Promise<T>((resolve, reject) => {
-    const onAbort = () => {
-      signal.removeEventListener("abort", onAbort);
-      reject(signal.reason ?? new Error("Workspace Hook admission aborted"));
+  return new Promise<T>((accept, decline) => {
+    const cancelled = () => {
+      signal.removeEventListener("abort", cancelled);
+      decline(signal.reason ?? new Error("Workspace Hook admission aborted"));
     };
-    signal.addEventListener("abort", onAbort, { once: true });
-    promise.then(
+    signal.addEventListener("abort", cancelled, { once: true });
+    pending.then(
       (value) => {
-        signal.removeEventListener("abort", onAbort);
-        resolve(value);
+        signal.removeEventListener("abort", cancelled);
+        accept(value);
       },
       (error: unknown) => {
-        signal.removeEventListener("abort", onAbort);
-        reject(error);
+        signal.removeEventListener("abort", cancelled);
+        decline(error);
       },
     );
   });
 }
 
+interface SnapshotBook {
+  snapshot: WorkspaceHookBundleSnapshot;
+  digestOf: Map<string, string>;
+}
+
+function indexSnapshot(snapshot: WorkspaceHookBundleSnapshot): Map<string, string> {
+  return new Map(snapshot.hooks.map((hook) => [hook.reviewItemId, hook.hookDeclarationDigest]));
+}
+
 /**
- * 准入状态机。所有拒绝路径都先给出精确 reasonCode 再上报遥测；
- * 遥测按 `event:reasonCode:bundleDigest:declarationDigest:source` 去重，避免每个回合重复刷日志。
+ * 准入状态机。三种"外部原因"（未激活、开关关闭、引导失败）与两种"声明原因"
+ * （快照不匹配、未获授权）都只是规则表里的一行；命中即分派，且每条原因只透传一次遥测。
  */
 export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmissionPort {
   private readonly coordinator: WorkspaceHookTrustCoordinator;
   private readonly enabled: boolean;
   private readonly logger?: Logger;
-  private readonly ready: Promise<void>;
-  private readonly onAdmissionStateChanged?: WorkspaceHookAdmissionStateCallback;
-  private readonly digestByReviewItemId = new Map<string, string>();
-  private readonly emittedTelemetry = new Set<string>();
-
-  private snapshot: WorkspaceHookBundleSnapshot;
+  private readonly readiness: Promise<void>;
+  private readonly notifyAdmissionState?: WorkspaceHookAdmissionStateCallback;
+  private readonly reportedTelemetry = new Set<string>();
+  private book: SnapshotBook;
   private evaluation?: WorkspaceHookSnapshotEvaluation;
-  private validatedRevision?: WorkspaceHookSecurityRevision;
-  private invalidatedReason?: WorkspaceHookReasonCode;
-  private activated = false;
-  private bootstrapFailed = false;
+  private revisionSeen?: WorkspaceHookSecurityRevision;
+  private blockedByInvalidation?: WorkspaceHookReasonCode;
+  private state: "cold" | "ready" | "failed" = "cold";
 
   constructor(options: WorkspaceHookRuntimeAdmissionOptions) {
     this.coordinator = options.coordinator;
     this.enabled = options.enabled ?? true;
     this.logger = options.logger;
-    this.ready = options.ready;
-    this.onAdmissionStateChanged = options.onAdmissionStateChanged;
-    this.snapshot = options.snapshot;
-    this.indexSnapshot(options.snapshot);
+    this.readiness = options.ready;
+    this.notifyAdmissionState = options.onAdmissionStateChanged;
+    this.book = { digestOf: indexSnapshot(options.snapshot), snapshot: options.snapshot };
   }
 
   async activate(source: WorkspaceHookActivationSource, signal?: AbortSignal): Promise<void> {
     signal?.throwIfAborted();
+    const firstTime = this.state === "cold";
 
     if (!this.enabled) {
-      if (!this.activated) {
-        this.activated = true;
-        this.telemetryOnce("workspace_hook.feature_disabled", {
+      if (firstTime) {
+        this.state = "ready";
+        this.reportOnce("workspace_hook.feature_disabled", {
           reasonCode: "workspace_hooks_feature_disabled",
           source,
-          workspaceIdentity: this.snapshot.workspaceIdentity,
+          workspaceIdentity: this.book.snapshot.workspaceIdentity,
         });
-        this.emitAdmissionState();
+        this.publishAdmissionState();
       }
       return;
     }
 
-    if (!this.activated) {
+    if (firstTime) {
+      let bootstrapFailed = false;
       try {
-        await waitForAdmission(this.ready, signal);
+        await abortableWait(this.readiness, signal);
       } catch (error) {
         if (signal?.aborted) throw signal.reason ?? error;
-        // Trust store 引导失败不扩大执行面：置失败标志，主任务与其他来源 Hook 继续。
-        this.bootstrapFailed = true;
+        bootstrapFailed = true;
       }
-      this.activated = true;
+      this.state = bootstrapFailed ? "failed" : "ready";
     }
 
-    this.refreshEvaluationSafely();
-    this.emitAdmissionState();
+    this.recompute({ safe: true });
+    this.publishAdmissionState();
   }
 
   evaluateDispatch(input: WorkspaceHookDispatchInput): WorkspaceHookDispatchDecision {
-    if (!this.matchesSnapshot(input)) {
-      this.telemetryOnce("workspace_hook.snapshot_mismatch", {
-        bundleDigest: input.bundleDigest,
-        declarationDigest: input.hookDeclarationDigest,
+    const snapshot = this.book.snapshot;
+    const mismatch = (fields: WorkspaceHookTelemetryFields) => {
+      this.reportOnce("workspace_hook.snapshot_mismatch", {
         reasonCode: "workspace_hooks_snapshot_mismatch",
-        workspaceIdentity: this.snapshot.workspaceIdentity,
+        workspaceIdentity: snapshot.workspaceIdentity,
+        ...fields,
       });
-      return { allowed: false, reasonCode: "workspace_hooks_snapshot_mismatch" };
-    }
-    if (this.invalidatedReason) return { allowed: false, reasonCode: this.invalidatedReason };
-    if (!this.activated) return { allowed: false, reasonCode: "workspace_hooks_pending_trust" };
-    if (!this.enabled) return { allowed: false, reasonCode: "workspace_hooks_feature_disabled" };
-    if (this.bootstrapFailed) {
-      this.telemetryOnce("workspace_hook.trust_store_failure", {
-        reasonCode: "workspace_hooks_trust_store_corrupt",
-        workspaceIdentity: this.snapshot.workspaceIdentity,
-      });
-      return { allowed: false, reasonCode: "workspace_hooks_trust_store_corrupt" };
-    }
+      return reject("workspace_hooks_snapshot_mismatch");
+    };
 
     if (
-      !this.validatedRevision ||
-      !this.coordinator.validateSecurityRevision(this.snapshot.workspaceIdentity, this.validatedRevision)
-    ) {
-      // 外部写入 Trust store（如设置页预授权）会 bump 修订，这里懒刷新并重发状态，
-      // pendingCount 为 0 也要发，用于清空提示条。
-      this.refreshEvaluation();
-      this.emitAdmissionState();
-    }
-
-    const item = this.evaluation?.items.find(
-      (candidate) => candidate.reviewItemId === input.reviewItemId,
-    );
-    if (!item || item.hookDeclarationDigest !== input.hookDeclarationDigest) {
-      this.telemetryOnce("workspace_hook.snapshot_mismatch", {
-        bundleDigest: this.snapshot.bundleDigest,
+      input.bundleDigest !== undefined &&
+      input.bundleDigest !== snapshot.bundleDigest
+    )
+      return mismatch({
+        bundleDigest: input.bundleDigest,
         declarationDigest: input.hookDeclarationDigest,
-        reasonCode: "workspace_hooks_snapshot_mismatch",
-        workspaceIdentity: this.snapshot.workspaceIdentity,
       });
-      return { allowed: false, reasonCode: "workspace_hooks_snapshot_mismatch" };
+    if (this.book.digestOf.get(input.reviewItemId) !== input.hookDeclarationDigest)
+      return mismatch({
+        bundleDigest: snapshot.bundleDigest,
+        declarationDigest: input.hookDeclarationDigest,
+      });
+
+    if (this.blockedByInvalidation !== undefined)
+      return reject(this.blockedByInvalidation);
+    if (this.state === "cold") return reject("workspace_hooks_pending_trust");
+    if (!this.enabled) return reject("workspace_hooks_feature_disabled");
+    if (this.state === "failed") {
+      this.reportOnce("workspace_hook.trust_store_failure", {
+        reasonCode: "workspace_hooks_trust_store_corrupt",
+        workspaceIdentity: snapshot.workspaceIdentity,
+      });
+      return reject("workspace_hooks_trust_store_corrupt");
     }
-    if (item.effectiveRunnable) return { allowed: true };
 
-    const reasonCode = item.reasonCode ?? "workspace_hooks_blocked_untrusted";
+    const revisionFresh =
+      this.revisionSeen !== undefined &&
+      this.coordinator.validateSecurityRevision(snapshot.workspaceIdentity, this.revisionSeen);
+    if (!revisionFresh) {
+      // 外部改过信任状态（例如设置页预授权）时会走到这里；刷新后必须重发状态，
+      // pendingCount 为 0 也要发，用来清空提示条。
+      this.recompute({ safe: false });
+      this.publishAdmissionState();
+    }
+
+    const evaluated = this.evaluation?.items.find(
+      (item) => item.reviewItemId === input.reviewItemId,
+    );
+    if (
+      evaluated === undefined ||
+      evaluated.hookDeclarationDigest !== input.hookDeclarationDigest
+    )
+      return mismatch({ bundleDigest: snapshot.bundleDigest, declarationDigest: input.hookDeclarationDigest });
+    if (evaluated.effectiveRunnable) return { allowed: true };
+
+    const reasonCode = evaluated.reasonCode ?? "workspace_hooks_blocked_untrusted";
     if (reasonCode === "workspace_hooks_blocked_by_policy")
-      this.telemetryOnce("workspace_hook.policy_blocked", {
-        bundleDigest: this.snapshot.bundleDigest,
-        declarationDigest: item.hookDeclarationDigest,
+      this.reportOnce("workspace_hook.policy_blocked", {
+        bundleDigest: snapshot.bundleDigest,
+        declarationDigest: evaluated.hookDeclarationDigest,
         reasonCode,
-        workspaceIdentity: this.snapshot.workspaceIdentity,
+        workspaceIdentity: snapshot.workspaceIdentity,
       });
-
-    return {
-      allowed: false,
-      reasonCode,
-      ...(item.configuredEnabled ? {} : { skipLifecycle: true }),
-    };
+    return reject(reasonCode, evaluated.configuredEnabled ? {} : { skipLifecycle: true });
   }
 
   getCurrentSnapshot(): WorkspaceHookBundleSnapshot {
-    return this.snapshot;
+    return this.book.snapshot;
   }
 
   /**
-   * 跨 workspaceIdentity 替换是调用方编程错误（混淆了 workspace 边界）：fail-loud 且不改状态。
-   * 调用方需先提交自身写入，并在调用点处理该异常，不能让它冒泡到 turn 级别。
+   * 跨 workspace 换快照属于调用方把边界搞混了：fail-loud，且不改任何状态。
+   * 调用点必须先提交自己的写入，并在本地处理该异常，不能让它上升到 turn。
    */
   replaceSnapshot(snapshot: WorkspaceHookBundleSnapshot): void {
-    if (snapshot.workspaceIdentity !== this.snapshot.workspaceIdentity)
+    if (snapshot.workspaceIdentity !== this.book.snapshot.workspaceIdentity)
       throw new Error("Cannot replace a Workspace Hook snapshot across workspace identities");
 
-    this.snapshot = snapshot;
-    this.digestByReviewItemId.clear();
-    this.indexSnapshot(snapshot);
+    this.book = { digestOf: indexSnapshot(snapshot), snapshot };
     this.evaluation = undefined;
-    this.validatedRevision = undefined;
-    this.invalidatedReason = undefined;
-    if (this.activated) {
-      this.refreshEvaluation();
-      this.emitAdmissionState();
+    this.revisionSeen = undefined;
+    this.blockedByInvalidation = undefined;
+    if (this.state !== "cold") {
+      this.recompute({ safe: false });
+      this.publishAdmissionState();
     }
   }
 
   invalidate(reasonCode: WorkspaceHookReasonCode): void {
-    this.invalidatedReason = reasonCode;
+    this.blockedByInvalidation = reasonCode;
     this.evaluation = undefined;
-    this.validatedRevision = undefined;
+    this.revisionSeen = undefined;
   }
 
-  private indexSnapshot(snapshot: WorkspaceHookBundleSnapshot): void {
-    for (const entry of snapshot.hooks)
-      this.digestByReviewItemId.set(entry.reviewItemId, entry.hookDeclarationDigest);
+  private recompute(input: { safe: boolean }): void {
+    if (!this.enabled || this.state === "failed" || this.blockedByInvalidation !== undefined) return;
+    try {
+      const evaluation = this.coordinator.evaluateSnapshot({ snapshot: this.book.snapshot });
+      this.evaluation = evaluation;
+      this.revisionSeen = evaluation.securityRevision;
+    } catch (error) {
+      // 记录畸形时评估会抛错；不能让它冒泡出 activate（否则整个 turn 一起失败）：
+      // 转成"引导失败"并保持 fail-closed。
+      if (!input.safe) throw error;
+      this.state = "failed";
+      this.evaluation = undefined;
+      this.revisionSeen = undefined;
+    }
   }
 
-  private matchesSnapshot(input: WorkspaceHookDispatchInput): boolean {
-    return (
-      (input.bundleDigest === undefined || input.bundleDigest === this.snapshot.bundleDigest) &&
-      this.digestByReviewItemId.get(input.reviewItemId) === input.hookDeclarationDigest
-    );
-  }
-
-  private emitAdmissionState(): void {
-    if (!this.onAdmissionStateChanged) return;
+  private publishAdmissionState(): void {
+    if (!this.notifyAdmissionState) return;
     const pendingCount = this.evaluation
       ? this.evaluation.items.filter(
           (item) => item.configuredEnabled && item.admissionClass === "pending",
         ).length
       : 0;
-    this.onAdmissionStateChanged({
-      bundleDigest: this.snapshot.bundleDigest,
+    this.notifyAdmissionState({
+      bundleDigest: this.book.snapshot.bundleDigest,
       pendingCount,
-      ...(this.snapshot.workspaceIdentity
-        ? { workspaceIdentity: this.snapshot.workspaceIdentity }
+      ...(this.book.snapshot.workspaceIdentity
+        ? { workspaceIdentity: this.book.snapshot.workspaceIdentity }
         : {}),
     });
   }
 
-  private telemetryOnce(
+  private reportOnce(
     event: WorkspaceHookTelemetryEvent,
     fields: WorkspaceHookTelemetryFields,
   ): void {
-    const key = [
-      event,
-      fields.reasonCode,
-      fields.bundleDigest,
-      fields.declarationDigest,
-      fields.source,
-    ].join(":");
-    if (this.emittedTelemetry.has(key)) return;
-    this.emittedTelemetry.add(key);
+    const fingerprint = [event, fields.reasonCode, fields.bundleDigest, fields.declarationDigest, fields.source].join("|");
+    if (this.reportedTelemetry.has(fingerprint)) return;
+    this.reportedTelemetry.add(fingerprint);
     emitWorkspaceHookTelemetry(this.logger, event, fields);
-  }
-
-  private refreshEvaluation(): void {
-    if (!this.enabled || this.bootstrapFailed || this.invalidatedReason) return;
-    const evaluation = this.coordinator.evaluateSnapshot({ snapshot: this.snapshot });
-    this.evaluation = evaluation;
-    this.validatedRevision = { ...evaluation.securityRevision };
-  }
-
-  /**
-   * `evaluateSnapshot` 在持久记录畸形时会抛错。该异常不得冒泡出 activate
-   * （否则整个 turn 与其他来源 Hook 一并失败）：捕获后置 bootstrapFailed，
-   * 之后 evaluateDispatch 一律按 trust_store_corrupt 拒绝（fail-closed）。
-   */
-  private refreshEvaluationSafely(): void {
-    if (!this.enabled || this.bootstrapFailed || this.invalidatedReason) return;
-    try {
-      this.refreshEvaluation();
-    } catch {
-      this.bootstrapFailed = true;
-      this.evaluation = undefined;
-      this.validatedRevision = undefined;
-    }
   }
 }
 

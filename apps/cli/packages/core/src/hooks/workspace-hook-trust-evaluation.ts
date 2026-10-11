@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-// 单条声明的信任求值（纯函数）：把策略、持久记录、撤销集合与 store 状态折算成一个 trustState，
-// 再映射成契约里的准入分类与 reasonCode。
+// 单条声明的信任折算：输入是"策略 + 记录视图 + 撤销视图 + store 状态"，输出是合同里的
+// 有效状态。判定写成有序规则表，命中即返回，避免可读性差的嵌套分支。
 import {
   WORKSPACE_HOOK_STATE_ADMISSION_MAP,
   workspaceHookEffectiveStateSchema,
@@ -13,68 +13,84 @@ import {
 } from "@knorvia/contracts";
 import type { WorkspaceHookTrustStoreStatus } from "./workspace-hook-trust-types.js";
 
-/** 复合键：workspace 与声明摘要之间用 NUL 分隔，避免分隔歧义。 */
+/** 复合键用 NUL 连接，避免 workspace 文本与摘要拼接歧义。 */
 export function trustKey(workspaceIdentity: string, hookDeclarationDigest: string): string {
   return `${workspaceIdentity}\u0000${hookDeclarationDigest}`;
 }
 
-/**
- * 判断是否存在"同一槽位、不同摘要"的历史记录：声明内容变了但位置/事件/matcher 一致，
- * 说明是修改后的同一条 Hook（stale），而不是一条全新的 Hook（pending）。
- * 缺少槽位字段的旧记录不参与判断，避免把不完整数据误判成 stale。
- */
-function hasStaleSlotRecord(
-  snapshot: WorkspaceHookBundleSnapshot,
-  entry: CanonicalWorkspaceHookEntry,
-  records: Iterable<WorkspaceHookTrustRecord>,
-): boolean {
-  const source = snapshot.sourceFiles[entry.sourceFileIndex];
-  if (!source) return false;
+interface EntryContext {
+  entry: CanonicalWorkspaceHookEntry;
+  snapshot: WorkspaceHookBundleSnapshot;
+  policy: WorkspaceHookPolicy;
+  persistent?: WorkspaceHookTrustRecord;
+  revoked: boolean;
+  storeStatus: WorkspaceHookTrustStoreStatus;
+  records: Iterable<WorkspaceHookTrustRecord>;
+}
 
-  for (const record of records) {
-    if (record.workspaceIdentity !== snapshot.workspaceIdentity) continue;
-    if (record.hookDeclarationDigest === entry.hookDeclarationDigest) continue;
-    if (
-      record.sourceDiscoveryOrderAtGrant === undefined ||
-      record.matcherIndexAtGrant === undefined ||
-      record.hookIndexAtGrant === undefined
-    )
-      continue;
+/** 槽位签名：同一位置/事件/matcher 视为同一把"椅子"，摘要不同即为内容已改。 */
+function slotSignature(source: string, entry: CanonicalWorkspaceHookEntry): string {
+  return [source, entry.event, entry.matcherIndex, entry.hookIndex, entry.matcher ?? ""].join("\u0001");
+}
 
-    const sameSlot =
-      record.eventAtGrant === entry.event &&
-      record.sourcePathAtGrant === entry.sourceRelativePath &&
-      record.sourceDiscoveryOrderAtGrant === source.discoveryOrder &&
-      record.matcherAtGrant === entry.matcher &&
-      record.matcherIndexAtGrant === entry.matcherIndex &&
-      record.hookIndexAtGrant === entry.hookIndex;
-    if (sameSlot) return true;
+function recordSignature(record: WorkspaceHookTrustRecord): string | undefined {
+  if (
+    record.sourceDiscoveryOrderAtGrant === undefined ||
+    record.matcherIndexAtGrant === undefined ||
+    record.hookIndexAtGrant === undefined
+  )
+    return undefined;
+  return [
+    record.sourceDiscoveryOrderAtGrant,
+    record.eventAtGrant,
+    record.matcherIndexAtGrant,
+    record.hookIndexAtGrant,
+    record.matcherAtGrant ?? "",
+  ].join("\u0001");
+}
+
+/** 是否存在"同一槽位、不同摘要"的历史记录（内容被改过）。 */
+function sharesSlotWithOtherVersion(context: EntryContext): boolean {
+  const source = context.snapshot.sourceFiles[context.entry.sourceFileIndex];
+  if (!source || context.persistent || context.revoked) return false;
+
+  const mine = slotSignature(String(source.discoveryOrder), context.entry);
+  for (const record of context.records) {
+    if (record.workspaceIdentity !== context.snapshot.workspaceIdentity) continue;
+    if (record.hookDeclarationDigest === context.entry.hookDeclarationDigest) continue;
+    const theirs = recordSignature(record);
+    if (theirs !== undefined && theirs === mine) return true;
   }
   return false;
 }
 
-function resolveTrustState(input: {
-  entry: CanonicalWorkspaceHookEntry;
-  snapshot: WorkspaceHookBundleSnapshot;
-  policy: WorkspaceHookPolicy;
-  persistent: WorkspaceHookTrustRecord | undefined;
-  revoked: boolean;
-  storeStatus: WorkspaceHookTrustStoreStatus;
-  hasStaleSlot: boolean;
-}): WorkspaceHookTrustState {
-  if (input.policy.mode === "deny") return "blocked_policy";
-  if (input.storeStatus === "corrupt") return "blocked_untrusted";
-  if (input.policy.mode === "allow_trusted_only")
-    return input.persistent ? "trusted_persistent" : "blocked_policy";
-  if (input.persistent) return "trusted_persistent";
-  if (input.revoked) return "revoked";
-  if (input.hasStaleSlot) return "stale_digest";
-  return "pending_trust";
+type Rule = { state: WorkspaceHookTrustState; when: (context: EntryContext) => boolean };
+
+/**
+ * 规则顺序即优先级：策略拒绝 > store 损坏 > 白名单缺记录 > 已授权 > 已撤销 > 内容已改 > 待授权。
+ * 表里只描述"命中条件"，具体字段映射交给契约的准入表。
+ */
+const RULES: readonly Rule[] = [
+  { state: "blocked_policy", when: (context) => context.policy.mode === "deny" },
+  { state: "blocked_untrusted", when: (context) => context.storeStatus === "corrupt" },
+  {
+    state: "blocked_policy",
+    when: (context) => context.policy.mode === "allow_trusted_only" && !context.persistent,
+  },
+  { state: "trusted_persistent", when: (context) => context.persistent !== undefined },
+  { state: "revoked", when: (context) => context.revoked },
+  { state: "stale_digest", when: (context) => sharesSlotWithOtherVersion(context) },
+  { state: "pending_trust", when: () => true },
+];
+
+function classify(context: EntryContext): WorkspaceHookTrustState {
+  const hit = RULES.find((rule) => rule.when(context));
+  return hit ? hit.state : "pending_trust";
 }
 
 /**
- * 求值一条声明。返回值经过契约 schema 校验：admissionClass / reasonCode / effectiveRunnable
- * 必须与 private 判定表一致，任何不一致都会在这里暴露为错误而不是静默放行。
+ * 求值一条声明。返回对象必须通过契约 schema：准入分类、reasonCode 与可运行性
+ * 都要与契约判定表一致，任何不一致会在这里暴露成错误而不是静默放行。
  */
 export function evaluateWorkspaceHookEntry(input: {
   entry: CanonicalWorkspaceHookEntry;
@@ -87,38 +103,36 @@ export function evaluateWorkspaceHookEntry(input: {
   const { entry, snapshot, policy } = input;
   const key = trustKey(snapshot.workspaceIdentity, entry.hookDeclarationDigest);
   const persistent = input.persistentRecords.get(key);
+  const revoked = input.revokedKeys.has(key);
 
-  const trustState = resolveTrustState({
+  const trustState = classify({
     entry,
-    hasStaleSlot:
-      !persistent &&
-      !input.revokedKeys.has(key) &&
-      hasStaleSlotRecord(snapshot, entry, input.persistentRecords.values()),
     persistent,
     policy,
-    revoked: input.revokedKeys.has(key),
+    records: input.persistentRecords.values(),
+    revoked,
     snapshot,
     storeStatus: input.storeStatus,
   });
+  const admission = WORKSPACE_HOOK_STATE_ADMISSION_MAP[trustState];
+  const runnable = admission.admissionClass === "admitted" && entry.configuredEnabled && policy.mode !== "deny";
+  const origin = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath ?? entry.sourceRelativePath;
+  const pairs: readonly (readonly [string, unknown])[] = [
+    ["admissionClass", admission.admissionClass],
+    ["bundleDigest", snapshot.bundleDigest],
+    ["configuredEnabled", entry.configuredEnabled],
+    ["declarationEnabled", entry.declarationEnabled],
+    ["editable", entry.editable],
+    ["effectiveRunnable", runnable],
+    ["hookDeclarationDigest", entry.hookDeclarationDigest],
+    ["reasonCode", admission.reasonCode],
+    ["reviewItemId", entry.reviewItemId],
+    ["runtimeHooksEnabled", entry.runtimeHooksEnabled],
+    ["sourcePaths", [origin]],
+    ["sourceRootEnabled", entry.sourceRootEnabled],
+    ["trustState", trustState],
+    ["workspaceIdentity", snapshot.workspaceIdentity],
+  ];
 
-  const mapped = WORKSPACE_HOOK_STATE_ADMISSION_MAP[trustState];
-  return workspaceHookEffectiveStateSchema.parse({
-    admissionClass: mapped.admissionClass,
-    bundleDigest: snapshot.bundleDigest,
-    configuredEnabled: entry.configuredEnabled,
-    declarationEnabled: entry.declarationEnabled,
-    editable: entry.editable,
-    effectiveRunnable:
-      mapped.admissionClass === "admitted" && entry.configuredEnabled && policy.mode !== "deny",
-    hookDeclarationDigest: entry.hookDeclarationDigest,
-    reasonCode: mapped.reasonCode,
-    reviewItemId: entry.reviewItemId,
-    runtimeHooksEnabled: entry.runtimeHooksEnabled,
-    sourcePaths: [
-      snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath ?? entry.sourceRelativePath,
-    ],
-    sourceRootEnabled: entry.sourceRootEnabled,
-    trustState,
-    workspaceIdentity: snapshot.workspaceIdentity,
-  });
+  return workspaceHookEffectiveStateSchema.parse(Object.fromEntries(pairs));
 }

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-// 审核流程注册表：每个 session 至多一个"当前代"。它只拥有当前代与结算，不持久化、不做 UI。
+// 审核代注册表。每个会话最多有一"代"在等用户决定；代只会向四个终态迁移一次。
+// 结构上刻意不按方法铺开：受理、匹配、迁移、结算各自是一个小函数，由状态表驱动。
 import {
   workspaceHookReviewFlowStateSchema,
   type WorkspaceHookReasonCode,
@@ -43,41 +44,64 @@ export interface WorkspaceHookReviewFlow {
   readonly state: WorkspaceHookReviewFlowState;
 }
 
-interface MutableFlow {
+type TerminalState = "resolved" | "superseded" | "timed_out" | "cancelled";
+
+interface FlowRecord {
   request: WorkspaceHookReviewRequestPayload;
   state: WorkspaceHookReviewFlowState;
   settle: (outcome: WorkspaceHookReviewOutcome) => void;
-  result: Promise<WorkspaceHookReviewOutcome>;
+  now: () => number;
   timer?: ReturnType<typeof setTimeout>;
-  public: WorkspaceHookReviewFlow;
+  publicFlow: WorkspaceHookReviewFlow;
 }
 
-function sameGeneration(
+/** 终态 → 结果载荷。表驱动让"哪一种结束方式给什么结果"一眼可见。 */
+const TERMINAL_OUTCOMES: Record<TerminalState, (reason: WorkspaceHookReasonCode | undefined) => WorkspaceHookReviewOutcome> = {
+  cancelled: (reasonCode) => ({ action: "no_change", reasonCode, reviewItemIds: [] }),
+  resolved: () => ({ action: "no_change", reasonCode: undefined, reviewItemIds: [] }),
+  superseded: (reasonCode) => ({ action: "no_change", reasonCode, reviewItemIds: [] }),
+  timed_out: (reasonCode) => ({ action: "no_change", reasonCode, reviewItemIds: [] }),
+};
+
+const GENERATION_FIELDS = ["reviewFlowId", "generation", "interactionId"] as const;
+const SNAPSHOT_FIELDS = [
+  "sessionId",
+  "taskId",
+  "runId",
+  "remoteSessionId",
+  "workspaceIdentity",
+  "bundleDigest",
+] as const;
+
+function sameFields(
   request: WorkspaceHookReviewRequestPayload,
   target: WorkspaceHookReviewTarget,
+  fields: readonly string[],
 ): boolean {
-  return (
-    request.reviewFlowId === target.reviewFlowId &&
-    request.generation === target.generation &&
-    request.interactionId === target.interactionId
+  return fields.every(
+    (field) =>
+      (request as unknown as Record<string, unknown>)[field] ===
+      (target as unknown as Record<string, unknown>)[field],
   );
 }
 
-function sameSnapshot(
+/** 同一代 = 流程 id、代次与交互 id 都对上（摘要不参与，摘要变的是快照）。 */
+function isSameGeneration(
   request: WorkspaceHookReviewRequestPayload,
   target: WorkspaceHookReviewTarget,
 ): boolean {
-  return (
-    request.sessionId === target.sessionId &&
-    request.taskId === target.taskId &&
-    request.runId === target.runId &&
-    request.remoteSessionId === target.remoteSessionId &&
-    request.workspaceIdentity === target.workspaceIdentity &&
-    request.bundleDigest === target.bundleDigest
-  );
+  return sameFields(request, target, GENERATION_FIELDS);
 }
 
-function sameRequest(
+/** 同一快照 = 会话/任务/运行/远端会话/工作区/摘要全部一致。 */
+function isSameSnapshot(
+  request: WorkspaceHookReviewRequestPayload,
+  target: WorkspaceHookReviewTarget,
+): boolean {
+  return sameFields(request, target, SNAPSHOT_FIELDS);
+}
+
+function isSameRequest(
   left: WorkspaceHookReviewRequestPayload,
   right: WorkspaceHookReviewRequestPayload,
 ): boolean {
@@ -89,74 +113,70 @@ function sameRequest(
   );
 }
 
-const NO_CHANGE = (reasonCode: WorkspaceHookReasonCode | undefined): WorkspaceHookReviewOutcome => ({
-  action: "no_change",
-  reasonCode,
-  reviewItemIds: [],
-});
-
 /**
- * 注册表持有每个 session 的当前代。`open`/`supersede` 是唯一创建代的入口；
- * 三个终态（resolved / superseded / timed_out / cancelled）都只结算一次。
+ * 每个会话一"代"。注册表不读文件、不渲染界面：它只保存当前代、把决定结算一次，
+ * 并由定时器把超时代也结算掉。
  */
 export class WorkspaceHookReviewFlowRegistry {
-  private readonly currentBySession = new Map<string, MutableFlow>();
+  private readonly flows = new Map<string, FlowRecord>();
+  private readonly clock: () => number;
+
+  constructor(options: { now?: () => number } = {}) {
+    this.clock = options.now ?? (() => Date.now());
+  }
 
   open(value: WorkspaceHookReviewRequestPayload): WorkspaceHookReviewFlow {
     const request = workspaceHookReviewRequestPayloadSchema.parse(value);
-    const current = this.currentBySession.get(request.sessionId);
-    if (current && current.state.state === "pending") {
-      if (sameRequest(current.request, request)) return current.public;
+    const current = this.flows.get(request.sessionId);
+    if (current?.state.state === "pending") {
+      if (isSameRequest(current.request, request)) return current.publicFlow;
       throw new Error("A pending Workspace Hook review must be superseded explicitly");
     }
-    const flow = this.createFlow(request);
-    this.currentBySession.set(request.sessionId, flow);
-    return flow.public;
+    const flow = this.create(request);
+    this.flows.set(request.sessionId, flow);
+    return flow.publicFlow;
   }
 
   supersede(
     target: WorkspaceHookReviewTarget,
     replacement: WorkspaceHookReviewRequestPayload,
   ): WorkspaceHookReviewFlow {
-    const current = this.currentBySession.get(target.sessionId);
-    if (!current || !sameGeneration(current.request, target))
+    const current = this.flows.get(target.sessionId);
+    if (!current || !isSameGeneration(current.request, target))
       throw new Error("Cannot supersede an unknown Workspace Hook review generation");
 
     const next = workspaceHookReviewRequestPayloadSchema.parse(replacement);
-    if (
-      next.sessionId !== current.request.sessionId ||
-      next.reviewFlowId !== current.request.reviewFlowId ||
-      next.generation <= current.request.generation
-    )
+    const advancesSameFlow =
+      next.sessionId === current.request.sessionId &&
+      next.reviewFlowId === current.request.reviewFlowId &&
+      next.generation > current.request.generation;
+    if (!advancesSameFlow)
       throw new Error("Replacement must advance the same Workspace Hook review flow");
 
-    this.finish(current, {
-      state: "superseded",
-      supersededByInteractionId: next.interactionId,
-      outcome: NO_CHANGE("workspace_hooks_review_superseded"),
-    });
-    const flow = this.createFlow(next);
-    this.currentBySession.set(next.sessionId, flow);
-    return flow.public;
+    this.transition(current, "superseded", "workspace_hooks_review_superseded", next.interactionId);
+    const flow = this.create(next);
+    this.flows.set(next.sessionId, flow);
+    return flow.publicFlow;
   }
 
   validate(
     target: WorkspaceHookReviewTarget,
     decisionValue: WorkspaceHookReviewDecision,
   ): WorkspaceHookReviewResolveResult {
-    const current = this.currentBySession.get(target.sessionId);
-    if (!current || current.state.state !== "pending" || !sameGeneration(current.request, target))
-      return { accepted: false, reasonCode: "workspace_hooks_review_superseded" };
-    if (!sameSnapshot(current.request, target))
-      return { accepted: false, reasonCode: "workspace_hooks_snapshot_mismatch" };
+    const current = this.flows.get(target.sessionId);
+    const superseded = { accepted: false as const, reasonCode: "workspace_hooks_review_superseded" as const };
+    const mismatch = { accepted: false as const, reasonCode: "workspace_hooks_snapshot_mismatch" as const };
+
+    if (!current || current.state.state !== "pending" || !isSameGeneration(current.request, target))
+      return superseded;
+    if (!isSameSnapshot(current.request, target)) return mismatch;
 
     const decision = workspaceHookReviewDecisionSchema.parse(decisionValue);
-    const reviewItemIds = [...new Set(decision.reviewItemIds)];
-    const known = new Set(current.request.items.map((item) => item.reviewItemId));
-    if (reviewItemIds.some((reviewItemId) => !known.has(reviewItemId)))
-      return { accepted: false, reasonCode: "workspace_hooks_snapshot_mismatch" };
+    const requested = [...new Set(decision.reviewItemIds)];
+    const declared = new Set(current.request.items.map((item) => item.reviewItemId));
+    if (requested.some((reviewItemId) => !declared.has(reviewItemId))) return mismatch;
 
-    return { accepted: true, reviewItemIds };
+    return { accepted: true, reviewItemIds: requested };
   }
 
   resolve(
@@ -166,121 +186,121 @@ export class WorkspaceHookReviewFlowRegistry {
     const validation = this.validate(target, decisionValue);
     if (!validation.accepted) return validation;
 
-    const current = this.currentBySession.get(target.sessionId);
-    if (!current) return { accepted: false, reasonCode: "workspace_hooks_review_superseded" };
+    const current = this.flows.get(target.sessionId);
+    if (!current)
+      return { accepted: false, reasonCode: "workspace_hooks_review_superseded" };
 
     const decision = workspaceHookReviewDecisionSchema.parse(decisionValue);
-    this.finish(current, {
-      outcome: {
+    if (current.state.state === "pending") {
+      this.setState(current, "resolved");
+      current.settle({
         action: decision.action,
         reasonCode: undefined,
         reviewItemIds: validation.reviewItemIds,
-      },
-      state: "resolved",
-    });
+      });
+    }
     return validation;
   }
 
+  /** 失败与"无决定关闭"都要求代与快照都匹配且仍在等待；不匹配时不改状态。 */
   fail(target: WorkspaceHookReviewTarget, reasonCode: WorkspaceHookReasonCode): boolean {
-    const current = this.pendingFlowFor(target);
-    if (!current) return false;
-    this.finish(current, { outcome: NO_CHANGE(reasonCode), state: "cancelled" });
-    return true;
+    return this.close(target, "cancelled", reasonCode);
   }
 
   closeWithoutDecision(target: WorkspaceHookReviewTarget): boolean {
-    const current = this.pendingFlowFor(target);
-    if (!current) return false;
-    this.finish(current, { outcome: NO_CHANGE(undefined), state: "resolved" });
-    return true;
+    return this.close(target, "resolved", undefined);
   }
 
   getCurrentFlow(sessionId: string): WorkspaceHookReviewFlow | undefined {
-    return this.currentBySession.get(sessionId)?.public;
+    return this.flows.get(sessionId)?.publicFlow;
   }
 
   getCurrent(sessionId: string): WorkspaceHookReviewFlowState | undefined {
-    const state = this.currentBySession.get(sessionId)?.state;
+    const state = this.flows.get(sessionId)?.state;
     return state ? { ...state } : undefined;
   }
 
-  private pendingFlowFor(target: WorkspaceHookReviewTarget): MutableFlow | undefined {
-    const current = this.currentBySession.get(target.sessionId);
+  private close(
+    target: WorkspaceHookReviewTarget,
+    state: Extract<TerminalState, "cancelled" | "resolved">,
+    reasonCode: WorkspaceHookReasonCode | undefined,
+  ): boolean {
+    const current = this.flows.get(target.sessionId);
     if (
       !current ||
       current.state.state !== "pending" ||
-      !sameGeneration(current.request, target) ||
-      !sameSnapshot(current.request, target)
+      !isSameGeneration(current.request, target) ||
+      !isSameSnapshot(current.request, target)
     )
-      return undefined;
-    return current;
+      return false;
+    this.transition(current, state, reasonCode);
+    return true;
   }
 
-  private createFlow(request: WorkspaceHookReviewRequestPayload): MutableFlow {
+  private create(request: WorkspaceHookReviewRequestPayload): FlowRecord {
     let settle!: (outcome: WorkspaceHookReviewOutcome) => void;
     const result = new Promise<WorkspaceHookReviewOutcome>((resolve) => {
       settle = resolve;
     });
 
-    const flow = {} as MutableFlow;
-    const publicFlow: WorkspaceHookReviewFlow = {
+    const record = {
+      now: this.clock,
+      request,
+      result,
+      settle,
+      state: workspaceHookReviewFlowStateSchema.parse(
+        Object.fromEntries([
+          ["bundleDigest", request.bundleDigest],
+          ["createdAt", request.createdAt],
+          ["deadlineAt", request.deadlineAt],
+          ["generation", request.generation],
+          ["interactionId", request.interactionId],
+          ["reviewFlowId", request.reviewFlowId],
+          ["sessionId", request.sessionId],
+          ["state", "pending"],
+          ["workspaceIdentity", request.workspaceIdentity],
+        ]),
+      ),
+    } as unknown as FlowRecord;
+
+    record.publicFlow = {
       get state() {
-        return { ...flow.state };
+        return { ...record.state };
       },
       request,
       result,
     };
 
-    Object.assign(flow, {
-      public: publicFlow,
-      request,
-      result,
-      settle: (outcome: WorkspaceHookReviewOutcome) => settle(outcome),
-      state: workspaceHookReviewFlowStateSchema.parse({
-        bundleDigest: request.bundleDigest,
-        createdAt: request.createdAt,
-        deadlineAt: request.deadlineAt,
-        generation: request.generation,
-        interactionId: request.interactionId,
-        reviewFlowId: request.reviewFlowId,
-        sessionId: request.sessionId,
-        state: "pending",
-        workspaceIdentity: request.workspaceIdentity,
-      }),
-    });
-
-    flow.timer = setTimeout(
-      () => {
-        if (flow.state.state !== "pending") return;
-        this.finish(flow, {
-          outcome: NO_CHANGE("workspace_hooks_interaction_timeout"),
-          state: "timed_out",
-        });
-      },
-      Math.max(0, request.deadlineAt - Date.now()),
+    record.timer = setTimeout(
+      () => this.transition(record, "timed_out", "workspace_hooks_interaction_timeout"),
+      Math.max(0, request.deadlineAt - this.clock()),
     );
-    flow.timer.unref?.();
-    return flow;
+    record.timer.unref?.();
+    return record;
   }
 
-  /** 唯一的状态迁移点：只有 pending 可以迁移，重复调用被忽略（result 只结算一次）。 */
-  private finish(
-    flow: MutableFlow,
-    input: {
-      state: "resolved" | "superseded" | "timed_out" | "cancelled";
-      supersededByInteractionId?: string;
-      outcome: WorkspaceHookReviewOutcome;
-    },
+  /** 唯一的迁移入口：非等待态直接忽略，保证结果只结算一次。 */
+  private transition(
+    flow: FlowRecord,
+    state: TerminalState,
+    reasonCode: WorkspaceHookReasonCode | undefined,
+    supersededBy?: string,
   ): void {
     if (flow.state.state !== "pending") return;
     if (flow.timer) clearTimeout(flow.timer);
-    flow.state = workspaceHookReviewFlowStateSchema.parse({
-      ...flow.state,
-      state: input.state,
-      ...(input.supersededByInteractionId
-        ? { supersededByInteractionId: input.supersededByInteractionId }
-        : {}),
-    });
-    flow.settle(input.outcome);
+    this.setState(flow, state, supersededBy);
+    flow.settle(TERMINAL_OUTCOMES[state](reasonCode));
+  }
+
+  private setState(flow: FlowRecord, state: TerminalState, supersededBy?: string): void {
+    const merged: readonly (readonly [string, unknown])[] = [
+      ...Object.entries(flow.state),
+      ["state", state],
+    ];
+    flow.state = workspaceHookReviewFlowStateSchema.parse(
+      Object.fromEntries(
+        supersededBy ? [...merged, ["supersededByInteractionId", supersededBy]] : merged,
+      ),
+    );
   }
 }
