@@ -110,26 +110,47 @@ function configuredRegistrations(options: ConfiguredHookRunnerOptions): HookRegi
   return registrations;
 }
 
-/** workspace 快照条目 → HookConfig（两种类型的字段集合不同，分开构造）。 */
+/** 两种类型的字段集合不同：按 `entry.type` 查表构造，公共字段先归约成条目。 */
+const WORKSPACE_ENTRY_BUILDERS = new Map<
+  string,
+  (entry: CanonicalWorkspaceHookEntry, common: Record<string, unknown>) => HookConfig
+>([
+  [
+    "command",
+    (entry, common) => {
+      const extra: (readonly [string, unknown])[] = [["type", "command"]];
+      if (entry.async !== undefined) extra.push(["async", entry.async]);
+      if (entry.shell !== undefined) extra.push(["shell", entry.shell]);
+      return Object.assign({}, common, Object.fromEntries(extra)) as HookConfig;
+    },
+  ],
+  [
+    "process",
+    (entry, common) => {
+      const extra: (readonly [string, unknown])[] = [["type", "process"]];
+      if (entry.args) extra.push(["args", [...entry.args]]);
+      return Object.assign({}, common, Object.fromEntries(extra)) as HookConfig;
+    },
+  ],
+]);
+
+/** workspace 快照条目 → HookConfig。 */
 function workspaceEntryConfig(
   snapshot: NonNullable<ConfiguredHookRunnerOptions["workspaceHookSnapshot"]>,
   entry: CanonicalWorkspaceHookEntry,
 ): HookConfig {
   const sourcePath = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath;
-  const common = {
-    command: entry.command,
-    source: { kind: "project" as const, ...(sourcePath ? { path: sourcePath } : {}) },
-    ...(entry.statusMessage ? { statusMessage: entry.statusMessage } : {}),
-    timeoutMs: entry.resolvedTimeoutMs,
-  };
-  return entry.type === "command"
-    ? {
-        ...common,
-        type: "command",
-        ...(entry.async === undefined ? {} : { async: entry.async }),
-        ...(entry.shell === undefined ? {} : { shell: entry.shell }),
-      }
-    : { ...common, type: "process", ...(entry.args ? { args: [...entry.args] } : {}) };
+  const commonEntries: (readonly [string, unknown])[] = [
+    ["command", entry.command],
+    ["source", { kind: "project", ...(sourcePath ? { path: sourcePath } : {}) }],
+    ["timeoutMs", entry.resolvedTimeoutMs],
+  ];
+  if (entry.statusMessage) commonEntries.push(["statusMessage", entry.statusMessage]);
+  const common = Object.fromEntries(commonEntries);
+
+  const build = WORKSPACE_ENTRY_BUILDERS.get(entry.type);
+  if (build === undefined) throw new Error(`Unsupported workspace Hook entry type: ${entry.type}`);
+  return build(entry, common);
 }
 
 function workspaceRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
