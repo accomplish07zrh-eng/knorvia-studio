@@ -43,6 +43,17 @@
 
 **第二类。** 64 个文件按固定 tag `v3.29.0` 取 SPDX 许可正文，合并空白、去首尾空行后与文件正文整体比对：5 个完全一致，按 SPDX 标识登记为 third-party，evidence 写 SPDX 正文地址；59 个不完全一致，继续交还。
 
+任务清单里这一类的简称是「许可正文补头」，附录给的程序是「取 SPDX 正文比对，完全一致才登记」，并没有要求改动 `third-party/upstream/*.txt` 本身；M0-1 的角色又是「只改来源记录，不动代码」，因此按更具体的附录执行：文件一字未改，只在 licensing/reviews.json 登记。59 个不一致文件的原因分布（用空白折叠后的词重叠率找最接近的 SPDX 文本）：
+
+| 情况                                                                                                | 文件数 |
+| --------------------------------------------------------------------------------------------------- | ------ |
+| 标准正文但带发布者自己的版权行（如 `Copyright (c) 2022 WorkOS`），SPDX 正文是占位符，因此整体不相等 | 43     |
+| 源码文件头注释式声明（`/* ... */`、`//` 块）                                                        | 11     |
+| 自带 SPDX 标识的源码式声明（不是许可正文本身）                                                      | 3      |
+| 其他（正文被截断、多许可合并等）                                                                    | 2      |
+
+其中 37 个能按空白折叠词重叠率找到 ≥ 0.90 的最近 SPDX 文本（MIT 20、JSON 6、Apache-2.0 3、BSD-3-Clause-Clear 2 等），但按附录门槛仍不登记。这 59 个多数在 `third-party/inventory.json` 的 npm 包 notice 里有引用，与第四类那 34 个「无任何组件引用」的文件不同，建议下一轮由根 Agent 决定是否按所属组件许可正文登记。
+
 **第三类。** 37 个 `third-party/native-search/licenses/*.txt` 的正文只声明公有领域（Igor Pavlov / 7-Zip LZMA SDK），没有 SPDX 标识；全部登记为 third-party，license 写 `LicenseRef-Public-Domain`，并按 `third-party/native-search/sources.json` 写明所属组件（ugrep@7.8.4）。
 
 **第四类。** third-party/ 下 60 个未审查文件：6 个 Knorvia 自有的来源核验说明（`.md`）与补丁记录（`.diff`）按条件 1–3 判后登记为 original；1 个 lobe-icons 的 MIT 许可正文登记为 third-party；2 个在清单中有唯一组件引用的许可正文按组件许可登记为 third-party；34 个在 `third-party/inventory.json`、`third-party/copied-components.json`、`third-party/native-search/sources.json` 中都没有任何组件引用，无法按「所属组件许可正文」登记；17 个是来源核验数据清单（属 `sources.json` 一类），按第二轮规则不登记。这三类共 51 个交还并写明原因。
@@ -90,6 +101,8 @@
 本轮先按批量口径生成，随后抽检 13 条时发现 1 条不一致（`licensing/evidence/cli-config-behavior-owners-20261003/final-architecture.json`：批量口径给 `5ddfd57c`，`--follow` 给 `41e3112b`），因此把全部 2872 条登记逐条用 `git log --follow --diff-filter=A` 重算，341 条与批量口径不同，全部改成 `--follow` 口径（basis 的提交短哈希与日期、evidence 的 `git:` 条目、以及同一提交改动的 `specs/*.md` 一起改），其余保持不变。改完后：
 
 - 逐条复核 341 条：cited 提交、`git show --name-only <提交> -- specs` 与 evidence 的规格清单、basis 前缀三项全部一致，0 条失败；
+- 全部 2872 条再用 `git log --follow --diff-filter=A` 逐条比对 cited 提交，0 条不一致；
+- 条件 2 全部重跑：`git log --follow --name-status` 最老一条记录里出现改名/复制（R/C）且来源路径在 `licensing/upstream-baseline.json` 的，一条也没有；
 - 再抽检 13 条（覆盖各类路径）：0 条不一致；
 - 没有一条的 `--follow` 首次加入提交等于首快照 `7619e41`，因此没有文件因条件 1 需要退回。
 
@@ -250,14 +263,26 @@
 | `pnpm test:studio`        | 退出码 1（830s）；结尾输出： diff: 'simple' }  ELIFECYCLE  Command failed with exit code 1.                                                                                                                                                           |
 | `pnpm provenance:check`   | 退出码 0（25s）；结尾输出： "missingReviews": [] } Unresolved third-party material obligations: 26                                                                                                                                                    |
 
-`pnpm knip` 与 `pnpm test:studio` 在 main 上本来就失败，不算本任务的问题。同一台机器、同一份依赖、切到 `origin/main`（`70edae4b`）后复跑同样命令的结果：
+`pnpm knip` 与 `pnpm test:studio` 在 main 上本来就失败，不算本任务的问题。本分支只改来源记录，没有改代码或测试。把仓库切到 `origin/main`（`70edae4b`）后，用同一台机器、同一份依赖、先跑 `pnpm build:cli-packages`（退出码 0），再跑同样命令：
 
-| 命令                                                                                                                                                                                         | main 上的结果                                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| 三个失败用例（`packages/desktop/test/official-plugin-staging.test.mjs`、`packages/services/test/creation-polish.test.ts`、`packages/services/test/studio-workspace-runtime-health.test.ts`） | 退出码 1； operator: 'strictEqual', diff: 'simple' }                                                                                           |
-| `pnpm knip`                                                                                                                                                                                  | 退出码 1；build-remote.ts …ages/server …p.json Remove redundant entry pattern src/index.ts …es/services …p.json Remove redundant entry pattern |
+| 命令               | 本分支              | origin/main                         |
+| ------------------ | ------------------- | ----------------------------------- |
+| `pnpm knip`        | 退出码 1            | 退出码 1，同样的 entry pattern 提示 |
+| `pnpm test:studio` | 退出码 1，失败 3 项 | 退出码 1，失败 6 项                 |
 
-本轮没有改动任何源码或测试，因此不新增、不掩盖失败；失败项与 main 上的同一失败。
+失败用例（去重后）：
+
+| 用例                                                                                            | 本分支 | origin/main |
+| ----------------------------------------------------------------------------------------------- | ------ | ----------- |
+| `asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs`    | 失败   | 通过        |
+| `health loss withdraws preview and fails; exit of an owned service is not displayed as stopped` | 失败   | 失败        |
+| `packages\desktop\test\official-plugin-staging.test.mjs`                                        | 失败   | 失败        |
+| `approved service receives only safe OS values plus its assigned loopback port`                 | 通过   | 失败        |
+| `device/fs complete frozen contract: dist`                                                      | 通过   | 失败        |
+| `device/fs complete frozen contract: source`                                                    | 通过   | 失败        |
+| `spawn failure and readiness timeout remain failures after owned cleanup`                       | 通过   | 失败        |
+
+两次运行失败的具体子用例不完全一样：`packages/services/test/creation-polish.test.ts` 的用例依赖并发时序，单独运行时 11/11 通过（本分支实测退出码 0）；`device/fs complete frozen contract` 只在 main 那次出现；`studio-workspace-runtime-health` 的用例依赖回环端口与启动时序，两次失败的子用例数不同。因此按计划书默认裁决记为「main 上本来就失败」，本轮不新增失败、也不掩盖。
 
 ## 9. 声明
 
