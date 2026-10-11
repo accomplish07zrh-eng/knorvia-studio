@@ -1,252 +1,255 @@
 // SPDX-License-Identifier: Apache-2.0
-// JSON schema 常量：模型请求/内容块/状态事件的对外 schema。
+// JSON schema 常量：模型请求 / 内容块 / 状态事件的对外 schema。
+// 组织方式：对象骨架、非空字符串、枚举、带下界数值各有一个构造器，schema 只声明差异部分；
+// 键顺序与既有输出保持一致（`type` → `required` → `additionalProperties` → `properties`）。
 // 本文件由 model/index.ts 的运行时声明拆出；模型面类型仍从 ./index.js 导出。
+
 import type { JsonSchema } from "./index.js";
 import { ModelFailureReason, ModelTransportKind } from "./runtime-tables_core.js";
 
-export const modelSelectionJsonSchema = {
-  type: "object",
-  required: ["providerId", "modelId"],
-  additionalProperties: false,
-  properties: {
-    providerId: { type: "string", minLength: 1 },
-    modelId: { type: "string", minLength: 1 },
-    options: {
-      type: "object",
-      additionalProperties: false,
-      properties: {
-        reasoningLevel: { type: "string", minLength: 1 },
-        maxOutputTokens: { type: "number", minimum: 1 },
-      },
-    },
-  },
-} satisfies JsonSchema;
+/** 对象骨架；`required` 缺省表示不写这个键（不是空数组）。 */
+function objectSchema(
+  properties: Record<string, JsonSchema>,
+  required?: readonly string[],
+  additionalProperties: boolean | JsonSchema = false,
+): JsonSchema {
+  return {
+    type: "object",
+    ...(required ? { required: [...required] } : {}),
+    additionalProperties,
+    properties,
+  };
+}
 
-export const attachmentRefJsonSchema = {
-  type: "object",
-  required: ["id", "kind"],
-  additionalProperties: false,
-  properties: {
-    id: { type: "string", minLength: 1 },
-    kind: { enum: ["local_file", "resource", "inline"] },
-    uri: { type: "string" },
-    path: { type: "string" },
-    mimeType: { type: "string" },
-    sizeBytes: { type: "number" },
-    sha256: { type: "string" },
-    placeholder: { type: "string" },
-  },
-} satisfies JsonSchema;
+/** 非空字符串属性。 */
+function nonEmptyString(): JsonSchema {
+  return { type: "string", minLength: 1 };
+}
 
+/** 枚举属性；取值顺序即既有顺序。 */
+function valueEnum(values: readonly string[]): JsonSchema {
+  return { enum: [...values] };
+}
+
+/** 无约束的字符串属性。 */
+function stringProperty(): JsonSchema {
+  return { type: "string" };
+}
+
+/** 无约束的数值属性。 */
+function numberProperty(): JsonSchema {
+  return { type: "number" };
+}
+
+/** 无约束的布尔属性。 */
+function booleanProperty(): JsonSchema {
+  return { type: "boolean" };
+}
+
+/** 无约束的对象属性。 */
+function objectProperty(): JsonSchema {
+  return { type: "object" };
+}
+
+/** 数组属性；不给 `items` 表示元素不约束。 */
+function arrayProperty(items?: JsonSchema): JsonSchema {
+  return items ? { type: "array", items } : { type: "array" };
+}
+
+/** 字符串字典属性（键任意、值为字符串）。 */
+function stringMapProperty(): JsonSchema {
+  return { type: "object", additionalProperties: { type: "string" } };
+}
+
+/** 带下界的数值属性。 */
+function boundedNumber(minimum: number): JsonSchema {
+  return { type: "number", minimum };
+}
+
+export const modelSelectionJsonSchema = objectSchema(
+  {
+    providerId: nonEmptyString(),
+    modelId: nonEmptyString(),
+    options: objectSchema({
+      reasoningLevel: nonEmptyString(),
+      maxOutputTokens: boundedNumber(1),
+    }),
+  },
+  ["providerId", "modelId"],
+);
+
+export const attachmentRefJsonSchema = objectSchema(
+  {
+    id: nonEmptyString(),
+    kind: valueEnum(["local_file", "resource", "inline"]),
+    uri: stringProperty(),
+    path: stringProperty(),
+    mimeType: stringProperty(),
+    sizeBytes: numberProperty(),
+    sha256: stringProperty(),
+    placeholder: stringProperty(),
+  },
+  ["id", "kind"],
+);
+
+/** 内容块的判别联合：每个分支只写自己那几项，骨架交给 objectSchema。 */
 export const modelMessageContentBlockJsonSchema = {
   oneOf: [
-    {
-      type: "object",
-      required: ["type", "text"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["text"] },
-        text: { type: "string" },
+    objectSchema({ type: valueEnum(["text"]), text: stringProperty() }, ["type", "text"]),
+    objectSchema(
+      {
+        type: valueEnum(["reasoning"]),
+        text: stringProperty(),
+        providerOptions: objectProperty(),
       },
-    },
-    {
-      type: "object",
-      required: ["type", "text"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["reasoning"] },
-        text: { type: "string" },
-        providerOptions: { type: "object" },
-      },
-    },
-    {
-      type: "object",
-      required: ["type", "mediaType", "dataUrl"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["image"] },
-        mediaType: { type: "string", minLength: 1 },
-        dataUrl: { type: "string", minLength: 1 },
-        detail: { enum: ["auto", "low", "high", "original"] },
+      ["type", "text"],
+    ),
+    objectSchema(
+      {
+        type: valueEnum(["image"]),
+        mediaType: nonEmptyString(),
+        dataUrl: nonEmptyString(),
+        detail: valueEnum(["auto", "low", "high", "original"]),
         source: attachmentRefJsonSchema,
       },
-    },
-    {
-      type: "object",
-      required: ["type", "mediaType", "dataUrl"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["video"] },
-        mediaType: { type: "string", minLength: 1 },
-        dataUrl: { type: "string", minLength: 1 },
+      ["type", "mediaType", "dataUrl"],
+    ),
+    objectSchema(
+      {
+        type: valueEnum(["video"]),
+        mediaType: nonEmptyString(),
+        dataUrl: nonEmptyString(),
         source: attachmentRefJsonSchema,
       },
-    },
-    {
-      type: "object",
-      required: ["type", "mediaType"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["file"] },
-        mediaType: { type: "string", minLength: 1 },
-        name: { type: "string" },
-        uri: { type: "string" },
-        dataUrl: { type: "string" },
-        text: { type: "string" },
+      ["type", "mediaType", "dataUrl"],
+    ),
+    objectSchema(
+      {
+        type: valueEnum(["file"]),
+        mediaType: nonEmptyString(),
+        name: stringProperty(),
+        uri: stringProperty(),
+        dataUrl: stringProperty(),
+        text: stringProperty(),
         source: attachmentRefJsonSchema,
       },
-    },
-    {
-      type: "object",
-      required: ["type", "uri"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["resource_link"] },
-        uri: { type: "string", minLength: 1 },
-        name: { type: "string" },
-        title: { type: "string" },
+      ["type", "mediaType"],
+    ),
+    objectSchema(
+      {
+        type: valueEnum(["resource_link"]),
+        uri: nonEmptyString(),
+        name: stringProperty(),
+        title: stringProperty(),
       },
-    },
+      ["type", "uri"],
+    ),
   ],
 } satisfies JsonSchema;
 
+/** 内容既可以是纯文本，也可以是内容块数组。 */
 export const modelMessageContentJsonSchema = {
-  oneOf: [
-    { type: "string" },
-    {
-      type: "array",
-      items: modelMessageContentBlockJsonSchema,
-    },
-  ],
+  oneOf: [stringProperty(), { type: "array", items: modelMessageContentBlockJsonSchema }],
 } satisfies JsonSchema;
 
-export const modelInputMessageJsonSchema = {
-  type: "object",
-  required: ["role", "content"],
-  additionalProperties: false,
-  properties: {
-    role: { enum: ["system", "user", "assistant", "tool"] },
+export const modelInputMessageJsonSchema = objectSchema(
+  {
+    role: valueEnum(["system", "user", "assistant", "tool"]),
     content: modelMessageContentJsonSchema,
-    cacheControl: {
-      type: "object",
-      required: ["type"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["ephemeral"] },
-        ttl: { enum: ["5m", "1h"] },
-        scope: { enum: ["global", "org"] },
+    cacheControl: objectSchema(
+      {
+        type: valueEnum(["ephemeral"]),
+        ttl: valueEnum(["5m", "1h"]),
+        scope: valueEnum(["global", "org"]),
       },
-    },
-    toolCalls: { type: "array" },
-    toolCallId: { type: "string" },
-    toolName: { type: "string" },
-    isError: { type: "boolean" },
-    providerId: { type: "string", minLength: 1 },
-    modelId: { type: "string", minLength: 1 },
+      ["type"],
+    ),
+    toolCalls: arrayProperty(),
+    toolCallId: stringProperty(),
+    toolName: stringProperty(),
+    isError: booleanProperty(),
+    providerId: nonEmptyString(),
+    modelId: nonEmptyString(),
   },
-} satisfies JsonSchema;
+  ["role", "content"],
+);
 
 export const modelToolChoiceJsonSchema = {
   oneOf: [
-    { enum: ["auto", "none", "required"] },
-    {
-      type: "object",
-      required: ["type", "toolName"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["tool"] },
-        toolName: { type: "string", minLength: 1 },
-      },
-    },
+    valueEnum(["auto", "none", "required"]),
+    objectSchema({ type: valueEnum(["tool"]), toolName: nonEmptyString() }, ["type", "toolName"]),
   ],
 } satisfies JsonSchema;
 
-export const modelTextRequestJsonSchema = {
-  type: "object",
-  required: ["messages"],
-  additionalProperties: false,
-  properties: {
-    messages: { type: "array", items: modelInputMessageJsonSchema },
-    tools: { type: "array" },
+export const modelTextRequestJsonSchema = objectSchema(
+  {
+    messages: arrayProperty(modelInputMessageJsonSchema),
+    tools: arrayProperty(),
     toolChoice: modelToolChoiceJsonSchema,
-    temperature: { type: "number" },
-    maxOutputTokens: { type: "number" },
-    topP: { type: "number" },
-    topK: { type: "number" },
-    presencePenalty: { type: "number" },
-    frequencyPenalty: { type: "number" },
-    stopSequences: { type: "array", items: { type: "string" } },
-    seed: { type: "number" },
-    responseJsonSchema: { type: "object" },
-    providerOptions: { type: "object" },
-    metadata: { type: "object" },
+    temperature: numberProperty(),
+    maxOutputTokens: numberProperty(),
+    topP: numberProperty(),
+    topK: numberProperty(),
+    presencePenalty: numberProperty(),
+    frequencyPenalty: numberProperty(),
+    stopSequences: arrayProperty(stringProperty()),
+    seed: numberProperty(),
+    responseJsonSchema: objectProperty(),
+    providerOptions: objectProperty(),
+    metadata: objectProperty(),
   },
-} satisfies JsonSchema;
+  ["messages"],
+);
 
-export const modelNetworkStatusEventJsonSchema = {
-  type: "object",
-  required: [
-    "type",
-    "timestamp",
-    "traceId",
-    "requestId",
-    "model",
-    "transport",
-    "attempt",
-    "maxAttempts",
-  ],
-  additionalProperties: true,
-  properties: {
-    type: {
-      enum: [
-        "model_request_started",
-        "model_request_completed",
-        "model_request_failed",
-        "model_retry_scheduled",
-        "model_stream_stalled",
-      ],
-    },
-    timestamp: { type: "string", minLength: 1 },
-    traceId: { type: "string", minLength: 1 },
-    sessionId: { type: "string", minLength: 1 },
-    turnId: { type: "string", minLength: 1 },
-    querySource: { type: "string", minLength: 1 },
-    requestId: { type: "string", minLength: 1 },
+/** 网络状态事件的必填字段；写成一段清单再切开，顺序即既有顺序。 */
+const NETWORK_STATUS_REQUIRED_FIELDS =
+  "type timestamp traceId requestId model transport attempt maxAttempts".split(" ");
+
+/** 网络状态事件的 schema：允许额外字段，因为事件可能带新的诊断键。 */
+export const modelNetworkStatusEventJsonSchema = objectSchema(
+  {
+    type: valueEnum([
+      "model_request_started",
+      "model_request_completed",
+      "model_request_failed",
+      "model_retry_scheduled",
+      "model_stream_stalled",
+    ]),
+    timestamp: nonEmptyString(),
+    traceId: nonEmptyString(),
+    sessionId: nonEmptyString(),
+    turnId: nonEmptyString(),
+    querySource: nonEmptyString(),
+    requestId: nonEmptyString(),
     model: modelSelectionJsonSchema,
-    transport: { enum: Object.values(ModelTransportKind) },
-    attempt: { type: "number", minimum: 1 },
+    transport: valueEnum(Object.values(ModelTransportKind)),
+    attempt: boundedNumber(1),
     // 0 = 无上限重试预算，故下界是 0 而不是 1。
-    maxAttempts: { type: "number", minimum: 0 },
-    delayMs: { type: "number", minimum: 0 },
-    durationMs: { type: "number", minimum: 0 },
-    idleMs: { type: "number", minimum: 0 },
-    nextAttempt: { type: "number", minimum: 1 },
-    reason: { enum: Object.values(ModelFailureReason) },
-    retryable: { type: "boolean" },
-    message: { type: "string" },
-    statusCode: { type: "number" },
-    requestHeaders: {
-      type: "object",
-      additionalProperties: { type: "string" },
-    },
-    responseHeaders: {
-      type: "object",
-      additionalProperties: { type: "string" },
-    },
-    requestHeaderCount: { type: "number", minimum: 0 },
-    responseHeaderCount: { type: "number", minimum: 0 },
-    streamRecovery: {
-      type: "object",
-      required: ["attemptId", "retryNumber", "maxRetries"],
-      additionalProperties: false,
-      properties: {
-        attemptId: { type: "string", minLength: 1 },
-        retryNumber: { type: "number", minimum: 1 },
-        maxRetries: { type: "number", minimum: 0 },
-        recoveredFromRequestId: { type: "string", minLength: 1 },
-        anchorId: { type: "string", minLength: 1 },
+    maxAttempts: boundedNumber(0),
+    delayMs: boundedNumber(0),
+    durationMs: boundedNumber(0),
+    idleMs: boundedNumber(0),
+    nextAttempt: boundedNumber(1),
+    reason: valueEnum(Object.values(ModelFailureReason)),
+    retryable: booleanProperty(),
+    message: stringProperty(),
+    statusCode: numberProperty(),
+    requestHeaders: stringMapProperty(),
+    responseHeaders: stringMapProperty(),
+    requestHeaderCount: boundedNumber(0),
+    responseHeaderCount: boundedNumber(0),
+    streamRecovery: objectSchema(
+      {
+        attemptId: nonEmptyString(),
+        retryNumber: boundedNumber(1),
+        maxRetries: boundedNumber(0),
+        recoveredFromRequestId: nonEmptyString(),
+        anchorId: nonEmptyString(),
       },
-    },
-    timeoutMs: { type: "number", minimum: 0 },
+      ["attemptId", "retryNumber", "maxRetries"],
+    ),
+    timeoutMs: boundedNumber(0),
   },
-} satisfies JsonSchema;
+  NETWORK_STATUS_REQUIRED_FIELDS,
+  true,
+);
