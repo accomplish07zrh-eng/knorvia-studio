@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: Apache-2.0
+// 单个会话事件 → 投影 changes 的分派表。
+// 组织方式：每个事件族一个 handlers 注册表（表驱动分派），表外的事件类型统一落到空 changes，
+// 但仍然走同一个 commit；这样冷重建与增量归约共用一条事实路径。
+
 import type {
   ActiveToolCall,
   PendingPermission,
@@ -60,7 +65,19 @@ import type {
   StreamingToolLedgerPayload,
 } from "./stream-recovery.events.js";
 
-function toolChanges(
+/** 一个事件类型的处理器：只算 changes，不做提交。 */
+type EventHandler = (
+  projection: SessionProjection,
+  event: SessionEvent,
+) => SessionProjectionChanges;
+
+/** 没有任何领域影响时的返回值；未知事件也走它。 */
+const NO_CHANGES: SessionProjectionChanges = {};
+
+// ── 工具调用与权限 ────────────────────────────────────────────────
+
+/** 覆盖 activeToolCalls 里同 toolCallId 的字段；没有命中就不动。 */
+function patchActiveToolCall(
   projection: SessionProjection,
   toolCallId: string,
   fields: Partial<ActiveToolCall>,
@@ -70,7 +87,8 @@ function toolChanges(
   );
 }
 
-function permissionSettlementChanges(
+/** 权限了结：待批列表移除该 tool call，同时把工具调用状态推进到给定状态。 */
+function settlePermission(
   projection: SessionProjection,
   toolCallId: string,
   status: ActiveToolCall["status"],
@@ -79,9 +97,11 @@ function permissionSettlementChanges(
     pendingPermissions: projection.pendingPermissions.filter(
       (row) => row.toolCallId !== toolCallId,
     ),
-    activeToolCalls: toolChanges(projection, toolCallId, { status }),
+    activeToolCalls: patchActiveToolCall(projection, toolCallId, { status }),
   };
 }
+
+// ── 模型与目标完成校验 ────────────────────────────────────────────
 
 function modelCompletionChanges(
   projection: SessionProjection,
@@ -95,33 +115,34 @@ function modelCompletionChanges(
       ),
     };
   }
-  const mainContext =
+  // 只有主会话可见的上下文才代表「当前窗口用了多少」；sidecar 用量与缺失用量都不能把旧值清零。
+  const belongsToMainContext =
     payload.querySource === undefined
       ? payload.stopReason !== "tool_internal"
       : payload.querySource === "main_turn";
-  // Sidecar usage 不代表主会话可见上下文；缺失 usage 也不能把旧 context 清零。
-  if (!mainContext) return {};
+  if (!belongsToMainContext) return NO_CHANGES;
   const contextUsed = getModelUsageContextTokens(payload.usage);
-  return contextUsed === undefined ? {} : { contextUsed };
+  return contextUsed === undefined ? NO_CHANGES : { contextUsed };
 }
 
+/** 目标完成校验：时间线按「verificationId 命中，或同一目标同一迭代号」认定为同一条线， 因此 started/completed 重放只会推进那一行，不会留下重影。失败或取消时同时补一条兜底结论。 */
 function goalVerificationChanges(
   projection: SessionProjection,
   payload: TargetCompletionVerificationPayload,
   timestamp: Date,
 ): SessionProjectionChanges {
   const timeline = projection.targetCompletionVerificationTimeline;
-  const previous = timeline.find((row) => {
-    if (row.verificationId === payload.verificationId) return true;
-    return (
-      payload.goalIteration !== undefined &&
-      row.targetId === payload.targetId &&
-      row.goalIteration === payload.goalIteration
-    );
-  });
+  const previous = timeline.find(
+    (row) =>
+      row.verificationId === payload.verificationId ||
+      (payload.goalIteration !== undefined &&
+        row.targetId === payload.targetId &&
+        row.goalIteration === payload.goalIteration),
+  );
   const startedAt = previous?.startedAt ?? (payload.status === "started" ? timestamp : undefined);
   const assistantAnchor = payload.anchorAssistantMessageId ?? previous?.anchorAssistantMessageId;
   const turnAnchor = payload.anchorTurnId ?? previous?.anchorTurnId;
+
   const next: SessionProjection["targetCompletionVerificationTimeline"][number] = {
     targetId: payload.targetId,
     status: payload.status,
@@ -133,8 +154,8 @@ function goalVerificationChanges(
     ...(startedAt ? { startedAt } : {}),
     updatedAt: timestamp,
   };
+
   const changes: SessionProjectionChanges = {
-    // 按既有目标 iteration 身份及命中引用替换，started/completed 重放不能生成重复横线。
     targetCompletionVerificationTimeline: previous
       ? timeline.map((row) => (row === previous ? next : row))
       : appendProjectionRow(timeline, next),
@@ -152,239 +173,217 @@ function goalVerificationChanges(
   return changes;
 }
 
-function changesForEvent(
-  projection: SessionProjection,
-  event: SessionEvent,
-): SessionProjectionChanges {
-  switch (event.type) {
-    case SessionEventType.SessionCreated: {
-      const payload = event.payload as SessionCreatedPayload;
-      return {
-        id: event.sessionId,
-        mode: payload.mode,
-        planEnabled: payload.planEnabled ?? payload.mode === "plan",
-        contextWindow: payload.contextWindow,
-        createdAt: event.timestamp,
-        status: "idle",
-      };
-    }
-    case SessionEventType.SessionModeChanged:
-      return sessionModeChanges(projection, event.payload as SessionModeChangedPayload);
-    case SessionEventType.TurnStarted:
-      // 新轮被接受后，旧 provider 错误不再是当前任务事实；cold rebuild 也必须清除横幅。
-      return {
-        currentTurnId: event.turnId,
-        lastError: undefined,
-        turnCount: projection.turnCount + 1,
-        status: "running",
-      };
-    case SessionEventType.TurnComplete:
-      return {
-        status: "idle",
-        totalTokenCount:
-          projection.totalTokenCount + (event.payload as TurnCompletePayload).tokenCount,
-      };
-    case SessionEventType.TurnError: {
-      const error = (event.payload as TurnErrorPayload).error;
-      return {
-        status: "error",
-        lastError: {
-          type: error.type,
-          ...(error.code ? { code: error.code } : {}),
-          message: error.message,
-          ...(error.detail ? { detail: error.detail } : {}),
-          ...(error.attribution ? { attribution: error.attribution } : {}),
-        },
-      };
-    }
-    case SessionEventType.ModelComplete:
-      return modelCompletionChanges(projection, event.payload as ModelCompletePayload);
-    case SessionEventType.TargetChanged: {
-      const payload = event.payload as TargetChangedPayload;
-      const changes: SessionProjectionChanges = {
-        target: payload.target,
-        targetCompletionVerifications: projection.targetCompletionVerifications,
-        targetCompletionVerificationTimeline: projection.targetCompletionVerificationTimeline,
-      };
-      if (
-        payload.action === "set" &&
-        payload.previousTarget?.targetID !== payload.target?.targetID
-      ) {
-        changes.targetCompletionVerifications = [];
-        changes.targetCompletionVerificationTimeline = [];
-      }
-      return changes;
-    }
-    case SessionEventType.TargetCompletionVerification:
-      return goalVerificationChanges(
-        projection,
-        event.payload as TargetCompletionVerificationPayload,
-        event.timestamp,
-      );
-    case SessionEventType.TurnSteerQueued:
-      return queueAdmissionChanges(projection, event);
-    case SessionEventType.TurnSteerDeliveryChanged:
-      return queueDeliveryChanges(projection, event.payload as TurnSteerDeliveryChangedPayload);
-    case SessionEventType.TurnSteerReordered:
-      return queueOrderChanges(projection, event.payload as TurnSteerReorderedPayload);
-    case SessionEventType.TurnSteerDrained:
-      return queueRemovalChanges(
-        projection,
-        (event.payload as TurnSteerDrainedPayload).pendingInputIds,
-      );
-    case SessionEventType.TurnSteerDiscarded:
-      return queueRemovalChanges(
-        projection,
-        (event.payload as TurnSteerDiscardedPayload).pendingInputIds,
-      );
-    case SessionEventType.ToolCallScheduled: {
-      const payload = event.payload as ToolCallScheduledPayload;
-      return {
-        activeToolCalls: appendProjectionRow<ActiveToolCall>(projection.activeToolCalls, {
-          toolCallId: payload.toolCallId,
-          toolName: payload.toolName,
-          status: "pending",
-        }),
-      };
-    }
-    case SessionEventType.ToolCallStarted: {
-      const payload = event.payload as ToolCallStartedPayload;
-      return {
-        activeToolCalls: toolChanges(projection, payload.toolCallId, {
-          status: "running",
-          startedAt: payload.startedAt,
-        }),
-      };
-    }
-    case SessionEventType.ToolCallResult: {
-      const payload = event.payload as ToolCallResultPayload;
-      return {
-        activeToolCalls: toolChanges(projection, payload.toolCallId, {
-          status: payload.result.success ? "completed" : "failed",
-        }),
-      };
-    }
-    case SessionEventType.ToolCallError:
-      return {
-        activeToolCalls: toolChanges(
-          projection,
-          (event.payload as ToolCallErrorPayload).toolCallId,
-          {
-            status: "failed",
-          },
-        ),
-      };
-    case SessionEventType.ToolBatchComplete: {
-      const finished = new Set<string>((event.payload as ToolBatchCompletePayload).toolCallIds);
-      // Tool batch 收口后仍可能请求模型，只有 TurnComplete 将 session 转回 idle。
-      return {
-        activeToolCalls: projection.activeToolCalls.filter((row) => !finished.has(row.toolCallId)),
-      };
-    }
-    case SessionEventType.PermissionRequested: {
-      const payload = event.payload as PermissionRequestedPayload;
-      const request: PendingPermission = {
-        input: payload.input,
-        reason: payload.reason,
-        requestId: payload.requestId,
+// ── 事件类型 → 处理函数 ───────────────────────────────────────────
+
+const HANDLERS: Partial<Record<SessionEventType, EventHandler>> = {
+  [SessionEventType.SessionCreated]: (projection, event) => {
+    const payload = event.payload as SessionCreatedPayload;
+    return {
+      id: event.sessionId,
+      mode: payload.mode,
+      planEnabled: payload.planEnabled ?? payload.mode === "plan",
+      contextWindow: payload.contextWindow,
+      createdAt: event.timestamp,
+      status: "idle",
+    };
+  },
+  [SessionEventType.SessionModeChanged]: (projection, event) =>
+    sessionModeChanges(projection, event.payload as SessionModeChangedPayload),
+  // 新轮被接受后，上一轮的 provider 错误不再是当前事实；冷重建也必须据此清掉错误横幅。
+  [SessionEventType.TurnStarted]: (projection, event) => ({
+    currentTurnId: event.turnId,
+    lastError: undefined,
+    turnCount: projection.turnCount + 1,
+    status: "running",
+  }),
+  [SessionEventType.TurnComplete]: (projection, event) => ({
+    status: "idle",
+    totalTokenCount: projection.totalTokenCount + (event.payload as TurnCompletePayload).tokenCount,
+  }),
+  [SessionEventType.TurnError]: (projection, event) => {
+    const error = (event.payload as TurnErrorPayload).error;
+    return {
+      status: "error",
+      lastError: {
+        type: error.type,
+        ...(error.code ? { code: error.code } : {}),
+        message: error.message,
+        ...(error.detail ? { detail: error.detail } : {}),
+        ...(error.attribution ? { attribution: error.attribution } : {}),
+      },
+    };
+  },
+  [SessionEventType.ModelComplete]: (projection, event) =>
+    modelCompletionChanges(projection, event.payload as ModelCompletePayload),
+  [SessionEventType.TargetChanged]: (projection, event) => {
+    const payload = event.payload as TargetChangedPayload;
+    // 换目标（targetID 变了）就把完成校验的历史整段清掉，否则旧目标的横线会挂在新目标上。
+    const changedTarget =
+      payload.action === "set" && payload.previousTarget?.targetID !== payload.target?.targetID;
+    return {
+      target: payload.target,
+      targetCompletionVerifications: changedTarget ? [] : projection.targetCompletionVerifications,
+      targetCompletionVerificationTimeline: changedTarget
+        ? []
+        : projection.targetCompletionVerificationTimeline,
+    };
+  },
+  [SessionEventType.TargetCompletionVerification]: (projection, event) =>
+    goalVerificationChanges(
+      projection,
+      event.payload as TargetCompletionVerificationPayload,
+      event.timestamp,
+    ),
+  [SessionEventType.TurnSteerQueued]: (projection, event) =>
+    queueAdmissionChanges(projection, event),
+  [SessionEventType.TurnSteerDeliveryChanged]: (projection, event) =>
+    queueDeliveryChanges(projection, event.payload as TurnSteerDeliveryChangedPayload),
+  [SessionEventType.TurnSteerReordered]: (projection, event) =>
+    queueOrderChanges(projection, event.payload as TurnSteerReorderedPayload),
+  [SessionEventType.TurnSteerDrained]: (projection, event) =>
+    queueRemovalChanges(projection, (event.payload as TurnSteerDrainedPayload).pendingInputIds),
+  [SessionEventType.TurnSteerDiscarded]: (projection, event) =>
+    queueRemovalChanges(projection, (event.payload as TurnSteerDiscardedPayload).pendingInputIds),
+  [SessionEventType.ToolCallScheduled]: (projection, event) => {
+    const payload = event.payload as ToolCallScheduledPayload;
+    return {
+      activeToolCalls: appendProjectionRow<ActiveToolCall>(projection.activeToolCalls, {
         toolCallId: payload.toolCallId,
         toolName: payload.toolName,
-        ...(payload.suggestedPermissionUpdates
-          ? { suggestedPermissionUpdates: payload.suggestedPermissionUpdates }
-          : {}),
-        ...(payload.origin ? { origin: payload.origin } : {}),
-        ...(payload.display ? { display: payload.display } : {}),
-        ...(payload.optionsPolicy ? { optionsPolicy: payload.optionsPolicy } : {}),
-        riskLevel: payload.riskLevel,
-        requestedAt: event.timestamp,
-      };
-      return { pendingPermissions: appendProjectionRow(projection.pendingPermissions, request) };
-    }
-    case SessionEventType.PermissionResolved: {
-      const payload = event.payload as PermissionResolvedPayload;
-      return permissionSettlementChanges(
-        projection,
-        payload.toolCallId,
-        payload.decision === "deny" ? "denied" : "completed",
-      );
-    }
-    case SessionEventType.PermissionDenied:
-      return permissionSettlementChanges(
-        projection,
-        (event.payload as PermissionDeniedPayload).toolCallId,
-        "denied",
-      );
-    case SessionEventType.SessionCompacted:
-      return compactProjectionChanges(
-        projection,
-        (event.payload as SessionCompactedPayload).compactBoundary,
-        event.timestamp,
-      );
-    case SessionEventType.CompactBoundary:
-      return compactProjectionChanges(projection, event.payload, event.timestamp);
-    case SessionEventType.CheckpointCreated: {
-      const checkpoint = parseCheckpointCreatedPayload(event.payload);
-      return {
-        lastCheckpoint: {
-          checkpointId: checkpoint.checkpointId,
-          compactBoundaryId: checkpoint.compactBoundaryId,
-          coveredByCompact: checkpoint.coveredByCompact,
-          createdAt: event.timestamp,
-          fileCount: checkpoint.fileCount,
-          messageId: checkpoint.messageId,
-          targetMessageId: checkpoint.targetMessageId,
-          toolMessageId: checkpoint.toolMessageId,
-          scope: checkpoint.scope,
-          snapshotRef: checkpoint.snapshotRef,
-        },
-      };
-    }
-    case SessionEventType.RewindTriggered: {
-      const rewind = parseRewindTriggeredPayload(event.payload);
-      return {
-        lastRewind: {
-          compactBoundaryId: rewind.compactBoundaryId,
-          reason: rewind.reason,
-          rewindId: rewind.rewindId,
-          scope: rewind.scope,
-          strategy: rewind.strategy,
-          targetCheckpointId: rewind.targetCheckpointId,
-          targetMessageId: rewind.targetMessageId,
-          triggeredAt: event.timestamp,
-        },
-      };
-    }
-    case SessionEventType.StreamingToolLedgerUpdated:
-      return streamingLedgerChanges(
-        projection,
-        event.payload as StreamingToolLedgerPayload,
-        event.timestamp,
-      );
-    case SessionEventType.StreamRecoveryAnchorCreated:
-      return recoveryAnchorChanges(event.payload as StreamRecoveryAnchorPayload, event.timestamp);
-    case SessionEventType.BackgroundTaskStarted:
-      return backgroundStartedChanges(
-        projection,
-        event.payload as BackgroundTaskStartedPayload,
-        event.timestamp,
-      );
-    case SessionEventType.BackgroundTaskUpdated:
-      return backgroundUpdatedChanges(projection, event.payload as BackgroundTaskUpdatedPayload);
-    case SessionEventType.BackgroundTaskCompleted:
-      return backgroundCompletedChanges(
-        projection,
-        event.payload as BackgroundTaskCompletedPayload,
-        event.timestamp,
-      );
-    default:
-      return {};
-  }
-}
+        status: "pending",
+      }),
+    };
+  },
+  [SessionEventType.ToolCallStarted]: (projection, event) => {
+    const payload = event.payload as ToolCallStartedPayload;
+    return {
+      activeToolCalls: patchActiveToolCall(projection, payload.toolCallId, {
+        status: "running",
+        startedAt: payload.startedAt,
+      }),
+    };
+  },
+  [SessionEventType.ToolCallResult]: (projection, event) => {
+    const payload = event.payload as ToolCallResultPayload;
+    return {
+      activeToolCalls: patchActiveToolCall(projection, payload.toolCallId, {
+        status: payload.result.success ? "completed" : "failed",
+      }),
+    };
+  },
+  [SessionEventType.ToolCallError]: (projection, event) => ({
+    activeToolCalls: patchActiveToolCall(
+      projection,
+      (event.payload as ToolCallErrorPayload).toolCallId,
+      { status: "failed" },
+    ),
+  }),
+  // 一批工具收口后仍可能继续请求模型，所以这里只清工具行，status 仍由 TurnComplete 决定。
+  [SessionEventType.ToolBatchComplete]: (projection, event) => {
+    const finished = new Set<string>((event.payload as ToolBatchCompletePayload).toolCallIds);
+    return {
+      activeToolCalls: projection.activeToolCalls.filter((row) => !finished.has(row.toolCallId)),
+    };
+  },
+  [SessionEventType.PermissionRequested]: (projection, event) => {
+    const payload = event.payload as PermissionRequestedPayload;
+    const request: PendingPermission = {
+      input: payload.input,
+      reason: payload.reason,
+      requestId: payload.requestId,
+      toolCallId: payload.toolCallId,
+      toolName: payload.toolName,
+      ...(payload.suggestedPermissionUpdates
+        ? { suggestedPermissionUpdates: payload.suggestedPermissionUpdates }
+        : {}),
+      ...(payload.origin ? { origin: payload.origin } : {}),
+      ...(payload.display ? { display: payload.display } : {}),
+      ...(payload.optionsPolicy ? { optionsPolicy: payload.optionsPolicy } : {}),
+      riskLevel: payload.riskLevel,
+      requestedAt: event.timestamp,
+    };
+    return { pendingPermissions: appendProjectionRow(projection.pendingPermissions, request) };
+  },
+  [SessionEventType.PermissionResolved]: (projection, event) => {
+    const payload = event.payload as PermissionResolvedPayload;
+    return settlePermission(
+      projection,
+      payload.toolCallId,
+      payload.decision === "deny" ? "denied" : "completed",
+    );
+  },
+  [SessionEventType.PermissionDenied]: (projection, event) =>
+    settlePermission(projection, (event.payload as PermissionDeniedPayload).toolCallId, "denied"),
+  [SessionEventType.SessionCompacted]: (projection, event) =>
+    compactProjectionChanges(
+      projection,
+      (event.payload as SessionCompactedPayload).compactBoundary,
+      event.timestamp,
+    ),
+  [SessionEventType.CompactBoundary]: (projection, event) =>
+    compactProjectionChanges(projection, event.payload, event.timestamp),
+  [SessionEventType.CheckpointCreated]: (projection, event) => {
+    const checkpoint = parseCheckpointCreatedPayload(event.payload);
+    return {
+      lastCheckpoint: {
+        checkpointId: checkpoint.checkpointId,
+        compactBoundaryId: checkpoint.compactBoundaryId,
+        coveredByCompact: checkpoint.coveredByCompact,
+        createdAt: event.timestamp,
+        fileCount: checkpoint.fileCount,
+        messageId: checkpoint.messageId,
+        targetMessageId: checkpoint.targetMessageId,
+        toolMessageId: checkpoint.toolMessageId,
+        scope: checkpoint.scope,
+        snapshotRef: checkpoint.snapshotRef,
+      },
+    };
+  },
+  [SessionEventType.RewindTriggered]: (projection, event) => {
+    const rewind = parseRewindTriggeredPayload(event.payload);
+    return {
+      lastRewind: {
+        compactBoundaryId: rewind.compactBoundaryId,
+        reason: rewind.reason,
+        rewindId: rewind.rewindId,
+        scope: rewind.scope,
+        strategy: rewind.strategy,
+        targetCheckpointId: rewind.targetCheckpointId,
+        targetMessageId: rewind.targetMessageId,
+        triggeredAt: event.timestamp,
+      },
+    };
+  },
+  [SessionEventType.StreamingToolLedgerUpdated]: (projection, event) =>
+    streamingLedgerChanges(
+      projection,
+      event.payload as StreamingToolLedgerPayload,
+      event.timestamp,
+    ),
+  [SessionEventType.StreamRecoveryAnchorCreated]: (projection, event) =>
+    recoveryAnchorChanges(event.payload as StreamRecoveryAnchorPayload, event.timestamp),
+  [SessionEventType.BackgroundTaskStarted]: (projection, event) =>
+    backgroundStartedChanges(
+      projection,
+      event.payload as BackgroundTaskStartedPayload,
+      event.timestamp,
+    ),
+  [SessionEventType.BackgroundTaskUpdated]: (projection, event) =>
+    backgroundUpdatedChanges(projection, event.payload as BackgroundTaskUpdatedPayload),
+  [SessionEventType.BackgroundTaskCompleted]: (projection, event) =>
+    backgroundCompletedChanges(
+      projection,
+      event.payload as BackgroundTaskCompletedPayload,
+      event.timestamp,
+    ),
+};
 
-/** 无实例 handlers/cache；已存在或未来未知事件都通过同一个 timestamp commit。 */
+/** 推进一个事件：查表得 changes，再统一提交并写事件时间戳。 表里没有的事件（已存在但本包未建模、或未来新增）得到空 changes，`updatedAt` 仍然推进。 */
 export function applySessionProjectionEvent(
   projection: SessionProjection,
   event: SessionEvent,
 ): SessionProjection {
-  return commitSessionProjection(projection, changesForEvent(projection, event), event.timestamp);
+  const handler = HANDLERS[event.type];
+  const changes = handler ? handler(projection, event) : NO_CHANGES;
+  return commitSessionProjection(projection, changes, event.timestamp);
 }

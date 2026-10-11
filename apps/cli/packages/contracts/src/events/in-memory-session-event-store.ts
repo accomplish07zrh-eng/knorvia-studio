@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: Apache-2.0
+// 内存事件存储：给运行时用的对照实现与测试替身。
+// 组织方式：store 只做 session → journal 的注册表，事件、序号、统计全部下沉到 journal。
+
 import type { SessionEventStorePort, SessionEventStoreStats } from "../interfaces/session.port.js";
 import type { SessionId } from "../interfaces/shared.js";
 import type { SessionEvent } from "./session.events.js";
@@ -10,20 +14,21 @@ import {
 } from "./session-event-retention.js";
 
 export interface InMemorySessionEventStoreOptions {
-  /** 默认按 turn 驻留；每个 session 独立创建策略，自定义工厂保持原接口。 */
+  /** 保留模式，或每个 session 各建一个策略的工厂；缺省按轮次驻留。 */
   retention?: SessionEventRetentionMode | (() => SessionEventRetentionPolicy);
+  /** 时钟注入点；缺省用 `Date.now`。淘汰判定与时间戳都取这里。 */
   now?: () => number;
 }
 
-/** Session 注册表只负责 journal 的创建与删除，事件及序号均由同一 journal 持有。 */
+/** 内存实现：一个 session 一个 journal，注册表只负责创建与删除。 */
 export class InMemorySessionEventStore implements SessionEventStorePort {
-  private readonly sessions = new Map<SessionId, SessionEventJournal>();
-  private readonly createPolicy: () => SessionEventRetentionPolicy;
+  private readonly journals = new Map<SessionId, SessionEventJournal>();
+  private readonly createRetentionPolicy: () => SessionEventRetentionPolicy;
   private readonly now: () => number;
 
   constructor(options: InMemorySessionEventStoreOptions = {}) {
     const retention = options.retention ?? "turn-window";
-    this.createPolicy =
+    this.createRetentionPolicy =
       typeof retention === "function"
         ? retention
         : () => createSessionEventRetentionPolicy(retention);
@@ -31,54 +36,66 @@ export class InMemorySessionEventStore implements SessionEventStorePort {
   }
 
   async append(event: SessionEvent): Promise<SessionEvent> {
-    const sessionId = event.sessionId;
-    let journal = this.sessions.get(sessionId);
-    if (journal === undefined) {
-      journal = new SessionEventJournal(this.createPolicy());
-      this.sessions.set(sessionId, journal);
-    }
-    // 时钟仍通过 store 调用，保留自定义函数 receiver 与驻留后才读时钟的边界。
+    const journal = this.ensureJournal(event.sessionId);
+    // 时钟以闭包形式交给 journal：这样「入账之后才读时间」这条边界不会因为参数求值顺序被打乱。
     return journal.append(event, () => this.now());
   }
 
   async getEvents(sessionId: SessionId): Promise<SessionEvent[]> {
-    return this.sessions.get(sessionId)?.read() ?? [];
+    return this.journalFor(sessionId)?.read() ?? [];
   }
 
   async getEventsAfter(sessionId: SessionId, sequenceNumber: number): Promise<SessionEvent[]> {
-    return this.sessions.get(sessionId)?.readAfter(sequenceNumber) ?? [];
+    return this.journalFor(sessionId)?.readAfter(sequenceNumber) ?? [];
   }
 
   async getLatestSequenceNumber(sessionId: SessionId): Promise<number> {
-    return this.sessions.get(sessionId)?.latestSequenceNumber ?? 0;
+    return this.journalFor(sessionId)?.latestSequenceNumber ?? 0;
   }
 
   async deleteSession(sessionId: SessionId): Promise<void> {
-    this.sessions.delete(sessionId);
+    this.journals.delete(sessionId);
   }
 
+  /** 汇总各 journal 的统计；无 session 时全为 0。逐字段累加，避免把可选统计字段当必填。 */
   getStats(): SessionEventStoreStats {
-    let events = 0;
-    let evictedEvents = 0;
-    let retainedTransient = 0;
-    for (const journal of this.sessions.values()) {
+    const totals = {
+      sessions: this.journals.size,
+      events: 0,
+      evictedEvents: 0,
+      retainedTransient: 0,
+    };
+    for (const journal of this.journals.values()) {
       const current = journal.stats();
-      events += current.events;
-      evictedEvents += current.evictedEvents;
-      retainedTransient += current.retainedTransient;
+      totals.events += current.events;
+      totals.evictedEvents += current.evictedEvents;
+      totals.retainedTransient += current.retainedTransient;
     }
-    return { sessions: this.sessions.size, events, evictedEvents, retainedTransient };
+    return totals;
   }
 
+  /** 收走所有 session 里已到期轮次的瞬时事件，返回移除总数。 */
   pruneTransientEvents(
     nowMs: number = this.now(),
     graceMs: number = SEALED_TURN_TRANSIENT_GRACE_MS,
   ): number {
     let removed = 0;
-    for (const journal of this.sessions.values()) {
-      removed += journal.prune(nowMs, graceMs);
-    }
+    for (const journal of this.journals.values()) removed += journal.prune(nowMs, graceMs);
     return removed;
+  }
+
+  /** 读路径：取不到就返回 undefined，绝不为读操作凭空造出 session。 */
+  private journalFor(sessionId: SessionId): SessionEventJournal | undefined {
+    return this.journals.get(sessionId);
+  }
+
+  /** 写路径：首次追加时才创建 journal，并用注入的工厂建它的保留策略。 */
+  private ensureJournal(sessionId: SessionId): SessionEventJournal {
+    const existing = this.journals.get(sessionId);
+    if (existing !== undefined) return existing;
+    const created = new SessionEventJournal(this.createRetentionPolicy());
+    this.journals.set(sessionId, created);
+    return created;
   }
 }
 
