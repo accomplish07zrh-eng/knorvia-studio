@@ -250,3 +250,167 @@
 - 状态所有者：SQLite 库文件。
 - 日志级别：迁移进度由 runner 记录（属已独立文件）。
 - 可测断言：见第 5 步的往返测试——用脱敏旧库夹具跑「旧写 → 新读 → 新写 → 旧读」，四步的会话/消息/part 计数与关键 JSON 字段逐项相等；数据库文件路径与表名不变。
+
+---
+
+## B. 配置（`config/`）
+
+状态所有者：`ConfigStore` 实例（每个 `ConfigPortImpl` 一个）独占键值表与观察者集合；`mergeConfigs` / `parseEnvConfig` / `loadProjectConfigs` 都是**纯函数或一次性读取**，不保存状态。
+
+### B18 `KNORVIA_*` 环境变量的解析面（键名不可改）
+
+- 来源：`config/env-config.adapter.ts`（`parseEnvConfig`、`DEFAULT_PREFIX`）
+- 输入：`Record<string, string | undefined>`（默认 `process.env`）与可选 `{prefix}`（默认 `"KNORVIA_"`）。
+- 输出：只处理以 prefix 开头、且值**不是 `undefined`** 的键；去掉 prefix 后按固定表映射：
+  - `STORAGE_DIR → storage.dir`；`SESSION_DB_PATH` 或 `SESSION_DB → storage.sessionDbPath`
+  - `HTTP_PROXY → network.httpProxy`；`NO_PROXY → network.noProxy`；`AGENT_CA_CERT → network.caCertFile`；`HTTP_TIMEOUT` 或 `TIMEOUT → network.timeout`
+  - `LOG_FORMAT → logging.format`（经 `normalizeLogFormat`）
+  - `MAX_TOOL_CONCURRENCY → toolConcurrency.maxConcurrency`
+  - 其他键**忽略**（不报错、不警告）
+- 数值归一：`Number(value)`，`NaN` → `0`（不抛错）；日志格式只接受 `text`/`json`（大小写不敏感），其他一律 `text`。
+- 错误语义：不抛错。
+- 时序与并发：纯函数；遍历顺序不影响结果（同一 key 不会出现两次）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：环境变量名大小写在 Windows 上不敏感、POSIX 上敏感——实现按**传入对象的键**精确匹配，不做大小写折叠。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{KNORVIA_STORAGE_DIR: "/x"}` → `{storage:{dir:"/x"}}`；`{KNORVIA_HTTP_TIMEOUT: "abc"}` → `timeout: 0`；`{KNORVIA_LOG_FORMAT: "JSON"}` → `"json"`、`{KNORVIA_LOG_FORMAT: "yaml"}` → `"text"`；`{KNORVIA_UNKNOWN: "1"}` → `{}`；`{KNORVIA_STORAGE_DIR: undefined}` → `{}`；`{prefix: "APP_"}` 时 `APP_STORAGE_DIR` 生效而 `KNORVIA_STORAGE_DIR` 被忽略。
+
+### B19 工具并发配置的独立入口
+
+- 来源：`config/env-config.adapter.ts`（`getToolConcurrencyConfig`）
+- 输入：无（读 `process.env.KNORVIA_MAX_TOOL_CONCURRENCY`）。
+- 输出：`{maxConcurrency: normalizeNumber(值 ?? "10")}`；未设置时是 **10**，非法值归一为 0。
+- 错误语义：不抛错。
+- 时序与并发：每次调用重新读环境变量（不缓存）。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：同 B18。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：环境变量缺席时返回 `{maxConcurrency: 10}`；设为 `"4"` 时返回 4；设为 `"x"` 时返回 0。
+
+### B20 配置作用域优先级
+
+- 来源：`config/config-merger.ts`（`getScopePriority`、`createPrioritizedConfig`）
+- 输入：`ConfigScope`。
+- 输出：优先级数值取自 `ConfigScopePriority[scope]`（契约里的固定表）；`createPrioritizedConfig` 返回 `{config, scope, priority}`。
+- 错误语义：未知 scope 得到 `undefined` 优先级（排序时按 `NaN` 处理，行为不确定）——重写时**不得**改成抛错，也不得改这张表。
+- 时序与并发：纯函数。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：同一个 scope 两次调用得到同一个数值；`createPrioritizedConfig(c, s).priority === getScopePriority(s)`；`mergeConfigs` 的结果只取决于优先级数值而不取决于传入顺序（见 B21）。
+
+### B21 `mergeConfigs` 的合并语义
+
+- 来源：`config/config-merger.ts`（`mergeConfigs`）
+- 输入：任意多个 `PrioritizedConfig`。
+- 输出：先按 `priority` **升序稳定排序**（低优先级先应用、高优先级覆盖），再逐项合并。分区语义：
+  - 浅覆盖（`Object.assign` 后再整体复制）：`modelStream`、`permission`、`storage`、`network`、`features`、`memory`、`logging`、`toolConcurrency`、`modelAnomalyGuard`、`ui`、`skills`、`skillOverrides`、`commandOverrides`；`mcp` 额外把 `servers` 复制一层。
+  - **`plugins`**：`dirs` 取**并集**（保序，`Set` 去重）；`enabledPlugins`、`extraKnownMarketplaces` 逐键合并（后者被覆盖）；`options` 按 plugin **逐插件浅合并**；其余字段浅覆盖。**当该层 scope 是 `ConfigScope.Project` 时，先删掉 `plugins.extraKnownMarketplaces`**（项目层不允许声明额外市场）。
+  - **`hooks`**：`enabled` 取**逻辑或**（`previous === true || incoming === true`）；`events` 是 `previous` 的浅拷贝，且**只在 `incoming.enabled !== false`** 时把新事件的匹配器**追加**（`[...已有, ...新]`），即同事件不覆盖而是累加。
+- 错误语义：不抛错；输入数组不被修改（内部先 `[...configs]`）。
+- 时序与并发：纯函数。
+- 幂等：**不是**对所有分区都幂等——`plugins.dirs` 与 `hooks.events` 是累加语义，重复合并同一份配置会重复追加（`dirs` 因 `Set` 去重而稳定，`hooks.events` 会变长）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：低优先级 `{storage:{dir:"a"}}` + 高优先级 `{storage:{dir:"b"}}` → `dir === "b"`；交换传入顺序结果相同；同事件的两个 matcher 在两份配置里 → 合并后**长度相加**；任一份 `hooks.enabled === true` → 结果 `enabled === true`；`incoming.enabled === false` 时该份的 `events` **不被追加**；Project scope 的 `extraKnownMarketplaces` 被丢弃。
+
+### B22 `ConfigStore` 的键值与来源
+
+- 来源：`config/index.ts`（`ConfigStore`，内部类）
+- 输入：`set(key, value, scope, source?)`、`get(key)`、`has(key)`、`getSources(key)`。
+- 输出：`set` 总是**整体替换**该键的条目：`{value, sources:[{scope, key, value, path: source}]}`——即 `sources` **只保留最后一次写入的一条**（不是历史列表）；`get` 返回 `entry?.value`（键不存在时 `undefined`）；`has` 只看键是否存在；`getSources` 返回该条目的一条来源数组。
+- 错误语义：不抛错。
+- 时序与并发：同步。
+- 幂等：`set` 同值重复调用结果相同（但每次都会触发通知，见 B23）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：`ConfigStore` 实例。
+- 日志级别：无。
+- 可测断言：`set("a",1,system)` 后 `get("a") === 1`、`has("a") === true`、`getSources("a").length === 1`；再 `set("a",2,project)` 后 `getSources("a").length` 仍是 **1**（不是 2）。
+
+### B23 通知顺序与订阅生命周期
+
+- 来源：`config/index.ts`（`set`、`subscribe`、`subscribeAll`）
+- 输入：`set` 触发的通知；`subscribe(key, handler)`；`subscribeAll(handler)`。
+- 输出：`set` 内**先**通知该键的 key-handlers（参数 `(value, prev)`，`prev` 是覆盖前的值），**再**通知 all-handlers（参数 `(key, value, prev)`）；两者都在 `set` 内**同步**调用。`subscribe` / `subscribeAll` 返回 `Unsubscribe`，退订后再不收到通知；重复退订安全。
+- 错误语义：处理器抛错会**冒泡**出 `set`（不吞）。
+- 时序与并发：同步、按注册顺序（`Set` 迭代顺序 = 插入顺序）；同一 handler 重复注册只保留一份（`Set`）。
+- 幂等：`Unsubscribe` 幂等。
+- 资源释放：退订释放集合内的引用。
+- 平台差异：无。
+- 状态所有者：`ConfigStore`。
+- 日志级别：无。
+- 可测断言：观察者收到 `(newValue, previousValue)`；同一 `set` 里 key-handler 先于 all-handler（用调用序号断言）；退订后不再触发；handler 抛错时 `set` 抛出且另一类 handler 不再被调用（或按实现顺序记录实际行为，测试锁定）。
+
+### B24 `merge(patch)` 的键映射
+
+- 来源：`config/index.ts`（`ConfigStore.merge`）
+- 输入：`RuntimeConfigPatch` 与 `scope`。
+- 输出：把 patch 逐字段映射到 `ConfigKey` 并 `set(...)`。必须逐项保持的**判空规则**差异（truthy vs `!== undefined`）：
+  - truthy 才写：`modelStream.idleTimeoutMs`（`!== undefined`）、`permission.mode`、`permission.allowedTools`、`permission.disallowedTools`、`storage.dir`、`storage.sessionDbPath`、`logging.level`（都是 truthy）；而 `permission.autoApproveHighRisk`、`permission.allowMediumRiskInAuto`、`network.*`、`features.*`、`memory.use`、`mcp.servers`、`plugins.*`、`skills.*`、`logging.format`、`toolConcurrency.maxConcurrency`、`ui.locale`、`ui.theme` 用 `!== undefined`（写 0/`false`/空串也会落库）。
+  - `skillOverrides` / `commandOverrides` 用 `!== undefined`（传 `{}` 也落库）。
+  - `modelAnomalyGuard`：与**当前值**（缺席时取 `DefaultConfig.modelAnomalyGuard`）浅合并后写入。
+  - `hooks`：与当前值（缺席时 `DefaultConfig.hooks`）浅合并，且 `events: config.hooks.events ?? previous.events`。
+- 错误语义：不抛错（未知字段忽略）。
+- 时序与并发：同步；每个键各触发一次通知。
+- 幂等：对多数分区是（同 patch 重复 merge 结果相同），但前一条的合并语义使 `hooks`/`modelAnomalyGuard` 为「累积式浅合并」。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：`ConfigStore`。
+- 日志级别：无。
+- 可测断言：`{features:{compact:false}}` 会写入 `FeatureCompact=false`（`!== undefined` 判据）；`{permission:{mode:""}}` **不**写入（truthy 判据）；`{network:{timeout:0}}` 写入 0；`modelAnomalyGuard` 二次 merge 保留第一次的键。
+
+### B25 `ConfigPortImpl` 的读取与缺省
+
+- 来源：`config/index.ts`（`ConfigPortImpl.get`、`getAll`）
+- 输入：`new ConfigPortImpl(initial?)`（缺席时用 `DefaultRuntimeConfig`）；`get(key)`；`getAll()`。
+- 输出：`get` 先查 store，未命中再查默认值，仍未命中**抛 `Config key not found: ${key}`**；`getAll()` 返回完整 `RuntimeConfig`，其中 `features.*` 缺省为 **`true`**、`storage.dir`/`sessionDbPath`、`network.timeout`、`memory.use`、`mcp.servers`、`plugins.*` 取 `DefaultRuntimeConfig`（`plugins.dirs`/`enabled`/`enabledPlugins`/`extraKnownMarketplaces`），`permission.*` 与 `network.httpProxy/noProxy/caCertFile` **不兜底**（按 store 值，可能是 `undefined`）。
+- 错误语义：`get` 抛错只发生在既无 store 值又无默认值的键。
+- 时序与并发：同步。
+- 幂等：`getAll` 每次重新拼装（返回新对象）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：`ConfigStore`（由 `ConfigPortImpl` 持有）。
+- 日志级别：无。
+- 可测断言：`new ConfigPortImpl({}).get(ConfigKey.FeatureCompact) === true`；`getAll().features.compact === true`；未知 key 抛出的消息**逐字**为 `Config key not found: <key>`；`new ConfigPortImpl({features:{compact:false}}).getAll().features.compact === false`。
+
+### B26 项目配置发现与 baseDir 规则
+
+- 来源：`config/project-config.adapter.ts`（`loadProjectConfigs`、`loadProjectConfigFile`、`summarizeProjectConfigs`）
+- 输入：`workingDirectory?`（默认 `process.cwd()`）、`explicitProjectConfigPath?`。
+- 输出：
+  - 候选路径来自 `discoverWorkspaceHookConfigPaths({workingDirectory, explicitProjectConfigPath?})`（属 `@knorvia/shared`），按返回顺序逐个 `loadProjectConfigFile`，`discoveryOrder` 即数组下标。
+  - **`baseDir`**：若配置文件所在目录的 basename 是 `.knorvia-studio`，则取其**父目录**，否则取所在目录本身。
+  - patch 处理：**`hooks` 从 config patch 中删除**（项目 hooks 走信任流程，不直接生效），并追加一条 `warning` 诊断，code 为 `config_project_hooks_pending_trust`、message 为 `Project hooks are pending workspace trust and remain blocked`、path 为 `hooks`；`stdio` 类型的 MCP server 的 `cwd` 若是相对路径则按 `baseDir` 解析（缺省 `.`），非 `stdio` 原样返回。
+  - hooks 存在时用 `workspaceHooksConfigSchema.parse(hooks)` 校验并构造 `hookCandidate`（`workingDirectory` 取 `options.workingDirectory ?? baseDir` 的 `resolve` 结果）。
+  - `summarizeProjectConfigs`：只保留 `loaded` 的文件；`mcpServerNames` 是这些文件 `config.mcp.servers` 键的**去重并集**；`paths` 是已加载文件的路径；`loaded` 为「已加载文件数 > 0」；`diagnostics`、`hookCandidates` 按文件顺序拼接。
+- 错误语义：schema 校验失败会抛（`parse` 不吞）。
+- 时序与并发：同步文件读取。
+- 幂等：是（同样的文件系统状态给出同样结果）。
+- 资源释放：无（`loadFileConfig` 内部负责）。
+- 平台差异：路径用 `node:path` 的 `resolve`/`dirname`/`isAbsolute`；Windows 盘符与分隔符由它们处理。
+- 状态所有者：无（每次调用新建）。
+- 日志级别：无（诊断以数据结构返回，由调用方呈现）。
+- 可测断言：`.knorvia-studio/knorvia.json` 的 `baseDir` 是其父目录；同目录的 `knorvia.json` 的 `baseDir` 是自身目录；带 `hooks` 的配置文件的 patch **没有** `hooks` 键且诊断里有一条 `config_project_hooks_pending_trust`；`stdio` server 的相对 `cwd` 被解析成绝对路径；`summarizeProjectConfigs` 里未加载文件不进 `paths`。
+
+### B27 `config/index.ts` 的导出面
+
+- 来源：`config/index.ts`
+- 输入：无。
+- 输出：`ConfigStore` **不导出**（内部类）；导出 `ConfigPortImpl` 与 `config/index.ts` 里其余对外声明（见 `interface.md`）。`env-config.adapter.ts` / `config-merger.ts` / `project-config.adapter.ts` / `file-config.adapter.ts` / `schema.ts` / `config-factory.ts` 的导出名按 `interface.md` 保持。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`import { ConfigPortImpl } from "…/config/index.js"` 成功；`interface.md` 里该文件的导出名集合与源码逐字一致（第 5 步用脚本比对）。
