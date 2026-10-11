@@ -17,11 +17,39 @@ export const THRESHOLDS = {
 
 const PUNCTUATION_ONLY = /^[{}()[\];,]+$/u;
 // 记账口径：丢弃 import 与 re-export 行；注释行保留。
+// 关键点：一条 import / re-export **语句**常常跨多行（`export type {` + 一串名字 + `} from "x";`），
+// 只丢首行会让名字列表与 `} from "…";` 留在比较集里，把包含率抬高。因此按语句整条丢弃。
 const DROPPED_PREFIXES = ["import ", "export * from", "export {"];
+const IMPORT_STATEMENT = /^import\s/u;
+const DYNAMIC_IMPORT = /^import\s*\(/u;
+const RE_EXPORT_STATEMENT =
+  /^export\s+(?:\*\s*(?:as\s+[A-Za-z_$][\w$]*\s*)?(?:from\s+|\{)|type\s*\{|\{)/u;
 // 计划书强制新文件带 SPDX 头，上游也普遍有同一行：它是强制的样板，不是实现或可改写文案，
 // 计入「保留表达」没有意义，因此规范化阶段两侧一视同仁地剔除它（以及紧随其后的版权行）。
 const LICENSE_HEADER = /SPDX-License-Identifier/u;
 const COPYRIGHT_LINE = /copyright/iu;
+
+function isImportOrReExportStart(line) {
+  if (DYNAMIC_IMPORT.test(line)) return false; // 动态 import(…) 是表达式，属于实现
+  return IMPORT_STATEMENT.test(line) || RE_EXPORT_STATEMENT.test(line);
+}
+
+/** 一条 import / re-export 语句覆盖到的最后一行下标（含）。 */
+function importStatementEnd(raw, start) {
+  let depth = 0;
+  for (let index = start; index < raw.length && index - start < 40; index += 1) {
+    const text = raw[index];
+    for (const char of text) {
+      if (char === "{" || char === "(" || char === "[") depth += 1;
+      else if (char === "}" || char === ")" || char === "]") depth -= 1;
+    }
+    if (depth <= 0 && /;\s*(?:\/\/.*)?$/u.test(text)) return index;
+    if (index === start && depth <= 0 && /from\s*["'][^"']*["']\s*(?:\/\/.*)?$/u.test(text)) {
+      return index; // 无分号风格的单行 import/re-export
+    }
+  }
+  return start;
+}
 
 function normalizeLine(raw) {
   const line = raw.trim();
@@ -37,6 +65,11 @@ export function normalizeLines(text) {
   for (let index = 0; index < raw.length; index += 1) {
     if (LICENSE_HEADER.test(raw[index])) {
       if (COPYRIGHT_LINE.test(raw[index + 1] ?? "")) index += 1;
+      continue;
+    }
+    if (isImportOrReExportStart(raw[index].trim())) {
+      // 整条语句（含多行续行）都不参与比较；它属于接口面，不是实现表达。
+      index = importStatementEnd(raw, index);
       continue;
     }
     const line = normalizeLine(raw[index]);

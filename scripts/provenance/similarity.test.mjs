@@ -632,3 +632,57 @@ test("SPDX/许可头行不参与行相似度（桶文件可过、两侧同头不
     "const value = 1;",
   ]);
 });
+
+test("多行 import / re-export 整条语句不参与行相似度（只丢首行会留下名字列表与 from 行）", () => {
+  // 修复背景：一条 import / re-export 语句常跨多行，只丢首行会把名字列表留在比较集里，
+  // 而旧文件往往有同样的名字列表，于是包含率被抬高。整条丢弃才符合「丢弃 import 与 re-export 行」。
+  const source = [
+    "// SPDX-License-Identifier: Apache-2.0",
+    "import {",
+    "  alpha,",
+    "  beta,",
+    '} from "./alpha.js";',
+    'import type { Gamma } from "./gamma.js";',
+    "export type {",
+    "  Delta,",
+    "  Epsilon,",
+    '} from "./types.js";',
+    'export * from "./star.js";',
+    'export { Zeta } from "./zeta.js";',
+    "export const kept = 41;",
+    "export function kept2() {",
+    "  return kept;",
+    "}",
+    'const lazy = () => import("./lazy.js");',
+    'import("./direct.js").then(() => {});',
+  ].join("\n");
+  assert.deepEqual(normalizeLines(source), [
+    "export const kept = 41;",
+    "export function kept2() {",
+    "return kept;",
+    'const lazy = () => import("./lazy.js");',
+    'import("./direct.js").then(() => {});',
+  ]);
+});
+
+test("多行 import 语句被整条丢弃后，包含率只反映实现行", () => {
+  const oldText = [
+    "import {",
+    "  alpha,",
+    "  beta,",
+    '} from "./x.js";',
+    "const value = alpha + beta;",
+    "export { value };",
+  ].join("\n");
+  const newText = [
+    "import {",
+    "  alpha,",
+    "  beta,",
+    '} from "./x.js";',
+    "const value = alpha * 2 + beta;",
+    "export { value };",
+  ].join("\n");
+  const lines = normalizeLines(newText);
+  assert.deepEqual(lines, ["const value = alpha * 2 + beta;"]);
+  assert.equal(containment(lines, normalizeLines(oldText)), 0);
+});

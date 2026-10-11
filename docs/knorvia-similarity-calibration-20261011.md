@@ -192,3 +192,28 @@ node scripts/provenance/similarity.mjs --repo . --candidate <新文件> --candid
 | `packages/shared/src/browser-use/nodeReplBroker.ts`                              | 37 → 35   | 0.189 → 0.200 | 包含率恰好到 0.2            |
 
 结论：这次细化让行门槛**更严**（不是放宽），结构门槛的校准结论（0.4、23 个超限文件）完全不变；门槛常量 0.2 / 8 / 0.4 未动。普通模式与声明模式都使用同一套规范化。
+
+## 10. 规范化细化：整条丢弃多行 import / re-export 语句（2026-10-11）
+
+**问题（Lead 在试点 1 复核时发现）**：原实现只按行首前缀丢弃 import / re-export，一条跨多行的语句只丢掉首行，续行（名字列表与 `} from "…";`）仍留在比较集里。旧文件通常有同样的名字列表，于是包含率被无意义地抬高。
+
+实测（`replace/core-hooks` 工作树）：
+
+| 文件                                                | 归一化行数（修复前 → 后） | 其中块续行                                                       |
+| --------------------------------------------------- | ------------------------- | ---------------------------------------------------------------- |
+| `core/src/hooks/index.ts`                           | 13 → **1**                | 11 行是 `export type { … } from "./types.js"` 的名字列表与收尾行 |
+| `core/src/hooks/types.ts`                           | 143 → 129                 | 14 行是 import 块续行                                            |
+| `core/src/hooks/configured-runner.ts`               | 142 → 136                 | 6 行                                                             |
+| `core/src/hooks/session-mailbox.ts`                 | 71 → 66                   | 5 行                                                             |
+| `core/src/hooks/workspace-hook-trust-evaluation.ts` | 101 → 92                  | 9 行                                                             |
+
+**改法**：按语句整条丢弃——从 `import` / `export * (as ns) from` / `export type {` / `export { … } from` 起，连同其续行（括号深度归零且出现语句结束 `;` / 单行 `from "…"`）一起跳过；**动态 `import(…)` 表达式与 `export const|function|class` 属于实现，保留**。完成判定的兜底上限为 40 行，超限则只丢弃首行（不会吞掉后续代码）。
+
+**影响（439 个 `independent-replacement` 文件全量复跑）**：
+
+| 阶段                   | 通过 / 不通过 | 结构最大值 | 结构 > 0.4 的文件                  |
+| ---------------------- | ------------- | ---------- | ---------------------------------- |
+| 细化前（含 SPDX 剔除） | 129 / 310     | 1.000      | 23                                 |
+| **本次细化后**         | **138 / 301** | **1.000**  | **23（同一批文件，逐条核对一致）** |
+
+通过数增加是因为「导入名字列表」不再计入包含率——这是把既有的「丢弃 import 与 re-export 行」口径落实到多行语句，**不是放宽门槛**：结构门槛仍取 0.4（最大值 1.000 未变）、超限文件仍是同一批 23 个、门槛常量 0.2 / 8 / 0.4 未动。工具的 `similarity.test.mjs` 增加了 2 个用例（多行 import / `export type { … } from` 整条丢弃；`export const` / `export function` / 动态 `import(` 保留），共 23 个用例。
