@@ -82092,6 +82092,325 @@
         "specs/knorvia-kernel-native-media-20261010.md",
         "specs/knorvia-workbench-conversations-20261010.md"
       ]
+    },
+    {
+      "path": "public/icon_512@2x.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/16x16.png",
+      "normalizedSha256": "9c2c6fb0fbd58b076c7ca0eb4912d5fb535e177dc12ef6547c4fe2600142f15e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/24x24.png",
+      "normalizedSha256": "527e924b6333ca708c6e4305c50d0a927772fe38983bbb4386a408545ec08bb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/32x32.png",
+      "normalizedSha256": "685b99191e54d468dffad64094c704750ca65f43a6020aea1196e1b97262394a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/48x48.png",
+      "normalizedSha256": "b0b4e3c7a3710872919084cce59003d84749c7443a5973a3679d3fd6dc2ee6a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/64x64.png",
+      "normalizedSha256": "2e252ca7b97ae81468a403203947d84b75f32cfc2b55d8d4c71daef70d3c9937",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/128x128.png",
+      "normalizedSha256": "9711baaa79ab102cc03f47e9a5a9342a53a8fb5246a1f8bf885eb3193f5946ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/256x256.png",
+      "normalizedSha256": "08ef11f4d34d9fa7c4c06938f2ff652ea78f9ae696c1fd9e17f6b92d52e8034a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/512x512.png",
+      "normalizedSha256": "f696c81363776c235b431c059a03a282a2829294ab54114582f6ae56889276f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/1024x1024.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/icon.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/icon.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon.svg",
+      "normalizedSha256": "544275fc0b500ea60074d5760b329cc84d9561106636c6d0469c12f81c3061fb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_installer.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_installer.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_installer.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_windows.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/16x16.png",
+      "normalizedSha256": "9c2c6fb0fbd58b076c7ca0eb4912d5fb535e177dc12ef6547c4fe2600142f15e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/24x24.png",
+      "normalizedSha256": "527e924b6333ca708c6e4305c50d0a927772fe38983bbb4386a408545ec08bb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/32x32.png",
+      "normalizedSha256": "685b99191e54d468dffad64094c704750ca65f43a6020aea1196e1b97262394a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/48x48.png",
+      "normalizedSha256": "b0b4e3c7a3710872919084cce59003d84749c7443a5973a3679d3fd6dc2ee6a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/64x64.png",
+      "normalizedSha256": "2e252ca7b97ae81468a403203947d84b75f32cfc2b55d8d4c71daef70d3c9937",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/128x128.png",
+      "normalizedSha256": "9711baaa79ab102cc03f47e9a5a9342a53a8fb5246a1f8bf885eb3193f5946ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/256x256.png",
+      "normalizedSha256": "08ef11f4d34d9fa7c4c06938f2ff652ea78f9ae696c1fd9e17f6b92d52e8034a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/512x512.png",
+      "normalizedSha256": "f696c81363776c235b431c059a03a282a2829294ab54114582f6ae56889276f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/1024x1024.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Owner-provided Knorvia brand asset（用户提供的品牌资产）: the project owner selected and supplied the artwork, and scripts/generate-product-icons.py derives the application and installer variants from the approved master (see docs/knorvia-icon-provenance.md). The file sits at the upstream path but its content is the owner's icon, not an upstream implementation; registered original per the replacement plan, choice 11.",
+      "evidence": [
+        "docs/knorvia-icon-provenance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
