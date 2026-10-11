@@ -18,19 +18,19 @@
 
 ## 二、状态所有者
 
-| 域 | 状态所有者 | 说明 |
-| -- | ---------- | ---- |
-| 配置 | `ConfigPortImpl` 持有的 `ConfigStore` 实例 | 键值表 + 观察者集合；`mergeConfigs`/`parseEnv`/文件读取都是纯函数 |
-| 配置来源追踪 | `createConfig()` 的返回值快照 | 每次调用重建，不缓存 |
-| 进程探测 | `createProcessProbe` 返回的实例 | 「连续失败计数」；单次采样各自持有截止 |
-| 设备标识 | 模块级 `Map<statePath, Promise<string>>` + 状态文件 | 单飞 + 文件锁 |
-| 文件系统 | 每次调用 | 无跨调用状态；原子写用同目录临时文件 + `rename` |
-| 文本窗口 | `TextLineWindow` 实例（单次 range 读） | 行缓冲与行尾计数 |
-| 图片 | 每次调用 | 无状态；压缩阶梯是常量表 |
-| 日志 | 工厂实例（`level`、`cleanupAdmitted`）+ 日志文件 | 写入同步追加，无内存队列 |
-| 邮箱 | `rootDir/<sessionId>/{unread,read}` 目录 | `rename` 即已读 |
-| 会话存储 | SQLite 文件（`schema_migration` 账本 + 业务表） | 迁移执行器按账本推进 |
-| 工作流 | `rootDir/index.json` + `runs/<sanitized>/*` | 无内存状态 |
+| 域           | 状态所有者                                          | 说明                                                              |
+| ------------ | --------------------------------------------------- | ----------------------------------------------------------------- |
+| 配置         | `ConfigPortImpl` 持有的 `ConfigStore` 实例          | 键值表 + 观察者集合；`mergeConfigs`/`parseEnv`/文件读取都是纯函数 |
+| 配置来源追踪 | `createConfig()` 的返回值快照                       | 每次调用重建，不缓存                                              |
+| 进程探测     | `createProcessProbe` 返回的实例                     | 「连续失败计数」；单次采样各自持有截止                            |
+| 设备标识     | 模块级 `Map<statePath, Promise<string>>` + 状态文件 | 单飞 + 文件锁                                                     |
+| 文件系统     | 每次调用                                            | 无跨调用状态；原子写用同目录临时文件 + `rename`                   |
+| 文本窗口     | `TextLineWindow` 实例（单次 range 读）              | 行缓冲与行尾计数                                                  |
+| 图片         | 每次调用                                            | 无状态；压缩阶梯是常量表                                          |
+| 日志         | 工厂实例（`level`、`cleanupAdmitted`）+ 日志文件    | 写入同步追加，无内存队列                                          |
+| 邮箱         | `rootDir/<sessionId>/{unread,read}` 目录            | `rename` 即已读                                                   |
+| 会话存储     | SQLite 文件（`schema_migration` 账本 + 业务表）     | 迁移执行器按账本推进                                              |
+| 工作流       | `rootDir/index.json` + `runs/<sanitized>/*`         | 无内存状态                                                        |
 
 ## 三、模块划分（新）
 
@@ -101,30 +101,30 @@ sequenceDiagram
 
 ## 五、B 条目落点
 
-| 条目 | 落点模块 |
-| ---- | -------- |
+| 条目              | 落点模块                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------- |
 | B1–B17、B122–B124 | `storage/session-store/migrations.ts`（冻结账本）+ `ledger/`（结构与校验辅助）+ 合同测试组织 |
-| B18–B19 | `config/env.ts` |
-| B20–B21 | `config/merge.ts` |
-| B22–B25 | `config/port.ts` + `config/index.ts`（外壳） |
-| B26 | `config/project-config.adapter.ts` + `config/project/` |
-| B27 | `config/index.ts` 导出面 |
-| B28–B36 | `config/schema.ts` + `config/schema/` |
-| B37–B47 | `config/config-factory.ts` + `config/factory/` |
-| B48 | 合同测试对 `owners.test.mjs` 的替换覆盖（该文件在替换阶段删除） |
-| B49–B59 | `config/file-config.adapter.ts` + `config/file/` |
-| B60–B63、B70 | `context/git-snapshot.ts` + `context/git/` |
-| B64–B69 | `context/index.ts` + `context/instructions.ts` + `context/project.ts` |
-| B71–B78 | `commands/index.ts` + `commands/roots.ts` + `commands/scan/` |
-| B79–B86 | `device/process-probe*.ts` + `device/probe/` |
-| B87 | `device/cli-device-mid.ts` |
-| B88–B94 | `image/*` |
-| B95–B113 | `fs/*`（错误表、IO、文本、搜索） |
-| B114–B121 | `logging/*` |
-| B125 | `mailbox/index.ts` |
-| B126–B128 | `skills/roots.ts`、`skills/scan.ts`、`skills/index.ts` |
-| B129 | `pdf/index.ts` |
-| B130–B131 | `workflow/index.ts` |
-| B132 | `provider/index.ts`（空模块） |
-| B133 | `index.ts` 根 barrel |
-| B134 | `storage/session-store.ts` barrel |
+| B18–B19           | `config/env.ts`                                                                              |
+| B20–B21           | `config/merge.ts`                                                                            |
+| B22–B25           | `config/port.ts` + `config/index.ts`（外壳）                                                 |
+| B26               | `config/project-config.adapter.ts` + `config/project/`                                       |
+| B27               | `config/index.ts` 导出面                                                                     |
+| B28–B36           | `config/schema.ts` + `config/schema/`                                                        |
+| B37–B47           | `config/config-factory.ts` + `config/factory/`                                               |
+| B48               | 合同测试对 `owners.test.mjs` 的替换覆盖（该文件在替换阶段删除）                              |
+| B49–B59           | `config/file-config.adapter.ts` + `config/file/`                                             |
+| B60–B63、B70      | `context/git-snapshot.ts` + `context/git/`                                                   |
+| B64–B69           | `context/index.ts` + `context/instructions.ts` + `context/project.ts`                        |
+| B71–B78           | `commands/index.ts` + `commands/roots.ts` + `commands/scan/`                                 |
+| B79–B86           | `device/process-probe*.ts` + `device/probe/`                                                 |
+| B87               | `device/cli-device-mid.ts`                                                                   |
+| B88–B94           | `image/*`                                                                                    |
+| B95–B113          | `fs/*`（错误表、IO、文本、搜索）                                                             |
+| B114–B121         | `logging/*`                                                                                  |
+| B125              | `mailbox/index.ts`                                                                           |
+| B126–B128         | `skills/roots.ts`、`skills/scan.ts`、`skills/index.ts`                                       |
+| B129              | `pdf/index.ts`                                                                               |
+| B130–B131         | `workflow/index.ts`                                                                          |
+| B132              | `provider/index.ts`（空模块）                                                                |
+| B133              | `index.ts` 根 barrel                                                                         |
+| B134              | `storage/session-store.ts` barrel                                                            |
