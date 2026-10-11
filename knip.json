@@ -7,7 +7,10 @@
         ".release-it.mjs",
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
-        "scripts/mise-run.mjs"
+        "scripts/mise-run.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/tests/*.test.mjs",
+        "specs/contracts/*/tests/fixtures/*.mjs"
       ]
     },
     "packages/desktop": {
@@ -29,5 +32,5 @@
       "entry": ["src/browser-client.ts"]
     }
   },
-  "ignore": [".agents/**", "docs/**", "specs/contracts/**", "packages/ui/src/components/**"]
+  "ignore": [".agents/**", "docs/**", "specs/contracts/*/stubs/**", "packages/ui/src/components/**"]
 }

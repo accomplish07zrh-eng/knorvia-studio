@@ -189,5 +189,30 @@
 - 输入：`@knorvia/contracts/hooks` 的导出。
 - 输出：导出名与种类符合 `interface.md`（workspace hook 信任相关类型与 store 工厂齐全）。
 - 错误语义：缺导出即违约。时序与并发：不适用。幂等：不适用。资源释放：不适用。平台差异：不适用。状态所有者：模块。日志级别：不适用。
-- 说明：hook 信任的逐条判定行为未在 v1 展开（见 `acceptance.md`）。
+- 说明：hook 信任的**逐条判定行为**由 `specs/contracts/core-hooks`（试点 1 合同）覆盖；本合同只覆盖 `@knorvia/contracts/hooks` 的类型与导出面，不重复断言其判定逻辑。
 - （测试：api-surface.test.mjs「每个公开子路径都能载入并导出 interface.md 列出的名字」）
+
+## B25 运行时配置契约（`config/index.ts`）
+
+- 入口：`@knorvia/contracts/config`（也经包根入口再导出）。
+- 输入：无（模块常量与默认值）。
+- 输出：
+  - `ConfigKey`：配置键字符串（如 `modelStream.idleTimeoutMs`、`permission.mode`、`storage.dir`、`network.timeout`、`plugins.enabled`、`skills.enabled`）；
+  - `ConfigScope`：`system|user|project|session|env|cli`；
+  - `ConfigScopePriority`：每个 scope 的数值优先级（`system=0`、`user=10`、`project=20`、`session=30`，`env`/`cli` 更高），优先级严格递增；
+  - `DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS = 600000`；
+  - `DefaultRuntimeConfig`：默认运行配置对象，含 `modelStream.idleTimeoutMs`、`permission.mode="build"`、`storage.dir="~/.knorvia-studio"`、`network.timeout=180000`、`features.*` 布尔开关等。
+- 错误语义：不适用（常量）。时序与并发：不适用。幂等：常量。资源释放：不适用。平台差异：`storage.dir` 使用 `~/` 形式，由使用方解析。状态所有者：模块常量（调用方不得原地修改 `DefaultRuntimeConfig`）。日志级别：不适用。
+- 说明：`config/index.ts` **没有运行时 schema 解析**（只有常量与类型），因此不存在「接受/拒绝矩阵」；本合同断言其常量取值与默认配置形状。逐键的配置解析/合并行为在 `adapters` 包（config adapters）里，属其替换包的范围。
+- （测试：behavior.test.mjs「配置常量与默认运行配置保持既有取值与优先级」）
+
+## B26 插件运行时契约（`plugins/index.ts`）
+
+- 入口：`@knorvia/contracts/plugins`。
+- 输入：`isOfficialMarketplaceId(id: string)` 的任意字符串；常量无输入。
+- 输出：
+  - `KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE = "knorvia-plugins-bundled"`、`KNORVIA_INLINE_PLUGIN_MARKETPLACE = "inline"`、`KNORVIA_PLUGIN_HOST_COMMAND = "__knorvia-plugin-host"`、`KNORVIA_DWF_CHILD_COMMAND = "__knorvia-dwf-child"`；
+  - `isOfficialMarketplaceId`：**只**对与官方 marketplace id 完全相等的字符串返回 true，其余（内联 id、空串、大小写变体、带空白、前缀相同但不等的字符串）一律 false。
+- 错误语义：不适用（纯谓词，不抛错）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- 说明：`plugins/index.ts` 也没有运行时 schema 解析（插件清单/组件的 schema 在 adapters 的插件加载器里）；本合同断言常量与官方 marketplace 判定的接受/拒绝矩阵。
+- （测试：behavior.test.mjs「插件常量与官方 marketplace 判定矩阵」）

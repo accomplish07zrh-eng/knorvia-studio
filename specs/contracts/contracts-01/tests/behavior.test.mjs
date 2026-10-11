@@ -702,3 +702,72 @@ test("Git Bash 路径双向转换", () => {
   assert.equal(root.gitBashPathToWindowsPath("//server/share/x"), "\\\\server\\share\\x");
   assert.equal(root.gitBashPathToWindowsPath("plain/rel"), "plain\\rel");
 });
+test("配置常量与默认运行配置保持既有取值与优先级", async () => {
+  const config = await load("config");
+  assert.equal(config.DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS, 600000);
+  assert.equal(config.ConfigKey.ModelStreamIdleTimeout, "modelStream.idleTimeoutMs");
+  assert.equal(config.ConfigKey.PermissionMode, "permission.mode");
+  assert.equal(config.ConfigKey.StorageDir, "storage.dir");
+  assert.equal(config.ConfigKey.HttpTimeout, "network.timeout");
+  assert.equal(config.ConfigKey.PluginsEnabled, "plugins.enabled");
+  assert.equal(config.ConfigKey.SkillsEnabled, "skills.enabled");
+  assert.deepEqual(
+    { ...config.ConfigScope },
+    {
+      System: "system",
+      User: "user",
+      Project: "project",
+      Session: "session",
+      Env: "env",
+      Cli: "cli",
+    },
+  );
+  assert.equal(config.ConfigScopePriority[config.ConfigScope.System], 0);
+  assert.equal(config.ConfigScopePriority[config.ConfigScope.User], 10);
+  assert.equal(config.ConfigScopePriority[config.ConfigScope.Project], 20);
+  assert.equal(config.ConfigScopePriority[config.ConfigScope.Session], 30);
+  const priorities = Object.values(config.ConfigScopePriority);
+  assert.deepEqual(
+    [...priorities].sort((left, right) => left - right),
+    priorities,
+    "优先级必须严格递增",
+  );
+  assert.equal(new Set(priorities).size, priorities.length, "每个 scope 的优先级唯一");
+  const defaults = config.DefaultRuntimeConfig;
+  assert.equal(defaults.modelStream.idleTimeoutMs, config.DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS);
+  assert.equal(defaults.permission.mode, "build");
+  assert.deepEqual(defaults.permission.allowedTools, []);
+  assert.deepEqual(defaults.permission.disallowedTools, []);
+  assert.equal(defaults.permission.autoApproveHighRisk, false);
+  assert.equal(defaults.permission.allowMediumRiskInAuto, false);
+  assert.equal(defaults.storage.dir, "~/.knorvia-studio");
+  assert.equal(defaults.storage.sessionDbPath, "~/.knorvia-studio/cli/db/db.sqlite");
+  assert.equal(defaults.network.timeout, 180000);
+  for (const feature of ["compact", "rewind", "subagent", "memory", "skill"]) {
+    assert.equal(defaults.features[feature], true, `features.${feature} 默认为 true`);
+  }
+});
+
+test("插件常量与官方 marketplace 判定矩阵", async () => {
+  const plugins = await load("plugins");
+  assert.equal(plugins.KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE, "knorvia-plugins-bundled");
+  assert.equal(plugins.KNORVIA_INLINE_PLUGIN_MARKETPLACE, "inline");
+  assert.equal(plugins.KNORVIA_PLUGIN_HOST_COMMAND, "__knorvia-plugin-host");
+  assert.equal(plugins.KNORVIA_DWF_CHILD_COMMAND, "__knorvia-dwf-child");
+  assert.equal(plugins.isOfficialMarketplaceId("knorvia-plugins-bundled"), true);
+  for (const rejected of [
+    "inline",
+    "",
+    "KNORVIA-PLUGINS-BUNDLED",
+    " knorvia-plugins-bundled",
+    "knorvia-plugins-bundled ",
+    "knorvia-plugins-bundle",
+    "knorvia-plugins-bundled-2",
+  ]) {
+    assert.equal(
+      plugins.isOfficialMarketplaceId(rejected),
+      false,
+      `${JSON.stringify(rejected)} 必须被拒绝`,
+    );
+  }
+});

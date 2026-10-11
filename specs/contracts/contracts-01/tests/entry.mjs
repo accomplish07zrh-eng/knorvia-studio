@@ -7,7 +7,7 @@
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { join } from "node:path";
 
-export const entryMode = process.env.KNORVIA_CONTRACTS_ENTRY === "dist" ? "dist" : "source";
+const entryMode = process.env.KNORVIA_CONTRACTS_ENTRY === "dist" ? "dist" : "source";
 
 const packageRoot = fileURLToPath(
   new URL("../../../../apps/cli/packages/contracts/", import.meta.url),

@@ -3,32 +3,51 @@
   "contractVersion": "v1",
   "repositoryCommit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
   "recordedAt": "2026-10-11",
-  "toolchain": { "node": "24.14.0", "pnpm": "10.33.2" },
+  "toolchain": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2"
+  },
   "entries": [
     {
       "entry": "source",
       "command": "node --import tsx --test specs/contracts/contracts-01/tests/api-surface.test.mjs specs/contracts/contracts-01/tests/behavior.test.mjs",
-      "tests": 25,
-      "passed": 25,
+      "tests": 27,
+      "passed": 27,
       "failed": 0,
       "skipped": 0,
       "preRegisteredDifferences": 0,
       "files": [
-        { "file": "tests/api-surface.test.mjs", "tests": 4, "passed": 4 },
-        { "file": "tests/behavior.test.mjs", "tests": 21, "passed": 21 }
+        {
+          "file": "tests/api-surface.test.mjs",
+          "tests": 4,
+          "passed": 4
+        },
+        {
+          "file": "tests/behavior.test.mjs",
+          "tests": 23,
+          "passed": 23
+        }
       ]
     },
     {
       "entry": "dist",
       "command": "pnpm build:cli-packages && KNORVIA_CONTRACTS_ENTRY=dist node --import tsx --test specs/contracts/contracts-01/tests/api-surface.test.mjs specs/contracts/contracts-01/tests/behavior.test.mjs",
-      "tests": 25,
-      "passed": 25,
+      "tests": 27,
+      "passed": 27,
       "failed": 0,
       "skipped": 0,
       "preRegisteredDifferences": 0,
       "files": [
-        { "file": "tests/api-surface.test.mjs", "tests": 4, "passed": 4 },
-        { "file": "tests/behavior.test.mjs", "tests": 21, "passed": 21 }
+        {
+          "file": "tests/api-surface.test.mjs",
+          "tests": 4,
+          "passed": 4
+        },
+        {
+          "file": "tests/behavior.test.mjs",
+          "tests": 23,
+          "passed": 23
+        }
       ]
     }
   ],

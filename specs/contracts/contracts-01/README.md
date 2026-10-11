@@ -58,10 +58,12 @@ node --import tsx --test specs/contracts/contracts-01/tests/api-surface.test.mjs
 | B20 媒体策略                 | `behavior.test.mjs` · 「媒体策略：provider-visible 判定与不支持媒体文案」                                                          |
 | B21 公网出口 IP              | `behavior.test.mjs` · 「公网出口 IP：规范化、版本与阻断原因」                                                                      |
 | B22 Git Bash 路径转换        | `behavior.test.mjs` · 「Git Bash 路径双向转换」                                                                                    |
-| B23 插件与配置契约（导出面） | `api-surface.test.mjs` · 导出面用例（逐 schema 行为见 `acceptance.md` 未覆盖项）                                                   |
-| B24 hooks 契约（导出面）     | `api-surface.test.mjs` · 导出面用例（逐条信任判定见 `acceptance.md` 未覆盖项）                                                     |
+| B23 插件与配置契约（导出面） | `api-surface.test.mjs` · 导出面用例（运行时契约见 B25/B26）                                                                        |
+| B24 hooks 契约（导出面）     | `api-surface.test.mjs` · 导出面用例（hook 信任判定由 `specs/contracts/core-hooks` 覆盖）                                           |
+| B25 运行时配置契约           | `behavior.test.mjs` · 「配置常量与默认运行配置保持既有取值与优先级」                                                               |
+| B26 插件运行时契约           | `behavior.test.mjs` · 「插件常量与官方 marketplace 判定矩阵」                                                                      |
 
-无空行：B1–B24 每条都至少有一个断言。
+无空行：B1–B26 每条都至少有一个断言。
 
 ## 合同变更规则
 
