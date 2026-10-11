@@ -1801,3 +1801,200 @@
 - 状态所有者：无。
 - 日志级别：无。
 - 可测断言：五个模块的 `Object.keys` 分别等于 `interface.md` 的导出集合；`mod.initialLevel === undefined`、`mod.daysToKeep === undefined`、`mod.errorNode === undefined`；`index.ts` 的 `DefaultLogRedactor` 与 `serialize.ts` 的是同一个函数对象。
+
+## E. 会话存储迁移的夹具组织与其余小目录（`storage/session-store*` 的测试组织、`mailbox/`、`pdf/`、`provider/`、`skills/`、`workflow/`、barrel）
+
+状态所有者：会话存储的**唯一状态所有者是 SQLite 文件**（`schema_migration` 账本 + 业务表），迁移执行器负责按账本推进；契约测试只做「合成旧库 → 打开 → 断言」的黑盒读写，不持有跨用例状态。`NodeSessionMailboxAdapter` 的状态是 `rootDir` 下的 `unread/` 与 `read/` 两个目录（重命名即状态迁移）。`NodeSkillAdapter` 的 `disabled` 集合与 `pluginNames` 缓存归实例所有。`NodeWorkflowStore` 无内存状态，所有事实落在 `rootDir` 的文件里（`index.json`、`runs/<sanitized>/…`）。
+
+### B122 会话存储迁移夹具必须脱敏且可合成
+
+- 来源：`storage/session-store/migrations.ts`（`SQLITE_MIGRATIONS`）与 B17 的往返契约
+- 输入：测试用的临时目录。
+- 输出：**夹具不得是真实用户数据库**：旧版数据库一律用 `node:sqlite` 的 `DatabaseSync` 在 `node:os` 的 `tmpdir()` 下**按脚本合成**，只保留旧版 schema 形状与列（如 0001 的 `session` 表、`message`/`part`、`local_setting` 等），插入的数据全部是虚构占位（如 `sess_fixture`、`project_fixture`、时间戳常量）；**不得包含真实会话、真实用户数据、凭据、令牌、内部服务地址或真实主目录路径**。夹具按「版本切片」组织：每个被测的历史版本一个最小建表脚本 + 一行代表性数据；需要「迁移前」状态的用例不通过应用现成迁移来造，而是手写旧 SQL。
+- 错误语义：夹具脚本自身失败即测试失败（不吞错）。
+- 时序与并发：夹具在每个用例内新建、用例结束 `rm -rf` 清理；固定时间戳与固定主键，避免跨用例污染。
+- 幂等：同一夹具脚本重复生成同一形状的库（除 SQLite 文件内部的物理差异）。
+- 资源释放：`DatabaseSync` 必须显式 `close()`；临时目录在 `after` 钩子删除。
+- 平台差异：临时目录用 `tmpdir()` + `mkdtemp`，路径拼接用 `join`；不写死 `/tmp`。
+- 状态所有者：测试用例持有的临时 SQLite 文件。
+- 日志级别：无。
+- 可测断言：夹具里 `SELECT name FROM sqlite_master` 只出现脚本声明的表；`SELECT count(*) FROM session` 等于夹具行数；夹具文本里不出现 `Bearer `、`token`/`password` 赋值形态、`http(s)://` 内部域名字面量（用允许清单断言）；每个夹具用例结束后临时目录不存在。
+
+### B123 迁移账本的冻结事实：编号、顺序与 checksum
+
+- 来源：`storage/session-store/migrations.ts`（`SQLITE_MIGRATIONS`，`{appVersion, id, sql}`）
+- 输入：无（读取账本常量）。
+- 输出：账本按**追加式**排列：`id` 唯一、按版本顺序单调、每个 `id` 形如 `^\d{4}_[a-z0-9_]+$`；已发布的 0001–0022 一个都不能改、不能删、不能改序号；`sql` 是冻结文本，运行时的身份校验逐字为「`sha256(sql.trim())` 与账本表 `schema_migration.checksum` 相等」，不一致时的错误文案逐字包含 `SQLite migration checksum mismatch for <id>. Historical migrations are immutable; add a new migration instead.`；本包只保证**账本文本与编号的不可变性**（判定与落库由非本包的执行器完成，见「不在范围」说明）。新增迁移只能是**新的最大编号**。
+- 错误语义：读取账本本身不抛错；篡改已发布项会在执行器侧变成 `SqliteSessionMigrationError(kind: "checksum_mismatch")`（不在本包，但契约测试用夹具锁定其前提）。
+- 时序与并发：账本是模块级常量数组，加载时冻结（`readonly`）。
+- 幂等：同一文件每次读取得到同样的 id 列表与同样的 `sql.trim()` 摘要。
+- 资源释放：无。
+- 平台差异：`sql` 文本里的换行固定 `\n`（模块源码为 LF），checksum 因此跨平台一致。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`SQLITE_MIGRATIONS.map(m => m.id)` 深度等于 `fixtures/` 里记录的冻结 id 列表；`SQLITE_MIGRATIONS.length` 等于冻结条数；每个 `id` 匹配 `^\d{4}_[a-z0-9_]+$` 且严格递增；`createHash("sha256").update(m.sql.trim()).digest("hex")` 逐条等于 `fixtures/session-store/ledger-checksums.json` 里记录的摘要（**该文件由本次旧门生成后冻结**）；任意两条 `sql` 不相同。
+
+### B124 「旧写 → 新读 → 新写 → 旧读」四步的组织
+
+- 来源：B17 的往返契约 + `storage/session-store.ts`（barrel）+ `storage/index.ts`（门面，非本包）
+- 输入：B122 的合成旧库。
+- 输出：四步固定组织，全部走公开入口：
+  1. **旧写**：用 `node:sqlite` 直接对合成库写入旧版形状的行（不经过本包代码）；
+  2. **新读**：通过 `apps/cli/packages/adapters/src/storage/session-store.ts`（dist 对应 `dist/storage/session-store.js`）或 `storage/index.ts` 的 `createSqliteSessionStore` / `openStartupSqliteSessionStore` 打开同一文件，断言旧行仍可读（字段值与旧写一致、缺失的新列有定义的默认语义），并且 `schema_migration` 账本表出现本包的每个 `id`；
+  3. **新写**：用同一个公开入口写入新数据（新会话/消息/输入记录等），断言写入成功；
+  4. **旧读**：关掉 store 后重新用 `node:sqlite` 直接读原始表，断言旧表与旧列**仍然存在**、旧行未被破坏、新写入的数据在旧列上取值符合旧格式（新列只做加法）。
+- 错误语义：任一步失败即测试失败；不允许用「跳过断言」规避（`0 skipped` 是旧门要求）。
+- 时序与并发：同一用例内串行执行；打开-关闭-重开至少一次，覆盖「迁移已完成」的第二次打开（幂等）。
+- 幂等：第二次打开不重复执行迁移、不产生新的账本行。
+- 资源释放：所有 `DatabaseSync` 与 store 句柄显式关闭。
+- 平台差异：SQLite 文件路径由 `join` 构造；Windows 上先 `close()` 再删除文件。
+- 状态所有者：临时 SQLite 文件。
+- 日志级别：无（测试断言直接看库内容）。
+- 可测断言：四步都成功；第二步账本行数等于 `SQLITE_MIGRATIONS.length`；第三步之后第四步能读到新数据；重开后账本行数不变；旧表名与旧列名（如 `session.project_id`、`message.session_id`）仍在 `PRAGMA table_info` 结果里。
+
+### B125 会话信箱（`mailbox/`）的目录迁移语义
+
+- 来源：`mailbox/index.ts`（`NodeSessionMailboxAdapter`、`createNodeSessionMailboxAdapter`、`parseEnvelope`）
+- 输入：`{rootDir}`；`drainUnread({sessionId, limit?}, {signal?})`。
+- 输出：`sessionId` 先 `String()`，必须匹配逐字 `^sess_[A-Za-z0-9._-]+$`，否则抛 `Invalid session id: <id>`；解析后的 session 目录必须仍在 `rootDir` 内（`relative` 为空或以 `..` 开头或绝对 → 抛 `Session mailbox path escapes root: <id>`）；`drainUnread` 先递归创建 `unread`/`read` 两个目录，再 `readdir(unread)`、只取 `.json`、**按文件名字典序排序**、`slice(0, limit ?? 20)`；逐条：`signal?.throwIfAborted()` → 读文件 → `parseEnvelope`（必须 `version === 1` 且 `messageId`/`fromSessionId`/`toSessionId`/`content`/`createdAt` 全是字符串，否则抛逐字 `Invalid session mailbox envelope`）→ 推入结果 → `rename(unread → read)`（**重命名即已读标记**，先入结果后迁移，失败时已迁移的条目不会回滚）。返回 `SessionMailboxEnvelope[]`。
+- 错误语义：非法 session id / 逃逸路径 / 信封格式错误都抛 `Error`；`readFile`/`rename` 的原始错误冒泡。
+- 时序与并发：异步串行；`limit` 是「每次最多取多少」，不保证公平；并发 `drainUnread` 同一目录可能竞争（`rename` 失败即抛错）。
+- 幂等：已 `rename` 到 `read` 的条目不再被返回（第二次调用返回剩余或空数组）。
+- 资源释放：无长期句柄。
+- 平台差异：路径校验用 `resolve`/`relative`/`isAbsolute`；`rootDir` 必须存在或可创建。
+- 状态所有者：`rootDir/<sessionId>/{unread,read}` 目录内容。
+- 日志级别：无。
+- 可测断言：`rootDir` 下预置 `unread/a.json`、`unread/b.json`、`unread/c.txt` → `drainUnread({sessionId:"sess_x"})` 返回 2 条（顺序 `a`、`b`），`read/` 里有这两个文件、`unread/` 为空、`c.txt` 留在 `unread`；`limit:1` → 只返回 `a.json`；第二次调用返回 `b.json`；`sessionId:"bad"` → 抛 `Invalid session id: bad`；`sessionId:"sess_../x"` → 匹配失败仍走非法 id（模式不允许 `/`）；信封缺字段 → 抛 `Invalid session mailbox envelope`；已 abort 的 signal → 抛 `AbortError`；`createNodeSessionMailboxAdapter` 返回实现 `SessionMailboxPort` 的实例。
+
+### B126 技能根发现（`skills/roots.ts`）
+
+- 来源：`skills/roots.ts`（`resolveDefaultSkillRoots`、`SkillRootResolutionOptions`）
+- 输入：`workingDirectory` 与选项（`homeDirectory?`、`extraRoots?`、`extraResolvedRoots?`、`includeKnorviaSkills?`）。
+- 输出：结构与 `commands/roots.ts` **同构**，目录名换成 `skills`：`extraRoots` → 用户私有根 `join(privateRoot, "skills")`（`privateRoot = options.homeDirectory ? join(home, ".knorvia-studio") : resolveKnorviaDataRoot()`）→ `join(home, ".agents", "skills")` → 项目目录链（到 `.git` 标记为止）每层的 `.knorvia-studio/skills` 与 `.agents/skills` → `extraResolvedRoots` 原样追加；`priority` 从 0 起每项 +10，`scope`/`source` 与 commands 一致（`user|project` × `knorvia|agents`），每个根的 `path` 经过 `resolve`。
+- 差异（必须保持）：`resolveConfiguredRoot` 的 `~/` 展开用**模块级 `homedir()`**，**不吃 `options.homeDirectory`**（与 commands 的行为不同，这是既有实现）；无 `.git` 祖先时项目目录链只有工作目录自己。
+- 错误语义：不抛错（`pathExists` 吞掉 `stat` 失败）。
+- 时序与并发：异步串行 `stat`。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`resolve`/`join`/`dirname`；Windows 根目录由 `dirname(current) === current` 终止。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：注入 `homeDirectory` 到临时目录 → 根优先级 `10,20,30,…`，用户级两个根依次是 `<tmp>/.knorvia-studio/skills` 与 `<tmp>/.agents/skills`；`includeKnorviaSkills:false` → 没有任何 knorvia/agents 根；`extraRoots:["~/skills"]` → `path === join(homedir(), "skills")`（**不是** `homeDirectory`）；`extraResolvedRoots` 的对象原引用出现在末尾。
+
+### B127 技能目录扫描（`skills/scan.ts`）
+
+- 来源：`skills/scan.ts`（`scanSkillFilesUnderRoot`、`scanSkillFilesUnderRootSync`）
+- 输入：根路径与 `{followSymbolicLinks?}`（缺省 `true`）。
+- 输出：`follow` 为假且根自身是符号链接 → `[]`；根 `stat` 失败或不是目录 → `[]`（`ENOENT` 静默，其它错误抛出）；先看 `<root>/SKILL.md`（文件名为 `@knorvia/shared` 的 `SKILL_FILE_NAME`），`canLoad` 为真才收；再 `readdir(withFileTypes)`，条目必须是目录或（`follow` 时）符号链接，且必须通过 `shouldWalkSkillDirectoryEntry(name)`（来自 `@knorvia/shared`），然后看 `<root>/<entry>/SKILL.md`；`canLoad` = （`follow` 或目标不是符号链接）且 `stat` 结果是文件——**符号链接的 `SKILL.md` 在 `follow:false` 时被排除**；`stat` 的 `ENOENT` 当作不可加载，其它错误抛出。同步版本（`…Sync`）用 `statSync`/`lstatSync`/`readdirSync`，语义逐条一致（同一输入同一顺序：先根再条目顺序）。
+- 错误语义：见上；不可加载不产生诊断（诊断由 `skills/index.ts` 的调用方负责）。
+- 时序与并发：异步版逐条 `await`；同步版阻塞。
+- 幂等：同一目录状态同一结果（顺序 = `readdir` 顺序）。
+- 资源释放：无长期句柄。
+- 平台差异：`join` 构造路径；符号链接在 Windows 上的创建需要权限（测试里按「能创建就断言、不能就按不可加载处理」分层）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：根里有 `SKILL.md`、`alpha/SKILL.md`、`beta/readme.md`、`gamma/`（无 SKILL.md）、`.hidden/SKILL.md`（若 `shouldWalkSkillDirectoryEntry` 拒绝点开头目录则不含它）→ 结果含根自身与 `alpha` 两项；根不存在 → `[]`；根是文件 → `[]`；`followSymbolicLinks:false` 且根是符号链接 → `[]`；异步与同步版本在同一目录上返回**同一数组**。
+
+### B128 `skills/index.ts` 的元数据解析与发现
+
+- 来源：`skills/index.ts`（`NodeSkillAdapter`、`createNodeSkillAdapter`、`frontmatterOf`、`bodyOf`、`parseFields`、`blockText`、`findPluginName`）
+- 输入：`discoverSkills({workingDirectory, roots?}, {signal?})`、`loadSkill({name, workingDirectory, roots?, maxBytes?}, {signal?})`。
+- 输出：`frontmatterOf`：去 BOM 后必须以 `---` 开头、**第一行 trim 后逐字为 `---`**、存在后续某行 trim 后也是 `---`，否则 `null`；`bodyOf`：去 BOM 后不以 `---` 开头就原样返回，否则以**第一个** `trim() === "---"` 的行（从第 2 行起）为分界取其后的行；`parseFields` 跳过空行、`#` 注释行与**以空白开头**的续行；`indexOf(":") <= 0` 的行写 `skill_invalid_frontmatter`（warning，`message` 逐字 `Invalid frontmatter line <行号> in <文件名>`）；值 trim 后匹配 `/^>[+-]?$/` 或 `/^\|[+-]?$/` 时按块标量收集后续「空行或以空白开头的行」，`>` 折叠（段落内空格连接、段间换行）、`|` 保留换行，块内按最小缩进去缩进。
+- 元数据：`name = scalar(values.name) ?? (有 frontmatter ? undefined : basename(dirname(path)))`；缺 name → `skill_missing_name`（error，消息 `Skill frontmatter must include a name: <path>`）→ 跳过；有 frontmatter 但 `description` 为空 → `skill_missing_description`（error，消息 `Skill frontmatter must include a description: <path>`）→ 跳过；`description.length > 1024` → `skill_description_too_long`（error，消息 `Skill description is too long: <name>`）→ 跳过；`safeToAutoLoad = frontmatterKeys.every(key => SUPPORTED_FIELDS.includes(key))`（`SUPPORTED_FIELDS` 逐字 `name`、`description`、`when_to_use`、`license`、`metadata`）；`policy` 固定 `{allowImplicitInvocation: true}`；`source === "plugin"` 时通过向上最多 **5 层**（含起点共 6 层）依次查找 `.knorvia-plugin/plugin.json`、`.claude-plugin/plugin.json`、`.codex-plugin/plugin.json`、`.cursor-plugin/plugin.json` 的 `name`（非空字符串）得到 `pluginName` 与 `qualifiedName: "<pluginName>:<skillName>"`，`pluginId` 只在根带 `pluginId` 时给出；结果按 `resolvedRoot` 缓存 Promise。
+- 发现：`discoverSkills` 先 `checkCancellation`（`Skill operation cancelled`）；根按 `priority` 升序稳定排序；扫描时 `followSymbolicLinks = root.source !== "plugin"`；扫描抛错且不是 `ENOENT` → `skill_scan_failed`（warning）；每个文件 `parse` → `resolve(path)` 与 `realpath` 后**逐级查 `disabled`**（命中即跳过、不计入 `totalDiscovered`）；**按 `metadata.path` 去重**（同一路径保留先解析的那份）；最后按 `name.localeCompare` 升序返回 `{skills, diagnostics, totalDiscovered}`。
+- 加载：`loadSkill` 先发现全集，按 `name` **或 `qualifiedName`** 精确匹配，找不到抛逐字 `Skill not found: <request.name>`；`maxBytes` 缺省 **100000**；`truncated = size > maxBytes`，截断时读前 `maxBytes` 字节；返回 `{metadata, content: bodyOf(<utf8 文本>).trim(), baseDirectory: metadata.directory, bytesRead, sizeBytes, truncated}`。
+- 错误语义：读文件 `ENOENT` 静默跳过，其它错误 → `skill_read_failed`（warning）；取消抛 `Skill operation cancelled`。
+- 时序与并发：异步串行；`disabled` 与 `pluginNames` 是实例状态。
+- 幂等：同一文件系统状态同一结果；`pluginNames` 命中缓存后不再读盘。
+- 资源释放：`loadSkill` 截断分支的句柄在 `finally` 关闭。
+- 平台差异：路径用 `resolve`/`join`/`dirname`；`realpath` 解析符号链接后再比对 `disabled`。
+- 状态所有者：适配器实例（`disabled`、`pluginNames`）。
+- 日志级别：无（诊断以数据返回）。
+- 可测断言：`SKILL.md` 带 `name`/`description` → 返回一条且 `safeToAutoLoad === true`、`policy.allowImplicitInvocation === true`；带未知键 `extra: 1` → `safeToAutoLoad === false` 且命令仍出现；无 frontmatter 的 `SKILL.md` → `name` 回退为目录名且 `description` 为 `""`；有 frontmatter 但缺 `description` → `skill_missing_description` 且跳过；`description` 超过 1024 → `skill_description_too_long`；`when_to_use: >` 折叠块 → 段落以空格连接；`disabledPaths:[<文件>]` → 该技能不出现且 `totalDiscovered` 不增；`loadSkill({name:"<名称>"})` 返回去掉 frontmatter 并 trim 的正文；`maxBytes` 小于文件 → `truncated === true`。
+
+### B129 PDF 渲染适配器（`pdf/`）
+
+- 来源：`pdf/index.ts`（`createPopplerPdfDocumentAdapter`、`inspectRenderOutcome`、`collectPages`）
+- 输入：`{executionPort, tempRoot?}`；`getPageCount({filePath, trace})`；`renderPages({filePath, firstPage, lastPage, trace})`；都可带 `{signal?}`。
+- 输出：`getPageCount` 跑 `pdfinfo <filePath>`（超时用契约常量 `READ_PDF_INFO_TIMEOUT_MS`）；取消（结果 `cancelled` 或 signal 已中止）→ `PdfDocumentPortError("cancelled", "PDF inspection was cancelled.")`；`status !== "completed"` 或 `exitCode !== 0` → **返回 `undefined`**（不抛错）；`stdout` 匹配 `/^Pages:\s+(\d+)\s*$/imu` 且是安全整数 ≥ 0 → 返回该数，否则 `undefined`。
+- `renderPages`：先 `checkAvailability`（**每个适配器实例只成功一次**，后续直接跳过）：跑 `pdftoppm -v`（`READ_PDF_AVAILABILITY_TIMEOUT_MS`）；取消 → `cancelled`；超时 → `timeout`（消息 `PDF page extraction availability check timed out after <ms>ms.`）；可接受判据是「`status ∈ {completed, failed}` 且（`exitCode === 0` 或（`exitCode` 存在、不等于 127、且 `stderr` 非空））」；否则 `unavailable`，消息逐字 `pdftoppm is not installed. Install poppler-utils (e.g. \`brew install poppler\` or \`apt-get install poppler-utils\`) to enable PDF page rendering.`。随后 `mkdtemp(join(tempRoot ?? tmpdir(), "knorvia-read-pdf-"))`（失败 → `io_error`，消息 `Unable to create a temporary directory for PDF page extraction.`，signal 已中止时改判 `cancelled`）；跑 `pdftoppm -jpeg -r 100 -f <first> -l <last> <filePath> <dir>/page`（`READ_PDF_RENDER_TIMEOUT_MS`）；`inspectRenderOutcome` 判定：`cancelled`→`cancelled`（消息逐字 `PDF page extraction was cancelled.`）；`timedOut`或`status === "timed_out"`→`timeout`（消息 `PDF page extraction timed out after <ms>ms.`）；`completed`且`exitCode === 0` → 通过；`stderr`含`password`（不区分大小写）→ `password_protected`（消息 `PDF is password-protected. Please provide an unprotected version.`）；`stderr`匹配`/Wrong page range given[\s\S]\*last page \((\d+)\)/i`：计数 0 → `corrupted`（消息 `PDF reports 0 pages (empty page tree). The PDF may be invalid.`）、计数安全整数 ≥ 1 → `page_out_of_range`（消息含 `Requested page <n>`或`Requested pages <a>-<b>`、`PDF has <n> page(s)`、`maximum <READ_PDF_MAX_PAGES_PER_REQUEST> pages per request (e.g. pages: "1-<min(count, max)>")`）；`stderr`没有`Command Line Error|Internal Error`诊断行时，首行以`I/O Error: `开头且包含`'<filePath>'`→`io_error`（消息 `Could not render PDF: <首行>`），首行以 `Permission Error: `开头 →`permission_denied`（同前缀消息）；`stderr`含`damaged|corrupt|invalid`或特定`Syntax Error: Couldn't find trailer dictionary / read xref table`→`corrupted`（消息 `PDF file is corrupted or invalid.`）；其它 → `process_failed`（消息 `pdftoppm failed: <detail>`或`pdftoppm failed.`，`cause`取`result.error?.cause`），`detail`是`stderr`、`stdout`、`error.message`中非空项用`"\n"` 连接并 trim。
+- `collectPages`：`readdir` 失败 → `io_error`（消息 `Unable to list rendered PDF page images.`；signal 已中止则 `cancelled`）；只收文件名匹配 `/-(\d+)\.jpg$/i` 且页号安全整数 ≥ 1 的项，按页号升序；一个都没有 → `corrupted`（消息 `pdftoppm produced no output pages. The PDF may be invalid.`）；逐个读成 `Uint8Array`，返回 `{data, mediaType: "image/jpeg", pageNumber}`（读失败 → 消息 `Unable to read rendered PDF page images.`）。
+- 临时目录清理：无论成功失败都 `rm(directory, {recursive:true, force:true})`；**只有成功路径**的 `rm` 失败才抛 `io_error`（消息 `Unable to remove temporary PDF page images.`）；失败路径保留原始错误（`rm` 失败被忽略），最终 `throw outcome.cause`。
+- 错误语义：全部经 `PdfDocumentPortError(code, message, {cause?})`；`code ∈ {cancelled, timeout, unavailable, password_protected, page_out_of_range, corrupted, io_error, permission_denied, process_failed}`。
+- 时序与并发：每个 `renderPages` 一次临时目录、一次命令、一次清理；可用性探测在实例内只成功一次（失败不缓存）。
+- 幂等：`renderPages` 可重复调用（每次新临时目录）；`getPageCount` 只读。
+- 资源释放：临时目录 `rm` 强删；`executionPort` 的子进程由它自己回收。
+- 平台差异：`pdftoppm`/`pdfinfo` 依赖 PATH；`mkdtemp`/`tmpdir()` 跨平台；文件名的 `-<n>.jpg` 解析不区分大小写。
+- 状态所有者：适配器实例的 `availabilitySucceeded` 标志。
+- 日志级别：无（错误以 `PdfDocumentPortError` 抛出）。
+- 可测断言：用假的 `executionPort`（记录调用参数）——`getPageCount` 在 `exitCode !== 0` 时返回 `undefined`、在 `stdout` 为 `Pages:           12` 时返回 12；`renderPages` 在 `pdftoppm -v` 返回 `exitCode:127` 且 `stderr` 为空 → 抛 `unavailable` 且消息逐字为不可用文案；`stderr` 含 `password` → `password_protected`；`stderr` 为 `Wrong page range given: ... last page (3)` → `page_out_of_range` 且消息含 `PDF has 3 pages`；成功时临时目录里写两个 `page-1.jpg`/`page-2.jpg` 假文件，返回两页 `pageNumber` 升序且 `mediaType === "image/jpeg"`、`data` 是 `Uint8Array`；成功后临时目录被删除；临时目录里没有匹配文件 → `corrupted` 且消息逐字；`signal` 已中止 → `cancelled`。
+
+### B130 工作流存储（`workflow/` 的 run 侧）
+
+- 来源：`workflow/index.ts`（`NodeWorkflowStore`、`createNodeWorkflowStore`、`appendJsonLine`、`readJson`、`readJsonLines`、`writeJsonFile`、`writeTextFile`、`normalizeRelativePath`、`sanitizePathSegment`、`throwIfAborted`）
+- 输入：`{rootDir?}`（缺省 `<resolveKnorviaDataRoot()>/cli/workflows`，在模块加载时定值）与各方法。
+- 输出：目录布局固定：`<rootDir>/index.json`、`<rootDir>/runs/<sanitized 的 runId>/run.json`、`events.jsonl`、`graph.jsonl`、以及产物（`report.md` 等）。`appendEvent`/`appendGraphRecord`/`writeSnapshot` 先 `throwIfAborted`（signal 已中止时抛 `signal.reason`（Error）否则抛给定消息）再用 `@knorvia/contracts` 的 schema `parse` 校验，然后写文件；JSONL 追加是 `mkdir(dirname)` + `appendFile(JSON.stringify(value) + "\n")`；`writeSnapshot` 用 `JSON.stringify(value, null, 2) + "\n"` 原子写（临时名 `${path}.${randomUUID()}.tmp` + `rename`），随后更新索引。`readRun`：文件缺失或非法 JSON **抛错**（只有 `ENOENT` 返回 `null`），存在则 `WorkflowRunSnapshotSchema.parse`。`readEvents`：`ENOENT` → `[]`，否则逐行 parse（空行被过滤）。`listRuns`：读 `index.json`（缺失 → `{runs: []}`，`runs` 不是数组 → 空表），按 `cwd`/`kind` 过滤，按 `updatedAt` **降序**（`localeCompare`）排序，`limit` 给定则截断。`readLatestRun`：等价 `listRuns({...options, limit:1})` 后 `readRun`，无则 `null`。索引项是快照的投影：`{completedAt, createdAt, cwd, kind, runId, status, task, updatedAt}`；`upsertIndex` 把该项放到数组**最前**、去掉同 `runId` 的旧项、再按 `updatedAt` 降序排。`writeArtifact`：`normalizeRelativePath` 拒绝归一化后为绝对、等于 `..`、或以 `..\\`/`../` 开头 → 抛逐字 `Workflow artifact path must stay inside the run directory: <value>`；返回 `{path, relativePath}`；`writeReport` 等价 `writeArtifact(runId, "report.md", content)`。`sanitizePathSegment` 把非 `[a-zA-Z0-9._-]` 换成 `_` 并截断到 120 字符，空串 → 逐字 `unknown`。
+- 错误语义：schema 校验失败原样抛 zod 错误；`ENOENT` 在 `readJson`/`readJsonLines` 返回 `null`/`[]`，其它错误冒泡；取消时抛 `signal.reason` 或固定消息。
+- 时序与并发：异步串行；写文件先临时文件再 `rename`（无锁，后写者胜）；`appendEvent` 是追加（并发追加按写入顺序）。
+- 幂等：`writeSnapshot` 同内容重复写结果相同（索引项被替换而非重复）；`upsertIndex` 对同 `runId` 幂等。
+- 资源释放：无长期句柄。
+- 平台差异：`join`/`normalize`/`isAbsolute`；`..\\` 与 `../` 两种前缀都被拒绝（Windows 与 POSIX 都覆盖）；`randomUUID` 与平台无关。
+- 状态所有者：`rootDir` 下的文件。
+- 日志级别：无。
+- 可测断言：临时 `rootDir` 下 `writeSnapshot(快照)` → `runs/<sanitized>/run.json` 是 2 空格缩进 + 末尾换行、`index.json` 的 `runs[0].runId` 等于该 run；两次 `writeSnapshot` 不同 `runId` 后 `listRuns()` 按 `updatedAt` 降序且长度为 2；`listRuns({cwd:"/a"})` 只含匹配项；`listRuns({limit:1})` 只返回第一条；`readRun("missing")` → `null`；`readEvents("missing")` → `[]`；`appendEvent(事件)` 后 `readEvents` 返回一条且经过 schema 解析；`appendEvent` 传非法事件 → 抛 zod 错误且不写文件；`writeArtifact(runId, "../evil", "x")` → 抛消息含 `must stay inside the run directory`；`writeReport` 写到 `runs/<id>/report.md`；`runId` 含 `/` 与空格时目录名被 sanitize（`a b/c` → `a_b_c`）。
+
+### B131 工作流定义存储与默认根
+
+- 来源：`workflow/index.ts`（`NodeWorkflowDefinitionStore`、`createNodeWorkflowDefinitionStore`、`getDefaultWorkflowRoot`、`getDefaultWorkflowDefinitionsRoot`、`validateDefinitionId`）
+- 输入：`{definitionsDir?}` 或 `{rootDir?}`；`listDefinitions()`、`readDefinition(id)`。
+- 输出：`definitionsDir = options.definitionsDir ?? join(options.rootDir ?? DEFAULT_WORKFLOW_ROOT, "definitions")`；`listDefinitions`：`readdir`（`ENOENT` → `[]`，其它错误抛出）→ 只取 `extname === ".json"` 的文件 → `parse(name).name` 作为 id → 按 `localeCompare` 升序 → 逐个 `readDefinition`（返回 `null` 的跳过）；`readDefinition` 先 `validateDefinitionId`（空串、`.`、`..`、含 `/` 或 `\`、`normalize(value) !== value`、不匹配 `/^[a-zA-Z0-9._-]+$/` 任一 → 抛逐字 `Workflow definition id must be a file-safe name: <value>`），读 `<definitionsDir>/<id>.json`（`ENOENT` → `null`），`WorkflowDefinitionSchema.parse` 后若 `definition.definitionId !== definitionId` → 抛逐字 `Workflow definition id mismatch: requested <请求值>, file declares <文件值>`。`getDefaultWorkflowRoot()` 返回 `<resolveKnorviaDataRoot()>/cli/workflows`；`getDefaultWorkflowDefinitionsRoot()` 返回它的 `definitions` 子目录。
+- 错误语义：见上；取消经 `throwIfAborted`（各方法开头的固定消息，如 `Workflow definition list cancelled`）。
+- 时序与并发：异步串行读；无缓存（每次重读）。
+- 幂等：只读。
+- 资源释放：无。
+- 平台差异：`extname`/`parse` 与平台无关；`normalize(value) !== value` 会拒绝 Windows 反斜杠写法。
+- 状态所有者：`definitionsDir` 下的 `*.json`。
+- 日志级别：无。
+- 可测断言：临时目录写 `alpha.json`（合法定义）、`beta.txt`、`gamma.json`（非法 schema）→ `listDefinitions()` 返回 `alpha`（`beta.txt` 不进、`gamma` 因解析失败抛出——用合法/非法两组断言）；`readDefinition("missing")` → `null`；`readDefinition("../x")` → 抛 `must be a file-safe name`；文件里 `definitionId` 与请求不一致 → 抛消息含 `definition id mismatch`；`getDefaultWorkflowRoot()` 以 `cli/workflows` 结尾（用 `join` 拼接断言）；`getDefaultWorkflowDefinitionsRoot()` 等于 `join(getDefaultWorkflowRoot(), "definitions")`。
+
+### B132 `provider/index.ts` 的空导出面
+
+- 来源：`provider/index.ts`
+- 输入：无。
+- 输出：文件体逐字只有注释与 `export {};`，**零导出声明、零 re-export**（`interface.md` 记为 0 个声明 + 1 条 re-export 的形态，实际是空模块）。
+- 错误语义：导入成功，不抛错。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`Object.keys(await import("…/provider/index.js"))` 深度等于 `[]`；把它从根 barrel 的 `export *` 中移除不会改变任何导出名（根 barrel 的导出集合等于 18 个模块的并集）。
+
+### B133 `adapters/src/index.ts` 的根 barrel
+
+- 来源：`index.ts`
+- 输入：无。
+- 输出：`export *` 逐字 re-export 18 个子目录入口，顺序为 `storage`、`fs`、`context`、`exec`、`http`、`image`、`pdf`、`provider`、`model`、`logging`、`config`、`skills`、`commands`、`plugins`、`auth`、`browser`、`mcp`、`workflow`；**不 re-export `mailbox`**（信箱只能通过包导出子路径 `./mailbox` 或模块路径访问）；本包 55 个继承文件里属于这条 barrel 链的是 `index.ts`、`storage/*`（部分）、`fs/index.ts`、`context/index.ts`、`image/index.ts`、`pdf/index.ts`、`provider/index.ts`、`logging/index.ts`、`config/index.ts`、`skills/index.ts`、`commands/index.ts`、`workflow/index.ts`，其余子目录不在本包。
+- 错误语义：任一条 re-export 解析失败即整条 barrel 不可用（循环或缺失导出都会在加载期暴露）。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`import * as root from "…/index.js"` 成功；`root.createNodeFileSystemAdapter`、`root.createNodeContextSourceAdapter`、`root.createJimpImageProcessorAdapter`、`root.createPopplerPdfDocumentAdapter`、`root.createNodeLoggerFactory`、`root.createConfigPort`、`root.createNodeSkillAdapter`、`root.createNodeCustomCommandAdapter`、`root.createNodeWorkflowStore` 都是函数；`root.createNodeSessionMailboxAdapter === undefined`（信箱不在根 barrel）；`root.NodeFileSystemAdapter` 与 `fs/index.ts` 的是同一个类。
+
+### B134 会话存储 barrel（`storage/session-store.ts`）的兼容面
+
+- 来源：`storage/session-store.ts`
+- 输入：无。
+- 输出：逐字 re-export `createSqliteSessionStore`、`getDefaultSessionDbPath`、`openStartupSqliteSessionStore`、`SqliteSessionStore`（来自 `session-store/sqlite-session-store.js`）、`createDwfJournalStore`（repositories）、`SqliteSessionMigrationError`（errors），以及类型 `DwfArtifactItem`、`DwfArtifactItemsQuery`、`DwfListRunsQuery`、`DwfNodeStatusCounts`、`DwfRunIntrospectionQueries`、`DwfRunDetailRow`、`DwfRunListItem`、`DwfRunSessionListItem`、`DwfRunSessionRow`、`DwfRunTimestamps`、`DwfWorldNodeRow`、`SqliteSessionMigrationErrorKind`、`SqliteSessionMigrationErrorOptions`、`SessionStoreDebugCounts`、`SqliteSessionStoreOptions`、`AsyncSqliteMigrationOptions`、`SqliteMigrationProgress`。它**不导出迁移账本**（`SQLITE_MIGRATIONS` 只从 `storage/session-store/migrations.ts` 取），也不导出 `options.ts`/`rows.ts` 的类型（分别从各自模块取，见 B14、B15）。
+- 错误语义：模块解析失败即入口不可用；下游 `sqlite-session-store.js` 属于**非本包**文件（`independent-replacement`），本 barrel 只保证导出名与来源路径不变。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`Object.keys(await import("…/storage/session-store.js")).sort()` 深度等于源码里 6 条 value re-export 的名字（`SqliteSessionMigrationError`、`SqliteSessionStore`、`createDwfJournalStore`、`createSqliteSessionStore`、`getDefaultSessionDbPath`、`openStartupSqliteSessionStore`）；`typeof mod.SqliteSessionStore === "function"`、`typeof mod.createSqliteSessionStore === "function"`、`typeof mod.openStartupSqliteSessionStore === "function"`、`typeof mod.getDefaultSessionDbPath === "function"`；`mod.SQLITE_MIGRATIONS === undefined`（账本不在这个 barrel 上）。
