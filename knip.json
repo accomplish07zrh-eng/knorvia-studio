@@ -1,6 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "tags": ["-lintignore"],
+  "tags": [
+    "-lintignore"
+  ],
   "workspaces": {
     ".": {
       "entry": [
@@ -9,7 +11,10 @@
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
         "scripts/provenance/inherited-triage.mjs",
-        "scripts/provenance/inherited-triage.test.mjs"
+        "scripts/provenance/inherited-triage.test.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/tests/*.test.mjs",
+        "specs/contracts/*/tests/fixtures/*.mjs"
       ]
     },
     "packages/desktop": {
@@ -22,14 +27,28 @@
       ]
     },
     "packages/server": {
-      "entry": ["src/index.ts", "src/entry-stdio.ts", "build-remote.ts"]
+      "entry": [
+        "src/index.ts",
+        "src/entry-stdio.ts",
+        "build-remote.ts"
+      ]
     },
     "packages/services": {
-      "entry": ["src/index.ts", "src/storage/module.ts"]
+      "entry": [
+        "src/index.ts",
+        "src/storage/module.ts"
+      ]
     },
     "apps/cli/packages/browser-use-plugin": {
-      "entry": ["src/browser-client.ts"]
+      "entry": [
+        "src/browser-client.ts"
+      ]
     }
   },
-  "ignore": ["docs/**", "packages/ui/src/components/**"]
+  "ignore": [
+    "docs/**",
+    "packages/ui/src/components/**",
+    ".agents/**",
+    "specs/contracts/*/stubs/**"
+  ]
 }
