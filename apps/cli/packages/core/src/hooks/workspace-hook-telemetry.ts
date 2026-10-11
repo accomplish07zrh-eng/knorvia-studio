@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Workspace Hook 的受限遥测：只发稳定 reason、摘要和短消息，绝不带命令、路径或 Trust payload。
 import { createHash } from "node:crypto";
 import type { Logger, WorkspaceHookReasonCode } from "@knorvia/contracts";
 
@@ -12,8 +14,6 @@ export type WorkspaceHookTelemetryEvent =
   | "workspace_hook.trust_store_failure"
   | "workspace_hook.toggle_failure"
   | "workspace_hook.config_rebuild_failure"
-  // revoke 需要专门观测：排查「撤销后面板失效」时，必须能从日志判断
-  // 撤销是否成功、并区分随后的失败属于撤销还是授权，否则定位缓慢。
   | "workspace_hook.revoked"
   | "workspace_hook.stale_response";
 
@@ -25,54 +25,42 @@ export interface WorkspaceHookTelemetryFields {
   source?: string;
   action?: string;
   generation?: number;
-  /**
-   * 调用侧传入的 errorMessage 需要透传：否则原始错误在 emit 时被静默丢弃，
-   * 日志里只剩 reasonCode，实际排查无法定位真实 cause。
-   * 仅承载领域错误自身的短消息，不携带命令、脚本内容或 Trust payload。
-   */
+  /** 领域错误的短消息；不得放命令正文、脚本内容或 workspace 路径。 */
   errorMessage?: string;
-  /**
-   * Trust 落盘条数诊断：store 写入少于已选择声明时，decisionAccepted
-   * 未抛错），日志无从判断是 request 少带了 item 还是写入阶段丢了记录。
-   *
-   * requestItemCount / requestEnabledCount 记录审核请求实际携带的条数；
-   * grantedRecordCount 记录本次真正写入的条数。三者对不上即为静默丢失。
-   */
   requestItemCount?: number;
   requestEnabledCount?: number;
   grantedRecordCount?: number;
-  /** revoke 实际撤销的声明条数（与 grantedRecordCount 分开，避免语义混用）。 */
   revokedCount?: number;
 }
 
-const MAX_TELEMETRY_ERROR_MESSAGE_LENGTH = 300;
+const ERROR_MESSAGE_LIMIT = 300;
+const DIGEST_SUMMARY_LENGTH = 12;
+const TELEMETRY_MESSAGE = "Workspace Hook Trust telemetry";
+const TELEMETRY_MODULE = "workspace_hook_trust";
 
-/**
- * Workspace Hook 的观测统一复用现有 Logger Port。
- * 只发送稳定 reason、generation 和摘要，不发送命令、脚本内容、路径或 Trust payload。
- */
-export function emitWorkspaceHookTelemetry(
-  logger: Logger | undefined,
-  event: WorkspaceHookTelemetryEvent,
-  fields: WorkspaceHookTelemetryFields = {},
-): void {
-  if (!logger) return;
-  logger.info("Workspace Hook Trust telemetry", {
-    event,
-    module: "workspace_hook_trust",
+/** 摘要只保留前 12 个字符：足够关联同一次评估，不足以还原原文。 */
+export function digestSummary(value: string): string {
+  return value.length <= DIGEST_SUMMARY_LENGTH ? value : value.slice(0, DIGEST_SUMMARY_LENGTH);
+}
+
+/** workspace identity 可能是绝对路径，进入日志前统一取 SHA-256 前 12 位。 */
+export function workspaceIdentitySummary(value: string): string {
+  return createHash("sha256").update(value).digest("hex").slice(0, DIGEST_SUMMARY_LENGTH);
+}
+
+function optionalFields(fields: WorkspaceHookTelemetryFields): Record<string, unknown> {
+  return {
     ...(fields.workspaceIdentity
       ? { workspaceIdentityDigest: workspaceIdentitySummary(fields.workspaceIdentity) }
       : {}),
     ...(fields.bundleDigest ? { bundleDigest: digestSummary(fields.bundleDigest) } : {}),
-    ...(fields.declarationDigest
-      ? { declarationDigest: digestSummary(fields.declarationDigest) }
-      : {}),
+    ...(fields.declarationDigest ? { declarationDigest: digestSummary(fields.declarationDigest) } : {}),
     ...(fields.reasonCode ? { reasonCode: fields.reasonCode } : {}),
     ...(fields.source ? { source: fields.source } : {}),
     ...(fields.action ? { action: fields.action } : {}),
     ...(fields.generation === undefined ? {} : { generation: fields.generation }),
     ...(fields.errorMessage
-      ? { errorMessage: fields.errorMessage.slice(0, MAX_TELEMETRY_ERROR_MESSAGE_LENGTH) }
+      ? { errorMessage: fields.errorMessage.slice(0, ERROR_MESSAGE_LIMIT) }
       : {}),
     ...(fields.requestItemCount === undefined ? {} : { requestItemCount: fields.requestItemCount }),
     ...(fields.requestEnabledCount === undefined
@@ -82,20 +70,19 @@ export function emitWorkspaceHookTelemetry(
       ? {}
       : { grantedRecordCount: fields.grantedRecordCount }),
     ...(fields.revokedCount === undefined ? {} : { revokedCount: fields.revokedCount }),
+  };
+}
+
+/** 统一出口：没有 logger 时静默返回，调用方不需要每个事件点重复判空。 */
+export function emitWorkspaceHookTelemetry(
+  logger: Logger | undefined,
+  event: WorkspaceHookTelemetryEvent,
+  fields: WorkspaceHookTelemetryFields = {},
+): void {
+  if (!logger) return;
+  logger.info(TELEMETRY_MESSAGE, {
+    event,
+    module: TELEMETRY_MODULE,
+    ...optionalFields(fields),
   });
-}
-
-export function digestSummary(value: string): string {
-  return value.length <= 12 ? value : value.slice(0, 12);
-}
-
-/**
- * workspace identity 的 SHA-256 短摘要。
- *
- * 本实现的 identity 就是绝对路径，明文要求 telemetry 不上传
- * 完整 workspace path、不记录 source path，因此任何要进入 telemetry 的文本
- * （含领域错误的 message）都必须先经此脱敏，而不是依赖下游过滤。
- */
-export function workspaceIdentitySummary(value: string): string {
-  return createHash("sha256").update(value).digest("hex").slice(0, 12);
 }

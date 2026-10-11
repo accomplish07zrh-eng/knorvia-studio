@@ -1,106 +1,108 @@
+// SPDX-License-Identifier: Apache-2.0
+// 配置装配层：把 HooksRuntimeConfig 与 workspace 快照翻译成登记项列表，并按事件确定执行顺序。
+// 这一层不触碰 I/O，也不持有状态；装配完成后执行只依赖登记项。
 import {
   HookEventName,
   type CanonicalWorkspaceHookEntry,
   type HookConfig,
-  type HookSourceKind,
   type HookMatcherConfig,
+  type HookSourceKind,
 } from "@knorvia/contracts";
 import { resolveWorkspaceHookMaxOutputBytes } from "@knorvia/shared/workspace-hook-discovery";
+import { createConfiguredHookCallback } from "./configured-runner-callback.js";
 import { expandPluginVariables, resolveHookTimeoutMs } from "./configured-runner-input.js";
 import { createHookExecutionDescriptor } from "./display-metadata.js";
 import { InMemoryHookRunner } from "./runner.js";
-import { createConfiguredHookCallback } from "./configured-runner-callback.js";
 import type { ConfiguredHookRunnerOptions, HookRegistration, HookRunner } from "./types.js";
 
-export function createConfiguredHookRunner(
-  options: ConfiguredHookRunnerOptions,
-): HookRunner | undefined {
-  const configuredHooks = options.config.enabled ? createConfiguredHookRegistrations(options) : [];
-  const workspaceHooks = createWorkspaceHookRegistrations(options);
-  const hooks = insertWorkspaceHooks(configuredHooks, workspaceHooks);
-  if (hooks.length === 0) return undefined;
-  return new InMemoryHookRunner({
-    defaultTimeoutMs: options.config.timeoutMs,
-    emitEvent: options.emitEvent,
-    hooks,
-    logger: options.logger,
-  });
+const USER_SOURCE_KIND: HookSourceKind = "user";
+
+interface Budget {
+  maxOutputBytes: number;
+  timeoutMs: number;
 }
 
-function createConfiguredHookRegistrations(
-  options: ConfiguredHookRunnerOptions,
-): HookRegistration[] {
-  const registrations: HookRegistration[] = [];
-
-  for (const [eventName, matcherConfigs] of Object.entries(options.config.events)) {
-    const event = eventName as HookEventName;
-    for (const [matcherIndex, matcherConfig] of (matcherConfigs ?? []).entries()) {
-      registrations.push(
-        ...createHookRegistrationsForMatcher(options, event, matcherConfig, matcherIndex),
-      );
-    }
-  }
-
-  return registrations;
+function configSource(event: HookEventName, matcherIndex: number, hookIndex: number, plugin?: HookConfig["plugin"]): string {
+  return plugin
+    ? `plugin.${plugin.id}.${event}.${matcherIndex}.${hookIndex}`
+    : `config.${event}.${matcherIndex}.${hookIndex}`;
 }
 
-function createHookRegistrationsForMatcher(
+/** 单条配置 Hook → 登记项。`async` 只对 command 类型成立。 */
+function registrationFromHook(input: {
+  admission?: HookRegistration["admission"];
+  budget: Budget;
+  event: HookEventName;
+  hook: HookConfig;
+  hookIndex: number;
+  matcher: string | undefined;
+  matcherIndex: number;
+  options: ConfiguredHookRunnerOptions;
+  source: string;
+  sourceKind: HookSourceKind;
+}): HookRegistration {
+  const { budget, event, hook, hookIndex, matcher, matcherIndex, options } = input;
+  return {
+    ...(input.admission ? { admission: input.admission } : {}),
+    async: hook.type === "command" && hook.async === true,
+    callback: createConfiguredHookCallback(options, event, hook, matcherIndex, hookIndex, budget),
+    descriptor: (hookInput) =>
+      createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
+        try {
+          return expandPluginVariables(value, hook.plugin, hookInput, options.getWorkingDirectory());
+        } catch {
+          // 展示元数据不得引入新的执行失败。
+          return value;
+        }
+      }),
+    event,
+    matcher,
+    source: input.source,
+    sourceKind: input.sourceKind,
+    timeoutMs: budget.timeoutMs,
+  };
+}
+
+function registrationsForMatcher(
   options: ConfiguredHookRunnerOptions,
   event: HookEventName,
   matcherConfig: HookMatcherConfig,
   matcherIndex: number,
 ): HookRegistration[] {
+  const maxOutputBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
   return matcherConfig.hooks.flatMap((hook, hookIndex) => {
     if (hook.enabled === false) return [];
+    const sourceKind = hook.plugin ? "plugin" : (hook.source?.kind ?? "internal");
     return [
-      createHookRegistration({
+      registrationFromHook({
+        budget: { maxOutputBytes, timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs) },
         event,
         hook,
         hookIndex,
         matcher: matcherConfig.matcher,
         matcherIndex,
-        maxOutputBytes: resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes),
         options,
-        source: hook.plugin
-          ? `plugin.${hook.plugin.id}.${event}.${matcherIndex}.${hookIndex}`
-          : `config.${event}.${matcherIndex}.${hookIndex}`,
-        sourceKind: hook.plugin ? "plugin" : (hook.source?.kind ?? "internal"),
-        timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs),
+        source: configSource(event, matcherIndex, hookIndex, hook.plugin),
+        sourceKind,
       }),
     ];
   });
 }
 
-function createWorkspaceHookRegistrations(
-  options: ConfiguredHookRunnerOptions,
-): HookRegistration[] {
-  const { workspaceHookAdmission: admission, workspaceHookSnapshot: snapshot } = options;
-  if (!admission || !snapshot) return [];
-  return snapshot.hooks.flatMap((entry) => {
-    const hook = workspaceEntryToHookConfig(snapshot, entry);
-    return [
-      createHookRegistration({
-        admission: () =>
-          admission.evaluateDispatch({
-            hookDeclarationDigest: entry.hookDeclarationDigest,
-            reviewItemId: entry.reviewItemId,
-          }),
-        event: entry.event,
-        hook,
-        hookIndex: entry.hookIndex,
-        matcher: entry.matcher ?? undefined,
-        matcherIndex: entry.matcherIndex,
-        maxOutputBytes: entry.resolvedMaxOutputBytes,
-        options,
-        source: `project.${entry.reviewItemId}`,
-        sourceKind: "project",
-        timeoutMs: entry.resolvedTimeoutMs,
-      }),
-    ];
-  });
+function configuredRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
+  if (!options.config.enabled) return [];
+  const registrations: HookRegistration[] = [];
+  for (const [eventName, matcherConfigs] of Object.entries(options.config.events)) {
+    const event = eventName as HookEventName;
+    for (const [matcherIndex, matcherConfig] of (matcherConfigs ?? []).entries()) {
+      registrations.push(...registrationsForMatcher(options, event, matcherConfig, matcherIndex));
+    }
+  }
+  return registrations;
 }
 
-function workspaceEntryToHookConfig(
+/** workspace 快照条目 → HookConfig（两种类型的字段集合不同，分开构造）。 */
+function workspaceEntryConfig(
   snapshot: NonNullable<ConfiguredHookRunnerOptions["workspaceHookSnapshot"]>,
   entry: CanonicalWorkspaceHookEntry,
 ): HookConfig {
@@ -118,74 +120,70 @@ function workspaceEntryToHookConfig(
         ...(entry.async === undefined ? {} : { async: entry.async }),
         ...(entry.shell === undefined ? {} : { shell: entry.shell }),
       }
-    : {
-        ...common,
-        type: "process",
-        ...(entry.args ? { args: [...entry.args] } : {}),
-      };
+    : { ...common, type: "process", ...(entry.args ? { args: [...entry.args] } : {}) };
 }
 
-function createHookRegistration(input: {
-  admission?: HookRegistration["admission"];
-  event: HookEventName;
-  hook: HookConfig;
-  hookIndex: number;
-  matcher?: string;
-  matcherIndex: number;
-  maxOutputBytes: number;
-  options: ConfiguredHookRunnerOptions;
-  source: string;
-  sourceKind: HookSourceKind;
-  timeoutMs: number;
-}): HookRegistration {
-  return {
-    ...(input.admission ? { admission: input.admission } : {}),
-    async: input.hook.type === "command" && input.hook.async === true,
-    callback: createConfiguredHookCallback(
-      input.options,
-      input.event,
-      input.hook,
-      input.matcherIndex,
-      input.hookIndex,
-      { maxOutputBytes: input.maxOutputBytes, timeoutMs: input.timeoutMs },
-    ),
-    descriptor: (hookInput) =>
-      createHookExecutionDescriptor(input.hook, input.timeoutMs, (value) => {
-        try {
-          return expandPluginVariables(
-            value,
-            input.hook.plugin,
-            hookInput,
-            input.options.getWorkingDirectory(),
-          );
-        } catch {
-          // Display metadata must never introduce a new execution failure.
-          return value;
-        }
+function workspaceRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
+  const { workspaceHookAdmission: admission, workspaceHookSnapshot: snapshot } = options;
+  if (!admission || !snapshot) return [];
+
+  return snapshot.hooks.flatMap((entry) => {
+    const hook = workspaceEntryConfig(snapshot, entry);
+    return [
+      registrationFromHook({
+        admission: () =>
+          admission.evaluateDispatch({
+            hookDeclarationDigest: entry.hookDeclarationDigest,
+            reviewItemId: entry.reviewItemId,
+          }),
+        budget: {
+          maxOutputBytes: entry.resolvedMaxOutputBytes,
+          timeoutMs: entry.resolvedTimeoutMs,
+        },
+        event: entry.event,
+        hook,
+        hookIndex: entry.hookIndex,
+        matcher: entry.matcher ?? undefined,
+        matcherIndex: entry.matcherIndex,
+        options,
+        source: `project.${entry.reviewItemId}`,
+        sourceKind: "project",
       }),
-    event: input.event,
-    matcher: input.matcher,
-    source: input.source,
-    sourceKind: input.sourceKind,
-    timeoutMs: input.timeoutMs,
-  };
+    ];
+  });
 }
 
-function insertWorkspaceHooks(
+/**
+ * 项目 Hook 的相对顺序：同事件内插到「第一个非 user 登记项」之前；没有这样的项则追加到末尾。
+ * 即项目 Hook 先于内部/插件配置项，但不会越过用户自己的 Hook。
+ */
+function withWorkspaceOrdering(
   configured: HookRegistration[],
   workspace: HookRegistration[],
 ): HookRegistration[] {
-  const result = [...configured];
+  const ordered = [...configured];
   for (const event of new Set(workspace.map((registration) => registration.event))) {
-    const eventWorkspace = workspace.filter((registration) => registration.event === event);
-    const firstNonUserIndex = result.findIndex(
-      (registration) => registration.event === event && registration.sourceKind !== "user",
+    const forEvent = workspace.filter((registration) => registration.event === event);
+    const insertAt = ordered.findIndex(
+      (registration) => registration.event === event && registration.sourceKind !== USER_SOURCE_KIND,
     );
-    if (firstNonUserIndex < 0) {
-      result.push(...eventWorkspace);
-    } else {
-      result.splice(firstNonUserIndex, 0, ...eventWorkspace);
-    }
+    if (insertAt < 0) ordered.push(...forEvent);
+    else ordered.splice(insertAt, 0, ...forEvent);
   }
-  return result;
+  return ordered;
+}
+
+/** 装配运行器；没有任何登记项时返回 undefined，让调用方跳过 hooks 执行路径。 */
+export function createConfiguredHookRunner(
+  options: ConfiguredHookRunnerOptions,
+): HookRunner | undefined {
+  const hooks = withWorkspaceOrdering(configuredRegistrations(options), workspaceRegistrations(options));
+  if (hooks.length === 0) return undefined;
+
+  return new InMemoryHookRunner({
+    defaultTimeoutMs: options.config.timeoutMs,
+    emitEvent: options.emitEvent,
+    hooks,
+    logger: options.logger,
+  });
 }

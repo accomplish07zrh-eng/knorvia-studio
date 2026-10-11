@@ -1,21 +1,24 @@
+// SPDX-License-Identifier: Apache-2.0
+// 运行时准入：把信任求值结果变成每个 workspace Hook 的"能不能跑"，并承担
+// 评估刷新、修订校验、admission 状态上报与受限遥测去重。
 import type {
   Logger,
   WorkspaceHookBundleSnapshot,
   WorkspaceHookReasonCode,
   WorkspaceHookSecurityRevision,
 } from "@knorvia/contracts";
-import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
 import {
   emitWorkspaceHookTelemetry,
   type WorkspaceHookTelemetryEvent,
   type WorkspaceHookTelemetryFields,
 } from "./workspace-hook-telemetry.js";
+import type { WorkspaceHookTrustCoordinator } from "./workspace-hook-trust-coordinator.js";
 import type { WorkspaceHookSnapshotEvaluation } from "./workspace-hook-trust-types.js";
 
 export type WorkspaceHookActivationSource = "startup" | "resume" | "clear" | "compact";
 
 export interface WorkspaceHookDispatchInput {
-  /** Compatibility assertion for callers that hold a bundle target. Runtime registrations omit it. */
+  /** 持有 bundle 目标的调用方用它做一致性断言；运行时登记项不传。 */
   bundleDigest?: string;
   hookDeclarationDigest: string;
   reviewItemId: string;
@@ -23,15 +26,8 @@ export interface WorkspaceHookDispatchInput {
 
 export type WorkspaceHookDispatchDecision =
   | { allowed: true }
-  | {
-      allowed: false;
-      reasonCode: WorkspaceHookReasonCode;
-      skipLifecycle?: boolean;
-    };
+  | { allowed: false; reasonCode: WorkspaceHookReasonCode; skipLifecycle?: boolean };
 
-// 软门禁:准入层完成评估后通过此 port 上报 pending 状态。
-// pendingCount = configuredEnabled && admissionClass === "pending" 的声明数。
-// pendingCount === 0 也要上报(供投影层清空提示条)。
 export interface WorkspaceHookAdmissionState {
   pendingCount: number;
   bundleDigest: string;
@@ -53,23 +49,49 @@ export interface WorkspaceHookRuntimeAdmissionOptions {
   enabled?: boolean;
   logger?: Logger;
   ready: Promise<void>;
-  /** 软门禁:activate() 完成评估后回调,上报 pending 状态 */
   onAdmissionStateChanged?: WorkspaceHookAdmissionStateCallback;
   snapshot: WorkspaceHookBundleSnapshot;
 }
 
+function waitForAdmission<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
+  if (!signal) return promise;
+  signal.throwIfAborted();
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => {
+      signal.removeEventListener("abort", onAbort);
+      reject(signal.reason ?? new Error("Workspace Hook admission aborted"));
+    };
+    signal.addEventListener("abort", onAbort, { once: true });
+    promise.then(
+      (value) => {
+        signal.removeEventListener("abort", onAbort);
+        resolve(value);
+      },
+      (error: unknown) => {
+        signal.removeEventListener("abort", onAbort);
+        reject(error);
+      },
+    );
+  });
+}
+
+/**
+ * 准入状态机。所有拒绝路径都先给出精确 reasonCode 再上报遥测；
+ * 遥测按 `event:reasonCode:bundleDigest:declarationDigest:source` 去重，避免每个回合重复刷日志。
+ */
 export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmissionPort {
   private readonly coordinator: WorkspaceHookTrustCoordinator;
   private readonly enabled: boolean;
   private readonly logger?: Logger;
   private readonly ready: Promise<void>;
   private readonly onAdmissionStateChanged?: WorkspaceHookAdmissionStateCallback;
+  private readonly digestByReviewItemId = new Map<string, string>();
+  private readonly emittedTelemetry = new Set<string>();
+
   private snapshot: WorkspaceHookBundleSnapshot;
-  private readonly entriesByReviewItemId = new Map<string, string>();
   private evaluation?: WorkspaceHookSnapshotEvaluation;
   private validatedRevision?: WorkspaceHookSecurityRevision;
   private invalidatedReason?: WorkspaceHookReasonCode;
-  private readonly emittedTelemetry = new Set<string>();
   private activated = false;
   private bootstrapFailed = false;
 
@@ -85,108 +107,93 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
 
   async activate(source: WorkspaceHookActivationSource, signal?: AbortSignal): Promise<void> {
     signal?.throwIfAborted();
+
     if (!this.enabled) {
       if (!this.activated) {
         this.activated = true;
-        this.emitTelemetryOnce("workspace_hook.feature_disabled", {
-          workspaceIdentity: this.snapshot.workspaceIdentity,
+        this.telemetryOnce("workspace_hook.feature_disabled", {
           reasonCode: "workspace_hooks_feature_disabled",
           source,
+          workspaceIdentity: this.snapshot.workspaceIdentity,
         });
-        // 功能关闭时 pendingCount = 0,上报清空状态
         this.emitAdmissionState();
       }
       return;
     }
+
     if (!this.activated) {
       try {
-        await waitForWorkspaceHookAdmission(this.ready, signal);
+        await waitForAdmission(this.ready, signal);
       } catch (error) {
         if (signal?.aborted) throw signal.reason ?? error;
-        // Trust store bootstrap 失败不能扩大执行面；主任务和其他来源 Hook 仍可继续。
+        // Trust store 引导失败不扩大执行面：置失败标志，主任务与其他来源 Hook 继续。
         this.bootstrapFailed = true;
       }
       this.activated = true;
     }
-    this.safeRefreshEvaluation();
-    // 软门禁:不等待 review,直接上报 pending 状态供投影层/使用
+
+    this.refreshEvaluationSafely();
     this.emitAdmissionState();
   }
 
   evaluateDispatch(input: WorkspaceHookDispatchInput): WorkspaceHookDispatchDecision {
     if (!this.matchesSnapshot(input)) {
-      this.emitTelemetryOnce("workspace_hook.snapshot_mismatch", {
-        workspaceIdentity: this.snapshot.workspaceIdentity,
-        reasonCode: "workspace_hooks_snapshot_mismatch",
+      this.telemetryOnce("workspace_hook.snapshot_mismatch", {
         bundleDigest: input.bundleDigest,
         declarationDigest: input.hookDeclarationDigest,
-      });
-      return {
-        allowed: false,
         reasonCode: "workspace_hooks_snapshot_mismatch",
-      };
-    }
-    if (this.invalidatedReason) {
-      return { allowed: false, reasonCode: this.invalidatedReason };
-    }
-    if (!this.activated) {
-      return { allowed: false, reasonCode: "workspace_hooks_pending_trust" };
-    }
-    if (!this.enabled) {
-      return { allowed: false, reasonCode: "workspace_hooks_feature_disabled" };
-    }
-    if (this.bootstrapFailed) {
-      this.emitTelemetryOnce("workspace_hook.trust_store_failure", {
         workspaceIdentity: this.snapshot.workspaceIdentity,
-        reasonCode: "workspace_hooks_trust_store_corrupt",
       });
-      return {
-        allowed: false,
-        reasonCode: "workspace_hooks_trust_store_corrupt",
-      };
+      return { allowed: false, reasonCode: "workspace_hooks_snapshot_mismatch" };
     }
+    if (this.invalidatedReason) return { allowed: false, reasonCode: this.invalidatedReason };
+    if (!this.activated) return { allowed: false, reasonCode: "workspace_hooks_pending_trust" };
+    if (!this.enabled) return { allowed: false, reasonCode: "workspace_hooks_feature_disabled" };
+    if (this.bootstrapFailed) {
+      this.telemetryOnce("workspace_hook.trust_store_failure", {
+        reasonCode: "workspace_hooks_trust_store_corrupt",
+        workspaceIdentity: this.snapshot.workspaceIdentity,
+      });
+      return { allowed: false, reasonCode: "workspace_hooks_trust_store_corrupt" };
+    }
+
     if (
       !this.validatedRevision ||
-      !this.coordinator.validateSecurityRevision(
-        this.snapshot.workspaceIdentity,
-        this.validatedRevision,
-      )
+      !this.coordinator.validateSecurityRevision(this.snapshot.workspaceIdentity, this.validatedRevision)
     ) {
-      // 懒刷新曾只更新 evaluation 漏发 admission 状态——外部写入 Trust store
-      // （如 Settings pretrust）bump revision 后，banner pendingCount 停留旧值直到下一
-      // 次 activate。刷新后必须重发（pendingCount === 0 也会发，用于清空提示条）。
+      // 外部写入 Trust store（如设置页预授权）会 bump 修订，这里懒刷新并重发状态，
+      // pendingCount 为 0 也要发，用于清空提示条。
       this.refreshEvaluation();
       this.emitAdmissionState();
     }
+
     const item = this.evaluation?.items.find(
       (candidate) => candidate.reviewItemId === input.reviewItemId,
     );
     if (!item || item.hookDeclarationDigest !== input.hookDeclarationDigest) {
-      this.emitTelemetryOnce("workspace_hook.snapshot_mismatch", {
-        workspaceIdentity: this.snapshot.workspaceIdentity,
+      this.telemetryOnce("workspace_hook.snapshot_mismatch", {
         bundleDigest: this.snapshot.bundleDigest,
         declarationDigest: input.hookDeclarationDigest,
         reasonCode: "workspace_hooks_snapshot_mismatch",
+        workspaceIdentity: this.snapshot.workspaceIdentity,
       });
-      return {
-        allowed: false,
-        reasonCode: "workspace_hooks_snapshot_mismatch",
-      };
+      return { allowed: false, reasonCode: "workspace_hooks_snapshot_mismatch" };
     }
     if (item.effectiveRunnable) return { allowed: true };
+
     const reasonCode = item.reasonCode ?? "workspace_hooks_blocked_untrusted";
-    if (reasonCode === "workspace_hooks_blocked_by_policy") {
-      this.emitTelemetryOnce("workspace_hook.policy_blocked", {
-        workspaceIdentity: this.snapshot.workspaceIdentity,
+    if (reasonCode === "workspace_hooks_blocked_by_policy")
+      this.telemetryOnce("workspace_hook.policy_blocked", {
         bundleDigest: this.snapshot.bundleDigest,
         declarationDigest: item.hookDeclarationDigest,
         reasonCode,
+        workspaceIdentity: this.snapshot.workspaceIdentity,
       });
-    }
+
     return {
       allowed: false,
       reasonCode,
-      ...(!item.configuredEnabled ? { skipLifecycle: true } : {}),
+      ...(item.configuredEnabled ? {} : { skipLifecycle: true }),
     };
   }
 
@@ -194,19 +201,16 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
     return this.snapshot;
   }
 
+  /**
+   * 跨 workspaceIdentity 替换是调用方编程错误（混淆了 workspace 边界）：fail-loud 且不改状态。
+   * 调用方需先提交自身写入，并在调用点处理该异常，不能让它冒泡到 turn 级别。
+   */
   replaceSnapshot(snapshot: WorkspaceHookBundleSnapshot): void {
-    if (snapshot.workspaceIdentity !== this.snapshot.workspaceIdentity) {
-      // 不变式：调用方只能用同一 workspaceIdentity 的快照替换当前快照。跨 identity
-      // 替换意味着调用方混淆了 workspace 边界——这是编程错误而非运行时条件，故抛错
-      // 而非静默 no-op 或返回软结果（fail-loud）。调用方必须：
-      //   1. 在调用前完成其自身的写入提交（本 Runtime 不回滚外部写入）；
-      //   2. 用 try/catch 包裹本调用——抛出的异常不得冒泡到 turn 级别。
-      // 当前唯一调用方：workspace-hook-review-controller.ts 的 toggle 路径，
-      // 其 writeCommitted 逻辑已满足上述条件。新增调用方，必须在调用点单独处理此异常。
+    if (snapshot.workspaceIdentity !== this.snapshot.workspaceIdentity)
       throw new Error("Cannot replace a Workspace Hook snapshot across workspace identities");
-    }
+
     this.snapshot = snapshot;
-    this.entriesByReviewItemId.clear();
+    this.digestByReviewItemId.clear();
     this.indexSnapshot(snapshot);
     this.evaluation = undefined;
     this.validatedRevision = undefined;
@@ -224,37 +228,34 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
   }
 
   private indexSnapshot(snapshot: WorkspaceHookBundleSnapshot): void {
-    for (const entry of snapshot.hooks) {
-      this.entriesByReviewItemId.set(entry.reviewItemId, entry.hookDeclarationDigest);
-    }
+    for (const entry of snapshot.hooks)
+      this.digestByReviewItemId.set(entry.reviewItemId, entry.hookDeclarationDigest);
   }
 
   private matchesSnapshot(input: WorkspaceHookDispatchInput): boolean {
     return (
       (input.bundleDigest === undefined || input.bundleDigest === this.snapshot.bundleDigest) &&
-      this.entriesByReviewItemId.get(input.reviewItemId) === input.hookDeclarationDigest
+      this.digestByReviewItemId.get(input.reviewItemId) === input.hookDeclarationDigest
     );
   }
 
-  // 软门禁:上报 pending 状态。pendingCount = configuredEnabled && admissionClass === "pending"。
   private emitAdmissionState(): void {
     if (!this.onAdmissionStateChanged) return;
-    const evaluation = this.evaluation;
-    const pendingCount = evaluation
-      ? evaluation.items.filter(
+    const pendingCount = this.evaluation
+      ? this.evaluation.items.filter(
           (item) => item.configuredEnabled && item.admissionClass === "pending",
         ).length
       : 0;
     this.onAdmissionStateChanged({
-      pendingCount,
       bundleDigest: this.snapshot.bundleDigest,
+      pendingCount,
       ...(this.snapshot.workspaceIdentity
         ? { workspaceIdentity: this.snapshot.workspaceIdentity }
         : {}),
     });
   }
 
-  private emitTelemetryOnce(
+  private telemetryOnce(
     event: WorkspaceHookTelemetryEvent,
     fields: WorkspaceHookTelemetryFields,
   ): void {
@@ -278,17 +279,11 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
   }
 
   /**
-   * refreshEvaluation 调用 coordinator.evaluateSnapshot，
-   * 后者在持久状态畸形（zod parse 失败）时会抛错。该异常不能直接冒泡出 activate →
-   * runSessionStartHooks → 整个 turn，导致用户/插件 Hook 也一并失败，且每轮重试
-   * （文件本身的注释也说"主任务和其他来源 Hook 仍可继续"）。
-   *
-   * 对比 evaluateDispatch 路径已通过 resolveHookRunAdmission 的 try/catch 兜底，
-   * activate 路径也必须有同等兜底：捕获后置 bootstrapFailed=true——fail-closed，
-   * evaluateDispatch 命中该标志即返回 workspace_hooks_trust_store_corrupt 拒绝执行，
-   * refreshEvaluation 自身也被该标志短路不再重试。turn 继续推进，非 workspace Hook 不受影响。
+   * `evaluateSnapshot` 在持久记录畸形时会抛错。该异常不得冒泡出 activate
+   * （否则整个 turn 与其他来源 Hook 一并失败）：捕获后置 bootstrapFailed，
+   * 之后 evaluateDispatch 一律按 trust_store_corrupt 拒绝（fail-closed）。
    */
-  private safeRefreshEvaluation(): void {
+  private refreshEvaluationSafely(): void {
     if (!this.enabled || this.bootstrapFailed || this.invalidatedReason) return;
     try {
       this.refreshEvaluation();
@@ -298,29 +293,6 @@ export class WorkspaceHookRuntimeAdmission implements WorkspaceHookRuntimeAdmiss
       this.validatedRevision = undefined;
     }
   }
-}
-
-function waitForWorkspaceHookAdmission<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
-  if (!signal) return promise;
-  signal.throwIfAborted();
-  return new Promise<T>((resolve, reject) => {
-    const onAbort = () => {
-      cleanup();
-      reject(signal.reason ?? new Error("Workspace Hook admission aborted"));
-    };
-    const cleanup = () => signal.removeEventListener("abort", onAbort);
-    signal.addEventListener("abort", onAbort, { once: true });
-    void promise.then(
-      (value) => {
-        cleanup();
-        resolve(value);
-      },
-      (error: unknown) => {
-        cleanup();
-        reject(error);
-      },
-    );
-  });
 }
 
 export function createWorkspaceHookRuntimeAdmission(
