@@ -98,55 +98,48 @@ const WORKSPACE_HOOK_REASON_CODE_NAMES = [
 export const workspaceHookReasonCodeSchema = z.enum(WORKSPACE_HOOK_REASON_CODE_NAMES);
 export type WorkspaceHookReasonCode = z.infer<typeof workspaceHookReasonCodeSchema>;
 
-export const WORKSPACE_HOOK_STATE_ADMISSION_MAP = {
-  not_applicable: {
-    admissionClass: "not_applicable",
-    effectiveRunnable: false,
-    reasonCode: "workspace_hooks_not_applicable",
-  },
-  pending_trust: {
-    admissionClass: "pending",
-    effectiveRunnable: false,
-    reasonCode: "workspace_hooks_pending_trust",
-  },
-  trusted_persistent: {
-    admissionClass: "admitted",
-    effectiveRunnable: "configured",
-    reasonCode: "workspace_hooks_trusted_persistent",
-  },
-  blocked_untrusted: {
-    admissionClass: "blocked",
-    effectiveRunnable: false,
-    reasonCode: "workspace_hooks_blocked_untrusted",
-  },
-  blocked_policy: {
-    admissionClass: "blocked",
-    effectiveRunnable: false,
-    reasonCode: "workspace_hooks_blocked_by_policy",
-  },
-  revoked: {
-    admissionClass: "pending",
-    effectiveRunnable: false,
-    reasonCode: "workspace_hooks_revoked",
-  },
-  stale_digest: {
-    admissionClass: "pending",
-    effectiveRunnable: false,
-    reasonCode: "workspace_hook_declaration_changed",
-  },
-} as const satisfies Record<
-  WorkspaceHookTrustState,
-  {
-    admissionClass: WorkspaceHookAdmissionClass;
-    effectiveRunnable: false | "configured";
-    reasonCode: WorkspaceHookReasonCode;
-  }
->;
+/** 准入结论的形状：状态 → 准入类别 + 是否可运行 + 原因码。 */
+interface StateAdmission {
+  admissionClass: WorkspaceHookAdmissionClass;
+  effectiveRunnable: false | "configured";
+  reasonCode: WorkspaceHookReasonCode;
+}
+
+/** 准入结论元组表：`[状态, 准入类别, 是否可运行, 原因码]`，一行一个状态。 */
+const STATE_ADMISSION_ENTRIES: ReadonlyArray<
+  readonly [
+    WorkspaceHookTrustState,
+    WorkspaceHookAdmissionClass,
+    false | "configured",
+    WorkspaceHookReasonCode,
+  ]
+> = [
+  ["not_applicable", "not_applicable", false, "workspace_hooks_not_applicable"],
+  ["pending_trust", "pending", false, "workspace_hooks_pending_trust"],
+  ["trusted_persistent", "admitted", "configured", "workspace_hooks_trusted_persistent"],
+  ["blocked_untrusted", "blocked", false, "workspace_hooks_blocked_untrusted"],
+  ["blocked_policy", "blocked", false, "workspace_hooks_blocked_by_policy"],
+  ["revoked", "pending", false, "workspace_hooks_revoked"],
+  ["stale_digest", "pending", false, "workspace_hook_declaration_changed"],
+];
+
+/** 状态 → 准入结论；由元组表一次归约出来。 */
+export const WORKSPACE_HOOK_STATE_ADMISSION_MAP = Object.fromEntries(
+  STATE_ADMISSION_ENTRIES.map(([state, admissionClass, effectiveRunnable, reasonCode]) => [
+    state,
+    { admissionClass, effectiveRunnable, reasonCode },
+  ]),
+) as Record<WorkspaceHookTrustState, StateAdmission>;
 
 const nonEmptyStringSchema = z.string().trim().min(1);
 const sha256DigestSchema = z.string().regex(/^[a-f0-9]{64}$/u);
 const positiveIntegerSchema = z.number().int().positive();
 const nonnegativeIntegerSchema = z.number().int().nonnegative();
+
+/** 加一条自定义 issue；四处校验只有 path 与 message 不同，骨架共用。 */
+function addMismatchIssue(context: z.RefinementCtx, path: string, message: string): void {
+  context.addIssue({ code: z.ZodIssueCode.custom, path: [path], message });
+}
 
 export const workspaceHookEffectiveStateSchema = z
   .object({
@@ -169,37 +162,34 @@ export const workspaceHookEffectiveStateSchema = z
   .superRefine((state, context) => {
     const expected = WORKSPACE_HOOK_STATE_ADMISSION_MAP[state.trustState];
     if (state.admissionClass !== expected.admissionClass) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["admissionClass"],
-        message: `admissionClass must be ${expected.admissionClass} for ${state.trustState}`,
-      });
+      addMismatchIssue(
+        context,
+        "admissionClass",
+        `admissionClass must be ${expected.admissionClass} for ${state.trustState}`,
+      );
     }
     if (state.reasonCode !== undefined && state.reasonCode !== expected.reasonCode) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["reasonCode"],
-        message: `reasonCode must be ${expected.reasonCode} for ${state.trustState}`,
-      });
+      addMismatchIssue(
+        context,
+        "reasonCode",
+        `reasonCode must be ${expected.reasonCode} for ${state.trustState}`,
+      );
     }
     if (expected.effectiveRunnable === false && state.effectiveRunnable) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["effectiveRunnable"],
-        message: `${state.trustState} cannot be runnable`,
-      });
+      addMismatchIssue(context, "effectiveRunnable", `${state.trustState} cannot be runnable`);
     }
     if (!state.configuredEnabled && state.effectiveRunnable) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["effectiveRunnable"],
-        message: "a configured-disabled hook cannot be runnable",
-      });
+      addMismatchIssue(
+        context,
+        "effectiveRunnable",
+        "a configured-disabled hook cannot be runnable",
+      );
     }
   });
 export type WorkspaceHookEffectiveState = z.infer<typeof workspaceHookEffectiveStateSchema>;
 
-export const workspaceHookEventNameSchema = z.enum([
+/** hook 事件名取值清单；schema 与配置字段清单共用它。 */
+const WORKSPACE_HOOK_EVENT_NAMES = [
   "SessionStart",
   "UserPromptSubmit",
   "PreToolUse",
@@ -207,7 +197,9 @@ export const workspaceHookEventNameSchema = z.enum([
   "PostToolUse",
   "PostToolUseFailure",
   "Stop",
-]);
+] as const;
+
+export const workspaceHookEventNameSchema = z.enum(WORKSPACE_HOOK_EVENT_NAMES);
 
 const canonicalEntryBaseShape = {
   reviewItemId: nonEmptyStringSchema,
