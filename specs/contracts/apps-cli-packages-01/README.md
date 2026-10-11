@@ -173,14 +173,18 @@ browser-use-plugin/tsconfig.json              u-unchanged
 
 `behavior.md` 已在写，按风险从高到低分批提交（每批一次 commit + push）：
 
-| 批次 | 范围                                                                       | 条目   | 状态       |
-| ---- | -------------------------------------------------------------------------- | ------ | ---------- |
-| A    | `storage/session-store*`（会话存储迁移，计划书点名）                       | B1–B17 | **已完成** |
-| B    | `config/*`（配置层级、环境变量、schema）                                   | —      | 待写       |
-| C    | `device/*` + `context/git-snapshot.ts`（进程探测、git 快照）               | —      | 待写       |
-| D    | `fs/*`（文件 IO、搜索、ripgrep、文本窗口）                                 | —      | 待写       |
-| E    | `image/*` + `logging/*`（图片压缩、日志保留）                              | —      | 待写       |
-| F    | `commands`、`mailbox`、`pdf`、`provider`、`skills`、`workflow`、`index.ts` | —      | 待写       |
+| 批次 | 范围                                                                                         | 条目    | 状态                  |
+| ---- | -------------------------------------------------------------------------------------------- | ------- | --------------------- |
+| A    | `storage/session-store*`（会话存储迁移，计划书点名）                                         | B1–B17  | **已完成** `2bd3671b` |
+| B1   | `config/`：env 解析、作用域优先级、合并语义、`ConfigStore`/`ConfigPortImpl`、项目配置发现    | B18–B27 | **已完成** `cd22bf61` |
+| B2   | `config/`：schema、MCP normalization、`config-factory`（provenance）、`owners.test`          | B28–B48 | **已完成**（本提交）  |
+| C    | `config/file-config.adapter.ts`、`context/*`（git 快照与 context barrel）                    | —       | 待写                  |
+| D    | `commands/*`、`device/*`（进程探测）、`image/*`（图片压缩）                                  | —       | 待写                  |
+| D2   | `fs/*`（文件 IO、搜索、ripgrep、文本窗口）、`logging/*`（日志、保留、脱敏）                  | —       | 待写                  |
+| E    | 会话存储迁移的夹具与断言组织说明；`mailbox`、`pdf`、`provider`、`skills`、`workflow`、barrel | —       | 待写                  |
+| F    | `tests/`、`fixtures/`、`stubs/`、`known-differences.md`、`acceptance.md`、`gate-old.json`    | —       | 待写                  |
+
+批次按「先高风险、后外围」推进：B1/B2 覆盖配置（含 `KNORVIA_*` 键名与来源追踪），C/D/D2 覆盖与文件系统、进程、图片、日志打交道的适配器，E 收口会话存储迁移的夹具组织（B17 的往返契约已在批次 A 写出），F 落地契约测试与旧门。编号只追加、不复用、不重排：批次 B2 从 B28 续到 B48（含 `owners.test.mjs` 的覆盖与删除依据条目）。
 
 批次 A 的 17 条覆盖：迁移账本的追加式与不可变约束、0001–0019 各批表结构与索引形状、0020/0021/0022 三条冻结迁移的身份映射与判据、`options.ts`/`rows.ts` 的公开声明、`session-store.ts` barrel 兼容面，以及**旧数据必须继续可读**的往返契约（B17）。
 

@@ -414,3 +414,315 @@
 - 状态所有者：无。
 - 日志级别：无。
 - 可测断言：`import { ConfigPortImpl } from "…/config/index.js"` 成功；`interface.md` 里该文件的导出名集合与源码逐字一致（第 5 步用脚本比对）。
+
+### B28 配置文件 schema 的顶层结构与字段约束
+
+- 来源：`config/schema.ts`（`KnorviaConfigFileSchema`）
+- 输入：任意 `unknown`（来自 `knorvia.json` 的 JSON 解析结果）。
+- 输出：顶层字段固定为 `$schema`、`modelStream`、`permission`、`storage`、`network`、`features`、`memory`、`mcp`、`plugins`、`skills`、`skill`、`command`、`logging`、`ui`、`toolConcurrency`、`modelAnomalyGuard`、`hooks`；根对象是 **passthrough**（未知顶层键通过校验，但不进入 `RuntimeConfigPatch`）；**嵌套对象默认被 zod 剥离未知键**（只有 `mcp.*` 的三种 server、`plugins.extraKnownMarketplaces.*`、`plugins.options` 的值、`hooks.events` 与钩子条目用 `.strict()`）。约束（逐字保持）：`storage.dir`/`storage.sessionDbPath` 是 `min(1)` 字符串；`network.timeout`、`modelStream.idleTimeoutMs`、`toolConcurrency.maxConcurrency`、`skills.metadataBudget`、`mcpServerBaseSchema.timeoutMs` 是有限正数；`logging.level ∈ {debug,info,warn,error}`、`logging.format ∈ {text,json}`、`ui.locale ∈ {auto,en-US,zh-CN}`、`ui.theme ∈ {auto,dark,light}`、`permission.mode ∈ {plan,build,edit,yolo,auto}`；`modelAnomalyGuard.toolCallWarningThreshold`/`repeatedToolCallWarningThreshold` 是正整数、`maxBudgetWarningsPerTurn` 是非负整数。
+- 错误语义：顶层或嵌套字段不合法时 `zod` 的 `parse` **抛错**（调用方按 `config_file_invalid` 处理）；`mcp.servers` 是唯一被逐项降级成诊断的分区（见 B30）。
+- 时序与并发：纯同步解析。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无（诊断以数据返回）。
+- 可测断言：`{unknown:1}` 解析成功且 `config` 为 `{}`；`{storage:{dir:""}}`、`{storage:{dir:"a",extra:1}}` 中前者抛错、后者解析出的 `config.storage` 为 `{dir:"a"}`（未知键被剥离）；`{logging:{format:"yaml"}}`、`{features:{compact:"yes"}}` 抛错；`{mcp:"x"}` 抛错（`mcp` 非对象不走逐项诊断）；`{plugins:{extraKnownMarketplaces:{m:{source:{source:"npm",package:"p",extra:1}}}}}` 抛错。
+
+### B29 MCP server 输入归一化
+
+- 来源：`config/schema.ts`（`normalizeMcpServerConfigInput`，被 `mcpServerSchema` 的 `preprocess` 调用）
+- 输入：单个 server 的原始值。
+- 输出（按固定顺序，做成新对象，原对象不改）：
+  - `env` 缺失且 `environment` 存在 → `env = environment`；随后删除 `environment`。
+  - 只要 `enable` 或 `enabled` 里有一个是布尔 → `enabled = (enable === false ? false : (enabled ?? true))`，随后删除 `enable`。即 **`enable:false` 优先于残留的 `enabled:true`**（停用优先）。
+  - 无条件删除 `timeout` 与 `startup_timeout_sec`（外部 MCP 配置的供应商字段，不迁移、也不再触发 strict 报错）。
+  - `type === "remote"` → `type = "http"`；`type` 不是字符串时：`command` 去掉首尾空白后非空 → `"stdio"`，否则 `url` 非空 → `"http"`，两者都不满足则保持原样（随后被 strict 联合判为无效）。
+  - `type ∈ {http, sse}` 且 `headers === undefined` 且 `http_headers !== undefined` → `headers = http_headers`；随后删除 `http_headers`。
+- 错误语义：不抛错；非对象（`null`、数组、字符串）原样返回。
+- 时序与并发：纯函数。
+- 幂等：是（归一化后的结果再归一化不变）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{type:"stdio",command:"c",environment:{K:"v"}}` → `config.mcp.servers.<n>.env` 为 `{K:"v"}` 且没有 `environment` 键；`{type:"stdio",command:"c",enable:false,enabled:true}` → `enabled === false`；`{type:"stdio",command:"c",enable:true}` → `enabled === true`；`{type:"remote",url:"https://mcp.example.invalid/m"}` → `type === "http"`；`{command:"c"}`（无 `type`）→ `type === "stdio"`；`{url:"https://mcp.example.invalid/m"}` → `type === "http"`；`{type:"http",url:"https://mcp.example.invalid/m",http_headers:{A:"b"}}` → `headers` 为 `{A:"b"}`；`{type:"stdio",command:"c",timeout:5,startup_timeout_sec:6}` 解析成功且结果里没有这两个键。
+
+### B30 MCP servers 的逐项诊断与部分保留
+
+- 来源：`config/schema.ts`（`normalizeConfigFileInput`、`formatMcpServerError`）与 `parseConfigFileToRuntimePatchWithDiagnostics`
+- 输入：配置文件的 JSON 值。
+- 输出：`mcp.servers` 存在且**不是普通对象**（数组、字符串等）→ 丢弃全部 MCP server，`mcp.servers` 置 `{}`，其余顶层配置继续解析；单个 server 用 `mcpServerSchema.safeParse` 校验，失败则**只跳过该 server**，其余 server 与其他顶层分区照常进入 `RuntimeConfigPatch`。
+- 诊断形状：`{code:"config_mcp_server_invalid", severity:"warning", path, message}`；整体非对象时 `path === "mcp.servers"`、`message` 逐字为 `mcp.servers must be a JSON object; ignoring all MCP servers.`；单个 server 时 `path === "mcp.servers.<name>"`、`message` 由 zod issues 按 `<issuePath 或 <server>>: <issue.message>` 用 `"; "` 连接（issue 无 path 段时用逐字 `<server>`）。
+- 错误语义：不抛错；`mcp` 本身非对象或 `servers === undefined` 时归一化阶段**不介入**（由 B28 的 schema 决定：非对象抛错、`servers` 缺失视为无）。
+- 时序与并发：纯函数；诊断按 `Object.entries(servers)` 的插入顺序追加。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无（诊断由 `config-factory` 转成 `warn` 日志，见 B42）。
+- 可测断言：`{mcp:{servers:[]}, storage:{dir:"/tmp/x"}}` → 1 条诊断（`code`/`path`/`message` 逐字如上）且 `config.storage.dir === "/tmp/x"`、`config.mcp.servers` 为 `{}`；`{mcp:{servers:{ok:{type:"stdio",command:"c"}, bad:{type:"stdio"}}}}` → 1 条诊断且 `path === "mcp.servers.bad"`、`message` 以 `command:` 开头、`config.mcp.servers` 只有 `ok`；`{mcp:{servers:{bad:{type:"stdio",extra:1}}}}` → 诊断 `message` 以 `extra:` 开头（strict 未知键）。
+
+### B31 MCP 三种传输、OAuth 与基础字段的严格形状
+
+- 来源：`config/schema.ts`（`mcpStdioServerSchema`、`mcpHttpServerSchema`、`mcpSseServerSchema`、`mcpOAuthSchema`）
+- 输入：归一化后的单个 server。
+- 输出：三种传输都是 `.strict()`：
+  - 公共字段 `protocolVersion ∈ {auto,legacy,2026-07-28}`、`enabled?: boolean`、`timeoutMs?: 有限正数`。
+  - `stdio`：`command` 必填 `min(1)`；`args?: string[]`；`cwd?: min(1)`；`env?: Record<string,string>`。
+  - `http` / `sse`：`url` 必填 `min(1)`；`headers?: Record<string,string>`；`oauth?`。
+  - `oauth` 是两种 `.strict()` 变体的联合：`{type:"client_credentials", clientId, clientSecret, clientName?, scope?}`（前两者必填）与 `{type:"authorization_code", clientId?, clientSecret?, clientName?, redirectPath?, scope?}`（可全缺）。
+- 错误语义：任一项不满足 → 该 server 校验失败 → 变成 B30 的逐项诊断，**不抛错**。
+- 时序与并发：纯函数。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{type:"stdio",command:"c",args:[1]}` → 诊断；`{type:"http",url:"https://mcp.example.invalid/m",headers:{A:1}}` → 诊断；`{type:"http",url:"https://mcp.example.invalid/m",oauth:{type:"client_credentials",clientId:"id"}}` → 诊断（缺 `clientSecret`）；`oauth:{type:"authorization_code"}` → 通过；`{type:"sse",url:"https://mcp.example.invalid/s"}` → 通过且 `type === "sse"`；`{type:"stdio",command:"c",protocolVersion:"legacy"}` → 通过。
+
+### B32 plugins 与额外市场 schema
+
+- 来源：`config/schema.ts`（`pluginsSchema`、`pluginMarketplaceSourceSchema`、`pluginOptionValueSchema`）
+- 输入：`plugins` 分区。
+- 输出：`enabled?: boolean`；`dirs?: string[]`（每项 `min(1)`）；`enabledPlugins?: Record<string, boolean>`；`extraKnownMarketplaces?: Record<非空字符串, {source: <六选一>}>`（外层对象与 source 值 `.strict()`）；`options?: Record<string, Record<string, string|number|boolean>>`；`suppressedBuiltins?: string[]`（每项 `min(1)`）。
+- 市场 source 变体（`.strict()`，多余字段即失败）：`{source:"url", url, headers?}`、`{source:"github", repo, ref?, path?, sparsePaths?}`、`{source:"git", url, ref?, path?, sparsePaths?}`、`{source:"npm", package}`、`{source:"file", path}`、`{source:"directory", path}`。
+- 错误语义：不合法 → 顶层 `parse` 抛错（`plugins` 不参与逐项诊断）。
+- 时序与并发：纯函数。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{plugins:{dirs:[""]}}`、`{plugins:{extraKnownMarketplaces:{m:{source:{source:"npm",package:"p",extra:1}}}}}`、`{plugins:{extraKnownMarketplaces:{m:{source:{source:"github"}}}}}`（缺 `repo`）都抛错；`{plugins:{enabledPlugins:{a:true},options:{a:{n:1,b:false,s:"x"}},suppressedBuiltins:["x"],extraKnownMarketplaces:{m:{source:{source:"directory",path:"/tmp/m"}}}}}` 解析成功。
+
+### B33 skills / skill / command 的解析与覆盖映射
+
+- 来源：`config/schema.ts`（`skillsSchema`、`skillCommandOverridesSchema`、`parseSkillsRuntimeConfig`、`parseSkillOverridesFromPluralSkills`、`mergeSkillCommandOverrides`）
+- 输入：`skills`（含 catchall）、`skill`、`command` 三个分区。
+- 输出：
+  - `skills` 的四个声明字段 `enabled`/`includeInstructions`/`metadataBudget`/`roots` 中**至少一个存在**才写 `config.skills`；全部缺席则不写该键（`config.skills === undefined`）。
+  - `skills` 的其余键（catchall，值是 `{enable?: boolean}`）与 `skill` 分区（`Record<路径, {enable?}>`，允许未知键）里**只有绝对路径 key** 才进 `skillOverrides`：`path.startsWith("/") || path.startsWith("\\") || /^[A-Za-z]:[\\/]/.test(path)`；值必须是「对象且 `enable` 缺席或是布尔」。
+  - `skillOverrides` 的合并顺序是 `skills`（plural）先、`skill` 后 → 同 key 以 `skill` 为准；合并结果为空则不写该键。
+  - `command` 分区原样写入 `config.commandOverrides`（不筛绝对路径）。
+- 错误语义：不抛错（非法子值被当作不可识别条目跳过）。
+- 时序与并发：纯函数；`Object.entries` 顺序。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：Windows 盘符路径 `C:\x\SKILL.md` 与 POSIX `/x/SKILL.md` 都算绝对；`\x` 开头的路径也算。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{skills:{"/a/SKILL.md":{enable:false},rel:{enable:true},enabled:false}}` → `config.skills === {enabled:false}`、`config.skillOverrides === {"/a/SKILL.md":{enable:false}}`；`{skills:{"C:\\a\\SKILL.md":{enable:false}}}` → 进入 `skillOverrides`；`{skill:{"/a":{enable:true}},skills:{"/a":{enable:false}}}` → `{"/a":{enable:true}}`；`{command:{"/c.md":{enable:false}}}` → `config.commandOverrides` 同值；`{skills:{enabled:true}}` → `config.skills` 只有 `enabled`；`{skills:{}}` → `config.skills === undefined`。
+
+### B34 插件 id 规范化与别名
+
+- 来源：`config/schema.ts`（`LEGACY_CUA_PLUGIN_ID`、`CANONICAL_CUA_PLUGIN_ID`、`canonicalizePluginId`、`pluginIdAliases`）
+- 输入：任意插件 id 字符串。
+- 输出：`LEGACY_CUA_PLUGIN_ID` 逐字 `cua@knorvia-plugins-bundled`、`CANONICAL_CUA_PLUGIN_ID` 逐字 `computer-use@knorvia-plugins-bundled`；`canonicalizePluginId` 只把 legacy 换成 canonical，其它输入（含已经是 canonical 的）原样返回；`pluginIdAliases` 当 `canonicalizePluginId(input) === CANONICAL_CUA_PLUGIN_ID` 时返回 `[CANONICAL_CUA_PLUGIN_ID, LEGACY_CUA_PLUGIN_ID]`（**顺序固定**），否则返回 `[input]`。
+- 错误语义：不抛错（空串按非 CUA 处理）。
+- 时序与并发：纯函数。
+- 幂等：`canonicalizePluginId` 幂等；`pluginIdAliases(CANONICAL)[0]` 仍是 canonical。
+- 资源释放：无。
+- 平台差异：无（大小写敏感，不做折叠）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`canonicalizePluginId("cua@knorvia-plugins-bundled") === "computer-use@knorvia-plugins-bundled"`；`canonicalizePluginId("other@x") === "other@x"`；`pluginIdAliases("cua@knorvia-plugins-bundled")` 深度等于 `["computer-use@knorvia-plugins-bundled","cua@knorvia-plugins-bundled"]`；`pluginIdAliases("other@x")` 深度等于 `["other@x"]`；`pluginIdAliases("Computer-Use@knorvia-plugins-bundled")`（大小写不同）→ `["Computer-Use@knorvia-plugins-bundled"]`。
+
+### B35 配置文件里的插件别名迁移
+
+- 来源：`config/schema.ts`（`normalizePluginConfig`，由 `parsedConfigFileToRuntimePatch` 调用）
+- 输入：已通过 `pluginsSchema` 的 `plugins` 分区。
+- 输出（三者独立处理，都是**先迁移再删除 legacy 键**）：
+  - `enabledPlugins`：`enabledPlugins[LEGACY] !== undefined` 时，**只有 `enabledPlugins[CANONICAL] === undefined`** 才写入 legacy 的值；随后删除 legacy 键（已有 canonical 时 legacy 值被丢弃）。
+  - `options`：同一规则（canonical 已有则丢 legacy）。
+  - `suppressedBuiltins`：逐项把 legacy 换成 canonical，**只对 canonical id 去重**（保留首次出现顺序）；未声明的其它字符串照原样保留。原数组不改，返回新数组。
+- 错误语义：不抛错（`plugins` 缺失时返回 `{}`）。
+- 时序与并发：纯函数；按 `enabledPlugins` → `suppressedBuiltins` → `options` 的顺序构造返回对象，其余字段用展开保留。
+- 幂等：是（迁移后不再出现 legacy 键）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`{enabledPlugins:{"cua@knorvia-plugins-bundled":true}}` → `{"computer-use@knorvia-plugins-bundled":true}` 且无 legacy 键；`{enabledPlugins:{"cua@knorvia-plugins-bundled":true,"computer-use@knorvia-plugins-bundled":false}}` → canonical 为 `false`；`{suppressedBuiltins:["cua@knorvia-plugins-bundled","computer-use@knorvia-plugins-bundled","other"]}` → `["computer-use@knorvia-plugins-bundled","other"]`；`{options:{"cua@knorvia-plugins-bundled":{x:1}}}` → `{"computer-use@knorvia-plugins-bundled":{x:1}}`；输入对象本身在调用后仍含 legacy 键（不就地修改）。
+
+### B36 配置文件到 `RuntimeConfigPatch` 的映射与诊断
+
+- 来源：`config/schema.ts`（`parsedConfigFileToRuntimePatch`、`parseConfigFileToRuntimePatchWithDiagnostics`）
+- 输入：任意 `unknown`。
+- 输出：返回 `{config, diagnostics}`。`config` 只含被显式声明的分区（条件写入）：`modelStream`、`permission`、`storage`、`network`、`features`、`memory`、`mcp`、`plugins`（经 B35 迁移）、`skills`（经 B33）、`skillOverrides`、`commandOverrides`、`logging`、`ui`、`toolConcurrency`、`modelAnomalyGuard`、`hooks`；`$schema` 与未知顶层键**不写入**；`diagnostics` 只来自 `mcp.servers` 归一化（B30），顺序即追加顺序。
+- 错误语义：顶层/嵌套校验失败时 `parse` 抛错（返回值为 `undefined` 之前的异常），调用方拿到的是 zod 错误而不是诊断。
+- 时序与并发：纯同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`parseConfigFileToRuntimePatchWithDiagnostics({})` → `{config:{},diagnostics:[]}`；`({$schema:"x",unknown:1,storage:{dir:"/tmp/s"}})` → `config` 的 own keys 为 `["storage"]`；`({mcp:{servers:{bad:{}}}})` → `config.mcp.servers` 为 `{}` 且 `diagnostics.length === 1`。
+
+### B37 `createConfig` 的装配顺序与来源优先级
+
+- 来源：`config/config-factory.ts`（`createConfig`）
+- 输入：`ConfigFactoryOptions`（`userConfigPath`、`projectConfigPath`、`workingDirectory`、`workspaceIdentity`、`env`、`cliOverrides`、`skipUserConfig`、`loggerFactory`）。
+- 输出：按 `createPrioritizedConfig` 顺序装配再 `mergeConfigs`：① `DefaultRuntimeConfig`（`System`）② 用户配置（`User`，仅当 `loaded === true`）③ 每个项目配置文件各一条（`Project`，顺序即发现的 `files` 顺序）④ 环境变量（`Env`，仅当解析出的 patch 至少有一个键）⑤ `cliOverrides`（`Cli`，只要是对象就压入，`{}` 也算）。因此同键的生效顺序是 system < user < 项目文件（后者覆盖前者）< env < cli。
+- 错误语义：见 B42（诊断日志抛错会中断装配）。
+- 时序与并发：同步读文件；顺序固定如上。
+- 幂等：给定同样的文件系统与入参，结果相同。
+- 资源释放：无（文件读取由下游负责）。
+- 平台差异：`workingDirectory` 缺省用 `process.cwd()`（见 B44）。
+- 状态所有者：`ConfigPortImpl`（由 `createConfigPort(merged)` 创建）。
+- 日志级别：见 B42。
+- 可测断言：用户配 `storage.dir="user"`、两个项目文件依次 `"p1"`、`""`、env 设 `"env"` → `config.storage.dir === "env"`；同上去掉 env → `""`（后一个项目文件用空串覆盖，说明判据是 `!== undefined` 而不是 truthy）；`cliOverrides:{storage:{dir:"cli"}}` → `"cli"`；`skipUserConfig:true` 时用户层不参与（`sources.user.loaded === false`）。
+
+### B38 项目发现的元数据与 UI 来源路径
+
+- 来源：`config/config-factory.ts`（`projectSummary`、`createConfig` 里的 `uiLocalePath`/`uiThemePath`）
+- 输入：同 B37。
+- 输出：`sources.project.path` 是**最后一个**已发现文件的路径（无文件时 `undefined`）；`paths` 是 `discovery.paths` 原数组；`loaded` 等价于「文件数 > 0」；`hasMcpServers`/`hasUiLocale`/`hasUiTheme` 看**合并后**的项目 patch 上对应键是否存在（区分 `undefined`）；`mcpServerNames` 来自 `discovery.mcpServerNames`（去重并集）；`uiLocalePath`/`uiThemePath` 是**逆序**扫描 `files` 后第一个 `ui.locale !== undefined` / `ui.theme !== undefined` 的文件路径（即最后一个声明者）。
+- 错误语义：不抛错（文件读取失败由 `file-config` 变成诊断）。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：路径由 `file-config`/发现逻辑产出，不在本文件改写。
+- 状态所有者：无（每次 `createConfig` 产出一份快照）。
+- 日志级别：无。
+- 可测断言：两个项目文件，前者 `ui.locale` 后者 `ui.theme` → `uiLocalePath` 指前者、`uiThemePath` 指后者；两个文件都设 `ui.locale` → `uiLocalePath` 指**后者**；无项目文件时 `path === undefined`、`loaded === false`、`paths` 为空数组。
+
+### B39 plugins 的来源归属
+
+- 来源：`config/config-factory.ts`（`describePlugins`）
+- 输入：用户 patch、项目合并 patch、用户配置路径、项目路径（`projectResult.path`）。
+- 输出：`dirs` = `{user: 用户 plugins.dirs ?? [], workspace: 项目 plugins.dirs ?? []}`（数组引用直接透传）；`enabled` 先登记用户 `enabledPlugins` 的键为 `"user"`、再登记项目 `enabledPlugins` 的键为 `"workspace"`（同名以 workspace 为准）；`marketplaces` **只看用户** `extraKnownMarketplaces` 的键并标 `"user"`（项目层的额外市场不登记，因为项目层在合并时被丢弃，见 B21）；`options` 先用户后 workspace 逐插件逐选项标归属（同插件同选项 workspace 覆盖，同插件不同选项各留）；`paths` = `{user: userPath, workspace: projectPath}`（无项目文件时 `workspace` 为 `undefined`）。
+- 错误语义：不抛错。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：用户 `enabledPlugins:{a:false}` 且项目 `enabledPlugins:{a:true}` → `enabled.a === "workspace"`；项目 `extraKnownMarketplaces:{m:{}}` → `marketplaces` 里**没有** `m`；用户 `options:{a:{user:1}}` 与项目 `options:{a:{workspace:2}}` → `options.a` 为 `{user:"user", workspace:"workspace"}`；用户 `dirs:["u"]` → `dirs.user` 与该数组同一引用。
+
+### B40 MCP server 的生效表与来源归属
+
+- 来源：`config/config-factory.ts`（`effectiveMcp`、`createConfig` 末尾的 `merged.mcp` 覆写）
+- 输入：项目合并 patch、用户 patch、env patch、`cliOverrides`。
+- 输出：按 `system`（`DefaultRuntimeConfig`）→ `project` → `user` → `env` → `cli` 顺序把各层 `mcp.servers` 的条目写入同一张表，同名后者覆盖；`serverSources[name]` 是**最后一次**写入该名字的来源；最终 `config.mcp.servers` 被替换为这张生效表（`merged.mcp = { ...merged.mcp, servers: mcp.servers }`），而 `mergeConfigs` 关于 `mcp.servers` 的浅合并结果不作为最终值。
+- 错误语义：不抛错。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：用户与项目都定义 `same`、env 也定义 `same`、cli 也定义 → `config.mcp.servers.same` 是 cli 的对象、`serverSources.same === "cli"`；只在用户定义 `userOnly` → `serverSources.userOnly === "user"`；`DefaultRuntimeConfig.mcp.servers` 当前为空对象，因此 `serverSources` 里通常不出现 `"system"`；项目定义 `p`、用户定义 `u` → 两者都在 `config.mcp.servers` 里。
+
+### B41 hooks 的来源标记
+
+- 来源：`config/config-factory.ts`（`tagHooks`）
+- 输入：一个 `RuntimeConfigPatch` 与 `HookConfigSource`。
+- 输出：`patch.hooks?.events` 缺失（`hooks` 或 `events` 缺席）时**原样返回同一个对象**；否则返回新 patch，`events` 逐事件逐 matcher 逐 hook 地写 `source: hook.source ?? source`——即已有 `source` 的 hook 保留**原引用**（不被覆盖），没有的写上新来源。用户层来源是 `{kind:"user", path: userResult.path}`，env 与 cli 层是 `{kind:"internal"}`。
+- 错误语义：不抛错。
+- 时序与并发：纯函数。
+- 幂等：是（第二次给同一来源不再改变）。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：用户配置文件里带 hooks 时 `config.hooks.events.<E>[i].hooks[j].source` 深度等于 `{kind:"user",path:<用户配置路径>}`，同时**原始** `userResult.config` 上该 hook 的 `source` 仍是 `undefined`（不就地修改）；`cliOverrides` 里已有 `source` 的 hook 在结果里保持同一对象引用；`cliOverrides` 里的 hook 没有 `source` 时得到 `{kind:"internal"}`；`hooks:{enabled:true}`（无 `events`）时 `tagHooks` 返回原对象。
+
+### B42 配置诊断的告警日志
+
+- 来源：`config/config-factory.ts`（`warnDiagnostics`）
+- 输入：`options.loggerFactory`（可选）、用户诊断、项目诊断。
+- 输出：仅当用户或项目诊断**至少一条**时建 logger：`(options.loggerFactory ?? createNodeLoggerFactory({env: options.env})).createLogger("knorvia").child({module: "adapters.config"})`；随后**先遍历全部用户诊断、再遍历全部项目诊断**，每条调用一次 `logger.warn(message, fields)`：`message` 按 `code` 映射——`config_mcp_server_invalid` → 逐字 `MCP server config skipped`、`config_project_hooks_pending_trust` → 逐字 `Project hooks pending workspace trust`、其余 → 逐字 `Config file failed to load`；`fields` 固定为 `{configPath, configScope("user"|"project"), diagnosticCode, diagnosticMessage, diagnosticPath, event, severity}`，`event` 逐字为 `config.mcp_server.skipped` / `config.project_hooks.pending_trust` / `config.file.invalid`。
+- 错误语义：`logger.warn` 抛出的异常**冒泡**并中断 `createConfig`（此时后续步骤如 env 解析、`createConfigPort` 都不会发生）。
+- 时序与并发：同步、按上述固定顺序。
+- 幂等：只读日志，不改变配置结果。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：`warn`（唯一的配置诊断日志级别）。
+- 可测断言：用注入的 `loggerFactory` 记录调用序列 → 用户 1 条 + 项目 1 条时得到 `[["logger","knorvia"],["child",{module:"adapters.config"}],["warn",...],["warn",...]]` 且两条的 `configScope` 依次为 `"user"`、`"project"`；`logger.warn` 抛错时 `createConfig` 抛出同一错误对象且后续 `env` 解析未发生；两侧诊断都为空时**不调用** `createLogger`（`loggerFactory` 的调用序列里没有 `logger` 项）。
+
+### B43 项目发现的三个入口分支
+
+- 来源：`config/config-factory.ts`（`readProjects`）
+- 输入：`workingDirectory?`、`projectConfigPath?`。
+- 输出：① 有 `workingDirectory` → `loadProjectConfigs(workingDirectory, projectConfigPath)`；② 没有 `workingDirectory` 且没有 `projectConfigPath` → `summarizeProjectConfigs([])`（空发现：`files`/`diagnostics`/`paths`/`hookCandidates`/`mcpServerNames` 全空、`loaded` 为 `false`）；③ 没有 `workingDirectory` 但有 `projectConfigPath` → `summarizeProjectConfigs([loadProjectConfigFile(projectConfigPath, {discoveryOrder: 0, explicitProjectConfig: true})])`（只读这一个文件）。
+- 错误语义：文件读取问题由 `file-config` 转成诊断（`loaded:false`）；本函数不额外包装。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`projectConfigPath` 的相对路径由 `file-config`/发现逻辑解析。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：不传 `workingDirectory`/`projectConfigPath` → `sources.project.loaded === false`、`paths` 为空数组、`config.projectConfigPath` 不影响；只传一个存在的 `projectConfigPath`（临时目录里的配置文件）→ `loaded === true`、`paths` 长度为 1 且 `path` 等于该文件路径。
+
+### B44 工作区 hook 的运行时根与快照
+
+- 来源：`config/config-factory.ts`（`createConfig` 中的 `resolveWorkspaceHookRuntimeRoot` / `buildWorkspaceHookBundleSnapshot` / `createWorkspaceHookBundleSnapshot`）
+- 输入：同 B37，外加项目发现的 `hookCandidates`。
+- 输出：`runtimeRoot = resolveWorkspaceHookRuntimeRoot([DefaultRuntimeConfig.hooks, userResult.config.hooks, ...discovery.hookCandidates.map(c => c.hooks), envConfig.hooks, options.cliOverrides?.hooks])`（顺序固定，缺席项为 `undefined`）；`workspacePath = resolve(options.workingDirectory ?? process.cwd())`；`workspaceIdentity = options.workspaceIdentity?.trim() || workspacePath`（空串/全空白退回路径）；`snapshotData = buildWorkspaceHookBundleSnapshot({workspaceIdentity, workspacePath, sources: discovery.hookCandidates, runtimeRoot})`，只有返回非空才 `createWorkspaceHookBundleSnapshot(snapshotData)`。`sources.project.workspaceHookRuntimeRoot` **总是**存在；`sources.project.workspaceHookSnapshot` 只在快照非空时作为 own property 出现（否则该键不存在，而不是 `undefined`）。
+- 错误语义：不抛错（由 `@knorvia/shared` 的实现决定）。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`resolve` 处理 Windows 盘符与分隔符；`workspaceIdentity` 的 trim 是跨平台一致的。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`workspaceIdentity:" id "` → `sources.project.workspaceHookSnapshot.workspaceIdentity === "id"`；不传 `workspaceIdentity` → 等于 `resolve(workingDirectory)`；没有任何 hook 候选时 `Object.hasOwn(sources.project, "workspaceHookSnapshot") === false` 且 `workspaceHookRuntimeRoot` 已被定义。
+
+### B45 `resolveWorkspaceStorageDir` 的优先级
+
+- 来源：`config/config-factory.ts`（`resolveWorkspaceStorageDir`）
+- 输入：`{env?, workingDirectory}`。
+- 输出：`env ?? project ?? base`。`base = createConfig({env: input.env}).config.storage.dir`（系统默认 `~/.knorvia-studio`，除非 env 覆盖）；`project` 遍历 `loadProjectConfigs(workingDirectory).files`，取**最后一个** `file.config.storage?.dir`，判据是 `!== null && !== undefined`（**空串也算值**，会覆盖前面的）；`env` 是 `parseEnvConfig(env ?? process.env).storage?.dir`。环境变量优先级最高。
+- 错误语义：不抛错。
+- 时序与并发：同步读文件。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：`~` 的展开由 `storage.dir` 的下游消费方处理，本函数不改写路径。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：env 有 `KNORVIA_STORAGE_DIR` → 返回它；env 无而最后一个项目文件写 `storage.dir: ""` → 返回 `""`（不是系统默认）；env 无、项目无 → 返回 `DefaultRuntimeConfig.storage.dir`（`~/.knorvia-studio`）。
+
+### B46 用户配置的跳过与来源元数据
+
+- 来源：`config/config-factory.ts`（`createConfig` 的 `skipUserConfig` 分支与 `sources.user`）
+- 输入：`skipUserConfig?`、`userConfigPath?`。
+- 输出：`skipUserConfig === true` 时用户结果固定为 `{config: {}, diagnostics: [], path: getDefaultConfigPath(), loaded: false}`（**不读文件**，`userConfigPath` 被忽略）；否则 `loadFileConfig(options.userConfigPath)`（`undefined` 表示默认路径）。`sources.user` 固定五+一个字段：`diagnostics`（原数组引用）、`path`、`loaded`、`hasMcpServers`（`userResult.config.mcp?.servers !== undefined`）、`hasUiLocale`、`hasUiTheme`、`mcpServerNames`（`Object.keys(userResult.config.mcp?.servers ?? {})`）。另外 `sources.env` 是「env patch 至少一个键」的布尔，`sources.cli` 是「`cliOverrides` 为真值」的布尔。
+- 错误语义：不抛错（文件读取失败在 `loadFileConfig` 内变诊断）。
+- 时序与并发：同步。
+- 幂等：是。
+- 资源释放：无。
+- 平台差异：默认路径由 `file-config.adapter` 解析（`~/.knorvia-studio/cli/config.json` 形态，见批次 C）。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`skipUserConfig:true` 且 `userConfigPath` 指向不存在的文件 → `sources.user.loaded === false`、`sources.user.path === getDefaultConfigPath()`、`sources.user.diagnostics` 为空；`skipUserConfig:false`（缺省）且路径不存在 → `loaded === false` 且 `diagnostics.length >= 1`；`cliOverrides:{}` → `sources.cli === true`、不传 → `false`。
+
+### B47 `config-factory.ts` 的导出面
+
+- 来源：`config/config-factory.ts`
+- 输入：无。
+- 输出：按 `interface.md` 导出 `ConfigFactoryOptions`、`ConfigResult`、`McpServerConfigSource`、`PluginConfigScope`、`PluginConfigSources`、`createConfig`、`resolveWorkspaceStorageDir` 共 7 个声明；`tagHooks`、`readProjects`、`warnDiagnostics`、`projectSummary`、`describePlugins`、`effectiveMcp` 都是**内部函数**，不得导出。
+- 错误语义：模块解析失败即入口不可用。
+- 时序与并发：加载时完成。
+- 幂等：无。
+- 资源释放：无。
+- 平台差异：无。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：`import * as factory from "…/config/config-factory.js"` 后 `Object.keys(factory).sort()` 与 `interface.md` 的 7 个名字一致；`factory.tagHooks === undefined`、`factory.describePlugins === undefined`。
+
+### B48 `owners.test.mjs` 锁定的归属行为由本批与相邻条目覆盖
+
+- 来源：`config/owners.test.mjs`（`unreviewed`，806 行，0 导出；当前不被 `pnpm test:studio` 收集——`scripts/test-studio.mjs` 只收集 `apps/cli/packages/adapters/test`，不含 `src/`）
+- 输入：它用 TypeScript 转译 + `vm` 注入端口的方式，分别加载 `config-merger`、`project-config.adapter`、`file-config.adapter`、`config-factory` 四个 owner，锁定：作用域优先级与「同优先级后者覆盖」、`mergeConfigs` 的普通替换/插件键/钩子追加（B20、B21）、项目发现的 baseDir 与 stdio `cwd` 归一化、诊断顺序与失败筛查（B26）、文件配置的读取/保存顺序与错误包装、键保留与别名迁移（批次 C）、工厂的来源优先级、元数据、hook 标记与日志顺序（B37–B46）。
+- 输出：本包把这些行为**逐条写进合同并由契约测试在真实公开入口上重放**；`owners.test.mjs` 本身不导出任何东西，不能作为契约测试的一部分。
+- 错误语义：不适用（测试文件）。
+- 时序与并发：不适用。
+- 幂等：不适用。
+- 资源释放：不适用。
+- 平台差异：它的 `vm` 夹具硬编码 `/virtual/...` 路径，只覆盖 POSIX 形态；契约测试必须用临时目录同时覆盖 Windows 与 POSIX。
+- 状态所有者：无。
+- 日志级别：无。
+- 可测断言：本文件在替换阶段的删除依据是「同等行为已被 B20、B21、B26、B37–B46 与批次 C 的文件配置条目覆盖」——对应测试见 README 的「条目 → 测试」对照表；在第 5 步契约测试跑通（源码与 dist 双入口）之前不得删除该文件。
