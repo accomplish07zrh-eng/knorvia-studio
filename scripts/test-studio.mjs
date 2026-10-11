@@ -51,6 +51,7 @@ const explicitTests = [
   "scripts/provenance/dependency-platform-qa-regressions.test.mjs",
   "scripts/provenance/dependency-history-qa-regressions.test.mjs",
   "scripts/provenance/ui-alias-lineage.test.mjs",
+  "scripts/provenance/similarity.test.mjs",
   "packages/cua/test/stage-windows-driver.test.mjs",
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
   "apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
@@ -72,6 +73,7 @@ const explicitTests = [
   "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
   "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
   "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
+  "scripts/provenance/inherited-triage.test.mjs",
 ];
 // 合同契约测试：specs/contracts/<包 ID>/tests 一旦存在就随离线回归一起跑；
 // 还没有合同时集合为空，test:studio 照常空跑通过。
