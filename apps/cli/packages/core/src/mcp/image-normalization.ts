@@ -311,20 +311,21 @@ function artifactTrace(context: ToolExecutionContext): TraceContext {
   };
 }
 
+// 媒体类型 → 落盘扩展名：先归一化（去参数、去首尾空白、小写）再查表，未知类型统一 .bin。
+const IMAGE_EXTENSION_BY_MIME = new Map<string, string>([
+  ["image/gif", ".gif"],
+  ["image/jpeg", ".jpg"],
+  ["image/jpg", ".jpg"],
+  ["image/png", ".png"],
+  ["image/webp", ".webp"],
+]);
+const FALLBACK_IMAGE_EXTENSION = ".bin";
+
+const normalizeMimeType = (mimeType: string): string =>
+  (mimeType.split(";")[0] ?? "").trim().toLowerCase();
+
 function extensionForMime(mimeType: string): string {
-  switch ((mimeType.split(";")[0] ?? "").trim().toLowerCase()) {
-    case "image/png":
-      return ".png";
-    case "image/jpeg":
-    case "image/jpg":
-      return ".jpg";
-    case "image/gif":
-      return ".gif";
-    case "image/webp":
-      return ".webp";
-    default:
-      return ".bin";
-  }
+  return IMAGE_EXTENSION_BY_MIME.get(normalizeMimeType(mimeType)) ?? FALLBACK_IMAGE_EXTENSION;
 }
 
 // 人类可读的字节标签：单位阶梯与整数/一位小数的分界都是兼容面。
