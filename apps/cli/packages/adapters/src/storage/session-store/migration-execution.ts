@@ -27,13 +27,15 @@ function checksum(sql: string): string {
 }
 
 function isApplied(
-  db: DatabaseSync,
+  database: DatabaseSync,
   dbPath: string,
   migration: { id: string; sql: string },
 ): boolean {
-  const row = db.prepare("SELECT checksum FROM schema_migration WHERE id = ?").get(migration.id);
-  if (row === undefined) return false;
-  if (row.checksum !== checksum(migration.sql)) {
+  const entry = database
+    .prepare("SELECT checksum FROM schema_migration WHERE id = ?")
+    .get(migration.id);
+  if (entry === undefined) return false;
+  if (entry.checksum !== checksum(migration.sql)) {
     throw new SqliteSessionMigrationError(
       `SQLite migration checksum mismatch for ${migration.id}. Historical migrations are immutable; add a new migration instead.`,
       { dbPath, kind: "checksum_mismatch", migrationId: migration.id },
@@ -42,17 +44,17 @@ function isApplied(
   return true;
 }
 
-function inspectCatalog(db: DatabaseSync, dbPath: string): DatabaseMigrationFacts["kind"] {
+function inspectCatalog(database: DatabaseSync, dbPath: string): DatabaseMigrationFacts["kind"] {
   const hasLedger =
-    db
+    database
       .prepare(`
     SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?
   `)
       .get("schema_migration") !== undefined;
   // 新版账本可能已无旧 checksum 列，先只校验身份，再读取旧格式字段。
-  const rows = hasLedger ? db.prepare("SELECT id FROM schema_migration").all() : [];
-  for (const row of rows) {
-    const id = String(row.id);
+  const entries = hasLedger ? database.prepare("SELECT id FROM schema_migration").all() : [];
+  for (const entry of entries) {
+    const id = String(entry.id);
     if (!SQLITE_MIGRATIONS.some((migration) => migration.id === id)) {
       throw new SqliteSessionMigrationError(
         "Session database has migrations unknown to this build; open it with a newer compatible version.",
@@ -62,10 +64,10 @@ function inspectCatalog(db: DatabaseSync, dbPath: string): DatabaseMigrationFact
   }
   let missing = false;
   for (const migration of SQLITE_MIGRATIONS) {
-    if (!hasLedger || !isApplied(db, dbPath, migration)) missing = true;
+    if (!hasLedger || !isApplied(database, dbPath, migration)) missing = true;
   }
   if (!missing) return "none";
-  const applicationTable = db
+  const applicationTable = database
     .prepare(`
     SELECT name FROM sqlite_master
     WHERE type = 'table' AND name NOT IN ('schema_migration', 'sqlite_sequence') LIMIT 1
@@ -74,14 +76,14 @@ function inspectCatalog(db: DatabaseSync, dbPath: string): DatabaseMigrationFact
   return applicationTable === undefined ? "initialize" : "upgrade";
 }
 
-function ensureWal(db: DatabaseSync, dbPath: string): void {
-  const modeOf = (row: Record<string, unknown> | undefined): string =>
-    typeof row?.journal_mode === "string" ? row.journal_mode.toLowerCase() : "unknown";
+function ensureWal(database: DatabaseSync, dbPath: string): void {
+  const modeOf = (entry: Record<string, unknown> | undefined): string =>
+    typeof entry?.journal_mode === "string" ? entry.journal_mode.toLowerCase() : "unknown";
   const accepted = (mode: string): boolean =>
     mode === "wal" || (dbPath === ":memory:" && mode === "memory");
-  const current = modeOf(db.prepare("PRAGMA journal_mode").get());
+  const current = modeOf(database.prepare("PRAGMA journal_mode").get());
   if (accepted(current)) return;
-  const selected = modeOf(db.prepare("PRAGMA journal_mode = WAL").get());
+  const selected = modeOf(database.prepare("PRAGMA journal_mode = WAL").get());
   if (!accepted(selected)) {
     throw new SqliteSessionMigrationError(
       `SQLite refused WAL journal mode for ${dbPath}; received ${selected}`,
@@ -91,7 +93,7 @@ function ensureWal(db: DatabaseSync, dbPath: string): void {
 }
 
 export function* createMigrationExecution(
-  db: DatabaseSync,
+  database: DatabaseSync,
   dbPath: string,
   lockTimeoutMs: number,
 ): Generator<MigrationEffect, void, void> {
@@ -106,14 +108,14 @@ export function* createMigrationExecution(
     return payload;
   };
   const observe = (): DatabaseMigrationFacts["kind"] => {
-    const kind = inspectCatalog(db, dbPath);
+    const kind = inspectCatalog(database, dbPath);
     facts = { kind, executedCount: 0, committedCount: 0 };
     return kind;
   };
   const rollbackOwned = (): void => {
     if (!ownsTransaction) return;
     try {
-      if (db.isTransaction) db.exec("ROLLBACK");
+      if (database.isTransaction) database.exec("ROLLBACK");
     } catch {
       /* 回滚错误不能覆盖数据库或通知的首因。 */
     }
@@ -143,21 +145,21 @@ export function* createMigrationExecution(
 
   try {
     yield { type: "progress", progress: progress("checking") };
-    db.exec("PRAGMA foreign_keys = ON");
+    database.exec("PRAGMA foreign_keys = ON");
     yield* acquire(() => {
-      if (observe() === "upgrade") createSessionMigrationSnapshot(db, dbPath);
+      if (observe() === "upgrade") createSessionMigrationSnapshot(database, dbPath);
     });
-    yield* acquire(() => ensureWal(db, dbPath));
+    yield* acquire(() => ensureWal(database, dbPath));
     yield* acquire(() => {
       observe();
     });
     yield { type: "progress", progress: progress("checking") };
     yield* acquire(() => {
-      db.exec("BEGIN IMMEDIATE");
+      database.exec("BEGIN IMMEDIATE");
     });
     ownsTransaction = true;
-    inspectCatalog(db, dbPath);
-    db.exec(`
+    inspectCatalog(database, dbPath);
+    database.exec(`
       CREATE TABLE IF NOT EXISTS schema_migration (
         id TEXT PRIMARY KEY,
         checksum TEXT NOT NULL,
@@ -165,7 +167,9 @@ export function* createMigrationExecution(
         time_applied INTEGER NOT NULL
       )
     `);
-    const baseline = db.prepare("SELECT id FROM schema_migration ORDER BY id DESC LIMIT 1").get();
+    const baseline = database
+      .prepare("SELECT id FROM schema_migration ORDER BY id DESC LIMIT 1")
+      .get();
     const currentFacts = facts!;
     currentFacts.lastAppliedMigrationId =
       baseline === undefined ? null : databaseMigrationIdSchema.safeParse(baseline.id).data;
@@ -174,7 +178,7 @@ export function* createMigrationExecution(
     for (const migration of SQLITE_MIGRATIONS) {
       try {
         // 前项 SQL 或通知可改变后项账本，每项都读取当时的身份与校验值。
-        if (isApplied(db, dbPath, migration)) {
+        if (isApplied(database, dbPath, migration)) {
           completed++;
           continue;
         }
@@ -188,18 +192,20 @@ export function* createMigrationExecution(
             total: SQLITE_MIGRATIONS.length,
           },
         };
-        db.exec(migration.sql);
+        database.exec(migration.sql);
         currentFacts.executedCount++;
-        db.prepare(`
+        database
+          .prepare(`
           INSERT INTO schema_migration (id, checksum, app_version, time_applied) VALUES (?, ?, ?, ?)
-        `).run(migration.id, checksum(migration.sql), migration.appVersion, Date.now());
+        `)
+          .run(migration.id, checksum(migration.sql), migration.appVersion, Date.now());
       } catch (error) {
         throw normalizeMigrationFailure(error, dbPath, migration.id);
       }
       completed++;
     }
     yield { type: "progress", progress: progress("committing") };
-    db.exec("COMMIT");
+    database.exec("COMMIT");
     ownsTransaction = false;
     currentFacts.committedCount = currentFacts.executedCount;
     yield { type: "progress", progress: progress("ready") };
