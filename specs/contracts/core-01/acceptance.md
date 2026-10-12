@@ -320,3 +320,23 @@
 **本轮未提交 A13 黑盒测试**：按上述语义写出的测试在「异步返回值 + 结果对象」两处修正后，第二次补丁把同一文件里的两处 `await hydrateMessageHistoryFromSession(...)` 调用串改坏（区间替换命中了刚插入的调用），只跑出 1 个用例且失败。我把它从分支移除，**不留红测试**；下一轮按第 1–3 条写死即可（签名与返回形状都已实测，无需再读 13.9 KB 源码）。
 
 **剩余未覆盖项**：`session-history-hydrator.ts`（本节三条语义待落成断言）、`read-file-state-hydrator.ts`、`filePartToContentBlock` 的 `artifactStore` 读取分支与 artifact 身份分支。三项补齐后跑完整旧门（源码 + dist + 桩替换）并提 `contract: core-01 v1`。
+
+## 20. agent 组最后三文件之三（A13）完成
+
+`specs/contracts/core-01/tests/agent-session-hydrator.test.mjs`（入口：区域桶 `src/agent/index.ts`）：
+
+- 源码入口：tests=**2** pass=**2** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**2** pass=**2** fail=0 skipped=0
+
+断言覆盖（全部照 §19 的实测写死，未再读源码）：`activeSessionMessages([]) === []`；无压缩边界时按原序返回全部消息且**引用同一批对象**；有 compaction 边界时从**最后一个边界（含）**起（`["b","m3"]`）；`hydrateMessageHistoryFromSession({messages}, history)` 异步返回 `{appliedMessageCount:0, interruptedToolCount:0, messageCount:2, partCount:0}`（没有 parts 的消息不追加条目）、历史条目保持原样、重复水合返回同样计数（幂等）。
+
+### 分支现状（全绿）
+
+`specs/contracts/core-01/tests/` 共 **16 个测试文件**：源码 **39/39**、dist **39/39**。
+
+### 剩余未覆盖项
+
+1. `read-file-state-hydrator.ts`：文件读取状态水合的运行时投影函数。
+2. `filePartToContentBlock` 的 `artifactStore.readToolResultArtifact` 读取分支与 `isArtifactUri` 为真的 artifact 身份分支（`kind:"inline"`、`uri = metadata.artifactUri`、`path` 置空）。
+
+两项补齐后跑**完整旧门**（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。
