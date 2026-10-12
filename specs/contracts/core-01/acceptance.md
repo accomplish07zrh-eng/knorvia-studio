@@ -106,3 +106,26 @@
 4. `dynamic-sections.ts` 四个动态 section（session guidance / dynamic behavior / output style / context management）的触发条件与文案。
 5. `types.ts` 的类型面（`ContextSection` 字段、`ContextSource` 取值、`ContextBuilderConfig` 形状）——B6 式编译期用例。
 6. `buildSecurityNotice`/`buildHarnessBlock` 为内部函数：只经 X6/X9 的"逐字同一份"间接冻结，无独立黑盒入口。
+
+## 10. context 子块 3（X10–X11）的旧门结果与剩余未覆盖项
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/context-builder.test.mjs`（入口：区域桶 `src/context/index.ts`）：
+
+- 源码入口：tests=**2** pass=**2** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**2** pass=**2** fail=0 skipped=0
+
+断言覆盖：Skills 段的排序（`localeCompare`）、250 字截断（249 + `...`）、`whenToUse` 拼接、`qualifiedName` 别名后缀、`metadataBudget` 回落为只列名字、空清单 → `null`；builder 最小配置下的装配顺序（CLI Prefix → Agent Identity → Dynamic Behavior → Environment Info → Context Management）、`build()` 结果键与 `totalChars`/`totalTokens` 自洽、`buildContextMetaUserBody` 的外层包裹 + 6 空格 IMPORTANT 尾注 + 空数组 → `null` + 不按 target 过滤、`buildSkillsMetaUserBody` 的无包裹拼接。
+
+### 实测修正
+
+初版断言 `buildContextMetaUserBody([identity])` 为 `null`（以为它按 `injectionTarget` 过滤）——**实测不是**：该函数把传进来的段一律拼进正文，由调用方决定传哪些。已按实测改正并写入 behavior.md X11。
+
+### 剩余未覆盖项（子块 4，如实列出）
+
+1. `dynamic-sections.ts` 四个动态 section（`buildSessionGuidanceSection`/`buildDynamicBehaviorSection`/`buildOutputStyleSection`/`buildContextManagementSection`）的**内部文案与触发条件**——不经桶导出；其**存在与装配顺序**已由 X11 冻结。
+2. `sections/request-user-context.ts` 的 `buildRequestUserContextSection`（内部函数）：`# agentsMd` 标题与 OVERRIDE 文案、`Contents of <filePath> (workspace instructions|user default instructions):`、截断时追加 `[File truncated: <fileName>]`、memory 索引段 `(user's auto-memory, persists across conversations)`、无内容 → `null`。
+3. `types.ts` 的类型面（`ContextSection` 字段、`ContextSource` 取值、`ContextBuilderConfig` 形状、`PresentationSurface`）——B6 式编译期用例。
+4. `ContextBuilder` 的增量方法（`setToolRegistry`/`setEnvInfo`/`addSection`）对装配顺序与去重的影响。
+5. `sections/skills.ts` 的排序依赖 `localeCompare`：同一 locale 下稳定，但**跨 locale 的排序差异**未冻结（合同只冻结"按显示名升序"这一规则与同 locale 下的具体顺序）。

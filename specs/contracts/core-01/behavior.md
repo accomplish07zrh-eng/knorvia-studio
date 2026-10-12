@@ -172,3 +172,19 @@
 - （测试：tests/context-sections.test.mjs「X9 Workflow Actor Identity section（共用安全行/Harness + 工作流契约）」）
 
 > **context 子块 3（待补）**：`builder.ts`（`ContextBuilder` 装配顺序、`createContextBuilder` 默认列表、`buildContextMetaUserBody`/`buildSkillsMetaUserBody` 的去重裁剪）、`sections/skills.ts`（清单截断规则，探针显示其入参形状不是 `{skills}`，需读源码）、`sections/request-user-context.ts`（`# agentsMd` 段与 `[File truncated]` 规则，内部函数）、`dynamic-sections.ts` 四个动态 section、`types.ts` 类型面（B6 式编译期用例）。
+
+## X10 Skills section（`context/sections/skills.ts`）
+
+- 输入：`buildSkillsSection({outcome: SkillLoadOutcome, metadataBudget?})`。
+- 输出（**逐字冻结**）：`outcome.skills` 为空 → `null`；否则 `{name:"Skills", source:"skills", injectionTarget:"meta_user", cacheHint:"dynamic"}`，内容为 `"The following skills are available for use with the Skill tool:\n\n"` + 条目行，条目按显示名（`qualifiedName ?? name`）`localeCompare` **升序**。详细条目：`- <显示名>: <description[- whenToUse]>[ (also loadable as <name>)][ (file: <path>)]` 形式，即 `- a: review things (file: /skills/a/SKILL.md)`；描述超过 **250** 字时截到 **249** 字后加 `...`；`qualifiedName` 与 `name` 不同时追加 ` (also loadable as <name>)`。整体长度超过 `metadataBudget`（默认 **20000**）时**回落为只列名字**：`- <显示名>[ (also loadable as <name>)][ (file: <path>)]`。
+- 错误语义：不抛错（`outcome` 形状由调用方保证）。时序与并发：纯函数。幂等：是（排序稳定）。资源释放：不适用。平台差异：排序用 `localeCompare`，排序结果与运行环境 locale 有关（同一 locale 下稳定）。状态所有者：无。日志级别：不适用。
+- （测试：tests/context-builder.test.mjs「X10 Skills section（排序、250 字截断、别名、budget 回落）」）
+
+## X11 builder 装配顺序与 meta_user 组装（`context/builder.ts`）
+
+- 输入：`createContextBuilder(config)`（返回 `ContextBuilder`：`setToolRegistry`/`setEnvInfo`/`addSection`/`build`）、`buildContextMetaUserBody(sections)`、`buildSkillsMetaUserBody(sections)`。
+- 输出（**逐字冻结**）：最小配置（`workingDirectory` + 非 git `envInfo`）下 `build()` 的结果键为 `metaUserAttachments`/`sections`/`systemMessages`/`totalChars`/`totalTokens`；`sections` 的装配顺序固定为 **CLI Prefix → Agent Identity → Dynamic Behavior → Environment Info → Context Management**（`source` 依次 `cli_prefix`/`identity`/`dynamic_behavior`/`env_info`/`context_management`，`injectionTarget` 全部 `system`）；`totalChars`/`totalTokens` 等于各段之和。`buildContextMetaUserBody` = `"As you answer the user's questions, you can use the following context:\n" + 各段内容按顺序用 "\n\n" 连接 + "\n\n      IMPORTANT: this context may or may not be relevant to your tasks. You should not respond to this context unless it is highly relevant to your task."`（注意 IMPORTANT 前是 **6 个空格**）；**空数组 → `null`**；该函数**不按 `injectionTarget` 过滤**（传进来的段一律进正文，由调用方决定传哪些）。`buildSkillsMetaUserBody` = 各段内容按顺序用 `"\n\n"` 连接，无外层包裹与尾注。
+- 错误语义：不抛错。时序与并发：`build()` 为同步纯计算（本包不发起 I/O）。幂等：同一配置两次 `build()` 结果一致。资源释放：不适用。平台差异：不适用（环境差异由 `envInfo` 传入）。状态所有者：builder 实例持有配置；section 由调用方注册。日志级别：不适用。
+- （测试：tests/context-builder.test.mjs「X11 builder 装配顺序与 meta_user 组装（逐字冻结）」）
+
+> **context 块剩余待补（子块 4，登记在 acceptance §10）**：`dynamic-sections.ts` 四个动态 section 的内部文案与触发条件（其**存在与顺序**已由 X11 冻结）、`sections/request-user-context.ts`（内部函数：`# agentsMd`、`Contents of …`、`[File truncated: …]`、memory 索引段）、`types.ts` 类型面（B6 式编译期用例）、`ContextBuilder.setToolRegistry`/`addSection`/`setEnvInfo` 的增量行为。

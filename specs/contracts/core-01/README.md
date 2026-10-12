@@ -88,3 +88,12 @@ context 子块 2（`builder.ts` 装配顺序/去重、`identity`/`env-info`/`ski
 | X9 Workflow Actor Identity section | `tests/context-sections.test.mjs`「X9 Workflow Actor Identity section（共用安全行/Harness + 工作流契约）」 |
 
 context 子块 3（`builder.ts` 装配顺序/去重、`skills`/`request-user-context` 文案、`dynamic-sections`、`types`）待补。
+
+## 条目 → 测试对照表（context 子块 3，X10–X11）
+
+| 条目 | 测试 |
+| --- | --- |
+| X10 Skills section | `tests/context-builder.test.mjs`「X10 Skills section（排序、250 字截断、别名、budget 回落）」 |
+| X11 builder 装配顺序与 meta_user 组装 | `tests/context-builder.test.mjs`「X11 builder 装配顺序与 meta_user 组装（逐字冻结）」 |
+
+context 块剩余（子块 4）：`dynamic-sections` 内部文案、`request-user-context`（内部函数）、`types.ts` 编译期用例、builder 的增量方法。
