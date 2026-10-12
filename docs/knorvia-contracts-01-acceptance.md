@@ -123,7 +123,7 @@
 | `pnpm provenance:report` / `provenance:check` | **reviewProblems 0 / missingReviews []**，check exit 0                                                                             |
 | `pnpm build:cli-packages`                     | **17/17 successful**（首次运行因 `@knorvia/cua-plugin` 下载官方 Cua driver 超时失败一次，重跑成功并 SHA-256 verified；与本包无关） |
 | `pnpm knip`                                   | main 上本来就 exit 1（1,774 未使用文件）；本包未新增未使用文件/导出（合同 PR 已删除 7 个无引用导出）                               |
-| `node lead/verify-replace.mjs … contracts-01` | **8/8 PASS**                                                                                                                       |
+| `node lead/verify-replace.mjs … contracts-01` | **7/7 PASS**；契约测试入口检查跳过（contracts-01 无 `tests/run-old-gate.mjs`），27/27 由包内测试直接执行（§3、CI）                 |
 | 全量 `pnpm test:studio`                       | 交 PR 的 CI（Linux + Windows），本机多 Agent 并发不跑                                                                              |
 
 `git diff --name-status origin/main...HEAD`：**新增 13、修改 60、删除 10**（删除含 9 个桩文件与 `specs/contracts/contracts-01/tests/` 的旧路径；新增含 11 个内部模块与 3 个测试文件）。
@@ -150,3 +150,16 @@
 ## 8. 相似度「两侧取最大值」说明
 
 所有候选都同时与**被替换的旧文件**（`--old-rev origin/main`，同路径）与**上游固定提交**（`--upstream-dir cache/zcode-872ad960`，`872ad960…`）比较，取最大值判定。§3 表中的数值即两侧最大值。
+
+## 9. core 固定产物 receipt 的重新固定（构建产物差异，如实记录）
+
+替换实现后 `apps/cli/packages/contracts/dist/workflow/run-schema.d.ts` 与 `dist/workflow/script.d.ts` 的字节与替换前不同，差异**只在类型的打印顺序**：
+
+1. `run-schema.d.ts`：`WorkflowFailureSchema` 的 `kind` 联合成员顺序（新 `"tool" | "unknown" | …`，旧 `"unknown" | … | "tool"`）。两个构建里 `src/workflow/run-schema.ts` 的 `z.enum([…])` 取值与书写顺序**完全相同**，成员集合不变。
+2. `script.d.ts`：`ScriptWorkflowRunStatsSchema` 推导类型里 `input` 与 `output` 两个键的先后。
+
+同文件对应的 `.js` 产物字节完全一致（`bc3be71b…` / `e473833b…`），运行时行为不变；`src/index.ts` 与 `src/workflow/**` 未被本 PR 改动。成因是 tsc 按程序级 literal 类型 interning 顺序打印联合/映射类型，而本 PR 把 58 个文件重排为「薄壳 + 内部实现」并新增 11 个内部模块，改变了同一编译程序内的文件处理顺序。
+
+处置（按仓库先例 commit `4bf32a33`：该 receipt 换摘要时同步更新测试里的 JSON 自校验摘要）：重固定 `apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json` 中这 2 条摘要，并同步 `apps/cli/packages/core/test/current-artifact-receipt-20261003.ts` 第 25 行的自校验摘要，共 **2 文件 3 行**；其余 218 条摘要、`formatVersion`、`sourceCheckpoint`、`previousReceipt` 链均未改动。
+
+证据：新摘要取自真实 `tsc` 6.0.2 构建，Windows 本机与 CI Linux 构建结果一致（跨平台确定）；清空 `dist` 重建后 **220/220** 条摘要匹配；core 的 6 个 workflow 测试在本机先复现失败、修后 **30/30 通过**。没有放宽断言，也没有跳过任何测试。

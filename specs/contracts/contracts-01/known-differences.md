@@ -15,3 +15,9 @@
 5. **`model/protocol-error_core.ts`**（兼容面 13/13 = 100%）：`ModelProtocolError` 的类名、构造参数顺序（`code, message, context?`）与两个只读成员名。调用方按 `name` 与 `code` 识别协议错误。行为由 B1 导出面与 `ModelErrorCode` 取值断言覆盖。
 
 以上重合是**兼容面本身**（协议字段名、外部可见字符串、调用方依赖的签名），不是逐行照搬实现：实现部分（控制流、数据结构、注释）均已改写，各文件的相似度实测值见 `docs/knorvia-contracts-01-acceptance.md` §3。
+
+## 构建产物差异：两个 dist 声明的类型打印顺序（已按先例重固定 receipt）
+
+`apps/cli/packages/contracts/dist/workflow/run-schema.d.ts` 与 `dist/workflow/script.d.ts` 的字节与替换前不同，差异**只在类型打印顺序**：前者是 `WorkflowFailureSchema` 的 `kind` 联合成员顺序，后者是 `ScriptWorkflowRunStatsSchema` 推导类型里 `input`/`output` 的先后。源码侧 `src/workflow/run-schema.ts` 的 `z.enum([…])` 取值与顺序、`src/workflow/script.ts` 全文在两棵树上完全相同，成员集合与字段集合未变；同文件 `.js` 产物字节一致，运行时行为不变。
+
+原因是 tsc 按程序级 literal 类型 interning 顺序打印联合/映射类型，本次把 58 个文件重排为「薄壳 + 内部实现」、新增 11 个内部模块，改变了编译程序内的文件处理顺序。处置：重固定 `apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json` 的这 2 条摘要并同步该测试的 JSON 自校验摘要（先例 commit `4bf32a33`）；新摘要取自真实构建，跨 Windows/Linux 一致，重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。详见 `docs/knorvia-contracts-01-acceptance.md` §9。
