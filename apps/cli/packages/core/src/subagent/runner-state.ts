@@ -1,3 +1,6 @@
+// 事件属性里的异步标记与本地代理任务类型：都只在一处出现，提成常量便于统一维护。
+const IS_ASYNC = true;
+const LOCAL_AGENT_TASK_TYPE = "local_agent";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import {
@@ -52,6 +55,8 @@ export function createState(options: ExploreSubagentPortOptions): RunnerState {
   });
   const delay = options.autoBackgroundMs;
   return {
+    // 构造并返回本函数的产物
+    // 构造并返回本函数的产物
     options,
     registry,
     profiles,
@@ -100,6 +105,8 @@ export function resolveProfile(state: RunnerState, request: SubagentRunRequest) 
     }
   }
   return {
+    // 构造并返回本函数的产物
+    // 构造并返回本函数的产物
     profile: profile!,
     request:
       profile!.name === request.agentType ? request : { ...request, agentType: profile!.name },
@@ -136,7 +143,9 @@ export function createExecution(
     sessionId: request.sessionId,
     turnId: request.turnId,
     attributes: {
-      agentId,
+      // 事件属性
+      // 事件属性
+      agentId: agentId,
       agentType: request.agentType,
       parentToolCallId: request.parentToolCallId,
       ...(previous ? { resumed: true } : {}),
@@ -146,7 +155,9 @@ export function createExecution(
     sessionId: childSessionId,
     turnId: request.turnId,
     attributes: {
-      agentId,
+      // 事件属性
+      // 事件属性
+      agentId: agentId,
       agentType: request.agentType,
       parentSessionId: request.sessionId,
       parentToolCallId: request.parentToolCallId,
@@ -154,10 +165,12 @@ export function createExecution(
     },
   });
   return {
+    // 构造并返回本函数的产物
+    // 构造并返回本函数的产物
     request,
     profile,
-    agentId,
-    childSessionId,
+    agentId: agentId,
+    childSessionId: childSessionId,
     startedMs,
     startedAt: new Date(startedMs),
     directory,
@@ -172,35 +185,37 @@ export function registerExecution(state: RunnerState, execution: Execution, back
   const { request, agentId, childSessionId, outputFile, startedAt, runTrace } = execution;
   state.registry.register({
     taskId: agentId,
-    agentId,
+    agentId: agentId,
     agentType: request.agentType,
-    childSessionId,
+    childSessionId: childSessionId,
     description: request.description,
     isBackgrounded: background,
-    outputFile,
+    outputFile: outputFile,
     parentToolCallId: request.parentToolCallId,
     parentSessionId: request.sessionId,
     prompt: request.prompt,
-    startedAt,
+    startedAt: startedAt,
     status: "running",
     taskType: "local_agent",
     traceContext: runTrace,
-    type: "local_agent",
+    type: LOCAL_AGENT_TASK_TYPE,
     turnId: request.turnId,
   });
 }
 export function backgroundOutput(execution: Execution): AgentBackgroundedOutput {
   const { agentId, request, childSessionId, outputFile } = execution;
   return {
+    // 构造并返回本函数的产物
+    // 构造并返回本函数的产物
     status: "async_launched",
-    isAsync: true,
+    isAsync: IS_ASYNC,
     agentId,
     agentType: request.agentType,
     description: request.description,
     prompt: request.prompt,
-    childSessionId,
+    childSessionId: childSessionId,
     backgroundTaskId: agentId,
-    outputFile,
+    outputFile: outputFile,
     canReadOutputFile: request.callerCanReadOutputFile === true,
   };
 }
