@@ -7,16 +7,6 @@ import { z } from "zod";
 import type { CompactBoundaryPayload } from "../compact/index.js";
 import type { MessageId } from "../interfaces/shared.js";
 
-const diffHunkSchema = z
-  .object({
-    oldStart: z.number(),
-    oldLines: z.number(),
-    newStart: z.number(),
-    newLines: z.number(),
-    lines: z.array(z.string()),
-  })
-  .strict();
-
 export const RewindScope = {
   Conversation: "conversation",
   Workspace: "workspace",
@@ -112,7 +102,17 @@ export const workspaceCheckpointArtifactSchema = z
             beforeContent: z.string().nullable(),
             afterContent: z.string().optional(),
             afterContentLength: z.number().int().nonnegative().optional(),
-            structuredPatch: z.array(diffHunkSchema),
+            structuredPatch: z.array(
+              z
+                .object({
+                  oldStart: z.number(),
+                  oldLines: z.number(),
+                  newStart: z.number(),
+                  newLines: z.number(),
+                  lines: z.array(z.string()),
+                })
+                .strict(),
+            ),
           })
           .strict(),
       )

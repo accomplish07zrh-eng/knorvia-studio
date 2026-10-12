@@ -18,26 +18,37 @@
 
 ### 3.1 tracing 组（4 个文件，提交 `f7e2f759`）
 
-命令（仓库根，Node 24；`<tool>` = `wt/tool-m08/scripts/provenance/similarity.mjs`）：
+**声明模式的剔除范围 = `interface.md` 列出的 `interface` / `type` / `class` / `enum` 与 `const` 声明块**（zod schema、`as const` 枚举对象、常量表）；工具只按名字精确匹配，不做「剔除所有 const」的启发式（扩展见 PR #128：同一仓库状态上普通模式 492 候选逐文件 0 差异）。
+
+命令（仓库根，Node 24；`<tool>` = `scripts/provenance/similarity.mjs`）：
 
 ```bash
-node <tool> --repo . --candidate apps/cli/packages/contracts/src/tracing/<文件> \
+node <tool> --repo . --candidate <文件> \
   --upstream-dir <cache>/zcode-872ad960 --upstream-rev 872ad960de7ec172591f7e1952f7849229f94521 \
   --declaration --interface specs/contracts/contracts-02/interface.md
 ```
 
 | 文件                                | 计分模式 | 兼容面行数 X | 残留行数 Y | X/(X+Y) | 声明模式实测（containment / run / structural） | 普通模式实测（不可达原因）                                                                                      |
 | ----------------------------------- | -------- | ------------ | ---------- | ------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `tracing/tracer.ts`                 | 声明模式 | 107          | 22         | 83%     | 0.091 / 1 / 0.000 ✓                            | 0.349（45/129）、run 6：命中为 options 接口字段、导出函数签名、`createRootTraceContext` 返回字段                |
+| `tracing/tracer.ts`                 | 声明模式 | 120          | 9          | 93%     | 0.000 / 0 / 0.000 ✓                            | 0.349（45/129）、run 6：命中为 options 接口字段、导出函数签名、`createRootTraceContext` 返回字段                |
 | `tracing/tracer-types.ts`           | 声明模式 | 40           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                            | 0.800、run 9：文件本身就是 `TraceContext` / `ExecutionContext` / `Span` / `Tracer` 四个冻结接口的声明           |
 | `tracing/span-residence.ts`         | 声明模式 | 38           | 23         | 62%     | 0.087 / 1 / 0.000 ✓                            | 0.311（19/61）、run 6：命中为 `Span` 接口的字段与方法签名及最小实现体（class 实现冻结接口天然一致）             |
-| `tracing/local-turn-preparation.ts` | 声明模式 | 75           | 22         | 77%     | 0.100 / 1 / 0.000 ✓                            | 0.216、**run 11**：连续段即 `LocalTurnPreparationFact` 的 10 行导出接口（合同要求逐字保留）→ 普通模式不可能达标 |
+| `tracing/local-turn-preparation.ts` | 声明模式 | 78           | 19         | 80%     | 0.158 / 1 / 0.000 ✓                            | 0.216、**run 11**：连续段即 `LocalTurnPreparationFact` 的 10 行导出接口（合同要求逐字保留）→ 普通模式不可能达标 |
 
-**合同冻结行说明**：`interface.md` 的 `tracing/*` 段落列出上述文件的导出名与签名；声明模式按名字剔除整块声明（`interface`/`type`/`class`/`enum`）后，剩余行才是需要独立创作的实现。四个文件的残留行合计 67 行，其中不含任何逐字照搬的实现逻辑（最长相同段 ≤ 1 行）。
+### 3.2 rewind 组（4 个文件）
 
-**行为覆盖**：契约测试 `api-surface.test.mjs`（B1 导出面）+ `behavior.test.mjs`（B2 追踪上下文、B2b 异步 ambient、B3 span 驻留语义）在**源码入口 11/11、dist 入口 11/11** 全过；桩替换 6 个模块路径后 11/11 全部失败（`specs/contracts/contracts-02/gate-replace-stub.json`）。
+| 文件                          | 计分模式           | 兼容面行数 X | 残留行数 Y | X/(X+Y) | 实测（containment / run / structural） | 普通模式实测                                     |
+| ----------------------------- | ------------------ | ------------ | ---------- | ------- | -------------------------------------- | ------------------------------------------------ |
+| `rewind/target-evaluation.ts` | **普通模式**       | —            | —          | —       | 0.138 / 5 / 0.000 ✓                    | 同左（实现逻辑占主导：判定改有序规则表）         |
+| `rewind/active-branch.ts`     | **普通模式**       | —            | —          | —       | 0.122 / 3 / 0.000 ✓                    | 同左（保留集合与追加拆成纯函数）                 |
+| `rewind/payload-schemas.ts`   | 声明模式           | 135          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 0.978、run 132：135 行几乎全是 schema 与类型声明 |
+| `rewind/index.ts`             | 声明模式（barrel） | 10           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 0.600、run 6：全部是再导出语句（兼容面）         |
 
-**冻结语义点**（同见 `known-differences.md`）：span 只允许 `running → completed | error` 一次结算、`onEnd` 钩子以同一个 record 只调用一次、`addEvent` 无副作用、`runWithContext` 作用域结束不残留、child 上下文 `parentSpanId` 与 `parentId` 同时指向父 `spanId`。
+**合同冻结行说明**：`interface.md` 列出上述文件的导出名与签名；声明模式按名字剔除整块声明（含 `const` schema 与常量表）后，剩余行才是需要独立创作的实现。八个文件的残留行合计 61 行，最长相同段 ≤ 1 行；`target-evaluation`（5 行）与 `active-branch`（3 行）在普通模式下也低于门槛 8。
+
+**行为覆盖**：契约测试 `api-surface.test.mjs`（B1 导出面）+ `behavior.test.mjs`（B2 追踪上下文、B2b 异步 ambient、B3 span 驻留语义、B4–B9 工具与 workflow schema）在**源码入口 11/11、dist 入口 11/11** 全过；桩替换 6 个模块路径后 11/11 全部失败（`specs/contracts/contracts-02/gate-replace-stub.json`）。
+
+**冻结语义点**（同见 `known-differences.md`）：span 只允许 `running → completed | error` 一次结算、`onEnd` 钩子以同一个 record 只调用一次、`addEvent` 无副作用、`runWithContext` 作用域结束不残留、child 上下文 `parentSpanId` 与 `parentId` 同时指向父 `spanId`；rewind 的 `evaluateRewindTarget` 判定结果（`strategy` / `targetStatus` / `allowedScopes` / `reason`）逐字一致。
 
 ## 4. 旧门与新实现结果
 

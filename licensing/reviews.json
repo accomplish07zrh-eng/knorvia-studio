@@ -84629,7 +84629,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "03e31ef60d03eec1187792b83d461dd2a5b2a7cfe9bbb7f72b6fb9554ca4cd38",
+      "normalizedSha256": "2cf79b6c52d86d0f8cd64db96e67b5d3f25f452fca53cf48ad257ed6dc1d6250",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -84637,7 +84637,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/rewind/payload-schemas.ts",
-      "normalizedSha256": "de391f47cba223f23845744fe13f0d94659b423e972df8ec659ba1146e4565e2",
+      "normalizedSha256": "16fa720267323c18e108bbfed22165be79a37bfb4720f5ad20ae69771a791166",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
