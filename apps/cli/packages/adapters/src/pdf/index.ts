@@ -81,10 +81,20 @@ function filesystemFailure(
   reason: unknown,
 ): PdfDocumentPortError {
   return cancellation?.aborted
-    ? new PdfDocumentPortError("cancelled", extractionCancelled, { cause: reason })
-    : new PdfDocumentPortError("io_error", text, { cause: reason });
+    ? pdfFailure("cancelled", extractionCancelled, reason)
+    : pdfFailure("io_error", text, reason);
 }
 
+/** 统一的 PDF 失败构造：third 参数为 cause 时可省略包装对象。 */
+function pdfFailure(
+  code: ConstructorParameters<typeof PdfDocumentPortError>[0],
+  text: string,
+  cause?: unknown,
+): PdfDocumentPortError {
+  return cause === undefined
+    ? new PdfDocumentPortError(code, text)
+    : new PdfDocumentPortError(code, text, { cause });
+}
 /** 统一的执行入口：调用方只说「哪个命令、什么参数、多久超时」。 */
 async function runTool(call: ToolCall): Promise<ExecutionResult> {
   const command = { mode: "argv" as const, file: call.file, args: call.args };
@@ -118,12 +128,12 @@ function pageRangeFailure(
   const plural = count === 1 ? "" : "s";
   const limit = Math.min(count, READ_PDF_MAX_PAGES_PER_REQUEST);
   const text = `Requested ${requested} is outside the document (PDF has ${count} page${plural}). Use a range within 1-${count}, maximum ${READ_PDF_MAX_PAGES_PER_REQUEST} pages per request (e.g. pages: "1-${limit}").`;
-  return new PdfDocumentPortError("page_out_of_range", text);
+  return pdfFailure("page_out_of_range", text);
 }
 
 const passwordFailure: DiagnosticStep = ({ diagnostics }) =>
   PASSWORD_PATTERN.test(diagnostics)
-    ? new PdfDocumentPortError(
+    ? pdfFailure(
         "password_protected",
         "PDF is password-protected. Please provide an unprotected version.",
       )
@@ -135,7 +145,7 @@ const rangeFailure: DiagnosticStep = ({ request, diagnostics }) => {
   if (diagnostic === null) return undefined;
   const count = Number(diagnostic[1]);
   if (count === 0) {
-    return new PdfDocumentPortError(
+    return pdfFailure(
       "corrupted",
       "PDF reports 0 pages (empty page tree). The PDF may be invalid.",
     );
@@ -148,17 +158,17 @@ const rangeFailure: DiagnosticStep = ({ request, diagnostics }) => {
 const firstLineFailure: DiagnosticStep = ({ head, rows, request }) => {
   if (rows.some((line) => COMMAND_ERROR_PATTERN.test(line))) return undefined;
   if (head.startsWith("I/O Error: ") && head.includes(`'${request.filePath}'`)) {
-    return new PdfDocumentPortError("io_error", `Could not render PDF: ${head}`);
+    return pdfFailure("io_error", `Could not render PDF: ${head}`);
   }
   if (head.startsWith("Permission Error: ")) {
-    return new PdfDocumentPortError("permission_denied", `Could not render PDF: ${head}`);
+    return pdfFailure("permission_denied", `Could not render PDF: ${head}`);
   }
   return undefined;
 };
 
 const corruptedFailure: DiagnosticStep = ({ diagnostics }) =>
   CORRUPT_PATTERN.test(diagnostics) || SYNTAX_PATTERN.test(diagnostics)
-    ? new PdfDocumentPortError("corrupted", "PDF file is corrupted or invalid.")
+    ? pdfFailure("corrupted", "PDF file is corrupted or invalid.")
     : undefined;
 
 /** 分类顺序即优先级：密码 → 页区间 → 首行 I/O/权限 → 损坏；都不匹配则进程失败。 */
@@ -174,10 +184,10 @@ function inspectRenderOutcome(
   request: PdfDocumentRenderPagesRequest,
 ): void {
   if (outcome.cancelled) {
-    throw new PdfDocumentPortError("cancelled", extractionCancelled);
+    throw pdfFailure("cancelled", extractionCancelled);
   }
   if (timedOut(outcome)) {
-    throw new PdfDocumentPortError(
+    throw pdfFailure(
       "timeout",
       `PDF page extraction timed out after ${READ_PDF_RENDER_TIMEOUT_MS}ms.`,
     );
@@ -199,7 +209,7 @@ function inspectRenderOutcome(
     if (failure !== undefined) throw failure;
   }
   const text = context.blob.length > 0 ? `pdftoppm failed: ${context.blob}` : "pdftoppm failed.";
-  throw new PdfDocumentPortError("process_failed", text, { cause: outcome.error?.cause });
+  throw pdfFailure("process_failed", text, outcome.error?.cause);
 }
 
 /** 从文件名解析页序号：形如 `prefix-12.jpg`，非页面文件忽略。 */
@@ -227,10 +237,7 @@ async function collectPages(
 
   const pageList = pageEntries(entries);
   if (pageList.length === 0) {
-    throw new PdfDocumentPortError(
-      "corrupted",
-      "pdftoppm produced no output pages. The PDF may be invalid.",
-    );
+    throw pdfFailure("corrupted", "pdftoppm produced no output pages. The PDF may be invalid.");
   }
 
   try {
@@ -300,10 +307,10 @@ export function createPopplerPdfDocumentAdapter(
     );
     const outcome = await runTool(call);
     if (outcome.cancelled || cancellation?.aborted) {
-      throw new PdfDocumentPortError("cancelled", extractionCancelled);
+      throw pdfFailure("cancelled", extractionCancelled);
     }
     if (timedOut(outcome)) {
-      throw new PdfDocumentPortError(
+      throw pdfFailure(
         "timeout",
         `PDF page extraction availability check timed out after ${READ_PDF_AVAILABILITY_TIMEOUT_MS}ms.`,
       );
@@ -315,9 +322,7 @@ export function createPopplerPdfDocumentAdapter(
         outcome.exitCode !== 127 &&
         outcome.stderr.text.length > 0);
     if (!completed || !usableExit) {
-      throw new PdfDocumentPortError("unavailable", unavailableMessage, {
-        cause: outcome.error?.cause,
-      });
+      throw pdfFailure("unavailable", unavailableMessage, outcome.error?.cause);
     }
     toolAvailable = true;
   }
@@ -338,7 +343,7 @@ export function createPopplerPdfDocumentAdapter(
       );
       const outcome = await runTool(call);
       if (outcome.cancelled || cancellation?.aborted) {
-        throw new PdfDocumentPortError("cancelled", "PDF inspection was cancelled.");
+        throw pdfFailure("cancelled", "PDF inspection was cancelled.");
       }
       if (outcome.status !== "completed" || outcome.exitCode !== 0) return undefined;
       return parsePageCount(outcome.stdout.text);
