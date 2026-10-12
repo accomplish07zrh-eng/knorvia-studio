@@ -9,12 +9,12 @@ import { KNORVIA_RUNTIME_ENV_KEY, normalizeKnorviaRuntimeEnv } from "@knorvia/sh
 import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
 import { projectLogEntry } from "./entry.js";
 import { appendLogRecord } from "./file-sink.js";
-import { DefaultLogRedactor, formatConsoleLine, toSerializableEntry } from "./serialize.js";
 import {
-  scheduleLogRetentionCleanup,
+  scheduleLogRetentionCleanup as scheduleCleanup,
   type LogRetentionScheduleOptions,
   type LogRetentionTimer,
 } from "./retention.js";
+import { DefaultLogRedactor, formatConsoleLine, toSerializableEntry } from "./serialize.js";
 
 export {
   LOG_CLEANUP_STARTUP_DELAY_MS,
@@ -32,6 +32,7 @@ export type {
 export { DefaultLogRedactor } from "./serialize.js";
 export type { SerializableLogEntry, SerializedLogError } from "./serialize.js";
 
+/** 工厂入参：环境、目录、级别、控制台输出、错误栈与脱敏器都可覆盖。 */
 export interface NodeLoggerFactoryOptions {
   env?: NodeJS.ProcessEnv;
   logDir?: string;
@@ -53,58 +54,75 @@ export interface NodeLoggerFactory extends LoggerFactory {
   ): LogRetentionTimer | undefined;
 }
 
-type FileLoggerOptions = {
+/** logger 的固定配置：一次构造后不再变化，child() 只覆盖上下文。 */
+type LoggerSettings = {
   category: string;
-  defaultContext?: LogContext;
-  getMinLevel: () => LogLevel;
-  logDir: string;
   consoleStream?: NodeJS.WritableStream;
-  includeErrorStack?: boolean;
+  defaultContext: LogContext;
+  getMinLevel: () => LogLevel;
+  includeErrorStack: boolean;
+  logDir: string;
   redactor: LogRedactor;
 };
 
-export class NodeFileLogger implements Logger {
-  private readonly settings: FileLoggerOptions & {
-    defaultContext: LogContext;
-    includeErrorStack: boolean;
-  };
+type LoggerSettingsInput = Omit<LoggerSettings, "defaultContext" | "includeErrorStack"> & {
+  defaultContext?: LogContext;
+  includeErrorStack?: boolean;
+};
 
-  constructor(options: FileLoggerOptions) {
-    this.settings = {
-      category: options.category,
-      defaultContext: options.defaultContext ?? {},
-      getMinLevel: options.getMinLevel,
-      logDir: options.logDir,
-      consoleStream: options.consoleStream,
-      includeErrorStack: options.includeErrorStack ?? false,
-      redactor: options.redactor,
-    };
+const KNORVIA_LOG_DIR_KEY = "KNORVIA_LOG_DIR";
+const KNORVIA_LOG_CONSOLE_KEY = "KNORVIA_LOG_CONSOLE";
+const CONSOLE_FLAG = "1";
+
+export class NodeFileLogger implements Logger {
+  private readonly settings: LoggerSettings;
+
+  constructor(input: LoggerSettingsInput) {
+    const settings = {} as LoggerSettings;
+    settings.category = input.category;
+    settings.consoleStream = input.consoleStream;
+    settings.defaultContext = input.defaultContext ?? {};
+    settings.getMinLevel = input.getMinLevel;
+    settings.includeErrorStack = input.includeErrorStack ?? false;
+    settings.logDir = input.logDir;
+    settings.redactor = input.redactor;
+    this.settings = settings;
   }
 
   debug(message: string, context?: LogContext): void {
-    this.write(Level.Debug, message, context);
+    this.emit(Level.Debug, message, context);
   }
+
   info(message: string, context?: LogContext): void {
-    this.write(Level.Info, message, context);
+    this.emit(Level.Info, message, context);
   }
+
   warn(message: string, context?: LogContext): void {
-    this.write(Level.Warn, message, context);
+    this.emit(Level.Warn, message, context);
   }
+
   error(message: string, error?: Error, context?: LogContext): void {
-    this.write(Level.Error, message, context, error);
+    this.emit(Level.Error, message, context, error);
   }
 
   child(context: LogContext): Logger {
+    const inherited = this.settings;
     return new NodeFileLogger({
-      ...this.settings,
-      defaultContext: { ...this.settings.defaultContext, ...context },
+      category: inherited.category,
+      consoleStream: inherited.consoleStream,
+      defaultContext: { ...inherited.defaultContext, ...context },
+      getMinLevel: inherited.getMinLevel,
+      includeErrorStack: inherited.includeErrorStack,
+      logDir: inherited.logDir,
+      redactor: inherited.redactor,
     });
   }
 
-  private write(level: LogLevel, message: string, context?: LogContext, error?: Error): void {
+  /** 单次写入：级别门控 → 合并上下文 → 投影 → JSONL 落盘 → 控制台一行。 */
+  private emit(level: LogLevel, message: string, context?: LogContext, error?: Error): void {
     const settings = this.settings;
     if (level < settings.getMinLevel.call(this)) return;
-    const merged = { ...settings.defaultContext, ...context };
+    const merged = Object.assign({}, settings.defaultContext, context);
     const entry = projectLogEntry(
       settings.category,
       level,
@@ -123,58 +141,58 @@ export function getDefaultLogDir(): string {
   return join(resolveKnorviaDataRoot(), "cli", "log");
 }
 
+/** 非 dev/prod/test 环境：`tsx` 直跑源码时给 Debug，其余给 Info。 */
+function runningFromSource(): boolean {
+  const entry = process.argv[1] ?? "";
+  return entry.endsWith(".ts") && entry.includes(join("packages", "cli", "src"));
+}
+
 function initialLevel(env: NodeJS.ProcessEnv): LogLevel {
-  switch (normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY])) {
-    case "development":
-      return Level.Debug;
-    case "production":
-    case "test":
-      return Level.Info;
-    default: {
-      const entry = process.argv[1] ?? "";
-      return entry.endsWith(".ts") && entry.includes(join("packages", "cli", "src"))
-        ? Level.Debug
-        : Level.Info;
-    }
-  }
+  const runtime = normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY]);
+  if (runtime === "development") return Level.Debug;
+  if (runtime === "production" || runtime === "test") return Level.Info;
+  return runningFromSource() ? Level.Debug : Level.Info;
 }
 
 export function createNodeLoggerFactory(options: NodeLoggerFactoryOptions = {}): NodeLoggerFactory {
-  const state = {
+  const runtime = {
+    cleanupStarted: false,
     minimum: options.minLevel ?? initialLevel(options.env ?? process.env),
-    cleanupAdmitted: false,
   };
-  const directory = options.logDir ?? options.env?.KNORVIA_LOG_DIR ?? getDefaultLogDir();
-  let output: NodeJS.WritableStream | undefined;
-  if (typeof options.console === "object") output = options.console.stream;
-  else if (options.console === true || options.env?.KNORVIA_LOG_CONSOLE === "1")
-    output = process.stderr;
+  const env = options.env;
+  const logDir = options.logDir ?? env?.[KNORVIA_LOG_DIR_KEY] ?? getDefaultLogDir();
+  const wantsConsole = options.console === true || env?.[KNORVIA_LOG_CONSOLE_KEY] === CONSOLE_FLAG;
+  let stream: NodeJS.WritableStream | undefined;
+  if (typeof options.console === "object") stream = options.console.stream;
+  else if (wantsConsole) stream = process.stderr;
   const redactor = options.redactor ?? new DefaultLogRedactor();
-  const create = (category: string, defaultContext?: LogContext): Logger =>
+
+  const makeLogger = (category: string, defaultContext?: LogContext): Logger =>
     new NodeFileLogger({
       category,
+      consoleStream: stream,
       defaultContext,
-      getMinLevel: () => state.minimum,
-      logDir: directory,
-      consoleStream: output,
+      getMinLevel: () => runtime.minimum,
       includeErrorStack: options.includeErrorStack,
+      logDir,
       redactor,
     });
+
   return {
-    createLogger: (category) => create(category),
-    withContext: (context) => create("root", context),
-    setLevel: (level) => {
-      state.minimum = level;
-    },
-    getLogDir: () => directory,
+    createLogger: (category) => makeLogger(category),
+    getLogDir: () => logDir,
     scheduleLogRetentionCleanup: (request = {}) => {
-      if (state.cleanupAdmitted) return undefined;
-      state.cleanupAdmitted = true;
-      return scheduleLogRetentionCleanup({
+      if (runtime.cleanupStarted) return undefined;
+      runtime.cleanupStarted = true;
+      return scheduleCleanup({
         ...request,
-        logDir: directory,
-        logger: request.logger ?? create("knorvia", { module: "adapters.logging" }),
+        logDir,
+        logger: request.logger ?? makeLogger("knorvia", { module: "adapters.logging" }),
       });
     },
+    setLevel: (level) => {
+      runtime.minimum = level;
+    },
+    withContext: (context) => makeLogger("root", context),
   };
 }
