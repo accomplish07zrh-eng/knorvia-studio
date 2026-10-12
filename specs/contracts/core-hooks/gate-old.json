@@ -1,0 +1,45 @@
+{
+  "contract": "core-hooks",
+  "version": "v1",
+  "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-11T10:36:43.670Z",
+  "testFiles": [
+    "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/configured-runner.test.ts",
+    "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/display-metadata.test.ts",
+    "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/exports.test.ts",
+    "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/review-and-admission.test.ts",
+    "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/session-mailbox.test.ts",
+    "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/workspace-trust.test.ts"
+  ],
+  "caseCount": 33,
+  "pass": 33,
+  "fail": 0,
+  "preRegisteredDifferences": [],
+  "entries": {
+    "source": {
+      "entry": "source",
+      "exitCode": 0,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0,
+      "outputTail": "✔ B11 策略 fail-closed、持久信任变更资格与 corrupt 状态 (2.982ms)\n✔ B12 trustState 判定顺序与 effectiveRunnable (1.0311ms)\n✔ B12 allow_trusted_only 缺记录时 blocked_policy，deny 优先于一切 (0.8386ms)\n✔ B16 信任记录：去重、字段映射与错误 (0.9687ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 27964.9197"
+    },
+    "dist": {
+      "entry": "dist",
+      "exitCode": 0,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0,
+      "outputTail": "✔ B11 策略 fail-closed、持久信任变更资格与 corrupt 状态 (4.7393ms)\n✔ B12 trustState 判定顺序与 effectiveRunnable (1.6205ms)\n✔ B12 allow_trusted_only 缺记录时 blocked_policy，deny 优先于一切 (1.0994ms)\n✔ B16 信任记录：去重、字段映射与错误 (1.1558ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 30586.9647"
+    }
+  },
+  "stubReplacement": {
+    "tests": 33,
+    "pass": 0,
+    "fail": 33,
+    "allFail": true
+  }
+}
