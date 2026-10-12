@@ -119,6 +119,15 @@ node <tool> --repo . --candidate <文件> \
 | `tools/write.ts`                 | 112          | 4          | 纯分节横幅（`// ====`、`// Input Schema`、`// Write Errors` 等）换成自有措辞                                                                        |
 | `tools/websearch.ts`             | 109          | 8          | 私有 schema 改「字段表 + `z.object(表)`」形状；`maxUses` 链收成两行（区间 + `optional().describe(常量)`）；provider 原生参数投影改命名常量后 return |
 
+### 3.9 tools 组第 6 批（2 个文件，声明模式 2/2 PASS）
+
+| 文件                     | 兼容面行数 X | 残留行数 Y | 处理                                                                         |
+| ------------------------ | ------------ | ---------- | ---------------------------------------------------------------------------- |
+| `tools/edit.ts`          | 156          | 4          | 纯分节横幅换自有措辞（与 glob/grep/webfetch/write 同一处理）                 |
+| `tools/save-workflow.ts` | 72           | 3          | 11 处 JSDoc/段落说明逐块改写为自有措辞（顶层 JSDoc 改 `//`、嵌套块保持缩进） |
+
+**踩坑记录（已固定做法）**：顶层 JSDoc 块在文件里**没有前导空格**（`/**` 顶格、`*` 单空格），嵌套块才有 8 空格缩进；用精确字符串锚点很容易错缩进。本批改为**按行范围替换**（先 dump 注释块行号、从后往前 splice），一次通过。
+
 **差分探针**：`websearch.ts` 的三种导出行为旧 vs 新 —— 输入 schema 9 组（域名互斥、maxUses 0/9 边界、未知键、过短 query）、输出 schema 4 组（缺字段、负时长、空 URL、含 serverToolUse）、`toWebSearchProviderNativeArgs` 3 组 → **16/16 deepStrictEqual**。
 
 **通用行对策（本批新增）**：zod 链式调用被 fmt 折行后会留下 `.number()`/`.int()`/`.min(1)`/`.optional()`/`.describe(`/`.object({` 这类裸方法行；对策是①把链首收进一行（`z.number().int().min(1).max(X)` 作命名常量）、②`.optional().describe(命名常量)` 收一行、③私有 schema 用「普通对象字段表 + `z.object(字段表).strict()`」。
