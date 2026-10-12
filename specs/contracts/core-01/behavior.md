@@ -104,3 +104,40 @@
 - 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
 - 未覆盖：`maybeLocalMicrocompactMessages`（清理哪些工具结果、保留最近 N 条、最小节省 token、空闲阈值、错误结果策略）是**内部可达**的复杂逻辑，按 `acceptance.md` 登记为"替换阶段内部单测 + 调用方（runtime 压缩路径）覆盖"。
 - （测试：tests/compact.test.mjs「C6 microcompact 阈值与常量（逐字冻结）」）
+
+## X1 token 估算单位与前缀截断（`context/utils.ts`）
+
+- 输入：`countTokenEstimateUnits(text)`、`tokenEstimatePrefixLength(text, maximumUnits)`、`estimateTokens(text)`。
+- 输出（**权重逐字冻结**）：普通字符权重 1，CJK 区（U+4E00–U+9FFF）权重 2。`countTokenEstimateUnits("") = 0`、`("abc") = 3`、`("中文") = 4`、`("a中") = 3`；`tokenEstimatePrefixLength` 逐字累加权重，**一旦累计超过 `maximumUnits` 就返回当前下标**（不含越界字符），未越界返回全文长度：`("abcdef",3) = 3`、`("abcdef",0) = 0`、`("abc",99) = 3`、`("中中中",3) = 1`、`("",5) = 0`；`estimateTokens(text) = Math.ceil(units / ESTIMATED_TOKEN_CHAR_DIVISOR)`，实测除数为 **3**：`"" → 0`、`"a" → 1`、`"a"×4 → 2`、`"a"×8 → 3`、`"a"×100 → 34`、`"a"×1000 → 334`、`"中" → 1`。
+- 错误语义：不抛错（空串返回 0）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用（UTF-16 与 CJK 码点判定与平台无关）。状态所有者：无。日志级别：不适用。
+- （测试：tests/context.test.mjs「X1 token 估算单位与前缀截断（逐字冻结权重）」）
+
+## X2 CLI Prefix section（`context/sections/cli-prefix.ts`）
+
+- 输入：无。
+- 输出（**逐字冻结**）：`{name:"CLI Prefix", source:"cli_prefix", injectionTarget:"system", cacheHint:"stable", chars:51, tokens:17, content:"You are Knorvia Studio, an interactive coding agent", preview: content.slice(0,100)}`。
+- 错误语义：不抛错。时序与并发：纯函数（常量内容）。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/context.test.mjs「X2 CLI Prefix section（逐字冻结）」）
+
+## X3 Current Date section（`context/sections/current-date.ts`）
+
+- 输入：`buildCurrentDateSection(currentDate: string | undefined)`。
+- 输出（**逐字冻结**）：`undefined` 或空串 → `null`；否则 `{name:"Current Date", source:"current_date", injectionTarget:"meta_user", cacheHint:"dynamic", chars:41, tokens:14, content:"# currentDate\nToday's date is <currentDate>."}`（日期由调用方按本地日历日给出，本 section 不做时区换算）。
+- 错误语义：不抛错（缺日期返回 `null` 让调用方跳过）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用（日期字符串由调用方提供）。状态所有者：无。日志级别：不适用。
+- （测试：tests/context.test.mjs「X3 Current Date section（逐字冻结）」）
+
+## X4 Memory section（`context/sections/memory.ts`）
+
+- 输入：`buildMemorySection(memoryRoot: string | undefined)`。
+- 输出：`undefined`/空串 → `null`；否则 `{name:"Memory", source:"memory", injectionTarget:"system", cacheHint:"dynamic", chars, tokens, content, preview}`，其中 `content` 以 `# Memory\n\n` 开头，含 `persistent file-based memory at \`<memoryRoot>/\``、`do not run mkdir or check for its existence`、frontmatter 模板、四种记忆类型（`user`/`feedback`/`project`/`reference`）、`[[name]]` 关联写法、`\`MEMORY.md\`` 索引指引与 `- [Title](file.md) — hook` 行。`chars = content.length`、`tokens = estimateTokens(content)`。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：路径仅作文本插值（不做 `path.join`/分隔符改写），因此 Windows 与 POSIX 输出都按调用方给的字符串原样呈现。状态所有者：无。日志级别：不适用。
+- （测试：tests/context.test.mjs「X4 Memory section（标题/路径插值/关键标记）」）
+
+## X5 context 区公开面（`context/index.ts`）
+
+- 输入：区域桶 `src/context/index.ts`。
+- 输出（**集合逐字冻结**）：16 个运行时导出 —— `ContextBuilder`、`buildCliPrefixSection`、`buildContextMetaUserBody`、`buildCurrentDateSection`、`buildDesktopContextSection`、`buildEnvInfoSection`、`buildGitSystemContextSection`、`buildIdentitySection`、`buildMemorySection`、`buildSkillsMetaUserBody`、`buildSkillsSection`、`buildWorkflowActorIdentitySection`、`countTokenEstimateUnits`、`createContextBuilder`、`estimateTokens`、`tokenEstimatePrefixLength`（全部为函数形态）。
+- 错误语义：入口缺失或形态不符即违约。时序与并发：模块求值一次。幂等：重复 import 返回同一命名空间。资源释放：不适用。平台差异：不适用。状态所有者：模块自身。日志级别：不适用。
+- （测试：tests/context.test.mjs「X5 context 区公开面（区域桶）」）
+
+> **context 子块 2（待补）**：`builder.ts`（`ContextBuilder`/`createContextBuilder`/`buildContextMetaUserBody`/`buildSkillsMetaUserBody` 的装配顺序与去重裁剪）、`sections/{identity,env-info,skills,desktop,workflow-actor,request-user-context}.ts` 的固定文案与顺序、`dynamic-sections.ts` 的四个动态 section、`types.ts` 的类型面。补齐前合同不得合并。

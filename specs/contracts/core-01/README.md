@@ -65,3 +65,15 @@
 | C6 microcompact 阈值与文案 | `tests/compact.test.mjs`「C6 microcompact 阈值与常量（逐字冻结）」；`maybeLocalMicrocompactMessages` 的清理逻辑为内部可达 → 替换阶段内部单测 |
 
 无空行：C1–C6 每条都有测试或明确的覆盖归属。
+
+## 条目 → 测试对照表（context 子块 1，X1–X5）
+
+| 条目 | 测试 |
+| --- | --- |
+| X1 token 估算单位与前缀截断 | `tests/context.test.mjs`「X1 token 估算单位与前缀截断（逐字冻结权重）」 |
+| X2 CLI Prefix section | `tests/context.test.mjs`「X2 CLI Prefix section（逐字冻结）」 |
+| X3 Current Date section | `tests/context.test.mjs`「X3 Current Date section（逐字冻结）」 |
+| X4 Memory section | `tests/context.test.mjs`「X4 Memory section（标题/路径插值/关键标记）」 |
+| X5 context 区公开面 | `tests/context.test.mjs`「X5 context 区公开面（区域桶）」 |
+
+context 子块 2（`builder.ts` 装配顺序/去重、`identity`/`env-info`/`skills`/`desktop`/`workflow-actor`/`request-user-context` 文案、`dynamic-sections`、`types`）待补；补齐前合同不得合并。

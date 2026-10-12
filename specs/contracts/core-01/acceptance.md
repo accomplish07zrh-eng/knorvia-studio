@@ -67,3 +67,22 @@
 3. `buildManualCompactBoundary`（边界 payload 的字段投影，含 `summaryMessageIds`、`customInstructions` 布尔化、trace 字段）内部可达 → 替换阶段内部单测。
 4. `buildCompactSummaryMessage` 的**尾部分支**（`recentMessagesPreserved`/`replStateCleared`/`suppressFollowup`/`transcriptPath` 的文案拼接）未逐条断言 → 替换阶段内部单测。
 5. `getUsageTotalTokens`、`createCompactBoundaryId`、`NO_TOOLS_PREAMBLE`/`BASE_COMPACT_PROMPT`/`NO_TOOLS_TRAILER` 的**完整原文**未逐字断言（只断言了拼接关系与自定义指令位置）——原文过长，逐字断言会让合同对文案排版过度敏感；替换阶段以"拼接关系 + 关键标记"复核。
+
+## 8. context 子块 1（X1–X5）的旧门结果与未覆盖项
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/context.test.mjs`（入口：区域桶 `src/context/index.ts`）：
+
+- 源码入口：tests=**5** pass=**5** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**5** pass=**5** fail=0 skipped=0
+
+断言覆盖：token 权重与除数（实测 **3**：`"a"×100 → 34`、`"a"×1000 → 334`）、前缀截断的越界下标语义、`CLI Prefix`/`Current Date`/`Memory` 三个 section 的**完整对象**或关键标记与路径插值、context 区 16 个运行时导出的集合相等。
+
+### 未覆盖项（子块 2 待补，如实列出）
+
+1. `builder.ts`：`ContextBuilder` 的装配**顺序**、`createContextBuilder` 的默认 section 列表、`buildContextMetaUserBody`/`buildSkillsMetaUserBody` 的 meta_user 正文拼接与去重裁剪规则 —— 需要按事件序列/顺序断言，留给子块 2。
+2. `sections/{identity,env-info,skills,desktop,workflow-actor,request-user-context}.ts` 的固定标题与完整文案（`identity` 的 security notice / harness block、`env-info` 的 git 判定、`skills` 的清单截断、`desktop`/`workflow-actor` 的注入目标）—— 留给子块 2。
+3. `dynamic-sections.ts` 的四个动态 section（session guidance / dynamic behavior / output style / context management）的触发条件与文案 —— 留给子块 2。
+4. `types.ts` 的类型面（`ContextSection` 字段、`ContextSource` 取值、`ContextBuilderConfig` 形状）—— 由 B6 式编译期用例在子块 2 补。
+5. `estimateTokens` 的除数来自 `@knorvia/shared` 的 `ESTIMATED_TOKEN_CHAR_DIVISOR`（实测 3）：本合同按**实测值**冻结；若 shared 调整该常量，core-01 与 shared 需同步改并重跑旧门。
