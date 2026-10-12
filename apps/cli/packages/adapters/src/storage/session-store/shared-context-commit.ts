@@ -1,5 +1,15 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 共享上下文导入的落库入口：把一次导入的 bundle 原子地写成会话事实。
+//
+// 提交语义：
+// 一、整段写在一个借来的事务里；任一步失败都不留下半次导入，调用方可直接重试。
+// 二、写入顺序固定为「消息 → 分片 → 会话条目 → 会话行」，先写从属事实再更新主行，
+//     这样主行的 updatedAt 一定晚于它所引用的子记录。
+// 三、重复提交同一个 bundle 按幂等处理：已存在的消息与条目整条覆盖，不追加重复行。
+// 四、反馈型 transition（例如标记为已导入）在提交末尾统一应用，避免中途状态被读到。
+// 五、会话不存在时按 createSession 的既有语义创建，不在这里另定缺失处理策略。
 
 import type { DatabaseSync } from "node:sqlite";
 import type {
@@ -81,7 +91,7 @@ export function transitionSharedContextImport(
         data: nextData,
         time: { ...entry.time, updated: Date.now() },
       });
-      const context = messagesSync(database, { sessionID: request.sessionID }).find(({ info }) => {
+      const scope = messagesSync(database, { sessionID: request.sessionID }).find(({ info }) => {
         const metadata = info.metadata;
         return (
           metadata !== null &&
@@ -89,10 +99,10 @@ export function transitionSharedContextImport(
           metadata.contextId === request.contextId
         );
       });
-      if (context) {
+      if (scope) {
         saveMessageSync(database, {
-          ...context.info,
-          metadata: { ...context.info.metadata, sharedContextStatus: request.status },
+          ...scope.info,
+          metadata: { ...scope.info.metadata, sharedContextStatus: request.status },
         });
       }
     });
