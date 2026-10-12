@@ -202,3 +202,16 @@
 5. `message-history-usage.ts`：`persistedTokenUsageBaseline`。
 6. `agent/index.ts` 区域桶的 10 个运行时导出尚未做"集合相等"断言（待补齐后加）。
 7. 内部可达（不经区域桶）：`selectToolPartsForHistory`（A2）、`runtimeInputMetadata`（A3）。
+
+## 14. agent 组 3 的进展：`message-history` 探针实测语义已冻结，黑盒测试待下一轮补齐
+
+本轮对 `agent/message-history.ts` 做了 API 与语义探针（`createMessageHistory()` 的公开方法：`init`/`addUser`/`addAttachment`/`addEntries`/`addAssistant`/`addToolResult`/`borrowReadOnlyRuntimeEntries`/`toRuntimeEntries`/`replaceMessages`/`getMessageCount`/`getCacheStats`/`setCacheHit`/`setCacheMiss`/`reset`/`recomputeCacheStats`），实测结论如下（**已冻结，替换实现必须一致**）：
+
+1. `createMessageHistory()` 初始为空：`getMessageCount() === 0`、`toRuntimeEntries() === []`、`getCacheStats() === {totalMessages:0, cachedMessages:0, lastCacheHit:false}`（**未设置过缓存读取时没有 `cacheReadTokens` 键**）。
+2. `init(messages)` **替换**全部条目；`replaceMessages(messages)` 同样整体替换；`reset()` 清空条目并把统计归零。
+3. `addUser(text, metadata?)` 追加 `{message:{role:"user",content:text}, metadata}`；`addAssistant(...)` 追加 `{message:{role:"assistant",content:...}}`。**每条条目都带 `metadata` 键**（缺省时值为 `undefined`，`JSON.stringify` 里看不到——这是本轮踩过的坑）。
+4. `addToolResult(...)`/`addAttachment(...)` 要求 `content` 是**内容块数组**（传字符串会抛 `TypeError: content.map is not a function`）；两者的确切入参顺序与块形状本轮未定，留待下一轮。
+5. `setCacheHit(tokens)`/`setCacheMiss()`/`recomputeCacheStats()` **都没有返回值**；统计要另调 `getCacheStats()`。`setCacheHit(3)` 后统计为 `{totalMessages, cachedMessages: totalMessages, lastCacheHit: true, cacheReadTokens: 3}`；`setCacheMiss()` 后 `{…, cachedMessages: 0, lastCacheHit: false, cacheReadTokens: undefined}`（**设置过之后该键保留**）。
+6. `borrowReadOnlyRuntimeEntries()` 返回的是**借用视图**：与历史**共享同一数组**，`push` 会真的改到历史（实测 `getMessageCount()` 从 4 变 5）。"只读"是对调用方的约定，不是运行时冻结。
+
+**本轮未提交黑盒测试**：`tests/agent-message-history.test.mjs` 在两次按实测修正后仍有 2 条初始统计断言未对齐（`cacheReadTokens` 键的存在性在"从未设置"与"设置后清除"两种状态下不同），我把它从分支移除，避免留下红测试；下一轮按上面第 1、5 条的精确差异补齐断言即可（其余 4 条已可直接写死）。`compact-session.ts`（`compactActiveSessionMessages` 与两个谓词）同样留待下一轮。
