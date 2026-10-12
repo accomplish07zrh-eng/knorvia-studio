@@ -2,7 +2,7 @@
 
 每条编号 `M1`、`M2`…（`M` = mcp/embedded-search 块）、`A`（agent）、`C`（compact）、`X`（context），发布后编号不重用。每条写：输入、输出、错误语义、时序与并发、幂等、资源释放、平台差异、状态所有者、日志级别；不适用的项写「不适用」。每条至少被 `tests/` 里一个断言覆盖（末尾标注）。
 
-本包范围：`apps/cli/packages/core/src` 下 `agent`（11 继承）、`compact`（6）、`context`（14）、`embedded-search`（2）、`mcp`（5），共 38 个继承文件。**本文件按块增量补齐**：当前已写 `mcp` 与 `embedded-search` 两块；`agent` / `compact` / `context` 三块在后续步骤补入（补入前不得合并合同）。
+本包范围：`apps/cli/packages/core/src` 下 `agent`（11 继承）、`compact`（6）、`context`（14）、`embedded-search`（2）、`mcp`（5），共 38 个继承文件。**本文件按块增量补齐**：已写 `mcp` + `embedded-search`（M1–M5、E1–E2）与 `compact`（C1–C6）两块；`agent` / `context` 两块在后续步骤补入（补入前不得合并合同）。
 
 ## M1 模型可见 MCP 名称（`mcp/name.ts`）
 
@@ -61,3 +61,46 @@
 - 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：dialect 判定覆盖 POSIX 与 Git Bash 两类；Windows 上的 `cmd`/`powershell` 一律为假（这正是"不因 shell 不支持 function 注入而改变模型看到的 tool surface"的边界）。状态所有者：无。日志级别：不适用。
 - 覆盖方式：同 E1，不经公开入口导出 → 间接覆盖登记。
 - （测试：无直接断言；间接覆盖登记在 acceptance.md §未覆盖项）
+
+## C1 自动压缩阈值与计算（`compact/policy.ts`）
+
+- 输入：常量；`getEffectiveContextWindowSize(config?)`、`getAutoCompactOutputReserveTokens(config?)`、`getAutoCompactThreshold(config?)`。
+- 输出（**逐字冻结**）：`DEFAULT_COMPACT_CONTEXT_WINDOW = 200000`、`DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS = 32000`、`MAX_OUTPUT_TOKENS_FOR_SUMMARY = 20000`、`AUTOCOMPACT_BUFFER_TOKENS = 13000`、`DEFAULT_AUTOCOMPACT_THRESHOLD_PERCENT = 100`、`MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES = 3`。输出预留 = `min(maxOutputTokens ?? 32000, 21000)`（**内部上限 21000**）→ 默认 21000；有效上下文窗口 = `max(0, contextWindow - min(预留, contextWindow))` → 默认 `200000 - 21000 = 179000`；阈值 = `max(0, 有效窗口 - bufferTokens)` → 默认 `179000 - 13000 = 166000`。负数/非有限/未给的配置项一律回落默认值（`normalizeNonnegativeInteger`，向下取整）。
+- 错误语义：不抛错（非法值静默回落）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无（配置由调用方给）。日志级别：不适用。
+- （测试：tests/compact.test.mjs「C1 自动压缩阈值常量与计算（逐字冻结）」）
+
+## C2 `shouldAutoCompact` 五分支与决策字段（`compact/policy.ts`）
+
+- 输入：`{messages, config?, consecutiveFailures?, tokenOverride?}`。
+- 输出：按**固定优先级**返回 `AutoCompactDecision`——① `config.enabled === false` → `reason:"disabled"`；② `!hasEnoughMessagesToCompact(messages)` → `"not_enough_messages"`；③ `consecutiveFailures >= (config.maxConsecutiveFailures ?? 3)` → `"circuit_breaker"`；④ `tokenCount < threshold` → `"below_threshold"`；⑤ 否则 → `"above_threshold"` 且 `shouldCompact:true`（**达到阈值即压缩**）。`tokenCount` = `tokenOverride.tokenCount ?? estimateMessageTokens(messages)`；`tokenSource` = `tokenOverride.source ?? "estimate"`；`thresholdPercent` 恒为 100；`modelContextBudgetStrategy` 取 `@knorvia/shared` 的默认策略；`providerBaseTokenCount`/`providerCacheReadTokens`/`providerCacheWriteTokens`/`providerContextUsageTokenCount`/`providerIncrementalTokenCount`/`providerOutputTokens` 原样透传（未给即 `undefined`）。
+- 错误语义：不抛错。时序与并发：纯函数（同输入同输出）。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/compact.test.mjs「C2 shouldAutoCompact 五分支与决策字段」）
+
+## C3 轮次分组语义（`compact/rounds.ts`，经 `hasEnoughMessagesToCompact` 间接覆盖）
+
+- 输入：`groupByAssistantStartedRounds(items, roleOf, assistantIdOf?)`（**不经桶导出**）；公开可见的消费方是 `hasEnoughMessagesToCompact(messages)`。
+- 输出：**助手起始新组**——遇到 `role==="assistant"` 且当前组非空且（未提供 id 或 id 与上一个助手不同）时，先把当前组收尾、再以该消息开新组；否则追加到当前组。首个助手之前的 user 自成一组。因此 `hasEnoughMessagesToCompact` 的判定是"分组数 ≥ 2 **且**存在 assistant"：`[]`/`[user]`/`[assistant]` → `false`；`[user, assistant]` → **`true`**（2 组）。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/compact.test.mjs「C3 轮次分组语义（经 hasEnoughMessagesToCompact 间接覆盖）」）
+
+## C4 可摘要消息与 token 估算（`compact/manual.ts`）
+
+- 输入：`getMessagesToSummarize(messages)`、`estimateMessageTokens(messages)`。
+- 输出：`getMessagesToSummarize` 过滤掉 `role === "system"` 与"`trimStart()` 后以 `<system-reminder>` 开头的 user 消息"，其余消息返回**浅拷贝**（不共享引用）。`estimateMessageTokens` 按消息累加：文本长度（string 内容原样；块数组取 reasoning 文本 + `modelMessageContentBlockToText`，用 `\n\n` 连接、过滤空串）+ 每个 `toolCalls` 的 `name + JSON.stringify(input ?? {})`（序列化失败回落 `"{}"`），每条消息 `Math.ceil(chars / ESTIMATED_TOKEN_CHAR_DIVISOR)`（除数是 `@knorvia/shared` 的常量）。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/compact.test.mjs「C4 可摘要消息与 token 估算」）
+
+## C5 压缩提示词与摘要格式化（`compact/prompt.ts`）
+
+- 输入：`buildCompactPrompt(customInstructions)`、`formatCompactSummary(text)`。
+- 输出：`buildCompactPrompt` = `NO_TOOLS_PREAMBLE + BASE_COMPACT_PROMPT + [自定义块] + NO_TOOLS_TRAILER`，自定义块仅在 `customInstructions?.trim()` 非空时插入，形态固定为 `"\n\nAdditional Instructions:\n" + customInstructions`（**原文，不 trim**）。`formatCompactSummary`：`undefined`/空白 → `""`；否则删除 `<analysis>…</analysis>`、把 `<summary>…</summary>` 改写为 `Summary:\n<trim 后的内容>`、把连续空行压成一个空行、整体 trim。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是（对已格式化文本再跑结果不变）。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/compact.test.mjs「C5 压缩提示词与摘要格式化」）
+
+## C6 microcompact 阈值与文案（`compact/microcompact.ts`）
+
+- 输入：常量；`buildDefaultMicrocompactThreshold(autoCompactThreshold)`。
+- 输出（**逐字冻结**）：`MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX = MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE = "[Old tool result content cleared]"`；`DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS = 5`；`DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS = 256`；`DEFAULT_MICROCOMPACT_THRESHOLD_RATIO = 0.9`；`DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS = 2000`；`DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS = ["Read","Bash","Grep","Glob","WebFetch","WebSearch","Edit","Write","ApplyPatch"]`；`MAX_COMPACT_PROMPT_TOO_LONG_RETRIES = 3`；`COMPACT_PROMPT_TOO_LONG_RETRY_MARKER = "[earlier conversation truncated for compaction retry]"`；`COMPACT_PROMPT_TOO_LONG_USER_MESSAGE = "Conversation too long to compact automatically. Try /compact again after narrowing the active context."`。`buildDefaultMicrocompactThreshold(t) = max(0, min(floor(t * 0.9), t - 2000))` → `t=166000 → 149400`、`t=20000 → 18000`、`t=1000 → 0`。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- 未覆盖：`maybeLocalMicrocompactMessages`（清理哪些工具结果、保留最近 N 条、最小节省 token、空闲阈值、错误结果策略）是**内部可达**的复杂逻辑，按 `acceptance.md` 登记为"替换阶段内部单测 + 调用方（runtime 压缩路径）覆盖"。
+- （测试：tests/compact.test.mjs「C6 microcompact 阈值与常量（逐字冻结）」）

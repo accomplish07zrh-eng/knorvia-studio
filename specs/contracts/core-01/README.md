@@ -52,3 +52,16 @@
 - 运行时/实现文件：相似度工具**普通模式**（行 + 结构两道门槛，常量不调）。
 - 纯声明/桶文件：`--declaration --interface specs/contracts/core-01/interface.md`。
 - 已登记 `independent-replacement` 的文件（如 `agent/turn-tool-projection.ts`）不在范围。
+
+## 条目 → 测试对照表（compact 块，C1–C6）
+
+| 条目 | 测试 / 覆盖方式 |
+| --- | --- |
+| C1 自动压缩阈值与计算 | `tests/compact.test.mjs`「C1 自动压缩阈值常量与计算（逐字冻结）」 |
+| C2 `shouldAutoCompact` 五分支与决策字段 | `tests/compact.test.mjs`「C2 shouldAutoCompact 五分支与决策字段」 |
+| C3 轮次分组语义 | `tests/compact.test.mjs`「C3 轮次分组语义（经 hasEnoughMessagesToCompact 间接覆盖）」（`groupByAssistantStartedRounds` 不经桶导出） |
+| C4 可摘要消息与 token 估算 | `tests/compact.test.mjs`「C4 可摘要消息与 token 估算」 |
+| C5 压缩提示词与摘要格式化 | `tests/compact.test.mjs`「C5 压缩提示词与摘要格式化」 |
+| C6 microcompact 阈值与文案 | `tests/compact.test.mjs`「C6 microcompact 阈值与常量（逐字冻结）」；`maybeLocalMicrocompactMessages` 的清理逻辑为内部可达 → 替换阶段内部单测 |
+
+无空行：C1–C6 每条都有测试或明确的覆盖归属。

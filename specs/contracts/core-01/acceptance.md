@@ -50,3 +50,20 @@
 1. **测试入口选错**：初版用包根 `@knorvia/core` 作为黑盒入口 → tsx 下抛 `does not provide an export named 'ToolExecutor'`（见 §4.3）。改用区域桶 `src/mcp/index.ts`。
 2. **对公开面的假设过宽**：初版断言了 `normalizeMcpToolResultForModel`、`formatMcpToolResult`、Windows CU 三函数等 → 实测区域桶只导出 6 个名字。改为"公开面只断言可达集合"，其余转入 §4.1 的间接覆盖口径。
 3. **行为条目与覆盖方式对齐**：`behavior.md` 的 M2/M3 行为/M5 现在明确标注"内部可达 → 间接覆盖 + 替换阶段内部单测"，避免审查时被当成漏测。
+
+## 6. 第二块（compact）的旧门结果
+
+`specs/contracts/core-01/tests/compact.test.mjs`（入口：区域桶 `src/compact/index.ts`）：
+
+- 源码入口：tests=**6** pass=**6** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**6** pass=**6** fail=0 skipped=0
+
+断言覆盖：六个阈值常量与三个派生计算（179000 / 166000 / 21000 上限）、`shouldAutoCompact` 的五个 `reason` 分支与决策字段（含 provider* 透传、`thresholdPercent=100`、`>=` 阈值即压缩）、轮次分组语义（经 `hasEnoughMessagesToCompact`）、可摘要消息过滤与浅拷贝、token 估算的累加与工具参数计入、提示词拼接与摘要格式化、microcompact 九个工具名与 `buildDefaultMicrocompactThreshold` 的三个取值。
+
+## 7. 第二块的未覆盖项（如实列出）
+
+1. `groupByAssistantStartedRounds`（`compact/rounds.ts`）**不经桶导出** → 只经 `hasEnoughMessagesToCompact` 间接覆盖；分组函数的 id 语义（同一助手 id 不新起组）暂无公开路径可断言，替换阶段内部单测补。
+2. `maybeLocalMicrocompactMessages`（清理哪些工具结果、保留最近 N 条、最小节省 token、空闲阈值、错误结果策略）内部可达 → 替换阶段内部单测 + 调用方（runtime 压缩路径）覆盖。
+3. `buildManualCompactBoundary`（边界 payload 的字段投影，含 `summaryMessageIds`、`customInstructions` 布尔化、trace 字段）内部可达 → 替换阶段内部单测。
+4. `buildCompactSummaryMessage` 的**尾部分支**（`recentMessagesPreserved`/`replStateCleared`/`suppressFollowup`/`transcriptPath` 的文案拼接）未逐条断言 → 替换阶段内部单测。
+5. `getUsageTotalTokens`、`createCompactBoundaryId`、`NO_TOOLS_PREAMBLE`/`BASE_COMPACT_PROMPT`/`NO_TOOLS_TRAILER` 的**完整原文**未逐字断言（只断言了拼接关系与自定义指令位置）——原文过长，逐字断言会让合同对文案排版过度敏感；替换阶段以"拼接关系 + 关键标记"复核。
