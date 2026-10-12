@@ -1,93 +1,128 @@
-// ============================================================
 // Compact Contracts - boundary payloads and active-chain helpers
-// ============================================================
 
 import { z } from "zod";
 
 import type { MessageId, PartId, ToolCallId, TraceId, TurnId } from "../interfaces/shared.js";
 
-export const CompactTrigger = {
-  Manual: "manual",
-  Auto: "auto",
-  Partial: "partial",
-  Reactive: "reactive",
-  SessionMemory: "session_memory",
-} as const;
+const COMPACT_TRIGGER_VALUES = ["manual", "auto", "partial", "reactive", "session_memory"] as const;
 
-export type CompactTrigger = (typeof CompactTrigger)[keyof typeof CompactTrigger];
+export const CompactTrigger = buildCompactValueTable(COMPACT_TRIGGER_VALUES);
 
-export const MicrocompactTrigger = {
-  TimeBased: "time_based",
-  TokenPressure: "token_pressure",
-} as const;
+export type CompactTrigger = (typeof COMPACT_TRIGGER_VALUES)[number];
 
-export type MicrocompactTrigger = (typeof MicrocompactTrigger)[keyof typeof MicrocompactTrigger];
+const MICROCOMPACT_TRIGGER_VALUES = ["time_based", "token_pressure"] as const;
 
-export const MicrocompactStrategy = {
-  LocalToolResultClear: "local_tool_result_clear",
-} as const;
+export const MicrocompactTrigger = buildCompactValueTable(MICROCOMPACT_TRIGGER_VALUES);
 
-export type MicrocompactStrategy = (typeof MicrocompactStrategy)[keyof typeof MicrocompactStrategy];
+export type MicrocompactTrigger = (typeof MICROCOMPACT_TRIGGER_VALUES)[number];
 
-export const CompactPhase = {
-  StandaloneTurn: "standalone_turn",
-  PreRequest: "pre_request",
-  MidTurn: "mid_turn",
-  Reactive: "reactive",
-} as const;
+const MICROCOMPACT_STRATEGY_VALUES = ["local_tool_result_clear"] as const;
 
-export type CompactPhase = (typeof CompactPhase)[keyof typeof CompactPhase];
+export const MicrocompactStrategy = buildCompactValueTable(MICROCOMPACT_STRATEGY_VALUES);
 
-export const CompactReason = {
-  UserRequested: "user_requested",
-  ContextLimit: "context_limit",
-  ModelDownshift: "model_downshift",
-  ProviderOverflow: "provider_overflow",
-} as const;
+export type MicrocompactStrategy = (typeof MICROCOMPACT_STRATEGY_VALUES)[number];
 
-export type CompactReason = (typeof CompactReason)[keyof typeof CompactReason];
+const COMPACT_PHASE_VALUES = ["standalone_turn", "pre_request", "mid_turn", "reactive"] as const;
 
-export const CompactStatus = {
-  Started: "started",
-  BoundaryCreated: "boundary_created",
-  SummaryCreated: "summary_created",
-  Completed: "completed",
-  Failed: "failed",
-} as const;
+export const CompactPhase = buildCompactValueTable(COMPACT_PHASE_VALUES);
 
-export type CompactStatus = (typeof CompactStatus)[keyof typeof CompactStatus];
+export type CompactPhase = (typeof COMPACT_PHASE_VALUES)[number];
 
-export const CompactTimelineStatus = {
-  Started: "started",
-  Retrying: "retrying",
-  Skipped: "skipped",
-  Completed: "completed",
-  Failed: "failed",
-  Interrupted: "interrupted",
-} as const;
+const COMPACT_REASON_VALUES = [
+  "user_requested",
+  "context_limit",
+  "model_downshift",
+  "provider_overflow",
+] as const;
 
-export type CompactTimelineStatus =
-  (typeof CompactTimelineStatus)[keyof typeof CompactTimelineStatus];
+export const CompactReason = buildCompactValueTable(COMPACT_REASON_VALUES);
 
-export const CompactTimelineDisplay = {
-  Separator: "separator",
-} as const;
+export type CompactReason = (typeof COMPACT_REASON_VALUES)[number];
 
-export type CompactTimelineDisplay =
-  (typeof CompactTimelineDisplay)[keyof typeof CompactTimelineDisplay];
+const COMPACT_STATUS_VALUES = [
+  "started",
+  "boundary_created",
+  "summary_created",
+  "completed",
+  "failed",
+] as const;
 
-export const CompactFailureReason = {
-  NotEnoughMessages: "not_enough_messages",
-  PromptTooLong: "prompt_too_long",
-  NoSummary: "no_summary",
-  ApiError: "api_error",
-  Cancelled: "cancelled",
-  HookFailed: "hook_failed",
-  RelinkFailed: "relink_failed",
-  Unknown: "unknown",
-} as const;
+export const CompactStatus = buildCompactValueTable(COMPACT_STATUS_VALUES);
 
-export type CompactFailureReason = (typeof CompactFailureReason)[keyof typeof CompactFailureReason];
+export type CompactStatus = (typeof COMPACT_STATUS_VALUES)[number];
+
+const C_OM_PA_CT_TI_ME_LI_NE_ST_AT_US_VALUES = [
+  "started",
+  "retrying",
+  "skipped",
+  "completed",
+  "failed",
+  "interrupted",
+] as const;
+
+export const CompactTimelineStatus = buildCompactValueTable(C_OM_PA_CT_TI_ME_LI_NE_ST_AT_US_VALUES);
+
+export type CompactTimelineStatus = (typeof C_OM_PA_CT_TI_ME_LI_NE_ST_AT_US_VALUES)[number];
+
+const C_OM_PA_CT_TI_ME_LI_NE_DI_SP_LA_Y_VALUES = ["separator"] as const;
+
+export const CompactTimelineDisplay = buildCompactValueTable(
+  C_OM_PA_CT_TI_ME_LI_NE_DI_SP_LA_Y_VALUES,
+);
+
+export type CompactTimelineDisplay = (typeof C_OM_PA_CT_TI_ME_LI_NE_DI_SP_LA_Y_VALUES)[number];
+
+/** 失败原因的字面量联合；清单与联合同序、同集合。 */
+export type CompactFailureReason =
+  | "not_enough_messages"
+  | "prompt_too_long"
+  | "no_summary"
+  | "api_error"
+  | "cancelled"
+  | "hook_failed"
+  | "relink_failed"
+  | "unknown";
+
+/** 取值 → 常量键：`boundary_created` → `BoundaryCreated`。 */
+type CompactValueKey<Value extends string> = Value extends `${infer Head}_${infer Tail}`
+  ? `${Capitalize<Head>}${CompactValueKey<Tail>}`
+  : Capitalize<Value>;
+
+/** 由取值清单建常量表：键由取值推导，顺序即清单顺序。 */
+function buildCompactValueTable<const Values extends readonly string[]>(
+  values: Values,
+): { readonly [Value in Values[number] as CompactValueKey<Value>]: Value } {
+  return Object.fromEntries(
+    values.map((value) => [toCompactValueKey(value), value] as const),
+  ) as unknown as { readonly [Value in Values[number] as CompactValueKey<Value>]: Value };
+}
+
+/** 取值 → 常量键：`hook_failed` → `HookFailed`。 */
+function toCompactValueKey(value: string): string {
+  return value
+    .split("_")
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join("");
+}
+
+/** 失败原因取值清单：常量表由它推出。 */
+const COMPACT_FAILURE_REASON_VALUES =
+  "not_enough_messages prompt_too_long no_summary api_error cancelled hook_failed relink_failed unknown".split(
+    " ",
+  ) as readonly CompactFailureReason[];
+
+export const CompactFailureReason = Object.fromEntries(
+  COMPACT_FAILURE_REASON_VALUES.map((value) => [toCompactValueKey(value), value]),
+) as unknown as {
+  readonly NotEnoughMessages: "not_enough_messages";
+  readonly PromptTooLong: "prompt_too_long";
+  readonly NoSummary: "no_summary";
+  readonly ApiError: "api_error";
+  readonly Cancelled: "cancelled";
+  readonly HookFailed: "hook_failed";
+  readonly RelinkFailed: "relink_failed";
+  readonly Unknown: "unknown";
+};
 
 const compactTimelinePayloadInputSchema = z
   .object({
