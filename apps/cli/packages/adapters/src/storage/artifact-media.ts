@@ -10,28 +10,30 @@ import { mediaKind, mediaTarget } from "./artifact-policy.js";
 import type { ArtifactRoots, MediaKind } from "./artifact-policy.js";
 
 const PDF_SIGNATURE = Buffer.from("%PDF-");
+const DATA_URL_PREFIX = "data:";
+const BASE64_ENCODING = "base64";
 
-async function regularFile(path: string): Promise<boolean> {
+type MediaTarget = NonNullable<ReturnType<typeof mediaTarget>>;
+
+/** 目标是否已是常规文件：按原生 code 判缺失，保留非 Error 值的访问边界。 */
+async function isExistingFile(path: string): Promise<boolean> {
   try {
     return (await stat(path)).isFile();
   } catch (error) {
-    // 原端口按 code 属性判缺失，保留非 Error 值及 null 的原生访问边界。
     if ((error as { code?: unknown }).code === "ENOENT") return false;
     throw error;
   }
 }
 
-export async function publishMedia(
-  roots: ArtifactRoots,
-  uri: string,
-  mediaType: string,
-  bytes: Buffer,
-): Promise<MediaAttachmentPathResult> {
-  const target = mediaTarget(roots, uri, mediaType);
-  if (!target) return { status: "unsupported" };
-  if (await regularFile(target.path)) return { status: "ready", path: target.path };
-  const temporary = `${target.path}.tmp-${randomUUID()}`;
+/** 临时文件名：同目录下的 `.tmp-<uuid>`，rename 落定前不影响读者。 */
+function stagingPath(target: string): string {
+  return `${target}.tmp-${randomUUID()}`;
+}
+
+/** 写入临时文件后 rename；失败时清理临时文件，但保留写入的首因。 */
+async function publishAtomic(target: MediaTarget, bytes: Buffer): Promise<void> {
   const directory = dirname(target.path);
+  const temporary = stagingPath(target.path);
   maybeThrowStorageFsFault({ operation: "mkdir", path: directory });
   await mkdir(directory, { recursive: true });
   try {
@@ -47,7 +49,26 @@ export async function publishMedia(
     }
     throw error;
   }
+}
+
+export async function publishMedia(
+  roots: ArtifactRoots,
+  uri: string,
+  mediaType: string,
+  bytes: Buffer,
+): Promise<MediaAttachmentPathResult> {
+  const target = mediaTarget(roots, uri, mediaType);
+  if (!target) return { status: "unsupported" };
+  if (await isExistingFile(target.path)) return { status: "ready", path: target.path };
+  await publishAtomic(target, bytes);
   return { status: "ready", path: target.path };
+}
+
+/** 拆 data URL：返回 base64 载荷与头部声明；头部必须是 `data:<mime>;base64`。 */
+function splitDataUrl(content: string): { payload: string; semicolonHeader: string[] } {
+  const comma = content.indexOf(",");
+  const header = content.slice(0, comma).split(";");
+  return { payload: content.slice(comma + 1), semicolonHeader: header };
 }
 
 function decodeDataUrl(
@@ -56,20 +77,22 @@ function decodeDataUrl(
   uri: string,
 ): { bytes: Buffer; mediaType: string } {
   const comma = content.indexOf(",");
-  const header = content.slice(0, comma).split(";");
-  const mediaType = header[0]!.slice("data:".length).trim();
-  const encoding = header.at(-1)!.trim().toLowerCase();
+  const { payload, semicolonHeader } = splitDataUrl(content);
+  const mediaType = semicolonHeader[0]!.slice(DATA_URL_PREFIX.length).trim();
+  const encoding = semicolonHeader.at(-1)!.trim().toLowerCase();
+  const declaredKind = mediaKind(mediaType);
   if (
     !/^data:/i.test(content) ||
     comma < 0 ||
-    mediaKind(mediaType) !== kind ||
-    encoding !== "base64"
+    declaredKind !== kind ||
+    encoding !== BASE64_ENCODING
   ) {
     throw new Error(`Media attachment artifact is not a base64 ${kind} data URL: ${uri}`);
   }
-  const bytes = Buffer.from(content.slice(comma + 1), "base64");
+  const bytes = Buffer.from(payload, BASE64_ENCODING);
   if (bytes.length === 0) throw new Error(`Media attachment artifact is empty: ${uri}`);
-  if (kind === "pdf" && !bytes.subarray(0, PDF_SIGNATURE.length).equals(PDF_SIGNATURE)) {
+  const signature = bytes.subarray(0, PDF_SIGNATURE.length);
+  if (kind === "pdf" && !signature.equals(PDF_SIGNATURE)) {
     throw new Error(`Media attachment artifact is not a PDF: ${uri}`);
   }
   return { bytes, mediaType };
@@ -83,7 +106,7 @@ export async function ensureMedia(
 ): Promise<MediaAttachmentPathResult> {
   const requested = mediaTarget(roots, uri, mediaType);
   if (!requested) return { status: "unsupported" };
-  if (await regularFile(requested.path)) return { status: "ready", path: requested.path };
+  if (await isExistingFile(requested.path)) return { status: "ready", path: requested.path };
   const backing = await read(uri);
   const decoded = decodeDataUrl(backing.content, requested.kind, uri);
   return publishMedia(roots, uri, decoded.mediaType, decoded.bytes);
