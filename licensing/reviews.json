@@ -135691,6 +135691,246 @@
         "specs/contracts/contracts-03/design.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "specs/contracts/core-02/acceptance.md",
+      "normalizedSha256": "98aed579ddb92a183c898433057eb805911e61444ec23bfb2375a28b6f47e36b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/behavior.md",
+      "normalizedSha256": "68f4fdc34f41a7ec2bbc281b91cb62036c1f3f3a571ff3e836ba00edd2f0d578",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/callers.md",
+      "normalizedSha256": "37e043bb385fe77c36e16dc4bc63d36e02c341c40e9379595befef1ea2dfad34",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/gate-old.json",
+      "normalizedSha256": "c45a2afbb64e37f453421f8691cb717d29bc7b409e5cac08276360663bad6dd2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/interface.md",
+      "normalizedSha256": "bc4767d0a0d70fab729ab62d3fc0321ede9a2fd30adcb61a08f4cfd1bee9c1b2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/known-differences.md",
+      "normalizedSha256": "80140f94ac72822491570b0794c023c995e9907e04e94ab504642d227547dc3e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/README.md",
+      "normalizedSha256": "78d9c99936f6b90afc7bdbae6f95063278b4419464499e5d42c90df01fd89de5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/fixtures/samples.json",
+      "normalizedSha256": "477d37a4b6a9e09763ba7d66b97daa5db4726055a0b76aa4c3e402abad87908b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/build-stubs.mjs",
+      "normalizedSha256": "7ef55e661ad4f56ec0413bead9abfb42c51e99068a75c803951ee8518ff9449b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/targets.txt",
+      "normalizedSha256": "38c789475bee8e17d2db4920e7b73042121e86e0d152a39d1e3ba23fab703909",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/memory/project-root.ts",
+      "normalizedSha256": "ad3c8e28b415be426dbb0ff6ce64fc1a66ff7563b54983ce486b93657a794464",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "normalizedSha256": "a77075a094aeb7bc5979abc4ebd447a6a6c1b84b1ba07b1c37293f4dd14ce91b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/permission/workflow-draft-path.ts",
+      "normalizedSha256": "ab463232e3434fa5c1df4f3fc9b997edce87d7ce8210da164fc5f4e309fdebd6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/plugin-reference/references.ts",
+      "normalizedSha256": "b9b9de36d18b0c1a141d0df906bbbee9a0907886eb69ad705e9e02ece46fe22a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/runtime-task/registry.ts",
+      "normalizedSha256": "98315d12e800d15c48c99bc2f0b7c9a5fcbfa2c2f06be6e419de46c437591327",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/session-context/utils.ts",
+      "normalizedSha256": "e65b34f9b718e5999ec84b1abccf59c0d50829122c8c3e15fd7a0280d44d4428",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/subagent/tool-policy.ts",
+      "normalizedSha256": "32cdaef2c53c61f4d89318587bc973bb9a9724401cd219682953d7fe396e5cab",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/tests/api-surface.test.mjs",
+      "normalizedSha256": "a68150cb93aec6f075b5a4fac7a52959602fb24efe28aaf0004c30a1a6e3a225",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/tests/behavior.test.mjs",
+      "normalizedSha256": "b6180e499be6f71024366b5fb14812dc9a95fcbdb66c3748b8d889fb813dee6f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-02/tests/entry.mjs",
+      "normalizedSha256": "49d13aa14d4a15695a9134335110e303deb7b8191c272f3a1710578a3996130c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
+      "evidence": [
+        "specs/contracts/core-02/interface.md",
+        "specs/contracts/core-02/acceptance.md",
+        "specs/contracts/core-02/gate-old.json"
+      ]
     }
   ]
 }
