@@ -1,0 +1,46 @@
+{
+  "contract": "core-02",
+  "commit": "c2f795038d16c3060e2bd761fbc602672097d032",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-12T13:37:39.819Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-02/tests/api-surface.test.mjs",
+    "specs/contracts/core-02/tests/behavior.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B8 runtime-task：通知文案的转义与截断 (0.7605ms)\n✔ B8 session-context：会话引用、部件投影与工具函数 (0.947ms)\n✔ B9 subagent：子代理工具面强制剔除 plan 工具 (0.4988ms)\n✔ B10 subagent：交互来源的形状与可选键 (0.2506ms)\n✔ B11 subagent：通用提示与档案模型选择 (0.3219ms)\n✔ B12 subagent：消息 steer 与完成通知 (33.2436ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 11084.5005"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B8 runtime-task：通知文案的转义与截断 (0.8209ms)\n✔ B8 session-context：会话引用、部件投影与工具函数 (1.0052ms)\n✔ B9 subagent：子代理工具面强制剔除 plan 工具 (0.5483ms)\n✔ B10 subagent：交互来源的形状与可选键 (0.3128ms)\n✔ B11 subagent：通用提示与档案模型选择 (0.2819ms)\n✔ B12 subagent：消息 steer 与完成通知 (40.4172ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 8280.0318",
+      "environment": {
+        "KNORVIA_CORE_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 7,
+    "tests": 5,
+    "pass": 0,
+    "fail": 5,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "\ntest at specs\\contracts\\core-02\\tests\\api-surface.test.mjs:108:1\n✖ subagent 区的模块与再导出桶都可用 (0.8885ms)\n  Error: not implemented: core-02\n      at <anonymous> (D:\\knorvia studio开发\\wt\\exec-1\\apps\\cli\\packages\\core\\src\\subagent\\tool-policy.ts:5:7)\n      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n      at async TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-1/specs/contracts/core-02/tests/api-surface.test.mjs:71:16)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)\n\ntest at specs\\contracts\\core-02\\tests\\behavior.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-1\\specs\\contracts\\core-02\\tests\\behavior.test.mjs (707.786ms)\n  'test failed'"
+  },
+  "pass": true
+}
