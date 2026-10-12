@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 // ripgrep worker 的形状声明：worker 句柄、注入数据、工厂与消息协议。
-//
 // 使用方式：
 // - 主线程只依赖 RipgrepWorker（once/terminate），因此测试可以注入最小假对象；
 // - RipgrepWorkerData 同时作为 worker_threads 的 workerData 与 WASI 的 preopens 来源；
@@ -28,7 +27,7 @@ type WorkerErrorPayload = { code?: unknown; message?: string; name?: string; sta
 export interface WorkerMessage {
   error?: WorkerErrorPayload;
   result?: RipgrepBufferedResult;
-  type?: string;
+  kind?: string;
 }
 
 /** 单次结算的载荷：成功带 value，失败带 problem（二者必有其一）。 */
