@@ -87,7 +87,7 @@ async function flushMessages(
   for (let index = 0; index < messages.length; index++) {
     const message = messages[index];
     if (!message) continue;
-    try {
+    try /* 子会话失败要按取消/错误分流 */ {
       await sink.send(message);
     } catch (error) {
       for (const pending of messages.slice(index))
@@ -100,7 +100,7 @@ async function flushMessages(
         module: "core.subagent",
         status: "failed",
       });
-      return;
+      return; // 已达终态，无需继续
     }
   }
 }
