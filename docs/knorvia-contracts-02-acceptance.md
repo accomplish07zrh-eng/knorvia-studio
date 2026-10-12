@@ -55,6 +55,9 @@ node <tool> --repo . --candidate <文件> \
 | `workflow/graph-schema-validation.ts`   | **普通模式**       | —            | —          | —       | 0.182 / run < 8 ✓                      | 内联 refine 谓词抽成具名纯函数                                |
 | `workflow/graph-schema.ts`              | 声明模式（薄入口） | 2            | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯再导出                                                      |
 | `workflow/graph-schema-declarations.ts` | 声明模式           | 102          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯 schema 声明；普通模式 0.961                                |
+| `workflow/index.ts`                     | 声明模式（barrel） | 44           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯再导出 + 两个 port 接口（冻结面）；普通模式 1.000           |
+| `workflow/run-schema.ts`                | 声明模式（薄入口） | 1            | 1          | 50%     | PASS（1 行残留，containment < 0.2）✓   | 纯再导出                                                      |
+| `workflow/run-schema-declarations.ts`   | 声明模式           | 213          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 14 个 schema 与全部类型；普通模式为纯声明                     |
 
 **合同冻结行说明**：`interface.md` 列出上述文件的导出名与签名；声明模式按名字剔除整块声明（含 `const` schema 与常量表）后，剩余行才是需要独立创作的实现。八个文件的残留行合计 61 行，最长相同段 ≤ 1 行；`target-evaluation`（5 行）与 `active-branch`（3 行）在普通模式下也低于门槛 8。
 

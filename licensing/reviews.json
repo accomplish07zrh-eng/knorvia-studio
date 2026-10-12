@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "60e1d7736f51dbfbf6f1341f1216620fc6423c63878696c238e3020b13fd2192",
+      "normalizedSha256": "a3a6da21c1a92479982da1e257328282f47dd00250f80c8838816b35ff787fa5",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133545,6 +133545,14 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/run-schema-declarations.ts",
+      "normalizedSha256": "8b07eaf9a74abff68d2a38cca22f47b332d7145309714c599ed10a1ca4646d5a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement module: run-schema split into a pure declaration module (run-schema-declarations.ts) and a thin re-export entry (run-schema.ts). Public export names and signatures match specs/contracts/contracts-02/interface.md; declaration-mode similarity residual 0 lines.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     }
   ]
