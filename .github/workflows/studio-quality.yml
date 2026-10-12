@@ -84,9 +84,10 @@ jobs:
       - name: Install frozen dependencies
         run: |
           pnpm install ${{ inputs.install-args }} || {
-            echo "::warning::pnpm install 失败，疑似 ERR_PNPM_ENOENT 重命名竞态（vite/esbuild 临时目录），5 秒后重试一次"
+            echo "::warning::pnpm install 失败，疑似 ERR_PNPM_ENOENT 重命名竞态（vite/esbuild 临时目录）；清理污染点后强制重装一次"
+            rm -rf node_modules/vite/node_modules/_tmp_* node_modules/.pnpm/_tmp_* || true
             sleep 5
-            pnpm install ${{ inputs.install-args }}
+            pnpm install ${{ inputs.install-args }} --force
           }
 
       - name: Typecheck including desktop main
