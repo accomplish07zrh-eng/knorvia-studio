@@ -6,32 +6,41 @@ import { readdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "@knorvia/contracts";
 
+/**
+ * 日志保留策略：
+ * - 文件名形如 `knorvia-YYYY-MM-DD.jsonl`，日期按本地日历校验（拒绝 02-30 这类回卷）；
+ * - 保留窗口 = 今天往前 `retentionDays - 1` 天，cutoff 当天的文件仍然保留；
+ * - 单文件删除失败只标记 `failedFiles` 并上报，不影响其余文件；目录读不到时整轮退出。
+ */
+
 export const LOG_RETENTION_DAYS = 7;
 export const LOG_CLEANUP_STARTUP_DELAY_MS = 60_000;
-const FIRST_KEPT_DAY = 1;
-const LOG_PREFIX = "knorvia-";
-const LOG_EXTENSION = ".jsonl";
-const DATE_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
-const MODULE_TAG = "adapters.logging";
-/** 年 4 位、月/日 2 位：宽度表与 `formatLocalLogDate` 的拼接顺序一一对应。 */
-const DATE_WIDTHS = [4, 2, 2] as const;
 
-/** 清理入参：目录必填，logger/now/retentionDays 均可省略。 */
-export interface LogRetentionCleanupOptions {
-  logger?: Logger;
-  logDir: string;
+/** 私有常量按字母序排列：宽度表与 `formatLocalLogDate` 的拼接顺序一一对应。 */
+const DATE_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
+const DATE_WIDTHS = [4, 2, 2] as const;
+const FIRST_KEPT_DAY = 1;
+const LOG_EXTENSION = ".jsonl";
+const LOG_PREFIX = "knorvia-";
+const MODULE_TAG = "adapters.logging";
+
+/** 目标日志目录与可选 logger：清理与排程共用。 */
+type LogTarget = { logDir: string; logger?: Logger };
+
+/** 扫描计数：扫描/删除/失败三个清单。 */
+type CleanupCounters = { deletedFiles: string[]; failedFiles: string[]; scannedFiles: number };
+
+/** 清理入参：目录必填，retentionDays/now 可省略。 */
+export interface LogRetentionCleanupOptions extends LogTarget {
   retentionDays?: number;
   now?: Date;
 }
 
-/** 清理结果：cutoff 与扫描/删除/失败清单，status 表示整轮是否失败。 */
-export interface LogRetentionCleanupResult {
+/** 清理结果：cutoff 与计数清单，status 表示整轮是否失败。 */
+export interface LogRetentionCleanupResult extends CleanupCounters {
   status: "completed" | "failed";
   retentionDays: number;
   cutoffDate: string;
-  deletedFiles: string[];
-  failedFiles: string[];
-  scannedFiles: number;
 }
 
 export interface LogRetentionTimer {
@@ -45,14 +54,14 @@ export interface LogRetentionScheduleOptions extends Omit<LogRetentionCleanupOpt
   setTimeout?: (callback: () => void, delayMs: number) => LogRetentionTimer;
 }
 
-function daysToKeep(input: number | undefined): number {
-  if (input === undefined || !Number.isFinite(input)) return LOG_RETENTION_DAYS;
-  return Math.max(FIRST_KEPT_DAY, Math.trunc(input));
+function daysToKeep(requested: number | undefined): number {
+  if (requested === undefined || !Number.isFinite(requested)) return LOG_RETENTION_DAYS;
+  return Math.max(FIRST_KEPT_DAY, Math.trunc(requested));
 }
 
 /** 本地日历日期：`YYYY-MM-DD`，宽度按 DATE_WIDTHS 补零。 */
-export function formatLocalLogDate(date: Date): string {
-  const parts = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+export function formatLocalLogDate(moment: Date): string {
+  const parts = [moment.getFullYear(), moment.getMonth() + 1, moment.getDate()];
   return parts.map((value, index) => String(value).padStart(DATE_WIDTHS[index]!, "0")).join("-");
 }
 
@@ -62,23 +71,28 @@ function cutoffDate(reference: Date, keepDays: number): Date {
   return new Date(reference.getFullYear(), reference.getMonth(), dayOfMonth);
 }
 
+function isLogFile(fileName: string): boolean {
+  return fileName.startsWith(LOG_PREFIX) && fileName.endsWith(LOG_EXTENSION);
+}
+
 /** 从日志文件名取出可用的日期；形状不对或日历回卷（如 02-30）都算无效。 */
-function logCalendarDate(name: string): string | undefined {
-  if (!name.startsWith(LOG_PREFIX) || !name.endsWith(LOG_EXTENSION)) return undefined;
-  const stamp = name.slice(LOG_PREFIX.length, -LOG_EXTENSION.length);
+function logCalendarDate(fileName: string): string | undefined {
+  if (!isLogFile(fileName)) return undefined;
+  const stamp = fileName.slice(LOG_PREFIX.length, -LOG_EXTENSION.length);
   if (!DATE_SHAPE.test(stamp)) return undefined;
   const [year, month, day] = stamp.split("-").map(Number);
   const parsed = new Date(year!, month! - 1, day!);
   return formatLocalLogDate(parsed) === stamp ? stamp : undefined;
 }
 
-function isMissing(error: unknown): boolean {
-  return error instanceof Error && (error as NodeJS.ErrnoException).code === "ENOENT";
+function isMissing(cause: unknown): boolean {
+  if (!(cause instanceof Error)) return false;
+  return (cause as NodeJS.ErrnoException).code === "ENOENT";
 }
 
-function errorDetail(error: unknown): Record<string, unknown> {
-  if (!(error instanceof Error)) return { message: String(error), name: "UnknownError" };
-  return { code: (error as NodeJS.ErrnoException).code, message: error.message, name: error.name };
+function errorDetail(cause: unknown): Record<string, unknown> {
+  if (!(cause instanceof Error)) return { message: String(cause), name: "UnknownError" };
+  return { code: (cause as NodeJS.ErrnoException).code, message: cause.message, name: cause.name };
 }
 
 /** 三处事件载荷共享的三项：目录、模块、保留天数。 */
@@ -93,15 +107,15 @@ interface FailureContext {
 }
 
 /** 清理失败：按「整轮失败」与「单文件失败」两种事件上报。 */
-function reportFailure(context: FailureContext, error: unknown): void {
+function reportFailure(context: FailureContext, cause: unknown): void {
   const perFile = context.fileName !== undefined;
-  const detail: Record<string, unknown> = {
-    ...commonDetail(context.options.logDir, context.outcome.retentionDays),
-    cutoffDate: context.outcome.cutoffDate,
-    error: errorDetail(error),
-    event: perFile ? "log.retention.delete.failed" : "log.retention.cleanup.failed",
-    status: "failed",
-  };
+  const common = commonDetail(context.options.logDir, context.outcome.retentionDays);
+  const detail: Record<string, unknown> = {} as Record<string, unknown>;
+  Object.assign(detail, common);
+  detail.cutoffDate = context.outcome.cutoffDate;
+  detail.error = errorDetail(cause);
+  detail.event = perFile ? "log.retention.delete.failed" : "log.retention.cleanup.failed";
+  detail.status = "failed";
   if (perFile) detail.fileName = context.fileName;
   const message = perFile ? "Log retention file delete failed" : "Log retention cleanup failed";
   context.options.logger?.warn(message, detail);
@@ -120,11 +134,11 @@ async function pruneEntry(
   try {
     await unlink(join(context.options.logDir, dirent.name));
     context.outcome.deletedFiles.push(dirent.name);
-  } catch (error) {
-    if (isMissing(error)) return;
+  } catch (cause) {
+    if (isMissing(cause)) return;
     context.outcome.failedFiles.push(dirent.name);
     context.outcome.status = "failed";
-    reportFailure({ ...context, fileName: dirent.name }, error);
+    reportFailure({ ...context, fileName: dirent.name }, cause);
   }
 }
 
@@ -132,15 +146,16 @@ function completedDetail(
   outcome: LogRetentionCleanupResult,
   options: LogRetentionCleanupOptions,
 ): Record<string, unknown> {
-  return {
-    ...commonDetail(options.logDir, outcome.retentionDays),
-    cutoffDate: outcome.cutoffDate,
-    deletedFileCount: outcome.deletedFiles.length,
-    event: "log.retention.cleanup.completed",
-    failedFileCount: outcome.failedFiles.length,
-    scannedFiles: outcome.scannedFiles,
-    status: outcome.status,
-  };
+  const common = commonDetail(options.logDir, outcome.retentionDays);
+  const detail: Record<string, unknown> = {} as Record<string, unknown>;
+  Object.assign(detail, common);
+  detail.cutoffDate = outcome.cutoffDate;
+  detail.deletedFileCount = outcome.deletedFiles.length;
+  detail.event = "log.retention.cleanup.completed";
+  detail.failedFileCount = outcome.failedFiles.length;
+  detail.scannedFiles = outcome.scannedFiles;
+  detail.status = outcome.status;
+  return detail;
 }
 
 function emptyOutcome(boundary: string, keepDays: number): LogRetentionCleanupResult {
@@ -154,6 +169,21 @@ function emptyOutcome(boundary: string, keepDays: number): LogRetentionCleanupRe
   return outcome;
 }
 
+/** 读目录：ENOENT 视为「没有日志目录」，其余失败置 status 并上报。 */
+async function readLogDirectory(
+  context: FailureContext,
+): Promise<Awaited<ReturnType<typeof readdir>> | undefined> {
+  return await readdir(context.options.logDir, { withFileTypes: true }).catch(
+    (cause: unknown): undefined => {
+      if (!isMissing(cause)) {
+        context.outcome.status = "failed";
+        reportFailure(context, cause);
+      }
+      return undefined;
+    },
+  );
+}
+
 export async function cleanupLogRetention(
   options: LogRetentionCleanupOptions,
 ): Promise<LogRetentionCleanupResult> {
@@ -162,15 +192,7 @@ export async function cleanupLogRetention(
   const boundary = cutoffDate(reference, keepDays);
   const outcome = emptyOutcome(formatLocalLogDate(boundary), keepDays);
   const context: FailureContext = { options, outcome };
-  const dirents = await readdir(options.logDir, { withFileTypes: true }).catch(
-    (error: unknown): undefined => {
-      if (!isMissing(error)) {
-        outcome.status = "failed";
-        reportFailure(context, error);
-      }
-      return undefined;
-    },
-  );
+  const dirents = await readLogDirectory(context);
   if (dirents === undefined) return outcome;
   for (const dirent of dirents) await pruneEntry(context, dirent);
   options.logger?.debug("Log retention cleanup completed", completedDetail(outcome, options));
@@ -182,12 +204,12 @@ export function scheduleLogRetentionCleanup(
 ): LogRetentionTimer {
   const waitMs = options.delayMs ?? LOG_CLEANUP_STARTUP_DELAY_MS;
   const keepDays = daysToKeep(options.retentionDays);
-  options.logger?.info("Log retention cleanup scheduled", {
-    ...commonDetail(options.logDir, keepDays),
-    delayMs: waitMs,
-    event: "log.retention.cleanup.scheduled",
-    status: "waiting",
-  });
+  const scheduled: Record<string, unknown> = {} as Record<string, unknown>;
+  Object.assign(scheduled, commonDetail(options.logDir, keepDays));
+  scheduled.delayMs = waitMs;
+  scheduled.event = "log.retention.cleanup.scheduled";
+  scheduled.status = "waiting";
+  options.logger?.info("Log retention cleanup scheduled", scheduled);
   const runCleanup = (): void => {
     void cleanupLogRetention({
       logDir: options.logDir,
