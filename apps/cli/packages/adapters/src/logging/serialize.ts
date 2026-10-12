@@ -5,12 +5,13 @@
 import type { LogContext, LogEntry, LogRedactor } from "@knorvia/contracts";
 import { redactDiagnosticText } from "@knorvia/shared";
 
+/** 错误序列化形状：字段全集固定，`cause` 递归指向下一环。 */
 export interface SerializedLogError {
-  name: string;
   message: string;
+  name: string;
+  stack?: string;
   code?: string;
   type?: string;
-  stack?: string;
   context?: Record<string, unknown>;
   cause?: SerializedLogError;
 }
@@ -19,212 +20,228 @@ export type SerializableLogEntry = Record<string, unknown>;
 
 const MAX_DEPTH = 8;
 const HIDDEN_KEY = /(?:api[-_]?key|authorization|cookie|credential|password|secret|token)/i;
-const RESERVED_CONTEXT = [
-  "durationMs",
-  "event",
-  "module",
-  "parentSpanId",
-  "sessionId",
-  "spanId",
-  "status",
-  "toolCallId",
-  "traceId",
-  "turnId",
-] as const;
-const RESERVED_SET: ReadonlySet<string> = new Set(RESERVED_CONTEXT);
-const ENTRY_ORDER = [
-  "timestamp",
-  "level",
-  "event",
-  "module",
-  "message",
-  "traceId",
-  "spanId",
-  "parentSpanId",
-  "sessionId",
-  "turnId",
-  "toolCallId",
-  "durationMs",
-  "status",
-  "context",
-  "error",
-] as const;
-const STATES: ReadonlySet<unknown> = new Set([
-  "started",
-  "waiting",
-  "completed",
-  "failed",
-  "cancelled",
-]);
 
-function assignOwn(target: object, key: PropertyKey, value: unknown): void {
-  Object.defineProperty(target, key, {
-    value,
-    enumerable: true,
+/** 顶层已占用字段：顺序即旧解构的读取顺序，空格分隔一次声明。 */
+const RESERVED_CONTEXT =
+  "durationMs event module parentSpanId sessionId spanId status toolCallId traceId turnId".split(
+    " ",
+  );
+const RESERVED_SET: ReadonlySet<string> = new Set(RESERVED_CONTEXT);
+
+/** 输出字段顺序：契约 JSONL 的键序由它决定。 */
+const ENTRY_ORDER =
+  "timestamp level event module message traceId spanId parentSpanId sessionId turnId toolCallId durationMs status context error".split(
+    " ",
+  );
+
+/** 状态枚举：只作为判定集合使用，不参与输出。 */
+const STATES: ReadonlySet<unknown> = new Set(
+  "started waiting completed failed cancelled".split(" "),
+);
+
+const DEPTH_SENTINEL = "[Redacted:DepthLimit]";
+const CIRCULAR_SENTINEL = "[Redacted:Circular]";
+const HIDDEN_SENTINEL = "[Redacted]";
+
+function assignOwn(into: object, key: PropertyKey, value: unknown): void {
+  Object.defineProperty(into, key, {
     configurable: true,
+    enumerable: true,
+    value,
     writable: true,
   });
 }
 
-type Visit = { read: () => unknown; depth: number; write: (value: unknown) => void };
+type Visit = { depth: number; read: () => unknown; write: (value: unknown) => void };
 type ArrayFrame = {
   array: unknown[];
-  result: unknown[];
-  index: number;
   depth: number;
+  index: number;
+  result: unknown[];
 };
+type Frame = Visit | ArrayFrame;
+
+function isArrayFrame(frame: Frame): frame is ArrayFrame {
+  return "array" in frame;
+}
 
 export class DefaultLogRedactor implements LogRedactor {
   redact(input: unknown): unknown {
-    let output: unknown;
-    const identities = new WeakSet<object>();
-    const pending: (Visit | ArrayFrame)[] = [
+    let redacted: unknown;
+    const seen = new WeakSet<object>();
+    const stack: Frame[] = [
       {
-        read: () => input,
         depth: 0,
+        read: () => input,
         write: (value) => {
-          output = value;
+          redacted = value;
         },
       },
     ];
-    while (pending.length) {
-      const visit = pending.pop()!;
-      if ("array" in visit) {
-        const index = visit.index++;
-        if (visit.index < visit.result.length) pending.push(visit);
-        if (index in visit.array) {
-          pending.push({
-            depth: visit.depth,
-            read: () => visit.array[index],
-            write: (item) => assignOwn(visit.result, index, item),
-          });
-        }
+    while (stack.length) {
+      const frame = stack.pop()!;
+      if (isArrayFrame(frame)) {
+        expandArray(frame, stack);
         continue;
       }
-      const value = visit.read();
-      if (visit.depth > MAX_DEPTH) {
-        visit.write("[Redacted:DepthLimit]");
+      const value = frame.read();
+      if (frame.depth > MAX_DEPTH) {
+        frame.write(DEPTH_SENTINEL);
         continue;
       }
       if (typeof value === "string") {
-        visit.write(redactDiagnosticText(value));
+        frame.write(redactDiagnosticText(value));
         continue;
       }
       if (value === null || typeof value !== "object") {
-        visit.write(value);
+        frame.write(value);
         continue;
       }
-      if (identities.has(value)) {
-        visit.write("[Redacted:Circular]");
+      if (seen.has(value)) {
+        frame.write(CIRCULAR_SENTINEL);
         continue;
       }
-      identities.add(value);
-      if (Array.isArray(value)) {
-        const result = new Array<unknown>(value.length);
-        visit.write(result);
-        // 修复：逐索引继续，避免为稀疏空槽预建闭包；250000 槽曾额外占用约 192 MiB。
-        if (result.length) {
-          pending.push({
-            array: value,
-            result,
-            index: 0,
-            depth: visit.depth + 1,
-          });
-        }
-      } else {
-        const result: Record<string, unknown> = {};
-        const members = Object.entries(value);
-        visit.write(result);
-        for (const [key] of members) assignOwn(result, key, undefined);
-        for (let index = members.length - 1; index >= 0; index--) {
-          const [key, item] = members[index]!;
-          if (HIDDEN_KEY.test(key)) assignOwn(result, key, "[Redacted]");
-          else
-            pending.push({
-              depth: visit.depth + 1,
-              read: () => item,
-              write: (next) => assignOwn(result, key, next),
-            });
-        }
-      }
+      seen.add(value);
+      if (Array.isArray(value)) expandNewArray(frame, value, stack);
+      else expandNewObject(frame, value, stack);
     }
-    return output;
+    return redacted;
   }
 }
 
-export function stripReservedContext(context: LogContext): Record<string, unknown> | undefined {
-  // 保留旧解构的 getter 顺序；rest 只读取未保留的可枚举自有属性。
-  for (const key of RESERVED_CONTEXT) void context[key];
+/** 稀疏数组逐索引推进：不为空槽预建闭包（250000 槽曾额外占用约 192 MiB）。 */
+function expandArray(frame: ArrayFrame, stack: Frame[]): void {
+  const index = frame.index++;
+  if (frame.index < frame.result.length) stack.push(frame);
+  if (index in frame.array) {
+    stack.push({
+      depth: frame.depth,
+      read: () => frame.array[index],
+      write: (item) => assignOwn(frame.result, index, item),
+    });
+  }
+}
+
+function expandNewArray(frame: Visit, value: unknown[], stack: Frame[]): void {
+  const copy = new Array<unknown>(value.length);
+  frame.write(copy);
+  if (copy.length === 0) return;
+  stack.push({ array: value, depth: frame.depth + 1, index: 0, result: copy });
+}
+
+/** 对象：先占位全部键（保持键序），再从后往前压栈，隐藏键直接打码。 */
+function expandNewObject(frame: Visit, value: object, stack: Frame[]): void {
+  const copy: Record<string, unknown> = {};
+  const pairs = Object.entries(value);
+  frame.write(copy);
+  for (const [key] of pairs) assignOwn(copy, key, undefined);
+  for (let index = pairs.length - 1; index >= 0; index -= 1) {
+    const [key, item] = pairs[index]!;
+    if (HIDDEN_KEY.test(key)) {
+      assignOwn(copy, key, HIDDEN_SENTINEL);
+      continue;
+    }
+    stack.push({
+      depth: frame.depth + 1,
+      read: () => item,
+      write: (next) => assignOwn(copy, key, next),
+    });
+  }
+}
+
+/** 保留旧解构的 getter 顺序；rest 只读取未保留的可枚举自有属性。 */
+function copyExtras(context: LogContext): Record<string, unknown> {
   const rest: Record<string, unknown> = {};
   for (const key of Reflect.ownKeys(context)) {
     if (typeof key === "string" && RESERVED_SET.has(key)) continue;
-    if (Object.getOwnPropertyDescriptor(context, key)?.enumerable)
-      assignOwn(rest, key, context[key as string]);
+    const descriptor = Object.getOwnPropertyDescriptor(context, key);
+    if (descriptor?.enumerable) assignOwn(rest, key, context[key as string]);
   }
+  return rest;
+}
+
+export function stripReservedContext(context: LogContext): Record<string, unknown> | undefined {
+  for (const key of RESERVED_CONTEXT) void context[key];
+  const rest = copyExtras(context);
   return Object.keys(rest).length ? rest : undefined;
 }
+
+/** 三个字段要过脱敏器，其余按原值输出。 */
+const REDACTED_FIELDS = new Set<string>(["message", "context", "error"]);
+
+const FIELD_CONVERTERS: Record<string, (entry: LogEntry) => unknown> = {
+  timestamp: (entry) => entry.timestamp.toISOString(),
+  level: (entry) => entry.levelName.toLowerCase(),
+};
 
 export function toSerializableEntry(entry: LogEntry, redactor: LogRedactor): SerializableLogEntry {
   const result: SerializableLogEntry = {};
   for (const field of ENTRY_ORDER) {
-    let value: unknown;
-    switch (field) {
-      case "timestamp":
-        value = entry.timestamp.toISOString();
-        break;
-      case "level":
-        value = entry.levelName.toLowerCase();
-        break;
-      case "message":
-      case "context":
-      case "error":
-        value = redactor.redact(entry[field]);
-        break;
-      default:
-        value = entry[field];
-    }
+    const value = converterFor(field)(entry, redactor);
     if (value !== undefined) assignOwn(result, field, value);
   }
   return result;
 }
 
+function converterFor(field: string): (entry: LogEntry, redactor: LogRedactor) => unknown {
+  const direct = FIELD_CONVERTERS[field];
+  if (direct !== undefined) return direct;
+  if (REDACTED_FIELDS.has(field)) return (entry, redactor) => redactor.redact(entry[field]);
+  return (entry) => entry[field];
+}
+
 export function formatConsoleLine(entry: LogEntry): string {
-  const parts = [entry.levelName.toLowerCase(), `[${entry.module ?? "log"}]`];
-  if (entry.traceId) parts.push(`trace=${entry.traceId.slice(0, 8)}`);
-  if (entry.event) parts.push(`event=${entry.event}`);
-  parts.push(redactDiagnosticText(entry.message));
-  return parts.join(" ");
+  const segments = [entry.levelName.toLowerCase(), `[${entry.module ?? "log"}]`];
+  if (entry.traceId) segments.push(`trace=${entry.traceId.slice(0, 8)}`);
+  if (entry.event) segments.push(`event=${entry.event}`);
+  segments.push(redactDiagnosticText(entry.message));
+  return segments.join(" ");
 }
 
 export function isLogStatus(value: unknown): value is LogEntry["status"] {
   return STATES.has(value);
 }
 
+/** 只接受纯对象上下文（原型为 null 或 Object.prototype），其余忽略。 */
+function plainContext(inner: unknown): Record<string, unknown> | undefined {
+  if (inner === null || typeof inner !== "object") return undefined;
+  const proto = Object.getPrototypeOf(inner);
+  if (proto !== null && proto !== Object.prototype) return undefined;
+  return inner as Record<string, unknown>;
+}
+
 function errorNode(
   input: unknown,
   includeStack: boolean,
 ): { node: SerializedLogError; next: unknown } {
-  if (input === null || typeof input !== "object")
-    return { node: { name: "UnknownError", message: String(input) }, next: undefined };
-  const record = input as Record<string, unknown>;
-  const next = record.cause;
-  const node: SerializedLogError = {
-    name: typeof record.name === "string" ? record.name : "Error",
-    message: typeof record.message === "string" ? record.message : String(input),
+  if (input === null || typeof input !== "object") {
+    return { next: undefined, node: { message: String(input), name: "UnknownError" } };
+  }
+  const source = input as Record<string, unknown>;
+  const cause = source.cause;
+  const step: SerializedLogError = {
+    message: typeof source.message === "string" ? source.message : String(input),
+    name: typeof source.name === "string" ? source.name : "Error",
   };
-  for (const field of ["code", "type"] as const) {
-    const value = record[field];
-    if (typeof value === "string" && value.length) node[field] = value;
+  for (const slot of ["code", "type"] as const) {
+    const candidate = source[slot];
+    if (typeof candidate === "string" && candidate.length) step[slot] = candidate;
   }
-  const context = record.context;
-  if (includeStack && typeof record.stack === "string") node.stack = record.stack;
-  if (context !== null && typeof context === "object") {
-    const prototype = Object.getPrototypeOf(context);
-    if (prototype === null || prototype === Object.prototype)
-      node.context = context as Record<string, unknown>;
-  }
-  return { node, next };
+  if (includeStack && typeof source.stack === "string") step.stack = source.stack;
+  const inner = plainContext(source.context);
+  if (inner !== undefined) step.context = inner;
+  return { next: cause, node: step };
 }
+
+const DEPTH_LIMIT_NODE: SerializedLogError = {
+  message: "Error cause chain exceeded the serialization depth limit.",
+  name: "ErrorCauseDepthLimit",
+};
+
+const CIRCULAR_NODE: SerializedLogError = {
+  message: "Error cause chain contained a circular reference.",
+  name: "ErrorCauseCircularReference",
+};
 
 export function serializeLogError(
   error: unknown,
@@ -232,32 +249,26 @@ export function serializeLogError(
   seen: WeakSet<object> = new WeakSet(),
   depth = 0,
 ): SerializedLogError {
-  let input = error;
-  let currentDepth = depth;
-  let root: SerializedLogError | undefined;
-  let tail: SerializedLogError | undefined;
+  let source = error;
+  let level = depth;
+  let head: SerializedLogError | undefined;
+  let last: SerializedLogError | undefined;
   for (;;) {
-    let node: SerializedLogError;
-    let next: unknown;
-    if (currentDepth > MAX_DEPTH) {
-      node = {
-        name: "ErrorCauseDepthLimit",
-        message: "Error cause chain exceeded the serialization depth limit.",
-      };
-    } else if (input !== null && typeof input === "object" && seen.has(input)) {
-      node = {
-        name: "ErrorCauseCircularReference",
-        message: "Error cause chain contained a circular reference.",
-      };
+    let step: SerializedLogError;
+    let cause: unknown;
+    if (level > MAX_DEPTH) {
+      step = DEPTH_LIMIT_NODE;
+    } else if (source !== null && typeof source === "object" && seen.has(source)) {
+      step = CIRCULAR_NODE;
     } else {
-      if (input !== null && typeof input === "object") seen.add(input);
-      ({ node, next } = errorNode(input, includeStack));
+      if (source !== null && typeof source === "object") seen.add(source);
+      ({ node: step, next: cause } = errorNode(source, includeStack));
     }
-    if (tail) tail.cause = node;
-    else root = node;
-    if (next === undefined) return root!;
-    tail = node;
-    input = next;
-    currentDepth++;
+    if (last === undefined) head = step;
+    else last.cause = step;
+    if (cause === undefined) return head!;
+    last = step;
+    source = cause;
+    level += 1;
   }
 }
