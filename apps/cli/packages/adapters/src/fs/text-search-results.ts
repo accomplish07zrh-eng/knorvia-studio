@@ -36,11 +36,17 @@ interface ParseState {
   root: string;
 }
 
+/** count 列可用性：分隔符存在、计数为有限正数。 */
+function isUsableCount(separator: number, count: number): boolean {
+  if (separator <= 0) return false;
+  return Number.isFinite(count) && count > 0;
+}
+
 /** files_with_matches 行：`<path>:<count>`，count 非正或路径被过滤时跳过。 */
 function readCountLine(state: ParseState, line: string): void {
   const separator = line.lastIndexOf(COUNT_SEPARATOR);
   const count = Number.parseInt(line.slice(separator + 1), 10);
-  if (separator <= 0 || !Number.isFinite(count) || count <= 0) return;
+  if (!isUsableCount(separator, count)) return;
   const path = outputPath(state.root, line.slice(0, separator));
   if (!state.isKept(path)) return;
   state.files.add(path);
@@ -51,16 +57,16 @@ function readCountLine(state: ParseState, line: string): void {
   state.entries.push(summary);
 }
 
+function jsonParseError(cause: unknown, path: string): Error {
+  const message = "Failed to parse ripgrep JSON output";
+  return createFileSystemError({ cause, code: "io_error", message, path });
+}
+
 function decodeEvent(line: string, request: FileSystemSearchTextRequest): JsonEvent {
   try {
     return JSON.parse(line) as JsonEvent;
   } catch (cause) {
-    throw createFileSystemError({
-      cause,
-      code: "io_error",
-      message: "Failed to parse ripgrep JSON output",
-      path: request.path,
-    });
+    throw jsonParseError(cause, request.path);
   }
 }
 
