@@ -41,6 +41,109 @@ export class BackgroundTaskTracker {
 
   constructor(private readonly deps: ToolExecutorDeps) {}
 
+  // 终态发布：重入保护 + 三条终态分支（快照缺失 / 子代理已处理 / 其余终态），finally 复位发布标志。
+  private async publishTerminal(
+    run: RunState,
+    toolCall: ExecutableToolCall,
+    taskId: string,
+    output: Record<string, unknown>,
+    snapshot: TaskSnapshot | undefined,
+    traceContext: TraceContext,
+    turnId: TurnId | undefined,
+    hasSnapshot: boolean,
+  ): Promise<void> {
+    if (run.stopped || run.terminalPublishing) return;
+    run.terminalPublishing = true;
+    try {
+      if (!snapshot) {
+        this.deps.logger?.info?.("Background task terminal snapshot missing", {
+          ...traceContextToLogContext(traceContext),
+          event: "background_task.tracking.lost",
+          module: "core.tool.executor",
+          reason: "snapshot_missing",
+          taskId: taskId,
+          toolName: toolCall.name,
+        });
+        updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "lost");
+        enqueueTerminalNotification(
+          this.deps,
+          toolCall,
+          taskId,
+          "lost",
+          traceContext,
+          undefined,
+          output,
+        );
+        await emitBackgroundTaskEvent(
+          this.deps,
+          SessionEventType.BackgroundTaskCompleted,
+          taskPayload(this.deps, toolCall, taskId, "lost", output),
+          traceContext,
+          turnId,
+        );
+        run.stopped = true;
+        this.cleanup(run, taskId);
+        return;
+      }
+      if (snapshot.status === "running") {
+        updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
+        await this.publishRunning(run, toolCall, taskId, output, snapshot, traceContext, turnId);
+        if (!hasSnapshot) {
+          run.stopped = true;
+          this.cleanup(run, taskId);
+        }
+        return;
+      }
+      if (
+        isSubagentDispatchToolName(toolCall.name) &&
+        (snapshot as unknown as Record<string, unknown>).type === "local_agent" &&
+        (snapshot as unknown as Record<string, unknown>).notified === true
+      ) {
+        this.deps.logger?.debug?.(
+          "Background task terminal notification already handled by subagent",
+          {
+            ...traceContextToLogContext(traceContext),
+            event: "background_task.tracking.notification_already_handled",
+            module: "core.tool.executor",
+            taskId: taskId,
+            toolName: toolCall.name,
+          },
+        );
+        run.stopped = true;
+        this.cleanup(run, taskId);
+        return;
+      }
+      this.deps.logger?.info?.("Background task terminal snapshot observed", {
+        ...traceContextToLogContext(traceContext),
+        event: "background_task.tracking.terminal",
+        module: "core.tool.executor",
+        taskId: taskId,
+        taskStatus: snapshot.status,
+        toolName: toolCall.name,
+      });
+      updateRuntimeBackgroundTask(this.deps, toolCall, taskId, snapshot.status, snapshot);
+      enqueueTerminalNotification(
+        this.deps,
+        toolCall,
+        taskId,
+        snapshot.status,
+        traceContext,
+        snapshot,
+      );
+      await emitBackgroundTaskEvent(
+        this.deps,
+        SessionEventType.BackgroundTaskCompleted,
+        taskPayload(this.deps, toolCall, taskId, snapshot.status, output, snapshot),
+        traceContext,
+        turnId,
+      );
+      run.stopped = true;
+      this.cleanup(run, taskId);
+    } finally {
+      run.terminalPublishing = false;
+    }
+  }
+
   // 收口清理：停掉两个定时器并从追踪集合里摘掉任务 id。幂等，可重复调用。
   private cleanup(run: RunState, taskId: string): void {
     if (run.interval) clearInterval(run.interval);
@@ -161,105 +264,22 @@ export class BackgroundTaskTracker {
       interval: undefined as ReturnType<typeof setInterval> | undefined,
       maxRuntimeTimeout: undefined as ReturnType<typeof setTimeout> | undefined,
     };
-    const publishTerminal = async (snapshot: TaskSnapshot | undefined): Promise<void> => {
-      if (run.stopped || run.terminalPublishing) return;
-      run.terminalPublishing = true;
-      try {
-        if (!snapshot) {
-          this.deps.logger?.info?.("Background task terminal snapshot missing", {
-            ...traceContextToLogContext(traceContext),
-            event: "background_task.tracking.lost",
-            module: "core.tool.executor",
-            reason: "snapshot_missing",
-            taskId: taskId,
-            toolName: toolCall.name,
-          });
-          updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "lost");
-          enqueueTerminalNotification(
-            this.deps,
-            toolCall,
-            taskId,
-            "lost",
-            traceContext,
-            undefined,
-            output,
-          );
-          await emitBackgroundTaskEvent(
-            this.deps,
-            SessionEventType.BackgroundTaskCompleted,
-            taskPayload(this.deps, toolCall, taskId, "lost", output),
-            traceContext,
-            turnId,
-          );
-          run.stopped = true;
-          this.cleanup(run, taskId);
-          return;
-        }
-        if (snapshot.status === "running") {
-          updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
-          await this.publishRunning(run, toolCall, taskId, output, snapshot, traceContext, turnId);
-          if (!hasSnapshot) {
-            run.stopped = true;
-            this.cleanup(run, taskId);
-          }
-          return;
-        }
-        if (
-          isSubagentDispatchToolName(toolCall.name) &&
-          (snapshot as unknown as Record<string, unknown>).type === "local_agent" &&
-          (snapshot as unknown as Record<string, unknown>).notified === true
-        ) {
-          this.deps.logger?.debug?.(
-            "Background task terminal notification already handled by subagent",
-            {
-              ...traceContextToLogContext(traceContext),
-              event: "background_task.tracking.notification_already_handled",
-              module: "core.tool.executor",
-              taskId: taskId,
-              toolName: toolCall.name,
-            },
-          );
-          run.stopped = true;
-          this.cleanup(run, taskId);
-          return;
-        }
-        this.deps.logger?.info?.("Background task terminal snapshot observed", {
-          ...traceContextToLogContext(traceContext),
-          event: "background_task.tracking.terminal",
-          module: "core.tool.executor",
-          taskId: taskId,
-          taskStatus: snapshot.status,
-          toolName: toolCall.name,
-        });
-        updateRuntimeBackgroundTask(this.deps, toolCall, taskId, snapshot.status, snapshot);
-        enqueueTerminalNotification(
-          this.deps,
-          toolCall,
-          taskId,
-          snapshot.status,
-          traceContext,
-          snapshot,
-        );
-        await emitBackgroundTaskEvent(
-          this.deps,
-          SessionEventType.BackgroundTaskCompleted,
-          taskPayload(this.deps, toolCall, taskId, snapshot.status, output, snapshot),
-          traceContext,
-          turnId,
-        );
-        run.stopped = true;
-        this.cleanup(run, taskId);
-      } finally {
-        run.terminalPublishing = false;
-      }
-    };
     const poll = async (): Promise<void> => {
       if (run.pollInFlight || run.stopped || !hasSnapshot) return;
       run.pollInFlight = true;
       try {
         const snapshot = await readTaskSnapshot(this.deps, toolCall.name, taskId);
         if (!snapshot || snapshot.status !== "running") {
-          await publishTerminal(snapshot);
+          await this.publishTerminal(
+            run,
+            toolCall,
+            taskId,
+            output,
+            snapshot,
+            traceContext,
+            turnId,
+            hasSnapshot,
+          );
         } else {
           await this.publishRunning(run, toolCall, taskId, output, snapshot, traceContext, turnId);
         }
@@ -312,7 +332,16 @@ export class BackgroundTaskTracker {
       void (async (): Promise<void> => {
         try {
           const snapshot = await waitForTaskSnapshot(this.deps, toolCall.name, taskId);
-          await publishTerminal(snapshot);
+          await this.publishTerminal(
+            run,
+            toolCall,
+            taskId,
+            output,
+            snapshot,
+            traceContext,
+            turnId,
+            hasSnapshot,
+          );
         } catch (error) {
           this.deps.logger?.warn("Background task wait failed", {
             ...traceContextToLogContext(traceContext),
