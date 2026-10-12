@@ -19,6 +19,14 @@ export async function load(subpath = "") {
 }
 
 /** 载入包内单文件公开入口（用于没有 index.ts 的导出子路径，例如 interfaces/shared.ts）。 */
+/** 当前入口模式下包根的绝对路径与扩展名，供类型级测试拼 tsconfig。 */
+export const entryFacts = {
+  mode: entryMode,
+  packageRoot,
+  base: join(packageRoot, entryMode === "dist" ? "dist" : "src"),
+  extension: entryMode === "dist" ? ".js" : ".ts",
+};
+
 export async function loadFile(relativePath) {
   const base = join(packageRoot, entryMode === "dist" ? "dist" : "src");
   const extension = entryMode === "dist" ? ".js" : ".ts";

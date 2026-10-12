@@ -10,7 +10,12 @@ import { load, loadFile } from "./entry.mjs";
 
 const mapping = JSON.parse(
   readFileSync(
-    fileURLToPath(new URL("../fixtures/query-source-mapping.json", import.meta.url)),
+    fileURLToPath(
+      new URL(
+        "../../../../../specs/contracts/contracts-03/fixtures/query-source-mapping.json",
+        import.meta.url,
+      ),
+    ),
     "utf8",
   ),
 );

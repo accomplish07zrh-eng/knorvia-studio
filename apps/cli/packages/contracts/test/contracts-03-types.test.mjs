@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { entryFacts } from "./entry.mjs";
 
-const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
+const repoRoot = fileURLToPath(new URL("../../../../../", import.meta.url));
 const caseFile = join(entryFacts.packageRoot, `.contract-03-types.${process.pid}.case.ts`);
 // 一律用 .js 说明符：source 模式下 nodenext 解析到 src/*.ts，dist 模式下解析到 dist/*.d.ts。
 const entryDir = entryFacts.mode === "dist" ? "dist" : "src";
