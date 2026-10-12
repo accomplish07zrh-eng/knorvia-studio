@@ -283,3 +283,12 @@
 - 错误语义：不抛错，非法输入以 `undefined` 表达。时序与并发：纯函数（同步）。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
 - 同文件的 `filePartToContentBlock` 是**异步**投影（依赖 `artifactStore` 读取与 `isArtifactUri` 判定），本轮未覆盖，见 acceptance §17。
 - （测试：tests/agent-file-part-hydration.test.mjs「A11 projectPersistedToolMediaContent：全有或全无的行校验」「A11 projectPersistedToolMediaContent：文本与附件块投影」）
+
+## A12 filePartToContentBlock（`agent/file-part-hydration.ts`，文件级入口）
+
+- 输入：`filePartToContentBlock(part: FilePart, artifactStore: ToolArtifactStorePort | undefined)`（异步）。
+- 输出（**已冻结的分支**）：内联 `data:` URL 的图片 → `{type:"image", mediaType, dataUrl, source}`，其中 `mime === "image/*"` 时从 data URL 推导媒体类型（推导不出回落 `image/png`）；`video/*` → `{type:"video", …}`；PDF（`application/pdf` 带参数也归一）→ `{type:"file", mediaType:"application/pdf", name: filename, …}`；`text/*` 且 `metadata.preview.text` 是字符串 → `{type:"text", text: preview}`；否则文本回落 `[Attached <mime>: <label>]`，`metadata.storageKind === "local_ref"` 时 label 依次取 `origin.text.value` → 本地路径 → `metadata.originalUrl` → `url`，否则取 `filename ?? url`。引用身份：`origin.type === "resource"` → `kind:"resource"` 且 `uri = origin.uri`；本地 file/symbol 起源且是媒体 → `kind:"local_file"`、`uri = part.url`、`path = origin.path`；无 origin → `kind:"inline"`。
+- 错误语义：不抛错（除下述 quirk）；artifact 读取失败被吞掉并保留文本回落。**quirk**：`source` 存在时 `source.text.value` **必填**——实现是 `origin?.text.value`，可选链只护住 `origin`，缺 `text` 会抛 `TypeError: Cannot read properties of undefined (reading 'value')`（已用 `assert.rejects(..., TypeError)` 固定）。
+- 时序与并发：异步（仅在有 store 且 `durableUri` 是 artifact URI 时读取）；其余分支同步。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无（store 由调用方注入）。日志级别：不适用。
+- **未覆盖**：需要 `artifactStore.readToolResultArtifact` 的读取分支与 `isArtifactUri` 为真的 artifact 身份分支（见 acceptance §18）。
+- （测试：tests/agent-file-part-block.test.mjs「A12 filePartToContentBlock：内联媒体的块形态与引用身份」「A12 filePartToContentBlock：text 预览与文本回落」）

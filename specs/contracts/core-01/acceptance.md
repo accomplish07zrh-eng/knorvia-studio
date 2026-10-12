@@ -287,3 +287,24 @@
 1. `session-history-hydrator.ts`：`activeSessionMessages`（经区域桶公开）与 `hydrateMessageHistoryFromSession`（经区域桶公开）——会话历史水合，需要按事件序列/夹具断言；本文件 13.9 KB，是 agent 区剩余的最大块。
 2. `read-file-state-hydrator.ts`：文件读取状态水合（导出 `ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出，见 §2）；其运行时投影函数未覆盖。
 3. 同文件内的 `filePartToContentBlock`（`file-part-hydration.ts` 的**异步**导出）：依赖 `artifactStore.readToolResultArtifact` 与 `isArtifactUri` 判定（`image/*` 媒体类型推导、video/pdf/text/本地引用的分支），需要注入式 store 夹具，留待下一轮。
+
+## 18. agent 组最后三文件之二（A12 filePartToContentBlock）
+
+### 旧门（旧实现，两入口都过）
+
+`specs/contracts/core-01/tests/agent-file-part-block.test.mjs`（入口：**文件级** `src/agent/file-part-hydration.ts`）：
+
+- 源码入口：tests=**2** pass=**2** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**2** pass=**2** fail=0 skipped=0
+
+断言覆盖：内联图片（含 `image/*` 从 data URL 推导媒体类型）、视频、PDF（带参数归一 `application/pdf`）、`resource` 起源的引用身份、`text/*` 预览直通、无预览时的文本回落（含 `filename ?? url` 两种 label）、`storageKind:"local_ref"` 的 label 选择，以及 **quirk**：`source` 存在但缺 `text.value` 抛 `TypeError`（`assert.rejects`）。
+
+### 本轮踩坑（已按实测改正）
+
+初版把 `resource` 用例写成 https URL（无内联 payload）→ 实际走**文本回落**分支（不产出 `source`），断言 `source.kind` 抛 `TypeError`；改成内联 `data:application/pdf;base64,AA` 后才命中 PDF 分支。
+
+### 剩余未覆盖项
+
+1. `session-history-hydrator.ts`：`activeSessionMessages`/`hydrateMessageHistoryFromSession`（经区域桶公开）——会话历史水合，需事件序列/夹具断言。
+2. `read-file-state-hydrator.ts`：文件读取状态水合的运行时投影函数。
+3. `filePartToContentBlock` 中需要 `artifactStore.readToolResultArtifact` 的读取分支，以及 `isArtifactUri(durableUri)` 为真时的 artifact 身份分支（`kind:"inline"`、`uri = metadata.artifactUri`、`path` 置空）。
