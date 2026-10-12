@@ -188,3 +188,19 @@
 - （测试：tests/context-builder.test.mjs「X11 builder 装配顺序与 meta_user 组装（逐字冻结）」）
 
 > **context 块剩余待补（子块 4，登记在 acceptance §10）**：`dynamic-sections.ts` 四个动态 section 的内部文案与触发条件（其**存在与顺序**已由 X11 冻结）、`sections/request-user-context.ts`（内部函数：`# agentsMd`、`Contents of …`、`[File truncated: …]`、memory 索引段）、`types.ts` 类型面（B6 式编译期用例）、`ContextBuilder.setToolRegistry`/`addSection`/`setEnvInfo` 的增量行为。
+
+## X12 ContextBuilder 增量方法与 meta_user attachment（`context/builder.ts`）
+
+- 输入：`builder.addSection(section)`、`builder.setEnvInfo(envInfo)`、`build()` 的 `metaUserAttachments`。
+- 输出（**逐字冻结**）：`addSection` **只追加、不去重**（同一段加两次就出现两次，且排在默认段之后）；非 git 仓库的最小配置下 `sections` 无 git 段，`setEnvInfo({isGitRepository:true,…})` 后**多出 `system_context` 段**且环境段内容按新值替换（`- Primary working directory: /other`、`- Is a git repository: yes`、`- Platform: darwin`）；`metaUserAttachments` 是**单个** attachment，`source === "context_prefix"`，`content` 为 `buildContextMetaUserBody` 的正文（以 `As you answer the user's questions, …` 开头，含 `# currentDate\nToday's date is <date>.` 与 6 空格 IMPORTANT 尾注）。
+- 错误语义：不抛错。时序与并发：同步纯计算；`addSection`/`setEnvInfo` 立即生效（下一次 `build()` 可见）。幂等：同一状态重复 `build()` 结果一致；`addSection` **不幂等**（每次调用都追加，这是契约行为）。资源释放：不适用。平台差异：不适用。状态所有者：builder 实例。日志级别：不适用。
+- （测试：tests/context-incremental.test.mjs「X12 ContextBuilder：addSection 追加不去重、setEnvInfo 替换环境段」「X12 meta_user attachment：来源标记与正文包裹」）
+
+## X13 context 类型面（`context/types.ts`，编译期用例）
+
+- 输入：`ContextBuilderConfig`、`ContextSection`、`ContextSource`、`ContextInjectionTarget`、`ContextCacheHint`、`PresentationSurface`、`OutputStylePromptConfig`、`WorkflowActorContext`、`ContextMetaUserAttachment`、`ContextBuildResult`。
+- 输出：按契约使用这些类型**必须编译通过**；反向用法**必须编译报错**（`ContextInjectionTarget` 只有 `system`/`meta_user`；`ContextCacheHint` 只有 `stable`/`dynamic`；`PresentationSurface` 只有 `terminal`/`knorvia_desktop`；`ContextSection` 必须给全 `name`/`source`/`injectionTarget`/`cacheHint`/`chars`/`tokens`/`content`/`preview`；`OutputStylePromptConfig` 必须有 `prompt`；`ContextBuilderConfig` 必须有 `workingDirectory` 与 `envInfo`；`ContextBuildResult` 必须有 `metaUserAttachments`）。`EnvInfo` 必填 `cwd`/`platform`/`shell`/`osVersion`/`nodeVersion`（`isGitRepository` 等可选）。
+- 错误语义：类型不匹配由编译期报错。时序与并发：编译期检查。幂等：是。资源释放：用例文件跑完即删。平台差异：不适用。状态所有者：类型由模块声明拥有。日志级别：不适用。
+- （测试：tests/context-types.test.mjs「X13 context 类型面：正向用例通过编译、反向用例必须报错」）
+
+> **context 块剩余（子块 5，登记在 acceptance §11）**：`dynamic-sections.ts` 四个动态 section 的内部文案与触发条件、`sections/request-user-context.ts`（内部函数）、`ContextBuilder.setToolRegistry` 的注册行为。三者都不经公开入口，属"替换阶段内部单测 + 调用方覆盖"。

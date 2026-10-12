@@ -42,3 +42,12 @@ export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/execu
 2. **错误形态固定**：`MCP tool returned an error.`（windows 帧追加）、`MCP tool returned an error:\n…`（默认）、`message_only` 时原样返回内容；`Computer Use is unavailable to subagents`；`Computer Use frame exceeds the single PNG image limit`；`Computer Use result exceeds the text limit`。
 3. **阈值逐字冻结**：`MCP_IMAGE_INLINE_BASE64_BYTES = 204800`、`MCP_IMAGE_INLINE_RAW_BYTES = 153600`、`HOST_NODE_REPL_IMAGE_MAX_DIMENSION = 2048`、`WINDOWS_COMPUTER_USE_MAX_IMAGE_BYTES = 8388608`、`WINDOWS_COMPUTER_USE_MAX_TEXT_BYTES = 65536`、压缩路径 `maxDimension = 2000`。
 4. **未变化时返回同一对象**：`normalizeMcpToolResultForModel` 在内容未变时返回入参本身（不是副本）；`preserveWindowsComputerUseFrames` 通过时返回入参本身。
+
+## 5. `localeCompare` 排序的跨 locale 差异（已知、不冻结具体顺序）
+
+`sections/skills.ts` 的 `renderMetadata` 用 `displayName(left).localeCompare(displayName(right))` 排序 skill 清单。`localeCompare` 的结果**依赖运行环境的 locale 与 ICU 数据**：
+
+- 同一 locale 下顺序稳定（合同测试在 CI 的固定环境下断言了 `a` 在 `b` 前这类 ASCII 场景）；
+- 不同 locale（例如系统 locale 不同、或 ICU 裁剪版 Node）下，大小写混排、带变音符号或 CJK 名称的相对顺序可能不同。
+
+**合同只冻结"按显示名 `localeCompare` 升序"这一规则**，不冻结跨 locale 的具体顺序；替换实现必须继续使用 `localeCompare`（不得改成 `<` 字符串比较或硬编码排序），否则同一 locale 下的相对顺序会变化。该差异由调用方（`ContextBuilder` 装配路径）与 CI 的固定 locale 承担验证。

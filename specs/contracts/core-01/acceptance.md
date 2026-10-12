@@ -129,3 +129,25 @@
 3. `types.ts` 的类型面（`ContextSection` 字段、`ContextSource` 取值、`ContextBuilderConfig` 形状、`PresentationSurface`）——B6 式编译期用例。
 4. `ContextBuilder` 的增量方法（`setToolRegistry`/`setEnvInfo`/`addSection`）对装配顺序与去重的影响。
 5. `sections/skills.ts` 的排序依赖 `localeCompare`：同一 locale 下稳定，但**跨 locale 的排序差异**未冻结（合同只冻结"按显示名升序"这一规则与同 locale 下的具体顺序）。
+
+## 11. context 子块 4（X12–X13）的旧门结果与剩余未覆盖项
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/context-incremental.test.mjs` 与 `tests/context-types.test.mjs`（入口：区域桶 + 包目录内编译期用例）：
+
+- 源码入口：tests=**3** pass=**3** fail=0 skipped=0（2 个增量行为 + 1 个编译期用例）
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**3** pass=**3** fail=0 skipped=0
+
+断言覆盖：`addSection` 追加不去重、`setEnvInfo` 替换环境段并在 git 仓库下多出 `system_context`、`metaUserAttachments` 的来源标记与正文包裹、`context/types.ts` 十个类型的正/反向编译期用例（含 `EnvInfo` 五个必填字段）。
+
+### 实测修正
+
+初版编译期用例的 `envInfo` 字面量只给了 `cwd`/`platform`/`isGitRepository` → `TS2739`（`EnvInfo` 还必填 `shell`/`osVersion`/`nodeVersion`）。补齐后通过；这也解释了运行时 `- Shell: undefined` / `- OS Version: undefined` 的回落文案（类型要求必填，但旧实现的运行时用 `undefined` 兜底）。
+
+### 剩余未覆盖项（子块 5，如实列出）
+
+1. `dynamic-sections.ts` 四个动态 section（`buildSessionGuidanceSection`/`buildDynamicBehaviorSection`/`buildOutputStyleSection`/`buildContextManagementSection`）的内部文案与触发条件 —— 不经桶导出；其**存在与装配顺序**已由 X11 冻结。
+2. `sections/request-user-context.ts` 的 `buildRequestUserContextSection`（内部函数）：`# agentsMd` 标题与 OVERRIDE 文案、`Contents of <filePath> (workspace instructions|user default instructions):`、截断追加 `[File truncated: <fileName>]`、memory 索引段 `(user's auto-memory, persists across conversations)`、无内容 → `null`。
+3. `ContextBuilder.setToolRegistry` 的注册行为（需要 `ToolRegistry` 夹具）。
+4. `sections/skills.ts` 排序依赖 `localeCompare`：同 locale 下稳定；跨 locale 的排序差异见 `known-differences.md`。
