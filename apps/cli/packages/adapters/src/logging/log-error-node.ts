@@ -5,26 +5,26 @@ import type { SerializedLogError } from "./serialize.js";
 const DEPTH_LIMIT = 8;
 
 /** 只接受纯对象上下文（原型为 null 或 Object.prototype）。 */
-function asPlainObject(candidate: unknown): Record<string, unknown> | undefined {
-  if (candidate === null || typeof candidate !== "object") return undefined;
-  const proto = Object.getPrototypeOf(candidate);
+function asPlainObject(value: unknown): Record<string, unknown> | undefined {
+  if (value === null || typeof value !== "object") return undefined;
+  const proto = Object.getPrototypeOf(value);
   if (proto !== null && proto !== Object.prototype) return undefined;
-  return candidate as Record<string, unknown>;
+  return value as Record<string, unknown>;
 }
 
 /** 取字符串字段；空串也算有值（与旧的三元判定一致）。 */
-function readString(record: Record<string, unknown>, key: string): string | undefined {
-  const candidate = record[key];
-  return typeof candidate === "string" ? candidate : undefined;
+function stringField(record: Record<string, unknown>, key: string): string | undefined {
+  const found = record[key];
+  return typeof found === "string" ? found : undefined;
 }
 
-function stackOf(record: Record<string, unknown>, includeStack: boolean): string | undefined {
-  if (!includeStack) return undefined;
-  return readString(record, "stack");
+function stackField(record: Record<string, unknown>, withStack: boolean): string | undefined {
+  if (!withStack) return undefined;
+  return stringField(record, "stack");
 }
 
 /** 一环的错误信息：name/message 有默认值，code/type/stack/context 按需带上。 */
-function errorNode(
+function describeError(
   input: unknown,
   includeStack: boolean,
 ): { node: SerializedLogError; next: unknown } {
@@ -33,44 +33,45 @@ function errorNode(
   }
   const record = input as Record<string, unknown>;
   const node: SerializedLogError = {
-    message: readString(record, "message") ?? String(input),
-    name: readString(record, "name") ?? "Error",
+    message: stringField(record, "message") ?? String(input),
+    name: stringField(record, "name") ?? "Error",
   };
   for (const slot of ["code", "type"] as const) {
-    const text = readString(record, slot);
+    const text = stringField(record, slot);
     if (text !== undefined && text.length > 0) node[slot] = text;
   }
-  const stack = stackOf(record, includeStack);
+  const stack = stackField(record, includeStack);
   if (stack !== undefined) node.stack = stack;
-  const candidate = asPlainObject(record.context);
-  if (candidate !== undefined) node.context = candidate;
-  return { next: record.cause, node: node };
+  const plain = asPlainObject(record.context);
+  if (plain !== undefined) node.context = plain;
+  return { next: record.cause, node };
 }
 
-const DEPTH_LIMIT_NODE: SerializedLogError = {
-  message: "Error cause chain exceeded the serialization depth limit.",
-  name: "ErrorCauseDepthLimit",
+/** 两种终态：深度超限与环引用，各自有固定的 name/message。 */
+const TERMINAL_NODES: Record<"circular" | "depth", SerializedLogError> = {
+  depth: {
+    message: "Error cause chain exceeded the serialization depth limit.",
+    name: "ErrorCauseDepthLimit",
+  },
+  circular: {
+    message: "Error cause chain contained a circular reference.",
+    name: "ErrorCauseCircularReference",
+  },
 };
 
-const CIRCULAR_NODE: SerializedLogError = {
-  message: "Error cause chain contained a circular reference.",
-  name: "ErrorCauseCircularReference",
-};
-
-/** 展开一环：两种终态直接给常量节点，其余交给 errorNode。 */
+/** 展开一环：两种终态查表，其余交给 describeError。 */
 function nextNode(
   record: unknown,
   index: number,
   seen: WeakSet<object>,
   includeStack: boolean,
 ): { cause: unknown; node: SerializedLogError } {
-  if (index > DEPTH_LIMIT) return { cause: undefined, node: DEPTH_LIMIT_NODE };
-  if (record !== null && typeof record === "object" && seen.has(record)) {
-    return { cause: undefined, node: CIRCULAR_NODE };
-  }
+  if (index > DEPTH_LIMIT) return { cause: undefined, node: TERMINAL_NODES.depth };
+  const revisits = record !== null && typeof record === "object" && seen.has(record);
+  if (revisits) return { cause: undefined, node: TERMINAL_NODES.circular };
   if (record !== null && typeof record === "object") seen.add(record);
-  const { node, next } = errorNode(record, includeStack);
-  return { cause: next, node: node };
+  const { node, next } = describeError(record, includeStack);
+  return { cause: next, node };
 }
 
 interface Chain {
@@ -85,6 +86,10 @@ function extend(chain: Chain, node: SerializedLogError): void {
   else previous.cause = node;
 }
 
+/**
+ * 序列化错误链：从 `error` 起沿 `cause` 走到底，深度超限或出现环时用终态节点收尾。
+ * `seen` 与 `depth` 允许调用方跨多次调用复用，因此默认值只在最外层生效。
+ */
 export function serializeLogError(
   error: unknown,
   includeStack: boolean,
