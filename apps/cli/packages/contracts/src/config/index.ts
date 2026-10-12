@@ -1,67 +1,65 @@
-// Config Port - Scoped configuration with change notification
+// 配置端口：带变更通知的分层配置。
 
 import type { CollaborationMode } from "../interfaces/session.port.js";
 import type { McpServerConfig } from "../interfaces/mcp.port.js";
 import type { HooksRuntimeConfig, HooksRuntimeConfigPatch } from "../hooks/index.js";
 import type { PluginConfig, PluginOptionValues } from "../plugins/index.js";
 
-// ============================================================
-// Config Key Types
-// ============================================================
+// 配置键
 
 /** 配置键表：`[常量键, 配置键]` 逐行一组；顺序即既有声明顺序，分组注释保留域信息。 */
 const CONFIG_KEY_ENTRIES = [
   ["ModelStreamIdleTimeout", "modelStream.idleTimeoutMs"],
-  // Permission
+  // 权限
   ["PermissionMode", "permission.mode"],
   ["PermissionAllowedTools", "permission.allowedTools"],
   ["PermissionDisallowedTools", "permission.disallowedTools"],
   ["PermissionAutoApproveHighRisk", "permission.autoApproveHighRisk"],
   ["PermissionAllowMediumRiskInAuto", "permission.allowMediumRiskInAuto"],
-  // Storage
+  // 存储
   ["StorageDir", "storage.dir"],
   ["StorageSessionDbPath", "storage.sessionDbPath"],
-  // Network
+  // 网络
   ["HttpProxy", "network.httpProxy"],
   ["NoProxy", "network.noProxy"],
   ["CaCertFile", "network.caCertFile"],
   ["HttpTimeout", "network.timeout"],
-  // Features
+  // 功能开关
   ["FeatureCompact", "features.compact"],
   ["FeatureRewind", "features.rewind"],
   ["FeatureSubagent", "features.subagent"],
   ["FeatureMemory", "features.memory"],
   ["FeatureSkill", "features.skill"],
   ["FeatureMcp", "features.mcp"],
-  // Memory
+  // 记忆
   ["MemoryUse", "memory.use"],
-  // MCP
+  // MCP 服务
   ["McpServers", "mcp.servers"],
-  // Plugins
+  // 插件
   ["PluginsEnabled", "plugins.enabled"],
   ["PluginsDirs", "plugins.dirs"],
   ["PluginsEnabledPlugins", "plugins.enabledPlugins"],
   ["PluginsExtraKnownMarketplaces", "plugins.extraKnownMarketplaces"],
   ["PluginsOptions", "plugins.options"],
   ["PluginsSuppressedBuiltins", "plugins.suppressedBuiltins"],
-  // Skills
+  // 技能
   ["SkillsEnabled", "skills.enabled"],
   ["SkillsIncludeInstructions", "skills.includeInstructions"],
   ["SkillsMetadataBudget", "skills.metadataBudget"],
   ["SkillsRoots", "skills.roots"],
-  // Skill / Command 可用性覆盖（按 SKILL.md / 命令 .md 的绝对路径过滤）
+  // 技能与命令覆盖（按 SKILL.md / 命令 .md 的绝对路径过滤）
   ["SkillOverrides", "skill"],
   ["CommandOverrides", "command"],
-  // Logging
+  // 日志
   ["LogLevel", "logging.level"],
   ["LogFormat", "logging.format"],
-  // Tool Concurrency
+  // 工具并发
   ["ToolConcurrencyMax", "toolConcurrency.maxConcurrency"],
-  // Model anomaly guards
+  // 模型异常守卫
   ["ModelAnomalyGuard", "modelAnomalyGuard"],
-  // Hooks
+  // Hooks 配置
   ["Hooks", "hooks"],
-  // UI
+  // 界面
   ["UiLocale", "ui.locale"],
   ["UiTheme", "ui.theme"],
 ] as const satisfies ReadonlyArray<readonly [string, string]>;
@@ -76,9 +74,7 @@ type ConfigKeyTable = {
 
 export const ConfigKey = Object.fromEntries(CONFIG_KEY_ENTRIES) as unknown as ConfigKeyTable;
 
-// ============================================================
-// Config Value Types
-// ============================================================
+// 配置值类型
 
 export type ConfigValue<K extends ConfigKey> = K extends "modelStream.idleTimeoutMs"
   ? number
@@ -145,20 +141,23 @@ export type ConfigValue<K extends ConfigKey> = K extends "modelStream.idleTimeou
                                                   ? UiThemePreference
                                                   : unknown;
 
-// ============================================================
-// Config Scope
-// ============================================================
+// 配置作用域
 
-export const ConfigScope = {
-  System: "system",
-  User: "user",
-  Project: "project",
-  Session: "session",
-  Env: "env",
-  Cli: "cli",
-} as const;
+/** 配置作用域取值清单；常量表与联合都由它推出。 */
+const CONFIG_SCOPE_NAMES = ["system", "user", "project", "session", "env", "cli"] as const;
 
-export type ConfigScope = (typeof ConfigScope)[keyof typeof ConfigScope];
+export const ConfigScope = Object.fromEntries(
+  CONFIG_SCOPE_NAMES.map((value) => [value.charAt(0).toUpperCase() + value.slice(1), value]),
+) as unknown as {
+  readonly System: "system";
+  readonly User: "user";
+  readonly Project: "project";
+  readonly Session: "session";
+  readonly Env: "env";
+  readonly Cli: "cli";
+};
+
+export type ConfigScope = (typeof CONFIG_SCOPE_NAMES)[number];
 
 export const ConfigScopePriority: Record<ConfigScope, number> = {
   [ConfigScope.System]: 0,
@@ -169,9 +168,7 @@ export const ConfigScopePriority: Record<ConfigScope, number> = {
   [ConfigScope.Cli]: 50,
 };
 
-// ============================================================
-// Config Source
-// ============================================================
+// 配置来源
 
 export interface ConfigSource {
   scope: ConfigScope;
@@ -180,19 +177,15 @@ export interface ConfigSource {
   path?: string; // For file-based configs, the file path
 }
 
-// ============================================================
-// Skill / Command 可用性覆盖
-// ============================================================
+// 技能与命令覆盖
 
 // 按绝对路径覆盖单个 skill / 命令是否可用。未列出的条目默认可用，
-// 只有显式 enable:false 才会在发现阶段被过滤掉。
+// 发现阶段只过滤显式 enable:false 的条目。
 export interface SkillCommandOverride {
   enable?: boolean;
 }
 
-// ============================================================
 // Runtime Config
-// ============================================================
 
 export interface RuntimeConfig {
   modelStream: ModelStreamConfig;
@@ -282,80 +275,78 @@ export interface ModelStreamConfig {
   idleTimeoutMs: number;
 }
 
-export const DefaultRuntimeConfig: RuntimeConfig = {
-  modelStream: {
-    idleTimeoutMs: DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS,
-  },
-  permission: {
-    mode: "build",
-    allowedTools: [],
-    disallowedTools: [],
-    autoApproveHighRisk: false,
-    allowMediumRiskInAuto: false,
-  },
-  storage: {
-    dir: "~/.knorvia-studio",
-    sessionDbPath: "~/.knorvia-studio/cli/db/db.sqlite",
-  },
-  network: {
-    timeout: 180000,
-  },
-  features: {
-    compact: true,
-    rewind: true,
-    subagent: true,
-    memory: true,
-    skill: true,
-    mcp: true,
-  },
-  memory: {
-    use: true,
-  },
-  mcp: {
-    servers: {},
-  },
-  plugins: {
-    dirs: [],
-    enabled: true,
-    enabledPlugins: {},
-    extraKnownMarketplaces: {},
-    options: {},
-    suppressedBuiltins: [],
-  },
-  skills: {
-    enabled: true,
-    includeInstructions: true,
-    metadataBudget: 20_000,
-    roots: [],
-  },
-  skillOverrides: {},
-  commandOverrides: {},
-  logging: {
-    level: "info",
-    format: "text",
-  },
-  toolConcurrency: {
-    maxConcurrency: 10,
-  },
-  modelAnomalyGuard: {
-    maxBudgetWarningsPerTurn: 3,
-    repeatedToolCallWarningThreshold: 3,
-  },
-  hooks: {
-    enabled: false,
-    events: {},
-    maxOutputBytes: 32768,
-    timeoutMs: 60000,
-  },
-  ui: {
-    locale: "en-US",
-    theme: "auto",
-  },
-};
+/** 默认运行配置的逐字段默认值：`[点分路径, 默认值]`；顺序即嵌套对象的键顺序。 */
+const RUNTIME_CONFIG_DEFAULTS: ReadonlyArray<readonly [string, unknown]> = [
+  ["modelStream.idleTimeoutMs", DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS],
+  ["permission.mode", "build"],
+  ["permission.allowedTools", []],
+  ["permission.disallowedTools", []],
+  ["permission.autoApproveHighRisk", false],
+  ["permission.allowMediumRiskInAuto", false],
+  ["storage.dir", "~/.knorvia-studio"],
+  ["storage.sessionDbPath", "~/.knorvia-studio/cli/db/db.sqlite"],
+  ["network.timeout", 180_000],
+  ["features.compact", true],
+  ["features.rewind", true],
+  ["features.subagent", true],
+  ["features.memory", true],
+  ["features.skill", true],
+  ["features.mcp", true],
+  ["memory.use", true],
+  ["mcp.servers", {}],
+  ["plugins.dirs", []],
+  ["plugins.enabled", true],
+  ["plugins.enabledPlugins", {}],
+  ["plugins.extraKnownMarketplaces", {}],
+  ["plugins.options", {}],
+  ["plugins.suppressedBuiltins", []],
+  ["skills.enabled", true],
+  ["skills.includeInstructions", true],
+  ["skills.metadataBudget", 20_000],
+  ["skills.roots", []],
+  ["skillOverrides", {}],
+  ["commandOverrides", {}],
+  ["logging.level", "info"],
+  ["logging.format", "text"],
+  ["toolConcurrency.maxConcurrency", 10],
+  ["modelAnomalyGuard.maxBudgetWarningsPerTurn", 3],
+  ["modelAnomalyGuard.repeatedToolCallWarningThreshold", 3],
+  ["hooks.enabled", false],
+  ["hooks.events", {}],
+  ["hooks.maxOutputBytes", 32_768],
+  ["hooks.timeoutMs", 60_000],
+  ["ui.locale", "en-US"],
+  ["ui.theme", "auto"],
+];
 
-// ============================================================
-// Tool Concurrency Config
-// ============================================================
+/** 按点分路径把默认值表铺成嵌套对象；同层键顺序即表里的出现顺序。 */
+function buildRuntimeConfigDefaults(
+  entries: ReadonlyArray<readonly [string, unknown]>,
+): RuntimeConfig {
+  const config: Record<string, unknown> = {};
+  for (const [path, value] of entries) {
+    const segments = path.split(".");
+    const leaf = segments[segments.length - 1] as string;
+    let cursor = config;
+    for (const segment of segments.slice(0, -1)) {
+      const existing = cursor[segment];
+      if (typeof existing !== "object" || existing === null) {
+        const nested: Record<string, unknown> = {};
+        cursor[segment] = nested;
+        cursor = nested;
+      } else {
+        cursor = existing as Record<string, unknown>;
+      }
+    }
+    cursor[leaf] = value;
+  }
+  return config as unknown as RuntimeConfig;
+}
+
+export const DefaultRuntimeConfig: RuntimeConfig =
+  buildRuntimeConfigDefaults(RUNTIME_CONFIG_DEFAULTS);
+
+// 工具并发 Config
 
 export interface ToolConcurrencyConfig {
   maxConcurrency: number;
@@ -367,9 +358,7 @@ export interface ModelAnomalyGuardConfig {
   maxBudgetWarningsPerTurn: number;
 }
 
-// ============================================================
 // Config Port Interface
-// ============================================================
 
 export interface Unsubscribe {
   (): void;
