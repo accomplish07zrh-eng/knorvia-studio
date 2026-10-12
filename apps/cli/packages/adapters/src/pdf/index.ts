@@ -88,7 +88,7 @@ function filesystemFailure(
 /** 统一的执行入口：调用方只说「哪个命令、什么参数、多久超时」。 */
 async function runTool(call: ToolCall): Promise<ExecutionResult> {
   const command = { mode: "argv" as const, file: call.file, args: call.args };
-  const options = call.cancellation ? { cancellation: call.cancellation } : undefined;
+  const options = call.cancellation ? { signal: call.cancellation } : undefined;
   return await call.executionPort.run(
     { command, timeoutMs: call.timeoutMs, trace: call.trace },
     options,
@@ -100,7 +100,7 @@ function timedOut(outcome: ExecutionResult): boolean {
 }
 
 function diagnosticDetail(outcome: ExecutionResult): string {
-  return [outcome.stderr.text, outcome.stdout.text, outcome.error?.text]
+  return [outcome.stderr.text, outcome.stdout.text, outcome.error?.message]
     .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
     .join("\n")
     .trim();
