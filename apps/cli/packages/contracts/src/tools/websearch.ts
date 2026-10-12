@@ -1,38 +1,33 @@
-// ============================================================
-// WebSearch Tool - provider-visible wrapper and internal provider-native schema definitions
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// WebSearch 工具声明：面向 provider 原生搜索（web_search）的包装与契约声明。
+// 模型看到的入口与 provider 原生参数是两层：前者多一个 maxUses，后者只带域名过滤。
 
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
 import type { ProviderNativeToolSpec, ToolContractDeclaration } from "./contract.js";
 
-const DEFAULT_MAX_USES = 8;
-const MAX_USES = 8;
+// provider 原生请求里一次对话最多允许的搜索次数；模型侧缺省与硬上限都是 8。
+const WEB_SEARCH_DEFAULT_MAX_USES = 8;
+const WEB_SEARCH_MAX_USES = 8;
 
-const WebSearchProviderInputSchema = z
-  .object({
-    query: z.string().min(2).describe("The search query to use"),
-    allowed_domains: z
-      .array(z.string())
-      .optional()
-      .describe("Only include search results from these domains"),
-    blocked_domains: z
-      .array(z.string())
-      .optional()
-      .describe("Never include search results from these domains"),
-  })
-  .strict();
+// 单个字段的 schema 各自命名：域名过滤的两条规则只差描述文案，用同一个构造函数生成。
+const webSearchQueryField = z.string().min(2).describe("The search query to use");
+const webSearchDomainsField = (description: string) =>
+  z.array(z.string()).optional().describe(description);
+const MAX_USES_DESCRIPTION = `Maximum provider-native searches in the internal web_search request, default ${WEB_SEARCH_DEFAULT_MAX_USES}`;
+const maxUsesRange = z.number().int().min(1).max(WEB_SEARCH_MAX_USES);
+const webSearchMaxUsesField = maxUsesRange.optional().describe(MAX_USES_DESCRIPTION);
+
+// provider 原生输入的字段表：字段先列成普通对象，再交给 z.object 组装。
+const providerInputFields = {
+  query: webSearchQueryField,
+  allowed_domains: webSearchDomainsField("Only include search results from these domains"),
+  blocked_domains: webSearchDomainsField("Never include search results from these domains"),
+};
+const WebSearchProviderInputSchema = z.object(providerInputFields).strict();
 
 export const WebSearchInputSchema = WebSearchProviderInputSchema.extend({
-  maxUses: z
-    .number()
-    .int()
-    .min(1)
-    .max(MAX_USES)
-    .optional()
-    .describe(
-      `Maximum provider-native searches in the internal web_search request, default ${DEFAULT_MAX_USES}`,
-    ),
+  maxUses: webSearchMaxUsesField,
 })
   .strict()
   .refine((input) => !(input.allowed_domains?.length && input.blocked_domains?.length), {
@@ -54,11 +49,12 @@ export function toWebSearchProviderNativeArgs(
   input: WebSearchInput,
   defaults: { maxUses: number },
 ): WebSearchProviderNativeArgs {
-  return {
+  const nativeArgs: WebSearchProviderNativeArgs = {
     allowedDomains: input.allowed_domains,
     blockedDomains: input.blocked_domains,
     maxUses: input.maxUses ?? defaults.maxUses,
   };
+  return nativeArgs;
 }
 
 export const WebSearchSourceSchema = z
@@ -80,22 +76,23 @@ export const WebSearchResultItemSchema = z
 
 export type WebSearchResultItem = z.infer<typeof WebSearchResultItemSchema>;
 
-const WebSearchModelUsageSchema = z
-  .object({
-    inputTokens: z.number().optional(),
-    outputTokens: z.number().optional(),
-    totalTokens: z.number().optional(),
-    cacheReadTokens: z.number().optional(),
-    cacheWriteTokens: z.number().optional(),
-    reasoningTokens: z.number().optional(),
-    serverToolUse: z
-      .object({
-        webSearchRequests: z.number().optional(),
-        webFetchRequests: z.number().optional(),
-      })
-      .optional(),
-  })
-  .strict();
+// 服务端工具用量是可选的子对象：字段表 + z.object 组装，再挂到用量 schema 上。
+const serverToolUseFields = {
+  webSearchRequests: z.number().optional(),
+  webFetchRequests: z.number().optional(),
+};
+const serverToolUseField = z.object(serverToolUseFields).optional();
+
+const modelUsageFields = {
+  inputTokens: z.number().optional(),
+  outputTokens: z.number().optional(),
+  totalTokens: z.number().optional(),
+  cacheReadTokens: z.number().optional(),
+  cacheWriteTokens: z.number().optional(),
+  reasoningTokens: z.number().optional(),
+  serverToolUse: serverToolUseField,
+};
+const WebSearchModelUsageSchema = z.object(modelUsageFields).strict();
 
 export const WebSearchOutputSchema = z
   .object({

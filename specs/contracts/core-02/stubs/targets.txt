@@ -1,0 +1,7 @@
+apps/cli/packages/core/src/memory/project-root.ts
+apps/cli/packages/core/src/model/auxiliary-model-options.ts
+apps/cli/packages/core/src/permission/workflow-draft-path.ts
+apps/cli/packages/core/src/plugin-reference/references.ts
+apps/cli/packages/core/src/runtime-task/registry.ts
+apps/cli/packages/core/src/session-context/utils.ts
+apps/cli/packages/core/src/subagent/tool-policy.ts

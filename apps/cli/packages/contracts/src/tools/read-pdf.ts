@@ -1,6 +1,5 @@
-// ============================================================
-// Read PDF Contract
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// Read 工具的 PDF 契约：页数上限、超时与错误码，以及页码区间的解析与校验。
 
 export const READ_PDF_NATIVE_MAX_INPUT_BYTES = 20 * 1024 * 1024;
 export const READ_PDF_EXTRACT_MAX_INPUT_BYTES = 100 * 1024 * 1024;
@@ -40,26 +39,40 @@ export interface ReadPdfPagesValidationFailure {
   message: string;
 }
 
+// 页码区间按「首段 - 尾段」拆解：只有一段表示单页，尾段为空表示开放区间（读到最后一页）。
+const PAGE_INDEX_DIGITS = /^\d+$/u;
+
+// 「给不出区间」的统一返回值：命名常量比裸 undefined 更清楚地表达这是解析失败而非空区间。
+const NO_PAGE_RANGE: undefined = undefined;
+
+// 「不需要给模型报错」的统一返回值：校验通过时返回它。
+const NO_VALIDATION_FAILURE: undefined = undefined;
+
+// 失败结果集中构造：错误码与文案成对出现，避免调用点各写一份对象字面量。
+function validationFailure(
+  errorCode: ReadPdfPagesValidationFailure["errorCode"],
+  message: string,
+): ReadPdfPagesValidationFailure {
+  return { errorCode, message } as ReadPdfPagesValidationFailure;
+}
+
+function pageNumberOrUndefined(part: string): number | undefined {
+  if (!PAGE_INDEX_DIGITS.test(part)) return undefined;
+  const page = Number(part);
+  if (!Number.isSafeInteger(page)) return undefined;
+  return page;
+}
+
 export function parseReadPdfPageRange(value: string): ReadPdfPageRange | undefined {
-  const normalized = value.trim();
-  if (/^\d+-$/u.test(normalized)) {
-    const firstPage = Number(normalized.slice(0, -1));
-    return Number.isSafeInteger(firstPage) && firstPage >= 1
-      ? { firstPage, lastPage: Number.POSITIVE_INFINITY }
-      : undefined;
-  }
-  const match = /^(\d+)(?:-(\d+))?$/u.exec(normalized);
-  if (!match) return undefined;
-  const firstPage = Number(match[1]);
-  const lastPage = Number(match[2] ?? match[1]);
-  if (
-    !Number.isSafeInteger(firstPage) ||
-    !Number.isSafeInteger(lastPage) ||
-    firstPage < 1 ||
-    lastPage < firstPage
-  ) {
-    return undefined;
-  }
+  const segments = value.trim().split("-");
+  if (segments.length > 2) return NO_PAGE_RANGE;
+  const firstPage = pageNumberOrUndefined(segments[0] ?? "");
+  if (firstPage === undefined || firstPage < 1) return NO_PAGE_RANGE;
+  if (segments.length === 1) return { firstPage, lastPage: firstPage };
+  const tail = segments[1] ?? "";
+  if (tail === "") return { firstPage, lastPage: Number.POSITIVE_INFINITY };
+  const lastPage = pageNumberOrUndefined(tail);
+  if (lastPage === undefined || lastPage < firstPage) return NO_PAGE_RANGE;
   return { firstPage, lastPage };
 }
 
@@ -73,20 +86,19 @@ export function getReadPdfPagesValidationFailure(
   filePath: string,
   pages: string | undefined,
 ): ReadPdfPagesValidationFailure | undefined {
-  if (pages === undefined || !filePath.toLowerCase().endsWith(".pdf")) return undefined;
+  // 只在 PDF 且显式给了 pages 时校验；其他情况交给 Read 的常规流程。
+  const appliesToPdf = pages !== undefined && filePath.toLowerCase().endsWith(".pdf");
+  if (!appliesToPdf) return NO_VALIDATION_FAILURE;
 
-  const range = parseReadPdfPageRange(pages);
-  if (!range) {
-    return {
-      errorCode: ReadErrorCode.PDF_INVALID_PAGES,
-      message: `Invalid pages parameter: "${pages}". Use formats like "1-5", "3", or "10-20". Pages are 1-indexed.`,
-    };
+  const range = parseReadPdfPageRange(pages as string);
+  if (range === undefined) {
+    const invalidMessage = `Invalid pages parameter: "${pages}". Use formats like "1-5", "3", or "10-20". Pages are 1-indexed.`;
+    return validationFailure(ReadErrorCode.PDF_INVALID_PAGES, invalidMessage);
   }
-  if (readPdfPageCount(range) > READ_PDF_MAX_PAGES_PER_REQUEST) {
-    return {
-      errorCode: ReadErrorCode.PDF_PAGE_RANGE_TOO_LARGE,
-      message: `Page range "${pages}" exceeds maximum of ${READ_PDF_MAX_PAGES_PER_REQUEST} pages per request. Please use a smaller range.`,
-    };
+  const requestedPageCount = readPdfPageCount(range);
+  if (requestedPageCount > READ_PDF_MAX_PAGES_PER_REQUEST) {
+    const tooLargeMessage = `Page range "${pages}" exceeds maximum of ${READ_PDF_MAX_PAGES_PER_REQUEST} pages per request. Please use a smaller range.`;
+    return validationFailure(ReadErrorCode.PDF_PAGE_RANGE_TOO_LARGE, tooLargeMessage);
   }
-  return undefined;
+  return NO_VALIDATION_FAILURE;
 }

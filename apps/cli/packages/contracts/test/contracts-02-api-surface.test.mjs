@@ -1,15 +1,17 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
-// contracts-02 契约测试：公开入口的导出面（B1）。
+// contracts-02 契约测试：公开入口的导出面（B1）。合同文件仍在 specs/contracts/contracts-02/。
 // 断言依据 interface.md：每个范围内文件列出的运行时可导出名必须能从对应公开入口取到。
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
-import { load, loadFile } from "./entry.mjs";
+import { load, loadFile } from "./contracts-02-entry.mjs";
 
+// test/ → 包 → packages → cli → apps → 仓库根，再进合同目录。
+const contractDirectory = new URL("../../../../../specs/contracts/contracts-02/", import.meta.url);
 const interfaceText = readFileSync(
-  fileURLToPath(new URL("../interface.md", import.meta.url)),
+  fileURLToPath(new URL("interface.md", contractDirectory)),
   "utf8",
 );
 
