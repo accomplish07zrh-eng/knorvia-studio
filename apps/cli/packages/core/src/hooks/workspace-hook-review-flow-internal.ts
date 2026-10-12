@@ -14,30 +14,11 @@ import {
   type WorkspaceHookReviewRequestPayload,
 } from "@knorvia/shared/protocol-v4";
 
-export interface WorkspaceHookReviewTarget {
-  sessionId: string;
-  taskId: string;
-  runId: string;
-  remoteSessionId?: string;
-  workspaceIdentity: string;
-  bundleDigest: string;
-  reviewFlowId: string;
-  generation: number;
-  interactionId: string;
-}
-
-export interface WorkspaceHookReviewOutcome {
-  action: WorkspaceHookReviewDecision["action"] | "no_change";
-  reviewItemIds: string[];
-  reasonCode: WorkspaceHookReasonCode | undefined;
-}
-
-export type WorkspaceHookReviewResolveResult =
-  | { accepted: true; reviewItemIds: string[] }
-  | {
-      accepted: false;
-      reasonCode: "workspace_hooks_review_superseded" | "workspace_hooks_snapshot_mismatch";
-    };
+import type {
+  WorkspaceHookReviewOutcome,
+  WorkspaceHookReviewResolveResult,
+  WorkspaceHookReviewTarget,
+} from "./types.js";
 
 export interface WorkspaceHookReviewFlow {
   readonly request: WorkspaceHookReviewRequestPayload;
