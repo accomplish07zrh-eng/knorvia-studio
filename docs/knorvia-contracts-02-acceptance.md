@@ -273,3 +273,18 @@ node scripts/provenance/similarity.mjs --repo . --candidate-list <清单> \
 pnpm typecheck && pnpm lint && pnpm fmt:check && pnpm provenance:report && pnpm provenance:check
 node lead/verify-replace.mjs <工作树> contracts-02 --contract specs/contracts/contracts-02
 ```
+
+### 3.18 基线与终态逐模块对拍（补做，2026-10-12）
+
+替换 PR #134 的 CI 在构建 `@knorvia/core` 时报出三个字段不存在（`pendingQuestions` / `subagentModel` / `artifacts`）。定位结果是**替换期的一处真实缺陷**：第 10 批重写 `tools/get-workflow-run.ts` 的 JSDoc 时，把这三个字段行连同注释一起删掉了——而两道门禁都看不到它：
+
+- **声明模式相似度**：整块导出声明（`GetWorkflowRunOutputSchema`）被剔除，块内少一两个字段不会影响残留行；
+- **契约测试**：B1 只看导出名与种类，B4–B9 没有断言这三个成员。
+
+修复之后补做了一次系统性对拍，作为该缺陷类别的兜底：
+
+- 取 merge base（`7befe15f`）的 `apps/cli/packages/contracts/src` 全树，与当前实现**逐模块**比较：导出名集合、每个非函数导出的 **zod JSON 投影**（或常量取值的 JSON），共 56 个模块 / **925 个值**；
+- 结果只有两处差异：① `tools/get-workflow-run.ts` 的三个字段（已按 merge base 逐字补回，字段集合 16 = 16）；② `tracing/span-residence.ts` 的内部类改名（`createResidentSpan` → `ResidentSpan`，该模块不经公开入口导出，`known-differences.md` §1 已声明可自由重组内部实现）；
+- 对拍还发现 `tools/amend-workflow.ts` 让多个字段复用同一个 zod 实例，JSON 投影会因此发出 `$ref`（provider 内部 key，core 的跨 provider 守卫明确禁止）→ 改为工厂函数，每个字段各取一个新实例，投影与基线一致。
+
+**新增固定门禁**：全仓 `pnpm typecheck`（不再只看 contracts 包）——「被其它包消费的 schema 成员被删」只有在全仓类型检查里才会暴露，本次 CI 的失败正是这一类。临时对拍脚本放在仓库外（`D:\knorvia studio开发\cache\notes\`），不入库。

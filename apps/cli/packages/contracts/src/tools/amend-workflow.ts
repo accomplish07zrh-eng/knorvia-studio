@@ -21,41 +21,43 @@ export const AMEND_WORKFLOW_SOURCE_ERROR =
 // 模型面入参：只有 run_id 必填，其余字段守同一条规则——省略即沿用前驱。predecessor 不在这里，
 // 它是 resolveInput 回填的事实（见下），模型的 JSON schema 不列出它。
 // 字段 schema 各自命名：同一套「必填字符串 / 可选字符串」约束在多处复用，链式写法只保留在
-// 命名常量那一行，字段表里就不再出现裸方法调用行。
-const requiredStringField = z.string().min(1);
-const optionalStringField = z.string().min(1).optional();
-const optionalPositiveIntField = z.number().int().positive().nullable().optional();
-const optionalTrimmedStringField = z.string().trim().min(1).nullable().optional();
+// 工厂函数那一行，字段表里就不再出现裸方法调用行。
+// 刻意用**工厂**而不是共享实例：同一个 zod 实例被两个字段复用时，JSON schema 投影会发 $ref，
+// 而 $ref 属于 provider 内部 key（core 的跨 provider 守卫禁止它）。
+const requiredString = () => z.string().min(1);
+const optionalString = () => z.string().min(1).optional();
+const optionalPositiveInt = () => z.number().int().positive().nullable().optional();
+const optionalTrimmedString = () => z.string().trim().min(1).nullable().optional();
 
 const AmendWorkflowModelInputSchema = z.object({
-  run_id: requiredStringField.describe(
+  run_id: requiredString().describe(
     "ID of the run to amend — from CreateWorkflow's or AmendWorkflow's result, a notification, GetWorkflowRun or ListWorkflowRuns. Any run of this project qualifies, settled or still running; a running run is stopped and superseded by the new one.",
   ),
   // script 与 path 都省略表示沿用前驱存档的脚本：只改设定的修订不必把整段脚本再抄一遍。
   // 与两个设定共用同一生命周期——resolveInput 读前驱脚本回填、并盖上 predecessor.script_inherited，
   // 此后 hook、确认窗与 handler 面对的都是同一份脚本。运行时 schema 仍须接受缺席：
   // hook 改写后 call-runner 会按模型的原始形状二次校验。
-  script: optionalStringField.describe(
+  script: optionalString().describe(
     "The WHOLE revised workflow script, inline, written against the same facade as CreateWorkflow. Provide this OR `path`, never both — `path` is the usual form. OMIT both to keep the predecessor's script unchanged and change only the settings (max_concurrency, subagent_model, name). Named subagents whose asks you left byte-identical settle from the predecessor's recorded results at zero token cost; the first changed or new ask runs live, and from that point everything runs live.",
   ),
   // 修订的常态来源：把前驱的脚本文件就地改一行，再把同一路径交回来。内联形式仍然接受，
   // 但它要把整段脚本重新流一遍——而那正是这条路要省掉的。
-  path: optionalStringField.describe(
+  path: optionalString().describe(
     "The revised script's file, relative to the working directory or absolute — usually the predecessor's own script file, which the errored notification and GetWorkflowRun name. Provide this OR `script`, never both; omit both when the script is not changing. Edit that file in place and pass the same path back: a revision then costs one Edit instead of a second copy of the whole script. Submitting a file whose bytes are unchanged is refused (`script_unchanged`) unless the call also changes `max_concurrency` or `subagent_model`.",
   ),
-  name: optionalStringField.describe(
+  name: optionalString().describe(
     "Optional display label for the new run. Defaults to the predecessor's name.",
   ),
   // 三态：省略 = 沿用前驱的上界；null = 解除（回到本机天花板）；数 = 设定（钳到天花板之下）。
   // 三态只活到 resolveInput：那里把它归一成一个数或缺席，确认窗与 handler 读到的是将要生效的值。
   // 运行时 schema 保留 nullable 是因为 hook 改写后 call-runner 会二次校验模型的原始形状。
-  max_concurrency: optionalPositiveIntField.describe(
+  max_concurrency: optionalPositiveInt().describe(
     "Upper bound on how many subagents work at the same time in the new run. Three states: OMIT the field to keep the predecessor's limit; pass null to remove that limit (run at this machine's default); pass a number to set one. Set a number ONLY when the user asks to limit parallelism — never on your own initiative and never in response to provider rate limits or errors, which the runtime already adapts to. A value above what this machine allows is lowered to that maximum.",
   ),
   // 三态，与 max_concurrency 逐字同规：省略 = 沿用前驱的选型（resolveInput 从前驱快照回填后重新
   // 解析一次，使一个已被删除的模型现在就失败、而不是拖到子代理第一次开口）；null = 清除
   // （回到会话模型）；字符串 = 设定。三态只活到 resolveInput，那里归一成规范形字符串或缺席。
-  subagent_model: optionalTrimmedStringField.describe(
+  subagent_model: optionalTrimmedString().describe(
     "Model for the workflow's subagents in the new run, as `providerId/modelId` or a bare model id (optionally `$reasoningLevel`). Set it ONLY when the user asks for the subagents to run on a specific model; pass the name the user used, and if the tool answers that it cannot resolve it, pick from the listed ids or call ListModels. The main agent (you) keeps the session model regardless. Three states: OMIT to keep the predecessor's choice; null to return to the session model; a string to set one.",
   ),
 });

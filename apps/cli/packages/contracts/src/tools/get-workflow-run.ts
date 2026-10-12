@@ -162,6 +162,7 @@ export const GetWorkflowRunOutputSchema = WorkflowRunSummarySchema.extend({
   // 本 run 的子代理跑在哪个模型上，规范形 providerId/modelId[$reasoningLevel]，只在设过时在场：
   // 跟着会话模型跑的 run 没有可说的（与 maxConcurrency 的「无则缺席」同规）。
   // AmendWorkflow 省略 subagent_model 时沿用的就是这个值。
+  subagentModel: z.string().optional(),
   // 本 run 的脚本文件，已经写成模型面该看到的样子（在会话工作目录之下给相对路径，否则绝对路径）。
   // 只在这个 run 记下过文件时在场（与 subagentModel 的「无则缺席」同规）：草稿写不下去的项目、
   // 本特性之前发起的 run 都没有可说的。在场时它就是下一次 AmendWorkflow 该传的 path。
@@ -193,9 +194,11 @@ export const GetWorkflowRunOutputSchema = WorkflowRunSummarySchema.extend({
   error: GetWorkflowRunErrorSchema.optional(),
   // 此刻还欠答案的升级问题，按提问顺序。零条时整字段缺席（与端口投影同规，不发空数组）：
   // 读侧据此让整块 pending 区消失，而不是渲染一个空节。
+  pendingQuestions: z.array(GetWorkflowRunPendingQuestionSchema).optional(),
   // 本 run 已发布的用户面产物，按首次发布顺序，任意状态都附（还在跑的 run 也可能已经交付了
   // 第一张图）。零件时整字段缺席，与 pendingQuestions 同规。有界 32（等同于
   // ARTIFACT_CAPS.maxArtifactsPerRun：一个 run 最多能有的 id 数）。
+  artifacts: z.array(GetWorkflowRunArtifactSchema).optional(),
 }).strict();
 
 export type GetWorkflowRunOutput = z.infer<typeof GetWorkflowRunOutputSchema>;

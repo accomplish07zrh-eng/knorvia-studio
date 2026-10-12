@@ -133222,7 +133222,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "ec712645108139a9d58e55819423a31db7b49352508c76aa1ac3b292fe933dbe",
+      "normalizedSha256": "b23fcf7bc31284228947fd2a4c486a443afdb55886130344b44a7bce4adeb61e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133388,7 +133388,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/tools/amend-workflow.ts",
-      "normalizedSha256": "9666ed57a96d32faacf236f686ce9d12864a42365eb34e7c6cb9f80c7c8a2704",
+      "normalizedSha256": "aee63530a6207c7981c6259b750bebd506d66a83222000802f8790e6901259b1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
@@ -133523,7 +133523,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/tools/get-workflow-run.ts",
-      "normalizedSha256": "9d3283257dc7d21d32109ee6015a0475abfe21822bbccbb0f586bf933049a802",
+      "normalizedSha256": "08eb597be07d3b053bbcdb9d9be5771cd5e637d63046bb07c8b1d0829544772b",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
