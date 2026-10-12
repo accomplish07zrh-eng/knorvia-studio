@@ -134047,6 +134047,14 @@
       "license": "Apache-2.0",
       "basis": "core/hooks contract tests v1.1 moved from specs/contracts/core-hooks into apps/cli/packages/core/test so test:studio scans them; synthetic fixtures only, no upstream text copied.",
       "evidence": ["specs/contracts/core-hooks/gate-old.json"]
+    },
+    {
+      "path": "docs/knorvia-core-hooks-acceptance.md",
+      "normalizedSha256": "ad663ba31ac64a1a7efbaf39f7eb6f3a4a3baf3b7bb3588724cfa00faec18653",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Acceptance record for the core/hooks replacement: per-file similarity mode and values, old-gate results, and closure-phase findings; produced by this agent from the v1.1 contract and measured tool output.",
+      "evidence": ["specs/contracts/core-hooks/gate-old.json"]
     }
   ]
 }
