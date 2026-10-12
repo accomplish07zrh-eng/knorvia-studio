@@ -194,29 +194,29 @@ function workspaceRegistrations(options: ConfiguredHookRunnerOptions): HookRegis
   const hasWorkspaceHooks = admission !== undefined && snapshot !== undefined;
   if (!hasWorkspaceHooks) return [];
 
-  return snapshot.hooks.flatMap((entry) => {
-    const hook = workspaceEntryConfig(snapshot, entry);
-    return [
-      registrationFromHook({
-        admission: () =>
-          admission.evaluateDispatch({
-            hookDeclarationDigest: entry.hookDeclarationDigest,
-            reviewItemId: entry.reviewItemId,
-          }),
-        budget: {
-          maxOutputBytes: entry.resolvedMaxOutputBytes,
-          timeoutMs: entry.resolvedTimeoutMs,
-        },
-        event: entry.event,
-        hook,
-        hookIndex: entry.hookIndex,
-        matcher: entry.matcher ?? undefined,
-        matcherIndex: entry.matcherIndex,
-        options,
-        source: `project.${entry.reviewItemId}`,
-        sourceKind: "project",
-      }),
-    ];
+  return snapshot.hooks.flatMap((snapshotEntry) => {
+    const declaration = workspaceEntryConfig(snapshot, snapshotEntry);
+    const guard = (): ReturnType<typeof admission.evaluateDispatch> =>
+      admission.evaluateDispatch({
+        hookDeclarationDigest: snapshotEntry.hookDeclarationDigest,
+        reviewItemId: snapshotEntry.reviewItemId,
+      });
+    const registration = registrationFromHook({
+      admission: guard,
+      budget: {
+        maxOutputBytes: snapshotEntry.resolvedMaxOutputBytes,
+        timeoutMs: snapshotEntry.resolvedTimeoutMs,
+      },
+      event: snapshotEntry.event,
+      hook: declaration,
+      hookIndex: snapshotEntry.hookIndex,
+      matcher: snapshotEntry.matcher ?? undefined,
+      matcherIndex: snapshotEntry.matcherIndex,
+      options: options,
+      source: `project.${snapshotEntry.reviewItemId}`,
+      sourceKind: "project",
+    });
+    return [registration];
   });
 }
 
