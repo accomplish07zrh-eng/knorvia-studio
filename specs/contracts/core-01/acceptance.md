@@ -266,3 +266,24 @@
 3. `read-file-state-hydrator.ts`：文件读取状态水合（`ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出）。
 
 三个文件补齐后即可跑完整旧门（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。
+
+## 17. agent 组最后三文件进展（A11 file-part-hydration）
+
+### 旧门（旧实现，两入口都过）
+
+`specs/contracts/core-01/tests/agent-file-part-hydration.test.mjs`（入口：**文件级** `src/agent/file-part-hydration.ts`）：
+
+- 源码入口：tests=**2** pass=**2** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**2** pass=**2** fail=0 skipped=0
+
+断言覆盖：`projectPersistedToolMediaContent` 的**全有或全无**行校验（非数组/空数组/`null` 行/数组行/未知类型/text 非字符串/缺索引/负索引/非整数索引/任一行不合法即整体丢弃）与投影（text 行产出新块、attachment 行引用同一块对象、越界整体丢弃、空文本行合法）。
+
+### 分支现状（全绿）
+
+`specs/contracts/core-01/tests/` 共 **14 个测试文件**：源码 **35/35**、dist **35/35**。
+
+### 剩余未覆盖项（agent 组最后两项）
+
+1. `session-history-hydrator.ts`：`activeSessionMessages`（经区域桶公开）与 `hydrateMessageHistoryFromSession`（经区域桶公开）——会话历史水合，需要按事件序列/夹具断言；本文件 13.9 KB，是 agent 区剩余的最大块。
+2. `read-file-state-hydrator.ts`：文件读取状态水合（导出 `ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出，见 §2）；其运行时投影函数未覆盖。
+3. 同文件内的 `filePartToContentBlock`（`file-part-hydration.ts` 的**异步**导出）：依赖 `artifactStore.readToolResultArtifact` 与 `isArtifactUri` 判定（`image/*` 媒体类型推导、video/pdf/text/本地引用的分支），需要注入式 store 夹具，留待下一轮。

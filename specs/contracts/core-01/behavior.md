@@ -275,3 +275,11 @@
 - 输出（**逐字冻结**）：`undefined` → `undefined`。输入推导优先级：`input`（正数取整）→ 否则 `total - output`（`total` 正数时）→ 否则 `cache.read + cache.write`（和 > 0 时）；推导结果 `undefined` 或 ≤ 0 → 整体 `undefined`。`outputTokens = 正数 output ?? 0`；`cacheReadTokens`/`cacheWriteTokens` = 非负整数 ?? 0。`contextUsageTokens`：`output > 0` → `input + output`；否则 `total` 正数且 `total ≥ input` → `total`；否则 `undefined`（键始终存在）。所有数值**向下取整**；负数视为未给。
 - 错误语义：**`tokens.cache` 必须存在**——实现无条件读 `tokens.cache.read`/`.write`，缺 `cache` 会抛 `TypeError: Cannot read properties of undefined (reading 'read')`（类型层必填，运行时无兜底）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
 - （测试：tests/agent-usage-baseline.test.mjs「A10 persistedTokenUsageBaseline：输入推导与上下文用量的冻结规则」）
+
+## A11 persisted tool media 投影（`agent/file-part-hydration.ts`，文件级入口）
+
+- 输入：`projectPersistedToolMediaContent(value: unknown, attachmentBlocks: ModelMessageContentBlock[])`。
+- 输出（**语义冻结**）：**全有或全无**——`value` 非数组或为空数组 → `undefined`；任一行不是对象（`null`/数组）、`type` 不是 `"text"`/`"attachment"`、`text` 非字符串、`attachmentIndex` 非非负整数、或索引越界（`attachmentBlocks[index]` 不存在）→ 整体 `undefined`（不做部分投影）。合法时按行顺序投影：text 行产出**新的** `{type:"text", text}` 块；attachment 行产出 `attachmentBlocks[index]` 的**同一块引用**（不复制）。空字符串 text 行合法。
+- 错误语义：不抛错，非法输入以 `undefined` 表达。时序与并发：纯函数（同步）。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- 同文件的 `filePartToContentBlock` 是**异步**投影（依赖 `artifactStore` 读取与 `isArtifactUri` 判定），本轮未覆盖，见 acceptance §17。
+- （测试：tests/agent-file-part-hydration.test.mjs「A11 projectPersistedToolMediaContent：全有或全无的行校验」「A11 projectPersistedToolMediaContent：文本与附件块投影」）

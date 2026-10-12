@@ -144,3 +144,11 @@ agent 组剩余：`session-history-hydrator`、`file-part-hydration`、`read-fil
 | A10 `persistedTokenUsageBaseline` | `tests/agent-usage-baseline.test.mjs`「A10 persistedTokenUsageBaseline：输入推导与上下文用量的冻结规则」（文件级入口，区域桶未导出） |
 
 agent 组剩余：`session-history-hydrator.ts`、`file-part-hydration.ts`、`read-file-state-hydrator.ts`。
+
+## 条目 → 测试对照表（agent 组最后三文件，A11）
+
+| 条目 | 测试 |
+| --- | --- |
+| A11 `projectPersistedToolMediaContent` | `tests/agent-file-part-hydration.test.mjs`「A11 …全有或全无的行校验」「A11 …文本与附件块投影」（文件级入口，区域桶未导出） |
+
+agent 组剩余：`session-history-hydrator.ts`、`read-file-state-hydrator.ts`；同文件内的 `filePartToContentBlock`（异步投影）未覆盖。
