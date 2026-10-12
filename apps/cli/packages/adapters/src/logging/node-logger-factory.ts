@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // 日志工厂：解析环境与覆盖项，产出 logger 并只放行一次保留清理。
+//
+// 解析顺序：显式覆盖项 → 环境变量（KNORVIA_LOG_DIR / KNORVIA_LOG_CONSOLE）→ 默认值；
+// 级别同理（minLevel → 运行时环境 → 是否直跑源码）。
+// 清理只在进程内放行一次，重复调用返回 undefined。
 import { join } from "node:path";
 import type { LogContext, LogLevel, Logger } from "@knorvia/contracts";
 import { LogLevel as Level } from "@knorvia/contracts";
@@ -17,68 +21,78 @@ const ROOT_CATEGORY = "root";
 const CLEANUP_CATEGORY = "knorvia";
 const CLEANUP_MODULE = "adapters.logging";
 
+/** 运行时环境 → 默认级别；未列出的环境再按是否直跑源码判断。 */
+const LEVEL_BY_RUNTIME: Record<string, LogLevel> = {
+  development: Level.Debug,
+  production: Level.Info,
+  test: Level.Info,
+};
+
+/** 工厂状态：级别可被 setLevel 改写，清理只放行一次。 */
+interface Gate {
+  cleanupStarted: boolean;
+  minimum: LogLevel;
+}
+
 export function getDefaultLogDir(): string {
   return join(resolveKnorviaDataRoot(), "cli", "log");
 }
 
-/** 非 dev/prod/test 环境：`tsx` 直跑源码时给 Debug，其余给 Info。 */
-function runningFromSource(): boolean {
+/** `tsx` 直跑源码（argv 指向 .ts 且在 packages/cli/src 下）时给 Debug。 */
+function fromSourceTree(): boolean {
   const entry = process.argv[1] ?? "";
   return entry.endsWith(".ts") && entry.includes(join("packages", "cli", "src"));
 }
 
-function initialLevel(env: NodeJS.ProcessEnv): LogLevel {
+function levelFromEnv(env: NodeJS.ProcessEnv): LogLevel {
   const runtime = normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY]);
-  if (runtime === "development") return Level.Debug;
-  if (runtime === "production" || runtime === "test") return Level.Info;
-  return runningFromSource() ? Level.Debug : Level.Info;
+  const mapped = LEVEL_BY_RUNTIME[runtime];
+  if (mapped !== undefined) return mapped;
+  return fromSourceTree() ? Level.Debug : Level.Info;
 }
 
 /** 控制台输出开关：显式对象优先，其次显式 true，最后看环境变量。 */
-function consoleStreamFor(options: NodeLoggerFactoryOptions): NodeJS.WritableStream | undefined {
+function resolveConsoleStream(
+  options: NodeLoggerFactoryOptions,
+): NodeJS.WritableStream | undefined {
   if (typeof options.console === "object") return options.console.stream;
   const enabled =
     options.console === true || options.env?.[KNORVIA_LOG_CONSOLE_KEY] === CONSOLE_FLAG;
   return enabled ? process.stderr : undefined;
 }
 
-interface FactoryState {
-  cleanupStarted: boolean;
-  minimum: LogLevel;
-}
-
 export function createNodeLoggerFactory(options: NodeLoggerFactoryOptions = {}): NodeLoggerFactory {
-  const state: FactoryState = {
+  const gate: Gate = {
     cleanupStarted: false,
-    minimum: options.minLevel ?? initialLevel(options.env ?? process.env),
+    minimum: options.minLevel ?? levelFromEnv(options.env ?? process.env),
   };
   const logDir = options.logDir ?? options.env?.[KNORVIA_LOG_DIR_KEY] ?? getDefaultLogDir();
-  const stream = consoleStreamFor(options);
+  const stream = resolveConsoleStream(options);
   const redactor = options.redactor ?? new DefaultLogRedactor();
 
-  const makeLogger = (category: string, defaultContext?: LogContext): Logger =>
+  const buildLogger = (category: string, defaultContext?: LogContext): Logger =>
     new NodeFileLogger({
       category,
       consoleStream: stream,
       defaultContext,
-      getMinLevel: () => state.minimum,
+      getMinLevel: () => gate.minimum,
       includeErrorStack: options.includeErrorStack,
       logDir,
       redactor,
     });
 
   return {
-    createLogger: (category) => makeLogger(category),
     getLogDir: () => logDir,
+    setLevel: (level) => {
+      gate.minimum = level;
+    },
+    withContext: (context) => buildLogger(ROOT_CATEGORY, context),
+    createLogger: (category) => buildLogger(category),
     scheduleLogRetentionCleanup: (request = {}) => {
-      if (state.cleanupStarted) return undefined;
-      state.cleanupStarted = true;
-      const logger = request.logger ?? makeLogger(CLEANUP_CATEGORY, { module: CLEANUP_MODULE });
+      if (gate.cleanupStarted) return undefined;
+      gate.cleanupStarted = true;
+      const logger = request.logger ?? buildLogger(CLEANUP_CATEGORY, { module: CLEANUP_MODULE });
       return scheduleCleanup({ ...request, logDir, logger });
     },
-    setLevel: (level) => {
-      state.minimum = level;
-    },
-    withContext: (context) => makeLogger(ROOT_CATEGORY, context),
   };
 }

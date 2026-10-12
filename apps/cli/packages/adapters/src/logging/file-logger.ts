@@ -6,62 +6,72 @@ import { projectLogEntry } from "./entry.js";
 import { appendLogRecord } from "./file-sink.js";
 import { formatConsoleLine, toSerializableEntry } from "./serialize.js";
 
-/** logger 的固定配置：构造后不再变化，`child()` 只覆盖上下文。 */
-export interface FileLoggerSettings {
+/**
+ * 写入路径与不变式：
+ * 1) 级别门控读 `getMinLevel()` 的实时值，宿主调高级别后已构造的 logger 立即生效；
+ * 2) 上下文按「父上下文 ← 本次 context」浅合并，`child()` 只叠加不替换；
+ * 3) 先投影 LogEntry 再序列化，JSONL 与控制台行来自同一份条目，不会出现两套字段；
+ * 4) 落盘失败由 file-sink 按 void 合同吞掉，日志绝不阻断主流程。
+ *
+ * 对外形状 `FileLoggerInput` 与内部配置解耦：前者是契约字段名，后者可自由演进。
+ */
+
+/**
+ * 构造入参（对外形状，字段名固定，B114 直接以字面量构造）：
+ * 只有 defaultContext 与 includeErrorStack 可省略。
+ */
+export interface FileLoggerInput {
   category: string;
   consoleStream?: NodeJS.WritableStream;
-  defaultContext: LogContext;
+  defaultContext?: LogContext;
   getMinLevel: () => LogLevel;
-  includeErrorStack: boolean;
+  includeErrorStack?: boolean;
   logDir: string;
   redactor: LogRedactor;
 }
 
-type FileLoggerInput = Omit<FileLoggerSettings, "defaultContext" | "includeErrorStack"> & {
-  defaultContext?: LogContext;
-  includeErrorStack?: boolean;
-};
+/** 内部配置：字段名与入参解耦，`child()` 只覆盖上下文。 */
+interface FileLoggerSettings {
+  baseContext: LogContext;
+  consoleSink?: NodeJS.WritableStream;
+  levelGate: () => LogLevel;
+  masker: LogRedactor;
+  scope: string;
+  targetDir: string;
+  withStack: boolean;
+}
 
-/** 补齐可省略项：默认上下文为空对象，默认不带错误栈。 */
-function withDefaults(input: FileLoggerInput): FileLoggerSettings {
+/** 入参 → 内部配置：补齐可省略项（空上下文、不带栈）。 */
+function internalize(input: FileLoggerInput): FileLoggerSettings {
   const settings = {} as FileLoggerSettings;
-  settings.category = input.category;
-  settings.consoleStream = input.consoleStream;
-  settings.defaultContext = input.defaultContext ?? {};
-  settings.getMinLevel = input.getMinLevel;
-  settings.includeErrorStack = input.includeErrorStack ?? false;
-  settings.logDir = input.logDir;
-  settings.redactor = input.redactor;
+  settings.baseContext = input.defaultContext ?? {};
+  settings.consoleSink = input.consoleStream;
+  settings.levelGate = input.getMinLevel;
+  settings.masker = input.redactor;
+  settings.scope = input.category;
+  settings.targetDir = input.logDir;
+  settings.withStack = input.includeErrorStack ?? false;
   return settings;
 }
 
-/** 一次写入的载体：条目、JSON 行与控制台行一起算好，落盘只做 IO。 */
-interface Dispatch {
+/** 一次写入的载荷：JSON 行与控制台行一起算好，落盘只做 IO。 */
+interface Rendered {
   consoleLine: string;
   json: string;
-  record: ReturnType<typeof projectLogEntry>;
 }
 
-function composeDispatch(
+function renderPayload(
   settings: FileLoggerSettings,
   level: LogLevel,
   message: string,
   context: LogContext | undefined,
   error: Error | undefined,
-): Dispatch {
-  const merged = Object.assign({}, settings.defaultContext, context);
-  const record = projectLogEntry(
-    settings.category,
-    level,
-    message,
-    merged,
-    error,
-    settings.includeErrorStack,
-  );
+): Rendered {
+  const merged = Object.assign({}, settings.baseContext, context);
+  const record = projectLogEntry(settings.scope, level, message, merged, error, settings.withStack);
   return {
     consoleLine: formatConsoleLine(record) + "\n",
-    json: JSON.stringify(toSerializableEntry(record, settings.redactor)),
-    record,
+    json: JSON.stringify(toSerializableEntry(record, settings.masker)),
   };
 }
 
@@ -69,44 +79,45 @@ export class NodeFileLogger implements Logger {
   private readonly settings: FileLoggerSettings;
 
   constructor(input: FileLoggerInput) {
-    this.settings = withDefaults(input);
+    this.settings = internalize(input);
   }
 
   debug(message: string, context?: LogContext): void {
-    this.dispatch(Level.Debug, message, context);
+    this.emit(Level.Debug, message, context);
   }
 
   info(message: string, context?: LogContext): void {
-    this.dispatch(Level.Info, message, context);
+    this.emit(Level.Info, message, context);
   }
 
   warn(message: string, context?: LogContext): void {
-    this.dispatch(Level.Warn, message, context);
+    this.emit(Level.Warn, message, context);
   }
 
   error(message: string, error?: Error, context?: LogContext): void {
-    this.dispatch(Level.Error, message, context, error);
+    this.emit(Level.Error, message, context, error);
   }
 
+  /** 派生 logger：复制父配置，只把上下文叠加进去。 */
   child(context: LogContext): Logger {
-    const inherited = this.settings;
+    const parent = this.settings;
     return new NodeFileLogger({
-      category: inherited.category,
-      consoleStream: inherited.consoleStream,
-      defaultContext: { ...inherited.defaultContext, ...context },
-      getMinLevel: inherited.getMinLevel,
-      includeErrorStack: inherited.includeErrorStack,
-      logDir: inherited.logDir,
-      redactor: inherited.redactor,
+      category: parent.scope,
+      consoleStream: parent.consoleSink,
+      defaultContext: { ...parent.baseContext, ...context },
+      getMinLevel: parent.levelGate,
+      includeErrorStack: parent.withStack,
+      logDir: parent.targetDir,
+      redactor: parent.masker,
     });
   }
 
   /** 单次写入：级别门控 → 组合载荷 → JSONL 落盘 → 控制台一行。 */
-  private dispatch(level: LogLevel, message: string, context?: LogContext, error?: Error): void {
+  private emit(level: LogLevel, message: string, context?: LogContext, error?: Error): void {
     const settings = this.settings;
-    if (level < settings.getMinLevel.call(this)) return;
-    const { consoleLine, json } = composeDispatch(settings, level, message, context, error);
-    appendLogRecord(settings.logDir, json);
-    settings.consoleStream?.write(consoleLine);
+    if (level < settings.levelGate.call(this)) return;
+    const rendered = renderPayload(settings, level, message, context, error);
+    appendLogRecord(settings.targetDir, rendered.json);
+    settings.consoleSink?.write(rendered.consoleLine);
   }
 }
