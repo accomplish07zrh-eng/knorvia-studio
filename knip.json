@@ -8,6 +8,8 @@
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/dist-entry-loader.mjs",
         "scripts/provenance/bookkeeping-round2.mjs",
         "scripts/provenance/bookkeeping-round2-similarity.mjs",
         "scripts/contract-gate.mjs",
@@ -18,7 +20,6 @@
         "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/inherited-triage.mjs",
         "scripts/provenance/inherited-triage.test.mjs",
-        "specs/contracts/*/tests/*.test.ts",
         "specs/contracts/*/tests/*.test.mjs",
         "specs/contracts/*/tests/fixtures/*.mjs"
       ]
