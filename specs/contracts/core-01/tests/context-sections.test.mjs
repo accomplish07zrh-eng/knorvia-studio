@@ -32,12 +32,15 @@ test("X6 Agent Identity section（逐字冻结 + output style 分支）", () => 
   assert.ok(section.content.startsWith("\nYou are an interactive Knorvia Studio agent"));
   assert.ok(section.content.includes(SECURITY_NOTICE));
   assert.ok(section.content.includes(HARNESS_HEAD));
-  for (const bullet of HARNESS_BULLETS) assert.ok(section.content.includes(bullet), bullet.slice(0, 40));
+  for (const bullet of HARNESS_BULLETS)
+    assert.ok(section.content.includes(bullet), bullet.slice(0, 40));
 
   const styled = context.buildIdentitySection({ name: "review", prompt: "be terse" });
   assert.equal(styled.chars, 1246);
   assert.equal(styled.tokens, 416);
-  assert.ok(styled.content.includes("You respond to the user according to the active Output Style below"));
+  assert.ok(
+    styled.content.includes("You respond to the user according to the active Output Style below"),
+  );
   assert.ok(!styled.content.includes("You are an interactive Knorvia Studio agent"));
   assert.ok(styled.content.includes(SECURITY_NOTICE), "安全行逐字同一份");
   assert.ok(styled.content.includes(HARNESS_HEAD), "Harness 块逐字同一份");
@@ -70,7 +73,11 @@ test("X8 Environment Info 与 git 上下文（含 undefined 回落）", () => {
   assert.equal(section.cacheHint, "dynamic");
   assert.equal(section.chars, 184);
   assert.equal(section.tokens, 62);
-  assert.ok(section.content.startsWith("# Environment\nYou have been invoked in the following environment:\n"));
+  assert.ok(
+    section.content.startsWith(
+      "# Environment\nYou have been invoked in the following environment:\n",
+    ),
+  );
   assert.ok(section.content.includes("- Primary working directory: /w"));
   assert.ok(section.content.includes("- Is a git repository: no"));
   assert.ok(section.content.includes("- Platform: linux"));
@@ -99,6 +106,9 @@ test("X9 Workflow Actor Identity section（共用安全行/Harness + 工作流�
 
   const identity = context.buildIdentitySection();
   const noticeStart = section.content.indexOf(SECURITY_NOTICE);
-  assert.equal(section.content.slice(noticeStart, noticeStart + SECURITY_NOTICE.length), SECURITY_NOTICE);
+  assert.equal(
+    section.content.slice(noticeStart, noticeStart + SECURITY_NOTICE.length),
+    SECURITY_NOTICE,
+  );
   assert.equal(identity.content.indexOf(SECURITY_NOTICE) > 0, true);
 });

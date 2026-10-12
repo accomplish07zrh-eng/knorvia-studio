@@ -4,13 +4,13 @@
 
 ## 1. 不在本包合同内、由谁覆盖（平台相关与外部依赖）
 
-| 不在本包合同内的行为 | 覆盖方 | 原因 |
-| --- | --- | --- |
-| Windows Computer Use 的**真实窗口接管**（枚举/请求访问/观测/操作/停止在真实桌面上的效果） | `core-runtime-*` 合同 + 桌面冒烟 | 需要真实 Windows 会话与宿主权限；本包只冻结传输上限、受信判定与借用策略（M5） |
-| PNG 几何校验与观测身份（帧像素、缩放质量、宿主侧校验） | 宿主实现 + 桌面冒烟 | 本包按契约**不缩放、不丢帧**，只守上限（M5） |
-| 官方 CUA 帧的保留与完整性（`preserveOfficialCuaFrameResult`） | `@knorvia/cua` 的 `frame-contract` + 桌面冒烟 | 依赖 `@knorvia/cua` 的帧契约与真实像素；本包只做转交判定（M3 的 `hasOfficialCuaFrameAuthority`） |
-| 真实桌面环境下超大截图的压缩质量与落盘路径 | `core-runtime-*`（artifact store 实现）+ 桌面冒烟 | 本包只冻结阈值与文案（M3），压缩器由注入的 `imageProcessorPort` 提供 |
-| 内嵌搜索分支在真实 shell 中的 `find()`/`grep()` 注入效果 | `core-runtime-*` + 工具层（`tool/executor/invocation/context.ts`） | 本包只冻结判定与 dialect 白名单（E1/E2） |
+| 不在本包合同内的行为                                                                      | 覆盖方                                                             | 原因                                                                                             |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| Windows Computer Use 的**真实窗口接管**（枚举/请求访问/观测/操作/停止在真实桌面上的效果） | `core-runtime-*` 合同 + 桌面冒烟                                   | 需要真实 Windows 会话与宿主权限；本包只冻结传输上限、受信判定与借用策略（M5）                    |
+| PNG 几何校验与观测身份（帧像素、缩放质量、宿主侧校验）                                    | 宿主实现 + 桌面冒烟                                                | 本包按契约**不缩放、不丢帧**，只守上限（M5）                                                     |
+| 官方 CUA 帧的保留与完整性（`preserveOfficialCuaFrameResult`）                             | `@knorvia/cua` 的 `frame-contract` + 桌面冒烟                      | 依赖 `@knorvia/cua` 的帧契约与真实像素；本包只做转交判定（M3 的 `hasOfficialCuaFrameAuthority`） |
+| 真实桌面环境下超大截图的压缩质量与落盘路径                                                | `core-runtime-*`（artifact store 实现）+ 桌面冒烟                  | 本包只冻结阈值与文案（M3），压缩器由注入的 `imageProcessorPort` 提供                             |
+| 内嵌搜索分支在真实 shell 中的 `find()`/`grep()` 注入效果                                  | `core-runtime-*` + 工具层（`tool/executor/invocation/context.ts`） | 本包只冻结判定与 dialect 白名单（E1/E2）                                                         |
 
 ## 2. 包根入口在源码入口（tsx）下不可加载（属 core-03 范围）
 

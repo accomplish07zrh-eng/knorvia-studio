@@ -72,7 +72,10 @@ test("A7 message-history：初始化、追加、替换与只读借用", () => {
 
 test("A7 message-history：缓存统计与重置", () => {
   const history = createMessageHistory();
-  history.init([{ role: "user", content: "a" }, { role: "assistant", content: "b" }]);
+  history.init([
+    { role: "user", content: "a" },
+    { role: "assistant", content: "b" },
+  ]);
 
   assert.deepEqual(coreStats(history.getCacheStats()), {
     totalMessages: 2,

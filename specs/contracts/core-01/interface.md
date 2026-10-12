@@ -8,11 +8,11 @@
 
 ## 公开入口（本包范围）
 
-| 入口 | 文件 |
-| --- | --- |
-| `@knorvia/core` | `src/index.ts（转出 agent / context / compact / mcp 四个区）` |
-| `@knorvia/core/repl` | `src/repl/index.ts（不在本包范围）` |
-| `@knorvia/core/browser-client` | `src/browser-client/index.ts（不在本包范围）` |
+| 入口                                         | 文件                                                           |
+| -------------------------------------------- | -------------------------------------------------------------- |
+| `@knorvia/core`                              | `src/index.ts（转出 agent / context / compact / mcp 四个区）`  |
+| `@knorvia/core/repl`                         | `src/repl/index.ts（不在本包范围）`                            |
+| `@knorvia/core/browser-client`               | `src/browser-client/index.ts（不在本包范围）`                  |
 | `@knorvia/core/create-workflow-graph-bounds` | `src/workflow/create-workflow-graph-bounds.ts（不在本包范围）` |
 
 ## 导出清单（按文件）

@@ -31,8 +31,15 @@ test("A4 turn-machine：正常回合的阶段推进序列（方法返回新状�
   machine = advance(started);
   const requesting = machine.startModelRequest("gpt", [{ role: "user", content: "hi" }]);
   assert.equal(requesting.phase, "awaiting_model_response");
-  assert.deepEqual(requesting.modelRequest, { model: "gpt", messages: [{ role: "user", content: "hi" }] });
-  assert.equal(advance(requesting).getNextPhase(), "awaiting_model_response", "非流式/执行阶段保持原阶段");
+  assert.deepEqual(requesting.modelRequest, {
+    model: "gpt",
+    messages: [{ role: "user", content: "hi" }],
+  });
+  assert.equal(
+    advance(requesting).getNextPhase(),
+    "awaiting_model_response",
+    "非流式/执行阶段保持原阶段",
+  );
 
   const streaming = advance(requesting).receiveModelResponse("hello");
   assert.equal(streaming.phase, "streaming");
@@ -42,7 +49,10 @@ test("A4 turn-machine：正常回合的阶段推进序列（方法返回新状�
     /Cannot transition from streaming to streaming/,
     "阶段机没有 streaming 自环：一次模型响应只允许一次内容写入",
   );
-  assert.throws(() => advance(streaming).receiveModelResponse("more"), /Cannot transition from streaming to streaming/);
+  assert.throws(
+    () => advance(streaming).receiveModelResponse("more"),
+    /Cannot transition from streaming to streaming/,
+  );
 
   assert.equal(advance(streaming).getNextPhase(), "completing", "有内容且无工具调用 → 收尾");
 
@@ -59,8 +69,15 @@ test("A4 turn-machine：正常回合的阶段推进序列（方法返回新状�
 
   const emptyStream = { ...streaming, streamingContent: "", toolCalls: [] };
   assert.equal(advance(emptyStream).getNextPhase(), "streaming", "无内容无工具调用时停在流式阶段");
-  const withCalls = { ...streaming, toolCalls: [{ id: "c1", name: "Read", input: {}, status: "scheduled" }] };
-  assert.equal(advance(withCalls).getNextPhase(), "scheduling_tools", "流式后有工具调用 → 调度阶段");
+  const withCalls = {
+    ...streaming,
+    toolCalls: [{ id: "c1", name: "Read", input: {}, status: "scheduled" }],
+  };
+  assert.equal(
+    advance(withCalls).getNextPhase(),
+    "scheduling_tools",
+    "流式后有工具调用 → 调度阶段",
+  );
 });
 
 test("A5 turn-machine：非法转移与失败收尾的错误形态", () => {
@@ -76,8 +93,14 @@ test("A5 turn-machine：非法转移与失败收尾的错误形态", () => {
   );
 
   const started = advance(idle.start());
-  assert.throws(() => started.start(), /Cannot transition from processing_input to processing_input/);
-  assert.throws(() => started.aggregateResults(), /Cannot transition from processing_input to aggregating_results/);
+  assert.throws(
+    () => started.start(),
+    /Cannot transition from processing_input to processing_input/,
+  );
+  assert.throws(
+    () => started.aggregateResults(),
+    /Cannot transition from processing_input to aggregating_results/,
+  );
 
   const failed = started.fail({ type: "boom", message: "exploded", recoverable: false });
   assert.equal(failed.phase, "error");
@@ -102,12 +125,18 @@ test("A6 turn-machine：工具调度、权限等待/裁决、工具结算与待�
   assert.deepEqual(scheduled.scheduledTools, schedule);
   assert.deepEqual(
     scheduled.toolCalls.map((call) => [call.id, call.status]),
-    [["c1", "scheduled"], ["c2", "scheduled"]],
+    [
+      ["c1", "scheduled"],
+      ["c2", "scheduled"],
+    ],
   );
 
   const executing = advance(scheduled).startToolExecution();
   assert.equal(executing.phase, "executing_tools", "没有等待权限的调用就直接执行");
-  assert.deepEqual(executing.toolCalls.map((call) => call.status), ["running", "running"]);
+  assert.deepEqual(
+    executing.toolCalls.map((call) => call.status),
+    ["running", "running"],
+  );
 
   const waiting = advance(executing).requestPermission({
     toolCallId: "c2",
@@ -118,7 +147,11 @@ test("A6 turn-machine：工具调度、权限等待/裁决、工具结算与待�
   assert.equal(waiting.phase, "awaiting_permission");
   assert.equal(waiting.toolCalls.find((call) => call.id === "c2").status, "waiting_permission");
   assert.equal(waiting.pendingPermissions.length, 1);
-  assert.equal(waiting.toolCalls.find((call) => call.id === "c1").status, "running", "其它调用不受影响");
+  assert.equal(
+    waiting.toolCalls.find((call) => call.id === "c1").status,
+    "running",
+    "其它调用不受影响",
+  );
 
   const allowed = advance(waiting).resolvePermission("c2", "allow", { command: "ls -la" });
   assert.equal(allowed.phase, "awaiting_permission", "裁决不改阶段");
@@ -145,7 +178,11 @@ test("A6 turn-machine：工具调度、权限等待/裁决、工具结算与待�
   assert.equal(oneDone.toolResults[0].success, true);
   assert.equal(oneDone.toolResults[0].error, undefined);
   assert.equal(oneDone.toolCalls.find((call) => call.id === "c1").status, "completed");
-  assert.equal(advance(oneDone).getNextPhase(), "executing_tools", "还有 running 的调用 → 停执行阶段");
+  assert.equal(
+    advance(oneDone).getNextPhase(),
+    "executing_tools",
+    "还有 running 的调用 → 停执行阶段",
+  );
 
   const bothDone = advance(oneDone).completeTool("c2", { success: true, content: "done" });
   assert.equal(bothDone.toolResults.length, 2);
@@ -154,10 +191,17 @@ test("A6 turn-machine：工具调度、权限等待/裁决、工具结算与待�
 
   const aggregated = advance(bothDone).aggregateResults();
   assert.equal(aggregated.phase, "aggregating_results");
-  assert.equal(advance(aggregated).getNextPhase(), "awaiting_model_response", "无失败调用 → 回到模型请求");
+  assert.equal(
+    advance(aggregated).getNextPhase(),
+    "awaiting_model_response",
+    "无失败调用 → 回到模型请求",
+  );
   assert.equal(advance(aggregated).startModelRequest("gpt", []).phase, "awaiting_model_response");
 
-  const failedTool = advance(executing).completeTool("c1", { success: false, content: "tool exploded" });
+  const failedTool = advance(executing).completeTool("c1", {
+    success: false,
+    content: "tool exploded",
+  });
   assert.equal(failedTool.toolResults[0].success, false);
   assert.equal(failedTool.toolResults[0].error.type, "tool_error");
   assert.equal(failedTool.toolResults[0].error.message, "tool exploded");

@@ -15,13 +15,16 @@ const baseline = (tokens) => usage.persistedTokenUsageBaseline(tokens);
 test("A10 persistedTokenUsageBaseline：输入推导与上下文用量的冻结规则", () => {
   assert.equal(baseline(undefined), undefined);
 
-  assert.deepEqual(baseline({ input: 100, output: 50, total: 150, cache: { read: 10, write: 5 } }), {
-    cacheReadTokens: 10,
-    cacheWriteTokens: 5,
-    contextUsageTokens: 150,
-    inputTokens: 100,
-    outputTokens: 50,
-  });
+  assert.deepEqual(
+    baseline({ input: 100, output: 50, total: 150, cache: { read: 10, write: 5 } }),
+    {
+      cacheReadTokens: 10,
+      cacheWriteTokens: 5,
+      contextUsageTokens: 150,
+      inputTokens: 100,
+      outputTokens: 50,
+    },
+  );
 
   assert.deepEqual(
     baseline({ total: 200, output: 50, cache: {} }),
@@ -59,7 +62,11 @@ test("A10 persistedTokenUsageBaseline：输入推导与上下文用量的冻结�
     "output 为 0 时用 total（且 total ≥ input）作为上下文用量",
   );
 
-  assert.equal(baseline({ input: 0, cache: {} }), undefined, "输入既非正数又无 total/cache → 整体未定义");
+  assert.equal(
+    baseline({ input: 0, cache: {} }),
+    undefined,
+    "输入既非正数又无 total/cache → 整体未定义",
+  );
   assert.deepEqual(
     baseline({ input: 10, output: 0, cache: {} }).contextUsageTokens,
     undefined,

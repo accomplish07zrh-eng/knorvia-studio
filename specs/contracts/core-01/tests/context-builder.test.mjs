@@ -21,7 +21,10 @@ test("X10 Skills section（排序、250 字截断、别名、budget 回落）", 
   assert.equal(buildSkillsSection({ outcome: outcome([]) }), null, "没有 skill 就不产出该段");
 
   const sorted = buildSkillsSection({
-    outcome: outcome([skill({ name: "b", path: "/skills/b/SKILL.md" }), skill({ name: "a", path: "/skills/a/SKILL.md" })]),
+    outcome: outcome([
+      skill({ name: "b", path: "/skills/b/SKILL.md" }),
+      skill({ name: "a", path: "/skills/a/SKILL.md" }),
+    ]),
   });
   assert.equal(sorted.name, "Skills");
   assert.equal(sorted.source, "skills");
@@ -30,7 +33,9 @@ test("X10 Skills section（排序、250 字截断、别名、budget 回落）", 
   assert.equal(sorted.chars, sorted.content.length);
   assert.equal(sorted.tokens, context.estimateTokens(sorted.content));
   assert.ok(
-    sorted.content.startsWith("The following skills are available for use with the Skill tool:\n\n"),
+    sorted.content.startsWith(
+      "The following skills are available for use with the Skill tool:\n\n",
+    ),
   );
   const lines = sorted.content.split("\n").filter((line) => line.startsWith("- "));
   assert.deepEqual(lines, [
@@ -41,22 +46,33 @@ test("X10 Skills section（排序、250 字截断、别名、budget 回落）", 
   const withWhen = buildSkillsSection({
     outcome: outcome([skill({ whenToUse: "when reviewing PRs" })]),
   });
-  assert.ok(withWhen.content.includes("- review: review things - when reviewing PRs (file: /skills/review/SKILL.md)"));
+  assert.ok(
+    withWhen.content.includes(
+      "- review: review things - when reviewing PRs (file: /skills/review/SKILL.md)",
+    ),
+  );
 
   const withAlias = buildSkillsSection({
     outcome: outcome([skill({ qualifiedName: "acme:review" })]),
   });
   assert.ok(
-    withAlias.content.includes("- acme:review: review things (also loadable as review) (file: /skills/review/SKILL.md)"),
+    withAlias.content.includes(
+      "- acme:review: review things (also loadable as review) (file: /skills/review/SKILL.md)",
+    ),
   );
 
   const longDescription = "x".repeat(300);
-  const truncated = buildSkillsSection({ outcome: outcome([skill({ description: longDescription })]) });
+  const truncated = buildSkillsSection({
+    outcome: outcome([skill({ description: longDescription })]),
+  });
   assert.ok(truncated.content.includes(`${"x".repeat(249)}...`), "描述截到 249 字后加省略号");
   assert.ok(!truncated.content.includes("x".repeat(250)));
 
   const fallback = buildSkillsSection({ outcome: outcome([skill()]), metadataBudget: 1 });
-  assert.ok(fallback.content.includes("- review (file: /skills/review/SKILL.md)"), "超预算时回落为只列名字");
+  assert.ok(
+    fallback.content.includes("- review (file: /skills/review/SKILL.md)"),
+    "超预算时回落为只列名字",
+  );
   assert.ok(!fallback.content.includes("review things"));
 });
 
@@ -94,7 +110,10 @@ test("X11 builder 装配顺序与 meta_user 组装（逐字冻结）", async () 
     result.sections.reduce((total, section) => total + section.tokens, 0),
   );
 
-  const metaSections = [context.buildCliPrefixSection(), context.buildCurrentDateSection("2026-01-05")];
+  const metaSections = [
+    context.buildCliPrefixSection(),
+    context.buildCurrentDateSection("2026-01-05"),
+  ];
   assert.equal(
     context.buildContextMetaUserBody(metaSections),
     "As you answer the user's questions, you can use the following context:\n" +

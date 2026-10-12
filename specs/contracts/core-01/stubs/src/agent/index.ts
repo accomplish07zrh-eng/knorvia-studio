@@ -12,7 +12,9 @@ export * from "./turn-machine.js";
 export const MessageHistoryImpl = new Proxy({} as never, { get: _unimplementedValue });
 export const createMessageHistory = new Proxy({} as never, { get: _unimplementedValue });
 export const activeSessionMessages = new Proxy({} as never, { get: _unimplementedValue });
-export const hydrateMessageHistoryFromSession = new Proxy({} as never, { get: _unimplementedValue });
+export const hydrateMessageHistoryFromSession = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export const MessageHistory = new Proxy({} as never, { get: _unimplementedValue });
 export const ModelInputMessage = new Proxy({} as never, { get: _unimplementedValue });
 export const ToolCallInput = new Proxy({} as never, { get: _unimplementedValue });

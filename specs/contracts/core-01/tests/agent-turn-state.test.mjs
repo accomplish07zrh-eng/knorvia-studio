@@ -48,7 +48,11 @@ test("A1 回合阶段状态机：取值表、初始状态与转移矩阵", () =>
   assert.deepEqual(createTurnState("t", "s", 1, "tr", "i", attachments).attachments, attachments);
 
   for (const phase of Object.values(TurnPhase)) {
-    assert.equal(isTerminalPhase(phase), phase === "completing" || phase === "error", `terminal ${phase}`);
+    assert.equal(
+      isTerminalPhase(phase),
+      phase === "completing" || phase === "error",
+      `terminal ${phase}`,
+    );
     assert.equal(
       isWaitingPhase(phase),
       ["awaiting_model_response", "awaiting_permission", "executing_tools"].includes(phase),

@@ -12,7 +12,9 @@ export * from "./builder.js";
 export * from "./utils.js";
 export const buildCliPrefixSection = new Proxy({} as never, { get: _unimplementedValue });
 export const buildIdentitySection = new Proxy({} as never, { get: _unimplementedValue });
-export const buildWorkflowActorIdentitySection = new Proxy({} as never, { get: _unimplementedValue });
+export const buildWorkflowActorIdentitySection = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export const buildEnvInfoSection = new Proxy({} as never, { get: _unimplementedValue });
 export const buildGitSystemContextSection = new Proxy({} as never, { get: _unimplementedValue });
 export const buildSkillsSection = new Proxy({} as never, { get: _unimplementedValue });

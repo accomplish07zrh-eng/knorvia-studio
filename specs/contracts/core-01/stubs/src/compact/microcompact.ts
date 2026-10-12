@@ -7,13 +7,27 @@ const notImplemented = (): never => {
 };
 
 const _unimplementedValue = (): never => notImplemented();
-export const MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX = new Proxy({} as never, { get: _unimplementedValue });
-export const MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_MICROCOMPACT_THRESHOLD_RATIO = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS = new Proxy({} as never, { get: _unimplementedValue });
+export const MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const DEFAULT_MICROCOMPACT_THRESHOLD_RATIO = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export type LocalMicrocompactPolicyConfig = never;
 export type LocalMicrocompactMessage = never;
 export type LocalMicrocompactBoundaryPayload = never;

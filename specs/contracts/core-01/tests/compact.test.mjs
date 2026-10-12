@@ -35,7 +35,11 @@ test("C1 自动压缩阈值常量与计算（逐字冻结）", () => {
   assert.equal(compact.getEffectiveContextWindowSize({ contextWindow: 1000 }), 0);
   assert.equal(compact.getAutoCompactThreshold({}), 166000);
   assert.equal(
-    compact.getAutoCompactThreshold({ contextWindow: 100000, maxOutputTokens: 5000, bufferTokens: 1000 }),
+    compact.getAutoCompactThreshold({
+      contextWindow: 100000,
+      maxOutputTokens: 5000,
+      bufferTokens: 1000,
+    }),
     94000,
   );
 });
@@ -107,11 +111,21 @@ test("C3 轮次分组语义（经 hasEnoughMessagesToCompact 间接覆盖）", (
   // 分组规则：助手起始新组；首个助手之前的 user 自成一组。
   assert.equal(hasEnoughMessagesToCompact([]), false);
   assert.equal(hasEnoughMessagesToCompact([user("u1")]), false, "只有一个 user：1 组");
-  assert.equal(hasEnoughMessagesToCompact([user("u1"), assistant("a1")]), true, "user+assistant：2 组");
+  assert.equal(
+    hasEnoughMessagesToCompact([user("u1"), assistant("a1")]),
+    true,
+    "user+assistant：2 组",
+  );
   assert.equal(hasEnoughMessagesToCompact([assistant("a1")]), false, "只有一个 assistant：1 组");
   assert.equal(hasEnoughMessagesToCompact(enoughMessages), true);
   assert.equal(
-    hasEnoughMessagesToCompact([user("u1"), assistant("a1"), user("u2"), assistant("a2"), user("u3")]),
+    hasEnoughMessagesToCompact([
+      user("u1"),
+      assistant("a1"),
+      user("u2"),
+      assistant("a2"),
+      user("u3"),
+    ]),
     true,
   );
 });
@@ -135,8 +149,9 @@ test("C4 可摘要消息与 token 估算", () => {
   assert.equal(two, one * 2, "估算按消息累加");
   assert.ok(estimateMessageTokens([user("x".repeat(400))]) > one);
   assert.ok(
-    estimateMessageTokens([{ role: "assistant", content: "hi", toolCalls: [{ name: "Read", input: { p: 1 } }] }]) >
-      estimateMessageTokens([{ role: "assistant", content: "hi" }]),
+    estimateMessageTokens([
+      { role: "assistant", content: "hi", toolCalls: [{ name: "Read", input: { p: 1 } }] },
+    ]) > estimateMessageTokens([{ role: "assistant", content: "hi" }]),
     "工具调用参数计入估算",
   );
 });
@@ -162,8 +177,14 @@ test("C5 压缩提示词与摘要格式化", () => {
 });
 
 test("C6 microcompact 阈值与常量（逐字冻结）", () => {
-  assert.equal(compact.MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX, "[Old tool result content cleared]");
-  assert.equal(compact.MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE, "[Old tool result content cleared]");
+  assert.equal(
+    compact.MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX,
+    "[Old tool result content cleared]",
+  );
+  assert.equal(
+    compact.MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE,
+    "[Old tool result content cleared]",
+  );
   assert.equal(compact.DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS, 5);
   assert.equal(compact.DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS, 256);
   assert.equal(compact.DEFAULT_MICROCOMPACT_THRESHOLD_RATIO, 0.9);

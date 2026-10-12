@@ -45,9 +45,9 @@
 
 ## 2. `dep:refs` 抽样核对（含两条"knip 说未使用但有去向"）
 
-| 查询 | dep:refs 结果 | 文本搜索/复核 | 结论 |
-| --- | --- | --- | --- |
-| `compact/manual.ts:getMessagesToSummarize` | 1 处（本文件内）+ 2 处再导出（`compact/index.ts:9`） | **`runtime/deps.ts:299` 也再导出** | knip 报"未使用"但实际有去向 → **不删** |
-| `agent/read-file-state-hydrator.ts:ReadFileStateHydrationResult` | 2 处（本文件内类型标注） | **`runtime/deps.ts:255` 再导出** | 同上 → **不删** |
+| 查询                                                             | dep:refs 结果                                        | 文本搜索/复核                      | 结论                                   |
+| ---------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------- | -------------------------------------- |
+| `compact/manual.ts:getMessagesToSummarize`                       | 1 处（本文件内）+ 2 处再导出（`compact/index.ts:9`） | **`runtime/deps.ts:299` 也再导出** | knip 报"未使用"但实际有去向 → **不删** |
+| `agent/read-file-state-hydrator.ts:ReadFileStateHydrationResult` | 2 处（本文件内类型标注）                             | **`runtime/deps.ts:255` 再导出**   | 同上 → **不删**                        |
 
 **工具局限（如实记录）**：`dep:refs` 只做按文件路径的静态符号解析，不跟随"包名入口 + 桶再导出"（issue #116 记录过同类问题），对 `@knorvia/core` 这类入口会有**假阴性**；本包判定以入口级文本搜索为主、`dep:refs` 用于看包内实现引用，两者不一致时以上表为准并记录在案。这一条与 `contracts-03` 的 `callers.md` 末节一致。

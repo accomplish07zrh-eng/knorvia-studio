@@ -73,7 +73,12 @@ test("A8 compact-session：压缩边界的判定与保留条件", () => {
 
 test("A8 compact-session：活动消息裁剪与保留段插回", () => {
   const { compactActiveSessionMessages } = compactSession;
-  const messages = [user("u1"), user("u0"), boundaryMessage({ headMessageId: "u1", tailMessageId: "u0" }), user("u2")];
+  const messages = [
+    user("u1"),
+    user("u0"),
+    boundaryMessage({ headMessageId: "u1", tailMessageId: "u0" }),
+    user("u2"),
+  ];
 
   const withoutPreserved = compactActiveSessionMessages(messages, 2, false);
   assert.deepEqual(
@@ -84,7 +89,11 @@ test("A8 compact-session：活动消息裁剪与保留段插回", () => {
   assert.equal(withoutPreserved[0], messages[2], "slice 返回同一批消息引用");
 
   const noSegment = compactActiveSessionMessages(
-    [user("u1"), { info: { id: "boundary", role: "assistant" }, parts: [{ type: "compaction" }] }, user("u2")],
+    [
+      user("u1"),
+      { info: { id: "boundary", role: "assistant" }, parts: [{ type: "compaction" }] },
+      user("u2"),
+    ],
     1,
     true,
   );
@@ -102,7 +111,12 @@ test("A8 compact-session：活动消息裁剪与保留段插回", () => {
   );
 
   const anchorPresent = compactActiveSessionMessages(
-    [user("u1"), user("u0"), boundaryMessage({ headMessageId: "u1", tailMessageId: "u0", anchorMessageId: "u2" }), user("u2")],
+    [
+      user("u1"),
+      user("u0"),
+      boundaryMessage({ headMessageId: "u1", tailMessageId: "u0", anchorMessageId: "u2" }),
+      user("u2"),
+    ],
     2,
     true,
   );
@@ -113,7 +127,12 @@ test("A8 compact-session：活动消息裁剪与保留段插回", () => {
   );
 
   const outOfRange = compactActiveSessionMessages(
-    [user("u1"), user("u0"), boundaryMessage({ headMessageId: "u0", tailMessageId: "missing" }), user("u2")],
+    [
+      user("u1"),
+      user("u0"),
+      boundaryMessage({ headMessageId: "u0", tailMessageId: "missing" }),
+      user("u2"),
+    ],
     2,
     true,
   );

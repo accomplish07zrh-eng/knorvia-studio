@@ -6,14 +6,14 @@
 
 `apps/cli/packages/core` 的 5 个区，共 **38 个继承文件**（`lead/scope-report.mjs` 实测，与计划书分包总表第 151 行一致）：
 
-| 区 | 全部文件 | 继承 | 分类 |
-| --- | --- | --- | --- |
-| `src/agent` | 12 | 11 | upstream-modified 10 / upstream-unchanged 1 / original 1 |
-| `src/compact` | 6 | 6 | upstream-modified 4 / upstream-unchanged 2 |
-| `src/context`（含 `sections`） | 14 | 14 | upstream-modified 11 / upstream-unchanged 3 |
-| `src/embedded-search` | 2 | 2 | upstream-modified 1 / upstream-unchanged 1 |
-| `src/mcp` | 5 | 5 | upstream-modified 3 / unreviewed 2 |
-| **合计** | 39 | **38** | ≤60 ✓ |
+| 区                             | 全部文件 | 继承   | 分类                                                     |
+| ------------------------------ | -------- | ------ | -------------------------------------------------------- |
+| `src/agent`                    | 12       | 11     | upstream-modified 10 / upstream-unchanged 1 / original 1 |
+| `src/compact`                  | 6        | 6      | upstream-modified 4 / upstream-unchanged 2               |
+| `src/context`（含 `sections`） | 14       | 14     | upstream-modified 11 / upstream-unchanged 3              |
+| `src/embedded-search`          | 2        | 2      | upstream-modified 1 / upstream-unchanged 1               |
+| `src/mcp`                      | 5        | 5      | upstream-modified 3 / unreviewed 2                       |
+| **合计**                       | 39       | **38** | ≤60 ✓                                                    |
 
 - 认领 issue：**#133**；合同分支 `contract/core-01`（基线 `f4b618ee`）。
 - 不在本包：`agent/turn-tool-projection.ts`（已登记 `original`）；`hooks`（M1 试点 `core-hooks` 已完成）；`memory`/`model`/`permission`/`plugin-reference`/`runtime-task`/`session*`（`core-02`）；`.`/`workflow*`（`core-03`）；`runtime`/`tool`/`browser-client`/`repl`/`subagent` 等（计划书其余包）。
@@ -22,10 +22,10 @@
 
 `pnpm knip` 在本包 5 个区报出 2 个"未使用导出"，核验后**都不删**：
 
-| 符号 | knip 报的位置 | 核验 | 处置 |
-| --- | --- | --- | --- |
-| `getMessagesToSummarize` | `compact/manual.ts:62`、`compact/index.ts:9` | 本文件内部使用；**`runtime/deps.ts:299` 也再导出** | 保留（删掉会破坏 `core-runtime-*` 的公开面） |
-| `ReadFileStateHydrationResult` | `agent/read-file-state-hydrator.ts:12` | 本文件内使用；**`runtime/deps.ts:255` 再导出** | 保留（同上） |
+| 符号                           | knip 报的位置                                | 核验                                               | 处置                                         |
+| ------------------------------ | -------------------------------------------- | -------------------------------------------------- | -------------------------------------------- |
+| `getMessagesToSummarize`       | `compact/manual.ts:62`、`compact/index.ts:9` | 本文件内部使用；**`runtime/deps.ts:299` 也再导出** | 保留（删掉会破坏 `core-runtime-*` 的公开面） |
+| `ReadFileStateHydrationResult` | `agent/read-file-state-hydrator.ts:12`       | 本文件内使用；**`runtime/deps.ts:255` 再导出**     | 保留（同上）                                 |
 
 结论：本包没有可安全删除的无用代码 → 合同 PR 不含"删除无用代码"提交。`dep:refs` 的假阴性（对包名入口 + 桶再导出的引用不解析）与本次两条"knip 说未使用但实际有去向"的记录见 `callers.md`。
 
@@ -58,7 +58,7 @@
 - 源码入口：tests=**6** pass=**6** fail=0 skipped=0
 - dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**6** pass=**6** fail=0 skipped=0
 
-断言覆盖：六个阈值常量与三个派生计算（179000 / 166000 / 21000 上限）、`shouldAutoCompact` 的五个 `reason` 分支与决策字段（含 provider* 透传、`thresholdPercent=100`、`>=` 阈值即压缩）、轮次分组语义（经 `hasEnoughMessagesToCompact`）、可摘要消息过滤与浅拷贝、token 估算的累加与工具参数计入、提示词拼接与摘要格式化、microcompact 九个工具名与 `buildDefaultMicrocompactThreshold` 的三个取值。
+断言覆盖：六个阈值常量与三个派生计算（179000 / 166000 / 21000 上限）、`shouldAutoCompact` 的五个 `reason` 分支与决策字段（含 provider\* 透传、`thresholdPercent=100`、`>=` 阈值即压缩）、轮次分组语义（经 `hasEnoughMessagesToCompact`）、可摘要消息过滤与浅拷贝、token 估算的累加与工具参数计入、提示词拼接与摘要格式化、microcompact 九个工具名与 `buildDefaultMicrocompactThreshold` 的三个取值。
 
 ## 7. 第二块的未覆盖项（如实列出）
 
@@ -244,10 +244,10 @@
 
 ### 旧门（旧实现，两入口都过）
 
-| 测试文件 | 源码 | dist |
-| --- | --- | --- |
-| `agent-surface.test.mjs`（A9 区域桶 10 个运行时导出的集合相等） | 1/1 | 1/1 |
-| `agent-usage-baseline.test.mjs`（A10 `persistedTokenUsageBaseline`） | 1/1 | 1/1 |
+| 测试文件                                                             | 源码 | dist |
+| -------------------------------------------------------------------- | ---- | ---- |
+| `agent-surface.test.mjs`（A9 区域桶 10 个运行时导出的集合相等）      | 1/1  | 1/1  |
+| `agent-usage-baseline.test.mjs`（A10 `persistedTokenUsageBaseline`） | 1/1  | 1/1  |
 
 `persistedTokenUsageBaseline` 的冻结规则：输入推导优先级 `input` → `total - output` → `cache.read + cache.write`；推导结果非正即整体 `undefined`；`contextUsageTokens` 在 `output > 0` 时取 `input + output`、否则 `total ≥ input` 时取 `total`、再否则 `undefined`；所有数值向下取整、负数视为未给。
 
@@ -407,11 +407,11 @@ node scripts/contract-gate.mjs --contract specs/contracts/core-01 --tests "*.tes
   --stub-root specs/contracts/core-01/stubs --stub-map specs/contracts/core-01/stubs/targets.txt
 ```
 
-| 入口 | 结果 |
-| --- | --- |
-| 源码入口（18 个测试文件） | tests=**42** pass=**42** fail=0 skipped=0 |
-| dist 入口（`KNORVIA_CORE_ENTRY=dist`） | tests=**42** pass=**42** fail=0 skipped=0 |
-| 桩替换（**38** 个目标文件） | tests=42 pass=**0** fail=**42** `allFail=true` |
+| 入口                                   | 结果                                           |
+| -------------------------------------- | ---------------------------------------------- |
+| 源码入口（18 个测试文件）              | tests=**42** pass=**42** fail=0 skipped=0      |
+| dist 入口（`KNORVIA_CORE_ENTRY=dist`） | tests=**42** pass=**42** fail=0 skipped=0      |
+| 桩替换（**38** 个目标文件）            | tests=42 pass=**0** fail=**42** `allFail=true` |
 
 - 桩替换已经全失败，**不需要**再补形态/取值断言。
 - 报告已写入 `specs/contracts/core-01/gate-old.json`（`commit` 记录的是本次运行时的分支 tip `d1c15afb`；分支从 main `f4b618ee` 切出后 **38 个实现文件未改动**，旧门跑的就是旧实现）。

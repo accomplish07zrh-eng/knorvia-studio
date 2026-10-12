@@ -9,7 +9,9 @@ const notImplemented = (): never => {
 const _unimplementedValue = (): never => notImplemented();
 export const MCP_IMAGE_INLINE_BASE64_BYTES = new Proxy({} as never, { get: _unimplementedValue });
 export const MCP_IMAGE_INLINE_RAW_BYTES = new Proxy({} as never, { get: _unimplementedValue });
-export const HOST_NODE_REPL_IMAGE_MAX_DIMENSION = new Proxy({} as never, { get: _unimplementedValue });
+export const HOST_NODE_REPL_IMAGE_MAX_DIMENSION = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export function normalizeMcpToolResultForModel(..._args: unknown[]): never {
   return notImplemented();
 }

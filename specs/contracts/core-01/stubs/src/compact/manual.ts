@@ -10,9 +10,15 @@ const _unimplementedValue = (): never => notImplemented();
 export type CompactModelMessage = never;
 export type TokenUsageLike = never;
 export type BuildManualCompactBoundaryInput = never;
-export const MAX_COMPACT_PROMPT_TOO_LONG_RETRIES = new Proxy({} as never, { get: _unimplementedValue });
-export const COMPACT_PROMPT_TOO_LONG_RETRY_MARKER = new Proxy({} as never, { get: _unimplementedValue });
-export const COMPACT_PROMPT_TOO_LONG_USER_MESSAGE = new Proxy({} as never, { get: _unimplementedValue });
+export const MAX_COMPACT_PROMPT_TOO_LONG_RETRIES = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const COMPACT_PROMPT_TOO_LONG_RETRY_MARKER = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const COMPACT_PROMPT_TOO_LONG_USER_MESSAGE = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export function getMessagesToSummarize(..._args: unknown[]): never {
   return notImplemented();
 }

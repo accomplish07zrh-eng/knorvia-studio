@@ -117,7 +117,10 @@ test("A12 filePartToContentBlock：text 预览与文本回落", async () => {
     source: undefined,
     metadata: {},
   });
-  assert.deepEqual(fallback, { type: "text", text: "[Attached application/octet-stream: blob.bin]" });
+  assert.deepEqual(fallback, {
+    type: "text",
+    text: "[Attached application/octet-stream: blob.bin]",
+  });
 
   const noName = await toBlock({
     id: "f8",
@@ -126,7 +129,10 @@ test("A12 filePartToContentBlock：text 预览与文本回落", async () => {
     source: undefined,
     metadata: {},
   });
-  assert.deepEqual(noName, { type: "text", text: "[Attached application/octet-stream: https://example.invalid/raw]" });
+  assert.deepEqual(noName, {
+    type: "text",
+    text: "[Attached application/octet-stream: https://example.invalid/raw]",
+  });
 
   const localRef = await toBlock({
     id: "f9",
@@ -136,7 +142,10 @@ test("A12 filePartToContentBlock：text 预览与文本回落", async () => {
     source: fileOrigin("/w/real.bin", "real.bin"),
     metadata: { storageKind: "local_ref" },
   });
-  assert.deepEqual(localRef, { type: "text", text: "[Attached application/octet-stream: real.bin]" });
+  assert.deepEqual(localRef, {
+    type: "text",
+    text: "[Attached application/octet-stream: real.bin]",
+  });
 
   const textWithoutPreview = await toBlock({
     id: "f10",

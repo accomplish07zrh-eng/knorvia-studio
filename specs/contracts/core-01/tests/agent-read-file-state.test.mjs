@@ -39,8 +39,16 @@ test("A15 hydrateReadFileStateFromSession：清空状态、计数形状与忽略
   assert.ok(states instanceof Map);
 
   const completed = { status: "completed", input: {}, output: "x", metadata: undefined };
-  const rangeRead = toolPart("p1", "Read", { status: "completed", input: { offset: 5 }, output: "x" });
-  const limitRead = toolPart("p2", "Read", { status: "completed", input: { limit: 10 }, output: "x" });
+  const rangeRead = toolPart("p1", "Read", {
+    status: "completed",
+    input: { offset: 5 },
+    output: "x",
+  });
+  const limitRead = toolPart("p2", "Read", {
+    status: "completed",
+    input: { limit: 10 },
+    output: "x",
+  });
   const rangeResult = await hydrate(
     baseInput([message("m1", "assistant", [rangeRead, limitRead])], new Map()),
   );
@@ -60,7 +68,9 @@ test("A15 hydrateReadFileStateFromSession：清空状态、计数形状与忽略
     baseInput(
       [
         message("m2", "assistant", ignored),
-        message("m3", "user", [toolPart("p7", "Read", { status: "completed", input: { offset: 2 }, output: "x" })]),
+        message("m3", "user", [
+          toolPart("p7", "Read", { status: "completed", input: { offset: 2 }, output: "x" }),
+        ]),
       ],
       new Map(),
     ),

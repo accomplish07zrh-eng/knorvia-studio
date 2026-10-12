@@ -129,7 +129,7 @@
 ## X4 Memory section（`context/sections/memory.ts`）
 
 - 输入：`buildMemorySection(memoryRoot: string | undefined)`。
-- 输出：`undefined`/空串 → `null`；否则 `{name:"Memory", source:"memory", injectionTarget:"system", cacheHint:"dynamic", chars, tokens, content, preview}`，其中 `content` 以 `# Memory\n\n` 开头，含 `persistent file-based memory at \`<memoryRoot>/\``、`do not run mkdir or check for its existence`、frontmatter 模板、四种记忆类型（`user`/`feedback`/`project`/`reference`）、`[[name]]` 关联写法、`\`MEMORY.md\`` 索引指引与 `- [Title](file.md) — hook` 行。`chars = content.length`、`tokens = estimateTokens(content)`。
+- 输出：`undefined`/空串 → `null`；否则 `{name:"Memory", source:"memory", injectionTarget:"system", cacheHint:"dynamic", chars, tokens, content, preview}`，其中 `content` 以 `# Memory\n\n` 开头，含 `persistent file-based memory at \`<memoryRoot>/\``、`do not run mkdir or check for its existence`、frontmatter 模板、四种记忆类型（`user`/`feedback`/`project`/`reference`）、`[[name]]` 关联写法、`\`MEMORY.md\``索引指引与`- [Title](file.md) — hook` 行。`chars = content.length`、`tokens = estimateTokens(content)`。
 - 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：路径仅作文本插值（不做 `path.join`/分隔符改写），因此 Windows 与 POSIX 输出都按调用方给的字符串原样呈现。状态所有者：无。日志级别：不适用。
 - （测试：tests/context.test.mjs「X4 Memory section（标题/路径插值/关键标记）」）
 

@@ -63,5 +63,7 @@ test("X12 meta_user attachment：来源标记与正文包裹", async () => {
     ),
   );
   assert.ok(attachment.content.includes("# currentDate\nToday's date is 2026-01-05."));
-  assert.ok(attachment.content.includes("      IMPORTANT: this context may or may not be relevant"));
+  assert.ok(
+    attachment.content.includes("      IMPORTANT: this context may or may not be relevant"),
+  );
 });

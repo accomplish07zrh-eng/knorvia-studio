@@ -43,6 +43,10 @@ test("A9 agent 区公开面（区域桶的 10 个运行时导出）", () => {
   assert.equal(agent.TurnPhase.Idle, "idle");
 
   // 内部可达的模块不经区域桶导出（各自的行为见 behavior.md A2/A3/A8）。
-  for (const internal of ["selectToolPartsForHistory", "runtimeInputMetadata", "compactActiveSessionMessages"])
+  for (const internal of [
+    "selectToolPartsForHistory",
+    "runtimeInputMetadata",
+    "compactActiveSessionMessages",
+  ])
     assert.equal(agent[internal], undefined, `${internal} 不应出现在区域桶`);
 });

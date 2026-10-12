@@ -8,11 +8,17 @@ const notImplemented = (): never => {
 
 const _unimplementedValue = (): never => notImplemented();
 export const DEFAULT_COMPACT_CONTEXT_WINDOW = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS = new Proxy({} as never, { get: _unimplementedValue });
+export const DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export const MAX_OUTPUT_TOKENS_FOR_SUMMARY = new Proxy({} as never, { get: _unimplementedValue });
 export const AUTOCOMPACT_BUFFER_TOKENS = new Proxy({} as never, { get: _unimplementedValue });
-export const DEFAULT_AUTOCOMPACT_THRESHOLD_PERCENT = new Proxy({} as never, { get: _unimplementedValue });
-export const MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES = new Proxy({} as never, { get: _unimplementedValue });
+export const DEFAULT_AUTOCOMPACT_THRESHOLD_PERCENT = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
+export const MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES = new Proxy({} as never, {
+  get: _unimplementedValue,
+});
 export type AutoCompactPolicyConfig = never;
 export type AutoCompactTokenSource = never;
 export type AutoCompactTokenOverride = never;
