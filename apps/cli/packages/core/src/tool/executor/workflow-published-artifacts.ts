@@ -1,34 +1,32 @@
-/**
- * 脚本「发布给用户看的产物」在模型面的投影层。三个消费者共用同一份事实：
- * 完成通知的 `<artifacts>` 节、manifest 载荷的 `artifacts[]`（都在 background-tasks.ts），
- * 以及 `GetWorkflowRun` 文本里的 `<artifacts>` 截面（handlers/get-workflow-run.ts）。
- *
- * 名词边界：这里的产物指脚本通过 `artifact.*` 发布的内容（文件、markdown，或由 `report` 标签
- * 喂养的图 / 表 / 指标 / 看板）。它与 `workflow-artifact.ts` 里的 `serializeWorkflowArtifact` 不是一回事——
- * 后者是脚本的顶层返回值（引擎内部 `RunSettlement.artifact`）。两者会在同一条完成通知里并排出现
- * （`<result>` 与 `<artifacts>`），所以刻意分成两个文件。
- *
- * 一行的格式只在这里写一遍：三个消费者是同一个模型，格式一旦分叉，它会把通知里的产物和
- * `GetWorkflowRun` 里的产物当成两套东西。
- *
- * 本层三个出口：给模型的一行文本、通知节、给 GUI 的 manifest 载荷（结构化字段）。
- * 截断必须在构造之前做完——载荷随 turnHeader row 进协议，超界会在落库时被 zod 整行拒收。
- */
+// 脚本「发布给用户看的产物」在模型面的投影层。三个消费者共用同一份事实：
+// 完成通知的 `<artifacts>` 节、manifest 载荷的 `artifacts[]`（都在 background-tasks.ts），
+// 以及 `GetWorkflowRun` 文本里的 `<artifacts>` 截面（handlers/get-workflow-run.ts）。
+//
+// 名词边界：这里的产物指脚本通过 `artifact.*` 发布的内容（文件、markdown，或由 `report` 标签
+// 喂养的图 / 表 / 指标 / 看板）。它与 `workflow-artifact.ts` 里的 `serializeWorkflowArtifact` 不是一回事——
+// 后者是脚本的顶层返回值（引擎内部 `RunSettlement.artifact`）。两者会在同一条完成通知里并排出现
+// （`<result>` 与 `<artifacts>`），所以刻意分成两个文件。
+//
+// 一行的格式只在这里写一遍：三个消费者是同一个模型，格式一旦分叉，它会把通知里的产物和
+// `GetWorkflowRun` 里的产物当成两套东西。
+//
+// 本层三个出口：给模型的一行文本、通知节、给 GUI 的 manifest 载荷（结构化字段）。
+// 截断必须在构造之前做完——载荷随 turnHeader row 进协议，超界会在落库时被 zod 整行拒收。
 
-/** 三个消费者各自输入形状不同，取交集后的最小事实集。 */
+//  三个消费者各自输入形状不同，取交集后的最小事实集。
 interface PublishedArtifactSummary {
   readonly id: string;
   readonly kind: string;
   readonly version: number;
   readonly title?: string;
   readonly contentType?: string;
-  /** 内容产物最新版的字节数；预置看板不产出字节。 */
+  //  内容产物最新版的字节数；预置看板不产出字节。
   readonly bytes?: number;
-  /** 预置看板收到的 `report` 条数，充当它的「大小」；内容产物恒为 0。 */
+  //  预置看板收到的 `report` 条数，充当它的「大小」；内容产物恒为 0。
   readonly itemCount?: number;
-  /** 本 run 的交付物：清单由它带头，行上额外标 `primary`。 */
+  //  本 run 的交付物：清单由它带头，行上额外标 `primary`。
   readonly primary?: true;
-  /** 仅交付物带这一句，完成卡据此画出带文字的一行。 */
+  //  仅交付物带这一句，完成卡据此画出带文字的一行。
   readonly description?: string;
 }
 
@@ -37,7 +35,7 @@ type ManifestKind = WorkflowArtifactManifestEntry["kind"];
 type OptionalText = string | undefined;
 type OptionalCount = number | undefined;
 
-/** 与 shared 侧 zod 的 ARTIFACT_CAPS 同值的一张表：四处长度界集中在一处，便于逐条对照。 */
+//  与 shared 侧 zod 的 ARTIFACT_CAPS 同值的一张表：四处长度界集中在一处，便于逐条对照。
 const ARTIFACT_LIMITS = {
   description: 500,
   title: 120,
@@ -45,21 +43,19 @@ const ARTIFACT_LIMITS = {
   contentType: 255,
 } as const;
 
-/** 完成通知 `<artifacts>` 的行数上限；文本行数与载荷上界刻意保持同一个值。 */
+//  完成通知 `<artifacts>` 的行数上限；文本行数与载荷上界刻意保持同一个值。
 export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8;
-/** `GetWorkflowRun` 文本截面的行数上限，取自 `ARTIFACT_CAPS` 的每 run 上界（32）。 */
+//  `GetWorkflowRun` 文本截面的行数上限，取自 `ARTIFACT_CAPS` 的每 run 上界（32）。
 export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32;
-/** 预置看板的四个种类：不产出字节，数据量取自 report 标签条数。 */
+//  预置看板的四个种类：不产出字节，数据量取自 report 标签条数。
 const PRESET_ARTIFACT_KINDS: ReadonlySet<string> = new Set(["chart", "table", "metrics", "board"]);
 
 const PRIMARY_MARKER = "primary";
 const LINE_PREFIX = "- ";
 
-/**
- * 把交付物提到最前，其余保持相对顺序（稳定排序）。
- * 三个出口都先排序再截断，因此上界永远砍不到交付物。端口的 `artifactsOf` 已排过一遍；
- * 这里再排是为了快照与通知那条路径——它们拿到的是投影顺序，不保证已排。
- */
+// 把交付物提到最前，其余保持相对顺序（稳定排序）。
+// 三个出口都先排序再截断，因此上界永远砍不到交付物。端口的 `artifactsOf` 已排过一遍；
+// 这里再排是为了快照与通知那条路径——它们拿到的是投影顺序，不保证已排。
 // 交付物排 0、其余排 1：比较函数只读这一个序号，排序因此是稳定的。
 function primaryRank(artifact: { primary?: true }): number {
   return artifact.primary === true ? 0 : 1;
@@ -95,15 +91,13 @@ function lineParts(artifact: ArtifactSummary): string[] {
   return parts;
 }
 
-/**
- * 把一件产物压成一行：`- {id} ({kind}, v{version}, {contentType}, {bytes} bytes): {title}`。
- *
- * 缺哪个部件就整段不写，不留占位——`(file, v2, , : )` 会被读成数据坏了。预置看板的位置写
- * `{n} items`：图的「大小」是点数，字节对它无意义。title 缺失时冒号一起省掉（facade 默认
- * title 就是 id，重复没有信息量）。
- *
- * 不给 `uri`：模型读不到 tool-artifact store。要正文就调 `GetWorkflowRun`，或让子代理读工作区原路径。
- */
+// 把一件产物压成一行：`- {id} ({kind}, v{version}, {contentType}, {bytes} bytes): {title}`。
+//
+// 缺哪个部件就整段不写，不留占位——`(file, v2, , : )` 会被读成数据坏了。预置看板的位置写
+// `{n} items`：图的「大小」是点数，字节对它无意义。title 缺失时冒号一起省掉（facade 默认
+// title 就是 id，重复没有信息量）。
+//
+// 不给 `uri`：模型读不到 tool-artifact store。要正文就调 `GetWorkflowRun`，或让子代理读工作区原路径。
 export function formatPublishedArtifactLine(artifact: ArtifactSummary): string {
   const head = `${LINE_PREFIX}${artifact.id} (${lineParts(artifact).join(", ")})`;
   const title = artifact.title?.trim();
@@ -111,21 +105,19 @@ export function formatPublishedArtifactLine(artifact: ArtifactSummary): string {
   return `${head}: ${title}`;
 }
 
-/** `<artifacts count shown>` 需要的三个值，形状与 `<reports>` 一节一致。 */
+//  `<artifacts count shown>` 需要的三个值，形状与 `<reports>` 一节一致。
 interface WorkflowArtifactsNotificationSection {
-  /** 真实总件数，不是列出来的行数。 */
+  //  真实总件数，不是列出来的行数。
   count: number;
-  /** 实际列出的行数；小于 count 说明清单只是局部。 */
+  //  实际列出的行数；小于 count 说明清单只是局部。
   shown: number;
   preview: string;
 }
 
-/**
- * 产物清单 → 完成通知与 `GetWorkflowRun` 共用的 `<artifacts>` 一节。
- *
- * 规则同 `<reports>`：count 永远是真实总数，count 与 shown 不等就是「这里只是局部清单、
- * 全量可按 run id 取」的信号。没有产物时返回 undefined，让调用方整节不写，而不是写一节空的。
- */
+// 产物清单 → 完成通知与 `GetWorkflowRun` 共用的 `<artifacts>` 一节。
+//
+// 规则同 `<reports>`：count 永远是真实总数，count 与 shown 不等就是「这里只是局部清单、
+// 全量可按 run id 取」的信号。没有产物时返回 undefined，让调用方整节不写，而不是写一节空的。
 export function buildWorkflowArtifactsNotificationSection(
   artifacts: readonly ArtifactSummary[] | undefined,
   maxLines: number,
@@ -136,7 +128,7 @@ export function buildWorkflowArtifactsNotificationSection(
   return { count: artifacts.length, shown: lines.length, preview: lines.join("\n") };
 }
 
-/** manifest 载荷（`WorkflowNotificationMeta.artifacts`）里的一条，界与 shared 侧 zod 一致。 */
+//  manifest 载荷（`WorkflowNotificationMeta.artifacts`）里的一条，界与 shared 侧 zod 一致。
 interface WorkflowArtifactManifestEntry {
   id: string;
   kind: "file" | "markdown" | "chart" | "table" | "metrics" | "board";
@@ -144,7 +136,7 @@ interface WorkflowArtifactManifestEntry {
   version: number;
   contentType?: string;
   primary?: true;
-  /** 只出现在 `primary` 条目上：完成卡的交付物行要念它，其余 chip 放不下也用不到。 */
+  //  只出现在 `primary` 条目上：完成卡的交付物行要念它，其余 chip 放不下也用不到。
   description?: string;
 }
 
@@ -210,18 +202,16 @@ function manifestEntryFor(artifact: ArtifactSummary): WorkflowArtifactManifestEn
   return entry;
 }
 
-/**
- * 构造 manifest 载荷的 `artifacts` 与 `artifactsTruncated`。
- *
- * 与上一节同源但形状不同：GUI 每条画一枚 chip（图标 + 截短 title），所以这里给结构化字段而不是
- * 拼好的文本。`bytes` 与 `itemCount` 不进载荷——chip 放不下，展开侧板就能看到。
- * 截断在构造前完成：载荷随 turnHeader row 进协议，超界会被 zod 拒收整行。
- *
- * kind 不在这六个字面量里的条目整条丢弃，不猜也不归一：未知种类在 GUI 上没有图标可画，
- * 而放行它会让整份载荷被 zod 拒掉，其余 chip 跟着一起消失。
- *
- * 没有产物时返回 undefined，调用方据此让两个字段同时缺席。
- */
+// 构造 manifest 载荷的 `artifacts` 与 `artifactsTruncated`。
+//
+// 与上一节同源但形状不同：GUI 每条画一枚 chip（图标 + 截短 title），所以这里给结构化字段而不是
+// 拼好的文本。`bytes` 与 `itemCount` 不进载荷——chip 放不下，展开侧板就能看到。
+// 截断在构造前完成：载荷随 turnHeader row 进协议，超界会被 zod 拒收整行。
+//
+// kind 不在这六个字面量里的条目整条丢弃，不猜也不归一：未知种类在 GUI 上没有图标可画，
+// 而放行它会让整份载荷被 zod 拒掉，其余 chip 跟着一起消失。
+//
+// 没有产物时返回 undefined，调用方据此让两个字段同时缺席。
 export function buildWorkflowArtifactsManifestSection(
   artifacts: readonly ArtifactSummary[] | undefined,
 ): { artifacts: WorkflowArtifactManifestEntry[]; artifactsTruncated?: true } | undefined {
@@ -244,9 +234,9 @@ export function buildWorkflowArtifactsManifestSection(
   return { artifacts: entries };
 }
 
-/** 原样照抄的文本字段：类型不对就整键不写。 */
+//  原样照抄的文本字段：类型不对就整键不写。
 const SUMMARY_TEXT_FIELDS: readonly string[] = ["title", "contentType", "description"];
-/** 原样照抄的数值字段。 */
+//  原样照抄的数值字段。
 const SUMMARY_COUNT_FIELDS: readonly string[] = ["itemCount"];
 
 // 按字段名表照抄文本键：坏类型（或缺失）的键直接不出现，而不是写成 undefined。
@@ -296,13 +286,11 @@ function summaryOf(record: Record<string, unknown>): ArtifactSummary | undefined
   return summary as unknown as ArtifactSummary;
 }
 
-/**
- * 把快照 / 端口详情里的产物转成本模块的输入形状。`bytes` 只挂在版本项上（端口顶层刻意不带），
- * 因此取最新版——那正是清单要描述的那一版。
- *
- * 输入跨包而来（端口实现或冷恢复的行），所以照样做形状检查：坏条目整条跳过，
- * 不让它把整节拖没。
- */
+// 把快照 / 端口详情里的产物转成本模块的输入形状。`bytes` 只挂在版本项上（端口顶层刻意不带），
+// 因此取最新版——那正是清单要描述的那一版。
+//
+// 输入跨包而来（端口实现或冷恢复的行），所以照样做形状检查：坏条目整条跳过，
+// 不让它把整节拖没。
 export function toPublishedArtifactSummaries(value: unknown): ArtifactSummary[] | undefined {
   if (!Array.isArray(value) || value.length === 0) return undefined;
 
