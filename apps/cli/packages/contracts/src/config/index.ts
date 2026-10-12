@@ -9,77 +9,72 @@ import type { PluginConfig, PluginOptionValues } from "../plugins/index.js";
 // Config Key Types
 // ============================================================
 
-export const ConfigKey = {
-  ModelStreamIdleTimeout: "modelStream.idleTimeoutMs",
-
+/** 配置键表：`[常量键, 配置键]` 逐行一组；顺序即既有声明顺序，分组注释保留域信息。 */
+const CONFIG_KEY_ENTRIES = [
+  ["ModelStreamIdleTimeout", "modelStream.idleTimeoutMs"],
   // Permission
-  PermissionMode: "permission.mode",
-  PermissionAllowedTools: "permission.allowedTools",
-  PermissionDisallowedTools: "permission.disallowedTools",
-  PermissionAutoApproveHighRisk: "permission.autoApproveHighRisk",
-  PermissionAllowMediumRiskInAuto: "permission.allowMediumRiskInAuto",
-
+  ["PermissionMode", "permission.mode"],
+  ["PermissionAllowedTools", "permission.allowedTools"],
+  ["PermissionDisallowedTools", "permission.disallowedTools"],
+  ["PermissionAutoApproveHighRisk", "permission.autoApproveHighRisk"],
+  ["PermissionAllowMediumRiskInAuto", "permission.allowMediumRiskInAuto"],
   // Storage
-  StorageDir: "storage.dir",
-  StorageSessionDbPath: "storage.sessionDbPath",
-
+  ["StorageDir", "storage.dir"],
+  ["StorageSessionDbPath", "storage.sessionDbPath"],
   // Network
-  HttpProxy: "network.httpProxy",
-  NoProxy: "network.noProxy",
-  CaCertFile: "network.caCertFile",
-  HttpTimeout: "network.timeout",
-
+  ["HttpProxy", "network.httpProxy"],
+  ["NoProxy", "network.noProxy"],
+  ["CaCertFile", "network.caCertFile"],
+  ["HttpTimeout", "network.timeout"],
   // Features
-  FeatureCompact: "features.compact",
-  FeatureRewind: "features.rewind",
-  FeatureSubagent: "features.subagent",
-  FeatureMemory: "features.memory",
-  FeatureSkill: "features.skill",
-  FeatureMcp: "features.mcp",
-
+  ["FeatureCompact", "features.compact"],
+  ["FeatureRewind", "features.rewind"],
+  ["FeatureSubagent", "features.subagent"],
+  ["FeatureMemory", "features.memory"],
+  ["FeatureSkill", "features.skill"],
+  ["FeatureMcp", "features.mcp"],
   // Memory
-  MemoryUse: "memory.use",
-
+  ["MemoryUse", "memory.use"],
   // MCP
-  McpServers: "mcp.servers",
-
+  ["McpServers", "mcp.servers"],
   // Plugins
-  PluginsEnabled: "plugins.enabled",
-  PluginsDirs: "plugins.dirs",
-  PluginsEnabledPlugins: "plugins.enabledPlugins",
-  PluginsExtraKnownMarketplaces: "plugins.extraKnownMarketplaces",
-  PluginsOptions: "plugins.options",
-  PluginsSuppressedBuiltins: "plugins.suppressedBuiltins",
-
+  ["PluginsEnabled", "plugins.enabled"],
+  ["PluginsDirs", "plugins.dirs"],
+  ["PluginsEnabledPlugins", "plugins.enabledPlugins"],
+  ["PluginsExtraKnownMarketplaces", "plugins.extraKnownMarketplaces"],
+  ["PluginsOptions", "plugins.options"],
+  ["PluginsSuppressedBuiltins", "plugins.suppressedBuiltins"],
   // Skills
-  SkillsEnabled: "skills.enabled",
-  SkillsIncludeInstructions: "skills.includeInstructions",
-  SkillsMetadataBudget: "skills.metadataBudget",
-  SkillsRoots: "skills.roots",
-
+  ["SkillsEnabled", "skills.enabled"],
+  ["SkillsIncludeInstructions", "skills.includeInstructions"],
+  ["SkillsMetadataBudget", "skills.metadataBudget"],
+  ["SkillsRoots", "skills.roots"],
   // Skill / Command 可用性覆盖（按 SKILL.md / 命令 .md 的绝对路径过滤）
-  SkillOverrides: "skill",
-  CommandOverrides: "command",
-
+  ["SkillOverrides", "skill"],
+  ["CommandOverrides", "command"],
   // Logging
-  LogLevel: "logging.level",
-  LogFormat: "logging.format",
-
+  ["LogLevel", "logging.level"],
+  ["LogFormat", "logging.format"],
   // Tool Concurrency
-  ToolConcurrencyMax: "toolConcurrency.maxConcurrency",
-
+  ["ToolConcurrencyMax", "toolConcurrency.maxConcurrency"],
   // Model anomaly guards
-  ModelAnomalyGuard: "modelAnomalyGuard",
-
+  ["ModelAnomalyGuard", "modelAnomalyGuard"],
   // Hooks
-  Hooks: "hooks",
-
+  ["Hooks", "hooks"],
   // UI
-  UiLocale: "ui.locale",
-  UiTheme: "ui.theme",
-} as const;
+  ["UiLocale", "ui.locale"],
+  ["UiTheme", "ui.theme"],
+] as const satisfies ReadonlyArray<readonly [string, string]>;
 
-export type ConfigKey = (typeof ConfigKey)[keyof typeof ConfigKey];
+/** 配置键的字面量联合，由键表推导。 */
+export type ConfigKey = (typeof CONFIG_KEY_ENTRIES)[number][1];
+
+/** 常量对象类型，由键表推导：键 → 配置键字面量。 */
+type ConfigKeyTable = {
+  readonly [Entry in (typeof CONFIG_KEY_ENTRIES)[number] as Entry[0]]: Entry[1];
+};
+
+export const ConfigKey = Object.fromEntries(CONFIG_KEY_ENTRIES) as unknown as ConfigKeyTable;
 
 // ============================================================
 // Config Value Types
