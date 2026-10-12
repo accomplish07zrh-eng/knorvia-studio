@@ -65,6 +65,16 @@ function isArrayFrame(frame: Frame): frame is ArrayFrame {
   return "array" in frame;
 }
 
+type Kind = "circular" | "container" | "depth" | "scalar" | "text";
+
+/** 类型判定集中在 classify：顺序与旧逐条 if 一致（深度 → 文本 → 标量 → 环 → 容器）。 */
+function classify(value: unknown, depth: number, seen: WeakSet<object>): Kind {
+  if (depth > MAX_DEPTH) return "depth";
+  if (typeof value === "string") return "text";
+  if (value === null || typeof value !== "object") return "scalar";
+  return seen.has(value) ? "circular" : "container";
+}
+
 export class DefaultLogRedactor implements LogRedactor {
   redact(input: unknown): unknown {
     let redacted: unknown;
@@ -85,25 +95,27 @@ export class DefaultLogRedactor implements LogRedactor {
         continue;
       }
       const value = frame.read();
-      if (frame.depth > MAX_DEPTH) {
+      const kind = classify(value, frame.depth, seen);
+      if (kind === "depth") {
         frame.write(DEPTH_SENTINEL);
         continue;
       }
-      if (typeof value === "string") {
-        frame.write(redactDiagnosticText(value));
+      if (kind === "text") {
+        frame.write(redactDiagnosticText(value as string));
         continue;
       }
-      if (value === null || typeof value !== "object") {
+      if (kind === "scalar") {
         frame.write(value);
         continue;
       }
-      if (seen.has(value)) {
+      if (kind === "circular") {
         frame.write(CIRCULAR_SENTINEL);
         continue;
       }
-      seen.add(value);
-      if (Array.isArray(value)) expandNewArray(frame, value, stack);
-      else expandNewObject(frame, value, stack);
+      const container = value as object;
+      seen.add(container);
+      if (Array.isArray(container)) expandNewArray(frame, container, stack);
+      else expandNewObject(frame, container, stack);
     }
     return redacted;
   }
@@ -243,6 +255,22 @@ const CIRCULAR_NODE: SerializedLogError = {
   name: "ErrorCauseCircularReference",
 };
 
+/** 一环的展开：深度/环两种终态直接给常量节点，其余交给 errorNode。 */
+function nextNode(
+  source: unknown,
+  level: number,
+  seen: WeakSet<object>,
+  includeStack: boolean,
+): { cause: unknown; step: SerializedLogError } {
+  if (level > MAX_DEPTH) return { cause: undefined, step: DEPTH_LIMIT_NODE };
+  if (source !== null && typeof source === "object" && seen.has(source)) {
+    return { cause: undefined, step: CIRCULAR_NODE };
+  }
+  if (source !== null && typeof source === "object") seen.add(source);
+  const { node, next } = errorNode(source, includeStack);
+  return { cause: next, step: node };
+}
+
 export function serializeLogError(
   error: unknown,
   includeStack: boolean,
@@ -254,16 +282,7 @@ export function serializeLogError(
   let head: SerializedLogError | undefined;
   let last: SerializedLogError | undefined;
   for (;;) {
-    let step: SerializedLogError;
-    let cause: unknown;
-    if (level > MAX_DEPTH) {
-      step = DEPTH_LIMIT_NODE;
-    } else if (source !== null && typeof source === "object" && seen.has(source)) {
-      step = CIRCULAR_NODE;
-    } else {
-      if (source !== null && typeof source === "object") seen.add(source);
-      ({ node: step, next: cause } = errorNode(source, includeStack));
-    }
+    const { cause, step } = nextNode(source, level, seen, includeStack);
     if (last === undefined) head = step;
     else last.cause = step;
     if (cause === undefined) return head!;
