@@ -3,8 +3,8 @@
 //
 // 用法（仓库根目录）：
 //   pnpm build:cli-packages
-//   node specs/contracts/core-hooks/tests/run-old-gate.mjs            # 旧门
-//   node specs/contracts/core-hooks/tests/run-old-gate.mjs --with-stubs  # 附带桩替换验证
+//   node apps/cli/packages/core/test/run-old-gate.mjs            # 旧门
+//   node apps/cli/packages/core/test/run-old-gate.mjs --with-stubs  # 附带桩替换验证
 import { execFileSync, spawnSync } from "node:child_process";
 import { readdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";

@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import test from "node:test";
-import { hooks } from "./entry.mjs";
+import { hooks } from "./core-hooks-entry.mjs";
 import {
   BUNDLE_DIGEST,
   DECLARATION_DIGEST,
@@ -12,7 +12,7 @@ import {
   makeHookInput,
   makeLogger,
   makeSnapshot,
-} from "../fixtures/builders.mjs";
+} from "./fixtures/core-hooks-builders.mjs";
 
 const predicateEvent = "PreToolUse";
 

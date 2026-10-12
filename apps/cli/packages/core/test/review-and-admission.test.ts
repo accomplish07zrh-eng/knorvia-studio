@@ -2,7 +2,7 @@
 // B13、B14、B15：审核流程注册表、运行时准入与 telemetry 脱敏。
 import assert from "node:assert/strict";
 import test from "node:test";
-import { hooks } from "./entry.mjs";
+import { hooks } from "./core-hooks-entry.mjs";
 import {
   BUNDLE_DIGEST,
   DECLARATION_DIGEST,
@@ -11,7 +11,7 @@ import {
   makeReviewRequest,
   makeReviewTarget,
   makeSnapshot,
-} from "../fixtures/builders.mjs";
+} from "./fixtures/core-hooks-builders.mjs";
 
 const decision = { action: "trust_selected", reviewItemIds: ["item-1"] };
 

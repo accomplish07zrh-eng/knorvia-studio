@@ -2,14 +2,14 @@
 // B10、B11、B12、B16：workspace Hook 策略、信任协调者、单条求值与信任记录。
 import assert from "node:assert/strict";
 import test from "node:test";
-import { hooks } from "./entry.mjs";
+import { hooks } from "./core-hooks-entry.mjs";
 import {
   BUNDLE_DIGEST,
   DECLARATION_DIGEST,
   WORKSPACE_IDENTITY,
   digest,
   makeSnapshot,
-} from "../fixtures/builders.mjs";
+} from "./fixtures/core-hooks-builders.mjs";
 
 const TRUSTED_POLICY = { mode: "user_decides", policyRevision: "fixture:v1" };
 

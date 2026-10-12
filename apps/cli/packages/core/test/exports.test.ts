@@ -4,14 +4,14 @@
 // 替换实现时由根/CLI 的 pnpm typecheck 覆盖类型面，本文件覆盖值导出与最小可用性。
 import assert from "node:assert/strict";
 import test from "node:test";
-import { hooks } from "./entry.mjs";
+import { hooks } from "./core-hooks-entry.mjs";
 import {
   BUNDLE_DIGEST,
   WORKSPACE_IDENTITY,
   digest,
   makeHookConfig,
   makeSnapshot,
-} from "../fixtures/builders.mjs";
+} from "./fixtures/core-hooks-builders.mjs";
 
 test("B18 值导出齐全且可被实例化/调用", () => {
   const functions = [
