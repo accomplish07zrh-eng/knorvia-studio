@@ -54,18 +54,14 @@ export function absolute(path: string): string {
   return normalize(path);
 }
 
-export function code(error: unknown): unknown {
-  if (error === null || typeof error !== "object") return undefined;
-  return "code" in error ? error.code : undefined;
+export function code(value: unknown): unknown {
+  if (value === null || typeof value !== "object") return undefined;
+  return "code" in value ? value.code : undefined;
 }
 
-function cancelled(path: string, cause: unknown): Error {
-  return createFileSystemError({
-    cause,
-    code: "cancelled",
-    message: `File system operation was cancelled: ${path}`,
-    path,
-  });
+function asCancelled(path: string, cause: unknown): Error {
+  const text = "File system operation was cancelled: " + path;
+  return createFileSystemError({ cause, code: "cancelled", message: text, path });
 }
 
 function ioFailure(
@@ -84,8 +80,9 @@ function ioFailure(
 }
 
 export function failure(error: unknown, path: string): Error {
-  if (error instanceof Error && error.name === "FileSystemPortError") return error;
-  if (error instanceof Error && error.name === "AbortError") return cancelled(path, error);
+  const named = error instanceof Error ? error.name : "";
+  if (named === "FileSystemPortError") return error;
+  if (named === "AbortError") return asCancelled(path, error);
   const errnoCode = code(error);
   const mapping = typeof errnoCode === "string" ? FAILURE_BY_ERRNO.get(errnoCode) : undefined;
   return ioFailure(error, path, mapping);
