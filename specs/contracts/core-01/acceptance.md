@@ -151,3 +151,25 @@
 2. `sections/request-user-context.ts` 的 `buildRequestUserContextSection`（内部函数）：`# agentsMd` 标题与 OVERRIDE 文案、`Contents of <filePath> (workspace instructions|user default instructions):`、截断追加 `[File truncated: <fileName>]`、memory 索引段 `(user's auto-memory, persists across conversations)`、无内容 → `null`。
 3. `ContextBuilder.setToolRegistry` 的注册行为（需要 `ToolRegistry` 夹具）。
 4. `sections/skills.ts` 排序依赖 `localeCompare`：同 locale 下稳定；跨 locale 的排序差异见 `known-differences.md`。
+
+## 12. agent 组 1（A1–A3）的旧门结果与剩余未覆盖项
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/agent-turn-state.test.mjs`（入口：区域桶 `src/agent/index.ts`）：
+
+- 源码入口：tests=**1** pass=**1** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**1** pass=**1** fail=0 skipped=0
+
+断言覆盖：`TurnPhase` 十个取值、`createTurnState` 的完整初始状态（含 `attachments` 透传与 `startedAt` 为 `Date`）、两个阶段谓词对十个取值逐一遍历、`canTransitionTo` 的 **10×10 全组合**转移矩阵（含原地自转与跨阶段跳转必须为 `false`）。
+
+### 未覆盖项（agent 组剩余，如实列出）
+
+1. `turn-machine.ts`（`TurnMachineImpl`）：阶段推进与事件序列 —— 需要按计划书要求写**事件序列断言**（模拟模型流的中途取消、工具并发、压缩触发点，不用 sleep/超时），是本包合同剩余的最大工作量。
+2. `message-history.ts`：`MessageHistoryImpl`/`createMessageHistory` 与 `cloneModelMessageContent`/`cloneModelInputMessage`/`cloneRuntimeMessageEntry`/`countContextPrefixMessages`/`invalidateRuntimeTokenUsage`/四个 `*RuntimeMetadata` 辅助函数。
+3. `session-history-hydrator.ts`：`activeSessionMessages`、`hydrateMessageHistoryFromSession`（会话历史水合）。
+4. `compact-session.ts`：`compactActiveSessionMessages` 与 `isCompactPreservableSessionMessage`/`isActiveCompactionBoundaryPart`。
+5. `file-part-hydration.ts`：`projectPersistedToolMediaContent`；`read-file-state-hydrator.ts`：文件读取状态水合（其 `ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出，见 §2）。
+6. `message-history-usage.ts`：`persistedTokenUsageBaseline`。
+7. 内部可达（不进区域桶，只经文件级入口或替换阶段内部单测）：`selectToolPartsForHistory`（A2）、`runtimeInputMetadata`（A3）、`turn-tool-projection.ts` 的五个函数（该文件已登记 `independent-replacement`，**不在本包替换范围**）。
+8. `agent/index.ts` 的区域桶运行时导出集合（实测 10 个：`MessageHistoryImpl`、`TurnMachineImpl`、`TurnPhase`、`activeSessionMessages`、`canTransitionTo`、`createMessageHistory`、`createTurnState`、`hydrateMessageHistoryFromSession`、`isTerminalPhase`、`isWaitingPhase`）尚未单独断言为"集合相等" —— 待 agent 组剩余条目补齐后一并加。

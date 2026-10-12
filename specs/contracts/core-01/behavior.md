@@ -204,3 +204,26 @@
 - （测试：tests/context-types.test.mjs「X13 context 类型面：正向用例通过编译、反向用例必须报错」）
 
 > **context 块剩余（子块 5，登记在 acceptance §11）**：`dynamic-sections.ts` 四个动态 section 的内部文案与触发条件、`sections/request-user-context.ts`（内部函数）、`ContextBuilder.setToolRegistry` 的注册行为。三者都不经公开入口，属"替换阶段内部单测 + 调用方覆盖"。
+
+## A1 回合阶段状态机（`agent/turn-state.ts`）
+
+- 输入：`TurnPhase`、`createTurnState(id, sessionId, turnNumber, traceId, input, attachments?)`、`isTerminalPhase(phase)`、`isWaitingPhase(phase)`、`canTransitionTo(current, next)`。
+- 输出（**逐字冻结**）：`TurnPhase` 十个取值 `idle`/`processing_input`/`awaiting_model_response`/`streaming`/`scheduling_tools`/`executing_tools`/`aggregating_results`/`awaiting_permission`/`completing`/`error`；`createTurnState` 产出 `phase:"idle"`、`streamingContent:""`、`acceptsPendingInput:true`、`resultType:"success"`、`startedAt` 为 `Date`、`attachments` 原样透传（未给即 `undefined`）、`completedAt` 未设，以及空数组的 `toolCalls`/`toolResults`/`pendingInputs`/`pendingPermissions`/`resolvedPermissions` 与空 `scheduledTools{items,parallelGroups,executionOrder}`。`isTerminalPhase` 仅 `completing`/`error` 为真；`isWaitingPhase` 仅 `awaiting_model_response`/`awaiting_permission`/`executing_tools` 为真。**转移矩阵**（100 个组合全部断言）：`idle→[processing_input]`；`processing_input→[awaiting_model_response, completing]`；`awaiting_model_response→[streaming, completing, error]`；`streaming→[scheduling_tools, aggregating_results, completing, error]`；`scheduling_tools→[executing_tools, awaiting_permission, error]`；`executing_tools→[aggregating_results, awaiting_permission, error]`；`aggregating_results→[awaiting_model_response, scheduling_tools, completing, error]`；`awaiting_permission→[executing_tools, error]`；`completing→[idle]`；`error→[idle]`。未列出的组合一律 `false`（含原地自转与跨阶段跳转）。
+- 错误语义：不抛错；非法转移以 `false` 表达（由调用方决定是否抛）。时序与并发：纯函数与纯数据构造，无内部时序；阶段推进由调用方驱动。幂等：`createTurnState` 每次返回**新对象**（`startedAt` 为新时间）；谓词与转移判定幂等。资源释放：不适用。平台差异：不适用。状态所有者：调用方持有 `TurnState`（本模块只造初始态与判定）。日志级别：不适用。
+- （测试：tests/agent-turn-state.test.mjs「A1 回合阶段状态机：取值表、初始状态与转移矩阵」）
+
+## A2 历史工具部件选择（`agent/tool-part-order.ts`，内部可达）
+
+- 输入：`selectToolPartsForHistory(parts: ToolPart[])`（**不经区域桶导出**）。
+- 输出（**语义冻结**，探针实测）：同一 `callID` 出现多次时**只保留最后一个**（`Map` 覆盖）；保留所选记录的**物理顺序**；若所选记录**全部**带 `declarationIndex`，按 `declarationIndex` 升序排序；若**任一**记录缺 `declarationIndex`（旧记录/混合版本），整组保持原序不排序。实测：`[a#2,b#1] → [b#1,a#2]`；`[a#0,b#1,a#2] → [b#1,a#2]`（旧 a 被覆盖）；`[a#1,b#undefined] → [a#1,b#undefined]`（缺序号即不排序）。
+- 错误语义：不抛错。时序与并发：纯函数（注意 `sort` 作用在 `filter` 结果上，不改动入参数组）。幂等：是（同输入同输出）。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- 覆盖方式：内部可达 → 替换阶段内部单测按上述三条实测语义冻结。
+
+## A3 运行时输入呈现标记（`agent/runtime-input-presentation.ts`，内部可达）
+
+- 输入：`runtimeInputMetadata(value)`（**不经区域桶导出**）。
+- 输出（**语义冻结**）：先经 `parseRuntimeInputPresentation`（取值表 7 个：`user_steer`/`coordinator_steer`/`coordinator_input`/`subagent_reply_steer`/`subagent_reply`/`task_notification_steer`/`task_notification`）；解析失败（含 `undefined`、数字、表外字符串）→ `undefined`；`user_steer` → `{source:"real_user", inputPresentation:"user_steer"}`；其余 6 个取值 → `{source:"legacy_synthetic", inputPresentation:<取值>}`。实测：`"user_steer"` → real_user；`"coordinator"`/`"queued_input"`/`"invalid_value"`/`undefined`/`42` → `undefined`。
+- 错误语义：不抛错（宽松解析）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- 覆盖方式：内部可达 → 替换阶段内部单测按上述实测语义冻结。
+
+> **agent 组剩余（待补）**：`turn-machine.ts`（`TurnMachineImpl` 的阶段推进与事件序列）、`message-history.ts`（`MessageHistoryImpl`/`createMessageHistory` 与克隆/计数/失效辅助函数）、`session-history-hydrator.ts`（`activeSessionMessages`/`hydrateMessageHistoryFromSession`）、`compact-session.ts`（`compactActiveSessionMessages` 与两个谓词）、`file-part-hydration.ts`（`projectPersistedToolMediaContent`）、`read-file-state-hydrator.ts`、`message-history-usage.ts`（`persistedTokenUsageBaseline`）、`turn-tool-projection.ts`（**已登记 `independent-replacement`，不在范围**）。

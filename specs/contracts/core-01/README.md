@@ -106,3 +106,13 @@ context 块剩余（子块 4）：`dynamic-sections` 内部文案、`request-use
 | X13 context 类型面 | `tests/context-types.test.mjs`「X13 context 类型面：正向用例通过编译、反向用例必须报错」 |
 
 context 块剩余（子块 5）：`dynamic-sections` 内部文案、`request-user-context`（内部函数）、`setToolRegistry` 注册行为。
+
+## 条目 → 测试对照表（agent 组 1，A1–A3）
+
+| 条目 | 测试 / 覆盖方式 |
+| --- | --- |
+| A1 回合阶段状态机 | `tests/agent-turn-state.test.mjs`「A1 回合阶段状态机：取值表、初始状态与转移矩阵」（10×10 全组合） |
+| A2 历史工具部件选择 | **间接覆盖**：`selectToolPartsForHistory` 不经区域桶导出 → 替换阶段内部单测（三条实测语义已写进 behavior.md A2） |
+| A3 运行时输入呈现标记 | **间接覆盖**：`runtimeInputMetadata` 不经区域桶导出 → 替换阶段内部单测（7 取值域与 real_user/legacy_synthetic 映射已冻结） |
+
+agent 组剩余：`turn-machine`、`message-history`、`session-history-hydrator`、`compact-session`、`file-part-hydration`、`read-file-state-hydrator`、`message-history-usage`（`turn-tool-projection` 已登记 `independent-replacement`，不在范围）。
