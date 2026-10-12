@@ -172,7 +172,8 @@ function runtimeTaskResultText(
 ): string | undefined {
   if (!isDynamicWorkflowRunDispatchToolName(toolCall.name)) return undefined;
   if (status === RUNTIME_STATUS_RUNNING) return undefined;
-  if (!snapshot || !("output" in snapshot)) return undefined;
+  if (snapshot === undefined) return undefined;
+  if (!("output" in snapshot)) return undefined;
   return serializeWorkflowArtifact(snapshot.output);
 }
 
@@ -196,10 +197,17 @@ export function releaseRuntimeBackgroundTaskNotification(
   toolCall: ExecutableToolCall,
   taskId: string,
 ): void {
-  if (!runtimeTaskTypeForToolCall(toolCall) || !deps.runtimeTaskRegistry) return;
-  deps.runtimeTaskRegistry.update(taskId, (current) =>
-    current.notified ? { ...current, notified: false } : current,
-  );
+  if (runtimeTaskTypeForToolCall(toolCall) === undefined) return;
+  const registry = deps.runtimeTaskRegistry;
+  if (registry === undefined) return;
+
+  registry.update(taskId, (current) => {
+    // 没有认领过就没有可释放的令牌，原样返回。
+    if (!current.notified) return current;
+    const released = { ...current } as RuntimeTaskSnapshot;
+    released.notified = false;
+    return released;
+  });
 }
 
 export function removeRuntimeBackgroundTask(
