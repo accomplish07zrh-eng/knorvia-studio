@@ -148,6 +148,14 @@ node <tool> --repo . --candidate <文件> \
 | `tools/tool-scope-predicates.ts` | **普通模式**       | —            | —          | **0.182 / run < 8** ✓ | 两个判定改为「先排除只读 → 再取范围 → 命中集合」的直白分支（不再用三元），两个范围集合各自命名并配注释       |
 | `tools/contract.ts`              | 声明模式（薄入口） | 2            | 1          | 0.000 ✓               | 只做再导出（普通模式亦 0.000）                                                                               |
 
+### 3.13 tools 组第 10 批（get-workflow-run，声明模式 PASS）
+
+| 文件                        | 兼容面行数 X | 残留行数 Y | 实测    | 说明                                                                                                                                                                                                         |
+| --------------------------- | ------------ | ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `tools/get-workflow-run.ts` | 162          | 4          | 0.000 ✓ | 35 处 JSDoc/段落说明改为自有措辞并统一转 `//` 注释；全部导出 schema 保持逐字不变（含 `WorkflowRunSummarySchema.extend(...)` 的字段顺序与 `.strict()`）；情势截面仍从 `get-workflow-run-roster.ts` 原样再导出 |
+
+**做法**：本文件是「schema 全冻结 + 大段说明文字」型，没有任何运行函数，因此不需要拆模块；用行范围法把说明逐块改写、再统一把 JSDoc 转成 `//` 注释即可达标（与 `saved-workflow`/`amend-workflow` 同一处理）。其中一处说明与上游逐字相同（「一个此刻停驻、等主代理作答的升级问题。」）在改写时被捕获并换词。
+
 **差分探针**：`isWorkspaceMutatingToolCall` 与 `isWorldTouchingToolCall` 在 8 种范围 × 3 种 `readOnly`（true/false/undefined）共 48 组、外加空能力对象 2 组与 `WORKSPACE_MUTATING_SIDE_EFFECT_SCOPES` 集合比对 → **51/51 `deepStrictEqual`**（保守档「范围缺席即算写/算碰」逐组验证）。
 
 **差分探针**：`amend-workflow` 运行时入参 schema 15 组（缺省/内联脚本/两者都给/三态 null 与数/0 与负数/空白模型名/predecessor 合法与伪造 `script_inherited: false`/`script_line_offset`/空 run_id/`resume_from` 旧拼写/缺 run_id）、`AmendWorkflowInputJsonSchema` 整体相等、5 条模型可见 `describe` 逐字一致 → **21/21 通过**。
