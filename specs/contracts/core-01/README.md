@@ -126,3 +126,12 @@ agent 组剩余：`turn-machine`、`message-history`、`session-history-hydrator
 | A6 工具调度、权限等待/裁决、工具结算与待处理输入 | `tests/agent-turn-machine.test.mjs`「A6 turn-machine：工具调度、权限等待/裁决、工具结算与待处理输入」 |
 
 agent 组剩余：`message-history`、`session-history-hydrator`、`compact-session`、`file-part-hydration`、`read-file-state-hydrator`、`message-history-usage`、`agent/index.ts` 桶导出集合断言。
+
+## 条目 → 测试对照表（agent 组 3，A7–A8）
+
+| 条目 | 测试 |
+| --- | --- |
+| A7 message-history（追加/替换/缓存统计/只读借用） | `tests/agent-message-history.test.mjs`「A7 message-history：初始化、追加、替换与只读借用」「A7 message-history：缓存统计与重置」 |
+| A8 compact-session（边界判定、保留规则、裁剪与插回） | `tests/agent-compact-session.test.mjs`「A8 compact-session：压缩边界的判定与保留条件」「A8 compact-session：活动消息裁剪与保留段插回」（文件级入口，区域桶未导出） |
+
+agent 组剩余：`session-history-hydrator`、`file-part-hydration`、`read-file-state-hydrator`、`message-history-usage`、`agent/index.ts` 桶导出集合断言。

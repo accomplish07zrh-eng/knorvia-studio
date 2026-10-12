@@ -253,3 +253,11 @@
 - （测试：tests/agent-turn-machine.test.mjs「A6 turn-machine：工具调度、权限等待/裁决、工具结算与待处理输入」）
 
 > **agent 组剩余**：`message-history.ts`、`session-history-hydrator.ts`、`compact-session.ts`、`file-part-hydration.ts`、`read-file-state-hydrator.ts`、`message-history-usage.ts`，以及 `agent/index.ts` 桶导出集合断言（`turn-tool-projection.ts` 已登记 `independent-replacement`，不在范围）。
+
+## A8 会话压缩裁剪与保留段插回（`agent/compact-session.ts`，文件级入口）
+
+- 输入：`isActiveCompactionBoundaryPart(part)`、`isCompactPreservableSessionMessage(message)`、`compactActiveSessionMessages(messages, boundaryIndex, includePreservedSegment)`。
+- 输出（**语义冻结**）：① `isActiveCompactionBoundaryPart`：`type !== "compaction"` → `false`；`type === "compaction"` 且带 `compactBoundary` → `true`；无 `compactBoundary` 但带 `timelineStatus` → `false`；无 `compactBoundary` 且无 `timelineStatus` → `true`。② `isCompactPreservableSessionMessage`：`info.semantics?.providerVisibility === "hidden"` → `false`；任一部分 `type === "compaction"` → `false`；`role === "assistant"` 且 `info.error` 存在 → `false`；其余仅 `user`/`assistant` → `true`（`system` 等角色 → `false`）。③ `compactActiveSessionMessages`：基线是 `messages.slice(boundaryIndex)`；`includePreservedSegment === false` → 直接返回该切片（**同一批消息引用**）；为 `true` 时从边界消息的 compaction 部分取 `compactBoundary.preservedSegment`，在**边界之前**按 `headMessageId`/`tailMessageId` 定位（`tailIndex < boundaryIndex` 才有效），过滤出可保留消息后插回：锚点消息（`anchorMessageId`）在活动切片内 → 插到锚点之后；锚点不在 → 插到下标 **1**；无 `preservedSegment` 或 head/tail 定位失败 → 不插回。保留的 assistant 消息在插回时会做**token 用量失效**（`invalidateRuntimeTokenUsage`），user 消息原样引用。
+- 错误语义：不抛错；定位失败以"不插回"表达。时序与并发：纯函数（不改入参数组）。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：调用方持有消息数组。日志级别：不适用。
+- 覆盖方式：本区三个导出**不经区域桶**（区域桶 10 个导出里没有它们）→ 契约测试用**文件级入口** `src/agent/compact-session.ts` 做黑盒断言；替换阶段再用内部单测复核。
+- （测试：tests/agent-compact-session.test.mjs「A8 compact-session：压缩边界的判定与保留条件」「A8 compact-session：活动消息裁剪与保留段插回」）

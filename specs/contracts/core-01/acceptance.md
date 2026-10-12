@@ -215,3 +215,27 @@
 6. `borrowReadOnlyRuntimeEntries()` 返回的是**借用视图**：与历史**共享同一数组**，`push` 会真的改到历史（实测 `getMessageCount()` 从 4 变 5）。"只读"是对调用方的约定，不是运行时冻结。
 
 **本轮未提交黑盒测试**：`tests/agent-message-history.test.mjs` 在两次按实测修正后仍有 2 条初始统计断言未对齐（`cacheReadTokens` 键的存在性在"从未设置"与"设置后清除"两种状态下不同），我把它从分支移除，避免留下红测试；下一轮按上面第 1、5 条的精确差异补齐断言即可（其余 4 条已可直接写死）。`compact-session.ts`（`compactActiveSessionMessages` 与两个谓词）同样留待下一轮。
+
+## 15. agent 组 3 收尾（A8 compact-session）
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/agent-compact-session.test.mjs`（入口：**文件级** `src/agent/compact-session.ts`，因本区三个导出不经区域桶）：
+
+- 源码入口：tests=**2** pass=**2** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**2** pass=**2** fail=0 skipped=0
+
+断言覆盖：`isActiveCompactionBoundaryPart` 的三态（有边界 / 无边界有 timelineStatus / 无边界无 timelineStatus）、`isCompactPreservableSessionMessage` 的六条规则（user/assistant 通过；hidden 语义、含 compaction part、assistant 带 error、system 角色一律拒绝）、`compactActiveSessionMessages` 的四种形态（不保留 → slice 且引用同一批消息；无 preservedSegment → 不插回；锚点缺失 → 插下标 1；锚点在活动切片内 → 插其后；head/tail 定位失败 → 不插回）。
+
+### 现状（分支全绿）
+
+`specs/contracts/core-01/tests/` 共 **11 个测试文件**：源码 **31/31**、dist **31/31**（M1–M5、E1–E2、C1–C6、X1–X13、A1–A8）。
+
+### 剩余未覆盖项（agent 组剩余，如实列出）
+
+1. `session-history-hydrator.ts`：`activeSessionMessages`、`hydrateMessageHistoryFromSession`（会话历史水合；后者经区域桶公开）。
+2. `file-part-hydration.ts`：`projectPersistedToolMediaContent`（内部可达）。
+3. `read-file-state-hydrator.ts`：文件读取状态水合（其 `ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出，见 §2）。
+4. `message-history-usage.ts`：`persistedTokenUsageBaseline`（内部可达）。
+5. `agent/index.ts` 区域桶的 10 个运行时导出集合断言（`MessageHistoryImpl`、`TurnMachineImpl`、`TurnPhase`、`activeSessionMessages`、`canTransitionTo`、`createMessageHistory`、`createTurnState`、`hydrateMessageHistoryFromSession`、`isTerminalPhase`、`isWaitingPhase`）。
+6. 内部可达（不经区域桶）：`selectToolPartsForHistory`（A2）、`runtimeInputMetadata`（A3）、`compact-session` 三函数（A8，已用文件级入口覆盖）。
