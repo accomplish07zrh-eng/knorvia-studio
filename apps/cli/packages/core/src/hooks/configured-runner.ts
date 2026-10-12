@@ -80,7 +80,7 @@ function registrationsForMatcher(input: {
   matcherIndex: number;
 }): HookRegistration[] {
   const { options, event, matcherConfig, matcherIndex } = input;
-  const maxOutputBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
+  const maxBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
   const matcherHooks = matcherConfig.hooks;
   return matcherHooks.flatMap((hook, hookIndex) => {
     const disabledHook = hook.enabled === false;
@@ -89,7 +89,10 @@ function registrationsForMatcher(input: {
     const sourceKind = pluginSource ?? hook.source?.kind ?? "internal";
     return [
       registrationFromHook({
-        budget: { maxOutputBytes, timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs) },
+        budget: {
+          maxOutputBytes: maxBytes,
+          timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs),
+        },
         event,
         hook,
         hookIndex,
@@ -132,11 +135,11 @@ function workspaceEntryConfig(
   snapshot: NonNullable<ConfiguredHookRunnerOptions["workspaceHookSnapshot"]>,
   entry: CanonicalWorkspaceHookEntry,
 ): HookConfig {
-  const sourcePath = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath;
+  const entrySourcePath = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath;
   const commonFields: Array<[string, unknown]> = [["command", entry.command]];
   commonFields.push([
     "source",
-    { kind: "project" as const, ...(sourcePath ? { path: sourcePath } : {}) },
+    { kind: "project" as const, ...(entrySourcePath ? { path: entrySourcePath } : {}) },
   ]);
   if (entry.statusMessage) commonFields.push(["statusMessage", entry.statusMessage]);
   commonFields.push(["timeoutMs", entry.resolvedTimeoutMs]);
@@ -171,7 +174,8 @@ function workspaceEntryConfig(
 
 function workspaceRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
   const { workspaceHookAdmission: admission, workspaceHookSnapshot: snapshot } = options;
-  if (!admission || !snapshot) return [];
+  const hasWorkspaceHooks = admission !== undefined && snapshot !== undefined;
+  if (!hasWorkspaceHooks) return [];
 
   return snapshot.hooks.flatMap((entry) => {
     const hook = workspaceEntryConfig(snapshot, entry);
