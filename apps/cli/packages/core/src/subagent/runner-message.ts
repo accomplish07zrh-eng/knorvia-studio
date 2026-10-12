@@ -9,6 +9,9 @@ import {
   type RuntimeTaskPendingMessage,
   type RuntimeTaskSnapshot,
 } from "../runtime-task/registry.js";
+
+// 事件里的 resumed 标记：这条投递来自「从存储恢复」的路径。
+const RESUMED_FLAG = true;
 import { backgroundWorker } from "./runner-background.js";
 import { controllerFor, readinessGate } from "./runner-cancellation.js";
 import { writeMetadata } from "./runner-artifacts.js";
@@ -77,7 +80,7 @@ async function deliverMessage(
   message: RuntimeTaskPendingMessage,
 ): Promise<SubagentSendMessageResult> {
   if (task.messageSink) {
-    try {
+    try /* 子会话消息投递失败不打断主流程 */ {
       return succeeded(task, message, await task.messageSink.send(message));
     } catch {
       state.registry.queueMessage(task.taskId, message);
@@ -114,7 +117,7 @@ async function resumeMessage(
     return failed(request, `Cannot resume local agent ${task.agentId}: missing child session id.`);
   const execution = createExecution(state, resumeRequest, profile, task);
   registerExecution(state, execution, true);
-  try {
+  try /* 子会话消息投递失败不打断主流程 */ {
     await writeMetadata(execution, "running", {
       resumedAt: new Date().toISOString(),
       resumedFromMessageId: message.id,
@@ -129,7 +132,7 @@ async function resumeMessage(
     state,
     execution,
     { signal: controller.signal },
-    async () => {
+    async  /* 逐条投递，单条失败不影响后续 */() => {
       await emit(state, execution, SessionEventType.SubagentSpawned, {
         agentId: execution.agentId,
         agentType: execution.request.agentType,
@@ -139,16 +142,16 @@ async function resumeMessage(
         outputFile: execution.outputFile,
         parentToolCallId: execution.request.parentToolCallId,
         prompt: execution.request.prompt,
-        resumed: true,
+        resumed: RESUMED_FLAG,
         status: "running",
       });
       gate.resolve();
     },
     gate.reject,
     dispose,
-    true,
+    RESUMED_FLAG,
   );
-  try {
+  try /* 子会话消息投递失败不打断主流程 */ {
     await gate.promise;
   } catch (error) {
     controller.abort(error);
