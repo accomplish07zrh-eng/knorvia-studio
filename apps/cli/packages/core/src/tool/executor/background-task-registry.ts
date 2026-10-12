@@ -182,13 +182,20 @@ export function claimRuntimeBackgroundTaskNotification(
   toolCall: ExecutableToolCall,
   taskId: string,
 ): boolean {
-  if (!runtimeTaskTypeForToolCall(toolCall) || !deps.runtimeTaskRegistry) return true;
+  if (runtimeTaskTypeForToolCall(toolCall) === undefined) return true;
+  const registry = deps.runtimeTaskRegistry;
+  if (registry === undefined) return true;
+
+  // 认领令牌：同一个终态只允许入队一次，因此第一个调用方得到 true、其余得到 false。
   let claimed = false;
-  const task = deps.runtimeTaskRegistry.update(taskId, (current) => {
+  const task = registry.update(taskId, (current) => {
     if (current.notified) return current;
     claimed = true;
-    return { ...current, notified: true };
+    const next = { ...current } as RuntimeTaskSnapshot;
+    next.notified = true;
+    return next;
   });
+  // 条目不存在等于「没有可通知的终态」，按无需认领处理。
   return task === undefined ? true : claimed;
 }
 
@@ -215,8 +222,11 @@ export function removeRuntimeBackgroundTask(
   toolCall: ExecutableToolCall,
   taskId: string,
 ): void {
-  if (!runtimeTaskTypeForToolCall(toolCall) || !deps.runtimeTaskRegistry) return;
-  deps.runtimeTaskRegistry.remove(taskId);
+  if (runtimeTaskTypeForToolCall(toolCall) === undefined) return;
+  const registry = deps.runtimeTaskRegistry;
+  if (registry === undefined) return;
+
+  registry.remove(taskId);
 }
 
 /** 固定名字 → 任务种类的对照表；表外名字再交给 dwf 谓词判断。 */
