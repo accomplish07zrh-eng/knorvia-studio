@@ -236,3 +236,8 @@ export interface SessionMailboxRegistrationOptions {
   mailbox: SessionMailboxPort;
   sessionId: SessionId;
 }
+
+/** 审核代请求/状态/定时器的同构别名（能力名）：把兼容字段拼写与具体类型解耦。 */
+export type HookReviewRequest = WorkspaceHookReviewRequestPayload;
+export type HookReviewState = WorkspaceHookReviewFlowState;
+export type HookReviewTimer = ReturnType<typeof setTimeout>;

@@ -15,6 +15,9 @@ import {
 } from "@knorvia/shared/protocol-v4";
 
 import type {
+  HookReviewRequest,
+  HookReviewState,
+  HookReviewTimer,
   WorkspaceHookReviewFlow,
   WorkspaceHookReviewOutcome,
   WorkspaceHookReviewResolveResult,
@@ -24,11 +27,11 @@ import type {
 type TerminalState = "resolved" | "superseded" | "timed_out" | "cancelled";
 
 interface FlowRecord {
-  request: WorkspaceHookReviewRequestPayload;
-  state: WorkspaceHookReviewFlowState;
+  request: HookReviewRequest;
+  state: HookReviewState;
   settle: (outcome: WorkspaceHookReviewOutcome) => void;
   now: () => number;
-  timer?: ReturnType<typeof setTimeout>;
+  timer?: HookReviewTimer;
   publicFlow: WorkspaceHookReviewFlow;
 }
 
