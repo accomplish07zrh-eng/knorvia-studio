@@ -21,7 +21,9 @@
         "scripts/provenance/inherited-triage.test.mjs",
         "specs/contracts/*/tests/*.test.ts",
         "specs/contracts/*/tests/*.test.mjs",
-        "specs/contracts/*/tests/fixtures/*.mjs"
+        "specs/contracts/*/tests/fixtures/*.mjs",
+        "scripts/provenance/bookkeeping-round2.mjs",
+        "scripts/provenance/bookkeeping-round2-similarity.mjs"
       ]
     },
     "packages/ui": {
