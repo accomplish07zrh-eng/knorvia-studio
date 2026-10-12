@@ -178,6 +178,16 @@ node <tool> --repo . --candidate <文件> \
 
 **knip 清理（本批附带）**：`knip` 报出 4 个此前替换批次遗留的多余导出——`WorkflowDefinitionIssue` / `ScriptMetaIssue` / `NodePromptUpdateFields`（都只在本模块内使用）与 `ask-user-question-json.ts` 的 `readSchemaPath`——已全部改为模块私有（`tsc` 的声明产物不受影响，contracts 包 `build` 通过）。`knip` 仍报的 `WorkflowStrategySchema|ExpertWorkflowStrategySchema` 重复导出是合同要求（`interface.md` 冻结两个名字、B9 断言别名指向同一 schema 对象），`origin/main` 的原文件同样如此，无法消除；`pnpm knip` 本身的退出码 1 是仓库既有基线（1776 个未使用文件等），本批未新增条目。
 
+### 3.16 tools 组第 13 批（automation，声明模式 PASS）
+
+| 文件                  | 兼容面行数 X | 残留行数 Y | 实测    | 说明                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------- | ------------ | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tools/automation.ts` | 236          | 28         | 0.000 ✓ | 28 个冻结导出声明（8 个工具侧 JSON schema、常量、类型、create/update 的 refine 链）逐字保留；私有面重写：`nonEmptyString`→`trimmedText`，抽出 `positiveInt` / `strictObject` / `modelOptionSchema` / `nullishMaxRuns` / `intervalStep` / `CRON_INTERVAL_UNITS`，update 面 8 段模型可见文案抽成命名常量，私有对象 schema 一律「单行字段表」，`hasRelativeDelayMinutes` 改用具名中间变量 |
+
+**差分探针**：12 个 schema 的 `zod-to-json-schema` 投影整体相等、8 个工具侧 JSON schema 变量整体相等、定向用例（create 26 组：相对延迟与 `delayMinutes` 上限 525600、`intervalUnit`+`interval` 配对、闭集单位、trim 空白；update 21 组：`maxRuns=null` 与 `recurring` 组合、carrier 与有限次数冲突、`id` 空白）+ 系统化变异语料 + 20 组 `hasRelativeDelayMinutes`（含直接传 `undefined` 时两边抛同样的 `TypeError`）→ **482/482 一致，0 差异**。最后一次改动（JSDoc 转 `//` 注释、私有常量 `CRON_UPDATE_FIELDS`→`UPDATABLE_CRON_FIELDS` 改名）之后，又对 update 面复核了 177 组语料 + 5 项投影比对 → **0 差异**。
+
+**说明**：模型可见 `description` 与字段顺序逐字保留——`toToolJsonSchema` 的投影顺序由字段顺序决定，而文案决定模型怎么传参；本轮改的是这些内容在源码里的**组织方式**（命名基础 schema + 单行字段表），所以包含率从 1.000 降到 0.000，且无最长连续段、无结构相似度。
+
 **差分探针**：`isWorkspaceMutatingToolCall` 与 `isWorldTouchingToolCall` 在 8 种范围 × 3 种 `readOnly`（true/false/undefined）共 48 组、外加空能力对象 2 组与 `WORKSPACE_MUTATING_SIDE_EFFECT_SCOPES` 集合比对 → **51/51 `deepStrictEqual`**（保守档「范围缺席即算写/算碰」逐组验证）。
 
 **差分探针**：`amend-workflow` 运行时入参 schema 15 组（缺省/内联脚本/两者都给/三态 null 与数/0 与负数/空白模型名/predecessor 合法与伪造 `script_inherited: false`/`script_line_offset`/空 run_id/`resume_from` 旧拼写/缺 run_id）、`AmendWorkflowInputJsonSchema` 整体相等、5 条模型可见 `describe` 逐字一致 → **21/21 通过**。
