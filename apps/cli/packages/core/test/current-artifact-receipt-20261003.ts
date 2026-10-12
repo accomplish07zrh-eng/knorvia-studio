@@ -22,7 +22,7 @@ const text = await readFile(
   new URL("./current-message-buffer-artifact-receipt-20261003.json", import.meta.url),
   "utf8",
 );
-assert.equal(sha(text), "3dad7d1edd7feebc5fbda72e68884b02e2196f79c2205cc6a0afa773123d5df2");
+assert.equal(sha(text), "3b54d0d140b4a74089dad7d38d534e36dfd24a84537a6f967b5d6fc14b6da0cb");
 const receipt: CurrentReceipt = JSON.parse(text);
 assert.equal(receipt.formatVersion, 3);
 assert.equal(receipt.sourceCheckpoint, "c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9");

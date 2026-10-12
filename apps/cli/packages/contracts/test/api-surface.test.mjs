@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // contracts-01 契约测试：公开入口的导出面（B1 / B8 / B23 / B24）。
 // 断言依据 interface.md：每个范围内文件列出的运行时可导出名必须能从对应公开入口取到。
@@ -9,7 +9,9 @@ import { test } from "node:test";
 import { load, loadFile } from "./entry.mjs";
 
 const interfaceText = readFileSync(
-  fileURLToPath(new URL("../interface.md", import.meta.url)),
+  fileURLToPath(
+    new URL("../../../../../specs/contracts/contracts-01/interface.md", import.meta.url),
+  ),
   "utf8",
 );
 
