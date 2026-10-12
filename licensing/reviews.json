@@ -134325,6 +134325,30 @@
         "specs/contracts/contracts-02/interface.md",
         "specs/contracts/contracts-02/behavior.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/bash.ts",
+      "normalizedSha256": "e73ed95687a70fc998429225570fe29c56ca9d767687a7b421128274236202f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation modules tools/bash.ts and tools/tool-result-metadata.ts. Frozen declarations (exported schema/signature/constant surface and model-visible strings) are preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (named base helpers, paragraph-grouped model hint, shared key-dropping helpers for the persisted-display scrubbers). A differential probe compared the replaced implementation with the new one on JSON-schema projections, 21 input-parsing cases and 16 legacy persisted payloads (73/73 identical), and the per-file similarity result is recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/tool-result-metadata.ts",
+      "normalizedSha256": "a9949d2589f451461c0ab341adb2431c6cefc15d0e809139d6f541ad0d552551",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation modules tools/bash.ts and tools/tool-result-metadata.ts. Frozen declarations (exported schema/signature/constant surface and model-visible strings) are preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (named base helpers, paragraph-grouped model hint, shared key-dropping helpers for the persisted-display scrubbers). A differential probe compared the replaced implementation with the new one on JSON-schema projections, 21 input-parsing cases and 16 legacy persisted payloads (73/73 identical), and the per-file similarity result is recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/known-differences.md"
+      ]
     }
   ]
 }
