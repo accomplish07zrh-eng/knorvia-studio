@@ -340,3 +340,22 @@
 2. `filePartToContentBlock` 的 `artifactStore.readToolResultArtifact` 读取分支与 `isArtifactUri` 为真的 artifact 身份分支（`kind:"inline"`、`uri = metadata.artifactUri`、`path` 置空）。
 
 两项补齐后跑**完整旧门**（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。
+
+## 21. agent 组最后三文件之四（A14 filePartToContentBlock 的 artifact 分支）完成
+
+`specs/contracts/core-01/tests/agent-file-part-artifact.test.mjs`（入口：**文件级** `src/agent/file-part-hydration.ts`）：
+
+- 源码入口：tests=**2** pass=**2** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**2** pass=**2** fail=0 skipped=0
+
+实测与断言：`isArtifactUri` 接受 **`knorvia-artifact://…`**（`artifact://`/`artifact:`/`https://` 均为 false，探针实测）；命中 artifact 身份（本地 file/symbol 起源 + 媒体 mime + durableUri 是 artifact URI）时引用为 `kind:"inline"`、`uri = metadata.artifactUri`、**`path` 置空**，payload 由注入的 `artifactStore.readToolResultArtifact` 提供且必须是内联 data URL；读取抛错、内容非 data URL、没有 store、durableUri 非 artifact URI 四种情况一律回落文本 `[Attached <mime>: <label>]`。
+
+### 分支现状（全绿）
+
+`specs/contracts/core-01/tests/` 共 **17 个测试文件**：源码 **41/41**、dist **41/41**。
+
+### 剩余未覆盖项（最后 1 项）
+
+`read-file-state-hydrator.ts`：文件读取状态水合的运行时投影函数（其 `ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出，见 §2）。
+
+补齐后跑**完整旧门**（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。
