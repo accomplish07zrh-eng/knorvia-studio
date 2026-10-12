@@ -331,19 +331,26 @@ function extensionForMime(mimeType: string): string {
   }
 }
 
+// 人类可读的字节标签：单位阶梯与整数/一位小数的分界都是兼容面。
+const SIZE_UNIT_LADDER = ["B", "KiB", "MiB", "GiB"] as const;
+const BYTES_PER_UNIT = 1024;
+const DECIMAL_THRESHOLD = 10;
+
 function omittedImageMessage(summary: ImageSummary): string {
-  return `MCP image content omitted: ${summary.mimeType}, base64=${sizeLabel(summary.base64Bytes)} exceeds inline limit ${sizeLabel(summary.inlineLimitBytes)}.`;
+  const actualSize = sizeLabel(summary.base64Bytes);
+  const inlineLimit = sizeLabel(summary.inlineLimitBytes);
+  return `MCP image content omitted: ${summary.mimeType}, base64=${actualSize} exceeds inline limit ${inlineLimit}.`;
 }
 
 function sizeLabel(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
-  const units = ["B", "KiB", "MiB", "GiB"];
-  let value = bytes;
-  let unit = 0;
-  while (value >= 1024 && unit < units.length - 1) {
-    value /= 1024;
-    unit += 1;
+  let unitIndex = 0;
+  let scaled = bytes;
+  while (scaled >= BYTES_PER_UNIT && unitIndex < SIZE_UNIT_LADDER.length - 1) {
+    scaled = scaled / BYTES_PER_UNIT;
+    unitIndex += 1;
   }
-  const label = unit === 0 || value >= 10 ? Math.round(value).toString() : value.toFixed(1);
-  return `${label} ${units[unit]}`;
+  const isBaseUnitOrLarge = unitIndex === 0 || scaled >= DECIMAL_THRESHOLD;
+  const amount = isBaseUnitOrLarge ? Math.round(scaled).toString() : scaled.toFixed(1);
+  return `${amount} ${SIZE_UNIT_LADDER[unitIndex]}`;
 }
