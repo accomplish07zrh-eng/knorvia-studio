@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "09efd83d343d540c405d2fec8135f4b3c12c7e6580c326118c6aba5fa9060f85",
+      "normalizedSha256": "f59760b3ba23330b91f6f6c07356f467964aba8c84898a0428885e9d025cce90",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133585,6 +133585,22 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (script group): script-declarations.ts holds the frozen schemas, constants, types and port interfaces; script-validation.ts holds the rewritten duplicate-phase-title check extracted from the schema refine (named pure function). The author read the replaced implementation; a differential probe compared old vs new WorkflowScriptMetaSchema parsing (success, issue message and path) on 12 inputs with deep equality. Internal agent limit constants were renamed (values unchanged). Public export names and signatures match specs/contracts/contracts-02/interface.md; validation normal-mode containment 0.182 / run 5.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/contract-declarations.ts",
+      "normalizedSha256": "b88ed01e84f80bc36b1c9b9baa89600adb4e7370ec92124e749565b02e40e8b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (contract split): contract-declarations.ts holds the frozen tool contract types, tool-scope-predicates.ts holds the rewritten side-effect predicates (readOnly short-circuit then scope-set membership instead of ternary chains), contract.ts is a thin re-export entry. The author read the replaced implementation; a differential probe compared old vs new predicate results on 48 capability combinations plus empty capability and the mutating-scope set (51/51 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md; predicates normal-mode containment 0.182.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/tool-scope-predicates.ts",
+      "normalizedSha256": "5f6e8598dde2892008fd18bf9b1116a73705035d5b5ae5d1c76eb4d2e7344198",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (contract split): contract-declarations.ts holds the frozen tool contract types, tool-scope-predicates.ts holds the rewritten side-effect predicates (readOnly short-circuit then scope-set membership instead of ternary chains), contract.ts is a thin re-export entry. The author read the replaced implementation; a differential probe compared old vs new predicate results on 48 capability combinations plus empty capability and the mutating-scope set (51/51 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md; predicates normal-mode containment 0.182.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     }
   ]

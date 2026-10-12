@@ -140,6 +140,16 @@ node <tool> --repo . --candidate <文件> \
 | ------------------------- | ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tools/amend-workflow.ts` | 67           | 3          | 12 处 JSDoc/段落说明改为自有措辞；私有 `AmendWorkflowModelInputSchema` 改「命名字段 schema + 表」形状（`requiredStringField` / `optionalStringField` / `optionalPositiveIntField` / `optionalTrimmedStringField`），消掉裸 `.string()`/`.min(1)`/`.optional()`/`.describe(`；其余 JSDoc 块统一转 `//` 注释 |
 
+### 3.12 tools 组第 9 批（contract，声明 + 实现 + 薄入口三文件）
+
+| 文件                             | 计分模式           | 兼容面行数 X | 残留行数 Y | 实测                  | 说明                                                                                                         |
+| -------------------------------- | ------------------ | ------------ | ---------- | --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `tools/contract-declarations.ts` | 声明模式           | 95           | 1          | 0.000 ✓               | 16 个类型/接口声明（副作用范围、权限、结果预算、超时、取消、追踪、契约总表）；JSDoc 块改自有措辞的 `//` 注释 |
+| `tools/tool-scope-predicates.ts` | **普通模式**       | —            | —          | **0.182 / run < 8** ✓ | 两个判定改为「先排除只读 → 再取范围 → 命中集合」的直白分支（不再用三元），两个范围集合各自命名并配注释       |
+| `tools/contract.ts`              | 声明模式（薄入口） | 2            | 1          | 0.000 ✓               | 只做再导出（普通模式亦 0.000）                                                                               |
+
+**差分探针**：`isWorkspaceMutatingToolCall` 与 `isWorldTouchingToolCall` 在 8 种范围 × 3 种 `readOnly`（true/false/undefined）共 48 组、外加空能力对象 2 组与 `WORKSPACE_MUTATING_SIDE_EFFECT_SCOPES` 集合比对 → **51/51 `deepStrictEqual`**（保守档「范围缺席即算写/算碰」逐组验证）。
+
 **差分探针**：`amend-workflow` 运行时入参 schema 15 组（缺省/内联脚本/两者都给/三态 null 与数/0 与负数/空白模型名/predecessor 合法与伪造 `script_inherited: false`/`script_line_offset`/空 run_id/`resume_from` 旧拼写/缺 run_id）、`AmendWorkflowInputJsonSchema` 整体相等、5 条模型可见 `describe` 逐字一致 → **21/21 通过**。
 
 **返工记录**：行范围 splice 在 `amend-workflow` 上切掉了私有 schema 的收尾 `});`，typecheck 立刻报 TS1005/TS1002，按锚点补回后恢复。再次印证「行范围替换后立刻 typecheck」。
