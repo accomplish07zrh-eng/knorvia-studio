@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 故障注入：从环境变量读取规则，命中时抛出带 knorviaFsFaultId 的错误。
+// 规则 JSON 的字段名、操作名与错误形状都是对外契约，逐字冻结。
 
 export const KNORVIA_E2E_FS_FAULTS_ENV = "KNORVIA_E2E_FS_FAULTS";
 export const KNORVIA_E2E_FS_FAULTS_ALLOW_ENV = "KNORVIA_E2E_FS_FAULTS_ALLOW";
 
-type Operation =
-  | "appendFile"
-  | "any"
-  | "mkdir"
-  | "rename"
-  | "rm"
-  | "sqliteOpen"
-  | "sqliteRun"
-  | "writeFile";
+/** 文件类操作。 */
+type FileOperation = "appendFile" | "mkdir" | "rename" | "rm" | "writeFile";
+
+/** SQLite 类操作。 */
+type SqliteOperation = "sqliteOpen" | "sqliteRun";
+
+/** 规则可用的全部操作名（含通配 "any"）。 */
+type Operation = FileOperation | SqliteOperation | "any";
 
 interface Rule {
   id: string;
@@ -33,16 +35,16 @@ type FaultError = Error & {
   knorviaFsFaultId: string;
 };
 
-const OPERATIONS = new Set<Operation>([
-  "appendFile",
-  "any",
-  "mkdir",
-  "rename",
-  "rm",
-  "sqliteOpen",
-  "sqliteRun",
-  "writeFile",
-]);
+interface FaultSite {
+  operation: Operation;
+  path: string;
+}
+
+/** 合法操作名：与规则 JSON 的 operation 取值一致，空格分隔一次声明。 */
+const OPERATIONS = new Set<Operation>(
+  "appendFile any mkdir rename rm sqliteOpen sqliteRun writeFile".split(" ") as Operation[],
+);
+
 let cachedRules: Rule[] | undefined;
 
 function invalidRule(index: number, detail: string): Error {
@@ -83,6 +85,7 @@ function operationSet(value: unknown, index: number): Set<Operation> | undefined
   return selected;
 }
 
+/** 路径比较统一成正斜杠，Windows 上的 `\` 与 `/` 规则等价。 */
 function slashes(path: string): string {
   return path.replace(/\\/g, "/");
 }
@@ -93,71 +96,87 @@ function normalizeRule(fields: Record<string, unknown>, index: number): Rule {
     throw invalidRule(index, "maxMatches must be a non-negative integer");
   }
   const regexSource = optionalString(fields, "pathRegex", index);
-  const code = requiredString(fields, "code", index);
-  const id = requiredString(fields, "id", index);
-  const message = optionalString(fields, "message", index);
-  const operations = operationSet(fields.operations, index);
   const ending = optionalString(fields, "pathEndsWith", index);
   const inclusion = optionalString(fields, "pathIncludes", index);
-  const expression = regexSource === undefined ? undefined : new RegExp(regexSource);
   return {
-    id,
-    code,
-    message,
-    operations,
+    id: requiredString(fields, "id", index),
+    code: requiredString(fields, "code", index),
+    message: optionalString(fields, "message", index),
+    operations: operationSet(fields.operations, index),
     pathEndsWith: ending === undefined ? undefined : slashes(ending),
     pathIncludes: inclusion === undefined ? undefined : slashes(inclusion),
-    expression,
+    expression: regexSource === undefined ? undefined : new RegExp(regexSource),
     maximum,
     consumed: 0,
   };
 }
 
-function initializeRules(): Rule[] {
-  const raw = (process.env[KNORVIA_E2E_FS_FAULTS_ENV] ?? "").trim();
-  if (!raw) return [];
-  if (process.env.KNORVIA_ENV !== "test" && process.env[KNORVIA_E2E_FS_FAULTS_ALLOW_ENV] !== "1") {
-    return [];
-  }
-  let decoded: unknown;
-  try {
-    decoded = JSON.parse(raw);
-  } catch (error) {
-    throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: ${(error as Error).message}`);
-  }
-  if (!Array.isArray(decoded)) {
-    throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: expected a JSON array`);
-  }
-  // 先完成全部对象形态检查，后续条目的形态错误必须先于前项字段错误。
-  for (let index = 0; index < decoded.length; index++) {
+/** 形态检查先行：后续条目的形态错误必须先于前项的字段错误暴露。 */
+function assertRuleShapes(decoded: unknown[]): void {
+  for (let index = 0; index < decoded.length; index += 1) {
     const item: unknown = decoded[index];
     if (item === null || typeof item !== "object" || Array.isArray(item)) {
       throw invalidRule(index, "rule must be an object");
     }
   }
+}
+
+function parseFaultSpec(spec: string): unknown[] {
+  let decoded: unknown;
+  try {
+    decoded = JSON.parse(spec);
+  } catch (cause) {
+    const detail = (cause as Error).message;
+    throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: ${detail}`);
+  }
+  if (!Array.isArray(decoded)) {
+    throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: expected a JSON array`);
+  }
+  assertRuleShapes(decoded);
+  return decoded;
+}
+
+function initializeRules(): Rule[] {
+  const spec = (process.env[KNORVIA_E2E_FS_FAULTS_ENV] ?? "").trim();
+  if (!spec) return [];
+  const allowedInTest = process.env.KNORVIA_ENV === "test";
+  const explicitlyAllowed = process.env[KNORVIA_E2E_FS_FAULTS_ALLOW_ENV] === "1";
+  if (!allowedInTest && !explicitlyAllowed) return [];
+  const decoded = parseFaultSpec(spec);
   return (decoded as Record<string, unknown>[]).map(normalizeRule);
 }
 
-export function maybeThrowStorageFsFault(input: { operation: Operation; path: string }): void {
+/** 规则是否命中：次数上限 → 操作集合 → 路径后缀/包含/正则，逐层过滤。 */
+function ruleMatches(rule: Rule, fault: FaultSite, path: string): boolean {
+  if (rule.maximum > 0 && rule.consumed >= rule.maximum) return false;
+  if (rule.operations && !rule.operations.has("any") && !rule.operations.has(fault.operation)) {
+    return false;
+  }
+  if (rule.pathEndsWith !== undefined && !path.endsWith(rule.pathEndsWith)) return false;
+  if (rule.pathIncludes !== undefined && !path.includes(rule.pathIncludes)) return false;
+  if (rule.expression && !rule.expression.test(path)) return false;
+  return true;
+}
+
+/** 注入错误：code/syscall 与规则绑定，knorviaFsFaultId 供上层断言来源。 */
+function injectedFault(rule: Rule, fault: FaultSite): FaultError {
+  const text =
+    rule.message ?? `Injected fs fault ${rule.code} for ${fault.operation}: ${fault.path}`;
+  const error = new Error(text) as FaultError;
+  error.code = rule.code;
+  error.path = fault.path;
+  error.syscall = fault.operation;
+  error.knorviaFsFaultId = rule.id;
+  return error;
+}
+
+export function maybeThrowStorageFsFault(input: FaultSite): void {
   // 完整初始化成功才落缓存；失败后下一次调用仍可读取更新后的环境。
   const rules = cachedRules ?? (cachedRules = initializeRules());
   for (const rule of rules) {
-    if (rule.maximum > 0 && rule.consumed >= rule.maximum) continue;
-    if (rule.operations && !rule.operations.has("any") && !rule.operations.has(input.operation)) {
-      continue;
-    }
     const path = slashes(input.path);
-    if (rule.pathEndsWith !== undefined && !path.endsWith(rule.pathEndsWith)) continue;
-    if (rule.pathIncludes !== undefined && !path.includes(rule.pathIncludes)) continue;
-    if (rule.expression && !rule.expression.test(path)) continue;
-    const error = new Error(
-      rule.message ?? `Injected fs fault ${rule.code} for ${input.operation}: ${input.path}`,
-    ) as FaultError;
-    error.code = rule.code;
-    error.path = input.path;
-    error.syscall = input.operation;
-    error.knorviaFsFaultId = rule.id;
+    if (!ruleMatches(rule, input, path)) continue;
     rule.consumed++;
-    throw error;
+    throw injectedFault(rule, input);
   }
 }
