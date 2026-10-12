@@ -102,6 +102,17 @@ node <tool> --repo . --candidate <文件> \
 | `tools/plan-mode.ts` | 78           | 5          | 横幅改写；两处提示文案抽命名常量；私有计划 schema 拆 `nonEmptyPlanText` 基础约束 + refine，消掉单独成行的 `.string()` / `.min(1)`                                                                                                                                                            |
 | `tools/todo.ts`      | 102          | 11         | 删掉注释掉的旧 `superRefine` 死代码；`isTodoToolName` 改集合判定；`todoItemsFromToolResultContent` 改「哨兵值 + 依次尝试两个 schema」；`formatTodoStateForModel` 改命名抬头 + 先建条目再 join；并补足真实文档注释（`try/catch` 必然被 fmt 展开成独立行，残留行数 ≥10 后命中占比 2/11 < 0.2） |
 
+### 3.7 tools 组第 4 批（4 个文件，声明模式 4/4 PASS）
+
+| 文件                | 兼容面行数 X | 残留行数 Y | 处理                                                                                                                                                                                                                                                         |
+| ------------------- | ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `tools/read-pdf.ts` | 69           | 11         | 页码解析从「两条正则 + 三元」改为「按 `-` 拆段 + `pageNumberOrUndefined`」，校验函数改 `validationFailure()` 集中构造；新增 `NO_PAGE_RANGE` / `NO_VALIDATION_FAILURE` 命名常量，消掉裸 `return {` 与 `return undefined;`（这两类行在上游到处出现，必然命中） |
+| `tools/workflow.ts` | 66           | 1          | 横幅改写（`superRefine` 等 schema 内容保持逐字不变）                                                                                                                                                                                                         |
+| `tools/off-peak.ts` | 60           | 3          | 横幅改写 + 两处 JSDoc 改自有措辞                                                                                                                                                                                                                             |
+| `tools/agent.ts`    | 100          | 1          | 横幅改写 + 删掉与上游逐字相同的说明行                                                                                                                                                                                                                        |
+
+`read-pdf` 的行为由契约测试 B4 逐例覆盖（`1-5` / `3` / `10-` / `5-3` / `0` / `1-2-3` / `abc` / 空串、非 PDF、缺 pages、超 20 页、开放区间按 21 计），源码与 dist 两入口 11/11 全过。
+
 **差分探针**：`todo.ts` 的三个导出函数（`isTodoToolName` / `todoItemsFromToolResultContent` / `formatTodoStateForModel`）旧 vs 新，19 组输入（10 组工具结果内容含非法 JSON、`null`、非对象、形状不符；6 组名称含 `undefined` 与大小写差异；3 组清单含空清单与多条目）+ 副本语义检查 → **19/19 deepStrictEqual**。
 
 **合同冻结行说明**：`interface.md` 列出上述文件的导出名与签名；声明模式按名字剔除整块声明（含 `const` schema 与常量表）后，剩余行才是需要独立创作的实现。八个文件的残留行合计 61 行，最长相同段 ≤ 1 行；`target-evaluation`（5 行）与 `active-branch`（3 行）在普通模式下也低于门槛 8。
