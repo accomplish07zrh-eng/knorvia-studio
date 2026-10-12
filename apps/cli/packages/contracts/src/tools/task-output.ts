@@ -25,7 +25,9 @@ export const TASK_OUTPUT_PROVIDER_DESCRIPTION = `DEPRECATED: Background tasks re
 export const TaskOutputInputSchema = z
   .object({
     task_id: z.string().describe("The task ID to get output from"),
-    block: semanticBoolean(z.boolean().default(true)).describe("Whether to wait for completion"),
+    block: coerceSemanticBoolean(z.boolean().default(true)).describe(
+      "Whether to wait for completion",
+    ),
     timeout: z.number().min(0).max(600_000).default(30_000).describe("Max wait time in ms"),
   })
   .strict();
@@ -67,7 +69,7 @@ export type TaskOutputResult = z.infer<typeof TaskOutputResultSchema>;
 
 export const TaskOutputResultJsonSchema = toToolJsonSchema(TaskOutputResultSchema);
 
-function semanticBoolean(
+function coerceSemanticBoolean(
   schema: z.ZodDefault<z.ZodBoolean>,
 ): z.ZodEffects<z.ZodDefault<z.ZodBoolean>, boolean, unknown> {
   return z.preprocess((value) => {

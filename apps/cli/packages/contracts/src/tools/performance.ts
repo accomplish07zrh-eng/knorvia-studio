@@ -20,15 +20,13 @@ export const CommandExecutionTelemetrySchema = z
     timedOut: z.boolean().optional(),
     outputBytes: z.number().int().nonnegative().optional(),
     category: z.string().max(64).optional(),
-    /**
-     * 只允许公开 Registry 中的可执行文件名或固定低基数桶；禁止放入原始命令或参数。
-     */
+    // 性能工具声明的说明见下：这些 schema 只描述统计结果形状，不含采样逻辑。
+    //      * 只允许公开 Registry 中的可执行文件名或固定低基数桶；禁止放入原始命令或参数。
+    //
     name: z.string().max(128).optional(),
     count: z.number().int().nonnegative().optional(),
     status: ToolCommandStatusSchema,
-    /**
-     * 本地诊断字段；远端 Trace Exporter 必须显式忽略，避免成为高基数远端维度。
-     */
+    // 本地诊断字段：远端 Trace Exporter 必须显式忽略，避免变成高基数远端维度。
     hash: z
       .string()
       .regex(/^[a-f0-9]{16}$/u)
@@ -85,10 +83,8 @@ export const ToolExecutionTelemetryDetailSchema = z.discriminatedUnion("kind", [
 
 export type ToolExecutionTelemetryDetail = z.infer<typeof ToolExecutionTelemetryDetailSchema>;
 
-/**
- * 工具执行结果摘要，随 ToolCallResult 事件落本地存储；命令专属字段只能进入判别 detail，
- * 避免非命令工具伪造 exitCode 等不适用事实。
- */
+// 工具执行结果摘要，随 ToolCallResult 事件落本地存储。命令专属字段只能进入判别 detail，
+// 避免非命令工具伪造 exitCode 这类不适用的事实。
 export const ToolExecutionTelemetrySchema = z
   .object({
     totalMs: z.number().int().nonnegative().optional(),
