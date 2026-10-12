@@ -174,7 +174,9 @@ async function projectEntry(
   if (typeof data !== "string" || !data || typeof mimeType !== "string" || !mimeType) return entry;
   const payload = base64PayloadFromMcpImageData(data);
   const base64Bytes = Buffer.byteLength(payload, "utf8");
-  if (base64Bytes <= MCP_IMAGE_INLINE_BASE64_BYTES) return entry;
+  // 未超过内联上限：返回入参本身，调用方据此判定内容未变化（不复制、不重写）。
+  const withinInlineLimit = base64Bytes <= MCP_IMAGE_INLINE_BASE64_BYTES;
+  if (withinInlineLimit) return entry;
   if (input.compressOversizedImages) {
     const compressed = await compressForInline(input, payload, mimeType);
     if (compressed) return compressed;
