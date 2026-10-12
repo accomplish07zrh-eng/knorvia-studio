@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "7f7129be1330ecff462f0499e1d7e7068d11966e1983ea29d3e23873fe66cd42",
+      "normalizedSha256": "dcf18dba68a614e5f63537607f342c639f1922f3d190d822bfda3767222cebb1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133525,7 +133525,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/workflow/definition-validation.ts",
-      "normalizedSha256": "54a0bba37dc5a57218499d356f2bf235a48439fe3354271f2195ae91f1d7de0b",
+      "normalizedSha256": "98d9bcad6d99f25ff4850bd743f813fc00b4bb8cce2e86410c69d7f913a8f4d1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
@@ -133541,7 +133541,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/workflow/graph-schema-validation.ts",
-      "normalizedSha256": "094bbce79331617ffa4ea44087f1a5cbe484d1457190e767e5b487bf40d76d58",
+      "normalizedSha256": "6fd00754fbdc81fcb4eae7a8fec6f932009d127be0871004240dc5d127aa34fd",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
@@ -133581,7 +133581,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/workflow/script-validation.ts",
-      "normalizedSha256": "d082ce729a436b8e79e482a0626c8bc65a04c6ed3468d9b8837475146ae424f5",
+      "normalizedSha256": "15d5be06341ec05f122afb615f05d59ab4fe40251e1ccaafc483aea3882e5c97",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (script group): script-declarations.ts holds the frozen schemas, constants, types and port interfaces; script-validation.ts holds the rewritten duplicate-phase-title check extracted from the schema refine (named pure function). The author read the replaced implementation; a differential probe compared old vs new WorkflowScriptMetaSchema parsing (success, issue message and path) on 12 inputs with deep equality. Internal agent limit constants were renamed (values unchanged). Public export names and signatures match specs/contracts/contracts-02/interface.md; validation normal-mode containment 0.182 / run 5.",
@@ -133605,7 +133605,7 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/tools/ask-user-question-json.ts",
-      "normalizedSha256": "aa30961e7fb81bb7772cc9441be0ae9405fd3c11c60e68a4516ad6bce662c12b",
+      "normalizedSha256": "9b28db11b53556d70091f06979968a13a6861fc7130f72a7722dfeb1f6be6940",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (ask-user-question split): JSON-schema projection helper and HTML preview validation extracted into two implementation modules and rewritten with a rule table and single-line issue helper; the main module keeps the frozen schemas byte-identical. A differential probe compared old vs new on 16 schema cases, the projected JSON schema and its required list (20/20 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md.",

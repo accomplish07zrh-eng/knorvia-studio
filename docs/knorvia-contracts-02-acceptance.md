@@ -166,6 +166,18 @@ node <tool> --repo . --candidate <文件> \
 
 **做法**：本文件是「schema 全冻结 + 大段说明文字」型，没有任何运行函数，因此不需要拆模块；用行范围法把说明逐块改写、再统一把 JSDoc 转成 `//` 注释即可达标（与 `saved-workflow`/`amend-workflow` 同一处理）。其中一处说明与上游逐字相同（「一个此刻停驻、等主代理作答的升级问题。」）在改写时被捕获并换词。
 
+### 3.15 tools 组第 12 批（workflow-observation-display，声明模式 PASS）
+
+| 文件                                    | 兼容面行数 X | 残留行数 Y | 实测    | 说明                                                                                                                                                                                                                                    |
+| --------------------------------------- | ------------ | ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tools/workflow-observation-display.ts` | 184          | 16         | 0.000 ✓ | 25 个冻结声明（10 个限长常量 + 9 个 display schema + 6 个载荷类型）逐字保留；全部 JSDoc 段落改写为自有措辞的 `//` 说明；新增 4 个私有界工具（`boundedText` / `optionalBoundedText` / `boundedList` / `strictRecord`）与两套闭集枚举常量 |
+
+**差分探针**：9 个 schema 逐个做「`zod-to-json-schema` 投影整体相等 + 系统化变异语料」比较——从一份合法载荷出发，递归生成「删键、把每个值换成 `null`/字符串/数/布尔/空数组/空对象、每层加未知键」的语料，旧实现与新实现逐例比对 `safeParse` 的成功标志与 issue 路径/错误码，并逐字比对 10 个限长常量 → **396/396 一致（0 差异）**。
+
+**说明**：本文件没有任何运行函数，可替换的表达面只剩说明文字与内部组织，因此按声明模式计分（184 行兼容面 / 16 行残留）。把「限长、条数封顶、拒绝未知键」三类重复规则收成私有工具后，残留的 16 行全部是自有措辞的说明，最长相同段 0 行、结构相似度 0.000。
+
+**knip 清理（本批附带）**：`knip` 报出 4 个此前替换批次遗留的多余导出——`WorkflowDefinitionIssue` / `ScriptMetaIssue` / `NodePromptUpdateFields`（都只在本模块内使用）与 `ask-user-question-json.ts` 的 `readSchemaPath`——已全部改为模块私有（`tsc` 的声明产物不受影响，contracts 包 `build` 通过）。`knip` 仍报的 `WorkflowStrategySchema|ExpertWorkflowStrategySchema` 重复导出是合同要求（`interface.md` 冻结两个名字、B9 断言别名指向同一 schema 对象），`origin/main` 的原文件同样如此，无法消除；`pnpm knip` 本身的退出码 1 是仓库既有基线（1776 个未使用文件等），本批未新增条目。
+
 **差分探针**：`isWorkspaceMutatingToolCall` 与 `isWorldTouchingToolCall` 在 8 种范围 × 3 种 `readOnly`（true/false/undefined）共 48 组、外加空能力对象 2 组与 `WORKSPACE_MUTATING_SIDE_EFFECT_SCOPES` 集合比对 → **51/51 `deepStrictEqual`**（保守档「范围缺席即算写/算碰」逐组验证）。
 
 **差分探针**：`amend-workflow` 运行时入参 schema 15 组（缺省/内联脚本/两者都给/三态 null 与数/0 与负数/空白模型名/predecessor 合法与伪造 `script_inherited: false`/`script_line_offset`/空 run_id/`resume_from` 旧拼写/缺 run_id）、`AmendWorkflowInputJsonSchema` 整体相等、5 条模型可见 `describe` 逐字一致 → **21/21 通过**。

@@ -11,7 +11,8 @@
 //   3. phaseOrder 引用未在 phases 中定义的阶段 → path ["phaseOrder"]；
 //   4. phases 中定义的阶段没有出现在 phaseOrder → path ["phases"]。
 
-export interface WorkflowDefinitionIssue {
+// 问题条目的形状只在本文件里用（调用方按 path 转成 zod issue），不进公开面。
+interface WorkflowDefinitionIssue {
   message: string;
   path: ["phases"] | ["phaseOrder"];
 }

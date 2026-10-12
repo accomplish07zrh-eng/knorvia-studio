@@ -4,7 +4,8 @@
 // 背景：provider 可见的 schema 里 multiSelect 带 default false，却仍然出现在 required 中；
 // 运行时 zod 的 default 继续允许旧调用省略该字段。这里只调整投影出来的 JSON schema 副本，
 // 不改变运行时 schema 的任何行为。
-export function readSchemaPath(schema: Record<string, unknown>, path: readonly string[]): unknown {
+// 按路径取一段嵌套 JSON schema 片段；路径中间不是普通对象就返回 undefined。
+function readSchemaPath(schema: Record<string, unknown>, path: readonly string[]): unknown {
   let cursor: unknown = schema;
   for (const segment of path) {
     const isPlainObject = typeof cursor === "object" && cursor !== null && !Array.isArray(cursor);

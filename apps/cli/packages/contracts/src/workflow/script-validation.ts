@@ -3,7 +3,8 @@
 //
 // 组织方式（替换阶段的自主决定）：旧实现把重复标题检查写在 schema 的 superRefine 回调里，
 // 这里抽成具名纯函数，回调只负责把问题转成 zod issue——规则可以单独测试，schema 定义也只剩声明。
-export interface ScriptMetaIssue {
+// 问题条目的形状只在本文件里用（调用方按 path 转成 zod issue），不进公开面。
+interface ScriptMetaIssue {
   message: string;
   path: (string | number)[];
 }
