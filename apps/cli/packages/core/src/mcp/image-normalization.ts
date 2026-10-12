@@ -84,13 +84,16 @@ const isOfficialCuaImageRefTextBlock = (block: McpContentBlock): boolean =>
   typeof block.text === "string" &&
   isOfficialCuaImageRefText(block.text);
 
+// 非空对象且不是数组：后续字段读取的前提。
+const isRecordLike = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
 export function hasOfficialCuaFrameAuthority(result: unknown): result is McpToolCallResult {
-  if (!result || typeof result !== "object" || Array.isArray(result)) return false;
-  const candidate = result as McpToolCallResult;
+  if (!isRecordLike(result)) return false;
+  const candidate = result as unknown as McpToolCallResult;
   const content = candidate.content;
-  if (!Array.isArray(content) || !candidate._meta?.[OFFICIAL_CUA_FRAME_INTEGRITY_META_KEY]) {
-    return false;
-  }
+  if (!Array.isArray(content)) return false;
+  if (!candidate._meta?.[OFFICIAL_CUA_FRAME_INTEGRITY_META_KEY]) return false;
   return content.some((entry, index) => {
     if (!entry || typeof entry !== "object" || entry.type !== "image") return false;
     const next = content[index + 1];
