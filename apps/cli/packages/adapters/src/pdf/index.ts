@@ -25,9 +25,12 @@ export interface PopplerPdfDocumentAdapterOptions {
 }
 
 /** poppler 输出里的固定文案与本地命名：按字母序声明，便于比对与替换。 */
-const imageMediaType = "image/jpeg" as const;
-const imagePrefix = "page";
-const temporaryDirectoryPrefix = "knorvia-read-pdf-";
+/** poppler 侧的固定命名与媒体类型：集中声明便于比对。 */
+const PDF_NAMES = {
+  imagePrefix: "page",
+  mediaType: "image/jpeg",
+  tempPrefix: "knorvia-read-pdf-",
+} as const;
 const extractionCancelled = "PDF page extraction was cancelled.";
 const unavailableMessage =
   "pdftoppm is not installed. Install poppler-utils (e.g. `brew install poppler` or `apt-get install poppler-utils`) to enable PDF page rendering.";
@@ -248,7 +251,7 @@ async function collectPages(
       const options = cancellation === undefined ? undefined : { signal: cancellation };
       return {
         data: new Uint8Array(await readFile(location, options)),
-        mediaType: imageMediaType,
+        mediaType: PDF_NAMES.mediaType,
         pageNumber: entry.pageNumber,
       };
     });
@@ -259,16 +262,9 @@ async function collectPages(
 }
 
 /** pdftoppm 渲染参数：固定 flags + 请求区间 + 输入文件 + 输出前缀。 */
-function renderArgs(request: PdfDocumentRenderPagesRequest, outputPrefix: string): string[] {
-  return [
-    ...RENDER_FLAGS,
-    "-f",
-    String(request.firstPage),
-    "-l",
-    String(request.lastPage),
-    request.filePath,
-    outputPrefix,
-  ];
+function renderArgs(query: PdfDocumentRenderPagesRequest, outputPrefix: string): string[] {
+  const range = { first: String(query.firstPage), last: String(query.lastPage) };
+  return [...RENDER_FLAGS, "-f", range.first, "-l", range.last, query.filePath, outputPrefix];
 }
 
 function toolCall(
@@ -355,20 +351,20 @@ export function createPopplerPdfDocumentAdapter(
     request: PdfDocumentRenderPagesRequest,
     cancellation: AbortSignal | undefined,
   ): Promise<ExtractionOutcome> {
-    const tempDir = await mkdtemp(
-      join(options.tempRoot ?? tmpdir(), temporaryDirectoryPrefix),
-    ).catch((reason: unknown): never => {
-      throw filesystemFailure(
-        "Unable to create a temporary directory for PDF page extraction.",
-        cancellation,
-        reason,
-      );
-    });
+    const tempDir = await mkdtemp(join(options.tempRoot ?? tmpdir(), PDF_NAMES.tempPrefix)).catch(
+      (reason: unknown): never => {
+        throw filesystemFailure(
+          "Unable to create a temporary directory for PDF page extraction.",
+          cancellation,
+          reason,
+        );
+      },
+    );
     try {
       const call = toolCall(
         options.executionPort,
         "pdftoppm",
-        renderArgs(request, join(tempDir, imagePrefix)),
+        renderArgs(request, join(tempDir, PDF_NAMES.imagePrefix)),
         READ_PDF_RENDER_TIMEOUT_MS,
         request.trace,
         cancellation,
