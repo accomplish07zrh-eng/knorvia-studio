@@ -7,7 +7,7 @@ const countedExtensions = new Set([".ts", ".tsx"]);
 const ignoredTestDirectories = new Set(["__tests__", "tests"]);
 const ignoredTestFileSuffixes = [".spec.ts", ".spec.tsx", ".test.ts", ".test.tsx"];
 const pathSeparatorPattern = /[\\/]+/u;
-const ignoredWorkspacePackageDirectories = new Set(["packages/debug"]);
+const ignoredWorkspacePackageDirectories = new Set([]);
 const ignoredDirectories = new Set([
   ".git",
   ".next",

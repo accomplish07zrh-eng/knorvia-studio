@@ -1,6 +1,14 @@
-// ============================================================
-// Model Protocol - provider-neutral model contracts
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// @knorvia/contracts/model 的类型出口：模型、消息内容、请求/结果、状态事件与用量形状。
+// 运行时实现拆到同目录的 *_core.ts，这里只做类型声明与再导出。
+import type {
+  ModelErrorCode,
+  ModelFailureReason,
+  ModelRequestSessionType,
+  ModelRetryBudget,
+  ModelRetryReason,
+  ModelTransportKind,
+} from "./runtime-tables_core.js";
 
 import type { QueryId, SessionId, TraceId, TurnId } from "../interfaces/shared.js";
 import type {
@@ -16,61 +24,16 @@ import type {
   ResolvedModelApiCallObservation,
 } from "../telemetry/index.js";
 
-export * from "./image-media.js";
-export * from "./model.js";
-export * from "./invocation-context.js";
-
 export type JsonSchema = Record<string, unknown>;
 
 export type ModelProviderId = string & { readonly __brand: "ModelProviderId" };
+
 export type ModelId = string & { readonly __brand: "ModelId" };
 
-export const ModelRequestSessionType = {
-  Main: "main",
-  Other: "other",
-  Subagent: "subagent",
-} as const;
-
-/**
- * 模型请求的重试预算档位（runtime-only）。
- * - `default`：adapter 构造时解析出的 maxAttempts（默认 10 次重试）。
- * - `unbounded`：**瞬态**失败无上限重试（退避曲线不变、封顶 60s 后无限探测），永久失败照旧立即抛。
- *   给 workflow actor（taskType workflow_child / nested_workflow_child）使用：模型错误绝不是
- *   workflow 错误，唯一出口是用户 cancel。
- */
-export const ModelRetryBudget = {
-  Default: "default",
-  Unbounded: "unbounded",
-} as const;
-
-export type ModelRetryBudget = (typeof ModelRetryBudget)[keyof typeof ModelRetryBudget];
-
-/**
- * 一次模型请求尝试的准入票据（runtime-only）。
- *
- * 它同时是**这一次尝试**的状态事件汇：runner 把该尝试的 ModelNetworkStatus 事件
- * （`model_request_started` / `model_request_completed` / `model_request_failed` /
- * `model_retry_scheduled`）原样也投递给它，治理器据此判定这次请求的结果（成功 / 限流 / 瞬态失败 /
- * 终结），不需要 runner 在每个失败分支上另写一遍结果。`release()` 是兜底：尝试无论如何结束（成功、
- * 抛出、消费者提前放弃流）runner 都在 finally 里调一次；未见终结事件即按终结处理。**幂等**。
- */
 export interface ModelRequestAdmissionTicket extends ModelStatusSink {
   release(): void;
 }
 
-/**
- * 模型请求的准入端口（runtime-only）。runner 在**每一次尝试发出前**先试同步快路径
- * `tryAcquire`，未命中再 `acquire` 排队；拿到票据后才发请求；尝试结束即 `release`，退避 sleep 期间
- * 不持票——所以进程级并发 cap 约束的是 provider 真正看到的在飞请求数。`signal` 被 abort 时
- * `acquire` 以 `signal.reason` reject。
- *
- * `tryAcquire` 未命中是 runner 发 `model_request_queued` / `model_request_admitted` 的唯一依据
- * 没有快路径的实现 runner 无法分辨「排了队」与「立即放行」，一律不发这两条事件。
- *
- * 端口绑定在 runtime 的模型工厂上：runtime 交出的每一个模型句柄——turn step、工具内部
- * 的模型调用、压缩、标题 sidecar——都带它；缺席即不设闸门（runner 行为逐字不变）。主代理拿的是
- * 治理器的 observer 实现：`tryAcquire` 总命中、只喂信号。
- */
 export interface ModelRequestAdmission {
   /** 同步快路径：闸门开着且无人排队即给票；否则 undefined，runner 转 `acquire` 并报排队。 */
   tryAcquire?(input: { model: ModelRequestTarget }): ModelRequestAdmissionTicket | undefined;
@@ -80,76 +43,13 @@ export interface ModelRequestAdmission {
   }): Promise<ModelRequestAdmissionTicket>;
 }
 
-/**
- * 准入端口看到的模型身份：配额键的最小事实。既不是 Selection（那是执行意图），也不是
- * Active Model（那带完整配置）——treaty 只要 provider/model 两段。
- */
 export interface ModelRequestTarget {
   providerId: string;
   modelId: string;
 }
 
-export type ModelRequestSessionType =
-  (typeof ModelRequestSessionType)[keyof typeof ModelRequestSessionType];
-
-export const ModelErrorCode = {
-  InvalidModelSelection: "invalid_model_selection",
-  ModelConfigMissing: "model_config_missing",
-  ProviderNotFound: "provider_not_found",
-  ProviderNotConfigured: "provider_not_configured",
-  ModelNotFound: "model_not_found",
-  InvalidModelRequest: "invalid_model_request",
-  InvalidModelResponse: "invalid_model_response",
-  ModelRequestFailed: "model_request_failed",
-  ModelRequestAuthMissing: "model_request_auth_missing",
-  ModelRequestCancelled: "model_request_cancelled",
-  ModelRequestTimeout: "model_request_timeout",
-  ModelRateLimited: "model_rate_limited",
-  ModelContextExceeded: "model_context_exceeded",
-} as const;
-
-export type ModelErrorCode = (typeof ModelErrorCode)[keyof typeof ModelErrorCode];
-
-export const ModelTransportKind = {
-  Http: "http",
-  Sse: "sse",
-  WebSocket: "websocket",
-} as const;
-
-export type ModelTransportKind = (typeof ModelTransportKind)[keyof typeof ModelTransportKind];
-
-export const ModelRetryReason = {
-  RateLimited: "rate_limited",
-  ProviderOverloaded: "provider_overloaded",
-  ServerError: "server_error",
-  NetworkError: "network_error",
-  Timeout: "timeout",
-  StreamIdleTimeout: "stream_idle_timeout",
-  StaleConnection: "stale_connection",
-  AuthRefresh: "auth_refresh",
-  /** Anthropic 明确拒绝历史 thinking signature 后，对请求副本清理并立即重试一次。 */
-  ReasoningSignatureRepair: "reasoning_signature_repair",
-  /** off-peak 闲时排队（429/3105+Retry-After）：豁免重试预算、无限探测（仅 idle plan provider）。 */
-  OffpeakQueued: "offpeak_queued",
-} as const;
-
-export type ModelRetryReason = (typeof ModelRetryReason)[keyof typeof ModelRetryReason];
-
-export const ModelFailureReason = {
-  ...ModelRetryReason,
-  AuthFailed: "auth_failed",
-  Cancelled: "cancelled",
-  ContextExceeded: "context_exceeded",
-  InvalidRequest: "invalid_request",
-  ProviderNotConfigured: "provider_not_configured",
-  ProxyError: "proxy_error",
-  TlsError: "tls_error",
-  Unknown: "unknown",
-} as const;
-
-export type ModelFailureReason = (typeof ModelFailureReason)[keyof typeof ModelFailureReason];
-
 interface ModelNetworkStatusBase {
+  // 网络状态事件的公共字段；具体事件在此基础上加判别字段
   timestamp: string;
   traceId: TraceId;
   queryId?: QueryId;
@@ -157,27 +57,24 @@ interface ModelNetworkStatusBase {
   turnId?: TurnId;
   parentSessionId?: SessionId;
   toolCallId?: string;
-  spanId?: string;
-  parentSpanId?: string;
-  querySource?: string;
+  spanId?: string; // 当前 span
+  parentSpanId?: string; // 父 span
+  querySource?: string; // 本次调用的来源（主轮 / sidecar）
   requestId: string;
   providerId: ModelProviderId;
   modelId: ModelId;
-  baseURL?: string;
-  providerKind?: string;
+  baseURL?: string; // 实际请求的 base URL
+  providerKind?: string; // provider 适配器种类
   transport: ModelTransportKind;
-  attempt: number;
-  /**
-   * 本次请求的重试预算总尝试数（含首次）。**`0` = 无上限**（`ModelRetryBudget.Unbounded`）：`Infinity` 不可序列化，而 0 不占用任何既有合法值。
-   * 消费方渲染「第 n/N 次」或推导 maxRetries 时必须特判 0。
-   */
+  attempt: number; // 第几次物理尝试，从 1 起
+  // 重试预算总尝试数（含首次）；0 = 无上限（Infinity 不可序列化，0 不占用既有合法值），消费方渲染「第 n/N 次」时必须特判 0。
   maxAttempts: number;
   streamRecovery?: ModelStreamRecoveryStatus;
   requestHeaders?: Record<string, string>;
   responseHeaders?: Record<string, string>;
-  requestHeaderCount?: number;
-  responseHeaderCount?: number;
-  modelCall?: ResolvedModelApiCallObservation;
+  requestHeaderCount?: number; // 请求头条数（不落头内容）
+  responseHeaderCount?: number; // 响应头条数（不落头内容）
+  modelCall?: ResolvedModelApiCallObservation; // 本次调用的观测记录
 }
 
 export interface ModelStreamRecoveryStatus {
@@ -192,11 +89,6 @@ export interface ModelRequestStartedStatusEvent extends ModelNetworkStatusBase {
   type: "model_request_started";
 }
 
-/**
- * 准入等待的两端：runner 的 `tryAcquire` 未命中
- * 即发 `queued`，拿到票即发 `admitted`（带排队时长）。它们是 runtime 观测——driver 据此报「等待槽位」，
- * 工具执行器据此暂停工具超时——不进 provider 请求；协议侧凡枚举状态类型的消费方显式忽略。
- */
 export interface ModelRequestQueuedStatusEvent extends ModelNetworkStatusBase {
   type: "model_request_queued";
 }
@@ -258,10 +150,6 @@ export interface ModelStreamStalledStatusEvent extends ModelNetworkStatusBase {
   message: string;
 }
 
-/**
- * 仅供实时观测 Sink 消费的 Provider 里程碑。它们不进入 SessionEvent/回放协议，
- * 避免为了 Trace 事件扩大产品状态面。
- */
 export interface ModelTelemetryMilestoneStatusEvent extends ModelNetworkStatusBase {
   type: "model_first_provider_event" | "model_first_content" | "model_first_text";
   elapsedMs: number;
@@ -284,37 +172,6 @@ export interface ModelStatusSink {
    * publish(event)，避免原始异常对象和消息正文进入持久化领域状态。
    */
   publishFailure?(event: ModelRequestFailedStatusEvent, error: unknown): void | Promise<void>;
-}
-
-export class ModelProtocolError extends Error {
-  readonly code: ModelErrorCode;
-  readonly context?: Record<string, unknown>;
-
-  constructor(code: ModelErrorCode, message: string, context?: Record<string, unknown>) {
-    super(message);
-    this.name = "ModelProtocolError";
-    this.code = code;
-    this.context = context;
-  }
-}
-
-export function createModelProviderId(providerId: string): ModelProviderId {
-  const normalized = providerId.trim();
-  if (normalized.length === 0) {
-    throw new ModelProtocolError(
-      ModelErrorCode.InvalidModelSelection,
-      "Model provider id is empty",
-    );
-  }
-  return normalized as ModelProviderId;
-}
-
-export function createModelId(modelId: string): ModelId {
-  const normalized = modelId.trim();
-  if (normalized.length === 0) {
-    throw new ModelProtocolError(ModelErrorCode.InvalidModelSelection, "Model id is empty");
-  }
-  return normalized as ModelId;
 }
 
 export type ModelMessageRole = "system" | "user" | "assistant" | "tool";
@@ -368,7 +225,6 @@ export interface ModelFileContentBlock {
   source?: AttachmentRef;
 }
 
-/** 视频输入内容块（provider-neutral，与 image 同构；只承载 base64 dataUrl）。 */
 export interface ModelVideoContentBlock {
   type: "video";
   mediaType: string;
@@ -409,38 +265,6 @@ export interface ModelInputMessage {
   isError?: boolean;
   providerId?: ModelProviderId;
   modelId?: ModelId;
-}
-
-export function modelMessageContentToText(content: ModelMessageContent): string {
-  if (typeof content === "string") return content;
-
-  return content.map(modelMessageContentBlockToText).filter(Boolean).join("\n\n");
-}
-
-export function modelMessageContentBlockToText(block: ModelMessageContentBlock): string {
-  switch (block.type) {
-    case "text":
-      return block.text;
-    case "reasoning":
-      return "";
-    case "image":
-      return attachmentPlaceholder("Attached", block.mediaType, block.source?.placeholder);
-    case "video":
-      return attachmentPlaceholder("Attached", block.mediaType, block.source?.placeholder);
-    case "file":
-      if (block.text !== undefined && block.text.length > 0) return block.text;
-      return attachmentPlaceholder(
-        "Attached",
-        block.mediaType,
-        block.name ?? block.source?.placeholder,
-      );
-    case "resource_link":
-      return `[Resource: ${block.title ?? block.name ?? block.uri}]`;
-  }
-}
-
-function attachmentPlaceholder(prefix: string, mediaType: string, name?: string): string {
-  return name && name.length > 0 ? `[${prefix} ${mediaType}: ${name}]` : `[${prefix} ${mediaType}]`;
 }
 
 export interface ModelToolExecutionContext {
@@ -517,109 +341,6 @@ export interface ModelUsageSummary {
   reasoningTokens: number;
   webSearchRequests: number;
   webFetchRequests: number;
-}
-
-export function getModelUsageTotalTokens(usage?: ModelUsage): number {
-  if (!usage) return 0;
-  const inputTokens =
-    usage.inputTokens ?? (usage.cacheReadTokens ?? 0) + (usage.cacheWriteTokens ?? 0);
-  return usage.totalTokens ?? inputTokens + (usage.outputTokens ?? 0);
-}
-
-export function getModelUsageContextTokens(usage?: ModelUsage): number | undefined {
-  if (!usage) return undefined;
-
-  const inputTokens = getModelUsageInputWindowTokens(usage);
-  const outputTokens = nonNegativeInteger(usage.outputTokens) ?? 0;
-  const contextTokens = (inputTokens ?? 0) + outputTokens;
-  if (contextTokens > 0) {
-    return contextTokens;
-  }
-
-  const totalTokens = positiveInteger(usage.totalTokens);
-  return totalTokens;
-}
-
-export function getModelUsageInputWindowTokens(usage?: ModelUsage): number | undefined {
-  if (!usage) return undefined;
-
-  const inputTokens = positiveInteger(usage.inputTokens);
-  if (inputTokens !== undefined) {
-    // AI SDK v6 的 Anthropic inputTokens 已经是普通输入 + cache read/write 的 total input。
-    // 这里再叠 cacheReadTokens 会把 context meter 和 compact 阈值放大一截。
-    return inputTokens;
-  }
-
-  const totalTokens = positiveInteger(usage.totalTokens);
-  if (totalTokens !== undefined) {
-    const outputTokens = nonNegativeInteger(usage.outputTokens) ?? 0;
-    return Math.max(0, totalTokens - outputTokens);
-  }
-
-  const cacheTokens =
-    (nonNegativeInteger(usage.cacheReadTokens) ?? 0) +
-    (nonNegativeInteger(usage.cacheWriteTokens) ?? 0);
-  return cacheTokens > 0 ? cacheTokens : undefined;
-}
-
-export function hasModelUsage(usage?: ModelUsage): boolean {
-  if (!usage) return false;
-  return (
-    usage.inputTokens !== undefined ||
-    usage.outputTokens !== undefined ||
-    usage.totalTokens !== undefined ||
-    usage.cacheReadTokens !== undefined ||
-    usage.cacheWriteTokens !== undefined ||
-    usage.reasoningTokens !== undefined ||
-    usage.serverToolUse?.webSearchRequests !== undefined ||
-    usage.serverToolUse?.webFetchRequests !== undefined
-  );
-}
-
-function positiveInteger(value: number | undefined): number | undefined {
-  if (value === undefined || !Number.isFinite(value)) return undefined;
-  const integer = Math.floor(value);
-  return integer > 0 ? integer : undefined;
-}
-
-function nonNegativeInteger(value: number | undefined): number | undefined {
-  if (value === undefined || !Number.isFinite(value)) return undefined;
-  const integer = Math.floor(value);
-  return integer >= 0 ? integer : undefined;
-}
-
-export function createModelUsageSummary(
-  usages: readonly ModelUsage[],
-): ModelUsageSummary | undefined {
-  const realUsages = usages.filter(hasModelUsage);
-  if (realUsages.length === 0) return undefined;
-
-  return realUsages.reduce<ModelUsageSummary>(
-    (summary, usage) => ({
-      source: "provider",
-      modelRequestCount: summary.modelRequestCount + 1,
-      inputTokens: summary.inputTokens + (usage.inputTokens ?? 0),
-      outputTokens: summary.outputTokens + (usage.outputTokens ?? 0),
-      totalTokens: summary.totalTokens + getModelUsageTotalTokens(usage),
-      cacheReadTokens: summary.cacheReadTokens + (usage.cacheReadTokens ?? 0),
-      cacheWriteTokens: summary.cacheWriteTokens + (usage.cacheWriteTokens ?? 0),
-      reasoningTokens: summary.reasoningTokens + (usage.reasoningTokens ?? 0),
-      webFetchRequests: summary.webFetchRequests + (usage.serverToolUse?.webFetchRequests ?? 0),
-      webSearchRequests: summary.webSearchRequests + (usage.serverToolUse?.webSearchRequests ?? 0),
-    }),
-    {
-      source: "provider",
-      modelRequestCount: 0,
-      inputTokens: 0,
-      outputTokens: 0,
-      totalTokens: 0,
-      cacheReadTokens: 0,
-      cacheWriteTokens: 0,
-      reasoningTokens: 0,
-      webFetchRequests: 0,
-      webSearchRequests: 0,
-    },
-  );
 }
 
 export interface ModelRequestSettings {
@@ -808,254 +529,29 @@ export type ModelStreamEvent =
       error: unknown;
     };
 
-export const modelSelectionJsonSchema = {
-  type: "object",
-  required: ["providerId", "modelId"],
-  additionalProperties: false,
-  properties: {
-    providerId: { type: "string", minLength: 1 },
-    modelId: { type: "string", minLength: 1 },
-    options: {
-      type: "object",
-      additionalProperties: false,
-      properties: {
-        reasoningLevel: { type: "string", minLength: 1 },
-        maxOutputTokens: { type: "number", minimum: 1 },
-      },
-    },
-  },
-} satisfies JsonSchema;
+export { ModelRequestSessionType } from "./runtime-tables_core.js";
+export { ModelRetryBudget } from "./runtime-tables_core.js";
+export { ModelErrorCode } from "./runtime-tables_core.js";
+export { ModelTransportKind } from "./runtime-tables_core.js";
+export { ModelRetryReason } from "./runtime-tables_core.js";
+export { ModelFailureReason } from "./runtime-tables_core.js";
+export { createModelProviderId } from "./ids_core.js";
+export { createModelId } from "./ids_core.js";
+export { modelMessageContentToText } from "./message-text_core.js";
+export { modelMessageContentBlockToText } from "./message-text_core.js";
+export { getModelUsageTotalTokens } from "./usage_core.js";
+export { getModelUsageContextTokens } from "./usage_core.js";
+export { getModelUsageInputWindowTokens } from "./usage_core.js";
+export { hasModelUsage } from "./usage_core.js";
+export { createModelUsageSummary } from "./usage_core.js";
+export { ModelProtocolError } from "./protocol-error_core.js";
+export { modelSelectionJsonSchema } from "./json-schema_core.js";
+export { modelInputMessageJsonSchema } from "./json-schema_core.js";
+export { modelTextRequestJsonSchema } from "./json-schema_core.js";
+export { modelNetworkStatusEventJsonSchema } from "./json-schema_core.js";
 
-const attachmentRefJsonSchema = {
-  type: "object",
-  required: ["id", "kind"],
-  additionalProperties: false,
-  properties: {
-    id: { type: "string", minLength: 1 },
-    kind: { enum: ["local_file", "resource", "inline"] },
-    uri: { type: "string" },
-    path: { type: "string" },
-    mimeType: { type: "string" },
-    sizeBytes: { type: "number" },
-    sha256: { type: "string" },
-    placeholder: { type: "string" },
-  },
-} satisfies JsonSchema;
-
-const modelMessageContentBlockJsonSchema = {
-  oneOf: [
-    {
-      type: "object",
-      required: ["type", "text"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["text"] },
-        text: { type: "string" },
-      },
-    },
-    {
-      type: "object",
-      required: ["type", "text"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["reasoning"] },
-        text: { type: "string" },
-        providerOptions: { type: "object" },
-      },
-    },
-    {
-      type: "object",
-      required: ["type", "mediaType", "dataUrl"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["image"] },
-        mediaType: { type: "string", minLength: 1 },
-        dataUrl: { type: "string", minLength: 1 },
-        detail: { enum: ["auto", "low", "high", "original"] },
-        source: attachmentRefJsonSchema,
-      },
-    },
-    {
-      type: "object",
-      required: ["type", "mediaType", "dataUrl"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["video"] },
-        mediaType: { type: "string", minLength: 1 },
-        dataUrl: { type: "string", minLength: 1 },
-        source: attachmentRefJsonSchema,
-      },
-    },
-    {
-      type: "object",
-      required: ["type", "mediaType"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["file"] },
-        mediaType: { type: "string", minLength: 1 },
-        name: { type: "string" },
-        uri: { type: "string" },
-        dataUrl: { type: "string" },
-        text: { type: "string" },
-        source: attachmentRefJsonSchema,
-      },
-    },
-    {
-      type: "object",
-      required: ["type", "uri"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["resource_link"] },
-        uri: { type: "string", minLength: 1 },
-        name: { type: "string" },
-        title: { type: "string" },
-      },
-    },
-  ],
-} satisfies JsonSchema;
-
-const modelMessageContentJsonSchema = {
-  oneOf: [
-    { type: "string" },
-    {
-      type: "array",
-      items: modelMessageContentBlockJsonSchema,
-    },
-  ],
-} satisfies JsonSchema;
-
-export const modelInputMessageJsonSchema = {
-  type: "object",
-  required: ["role", "content"],
-  additionalProperties: false,
-  properties: {
-    role: { enum: ["system", "user", "assistant", "tool"] },
-    content: modelMessageContentJsonSchema,
-    cacheControl: {
-      type: "object",
-      required: ["type"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["ephemeral"] },
-        ttl: { enum: ["5m", "1h"] },
-        scope: { enum: ["global", "org"] },
-      },
-    },
-    toolCalls: { type: "array" },
-    toolCallId: { type: "string" },
-    toolName: { type: "string" },
-    isError: { type: "boolean" },
-    providerId: { type: "string", minLength: 1 },
-    modelId: { type: "string", minLength: 1 },
-  },
-} satisfies JsonSchema;
-
-const modelToolChoiceJsonSchema = {
-  oneOf: [
-    { enum: ["auto", "none", "required"] },
-    {
-      type: "object",
-      required: ["type", "toolName"],
-      additionalProperties: false,
-      properties: {
-        type: { enum: ["tool"] },
-        toolName: { type: "string", minLength: 1 },
-      },
-    },
-  ],
-} satisfies JsonSchema;
-
-export const modelTextRequestJsonSchema = {
-  type: "object",
-  required: ["messages"],
-  additionalProperties: false,
-  properties: {
-    messages: { type: "array", items: modelInputMessageJsonSchema },
-    tools: { type: "array" },
-    toolChoice: modelToolChoiceJsonSchema,
-    temperature: { type: "number" },
-    maxOutputTokens: { type: "number" },
-    topP: { type: "number" },
-    topK: { type: "number" },
-    presencePenalty: { type: "number" },
-    frequencyPenalty: { type: "number" },
-    stopSequences: { type: "array", items: { type: "string" } },
-    seed: { type: "number" },
-    responseJsonSchema: { type: "object" },
-    providerOptions: { type: "object" },
-    metadata: { type: "object" },
-  },
-} satisfies JsonSchema;
-
-export const modelNetworkStatusEventJsonSchema = {
-  type: "object",
-  required: [
-    "type",
-    "timestamp",
-    "traceId",
-    "requestId",
-    "model",
-    "transport",
-    "attempt",
-    "maxAttempts",
-  ],
-  additionalProperties: true,
-  properties: {
-    type: {
-      enum: [
-        "model_request_started",
-        "model_request_completed",
-        "model_request_failed",
-        "model_retry_scheduled",
-        "model_stream_stalled",
-      ],
-    },
-    timestamp: { type: "string", minLength: 1 },
-    traceId: { type: "string", minLength: 1 },
-    sessionId: { type: "string", minLength: 1 },
-    turnId: { type: "string", minLength: 1 },
-    querySource: { type: "string", minLength: 1 },
-    requestId: { type: "string", minLength: 1 },
-    model: modelSelectionJsonSchema,
-    transport: { enum: Object.values(ModelTransportKind) },
-    attempt: { type: "number", minimum: 1 },
-    // 0 = 无上限重试预算，故下界是 0 而不是 1。
-    maxAttempts: { type: "number", minimum: 0 },
-    delayMs: { type: "number", minimum: 0 },
-    durationMs: { type: "number", minimum: 0 },
-    idleMs: { type: "number", minimum: 0 },
-    nextAttempt: { type: "number", minimum: 1 },
-    reason: { enum: Object.values(ModelFailureReason) },
-    retryable: { type: "boolean" },
-    message: { type: "string" },
-    statusCode: { type: "number" },
-    requestHeaders: {
-      type: "object",
-      additionalProperties: { type: "string" },
-    },
-    responseHeaders: {
-      type: "object",
-      additionalProperties: { type: "string" },
-    },
-    requestHeaderCount: { type: "number", minimum: 0 },
-    responseHeaderCount: { type: "number", minimum: 0 },
-    streamRecovery: {
-      type: "object",
-      required: ["attemptId", "retryNumber", "maxRetries"],
-      additionalProperties: false,
-      properties: {
-        attemptId: { type: "string", minLength: 1 },
-        retryNumber: { type: "number", minimum: 1 },
-        maxRetries: { type: "number", minimum: 0 },
-        recoveredFromRequestId: { type: "string", minLength: 1 },
-        anchorId: { type: "string", minLength: 1 },
-      },
-    },
-    timeoutMs: { type: "number", minimum: 0 },
-  },
-} satisfies JsonSchema;
-
-// Re-export for backwards compatibility with code using ToolCall
+export * from "./image-media.js";
+export * from "./model.js";
+export * from "./invocation-context.js";
 export type { ModelToolCall as ToolCall };
-
 export * from "./content-protection.js";

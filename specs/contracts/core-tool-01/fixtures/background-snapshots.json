@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "purpose": "core-tool-01 B64/B65 后台任务轮询样例：同一签名的运行中快照只发布一次，签名变化再发布一次，终态只收口一次。快照为虚构值。",
+  "sequence": [
+    { "status": "running", "pid": 1, "stdoutBytes": 0 },
+    { "status": "running", "pid": 1, "stdoutBytes": 0 },
+    { "status": "running", "pid": 2, "stdoutBytes": 12 },
+    { "status": "completed", "pid": 2, "stdoutBytes": 12 }
+  ],
+  "expected": {
+    "runningUpdates": 2,
+    "terminalStatus": "completed",
+    "completedEvents": 1
+  }
+}

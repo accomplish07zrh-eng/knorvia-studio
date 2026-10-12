@@ -17,7 +17,6 @@
   },
   "scripts": {
     "build": "node scripts/generate-libs.mjs && tsc",
-    "charts": "node scripts/generate-libs.mjs && tsc && node scripts/generate-mermaid.mjs",
     "clean": "node ../../scripts/clean-dist.mjs",
     "typecheck": "node scripts/generate-libs.mjs && tsc --noEmit",
     "lint": "oxlint src",
