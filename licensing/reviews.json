@@ -134588,6 +134588,222 @@
         "specs/contracts/core-hooks/gate-old.json",
         "specs/contracts/core-hooks/acceptance.md"
       ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/README.md",
+      "normalizedSha256": "e0a115a33ce92436506148d020c90044d9ebe3ef82bb5d546e23307c18e725d1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/behavior.md",
+      "normalizedSha256": "c919ad7dce1db3b28ff0b394b22489cf3eebd16356ac48b5c8427d0b0f2d8585",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/interface.md",
+      "normalizedSha256": "09cba925c14cbeac54407627a2882f75b952c288681b139bf3dd11ef16099c27",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/callers.md",
+      "normalizedSha256": "6ef593a555d1610069ee3c00e388fe0307b1e72a05a5543653f532dca48e688d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/known-differences.md",
+      "normalizedSha256": "2611193984b4767bd57747441eb1ef638b647136151536d9527fa862baa15b84",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/acceptance.md",
+      "normalizedSha256": "5e1f5f8196172e9da45549906ad90cb4bf5d6af492ca53563638a21eb18fe69b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/gate-old.json",
+      "normalizedSha256": "580d3ab48a447d225e2391d0ff6305619ad9e3c5c1b6089582d772b965bc9f5b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/fixtures/query-source-mapping.json",
+      "normalizedSha256": "be4657b50ef01e600c8436822bb143bfc641dd81623ee20c8de1ab2f1e53973f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/stubs/targets.txt",
+      "normalizedSha256": "be21889095b5795bcb8ea8d83ea1bbd3178618e5cd66b6f0a2901436800c24cd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/stubs/src/index.ts",
+      "normalizedSha256": "47aece16a3713f0502271d1c207b491a8a48018cdd9f7893ed246d1505bdd1c0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/stubs/src/skills/index.ts",
+      "normalizedSha256": "f2b3a3eb3cab68b8a0d5016be0b3065470712b5405d341320a418d554bce5efb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/stubs/src/telemetry/agent-execution.ts",
+      "normalizedSha256": "998ca90e56b2ea7ffc8cc0d54fab2aca1b8e645f5e229d69d0d409107f1d9968",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/stubs/src/telemetry/index.ts",
+      "normalizedSha256": "91a5e8ef2a6615f1ffa2b0c1e31c9ae15234c56d3f3fe170d87ef0e656036048",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/stubs/src/time/local-date.ts",
+      "normalizedSha256": "7bccd5f9d01c01f97a361ff50c13fa6f7e615c2ea9a813dceeb745e60835d2eb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/tests/entry.mjs",
+      "normalizedSha256": "81fed676e7906c58d2e1444c3c8e90f08f8d32cfb6ba6a044d1f4c09bded4bbf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/tests/api-surface.test.mjs",
+      "normalizedSha256": "929cbb52b4bfd743fe8025ca2f8d3f19ff002a0e57f0613f42eebb0380ccf412",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/tests/behavior.test.mjs",
+      "normalizedSha256": "f5942102fe0831a0ea2c80fab62849a0e62e96a2a0eaa08d1e0f155bf307dedb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-03/tests/types.test.mjs",
+      "normalizedSha256": "11c8618f55d262e30d7b25e75800cea2c284d625dde475edc062685c719cd3dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-03 contract artifact for @knorvia/contracts (M2 sixth package: skills, telemetry, time and the package root index.ts; 5 inherited files, split out of contracts-02). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, the type case file is compiled per entry mode, and stubs keep only interface.md names with bodies that throw not implemented: contracts-03. Old gate: source 9/9, dist 9/9, stub replacement 9/9 failed.",
+      "evidence": [
+        "specs/contracts/contracts-03/acceptance.md",
+        "specs/contracts/contracts-03/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }

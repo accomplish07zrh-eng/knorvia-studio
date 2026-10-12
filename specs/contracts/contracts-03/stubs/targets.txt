@@ -1,0 +1,5 @@
+src/index.ts -> apps\cli\packages\contracts\src\index.ts
+src/skills/index.ts -> apps\cli\packages\contracts\src\skills\index.ts
+src/telemetry/agent-execution.ts -> apps\cli\packages\contracts\src\telemetry\agent-execution.ts
+src/telemetry/index.ts -> apps\cli\packages\contracts\src\telemetry\index.ts
+src/time/local-date.ts -> apps\cli\packages\contracts\src\time\local-date.ts
