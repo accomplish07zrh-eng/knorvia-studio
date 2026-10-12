@@ -8,6 +8,8 @@
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
+        "scripts/provenance/bookkeeping-round2.mjs",
+        "scripts/provenance/bookkeeping-round2-similarity.mjs",
         "scripts/contract-gate.mjs",
         "scripts/contract-gate.test.mjs",
         "scripts/contract-test-discovery.mjs",
