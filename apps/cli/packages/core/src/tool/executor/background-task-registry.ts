@@ -36,18 +36,25 @@ type BackgroundTaskSnapshot =
  * 刻意没有改用本谓词。ResumeWorkflowRun 的确认窗既没有 causalityGraph 也没有图精炼，
  * 只能走默认 ask；一旦把这两个名字塞进那些特判，确认窗就会多出一个无图可精炼的 Refine 选项。
  */
+/** dwf 的三个分派名：新启动、修订、恢复，三者共用同一套生命周期路径。 */
+const DWF_DISPATCH_TOOL_NAMES: readonly string[] = [
+  CREATE_WORKFLOW_TOOL_NAME,
+  AMEND_WORKFLOW_TOOL_NAME,
+  RESUME_WORKFLOW_RUN_TOOL_NAME,
+];
+
+type Deps = ToolExecutorDeps;
+type ToolCall = ExecutableToolCall;
+type TaskId = string;
+
 export function isDynamicWorkflowRunDispatchToolName(name: string): boolean {
-  return (
-    name === CREATE_WORKFLOW_TOOL_NAME ||
-    name === AMEND_WORKFLOW_TOOL_NAME ||
-    name === RESUME_WORKFLOW_RUN_TOOL_NAME
-  );
+  return DWF_DISPATCH_TOOL_NAMES.includes(name);
 }
 
 export function registerRuntimeBackgroundTask(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  taskId: string,
+  deps: Deps,
+  toolCall: ToolCall,
+  taskId: TaskId,
   output: Record<string, unknown>,
   turnId?: RuntimeTaskSnapshot["turnId"],
 ): void {
@@ -123,9 +130,9 @@ export function registerRuntimeBackgroundTask(
 }
 
 export function updateRuntimeBackgroundTask(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  taskId: string,
+  deps: Deps,
+  toolCall: ToolCall,
+  taskId: TaskId,
   status: string,
   snapshot?: BackgroundTaskSnapshot,
 ): void {
@@ -166,7 +173,7 @@ export function updateRuntimeBackgroundTask(
  * legacy 的 `Workflow` 刻意不参与：它的结果走 `output.response` 的既有通知路径，契约保持不变。
  */
 function runtimeTaskResultText(
-  toolCall: ExecutableToolCall,
+  toolCall: ToolCall,
   status: string,
   snapshot: TaskSnapshotSource,
 ): string | undefined {
@@ -178,9 +185,9 @@ function runtimeTaskResultText(
 }
 
 export function claimRuntimeBackgroundTaskNotification(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  taskId: string,
+  deps: Deps,
+  toolCall: ToolCall,
+  taskId: TaskId,
 ): boolean {
   if (runtimeTaskTypeForToolCall(toolCall) === undefined) return true;
   const registry = deps.runtimeTaskRegistry;
@@ -200,9 +207,9 @@ export function claimRuntimeBackgroundTaskNotification(
 }
 
 export function releaseRuntimeBackgroundTaskNotification(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  taskId: string,
+  deps: Deps,
+  toolCall: ToolCall,
+  taskId: TaskId,
 ): void {
   if (runtimeTaskTypeForToolCall(toolCall) === undefined) return;
   const registry = deps.runtimeTaskRegistry;
@@ -217,11 +224,7 @@ export function releaseRuntimeBackgroundTaskNotification(
   });
 }
 
-export function removeRuntimeBackgroundTask(
-  deps: ToolExecutorDeps,
-  toolCall: ExecutableToolCall,
-  taskId: string,
-): void {
+export function removeRuntimeBackgroundTask(deps: Deps, toolCall: ToolCall, taskId: TaskId): void {
   if (runtimeTaskTypeForToolCall(toolCall) === undefined) return;
   const registry = deps.runtimeTaskRegistry;
   if (registry === undefined) return;
@@ -294,7 +297,7 @@ function snapshotText(snapshot: TaskSnapshotSource, key: string): OptionalText {
 
 // 描述来源按优先级排列：快照描述 → 快照名 → 启动输出名 → 入参描述 → 命令 → 名 → 脚本路径。
 function runtimeTaskDescription(
-  toolCall: ExecutableToolCall,
+  toolCall: ToolCall,
   output?: Record<string, unknown>,
   snapshot?: TaskSnapshotSource,
 ): OptionalText {
