@@ -713,3 +713,97 @@ test("--explain 辅助：命中行下标与最长连续段位置", () => {
     comparedStart: -1,
   });
 });
+test("声明模式：interface.md 列出的 const 声明块整块剔除，普通模式不变", () => {
+  const schemaFile = [
+    "export const SamplePayloadSchema = z",
+    "  .object({",
+    "    id: z.string().min(1),",
+    "    count: z.number().int(),",
+    "  })",
+    "  .strict();",
+    "export const MAX_SAMPLE_COUNT = 5;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/sample.ts": schemaFile,
+      "contract/interface.md": "# interface\n\n- `SamplePayloadSchema`\n- `MAX_SAMPLE_COUNT`\n",
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "sample.ts", schemaFile);
+      const normal = runTool(["--upstream-dir", join(root, "upstream"), "--candidate", candidate]);
+      assert.equal(normal.status, 1, normal.stdout);
+      assert.match(normal.stdout, /declaration=false/);
+      assert.match(normal.stdout, /lines=6/);
+      assert.match(normal.stdout, /containment=1\.000/);
+      const stripped = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(stripped.status, 0, stripped.stdout);
+      assert.match(stripped.stdout, /declaration=true/);
+      assert.match(stripped.stdout, /residual-lines=0/);
+      assert.match(stripped.stdout, /stripped-blocks=2/);
+    },
+  );
+});
+
+test("声明模式：名字不在 interface.md 的 const 声明块不被剔除", () => {
+  const file = ["export const UnlistedConstant = 1;", "export const OtherValue = 2;"].join("\n");
+  withTree(
+    {
+      "upstream/unlisted.ts": file,
+      "contract/interface.md": "# interface\n\n- `SomethingElse`\n",
+    },
+    (root) => {
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        writeCandidate(root, "unlisted.ts", file),
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /stripped-blocks=0/);
+      assert.match(result.stdout, /residual-lines=2/);
+    },
+  );
+});
+
+test("声明模式：as const 常量表整块剔除且不吞掉后面的实现代码", () => {
+  const mixed = [
+    "export const REWIND_SCOPES = {",
+    '  Conversation: "conversation",',
+    '  Workspace: "workspace",',
+    "} as const;",
+    "export function isScope(value: string): boolean {",
+    "  return value.length > 0;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/scopes.ts": mixed,
+      "contract/interface.md": "# interface\n\n- `REWIND_SCOPES`\n",
+    },
+    (root) => {
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        writeCandidate(root, "scopes.ts", mixed),
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.match(result.stdout, /stripped-blocks=1/);
+      assert.match(result.stdout, /residual-lines=2/);
+      assert.match(result.stdout, /lines=2/);
+    },
+  );
+});
