@@ -1,0 +1,18 @@
+{
+  "measuredAt": "2026-10-11T09:26:58.206Z",
+  "platform": "win32",
+  "node": "v24.14.0",
+  "scroll": {
+    "syntheticMessages": 10000,
+    "frames": 180,
+    "headlessRafCallbacksPerSecond": 69.6,
+    "frameIntervalP50Ms": 13.3,
+    "frameIntervalP95Ms": 26.7,
+    "slowFramesOver33Ms": 2,
+    "maxMountedRows": 20,
+    "offscreenAppendShiftPx": 0,
+    "prependAnchorShiftPx": 0,
+    "viewport": "1440x900",
+    "browserVersion": "154.0.8037.98"
+  }
+}

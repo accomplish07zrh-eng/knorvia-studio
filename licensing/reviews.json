@@ -82094,20 +82094,352 @@
       ]
     },
     {
-      "path": "scripts/contract-test-discovery.mjs",
-      "normalizedSha256": "b1b2175932e85f67d29de7eed3158a455ecb59c9bb0d2c7b587a2fc0ba8bd82b",
+      "path": "packages/desktop/build/icon.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
-      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
     },
     {
-      "path": "scripts/contract-test-discovery.test.mjs",
-      "normalizedSha256": "8c86fd35e75a227e5fd5a4bf7fd11cf15c334c8418e5099542fcde46f4cda75e",
+      "path": "packages/desktop/build/icon.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
-      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_installer.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_installer.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_installer.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icon_windows.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/1024x1024.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/128x128.png",
+      "normalizedSha256": "9711baaa79ab102cc03f47e9a5a9342a53a8fb5246a1f8bf885eb3193f5946ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/16x16.png",
+      "normalizedSha256": "9c2c6fb0fbd58b076c7ca0eb4912d5fb535e177dc12ef6547c4fe2600142f15e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/24x24.png",
+      "normalizedSha256": "527e924b6333ca708c6e4305c50d0a927772fe38983bbb4386a408545ec08bb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/256x256.png",
+      "normalizedSha256": "08ef11f4d34d9fa7c4c06938f2ff652ea78f9ae696c1fd9e17f6b92d52e8034a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/32x32.png",
+      "normalizedSha256": "685b99191e54d468dffad64094c704750ca65f43a6020aea1196e1b97262394a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/48x48.png",
+      "normalizedSha256": "b0b4e3c7a3710872919084cce59003d84749c7443a5973a3679d3fd6dc2ee6a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/512x512.png",
+      "normalizedSha256": "f696c81363776c235b431c059a03a282a2829294ab54114582f6ae56889276f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/desktop/build/icons/64x64.png",
+      "normalizedSha256": "2e252ca7b97ae81468a403203947d84b75f32cfc2b55d8d4c71daef70d3c9937",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "packages/web/public/favicon.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/icon_512@2x.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/1024x1024.png",
+      "normalizedSha256": "e5244e50a9389e4b663dfcbdefcb8d7397e70c0c59d05292febd29ded77ae20e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/128x128.png",
+      "normalizedSha256": "9711baaa79ab102cc03f47e9a5a9342a53a8fb5246a1f8bf885eb3193f5946ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/16x16.png",
+      "normalizedSha256": "9c2c6fb0fbd58b076c7ca0eb4912d5fb535e177dc12ef6547c4fe2600142f15e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/24x24.png",
+      "normalizedSha256": "527e924b6333ca708c6e4305c50d0a927772fe38983bbb4386a408545ec08bb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/256x256.png",
+      "normalizedSha256": "08ef11f4d34d9fa7c4c06938f2ff652ea78f9ae696c1fd9e17f6b92d52e8034a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/32x32.png",
+      "normalizedSha256": "685b99191e54d468dffad64094c704750ca65f43a6020aea1196e1b97262394a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/48x48.png",
+      "normalizedSha256": "b0b4e3c7a3710872919084cce59003d84749c7443a5973a3679d3fd6dc2ee6a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/512x512.png",
+      "normalizedSha256": "f696c81363776c235b431c059a03a282a2829294ab54114582f6ae56889276f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/64x64.png",
+      "normalizedSha256": "2e252ca7b97ae81468a403203947d84b75f32cfc2b55d8d4c71daef70d3c9937",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/icon.icns",
+      "normalizedSha256": "491bc922dc1f1e9c9a561ee588055695933a9fbfa342b555c433a58518f4f2c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
+    },
+    {
+      "path": "public/logo/icons/icon.ico",
+      "normalizedSha256": "bf48f3a239701a1241bc8fbd38b4f816f72ace1cff5dc865742a51061e9d05df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "User-provided Knorvia brand asset (用户提供的 Knorvia 品牌资产) installed at the inherited upstream path, so the file content differs from the pinned upstream baseline while the path does not. No upstream implementation is reproduced: this is the Knorvia icon set the user supplied for the product. Shipped under the repository license; the upstream path relation stays recorded.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "docs/knorvia-brand-assets-2026-10-11.md",
+        "docs/knorvia-inherited-triage-2026-10-11.md"
+      ]
     },
     {
       "path": "specs/contracts/apps-cli-packages-01/acceptance.md",
@@ -83058,19 +83390,6 @@
       ]
     },
     {
-      "path": "packages/ui/src/components/ai-elements/canvas.tsx",
-      "normalizedSha256": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
-      "decision": "third-party",
-      "license": "Apache-2.0",
-      "basis": "Byte-identical to vercel/ai-elements at the pinned reference 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd: packages/elements/src/canvas.tsx is 618 bytes and the local file has the same sha256 and normalized sha256 (7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687). Verified file by file during M0-6 against an external clone of the pinned upstream revision. The file carries no ZCode or Knorvia modification and no added provenance header, so it is an unmodified upstream component under Apache-2.0, not Knorvia-authored code. The other files in the same directory differ from the pinned upstream revision and are not covered by this decision.",
-      "evidence": [
-        "third-party/source-verification-20261011/third-party-file-comparison.json",
-        "docs/knorvia-third-party-verification-20261011.md",
-        "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
-        "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
-      ]
-    },
-    {
       "path": "scripts/provenance/inherited-triage.mjs",
       "normalizedSha256": "02530bdd224fae7874d44fc246456370df7993dee083461873d368b3e64f9c1e",
       "decision": "original",
@@ -83116,6 +83435,35 @@
         "docs/knorvia-independent-replacement-plan.md",
         "docs/knorvia-provenance-bookkeeping-20261010.md",
         "scripts/provenance/inherited-triage.mjs"
+      ]
+    },
+    {
+      "path": "scripts/contract-test-discovery.mjs",
+      "normalizedSha256": "b1b2175932e85f67d29de7eed3158a455ecb59c9bb0d2c7b587a2fc0ba8bd82b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "scripts/contract-test-discovery.test.mjs",
+      "normalizedSha256": "8c86fd35e75a227e5fd5a4bf7fd11cf15c334c8418e5099542fcde46f4cda75e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/canvas.tsx",
+      "normalizedSha256": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Byte-identical to vercel/ai-elements at the pinned reference 6a9d5b1822ffb10bba4bd97175f01edd7d8651cd: packages/elements/src/canvas.tsx is 618 bytes and the local file has the same sha256 and normalized sha256 (7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687). Verified file by file during M0-6 against an external clone of the pinned upstream revision. The file carries no ZCode or Knorvia modification and no added provenance header, so it is an unmodified upstream component under Apache-2.0, not Knorvia-authored code. The other files in the same directory differ from the pinned upstream revision and are not covered by this decision.",
+      "evidence": [
+        "third-party/source-verification-20261011/third-party-file-comparison.json",
+        "docs/knorvia-third-party-verification-20261011.md",
+        "https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/canvas.tsx",
+        "third-party/upstream/b4f9adb7c568904834d0dd6cc98d16c390d21ca32fc17ae7a267715269bd5529.txt"
       ]
     },
     {
