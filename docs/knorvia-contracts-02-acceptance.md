@@ -65,6 +65,16 @@ node <tool> --repo . --candidate <文件> \
 | `workflow/script-declarations.ts`          | 声明模式           | 290          | 4          | 99%     | 0.000（残留 4 行全部为内部常量名，已改名避免与旧实现逐字相同）✓ | 9 个 schema/常量声明块 + 全部类型与 port 接口；普通模式为纯声明                        |
 | `workflow/script-validation.ts`            | **普通模式**       | —            | —          | —       | 0.182 / run 5 / 0.000 ✓                                         | 重复阶段标题检查从 superRefine 回调抽成具名纯函数；旧新 schema 差分探针 12/12 深度相等 |
 
+### 3.4 tools 组（44 个文件；第 1 批 5 个）
+
+| 文件                                 | 计分模式           | 兼容面行数 X | 残留行数 Y | X/(X+Y) | 实测   | 说明                                                                                              |
+| ------------------------------------ | ------------------ | ------------ | ---------- | ------- | ------ | ------------------------------------------------------------------------------------------------- |
+| `tools/read-state.ts`                | 声明模式           | 9            | 1          | 90%     | PASS ✓ | 只剩 `ReadFileState` 声明；横幅注释改为自有措辞                                                   |
+| `tools/list-saved-workflows.ts`      | 声明模式           | 18           | 2          | 90%     | PASS ✓ | 工具名常量 + 输入/输出 schema（冻结）；注释自有措辞                                               |
+| `tools/index.ts`                     | 声明模式（barrel） | 8            | 3          | 73%     | PASS ✓ | 151 个运行导出的桶；只做再导出                                                                    |
+| `tools/submit-result.ts`             | 声明模式           | 35           | 3          | 92%     | PASS ✓ | 通用 schema 冻结；`typedSubmitResultInputSchema` 重写为「关键字表 + 展开」，差分探针 8/8 深度相等 |
+| `tools/resolve-workflow-question.ts` | 声明模式           | 31           | 1          | 97%     | PASS ✓ | 两个 schema 冻结；注释自有措辞                                                                    |
+
 **合同冻结行说明**：`interface.md` 列出上述文件的导出名与签名；声明模式按名字剔除整块声明（含 `const` schema 与常量表）后，剩余行才是需要独立创作的实现。八个文件的残留行合计 61 行，最长相同段 ≤ 1 行；`target-evaluation`（5 行）与 `active-branch`（3 行）在普通模式下也低于门槛 8。
 
 **行为覆盖**：契约测试 `api-surface.test.mjs`（B1 导出面）+ `behavior.test.mjs`（B2 追踪上下文、B2b 异步 ambient、B3 span 驻留语义、B4–B9 工具与 workflow schema）在**源码入口 11/11、dist 入口 11/11** 全过；桩替换 6 个模块路径后 11/11 全部失败（`specs/contracts/contracts-02/gate-replace-stub.json`）。
