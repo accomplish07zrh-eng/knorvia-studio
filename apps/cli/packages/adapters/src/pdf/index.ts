@@ -80,7 +80,7 @@ interface DiagnosticContext {
 
 type DiagnosticStep = (context: DiagnosticContext) => PdfDocumentPortError | undefined;
 
-function filesystemFailure(
+function ioFailure(
   text: string,
   cancellation: AbortSignal | undefined,
   reason: unknown,
@@ -114,11 +114,14 @@ function timedOut(outcome: ExecutionResult): boolean {
   return outcome.timedOut || outcome.status === "timed_out";
 }
 
+/** 非空字符串判定：用于拼诊断详情时剔除空来源。 */
+function isNonEmptyText(value: string | undefined): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
 function diagnosticDetail(outcome: ExecutionResult): string {
-  return [outcome.stderr.text, outcome.stdout.text, outcome.error?.message]
-    .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
-    .join("\n")
-    .trim();
+  const sources = [outcome.stderr.text, outcome.stdout.text, outcome.error?.message];
+  return sources.filter(isNonEmptyText).join("\n").trim();
 }
 
 /** 页码越界提示：把请求区间与文档实际页数一起给出。 */
@@ -237,7 +240,7 @@ async function collectPages(
   try {
     entries = await readdir(tempDir);
   } catch (reason) {
-    throw filesystemFailure("Unable to list rendered PDF page images.", cancellation, reason);
+    throw ioFailure("Unable to list rendered PDF page images.", cancellation, reason);
   }
 
   const pageList = pageEntries(entries);
@@ -257,7 +260,7 @@ async function collectPages(
     });
     return await Promise.all(reads);
   } catch (reason) {
-    throw filesystemFailure("Unable to read rendered PDF page images.", cancellation, reason);
+    throw ioFailure("Unable to read rendered PDF page images.", cancellation, reason);
   }
 }
 
@@ -353,7 +356,7 @@ export function createPopplerPdfDocumentAdapter(
   ): Promise<ExtractionOutcome> {
     const tempDir = await mkdtemp(join(options.tempRoot ?? tmpdir(), PDF_NAMES.tempPrefix)).catch(
       (reason: unknown): never => {
-        throw filesystemFailure(
+        throw ioFailure(
           "Unable to create a temporary directory for PDF page extraction.",
           cancellation,
           reason,
@@ -386,11 +389,7 @@ export function createPopplerPdfDocumentAdapter(
       await rm(tempDir, { recursive: true, force: true });
     } catch (reason) {
       if (rendered) {
-        throw filesystemFailure(
-          "Unable to remove temporary PDF page images.",
-          cancellation,
-          reason,
-        );
+        throw ioFailure("Unable to remove temporary PDF page images.", cancellation, reason);
       }
     }
   }
