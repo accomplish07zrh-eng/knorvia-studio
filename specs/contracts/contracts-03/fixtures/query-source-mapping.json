@@ -1,0 +1,51 @@
+{
+  "note": "contracts-03 B3 的 querySource → (operation, actorKind) 冻结表；实现改动必须同步改本合同并重跑旧门、升版本。",
+  "cases": [
+    { "querySource": "main_turn", "operation": "agent_step", "actorKind": "main" },
+    { "querySource": "subagent", "operation": "agent_step", "actorKind": "subagent" },
+    { "querySource": "workflow_child", "operation": "agent_step", "actorKind": "workflow_child" },
+    { "querySource": "compact", "operation": "context_compaction", "actorKind": "system" },
+    {
+      "querySource": "session_title",
+      "operation": "session_title_generation",
+      "actorKind": "system"
+    },
+    {
+      "querySource": "goal_summary_title",
+      "operation": "goal_title_generation",
+      "actorKind": "system"
+    },
+    {
+      "querySource": "target_completion_verification",
+      "operation": "goal_completion_verification",
+      "actorKind": "system"
+    },
+    {
+      "querySource": "git_commit_message",
+      "operation": "workspace_git_commit_message",
+      "actorKind": "system"
+    },
+    { "querySource": "web_search_tool", "operation": "web_search", "actorKind": "tool" },
+    {
+      "querySource": "web_fetch_processing",
+      "operation": "web_fetch_processing",
+      "actorKind": "tool"
+    },
+    {
+      "querySource": "read_session_context",
+      "operation": "read_session_context_extract",
+      "actorKind": "tool"
+    },
+    {
+      "querySource": "project_memory_extract",
+      "operation": "project_memory_extract",
+      "actorKind": "system"
+    }
+  ],
+  "whitespacePadded": [
+    { "querySource": " main_turn ", "operation": "agent_step", "actorKind": "main" },
+    { "querySource": "  web_search_tool", "operation": "web_search", "actorKind": "tool" }
+  ],
+  "defaultCases": ["", "   ", "unknown_source", "Main_Turn", "tool_internal_model_call"],
+  "defaultExpectation": { "operation": "tool_internal_model_call", "actorKind": "system" }
+}
