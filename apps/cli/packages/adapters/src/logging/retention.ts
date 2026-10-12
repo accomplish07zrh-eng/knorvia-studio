@@ -56,6 +56,12 @@ export function formatLocalLogDate(date: Date): string {
   return parts.map((value, index) => String(value).padStart(DATE_WIDTHS[index]!, "0")).join("-");
 }
 
+/** 保留窗口的首日：cutoff 当天的文件仍然保留。 */
+function cutoffDate(reference: Date, keepDays: number): Date {
+  const dayOfMonth = reference.getDate() - keepDays + FIRST_KEPT_DAY;
+  return new Date(reference.getFullYear(), reference.getMonth(), dayOfMonth);
+}
+
 /** 从日志文件名取出可用的日期；形状不对或日历回卷（如 02-30）都算无效。 */
 function logCalendarDate(name: string): string | undefined {
   if (!name.startsWith(LOG_PREFIX) || !name.endsWith(LOG_EXTENSION)) return undefined;
@@ -75,6 +81,11 @@ function errorDetail(error: unknown): Record<string, unknown> {
   return { code: (error as NodeJS.ErrnoException).code, message: error.message, name: error.name };
 }
 
+/** 三处事件载荷共享的三项：目录、模块、保留天数。 */
+function commonDetail(logDir: string, keepDays: number): Record<string, unknown> {
+  return { logDir, module: MODULE_TAG, retentionDays: keepDays };
+}
+
 interface FailureContext {
   fileName?: string;
   options: LogRetentionCleanupOptions;
@@ -85,12 +96,10 @@ interface FailureContext {
 function reportFailure(context: FailureContext, error: unknown): void {
   const perFile = context.fileName !== undefined;
   const detail: Record<string, unknown> = {
+    ...commonDetail(context.options.logDir, context.outcome.retentionDays),
     cutoffDate: context.outcome.cutoffDate,
     error: errorDetail(error),
     event: perFile ? "log.retention.delete.failed" : "log.retention.cleanup.failed",
-    logDir: context.options.logDir,
-    module: MODULE_TAG,
-    retentionDays: context.outcome.retentionDays,
     status: "failed",
   };
   if (perFile) detail.fileName = context.fileName;
@@ -124,16 +133,25 @@ function completedDetail(
   options: LogRetentionCleanupOptions,
 ): Record<string, unknown> {
   return {
+    ...commonDetail(options.logDir, outcome.retentionDays),
     cutoffDate: outcome.cutoffDate,
     deletedFileCount: outcome.deletedFiles.length,
     event: "log.retention.cleanup.completed",
     failedFileCount: outcome.failedFiles.length,
-    logDir: options.logDir,
-    module: MODULE_TAG,
-    retentionDays: outcome.retentionDays,
     scannedFiles: outcome.scannedFiles,
     status: outcome.status,
   };
+}
+
+function emptyOutcome(boundary: string, keepDays: number): LogRetentionCleanupResult {
+  const outcome = {} as LogRetentionCleanupResult;
+  outcome.status = "completed";
+  outcome.retentionDays = keepDays;
+  outcome.cutoffDate = boundary;
+  outcome.deletedFiles = [];
+  outcome.failedFiles = [];
+  outcome.scannedFiles = 0;
+  return outcome;
 }
 
 export async function cleanupLogRetention(
@@ -141,20 +159,8 @@ export async function cleanupLogRetention(
 ): Promise<LogRetentionCleanupResult> {
   const keepDays = daysToKeep(options.retentionDays);
   const reference = options.now ?? new Date();
-  // 保留窗口的首日按 FIRST_KEPT_DAY 对齐：cutoff 当天的文件仍然保留。
-  const boundary = new Date(
-    reference.getFullYear(),
-    reference.getMonth(),
-    reference.getDate() - keepDays + FIRST_KEPT_DAY,
-  );
-  const outcome: LogRetentionCleanupResult = {
-    cutoffDate: formatLocalLogDate(boundary),
-    deletedFiles: [],
-    failedFiles: [],
-    retentionDays: keepDays,
-    scannedFiles: 0,
-    status: "completed",
-  };
+  const boundary = cutoffDate(reference, keepDays);
+  const outcome = emptyOutcome(formatLocalLogDate(boundary), keepDays);
   const context: FailureContext = { options, outcome };
   const dirents = await readdir(options.logDir, { withFileTypes: true }).catch(
     (error: unknown): undefined => {
@@ -177,11 +183,9 @@ export function scheduleLogRetentionCleanup(
   const waitMs = options.delayMs ?? LOG_CLEANUP_STARTUP_DELAY_MS;
   const keepDays = daysToKeep(options.retentionDays);
   options.logger?.info("Log retention cleanup scheduled", {
+    ...commonDetail(options.logDir, keepDays),
     delayMs: waitMs,
     event: "log.retention.cleanup.scheduled",
-    logDir: options.logDir,
-    module: MODULE_TAG,
-    retentionDays: keepDays,
     status: "waiting",
   });
   const runCleanup = (): void => {
