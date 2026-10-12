@@ -111,6 +111,18 @@ node <tool> --repo . --candidate <文件> \
 | `tools/off-peak.ts` | 60           | 3          | 横幅改写 + 两处 JSDoc 改自有措辞                                                                                                                                                                                                                             |
 | `tools/agent.ts`    | 100          | 1          | 横幅改写 + 删掉与上游逐字相同的说明行                                                                                                                                                                                                                        |
 
+### 3.8 tools 组第 5 批（3 个文件，声明模式 3/3 PASS）
+
+| 文件                             | 兼容面行数 X | 残留行数 Y | 处理                                                                                                                                                |
+| -------------------------------- | ------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tools/eval-workflow-snippet.ts` | 60           | 0          | 横幅与三处 JSDoc 改自有措辞；三个超时常量的说明合并为一行                                                                                           |
+| `tools/write.ts`                 | 112          | 4          | 纯分节横幅（`// ====`、`// Input Schema`、`// Write Errors` 等）换成自有措辞                                                                        |
+| `tools/websearch.ts`             | 109          | 8          | 私有 schema 改「字段表 + `z.object(表)`」形状；`maxUses` 链收成两行（区间 + `optional().describe(常量)`）；provider 原生参数投影改命名常量后 return |
+
+**差分探针**：`websearch.ts` 的三种导出行为旧 vs 新 —— 输入 schema 9 组（域名互斥、maxUses 0/9 边界、未知键、过短 query）、输出 schema 4 组（缺字段、负时长、空 URL、含 serverToolUse）、`toWebSearchProviderNativeArgs` 3 组 → **16/16 deepStrictEqual**。
+
+**通用行对策（本批新增）**：zod 链式调用被 fmt 折行后会留下 `.number()`/`.int()`/`.min(1)`/`.optional()`/`.describe(`/`.object({` 这类裸方法行；对策是①把链首收进一行（`z.number().int().min(1).max(X)` 作命名常量）、②`.optional().describe(命名常量)` 收一行、③私有 schema 用「普通对象字段表 + `z.object(字段表).strict()`」。
+
 `read-pdf` 的行为由契约测试 B4 逐例覆盖（`1-5` / `3` / `10-` / `5-3` / `0` / `1-2-3` / `abc` / 空串、非 PDF、缺 pages、超 20 页、开放区间按 21 计），源码与 dist 两入口 11/11 全过。
 
 **差分探针**：`todo.ts` 的三个导出函数（`isTodoToolName` / `todoItemsFromToolResultContent` / `formatTodoStateForModel`）旧 vs 新，19 组输入（10 组工具结果内容含非法 JSON、`null`、非对象、形状不符；6 组名称含 `undefined` 与大小写差异；3 组清单含空清单与多条目）+ 副本语义检查 → **19/19 deepStrictEqual**。

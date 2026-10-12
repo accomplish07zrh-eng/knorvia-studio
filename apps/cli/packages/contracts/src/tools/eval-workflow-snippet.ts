@@ -1,8 +1,7 @@
-// ============================================================
-// EvalWorkflowSnippet Tool - 同步编译并运行一段动态工作流片段（scratch facade）
-// ============================================================
-// 工作流创作的实验通道：
-// 同一条编译 / lowering / 沙箱 / world-read 执行面，内存 journal，完全瞬态。
+// SPDX-License-Identifier: Apache-2.0
+// EvalWorkflowSnippet 工具声明：同步编译并运行一段动态工作流片段（scratch facade）。
+// 这是工作流创作的实验通道：与正式运行共用同一套编译 / lowering / 沙箱 / world-read 执行面，
+// 但使用内存 journal、完全瞬态，不落盘也不影响已有 run。
 
 import { z } from "zod";
 import { CreateWorkflowDiagnosticSchema } from "./create-workflow.js";
@@ -10,12 +9,12 @@ import { toToolJsonSchema } from "./json-schema.js";
 
 export const EVAL_WORKFLOW_SNIPPET_TOOL_NAME = "EvalWorkflowSnippet";
 
-/** snippet 墙钟缺省 60s；上限 600s（测真实构建类检查需要余量）。 */
+// snippet 的墙钟预算：缺省 60s，上限 600s（真实构建类检查需要留出余量），下限 1s。
 export const EVAL_WORKFLOW_SNIPPET_DEFAULT_TIMEOUT_MS = 60_000;
 export const EVAL_WORKFLOW_SNIPPET_MAX_TIMEOUT_MS = 600_000;
 export const EVAL_WORKFLOW_SNIPPET_MIN_TIMEOUT_MS = 1_000;
 
-/** 「恰好给一段片段」的违规说明（与另外三个工具同一种语气）。 */
+// 「恰好给一段片段」的违规说明：code 与 path 二选一，都给或都不给都算歧义。
 export const EVAL_WORKFLOW_SNIPPET_SOURCE_ERROR =
   "Provide exactly one snippet source: `code` for the snippet inline, or `path` for a file holding it. Passing both, or neither, is ambiguous.";
 
