@@ -214,30 +214,62 @@ node <tool> --repo . --candidate <文件> \
 
 **冻结语义点**（同见 `known-differences.md`）：span 只允许 `running → completed | error` 一次结算、`onEnd` 钩子以同一个 record 只调用一次、`addEvent` 无副作用、`runWithContext` 作用域结束不残留、child 上下文 `parentSpanId` 与 `parentId` 同时指向父 `spanId`；rewind 的 `evaluateRewindTarget` 判定结果（`strategy` / `targetStatus` / `allowedScopes` / `reason`）逐字一致。
 
+### 3.17 tools / workflow 收尾批（10 个文件，声明模式 10/10 PASS）
+
+| 文件                              | 兼容面行数 X | 残留行数 Y | 实测    | 说明                                                                                                |
+| --------------------------------- | ------------ | ---------- | ------- | --------------------------------------------------------------------------------------------------- |
+| `tools/read-session-context.ts`   | 65           | 3          | 0.000 ✓ | 纯声明：补 SPDX 头与自有说明文字                                                                    |
+| `tools/respond-to-coordinator.ts` | 25           | 2          | 0.000 ✓ | 同上                                                                                                |
+| `tools/send-message.ts`           | 40           | 1          | 0.000 ✓ | 同上                                                                                                |
+| `tools/task-stop.ts`              | 20           | 0          | 0.000 ✓ | 同上                                                                                                |
+| `workflow/index.ts`               | 47           | 4          | 0.000 ✓ | 桶文件 + 两个存储端口，只补说明                                                                     |
+| `tools/bash.ts`                   | 284          | 12         | 0.083 ✓ | 横幅与小节标题改写；二进制词表/设备清单重排；模型可见 description 改「段落分组 + 双换行拼接」       |
+| `tools/tool-result-metadata.ts`   | 280          | 14         | 0.071 ✓ | 6 处 JSDoc 转 `//` 并改写；持久化 display 清洗抽成共用去键工具（`dropKey`/`dropKeyFromItems`）      |
+| `tools/read.ts`                   | 238          | 20         | 0.000 ✓ | 二进制后缀与设备路径收成单行 `"...".split(" ")`；行号字段抽命名形状；私有校验与后缀工具重写         |
+| `tools/target.ts`                 | 263          | 32         | 0.125 ✓ | 提示词固定行抽常量、5 处数组改显式 `return`、JSON 解析收成 `attemptJsonParse`、长签名抽具名入参类型 |
+| `tools/create-workflow.ts`        | 327          | 33         | 0.152 ✓ | 私有入参 schema 改「命名基础形状 + 命名 describe 常量 + 单行字段」；全部说明文字改写、JSDoc 转 `//` |
+
+**差分探针**：`bash` + `tool-result-metadata` **73/73**（全部导出 schema 投影 + 21 组入参解析 + 16 组旧持久化载荷）；`target` **98/98**（全部导出函数/schema/常量 + 20 组解析文本 + goal 语料 × 6 种 verification）；`create-workflow` **96/96**（全部导出 schema 投影 + 20 组入参 + 10 组阶段图 × 2 个导出函数 + 输出 schema）。
+
+**探针抓到过真实缺陷**：`bash` 的模型可见 `description` 在段落重组时少了一个空行（段落分组把第一段与第二段并到了一起），靠 JSON 投影逐字比对发现并修回。这条印证了「改文案必跑投影探针」。
+
+**返工记录（本阶段）**：① 行范围 splice 丢掉数组收尾 `]`（TS1137 立刻暴露）；② 补 `]` 时把 `join("\n")` 误写成 `join("`n")`（分隔符变成字面量反引号 + `n`）；③ 「向前查找注释段」的正则跨过代码行、吞掉了 6 个声明块——改为逐行收集注释行后解决。经验：**会移动代码行的批量改写，必须同时核对导出面（逐行比对）与声明块数量（声明模式的 `stripped-blocks`）\*\*。
+
 ## 4. 旧门与新实现结果
 
-| 阶段                               | 源码入口 | dist 入口 | 桩替换                      |
-| ---------------------------------- | -------- | --------- | --------------------------- |
-| 旧实现（合同 PR，`gate-old.json`） | 11/11    | 11/11     | 6 文件替换后 11/11 失败     |
-| 替换后 tracing 组                  | 11/11    | 11/11     | —（桩仍在，替换完成时删除） |
+| 阶段                               | 源码入口 | dist 入口 | 桩替换                                    |
+| ---------------------------------- | -------- | --------- | ----------------------------------------- |
+| 旧实现（合同 PR，`gate-old.json`） | 11/11    | 11/11     | 6 文件替换后 11/11 失败（测试确实测行为） |
+| 替换后（56/56，终态）              | 11/11    | 11/11     | —（桩目录已删除，替换阶段结束）           |
 
-## 5. 未覆盖项
+- 契约测试位置已从 `specs/contracts/contracts-02/tests/` 移到包内 `apps/cli/packages/contracts/test/contracts-02-*.test.mjs`（+ `contracts-02-entry.mjs`），由 `scripts/test-studio.mjs` 扫描该目录，因此在 CI 的 `pnpm test:studio` 里自动执行；合同文件（`interface.md`、`behavior.md`、`fixtures/`）仍留在合同目录。
+- `specs/contracts/contracts-02/tests/run-old-gate.mjs` 保留一个不依赖桩的入口，供 `lead/verify-replace.mjs` 自动跑两种入口（`--entry dist` 需先构建本包）。
 
-见 `specs/contracts/contracts-02/acceptance.md` §5（各工具文件逐键 schema、投影函数、`workflow/script.ts` 与 `scheduler-state.ts` 常量、`evaluateRewindTarget` 其余分支）。替换实现按「接受/拒绝集合不放宽」自查，逐项结果在后续组完成后补入本文件。
+## 5. 未覆盖项（替换阶段的自查结果）
+
+合同 `acceptance.md` §5 列出的未覆盖项，替换阶段用「差分探针 + 逐文件相似度」逐项自查，结论如下：
+
+- 各工具文件的输入/输出 schema（B1 只断言导出面）：`bash`、`read`、`target`、`create-workflow`、`tool-result-metadata`、`automation`、`workflow-observation-display`、`ask-user-question` 等文件都在探针里逐 schema 比对 JSON 投影与接受/拒绝集合，未放宽任何断言（合计 396 + 482 + 73 + 98 + 96 + 177 + 20 组比较，0 差异）。
+- `tool-result-metadata.ts` / `workflow-observation-display.ts` 的投影函数与限长常量：投影 schema 整体比对 + 16 组旧持久化载荷（含 `providerStop`、`refinedName`/`refinedLabel`）清洗结果比对，限长常量逐个比对。
+- `workflow/script.ts`、`scheduler-state.ts` 的常量与 schema：在各自批次的探针里整体比对。
+- `rewind` 的 `evaluateRewindTarget` 其余分支：规则表重写后按 5 组/3 组语料比对判定结果。
 
 ## 6. 复现命令
 
 ```bash
-# 契约测试（源码 / dist）
-node --import tsx --test specs/contracts/contracts-02/tests/*.test.mjs
+# 契约测试（源码 / dist）：测试已移入包内，随 test:studio 一起跑
+node specs/contracts/contracts-02/tests/run-old-gate.mjs
 pnpm --dir apps/cli/packages/contracts build
-KNORVIA_CONTRACTS_ENTRY=dist node --import tsx --test specs/contracts/contracts-02/tests/*.test.mjs
+node specs/contracts/contracts-02/tests/run-old-gate.mjs --entry dist
+pnpm test:studio     # 包内 test/ 目录被扫描，上述用例自动包含
 
-# 旧门 + 桩门
-node scripts/contract-gate.mjs --contract specs/contracts/contracts-02 --tests "*.test.mjs" \
-  --dist-env KNORVIA_CONTRACTS_ENTRY=dist \
-  --stub-root specs/contracts/contracts-02/stubs --stub-map specs/contracts/contracts-02/stubs/targets.txt
+# 相似度（逐文件，按各自计分模式：实现文件普通模式，声明文件加 --declaration）
+node scripts/provenance/similarity.mjs --repo . --candidate-list <清单> \
+  --upstream-dir "D:\knorvia studio开发\cache\zcode-872ad960" \
+  --upstream-rev 872ad960de7ec172591f7e1952f7849229f94521 \
+  [--declaration --interface specs/contracts/contracts-02/interface.md]
 
 # 门禁
 pnpm typecheck && pnpm lint && pnpm fmt:check && pnpm provenance:report && pnpm provenance:check
+node lead/verify-replace.mjs <工作树> contracts-02 --contract specs/contracts/contracts-02
 ```

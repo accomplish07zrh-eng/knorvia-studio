@@ -133279,7 +133279,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/acceptance.md",
-      "normalizedSha256": "2941a86e660b6e6c72b2df5f2239191ea7b87defc0ff2b14670cdeada226257e",
+      "normalizedSha256": "6e483a3a2f9da3517b51c30e3244cdd3338983df25c6e757e1dbcc1e839e8320",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -133345,7 +133345,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/README.md",
-      "normalizedSha256": "c835e7614548dca8eb54f9c4ff48a4fc6d110fa063effe98ec679d8c8b8f6222",
+      "normalizedSha256": "a299aa48beb5539a2a1a2409bb5f35f73d0dba672ec4df455b05476392f9a7b3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -133375,7 +133375,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "b270f3baf1664e6712356c181c0d49a2c5c1dc36a0b75d1924d5354f47279ce7",
+      "normalizedSha256": "ec712645108139a9d58e55819423a31db7b49352508c76aa1ac3b292fe933dbe",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",

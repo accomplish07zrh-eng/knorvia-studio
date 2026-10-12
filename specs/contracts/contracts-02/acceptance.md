@@ -61,3 +61,23 @@ node scripts/contract-gate.mjs --contract specs/contracts/contracts-02 --tests "
 - 未放宽任何断言；桩替换验证证明测试有效（11/11 失败）。
 - 未改用户数据格式、协议字段、`KNORVIA_` 环境变量与 `.knorvia-studio` 目录。
 - 相似度门槛常量（0.2 / 8 / 0.4）未调整。
+
+## 7. 替换阶段终态（2026-10-12）
+
+- **范围**：56 个继承文件全部替换完成（用 `interface.md` 的模块路径 × `git diff --name-status origin/main...HEAD` 实测，未覆盖数为 0）。导出名、签名、常量取值、schema 接受/拒绝集合与模型可见文案保持不变；注释与内部组织为自有实现。
+- **逐文件计分**：见 `docs/knorvia-contracts-02-acceptance.md` §3（§3.1–§3.17）。实现型文件按普通模式，声明/桶文件按 `--declaration --interface specs/contracts/contracts-02/interface.md`；全部 PASS（containment < 0.2、最长连续段 < 8、结构相似度 < 0.4）。
+- **差分探针**：行为型文件都与被替换实现逐例比对（合计 396 + 482 + 73 + 98 + 96 + 177 + 20 组，0 差异）；探针曾抓到一处真实缺陷（`bash` 的模型可见 description 段落重组时少了一个空行），已修回。
+- **合同桩退役**：`stubs/` 已删除；`lead/verify-replace.mjs` 的桩残留检查为 0。
+- **契约测试移入包内**：`apps/cli/packages/contracts/test/contracts-02-api-surface.test.mjs`、`contracts-02-behavior.test.mjs`（+ `contracts-02-entry.mjs`），由 `scripts/test-studio.mjs` 扫描的目录直接覆盖；合同文件（`interface.md`、`fixtures/`）仍留在本目录。`tests/run-old-gate.mjs` 保留无桩入口。
+- **终态复核**（Node 24.14.0 + pnpm 10.33.2）：
+
+| 检查                                                                                    | 结果                        |
+| --------------------------------------------------------------------------------------- | --------------------------- |
+| `node specs/contracts/contracts-02/tests/run-old-gate.mjs`（源码入口）                  | tests 11 / pass 11 / fail 0 |
+| `node specs/contracts/contracts-02/tests/run-old-gate.mjs --entry dist`（先构建本包）   | tests 11 / pass 11 / fail 0 |
+| `pnpm fmt:check` / `pnpm lint` / `pnpm typecheck` / `pnpm architecture:check --changed` | 0 / 0 / 0 / 0               |
+| `pnpm provenance:report` / `pnpm provenance:check`                                      | reviewProblems 0 / 0        |
+| `lead/verify-replace.mjs <工作树> contracts-02`                                         | 见替换 PR 报告              |
+
+- **登记**：替换后的实现文件、包内测试与 `run-old-gate.mjs` 已在 `licensing/reviews.json` 登记为 `original`；`licensing/current-files.json` 随之把这些路径分类为 `original`。
+- **未改**：`package.json` 导出映射、协议字段、`KNORVIA_` 环境变量、用户数据格式；相似度门槛常量未调整。
