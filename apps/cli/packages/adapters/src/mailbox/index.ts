@@ -21,6 +21,8 @@ const ENVELOPE_TEXT_FIELDS = [
   "createdAt",
 ] as const;
 
+type Box = "read" | "unread";
+
 function normalizeSessionId(sessionId: SessionId): string {
   const canonical = String(sessionId);
   if (!SESSION_ID_PATTERN.test(canonical)) {
@@ -45,45 +47,58 @@ function looksLikeEnvelope(value: unknown): value is SessionMailboxEnvelope {
 }
 
 function decodeEnvelope(raw: string): SessionMailboxEnvelope {
-  const parsed: unknown = JSON.parse(raw);
-  if (!looksLikeEnvelope(parsed)) throw new Error("Invalid session mailbox envelope");
-  return parsed;
+  const decoded: unknown = JSON.parse(raw);
+  if (!looksLikeEnvelope(decoded)) throw new Error("Invalid session mailbox envelope");
+  return decoded;
 }
 
 /** 待读条目：只取 .json，按文件名升序（即投递顺序），受 limit 约束。 */
 async function listUnread(pendingDir: string, limit: number | undefined): Promise<string[]> {
-  const candidates = await readdir(pendingDir);
-  const queue = candidates.filter((fileName) => fileName.endsWith(ENVELOPE_EXTENSION)).sort();
-  return queue.slice(0, limit ?? DEFAULT_DRAIN_LIMIT);
+  const found = await readdir(pendingDir);
+  const ordered = found.filter((name) => name.endsWith(ENVELOPE_EXTENSION)).sort();
+  return ordered.slice(0, limit ?? DEFAULT_DRAIN_LIMIT);
 }
 
+/** 两个信箱目录都要存在：投递方与读取方各自可能先到。 */
+async function ensureDirectories(pendingDir: string, archivedDir: string): Promise<void> {
+  await mkdir(pendingDir, { recursive: true });
+  await mkdir(archivedDir, { recursive: true });
+}
+
+/**
+ * 会话信箱 adapter：
+ * - 投递方把信封写进 `<root>/<sessionId>/unread/*.json`；
+ * - drain 按文件名升序读取并把文件搬进 `read/`，因此重复调用不会重复返回同一条；
+ * - sessionId 与最终目录都做校验，任何越界路径直接抛错而不落到文件系统。
+ */
 export class NodeSessionMailboxAdapter implements SessionMailboxPort {
   constructor(private readonly settings: NodeSessionMailboxOptions) {}
 
   async drainUnread(
-    input: { sessionId: SessionId; limit?: number },
+    query: { sessionId: SessionId; limit?: number },
     options?: { signal?: AbortSignal },
   ): Promise<SessionMailboxEnvelope[]> {
-    const pendingDir = this.sessionDir(input.sessionId, "unread");
-    const archivedDir = this.sessionDir(input.sessionId, "read");
-    await mkdir(pendingDir, { recursive: true });
-    await mkdir(archivedDir, { recursive: true });
+    const pendingDir = this.sessionDir(query.sessionId, "unread");
+    const archivedDir = this.sessionDir(query.sessionId, "read");
+    await ensureDirectories(pendingDir, archivedDir);
 
     const collected: SessionMailboxEnvelope[] = [];
-    for (const fileName of await listUnread(pendingDir, input.limit)) {
+    for (const name of await listUnread(pendingDir, query.limit)) {
       options?.signal?.throwIfAborted();
-      const fromPath = join(pendingDir, fileName);
-      const toPath = join(archivedDir, fileName);
+      const fromPath = join(pendingDir, name);
+      const toPath = join(archivedDir, name);
       collected.push(decodeEnvelope(await readFile(fromPath, "utf8")));
       await rename(fromPath, toPath);
     }
     return collected;
   }
 
-  private sessionDir(sessionId: SessionId, kind: "read" | "unread"): string {
+  /** 取某个信箱目录：先校验 sessionId，再确认最终路径仍在 root 之内。 */
+  private sessionDir(sessionId: SessionId, box: Box): string {
     const canonical = normalizeSessionId(sessionId);
     const rootDir = resolve(this.settings.rootDir);
-    return assertWithinBase(rootDir, resolve(rootDir, canonical, kind), canonical);
+    const target = resolve(rootDir, canonical, box);
+    return assertWithinBase(rootDir, target, canonical);
   }
 }
 
