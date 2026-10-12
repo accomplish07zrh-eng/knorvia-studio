@@ -82167,14 +82167,13 @@
     },
     {
       "path": "specs/contracts/contracts-01/known-differences.md",
-      "normalizedSha256": "70e29badebab901b6e6fa6ca3a6281cc827cb21328c3b11ec29e995e403f7344",
+      "normalizedSha256": "3a10e725dd7071b0a4ccac335643d7abfa0b5469cf6760df741a29b7b9a852d8",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-01 contract artifact for @knorvia/contracts (M2 first contract PR). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract, and the contract tests assert only black-box behavior through public entries. Old gate: source 25/25 and dist 25/25.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of contracts-01 against contract v1: acceptance record produced by the replacement work; no code was copied, renamed or rewritten line by line.",
       "evidence": [
-        "specs/contracts/contracts-01/README.md",
-        "specs/contracts/contracts-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/contracts-01/README.md"
       ]
     },
     {
@@ -133503,6 +133502,17 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of contracts-01 against contract v1: replacement design note and stub-gate record produced by the replacement work; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/contracts-01/README.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-contracts-01-acceptance.md",
+      "normalizedSha256": "770f284c0670df94a4dd21c7a7089bab46daff7283ac388819f73581b943bf65",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of contracts-01 against contract v1: acceptance record produced by the replacement work; no code was copied, renamed or rewritten line by line.",
       "evidence": [
         "docs/knorvia-independent-replacement-plan.md",
         "specs/contracts/contracts-01/README.md"
