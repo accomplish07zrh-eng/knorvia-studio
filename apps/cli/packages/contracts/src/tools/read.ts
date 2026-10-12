@@ -1,6 +1,5 @@
-// ============================================================
-// Read Tool - File Reading Tool
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// Read 工具的声明面：读文本/图片/PDF 的输入形状、输出形状与错误码。
 // Reference: file read input / output shape
 
 import { z } from "zod";
@@ -22,147 +21,106 @@ export const READ_IMAGE_MAX_INPUT_BYTES = 20 * 1024 * 1024;
 export const READ_IMAGE_TOKEN_TO_BASE64_CHAR_RATIO = 0.125;
 export const READ_VIDEO_MAX_INPUT_BYTES = VIDEO_INPUT_MAX_BYTES;
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
+// 输入 schema：file_path 必填（绝对路径），offset/limit 可选，PDF 变体多一个 pages。
 
-const UNSUPPORTED_BINARY_EXTENSIONS = new Set([
-  ".7z",
-  ".a",
-  ".bin",
-  ".bz2",
-  ".class",
-  ".dll",
-  ".dmg",
-  ".dylib",
-  ".exe",
-  ".gz",
-  ".jar",
-  ".o",
-  ".pyc",
-  ".rar",
-  ".so",
-  ".tar",
-  ".tgz",
-  ".wasm",
-  ".zip",
-]);
-const BLOCKING_DEVICE_PATHS = new Set([
-  "/dev/console",
-  "/dev/fd/0",
-  "/dev/fd/1",
-  "/dev/fd/2",
-  "/dev/full",
-  "/dev/random",
-  "/dev/stderr",
-  "/dev/stdin",
-  "/dev/stdout",
-  "/dev/tty",
-  "/dev/urandom",
-  "/dev/zero",
-]);
+const UNSUPPORTED_BINARY_EXTENSIONS = new Set(
+  ".7z .a .bin .bz2 .class .dll .dmg .dylib .exe .gz .jar .o .pyc .rar .so .tar .tgz .wasm .zip".split(
+    " ",
+  ),
+);
+const BLOCKING_DEVICE_PATHS = new Set(
+  "/dev/console /dev/fd/0 /dev/fd/1 /dev/fd/2 /dev/full /dev/random /dev/stderr /dev/stdin /dev/stdout /dev/tty /dev/urandom /dev/zero".split(
+    " ",
+  ),
+);
 
+// 行位置与行数是同一形状的两个区间：上界与类型收成命名形状，字段行因此都能保持一行。
+const lineOffsetValue = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const lineLimitValue = z.number().int().positive().max(Number.MAX_SAFE_INTEGER);
+// 两条模型可见文案与合同冻结的那份逐字一致，只是抽成了常量。
+const READ_OFFSET_DESCRIPTION =
+  "The line number to start reading from. Only provide if the file is too large to read at once";
+const READ_LIMIT_DESCRIPTION =
+  "The number of lines to read. Only provide if the file is too large to read at once.";
+const offsetField = lineOffsetValue.optional().describe(READ_OFFSET_DESCRIPTION);
+const limitField = lineLimitValue.optional().describe(READ_LIMIT_DESCRIPTION);
+
+// file_path 是绝对路径；三个字段的必填/可选与合同一致。
 const ReadProviderInputBaseSchema = z.object({
-  /**
-   * The absolute path to the file to read.
-   */
   file_path: z.string().describe("The absolute path to the file to read"),
-  /**
-   * The line number to start reading from. Only provide if the file is too large to read at once
-   */
-  offset: z
-    .number()
-    .int()
-    .nonnegative()
-    .max(Number.MAX_SAFE_INTEGER)
-    .optional()
-    .describe(
-      "The line number to start reading from. Only provide if the file is too large to read at once",
-    ),
-  /**
-   * The number of lines to read. Only provide if the file is too large to read at once.
-   */
-  limit: z
-    .number()
-    .int()
-    .positive()
-    .max(Number.MAX_SAFE_INTEGER)
-    .optional()
-    .describe(
-      "The number of lines to read. Only provide if the file is too large to read at once.",
-    ),
+  offset: offsetField,
+  limit: limitField,
 });
 
-const ReadProviderPdfInputSchema = ReadProviderInputBaseSchema.extend({
+const ReadProviderPdfSchema = ReadProviderInputBaseSchema.extend({
   pages: z.string().optional().describe(READ_PDF_PAGES_DESCRIPTION),
 });
 
-export const ReadInputSchema = ReadProviderPdfInputSchema.superRefine(validateReadInputSemantics);
+export const ReadInputSchema = ReadProviderPdfSchema.superRefine(checkReadInput);
 
 export const ReadInputJsonSchema = toToolJsonSchema(ReadProviderInputBaseSchema);
-export const ReadPdfInputJsonSchema = toToolJsonSchema(ReadProviderPdfInputSchema);
+export const ReadPdfInputJsonSchema = toToolJsonSchema(ReadProviderPdfSchema);
 
-function validateReadInputSemantics(
-  input: { file_path?: unknown; pages?: unknown },
-  context: z.RefinementCtx,
-): void {
-  if (typeof input.file_path !== "string") return;
-  const filePath = input.file_path;
-  const lowerPath = filePath.toLowerCase();
-
-  const pagesFailure =
-    typeof input.pages === "string"
-      ? getReadPdfPagesValidationFailure(filePath, input.pages)
-      : undefined;
-  if (pagesFailure) {
-    context.addIssue({
-      code: z.ZodIssueCode.custom,
-      path: ["pages"],
-      message: pagesFailure.message,
-    });
-    return;
-  }
-
-  validateReadPathSemantics(filePath, lowerPath, context);
+// 校验回调只关心这两个字段，单独给一个形状名，签名因此能收成一行。
+interface ReadSemanticInput {
+  file_path?: unknown;
+  pages?: unknown;
 }
 
-function validateReadPathSemantics(
-  filePath: string,
-  lowerPath: string,
-  context: z.RefinementCtx,
-): void {
+// pages 校验失败时唯一的出口：把失败原因转成 zod issue。
+function reportPagesFailure(failure: { message: string }, context: z.RefinementCtx): void {
+  context.addIssue({ code: z.ZodIssueCode.custom, path: ["pages"], message: failure.message });
+}
+
+// 入口校验：先看 pages 的分页表达式，再做路径检查。file_path 不是字符串时直接放行，
+// 类型错误交给 zod 自己报。
+function checkReadInput(input: ReadSemanticInput, context: z.RefinementCtx): void {
+  const filePath = input.file_path;
+  if (typeof filePath !== "string") return;
+  const lowerPath = filePath.toLowerCase();
+
+  if (typeof input.pages === "string") {
+    const pagesFailure = getReadPdfPagesValidationFailure(filePath, input.pages);
+    if (pagesFailure) return reportPagesFailure(pagesFailure, context);
+  }
+
+  checkReadPath(filePath, lowerPath, context);
+}
+
+// 已知二进制后缀：命中才拒，没有后缀或不在清单里都放行。
+function isUnsupportedBinaryExtension(lowerPath: string): boolean {
+  const extension = extensionOf(lowerPath);
+  return extension !== undefined && UNSUPPORTED_BINARY_EXTENSIONS.has(extension);
+}
+
+// 路径检查：先拒会阻塞或无限输出的设备文件，再按后缀拒已知二进制格式。
+function checkReadPath(filePath: string, lowerPath: string, context: z.RefinementCtx): void {
   if (BLOCKING_DEVICE_PATHS.has(lowerPath)) {
     context.addIssue({
       code: z.ZodIssueCode.custom,
       path: ["file_path"],
       message: `Cannot read '${filePath}': this device file would block or produce infinite output.`,
     });
-    return;
+  } else if (isUnsupportedBinaryExtension(lowerPath)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["file_path"],
+      message: `This tool cannot read binary files. The file appears to be a binary ${extensionOf(lowerPath)} file. Please use appropriate tools for binary file analysis.`,
+    });
   }
-
-  const extension = readFileExtension(lowerPath);
-  if (!extension || !UNSUPPORTED_BINARY_EXTENSIONS.has(extension)) return;
-
-  context.addIssue({
-    code: z.ZodIssueCode.custom,
-    path: ["file_path"],
-    message: `This tool cannot read binary files. The file appears to be a binary ${extension} file. Please use appropriate tools for binary file analysis.`,
-  });
 }
 
 export type ReadInput = z.infer<typeof ReadInputSchema>;
 
-function readFileExtension(path: string): string | undefined {
+// 取小写路径最后一段的后缀（含点）；没有后缀、或以点开头时返回 undefined。
+function extensionOf(path: string): string | undefined {
   const lastSlash = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\"));
-  const basename = path.slice(lastSlash + 1);
-  const dotIndex = basename.lastIndexOf(".");
-  if (dotIndex <= 0) return undefined;
-  return basename.slice(dotIndex);
+  const name = path.slice(lastSlash + 1);
+  const dot = name.lastIndexOf(".");
+  return dot > 0 ? name.slice(dot) : undefined;
 }
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出形状：文本、图片、视频与 PDF 各自的信封，外加统一的错误码常量。
 
 export interface ReadTextOutput {
   type: "text";
@@ -375,9 +333,7 @@ export const ReadOutputSchema = z.union([
 
 export const ReadOutputJsonSchema = toToolJsonSchema(ReadOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 一次工具调用的记录形状与结果形状（trace 归属与耗时都在这里）。
 
 export interface ReadToolCall {
   id: ToolCallId;

@@ -1,57 +1,55 @@
-// ============================================================
-// Dynamic Workflow Run 的**情势截面**：阶段 / 子代理 / 健康
-// ============================================================
-// 从 dynamic-workflow-run.port.ts 拆出，理由与 dwf-journal-introspection.ts 同一条：那份契约
-// 已到 oxlint 的 max-lines 上限。公开面不变——主端口文件原地再导出这里的每一个名字，
-// `@knorvia/contracts` 的导入路径逐字不动。
-//
-// 三组字段挂在 `DynamicWorkflowRunDetail` 上，由读面在 `getRunDetail` 里读时派生；
-// 契约与不变式见下方各类型的注释。
+// SPDX-License-Identifier: Apache-2.0
+// ════════════════════════════════════════════════════════════
+// Dynamic Workflow Run 的情势截面 —— 子代理、阶段、健康
+// ════════════════════════════════════════════════════════════
+// 这组类型另立一篇，因为主契约已经触到 oxlint 的 max-lines 上限（当初 dwf-journal-introspection.ts
+// 被拆出来也是这个缘故）。公开面没有变化：主端口文件把这里的名字整块再导出，`@knorvia/contracts`
+// 上原有的导入路径照旧有效。
 
-// 一条贯穿三组的纪律：**时间只有一个来源**，即 `dwf_event.time_created`（事件落 journal 的
-// 时刻）。读者现取 `Date.now()` 兜底是错的——那会把一次冷读里一周前的整段历史全标成「刚刚」，
-// 而这三组字段存在的全部理由就是让「多久以前」可信。没有这个列的老 journal 一律让时间字段
-// **缺席**，不给 0、不给 NaN。
+// 字段由读面在计算 run 详情时现算，挂到 `DynamicWorkflowRunDetail` 上。三组类型共守一条纪律：时间
+// 只能来自一处——事件写进 journal 的那一刻（dwf_event.time_created）。读时临时拿 `Date.now()` 顶上，
+// 会把一周前的历史整体说成「刚刚」，而这几个字段的全部价值就在于让「多久以前」可信。老 journal 缺
+// 这一列时，相关时间字段一律**缺席**，既不用 0 也不用 NaN 顶上。
 
-/**
- * 一个阶段在情势截面里的处境。
- *
- * - `ahead`：脚本声明了它，控制流还没到——**唯一** `rounds: 0` 的状态；
- * - `current`：run 还活着，且它是最后进入的那个阶段；
- * - `unfinished`：run 已终态，而这个阶段里还有没结算的 ask（进程死在它下面）；
- * - `done`：其余。
- */
-export type DynamicWorkflowRunPhaseState = "done" | "current" | "ahead" | "unfinished";
+// ① 子代理：一个 actor 实例此刻在干什么
 
-/** 情势截面里的一个阶段（`phase("…")` 标记）。 */
-export interface DynamicWorkflowRunPhaseView {
-  /** 作者原词，与 `run-launched.phaseNames` / `phase-entered.name` 同一个词表。 */
+/** 这条 ask 上最近一次被看到的工具调用。`target` 是给人看的**线索**（例如文件路径、命令头），而不是 入参本身：引擎到这里之间每一段都按同一条界裁剪，入参全文不会进来。 */
+export interface DynamicWorkflowRunSubagentLastTool {
   name: string;
-  state: DynamicWorkflowRunPhaseState;
-  /** 被进入过几次（同名再入即 +1）。`ahead` 恒为 0，其余恒 ≥ 1。 */
-  rounds: number;
-  /** 出生在这个阶段的节点里已结算 / 未结算的条数。 */
-  nodesSettled: number;
-  nodesRunning: number;
-  /**
-   * **最近一次**进入的时刻，以及那一次的离开时刻（下一个异名 `phase-entered` 的时刻）。
-   * 取最近一次而不是第一次：一个被回边绕了三圈的阶段，读者要问的是「这一圈进来多久了」。
-   * 当前阶段没有离开时刻；事件缺时间戳时两者一并缺席。
-   */
-  enteredAt?: number;
-  exitedAt?: number;
+  target?: string;
+  /** 看到它的那条 `node-progress` 是什么时候落库的；事件不带时间戳就缺席。 */
+  at?: number;
 }
 
-/**
- * 一个子代理此刻的处境。**读的顺序就是写的顺序**，前一条命中即定案：
- *
- * run 未终态：`parked`（有它自己的问题停在那儿等答案）→ `waiting`（当前 ask 的最后一条生命
- * 周期事件是 `node-waiting`：在等槽位或在退避）→ `executing`（有 ask 行还在跑）→ `failed`
- * （最后一条已结算的 ask 失败了）→ `idle`。
- *
- * run 已终态：三个活着的词全部退场——`unfinished`（还有 ask 行标着 running，即进程死在它
- * 下面）→ `failed` → `done`。
- */
+/** 子代理当前那次仍在跑的 ask（有 ask 行还是 `running` 时它才在场）。 这里只放下读面确实用得上的东西：身份定位、派活时写下的指令头、以及随进度事件同步到达的计数。 指令全文不归边界管，只留开头 240 字。 */
+export interface DynamicWorkflowRunSubagentAsk {
+  siteId: string;
+  ordinal: number;
+  /** 这是该子代理第几次发问，数值来自 journal 的 `actorSeq`；老行不落这一列就缺席。 */
+  actorSeq?: number;
+  /** 派这次 ask 时作者写下的指令，只保留前 240 字。读面靠它回答「这个子代理被派去干什么」——相位 本身最多说得出「在跑」。老 journal 里没有 `instructionsHead` 就缺席，**不会去读指令全文来补齐**。 */
+  instructionsHead?: string;
+  /** 这条 ask 在 `node-dispatched` 上的时刻；事件不带时间戳就缺席。 */
+  startedAt?: number;
+  /** 随 `node-progress` 一起到达的计数：解析到第几轮了，累计又调了几次工具。没有 `node-progress` 的老 journal 上它们一律缺席——缺席的意思是「不知道」，而 `0` 说的是「一个工具都没调过」，两件 事不能混为一谈。 */
+  turn?: number;
+  toolCalls?: number;
+  lastTool?: DynamicWorkflowRunSubagentLastTool;
+}
+
+/** 当前这次 ask 卡在什么上（取自最后一条 `node-waiting` 的观察）。 */
+export interface DynamicWorkflowRunSubagentWait {
+  /** 等的是进程级准入闸门（`slot`），还是 runner 正在退避重试（`backoff`）。 */
+  cause: "slot" | "backoff";
+  reason?: string;
+  retryAfterMs?: number;
+  /** **进入这一轮等待**的时刻——即最近一条非 waiting 生命周期事件之后的第一条 `node-waiting`，而不是 最后一条 `node-waiting` 的时刻：退避阶梯会连着发好几条，而读者想问的是「它已经卡了多久」。事件 没有时间戳时缺席。 */
+  since?: number;
+}
+
+// 子代理此刻的处境。
+// 判定按**读的顺序即写的顺序**，前一条命中就定案： run 尚未终态时：`parked`（停在自己的问题上等答案）→ `waiting`（当前 ask 的最近一条生命周期事件是 `node-waiting`，说明在等槽位或在退避）→ `executing`（还有 ask 行在跑）→ `failed`（最近一条已结算 的 ask 以失败收场）→ `idle`。
+// run 已是终态时，三个「活着」的词一并退场，只剩 `unfinished`（仍有 ask 行标着 running，说明进程死在 它下面）、`failed`、`done`，按此顺序判定。
 export type DynamicWorkflowRunSubagentState =
   | "idle"
   | "executing"
@@ -61,124 +59,77 @@ export type DynamicWorkflowRunSubagentState =
   | "failed"
   | "unfinished";
 
-/**
- * 一次 ask 里最近被观察到的工具调用。`target` 是给人看的**线索**（文件路径、命令头），
- * 不是入参本身——这条链路从引擎到这里每一段都按同一条界切，入参全文永不进来。
- */
-export interface DynamicWorkflowRunSubagentLastTool {
-  name: string;
-  target?: string;
-  /** 观察到它的那条 `node-progress` 的落库时刻；事件无时间戳时缺席。 */
-  at?: number;
-}
-
-/** 子代理此刻正在跑的那一次 ask（有 ask 行还是 `running` 时在场）。 */
-export interface DynamicWorkflowRunSubagentAsk {
-  siteId: string;
-  ordinal: number;
-  /** 这是该子代理的第几次 ask（journal 的 `actorSeq`）；不落这一列的老行缺席。 */
-  actorSeq?: number;
-  /**
-   * 作者写给这次 ask 的指令的头 240 字。读面据它回答「这个子代理被派去干什么」——相位只
-   * 说得出「在跑」。不带 `instructionsHead` 的老 journal 上缺席，**不去读指令全文补**。
-   */
-  instructionsHead?: string;
-  /** 这次 ask 的 `node-dispatched` 时刻；事件无时间戳时缺席。 */
-  startedAt?: number;
-  /**
-   * 已解析到第几轮、累计调了几次工具（随 `node-progress` 到达）。
-   * 没有 `node-progress` 的老 journal 上一律缺席——缺席读作「不知道」，`0` 读作
-   * 「一个工具都没调过」，这是两个不同的事实。
-   */
-  turn?: number;
-  toolCalls?: number;
-  lastTool?: DynamicWorkflowRunSubagentLastTool;
-}
-
-/** 当前 ask 正在等什么（最后一条 `node-waiting` 的观察）。 */
-export interface DynamicWorkflowRunSubagentWait {
-  /** `slot` = 在等进程级准入闸门；`backoff` = runner 在退避重试。 */
-  cause: "slot" | "backoff";
-  reason?: string;
-  retryAfterMs?: number;
-  /**
-   * **进入本次等待**的时刻（即最近一条非 waiting 生命周期事件之后的第一条
-   * `node-waiting`），不是最后一条的时刻：退避阶梯会连发好几条，而读者问的是「它卡了多久」。
-   * 事件无时间戳时缺席。
-   */
-  since?: number;
-}
-
-/** 情势截面里的一个子代理（= 一个 actor 实例）。 */
+/** 情势截面里的一个子代理：一个 actor 实例对应一项。 */
 export interface DynamicWorkflowRunSubagentView {
   siteId: string;
   ordinal: number;
-  /** `agent("poet")` 的有效名；匿名 actor 缺席，这里不合成兜底标签（同 pendingQuestions）。 */
+  /** `agent("poet")` 解析出的有效名；匿名 actor 没有名字，这里也不会替它编一个（与 pendingQuestions 同一态度）。 */
   name?: string;
   state: DynamicWorkflowRunSubagentState;
-  /** 它当前（或最后）那次 ask 出生在哪个阶段；都读不出时退到它自己的出生阶段。 */
+  /** 当前（或最后一次）ask 出生在哪个阶段；读不出就退到它自己的出生阶段。 */
   phaseName?: string;
   currentAsk?: DynamicWorkflowRunSubagentAsk;
   wait?: DynamicWorkflowRunSubagentWait;
-  /**
-   * 它停在哪个问题上（`pendingQuestions[].qid`）。**只有确实查得到停驻表时才可能在场**：
-   * `health.pendingQuestionsKnown` 为假的那次读根本不知道有没有人在等，见那个字段。
-   */
+  /** 它是在哪个问题上停住的（对应 `pendingQuestions[].qid`）。**仅当这次读确实能碰到停驻表时才可能出 现**：一旦 `health.pendingQuestionsKnown` 为假，读数根本不知道有没有人在等——细节见那个字段。 */
   parkedOn?: string;
-  /** 它已结算 / 其中失败的 ask 条数，以及这些 ask 的 token 之和（节点行的 `stats`）。 */
+  /** 累计结算的 ask 有几条、其中失败几条，以及这些 ask 的 token 总和（取自节点行的 stats）。 */
   stepsSettled: number;
   stepsFailed: number;
   tokens: number;
-  /** 最后一次被观察到在动的时刻（它名下任一节点的最后一条进度类事件）。 */
+  /** 它名下任一节点的最后一条进度类事件发生在何时——也就是最后一次看到它在动。 */
   lastProgressAt?: number;
 }
 
-/**
- * run 级并发现状：它此刻被压到了多少，本该是多少，以及为什么、从什么时候起。
- *
- * **整个对象只在 `effective < cap` 时在场**（与详情面的 `maxConcurrency` 同一条缺席规则）：
- * 一个跑满自己那条界的 run 没有可说的，而这里在场就等于「它正被限着」。
- */
+// ② 阶段：脚本声明的站点走到了哪一步
+
+/** 阶段在情势截面里可能处的状态。 - `ahead`：脚本写了它，控制流尚未抵达（`rounds: 0` 只可能出现在这个状态）； - `current`：run 还在跑，并且它就是最后进入的那个阶段； - `unfinished`：run 已终态，但该阶段里仍有 ask 未结算（进程是死在它下面的）； - `done`：以上都不是。 */
+export type DynamicWorkflowRunPhaseState = "done" | "current" | "ahead" | "unfinished";
+
+/** 情势截面里的一个阶段，来自脚本的 `phase("…")` 标记。 */
+export interface DynamicWorkflowRunPhaseView {
+  /** 作者写下的原词；`run-launched.phaseNames` 与 `phase-entered.name` 用的是同一张词表。 */
+  name: string;
+  state: DynamicWorkflowRunPhaseState;
+  /** 进出过几个来回（同名再入一次就 +1）。`ahead` 永远是 0，其余至少是 1。 */
+  rounds: number;
+  /** 在这个阶段出生的节点里，已结算的有几条、还在跑的有几条。 */
+  nodesSettled: number;
+  nodesRunning: number;
+  /** **最后一次**进入的时刻，以及那一次的离开时刻（出现在下一个异名 `phase-entered` 上）。为什么取 最后一次而不是第一次：一个被回边绕了三圈的阶段，读者真正想问的是「这一圈进来多久了」。当前阶段 没有离开时刻；事件缺时间戳时两个字段一起缺席。 */
+  enteredAt?: number;
+  exitedAt?: number;
+}
+
+// ③ 健康：run 整体还有没有在动
+
+/** run 级的并发现状：现在被压到多少、按理该是多少，以及成因从何时开始。 **只有 `effective < cap` 时整个对象才出现**（缺席规则与详情面的 `maxConcurrency` 相同）：跑满自己 那条界的 run 没什么可讲，它出现就说明「正被限着」。 */
 export interface DynamicWorkflowRunConcurrencyHealth {
-  /** 治理器此刻实际放行的数 = min(共享闸门, {@link cap})。 */
+  /** 治理器此刻真正放行的数，等于共享闸门与 {@link cap} 中的较小者。 */
   effective: number;
-  /**
-   * **这个 run 自己的**上界：用户给它定过就是那个数，没定过才是本机天花板。
-   *
-   * 刻意不报天花板：一个以 `max_concurrency: 3` 起的 run 在六核机器上会永远显示成「3/6」，
-   * 读起来像被限流，而它正跑在用户亲手定的界上——那条界不是故障，是设定。
-   */
+  /** **本 run 专属**的上界：用户定过就用那个数，没定过才用本机天花板。 特意不把天花板报出来：以 `max_concurrency: 3` 启动的 run 放在六核机器上，会一直显示成「3/6」， 读起来像被限流，可它正跑在用户亲手定下的界上——那条界是设定，不是故障。 */
   cap: number;
-  /** 最后一条 `concurrency-changed` 的原因（`rate_limited` / `recovered` …）。 */
+  /** 触发最后那条 `concurrency-changed` 的缘由（`rate_limited` / `recovered` …）。 */
   reason?: string;
-  /** 那条事件的落库时刻；无时间戳时缺席。 */
+  /** 那条事件落库于何时；没有时间戳就缺席。 */
   since?: number;
 }
 
-/** run 整体还在不在动。 */
+/** run 整体的动静：还在往前推，还是已经停在原地。 */
 export interface DynamicWorkflowRunHealth {
-  /** 全 run 最后一条进度类事件的时刻。 */
+  /** 全 run 上最后一条进度类事件落在什么时候。 */
   lastProgressAt?: number;
-  /**
-   * 最后一条 `run-stalled` 的时刻，且其后**没有**任何进度类事件。
-   * 「等槽位」不算进度——那段等待正是停滞本身，把它算进去就永远看不到停滞。
-   */
+  /** 最后一条 `run-stalled` 的时刻，前提是它之后**再没有**任何进度类事件。「等槽位」不能算进度—— 那段等待本身就是停滞，算进去就永远看不到停滞。 */
   stalledSince?: number;
   concurrency?: DynamicWorkflowRunConcurrencyHealth;
-  /** 按结算顺序**结尾处连续**失败的 ask 数：3 次连挂与散落 3 次是两个不同的处境。 */
+  /** 按结算顺序**结尾处连续**失败的 ask 数：连挂 3 次与散落 3 次是两种不同的处境。 */
   consecutiveFailures: number;
-  /** 命中完结缓存（`node-settled { cached: true }`）的结算数。 */
+  /** 命中完结缓存（`node-settled { cached: true }`）而完成结算的条数。 */
   cachedSteps: number;
-  /** **仅终态 run**：还标着 `running` 的节点行数，也就是进程死在它们下面的那些。为 0 时缺席。 */
+  /** **只在终态 run 上**：仍标着 `running` 的节点行数——进程就是死在它们下面的。为 0 时缺席。 */
   leftoverRunning?: number;
-  /**
-   * 这次读**能不能**回答「有没有问题在等答案」。
-   *
-   * 停驻的问题只活在提问那个进程的内存里（见 {@link DynamicWorkflowRunDetail.pendingQuestions}），
-   * 所以读另一个进程名下在飞的 run 时，「没有待答问题」与「不知道」长得一模一样——而这两者
-   * 对模型是两个完全不同的下一步。为真的条件是：本会话持有这个 run 的注册表条目，或 run 已
-   * 终态（终态 run 按定义没有在听的人）。为假时 `pendingQuestions` 整字段缺席，且没有任何
-   * 子代理会被报成 `parked`。
-   */
+  // 这一次读**有没有能力**回答「是否存在等问题答案的问题」。 停驻问题只存在于提问进程的内存中（见 {@link DynamicWorkflowRunDetail.pendingQuestions}）；
+  // 因此在读 另一个进程名下在飞的 run 时，「没有待答问题」和「不知道」看上去一模一样——可对模型来说，这两者导向 完全不同的下一步。
+  // 它取真值的条件是：本会话手里有这个 run 的注册表条目，或者 run 已经终态（终态 run 按定义不再有听者）。
+  // 取假值时 `pendingQuestions` 整字段缺席，也不会有任何子代理被报成 `parked`。
   pendingQuestionsKnown: boolean;
 }

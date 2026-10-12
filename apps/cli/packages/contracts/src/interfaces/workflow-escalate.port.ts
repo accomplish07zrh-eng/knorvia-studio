@@ -1,59 +1,50 @@
-// ============================================================
-// Workflow Escalate Port - actor 向主代理升级阻塞问题的边界
-// ============================================================
-// 与 {@link WorkflowSubmitPort} 完全同构且刻意分开：
-// submit 结算的是**这次 ask 的结果**（引擎裁决），escalate 结算的是**一次问答**（主代理作答），
-// 两者的对端、生命周期与失败形态都不同，合并成一个端口只会让两条时序互相解释不清。
+// SPDX-License-Identifier: Apache-2.0
+// 工作流升级端口：actor 子会话把卡住它的单个问题交给主代理，并等一个答复。
+// 与 {@link WorkflowSubmitPort} 形状相近却刻意分家：submit 结算的是引擎对终态结果的裁决，
+// escalate 结算的是一次问答；对端、生命周期与失败形态都不同，合并会让两条时序互相纠缠。
+
+// ── 章节：一 一次升级的结局 · 二 提问入参 · 三 端口本体
 
 import type { TraceContext } from "../tracing/tracer.js";
 import type { ToolCallId } from "./shared.js";
 
-export interface EscalateQuestionRequest {
-  /** 发起 `escalate` 调用的 actor 子会话内的 tool call id。 */
-  toolCallId: ToolCallId | string;
-  /** 阻塞点本身：一个聚焦的、可用一句话回答的问题。 */
-  question: string;
-  /** 可选的补充上下文（actor 已经试过什么、卡在哪一行）。 */
-  context?: string;
-  trace: TraceContext;
-}
+// ── 一、一次升级的结局 ──────────────────────────────────────────────
 
-/**
- * 一次升级的结局。**两支都是普通的工具结果**，不是错误：预算耗尽时返回
- * 「自行推进」的正常结果，而不是抛错（错误会让模型把它当成可重试的故障，反复撞同一堵墙）。
- *
- * 用判别式而不是纯文本，是因为调用方（core 的工具处理器）要据此决定渲染成什么样的
- * tool_result（house rule：错误码而非错误文本做流程判断）。
- */
+/** 升级的结局。两支都以普通工具结果的形式回到 actor，不作为错误抛出：预算用尽时应当交回 「自行推进」的正常结果，抛错会让模型把它看成可重试的故障，反复撞同一面墙。 用判别式而非一段文本，是因为消费方（core 的工具处理器）要按 kind 决定 tool_result 的 呈现方式——流程判断靠稳定的码，不靠文案。 */
 export type WorkflowEscalateOutcome =
   | {
       kind: "answered";
-      /** 主代理经 `ResolveWorkflowQuestion` 给出的答案文本，原样成为工具结果。 */
+      /** 主代理经 `ResolveWorkflowQuestion` 给出的答案原文，直接成为工具结果。 */
       answer: string;
-      /** 本次问答的全局唯一 id（供日志与人类追溯；模型不需要读它）。 */
+      /** 本次问答的全局唯一 id，供日志与人工追溯；模型不需要读它。 */
       qid: string;
     }
   | {
       kind: "refused";
-      /**
-       * `budget_exhausted`：本次 ask 的升级次数已用尽（per-ask 上限，与 nudge 预算同族）。
-       * `no_active_ask`：本会话此刻没有在飞的 ask，问题无处停驻（不应发生，但绝不悬挂）。
-       */
+      /** `budget_exhausted`：本次 ask 允许的升级次数已用尽（per-ask 上限，与 nudge 预算同族）。 `no_active_ask`：此刻本会话没有在飞的 ask，问题无处停驻——不该发生，但绝不悬挂。 */
       reason: "budget_exhausted" | "no_active_ask";
-      /** 面向模型的文案，陈述现状与下一步。 */
+      /** 面向模型的说明，陈述现状与下一步。 */
       message: string;
     };
 
+// ── 二、提问入参 ────────────────────────────────────────────────────
+
+/** 一次升级请求：一个聚焦到能一句话回答的问题，外加 actor 已经试过的上下文。 */
+export interface EscalateQuestionRequest {
+  /** 发起 `escalate` 调用的 actor 子会话内的 tool call id。 */
+  toolCallId: ToolCallId | string;
+  /** 阻塞点本身。 */
+  question: string;
+  /** 可选的补充说明：actor 试过什么、卡在哪一行。 */
+  context?: string;
+  trace: TraceContext;
+}
+
+// ── 三、端口本体 ────────────────────────────────────────────────────
+
+// 工作流升级能力。 `escalate` 会一直阻塞到主代理作答或升级被拒； 按设计不设超时——「超时后 自行判断」正是本特性要消灭的投机绕过。
+// 出口是现成的取消链路：driver 的 `cancelAsk` 会把停驻 中的升级一并拒绝，因此 run cancel 与进程亡故的表现和改动前保持不变。
+// run / actor / session / instance 这些路由身份由端口 closure 绑定，模型覆盖不了。
 export interface WorkflowEscalatePort {
-  /**
-   * 升级一个阻塞问题并**阻塞**等待主代理作答。
-   *
-   * 与 {@link WorkflowSubmitPort.respond} 同一条纪律：resolve 可能耗时任意长（按设计不设
-   * 超时——「超时后自行判断」恰恰重新引入本特性要消灭的投机绕过）。逃生舱是既有的取消：
-   * driver 的 `cancelAsk` 会连同停驻中的升级 deferred 一起拒绝，于是 run cancel 与进程亡故
-   * 的行为与今天完全一致。
-   *
-   * 路由身份（run/actor/session/instance）由端口 closure 绑定，模型无法覆盖。
-   */
   escalate(request: EscalateQuestionRequest): Promise<WorkflowEscalateOutcome>;
 }

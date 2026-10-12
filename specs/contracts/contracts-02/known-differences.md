@@ -11,6 +11,21 @@
 | 各工具文件的内部 helper                 | 文件内私有函数                              | 不属兼容面；替换时按行为等价重写                                                     |
 | `tools/node-repl.ts`                    | 已登记 `independent-replacement`            | 不在本合同范围                                                                       |
 
+## 1b. 必须逐字一致的签名与字段（冻结面）
+
+下列内容由 `interface.md` 冻结，替换实现**必须逐字保留**；它们也是相似度工具按 `--declaration --interface` 计分时被剔除的部分（逐文件算式见 `docs/knorvia-contracts-02-acceptance.md`）：
+
+| 冻结内容                                                                                                                                                                                | 位置                                | 为什么必须一致                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `TraceContext` / `ExecutionContext` / `Span` / `Tracer` 的字段名、可选性与方法签名                                                                                                      | `tracing/tracer-types.ts`           | 跨模块与跨进程传播 `traceId` 的结构化子标识依赖这些字段名；`Span` 的字段就是日志与 UI 读取的契约 |
+| `createTracer` / `getCurrentTraceContext` / `runWithContext(Async)` / `createSpan` / `createRootTraceContext` / `createChildTraceContext` / `traceContextToLogContext` 的参数与返回类型 | `tracing/tracer.ts`                 | 调用方按这些签名传参与取值；`traceContextToLogContext` 的字段平铺顺序是日志上下文契约            |
+| `LocalTurnPreparationFact` 的字段与可选性、`observeLocalTurnPreparation` / `beginLocalTurnPreparation` 的签名                                                                           | `tracing/local-turn-preparation.ts` | CLI recorder 按字段名消费事实；`id` 形如 `prepare:<n>`、`outcome` 取值集合是协议面               |
+| 各工具 schema 的导出名、`z` schema 的接受/拒绝集合、常量取值（上限、超时、错误码）                                                                                                      | `tools/*`                           | 工具描述与模型可见文案按常量生成；错误码被上层映射为用户提示                                     |
+| `RewindScope` / `RewindStrategy` / `RewindTargetStatus` 取值、三个 `parse*` 与 `evaluateRewindTarget` / `selectActiveConversationBranch` 的签名与判定结果                               | `rewind/index.ts`                   | 会话回滚的判定结果直接驱动 UI 与存储行为                                                         |
+| `WorkflowStrategySchema` / `WorkflowRunSnapshotSchema` 及其 `Expert*` 别名同一性                                                                                                        | `workflow/*`                        | 别名必须指向同一 schema 对象（B9 断言），策略字段名被运行器读取                                  |
+
+**冻结语义点**（行为层面，必须一致）：span 只允许 `running → completed | error` 一次结算、`onEnd` 钩子以同一个已结算 record 只调用一次、`addEvent` 无副作用（不存事件集合）、`runWithContext`/`runWithContextAsync` 作用域结束后 ambient 不残留、child 上下文的 `parentSpanId` 与 `parentId` 同时指向父 `spanId`、`attributes` 按父→子合并且子覆盖同键。
+
 ## 2. 替换阶段允许改变的部分
 
 - 模块内部组织方式（类型分组、常量表结构、谓词实现方式、文件拆分）。

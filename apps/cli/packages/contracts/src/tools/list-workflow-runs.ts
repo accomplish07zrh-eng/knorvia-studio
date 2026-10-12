@@ -1,17 +1,14 @@
-// ============================================================
-// ListWorkflowRuns Tool - 按项目（cwd）枚举 workflow run，含跨会话历史
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// ListWorkflowRuns 工具声明：按项目（cwd）枚举 workflow run，包含跨会话历史。
 
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
 
 export const LIST_WORKFLOW_RUNS_TOOL_NAME = "ListWorkflowRuns";
 
-/**
- * run 的生命周期词汇表。字面与 `DynamicWorkflowRunLifecycleStatus`（端口侧）同集，但在这里
- * 重新声明成 zod 枚举：schema 是**运行时**校验面，type-only 的联合类型在这里派不上用场。
- * 两处一旦分叉，症状是模型传下来的合法状态被工具拒掉——所以端口那一侧的注释也指回这里。
- */
+// run 的生命周期词汇表。取值与端口侧 DynamicWorkflowRunLifecycleStatus 同集，但在这里重新
+// 声明成 zod 枚举：schema 是运行时校验面，纯类型联合在这个位置用不上。两处若分叉，
+// 症状是模型传下来的合法状态被工具拒掉——所以端口那一侧的注释也指回这里。
 export const WORKFLOW_RUN_LIFECYCLE_STATUSES = [
   "completed",
   "errored",
@@ -20,7 +17,7 @@ export const WORKFLOW_RUN_LIFECYCLE_STATUSES = [
   "stopped",
 ] as const;
 
-/** `stopped` 的原因（端口 `DynamicWorkflowRunStopReason` 的 zod 面）。 */
+// stopped 的停止原因（端口 DynamicWorkflowRunStopReason 的 zod 面）。
 export const WORKFLOW_RUN_STOP_REASONS = [
   "user",
   "model",
@@ -29,7 +26,7 @@ export const WORKFLOW_RUN_STOP_REASONS = [
   "superseded",
 ] as const;
 
-/** limit 的界与默认值。50 是「run 是低基数实体」下不需要游标分页的那个上限。 */
+// limit 的界与缺省值：50 是「run 属于低基数实体」前提下不需要游标分页的上限。
 export const LIST_WORKFLOW_RUNS_MIN_LIMIT = 1;
 export const LIST_WORKFLOW_RUNS_MAX_LIMIT = 50;
 export const LIST_WORKFLOW_RUNS_DEFAULT_LIMIT = 20;
@@ -46,38 +43,35 @@ export const ListWorkflowRunsInputSchema = z
         'Optional status filter. Omit to see every run in this project. Pass ["running", "pending"] to see only what is still in flight.',
       ),
   })
-  // 刻意没有 cwd 输入：工具恒查当前会话的工作目录（模型无权跨项目扫库，这同时是
-  // `sideEffectScope: "none"` 成立的前提）。.strict() 让"多传一个 cwd"成为可见错误。
+  // 刻意没有 cwd 输入：工具恒查当前会话的工作目录（模型无权跨项目扫库，这也是
+  // sideEffectScope: "none" 成立的前提）。.strict() 让「多传一个 cwd」变成可见错误。
   .strict();
 
 export type ListWorkflowRunsInput = z.infer<typeof ListWorkflowRunsInputSchema>;
 
 export const ListWorkflowRunsInputJsonSchema = toToolJsonSchema(ListWorkflowRunsInputSchema);
 
-/**
- * 列表与详情**共同的截面**（端口侧 `DynamicWorkflowRunSummary` 的 schema 面）。
- *
- * 之所以是一个共享的字段袋而不是两份各自演化的字段表：同一个 run 在列表里和详情里显示不同的
- * 名字或归属，是最难被测试抓住、又最直接损害信任的那类不一致。字段袋放在**列表**这一侧，
- * 因为列表就是这个截面最浅的投影；详情按它 extend。
- */
+// 列表与详情共用的截面（端口侧 DynamicWorkflowRunSummary 的 schema 面）。
+// 做成一个共享字段袋而不是两份各自演化的字段表：同一个 run 在列表与详情里显示不同的名字或
+// 归属，是最难被测试抓住、又最直接损害信任的那类不一致。字段袋放在列表这一侧——
+// 列表是这个截面最浅的投影，详情按它 extend。
 export const WorkflowRunSummarySchema = z.object({
   runId: z.string().min(1),
-  /** 已烹熟的展示标签（name → 脚本首行 → runId 由服务侧派生）。 */
+  // 已烹熟的展示标签（服务侧按 name → 脚本首行 → runId 派生）。
   label: z.string(),
-  /** `"name"` = 用户起的名字；`"script"` = 读时从脚本派生（含 runId 兜底）。 */
+  // "name" = 用户起的名字；"script" = 读取时从脚本派生（含 runId 兜底）。
   labelSource: z.enum(["name", "script"]),
   status: z.enum(WORKFLOW_RUN_LIFECYCLE_STATUSES),
-  /** `status === "stopped"` 才在场。 */
+  // 仅当 status === "stopped" 时在场。
   stopReason: z.enum(WORKFLOW_RUN_STOP_REASONS).optional(),
-  /** 本 run 修订自哪个 run（`dwf_run.resumed_from`）；不是修订则缺席。 */
+  // 本 run 修订自哪个 run（dwf_run.resumed_from）；不是修订则缺席。
   resumedFrom: z.string().min(1).optional(),
-  /** 本 run 被哪次修订停下并替代（`stopped(superseded)` 的结算袋）；未被替代则缺席。 */
+  // 本 run 被哪次修订停下并替代（stopped(superseded) 的结算袋）；未被替代则缺席。
   supersededBy: z.string().min(1).optional(),
   ownedByThisSession: z.boolean(),
-  /** 「本会话无法证实它还活着」的标注，为真时才在场。绝不是状态改写。 */
+  // 「本会话无法证实它还活着」的标注，为真时才在场，绝不是状态改写。
   possiblyInterrupted: z.boolean().optional(),
-  /** epoch ms（journal 的 time_created / time_updated）。 */
+  // epoch 毫秒（journal 的 time_created / time_updated）。
   createdAt: z.number(),
   updatedAt: z.number(),
 });
@@ -91,7 +85,7 @@ export type ListWorkflowRunsRun = z.infer<typeof ListWorkflowRunsRunSchema>;
 export const ListWorkflowRunsOutputSchema = z
   .object({
     runs: z.array(ListWorkflowRunsRunSchema),
-    /** 还有更多 run 没进这一页（按 limit+1 探到）。为真时才在场。 */
+    // 还有更多 run 没进这一页（按 limit+1 探测）。为真时才在场。
     truncated: z.boolean().optional(),
   })
   .strict();
@@ -100,22 +94,22 @@ export type ListWorkflowRunsOutput = z.infer<typeof ListWorkflowRunsOutputSchema
 
 export const ListWorkflowRunsOutputJsonSchema = toToolJsonSchema(ListWorkflowRunsOutputSchema);
 
-/**
- * limit 是**钳制**而不是拒绝：一次只读枚举没有理由因为一个越界数字变成模型要从中恢复的工具
- * 错误；`limit` 默认 20，并钳到 [1, 50]。
- *
- * 钳制放在 preprocess 里而不是 handler 里，图的是两件事同时成立：JSON schema 仍然按内层
- * schema 投影（`type: integer` + minimum/maximum/default，模型看得到界），而运行时的越界值被
- * 折进界内。写在 handler 里的 `Math.min/max` 会被本 schema 的 min/max 抢先拒掉，是永不执行的
- * 死代码。语义强制转换走 preprocess 是既有惯例（task-output 的 semanticBoolean、bash 的
- * timeout）。
- */
+// limit 是钳制而不是拒绝：只读枚举没有理由因为一个越界数字变成模型必须从中恢复的工具错误。
+// limit 缺省 20，并钳到 [1, 50]。钳制放在 preprocess 而不是 handler，为的是两件事同时成立：
+// JSON schema 仍按内层 schema 投影（type: integer + minimum/maximum/default，模型看得到界），
+// 而运行时越界值被折进界内。写在 handler 里的 Math.min/max 会被本 schema 的 min/max 抢先拒掉，
+// 属于永不执行的死代码。语义强制转换走 preprocess 是既有惯例（task-output 的 semanticBoolean、
+// bash 的 timeout）。
+// 越界值折进 [min, max]：先截断成整数，再先抬下限后压上限；两步各自命名，便于单独测试。
+function clampLimit(value: number): number {
+  const truncated = Math.trunc(value);
+  const raisedToMinimum = Math.max(LIST_WORKFLOW_RUNS_MIN_LIMIT, truncated);
+  return Math.min(LIST_WORKFLOW_RUNS_MAX_LIMIT, raisedToMinimum);
+}
+
 function clampedLimit(): z.ZodEffects<z.ZodDefault<z.ZodNumber>, number, unknown> {
   return z.preprocess((value) => {
     if (typeof value !== "number" || !Number.isFinite(value)) return value;
-    return Math.min(
-      LIST_WORKFLOW_RUNS_MAX_LIMIT,
-      Math.max(LIST_WORKFLOW_RUNS_MIN_LIMIT, Math.trunc(value)),
-    );
+    return clampLimit(value);
   }, z.number().int().min(LIST_WORKFLOW_RUNS_MIN_LIMIT).max(LIST_WORKFLOW_RUNS_MAX_LIMIT).default(LIST_WORKFLOW_RUNS_DEFAULT_LIMIT));
 }

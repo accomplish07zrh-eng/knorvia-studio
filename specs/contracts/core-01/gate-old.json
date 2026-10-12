@@ -1,0 +1,62 @@
+{
+  "contract": "core-01",
+  "commit": "d1c15afbf2a5d5f4bb5838980d2f7704bb960015",
+  "node": "v26.3.0",
+  "generatedAt": "2026-10-12T14:33:44.609Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-01/tests/agent-compact-session.test.mjs",
+    "specs/contracts/core-01/tests/agent-file-part-artifact.test.mjs",
+    "specs/contracts/core-01/tests/agent-file-part-block.test.mjs",
+    "specs/contracts/core-01/tests/agent-file-part-hydration.test.mjs",
+    "specs/contracts/core-01/tests/agent-message-history.test.mjs",
+    "specs/contracts/core-01/tests/agent-read-file-state.test.mjs",
+    "specs/contracts/core-01/tests/agent-session-hydrator.test.mjs",
+    "specs/contracts/core-01/tests/agent-surface.test.mjs",
+    "specs/contracts/core-01/tests/agent-turn-machine.test.mjs",
+    "specs/contracts/core-01/tests/agent-turn-state.test.mjs",
+    "specs/contracts/core-01/tests/agent-usage-baseline.test.mjs",
+    "specs/contracts/core-01/tests/compact.test.mjs",
+    "specs/contracts/core-01/tests/context-builder.test.mjs",
+    "specs/contracts/core-01/tests/context-incremental.test.mjs",
+    "specs/contracts/core-01/tests/context-sections.test.mjs",
+    "specs/contracts/core-01/tests/context-types.test.mjs",
+    "specs/contracts/core-01/tests/context.test.mjs",
+    "specs/contracts/core-01/tests/mcp.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 42,
+      "pass": 42,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ X5 context 区公开面（区域桶） (0.7777ms)\n(node:46044) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n✔ M1 模型可见 MCP 工具名（公开面） (1.3861ms)\n✔ M3 图像内联阈值常量（逐字冻结） (0.2518ms)\n✔ M4 MCP 区导出面与形态（区域桶） (1.2783ms)\nℹ tests 42\nℹ suites 0\nℹ pass 42\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 64224.2255"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 42,
+      "pass": 42,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ X5 context 区公开面（区域桶） (0.2749ms)\n(node:53392) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n✔ M1 模型可见 MCP 工具名（公开面） (1.5221ms)\n✔ M3 图像内联阈值常量（逐字冻结） (0.2258ms)\n✔ M4 MCP 区导出面与形态（区域桶） (0.9994ms)\nℹ tests 42\nℹ suites 0\nℹ pass 42\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 51667.3069",
+      "environment": {
+        "KNORVIA_CORE_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 38,
+    "tests": 42,
+    "pass": 0,
+    "fail": 42,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "      at TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-7-c01/specs/contracts/core-01/tests/mcp.test.mjs:52:10)\n      at Test.runInAsyncScope (node:async_hooks:226:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)\n      at Test.postRun (node:internal/test_runner/test:1522:19)\n      at Test.run (node:internal/test_runner/test:1447:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'object',\n    expected: 'function',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }"
+  },
+  "pass": true
+}
