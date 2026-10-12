@@ -38,48 +38,40 @@ type HookRegistrationInput = import("./configured-runner-types.js").HookRegistra
 
 /** 单条配置 Hook → 登记项。`async` 只对 command 类型成立。 */
 function registrationFromHook(input: HookRegistrationInput): HookRegistration {
-  const {
-    budget: hookBudget,
-    event: hookEvent,
-    hook: declaration,
-    hookIndex: position,
-    matcher: matcherPattern,
-    matcherIndex: matchIndex,
-    options: setup,
-  } = input;
+  const { budget, event, hook, hookIndex, matcher, matcherIndex, options } = input;
   const registrationEntries: Array<[string, unknown]> = [
-    registrationField("async", declaration.type === "command" && declaration.async === true),
+    registrationField("async", hook.type === "command" && hook.async === true),
     [
       "callback",
       createConfiguredHookCallback({
-        budget: hookBudget,
-        event: hookEvent,
-        hook: declaration,
-        hookIndex: position,
-        matcherIndex: matchIndex,
-        options: setup,
+        budget,
+        event: event,
+        hook: hook,
+        hookIndex: hookIndex,
+        matcherIndex: matcherIndex,
+        options: options,
       }),
     ],
-    registrationField("hookEvent", hookEvent),
-    registrationField("matcherPattern", matcherPattern),
+    registrationField("event", event),
+    registrationField("matcher", matcher),
     registrationField("source", input.source),
     registrationField("sourceKind", input.sourceKind),
-    registrationField("timeoutMs", hookBudget.timeoutMs),
+    registrationField("timeoutMs", budget.timeoutMs),
   ];
   if (input.admission) registrationEntries.push(["admission", input.admission]);
   return {
     ...(Object.fromEntries(registrationEntries) as Omit<HookRegistration, "descriptor">),
     descriptor: (hookInput) => {
-      const workingDirectory = setup.getWorkingDirectory();
+      const workingDirectory = options.getWorkingDirectory();
       const expandDisplayValue = (value: string): string => {
         try {
-          return expandPluginVariables(value, declaration.plugin, hookInput, workingDirectory);
+          return expandPluginVariables(value, hook.plugin, hookInput, workingDirectory);
         } catch {
           // 展示元数据不得引入新的执行失败：展不开就按原样展示。
           return String(value);
         }
       };
-      return createHookExecutionDescriptor(declaration, hookBudget.timeoutMs, expandDisplayValue);
+      return createHookExecutionDescriptor(hook, budget.timeoutMs, expandDisplayValue);
     },
   };
 }
