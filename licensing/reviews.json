@@ -134373,6 +134373,18 @@
         "specs/contracts/contracts-02/interface.md",
         "specs/contracts/contracts-02/behavior.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/create-workflow.ts",
+      "normalizedSha256": "953f7e365dd2f11694de717407603c8540445fc4117dce7a4be02df490819a66",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation module tools/create-workflow.ts. The frozen surface (exported names/signatures, constant values, schema accept/reject sets, and model-visible describe strings) is preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (named field shapes plus named description constants, rewritten section documentation, and comment blocks converted from JSDoc). A differential probe compared the replaced implementation with the new one on all exported schema projections, 20 input parses, 10 phase-graph cases for both exported helpers and the output schema (96 comparisons, zero differences); the export surface was verified identical to the replaced file and the per-file similarity result is recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
     }
   ]
 }
