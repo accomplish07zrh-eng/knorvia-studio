@@ -2,12 +2,9 @@
 // 文本元数据：编码探测/解码/编码、流式解码器与行尾归一。
 import { StringDecoder } from "node:string_decoder";
 import { TextDecoder } from "node:util";
-import {
-  createFileSystemError,
-  type FileSystemLineEndings,
-  type FileSystemTextEncoding,
-} from "@knorvia/contracts";
+import { createFileSystemError, type FileSystemLineEndings } from "@knorvia/contracts";
 import iconv from "iconv-lite";
+import type { CodecKit, DecodedText, Encoding, StreamingTextDecoder } from "./text-codec-types.js";
 
 const CHINESE_ENCODINGS = ["gb2312", "gbk", "gb18030"] as const;
 const MAX_INCOMPLETE_SUFFIX = 3;
@@ -20,25 +17,8 @@ const UTF16LE_BOM = [0xff, 0xfe] as const;
 const TRANSPORT_ENCODINGS = new Set(["base64", "base64url", "hex"]);
 const LINE_BREAKS = /\r?\n/gu;
 
-type Encoding = FileSystemTextEncoding;
 type ChineseEncoding = (typeof CHINESE_ENCODINGS)[number];
-
-interface DecodedText {
-  content: string;
-  encoding: Encoding;
-}
-
-interface StreamingTextDecoder {
-  write(buffer: Buffer): string;
-  end(): string;
-}
-
-/** 一种编码族的三个能力：整块解码、整块编码、开流式解码器。 */
-interface CodecKit {
-  decode(buffer: Buffer, encoding: Encoding): string;
-  encode(content: string, encoding: Encoding): Buffer;
-  openStream(encoding: Encoding): StreamingTextDecoder;
-}
+type MaybeLineEndings = FileSystemLineEndings | undefined;
 
 function isChinese(encoding: Encoding): encoding is ChineseEncoding {
   return CHINESE_ENCODINGS.includes(encoding as ChineseEncoding);
@@ -46,9 +26,9 @@ function isChinese(encoding: Encoding): encoding is ChineseEncoding {
 
 /** iconv 族：中文编码的整块与流式转换都交给 iconv。 */
 const ICONV_KIT: CodecKit = {
-  decode: (buffer, encoding) => iconv.decode(buffer, encoding),
-  encode: (content, encoding) => iconv.encode(content, encoding),
-  openStream(encoding) {
+  toText: (buffer, encoding) => iconv.decode(buffer, encoding),
+  toBytes: (content, encoding) => iconv.encode(content, encoding),
+  streamer(encoding) {
     const state = iconv.getDecoder(encoding);
     const stream = {} as StreamingTextDecoder;
     stream.write = (buffer) => state.write(buffer);
@@ -59,9 +39,9 @@ const ICONV_KIT: CodecKit = {
 
 /** 原生族：Buffer 与 StringDecoder 已覆盖 utf8/utf16le/latin1/ascii 等。 */
 const NATIVE_KIT: CodecKit = {
-  decode: (buffer, encoding) => buffer.toString(encoding),
-  encode: (content, encoding) => Buffer.from(content, encoding),
-  openStream(encoding) {
+  toText: (buffer, encoding) => buffer.toString(encoding),
+  toBytes: (content, encoding) => Buffer.from(content, encoding),
+  streamer(encoding) {
     const state = new StringDecoder(encoding);
     const stream = {} as StreamingTextDecoder;
     stream.write = (buffer) => state.write(buffer);
@@ -113,7 +93,7 @@ function roundTripsAsChinese(buffer: Buffer, encoding: ChineseEncoding): boolean
   const shortest = Math.max(1, buffer.length - MAX_INCOMPLETE_SUFFIX);
   for (let end = buffer.length; end >= shortest; end -= 1) {
     const prefix = buffer.subarray(0, end);
-    if (kit.encode(kit.decode(prefix, encoding), encoding).equals(prefix)) return true;
+    if (kit.toBytes(kit.toText(prefix, encoding), encoding).equals(prefix)) return true;
   }
   return false;
 }
@@ -137,7 +117,7 @@ export function decodeTextBuffer(request: {
 }): DecodedText {
   const encoding = request.encoding ?? detectTextEncoding(request.buffer, request.path);
   const decoded = {} as DecodedText;
-  decoded.content = kitFor(encoding).decode(request.buffer, encoding);
+  decoded.content = kitFor(encoding).toText(request.buffer, encoding);
   decoded.encoding = encoding;
   return decoded;
 }
@@ -149,8 +129,8 @@ export function encodeTextContent(request: {
 }): Buffer {
   const encoding = request.encoding ?? "utf8";
   const kit = kitFor(encoding);
-  const bytes = kit.encode(request.content, encoding);
-  const roundTripped = !isChinese(encoding) || kit.decode(bytes, encoding) === request.content;
+  const bytes = kit.toBytes(request.content, encoding);
+  const roundTripped = !isChinese(encoding) || kit.toText(bytes, encoding) === request.content;
   if (roundTripped) return bytes;
   const suffix = request.path ? `: ${request.path}` : "";
   throw encodingError(
@@ -161,7 +141,7 @@ export function encodeTextContent(request: {
 }
 
 export function createStreamingTextDecoder(encoding: Encoding): StreamingTextDecoder {
-  return kitFor(encoding).openStream(encoding);
+  return kitFor(encoding).streamer(encoding);
 }
 
 export function shouldNormalizeLineEndings(encoding: Encoding): boolean {
@@ -180,15 +160,12 @@ export function detectLineEndings(content: string): FileSystemLineEndings {
 }
 
 export function normalizeLineEndings(content: string): string {
-  return content.replaceAll(CRLF, LF);
+  return content.split(CRLF).join(LF);
 }
 
-export function applyRequestedLineEndings(
-  content: string,
-  lineEndings: FileSystemLineEndings | undefined,
-): string {
+export function applyRequestedLineEndings(content: string, lineEndings: MaybeLineEndings): string {
   if (lineEndings === undefined) return content;
   const normalized = normalizeLineEndings(content);
   if (lineEndings === "LF") return normalized;
-  return normalized.replaceAll(LF, CRLF);
+  return normalized.split(LF).join(CRLF);
 }
