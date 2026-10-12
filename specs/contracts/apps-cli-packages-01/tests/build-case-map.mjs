@@ -72,7 +72,28 @@ if (process.argv.includes("--check")) {
     console.error(`有 ${missing.length} 条合同条目没有用例：B${missing.join(", B")}`);
     process.exit(1);
   }
-  if (next !== readme) {
+  // 表格对齐用的填充空白、分隔行的横线长度、以及 Markdown 转义（oxfmt 会把 `*` 写成 `\*`）
+  // 都不算差异：按「每行单元格的语义内容」比较，既保住完整性检查，也不与格式化工具打架。
+  const unescapeCell = (cell) => cell.trim().replace(/\\([\\`*_{}[\]()#+\-.!|])/gu, "$1");
+  const tableRows = (text) =>
+    text
+      .split("\n")
+      .filter((line) => line.trimStart().startsWith("|"))
+      .map((line) => {
+        const cells = line
+          .trim()
+          .replace(/^\||\|$/gu, "")
+          .split("|")
+          .map(unescapeCell);
+        const separator = cells.every((cell) => /^-{2,}$/u.test(cell));
+        return separator ? cells.map(() => "---").join(" | ") : cells.join(" | ");
+      });
+  const expectedRows = tableRows(next);
+  const actualRows = tableRows(readme);
+  if (
+    expectedRows.length !== actualRows.length ||
+    expectedRows.some((row, index) => row !== actualRows[index])
+  ) {
     console.error("README 的对照表与当前用例不一致，请重跑 build-case-map.mjs");
     process.exit(1);
   }
