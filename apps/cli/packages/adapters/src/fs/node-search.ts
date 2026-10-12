@@ -30,13 +30,27 @@ const EMPTY_GLOB_PATTERN = "Glob pattern must not be empty";
 const UNKNOWN_RIPGREP_ERROR = "unknown error";
 
 type TextRequest = FileSystemSearchTextRequest;
+type TextResult = FileSystemSearchTextResult;
+type FilesRequest = FileSystemSearchFilesRequest;
+type FilesResult = FileSystemSearchFilesResult;
+type Engine = "javascript" | "ripgrep" | undefined;
 type FileInfo = Awaited<ReturnType<typeof stat>>;
+type GlobMatch = (relativePath: string, fileName: string) => boolean;
+
+interface Prepared {
+  path: string;
+  pattern: string;
+  startedAt: number;
+}
+
+/** 单文件命中：count 为命中行数，entries 为该文件贡献的条目。 */
+interface FileHits {
+  count: number;
+  entries: FileSystemSearchTextEntry[];
+}
 
 /** 搜索入口的公共前置：绝对化路径、trim 模式、记录起始时间。 */
-function prepareGrep(
-  query: TextRequest,
-  emptyMessage: string,
-): { path: string; pattern: string; startedAt: number } {
+function prepareGrep(query: TextRequest, emptyMessage: string): Prepared {
   const path = absolute(query.path);
   const pattern = query.pattern.trim();
   const startedAt = Date.now();
@@ -49,31 +63,44 @@ function notDirectoryError(path: string): Error {
   return createFileSystemError({ code: "not_file", message, path });
 }
 
+function notSearchableError(path: string): Error {
+  const message = `Grep search path must be a file or directory: ${path}`;
+  return createFileSystemError({ code: "not_file", message, path });
+}
+
+/** walk 的访问器：只收集 glob 命中且是文件的条目，顺序由 walk 的 DFS 决定。 */
+function globCollector(
+  base: string,
+  matches: GlobMatch,
+  collected: Candidate[],
+): (file: string, info: FileInfo) => void {
+  return (file, info) => {
+    if (!matches(posixRelative(base, file), basename(file))) return;
+    collected.push({ mtimeMs: Number(info.mtimeMs), path: file });
+  };
+}
+
 export async function searchFiles(
-  query: FileSystemSearchFilesRequest,
-  signal?: AbortSignal,
-): Promise<FileSystemSearchFilesResult> {
+  query: FilesRequest,
+  cancellation?: AbortSignal,
+): Promise<FilesResult> {
   const { path, pattern, startedAt } = prepareGrep(query, EMPTY_GLOB_PATTERN);
   try {
-    aborted(signal);
+    aborted(cancellation);
     const root = await stat(path);
     if (!root.isDirectory()) throw notDirectoryError(path);
-    const matchesGlob = glob(pattern);
     const collected: Candidate[] = [];
-    await walk(path, signal, (file, info) => {
-      if (!matchesGlob(posixRelative(path, file), basename(file))) return;
-      collected.push({ mtimeMs: Number(info.mtimeMs), path: file });
-    });
+    await walk(path, cancellation, globCollector(path, glob(pattern), collected));
     collected.sort(recent);
     const from = query.offset ?? 0;
     const cap = query.maxResults ?? DEFAULT_FILE_LIMIT;
-    const names = collected.slice(from, from + cap).map((row) => row.path);
-    const result = {} as FileSystemSearchFilesResult;
+    const visible = collected.slice(from, from + cap).map((file) => file.path);
+    const result = {} as FilesResult;
     result.path = path;
     result.pattern = pattern;
     result.durationMs = Math.max(0, Date.now() - startedAt);
-    result.files = names;
-    result.numFiles = names.length;
+    result.files = visible;
+    result.numFiles = visible.length;
     result.truncated = collected.length > from + cap;
     return result;
   } catch (error) {
@@ -92,46 +119,57 @@ function compilePattern(pattern: string, query: TextRequest): RegExp {
   }
 }
 
+/** 读一个文件并做行匹配：二进制（含 NUL）与零命中都返回 undefined。 */
+async function matchOneFile(
+  file: Candidate,
+  regex: RegExp,
+  rowQuery: TextRequest,
+  cancellation: AbortSignal | undefined,
+): Promise<FileHits | undefined> {
+  aborted(cancellation);
+  const text = await readFile(file.path, "utf8");
+  if (text.includes("\0")) return undefined;
+  const hit = matchContent(file.path, text, regex, rowQuery);
+  if (hit.matchCount === 0) return undefined;
+  return { count: hit.matchCount, entries: hit.entries };
+}
+
 /** 进程内引擎：逐文件读入后按行匹配，命中行按输出模式汇总。 */
 async function searchInProcess(
   query: TextRequest,
-  signal?: AbortSignal,
-): Promise<FileSystemSearchTextResult> {
+  cancellation?: AbortSignal,
+): Promise<TextResult> {
   const { path, pattern, startedAt } = prepareGrep(query, EMPTY_GREP_PATTERN);
   try {
-    aborted(signal);
+    aborted(cancellation);
     const regex = compilePattern(pattern, query);
     const info = await stat(path);
-    const rows = await candidates(path, info, query, signal);
+    const scanRows = await candidates(path, info, query, cancellation);
     const mode = query.outputMode ?? "files_with_matches";
     const contentMode = mode === "content";
     const rowQuery: TextRequest = contentMode ? query : { ...query, onlyMatching: false };
-    const matched: Candidate[] = [];
+    const hitFiles: Candidate[] = [];
     const entries: FileSystemSearchTextEntry[] = [];
     let numMatches = 0;
 
-    for (const row of rows) {
-      aborted(signal);
-      const text = await readFile(row.path, "utf8");
-      if (text.includes("\0")) continue;
-      const hit = matchContent(row.path, text, regex, rowQuery);
-      if (hit.matchCount === 0) continue;
-      matched.push(row);
-      numMatches += hit.matchCount;
+    for (const file of scanRows) {
+      const hit = await matchOneFile(file, regex, rowQuery, cancellation);
+      if (hit === undefined) continue;
+      hitFiles.push(file);
+      numMatches += hit.count;
       if (contentMode) entries.push(...hit.entries);
-      else if (mode === "count") entries.push({ count: hit.matchCount, path: row.path });
+      else if (mode === "count") entries.push({ count: hit.count, path: file.path });
     }
 
-    matched.sort(recent);
-    return finish(query, startedAt, { entries, files: matched.map((row) => row.path), numMatches });
+    hitFiles.sort(recent);
+    return finish(query, startedAt, {
+      entries,
+      files: hitFiles.map((file) => file.path),
+      numMatches,
+    });
   } catch (error) {
     throw failure(error, path);
   }
-}
-
-function notSearchableError(path: string): Error {
-  const message = `Grep search path must be a file or directory: ${path}`;
-  return createFileSystemError({ code: "not_file", message, path });
 }
 
 function ripgrepExitError(path: string, code: number | undefined, stderr: string): Error {
@@ -143,12 +181,12 @@ function ripgrepExitError(path: string, code: number | undefined, stderr: string
 /** ripgrep 引擎：沙箱参数计划 → worker 执行 → 输出解析 → 新近度排序。 */
 async function searchWithRipgrep(
   query: TextRequest,
-  signal?: AbortSignal,
-): Promise<FileSystemSearchTextResult> {
+  cancellation?: AbortSignal,
+): Promise<TextResult> {
   const { path, pattern, startedAt } = prepareGrep(query, EMPTY_GREP_PATTERN);
   let info: FileInfo;
   try {
-    aborted(signal);
+    aborted(cancellation);
     info = await stat(path);
   } catch (error) {
     throw failure(error, path);
@@ -156,8 +194,8 @@ async function searchWithRipgrep(
   if (!info.isFile() && !info.isDirectory()) throw notSearchableError(path);
 
   const plan = searchPlan(query, info.isDirectory());
-  const result = await runSearch(plan.args, plan.preopens, signal);
-  aborted(signal);
+  const result = await runSearch(plan.args, plan.preopens, cancellation);
+  aborted(cancellation);
   if (result.code === 2) throw ripgrepFailure(result.stderr, path, pattern);
   if (result.code !== 0 && result.code !== 1)
     throw ripgrepExitError(path, result.code, result.stderr);
@@ -169,14 +207,14 @@ async function searchWithRipgrep(
 /** 文本搜索门面：显式指定进程内引擎；否则优先 ripgrep，运行时失败时降级。 */
 export async function searchText(
   query: TextRequest,
-  engine: "javascript" | "ripgrep" | undefined,
-  signal?: AbortSignal,
-): Promise<FileSystemSearchTextResult> {
-  if (engine === "javascript") return searchInProcess(query, signal);
+  engine: Engine,
+  cancellation?: AbortSignal,
+): Promise<TextResult> {
+  if (engine === "javascript") return searchInProcess(query, cancellation);
   try {
-    return await searchWithRipgrep(query, signal);
+    return await searchWithRipgrep(query, cancellation);
   } catch (error) {
-    if (error instanceof RipgrepRuntimeFailure) return searchInProcess(query, signal);
+    if (error instanceof RipgrepRuntimeFailure) return searchInProcess(query, cancellation);
     throw failure(error, query.path);
   }
 }
