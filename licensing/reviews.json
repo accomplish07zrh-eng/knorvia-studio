@@ -21893,10 +21893,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21904,10 +21901,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21915,10 +21909,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21926,10 +21917,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21937,10 +21925,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21948,10 +21933,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21959,10 +21941,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21970,10 +21949,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21981,10 +21957,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21992,10 +21965,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -22003,10 +21973,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -22014,10 +21981,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -35080,9 +35044,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": [
-        "docs/knorvia-logging-sparse-array-20260930.md"
-      ],
+      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
       "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
     },
     {
@@ -35090,9 +35052,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": [
-        "docs/knorvia-logging-sparse-array-20260930.md"
-      ],
+      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
       "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     },
     {
@@ -35100,9 +35060,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": [
-        "docs/knorvia-material-icon-historical-evidence-20260930.md"
-      ],
+      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
       "normalizedSha256": "9ce3f3ede16592f12b07bedd651ae7bfa499e93c1c69495433cad41a2b974703"
     },
     {
@@ -35110,9 +35068,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": [
-        "docs/knorvia-material-icon-historical-evidence-20260930.md"
-      ],
+      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
       "normalizedSha256": "d0d0b043e02ddffce0b7b4a586ee0d95380fddd4da99e4b25c956d62e9bcd089"
     },
     {
@@ -35120,9 +35076,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": [
-        "docs/knorvia-material-icon-historical-evidence-20260930.md"
-      ],
+      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
       "normalizedSha256": "83bb8b8cf2e550dd0bdd7216bba1cf28796787b8f1228f138b668269fac3b79b"
     },
     {
@@ -97557,10 +97511,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling.",
-      "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     },
     {
       "path": "scripts/contract-test-discovery.test.mjs",
@@ -97568,10 +97519,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored M0-10 change to the offline test runner: directory-based discovery of specs/contracts/<package>/tests so merged contracts keep guarding old behavior in CI. Test files are never hardcoded; an absent specs/contracts tree simply yields an empty set and pnpm test:studio keeps passing. No upstream or replaced implementation was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts tooling. Tests: no contracts, stable directory ordering, empty contract directory skipped, nested files not collected, empty non-contract directory still an error.",
-      "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "evidence": ["licensing/README.md", "docs/knorvia-independent-replacement-plan.md"]
     },
     {
       "path": "scripts/contract-gate.mjs",
@@ -97603,10 +97551,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/1024x1024.png",
@@ -97614,10 +97559,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/128x128.png",
@@ -97625,10 +97567,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/16x16.png",
@@ -97636,10 +97575,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/24x24.png",
@@ -97647,10 +97583,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/256x256.png",
@@ -97658,10 +97591,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/32x32.png",
@@ -97669,10 +97599,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/48x48.png",
@@ -97680,10 +97607,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/512x512.png",
@@ -97691,10 +97615,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/64x64.png",
@@ -97702,10 +97623,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/icon.icns",
@@ -97713,10 +97631,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "public/logo/icons/icon.ico",
@@ -97724,10 +97639,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/document-quality-check/.knorvia-plugin/plugin.json",
@@ -97735,10 +97647,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/material-organizer/.knorvia-plugin/plugin.json",
@@ -97746,10 +97655,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/project-brief/.knorvia-plugin/plugin.json",
@@ -97757,10 +97663,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/project-handoff/.knorvia-plugin/plugin.json",
@@ -97768,10 +97671,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-provided brand icons and Knorvia-authored plugin examples. Icons come from the Knorvia branding commit that adopted the selected X1W icon set (feat(branding) #31); the plugin example manifests, skills and fixtures were added by Knorvia on 2026-09-25 (docs(studio): add ten-minute plugin guide and skill example). Both were re-checked against the upstream snapshot and are not derived from ZCode files.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/document-quality-check/LICENSE.txt",
@@ -97780,10 +97680,7 @@
       "license": "NOASSERTION",
       "nature": "standard-license-text",
       "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/material-organizer/LICENSE.txt",
@@ -97792,10 +97689,7 @@
       "license": "NOASSERTION",
       "nature": "standard-license-text",
       "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/project-brief/LICENSE.txt",
@@ -97804,10 +97698,7 @@
       "license": "NOASSERTION",
       "nature": "standard-license-text",
       "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "examples/plugins/project-handoff/LICENSE.txt",
@@ -97816,10 +97707,7 @@
       "license": "NOASSERTION",
       "nature": "standard-license-text",
       "basis": "Standard license text bundled with the plugin examples; retained verbatim as a license notice, not product implementation.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "config/README.md",
@@ -97828,10 +97716,7 @@
       "license": "NOASSERTION",
       "nature": "functional-configuration",
       "basis": "Functional configuration surface (default config, builtin provider config and its README). Reviewed and retained as configuration data rather than rewritten as implementation.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "config/provider/builtin.json",
@@ -97840,10 +97725,7 @@
       "license": "NOASSERTION",
       "nature": "functional-configuration",
       "basis": "Functional configuration surface (default config, builtin provider config and its README). Reviewed and retained as configuration data rather than rewritten as implementation.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "patches/@ai-sdk__anthropic@3.0.81.patch",
@@ -97851,10 +97733,7 @@
       "decision": "third-party",
       "license": "Apache-2.0",
       "basis": "Third-party dependency patches recorded in pnpm-workspace.yaml patchedDependencies (@ai-sdk/anthropic, @ai-sdk/openai-compatible); retained as third-party material and rewritten/removed together with the packages that consume them.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "patches/@ai-sdk__openai-compatible@2.0.60.patch",
@@ -97862,10 +97741,7 @@
       "decision": "third-party",
       "license": "Apache-2.0",
       "basis": "Third-party dependency patches recorded in pnpm-workspace.yaml patchedDependencies (@ai-sdk/anthropic, @ai-sdk/openai-compatible); retained as third-party material and rewritten/removed together with the packages that consume them.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "licensing/current-files.json"
-      ]
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "licensing/current-files.json"]
     },
     {
       "path": "packages/desktop/build/icon.icns",
@@ -132954,9 +132830,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zArcIn.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/029d615cc92cc216eeefa50fea59bb9838e8e8f22a9f19ec5ee224a31ec9f383.txt",
@@ -132964,9 +132838,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zBuf.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/050ad1d97abf6e03f0a70e794966bc9552f0e542ab64c1bea4f35bd0788b2277.txt",
@@ -132974,9 +132846,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Delta.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/08f3492e4f6842934623c03b03c3c264d0d54de141da66e6ed2cbc6bf9681d10.txt",
@@ -132984,9 +132854,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Ppmd7.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/18e2bcdce4e65c4fae017118f87308bc2ecacee3504576763cca9f16ca4a5961.txt",
@@ -132994,9 +132862,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zTypes.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/22578d724ca8b663565e812f45f0a951c9d172241b621cbcac99f75944c72bfb.txt",
@@ -133004,9 +132870,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zCrc.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/24cda5476f99a9e04b532f8d3a177f91eaed36cd96d7d521e1f4cf3e41f342a7.txt",
@@ -133014,9 +132878,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Ppmd7.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/2607ffc4f3152c7931a24dfce4642dd1accae4663c37fe2b262f69d192a71e6f.txt",
@@ -133024,9 +132886,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zStream.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/34398d73c4fbb713adca16b97791d8a776b2456268d0a3f3b837e8736ff62444.txt",
@@ -133034,9 +132894,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Bra.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/3c4580b20849d7065081584281b993c884747c11742dd8ef8a8c8995e2cbf2c1.txt",
@@ -133044,9 +132902,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/RotateDefs.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/3cca90b4a6835e08a022ac078ede86c048d3f90c3254d03eab6d8cc26d94a03b.txt",
@@ -133054,9 +132910,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zFile.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/41d6c20c462b9169342e45a58e64e68c2e7ded9c84e500a27d60f9a3faed2ebb.txt",
@@ -133064,9 +132918,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zFile.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/427c1af74e232461baaaaea317da8e8f6624199da91f1deb9aa6d5e583fa21b7.txt",
@@ -133074,9 +132926,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Ppmd.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/4d25772ca4ec3bf97894ba4cc2882d704659bd55f03f93320d9ea6257c532e48.txt",
@@ -133084,9 +132934,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/CpuArch.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/578b790eeda9abdc3998998a9a49b22c41eaa5b2c0f134f174fc2fc6733d689a.txt",
@@ -133094,9 +132942,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Lzma2Dec.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/5a7782f56dd4220c2e9ff7764764a928805750ecdc75e68f39858ad07a3e1403.txt",
@@ -133104,9 +132950,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Compiler.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/5cd97a89c549452db665eea4e91e24e640cdb48be1a68cca05898dcc088e441d.txt",
@@ -133114,9 +132958,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zBuf.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/5ee1e15c594aa3597c38a1cab69574f8d250d96fe6b357f5bd208983e2aad390.txt",
@@ -133124,9 +132966,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/CpuArch.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/66eb70a582cf350fb5f27f961432d4f86c3ca2f1e77e5b7dff6be399432c0d89.txt",
@@ -133134,9 +132974,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zAlloc.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/6c6d12838fe0e1fb56b5ffaf1e3f7c9f6a0c70b9bc281a114fcfbc08159c5e45.txt",
@@ -133144,9 +132982,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Lzma2Dec.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/7095e94a976a528e9dcbf2c46a0b04c057bf471acb5e5e1398b998b88244b237.txt",
@@ -133154,9 +132990,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zDec.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/82a2fcefc15bdcf66b49f25905efc2d46399b76ba18c3cda6cc7c97047463ba0.txt",
@@ -133164,9 +132998,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zCrc.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/894a59742de41e1e7237f758cabddbb5e509207e7c8ed262260c479ce0954055.txt",
@@ -133174,9 +133006,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Bra.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/8ab88761298b938a060d226d2188cad1158521ee230f72050e8470c0d399dda2.txt",
@@ -133184,9 +133014,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Bra86.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/a09beb9bb144ed14ef7ec218fedbb08fb76e3644f0901f76a5b4425da1efd957.txt",
@@ -133194,9 +133022,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Ppmd7Dec.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/a51095b4c2768d96995096bb179f1c86a01b6ae948dcadd7fb23b56efe398499.txt",
@@ -133204,9 +133030,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/LzmaDec.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/a8d472d87abb47f0e2d66ec95149f3e608ae4e9c51e10c5bfadde60a94865b51.txt",
@@ -133214,9 +133038,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Delta.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/ab1dd20b44fc6505244e99e4d877e180c6d1cd4b6fe7a167c7bcbbb2f8d3393d.txt",
@@ -133224,9 +133046,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zAlloc.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/ada4e586bb9cd842c904a6fdccc712f9f336e37f6c41aa04b7028f71e2019250.txt",
@@ -133234,9 +133054,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/BraIA64.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/b7417b9e936cfea24a49cbf61af095b776bc7f8d13c2ac23bfb24bf65fccdd74.txt",
@@ -133244,9 +133062,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Bcj2.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/ccc732724566ef8a21bbc1173487b776921caec8d3f89c118d3f77d63cf06a5b.txt",
@@ -133254,9 +133070,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7z.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/d4738a04bf16800f7365949b18ba42a70dc0c6fd3aa8d8178511e42632422f6a.txt",
@@ -133264,9 +133078,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Precomp.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/d677eb391fb877547a18cac5534e58c666ef8dc95c0b9e98bb36a456fca23700.txt",
@@ -133274,9 +133086,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/Bcj2.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/df2bc549cbf5c8c1598e0ace682f0c393ef06dbfe266b572ff9fced06d0c099b.txt",
@@ -133284,9 +133094,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/LzmaDec.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/e3f31bbd3980b0210f82f99b5ef40651feeaf7b02f392e85142a49b8f44c5163.txt",
@@ -133294,9 +133102,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zBuf2.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/ea53470dc19ac60114df8ca9aaf6bdaa5a026e5026715c791c8e208a6f2beafa.txt",
@@ -133304,9 +133110,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zCrcOpt.c of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/native-search/licenses/f8a6a9a718ca8be13701d706d208dd0d7b4d2b41cb1df3342fc5a6d602bd1dac.txt",
@@ -133314,9 +133118,7 @@
       "decision": "third-party",
       "license": "LicenseRef-Public-Domain",
       "basis": "Retained third-party notice snapshot extracted from lzma/C/7zWindows.h of the ugrep 7.8.4 source archive, bound by third-party/native-search/sources.json. The body only declares public domain (Igor Pavlov, 7-Zip LZMA SDK) and names no SPDX license identifier, so the recorded license is LicenseRef-Public-Domain. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/native-search/sources.json"
-      ]
+      "evidence": ["third-party/native-search/sources.json"]
     },
     {
       "path": "third-party/source-verification-20261003/README.md",
@@ -133609,9 +133411,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Arm Neon implementation within libjpeg-turbo, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/02421fcfbfb1d656ef0b6ff4cd3c39f2946f08c3219fa42db482add7ce1f53ea.txt",
@@ -133619,9 +133419,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for zlib 1.3.1 bundled in FreeType, bound by licensing/evidence/material-closure-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/material-closure-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/material-closure-20261002.json"]
     },
     {
       "path": "third-party/upstream/0c778720761a0b9ed03b83d55cc1dff2cd79e367528cfb8988176c4dc2b1dd27.txt",
@@ -133629,9 +133427,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Arm Neon implementation within libjpeg-turbo, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/0d33f8c63be2bd52f40ab4754f0312fa5a510d4a01bd76869254d3b210850d9d.txt",
@@ -133639,9 +133435,7 @@
       "decision": "third-party",
       "license": "libpng-2.0",
       "basis": "Retained third-party notice snapshot for Arm palette material within libpng, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the libpng-2.0 terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/12dffc8d88e81ef2fda9bb2142599751cced9564ec87cea683538980b1c42d75.txt",
@@ -133649,9 +133443,7 @@
       "decision": "third-party",
       "license": "MIT",
       "basis": "Retained third-party notice snapshot for Zilong Tan fasthash code within HarfBuzz, bound by licensing/evidence/skia-harfbuzz-nested-notices-20261002.json. The body reproduces the MIT terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-harfbuzz-nested-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/1f7dca26d2d328c3dbb9b6fe3b15ec3cda08ffe2288e47b73d617454b256f959.txt",
@@ -133659,9 +133451,7 @@
       "decision": "third-party",
       "license": "MIT",
       "basis": "Retained third-party notice snapshot for MIT-licensed notice snapshot retained for the pinned dependency set, bound by third-party/inventory.json. The body reproduces the MIT terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/inventory.json"
-      ]
+      "evidence": ["third-party/inventory.json"]
     },
     {
       "path": "third-party/upstream/23c23145f6eac25c28cdcc03d38506a5712a9a8cffb5bd5301457f6173ea696e.txt",
@@ -133669,9 +133459,7 @@
       "decision": "third-party",
       "license": "MIT",
       "basis": "Retained third-party notice snapshot for kurbo solve_itp port within HarfBuzz, bound by licensing/evidence/skia-harfbuzz-nested-notices-20261002.json. The body reproduces the MIT terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-harfbuzz-nested-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/35213d2e8040f799a87200ed2fb6aa5c471cce8ab200826d2eb94f60b714b513.txt",
@@ -133679,9 +133467,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b.txt",
@@ -133689,9 +133475,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for Chromium BSD license for zlib contributions, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/3e38787d12d0ac72ff96fb090cdb02dab1ba3930978501fc9091f1754471faf8.txt",
@@ -133699,9 +133483,7 @@
       "decision": "third-party",
       "license": "CC0-1.0",
       "basis": "Retained third-party notice snapshot for SipHash implementation within Expat, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the CC0-1.0 terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/442042c9409b2655e490f26c7da9a4075399495519b79918c1fd51b6ed458ad5.txt",
@@ -133709,9 +133491,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/5285d96f6aa3188193d5fbefd8710ed6a46af185e0a43817c17acee5f4b1ab3d.txt",
@@ -133719,9 +133499,7 @@
       "decision": "third-party",
       "license": "MIT",
       "basis": "Retained third-party notice snapshot for FreeType hashing routines, bound by licensing/evidence/material-closure-20261002.json. The body reproduces the MIT terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/material-closure-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/material-closure-20261002.json"]
     },
     {
       "path": "third-party/upstream/55b223e3f0fdcf0c262d3ff37aeb32ba063d300e53b97d56057bd3a34c8ae989.txt",
@@ -133729,9 +133507,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for Chromium zlib CRC32 SIMD attribution, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/6787208f83f659ccbc2223b2fde952ffa6f7e8aca62f1a8a2bf5bc51bb1b2383.txt",
@@ -133739,9 +133515,7 @@
       "decision": "third-party",
       "license": "MIT",
       "basis": "Retained third-party notice snapshot for fontTools solver port within HarfBuzz, bound by licensing/evidence/skia-harfbuzz-fonttools-20261002.json. The body reproduces the MIT terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-harfbuzz-fonttools-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-harfbuzz-fonttools-20261002.json"]
     },
     {
       "path": "third-party/upstream/866e6fa48cb8810d36d8d85a3085d7aa1c4317d3731f0ef84919428fee87bf71.txt",
@@ -133749,9 +133523,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for nteract contributors notice snapshot retained for the pinned dependency set, bound by third-party/inventory.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "third-party/inventory.json"
-      ]
+      "evidence": ["third-party/inventory.json"]
     },
     {
       "path": "third-party/upstream/9059c5a7575258863d7694c333dc1c7d211087be94fd63db7622a9a5ab72036f.txt",
@@ -133759,9 +133531,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/926f434136ee825ea37627e6283d3cf9b544c75d229c34a7e993729b2fd68076.txt",
@@ -133769,9 +133539,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/9fe1a90bd32659d7953616283dc2bffaa165518aae9ace026040c42c559ba606.txt",
@@ -133779,9 +133547,7 @@
       "decision": "third-party",
       "license": "Unicode-3.0",
       "basis": "Retained third-party notice snapshot for Unicode 17 data used by HarfBuzz generated tables, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Unicode-3.0 terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499.txt",
@@ -133789,9 +133555,7 @@
       "decision": "third-party",
       "license": "CC0-1.0",
       "basis": "Retained third-party notice snapshot for CC0 dedication referenced by Expat SipHash, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the CC0-1.0 terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/a385735ac3240f1bf6f32884cb7c888d0e4f37c863eb9a1b40c6ba7e7192750a.txt",
@@ -133799,9 +133563,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Arm Neon implementation within libjpeg-turbo, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/a76c3d70aed9b52b78196199da23e207ae6a01513ade15f40cfffe172b74b345.txt",
@@ -133809,9 +133571,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Mark Adler/Chromium zlib fast-inflate attribution, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/a8df3fb9aac5e61c2bd8cd45066240916d08aabd8cfd38f7f2d39757e90bb832.txt",
@@ -133819,9 +133579,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/aca9c8fbe556e770221641d454905105c1c9ab7dac5491ceafa9793323ed72a4.txt",
@@ -133829,9 +133587,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for Chromium zlib CPU detection attribution, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/b48e789ef8667646edc2b727cafc882d814a7f16dc7eed31d3b397e2d33ca691.txt",
@@ -133839,9 +133595,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Arm Neon implementation within libjpeg-turbo, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/b6d3d72e3ecc9d33d5de6d6547f68c577c203d623585adb6455d20216cced592.txt",
@@ -133849,9 +133603,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Intel zlib CRC folding attribution, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/bd36c8b474855fa294c2ec5c184544478ef3720aad37d65a6296a4f264fd2d3b.txt",
@@ -133859,9 +133611,7 @@
       "decision": "third-party",
       "license": "FTL OR GPL-2.0-or-later",
       "basis": "Retained third-party notice snapshot for FreeType license scope, bound by licensing/evidence/material-closure-20261002.json. The body reproduces the FTL OR GPL-2.0-or-later terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/material-closure-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/material-closure-20261002.json"]
     },
     {
       "path": "third-party/upstream/c7c439b79bd9a71954f3509a8bd9ad05d44887114aa259beb8084e8e15ddbeb9.txt",
@@ -133869,9 +133619,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/ca7047566630aa93a701f06df3817e2b7cfd7f12807281b2e09013b8f9132c70.txt",
@@ -133879,9 +133627,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for ARM/Chromium zlib chunk-copy attribution, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/cb95728cc2b4a3502bb8e69c019e0e5f01c0a218a855168e9c19d4df51582cd5.txt",
@@ -133889,9 +133635,7 @@
       "decision": "third-party",
       "license": "ISC",
       "basis": "Retained third-party notice snapshot for Grigori Goronzy UCD implementation within HarfBuzz, bound by licensing/evidence/skia-harfbuzz-nested-notices-20261002.json. The body reproduces the ISC terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-harfbuzz-nested-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-harfbuzz-nested-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/cdb6b2a4e60de61211f8759676ea2251ed3a42d0d3d7b4e83eaccf4af1c15472.txt",
@@ -133899,9 +133643,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for Adobe Glyph List / Zapf Dingbats data within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/d38239a23bfadf84d2f89504f3f6e435ed200a30fe329a9c198f5000017b48a2.txt",
@@ -133909,9 +133651,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/d38d82f865590ced088d26ebbb6abb1eae0b49e12cba492c14f323e73656a9a2.txt",
@@ -133919,9 +133659,7 @@
       "decision": "third-party",
       "license": "FTL",
       "basis": "Retained third-party notice snapshot for Adobe CFF interpreter material within FreeType, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the FTL terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56.txt",
@@ -133929,9 +133667,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Chromium zlib 1.3.0.1 original zlib notice, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/dfe146342f94e1595214e12a377ff40d383db36dadbc09b8cc071ef354114dc3.txt",
@@ -133939,9 +133675,7 @@
       "decision": "third-party",
       "license": "BSD-3-Clause",
       "basis": "Retained third-party notice snapshot for Chromium zlib slide-hash SIMD attribution, bound by licensing/evidence/skia-zlib-notices-20261002.json. The body reproduces the BSD-3-Clause terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-zlib-notices-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-zlib-notices-20261002.json"]
     },
     {
       "path": "third-party/upstream/e184ca99561e85dd1eda33fd6b9f2b09f4df94636b540532ad7358ffbae23fe1.txt",
@@ -133949,9 +133683,7 @@
       "decision": "third-party",
       "license": "Zlib",
       "basis": "Retained third-party notice snapshot for Arm Neon implementation within libjpeg-turbo, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Zlib terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "third-party/upstream/e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96.txt",
@@ -133959,9 +133691,7 @@
       "decision": "third-party",
       "license": "Unicode-3.0",
       "basis": "Retained third-party notice snapshot for Unicode 17 data used by HarfBuzz generated tables, bound by licensing/evidence/skia-source-notice-pass-20261002.json. The body reproduces the Unicode-3.0 terms; the file was not renamed or copied from an upstream implementation path and is registered as third-party material, not as an original work. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "licensing/evidence/skia-source-notice-pass-20261002.json"
-      ]
+      "evidence": ["licensing/evidence/skia-source-notice-pass-20261002.json"]
     },
     {
       "path": "scripts/provenance/bookkeeping-round2.mjs",
