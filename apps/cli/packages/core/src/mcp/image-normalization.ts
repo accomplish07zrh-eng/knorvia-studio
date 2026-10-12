@@ -19,6 +19,16 @@ export const MCP_IMAGE_INLINE_RAW_BYTES: number = Math.floor(
 );
 export const HOST_NODE_REPL_IMAGE_MAX_DIMENSION = 2048;
 
+// 每个条目投影共用同一份输入快照：result 指向原始结果，投影函数只读不写。
+const normalizationInputFor = (input: NormalizationInput): NormalizationInput => ({
+  compressOversizedImages: input.compressOversizedImages,
+  context: input.context,
+  descriptor: input.descriptor,
+  preserveOfficialCuaFrames: input.preserveOfficialCuaFrames,
+  result: input.result,
+  toolName: input.toolName,
+});
+
 export async function normalizeMcpToolResultForModel(input: {
   compressOversizedImages: boolean;
   context: ToolExecutionContext;
@@ -44,18 +54,12 @@ export async function normalizeMcpToolResultForModel(input: {
     : new Set<number>();
   const content: McpContentBlock[] = [];
   let changed = false;
+  // 输入快照与循环无关，提到循环外构造一次。
+  const entryInput = normalizationInputFor(input);
   for (const [index, entry] of input.result.content.entries()) {
     const screenshotPath = screenshotIndices.has(index)
       ? await backUpScreenshot({ context: input.context, toolName: input.toolName }, entry)
       : undefined;
-    const entryInput: NormalizationInput = {
-      compressOversizedImages: input.compressOversizedImages,
-      context: input.context,
-      descriptor: input.descriptor,
-      preserveOfficialCuaFrames: input.preserveOfficialCuaFrames,
-      result: input.result,
-      toolName: input.toolName,
-    };
     const normalized = await projectEntry(entryInput, entry, screenshotPath);
     // 官方 CUA 图片引用文本不进模型上下文：它是帧的引用标记，不是可读内容。
     if (isOfficialCuaImageRefTextBlock(normalized)) {
@@ -65,8 +69,10 @@ export async function normalizeMcpToolResultForModel(input: {
     if (normalized !== entry) changed = true;
     content.push(normalized);
     // 备份过的浏览器截图在内容之后追加一行落盘位置，调用方据此向用户展示。
-    if (screenshotPath !== undefined) {
-      content.push({ type: "text", text: `Browser screenshot saved to: ${screenshotPath}` });
+    const savedPathNote =
+      screenshotPath === undefined ? undefined : `Browser screenshot saved to: ${screenshotPath}`;
+    if (savedPathNote !== undefined) {
+      content.push({ type: "text", text: savedPathNote });
       changed = true;
     }
   }
