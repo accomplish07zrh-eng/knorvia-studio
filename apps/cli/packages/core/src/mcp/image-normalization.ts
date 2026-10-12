@@ -286,25 +286,14 @@ async function saveOversizedImage(
       { signal: input.context.abortSignal },
     );
   }
+  const payloadRecord = mcpImageArtifactPayload(input, dataUrl, summary);
   return await store.writeToolResultArtifact(
     {
       sessionId: input.context.sessionId,
       turnId: input.context.turnId,
       toolCallId: input.context.toolCallId,
       toolName: input.toolName,
-      content: JSON.stringify(
-        {
-          type: "mcp-image-artifact",
-          createdAt: new Date().toISOString(),
-          dataUrl,
-          registeredToolName: input.toolName,
-          serverName: input.descriptor.serverName,
-          toolName: input.descriptor.toolName,
-          ...summary,
-        },
-        null,
-        2,
-      ),
+      content: JSON.stringify(payloadRecord, null, 2),
       contentType: "application/json",
       retention: "session",
       trace: artifactTrace(input.context),
@@ -312,6 +301,21 @@ async function saveOversizedImage(
     { signal: input.context.abortSignal },
   );
 }
+
+/** 图片 artifact 的 JSON 载荷：字段名与顺序是兼容面，summary 的四个字段展开在末尾。 */
+const mcpImageArtifactPayload = (
+  input: Pick<NormalizationInput, "descriptor" | "toolName">,
+  dataUrl: string,
+  summary: ImageSummary,
+): Record<string, unknown> => ({
+  type: "mcp-image-artifact",
+  createdAt: new Date().toISOString(),
+  dataUrl,
+  registeredToolName: input.toolName,
+  serverName: input.descriptor.serverName,
+  toolName: input.descriptor.toolName,
+  ...summary,
+});
 
 // 执行上下文 → trace 快照：只搬运五个关联字段，不携带任何内容。
 const TRACE_FIELD_NAMES = ["traceId", "spanId", "parentSpanId", "sessionId", "turnId"] as const;
