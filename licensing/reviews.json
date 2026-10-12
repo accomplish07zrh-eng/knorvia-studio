@@ -83789,6 +83789,204 @@
         "specs/knorvia-independent-implementation.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/acceptance.md",
+      "normalizedSha256": "2941a86e660b6e6c72b2df5f2239191ea7b87defc0ff2b14670cdeada226257e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/behavior.md",
+      "normalizedSha256": "e8c8edfec4f26c4c288b51c5b1ddd3d8c7ff79d13ff1fde01f215145ece82d54",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/callers.md",
+      "normalizedSha256": "51218d9e9dce824532f43ccd5d5cdbd32abfefef0ebd9617ebc2e91b37b8faeb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/gate-old.json",
+      "normalizedSha256": "e6c2c0bbc44f0f446da5073760d52de388d248f208a559197f52efe2eb059b89",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/interface.md",
+      "normalizedSha256": "bcf9995761cd52f93f996d7badd03e123ead2e6ef166321fb675946cc9e8bb78",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/known-differences.md",
+      "normalizedSha256": "b072998fb7070fd9b49a96204440da1b24494f77022fddabf9dee9c83ed96559",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/README.md",
+      "normalizedSha256": "07eefe0d72068f48b21db785284dd900da778c4534c821ea597287bb85c9fc75",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/fixtures/samples.json",
+      "normalizedSha256": "0f5cfdad32abb4ff9948e82d9ed5374f729c57d071a6dc088b85ca6b98b8a0c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/targets.txt",
+      "normalizedSha256": "1f8ec1ab96764dd562a2aad7bf6e850020ba6d86c0c0fe5fcdcf6226fbb5d743",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/src/rewind/index.ts",
+      "normalizedSha256": "ec03c2a92e2413d2d282b4e55e1310ec1049f3b3409b8de994e809d6dbeb139e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/src/tools/index.ts",
+      "normalizedSha256": "7cf6ead22cac90b6bd2a16939c803cf608dd1397fdd03ada21d27bed2a45b23a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/src/tools/node-repl.ts",
+      "normalizedSha256": "a1eb1e770324497de3825ad09bbb6bd52c4d6a5e4bd1ffb0e5b189ed583d36bb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/src/tools/websearch.ts",
+      "normalizedSha256": "e856735d14bbf36766c1c54d939eef6462300f04727edd692cfd96ddf254165d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/src/tracing/tracer.ts",
+      "normalizedSha256": "a80cf6d1fd6218ea646491354d3cfde4f8d2e7cbe54c69d4a9907cec5601ac54",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/stubs/src/workflow/index.ts",
+      "normalizedSha256": "5eec4bfbec7962a2527094457cde30c7030aa9b00077cd5c83adf4943a204370",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/tests/api-surface.test.mjs",
+      "normalizedSha256": "3c7af58c26b3077ba45c122a5f428cf0a5bfb5ebae4e4df3636827c0b4b794bd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/tests/behavior.test.mjs",
+      "normalizedSha256": "e6e68b9dae2f5d596c3532a64c4fc985749706910bb1252f3884104b4521df0f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/tests/entry.mjs",
+      "normalizedSha256": "dc5d693eeb18f0a0d44cbf905af944ae2e9f436af1cd26148d125a834f86b007",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "evidence": [
+        "specs/contracts/contracts-02/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }

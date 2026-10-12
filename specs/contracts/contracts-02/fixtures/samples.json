@@ -1,0 +1,32 @@
+{
+  "validGoal": {
+    "sessionID": "s1",
+    "targetID": "g1",
+    "objective": "do it",
+    "summaryTitle": null,
+    "status": "active",
+    "tokenBudget": null,
+    "tokensUsed": 0,
+    "timeUsedSeconds": 0,
+    "time": { "created": 1, "updated": 2 }
+  },
+  "invalidGoals": [
+    { "patch": { "extra": 1 }, "why": "strict 对象拒绝未知键" },
+    { "patch": { "status": "nope" }, "why": "status 枚举外" },
+    { "patch": { "tokensUsed": -1 }, "why": "计数必须非负" }
+  ],
+  "validStrategy": {
+    "clarify": { "confidenceThreshold": 0.5, "maxRounds": 3, "minRounds": 0 },
+    "executor": {
+      "drainingChangeHours": 1,
+      "frontierTarget": 2,
+      "maxConcurrentLoops": 1,
+      "maxConsecutiveErrors": 3,
+      "maxPlannerRuns": 2
+    },
+    "finalCritic": { "maxIterations": 2 },
+    "reactLoop": { "maxRounds": 4 }
+  },
+  "rewindItems": [{ "id": "m1" }, { "id": "m2" }, { "id": "m3" }],
+  "createWorkflowScript": { "script": "export default async function run() { return 1; }" }
+}

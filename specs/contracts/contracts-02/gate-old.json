@@ -1,0 +1,46 @@
+{
+  "contract": "contracts-02",
+  "commit": "edc596450f0242817a420f09dc1f15fd82bbc5ba",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-12T00:22:29.051Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/contracts-02/tests/api-surface.test.mjs",
+    "specs/contracts/contracts-02/tests/behavior.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B4 Read PDF：常量、分页解析与校验失败 (0.9962ms)\n✔ B5 Read 常量与错误码取值 (0.2561ms)\n✔ B6 goal/target schema 与文案 (2.8322ms)\n✔ B7 rewind 常量、payload 解析与目标判定 (2.1362ms)\n✔ B8 CreateWorkflow 常量与输入 schema (0.6177ms)\n✔ B9 workflow canonical schema 与 Expert 别名 (0.5752ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 7007.8833"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B4 Read PDF：常量、分页解析与校验失败 (0.9988ms)\n✔ B5 Read 常量与错误码取值 (0.2718ms)\n✔ B6 goal/target schema 与文案 (2.0548ms)\n✔ B7 rewind 常量、payload 解析与目标判定 (1.6338ms)\n✔ B8 CreateWorkflow 常量与输入 schema (0.5493ms)\n✔ B9 workflow canonical schema 与 Expert 别名 (0.5482ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5677.8774",
+      "environment": {
+        "KNORVIA_CONTRACTS_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 6,
+    "tests": 11,
+    "pass": 0,
+    "fail": 11,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "      at TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-1/specs/contracts/contracts-02/tests/behavior.test.mjs:273:10)\n      at Test.runInAsyncScope (node:async_hooks:228:14)\n      at Test.run (node:internal/test_runner/test:1118:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)\n      at Test.postRun (node:internal/test_runner/test:1247:19)\n      at Test.run (node:internal/test_runner/test:1175:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: {},\n    expected: {},\n    operator: 'strictEqual',\n    diff: 'simple'\n  }"
+  },
+  "pass": true
+}
