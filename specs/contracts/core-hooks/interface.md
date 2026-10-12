@@ -355,6 +355,3 @@ interface SessionMailboxRegistrationOptions {
   sessionId: SessionId;
 }
 ```
-
-说明：这两个名字由公开入口导出，属兼容声明；把求值输入与 mailbox 选项的形状放在声明文件里，
-运行时文件只引用类型，从而让运行时文件按普通模式计分时不含兼容声明块。
