@@ -27,6 +27,9 @@ export const SubmitResultInputJsonSchema = toToolJsonSchema(SubmitResultInputSch
 // 运行时 zod 校验仍是上面的通用 `SubmitResultInputSchema`——per-ask 形状由引擎在
 // WorkflowSubmitPort 侧校验，工具声明只是让 provider 看到（并在支持时原生约束）它。
 // 外层对象与通用声明同形：单个必填 `result`、禁止多余键。
+// JSON schema 里对象类型的取值；写成常量便于与快照对照。
+const OBJECT_TYPE_KEYWORD = "object";
+
 export function typedSubmitResultInputSchema(
   resultSchema: Record<string, unknown>,
 ): Record<string, unknown> {
@@ -34,13 +37,14 @@ export function typedSubmitResultInputSchema(
     description: "The structured result for this ask.",
     ...resultSchema,
   };
-  const objectKeywords = { additionalProperties: false, type: "object" } as const;
-  const toolSchema: Record<string, unknown> = {
-    ...objectKeywords,
-    $schema: TOOL_JSON_SCHEMA_VERSION,
-    properties: { result: resultProperty },
-    required: ["result"],
-  };
+  // 键序（= 插入序）必须与 core 的冻结快照一致：type → properties → required →
+  // additionalProperties → $schema。逐个赋值正好保证这个顺序，也不必与上游逐行同形。
+  const toolSchema: Record<string, unknown> = {};
+  toolSchema.type = OBJECT_TYPE_KEYWORD;
+  toolSchema.properties = { result: resultProperty };
+  toolSchema.required = ["result"];
+  toolSchema.additionalProperties = false;
+  toolSchema.$schema = TOOL_JSON_SCHEMA_VERSION;
   return toolSchema;
 }
 
