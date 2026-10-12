@@ -46,91 +46,52 @@ export async function queryAppUsage(
   const dayWindow: SQLInputValue[] = [input.tzOffsetMs, input.since, input.until];
   const totals = readOne(
     db,
-    `
-    SELECT SUM(computed_total_tokens) AS totalTokens, SUM(input_tokens) AS inputTokens,
-      SUM(output_tokens) AS outputTokens, SUM(reasoning_tokens) AS reasoningTokens,
-      SUM(cache_creation_input_tokens) AS cacheCreationTokens, SUM(cache_read_input_tokens) AS cacheReadTokens,
-      COUNT(*) AS modelRequestCount, SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) AS modelErrorCount,
-      AVG(time_to_first_token_ms) AS avgTimeToFirstTokenMs
-    FROM model_usage WHERE ${WINDOW}
-  `,
+    `\n    SELECT SUM(computed_total_tokens) AS totalTokens, SUM(input_tokens) AS inputTokens,\n      SUM(output_tokens) AS outputTokens, SUM(reasoning_tokens) AS reasoningTokens,\n      SUM(cache_creation_input_tokens) AS cacheCreationTokens, SUM(cache_read_input_tokens) AS cacheReadTokens,\n      COUNT(*) AS modelRequestCount, SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) AS modelErrorCount,\n      AVG(time_to_first_token_ms) AS avgTimeToFirstTokenMs\n    FROM model_usage WHERE ${WINDOW}\n  `,
     ...window,
   );
   const turns = readOne(
     db,
-    `
-    SELECT COUNT(DISTINCT session_id) AS totalSessions, COUNT(*) AS totalTurns,
-      AVG(CASE WHEN status = 'completed' THEN duration_ms END) AS avgTurnDurationMs
-    FROM turn_usage WHERE ${WINDOW}
-  `,
+    `\n    SELECT COUNT(DISTINCT session_id) AS totalSessions, COUNT(*) AS totalTurns,\n      AVG(CASE WHEN status = 'completed' THEN duration_ms END) AS avgTurnDurationMs\n    FROM turn_usage WHERE ${WINDOW}\n  `,
     ...window,
   );
   const longest = readOne(
     db,
-    `
-    SELECT MAX(sessionDuration) AS longestSessionMs FROM (
-      SELECT COALESCE(SUM(CASE WHEN status = 'completed' THEN duration_ms ELSE 0 END), 0) AS sessionDuration
-      FROM turn_usage WHERE ${WINDOW} GROUP BY session_id
-    )
-  `,
+    `\n    SELECT MAX(sessionDuration) AS longestSessionMs FROM (\n      SELECT COALESCE(SUM(CASE WHEN status = 'completed' THEN duration_ms ELSE 0 END), 0) AS sessionDuration\n      FROM turn_usage WHERE ${WINDOW} GROUP BY session_id\n    )\n  `,
     ...window,
   );
   const toolTotals = readOne(
     db,
-    `
-    SELECT COUNT(*) AS toolCallCount, SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) AS toolErrorCount
-    FROM tool_usage WHERE ${WINDOW}
-  `,
+    `\n    SELECT COUNT(*) AS toolCallCount, SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) AS toolErrorCount\n    FROM tool_usage WHERE ${WINDOW}\n  `,
     ...window,
   );
   const models = readMany(
     db,
-    `
-    SELECT model_id AS modelId, COALESCE(SUM(computed_total_tokens), 0) AS totalTokens,
-      SUM(input_tokens) AS inputTokens, SUM(output_tokens) AS outputTokens, COUNT(*) AS requestCount
-    FROM model_usage WHERE ${WINDOW} GROUP BY model_id ORDER BY totalTokens DESC
-  `,
+    `\n    SELECT model_id AS modelId, COALESCE(SUM(computed_total_tokens), 0) AS totalTokens,\n      SUM(input_tokens) AS inputTokens, SUM(output_tokens) AS outputTokens, COUNT(*) AS requestCount\n    FROM model_usage WHERE ${WINDOW} GROUP BY model_id ORDER BY totalTokens DESC\n  `,
     ...window,
   );
   const tools = readMany(
     db,
-    `
-    SELECT tool_name AS toolName, COUNT(*) AS callCount,
-      SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) AS errorCount, AVG(duration_ms) AS avgDurationMs
-    FROM tool_usage WHERE ${WINDOW} GROUP BY tool_name ORDER BY callCount DESC
-  `,
+    `\n    SELECT tool_name AS toolName, COUNT(*) AS callCount,\n      SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) AS errorCount, AVG(duration_ms) AS avgDurationMs\n    FROM tool_usage WHERE ${WINDOW} GROUP BY tool_name ORDER BY callCount DESC\n  `,
     ...window,
   );
   const modelDays = readMany(
     db,
-    `
-    SELECT ${DAY} AS dayIndex, SUM(computed_total_tokens) AS totalTokens
-    FROM model_usage WHERE ${WINDOW} GROUP BY dayIndex
-  `,
+    `\n    SELECT ${DAY} AS dayIndex, SUM(computed_total_tokens) AS totalTokens\n    FROM model_usage WHERE ${WINDOW} GROUP BY dayIndex\n  `,
     ...dayWindow,
   );
   const turnDays = readMany(
     db,
-    `
-    SELECT ${DAY} AS dayIndex, COUNT(*) AS turnCount
-    FROM turn_usage WHERE ${WINDOW} GROUP BY dayIndex
-  `,
+    `\n    SELECT ${DAY} AS dayIndex, COUNT(*) AS turnCount\n    FROM turn_usage WHERE ${WINDOW} GROUP BY dayIndex\n  `,
     ...dayWindow,
   );
   const toolDays = readMany(
     db,
-    `
-    SELECT ${DAY} AS dayIndex, COUNT(*) AS toolCallCount
-    FROM tool_usage WHERE ${WINDOW} GROUP BY dayIndex
-  `,
+    `\n    SELECT ${DAY} AS dayIndex, COUNT(*) AS toolCallCount\n    FROM tool_usage WHERE ${WINDOW} GROUP BY dayIndex\n  `,
     ...dayWindow,
   );
   const dayModels = readMany(
     db,
-    `
-    SELECT ${DAY} AS dayIndex, model_id AS modelId, SUM(computed_total_tokens) AS totalTokens
-    FROM model_usage WHERE ${WINDOW} GROUP BY dayIndex, model_id
-  `,
+    `\n    SELECT ${DAY} AS dayIndex, model_id AS modelId, SUM(computed_total_tokens) AS totalTokens\n    FROM model_usage WHERE ${WINDOW} GROUP BY dayIndex, model_id\n  `,
     ...dayWindow,
   );
   const days = new Map<number, AppUsageDayRow>();
