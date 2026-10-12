@@ -308,3 +308,15 @@
 1. `session-history-hydrator.ts`：`activeSessionMessages`/`hydrateMessageHistoryFromSession`（经区域桶公开）——会话历史水合，需事件序列/夹具断言。
 2. `read-file-state-hydrator.ts`：文件读取状态水合的运行时投影函数。
 3. `filePartToContentBlock` 中需要 `artifactStore.readToolResultArtifact` 的读取分支，以及 `isArtifactUri(durableUri)` 为真时的 artifact 身份分支（`kind:"inline"`、`uri = metadata.artifactUri`、`path` 置空）。
+
+## 19. agent 组最后三文件之三（A13 session-history-hydrator）探针实测语义，黑盒测试待补齐
+
+本轮对 `agent/session-history-hydrator.ts`（13.9 KB）做了签名与语义探针，实测结论如下（**已冻结，替换实现必须一致**）：
+
+1. **签名**：`activeSessionMessages(messages)`（第一参就是消息数组）；`hydrateMessageHistoryFromSession(session, history)`（第一参是**会话对象**，内部读 `session.messages` 再交给 `activeSessionMessages`；把消息数组直接当第一参会抛 `TypeError: Cannot read properties of undefined (reading 'length')`，栈在 `lastBoundary` ← `activeSessionMessages` ← `hydrateMessageHistoryFromSession`）。
+2. **`activeSessionMessages`**：`[]` → `[]`；没有压缩边界时**按原序返回全部消息且引用同一批对象**（实测 `["m1","m2","m3"]`）；存在 compaction 边界时**从最后一个边界（含）起**（实测边界在索引 1 → `["b","m3"]`）。
+3. **`hydrateMessageHistoryFromSession`** 是**异步**的，返回计数结果 `{appliedMessageCount, interruptedToolCount, messageCount, partCount}`；对**没有 parts** 的消息实测 `{appliedMessageCount: 0, interruptedToolCount: 0, messageCount: 2, partCount: 0}`，且历史条目不变（幂等）。
+
+**本轮未提交 A13 黑盒测试**：按上述语义写出的测试在「异步返回值 + 结果对象」两处修正后，第二次补丁把同一文件里的两处 `await hydrateMessageHistoryFromSession(...)` 调用串改坏（区间替换命中了刚插入的调用），只跑出 1 个用例且失败。我把它从分支移除，**不留红测试**；下一轮按第 1–3 条写死即可（签名与返回形状都已实测，无需再读 13.9 KB 源码）。
+
+**剩余未覆盖项**：`session-history-hydrator.ts`（本节三条语义待落成断言）、`read-file-state-hydrator.ts`、`filePartToContentBlock` 的 `artifactStore` 读取分支与 artifact 身份分支。三项补齐后跑完整旧门（源码 + dist + 桩替换）并提 `contract: core-01 v1`。
