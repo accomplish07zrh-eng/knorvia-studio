@@ -19,7 +19,7 @@ function objectRecord(value: unknown): Record<string, unknown> | undefined {
 }
 
 export function commitSharedContextImportBundle(
-  db: DatabaseSync,
+  database: DatabaseSync,
   bundle: SharedContextImportCommitBundle,
 ): SessionInfo {
   const { session, contextMessage, provenance } = bundle;
@@ -35,10 +35,10 @@ export function commitSharedContextImportBundle(
     throw new Error("Shared context import bundle identity is invalid");
   }
   let result!: SessionInfo;
-  withWriteTransaction(db, "own", () => {
-    const existing = getSession(db, session.id);
+  withWriteTransaction(database, "own", () => {
+    const existing = getSession(database, session.id);
     if (existing) {
-      const savedProvenance = sessionEntries(db, {
+      const savedProvenance = sessionEntries(database, {
         sessionID: session.id,
         type: provenance.type,
       }).some((entry) => entry.id === provenance.id);
@@ -46,53 +46,53 @@ export function commitSharedContextImportBundle(
       result = existing;
       return;
     }
-    result = createSession(db, session);
+    result = createSession(database, session);
     // 导入整个临界段保持同步，让其他调用只能在本次事务结束后进入。
-    saveMessageSync(db, message);
-    for (const part of contextMessage.parts) savePartSync(db, part);
-    saveSessionEntry(db, provenance);
+    saveMessageSync(database, message);
+    for (const part of contextMessage.parts) savePartSync(database, part);
+    saveSessionEntry(database, provenance);
   });
   return result;
 }
 
 export function transitionSharedContextImport(
-  db: DatabaseSync,
-  input: SharedContextImportTransition,
+  database: DatabaseSync,
+  request: SharedContextImportTransition,
 ): boolean {
   const noTransition = Symbol("no shared context transition");
   try {
-    withWriteTransaction(db, "own", () => {
-      const entry = sessionEntries(db, {
-        sessionID: input.sessionID,
+    withWriteTransaction(database, "own", () => {
+      const entry = sessionEntries(database, {
+        sessionID: request.sessionID,
         type: "v4/shared_context_import",
       }).find((candidate) => {
         const candidateData = objectRecord(candidate.data);
-        return candidateData !== undefined && candidateData.contextId === input.contextId;
+        return candidateData !== undefined && candidateData.contextId === request.contextId;
       });
       const data = objectRecord(entry?.data);
-      const expected: readonly unknown[] = Array.isArray(input.expectedStatus)
-        ? input.expectedStatus
-        : [input.expectedStatus];
+      const expected: readonly unknown[] = Array.isArray(request.expectedStatus)
+        ? request.expectedStatus
+        : [request.expectedStatus];
       if (!entry || !data || !expected.includes(data.status)) throw noTransition;
-      const nextData: Record<string, unknown> = { ...data, status: input.status };
-      if (input.sourceId) nextData.sourceId = input.sourceId;
-      saveSessionEntry(db, {
+      const nextData: Record<string, unknown> = { ...data, status: request.status };
+      if (request.sourceId) nextData.sourceId = request.sourceId;
+      saveSessionEntry(database, {
         ...entry,
         data: nextData,
         time: { ...entry.time, updated: Date.now() },
       });
-      const context = messagesSync(db, { sessionID: input.sessionID }).find(({ info }) => {
+      const context = messagesSync(database, { sessionID: request.sessionID }).find(({ info }) => {
         const metadata = info.metadata;
         return (
           metadata !== null &&
           typeof metadata === "object" &&
-          metadata.contextId === input.contextId
+          metadata.contextId === request.contextId
         );
       });
       if (context) {
-        saveMessageSync(db, {
+        saveMessageSync(database, {
           ...context.info,
-          metadata: { ...context.info.metadata, sharedContextStatus: input.status },
+          metadata: { ...context.info.metadata, sharedContextStatus: request.status },
         });
       }
     });

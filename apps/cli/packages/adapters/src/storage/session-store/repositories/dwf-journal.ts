@@ -41,13 +41,13 @@ type ConcreteJournal = JournalStorePort &
     listRunsByParentSession(parentSessionId: string, limit: number): DwfRunSessionListItem[];
   };
 
-export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
+export function createDwfJournalStore(database: DatabaseSync): JournalStorePort {
   const store: ConcreteJournal = {
-    createRun(record) {
+    createRun(row) {
       const time = Date.now();
-      const settlement = encodeRunSettlement(record.status, record);
+      const settlement = encodeRunSettlement(row.status, row);
       try {
-        const statement = db.prepare(`
+        const statement = database.prepare(`
           INSERT INTO dwf_run (
             id, parent_session_id, cwd, name, script_text, script_hash, tool_call_id, args_json,
             resumed_from, caps_max_concurrency, spent_tokens, status, result_json, failure_json,
@@ -55,34 +55,34 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `);
         statement.run(
-          record.runId,
-          record.parentSessionId ?? null,
-          record.cwd ?? null,
-          record.name ?? null,
-          record.scriptText ?? null,
-          record.scriptHash ?? null,
-          record.toolCallId ?? null,
-          encodeJson(record.args),
-          record.resumedFrom ?? null,
-          record.caps.maxConcurrency,
-          record.spentTokens,
+          row.runId,
+          row.parentSessionId ?? null,
+          row.cwd ?? null,
+          row.name ?? null,
+          row.scriptText ?? null,
+          row.scriptHash ?? null,
+          row.toolCallId ?? null,
+          encodeJson(row.args),
+          row.resumedFrom ?? null,
+          row.caps.maxConcurrency,
+          row.spentTokens,
           settlement.status,
-          encodeResultJson(record.result),
+          encodeResultJson(row.result),
           settlement.failureJson,
           time,
           time,
         );
       } catch (cause) {
         // 兼容保留公开 receiver 诊断，诊断读取失败仍会遮住原错误。
-        if (this.getRun(record.runId)) {
-          throw new Error(`dwf journal: run already exists: ${record.runId}`, { cause });
+        if (this.getRun(row.runId)) {
+          throw new Error(`dwf journal: run already exists: ${row.runId}`, { cause });
         }
         throw cause;
       }
     },
 
     getRun(runId) {
-      const row = db.prepare("SELECT * FROM dwf_run WHERE id = ?").get(runId);
+      const row = database.prepare("SELECT * FROM dwf_run WHERE id = ?").get(runId);
       return row === undefined ? undefined : decodeRun(row as unknown as DwfRunRow);
     },
 
@@ -90,7 +90,7 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
       const time = Date.now();
       const encoded = encodeRunSettlement(status, settlement);
       const clearing = status === "pending" || status === "running";
-      const statement = db.prepare(
+      const statement = database.prepare(
         clearing
           ? "UPDATE dwf_run SET status = ?, failure_json = NULL, result_json = NULL, time_updated = ? WHERE id = ?"
           : "UPDATE dwf_run SET status = ?, failure_json = ?, result_json = COALESCE(?, result_json), time_updated = ? WHERE id = ?",
@@ -108,16 +108,16 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
     },
 
     updateRunUsage(runId, spentTokens) {
-      const statement = db.prepare(
+      const statement = database.prepare(
         "UPDATE dwf_run SET spent_tokens = ?, time_updated = ? WHERE id = ?",
       );
       const written = statement.run(spentTokens, Date.now(), runId);
       if (!written.changes) throw new Error(`dwf journal: unknown run: ${runId}`);
     },
 
-    putActor(record) {
+    putActor(row) {
       const time = Date.now();
-      const statement = db.prepare(`
+      const statement = database.prepare(`
         INSERT INTO dwf_actor (
           run_id, site_id, ordinal, name, persona_json, session_id, resolved_model, time_created, time_updated
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -126,35 +126,35 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
           resolved_model = excluded.resolved_model, time_updated = excluded.time_updated
       `);
       statement.run(
-        record.runId,
-        record.siteId,
-        record.ordinal,
-        record.name ?? null,
-        encodeJson(record.persona),
-        record.sessionId ?? null,
-        record.resolvedModel ?? null,
+        row.runId,
+        row.siteId,
+        row.ordinal,
+        row.name ?? null,
+        encodeJson(row.persona),
+        row.sessionId ?? null,
+        row.resolvedModel ?? null,
         time,
         time,
       );
     },
 
     getActor(runId, siteId, ordinal) {
-      const row = db
+      const row = database
         .prepare("SELECT * FROM dwf_actor WHERE run_id = ? AND site_id = ? AND ordinal = ?")
         .get(runId, siteId, ordinal);
       return row === undefined ? undefined : decodeActor(row as unknown as DwfActorRow);
     },
 
     listActors(runId) {
-      return db
+      return database
         .prepare("SELECT * FROM dwf_actor WHERE run_id = ? ORDER BY id ASC")
         .all(runId)
         .map((row) => decodeActor(row as unknown as DwfActorRow));
     },
 
-    putNode(record) {
+    putNode(row) {
       const time = Date.now();
-      const statement = db.prepare(`
+      const statement = database.prepare(`
         INSERT INTO dwf_node (
           run_id, site_id, ordinal, kind, actor_site_id, actor_ordinal, actor_seq, input_hash,
           status, result_json, error_json, stats_json, message_boundary, artifact_id, input_json,
@@ -168,35 +168,35 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
           input_json = excluded.input_json, time_updated = excluded.time_updated
       `);
       statement.run(
-        record.runId,
-        record.siteId,
-        record.ordinal,
-        record.kind,
-        record.actorSiteId ?? null,
-        record.actorOrdinal ?? null,
-        record.actorSeq ?? null,
-        record.inputHash,
-        record.status,
-        encodeResultJson(record.result),
-        encodeJson(record.error),
-        encodeJson(record.stats),
-        record.messageBoundary ?? null,
-        record.artifactId ?? null,
-        encodeJson(record.input),
+        row.runId,
+        row.siteId,
+        row.ordinal,
+        row.kind,
+        row.actorSiteId ?? null,
+        row.actorOrdinal ?? null,
+        row.actorSeq ?? null,
+        row.inputHash,
+        row.status,
+        encodeResultJson(row.result),
+        encodeJson(row.error),
+        encodeJson(row.stats),
+        row.messageBoundary ?? null,
+        row.artifactId ?? null,
+        encodeJson(row.request),
         time,
         time,
       );
     },
 
     getNode(runId, siteId, ordinal) {
-      const row = db
+      const row = database
         .prepare("SELECT * FROM dwf_node WHERE run_id = ? AND site_id = ? AND ordinal = ?")
         .get(runId, siteId, ordinal);
       return row === undefined ? undefined : decodeNode(row as unknown as DwfNodeRow);
     },
 
     listNodes(runId) {
-      return db
+      return database
         .prepare("SELECT * FROM dwf_node WHERE run_id = ? ORDER BY id ASC")
         .all(runId)
         .map((row) => decodeNode(row as unknown as DwfNodeRow));
@@ -204,7 +204,7 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
 
     appendEvent(runId, event) {
       const time = Date.now();
-      const statement = db.prepare(`
+      const statement = database.prepare(`
         INSERT INTO dwf_event (run_id, sequence, type, payload_json, time_created)
         SELECT ?, COALESCE(MAX(sequence) + 1, 0), ?, ?, ? FROM dwf_event WHERE run_id = ?
         RETURNING sequence
@@ -228,14 +228,14 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
         sql += " LIMIT ?";
         values.push(Math.max(0, opts.limit));
       }
-      return db
+      return database
         .prepare(sql)
         .all(...values)
         .map((row) => decodeEvent(row as unknown as DwfEventRow));
     },
 
     listNonTerminalRuns(parentSessionId) {
-      return db
+      return database
         .prepare(`
         SELECT * FROM dwf_run WHERE parent_session_id = ?
           AND status NOT IN ('completed', 'failed', 'cancelled') ORDER BY id ASC
@@ -245,28 +245,28 @@ export function createDwfJournalStore(db: DatabaseSync): JournalStorePort {
     },
 
     listRuns(query) {
-      return listRuns(db, query);
+      return listRuns(database, query);
     },
     getRunRow(runId) {
-      return getRunRow(db, runId);
+      return getRunRow(database, runId);
     },
     countNodesByStatus(runId) {
-      return countNodesByStatus(db, runId);
+      return countNodesByStatus(database, runId);
     },
     listRecentLogEvents(runId, limit) {
-      return listRecentLogEvents(db, runId, limit);
+      return listRecentLogEvents(database, runId, limit);
     },
     listRunsByParentSession(parentSessionId, limit) {
-      return listRunsByParentSession(db, parentSessionId, limit);
+      return listRunsByParentSession(database, parentSessionId, limit);
     },
     listArtifactRows(runId) {
-      return listArtifactRows(db, runId);
+      return listArtifactRows(database, runId);
     },
     listWorldNodes(runId) {
-      return listWorldNodes(db, runId);
+      return listWorldNodes(database, runId);
     },
     listArtifactItems(runId, artifactId, query) {
-      return listArtifactItems(db, runId, artifactId, query);
+      return listArtifactItems(database, runId, artifactId, query);
     },
   };
   return store;
