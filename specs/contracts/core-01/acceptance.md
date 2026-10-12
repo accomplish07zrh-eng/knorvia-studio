@@ -239,3 +239,30 @@
 4. `message-history-usage.ts`：`persistedTokenUsageBaseline`（内部可达）。
 5. `agent/index.ts` 区域桶的 10 个运行时导出集合断言（`MessageHistoryImpl`、`TurnMachineImpl`、`TurnPhase`、`activeSessionMessages`、`canTransitionTo`、`createMessageHistory`、`createTurnState`、`hydrateMessageHistoryFromSession`、`isTerminalPhase`、`isWaitingPhase`）。
 6. 内部可达（不经区域桶）：`selectToolPartsForHistory`（A2）、`runtimeInputMetadata`（A3）、`compact-session` 三函数（A8，已用文件级入口覆盖）。
+
+## 16. agent 组剩余进展（A9 公开面 + A10 用量基线）
+
+### 旧门（旧实现，两入口都过）
+
+| 测试文件 | 源码 | dist |
+| --- | --- | --- |
+| `agent-surface.test.mjs`（A9 区域桶 10 个运行时导出的集合相等） | 1/1 | 1/1 |
+| `agent-usage-baseline.test.mjs`（A10 `persistedTokenUsageBaseline`） | 1/1 | 1/1 |
+
+`persistedTokenUsageBaseline` 的冻结规则：输入推导优先级 `input` → `total - output` → `cache.read + cache.write`；推导结果非正即整体 `undefined`；`contextUsageTokens` 在 `output > 0` 时取 `input + output`、否则 `total ≥ input` 时取 `total`、再否则 `undefined`；所有数值向下取整、负数视为未给。
+
+### 实测 quirk（已冻结）
+
+`tokens.cache` **必须存在**：实现无条件读 `tokens.cache.read`/`.write`，缺 `cache` 会抛 `TypeError: Cannot read properties of undefined (reading 'read')`（类型层必填、运行时无兜底）。测试用 `assert.throws(..., TypeError)` 固定该行为。
+
+### 分支现状（全绿）
+
+`specs/contracts/core-01/tests/` 共 **13 个测试文件**：源码 **33/33**、dist **33/33**（M1–M5、E1–E2、C1–C6、X1–X13、A1–A10）。
+
+### 剩余未覆盖项（agent 组最后 3 个文件）
+
+1. `session-history-hydrator.ts`：`activeSessionMessages`（经区域桶公开）、`hydrateMessageHistoryFromSession`（经区域桶公开）——会话历史水合，需要按事件序列/夹具断言。
+2. `file-part-hydration.ts`：`projectPersistedToolMediaContent`（内部可达）。
+3. `read-file-state-hydrator.ts`：文件读取状态水合（`ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出）。
+
+三个文件补齐后即可跑完整旧门（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。

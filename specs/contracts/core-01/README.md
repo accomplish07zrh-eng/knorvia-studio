@@ -135,3 +135,12 @@ agent 组剩余：`message-history`、`session-history-hydrator`、`compact-sess
 | A8 compact-session（边界判定、保留规则、裁剪与插回） | `tests/agent-compact-session.test.mjs`「A8 compact-session：压缩边界的判定与保留条件」「A8 compact-session：活动消息裁剪与保留段插回」（文件级入口，区域桶未导出） |
 
 agent 组剩余：`session-history-hydrator`、`file-part-hydration`、`read-file-state-hydrator`、`message-history-usage`、`agent/index.ts` 桶导出集合断言。
+
+## 条目 → 测试对照表（agent 组剩余，A9–A10）
+
+| 条目 | 测试 |
+| --- | --- |
+| A9 agent 区公开面（区域桶 10 个导出） | `tests/agent-surface.test.mjs`「A9 agent 区公开面（区域桶的 10 个运行时导出）」 |
+| A10 `persistedTokenUsageBaseline` | `tests/agent-usage-baseline.test.mjs`「A10 persistedTokenUsageBaseline：输入推导与上下文用量的冻结规则」（文件级入口，区域桶未导出） |
+
+agent 组剩余：`session-history-hydrator.ts`、`file-part-hydration.ts`、`read-file-state-hydrator.ts`。

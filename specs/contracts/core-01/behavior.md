@@ -261,3 +261,17 @@
 - 错误语义：不抛错；定位失败以"不插回"表达。时序与并发：纯函数（不改入参数组）。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：调用方持有消息数组。日志级别：不适用。
 - 覆盖方式：本区三个导出**不经区域桶**（区域桶 10 个导出里没有它们）→ 契约测试用**文件级入口** `src/agent/compact-session.ts` 做黑盒断言；替换阶段再用内部单测复核。
 - （测试：tests/agent-compact-session.test.mjs「A8 compact-session：压缩边界的判定与保留条件」「A8 compact-session：活动消息裁剪与保留段插回」）
+
+## A9 agent 区公开面（`agent/index.ts`）
+
+- 输入：区域桶 `src/agent/index.ts`。
+- 输出（**集合逐字冻结**）：运行时导出恰好 10 个 —— `MessageHistoryImpl`、`TurnMachineImpl`、`TurnPhase`、`activeSessionMessages`、`canTransitionTo`、`createMessageHistory`、`createTurnState`、`hydrateMessageHistoryFromSession`、`isTerminalPhase`、`isWaitingPhase`；除 `TurnPhase` 为对象外其余均为函数。内部可达的 `selectToolPartsForHistory`、`runtimeInputMetadata`、`compactActiveSessionMessages` **不得**出现在桶里。
+- 错误语义：入口缺失、导出增减或形态不符即违约。时序与并发：模块求值一次。幂等：重复 import 返回同一命名空间。资源释放：不适用。平台差异：不适用。状态所有者：模块自身。日志级别：不适用。
+- （测试：tests/agent-surface.test.mjs「A9 agent 区公开面（区域桶的 10 个运行时导出）」）
+
+## A10 persistedTokenUsageBaseline（`agent/message-history-usage.ts`，文件级入口）
+
+- 输入：`persistedTokenUsageBaseline(tokens: TokenUsageInfo | undefined)`。
+- 输出（**逐字冻结**）：`undefined` → `undefined`。输入推导优先级：`input`（正数取整）→ 否则 `total - output`（`total` 正数时）→ 否则 `cache.read + cache.write`（和 > 0 时）；推导结果 `undefined` 或 ≤ 0 → 整体 `undefined`。`outputTokens = 正数 output ?? 0`；`cacheReadTokens`/`cacheWriteTokens` = 非负整数 ?? 0。`contextUsageTokens`：`output > 0` → `input + output`；否则 `total` 正数且 `total ≥ input` → `total`；否则 `undefined`（键始终存在）。所有数值**向下取整**；负数视为未给。
+- 错误语义：**`tokens.cache` 必须存在**——实现无条件读 `tokens.cache.read`/`.write`，缺 `cache` 会抛 `TypeError: Cannot read properties of undefined (reading 'read')`（类型层必填，运行时无兜底）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/agent-usage-baseline.test.mjs「A10 persistedTokenUsageBaseline：输入推导与上下文用量的冻结规则」）
