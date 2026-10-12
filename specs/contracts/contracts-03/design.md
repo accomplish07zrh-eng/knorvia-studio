@@ -6,25 +6,25 @@
 
 本包没有运行时状态：5 个文件全是**纯函数、常量表与类型**。所有权划分如下。
 
-| 关注点 | 所有者 | 说明 |
-| --- | --- | --- |
-| 模型 API 操作/actor/failure 取值 | `telemetry/`（常量表） | 冻结面，调用方只读；不由任何调用点改写 |
-| querySource → (operation, actorKind) 判定 | `resolveModelApiCallObservation`（纯函数） | 每次调用自行计算，不缓存、不共享可变状态 |
-| `logicalCallId` 生成 | 调用时由 `crypto.randomUUID()` 产生 | 未给出时每次新生成；契约不承诺可重复 |
-| telemetry schema 版本 | `TELEMETRY_SCHEMA_VERSION` 常量 | 与 `apps/cli/packages/telemetry` 的导出器共用 |
-| 本地日历日 | `formatLocalIsoDate`（纯函数） | 依赖进程本地时区；不读环境变量、不写全局 |
-| 媒体预算取值 | `@knorvia/shared`（`packages/shared/src/media-policy.ts`） | 本包包根只转发，不复制常量 |
-| 类型面 | 各模块声明 | 纯编译期，无运行时所有者 |
+| 关注点                                    | 所有者                                                     | 说明                                          |
+| ----------------------------------------- | ---------------------------------------------------------- | --------------------------------------------- |
+| 模型 API 操作/actor/failure 取值          | `telemetry/`（常量表）                                     | 冻结面，调用方只读；不由任何调用点改写        |
+| querySource → (operation, actorKind) 判定 | `resolveModelApiCallObservation`（纯函数）                 | 每次调用自行计算，不缓存、不共享可变状态      |
+| `logicalCallId` 生成                      | 调用时由 `crypto.randomUUID()` 产生                        | 未给出时每次新生成；契约不承诺可重复          |
+| telemetry schema 版本                     | `TELEMETRY_SCHEMA_VERSION` 常量                            | 与 `apps/cli/packages/telemetry` 的导出器共用 |
+| 本地日历日                                | `formatLocalIsoDate`（纯函数）                             | 依赖进程本地时区；不读环境变量、不写全局      |
+| 媒体预算取值                              | `@knorvia/shared`（`packages/shared/src/media-policy.ts`） | 本包包根只转发，不复制常量                    |
+| 类型面                                    | 各模块声明                                                 | 纯编译期，无运行时所有者                      |
 
 ## 2. 模块划分（薄壳 + 内部实现）
 
-| 公开路径（合同冻结） | 替换后的角色 | 内部实现 |
-| --- | --- | --- |
-| `src/index.ts` | 包根纯再导出桶（54 个相对路径 + 5 个 `@knorvia/shared` 名字） | 无（只有再导出） |
-| `src/skills/index.ts` | 技能域的公开类型面（16 个类型） | 无（纯声明；不新增运行时值，避免改变入口命名空间） |
-| `src/telemetry/agent-execution.ts` | 公开的 trace 端口与取值表：`TELEMETRY_SCHEMA_VERSION`、`AgentTelemetryOperation` + 38 个类型 | `telemetry/agent-execution_core.ts`（取值表常量）与类型分组文件 |
-| `src/telemetry/index.ts` | 公开面：3 张取值表 + 2 个函数 + 类型再导出 | `telemetry/model-api-operations_core.ts`（表与映射）、`telemetry/model-api-observation_core.ts`（归一逻辑） |
-| `src/time/local-date.ts` | 公开面：`formatLocalIsoDate` | `time/local-date_core.ts`（本地日历日计算） |
+| 公开路径（合同冻结）               | 替换后的角色                                                                                 | 内部实现                                                                                                    |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `src/index.ts`                     | 包根纯再导出桶（54 个相对路径 + 5 个 `@knorvia/shared` 名字）                                | 无（只有再导出）                                                                                            |
+| `src/skills/index.ts`              | 技能域的公开类型面（16 个类型）                                                              | 无（纯声明；不新增运行时值，避免改变入口命名空间）                                                          |
+| `src/telemetry/agent-execution.ts` | 公开的 trace 端口与取值表：`TELEMETRY_SCHEMA_VERSION`、`AgentTelemetryOperation` + 38 个类型 | `telemetry/agent-execution_core.ts`（取值表常量）与类型分组文件                                             |
+| `src/telemetry/index.ts`           | 公开面：3 张取值表 + 2 个函数 + 类型再导出                                                   | `telemetry/model-api-operations_core.ts`（表与映射）、`telemetry/model-api-observation_core.ts`（归一逻辑） |
+| `src/time/local-date.ts`           | 公开面：`formatLocalIsoDate`                                                                 | `time/local-date_core.ts`（本地日历日计算）                                                                 |
 
 约定：
 
@@ -39,7 +39,7 @@
    - `ModelApiOperation`：13 个语义键 → 字符串值；
    - `AgentTelemetryOperation`：13 个（键名不同）→ 相同字符串值；
    - `ModelApiActorKind`（5）、`ModelFailureExceptionKind`（7）。
-   实现上改为"值列表 + 派生"或"显式元组表"，但**对外键名与取值必须逐字一致**（B2/B4 断言）。
+     实现上改为"值列表 + 派生"或"显式元组表"，但**对外键名与取值必须逐字一致**（B2/B4 断言）。
 2. **querySource 判定表**：`Map<string, {operation, actorKind}>` 形式的查找表 + 默认项；对照 `fixtures/query-source-mapping.json`（12 个具名 source + 默认分支）。
 3. **observation 归一**：输入 `querySource` 与可选 `observation` → 输出 `Required<Pick<…>> & ModelApiCallObservation`；覆盖顺序为"默认判定 → observation 逐字段覆盖 → 补 `logicalCallId`"。
 4. **本地日期**：从 `Date` 取本地 `getFullYear/getMonth/getDate`，月日各补零到 2 位；不使用 UTC 字段、不做时间运算。
@@ -63,15 +63,15 @@ flowchart LR
 
 ## 5. 每条 B 的落点
 
-| 条目 | 实现位置 | 契约测试 |
-| --- | --- | --- |
-| B1 公开入口导出面 | `src/index.ts`（再导出结构）+ 各公开面文件 | `test/api-surface.test.mjs` |
-| B2 取值表与恒等映射 | `telemetry/model-api-operations_core.ts`（表）、`telemetry/index.ts`（`mapModelApiOperationToAgentOperation` 薄壳） | `test/behavior.test.mjs` |
-| B3 querySource 映射与归一 | `telemetry/model-api-observation_core.ts`、`telemetry/index.ts` | `test/behavior.test.mjs` |
-| B4 schema 版本与 agent 表 | `telemetry/agent-execution_core.ts`、`telemetry/agent-execution.ts` | `test/behavior.test.mjs` |
-| B5 本地 ISO 日期 | `time/local-date_core.ts`、`time/local-date.ts` | `test/behavior.test.mjs` |
-| B6 类型面 | `skills/index.ts` 与 telemetry 类型分组文件 | `test/types.test.mjs`（编译期用例） |
-| B7 `@knorvia/shared` 转发 | `src/index.ts` 的命名再导出 | `test/behavior.test.mjs`、`test/api-surface.test.mjs` |
+| 条目                      | 实现位置                                                                                                            | 契约测试                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| B1 公开入口导出面         | `src/index.ts`（再导出结构）+ 各公开面文件                                                                          | `test/api-surface.test.mjs`                           |
+| B2 取值表与恒等映射       | `telemetry/model-api-operations_core.ts`（表）、`telemetry/index.ts`（`mapModelApiOperationToAgentOperation` 薄壳） | `test/behavior.test.mjs`                              |
+| B3 querySource 映射与归一 | `telemetry/model-api-observation_core.ts`、`telemetry/index.ts`                                                     | `test/behavior.test.mjs`                              |
+| B4 schema 版本与 agent 表 | `telemetry/agent-execution_core.ts`、`telemetry/agent-execution.ts`                                                 | `test/behavior.test.mjs`                              |
+| B5 本地 ISO 日期          | `time/local-date_core.ts`、`time/local-date.ts`                                                                     | `test/behavior.test.mjs`                              |
+| B6 类型面                 | `skills/index.ts` 与 telemetry 类型分组文件                                                                         | `test/types.test.mjs`（编译期用例）                   |
+| B7 `@knorvia/shared` 转发 | `src/index.ts` 的命名再导出                                                                                         | `test/behavior.test.mjs`、`test/api-surface.test.mjs` |
 
 内部实现的单元测试放 `apps/cli/packages/contracts/test/`（如 `telemetry-internals.test.mjs`），覆盖表驱动判定与边界（空白、大小写、未命中、`logicalCallId` 空白）。
 

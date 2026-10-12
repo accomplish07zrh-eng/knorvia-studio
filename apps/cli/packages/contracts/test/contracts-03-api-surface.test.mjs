@@ -10,7 +10,9 @@ import { test } from "node:test";
 import { load, loadFile } from "./entry.mjs";
 
 const interfaceText = readFileSync(
-  fileURLToPath(new URL("../interface.md", import.meta.url)),
+  fileURLToPath(
+    new URL("../../../../../specs/contracts/contracts-03/interface.md", import.meta.url),
+  ),
   "utf8",
 );
 

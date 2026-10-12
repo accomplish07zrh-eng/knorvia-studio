@@ -23,9 +23,9 @@ type FoldPairs<P extends readonly (readonly [string, string])[]> = {
   readonly [K in P[number][0]]: Extract<P[number], readonly [K, string]>[1];
 };
 
-export const AgentTelemetryOperation = Object.fromEntries(
-  AGENT_OPERATION_PAIRS,
-) as FoldPairs<typeof AGENT_OPERATION_PAIRS>;
+export const AgentTelemetryOperation = Object.fromEntries(AGENT_OPERATION_PAIRS) as FoldPairs<
+  typeof AGENT_OPERATION_PAIRS
+>;
 
 /** telemetry schema 版本；导出器按它决定载荷兼容性。 */
 export const TELEMETRY_SCHEMA_VERSION = 6 as const;

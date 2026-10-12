@@ -18,11 +18,8 @@ export const readLocalDateSegments = (date: Date): readonly [number, number, num
 ];
 
 /** 年按本地值原样输出（不补零、不截断），月与日补零到两位后拼接。 */
-export const joinLocalDateSegments = (
-  year: number,
-  month: number,
-  day: number,
-): string => [year, padSegment(month), padSegment(day)].join(SEGMENT_JOINER);
+export const joinLocalDateSegments = (year: number, month: number, day: number): string =>
+  [year, padSegment(month), padSegment(day)].join(SEGMENT_JOINER);
 
 /** 本地日历日：`YYYY-MM-DD`，不经过 UTC。 */
 export const toLocalIsoDate = (date: Date): string => {

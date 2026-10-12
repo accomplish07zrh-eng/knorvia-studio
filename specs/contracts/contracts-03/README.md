@@ -53,3 +53,9 @@ B1–B7 全部有条目且都有测试（无空行）。未被行为条目覆盖
 - 纯声明/桶文件（`src/index.ts`、`skills/index.ts`、`telemetry/agent-execution.ts`、`telemetry/index.ts` 的声明部分）：`--declaration --interface specs/contracts/contracts-03/interface.md`，门槛常量不调。
 - `interface.md` 同时列出包根再导出的 54 个模块路径：包根是纯再导出桶，模块路径是它的兼容面，声明模式据此剔除。
 - `errors/` 等已登记 `independent-replacement` 的文件不在范围内，替换阶段不动。
+
+## 替换阶段（replace/contracts-03）
+
+- 契约测试已移入 `apps/cli/packages/contracts/test/`（`contracts-03-api-surface|behavior|types|internals.test.mjs`），随 `pnpm test:studio` 在 CI 双平台常驻；本目录只留合同文档、`fixtures/` 与 `gate-old.json`。
+- `stubs/` 已按流程删除（不留回退路径）；桩替换检查的结果记在 `acceptance.md` §7.1。
+- 实现与相似度实测、receipt 重固定、门禁摘要见 `acceptance.md` §7；设计见 `design.md`。
