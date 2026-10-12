@@ -58,16 +58,18 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
   if (input.admission) registrationEntries.push(["admission", input.admission]);
   return {
     ...(Object.fromEntries(registrationEntries) as Omit<HookRegistration, "descriptor">),
-    descriptor: (hookInput) =>
-      createHookExecutionDescriptor(hook, budget.timeoutMs, (value) => {
-        const workingDirectory = options.getWorkingDirectory();
+    descriptor: (hookInput) => {
+      const workingDirectory = options.getWorkingDirectory();
+      const expandDisplayValue = (value: string): string => {
         try {
           return expandPluginVariables(value, hook.plugin, hookInput, workingDirectory);
         } catch {
           // 展示元数据不得引入新的执行失败：展不开就按原样展示。
           return String(value);
         }
-      }),
+      };
+      return createHookExecutionDescriptor(hook, budget.timeoutMs, expandDisplayValue);
+    },
   };
 }
 
