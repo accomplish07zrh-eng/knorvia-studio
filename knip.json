@@ -1,6 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "tags": ["-lintignore"],
+  "tags": [
+    "-lintignore"
+  ],
   "workspaces": {
     ".": {
       "entry": [
@@ -10,7 +12,17 @@
         "scripts/mise-run.mjs",
         "specs/contracts/*/tests/*.test.ts",
         "specs/contracts/*/tests/*.test.mjs",
-        "specs/contracts/*/tests/fixtures/*.mjs"
+        "specs/contracts/*/tests/fixtures/*.mjs",
+        "scripts/provenance/bookkeeping-round2.mjs",
+        "scripts/provenance/bookkeeping-round2-similarity.mjs",
+        "scripts/contract-gate.mjs",
+        "scripts/contract-gate.test.mjs",
+        "scripts/contract-test-discovery.mjs",
+        "scripts/contract-test-discovery.test.mjs",
+        "scripts/provenance/similarity.mjs",
+        "scripts/provenance/similarity.test.mjs",
+        "scripts/provenance/inherited-triage.mjs",
+        "scripts/provenance/inherited-triage.test.mjs"
       ]
     },
     "packages/desktop": {
@@ -23,14 +35,28 @@
       ]
     },
     "packages/server": {
-      "entry": ["src/index.ts", "src/entry-stdio.ts", "build-remote.ts"]
+      "entry": [
+        "src/index.ts",
+        "src/entry-stdio.ts",
+        "build-remote.ts"
+      ]
     },
     "packages/services": {
-      "entry": ["src/index.ts", "src/storage/module.ts"]
+      "entry": [
+        "src/index.ts",
+        "src/storage/module.ts"
+      ]
     },
     "apps/cli/packages/browser-use-plugin": {
-      "entry": ["src/browser-client.ts"]
+      "entry": [
+        "src/browser-client.ts"
+      ]
     }
   },
-  "ignore": [".agents/**", "docs/**", "specs/contracts/*/stubs/**", "packages/ui/src/components/**"]
+  "ignore": [
+    ".agents/**",
+    "docs/**",
+    "specs/contracts/*/stubs/**",
+    "packages/ui/src/components/**"
+  ]
 }
