@@ -3,20 +3,20 @@
 import { Worker } from "node:worker_threads";
 import type { RipgrepBufferedResult } from "ripgrep";
 import { abortError } from "./node-file-policy.js";
-
-type RipgrepWorker = Pick<Worker, "once" | "terminate">;
-interface RipgrepWorkerData {
-  args: string[];
-  preopens: Record<string, string>;
-}
-type RipgrepWorkerFactory = (workerData: RipgrepWorkerData) => RipgrepWorker;
-type Outcome = { problem: unknown; value: RipgrepBufferedResult | undefined };
+import type {
+  RipgrepWorker,
+  RipgrepWorkerData,
+  RipgrepWorkerFactory,
+  WorkerMessage,
+  WorkerOutcome,
+} from "./ripgrep-worker-types.js";
 
 const SEARCH_TIMEOUT_MS = 30_000;
 const CANCELLED_BEFORE_START = "ripgrep search was cancelled before it started";
 const CANCELLED_MESSAGE = "ripgrep search was cancelled";
 const UNKNOWN_MESSAGE = "ripgrep worker returned an unknown message";
 const RUNTIME_FAILURE = "Bundled ripgrep WASM failed to run";
+const TIMEOUT_NAME = "RipgrepTimeoutFailure";
 
 let workerFactoryOverride: RipgrepWorkerFactory | undefined;
 let timeoutMsOverride: number | undefined;
@@ -52,32 +52,37 @@ class RipgrepTimeoutError extends Error {
     super(
       `ripgrep search timed out after ${timeout}ms. The search was terminated before it completed.`,
     );
-    this.name = "RipgrepTimeoutFailure";
+    this.name = TIMEOUT_NAME;
   }
+}
+
+/** 注入式覆盖的统一实现：先记住旧值，再写入新值，返回恢复函数。 */
+function swapOverride<T>(read: () => T, write: (next: T) => void, next: T): () => void {
+  const previous = read();
+  write(next);
+  return () => write(previous);
 }
 
 export function setRipgrepWorkerFactoryForTests(
   factory: RipgrepWorkerFactory | undefined,
 ): () => void {
-  const restore = workerFactoryOverride;
-  workerFactoryOverride = factory;
-  return () => {
-    workerFactoryOverride = restore;
-  };
+  return swapOverride(
+    () => workerFactoryOverride,
+    (next) => {
+      workerFactoryOverride = next;
+    },
+    factory,
+  );
 }
 
 export function setRipgrepTimeoutMsForTests(timeoutMs: number | undefined): () => void {
-  const restore = timeoutMsOverride;
-  timeoutMsOverride = timeoutMs;
-  return () => {
-    timeoutMsOverride = restore;
-  };
-}
-
-interface WorkerMessage {
-  type?: string;
-  result?: RipgrepBufferedResult;
-  error?: { message?: string; name?: string; stack?: string; code?: unknown };
+  return swapOverride(
+    () => timeoutMsOverride,
+    (next) => {
+      timeoutMsOverride = next;
+    },
+    timeoutMs,
+  );
 }
 
 /** worker 侧错误还原成主线程 Error：name/stack/code 能取到就取，取不到给默认值。 */
@@ -106,21 +111,24 @@ function stopWorker(worker: RipgrepWorker): void {
   }
 }
 
-function execute(
-  data: RipgrepWorkerData,
-  timeout: number,
-  signal?: AbortSignal,
-): Promise<RipgrepBufferedResult> {
-  if (signal?.aborted) return Promise.reject(abortError(CANCELLED_BEFORE_START));
-  const worker = startWorker(data);
+interface ExecuteInput {
+  cancellation: AbortSignal | undefined;
+  data: RipgrepWorkerData;
+  timeout: number;
+}
+
+function runInWorker(input: ExecuteInput): Promise<RipgrepBufferedResult> {
+  const { cancellation } = input;
+  if (cancellation?.aborted) return Promise.reject(abortError(CANCELLED_BEFORE_START));
+  const worker = startWorker(input.data);
   return new Promise((resolve, reject) => {
     let settled = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const finish = (outcome: Outcome): void => {
+    const finish = (outcome: WorkerOutcome): void => {
       if (settled) return;
       settled = true;
       if (timer !== undefined) clearTimeout(timer);
-      signal?.removeEventListener("abort", onAbort);
+      cancellation?.removeEventListener("abort", onAbort);
       if (outcome.value !== undefined) resolve(outcome.value);
       else reject(outcome.problem);
     };
@@ -128,11 +136,11 @@ function execute(
       stopWorker(worker);
       finish({ problem: abortError(CANCELLED_MESSAGE), value: undefined });
     };
-    signal?.addEventListener("abort", onAbort, { once: true });
+    cancellation?.addEventListener("abort", onAbort, { once: true });
     timer = setTimeout(() => {
       stopWorker(worker);
-      finish({ problem: new RipgrepTimeoutError(timeout), value: undefined });
-    }, timeout);
+      finish({ problem: new RipgrepTimeoutError(input.timeout), value: undefined });
+    }, input.timeout);
     worker.once("message", (message: unknown) => {
       if (settled) return;
       const parsed = message as WorkerMessage;
@@ -155,13 +163,17 @@ function execute(
 }
 
 export async function runSearch(
-  args: string[],
-  preopens: Record<string, string>,
-  signal?: AbortSignal,
+  argv: string[],
+  sandboxPreopens: Record<string, string>,
+  cancellation?: AbortSignal,
 ): Promise<RipgrepBufferedResult> {
-  const data: RipgrepWorkerData = { args: args.map(String), preopens };
+  const data: RipgrepWorkerData = { args: argv.map(String), preopens: sandboxPreopens };
   try {
-    return await execute(data, timeoutMsOverride ?? SEARCH_TIMEOUT_MS, signal);
+    return await runInWorker({
+      cancellation,
+      data,
+      timeout: timeoutMsOverride ?? SEARCH_TIMEOUT_MS,
+    });
   } catch (error) {
     const expected =
       error instanceof RipgrepTimeoutError ||
