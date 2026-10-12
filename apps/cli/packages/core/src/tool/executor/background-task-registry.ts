@@ -246,20 +246,17 @@ function defaultRuntimeTaskDescription(taskType: RuntimeTaskType): string {
   return DEFAULT_TASK_DESCRIPTION[taskType];
 }
 
+/** 状态归一表：cancelled 与 timed_out 都归到 killed，其余同名，表外一律 failed。 */
+const RUNTIME_STATUS_ALIASES: Readonly<Record<string, RuntimeTaskSnapshot["status"]>> = {
+  running: "running",
+  completed: "completed",
+  cancelled: "killed",
+  timed_out: "killed",
+  lost: "lost",
+};
+
 function normalizeRuntimeTaskStatus(status: string): RuntimeTaskSnapshot["status"] {
-  switch (status) {
-    case "running":
-      return "running";
-    case "completed":
-      return "completed";
-    case "cancelled":
-    case "timed_out":
-      return "killed";
-    case "lost":
-      return "lost";
-    default:
-      return "failed";
-  }
+  return RUNTIME_STATUS_ALIASES[status] ?? "failed";
 }
 
 function runtimeTaskDescription(
