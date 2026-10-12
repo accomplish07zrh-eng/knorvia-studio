@@ -110,23 +110,26 @@ export class BackgroundTaskTracker {
       return;
     }
 
-    let stopped = false;
-    let pollInFlight = false;
-    let terminalPublishing = false;
-    let lastRunningSignature = "";
-    let interval: ReturnType<typeof setInterval> | undefined;
-    let maxRuntimeTimeout: ReturnType<typeof setTimeout> | undefined;
+    // 一次运行的显式状态：闭包与后续拆出的阶段函数都读写同一个对象，避免散落的 let。
+    const run = {
+      stopped: false,
+      pollInFlight: false,
+      terminalPublishing: false,
+      lastRunningSignature: "",
+      interval: undefined as ReturnType<typeof setInterval> | undefined,
+      maxRuntimeTimeout: undefined as ReturnType<typeof setTimeout> | undefined,
+    };
     const cleanup = (): void => {
-      if (interval) clearInterval(interval);
-      interval = undefined;
-      if (maxRuntimeTimeout) clearTimeout(maxRuntimeTimeout);
-      maxRuntimeTimeout = undefined;
+      if (run.interval) clearInterval(run.interval);
+      run.interval = undefined;
+      if (run.maxRuntimeTimeout) clearTimeout(run.maxRuntimeTimeout);
+      run.maxRuntimeTimeout = undefined;
       this.trackedTaskIds.delete(taskId);
     };
     const publishRunning = async (snapshot: TaskSnapshot): Promise<void> => {
       const signature = runningSignature(snapshot);
-      if (signature === lastRunningSignature) return;
-      lastRunningSignature = signature;
+      if (signature === run.lastRunningSignature) return;
+      run.lastRunningSignature = signature;
       updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
       await emitBackgroundTaskEvent(
         this.deps,
@@ -137,8 +140,8 @@ export class BackgroundTaskTracker {
       );
     };
     const publishTerminal = async (snapshot: TaskSnapshot | undefined): Promise<void> => {
-      if (stopped || terminalPublishing) return;
-      terminalPublishing = true;
+      if (run.stopped || run.terminalPublishing) return;
+      run.terminalPublishing = true;
       try {
         if (!snapshot) {
           this.deps.logger?.info?.("Background task terminal snapshot missing", {
@@ -166,7 +169,7 @@ export class BackgroundTaskTracker {
             traceContext,
             turnId,
           );
-          stopped = true;
+          run.stopped = true;
           cleanup();
           return;
         }
@@ -174,7 +177,7 @@ export class BackgroundTaskTracker {
           updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
           await publishRunning(snapshot);
           if (!hasSnapshot) {
-            stopped = true;
+            run.stopped = true;
             cleanup();
           }
           return;
@@ -194,7 +197,7 @@ export class BackgroundTaskTracker {
               toolName: toolCall.name,
             },
           );
-          stopped = true;
+          run.stopped = true;
           cleanup();
           return;
         }
@@ -222,15 +225,15 @@ export class BackgroundTaskTracker {
           traceContext,
           turnId,
         );
-        stopped = true;
+        run.stopped = true;
         cleanup();
       } finally {
-        terminalPublishing = false;
+        run.terminalPublishing = false;
       }
     };
     const poll = async (): Promise<void> => {
-      if (pollInFlight || stopped || !hasSnapshot) return;
-      pollInFlight = true;
+      if (run.pollInFlight || run.stopped || !hasSnapshot) return;
+      run.pollInFlight = true;
       try {
         const snapshot = await readTaskSnapshot(this.deps, toolCall.name, taskId);
         if (!snapshot || snapshot.status !== "running") {
@@ -246,7 +249,7 @@ export class BackgroundTaskTracker {
           taskId: taskId,
         });
       } finally {
-        pollInFlight = false;
+        run.pollInFlight = false;
       }
     };
 
@@ -256,7 +259,7 @@ export class BackgroundTaskTracker {
       this.deps.subagentBackgroundBashMaxMs !== undefined &&
       this.deps.executionPort?.cancelBackgroundTask
     ) {
-      maxRuntimeTimeout = setTimeout(() => {
+      run.maxRuntimeTimeout = setTimeout(() => {
         this.deps.logger?.warn("Subagent background Bash exceeded max runtime; cancelling", {
           ...traceContextToLogContext(traceContext),
           event: "background_task.subagent_bash.max_runtime_exceeded",
@@ -277,13 +280,13 @@ export class BackgroundTaskTracker {
       }, this.deps.subagentBackgroundBashMaxMs);
     }
     if (hasSnapshot) {
-      interval = setInterval(() => {
+      run.interval = setInterval(() => {
         void poll();
       }, 1000);
-      (interval as unknown as { unref?: () => void }).unref?.();
+      (run.interval as unknown as { unref?: () => void }).unref?.();
       await poll();
     }
-    if (hasWaiter && !stopped) {
+    if (hasWaiter && !run.stopped) {
       void (async (): Promise<void> => {
         try {
           const snapshot = await waitForTaskSnapshot(this.deps, toolCall.name, taskId);
@@ -296,7 +299,7 @@ export class BackgroundTaskTracker {
             taskId: taskId,
           });
           if (!hasSnapshot) {
-            stopped = true;
+            run.stopped = true;
             cleanup();
           }
         }
