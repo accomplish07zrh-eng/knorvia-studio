@@ -396,3 +396,27 @@
 2. 若桩替换出现"仍有测试通过"，按契约阶段的做法加形态/取值断言（contracts-03 的处置口径）。
 3. 来源登记（`licensing/reviews.json`）：本包新增的测试文件与 `interface.md`/`behavior.md` 等合同文件需登记 `original`；`stubs/` 的 38 个桩也需登记（contracts-03 的做法）。
 4. `fmt` → `fmt:check` → `provenance:report` → `provenance:check` 按铁律顺序跑，然后提 PR `contract: core-01 v1` → 按「合同审查」清单自查 → CI 双平台绿 → squash 合并。
+
+## 24. 完整旧门（第 1 步收口）——源码 42/42、dist 42/42、桩替换 42/42 全失败
+
+命令（`acceptance.md` §23 第 1 步）：
+
+```text
+node scripts/contract-gate.mjs --contract specs/contracts/core-01 --tests "*.test.mjs" \
+  --dist-env KNORVIA_CORE_ENTRY=dist \
+  --stub-root specs/contracts/core-01/stubs --stub-map specs/contracts/core-01/stubs/targets.txt
+```
+
+| 入口 | 结果 |
+| --- | --- |
+| 源码入口（18 个测试文件） | tests=**42** pass=**42** fail=0 skipped=0 |
+| dist 入口（`KNORVIA_CORE_ENTRY=dist`） | tests=**42** pass=**42** fail=0 skipped=0 |
+| 桩替换（**38** 个目标文件） | tests=42 pass=**0** fail=**42** `allFail=true` |
+
+- 桩替换已经全失败，**不需要**再补形态/取值断言。
+- 报告已写入 `specs/contracts/core-01/gate-old.json`（`commit` 记录的是本次运行时的分支 tip `d1c15afb`；分支从 main `f4b618ee` 切出后 **38 个实现文件未改动**，旧门跑的就是旧实现）。
+- 预登记差异：**无**（见 `known-differences.md`）。
+
+### 下一轮（第 2 步）
+
+来源登记（新增测试文件 + 合同文件 + `stubs/` 的 38 个桩 → `original`）→ 四步铁律 `fmt` → `fmt:check` → `provenance:report` → `provenance:check` → 提 PR `contract: core-01 v1` → 按「合同审查」清单自查 → CI 双平台绿 → squash 合并。
