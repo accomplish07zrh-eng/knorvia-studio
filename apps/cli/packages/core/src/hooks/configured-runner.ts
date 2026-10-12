@@ -42,8 +42,8 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
       "callback",
       createConfiguredHookCallback({
         budget,
-        event,
-        hook,
+        event: event,
+        hook: hook,
         hookIndex: hookIndex,
         matcherIndex: matcherIndex,
         options: options,
@@ -64,8 +64,8 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
         try {
           return expandPluginVariables(value, hook.plugin, hookInput, workingDirectory);
         } catch {
-          // 展示元数据不得引入新的执行失败。
-          return value;
+          // 展示元数据不得引入新的执行失败：展不开就按原样展示。
+          return String(value);
         }
       }),
   };
