@@ -143,7 +143,8 @@ function configuredRegistrations(options: ConfiguredHookRunnerOptions): HookRegi
       );
     }
   }
-  return registrations;
+  const assembled = registrations;
+  return assembled;
 }
 
 /** workspace 快照条目 → HookConfig（两种类型的字段集合不同，分开构造）。 */
