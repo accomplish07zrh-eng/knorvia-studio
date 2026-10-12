@@ -9,6 +9,7 @@ import {
   type FileSystemSearchTextResult,
 } from "@knorvia/contracts";
 import { filter, recent } from "./file-search-paths.js";
+import type { JsonEvent, Page, PageInput } from "./text-search-result-types.js";
 import { matchingFragments } from "./text-search-lines.js";
 
 const DEFAULT_HEAD_LIMIT = 250;
@@ -19,18 +20,6 @@ export interface SearchHits {
   files: string[];
   entries: FileSystemSearchTextEntry[];
   numMatches: number;
-}
-
-interface Page {
-  appliedLimit: number | undefined;
-  appliedOffset: number | undefined;
-  items: unknown[];
-  truncated: boolean;
-}
-
-interface PageInput<T> {
-  items: T[];
-  request: FileSystemSearchTextRequest;
 }
 
 /** 分页：headLimit 为 0 表示「不裁剪」但仍应用 offset。 */
@@ -69,17 +58,6 @@ export function finish(
   return result;
 }
 
-/** ripgrep --json 的原始事件：字段名即上游协议，不能改名。 */
-interface JsonEvent {
-  type?: string;
-  data?: {
-    path?: { text?: string };
-    lines?: { text?: string };
-    line_number?: number;
-    submatches?: { match?: { text?: string } }[];
-  };
-}
-
 function outputLines(text: string): string[] {
   const rows = text.split("\n").map((row) => (row.endsWith("\r") ? row.slice(0, -1) : row));
   return rows.filter((row, index) => row.length > 0 || index < rows.length - 1);
@@ -107,7 +85,10 @@ function consumeCountLine(state: ParseState, line: string): void {
   if (!state.isKept(path)) return;
   state.files.add(path);
   state.numMatches += count;
-  state.entries.push({ path, count });
+  const summary = {} as FileSystemSearchTextEntry;
+  summary.path = path;
+  summary.count = count;
+  state.entries.push(summary);
 }
 
 function parseJsonLine(line: string, request: FileSystemSearchTextRequest): JsonEvent {
@@ -121,6 +102,20 @@ function parseJsonLine(line: string, request: FileSystemSearchTextRequest): Json
       path: request.path,
     });
   }
+}
+
+/** 命中片段：onlyMatching 时按 submatch 切分，否则只带整行文本。 */
+function fragmentsFor(
+  event: JsonEvent,
+  path: string,
+  lineNumber: number | undefined,
+): FileSystemSearchTextEntry[] {
+  const fragments = event.data?.submatches ?? [];
+  const collected: FileSystemSearchTextEntry[] = [];
+  for (const fragment of fragments) {
+    collected.push(...matchingFragments(path, fragment.match?.text ?? "", lineNumber));
+  }
+  return collected;
 }
 
 /** content 模式行：match 计入文件与计数，context 只带出上下文文本。 */
@@ -144,13 +139,15 @@ function consumeJsonLine(
     typeof event.data?.line_number === "number" ? event.data.line_number : undefined;
   const fragments = event.data?.submatches ?? [];
   if (request.onlyMatching && matched && fragments.length > 0) {
-    for (const fragment of fragments) {
-      state.entries.push(...matchingFragments(path, fragment.match?.text ?? "", lineNumber));
-    }
+    state.entries.push(...fragmentsFor(event, path, lineNumber));
     return;
   }
-  const text = (event.data?.lines?.text ?? "").replace(/\r?\n$/u, "");
-  state.entries.push({ path, lineNumber, text, matched });
+  const line = {} as FileSystemSearchTextEntry;
+  line.path = path;
+  line.lineNumber = lineNumber;
+  line.text = (event.data?.lines?.text ?? "").replace(/\r?\n$/u, "");
+  line.matched = matched;
+  state.entries.push(line);
 }
 
 export function parseOutput(
