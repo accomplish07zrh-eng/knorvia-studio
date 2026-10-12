@@ -51,3 +51,12 @@ export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/execu
 - 不同 locale（例如系统 locale 不同、或 ICU 裁剪版 Node）下，大小写混排、带变音符号或 CJK 名称的相对顺序可能不同。
 
 **合同只冻结"按显示名 `localeCompare` 升序"这一规则**，不冻结跨 locale 的具体顺序；替换实现必须继续使用 `localeCompare`（不得改成 `<` 字符串比较或硬编码排序），否则同一 locale 下的相对顺序会变化。该差异由调用方（`ContextBuilder` 装配路径）与 CI 的固定 locale 承担验证。
+
+## 6. 回合阶段机的两条既有 quirk（替换实现必须原样保留）
+
+`agent/turn-state.ts` 的转移表与 `agent/turn-machine.ts` 的推进逻辑共同产生两条**既有语义**。它们不是缺陷主张，而是当前调用方依赖的行为；替换实现必须保留，否则事件序列会变：
+
+1. **没有 streaming 自环**：`streaming` 只能由 `awaiting_model_response` 转入，且 `streaming` 的出边只有 `scheduling_tools`/`aggregating_results`/`completing`/`error`。因此 `receiveModelResponse`/`addStreamingContent` 在 `streaming` 阶段再次调用会抛 `Cannot transition from streaming to streaming`；**一次模型响应只允许一次内容写入**，多次到达的流式内容由调用方在状态之外累积（本包只冻结"一次内容写入"这一行为，不冻结调用方的累积方式）。
+2. **`startToolExecution` 重标所有非等待调用**：`beginToolCalls` 把状态不是 `waiting_permission` 的调用一律改成 `running` 并刷新 `startedAt`（包括已经 `completed`/`failed`/`permission_denied` 的）。因此它只能在**完成工具之前**调用；`completeTool` 与 `resolvePermission` 都只 `project()`（不改阶段）。另外 `decideToolCalls` 只在 `deny` 时改状态（→ `permission_denied`），`allow` 保持 `waiting_permission`，所以"允许后继续执行"必须由调用方先把状态推进到 `executing_tools` 再调用 `startToolExecution`。
+
+两条都由 `tests/agent-turn-machine.test.mjs` 的 A4/A6 断言固定（含抛错文案与状态取值）。

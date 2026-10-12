@@ -227,3 +227,29 @@
 - 覆盖方式：内部可达 → 替换阶段内部单测按上述实测语义冻结。
 
 > **agent 组剩余（待补）**：`turn-machine.ts`（`TurnMachineImpl` 的阶段推进与事件序列）、`message-history.ts`（`MessageHistoryImpl`/`createMessageHistory` 与克隆/计数/失效辅助函数）、`session-history-hydrator.ts`（`activeSessionMessages`/`hydrateMessageHistoryFromSession`）、`compact-session.ts`（`compactActiveSessionMessages` 与两个谓词）、`file-part-hydration.ts`（`projectPersistedToolMediaContent`）、`read-file-state-hydrator.ts`、`message-history-usage.ts`（`persistedTokenUsageBaseline`）、`turn-tool-projection.ts`（**已登记 `independent-replacement`，不在范围**）。
+
+## A4 回合推进的正常事件序列（`agent/turn-machine.ts`）
+
+- 输入：`TurnMachineImpl.create(sessionId, turnNumber, input, traceId?, turnId?)`、`start()`、`startModelRequest(model, messages)`、`receiveModelResponse(content)`、`addStreamingContent(content)`、`complete(response, resultType?)`、`getNextPhase()`、`isComplete()`。
+- 输出（**事件序列逐字冻结**）：`create` → `phase:"idle"`、`isComplete()===false`；`start()` → `processing_input`；`startModelRequest("gpt", msgs)` → `awaiting_model_response` 且 `modelRequest === {model, messages}`；`receiveModelResponse("hello")` → `streaming` 且 `streamingContent === "hello"`；`getNextPhase()` 在 `awaiting_model_response` 上返回自身；`streaming` 且无工具调用但有内容 → `completing`；`complete("final answer")` → `phase:"completing"`、`finalResponse`、`resultType:"success"`、`completedAt` 为 `Date`；终态 `isComplete()===true`、`getNextPhase()` 保持 `completing`、再 `start()` 抛 `Cannot transition from completing to processing_input`。
+- **所有方法返回新状态、不修改接收者**（`machine.start()` 后 `machine.state.phase` 仍为 `idle`）；调用方用返回值继续推进（`new TurnMachineImpl(state)`）。
+- 错误语义：非法阶段转移抛 `CoreErrorType.InvalidTurnPhase`（`recoverable: true`）。时序与并发：纯同步状态推进，无 I/O、无计时器（**测试不含 sleep/超时**）。幂等：同一状态上重复调用同一方法结果一致（除 `new Date()` 字段）。资源释放：不适用。平台差异：不适用。状态所有者：调用方持有状态；machine 实例只是状态的载体。日志级别：不适用。
+- 实测 quirk（见 `known-differences.md` §6）：阶段机**没有 streaming 自环**——`addStreamingContent`/`receiveModelResponse` 第二次调用会抛 `Cannot transition from streaming to streaming`；多次到达的流式内容由调用方在状态外累积。
+- （测试：tests/agent-turn-machine.test.mjs「A4 turn-machine：正常回合的阶段推进序列（方法返回新状态）」）
+
+## A5 非法转移与失败收尾（`agent/turn-machine.ts`）
+
+- 输入：`startModelRequest`（在 `idle` 上）、`start()`（重复调用）、`aggregateResults()`（从 `processing_input`）、`fail(error)`。
+- 输出（**错误形态逐字冻结**）：`idle` 上 `startModelRequest` 抛消息 `Must be in ProcessingInput or AggregatingResults phase`、`recoverable === true`；重复 `start()` 抛 `Cannot transition from processing_input to processing_input`；`processing_input` 上 `aggregateResults()` 抛 `Cannot transition from processing_input to aggregating_results`。`fail({type,message,recoverable})` → `phase:"error"`、`error` 原样、`completedAt` 为 `Date`、`isComplete()===true`、`getNextPhase()` 保持 `error`（`fail` 用 `project()` 直改阶段，不受转移表限制）。
+- 错误语义：如上（`CoreErrorType.InvalidTurnPhase`）。时序与并发：同步。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：调用方。日志级别：不适用。
+- （测试：tests/agent-turn-machine.test.mjs「A5 turn-machine：非法转移与失败收尾的错误形态」）
+
+## A6 工具调度、权限等待/裁决、工具结算与待处理输入（`agent/turn-machine.ts`）
+
+- 输入：`scheduleTools(toolCalls, schedule)`、`startToolExecution()`、`requestPermission(request)`、`resolvePermission(id, decision, modifiedInput?)`、`completeTool(id, {success, content})`、`aggregateResults()`、`queuePendingInput(input)`、`drainPendingInputs()`。
+- 输出（**事件序列逐字冻结**）：`scheduleTools` → `scheduling_tools`，`toolCalls` 全部 `scheduled`（`scheduledAt` 为 `Date`），`scheduledTools` 原样保存；`startToolExecution`（无等待调用）→ `executing_tools`，调用全部 `running`；`requestPermission` → `awaiting_permission`，目标调用 `waiting_permission`，`pendingPermissions` +1，其它调用不受影响；`resolvePermission(allow, modifiedInput)` → 阶段不变、`pendingPermissions` 清空、`resolvedPermissions` 追加 `{toolCallId, decision, modifiedInput, resolvedAt}`、**调用状态保持 `waiting_permission`**（只改 `input`）；`resolvePermission(deny)` → 调用变 `permission_denied`；`completeTool(success:true)` → `toolResults` 追加 `{success:true, content}` 且 `error` 为 `undefined`、调用变 `completed`；`completeTool(success:false)` → `error === {type:"tool_error", message:<内容纯文本>, recoverable:true}`；`getNextPhase()`：`executing_tools` 有未结算调用 → 自身；全部结算 → `aggregating_results`；`aggregating_results` 无失败调用 → `awaiting_model_response`（可再次 `startModelRequest`），有失败调用 → `completing`；`queuePendingInput` 追加到新数组（不改接收者）；`drainPendingInputs()` 返回**原数组引用**并把新状态的 `pendingInputs` 置空。
+- 错误语义：阶段非法时抛 `InvalidTurnPhase`；`completeTool` 对未知 id 不改任何调用（`editMatching` 只改匹配项）。时序与并发：同步纯状态推进，工具"并发"只体现为同一状态下多个调用同时 `running` 与 `parallelGroups`/`executionOrder` 数据（**测试无 sleep/超时**）。幂等：`completeTool` 每次追加一条 `toolResults`（不幂等，属契约行为）；`drainPendingInputs` 第二次调用返回空数组。资源释放：不适用。平台差异：不适用。状态所有者：调用方。日志级别：不适用。
+- 实测 quirk（见 `known-differences.md` §6）：`startToolExecution` 会把**所有非等待调用重标为 `running`**（含已 completed/failed/denied 的），因此它必须在完成工具之前调用；`completeTool`/`resolvePermission` 只 `project()`、不改阶段。
+- （测试：tests/agent-turn-machine.test.mjs「A6 turn-machine：工具调度、权限等待/裁决、工具结算与待处理输入」）
+
+> **agent 组剩余**：`message-history.ts`、`session-history-hydrator.ts`、`compact-session.ts`、`file-part-hydration.ts`、`read-file-state-hydrator.ts`、`message-history-usage.ts`，以及 `agent/index.ts` 桶导出集合断言（`turn-tool-projection.ts` 已登记 `independent-replacement`，不在范围）。

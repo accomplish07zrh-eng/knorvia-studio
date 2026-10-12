@@ -173,3 +173,32 @@
 6. `message-history-usage.ts`：`persistedTokenUsageBaseline`。
 7. 内部可达（不进区域桶，只经文件级入口或替换阶段内部单测）：`selectToolPartsForHistory`（A2）、`runtimeInputMetadata`（A3）、`turn-tool-projection.ts` 的五个函数（该文件已登记 `independent-replacement`，**不在本包替换范围**）。
 8. `agent/index.ts` 的区域桶运行时导出集合（实测 10 个：`MessageHistoryImpl`、`TurnMachineImpl`、`TurnPhase`、`activeSessionMessages`、`canTransitionTo`、`createMessageHistory`、`createTurnState`、`hydrateMessageHistoryFromSession`、`isTerminalPhase`、`isWaitingPhase`）尚未单独断言为"集合相等" —— 待 agent 组剩余条目补齐后一并加。
+
+## 13. agent 组 2（A4–A6 turn-machine）的旧门结果与剩余未覆盖项
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/agent-turn-machine.test.mjs`（入口：区域桶 `src/agent/index.ts`）：
+
+- 源码入口：tests=**3** pass=**3** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**3** pass=**3** fail=0 skipped=0
+
+断言覆盖：正常回合的阶段推进序列（idle → processing_input → awaiting_model_response → streaming → completing，含 `modelRequest`/`streamingContent`/`finalResponse`/`resultType`/`completedAt`/`isComplete`/终态不可再 start）、`getNextPhase` 在四个阶段上的取值、非法转移的三条错误文案与 `recoverable`、`fail` 的错误形态、工具调度（statuses 与 `scheduledTools`）、权限等待与裁决（allow 保持 waiting、deny → permission_denied、pending/resolved 列表）、工具结算（success/failed + `tool_error` 形态）、`getNextPhase` 的聚合与收尾分支、待处理输入的入队与排空（含原数组引用）。**全部为同步状态推进，无 sleep/超时**。
+
+### 实测修正（三条，均已按实测改正并写入 behavior.md/known-differences）
+
+1. 阶段机**没有 streaming 自环**：初版断言 `addStreamingContent` 能追加第二段内容 → 实测抛 `Cannot transition from streaming to streaming`。
+2. `resolvePermission("allow")` **不改调用状态**（仍 `waiting_permission`），只有 `deny` 改成 `permission_denied`。
+3. `startToolExecution` **把所有非等待调用重标为 `running`**（含已完成的），因此"完成后再次 startToolExecution"会复活调用；`completeTool`/`resolvePermission` 都只 `project()`、不改阶段。两条 quirk 已记入 `known-differences.md` §6。
+
+另有两处测试代码笔误（`aggregateResults()`/`queuePendingInput()` 返回的是**状态**而不是 machine 实例，需 `new TurnMachineImpl(state)` 包一层）——已修正。
+
+### 剩余未覆盖项（agent 组剩余，如实列出）
+
+1. `message-history.ts`：`MessageHistoryImpl`/`createMessageHistory` 与 `cloneModelMessageContent`/`cloneModelInputMessage`/`cloneRuntimeMessageEntry`/`countContextPrefixMessages`/`invalidateRuntimeTokenUsage`/四个 `*RuntimeMetadata`。
+2. `session-history-hydrator.ts`：`activeSessionMessages`、`hydrateMessageHistoryFromSession`。
+3. `compact-session.ts`：`compactActiveSessionMessages` 与两个谓词。
+4. `file-part-hydration.ts`：`projectPersistedToolMediaContent`；`read-file-state-hydrator.ts` 的文件读取状态水合。
+5. `message-history-usage.ts`：`persistedTokenUsageBaseline`。
+6. `agent/index.ts` 区域桶的 10 个运行时导出尚未做"集合相等"断言（待补齐后加）。
+7. 内部可达（不经区域桶）：`selectToolPartsForHistory`（A2）、`runtimeInputMetadata`（A3）。

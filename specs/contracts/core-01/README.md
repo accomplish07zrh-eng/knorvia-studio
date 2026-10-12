@@ -116,3 +116,13 @@ context 块剩余（子块 5）：`dynamic-sections` 内部文案、`request-use
 | A3 运行时输入呈现标记 | **间接覆盖**：`runtimeInputMetadata` 不经区域桶导出 → 替换阶段内部单测（7 取值域与 real_user/legacy_synthetic 映射已冻结） |
 
 agent 组剩余：`turn-machine`、`message-history`、`session-history-hydrator`、`compact-session`、`file-part-hydration`、`read-file-state-hydrator`、`message-history-usage`（`turn-tool-projection` 已登记 `independent-replacement`，不在范围）。
+
+## 条目 → 测试对照表（agent 组 2，A4–A6）
+
+| 条目 | 测试 |
+| --- | --- |
+| A4 回合推进的正常事件序列 | `tests/agent-turn-machine.test.mjs`「A4 turn-machine：正常回合的阶段推进序列（方法返回新状态）」 |
+| A5 非法转移与失败收尾 | `tests/agent-turn-machine.test.mjs`「A5 turn-machine：非法转移与失败收尾的错误形态」 |
+| A6 工具调度、权限等待/裁决、工具结算与待处理输入 | `tests/agent-turn-machine.test.mjs`「A6 turn-machine：工具调度、权限等待/裁决、工具结算与待处理输入」 |
+
+agent 组剩余：`message-history`、`session-history-hydrator`、`compact-session`、`file-part-hydration`、`read-file-state-hydrator`、`message-history-usage`、`agent/index.ts` 桶导出集合断言。
