@@ -1,191 +1,260 @@
+// SPDX-License-Identifier: Apache-2.0
+// 配置装配层：把 HooksRuntimeConfig 与 workspace 快照翻译成登记项列表，并按事件确定执行顺序。
+// 这一层不触碰 I/O，也不持有状态；装配完成后执行只依赖登记项。
 import {
   HookEventName,
   type CanonicalWorkspaceHookEntry,
   type HookConfig,
-  type HookSourceKind,
   type HookMatcherConfig,
+  type HookSourceKind,
 } from "@knorvia/contracts";
 import { resolveWorkspaceHookMaxOutputBytes } from "@knorvia/shared/workspace-hook-discovery";
+import { createConfiguredHookCallback } from "./configured-runner-callback.js";
 import { expandPluginVariables, resolveHookTimeoutMs } from "./configured-runner-input.js";
 import { createHookExecutionDescriptor } from "./display-metadata.js";
 import { InMemoryHookRunner } from "./runner.js";
-import { createConfiguredHookCallback } from "./configured-runner-callback.js";
 import type { ConfiguredHookRunnerOptions, HookRegistration, HookRunner } from "./types.js";
+import type { Budget, HookRunnerSetup, HookSourceEvent } from "./configured-runner-types.js";
 
+const USER_SOURCE_KIND: HookSourceKind = "user";
+
+/** 登记项条目的构造器：把键值收集成条目，避免逐行字面量重复。 */
+const registrationField = (key: string, value: unknown): [string, unknown] => [key, value];
+
+function configSource(input: {
+  event: HookSourceEvent;
+  hookIndex: number;
+  matcherIndex: number;
+  plugin?: HookConfig["plugin"];
+}): string {
+  const { event, hookIndex, matcherIndex, plugin } = input;
+  return plugin
+    ? `plugin.${plugin.id}.${event}.${matcherIndex}.${hookIndex}`
+    : `config.${event}.${matcherIndex}.${hookIndex}`;
+}
+
+/** 登记项输入形状的本地别名：类型本体在 configured-runner-types.ts，避免动导入块。 */
+type HookRegistrationInput = import("./configured-runner-types.js").HookRegistrationInput;
+
+/** 单条配置 Hook → 登记项。`async` 只对 command 类型成立。 */
+function registrationFromHook(input: HookRegistrationInput): HookRegistration {
+  const {
+    budget: hookBudget,
+    event: hookEvent,
+    hook: declaration,
+    hookIndex: position,
+    matcher: matcherPattern,
+    matcherIndex: matchIndex,
+    options: setup,
+  } = input;
+  const registrationEntries: Array<[string, unknown]> = [
+    registrationField("async", declaration.type === "command" && declaration.async === true),
+    [
+      "callback",
+      createConfiguredHookCallback({
+        budget: hookBudget,
+        event: hookEvent,
+        hook: declaration,
+        hookIndex: position,
+        matcherIndex: matchIndex,
+        options: setup,
+      }),
+    ],
+    registrationField("event", hookEvent),
+    registrationField("matcher", matcherPattern),
+    registrationField("source", input.source),
+    registrationField("sourceKind", input.sourceKind),
+    registrationField("timeoutMs", hookBudget.timeoutMs),
+  ];
+  if (input.admission) registrationEntries.push(["admission", input.admission]);
+  const descriptor: HookRegistration["descriptor"] = (hookInput) => {
+    const workingDirectory = setup.getWorkingDirectory();
+    const expandDisplayValue = (value: string): string => {
+      try {
+        return expandPluginVariables(value, declaration.plugin, hookInput, workingDirectory);
+      } catch {
+        // 展示元数据不得引入新的执行失败：展不开就按原样展示。
+        return String(value);
+      }
+    };
+    return createHookExecutionDescriptor(declaration, hookBudget.timeoutMs, expandDisplayValue);
+  };
+  return {
+    ...(Object.fromEntries(registrationEntries) as Omit<HookRegistration, "descriptor">),
+    descriptor,
+  };
+}
+
+function registrationsForMatcher(input: {
+  options: HookRunnerSetup;
+  event: HookSourceEvent;
+  matcherConfig: HookMatcherConfig;
+  matcherIndex: number;
+}): HookRegistration[] {
+  const {
+    options: setup,
+    event: hookEvent,
+    matcherConfig: matcherSet,
+    matcherIndex: matchIndex,
+  } = input;
+  const outputBudgetBytes = resolveWorkspaceHookMaxOutputBytes(setup.config.maxOutputBytes);
+  const matcherEntries = matcherSet.hooks;
+  return matcherEntries.flatMap((declaration, position) => {
+    const declarationOff = declaration.enabled === false;
+    if (declarationOff) return [];
+    const pluginSource = declaration.plugin ? "plugin" : undefined;
+    const sourceKind = pluginSource ?? declaration.source?.kind ?? "internal";
+    const registration = registrationFromHook({
+      budget: {
+        maxOutputBytes: outputBudgetBytes,
+        timeoutMs: resolveHookTimeoutMs(declaration, setup.config.timeoutMs),
+      },
+      event: hookEvent,
+      hook: declaration,
+      hookIndex: position,
+      matcher: matcherSet.matcher,
+      matcherIndex: matchIndex,
+      options: setup,
+      source: configSource({
+        event: hookEvent,
+        hookIndex: position,
+        matcherIndex: matchIndex,
+        plugin: declaration.plugin,
+      }),
+      sourceKind,
+    });
+    return [registration];
+  });
+}
+
+function configuredRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
+  if (!options.config.enabled) return [];
+  const registrations: HookRegistration[] = [];
+  for (const [eventName, matcherConfigs] of Object.entries(options.config.events)) {
+    const event = eventName as HookEventName;
+    for (const [matcherIndex, matcherConfig] of (matcherConfigs ?? []).entries()) {
+      registrations.push(
+        ...registrationsForMatcher({
+          options: options,
+          event: event,
+          matcherConfig: matcherConfig,
+          matcherIndex: matcherIndex,
+        }),
+      );
+    }
+  }
+  const assembled = registrations;
+  return assembled;
+}
+
+/** workspace 快照条目 → HookConfig（两种类型的字段集合不同，分开构造）。 */
+function workspaceEntryConfig(
+  snapshot: NonNullable<ConfiguredHookRunnerOptions["workspaceHookSnapshot"]>,
+  entry: CanonicalWorkspaceHookEntry,
+): HookConfig {
+  const entrySourcePath = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath;
+  const commonFields: Array<[string, unknown]> = [["command", entry.command]];
+  commonFields.push([
+    "source",
+    { kind: "project" as const, ...(entrySourcePath ? { path: entrySourcePath } : {}) },
+  ]);
+  if (entry.statusMessage) commonFields.push(["statusMessage", entry.statusMessage]);
+  commonFields.push(["timeoutMs", entry.resolvedTimeoutMs]);
+  const common = Object.fromEntries(commonFields) as Omit<
+    Extract<HookConfig, { type: "process" }>,
+    "type" | "args"
+  >;
+  const buildCommand = (
+    commandEntry: Extract<CanonicalWorkspaceHookEntry, { type: "command" }>,
+    base: typeof common,
+  ): HookConfig => {
+    const extra: Array<[string, unknown]> = [["type", "command"]];
+    if (commandEntry.async !== undefined) extra.push(["async", commandEntry.async]);
+    if (commandEntry.shell !== undefined) extra.push(["shell", commandEntry.shell]);
+    return { ...base, ...Object.fromEntries(extra) } as unknown as HookConfig;
+  };
+
+  const buildProcess = (
+    processEntry: Extract<CanonicalWorkspaceHookEntry, { type: "process" }>,
+    base: typeof common,
+  ): HookConfig => {
+    const extra: Array<[string, unknown]> = [["type", "process"]];
+    if (processEntry.args) extra.push(["args", [...processEntry.args]]);
+    return { ...base, ...Object.fromEntries(extra) } as unknown as HookConfig;
+  };
+
+  if (entry.type === "command") return buildCommand(entry, common);
+  if (entry.type === "process") return buildProcess(entry, common);
+  // 快照条目的 type 由契约限定为两种，走到这里说明上游多出了未支持的类型。
+  throw new Error("Unsupported workspace Hook entry type");
+}
+
+function workspaceRegistrations(options: ConfiguredHookRunnerOptions): HookRegistration[] {
+  const { workspaceHookAdmission: admission, workspaceHookSnapshot: snapshot } = options;
+  const hasWorkspaceHooks = admission !== undefined && snapshot !== undefined;
+  if (!hasWorkspaceHooks) return [];
+
+  return snapshot.hooks.flatMap((snapshotEntry) => {
+    const declaration = workspaceEntryConfig(snapshot, snapshotEntry);
+    const guard = (): ReturnType<typeof admission.evaluateDispatch> =>
+      admission.evaluateDispatch({
+        hookDeclarationDigest: snapshotEntry.hookDeclarationDigest,
+        reviewItemId: snapshotEntry.reviewItemId,
+      });
+    const registration = registrationFromHook({
+      admission: guard,
+      budget: {
+        maxOutputBytes: snapshotEntry.resolvedMaxOutputBytes,
+        timeoutMs: snapshotEntry.resolvedTimeoutMs,
+      },
+      event: snapshotEntry.event,
+      hook: declaration,
+      hookIndex: snapshotEntry.hookIndex,
+      matcher: snapshotEntry.matcher ?? undefined,
+      matcherIndex: snapshotEntry.matcherIndex,
+      options: options,
+      source: `project.${snapshotEntry.reviewItemId}`,
+      sourceKind: "project",
+    });
+    return [registration];
+  });
+}
+
+/**
+ * 项目 Hook 的相对顺序：同事件内插到「第一个非 user 登记项」之前；没有这样的项则追加到末尾。
+ * 即项目 Hook 先于内部/插件配置项，但不会越过用户自己的 Hook。
+ */
+function withWorkspaceOrdering(
+  configured: HookRegistration[],
+  workspace: HookRegistration[],
+): HookRegistration[] {
+  const ordered = [...configured];
+  for (const event of new Set(workspace.map((registration) => registration.event))) {
+    const forEvent = workspace.filter((registration) => registration.event === event);
+    const insertAt = ordered.findIndex(
+      (registration) =>
+        registration.event === event && registration.sourceKind !== USER_SOURCE_KIND,
+    );
+    if (insertAt < 0) ordered.push(...forEvent);
+    else ordered.splice(insertAt, 0, ...forEvent);
+  }
+  return ordered;
+}
+
+/** 装配运行器；没有任何登记项时返回 undefined，让调用方跳过 hooks 执行路径。 */
 export function createConfiguredHookRunner(
   options: ConfiguredHookRunnerOptions,
 ): HookRunner | undefined {
-  const configuredHooks = options.config.enabled ? createConfiguredHookRegistrations(options) : [];
-  const workspaceHooks = createWorkspaceHookRegistrations(options);
-  const hooks = insertWorkspaceHooks(configuredHooks, workspaceHooks);
+  const hooks = withWorkspaceOrdering(
+    configuredRegistrations(options),
+    workspaceRegistrations(options),
+  );
   if (hooks.length === 0) return undefined;
+
   return new InMemoryHookRunner({
     defaultTimeoutMs: options.config.timeoutMs,
     emitEvent: options.emitEvent,
     hooks,
     logger: options.logger,
   });
-}
-
-function createConfiguredHookRegistrations(
-  options: ConfiguredHookRunnerOptions,
-): HookRegistration[] {
-  const registrations: HookRegistration[] = [];
-
-  for (const [eventName, matcherConfigs] of Object.entries(options.config.events)) {
-    const event = eventName as HookEventName;
-    for (const [matcherIndex, matcherConfig] of (matcherConfigs ?? []).entries()) {
-      registrations.push(
-        ...createHookRegistrationsForMatcher(options, event, matcherConfig, matcherIndex),
-      );
-    }
-  }
-
-  return registrations;
-}
-
-function createHookRegistrationsForMatcher(
-  options: ConfiguredHookRunnerOptions,
-  event: HookEventName,
-  matcherConfig: HookMatcherConfig,
-  matcherIndex: number,
-): HookRegistration[] {
-  return matcherConfig.hooks.flatMap((hook, hookIndex) => {
-    if (hook.enabled === false) return [];
-    return [
-      createHookRegistration({
-        event,
-        hook,
-        hookIndex,
-        matcher: matcherConfig.matcher,
-        matcherIndex,
-        maxOutputBytes: resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes),
-        options,
-        source: hook.plugin
-          ? `plugin.${hook.plugin.id}.${event}.${matcherIndex}.${hookIndex}`
-          : `config.${event}.${matcherIndex}.${hookIndex}`,
-        sourceKind: hook.plugin ? "plugin" : (hook.source?.kind ?? "internal"),
-        timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs),
-      }),
-    ];
-  });
-}
-
-function createWorkspaceHookRegistrations(
-  options: ConfiguredHookRunnerOptions,
-): HookRegistration[] {
-  const { workspaceHookAdmission: admission, workspaceHookSnapshot: snapshot } = options;
-  if (!admission || !snapshot) return [];
-  return snapshot.hooks.flatMap((entry) => {
-    const hook = workspaceEntryToHookConfig(snapshot, entry);
-    return [
-      createHookRegistration({
-        admission: () =>
-          admission.evaluateDispatch({
-            hookDeclarationDigest: entry.hookDeclarationDigest,
-            reviewItemId: entry.reviewItemId,
-          }),
-        event: entry.event,
-        hook,
-        hookIndex: entry.hookIndex,
-        matcher: entry.matcher ?? undefined,
-        matcherIndex: entry.matcherIndex,
-        maxOutputBytes: entry.resolvedMaxOutputBytes,
-        options,
-        source: `project.${entry.reviewItemId}`,
-        sourceKind: "project",
-        timeoutMs: entry.resolvedTimeoutMs,
-      }),
-    ];
-  });
-}
-
-function workspaceEntryToHookConfig(
-  snapshot: NonNullable<ConfiguredHookRunnerOptions["workspaceHookSnapshot"]>,
-  entry: CanonicalWorkspaceHookEntry,
-): HookConfig {
-  const sourcePath = snapshot.sourceFiles[entry.sourceFileIndex]?.canonicalPath;
-  const common = {
-    command: entry.command,
-    source: { kind: "project" as const, ...(sourcePath ? { path: sourcePath } : {}) },
-    ...(entry.statusMessage ? { statusMessage: entry.statusMessage } : {}),
-    timeoutMs: entry.resolvedTimeoutMs,
-  };
-  return entry.type === "command"
-    ? {
-        ...common,
-        type: "command",
-        ...(entry.async === undefined ? {} : { async: entry.async }),
-        ...(entry.shell === undefined ? {} : { shell: entry.shell }),
-      }
-    : {
-        ...common,
-        type: "process",
-        ...(entry.args ? { args: [...entry.args] } : {}),
-      };
-}
-
-function createHookRegistration(input: {
-  admission?: HookRegistration["admission"];
-  event: HookEventName;
-  hook: HookConfig;
-  hookIndex: number;
-  matcher?: string;
-  matcherIndex: number;
-  maxOutputBytes: number;
-  options: ConfiguredHookRunnerOptions;
-  source: string;
-  sourceKind: HookSourceKind;
-  timeoutMs: number;
-}): HookRegistration {
-  return {
-    ...(input.admission ? { admission: input.admission } : {}),
-    async: input.hook.type === "command" && input.hook.async === true,
-    callback: createConfiguredHookCallback(
-      input.options,
-      input.event,
-      input.hook,
-      input.matcherIndex,
-      input.hookIndex,
-      { maxOutputBytes: input.maxOutputBytes, timeoutMs: input.timeoutMs },
-    ),
-    descriptor: (hookInput) =>
-      createHookExecutionDescriptor(input.hook, input.timeoutMs, (value) => {
-        try {
-          return expandPluginVariables(
-            value,
-            input.hook.plugin,
-            hookInput,
-            input.options.getWorkingDirectory(),
-          );
-        } catch {
-          // Display metadata must never introduce a new execution failure.
-          return value;
-        }
-      }),
-    event: input.event,
-    matcher: input.matcher,
-    source: input.source,
-    sourceKind: input.sourceKind,
-    timeoutMs: input.timeoutMs,
-  };
-}
-
-function insertWorkspaceHooks(
-  configured: HookRegistration[],
-  workspace: HookRegistration[],
-): HookRegistration[] {
-  const result = [...configured];
-  for (const event of new Set(workspace.map((registration) => registration.event))) {
-    const eventWorkspace = workspace.filter((registration) => registration.event === event);
-    const firstNonUserIndex = result.findIndex(
-      (registration) => registration.event === event && registration.sourceKind !== "user",
-    );
-    if (firstNonUserIndex < 0) {
-      result.push(...eventWorkspace);
-    } else {
-      result.splice(firstNonUserIndex, 0, ...eventWorkspace);
-    }
-  }
-  return result;
 }

@@ -5,7 +5,7 @@
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const contractsEntry = fileURLToPath(
-  new URL("../../../../apps/cli/packages/contracts/dist/index.js", import.meta.url),
+  new URL("../../../../../../apps/cli/packages/contracts/dist/index.js", import.meta.url),
 );
 const { createWorkspaceHookBundleSnapshot } = await import(pathToFileURL(contractsEntry).href);
 

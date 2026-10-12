@@ -2,8 +2,8 @@
 // B3、B4：执行描述元数据与展示文本脱敏。
 import assert from "node:assert/strict";
 import test from "node:test";
-import { hooks } from "./entry.mjs";
-import { makeHookConfig } from "../fixtures/builders.mjs";
+import { hooks } from "./core-hooks-entry.mjs";
+import { makeHookConfig } from "./fixtures/core-hooks-builders.mjs";
 
 test("B3 process 类型逐段展开并按需加引号", () => {
   const descriptor = hooks.createHookExecutionDescriptor(

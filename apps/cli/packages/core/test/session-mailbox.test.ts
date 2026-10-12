@@ -2,8 +2,8 @@
 // B17：session mailbox Hook 登记项。
 import assert from "node:assert/strict";
 import test from "node:test";
-import { hooks } from "./entry.mjs";
-import { makeHookInput, makeMailbox } from "../fixtures/builders.mjs";
+import { hooks } from "./core-hooks-entry.mjs";
+import { makeHookInput, makeMailbox } from "./fixtures/core-hooks-builders.mjs";
 
 const messages = [
   {

@@ -5,7 +5,7 @@
 import { resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-export const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
+export const repoRoot = fileURLToPath(new URL("../../../../../", import.meta.url));
 
 const defaultEntry = resolve(repoRoot, "apps/cli/packages/core/src/hooks/index.ts");
 const configured = process.env.KNORVIA_CORE_HOOKS_ENTRY?.trim();
