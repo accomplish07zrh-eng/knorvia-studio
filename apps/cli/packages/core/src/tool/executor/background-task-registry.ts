@@ -259,26 +259,43 @@ function normalizeRuntimeTaskStatus(status: string): RuntimeTaskSnapshot["status
   return RUNTIME_STATUS_ALIASES[status] ?? "failed";
 }
 
+/** 依次尝试各候选来源，返回第一个真正给出的文本。 */
+function firstText(...candidates: readonly OptionalText[]): OptionalText {
+  for (const candidate of candidates) {
+    if (candidate !== undefined) return candidate;
+  }
+  return undefined;
+}
+
+// 快照上的文本字段：缺键与非字符串都按「没有」处理。
+function snapshotText(snapshot: TaskSnapshotSource, key: string): OptionalText {
+  if (snapshot === undefined || !(key in snapshot)) return undefined;
+  const value = (snapshot as unknown as Record<string, unknown>)[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+// 描述来源按优先级排列：快照描述 → 快照名 → 启动输出名 → 入参描述 → 命令 → 名 → 脚本路径。
 function runtimeTaskDescription(
   toolCall: ExecutableToolCall,
   output?: Record<string, unknown>,
-  snapshot?: BackgroundTaskSnapshot,
-): string | undefined {
+  snapshot?: TaskSnapshotSource,
+): OptionalText {
   const input = isRecord(toolCall.input) ? toolCall.input : {};
-  if (snapshot && "description" in snapshot && typeof snapshot.description === "string") {
-    return snapshot.description;
-  }
-  if (snapshot && "name" in snapshot && typeof snapshot.name === "string") return snapshot.name;
-  if (output && typeof output.name === "string") return output.name;
-  if (typeof input.description === "string") return input.description;
-  if (typeof input.command === "string") return input.command;
-  if (typeof input.name === "string") return input.name;
-  if (typeof input.scriptPath === "string") return input.scriptPath;
-  return undefined;
+  return firstText(
+    snapshotText(snapshot, "description"),
+    snapshotText(snapshot, "name"),
+    typeof output?.name === "string" ? output.name : undefined,
+    typeof input.description === "string" ? input.description : undefined,
+    typeof input.command === "string" ? input.command : undefined,
+    typeof input.name === "string" ? input.name : undefined,
+    typeof input.scriptPath === "string" ? input.scriptPath : undefined,
+  );
 }
 
 /** 四个读取器共用的快照入参类型。 */
 type TaskSnapshotSource = BackgroundTaskSnapshot | undefined;
+/** 可缺省的文本值。 */
+type OptionalText = string | undefined;
 
 const RUNTIME_STATUS_RUNNING = "running";
 
