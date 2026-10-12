@@ -57,23 +57,26 @@ export async function normalizeMcpToolResultForModel(input: {
       toolName: input.toolName,
     };
     const normalized = await projectEntry(entryInput, entry, screenshotPath);
-    if (
-      normalized.type === "text" &&
-      typeof normalized.text === "string" &&
-      isOfficialCuaImageRefText(normalized.text)
-    ) {
+    // 官方 CUA 图片引用文本不进模型上下文：它是帧的引用标记，不是可读内容。
+    if (isOfficialCuaImageRefTextBlock(normalized)) {
       changed = true;
       continue;
     }
     if (normalized !== entry) changed = true;
     content.push(normalized);
-    if (screenshotPath) {
+    // 备份过的浏览器截图在内容之后追加一行落盘位置，调用方据此向用户展示。
+    if (screenshotPath !== undefined) {
       content.push({ type: "text", text: `Browser screenshot saved to: ${screenshotPath}` });
       changed = true;
     }
   }
   return changed ? { ...input.result, content } : input.result;
 }
+
+const isOfficialCuaImageRefTextBlock = (block: McpContentBlock): boolean =>
+  block.type === "text" &&
+  typeof block.text === "string" &&
+  isOfficialCuaImageRefText(block.text);
 
 export function hasOfficialCuaFrameAuthority(result: unknown): result is McpToolCallResult {
   if (!result || typeof result !== "object" || Array.isArray(result)) return false;
