@@ -91,35 +91,39 @@ function registrationsForMatcher(input: {
   matcherConfig: HookMatcherConfig;
   matcherIndex: number;
 }): HookRegistration[] {
-  const { options, event, matcherConfig, matcherIndex } = input;
-  const maxBytes = resolveWorkspaceHookMaxOutputBytes(options.config.maxOutputBytes);
-  const matcherHooks = matcherConfig.hooks;
-  return matcherHooks.flatMap((hook, hookIndex) => {
-    const disabledHook = hook.enabled === false;
-    if (disabledHook) return [];
-    const pluginSource = hook.plugin ? "plugin" : undefined;
-    const sourceKind = pluginSource ?? hook.source?.kind ?? "internal";
-    return [
-      registrationFromHook({
-        budget: {
-          maxOutputBytes: maxBytes,
-          timeoutMs: resolveHookTimeoutMs(hook, options.config.timeoutMs),
-        },
-        event,
-        hook,
-        hookIndex,
-        matcher: matcherConfig.matcher,
-        matcherIndex,
-        options,
-        source: configSource({
-          event: event,
-          hookIndex: hookIndex,
-          matcherIndex: matcherIndex,
-          plugin: hook.plugin,
-        }),
-        sourceKind,
+  const {
+    options: setup,
+    event: hookEvent,
+    matcherConfig: matcherSet,
+    matcherIndex: matchIndex,
+  } = input;
+  const outputBudgetBytes = resolveWorkspaceHookMaxOutputBytes(setup.config.maxOutputBytes);
+  const matcherEntries = matcherSet.hooks;
+  return matcherEntries.flatMap((declaration, position) => {
+    const declarationOff = declaration.enabled === false;
+    if (declarationOff) return [];
+    const pluginSource = declaration.plugin ? "plugin" : undefined;
+    const sourceKind = pluginSource ?? declaration.source?.kind ?? "internal";
+    const registration = registrationFromHook({
+      budget: {
+        maxOutputBytes: outputBudgetBytes,
+        timeoutMs: resolveHookTimeoutMs(declaration, setup.config.timeoutMs),
+      },
+      event: hookEvent,
+      hook: declaration,
+      hookIndex: position,
+      matcher: matcherSet.matcher,
+      matcherIndex: matchIndex,
+      options: setup,
+      source: configSource({
+        event: hookEvent,
+        hookIndex: position,
+        matcherIndex: matchIndex,
+        plugin: declaration.plugin,
       }),
-    ];
+      sourceKind,
+    });
+    return [registration];
   });
 }
 
