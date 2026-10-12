@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // contracts-01 契约测试的公开入口解析：
 // - 默认 source：apps/cli/packages/contracts/src（需要 --import tsx）
@@ -9,9 +9,7 @@ import { join } from "node:path";
 
 const entryMode = process.env.KNORVIA_CONTRACTS_ENTRY === "dist" ? "dist" : "source";
 
-const packageRoot = fileURLToPath(
-  new URL("../../../../apps/cli/packages/contracts/", import.meta.url),
-);
+const packageRoot = fileURLToPath(new URL("../", import.meta.url));
 
 /** 载入包的公开入口：load() 是 "."，load("events") 是 "./events"。 */
 export async function load(subpath = "") {

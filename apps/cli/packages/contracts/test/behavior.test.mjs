@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // contracts-01 契约测试：运行时可观察行为（B2–B22）。只走公开入口。
 import assert from "node:assert/strict";
