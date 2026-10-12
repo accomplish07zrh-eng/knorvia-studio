@@ -15,6 +15,25 @@ interface DirectoryFrame {
   path: string;
 }
 
+/** 当前帧：栈顶就是「正在消费的目录」。 */
+function currentFrame(pending: DirectoryFrame[]): DirectoryFrame {
+  return pending[pending.length - 1]!;
+}
+
+/** 进入子目录：新帧从游标 0 开始，entries 由调用方读好。 */
+function childFrame(parent: DirectoryFrame, name: string, entries: Dirents): DirectoryFrame {
+  const frame = {} as DirectoryFrame;
+  frame.cursor = 0;
+  frame.entries = entries;
+  frame.path = join(parent.path, name);
+  return frame;
+}
+
+/** VCS 目录整棵跳过；普通目录继续下钻。 */
+function isSkippedDirectory(dirent: { isDirectory(): boolean; name: string }): boolean {
+  return dirent.isDirectory() && VCS_DIRECTORIES.has(dirent.name);
+}
+
 /**
  * 深度优先遍历：帧里保存「目录 + 已消费游标」，因此不需要把遍历状态放进递归闭包，
  * 也能在每个条目边界检查取消信号。
@@ -25,28 +44,30 @@ export async function walk(
   visit: (path: string, info: FileInfo) => Promise<void> | void,
 ): Promise<void> {
   aborted(signal);
-  const frames: DirectoryFrame[] = [
-    { cursor: 0, entries: await readdir(root, { withFileTypes: true }), path: root },
-  ];
-  while (frames.length > 0) {
-    const top = frames[frames.length - 1]!;
-    if (top.cursor === top.entries.length) {
-      frames.pop();
+  const rootFrame = {} as DirectoryFrame;
+  rootFrame.cursor = 0;
+  rootFrame.entries = await readdir(root, { withFileTypes: true });
+  rootFrame.path = root;
+  const pending: DirectoryFrame[] = [rootFrame];
+
+  while (pending.length > 0) {
+    const frame = currentFrame(pending);
+    const dirent = frame.entries[frame.cursor];
+    if (dirent === undefined) {
+      pending.pop();
       continue;
     }
+    frame.cursor += 1;
     aborted(signal);
-    const entry = top.entries[top.cursor++]!;
-    const child = join(top.path, entry.name);
-    if (entry.isDirectory()) {
-      if (VCS_DIRECTORIES.has(entry.name)) continue;
-      aborted(signal);
-      frames.push({
-        cursor: 0,
-        entries: await readdir(child, { withFileTypes: true }),
-        path: child,
-      });
+    if (isSkippedDirectory(dirent)) continue;
+    if (dirent.isDirectory()) {
+      const entries = await readdir(join(frame.path, dirent.name), { withFileTypes: true });
+      pending.push(childFrame(frame, dirent.name, entries));
       continue;
     }
-    if (entry.isFile()) await visit(child, await stat(child));
+    if (dirent.isFile()) {
+      const absolute = join(frame.path, dirent.name);
+      await visit(absolute, await stat(absolute));
+    }
   }
 }

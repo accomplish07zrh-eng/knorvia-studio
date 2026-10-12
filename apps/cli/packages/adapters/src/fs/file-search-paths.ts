@@ -17,12 +17,18 @@ const TYPE_SPEC =
   "java:.java js:.js,.jsx,.mjs,.cjs json:.json,.jsonc markdown:.md,.markdown md:.md,.markdown " +
   "py:.py python:.py rs:.rs rust:.rs sh:.sh,.bash,.zsh ts:.ts,.tsx,.mts,.cts tsx:.tsx txt:.txt yaml:.yaml,.yml";
 
-export const TYPE_EXTENSIONS: Record<string, string[]> = Object.fromEntries(
-  TYPE_SPEC.split(" ").map((entry) => {
-    const [name, extensions] = entry.split(":");
-    return [name, (extensions ?? "").split(",")];
-  }),
-);
+/** 解析紧凑描述：每项是 `<类型>:<扩展名,扩展名>`。 */
+function parseTypeSpec(spec: string): Record<string, string[]> {
+  const table: Record<string, string[]> = {};
+  for (const entry of spec.split(" ")) {
+    const separator = entry.indexOf(":");
+    if (separator <= 0) continue;
+    table[entry.slice(0, separator)] = entry.slice(separator + 1).split(",");
+  }
+  return table;
+}
+
+export const TYPE_EXTENSIONS: Record<string, string[]> = parseTypeSpec(TYPE_SPEC);
 
 export interface Candidate {
   path: string;
@@ -34,32 +40,33 @@ type FileInfo = Awaited<ReturnType<typeof stat>>;
 const POSIX_SEPARATOR = "/";
 
 /** 相对路径统一成 POSIX 分隔符：glob 与结果展示都按 `/` 判定。 */
-export function posixRelative(root: string, file: string): string {
-  return relative(root, file).split(sep).join(POSIX_SEPARATOR);
+export function posixRelative(from: string, target: string): string {
+  const rel = relative(from, target).split(sep);
+  return rel.join(POSIX_SEPARATOR);
 }
 
 /** 类型名归一：去掉前导点并小写。 */
-export function fileType(type: string): string {
-  const lowered = type.toLowerCase();
+export function fileType(rawType: string): string {
+  const lowered = rawType.toLowerCase();
   return lowered.startsWith(".") ? lowered.slice(1) : lowered;
 }
 
-export function matchesType(path: string, type: string): boolean {
-  const wanted = fileType(type);
-  const extension = extname(path).toLowerCase();
+export function matchesType(candidate: string, rawType: string): boolean {
+  const wanted = fileType(rawType);
+  const extension = extname(candidate).toLowerCase();
   return (TYPE_EXTENSIONS[wanted] ?? ["." + wanted]).includes(extension);
 }
 
 /** 过滤闭包：glob 与类型两条规则同时满足才保留。 */
 export function filter(
-  root: string,
-  request: FileSystemSearchTextRequest,
+  base: string,
+  query: FileSystemSearchTextRequest,
 ): (path: string) => boolean {
-  const matchGlob = request.glob ? glob(request.glob) : undefined;
-  const typeFilter = request.type;
-  return (path) =>
-    (!matchGlob || matchGlob(posixRelative(root, path), basename(path))) &&
-    (!typeFilter || matchesType(path, typeFilter));
+  const globMatcher = query.glob ? glob(query.glob) : undefined;
+  const wantedType = query.type;
+  return (candidate) =>
+    (!globMatcher || globMatcher(posixRelative(base, candidate), basename(candidate))) &&
+    (!wantedType || matchesType(candidate, wantedType));
 }
 
 function notFileError(path: string): Error {
@@ -95,7 +102,7 @@ export async function candidates(
 }
 
 /** 新近度比较器：时间相同时按路径字典序，保证排序稳定。 */
-export function recent(a: Candidate, b: Candidate): number {
-  const delta = b.mtimeMs - a.mtimeMs;
-  return delta === 0 ? a.path.localeCompare(b.path) : delta;
+export function recent(left: Candidate, right: Candidate): number {
+  const delta = right.mtimeMs - left.mtimeMs;
+  return delta === 0 ? left.path.localeCompare(right.path) : delta;
 }
