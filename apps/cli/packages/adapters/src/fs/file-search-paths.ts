@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-// 文件搜索的路径规则：VCS 排除、glob 兼容层、类型扩展名表、DFS 遍历与候选排序。
-import { readdir, stat } from "node:fs/promises";
-import { basename, dirname, extname, join, relative, sep } from "node:path";
+// 文件搜索的路径规则：类型扩展名表、glob 过滤、候选收集与排序；遍历见 directory-walk。
+import { stat } from "node:fs/promises";
+import { basename, dirname, extname, relative, sep } from "node:path";
 import { createFileSystemError, type FileSystemSearchTextRequest } from "@knorvia/contracts";
-import { aborted } from "./node-file-policy.js";
+import { walk } from "./directory-walk.js";
+import { glob } from "./glob-compat.js";
+
+// 兼容面：`glob` 与 `walk` 的实现分别下沉 glob-compat / directory-walk，导出名不变。
+export { glob, walk };
 
 export const VCS_NAMES = ".git .svn .hg .bzr .jj .sl".split(" ");
-const VCS_DIRECTORIES = new Set<string>(VCS_NAMES);
 
 /** 类型 → 扩展名的紧凑描述：`<类型>:<扩展名,扩展名>`，空格分隔。 */
 const TYPE_SPEC =
@@ -26,67 +29,19 @@ export interface Candidate {
   mtimeMs: number;
 }
 
-type Dirents = Awaited<ReturnType<typeof readdir>>;
 type FileInfo = Awaited<ReturnType<typeof stat>>;
+
+const POSIX_SEPARATOR = "/";
 
 /** 相对路径统一成 POSIX 分隔符：glob 与结果展示都按 `/` 判定。 */
 export function posixRelative(root: string, file: string): string {
-  return relative(root, file).split(sep).join("/");
-}
-
-/** 转义 glob 里的正则元字符。 */
-function literal(text: string): string {
-  return text.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
-}
-
-/** 花括号内容按字面 alternatives 处理，不做递归 glob 展开。 */
-function braceGroup(body: string): string {
-  const alternatives = body.split(",").map(literal).join("|");
-  return "(?:" + alternatives + ")";
-}
-
-/** 兼容 glob 的 token scanner：`*`/`**`/`?`/`{a,b}` 之外一律字面量。 */
-export function glob(pattern: string): (relativePath: string, fileName: string) => boolean {
-  const normalized = pattern.replaceAll("\\", "/").replace(/^\.\//, "");
-  const parts = ["^"];
-  let at = 0;
-  while (at < normalized.length) {
-    const char = normalized[at]!;
-    if (char === "*") {
-      if (normalized[at + 1] !== "*") {
-        parts.push("[^/]*");
-        at += 1;
-        continue;
-      }
-      const withSlash = normalized[at + 2] === "/";
-      parts.push(withSlash ? "(?:.*/)?" : ".*");
-      at += withSlash ? 3 : 2;
-      continue;
-    }
-    if (char === "?") {
-      parts.push("[^/]");
-      at += 1;
-      continue;
-    }
-    if (char === "{") {
-      const close = normalized.indexOf("}", at + 1);
-      if (close > at) {
-        parts.push(braceGroup(normalized.slice(at + 1, close)));
-        at = close + 1;
-        continue;
-      }
-    }
-    parts.push(literal(char));
-    at += 1;
-  }
-  const regex = new RegExp(parts.join("") + "$");
-  return (relativePath, fileName) =>
-    regex.test(relativePath) || (!normalized.includes("/") && regex.test(fileName));
+  return relative(root, file).split(sep).join(POSIX_SEPARATOR);
 }
 
 /** 类型名归一：去掉前导点并小写。 */
 export function fileType(type: string): string {
-  return type.toLowerCase().replace(/^\./, "");
+  const lowered = type.toLowerCase();
+  return lowered.startsWith(".") ? lowered.slice(1) : lowered;
 }
 
 export function matchesType(path: string, type: string): boolean {
@@ -101,48 +56,15 @@ export function filter(
   request: FileSystemSearchTextRequest,
 ): (path: string) => boolean {
   const matchGlob = request.glob ? glob(request.glob) : undefined;
+  const typeFilter = request.type;
   return (path) =>
     (!matchGlob || matchGlob(posixRelative(root, path), basename(path))) &&
-    (!request.type || matchesType(path, request.type));
+    (!typeFilter || matchesType(path, typeFilter));
 }
 
-interface DirectoryFrame {
-  cursor: number;
-  entries: Dirents;
-  path: string;
-}
-
-/** 显式目录帧保持旧 DFS 的 readdir/stat 次序，不把遍历状态分散在递归闭包。 */
-export async function walk(
-  root: string,
-  signal: AbortSignal | undefined,
-  visit: (path: string, info: FileInfo) => Promise<void> | void,
-): Promise<void> {
-  aborted(signal);
-  const frames: DirectoryFrame[] = [
-    { cursor: 0, entries: await readdir(root, { withFileTypes: true }), path: root },
-  ];
-  while (frames.length > 0) {
-    const top = frames[frames.length - 1]!;
-    if (top.cursor === top.entries.length) {
-      frames.pop();
-      continue;
-    }
-    aborted(signal);
-    const entry = top.entries[top.cursor++]!;
-    const child = join(top.path, entry.name);
-    if (entry.isDirectory()) {
-      if (VCS_DIRECTORIES.has(entry.name)) continue;
-      aborted(signal);
-      frames.push({
-        cursor: 0,
-        entries: await readdir(child, { withFileTypes: true }),
-        path: child,
-      });
-      continue;
-    }
-    if (entry.isFile()) await visit(child, await stat(child));
-  }
+function notFileError(path: string): Error {
+  const message = `Grep search path must be a file or directory: ${path}`;
+  return createFileSystemError({ code: "not_file", message, path });
 }
 
 /** 候选文件：文件直接返回，目录按 DFS 收集后按路径字典序排序。 */
@@ -157,16 +79,16 @@ export async function candidates(
   const result: Candidate[] = [];
   const collect = (candidatePath: string, candidateInfo: FileInfo): void => {
     if (!candidateInfo.isFile() || !keep(candidatePath)) return;
-    result.push({ mtimeMs: Number(candidateInfo.mtimeMs), path: candidatePath });
+    const entry = {} as Candidate;
+    entry.mtimeMs = Number(candidateInfo.mtimeMs);
+    entry.path = candidatePath;
+    result.push(entry);
   };
   if (info.isFile()) {
     collect(path, info);
     return result;
   }
-  if (!info.isDirectory()) {
-    const message = `Grep search path must be a file or directory: ${path}`;
-    throw createFileSystemError({ code: "not_file", message, path });
-  }
+  if (!info.isDirectory()) throw notFileError(path);
   await walk(root, signal, collect);
   result.sort((left, right) => left.path.localeCompare(right.path));
   return result;
