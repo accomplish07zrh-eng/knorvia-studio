@@ -53,6 +53,47 @@ type RunQuery = { cwd?: string; kind?: WorkflowKind; limit?: number };
 
 const DEFINITION_EXTENSION = ".json";
 const DEFAULT_WORKFLOW_ROOT = join(resolveKnorviaDataRoot(), "cli", "workflows");
+const WRITE_CANCELLED = "Workflow file write cancelled";
+const JSON_READ_CANCELLED = "Workflow JSON read cancelled";
+const JSONL_READ_CANCELLED = "Workflow JSONL read cancelled";
+const JSONL_APPEND_CANCELLED = "Workflow JSONL append cancelled";
+
+/** 各类载荷的解析器：校验入口集中，调用方只报 kind。 */
+const PARSERS = {
+  definition: WorkflowDefinitionSchema.parse,
+  event: WorkflowEventSchema.parse,
+  graph: WorkflowGraphRecordSchema.parse,
+  run: WorkflowRunSnapshotSchema.parse,
+} as const;
+
+/** 索引排序：更新时间倒序。 */
+function orderRuns(runs: WorkflowRunListItem[]): WorkflowRunListItem[] {
+  return runs.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+}
+
+function matchesQuery(run: WorkflowRunListItem, query: RunQuery): boolean {
+  if (query.cwd !== undefined && run.cwd !== query.cwd) return false;
+  if (query.kind !== undefined && run.kind !== query.kind) return false;
+  return true;
+}
+
+function applyLimit(runs: WorkflowRunListItem[], limit: number | undefined): WorkflowRunListItem[] {
+  return limit === undefined ? runs : runs.slice(0, limit);
+}
+
+/** 快照 → 索引行：字段一一对应。 */
+function toListItem(snapshot: WorkflowRunSnapshot): WorkflowRunListItem {
+  const item = {} as WorkflowRunListItem;
+  item.completedAt = snapshot.completedAt;
+  item.createdAt = snapshot.createdAt;
+  item.cwd = snapshot.cwd;
+  item.kind = snapshot.kind;
+  item.runId = snapshot.runId;
+  item.status = snapshot.status;
+  item.task = snapshot.task;
+  item.updatedAt = snapshot.updatedAt;
+  return item;
+}
 
 export class NodeWorkflowStore implements WorkflowStorePort {
   private readonly rootDir: string;
@@ -63,9 +104,9 @@ export class NodeWorkflowStore implements WorkflowStorePort {
 
   async appendEvent(event: WorkflowEvent, options?: CallOptions): Promise<void> {
     throwIfAborted(options?.signal, "Workflow event append cancelled");
-    WorkflowEventSchema.parse(event);
+    const payload = PARSERS.event(event);
     const target = this.filePath("events", event.runId);
-    await appendJsonLine(target, event, options?.signal, "Workflow JSONL append cancelled");
+    await appendJsonLine(target, payload, options?.signal, JSONL_APPEND_CANCELLED);
   }
 
   async appendGraphRecord(
@@ -74,9 +115,9 @@ export class NodeWorkflowStore implements WorkflowStorePort {
     options?: CallOptions,
   ): Promise<void> {
     throwIfAborted(options?.signal, "Workflow graph append cancelled");
-    WorkflowGraphRecordSchema.parse(record);
+    const payload = PARSERS.graph(record);
     const target = this.filePath("graph", runId);
-    await appendJsonLine(target, record, options?.signal, "Workflow JSONL append cancelled");
+    await appendJsonLine(target, payload, options?.signal, JSONL_APPEND_CANCELLED);
   }
 
   async listRuns(
@@ -85,20 +126,15 @@ export class NodeWorkflowStore implements WorkflowStorePort {
   ): Promise<WorkflowRunListItem[]> {
     throwIfAborted(signalOptions?.signal, "Workflow run list cancelled");
     const ledger = await this.readIndex(signalOptions?.signal);
-    const matching = ledger.runs.filter(
-      (run) =>
-        (query.cwd === undefined || run.cwd === query.cwd) &&
-        (query.kind === undefined || run.kind === query.kind),
-    );
-    const ordered = matching.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-    return query.limit === undefined ? ordered : ordered.slice(0, query.limit);
+    const matching = ledger.runs.filter((run) => matchesQuery(run, query));
+    return applyLimit(orderRuns(matching), query.limit);
   }
 
   async readEvents(runId: string, options?: CallOptions): Promise<WorkflowEvent[]> {
     throwIfAborted(options?.signal, "Workflow event read cancelled");
     const target = this.filePath("events", runId);
-    const lines = await readJsonLines(target, options?.signal, "Workflow JSONL read cancelled");
-    return lines.map((line) => WorkflowEventSchema.parse(line));
+    const lines = await readJsonLines(target, options?.signal, JSONL_READ_CANCELLED);
+    return lines.map((line) => PARSERS.event(line));
   }
 
   async readLatestRun(
@@ -113,8 +149,8 @@ export class NodeWorkflowStore implements WorkflowStorePort {
   async readRun(runId: string, options?: CallOptions): Promise<WorkflowRunSnapshot | null> {
     throwIfAborted(options?.signal, "Workflow snapshot read cancelled");
     const target = this.filePath("run", runId);
-    const parsed = await readJson(target, options?.signal, "Workflow JSON read cancelled");
-    return parsed === null ? null : WorkflowRunSnapshotSchema.parse(parsed);
+    const parsed = await readJson(target, options?.signal, JSON_READ_CANCELLED);
+    return parsed === null ? null : PARSERS.run(parsed);
   }
 
   async writeArtifact(
@@ -126,7 +162,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
     throwIfAborted(options?.signal, "Workflow artifact write cancelled");
     const safeRelativePath = normalizeRelativePath(relativePath);
     const target = join(this.runRoot(runId), safeRelativePath);
-    await writeTextAtomic(target, content, options?.signal);
+    await writeText(target, content, options?.signal, WRITE_CANCELLED, "replace");
     return { path: target, relativePath: safeRelativePath };
   }
 
@@ -140,34 +176,26 @@ export class NodeWorkflowStore implements WorkflowStorePort {
 
   async writeSnapshot(snapshot: WorkflowRunSnapshot, options?: CallOptions): Promise<void> {
     throwIfAborted(options?.signal, "Workflow snapshot write cancelled");
-    WorkflowRunSnapshotSchema.parse(snapshot);
-    const target = this.filePath("run", snapshot.runId);
-    await writeJson(target, snapshot, options?.signal, "Workflow file write cancelled");
+    const payload = PARSERS.run(snapshot);
+    await writeJson(
+      this.filePath("run", snapshot.runId),
+      payload,
+      options?.signal,
+      WRITE_CANCELLED,
+    );
     await this.upsertIndex(snapshot, options?.signal);
   }
 
   /** 索引更新：同 runId 只保留一条，按 updatedAt 倒序。 */
   private async upsertIndex(snapshot: WorkflowRunSnapshot, signal?: AbortSignal): Promise<void> {
     const ledger = await this.readIndex(signal);
-    const entry = {} as WorkflowRunListItem;
-    entry.completedAt = snapshot.completedAt;
-    entry.createdAt = snapshot.createdAt;
-    entry.cwd = snapshot.cwd;
-    entry.kind = snapshot.kind;
-    entry.runId = snapshot.runId;
-    entry.status = snapshot.status;
-    entry.task = snapshot.task;
-    entry.updatedAt = snapshot.updatedAt;
-
     const rest = ledger.runs.filter((run) => run.runId !== snapshot.runId);
-    const nextRuns = [entry, ...rest].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-    const target = this.filePath("index");
-    await writeJson(target, { runs: nextRuns }, signal, "Workflow file write cancelled");
+    const nextRuns = orderRuns([toListItem(snapshot), ...rest]);
+    await writeJson(this.filePath("index"), { runs: nextRuns }, signal, WRITE_CANCELLED);
   }
 
   private async readIndex(signal?: AbortSignal): Promise<WorkflowIndexFile> {
-    const target = this.filePath("index");
-    const parsed = await readJson(target, signal, "Workflow JSON read cancelled");
+    const parsed = await readJson(this.filePath("index"), signal, JSON_READ_CANCELLED);
     if (parsed === null) return { runs: [] };
     const candidate = parsed as { runs?: unknown };
     const runs = Array.isArray(candidate.runs) ? (candidate.runs as WorkflowRunListItem[]) : [];
@@ -189,6 +217,25 @@ export function createNodeWorkflowStore(options: NodeWorkflowStoreOptions = {}):
   return new NodeWorkflowStore(options);
 }
 
+/** 定义目录缺失按「没有定义」处理，其余错误继续上抛。 */
+async function listDefinitionFiles(definitionsDir: string): Promise<string[]> {
+  try {
+    return await readdir(definitionsDir);
+  } catch (cause) {
+    if (isNodeError(cause) && cause.code === "ENOENT") return [];
+    throw cause;
+  }
+}
+
+/** 目录里的定义 id：只取 `.json`，按名字排序保证稳定。 */
+async function listDefinitionIds(definitionsDir: string): Promise<string[]> {
+  const names = await listDefinitionFiles(definitionsDir);
+  return names
+    .filter((name) => extname(name) === DEFINITION_EXTENSION)
+    .map((name) => parse(name).name)
+    .sort((a, b) => a.localeCompare(b));
+}
+
 export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort {
   private readonly definitionsDir: string;
 
@@ -199,14 +246,8 @@ export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort 
 
   async listDefinitions(options?: CallOptions): Promise<WorkflowDefinition[]> {
     throwIfAborted(options?.signal, "Workflow definition list cancelled");
-    const names = await listDefinitionFiles(this.definitionsDir);
-    const definitionIds = names
-      .filter((name) => extname(name) === DEFINITION_EXTENSION)
-      .map((name) => parse(name).name)
-      .sort((a, b) => a.localeCompare(b));
-
     const definitions: WorkflowDefinition[] = [];
-    for (const definitionId of definitionIds) {
+    for (const definitionId of await listDefinitionIds(this.definitionsDir)) {
       const definition = await this.readDefinition(definitionId, options);
       if (definition) definitions.push(definition);
     }
@@ -220,36 +261,13 @@ export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort 
     throwIfAborted(options?.signal, "Workflow definition read cancelled");
     validateDefinitionId(definitionId);
     const target = join(this.definitionsDir, `${definitionId}${DEFINITION_EXTENSION}`);
-    const parsed = await readJson(target, options?.signal, "Workflow JSON read cancelled");
+    const parsed = await readJson(target, options?.signal, JSON_READ_CANCELLED);
     if (parsed === null) return null;
-    const definition = WorkflowDefinitionSchema.parse(parsed);
-    if (definition.definitionId !== definitionId) {
-      const requested = definitionId;
-      const declared = definition.definitionId;
-      const text = `Workflow definition id mismatch: requested ${requested}, file declares ${declared}`;
-      throw new Error(text);
-    }
-    return definition;
+    const definition = PARSERS.definition(parsed);
+    if (definition.definitionId === definitionId) return definition;
+    const text = `Workflow definition id mismatch: requested ${definitionId}, file declares ${definition.definitionId}`;
+    throw new Error(text);
   }
-}
-
-/** 定义目录缺失按「没有定义」处理，其余错误继续上抛。 */
-async function listDefinitionFiles(definitionsDir: string): Promise<string[]> {
-  try {
-    return await readdir(definitionsDir);
-  } catch (cause) {
-    if (isNodeError(cause) && cause.code === "ENOENT") return [];
-    throw cause;
-  }
-}
-
-/** 产物写入：临时文件 + rename，避免读到半截内容。 */
-async function writeTextAtomic(
-  target: string,
-  content: string,
-  signal: AbortSignal | undefined,
-): Promise<void> {
-  await writeText(target, content, signal, "Workflow file write cancelled", "replace");
 }
 
 export function createNodeWorkflowDefinitionStore(
