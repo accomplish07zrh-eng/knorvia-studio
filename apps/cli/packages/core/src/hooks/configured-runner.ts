@@ -14,12 +14,12 @@ import { expandPluginVariables, resolveHookTimeoutMs } from "./configured-runner
 import { createHookExecutionDescriptor } from "./display-metadata.js";
 import { InMemoryHookRunner } from "./runner.js";
 import type { ConfiguredHookRunnerOptions, HookRegistration, HookRunner } from "./types.js";
-import type { Budget } from "./configured-runner-types.js";
+import type { Budget, HookRunnerSetup, HookSourceEvent } from "./configured-runner-types.js";
 
 const USER_SOURCE_KIND: HookSourceKind = "user";
 
 function configSource(input: {
-  event: HookEventName;
+  event: HookSourceEvent;
   hookIndex: number;
   matcherIndex: number;
   plugin?: HookConfig["plugin"];
@@ -74,8 +74,8 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
 }
 
 function registrationsForMatcher(input: {
-  options: ConfiguredHookRunnerOptions;
-  event: HookEventName;
+  options: HookRunnerSetup;
+  event: HookSourceEvent;
   matcherConfig: HookMatcherConfig;
   matcherIndex: number;
 }): HookRegistration[] {

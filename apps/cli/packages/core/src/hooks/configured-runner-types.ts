@@ -8,6 +8,12 @@ export interface Budget {
   timeoutMs: number;
 }
 
+/** 来源事件的能力名（与 HookEventName 同构）：把兼容字段名与事件枚举解耦。 */
+export type HookSourceEvent = HookEventName;
+
+/** 运行器装配参数的能力名（与 ConfiguredHookRunnerOptions 同构）。 */
+export type HookRunnerSetup = ConfiguredHookRunnerOptions;
+
 export interface HookRegistrationInput {
   admission?: HookRegistration["admission"];
   budget: Budget;
