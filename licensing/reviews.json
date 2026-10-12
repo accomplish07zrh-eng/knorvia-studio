@@ -134055,6 +134055,14 @@
       "license": "Apache-2.0",
       "basis": "Acceptance record for the core/hooks replacement: per-file similarity mode and values, old-gate results, and closure-phase findings; produced by this agent from the v1.1 contract and measured tool output.",
       "evidence": ["specs/contracts/core-hooks/gate-old.json"]
+    },
+    {
+      "path": "specs/contracts/core-hooks/design.md",
+      "normalizedSha256": "4e8980fa8dd1bb5d8f52af4ea64ceb7514d25fb5f5805295515f0c92a3157411",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core/hooks contract design note (v1.1): module split, control-flow shape and compatibility-surface decisions for the replacement; written by this agent from the contract and measured tool output, no upstream text copied.",
+      "evidence": ["specs/contracts/core-hooks/gate-old.json"]
     }
   ]
 }
