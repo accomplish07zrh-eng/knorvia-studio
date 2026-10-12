@@ -205,37 +205,24 @@ export interface HookJSONOutput {
   systemMessage?: string;
 }
 
+/** 一条权限规则：工具名加可选的规则内容。 */
+const PermissionRuleSchema = z.object({
+  toolName: z.string().min(1),
+  ruleContent: z.string().optional(),
+});
+
+/** 一条 addRules 更新；`permissionUpdates` 与 `updatedPermissions` 共用它。 */
+const PermissionRuleUpdateSchema = z.object({
+  type: z.literal("addRules"),
+  behavior: z.enum(["allow", "deny", "ask"]),
+  rules: z.array(PermissionRuleSchema),
+});
+
 const PermissionRequestHookDecisionSchema = z.union([
   z.object({
     behavior: z.literal("allow"),
-    permissionUpdates: z
-      .array(
-        z.object({
-          type: z.literal("addRules"),
-          behavior: z.enum(["allow", "deny", "ask"]),
-          rules: z.array(
-            z.object({
-              toolName: z.string().min(1),
-              ruleContent: z.string().optional(),
-            }),
-          ),
-        }),
-      )
-      .optional(),
-    updatedPermissions: z
-      .array(
-        z.object({
-          type: z.literal("addRules"),
-          behavior: z.enum(["allow", "deny", "ask"]),
-          rules: z.array(
-            z.object({
-              toolName: z.string().min(1),
-              ruleContent: z.string().optional(),
-            }),
-          ),
-        }),
-      )
-      .optional(),
+    permissionUpdates: z.array(PermissionRuleUpdateSchema).optional(),
+    updatedPermissions: z.array(PermissionRuleUpdateSchema).optional(),
     updatedInput: z.unknown().optional(),
   }),
   z.object({
@@ -404,22 +391,24 @@ export const HookMatcherConfigSchema = z.object({
   hooks: z.array(HookConfigSchema).min(1),
 });
 
+/** 每个 hook 事件名对应一组 matcher 配置；patch 与完整配置共用这张表。 */
+const HookEventMatcherMapSchema = z
+  .object({
+    SessionStart: z.array(HookMatcherConfigSchema).optional(),
+    UserPromptSubmit: z.array(HookMatcherConfigSchema).optional(),
+    PreToolUse: z.array(HookMatcherConfigSchema).optional(),
+    PermissionRequest: z.array(HookMatcherConfigSchema).optional(),
+    PostToolUse: z.array(HookMatcherConfigSchema).optional(),
+    PostToolUseFailure: z.array(HookMatcherConfigSchema).optional(),
+    Stop: z.array(HookMatcherConfigSchema).optional(),
+  })
+  .strict();
+
 export const HooksRuntimeConfigPatchSchema = z.object({
   enabled: z.boolean().optional(),
   timeoutMs: z.number().int().positive().optional(),
   maxOutputBytes: z.number().int().positive().optional(),
-  events: z
-    .object({
-      SessionStart: z.array(HookMatcherConfigSchema).optional(),
-      UserPromptSubmit: z.array(HookMatcherConfigSchema).optional(),
-      PreToolUse: z.array(HookMatcherConfigSchema).optional(),
-      PermissionRequest: z.array(HookMatcherConfigSchema).optional(),
-      PostToolUse: z.array(HookMatcherConfigSchema).optional(),
-      PostToolUseFailure: z.array(HookMatcherConfigSchema).optional(),
-      Stop: z.array(HookMatcherConfigSchema).optional(),
-    })
-    .strict()
-    .optional(),
+  events: HookEventMatcherMapSchema.optional(),
 });
 
 export const DefaultHooksRuntimeConfig: HooksRuntimeConfig = {

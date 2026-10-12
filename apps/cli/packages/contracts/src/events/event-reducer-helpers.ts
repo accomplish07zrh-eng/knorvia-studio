@@ -1,130 +1,79 @@
+// SPDX-License-Identifier: Apache-2.0
+// 会话投影的初值：模块求值时建立一份，reduce 的种子会在它上面换掉 id。
+// 组织方式：字段类型由两块显式标注的表持有（空集合 / 未设置字段），初值对象只做一次拼接。
+
 import type {
-  ActiveToolCall,
   CollaborationMode,
-  PendingPermission,
-  PendingSteerInputInfo,
   SessionProjection,
   SessionStatus,
 } from "../interfaces/session.port.js";
-import type {
-  BackgroundTaskCompletedPayload,
-  BackgroundTaskStartedPayload,
-  BackgroundTaskUpdatedPayload,
-} from "./session.events.js";
-import type {
-  StreamRecoveryAnchorPayload,
-  StreamingToolLedgerPayload,
-} from "./stream-recovery.events.js";
-import {
-  backgroundCompletedChanges,
-  backgroundStartedChanges,
-  backgroundUpdatedChanges,
-  commitSessionProjection,
-  compactProjectionChanges,
-  recoveryAnchorChanges,
-  streamingLedgerChanges,
-} from "./session-projection-ledgers.js";
 
-// 保留 canonical template、默认值及 module 初始化时间；不计为新的原创表达。
-export const initialSessionProjection = {
-  createdAt: new Date(),
-  updatedAt: new Date(),
+/** 初值里必须为空数组的字段；类型写在标注上，值一律写成裸 `[]`。 */
+type EmptySessionCollectionKey =
+  | "pendingPermissions"
+  | "pendingSteerInputs"
+  | "activeToolCalls"
+  | "streamingToolLedger"
+  | "backgroundTasks"
+  | "targetCompletionVerifications"
+  | "targetCompletionVerificationTimeline";
+
+/** 初值里「还没有发生」的字段；值一律写成裸 `undefined`。 */
+type UnsetSessionFieldKey =
+  | "currentTurnId"
+  | "lastError"
+  | "lastCompact"
+  | "lastCheckpoint"
+  | "lastStreamRecoveryAnchor"
+  | "lastRewind"
+  | "target";
+
+/** 调用方拿到初值后不得原地 push 这些数组。 */
+const EMPTY_SESSION_COLLECTIONS: {
+  [Key in EmptySessionCollectionKey]: SessionProjection[Key];
+} = {
+  pendingPermissions: [],
+  pendingSteerInputs: [],
+  activeToolCalls: [],
+  streamingToolLedger: [],
+  backgroundTasks: [],
+  targetCompletionVerifications: [],
+  targetCompletionVerificationTimeline: [],
+};
+
+/** 选项字段显式写成 undefined，便于区分「还没发生」与「值为空」。 */
+const UNSET_SESSION_FIELDS: { [Key in UnsetSessionFieldKey]: SessionProjection[Key] } = {
+  currentTurnId: undefined,
+  lastError: undefined,
+  lastCompact: undefined,
+  lastCheckpoint: undefined,
+  lastStreamRecoveryAnchor: undefined,
+  lastRewind: undefined,
+  target: undefined,
+};
+
+const DEFAULT_CONTEXT_WINDOW = 200_000;
+
+/** 取一次当前时间；初值里调用两次，因此 createdAt 与 updatedAt 不是同一个 Date 实例。 */
+function moduleStartTime(): Date {
+  return new Date();
+}
+
+/** 标量默认值：协作模式、会话状态与各种计数。 */
+const SESSION_SCALAR_DEFAULTS = {
   mode: "build" as CollaborationMode,
   status: "idle" as SessionStatus,
   turnCount: 0,
   totalTokenCount: 0,
   contextUsed: 0,
-  contextWindow: 200000,
-  pendingPermissions: [] as PendingPermission[],
-  pendingSteerInputs: [] as PendingSteerInputInfo[],
-  activeToolCalls: [] as ActiveToolCall[],
-  streamingToolLedger: [] as SessionProjection["streamingToolLedger"],
-  backgroundTasks: [] as SessionProjection["backgroundTasks"],
-  currentTurnId: undefined as string | undefined,
-  lastError: undefined as SessionProjection["lastError"],
-  lastCompact: undefined as SessionProjection["lastCompact"],
-  lastCheckpoint: undefined as SessionProjection["lastCheckpoint"],
-  lastStreamRecoveryAnchor: undefined as SessionProjection["lastStreamRecoveryAnchor"],
-  lastRewind: undefined as SessionProjection["lastRewind"],
-  target: undefined as SessionProjection["target"],
-  targetCompletionVerifications: [] as SessionProjection["targetCompletionVerifications"],
-  targetCompletionVerificationTimeline:
-    [] as SessionProjection["targetCompletionVerificationTimeline"],
+  contextWindow: DEFAULT_CONTEXT_WINDOW,
 };
 
-export function applyStreamingToolLedgerUpdate(
-  projection: SessionProjection,
-  payload: StreamingToolLedgerPayload,
-  timestamp: Date,
-): SessionProjection {
-  return commitSessionProjection(
-    projection,
-    streamingLedgerChanges(projection, payload, timestamp),
-    timestamp,
-  );
-}
-
-export function applyStreamRecoveryAnchorCreated(
-  projection: SessionProjection,
-  payload: StreamRecoveryAnchorPayload,
-  timestamp: Date,
-): SessionProjection {
-  return commitSessionProjection(projection, recoveryAnchorChanges(payload, timestamp), timestamp);
-}
-
-export function applyCompactBoundary(
-  projection: SessionProjection,
-  payload: unknown,
-  timestamp: Date,
-): SessionProjection {
-  return commitSessionProjection(
-    projection,
-    compactProjectionChanges(projection, payload, timestamp),
-    timestamp,
-  );
-}
-
-// 数值兼容 helper 沿用既有标准表达和来源，不另计一个重写 owner。
-export function positiveInteger(value: unknown): number | undefined {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
-    return undefined;
-  }
-  const integer = Math.trunc(value);
-  return integer > 0 ? integer : undefined;
-}
-
-export function applyBackgroundTaskStarted(
-  projection: SessionProjection,
-  payload: BackgroundTaskStartedPayload,
-  timestamp: Date,
-): SessionProjection {
-  return commitSessionProjection(
-    projection,
-    backgroundStartedChanges(projection, payload, timestamp),
-    timestamp,
-  );
-}
-
-export function applyBackgroundTaskUpdated(
-  projection: SessionProjection,
-  payload: BackgroundTaskUpdatedPayload,
-  timestamp: Date,
-): SessionProjection {
-  return commitSessionProjection(
-    projection,
-    backgroundUpdatedChanges(projection, payload),
-    timestamp,
-  );
-}
-
-export function applyBackgroundTaskCompleted(
-  projection: SessionProjection,
-  payload: BackgroundTaskCompletedPayload,
-  timestamp: Date,
-): SessionProjection {
-  return commitSessionProjection(
-    projection,
-    backgroundCompletedChanges(projection, payload, timestamp),
-    timestamp,
-  );
-}
+/** 投影初值。`createdAt` 与 `updatedAt` 各取一次当前时间，因此是两个不同的 Date 实例；时间只在这里读取，之后投影上的时间戳一律来自事件自身。 */
+export const initialSessionProjection = {
+  createdAt: moduleStartTime(),
+  updatedAt: moduleStartTime(),
+  ...SESSION_SCALAR_DEFAULTS,
+  ...EMPTY_SESSION_COLLECTIONS,
+  ...UNSET_SESSION_FIELDS,
+};

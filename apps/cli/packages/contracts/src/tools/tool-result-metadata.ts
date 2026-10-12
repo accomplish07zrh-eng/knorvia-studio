@@ -145,11 +145,9 @@ export const cuaToolResultDisplayPayloadSchema = z
   })
   .strict();
 
-/**
- * node_repl cell 的目标应用身份（Computer Use）。`appKey` 是 producer 的形态：
- * `darwin:<bundleId>` / `windows-aumid:<aumid>` / `windows-exe:<path>` / `linux-exe:<path>`；
- * UI 按前缀派生 `ApplicationIconLocator` 再交给平台服务解析，协议不承载图标字节。
- */
+// node_repl cell 要投影的「应用身份」。appKey 用 producer 的形态：macOS 是 darwin:<bundleId>，
+// Windows 是 windows-aumid:<aumid> 或 windows-exe:<path>，Linux 是 linux-exe:<path>。
+// 图标字节不进协议：UI 按前缀自行推导 ApplicationIconLocator，再交给平台服务解析。
 export const nodeReplCuaAppDisplaySchema = z
   .object({
     appKey: z.string().trim().min(1).max(2_048),
@@ -189,11 +187,9 @@ export const mcpToolResultDisplayPayloadSchema = z
     serverName: z.string().min(1).max(MCP_TOOL_DISPLAY_MAX_NAME_CHARS),
     toolName: z.string().min(1).max(MCP_TOOL_DISPLAY_MAX_NAME_CHARS),
     description: z.string().min(1).max(MCP_TOOL_DISPLAY_MAX_DESCRIPTION_CHARS).optional(),
-    /**
-     * 官方 Server MCP 判定本次调用不可用时下发的结构化标识（额度耗尽 / 无 Coding Plan）。
-     * 只在 tool result 为 isError 且该 MCP 为官方来源时出现，UI 据此在输入框上方提示。
-     * 与 code 同源：`@knorvia/shared` 的 OFFICIAL_MCP_TOOL_ERROR_CODES。
-     */
+    // 官方 Server 判定本次调用不可用时带下来的结构化标识（额度耗尽 / 无 Coding Plan）。
+    // 只在 tool result 是 isError 且 MCP 来自官方时出现，UI 据此在输入框上方提示；
+    // code 取值与 @knorvia/shared 的 OFFICIAL_MCP_TOOL_ERROR_CODES 同源。
     unavailable: z
       .object({ code: z.enum(OFFICIAL_MCP_TOOL_ERROR_CODES) })
       .strict()
@@ -201,12 +197,10 @@ export const mcpToolResultDisplayPayloadSchema = z
   })
   .strict();
 
-/**
- * ⚠ 这个字段集合是**冻结**的。既有 kind 上多出来的键不是「旧客户端少读一个字段」，而是整块 display
- * 校验不过：两个真实的 strict 解析点（packages/ui 的 create-workflow renderer safeParse，
- * 与 legacy v3 的按 kind 查表）会连带把整条工具结果丢掉。gate 专属的事实一律走**工具入参**
- * 通道（那一侧对所有版本都无 schema），可复用工作流的 saved 来源就是这么做的。
- */
+// 注意：这里的字段集合是冻结的。既有 kind 上多出一个键，不是「旧客户端忽略它」那么轻——
+// 两个真实的 strict 解析点（packages/ui 的 create-workflow renderer safeParse，以及 legacy v3
+// 的按 kind 查表）会把**整条**工具结果丢掉。gate 专属的事实一律走工具入参通道
+// （那一侧对所有版本都没有 schema），可复用工作流的 saved 来源就是这么做的。
 export const createWorkflowToolResultDisplayPayloadSchema = z
   .object({
     kind: z.literal("create_workflow"),
@@ -221,15 +215,16 @@ export const createWorkflowToolResultDisplayPayloadSchema = z
   })
   .strict();
 
-// contracts 使用 zod v3，App 使用 v4；与 shared/bash-output-display.ts 保持同一严格契约。
-const bashOutputDisplaySchema = z
-  .object({
-    kind: z.literal("bash_output"),
-    output: z.string().max(150_000),
-    truncated: z.boolean(),
-    outputPath: z.string().min(1).max(32_768).optional(),
-  })
-  .strict();
+// 「拒绝未知键」在本文件多处出现，规则只在这里写一次。
+const strictRecord = <T extends z.ZodRawShape>(shape: T) => z.object(shape).strict();
+
+// contracts 用 zod v3、App 用 v4，两份实例不能拼；形状与 shared/bash-output-display.ts 同一严格契约。
+const bashOutputDisplaySchema = strictRecord({
+  kind: z.literal("bash_output"),
+  output: z.string().max(150_000),
+  truncated: z.boolean(),
+  outputPath: z.string().min(1).max(32_768).optional(),
+});
 
 export const toolResultDisplayPayloadSchema = z.discriminatedUnion("kind", [
   bashOutputDisplaySchema,
@@ -305,86 +300,77 @@ export type CompletedToolPartMetadata = z.infer<typeof completedToolPartMetadata
 export function parseCompletedToolPartMetadata(
   input: unknown,
 ): CompletedToolPartMetadata | undefined {
-  const scrubbed =
-    isPlainRecord(input) && "display" in input
-      ? { ...input, display: scrubPersistedDisplay(input.display) }
+  const withScrubbedDisplay =
+    isRecord(input) && "display" in input
+      ? { ...input, display: scrubStoredDisplay(input.display) }
       : input;
-  const result = completedToolPartMetadataSchema.safeParse(scrubbed);
-  return result.success ? result.data : undefined;
+  const parsed = completedToolPartMetadataSchema.safeParse(withScrubbedDisplay);
+  return parsed.success ? parsed.data : undefined;
 }
 
 export function parseToolResultDisplayPayload(
   input: unknown,
 ): ToolResultDisplayPayload | undefined {
-  const result = toolResultDisplayPayloadSchema.safeParse(scrubPersistedDisplay(input));
-  return result.success ? result.data : undefined;
+  const parsed = toolResultDisplayPayloadSchema.safeParse(scrubStoredDisplay(input));
+  return parsed.success ? parsed.data : undefined;
 }
 
-/**
- * 解析前的统一清洗。
- *
- * display 是**落库**的：它写进 tool part 的 `metadata.display`，此后每次读取都要重新过
- * 一遍严格解析，而渲染端对每一帧同样有一份严格的镜像 schema。所以剥离必须发生在 CLI 侧、
- * 解析之前——上面两个入口就是唯一的卡点，v4 冷启动水合与 session-transcript 回放都经过它。
- *
- * 每个 stripper 只认自己那一个 kind，只改在场的键，别的 kind 原样进入解析。
- */
-function scrubPersistedDisplay(display: unknown): unknown {
-  return stripProviderStopFromGetWorkflowRunError(stripWithdrawnRefinedNames(display));
+// 解析前的统一清洗。display 是**落库**的：它写进 tool part 的 metadata.display，此后每次读取
+// 都要重新过一遍严格解析，而渲染端对每一帧也有一份镜像 schema。所以剥离只能发生在 CLI 侧、
+// 解析之前——上面两个入口就是唯一的卡点，v4 冷启动水合与 session-transcript 回放都经过它。
+// 每个 stripper 只认自己那一个 kind，只改在场的键，别的 kind 原样进入解析。
+function scrubStoredDisplay(display: unknown): unknown {
+  return dropProviderStopFromWorkflowError(dropWithdrawnRefinedNames(display));
 }
 
-/**
- * 剥掉持久化 get_workflow_run 卡上的 `providerStop`。
- *
- * 早期构造侧曾把只属于模型通道的 `providerStop` 一并写进 display，而渲染端的
- * 镜像 schema 从来只认 `{code, message}`，那些帧一律被拒。构造侧已经改成只带
- * code / message，但历史持久化的 part 每次冷启动都会被重新读一遍，只能在这里剥。
- *
- * 只认 kind 为 get_workflow_run、且 error 是普通对象、且 `providerStop` 在场的载荷；不带
- * 该键的 error 与缺席的 error 原样返回，不凭空添一个 undefined。
- */
-function stripProviderStopFromGetWorkflowRunError(display: unknown): unknown {
-  if (!isPlainRecord(display) || display.kind !== "get_workflow_run") return display;
+// 剥掉持久化 get_workflow_run 卡上的 providerStop。早期构造侧曾把只属于模型通道的
+// providerStop 一并写进 display，而渲染端的镜像 schema 只认 {code, message}，那些帧一律被拒。
+// 构造侧已改，可历史 part 每次冷启动都会被重读，只能在读取侧剥。只认 kind 为
+// get_workflow_run、error 是普通对象且 providerStop 在场的载荷；不带该键与缺席的 error
+// 原样返回，不凭空添一个 undefined。
+function dropProviderStopFromWorkflowError(display: unknown): unknown {
+  if (!isRecord(display) || display.kind !== "get_workflow_run") return display;
   const error = display.error;
-  if (!isPlainRecord(error) || !("providerStop" in error)) return display;
-  const { providerStop: _dropped, ...rest } = error;
-  return { ...display, error: rest };
+  if (!isRecord(error) || !("providerStop" in error)) return display;
+  return { ...display, error: dropKey(error, "providerStop") };
 }
 
-/**
- * 剥掉已撤回的模型精炼字段。
- *
- * 之前持久化的 create_workflow display 里，车道与阶段可能带 `refinedName`、
- * step 可能带 `refinedLabel`。这三个字段已从 schema 删除，而两个入口都是 `.strict()`
- * 解析：不先剥掉，旧会话的整个 display（连同图）会在这里被拒掉，而不只是丢一个名字。
- *
- * 只认 create_workflow 且带 causalityGraph 的载荷；别的 kind 原样进入解析。只改在场的
- * 键，不给缺席的 `phases` 之类凭空添一个 undefined。
- */
-function stripWithdrawnRefinedNames(display: unknown): unknown {
-  if (!isPlainRecord(display) || display.kind !== "create_workflow") return display;
+// 已撤回的模型精炼字段。旧 create_workflow display 里车道与阶段可能带 refinedName、
+// step 可能带 refinedLabel；这三个键已从 schema 删除，而两个入口都是 strict 解析：
+// 不先剥掉，旧会话的整块 display（连同图）会在这里被拒，而不只是丢一个名字。
+// 只认 create_workflow 且带 causalityGraph 的载荷，只改在场的键。
+const WITHDRAWN_REFINED_FIELDS = [
+  ["lanes", "refinedName"],
+  ["steps", "refinedLabel"],
+  ["phases", "refinedName"],
+] as const satisfies readonly (readonly [string, string])[];
+
+function dropWithdrawnRefinedNames(display: unknown): unknown {
+  if (!isRecord(display) || display.kind !== "create_workflow") return display;
   const graph = display.causalityGraph;
-  if (!isPlainRecord(graph)) return display;
-  return {
-    ...display,
-    causalityGraph: {
-      ...graph,
-      ...("lanes" in graph ? { lanes: withoutKey(graph.lanes, "refinedName") } : {}),
-      ...("steps" in graph ? { steps: withoutKey(graph.steps, "refinedLabel") } : {}),
-      ...("phases" in graph ? { phases: withoutKey(graph.phases, "refinedName") } : {}),
-    },
-  };
+  if (!isRecord(graph)) return display;
+  const cleaned: Record<string, unknown> = { ...graph };
+  for (const [listKey, field] of WITHDRAWN_REFINED_FIELDS) {
+    if (listKey in graph) cleaned[listKey] = dropKeyFromItems(graph[listKey], field);
+  }
+  return { ...display, causalityGraph: cleaned };
 }
 
-function withoutKey(items: unknown, key: string): unknown {
+// 数组里每一项各去掉一个键：不是数组就原样返回；元素不是普通对象或本来没有该键也原样保留。
+function dropKeyFromItems(items: unknown, key: string): unknown {
   if (!Array.isArray(items)) return items;
-  return items.map((item) => {
-    if (!isPlainRecord(item) || !(key in item)) return item;
-    const { [key]: _dropped, ...rest } = item;
-    return rest;
-  });
+  return items.map((item) => dropKey(item, key));
 }
 
-function isPlainRecord(value: unknown): value is Record<string, unknown> {
+// 去掉一个键的副本；该键不在场时返回原对象。
+function dropKey(item: unknown, key: string): unknown {
+  if (!isRecord(item) || !(key in item)) return item;
+  const copy = { ...item };
+  delete copy[key];
+  return copy;
+}
+
+// 普通对象判定：数组与 null 都不算。
+function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }

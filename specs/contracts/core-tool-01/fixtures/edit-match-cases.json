@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "purpose": "core-tool-01 B36 findEditMatch 的匹配策略顺序与短路样例。输入取自契约测试的行为条目，数据为虚构文本，不含真实用户内容。",
+  "cases": [
+    {
+      "name": "exact-with-two-candidates",
+      "content": "abXab",
+      "search": "ab",
+      "replaceAll": false,
+      "status": "matched",
+      "strategy": "exact",
+      "candidateCount": 2,
+      "actualString": "ab"
+    },
+    {
+      "name": "empty-search-falls-to-quote-normalized",
+      "content": "abcd",
+      "search": "",
+      "replaceAll": false,
+      "status": "matched",
+      "strategy": "quote_normalized",
+      "candidateCount": 5,
+      "actualString": ""
+    },
+    {
+      "name": "curly-quotes-match-straight-quotes",
+      "content": "a\u2018b\u2019",
+      "search": "'b'",
+      "replaceAll": false,
+      "status": "matched",
+      "strategy": "quote_normalized",
+      "candidateCount": 1,
+      "actualString": "\u2018b\u2019"
+    },
+    {
+      "name": "replace-all-skips-space-padded-search",
+      "content": "x\ny\n",
+      "search": "  y  ",
+      "replaceAll": true,
+      "status": "not_found"
+    },
+    {
+      "name": "line-trimmed-matches-indented-line",
+      "content": "a\n   y\nb\n",
+      "search": "  y  ",
+      "replaceAll": false,
+      "status": "matched",
+      "strategy": "line_trimmed",
+      "candidateCount": 1,
+      "actualString": "   y"
+    }
+  ]
+}

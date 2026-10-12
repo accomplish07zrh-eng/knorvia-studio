@@ -1,0 +1,235 @@
+// SPDX-License-Identifier: Apache-2.0
+// 领域 changes 的内部实现：紧凑边界、流式工具账本、恢复锚点、后台任务四条线。
+// 组织方式：每个导出只产出一组「字段 → 新值」条目，由 changesFrom 归约成 changes；
+// 唯一提交点 commitSessionProjection 负责与旧投影合并并写事件时间戳。
+
+import { parseCompactBoundaryPayload } from "../compact/index.js";
+import type { BackgroundTaskInfo, SessionProjection } from "../interfaces/session.port.js";
+import type {
+  BackgroundTaskCompletedPayload,
+  BackgroundTaskStartedPayload,
+  BackgroundTaskUpdatedPayload,
+} from "./session.events.js";
+import type {
+  StreamRecoveryAnchorPayload,
+  StreamingToolLedgerPayload,
+} from "./stream-recovery.events.js";
+
+/** 一次领域变更：只描述要改的字段，合并与时间戳由提交点负责。 */
+export type SessionProjectionChanges = Partial<SessionProjection>;
+
+type ChangesEntry = readonly [keyof SessionProjection, unknown];
+
+/** 把「字段 → 新值」的条目归约成 changes；条目来自各领域的映射函数。 */
+function changesFrom(entries: readonly ChangesEntry[]): SessionProjectionChanges {
+  return Object.fromEntries(entries) as SessionProjectionChanges;
+}
+
+/** 追加一行；返回新数组，入参不变。 */
+export function appendProjectionRow<Row>(rows: Row[], row: Row): Row[] {
+  return rows.concat(row);
+}
+
+/** 唯一提交点：旧投影打底、changes 覆盖、最后写事件时间戳。 */
+export function commitSessionProjection(
+  projection: SessionProjection,
+  changes: SessionProjectionChanges,
+  timestamp: Date,
+): SessionProjection {
+  return Object.assign({}, projection, changes, { updatedAt: timestamp }) as SessionProjection;
+}
+
+/** `lastCompact` 的字段表：按界面需要的字段从边界 payload 上取值。 */
+const COMPACT_PROJECTION_FIELDS = [
+  "boundaryId",
+  "trigger",
+  "phase",
+  "compactReason",
+  "preCompactTokenCount",
+  "postCompactTokenCount",
+  "truePostCompactTokenCount",
+  "summarizedMessageCount",
+  "keptMessageCount",
+  "willRetriggerNextTurn",
+] as const;
+
+/** 紧凑边界 → `contextUsed` 与 `lastCompact`。payload 非法时由 schema 抛错，这里不吞错。 */
+export function compactProjectionChanges(
+  projection: SessionProjection,
+  payload: unknown,
+  timestamp: Date,
+): SessionProjectionChanges {
+  const parsedBoundary = parseCompactBoundaryPayload(payload);
+  // 三档回落：真实的后紧凑计数优先，其次是估计值，最后保持当前上下文用量不动。
+  const contextUsed =
+    parsedBoundary.truePostCompactTokenCount ??
+    parsedBoundary.postCompactTokenCount ??
+    projection.contextUsed;
+  const lastCompactFields = Object.fromEntries(
+    COMPACT_PROJECTION_FIELDS.map((field) => [field, parsedBoundary[field]]),
+  );
+  return changesFrom([
+    ["contextUsed", contextUsed],
+    ["lastCompact", Object.assign({}, lastCompactFields, { compactedAt: timestamp })],
+  ]);
+}
+
+/**
+ * 流式工具账本：按 `(attemptId, toolCallId)` 命中则整行覆盖，未命中则追加。
+ * 覆盖语义与后台任务相反——这里**显式 undefined 也要覆盖**：账本字段消失本身就是一次状态转移。
+ */
+export function streamingLedgerChanges(
+  projection: SessionProjection,
+  payload: StreamingToolLedgerPayload,
+  timestamp: Date,
+): SessionProjectionChanges {
+  const incoming = Object.assign({}, payload, { updatedAt: timestamp });
+  const ledgerKey = `${payload.attemptId}\u0000${payload.toolCallId}`;
+  const rowsByKey = new Map(
+    projection.streamingToolLedger.map((row) => [`${row.attemptId}\u0000${row.toolCallId}`, row]),
+  );
+  const previousRow = rowsByKey.get(ledgerKey);
+  rowsByKey.set(ledgerKey, previousRow ? Object.assign({}, previousRow, incoming) : incoming);
+  return changesFrom([["streamingToolLedger", [...rowsByKey.values()]]]);
+}
+
+/** 流恢复锚点：整块替换为最新一个锚点。 */
+export function recoveryAnchorChanges(
+  payload: StreamRecoveryAnchorPayload,
+  timestamp: Date,
+): SessionProjectionChanges {
+  const anchor = Object.assign({}, payload, { updatedAt: timestamp });
+  return changesFrom([["lastStreamRecoveryAnchor", anchor]]);
+}
+
+// 后台任务快照的兼容白名单：顺序即写入顺序，字段集合是外部可见的持久化形状，不可增删。
+// 白名单之外的键一律不进快照，避免把运行时内部字段泄进投影。
+// 名字写成一段以空格分隔的清单再切开：清单只有一处来源，改字段只改这一行。
+type TaskSnapshotField =
+  | "taskId"
+  | "toolCallId"
+  | "toolName"
+  | "taskKind"
+  | "childSessionId"
+  | "blocked"
+  | "blockedReason"
+  | "cancellable"
+  | "cancelRequestedAt"
+  | "command"
+  | "description"
+  | "status"
+  | "pid"
+  | "startedAt"
+  | "completedAt"
+  | "outputPath"
+  | "stderrPersistedOutputPath"
+  | "stdoutPersistedOutputPath"
+  | "outputBytes"
+  | "outputTruncated"
+  | "outputTail"
+  | "stderrBytes"
+  | "stderrTail"
+  | "stdoutBytes"
+  | "stdoutTail"
+  | "terminalId";
+
+const TASK_SNAPSHOT_FIELD_SOURCE =
+  "taskId toolCallId toolName taskKind childSessionId blocked blockedReason cancellable cancelRequestedAt " +
+  "command description status pid startedAt completedAt outputPath stderrPersistedOutputPath " +
+  "stdoutPersistedOutputPath outputBytes outputTruncated outputTail stderrBytes stderrTail stdoutBytes " +
+  "stdoutTail terminalId";
+
+const TASK_SNAPSHOT_FIELDS = TASK_SNAPSHOT_FIELD_SOURCE.split(" ") as readonly TaskSnapshotField[];
+
+/** 起始快照还没有完成时刻，`completedAt` 只在完成快照里出现。 */
+const COMPLETION_ONLY_FIELD = "completedAt";
+
+/** 建快照需要知道 payload 与「是否已完成」两件事，包成一个请求对象避免位置参数越排越长。 */
+interface TaskSnapshotRequest {
+  payload: BackgroundTaskStartedPayload | BackgroundTaskCompletedPayload;
+  completed: boolean;
+}
+
+function backgroundSnapshot(request: TaskSnapshotRequest): BackgroundTaskInfo {
+  const { payload, completed } = request;
+  const fields = completed
+    ? TASK_SNAPSHOT_FIELDS
+    : TASK_SNAPSHOT_FIELDS.filter((field) => field !== COMPLETION_ONLY_FIELD);
+  // 白名单里含 payload 必需的 taskId/status，所以这里不需要再补默认值。
+  return Object.fromEntries(
+    fields.map((field) => [field, payload[field]]),
+  ) as unknown as BackgroundTaskInfo;
+}
+
+/** 叠加请求：目标行 + 要覆盖的字段。 */
+interface TaskOverlayRequest {
+  row: BackgroundTaskInfo;
+  patch: Partial<BackgroundTaskInfo>;
+}
+
+/** 写 own 数据属性要带的描述符位：三个标志固定，值随字段走。 */
+const OWN_DATA_PROPERTY_FLAGS = { enumerable: true, configurable: true, writable: true } as const;
+
+/**
+ * 按「只覆盖已定义字段」的规则叠加一行后台任务。
+ *
+ * 用 `Object.defineProperty` 而不是直接赋值：payload 可能带 `__proto__` 这类扩展键，
+ * 直接赋值会改到原型而不是写 own 数据属性。undefined 不参与覆盖（与 update 语义一致）。
+ */
+function overlayDefinedTaskFields(request: TaskOverlayRequest): BackgroundTaskInfo {
+  const overlaid = { ...request.row };
+  for (const [key, value] of Object.entries(request.patch)) {
+    if (value === undefined) {
+      continue;
+    }
+    Object.defineProperty(overlaid, key, { ...OWN_DATA_PROPERTY_FLAGS, value });
+  }
+  return overlaid;
+}
+
+/** 同 taskId 的旧行整行替换，并补开始时间。 */
+export function backgroundStartedChanges(
+  projection: SessionProjection,
+  payload: BackgroundTaskStartedPayload,
+  timestamp: Date,
+): SessionProjectionChanges {
+  const runningSnapshot = backgroundSnapshot({ payload, completed: false });
+  Object.assign(runningSnapshot, { startedAt: payload.startedAt ?? timestamp });
+  const retained = projection.backgroundTasks.filter((row) => row.taskId !== payload.taskId);
+  return changesFrom([["backgroundTasks", [...retained, runningSnapshot]]]);
+}
+
+/** 同 taskId 的行只覆盖 payload 里已定义的字段，其余保持原值。 */
+export function backgroundUpdatedChanges(
+  projection: SessionProjection,
+  payload: BackgroundTaskUpdatedPayload,
+): SessionProjectionChanges {
+  const updatedRows = projection.backgroundTasks.map((row) =>
+    row.taskId === payload.taskId ? overlayDefinedTaskFields({ row, patch: payload }) : row,
+  );
+  return changesFrom([["backgroundTasks", updatedRows]]);
+}
+
+/** 命中同 taskId 则覆盖并补完成时间，未命中则追加一行。 */
+export function backgroundCompletedChanges(
+  projection: SessionProjection,
+  payload: BackgroundTaskCompletedPayload,
+  timestamp: Date,
+): SessionProjectionChanges {
+  const completedSnapshot = backgroundSnapshot({ payload, completed: true });
+  Object.assign(completedSnapshot, { completedAt: payload.completedAt ?? timestamp });
+
+  const taskRows = projection.backgroundTasks;
+  const matchedIndex = taskRows.findIndex((row) => row.taskId === payload.taskId);
+  if (matchedIndex < 0) {
+    return changesFrom([["backgroundTasks", appendProjectionRow(taskRows, completedSnapshot)]]);
+  }
+  return changesFrom([
+    [
+      "backgroundTasks",
+      taskRows.map((row, index) =>
+        index === matchedIndex ? overlayDefinedTaskFields({ row, patch: completedSnapshot }) : row,
+      ),
+    ],
+  ]);
+}
