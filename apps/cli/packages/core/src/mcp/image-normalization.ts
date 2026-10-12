@@ -161,13 +161,19 @@ async function backUpScreenshot(
       },
       { signal: input.context.abortSignal },
     );
-    if (!artifact.path) return undefined;
-    return isAbsolute(artifact.path) ? artifact.path : resolve(artifact.path);
+    return absoluteArtifactPath(artifact.path);
   } catch (error) {
+    // 取消信号导致的失败必须上抛；其余落盘失败只表示没有可用的落盘路径。
     if (input.context.abortSignal.aborted) throw error;
     return undefined;
   }
 }
+
+/** 落盘路径规范化：没有 path 就没有可用引用；相对路径按进程工作目录解析。 */
+const absoluteArtifactPath = (path: string | undefined): string | undefined => {
+  if (!path) return undefined;
+  return isAbsolute(path) ? path : resolve(path);
+};
 
 // 省略/保存路径的两条补充说明：截图邻接提示与缺少 artifact store 的提示都是兼容面文案。
 const SCREENSHOT_ADJACENT_NOTE =
