@@ -1,5 +1,7 @@
 # contracts-02 合同（`@knorvia/contracts`：tools / tracing / workflow / rewind）
 
+**合同版本：v1**（旧门基线：主仓 `9ac5fa3f`；此后合同任何改动都要重跑旧门并升版本）
+
 本目录是 `@knorvia/contracts` 第二个包的**兼容合同**：先冻结公开行为与签名，再按合同独立实现（替换阶段见计划书「每包流程」四、五）。
 
 - 范围：`apps/cli/packages/contracts/src` 下 `tools`（44 个继承文件）、`tracing`（4）、`workflow`（7）、`rewind`（1），共 **56 个继承文件**（`lead/scope-report.mjs` 实测：tools 46 全部/44 继承、tracing 4/4、workflow 7/7、rewind 1/1；单包 ≤60）。
