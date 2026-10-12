@@ -15,16 +15,11 @@ import {
 } from "@knorvia/shared/protocol-v4";
 
 import type {
+  WorkspaceHookReviewFlow,
   WorkspaceHookReviewOutcome,
   WorkspaceHookReviewResolveResult,
   WorkspaceHookReviewTarget,
 } from "./types.js";
-
-export interface WorkspaceHookReviewFlow {
-  readonly request: WorkspaceHookReviewRequestPayload;
-  readonly result: Promise<WorkspaceHookReviewOutcome>;
-  readonly state: WorkspaceHookReviewFlowState;
-}
 
 type TerminalState = "resolved" | "superseded" | "timed_out" | "cancelled";
 
