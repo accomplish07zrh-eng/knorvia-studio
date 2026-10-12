@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "e7e1a7a1bacd0f53725475a691fb3ef37d564675fc3d6854ecd3cbb7f265a39b",
+      "normalizedSha256": "11505553f0ddbca7ed944592b93dc4f238f0ce30318709707936fcafce8c9747",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",

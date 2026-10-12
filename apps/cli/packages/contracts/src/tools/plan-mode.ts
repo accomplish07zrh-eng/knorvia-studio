@@ -1,6 +1,5 @@
-// ============================================================
-// Plan Mode Tools - plan approval flow
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// 计划模式的工具声明：进入计划模式、退出并提交计划供用户批准。
 
 import { z } from "zod";
 import type { CollaborationMode } from "../interfaces/session.port.js";
@@ -30,25 +29,27 @@ export const EnterPlanModeOutputSchema = z
 export type EnterPlanModeOutput = z.infer<typeof EnterPlanModeOutputSchema>;
 export const EnterPlanModeOutputJsonSchema = toToolJsonSchema(EnterPlanModeOutputSchema);
 
+const PLAN_ACTION_PROMPT_DESCRIPTION =
+  'Semantic description of the action, e.g. "run tests", "install dependencies"';
+const EXIT_PLAN_MODE_PLAN_DESCRIPTION =
+  "The implementation plan to present to the user for approval.";
 export const ExitPlanModeAllowedPromptSchema = z
   .object({
     tool: z.enum(["Bash"]).describe("The tool this prompt applies to"),
-    prompt: z
-      .string()
-      .describe('Semantic description of the action, e.g. "run tests", "install dependencies"'),
+    prompt: z.string().describe(PLAN_ACTION_PROMPT_DESCRIPTION),
   })
   .strict();
 export type ExitPlanModeAllowedPrompt = z.infer<typeof ExitPlanModeAllowedPromptSchema>;
 
 // plan file 需要保存最终批准的原始字符串；空白校验只看 trim 后内容，不在 schema transform 阶段改写 plan。
-const ExitPlanModePlanSchema = z
-  .string()
-  .min(1)
-  .max(PLAN_MODE_MAX_PLAN_CHARS)
+
+// 非空计划文本：先做长度约束，再要求 trim 后仍有内容（schema 不在此处 transform，plan 原样保留）。
+const nonEmptyPlanText = z.string().min(1).max(PLAN_MODE_MAX_PLAN_CHARS);
+const ExitPlanModePlanSchema = nonEmptyPlanText
   .refine((value) => value.trim().length > 0, {
     message: "String must contain at least 1 character(s)",
   })
-  .describe("The implementation plan to present to the user for approval.");
+  .describe(EXIT_PLAN_MODE_PLAN_DESCRIPTION);
 
 export const ExitPlanModeInputSchema = z
   .object({
