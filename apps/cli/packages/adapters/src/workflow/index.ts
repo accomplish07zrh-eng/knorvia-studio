@@ -50,6 +50,10 @@ interface WorkflowIndexFile {
 /** 可传取消信号的调用选项：与 port 声明的结构等价，仅用于压缩签名。 */
 type CallOptions = { signal?: AbortSignal } | undefined;
 type RunQuery = { cwd?: string; kind?: WorkflowKind; limit?: number };
+/** 端口签名的短别名：类型等价，仅用于把折行签名压成单行。 */
+type GraphRecord = WorkflowGraphRecord;
+type RunSnapshot = WorkflowRunSnapshot;
+type ArtifactResult = { path: string; relativePath: string };
 
 const DEFINITION_EXTENSION = ".json";
 const DEFAULT_WORKFLOW_ROOT = join(resolveKnorviaDataRoot(), "cli", "workflows");
@@ -81,25 +85,30 @@ function applyLimit(runs: WorkflowRunListItem[], limit: number | undefined): Wor
   return limit === undefined ? runs : runs.slice(0, limit);
 }
 
-/** 快照 → 索引行：字段一一对应。 */
-function toListItem(snapshot: WorkflowRunSnapshot): WorkflowRunListItem {
-  const item = {} as WorkflowRunListItem;
-  item.completedAt = snapshot.completedAt;
-  item.createdAt = snapshot.createdAt;
-  item.cwd = snapshot.cwd;
-  item.kind = snapshot.kind;
-  item.runId = snapshot.runId;
-  item.status = snapshot.status;
-  item.task = snapshot.task;
-  item.updatedAt = snapshot.updatedAt;
-  return item;
+/** 索引行字段表：快照与索引行的同名映射只在这里声明一次。 */
+const LIST_ITEM_FIELDS = [
+  "completedAt",
+  "createdAt",
+  "cwd",
+  "kind",
+  "runId",
+  "status",
+  "task",
+  "updatedAt",
+] as const satisfies readonly (keyof WorkflowRunListItem & keyof WorkflowRunSnapshot)[];
+
+function toListItem(snapshot: RunSnapshot): WorkflowRunListItem {
+  const item = {} as Record<keyof WorkflowRunListItem, unknown>;
+  for (const field of LIST_ITEM_FIELDS) item[field] = snapshot[field];
+  return item as WorkflowRunListItem;
 }
 
 export class NodeWorkflowStore implements WorkflowStorePort {
   private readonly rootDir: string;
 
   constructor(options: NodeWorkflowStoreOptions = {}) {
-    this.rootDir = options.rootDir ?? DEFAULT_WORKFLOW_ROOT;
+    const { rootDir } = options;
+    this.rootDir = rootDir ?? DEFAULT_WORKFLOW_ROOT;
   }
 
   async appendEvent(event: WorkflowEvent, options?: CallOptions): Promise<void> {
@@ -111,7 +120,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
 
   async appendGraphRecord(
     runId: string,
-    record: WorkflowGraphRecord,
+    record: GraphRecord,
     options?: CallOptions,
   ): Promise<void> {
     throwIfAborted(options?.signal, "Workflow graph append cancelled");
@@ -140,13 +149,13 @@ export class NodeWorkflowStore implements WorkflowStorePort {
   async readLatestRun(
     query: { cwd?: string; kind?: WorkflowKind } = {},
     signalOptions?: CallOptions,
-  ): Promise<WorkflowRunSnapshot | null> {
+  ): Promise<RunSnapshot | null> {
     const [latest] = await this.listRuns({ ...query, limit: 1 }, signalOptions);
     if (!latest) return null;
     return await this.readRun(latest.runId, signalOptions);
   }
 
-  async readRun(runId: string, options?: CallOptions): Promise<WorkflowRunSnapshot | null> {
+  async readRun(runId: string, options?: CallOptions): Promise<RunSnapshot | null> {
     throwIfAborted(options?.signal, "Workflow snapshot read cancelled");
     const target = this.filePath("run", runId);
     const parsed = await readJson(target, options?.signal, JSON_READ_CANCELLED);
@@ -158,7 +167,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
     relativePath: string,
     content: string,
     options?: CallOptions,
-  ): Promise<{ path: string; relativePath: string }> {
+  ): Promise<ArtifactResult> {
     throwIfAborted(options?.signal, "Workflow artifact write cancelled");
     const safeRelativePath = normalizeRelativePath(relativePath);
     const target = join(this.runRoot(runId), safeRelativePath);
@@ -170,11 +179,11 @@ export class NodeWorkflowStore implements WorkflowStorePort {
     runId: string,
     content: string,
     options?: CallOptions,
-  ): Promise<{ path: string; relativePath: string }> {
+  ): Promise<ArtifactResult> {
     return await this.writeArtifact(runId, WORKFLOW_FILES.report, content, options);
   }
 
-  async writeSnapshot(snapshot: WorkflowRunSnapshot, options?: CallOptions): Promise<void> {
+  async writeSnapshot(snapshot: RunSnapshot, options?: CallOptions): Promise<void> {
     throwIfAborted(options?.signal, "Workflow snapshot write cancelled");
     const payload = PARSERS.run(snapshot);
     await writeJson(
@@ -187,7 +196,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
   }
 
   /** 索引更新：同 runId 只保留一条，按 updatedAt 倒序。 */
-  private async upsertIndex(snapshot: WorkflowRunSnapshot, signal?: AbortSignal): Promise<void> {
+  private async upsertIndex(snapshot: RunSnapshot, signal?: AbortSignal): Promise<void> {
     const ledger = await this.readIndex(signal);
     const rest = ledger.runs.filter((run) => run.runId !== snapshot.runId);
     const nextRuns = orderRuns([toListItem(snapshot), ...rest]);
@@ -240,8 +249,9 @@ export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort 
   private readonly definitionsDir: string;
 
   constructor(options: NodeWorkflowDefinitionStoreOptions = {}) {
-    const base = options.rootDir ?? DEFAULT_WORKFLOW_ROOT;
-    this.definitionsDir = options.definitionsDir ?? join(base, "definitions");
+    const { definitionsDir, rootDir } = options;
+    const base = rootDir ?? DEFAULT_WORKFLOW_ROOT;
+    this.definitionsDir = definitionsDir ?? join(base, "definitions");
   }
 
   async listDefinitions(options?: CallOptions): Promise<WorkflowDefinition[]> {
