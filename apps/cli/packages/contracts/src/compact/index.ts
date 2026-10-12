@@ -4,25 +4,41 @@ import { z } from "zod";
 
 import type { MessageId, PartId, ToolCallId, TraceId, TurnId } from "../interfaces/shared.js";
 
-const COMPACT_TRIGGER_VALUES = ["manual", "auto", "partial", "reactive", "session_memory"] as const;
+const COMPACT_TRIGGER_VALUES = [
+  "manual",
+  "auto",
+  "partial",
+  "reactive",
+  "session_memory",
+] as const satisfies readonly string[];
 
 export const CompactTrigger = buildCompactValueTable(COMPACT_TRIGGER_VALUES);
 
 export type CompactTrigger = (typeof COMPACT_TRIGGER_VALUES)[number];
 
-const MICROCOMPACT_TRIGGER_VALUES = ["time_based", "token_pressure"] as const;
+const MICROCOMPACT_TRIGGER_VALUES = [
+  "time_based",
+  "token_pressure",
+] as const satisfies readonly string[];
 
 export const MicrocompactTrigger = buildCompactValueTable(MICROCOMPACT_TRIGGER_VALUES);
 
 export type MicrocompactTrigger = (typeof MICROCOMPACT_TRIGGER_VALUES)[number];
 
-const MICROCOMPACT_STRATEGY_VALUES = ["local_tool_result_clear"] as const;
+const MICROCOMPACT_STRATEGY_VALUES = [
+  "local_tool_result_clear",
+] as const satisfies readonly string[];
 
 export const MicrocompactStrategy = buildCompactValueTable(MICROCOMPACT_STRATEGY_VALUES);
 
 export type MicrocompactStrategy = (typeof MICROCOMPACT_STRATEGY_VALUES)[number];
 
-const COMPACT_PHASE_VALUES = ["standalone_turn", "pre_request", "mid_turn", "reactive"] as const;
+const COMPACT_PHASE_VALUES = [
+  "standalone_turn",
+  "pre_request",
+  "mid_turn",
+  "reactive",
+] as const satisfies readonly string[];
 
 export const CompactPhase = buildCompactValueTable(COMPACT_PHASE_VALUES);
 
@@ -33,7 +49,7 @@ const COMPACT_REASON_VALUES = [
   "context_limit",
   "model_downshift",
   "provider_overflow",
-] as const;
+] as const satisfies readonly string[];
 
 export const CompactReason = buildCompactValueTable(COMPACT_REASON_VALUES);
 
@@ -45,7 +61,7 @@ const COMPACT_STATUS_VALUES = [
   "summary_created",
   "completed",
   "failed",
-] as const;
+] as const satisfies readonly string[];
 
 export const CompactStatus = buildCompactValueTable(COMPACT_STATUS_VALUES);
 
@@ -58,13 +74,13 @@ const C_OM_PA_CT_TI_ME_LI_NE_ST_AT_US_VALUES = [
   "completed",
   "failed",
   "interrupted",
-] as const;
+] as const satisfies readonly string[];
 
 export const CompactTimelineStatus = buildCompactValueTable(C_OM_PA_CT_TI_ME_LI_NE_ST_AT_US_VALUES);
 
 export type CompactTimelineStatus = (typeof C_OM_PA_CT_TI_ME_LI_NE_ST_AT_US_VALUES)[number];
 
-const C_OM_PA_CT_TI_ME_LI_NE_DI_SP_LA_Y_VALUES = ["separator"] as const;
+const C_OM_PA_CT_TI_ME_LI_NE_DI_SP_LA_Y_VALUES = ["separator"] as const satisfies readonly string[];
 
 export const CompactTimelineDisplay = buildCompactValueTable(
   C_OM_PA_CT_TI_ME_LI_NE_DI_SP_LA_Y_VALUES,
@@ -124,60 +140,69 @@ export const CompactFailureReason = Object.fromEntries(
   readonly Unknown: "unknown";
 };
 
-const compactTimelinePayloadInputSchema = z
-  .object({
-    operationId: z.string().min(1),
-    messageId: z.string().min(1),
-    partId: z.string().min(1).optional(),
-    status: z.enum([
-      CompactTimelineStatus.Started,
-      CompactTimelineStatus.Retrying,
-      CompactTimelineStatus.Skipped,
-      CompactTimelineStatus.Completed,
-      CompactTimelineStatus.Failed,
-      CompactTimelineStatus.Interrupted,
-    ]),
-    trigger: z.enum([
-      CompactTrigger.Manual,
-      CompactTrigger.Auto,
-      CompactTrigger.Partial,
-      CompactTrigger.Reactive,
-      CompactTrigger.SessionMemory,
-    ]),
-    phase: z
-      .enum([
-        CompactPhase.StandaloneTurn,
-        CompactPhase.PreRequest,
-        CompactPhase.MidTurn,
-        CompactPhase.Reactive,
-      ])
-      .optional(),
-    compactReason: z
-      .enum([
-        CompactReason.UserRequested,
-        CompactReason.ContextLimit,
-        CompactReason.ModelDownshift,
-        CompactReason.ProviderOverflow,
-      ])
-      .optional(),
-    display: z.literal(CompactTimelineDisplay.Separator).default(CompactTimelineDisplay.Separator),
-    text: z.string().min(1).optional(),
-    replace: z.boolean().optional(),
-    reason: z.string().min(1).optional(),
-    boundaryId: z.string().min(1).optional(),
-    summaryMessageId: z.string().min(1).optional(),
-    // compact 覆盖前缀的最后一条 transcript message；live/cold edit 判定必须同源。
-    tailStartMessageId: z.string().min(1).optional(),
-    sourceCommandId: z.string().min(1).optional(),
-    preCompactTokenCount: z.number().int().nonnegative().optional(),
-    postCompactTokenCount: z.number().int().nonnegative().optional(),
-    truePostCompactTokenCount: z.number().int().nonnegative().optional(),
-    attempt: z.number().int().positive().optional(),
-    maxAttempts: z.number().int().positive().optional(),
-    startedAt: z.number().int().nonnegative().optional(),
-    endedAt: z.number().int().nonnegative().optional(),
-  })
-  .strict();
+/** 时间线 `status` 的取值 schema；抽成命名 const，避免链被折断。 */
+const compactTimelineStatusValueSchema = z.enum([
+  CompactTimelineStatus.Started,
+  CompactTimelineStatus.Retrying,
+  CompactTimelineStatus.Skipped,
+  CompactTimelineStatus.Completed,
+  CompactTimelineStatus.Failed,
+  CompactTimelineStatus.Interrupted,
+]);
+
+/** 时间线 `trigger` 的取值 schema。 */
+const compactTimelineTriggerValueSchema = z.enum([
+  CompactTrigger.Manual,
+  CompactTrigger.Auto,
+  CompactTrigger.Partial,
+  CompactTrigger.Reactive,
+  CompactTrigger.SessionMemory,
+]);
+
+/** 时间线 `phase` 的取值 schema。 */
+const compactTimelinePhaseValueSchema = z.enum([
+  CompactPhase.StandaloneTurn,
+  CompactPhase.PreRequest,
+  CompactPhase.MidTurn,
+  CompactPhase.Reactive,
+]);
+
+/** 时间线 `compactReason` 的取值 schema。 */
+const compactTimelineReasonValueSchema = z.enum([
+  CompactReason.UserRequested,
+  CompactReason.ContextLimit,
+  CompactReason.ModelDownshift,
+  CompactReason.ProviderOverflow,
+]);
+
+/** 时间线 payload 的字段表：字段只声明一次，schema 由字段表构造。 */
+const compactTimelinePayloadFields = {
+  operationId: z.string().min(1),
+  messageId: z.string().min(1),
+  partId: z.string().min(1).optional(),
+  status: compactTimelineStatusValueSchema,
+  trigger: compactTimelineTriggerValueSchema,
+  phase: compactTimelinePhaseValueSchema.optional(),
+  compactReason: compactTimelineReasonValueSchema.optional(),
+  display: z.literal(CompactTimelineDisplay.Separator).default(CompactTimelineDisplay.Separator),
+  text: z.string().min(1).optional(),
+  replace: z.boolean().optional(),
+  reason: z.string().min(1).optional(),
+  boundaryId: z.string().min(1).optional(),
+  summaryMessageId: z.string().min(1).optional(),
+  // compact 覆盖前缀的最后一条 transcript message；live/cold edit 判定必须同源。
+  tailStartMessageId: z.string().min(1).optional(),
+  sourceCommandId: z.string().min(1).optional(),
+  preCompactTokenCount: z.number().int().nonnegative().optional(),
+  postCompactTokenCount: z.number().int().nonnegative().optional(),
+  truePostCompactTokenCount: z.number().int().nonnegative().optional(),
+  attempt: z.number().int().positive().optional(),
+  maxAttempts: z.number().int().positive().optional(),
+  startedAt: z.number().int().nonnegative().optional(),
+  endedAt: z.number().int().nonnegative().optional(),
+};
+
+const compactTimelinePayloadInputSchema = z.object(compactTimelinePayloadFields).strict();
 
 export const compactTimelinePayloadSchema = compactTimelinePayloadInputSchema.transform(
   ({ text: _legacyText, ...payload }) => payload,
@@ -197,13 +222,14 @@ export function parseCompactTimelinePayload(input: unknown): CompactTimelinePayl
   return compactTimelinePayloadSchema.parse(input) as CompactTimelinePayload;
 }
 
-export const compactPreservedSegmentSchema = z
-  .object({
-    headMessageId: z.string().min(1),
-    anchorMessageId: z.string().min(1),
-    tailMessageId: z.string().min(1),
-  })
-  .strict();
+/** preservedSegment 的字段表。 */
+const compactPreservedSegmentFields = {
+  headMessageId: z.string().min(1),
+  anchorMessageId: z.string().min(1),
+  tailMessageId: z.string().min(1),
+};
+
+export const compactPreservedSegmentSchema = z.object(compactPreservedSegmentFields).strict();
 
 export type CompactPreservedSegment = {
   headMessageId: MessageId;
@@ -211,53 +237,34 @@ export type CompactPreservedSegment = {
   tailMessageId: MessageId;
 };
 
-export const compactBoundaryPayloadSchema = z
-  .object({
-    boundaryId: z.string().min(1),
-    trigger: z.enum([
-      CompactTrigger.Manual,
-      CompactTrigger.Auto,
-      CompactTrigger.Partial,
-      CompactTrigger.Reactive,
-      CompactTrigger.SessionMemory,
-    ]),
-    phase: z
-      .enum([
-        CompactPhase.StandaloneTurn,
-        CompactPhase.PreRequest,
-        CompactPhase.MidTurn,
-        CompactPhase.Reactive,
-      ])
-      .optional(),
-    compactReason: z
-      .enum([
-        CompactReason.UserRequested,
-        CompactReason.ContextLimit,
-        CompactReason.ModelDownshift,
-        CompactReason.ProviderOverflow,
-      ])
-      .optional(),
-    summarySource: z.enum(["model", "session_memory"]).optional(),
-    preCompactTokenCount: z.number().int().nonnegative(),
-    postCompactTokenCount: z.number().int().nonnegative().optional(),
-    truePostCompactTokenCount: z.number().int().nonnegative().optional(),
-    autoCompactThreshold: z.number().int().nonnegative().optional(),
-    willRetriggerNextTurn: z.boolean().optional(),
-    summarizedMessageCount: z.number().int().nonnegative(),
-    keptMessageCount: z.number().int().nonnegative().optional(),
-    lastSummarizedMessageId: z.string().min(1).optional(),
-    preservedSegment: compactPreservedSegmentSchema.optional(),
-    summaryMessageIds: z.array(z.string().min(1)).default([]),
-    attachmentMessageIds: z.array(z.string().min(1)).optional(),
-    hookResultMessageIds: z.array(z.string().min(1)).optional(),
-    preCompactDiscoveredTools: z.array(z.string().min(1)).optional(),
-    customInstructions: z.boolean().optional(),
-    traceId: z.string().min(1),
-    turnId: z.string().min(1).optional(),
-    spanId: z.string().min(1).optional(),
-    parentSpanId: z.string().min(1).optional(),
-  })
-  .strict();
+/** boundary payload 的字段表；取值枚举复用时间线抽出的命名 schema。 */
+const compactBoundaryPayloadFields = {
+  boundaryId: z.string().min(1),
+  trigger: compactTimelineTriggerValueSchema,
+  phase: compactTimelinePhaseValueSchema.optional(),
+  compactReason: compactTimelineReasonValueSchema.optional(),
+  summarySource: z.enum(["model", "session_memory"]).optional(),
+  preCompactTokenCount: z.number().int().nonnegative(),
+  postCompactTokenCount: z.number().int().nonnegative().optional(),
+  truePostCompactTokenCount: z.number().int().nonnegative().optional(),
+  autoCompactThreshold: z.number().int().nonnegative().optional(),
+  willRetriggerNextTurn: z.boolean().optional(),
+  summarizedMessageCount: z.number().int().nonnegative(),
+  keptMessageCount: z.number().int().nonnegative().optional(),
+  lastSummarizedMessageId: z.string().min(1).optional(),
+  preservedSegment: compactPreservedSegmentSchema.optional(),
+  summaryMessageIds: z.array(z.string().min(1)).default([]),
+  attachmentMessageIds: z.array(z.string().min(1)).optional(),
+  hookResultMessageIds: z.array(z.string().min(1)).optional(),
+  preCompactDiscoveredTools: z.array(z.string().min(1)).optional(),
+  customInstructions: z.boolean().optional(),
+  traceId: z.string().min(1),
+  turnId: z.string().min(1).optional(),
+  spanId: z.string().min(1).optional(),
+  parentSpanId: z.string().min(1).optional(),
+};
+
+export const compactBoundaryPayloadSchema = z.object(compactBoundaryPayloadFields).strict();
 
 export type CompactBoundaryPayload = Omit<
   z.infer<typeof compactBoundaryPayloadSchema>,
@@ -270,19 +277,22 @@ export type CompactBoundaryPayload = Omit<
   turnId?: TurnId;
 };
 
+/** microcompact boundary payload 的字段表。 */
+const microcompactBoundaryPayloadFields = {
+  trigger: z.enum([MicrocompactTrigger.TimeBased, MicrocompactTrigger.TokenPressure]),
+  strategy: z.enum([MicrocompactStrategy.LocalToolResultClear]),
+  preMicrocompactTokenCount: z.number().int().nonnegative(),
+  postMicrocompactTokenCount: z.number().int().nonnegative(),
+  tokensSaved: z.number().int().nonnegative(),
+  clearedToolCallIds: z.array(z.string().min(1)),
+  keptToolCallIds: z.array(z.string().min(1)),
+  clearedMessageCount: z.number().int().nonnegative(),
+  traceId: z.string().min(1),
+  turnId: z.string().min(1).optional(),
+};
+
 export const microcompactBoundaryPayloadSchema = z
-  .object({
-    trigger: z.enum([MicrocompactTrigger.TimeBased, MicrocompactTrigger.TokenPressure]),
-    strategy: z.enum([MicrocompactStrategy.LocalToolResultClear]),
-    preMicrocompactTokenCount: z.number().int().nonnegative(),
-    postMicrocompactTokenCount: z.number().int().nonnegative(),
-    tokensSaved: z.number().int().nonnegative(),
-    clearedToolCallIds: z.array(z.string().min(1)),
-    keptToolCallIds: z.array(z.string().min(1)),
-    clearedMessageCount: z.number().int().nonnegative(),
-    traceId: z.string().min(1),
-    turnId: z.string().min(1).optional(),
-  })
+  .object(microcompactBoundaryPayloadFields)
   .strict();
 
 export type MicrocompactBoundaryPayload = Omit<
