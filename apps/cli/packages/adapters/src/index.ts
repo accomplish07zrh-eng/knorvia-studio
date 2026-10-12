@@ -1,4 +1,5 @@
-// Adapters layer - external I/O implementations
+// 适配层总入口：把各子域的公开面汇总，调用方只依赖这一层。
+// 顺序即分组（存储/文件/上下文/执行/网络/图像/PDF/供应商/模型/日志/配置/技能/命令/插件/鉴权/浏览器/MCP/工作流）。
 export * from "./storage/index.js";
 export * from "./fs/index.js";
 export * from "./context/index.js";
