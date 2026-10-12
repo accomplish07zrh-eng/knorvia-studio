@@ -69,8 +69,6 @@ src/
   index.ts            public exports
 scripts/
   generate-libs.mjs   embeds the TS stdlib closure into src/compiler/libs.generated.ts
-  generate-mermaid.mjs renders every graph fixture to charts/<name>.md (`pnpm charts`)
-charts/               generated mermaid pages (one per graph fixture) — gitignored
 tests/
   workflows/          fixture workflow scripts for the compiler suite (see below)
   graphs/             fixture scripts for the site-graph suite; expected/*.txt are
@@ -115,7 +113,6 @@ pnpm test         # vitest run tests
 pnpm test -- -w   # watch mode while developing
 pnpm typecheck    # tsc --noEmit
 pnpm build        # tsc -> dist/ (declaration + maps)
-pnpm charts       # build + render graph fixtures to charts/*.md (mermaid)
 pnpm lint         # oxlint src tests
 ```
 
