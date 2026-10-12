@@ -84478,7 +84478,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/known-differences.md",
-      "normalizedSha256": "b072998fb7070fd9b49a96204440da1b24494f77022fddabf9dee9c83ed96559",
+      "normalizedSha256": "7cf041b22b7e6d05d00e0eedec90262e8e3db8adddf34c1bb1735c5469841c5e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -84632,7 +84632,7 @@
       "normalizedSha256": "03e31ef60d03eec1187792b83d461dd2a5b2a7cfe9bbb7f72b6fb9554ca4cd38",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group). The author read the replaced implementation to derive behavior and callers, then rewrote the logic with a different organization (rule table for target evaluation, split kept/append helpers for branch selection, schemas and types moved to a declaration module). Public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: target-evaluation normal mode containment 0.138 / run 5, active-branch 0.122 / run 3 (thresholds 0.2 / 8 / 0.4 unchanged).",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     },
     {
@@ -84640,7 +84640,7 @@
       "normalizedSha256": "de391f47cba223f23845744fe13f0d94659b423e972df8ec659ba1146e4565e2",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group). The author read the replaced implementation to derive behavior and callers, then rewrote the logic with a different organization (rule table for target evaluation, split kept/append helpers for branch selection, schemas and types moved to a declaration module). Public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: target-evaluation normal mode containment 0.138 / run 5, active-branch 0.122 / run 3 (thresholds 0.2 / 8 / 0.4 unchanged).",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     },
     {
@@ -84648,7 +84648,7 @@
       "normalizedSha256": "941439d62c4ea1ca5c872dec61a4adb37a1e6bda163e9b5e885ef95e6c104754",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group). The author read the replaced implementation to derive behavior and callers, then rewrote the logic with a different organization (rule table for target evaluation, split kept/append helpers for branch selection, schemas and types moved to a declaration module). Public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: target-evaluation normal mode containment 0.138 / run 5, active-branch 0.122 / run 3 (thresholds 0.2 / 8 / 0.4 unchanged).",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     },
     {
@@ -84656,7 +84656,7 @@
       "normalizedSha256": "80f67f590c4288d1182d3e5b45857763dcf262f21b84779d9b6ce5b0eba7da7e",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group). The author read the replaced implementation to derive behavior and callers, then rewrote the logic with a different organization (rule table for target evaluation, split kept/append helpers for branch selection, schemas and types moved to a declaration module). Public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: target-evaluation normal mode containment 0.138 / run 5, active-branch 0.122 / run 3 (thresholds 0.2 / 8 / 0.4 unchanged).",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     }
   ]
