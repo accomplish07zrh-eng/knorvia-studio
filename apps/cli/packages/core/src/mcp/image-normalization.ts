@@ -27,16 +27,16 @@ export async function normalizeMcpToolResultForModel(input: {
   result: McpToolCallResult;
   toolName: string;
 }): Promise<McpToolCallResult> {
+  // 具名步骤一：判定是否整体转交 @knorvia/cua（共享 node 上下文里带帧权威，或调用方显式要求）。
   const sharedNodeContext =
     input.descriptor.serverName === "node_repl" || input.toolName === "mcp__node_repl__js";
-  if (
-    input.preserveOfficialCuaFrames ||
-    (sharedNodeContext && hasOfficialCuaFrameAuthority(input.result))
-  ) {
-    return await preserveOfficialCuaFrameResult(input.result, {
+  const hasFrameAuthority = sharedNodeContext && hasOfficialCuaFrameAuthority(input.result);
+  if (input.preserveOfficialCuaFrames === true || hasFrameAuthority) {
+    const preserved = await preserveOfficialCuaFrameResult(input.result, {
       imageProcessorPort: input.context.imageProcessorPort,
       signal: input.context.abortSignal,
     });
+    return preserved;
   }
 
   const screenshotIndices = input.compressOversizedImages
