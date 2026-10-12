@@ -111,23 +111,20 @@ export function base64PayloadFromMcpImageData(data: string): string {
 type NormalizationInput = Parameters<typeof normalizeMcpToolResultForModel>[0];
 type ImageSummary = { base64Bytes: number; inlineLimitBytes: number; mimeType: string };
 
+// 兼容旧 meta 键：新键优先，取不到时才回落到历史键。
+const LEGACY_SCREENSHOT_INDEX_META_KEY = "knorvia/browserScreenshotContentIndices";
+
+// 合法内容下标：整数、非负、且落在 content 范围内。
+const isValidContentIndex = (value: unknown, upperBound: number): value is number =>
+  typeof value === "number" && Number.isInteger(value) && value >= 0 && value < upperBound;
+
 function markedScreenshotIndices(result: McpToolCallResult): Set<number> {
   const marked =
     result._meta?.[KNORVIA_MCP_BROWSER_SCREENSHOT_CONTENT_INDICES_META_KEY] ??
-    result._meta?.["knorvia/browserScreenshotContentIndices"];
-  const indices = new Set<number>();
-  if (Array.isArray(marked)) {
-    for (const index of marked) {
-      if (
-        typeof index === "number" &&
-        Number.isInteger(index) &&
-        index >= 0 &&
-        index < result.content.length
-      )
-        indices.add(index);
-    }
-  }
-  return indices;
+    result._meta?.[LEGACY_SCREENSHOT_INDEX_META_KEY];
+  if (!Array.isArray(marked)) return new Set<number>();
+  const upperBound = result.content.length;
+  return new Set(marked.filter((index) => isValidContentIndex(index, upperBound)));
 }
 
 async function backUpScreenshot(
