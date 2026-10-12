@@ -133365,7 +133365,7 @@
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "1b19fc3ddbfc77d8dbfe60cbd9b88c40d2caeea311bd4c19dd92eeefb09c7a6d",
+      "normalizedSha256": "bc40728eab2f319bb4321f8613c91be1b72345ed6225c042b6bace9bd338fcfa",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
@@ -133377,7 +133377,7 @@
     },
     {
       "path": "docs/knorvia-similarity-calibration-20261011.md",
-      "normalizedSha256": "5f76f81e0f07150e42f3fe97754d087cade8d30dc5b617ff7a13b9781bf10d6d",
+      "normalizedSha256": "45bce9c2a802821a3ead24d2be22c8ebc0a2c0cf11aee53641b2bd1d97359807",
       "decision": "original",
       "license": "MIT",
       "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
@@ -133400,7 +133400,7 @@
     },
     {
       "path": "scripts/provenance/similarity-declarations.mjs",
-      "normalizedSha256": "223f04948d6221fc3d1e3dddbeb5ce4ea00aa4ddf4d0034419ace39473a6bbc9",
+      "normalizedSha256": "995cbe9d3f69c2d71e820cf868923d231e67334cd28d04a04eba3f955e6dc9ab",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names.",

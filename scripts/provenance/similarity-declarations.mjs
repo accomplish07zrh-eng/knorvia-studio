@@ -90,10 +90,15 @@ export function stripDeclarationLines(text, names) {
 
 const DECLARATION_START =
   /^\s*(?:export\s+)?(?:declare\s+)?(interface|type|class|enum)\s+([A-Za-z_$][\w$]*)/u;
+// `const` 声明块：zod schema、常量表、`as const` 枚举对象都是合同冻结面（名字由 interface.md
+// 列出），与 interface/type/class/enum 同等对待；只按名字匹配，不做「剔除所有 const」的启发式。
+const CONST_DECLARATION_START =
+  /^\s*(?:export\s+)?(?:declare\s+)?const\s+([A-Za-z_$][\w$]*)\s*[:=]/u;
 
 /**
  * 声明模式：按 interface.md 列出的名字定位**整块**声明（interface / type / class / enum，
- * 含成员行与嵌套），整块剔除。只按名字精确匹配，不做启发式、不做通配。
+ * 以及名字同样被列出的 `const` 声明块，含成员行与嵌套），整块剔除。
+ * 只按名字精确匹配，不做启发式、不做通配。
  * 只应在 `--declaration --interface` 模式下调用；普通模式继续用 stripDeclarationLines。
  */
 export function stripDeclarationBlocks(text, names) {
@@ -104,12 +109,14 @@ export function stripDeclarationBlocks(text, names) {
   let index = 0;
   while (index < lines.length) {
     const start = DECLARATION_START.exec(lines[index]);
-    if (!start || !wanted.has(start[2])) {
+    const constStart = start ? null : CONST_DECLARATION_START.exec(lines[index]);
+    const name = start ? start[2] : constStart?.[1];
+    if (!name || !wanted.has(name)) {
       kept.push(lines[index]);
       index += 1;
       continue;
     }
-    const kind = start[1];
+    const kind = start ? start[1] : "const";
     const end = findDeclarationEnd(lines, index, kind);
     strippedBlocks += 1;
     index = end + 1;
@@ -117,7 +124,7 @@ export function stripDeclarationBlocks(text, names) {
   return { text: kept.join("\n"), strippedBlocks };
 }
 
-/** 找到声明块的结束行：interface/class/enum 到花括号归零，type 到深度 0 且以分号结尾。 */
+/** 找到声明块的结束行：interface/class/enum 到花括号归零，type 与 const 到深度 0 且以分号结尾。 */
 function findDeclarationEnd(lines, start, kind) {
   let depth = 0;
   let opened = false;
@@ -130,7 +137,7 @@ function findDeclarationEnd(lines, start, kind) {
       opened = true;
       continue;
     }
-    if (kind === "type") {
+    if (kind === "type" || kind === "const") {
       if (/;\s*$/u.test(lines[index])) return index;
       continue;
     }
