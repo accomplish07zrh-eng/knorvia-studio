@@ -6,16 +6,18 @@ import type { LogContext, LogEntry, LogRedactor } from "@knorvia/contracts";
 import { redactDiagnosticText } from "@knorvia/shared";
 import { assignOwn } from "./log-redactor.js";
 
-/** 错误序列化形状：字段全集固定，`cause` 递归指向下一环。 */
-export interface SerializedLogError {
+/** 错误序列化的基础字段（不含递归的 cause）。 */
+interface ErrorFields {
+  code?: string;
+  context?: Record<string, unknown>;
   message: string;
   name: string;
   stack?: string;
-  code?: string;
   type?: string;
-  context?: Record<string, unknown>;
-  cause?: SerializedLogError;
 }
+
+/** 错误序列化形状：字段全集固定，`cause` 递归指向下一环。 */
+export type SerializedLogError = ErrorFields & { cause?: SerializedLogError };
 
 export type SerializableLogEntry = Record<string, unknown>;
 
@@ -33,63 +35,69 @@ const ENTRY_ORDER =
   );
 
 /** 状态枚举：只作为判定集合使用，不参与输出。 */
-const STATES: ReadonlySet<unknown> = new Set(
+const STATUS_SET: ReadonlySet<unknown> = new Set(
   "started waiting completed failed cancelled".split(" "),
 );
-
-/** 保留旧解构的 getter 顺序；rest 只读取未保留的可枚举自有属性。 */
-function copyExtras(context: LogContext): Record<string, unknown> {
-  const rest: Record<string, unknown> = {};
-  for (const key of Reflect.ownKeys(context)) {
-    if (typeof key === "string" && RESERVED_SET.has(key)) continue;
-    const descriptor = Object.getOwnPropertyDescriptor(context, key);
-    if (descriptor?.enumerable) assignOwn(rest, key, context[key as string]);
-  }
-  return rest;
-}
-
-export function stripReservedContext(context: LogContext): Record<string, unknown> | undefined {
-  for (const key of RESERVED_CONTEXT) void context[key];
-  const rest = copyExtras(context);
-  return Object.keys(rest).length ? rest : undefined;
-}
 
 /** 三个字段要过脱敏器，其余按原值输出。 */
 const REDACTED_FIELDS = new Set<string>(["message", "context", "error"]);
 
-const FIELD_CONVERTERS: Record<string, (entry: LogEntry) => unknown> = {
-  timestamp: (entry) => entry.timestamp.toISOString(),
-  level: (entry) => entry.levelName.toLowerCase(),
+const FIELD_CONVERTERS: Record<string, (record: LogEntry) => unknown> = {
+  timestamp: (record) => record.timestamp.toISOString(),
+  level: (record) => record.levelName.toLowerCase(),
 };
 
-function converterFor(field: string): (entry: LogEntry, redactor: LogRedactor) => unknown {
-  const direct = FIELD_CONVERTERS[field];
-  if (direct !== undefined) return direct;
-  if (REDACTED_FIELDS.has(field)) return (entry, redactor) => redactor.redact(entry[field]);
-  return (entry) => entry[field];
+/** 保留旧解构的 getter 顺序；只取未保留的可枚举自有属性。 */
+function extractExtras(fields: LogContext): Record<string, unknown> {
+  const extras: Record<string, unknown> = {};
+  for (const reserved of Reflect.ownKeys(fields)) {
+    if (typeof reserved === "string" && RESERVED_SET.has(reserved)) continue;
+    const descriptor = Object.getOwnPropertyDescriptor(fields, reserved);
+    if (descriptor?.enumerable) assignOwn(extras, reserved, fields[reserved as string]);
+  }
+  return extras;
 }
 
-export function toSerializableEntry(entry: LogEntry, redactor: LogRedactor): SerializableLogEntry {
+function converterFor(field: string): (record: LogEntry, masker: LogRedactor) => unknown {
+  const direct = FIELD_CONVERTERS[field];
+  if (direct !== undefined) return direct;
+  if (REDACTED_FIELDS.has(field)) return (record, masker) => masker.redact(record[field]);
+  return (record) => record[field];
+}
+
+export function stripReservedContext(fields: LogContext): Record<string, unknown> | undefined {
+  for (const reserved of RESERVED_CONTEXT) void fields[reserved];
+  const extras = extractExtras(fields);
+  return Object.keys(extras).length > 0 ? extras : undefined;
+}
+
+export function toSerializableEntry(record: LogEntry, masker: LogRedactor): SerializableLogEntry {
   const result: SerializableLogEntry = {};
-  for (const field of ENTRY_ORDER) {
-    const value = converterFor(field)(entry, redactor);
-    if (value !== undefined) assignOwn(result, field, value);
+  for (const slot of ENTRY_ORDER) {
+    const value = converterFor(slot)(record, masker);
+    if (value !== undefined) assignOwn(result, slot, value);
   }
   return result;
 }
 
-export function formatConsoleLine(entry: LogEntry): string {
-  const segments = [entry.levelName.toLowerCase(), `[${entry.module ?? "log"}]`];
-  if (entry.traceId) segments.push(`trace=${entry.traceId.slice(0, 8)}`);
-  if (entry.event) segments.push(`event=${entry.event}`);
-  segments.push(redactDiagnosticText(entry.message));
+/** 控制台单行：级别 + 模块，可选 trace/event，最后是脱敏后的消息。 */
+export function formatConsoleLine(record: LogEntry): string {
+  const segments = [record.levelName.toLowerCase(), `[${record.module ?? "log"}]`];
+  const optional = [
+    record.traceId ? `trace=${record.traceId.slice(0, 8)}` : undefined,
+    record.event ? `event=${record.event}` : undefined,
+  ];
+  for (const part of optional) {
+    if (part !== undefined) segments.push(part);
+  }
+  segments.push(redactDiagnosticText(record.message));
   return segments.join(" ");
 }
 
 export function isLogStatus(value: unknown): value is LogEntry["status"] {
-  return STATES.has(value);
+  return STATUS_SET.has(value);
 }
 
-// 实现下沉：脱敏器在 log-redactor，错误链序列化在 log-error-node；导出名保持不变。
+// 实现下沉：脱敏器在 log-masker，错误链序列化在 log-error-node；导出名保持不变。
 export { DefaultLogRedactor } from "./log-redactor.js";
 export { serializeLogError } from "./log-error-node.js";
