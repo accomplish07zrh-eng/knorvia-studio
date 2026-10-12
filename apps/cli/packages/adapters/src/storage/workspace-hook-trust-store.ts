@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 信任库文件门面：所有读写串行化到一条 Promise 队列上，再经文件锁与原子写落盘。
+// 形状声明与路径解析分别来自 types / path 模块；四个记录变换是纯函数，便于单独验证。
 
 import { resolve } from "node:path";
 import {
@@ -34,92 +37,150 @@ export type {
   WorkspaceHookTrustStoreRevokeOptions,
 } from "./workspace-hook-trust-types.js";
 
-function identity(record: { workspaceIdentity: string; hookDeclarationDigest: string }): string {
+/** 记录去重键：工作区身份 + 声明摘要，缺一不可。 */
+function recordKey(record: { workspaceIdentity: string; hookDeclarationDigest: string }): string {
   return JSON.stringify([record.workspaceIdentity, record.hookDeclarationDigest]);
 }
 
-function lastUse(record: WorkspaceHookTrustRecord): number {
+/** 最近使用时间：优先 lastUsedAt，缺失时退回 grantedAt。 */
+function lastUsedAtMs(record: WorkspaceHookTrustRecord): number {
   return Date.parse(record.lastUsedAt ?? record.grantedAt);
 }
 
+/** 授予：同键覆盖，保留已有顺序之后追加新记录。 */
+function mergeGrants(
+  current: WorkspaceHookTrustRecord[],
+  granted: readonly WorkspaceHookTrustRecord[],
+): WorkspaceHookTrustRecord[] {
+  const byKey = new Map(current.map((record) => [recordKey(record), record]));
+  for (const record of granted) byKey.set(recordKey(record), record);
+  return [...byKey.values()];
+}
+
+/** 撤销：不带摘要即整工作区撤销，带摘要则只撤销列出的那些。 */
+function filterRevoked(
+  records: WorkspaceHookTrustRecord[],
+  settings: WorkspaceHookTrustStoreRevokeOptions,
+  digests: ReadonlySet<string> | undefined,
+): WorkspaceHookTrustRecord[] {
+  return records.filter(
+    (record) =>
+      record.workspaceIdentity !== settings.workspaceIdentity ||
+      (digests !== undefined && !digests.has(record.hookDeclarationDigest)),
+  );
+}
+
+/** 触碰：命中工作区与摘要的记录写入新的 lastUsedAt。 */
+function applyTouch(
+  records: WorkspaceHookTrustRecord[],
+  settings: { workspaceIdentity: string; hookDeclarationDigests: readonly string[] },
+  usedAt: string,
+): WorkspaceHookTrustRecord[] {
+  const digests = new Set(settings.hookDeclarationDigests);
+  return records.map((record) => {
+    const hit =
+      record.workspaceIdentity === settings.workspaceIdentity &&
+      digests.has(record.hookDeclarationDigest);
+    return hit ? { ...record, lastUsedAt: usedAt } : record;
+  });
+}
+
+/** 压缩：保留集合原样留下，其余按最近使用倒序补足到 maxRecords。 */
+function compactRecords(
+  records: WorkspaceHookTrustRecord[],
+  settings: WorkspaceHookTrustStoreCompactOptions,
+  pinned: ReadonlySet<string>,
+  at: number,
+): WorkspaceHookTrustRecord[] {
+  const keep: WorkspaceHookTrustRecord[] = [];
+  const fresh: WorkspaceHookTrustRecord[] = [];
+  for (const record of records) {
+    if (pinned.has(recordKey(record))) keep.push(record);
+    else if (at - lastUsedAtMs(record) <= settings.maxAgeMs) fresh.push(record);
+  }
+  fresh.sort((left, right) => lastUsedAtMs(right) - lastUsedAtMs(left));
+  const room = Math.max(0, settings.maxRecords - keep.length);
+  return keep.concat(fresh.slice(0, room));
+}
+
+function lockSettingsFrom(options: FileWorkspaceHookTrustStoreOptions): TrustLockOptions {
+  const settings = {} as TrustLockOptions;
+  settings.lockTimeoutMs = options.lockTimeoutMs;
+  settings.staleLockMs = options.staleLockMs;
+  settings.probeProcessStartTime = options.probeProcessStartTime;
+  settings.writeLockOwnerMetadata = options.writeLockOwnerMetadata;
+  return settings;
+}
+
+function publishSettingsFrom(options: FileWorkspaceHookTrustStoreOptions): TrustPublishOptions {
+  const settings = {} as TrustPublishOptions;
+  settings.beforeRename = options.beforeRename;
+  settings.renameFile = options.renameFile;
+  settings.renameRetryDelaysMs = options.renameRetryDelaysMs;
+  return settings;
+}
+
 export class FileWorkspaceHookTrustStore {
-  readonly #filePath: string;
-  readonly #lockPath: string;
-  readonly #now: () => number;
-  readonly #lockOptions: TrustLockOptions;
-  readonly #publishOptions: TrustPublishOptions;
-  #tail: Promise<void> = Promise.resolve();
+  readonly #targetFile: string;
+  readonly #lockFile: string;
+  readonly #clock: () => number;
+  readonly #lockSettings: TrustLockOptions;
+  readonly #publishSettings: TrustPublishOptions;
+  #queue: Promise<void> = Promise.resolve();
 
   constructor(options: FileWorkspaceHookTrustStoreOptions) {
-    this.#filePath = resolve(options.filePath);
-    this.#lockPath = `${this.#filePath}.lock`;
-    this.#now = options.now ?? Date.now;
-    this.#lockOptions = {
-      lockTimeoutMs: options.lockTimeoutMs,
-      staleLockMs: options.staleLockMs,
-      probeProcessStartTime: options.probeProcessStartTime,
-      writeLockOwnerMetadata: options.writeLockOwnerMetadata,
-    };
-    this.#publishOptions = {
-      beforeRename: options.beforeRename,
-      renameFile: options.renameFile,
-      renameRetryDelaysMs: options.renameRetryDelaysMs,
-    };
+    this.#targetFile = resolve(options.filePath);
+    this.#lockFile = `${this.#targetFile}.lock`;
+    this.#clock = options.now ?? Date.now;
+    this.#lockSettings = lockSettingsFrom(options);
+    this.#publishSettings = publishSettingsFrom(options);
   }
 
-  #enqueue<T>(operation: () => Promise<T>): Promise<T> {
-    const result = this.#tail.then(async () => {
-      await prepareTrustDirectory(this.#filePath);
-      return withTrustLock(this.#lockPath, this.#lockOptions, operation);
+  /** 串行化：先建目录，再在文件锁内执行；队列本身永不因失败而中断。 */
+  #serialize<T>(operation: () => Promise<T>): Promise<T> {
+    const result = this.#queue.then(async () => {
+      await prepareTrustDirectory(this.#targetFile);
+      return await withTrustLock(this.#lockFile, this.#lockSettings, operation);
     });
-    this.#tail = result.then(
+    this.#queue = result.then(
       () => undefined,
       () => undefined,
     );
     return result;
   }
 
-  #change(
-    transform: (records: WorkspaceHookTrustRecord[]) => WorkspaceHookTrustRecord[],
+  /** 读改写一体：读当前文件 → 应用变换 → 校验 schema 版本 → 原子写回。 */
+  #mutate(
+    apply: (records: WorkspaceHookTrustRecord[]) => WorkspaceHookTrustRecord[],
   ): Promise<WorkspaceHookTrustStoreFile> {
-    return this.#enqueue(async () => {
-      const current = await readTrustFile(this.#filePath, this.#now);
-      const next = workspaceHookTrustStoreFileSchema.parse({
+    return this.#serialize(async () => {
+      const current = await readTrustFile(this.#targetFile, this.#clock);
+      const written = workspaceHookTrustStoreFileSchema.parse({
         schemaVersion: WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION,
-        records: transform(current.records),
+        records: apply(current.records),
       });
-      await writeTrustFile(this.#filePath, next, this.#publishOptions);
-      return next;
+      await writeTrustFile(this.#targetFile, written, this.#publishSettings);
+      return written;
     });
   }
 
   load(): Promise<WorkspaceHookTrustStoreLoadResult> {
-    return this.#enqueue(() => readTrustFile(this.#filePath, this.#now));
+    return this.#serialize(() => readTrustFile(this.#targetFile, this.#clock));
   }
 
-  grant(records: readonly WorkspaceHookTrustRecord[]): Promise<WorkspaceHookTrustStoreFile> {
-    const prepared = records.map((record) => workspaceHookTrustRecordSchema.parse(record));
-    return this.#change((current) => {
-      const merged = new Map(current.map((record) => [identity(record), record]));
-      for (const record of prepared) merged.set(identity(record), record);
-      return [...merged.values()];
-    });
+  grant(entries: readonly WorkspaceHookTrustRecord[]): Promise<WorkspaceHookTrustStoreFile> {
+    const granted = entries.map((record) => workspaceHookTrustRecordSchema.parse(record));
+    return this.#mutate((current) => mergeGrants(current, granted));
   }
 
-  revoke(options: WorkspaceHookTrustStoreRevokeOptions): Promise<WorkspaceHookTrustStoreFile> {
-    const requested = options.hookDeclarationDigests;
+  revoke(settings: WorkspaceHookTrustStoreRevokeOptions): Promise<WorkspaceHookTrustStoreFile> {
+    const requested = settings.hookDeclarationDigests;
     if (requested?.length === 0) {
       return Promise.reject(new Error("hookDeclarationDigests must be undefined or non-empty"));
     }
     // 运行时 null 沿用未指定列表的撤销语义，不扩展公开类型。
     const digests = requested == null ? undefined : new Set(requested);
-    return this.#change((records) =>
-      records.filter(
-        (record) =>
-          record.workspaceIdentity !== options.workspaceIdentity ||
-          (digests !== undefined && !digests.has(record.hookDeclarationDigest)),
-      ),
-    );
+    return this.#mutate((records) => filterRevoked(records, settings, digests));
   }
 
   touch(input: {
@@ -127,39 +188,20 @@ export class FileWorkspaceHookTrustStore {
     hookDeclarationDigests: readonly string[];
     usedAt?: string;
   }): Promise<WorkspaceHookTrustStoreFile> {
-    const digests = new Set(input.hookDeclarationDigests);
-    const usedAt = input.usedAt ?? new Date(this.#now()).toISOString();
-    return this.#change((records) =>
-      records.map((record) =>
-        record.workspaceIdentity === input.workspaceIdentity &&
-        digests.has(record.hookDeclarationDigest)
-          ? { ...record, lastUsedAt: usedAt }
-          : record,
-      ),
-    );
+    const usedAt = input.usedAt ?? new Date(this.#clock()).toISOString();
+    return this.#mutate((records) => applyTouch(records, input, usedAt));
   }
 
-  compact(options: WorkspaceHookTrustStoreCompactOptions): Promise<WorkspaceHookTrustStoreFile> {
-    if (!Number.isFinite(options.maxAgeMs) || options.maxAgeMs < 0) {
+  compact(settings: WorkspaceHookTrustStoreCompactOptions): Promise<WorkspaceHookTrustStoreFile> {
+    if (!Number.isFinite(settings.maxAgeMs) || settings.maxAgeMs < 0) {
       throw new Error("maxAgeMs must be a nonnegative finite number");
     }
-    if (!Number.isInteger(options.maxRecords) || options.maxRecords <= 0) {
+    if (!Number.isInteger(settings.maxRecords) || settings.maxRecords <= 0) {
       throw new Error("maxRecords must be a positive integer");
     }
-    const now = options.now ?? this.#now();
-    const current = new Set(options.current.map(identity));
-    return this.#change((records) => {
-      const retained: WorkspaceHookTrustRecord[] = [];
-      const candidates: WorkspaceHookTrustRecord[] = [];
-      for (const record of records) {
-        if (current.has(identity(record))) retained.push(record);
-        else if (now - lastUse(record) <= options.maxAgeMs) candidates.push(record);
-      }
-      candidates.sort((left, right) => lastUse(right) - lastUse(left));
-      return retained.concat(
-        candidates.slice(0, Math.max(0, options.maxRecords - retained.length)),
-      );
-    });
+    const at = settings.now ?? this.#clock();
+    const pinned = new Set(settings.current.map(recordKey));
+    return this.#mutate((records) => compactRecords(records, settings, pinned, at));
   }
 }
 
