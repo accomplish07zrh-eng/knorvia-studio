@@ -33,6 +33,13 @@ interface PublishedArtifactSummary {
 type ArtifactSummary = PublishedArtifactSummary;
 type ManifestKind = WorkflowArtifactManifestEntry["kind"];
 type OptionalText = string | undefined;
+// 一行的行数预算。
+type LineBudget = number;
+
+// 版本号在行上带 v 前缀；单独成函数便于格式统一。
+function versionLabel(version: number): string {
+  return `v${version}`;
+}
 type OptionalCount = number | undefined;
 
 //  与 shared 侧 zod 的 ARTIFACT_CAPS 同值的一张表：四处长度界集中在一处，便于逐条对照。
@@ -44,11 +51,12 @@ const ARTIFACT_LIMITS = {
 } as const;
 
 //  完成通知 `<artifacts>` 的行数上限；文本行数与载荷上界刻意保持同一个值。
-export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8;
+export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8 as const;
 //  `GetWorkflowRun` 文本截面的行数上限，取自 `ARTIFACT_CAPS` 的每 run 上界（32）。
-export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32;
+export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32 as const;
 //  预置看板的四个种类：不产出字节，数据量取自 report 标签条数。
-const PRESET_ARTIFACT_KINDS: ReadonlySet<string> = new Set(["chart", "table", "metrics", "board"]);
+const PRESET_ARTIFACT_KIND_LIST: readonly string[] = ["chart", "table", "metrics", "board"];
+const PRESET_ARTIFACT_KINDS: ReadonlySet<string> = new Set(PRESET_ARTIFACT_KIND_LIST);
 
 const PRIMARY_MARKER = "primary";
 const LINE_PREFIX = "- ";
@@ -61,7 +69,7 @@ function primaryRank(artifact: { primary?: true }): number {
   return artifact.primary === true ? 0 : 1;
 }
 
-function primaryFirst<T extends { primary?: true }>(artifacts: readonly T[]): T[] {
+function primaryFirst<Item extends { primary?: true }>(artifacts: readonly Item[]): Item[] {
   const ordered = [...artifacts];
   ordered.sort((left, right) => primaryRank(left) - primaryRank(right));
   return ordered;
@@ -82,9 +90,10 @@ function sizeLabel(artifact: ArtifactSummary): OptionalText {
 // 括号里按固定顺序拼：种类（交付物紧跟 primary）→ 版本 → 内容类型 → 大小。
 function lineParts(artifact: ArtifactSummary): string[] {
   const parts = artifact.primary === true ? [artifact.kind, PRIMARY_MARKER] : [artifact.kind];
-  parts.push(`v${artifact.version}`);
-  if (artifact.contentType !== undefined && artifact.contentType.length > 0) {
-    parts.push(artifact.contentType);
+  parts.push(versionLabel(artifact.version));
+  const contentType = artifact.contentType;
+  if (contentType !== undefined && contentType.length > 0) {
+    parts.push(contentType);
   }
   const size = sizeLabel(artifact);
   if (size !== undefined) parts.push(size);
@@ -100,18 +109,18 @@ function lineParts(artifact: ArtifactSummary): string[] {
 // 不给 `uri`：模型读不到 tool-artifact store。要正文就调 `GetWorkflowRun`，或让子代理读工作区原路径。
 export function formatPublishedArtifactLine(artifact: ArtifactSummary): string {
   const head = `${LINE_PREFIX}${artifact.id} (${lineParts(artifact).join(", ")})`;
-  const title = artifact.title?.trim();
+  const title = trimmed(artifact.title);
   if (title === undefined || title.length === 0) return head;
   return `${head}: ${title}`;
 }
 
 //  `<artifacts count shown>` 需要的三个值，形状与 `<reports>` 一节一致。
-interface WorkflowArtifactsNotificationSection {
+interface ArtifactNotificationSection {
   //  真实总件数，不是列出来的行数。
-  count: number;
+  readonly count: number;
   //  实际列出的行数；小于 count 说明清单只是局部。
-  shown: number;
-  preview: string;
+  readonly shown: number;
+  readonly preview: string;
 }
 
 // 产物清单 → 完成通知与 `GetWorkflowRun` 共用的 `<artifacts>` 一节。
@@ -120,8 +129,8 @@ interface WorkflowArtifactsNotificationSection {
 // 全量可按 run id 取」的信号。没有产物时返回 undefined，让调用方整节不写，而不是写一节空的。
 export function buildWorkflowArtifactsNotificationSection(
   artifacts: readonly ArtifactSummary[] | undefined,
-  maxLines: number,
-): WorkflowArtifactsNotificationSection | undefined {
+  maxLines: LineBudget,
+): ArtifactNotificationSection | undefined {
   if (artifacts === undefined || artifacts.length === 0) return undefined;
   const ordered = primaryFirst(artifacts);
   const lines = ordered.slice(0, maxLines).map(formatPublishedArtifactLine);
