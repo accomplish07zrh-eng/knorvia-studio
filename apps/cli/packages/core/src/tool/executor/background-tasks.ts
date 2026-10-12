@@ -50,6 +50,29 @@ export class BackgroundTaskTracker {
     this.trackedTaskIds.delete(taskId);
   }
 
+  // 运行中快照的发布：签名没变就不重复发，去重靠 run.lastRunningSignature。
+  private async publishRunning(
+    run: RunState,
+    toolCall: ExecutableToolCall,
+    taskId: string,
+    output: Record<string, unknown>,
+    snapshot: TaskSnapshot,
+    traceContext: TraceContext,
+    turnId: TurnId | undefined,
+  ): Promise<void> {
+    const signature = runningSignature(snapshot);
+    if (signature === run.lastRunningSignature) return;
+    run.lastRunningSignature = signature;
+    updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
+    await emitBackgroundTaskEvent(
+      this.deps,
+      SessionEventType.BackgroundTaskUpdated,
+      taskPayload(this.deps, toolCall, taskId, "running", output, snapshot),
+      traceContext,
+      turnId,
+    );
+  }
+
   async trackBackgroundTask(
     toolCall: ExecutableToolCall,
     output: unknown,
@@ -138,19 +161,6 @@ export class BackgroundTaskTracker {
       interval: undefined as ReturnType<typeof setInterval> | undefined,
       maxRuntimeTimeout: undefined as ReturnType<typeof setTimeout> | undefined,
     };
-    const publishRunning = async (snapshot: TaskSnapshot): Promise<void> => {
-      const signature = runningSignature(snapshot);
-      if (signature === run.lastRunningSignature) return;
-      run.lastRunningSignature = signature;
-      updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
-      await emitBackgroundTaskEvent(
-        this.deps,
-        SessionEventType.BackgroundTaskUpdated,
-        taskPayload(this.deps, toolCall, taskId, "running", output, snapshot),
-        traceContext,
-        turnId,
-      );
-    };
     const publishTerminal = async (snapshot: TaskSnapshot | undefined): Promise<void> => {
       if (run.stopped || run.terminalPublishing) return;
       run.terminalPublishing = true;
@@ -187,7 +197,7 @@ export class BackgroundTaskTracker {
         }
         if (snapshot.status === "running") {
           updateRuntimeBackgroundTask(this.deps, toolCall, taskId, "running", snapshot);
-          await publishRunning(snapshot);
+          await this.publishRunning(run, toolCall, taskId, output, snapshot, traceContext, turnId);
           if (!hasSnapshot) {
             run.stopped = true;
             this.cleanup(run, taskId);
@@ -251,7 +261,7 @@ export class BackgroundTaskTracker {
         if (!snapshot || snapshot.status !== "running") {
           await publishTerminal(snapshot);
         } else {
-          await publishRunning(snapshot);
+          await this.publishRunning(run, toolCall, taskId, output, snapshot, traceContext, turnId);
         }
       } catch (error) {
         this.deps.logger?.warn("Background task polling failed", {
