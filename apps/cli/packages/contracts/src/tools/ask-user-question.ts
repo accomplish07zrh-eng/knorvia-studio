@@ -1,18 +1,13 @@
-// ============================================================
-// AskUserQuestion Tool - user clarification questions
-// ============================================================
-// References: interactive clarification tool behavior
+// SPDX-License-Identifier: Apache-2.0
+// AskUserQuestion 工具声明：向用户提出澄清问题（1-4 条，每条 2-4 个选项）。
 
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
+import { withRequiredDefaultedMultiSelect } from "./ask-user-question-json.js";
+import { validateAskUserQuestionPreview } from "./ask-user-question-preview.js";
 
 export const ASK_USER_QUESTION_TOOL_NAME = "AskUserQuestion";
 export const ASK_USER_QUESTION_TOOL_CHIP_WIDTH = 12;
-
-const HTML_PREVIEW_MARKER_PATTERN = /<!doctype\b|<!--|<\/?\s*[a-z][a-z0-9:-]*(?:\s[^<>]*)?>/i;
-const HTML_PREVIEW_TAG_PATTERN = /<\/?\s*[a-z][a-z0-9:-]*(?:\s[^<>]*)?>/i;
-const HTML_PREVIEW_DOCUMENT_PATTERN = /<!doctype\b|<\/?\s*(?:html|body)\b/i;
-const HTML_PREVIEW_SCRIPT_STYLE_PATTERN = /<\/?\s*(?:script|style)\b/i;
 
 export const AskUserQuestionOptionSchema = z
   .object({
@@ -102,15 +97,12 @@ export const AskUserQuestionAnnotationSchema = z
 
 export type AskUserQuestionAnnotation = z.infer<typeof AskUserQuestionAnnotationSchema>;
 
+// 私有：metadata 只有一个可选来源字段。文案抽常量，字段表里只出现一次 describe 调用。
+const METADATA_SOURCE_DESCRIPTION =
+  'Optional identifier for the source of this question (e.g., "remember" for /remember command). Used for analytics tracking.';
+const optionalText = z.string().optional();
 const AskUserQuestionMetadataSchema = z
-  .object({
-    source: z
-      .string()
-      .optional()
-      .describe(
-        'Optional identifier for the source of this question (e.g., "remember" for /remember command). Used for analytics tracking.',
-      ),
-  })
+  .object({ source: optionalText.describe(METADATA_SOURCE_DESCRIPTION) })
   .strict();
 
 export const AskUserQuestionInputSchema = z
@@ -190,61 +182,3 @@ export const AskUserQuestionInputJsonSchema = withRequiredDefaultedMultiSelect(
 );
 
 export const AskUserQuestionOutputJsonSchema = toToolJsonSchema(AskUserQuestionOutputSchema);
-
-function withRequiredDefaultedMultiSelect<T extends Record<string, unknown>>(schema: T): T {
-  const questionItem = readSchemaPath(schema, ["properties", "questions", "items"]) as
-    | Record<string, unknown>
-    | undefined;
-  if (!questionItem) return schema;
-
-  const required = questionItem.required;
-  if (!Array.isArray(required)) return schema;
-
-  // provider-visible schema 中 multiSelect 有 default false，
-  // 但仍出现在 required 中；运行时 Zod default 继续允许旧调用省略该字段。
-  if (!required.includes("multiSelect")) {
-    required.push("multiSelect");
-  }
-  return schema;
-}
-
-function readSchemaPath(schema: Record<string, unknown>, path: readonly string[]): unknown {
-  let current: unknown = schema;
-  for (const segment of path) {
-    if (typeof current !== "object" || current === null || Array.isArray(current)) {
-      return undefined;
-    }
-    current = (current as Record<string, unknown>)[segment];
-  }
-  return current;
-}
-
-function validateAskUserQuestionPreview(preview: string, context: z.RefinementCtx): void {
-  if (!HTML_PREVIEW_MARKER_PATTERN.test(preview)) {
-    return;
-  }
-
-  if (HTML_PREVIEW_DOCUMENT_PATTERN.test(preview)) {
-    context.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "HTML preview must be a fragment without html, body, or doctype",
-      path: ["preview"],
-    });
-  }
-
-  if (HTML_PREVIEW_SCRIPT_STYLE_PATTERN.test(preview)) {
-    context.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "HTML preview cannot contain script or style tags",
-      path: ["preview"],
-    });
-  }
-
-  if (!HTML_PREVIEW_TAG_PATTERN.test(preview)) {
-    context.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "HTML preview must contain an HTML tag",
-      path: ["preview"],
-    });
-  }
-}

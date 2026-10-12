@@ -154,6 +154,16 @@ node <tool> --repo . --candidate <文件> \
 | --------------------------- | ------------ | ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `tools/get-workflow-run.ts` | 162          | 4          | 0.000 ✓ | 35 处 JSDoc/段落说明改为自有措辞并统一转 `//` 注释；全部导出 schema 保持逐字不变（含 `WorkflowRunSummarySchema.extend(...)` 的字段顺序与 `.strict()`）；情势截面仍从 `get-workflow-run-roster.ts` 原样再导出 |
 
+### 3.14 tools 组第 11 批（ask-user-question 三文件拆分）
+
+| 文件                                 | 计分模式     | 兼容面行数 X | 残留行数 Y | 实测                  | 说明                                                                                                                     |
+| ------------------------------------ | ------------ | ------------ | ---------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `tools/ask-user-question.ts`         | 声明模式     | 129          | 1          | 0.000 ✓               | 全部导出 schema 逐字不变（含 `.superRefine` 分支与三处错误文案）；私有 metadata schema 改「共享可选文本 + 文案常量」形状 |
+| `tools/ask-user-question-json.ts`    | **普通模式** | —            | —          | **0.150 / run < 8** ✓ | `withRequiredDefaultedMultiSelect` 与 `readSchemaPath` 重写为「路径游走 + 只在缺失时补 multiSelect」                     |
+| `tools/ask-user-question-preview.ts` | **普通模式** | —            | —          | **0.184 / run < 8** ✓ | 四条正则 + **规则表**（规则与模型可见文案同处一行），issue 经 `addPreviewIssue` 单行集中构造                             |
+
+**差分探针**：8 组选项（合法/整页文档/script/style/无标签/注释/普通文本）、5 组问题（唯一标签/重复标签/`Other` 与 `other`）、3 组已答输入（正常 / 缺 answers / 空白答案）、`AskUserQuestionInputJsonSchema` 整体相等、`questions.items.required` 逐字相同（含补上的 `multiSelect`）→ **20/20 `deepStrictEqual`**。
+
 **做法**：本文件是「schema 全冻结 + 大段说明文字」型，没有任何运行函数，因此不需要拆模块；用行范围法把说明逐块改写、再统一把 JSDoc 转成 `//` 注释即可达标（与 `saved-workflow`/`amend-workflow` 同一处理）。其中一处说明与上游逐字相同（「一个此刻停驻、等主代理作答的升级问题。」）在改写时被捕获并换词。
 
 **差分探针**：`isWorkspaceMutatingToolCall` 与 `isWorldTouchingToolCall` 在 8 种范围 × 3 种 `readOnly`（true/false/undefined）共 48 组、外加空能力对象 2 组与 `WORKSPACE_MUTATING_SIDE_EFFECT_SCOPES` 集合比对 → **51/51 `deepStrictEqual`**（保守档「范围缺席即算写/算碰」逐组验证）。

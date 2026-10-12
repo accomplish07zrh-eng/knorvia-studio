@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "2c04942d983fb455b5acb4afb18863fac4071738c98bb870957188c0837a8de2",
+      "normalizedSha256": "7f7129be1330ecff462f0499e1d7e7068d11966e1983ea29d3e23873fe66cd42",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133601,6 +133601,22 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (contract split): contract-declarations.ts holds the frozen tool contract types, tool-scope-predicates.ts holds the rewritten side-effect predicates (readOnly short-circuit then scope-set membership instead of ternary chains), contract.ts is a thin re-export entry. The author read the replaced implementation; a differential probe compared old vs new predicate results on 48 capability combinations plus empty capability and the mutating-scope set (51/51 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md; predicates normal-mode containment 0.182.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question-json.ts",
+      "normalizedSha256": "aa30961e7fb81bb7772cc9441be0ae9405fd3c11c60e68a4516ad6bce662c12b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (ask-user-question split): JSON-schema projection helper and HTML preview validation extracted into two implementation modules and rewritten with a rule table and single-line issue helper; the main module keeps the frozen schemas byte-identical. A differential probe compared old vs new on 16 schema cases, the projected JSON schema and its required list (20/20 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question-preview.ts",
+      "normalizedSha256": "a47bcaadb9d9e2b655e97024bb29e1b923267b3334f3da070845242d1c046916",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (ask-user-question split): JSON-schema projection helper and HTML preview validation extracted into two implementation modules and rewritten with a rule table and single-line issue helper; the main module keeps the frozen schemas byte-identical. A differential probe compared old vs new on 16 schema cases, the projected JSON schema and its required list (20/20 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     }
   ]
