@@ -375,3 +375,24 @@
 - `specs/contracts/core-01/tests/` 共 **17 个测试文件**：源码 **41/41**、dist **41/41**（M1–M5、E1–E2、C1–C6、X1–X13、A1–A14）。
 - 合同文件齐备：README（条目→测试对照表按块列出，无空行）、behavior.md（M/C/X/A 全块）、interface.md（38 个文件，AST + `dep:refs` 交叉核对）、callers.md、known-differences.md（平台边界 + 两条 turn-machine quirk + localeCompare）、acceptance.md（§1–§22）、stubs/（38 个桩 + targets.txt）、gate-old.json（契约阶段 9/9 两入口 + 桩替换）。
 - 剩余：本节第 1 项（`read-file-state-hydrator.ts`）→ 然后完整旧门 → PR。
+
+## 23. 最后一项（A15 read-file-state-hydrator）完成 —— 38 个文件的行为条目已全部落地
+
+`specs/contracts/core-01/tests/agent-read-file-state.test.mjs`（入口：**文件级** `src/agent/read-file-state-hydrator.ts`）：
+
+- 源码入口：tests=**1** pass=**1** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**1** pass=**1** fail=0 skipped=0
+
+读源码确认并冻结的语义：唯一运行时导出 `hydrateReadFileStateFromSession(input)`，入参需 `readFileState`（实现调用 `clear()`/`set()`，Map 语义）与 `messages`，返回 `{restoredCount, skippedRangeReadCount, skippedUnreadableEditCount}`；先 `clear()` 旧状态；只遍历**助手**消息、消息内 part 按 `part.id` 去重（后者覆盖前者）；只接受 `type==="tool"`、`state.status==="completed"`、含 `output`、且 `tool ∈ {Read, Write, Edit}` 的 part；`Read` 且窗口非全量（`(offset ?? 1) <= 1 && limit === undefined` 之外）→ 计入 `skippedRangeReadCount`（**在 metadata 校验之前**）；全量窗口但 metadata 无效 → 不恢复；**`skippedUnreadableEditCount` 在本投影里恒 0**（从不自增）。
+
+### 分支现状（全绿）
+
+`specs/contracts/core-01/tests/` 共 **18 个测试文件**：源码 **42/42**、dist **42/42**。至此本包 38 个继承文件的行为条目（M1–M5、E1–E2、C1–C6、X1–X13、A1–A15）全部落地，无红测试。
+
+### 收口步骤（交接给下一轮/Lead）
+
+1. 跑**完整旧门**：`node scripts/contract-gate.mjs --contract specs/contracts/core-01 --tests "*.test.mjs" --dist-env KNORVIA_CORE_ENTRY=dist --stub-root specs/contracts/core-01/stubs --stub-map specs/contracts/core-01/stubs/targets.txt`
+   （注意：契约测试目前在 `specs/contracts/core-01/tests/`，且 dist 入口环境变量是 **`KNORVIA_CORE_ENTRY`**；`gate-old.json` 会被重写，旧门基线是 `f4b618ee`。）
+2. 若桩替换出现"仍有测试通过"，按契约阶段的做法加形态/取值断言（contracts-03 的处置口径）。
+3. 来源登记（`licensing/reviews.json`）：本包新增的测试文件与 `interface.md`/`behavior.md` 等合同文件需登记 `original`；`stubs/` 的 38 个桩也需登记（contracts-03 的做法）。
+4. `fmt` → `fmt:check` → `provenance:report` → `provenance:check` 按铁律顺序跑，然后提 PR `contract: core-01 v1` → 按「合同审查」清单自查 → CI 双平台绿 → squash 合并。
