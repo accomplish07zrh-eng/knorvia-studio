@@ -3,46 +3,47 @@
 import type { FileSystemSearchTextEntry, FileSystemSearchTextRequest } from "@knorvia/contracts";
 
 type Span = { start: number; end: number };
+type Fragment = FileSystemSearchTextEntry;
+type Request = FileSystemSearchTextRequest;
 
 export interface LineMatches {
   matchCount: number;
   entries: FileSystemSearchTextEntry[];
 }
 
-/** 单行匹配结果：计数 + 命中区间 + 逐行片段。 */
+/** 逐行匹配的累积器：计数、命中区间、逐行片段与「原样输出」条目。 */
 interface MatchAccumulator {
-  fragmentsByLine: Map<number, FileSystemSearchTextEntry[]>;
+  fragmentsByLine: Map<number, Fragment[]>;
   hits: number;
   hitRanges: Span[];
-  rawEntries: FileSystemSearchTextEntry[];
+  rawEntries: Fragment[];
 }
 
 function accumulator(): MatchAccumulator {
   return { fragmentsByLine: new Map(), hits: 0, hitRanges: [], rawEntries: [] };
 }
 
-function entry(
-  path: string,
-  lineNumber: number | undefined,
-  text: string,
-  matched: boolean,
-): FileSystemSearchTextEntry {
-  const result = { path, text, matched } as FileSystemSearchTextEntry;
-  result.lineNumber = lineNumber;
-  return result;
+interface EntryInput {
+  lineNumber: number | undefined;
+  matched: boolean;
+  path: string;
+  text: string;
 }
 
-export function matchingFragments(
-  path: string,
-  text: string,
-  lineNumber?: number,
-): FileSystemSearchTextEntry[] {
-  if (text.length === 0) return [entry(path, lineNumber, "", true)];
-  const fragments: FileSystemSearchTextEntry[] = [];
+/** 条目构造：`lineNumber` 键必须存在（值可为 undefined），因此用赋值而不是字面量。 */
+function entry(input: EntryInput): Fragment {
+  const record = { path: input.path, text: input.text, matched: input.matched } as Fragment;
+  record.lineNumber = input.lineNumber;
+  return record;
+}
+
+export function matchingFragments(path: string, text: string, lineNumber?: number): Fragment[] {
+  if (text.length === 0) return [entry({ lineNumber, matched: true, path, text: "" })];
+  const fragments: Fragment[] = [];
   for (const [index, fragment] of text.split(/\r?\n/u).entries()) {
     if (fragment.length === 0) continue;
     const at = lineNumber === undefined ? undefined : lineNumber + index;
-    fragments.push(entry(path, at, fragment, true));
+    fragments.push(entry({ lineNumber: at, matched: true, path, text: fragment }));
   }
   return fragments;
 }
@@ -74,7 +75,7 @@ class LineStarts {
 
 interface ContextInput {
   length: number;
-  request: FileSystemSearchTextRequest;
+  request: Request;
   spans: Span[];
 }
 
@@ -90,33 +91,36 @@ function contextIndexes(input: ContextInput): number[] {
   return [...collected].sort((left, right) => left - right);
 }
 
-function globalPattern(regex: RegExp, flags: string): RegExp {
-  return new RegExp(regex.source, (regex.ignoreCase ? "i" : "") + flags);
+function globalPattern(pattern: RegExp, flags: string): RegExp {
+  return new RegExp(pattern.source, (pattern.ignoreCase ? "i" : "") + flags);
+}
+
+interface CollectInput {
+  acc: MatchAccumulator;
+  content: string;
+  pattern: RegExp;
+  path: string;
+  request: Request;
 }
 
 /** 多行路径：整篇内容上匹配，命中区间按行号换算。 */
-function collectMultiline(
-  path: string,
-  content: string,
-  regex: RegExp,
-  request: FileSystemSearchTextRequest,
-  acc: MatchAccumulator,
-): void {
-  const starts = new LineStarts(content);
-  for (const match of content.matchAll(globalPattern(regex, "gs"))) {
+function collectMultiline(input: CollectInput): void {
+  const { acc, pattern, request } = input;
+  const starts = new LineStarts(input.content);
+  for (const match of input.content.matchAll(globalPattern(pattern, "gs"))) {
     const start = match.index ?? 0;
     const lineNumber = starts.lineOf(start);
     acc.hits += 1;
-    if (!request.onlyMatching) {
+    const verbatimOnly = !request.onlyMatching;
+    if (verbatimOnly) {
       const firstLine = match[0].split(/\r?\n/u, 1)[0] ?? "";
-      acc.rawEntries.push(entry(path, lineNumber, firstLine, true));
+      acc.rawEntries.push(entry({ lineNumber, matched: true, path: input.path, text: firstLine }));
       continue;
     }
-    acc.hitRanges.push({
-      end: starts.lineOf(Math.max(start, start + match[0].length - 1)) - 1,
-      start: lineNumber - 1,
-    });
-    for (const fragment of matchingFragments(path, match[0], lineNumber)) {
+    const range = { end: starts.lineOf(Math.max(start, start + match[0].length - 1)) - 1 } as Span;
+    range.start = lineNumber - 1;
+    acc.hitRanges.push(range);
+    for (const fragment of matchingFragments(input.path, match[0], lineNumber)) {
       const line = (fragment.lineNumber ?? lineNumber) - 1;
       const existing = acc.fragmentsByLine.get(line);
       if (existing === undefined) acc.fragmentsByLine.set(line, [fragment]);
@@ -126,24 +130,18 @@ function collectMultiline(
 }
 
 /** 单行路径：逐行匹配，只统计命中行并（可选）收集片段。 */
-function collectPerLine(
-  path: string,
-  rows: string[],
-  regex: RegExp,
-  request: FileSystemSearchTextRequest,
-  acc: MatchAccumulator,
-): void {
+function collectPerLine(input: CollectInput, rows: string[]): void {
+  const { acc, pattern, request } = input;
   for (const [line, text] of rows.entries()) {
     if (request.onlyMatching) {
-      const pattern = globalPattern(regex, "g");
-      const fragments = [...text.matchAll(pattern)].flatMap((match) =>
-        matchingFragments(path, match[0], line + 1),
+      const fragments = [...text.matchAll(globalPattern(pattern, "g"))].flatMap((match) =>
+        matchingFragments(input.path, match[0], line + 1),
       );
       if (fragments.length === 0) continue;
       acc.fragmentsByLine.set(line, fragments);
     } else {
-      regex.lastIndex = 0;
-      if (!regex.test(text)) continue;
+      pattern.lastIndex = 0;
+      if (!pattern.test(text)) continue;
     }
     acc.hits += 1;
     acc.hitRanges.push({ end: line, start: line });
@@ -154,15 +152,16 @@ export function matchContent(
   path: string,
   content: string,
   regex: RegExp,
-  request: FileSystemSearchTextRequest,
+  request: Request,
 ): LineMatches {
   const rows = content.length === 0 ? [] : content.replace(/\r?\n$/u, "").split(/\r?\n/u);
   const acc = accumulator();
+  const shared: CollectInput = { acc, content, pattern: regex, path, request };
   if (request.multiline) {
-    collectMultiline(path, content, regex, request, acc);
+    collectMultiline(shared);
     if (!request.onlyMatching) return { entries: acc.rawEntries, matchCount: acc.hits };
   } else {
-    collectPerLine(path, rows, regex, request, acc);
+    collectPerLine(shared, rows);
   }
 
   const matchedLines = new Set<number>();
@@ -170,7 +169,7 @@ export function matchContent(
     for (let line = range.start; line <= range.end; line += 1) matchedLines.add(line);
   }
 
-  const entries: FileSystemSearchTextEntry[] = [];
+  const entries: Fragment[] = [];
   for (const line of contextIndexes({ length: rows.length, request, spans: acc.hitRanges })) {
     if (request.onlyMatching) {
       const fragments = acc.fragmentsByLine.get(line);
@@ -180,14 +179,8 @@ export function matchContent(
       }
       if (matchedLines.has(line)) continue;
     }
-    entries.push(
-      entry(
-        path,
-        line + 1,
-        rows[line] ?? "",
-        request.onlyMatching ? false : matchedLines.has(line),
-      ),
-    );
+    const matched = request.onlyMatching ? false : matchedLines.has(line);
+    entries.push(entry({ lineNumber: line + 1, matched, path, text: rows[line] ?? "" }));
   }
   return { entries, matchCount: acc.hits };
 }
