@@ -18,6 +18,9 @@ import type { Budget, HookRunnerSetup, HookSourceEvent } from "./configured-runn
 
 const USER_SOURCE_KIND: HookSourceKind = "user";
 
+/** 登记项条目的构造器：把键值收集成条目，避免逐行字面量重复。 */
+const registrationField = (key: string, value: unknown): [string, unknown] => [key, value];
+
 function configSource(input: {
   event: HookSourceEvent;
   hookIndex: number;
@@ -37,7 +40,7 @@ type HookRegistrationInput = import("./configured-runner-types.js").HookRegistra
 function registrationFromHook(input: HookRegistrationInput): HookRegistration {
   const { budget, event, hook, hookIndex, matcher, matcherIndex, options } = input;
   const registrationEntries: Array<[string, unknown]> = [
-    ["async", hook.type === "command" && hook.async === true],
+    registrationField("async", hook.type === "command" && hook.async === true),
     [
       "callback",
       createConfiguredHookCallback({
@@ -49,11 +52,11 @@ function registrationFromHook(input: HookRegistrationInput): HookRegistration {
         options: options,
       }),
     ],
-    ["event", event],
-    ["matcher", matcher],
-    ["source", input.source],
-    ["sourceKind", input.sourceKind],
-    ["timeoutMs", budget.timeoutMs],
+    registrationField("event", event),
+    registrationField("matcher", matcher),
+    registrationField("source", input.source),
+    registrationField("sourceKind", input.sourceKind),
+    registrationField("timeoutMs", budget.timeoutMs),
   ];
   if (input.admission) registrationEntries.push(["admission", input.admission]);
   return {
