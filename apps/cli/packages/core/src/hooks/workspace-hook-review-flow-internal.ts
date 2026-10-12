@@ -16,6 +16,7 @@ import {
 
 import type {
   HookReviewRequest,
+  HookReviewTarget,
   HookReviewState,
   HookReviewTimer,
   WorkspaceHookReviewFlow,
@@ -67,18 +68,12 @@ function sameFields(
 }
 
 /** 同一代 = 流程 id、代次与交互 id 都对上（摘要不参与，摘要变的是快照）。 */
-function isSameGeneration(
-  request: WorkspaceHookReviewRequestPayload,
-  target: WorkspaceHookReviewTarget,
-): boolean {
+function isSameGeneration(request: HookReviewRequest, target: HookReviewTarget): boolean {
   return sameFields(request, target, GENERATION_FIELDS);
 }
 
 /** 同一快照 = 会话/任务/运行/远端会话/工作区/摘要全部一致。 */
-function isSameSnapshot(
-  request: WorkspaceHookReviewRequestPayload,
-  target: WorkspaceHookReviewTarget,
-): boolean {
+function isSameSnapshot(request: HookReviewRequest, target: HookReviewTarget): boolean {
   return sameFields(request, target, SNAPSHOT_FIELDS);
 }
 
@@ -120,7 +115,7 @@ export class WorkspaceHookReviewFlowRegistry {
   }
 
   supersede(
-    target: WorkspaceHookReviewTarget,
+    target: HookReviewTarget,
     replacement: WorkspaceHookReviewRequestPayload,
   ): WorkspaceHookReviewFlow {
     const current = this.flows.get(target.sessionId);
@@ -142,7 +137,7 @@ export class WorkspaceHookReviewFlowRegistry {
   }
 
   validate(
-    target: WorkspaceHookReviewTarget,
+    target: HookReviewTarget,
     decisionValue: WorkspaceHookReviewDecision,
   ): WorkspaceHookReviewResolveResult {
     const current = this.flows.get(target.sessionId);
@@ -168,7 +163,7 @@ export class WorkspaceHookReviewFlowRegistry {
   }
 
   resolve(
-    target: WorkspaceHookReviewTarget,
+    target: HookReviewTarget,
     decisionValue: WorkspaceHookReviewDecision,
   ): WorkspaceHookReviewResolveResult {
     const validation = this.validate(target, decisionValue);
@@ -208,7 +203,7 @@ export class WorkspaceHookReviewFlowRegistry {
   }
 
   private close(
-    target: WorkspaceHookReviewTarget,
+    target: HookReviewTarget,
     state: Extract<TerminalState, "cancelled" | "resolved">,
     reasonCode: WorkspaceHookReasonCode | undefined,
   ): boolean {

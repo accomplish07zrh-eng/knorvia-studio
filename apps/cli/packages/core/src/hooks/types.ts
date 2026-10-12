@@ -241,3 +241,4 @@ export interface SessionMailboxRegistrationOptions {
 export type HookReviewRequest = WorkspaceHookReviewRequestPayload;
 export type HookReviewState = WorkspaceHookReviewFlowState;
 export type HookReviewTimer = ReturnType<typeof setTimeout>;
+export type HookReviewTarget = WorkspaceHookReviewTarget;
