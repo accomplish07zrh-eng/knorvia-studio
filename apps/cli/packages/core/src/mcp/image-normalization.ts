@@ -216,6 +216,9 @@ async function projectEntry(
   };
 }
 
+// 压缩目标边长：与内联上限一起决定压缩结果是否可替换原图。
+const COMPRESS_MAX_DIMENSION = 2000;
+
 async function compressForInline(
   input: NormalizationInput,
   payload: string,
@@ -230,7 +233,7 @@ async function compressForInline(
       {
         data: bytes,
         maxBase64Bytes: MCP_IMAGE_INLINE_BASE64_BYTES,
-        maxDimension: 2000,
+        maxDimension: COMPRESS_MAX_DIMENSION,
         maxRawBytes: MCP_IMAGE_INLINE_RAW_BYTES,
         mediaType: mimeType,
         trace: artifactTrace(input.context),
@@ -239,14 +242,11 @@ async function compressForInline(
     );
     const data = Buffer.from(prepared.data).toString("base64");
     const size = Buffer.byteLength(data, "utf8");
-    if (
-      size > 0 &&
-      size <= MCP_IMAGE_INLINE_BASE64_BYTES &&
-      prepared.mediaType.startsWith("image/")
-    ) {
-      return { type: "image", data, mimeType: prepared.mediaType };
-    }
-    return undefined;
+    // 压缩结果必须非空、未超内联上限、且仍是图片，才允许替换原图；否则交回回落路径。
+    const isUsableInlineImage =
+      size > 0 && size <= MCP_IMAGE_INLINE_BASE64_BYTES && prepared.mediaType.startsWith("image/");
+    if (!isUsableInlineImage) return undefined;
+    return { type: "image", data, mimeType: prepared.mediaType };
   } catch (error) {
     if (input.context.abortSignal.aborted) throw error;
     return undefined;
