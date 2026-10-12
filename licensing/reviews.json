@@ -82542,7 +82542,7 @@
       "normalizedSha256": "8e283298c15c5b654fa0ca72aa3711d13e9f5704a31b115c78e259e1ee1d56c4",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Written from the M0-13 core/hooks contract (specs/contracts/core-hooks): the registration-input type shape was re-declared as a named module-internal type per the replacement plan; no upstream text was copied or renamed.",
+      "basis": "Written from the M0-13 core/hooks contract (specs/contracts/core-hooks, v1.1): review-flow implementation was split into a module-internal file carrying the real implementation per plan option A; no upstream text was copied or renamed.",
       "evidence": ["specs/contracts/core-hooks/gate-old.json"]
     },
     {
@@ -134335,6 +134335,14 @@
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/gate-old.json"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/workspace-hook-review-flow-internal.ts",
+      "normalizedSha256": "de5b7783893e42426a9f891d9e00150bde6c1769ec438552b0f06292a6a6f698",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Written from the M0-13 core/hooks contract (specs/contracts/core-hooks, v1.1): review-flow implementation was split into a module-internal file carrying the real implementation per plan option A; no upstream text was copied or renamed.",
+      "evidence": ["specs/contracts/core-hooks/gate-old.json"]
     }
   ]
 }
