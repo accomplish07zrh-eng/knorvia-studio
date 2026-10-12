@@ -134,6 +134,16 @@ node <tool> --repo . --candidate <文件> \
 | `tools/get-workflow-run-roster.ts` | 104          | 8          | 18 处说明改为自有措辞（镜像关系与截断口径保留）                                                                    |
 | `tools/list-workflow-runs.ts`      | 85           | 4          | 15 处说明改写；`clampedLimit` 的钳制抽成 `clampLimit`（截断 → 抬下限 → 压上限三步命名），消掉裸 `return Math.min(` |
 
+### 3.11 tools 组第 8 批（1 个文件，声明模式 PASS）
+
+| 文件                      | 兼容面行数 X | 残留行数 Y | 处理                                                                                                                                                                                                                                                                                                       |
+| ------------------------- | ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tools/amend-workflow.ts` | 67           | 3          | 12 处 JSDoc/段落说明改为自有措辞；私有 `AmendWorkflowModelInputSchema` 改「命名字段 schema + 表」形状（`requiredStringField` / `optionalStringField` / `optionalPositiveIntField` / `optionalTrimmedStringField`），消掉裸 `.string()`/`.min(1)`/`.optional()`/`.describe(`；其余 JSDoc 块统一转 `//` 注释 |
+
+**差分探针**：`amend-workflow` 运行时入参 schema 15 组（缺省/内联脚本/两者都给/三态 null 与数/0 与负数/空白模型名/predecessor 合法与伪造 `script_inherited: false`/`script_line_offset`/空 run_id/`resume_from` 旧拼写/缺 run_id）、`AmendWorkflowInputJsonSchema` 整体相等、5 条模型可见 `describe` 逐字一致 → **21/21 通过**。
+
+**返工记录**：行范围 splice 在 `amend-workflow` 上切掉了私有 schema 的收尾 `});`，typecheck 立刻报 TS1005/TS1002，按锚点补回后恢复。再次印证「行范围替换后立刻 typecheck」。
+
 **差分探针**：`list-workflow-runs` 的输入 schema（limit 钳制）12 组 —— 缺省、0/1/20/50/51、3.7、-5、`"20"`、`null`、`cwd`、未知键 → **12/12 deepStrictEqual**（0 被抬到 1、51 被压到 50、3.7 截断为 3，字符串与未知键照旧拒绝）。
 
 **返工记录**：行范围法在 `list-workflow-runs` 上第一刀切多了两行（吞掉一行注释、留一个多余花括号），靠 `pnpm --dir … typecheck` 立刻暴露并修回。经验：**行范围替换后必须马上 typecheck**，不能只跑相似度。
