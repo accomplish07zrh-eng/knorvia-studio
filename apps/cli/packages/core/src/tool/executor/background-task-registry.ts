@@ -44,6 +44,10 @@ const DWF_DISPATCH_TOOL_NAMES: readonly string[] = [
 ];
 
 type Deps = ToolExecutorDeps;
+type TurnId = RuntimeTaskSnapshot["turnId"];
+type TaskStatus = string;
+/** 工具输出（跨包而来，只按形状使用）。 */
+type TaskOutput = Record<string, unknown>;
 type ToolCall = ExecutableToolCall;
 type TaskId = string;
 
@@ -55,8 +59,8 @@ export function registerRuntimeBackgroundTask(
   deps: Deps,
   toolCall: ToolCall,
   taskId: TaskId,
-  output: Record<string, unknown>,
-  turnId?: RuntimeTaskSnapshot["turnId"],
+  output: TaskOutput,
+  turnId?: TurnId,
 ): void {
   const taskType = runtimeTaskTypeForToolCall(toolCall);
   if (taskType === undefined) return;
@@ -66,7 +70,7 @@ export function registerRuntimeBackgroundTask(
   const existing = registry.get(taskId);
   const description =
     runtimeTaskDescription(toolCall, output) ?? defaultRuntimeTaskDescription(taskType);
-  const outputFile = backgroundTaskOutputMetadata(output).outputFile;
+  const { outputFile } = backgroundTaskOutputMetadata(output);
   // 场景：同进程 cancel 出终态后未重启就 resume（即 dwf 的重臂；v4 命令路径与工具路径
   // 在 trackBackgroundTask 汇合，两处同病）。此时既有条目带着上一轮 claim 留下的
   // notified:true，若重建时原样保留，claimRuntimeBackgroundTaskNotification 会据此拒收，
@@ -87,14 +91,14 @@ export function registerRuntimeBackgroundTask(
   //
   // outputFile 有意**不**跟着结算面复位：workflow run 从不写它，existing 兜底只是为了给产物
   // 外部化留一条透传；外部化真正落地时应按它的语义重新裁决（既别顺手清空，也别顺手扩大语义）。
-  const rearm = isDynamicWorkflowRunDispatchToolName(toolCall.name);
+  const isRearm = isDynamicWorkflowRunDispatchToolName(toolCall.name);
   // 新生命指在**终态**条目上重臂，必须走 register() 而不是 update()：register 会用当前
   // activeBranchGeneration 重新盖 branchGeneration，而 update 的 {...existing} 会把上一段
   // 生命周期的分支代带进新生命——cancel → rewind（分支代 +1）→ resume 这条路上，新生命的
   // 任务事件会被 runtime-command-generation 的 stale-branch fencing 当成旧分支残留整体丢弃，
   // 终态通知于是再次失踪。仍在 running 的既有条目不属于新生命，继续用 update 的合并语义，
   // 保留它自己的分支代。
-  const newLife = rearm && existing !== undefined && isTerminalRuntimeTask(existing);
+  const newLife = isRearm && existing !== undefined && isTerminalRuntimeTask(existing);
   const next = { ...existing } as RuntimeTaskSnapshot;
   // 身份面：既有条目优先，缺席时用本次登记的事实补齐。
   next.agentId = existing?.agentId ?? taskId;
@@ -111,14 +115,14 @@ export function registerRuntimeBackgroundTask(
   next.outputFile = outputFile ?? existing?.outputFile;
 
   // 结算面：仅重臂复位（重臂等于开启新的一轮生命周期）；非重臂的重挂载保留既有结算面。
-  next.notified = rearm ? false : (existing?.notified ?? false);
-  next.completedAt = settledAfterRearm(rearm, existing?.completedAt);
-  next.error = settledAfterRearm(rearm, existing?.error);
-  next.exitCode = settledAfterRearm(rearm, existing?.exitCode);
-  next.resultText = settledAfterRearm(rearm, existing?.resultText);
-  next.pid = settledAfterRearm(rearm, existing?.pid);
+  next.notified = isRearm ? false : (existing?.notified ?? false);
+  next.completedAt = settledAfterRearm(isRearm, existing?.completedAt);
+  next.error = settledAfterRearm(isRearm, existing?.error);
+  next.exitCode = settledAfterRearm(isRearm, existing?.exitCode);
+  next.resultText = settledAfterRearm(isRearm, existing?.resultText);
+  next.pid = settledAfterRearm(isRearm, existing?.pid);
   // 上一轮由谁停止，与新生命无关，一并清掉。
-  next.stopInitiator = settledAfterRearm(rearm, existing?.stopInitiator);
+  next.stopInitiator = settledAfterRearm(isRearm, existing?.stopInitiator);
 
   if (existing !== undefined && !newLife) {
     registry.update(taskId, () => next);
@@ -133,8 +137,8 @@ export function updateRuntimeBackgroundTask(
   deps: Deps,
   toolCall: ToolCall,
   taskId: TaskId,
-  status: string,
-  snapshot?: BackgroundTaskSnapshot,
+  status: TaskStatus,
+  snapshot?: TaskSnapshotSource,
 ): void {
   const taskType = runtimeTaskTypeForToolCall(toolCall);
   if (taskType === undefined) return;
@@ -174,7 +178,7 @@ export function updateRuntimeBackgroundTask(
  */
 function runtimeTaskResultText(
   toolCall: ToolCall,
-  status: string,
+  status: TaskStatus,
   snapshot: TaskSnapshotSource,
 ): string | undefined {
   if (!isDynamicWorkflowRunDispatchToolName(toolCall.name)) return undefined;
@@ -242,8 +246,8 @@ const TASK_TYPE_BY_TOOL_NAME: readonly (readonly [toolName: string, taskType: Ru
 const RUNNING_STATUS: RuntimeTaskSnapshot["status"] = "running";
 
 // 结算面的复位规则：重臂时整段清空（上一轮的结算事实属于旧生命周期），否则沿用既有值。
-function settledAfterRearm<T>(rearm: boolean, current: T | undefined): T | undefined {
-  return rearm ? undefined : current;
+function settledAfterRearm<T>(isRearm: boolean, current: T | undefined): T | undefined {
+  return isRearm ? undefined : current;
 }
 
 function runtimeTaskTypeForToolCall(toolCall: ExecutableToolCall): RuntimeTaskType | undefined {
