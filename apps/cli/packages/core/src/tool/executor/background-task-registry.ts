@@ -168,10 +168,10 @@ export function updateRuntimeBackgroundTask(
 function runtimeTaskResultText(
   toolCall: ExecutableToolCall,
   status: string,
-  snapshot: BackgroundTaskSnapshot | undefined,
+  snapshot: TaskSnapshotSource,
 ): string | undefined {
   if (!isDynamicWorkflowRunDispatchToolName(toolCall.name)) return undefined;
-  if (status === "running") return undefined;
+  if (status === RUNTIME_STATUS_RUNNING) return undefined;
   if (!snapshot || !("output" in snapshot)) return undefined;
   return serializeWorkflowArtifact(snapshot.output);
 }
@@ -277,26 +277,31 @@ function runtimeTaskDescription(
   return undefined;
 }
 
-function runtimeTaskCompletedAt(
-  status: string,
-  snapshot: BackgroundTaskSnapshot | undefined,
-): Date | undefined {
-  if (status === "running") return undefined;
+/** 四个读取器共用的快照入参类型。 */
+type TaskSnapshotSource = BackgroundTaskSnapshot | undefined;
+
+const RUNTIME_STATUS_RUNNING = "running";
+
+function runtimeTaskCompletedAt(status: string, snapshot: TaskSnapshotSource): Date | undefined {
+  if (status === RUNTIME_STATUS_RUNNING) return undefined;
   return snapshot?.completedAt ?? new Date();
 }
 
 function runtimeTaskError(snapshot: BackgroundTaskSnapshot | undefined): string | undefined {
-  if (!snapshot || !("error" in snapshot)) return undefined;
+  if (snapshot === undefined) return undefined;
+  if (!("error" in snapshot)) return undefined;
   const error = snapshot.error;
   return typeof error === "string" ? error : error?.message;
 }
 
 function runtimeTaskExitCode(snapshot: BackgroundTaskSnapshot | undefined): number | undefined {
-  if (!snapshot || !("result" in snapshot)) return undefined;
+  if (snapshot === undefined) return undefined;
+  if (!("result" in snapshot)) return undefined;
   return snapshot.result?.exitCode;
 }
 
 function runtimeTaskPid(snapshot: BackgroundTaskSnapshot | undefined): number | undefined {
-  if (!snapshot || !("pid" in snapshot)) return undefined;
+  if (snapshot === undefined) return undefined;
+  if (!("pid" in snapshot)) return undefined;
   return snapshot.pid;
 }
