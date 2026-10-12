@@ -54,6 +54,29 @@ import {
 } from "./text-metadata.js";
 import { readTextFileRangeFromNode } from "./text-range-reader.js";
 
+/** 请求/结果别名只为把门面签名压成单行；不导出，因此不改变导出面。 */
+type CallOptions = { signal?: AbortSignal } | undefined;
+type CreateRequest = FileSystemCreateDirectoryRequest;
+type CreateResult = FileSystemCreateDirectoryResult;
+type StatRequest = FileSystemStatRequest;
+type StatResult = FileSystemStatResult;
+type TextRequest = FileSystemReadTextRequest;
+type TextResult = FileSystemReadTextResult;
+type BytesRequest = FileSystemReadBytesRequest;
+type BytesResult = FileSystemReadBytesResult;
+type RangeRequest = FileSystemReadTextRangeRequest;
+type RangeResult = FileSystemReadTextRangeResult;
+type WriteRequest = FileSystemWriteTextRequest;
+type WriteResult = FileSystemWriteTextResult;
+type RemoveRequest = FileSystemRemoveFileRequest;
+type RemoveResult = FileSystemRemoveFileResult;
+type ListRequest = FileSystemListDirectoryRequest;
+type ListResult = FileSystemListDirectoryResult;
+type FilesRequest = FileSystemSearchFilesRequest;
+type FilesResult = FileSystemSearchFilesResult;
+type SearchRequest = FileSystemSearchTextRequest;
+type SearchResult = FileSystemSearchTextResult;
+
 export function setRipgrepWorkerFactoryForTests(
   factory: RipgrepWorkerFactory | undefined,
 ): () => void {
@@ -85,9 +108,7 @@ function tooLargeBytesError(target: string, message: string): Error {
 export class NodeFileSystemAdapter implements FileSystemPort {
   constructor(private readonly adapterOptions: NodeFileSystemAdapterOptions = {}) {}
 
-  async createDirectory(
-    request: FileSystemCreateDirectoryRequest,
-  ): Promise<FileSystemCreateDirectoryResult> {
+  async createDirectory(request: CreateRequest): Promise<CreateResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       maybeThrowStorageFsFault({ operation: "mkdir", path: target });
@@ -96,12 +117,12 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async stat(request: FileSystemStatRequest): Promise<FileSystemStatResult> {
+  async stat(request: StatRequest): Promise<StatResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
       const kind = nodeKind(info);
-      const result = {} as FileSystemStatResult;
+      const result = {} as StatResult;
       result.path = target;
       result.kind = kind;
       result.sizeBytes = info.size;
@@ -111,7 +132,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async readTextFile(request: FileSystemReadTextRequest): Promise<FileSystemReadTextResult> {
+  async readTextFile(request: TextRequest): Promise<TextResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -120,7 +141,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
       const bytes = overBudget ? await prefix(target, request.maxBytes!) : await readFile(target);
       const decoded = decodeTextBuffer({ buffer: bytes, encoding: request.encoding, path: target });
       const normalizes = shouldNormalizeLineEndings(decoded.encoding);
-      const result = {} as FileSystemReadTextResult;
+      const result = {} as TextResult;
       result.path = target;
       result.content = normalizes ? normalizeLineEndings(decoded.content) : decoded.content;
       result.encoding = decoded.encoding;
@@ -133,7 +154,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async readBinaryFile(request: FileSystemReadBytesRequest): Promise<FileSystemReadBytesResult> {
+  async readBinaryFile(request: BytesRequest): Promise<BytesResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -152,7 +173,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
         const message = `File content exceeds maximum allowed size (${byteCount(max)}). Use a smaller file.`;
         throw tooLargeBytesError(target, message);
       }
-      const result = {} as FileSystemReadBytesResult;
+      const result = {} as BytesResult;
       result.path = target;
       result.content = bytes;
       result.bytesRead = bytes.byteLength;
@@ -162,10 +183,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async readTextFileRange(
-    request: FileSystemReadTextRangeRequest,
-    options?: { signal?: AbortSignal },
-  ): Promise<FileSystemReadTextRangeResult> {
+  async readTextFileRange(request: RangeRequest, options?: CallOptions): Promise<RangeResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -174,7 +192,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async writeTextFile(request: FileSystemWriteTextRequest): Promise<FileSystemWriteTextResult> {
+  async writeTextFile(request: WriteRequest): Promise<WriteResult> {
     const target = absolute(request.path);
     const encoding = request.encoding ?? "utf8";
     const bytes = encodeTextContent({
@@ -200,7 +218,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
         await writeFile(target, bytes);
       }
       const info = await stat(target);
-      const result = {} as FileSystemWriteTextResult;
+      const result = {} as WriteResult;
       result.path = target;
       result.bytesWritten = bytes.byteLength;
       result.revision = revision(info, bytes);
@@ -208,10 +226,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async removeFile(
-    request: FileSystemRemoveFileRequest,
-    options?: { signal?: AbortSignal },
-  ): Promise<FileSystemRemoveFileResult> {
+  async removeFile(request: RemoveRequest, options?: CallOptions): Promise<RemoveResult> {
     const target = absolute(request.path);
     try {
       aborted(options?.signal);
@@ -229,10 +244,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     }
   }
 
-  async listDirectory(
-    request: FileSystemListDirectoryRequest,
-    options?: { signal?: AbortSignal },
-  ): Promise<FileSystemListDirectoryResult> {
+  async listDirectory(request: ListRequest, options?: CallOptions): Promise<ListResult> {
     const target = absolute(request.path);
     const startedAt = Date.now();
     return await guarded(target, async () => {
@@ -251,7 +263,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
           path: join(target, entry.name),
         }))
         .sort((left, right) => left.name.localeCompare(right.name));
-      const result = {} as FileSystemListDirectoryResult;
+      const result = {} as ListResult;
       result.path = target;
       result.durationMs = Math.max(0, Date.now() - startedAt);
       result.entries = entries;
@@ -260,17 +272,11 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async searchFiles(
-    request: FileSystemSearchFilesRequest,
-    options?: { signal?: AbortSignal },
-  ): Promise<FileSystemSearchFilesResult> {
+  async searchFiles(request: FilesRequest, options?: CallOptions): Promise<FilesResult> {
     return searchFiles(request, options?.signal);
   }
 
-  async searchText(
-    request: FileSystemSearchTextRequest,
-    options?: { signal?: AbortSignal },
-  ): Promise<FileSystemSearchTextResult> {
+  async searchText(request: SearchRequest, options?: CallOptions): Promise<SearchResult> {
     const target = absolute(request.path);
     const normalized = request.path === target ? request : { ...request, path: target };
     return searchText(normalized, this.adapterOptions.textSearchEngine, options?.signal);
