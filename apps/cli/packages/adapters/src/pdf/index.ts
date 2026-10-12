@@ -43,10 +43,12 @@ const COMMAND_ERROR_PATTERN = /^(?:Command Line Error|Internal Error)(?: \(\d+\)
 const PAGE_COUNT_PATTERN = /^Pages:\s+(\d+)\s*$/imu;
 const PAGE_IMAGE_PATTERN = /-(\d+)\.jpg$/iu;
 
-/** 渲染流程的结果：成功带页面，失败带原因，交给清理阶段决定抛出时机。 */
-type ExtractionOutcome =
-  | { ok: true; rendered: PdfDocumentRenderedPage[] }
-  | { ok: false; failure: unknown };
+/** 渲染流程的结果：成功带页面，失败带原因，两者都带临时目录（供清理）。 */
+type ExtractionOutcome = {
+  failure?: unknown;
+  pages?: PdfDocumentRenderedPage[];
+  tempDir: string;
+};
 
 interface PageEntry {
   name: string;
@@ -327,75 +329,94 @@ export function createPopplerPdfDocumentAdapter(
     toolAvailable = true;
   }
 
-  return {
-    async getPageCount(
-      request: PdfDocumentPageCountRequest,
-      callOptions?: { cancellation?: AbortSignal },
-    ): Promise<number | undefined> {
-      const cancellation = callOptions?.cancellation;
+  /** pdfinfo：读页数；命令未成功时返回 undefined（未知页数）。 */
+  async function runPdfInfo(
+    request: PdfDocumentPageCountRequest,
+    cancellation: AbortSignal | undefined,
+  ): Promise<number | undefined> {
+    const call = toolCall(
+      options.executionPort,
+      "pdfinfo",
+      [request.filePath],
+      READ_PDF_INFO_TIMEOUT_MS,
+      request.trace,
+      cancellation,
+    );
+    const outcome = await runTool(call);
+    if (outcome.cancelled || cancellation?.aborted) {
+      throw pdfFailure("cancelled", "PDF inspection was cancelled.");
+    }
+    if (outcome.status !== "completed" || outcome.exitCode !== 0) return undefined;
+    return parsePageCount(outcome.stdout.text);
+  }
+
+  /** 渲染到临时目录并读回页面；失败只记录，抛出时机由调用方决定（清理优先）。 */
+  async function renderToTemp(
+    request: PdfDocumentRenderPagesRequest,
+    cancellation: AbortSignal | undefined,
+  ): Promise<ExtractionOutcome> {
+    const tempDir = await mkdtemp(
+      join(options.tempRoot ?? tmpdir(), temporaryDirectoryPrefix),
+    ).catch((reason: unknown): never => {
+      throw filesystemFailure(
+        "Unable to create a temporary directory for PDF page extraction.",
+        cancellation,
+        reason,
+      );
+    });
+    try {
       const call = toolCall(
         options.executionPort,
-        "pdfinfo",
-        [request.filePath],
-        READ_PDF_INFO_TIMEOUT_MS,
+        "pdftoppm",
+        renderArgs(request, join(tempDir, imagePrefix)),
+        READ_PDF_RENDER_TIMEOUT_MS,
         request.trace,
         cancellation,
       );
-      const outcome = await runTool(call);
-      if (outcome.cancelled || cancellation?.aborted) {
-        throw pdfFailure("cancelled", "PDF inspection was cancelled.");
-      }
-      if (outcome.status !== "completed" || outcome.exitCode !== 0) return undefined;
-      return parsePageCount(outcome.stdout.text);
-    },
+      inspectRenderOutcome(await runTool(call), request);
+      return { pages: await collectPages(tempDir, cancellation), tempDir };
+    } catch (failure) {
+      return { failure, tempDir };
+    }
+  }
 
-    async renderPages(
-      request: PdfDocumentRenderPagesRequest,
-      callOptions?: { cancellation?: AbortSignal },
-    ): Promise<PdfDocumentRenderedPage[]> {
-      const cancellation = callOptions?.cancellation;
-      await checkAvailability(request, cancellation);
-
-      let tempDir: string;
-      try {
-        tempDir = await mkdtemp(join(options.tempRoot ?? tmpdir(), temporaryDirectoryPrefix));
-      } catch (reason) {
+  /** 清理临时目录：只有渲染本身成功时，清理失败才算错误。 */
+  async function cleanupTemp(
+    tempDir: string,
+    cancellation: AbortSignal | undefined,
+    rendered: boolean,
+  ): Promise<void> {
+    try {
+      await rm(tempDir, { recursive: true, force: true });
+    } catch (reason) {
+      if (rendered) {
         throw filesystemFailure(
-          "Unable to create a temporary directory for PDF page extraction.",
+          "Unable to remove temporary PDF page images.",
           cancellation,
           reason,
         );
       }
+    }
+  }
 
-      let attempt: ExtractionOutcome;
-      try {
-        const call = toolCall(
-          options.executionPort,
-          "pdftoppm",
-          renderArgs(request, join(tempDir, imagePrefix)),
-          READ_PDF_RENDER_TIMEOUT_MS,
-          request.trace,
-          cancellation,
-        );
-        inspectRenderOutcome(await runTool(call), request);
-        attempt = { ok: true, rendered: await collectPages(tempDir, cancellation) };
-      } catch (reason) {
-        attempt = { ok: false, failure: reason };
-      }
+  return {
+    async getPageCount(
+      request: PdfDocumentPageCountRequest,
+      callOptions?: { signal?: AbortSignal },
+    ): Promise<number | undefined> {
+      return await runPdfInfo(request, callOptions?.signal);
+    },
 
-      try {
-        await rm(tempDir, { recursive: true, force: true });
-      } catch (reason) {
-        if (attempt.ok) {
-          throw filesystemFailure(
-            "Unable to remove temporary PDF page images.",
-            cancellation,
-            reason,
-          );
-        }
-      }
-      if (!attempt.ok) throw attempt.failure;
-      return attempt.rendered;
+    async renderPages(
+      request: PdfDocumentRenderPagesRequest,
+      callOptions?: { signal?: AbortSignal },
+    ): Promise<PdfDocumentRenderedPage[]> {
+      const cancellation = callOptions?.signal;
+      await checkAvailability(request, cancellation);
+      const outcome = await renderToTemp(request, cancellation);
+      await cleanupTemp(outcome.tempDir, cancellation, outcome.failure === undefined);
+      if (outcome.failure !== undefined) throw outcome.failure;
+      return outcome.pages ?? [];
     },
   };
 }
