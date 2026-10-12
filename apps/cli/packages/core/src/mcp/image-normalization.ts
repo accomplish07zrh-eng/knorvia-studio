@@ -301,14 +301,13 @@ async function saveOversizedImage(
   );
 }
 
+// 执行上下文 → trace 快照：只搬运五个关联字段，不携带任何内容。
+const TRACE_FIELD_NAMES = ["traceId", "spanId", "parentSpanId", "sessionId", "turnId"] as const;
+
 function artifactTrace(context: ToolExecutionContext): TraceContext {
-  return {
-    traceId: context.traceId,
-    spanId: context.spanId,
-    parentSpanId: context.parentSpanId,
-    sessionId: context.sessionId,
-    turnId: context.turnId,
-  };
+  return Object.fromEntries(
+    TRACE_FIELD_NAMES.map((field) => [field, context[field]]),
+  ) as unknown as TraceContext;
 }
 
 // 媒体类型 → 落盘扩展名：先归一化（去参数、去首尾空白、小写）再查表，未知类型统一 .bin。
