@@ -4,7 +4,6 @@ import { createReadStream, type Stats } from "node:fs";
 import { readFile } from "node:fs/promises";
 import {
   createFileSystemError,
-  type FileSystemReadTextRangeRequest,
   type FileSystemReadTextRangeResult,
   type FileSystemTextEncoding,
 } from "@knorvia/contracts";
@@ -24,7 +23,7 @@ const WHOLE_FILE_THRESHOLD = 10 * 1024 * 1024;
 const HEAD_CAPACITY = 4096;
 const KIB = 1024;
 const MIB = KIB * KIB;
-const CANCEL_SCOPE = "file range read";
+const CANCEL_SCOPE = "file fields read";
 
 type RangeContent = Pick<
   FileSystemReadTextRangeResult,
@@ -35,42 +34,53 @@ type RangeContent = Pick<
 interface RangeInput {
   limit: number | undefined;
   offset: number;
-  request: FileSystemReadTextRangeRequest;
+  query: RangeRequest;
   signal: AbortSignal | undefined;
 }
 
-function cancelled(scope: string): Error {
-  return abortError(`File system operation was cancelled: ${scope}`);
+function abortWith(scope: string): Error {
+  return abortError(`File system operation was abortWith: ${scope}`);
 }
 
-function checkCancellation(signal?: AbortSignal): void {
-  if (signal?.aborted) throw cancelled(CANCEL_SCOPE);
+function throwIfCancelled(signal?: AbortSignal): void {
+  if (signal?.aborted) throw abortWith(CANCEL_SCOPE);
 }
 
-function displaySize(bytes: number): string {
+function displaySize(payload: number): string {
   for (const [unit, suffix] of [
     [MIB, "MB"],
     [KIB, "KB"],
   ] as const) {
-    if (bytes >= unit) {
-      const value = bytes / unit;
-      const numeral = Number.isInteger(value)
+    if (payload >= unit) {
+      const value = payload / unit;
+      const digits = Number.isInteger(value)
         ? String(value)
         : value.toFixed(1).replace(/\.0$/u, "");
-      return numeral + suffix;
+      return digits + suffix;
     }
   }
-  return String(bytes) + "B";
+  return String(payload) + "B";
 }
 
-function tooLargeError(request: FileSystemReadTextRangeRequest, size: number): Error {
+type RangeRequest = FileSystemReadTextRangeRequest;
+
+function tooLargeError(query: RangeRequest, size: number): Error {
   const actual = displaySize(size);
-  const allowed = displaySize(request.maxBytes ?? 0);
+  const allowed = displaySize(query.maxBytes ?? 0);
   const message =
-    `File content (${actual}) exceeds maximum allowed size (${allowed}). ` +
-    "Use offset and limit parameters to read specific portions of the file, " +
-    "or search for specific content instead of reading the whole file.";
-  return createFileSystemError({ code: "too_large", message, path: request.path });
+    `File content (${actual}) exceeds maximum allowed size (${allowed}). ` + LIMIT_HINT;
+  return createFileSystemError({ code: "too_large", message, path: query.path });
+}
+
+/** 体积上限提示的固定后缀：B101 断言其文本，逐字保持。 */
+const LIMIT_HINT =
+  "Use offset and limit parameters to read specific portions of the file, " +
+  "or search for specific content instead of reading the whole file.";
+
+/** 行选择：limit 为 undefined 时读到结尾，否则取 offset 起的连续 limit 行。 */
+function selectLines(rows: string[], offset: number, limit: number | undefined): string[] {
+  if (limit === undefined) return rows.slice(offset);
+  return rows.slice(offset, offset + limit);
 }
 
 function revisionOf(info: Stats): { id: string; mtimeMs: number; sizeBytes: number } {
@@ -81,50 +91,47 @@ function revisionOf(info: Stats): { id: string; mtimeMs: number; sizeBytes: numb
   return revision;
 }
 
-/** 小文件：整块读入后切行，selected 为最终返回的行集合。 */
-async function wholeFile(input: RangeInput): Promise<RangeContent> {
-  const { request, signal } = input;
-  checkCancellation(signal);
-  const bytes = await readFile(request.path);
-  checkCancellation(signal);
-  const { content: raw, encoding } = decodeTextBuffer({
-    buffer: bytes,
-    encoding: request.encoding,
-    path: request.path,
+/** 小文件：整块读入后切行，chosen 为最终返回的行集合。 */
+async function wholeFile(shared: RangeInput): Promise<RangeContent> {
+  const { query, signal } = shared;
+  throwIfCancelled(signal);
+  const payload = await readFile(query.path);
+  throwIfCancelled(signal);
+  const { content: decoded, encoding } = decodeTextBuffer({
+    buffer: payload,
+    encoding: query.encoding,
+    path: query.path,
   });
-  const normalizeEndings = shouldNormalizeLineEndings(encoding);
-  const normalized = normalizeEndings ? normalizeLineEndings(raw) : raw;
-  const lines = normalized === "" ? [] : normalized.split("\n");
-  const selected =
-    input.limit === undefined
-      ? lines.slice(input.offset)
-      : lines.slice(input.offset, input.offset + input.limit);
+  const normalizes = shouldNormalizeLineEndings(encoding);
+  const normalized = normalizes ? normalizeLineEndings(decoded) : decoded;
+  const rows = normalized === "" ? [] : normalized.split("\n");
+  const chosen = selectLines(rows, shared.offset, shared.limit);
   const content = {} as RangeContent;
-  content.content = selected.join("\n");
+  content.content = chosen.join("\n");
   content.encoding = encoding;
-  content.lineEndings = normalizeEndings ? detectLineEndings(raw) : undefined;
-  content.bytesRead = bytes.length;
-  content.lineCount = selected.length;
-  content.totalLines = lines.length;
+  content.lineEndings = normalizes ? detectLineEndings(decoded) : undefined;
+  content.bytesRead = payload.length;
+  content.lineCount = chosen.length;
+  content.totalLines = rows.length;
   return content;
 }
 
 /** 大文件：流式解码进 TextLineWindow，只在窗口内保留被选中的行。 */
-async function scanFile(input: RangeInput): Promise<RangeContent> {
-  const { request, signal } = input;
-  const encoding = request.encoding ?? (await sampleEncoding(request.path, signal));
+async function scanFile(shared: RangeInput): Promise<RangeContent> {
+  const { query, signal } = shared;
+  const encoding = query.encoding ?? (await sampleEncoding(query.path, signal));
   const decoder = createStreamingTextDecoder(encoding);
-  const collector = new TextLineWindow(input.offset, input.limit);
-  const stream = createReadStream(request.path);
+  const collector = new TextLineWindow(shared.offset, shared.limit);
+  const stream = createReadStream(query.path);
   const onAbort = (): void => {
-    stream.destroy(cancelled(request.path));
+    stream.destroy(abortWith(query.path));
   };
   let consumed = 0;
   let hasBytes = false;
   signal?.addEventListener("abort", onAbort, { once: true });
   try {
     for await (const piece of stream) {
-      checkCancellation(signal);
+      throwIfCancelled(signal);
       const buffer = Buffer.isBuffer(piece) ? piece : Buffer.from(piece);
       consumed += buffer.length;
       hasBytes = hasBytes || buffer.length > 0;
@@ -148,29 +155,30 @@ async function scanFile(input: RangeInput): Promise<RangeContent> {
 
 /** 编码采样：只读文件头 4KiB，不经二进制筛选。 */
 async function sampleEncoding(path: string, signal?: AbortSignal): Promise<FileSystemTextEncoding> {
-  checkCancellation(signal);
+  throwIfCancelled(signal);
   const head = await prefix(path, HEAD_CAPACITY);
   return detectTextEncoding(head);
 }
 
 export async function readTextFileRangeFromNode(
-  request: FileSystemReadTextRangeRequest,
+  query: RangeRequest,
   info: Stats,
   signal?: AbortSignal,
 ): Promise<FileSystemReadTextRangeResult> {
-  checkCancellation(signal);
-  const cap = request.maxBytes;
-  if (cap !== undefined && info.size > cap) throw tooLargeError(request, info.size);
+  throwIfCancelled(signal);
+  const maxBytes = query.maxBytes;
+  if (maxBytes !== undefined && info.size > maxBytes) throw tooLargeError(query, info.size);
 
-  const offset = Math.max(0, Math.trunc(request.offsetLine ?? 0));
+  const offset = Math.max(0, Math.trunc(query.offsetLine ?? 0));
   const limit =
-    request.limitLines === undefined ? undefined : Math.max(0, Math.trunc(request.limitLines));
-  const input: RangeInput = { limit, offset, request, signal };
-  const range = info.size <= WHOLE_FILE_THRESHOLD ? await wholeFile(input) : await scanFile(input);
+    query.limitLines === undefined ? undefined : Math.max(0, Math.trunc(query.limitLines));
+  const shared: RangeInput = { limit, offset, query, signal };
+  const fields =
+    info.size <= WHOLE_FILE_THRESHOLD ? await wholeFile(shared) : await scanFile(shared);
 
   const result = {} as FileSystemReadTextRangeResult;
-  result.path = request.path;
-  Object.assign(result, range);
+  result.path = query.path;
+  Object.assign(result, fields);
   result.sizeBytes = info.size;
   result.truncated = false;
   result.startLine = offset + 1;
