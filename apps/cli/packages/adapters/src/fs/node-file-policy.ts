@@ -43,11 +43,14 @@ const SIZE_UNITS = [
   [KIB, "KB"],
 ] as const;
 
+/** 非绝对路径一律拒绝：错误码与文案是契约的一部分。 */
+function notAbsolute(path: string): Error {
+  const text = "FileSystemPort requires an absolute path: " + path;
+  return createFileSystemError({ code: "invalid_path", message: text, path });
+}
+
 export function absolute(path: string): string {
-  if (!isAbsolute(path)) {
-    const message = `FileSystemPort requires an absolute path: ${path}`;
-    throw createFileSystemError({ code: "invalid_path", message, path });
-  }
+  if (!isAbsolute(path)) throw notAbsolute(path);
   return normalize(path);
 }
 
@@ -88,13 +91,7 @@ export function failure(error: unknown, path: string): Error {
   return ioFailure(error, path, mapping);
 }
 
-export function aborted(signal?: AbortSignal): void {
-  if (signal?.aborted) throw abortError("File system operation was cancelled");
-}
-
-export function abortError(message: string): Error {
-  return Object.assign(new Error(message), { name: "AbortError" });
-}
+export { aborted, abortError } from "./abort.js";
 
 export function nodeKind(info: NodeInfo): FileSystemNodeKind {
   for (const [predicate, kind] of KIND_BY_PREDICATE) {
@@ -114,20 +111,25 @@ export function regular(info: ReadableInfo, path: string, kind: "text" | "binary
   }
 }
 
+/** 修订号：mtime + size 是稳定标识，hash 只在调用方给了字节时补上。 */
+function revisionId(info: { mtimeMs: number; size: number }): string {
+  return "mtime:" + Math.trunc(info.mtimeMs) + ":size:" + info.size;
+}
+
 export function revision(info: { mtimeMs: number; size: number }, bytes?: Buffer) {
-  const revisionInfo = {} as {
+  const meta = {} as {
     hash?: string;
     id: string;
     mtimeMs: number;
     sizeBytes: number;
   };
-  revisionInfo.id = `mtime:${Math.trunc(info.mtimeMs)}:size:${info.size}`;
-  revisionInfo.mtimeMs = info.mtimeMs;
-  revisionInfo.sizeBytes = info.size;
+  meta.id = revisionId(info);
+  meta.mtimeMs = info.mtimeMs;
+  meta.sizeBytes = info.size;
   if (bytes !== undefined) {
-    revisionInfo.hash = HASH_PREFIX + createHash("sha256").update(bytes).digest("hex");
+    meta.hash = HASH_PREFIX + createHash("sha256").update(bytes).digest("hex");
   }
-  return revisionInfo;
+  return meta;
 }
 
 function formatSize(value: number): string {
