@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "2cf79b6c52d86d0f8cd64db96e67b5d3f25f452fca53cf48ad257ed6dc1d6250",
+      "normalizedSha256": "60e1d7736f51dbfbf6f1341f1216620fc6423c63878696c238e3020b13fd2192",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133513,6 +133513,38 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/definition-schemas.ts",
+      "normalizedSha256": "e6ad0294c732d4d412a946535724d562778550df3f9bb7e1abcacd915eddf1d5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/definition-validation.ts",
+      "normalizedSha256": "54a0bba37dc5a57218499d356f2bf235a48439fe3354271f2195ae91f1d7de0b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/graph-schema-declarations.ts",
+      "normalizedSha256": "2ae5263fff0cf8e430b33b5477391555cee70821d106aa197349a27fe48c5d4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/graph-schema-validation.ts",
+      "normalizedSha256": "094bbce79331617ffa4ea44087f1a5cbe484d1457190e767e5b487bf40d76d58",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     }
   ]

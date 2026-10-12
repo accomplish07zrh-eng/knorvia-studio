@@ -44,6 +44,18 @@ node <tool> --repo . --candidate <文件> \
 | `rewind/payload-schemas.ts`   | 声明模式           | 135          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 0.978、run 132：135 行几乎全是 schema 与类型声明 |
 | `rewind/index.ts`             | 声明模式（barrel） | 10           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 0.600、run 6：全部是再导出语句（兼容面）         |
 
+### 3.3 workflow 组（7 个文件；已完成 2 个逻辑模块 → 7 个文件）
+
+| 文件                                    | 计分模式           | 兼容面行数 X | 残留行数 Y | X/(X+Y) | 实测（containment / run / structural） | 说明                                                          |
+| --------------------------------------- | ------------------ | ------------ | ---------- | ------- | -------------------------------------- | ------------------------------------------------------------- |
+| `workflow/session-links.ts`             | **普通模式**       | —            | —          | —       | 0.196 / run < 8 ✓                      | 状态映射改查表常量、可选字段显式条件赋值、尝试分组键抽函数    |
+| `workflow/definition-validation.ts`     | **普通模式**       | —            | —          | —       | 0.186 / run < 8 ✓                      | 四类交叉校验改成「一次遍历收集问题」的纯函数                  |
+| `workflow/definition.ts`                | 声明模式（薄入口） | 11           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 只组装基础 schema + `superRefine`，并按清单逐个再导出         |
+| `workflow/definition-schemas.ts`        | 声明模式           | 86           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 22 个声明块全部由 `interface.md` 名字命中剔除；普通模式 0.930 |
+| `workflow/graph-schema-validation.ts`   | **普通模式**       | —            | —          | —       | 0.182 / run < 8 ✓                      | 内联 refine 谓词抽成具名纯函数                                |
+| `workflow/graph-schema.ts`              | 声明模式（薄入口） | 2            | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯再导出                                                      |
+| `workflow/graph-schema-declarations.ts` | 声明模式           | 102          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯 schema 声明；普通模式 0.961                                |
+
 **合同冻结行说明**：`interface.md` 列出上述文件的导出名与签名；声明模式按名字剔除整块声明（含 `const` schema 与常量表）后，剩余行才是需要独立创作的实现。八个文件的残留行合计 61 行，最长相同段 ≤ 1 行；`target-evaluation`（5 行）与 `active-branch`（3 行）在普通模式下也低于门槛 8。
 
 **行为覆盖**：契约测试 `api-surface.test.mjs`（B1 导出面）+ `behavior.test.mjs`（B2 追踪上下文、B2b 异步 ambient、B3 span 驻留语义、B4–B9 工具与 workflow schema）在**源码入口 11/11、dist 入口 11/11** 全过；桩替换 6 个模块路径后 11/11 全部失败（`specs/contracts/contracts-02/gate-replace-stub.json`）。
