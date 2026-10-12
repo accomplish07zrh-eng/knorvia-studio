@@ -86,3 +86,23 @@
 3. `dynamic-sections.ts` 的四个动态 section（session guidance / dynamic behavior / output style / context management）的触发条件与文案 —— 留给子块 2。
 4. `types.ts` 的类型面（`ContextSection` 字段、`ContextSource` 取值、`ContextBuilderConfig` 形状）—— 由 B6 式编译期用例在子块 2 补。
 5. `estimateTokens` 的除数来自 `@knorvia/shared` 的 `ESTIMATED_TOKEN_CHAR_DIVISOR`（实测 3）：本合同按**实测值**冻结；若 shared 调整该常量，core-01 与 shared 需同步改并重跑旧门。
+
+## 9. context 子块 2（X6–X9）的旧门结果与未覆盖项
+
+### 旧门（旧实现）
+
+`specs/contracts/core-01/tests/context-sections.test.mjs`（入口：区域桶 `src/context/index.ts`）：
+
+- 源码入口：tests=**4** pass=**4** fail=0 skipped=0
+- dist 入口（`KNORVIA_CORE_ENTRY=dist`）：tests=**4** pass=**4** fail=0 skipped=0
+
+断言覆盖：`Agent Identity` 两种形态（1220/407 与 1246/416）与安全行/Harness 逐字、`Desktop Context`（1109/370 与两个小节 + `::code-comment` 示例行）、`Environment Info`（184/62 与五行含两处 `undefined` 回落）、`Workflow Actor Identity`（2731/911 与共用安全行/Harness、`submit_result`/`escalate`/`path:line`/`not run` 标记）、非 git 仓库时 git 段为 `null`。
+
+### 未覆盖项（子块 3 待补，如实列出）
+
+1. `builder.ts`：`ContextBuilder` 的装配**顺序**与去重裁剪、`createContextBuilder` 的默认 section 列表、`buildContextMetaUserBody`/`buildSkillsMetaUserBody` 的 meta_user 正文拼接 —— 需要按顺序/事件序列断言。
+2. `sections/skills.ts`：`buildSkillsSection` 的入参形状不是 `{skills}`（探针 `TypeError: Cannot read properties of undefined (reading 'skills')`），需读源码后按真实入参冻结清单截断与 `skillMetadataBudget` 行为。
+3. `sections/request-user-context.ts`：`buildRequestUserContextSection` **不经桶导出**（内部函数）——`# agentsMd` 段、`Contents of <path> (workspace instructions|user default instructions):`、`[File truncated: <name>]`、memory 索引段与 `null` 回落。
+4. `dynamic-sections.ts` 四个动态 section（session guidance / dynamic behavior / output style / context management）的触发条件与文案。
+5. `types.ts` 的类型面（`ContextSection` 字段、`ContextSource` 取值、`ContextBuilderConfig` 形状）——B6 式编译期用例。
+6. `buildSecurityNotice`/`buildHarnessBlock` 为内部函数：只经 X6/X9 的"逐字同一份"间接冻结，无独立黑盒入口。

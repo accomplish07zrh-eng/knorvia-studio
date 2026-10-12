@@ -141,3 +141,34 @@
 - （测试：tests/context.test.mjs「X5 context 区公开面（区域桶）」）
 
 > **context 子块 2（待补）**：`builder.ts`（`ContextBuilder`/`createContextBuilder`/`buildContextMetaUserBody`/`buildSkillsMetaUserBody` 的装配顺序与去重裁剪）、`sections/{identity,env-info,skills,desktop,workflow-actor,request-user-context}.ts` 的固定文案与顺序、`dynamic-sections.ts` 的四个动态 section、`types.ts` 的类型面。补齐前合同不得合并。
+
+## X6 Agent Identity section（`context/sections/identity.ts`）
+
+- 输入：`buildIdentitySection(outputStyle?: OutputStylePromptConfig)`。
+- 输出（**逐字冻结**）：`{name:"Agent Identity", source:"identity", injectionTarget:"system", cacheHint:"stable"}`；无 output style 时 `chars = 1220`、`tokens = 407`，内容以 `"\nYou are an interactive Knorvia Studio agent that helps users with software engineering tasks.\n\n"` 开头；带 output style（`{name,prompt}`）时 `chars = 1246`、`tokens = 416`，首句换成 `"You respond to the user according to the active Output Style below while using Knorvia Studio's tools and instructions."`。两种形态都逐字包含同一条安全 IMPORTANT 行与 `# Harness` 五条要点（文本见测试常量）。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- （测试：tests/context-sections.test.mjs「X6 Agent Identity section（逐字冻结 + output style 分支）」）
+
+## X7 Desktop Context section（`context/sections/desktop.ts`）
+
+- 输入：无。
+- 输出（**逐字冻结**）：`{name:"Knorvia Studio Desktop Context", source:"desktop_context", injectionTarget:"system", cacheHint:"stable", chars:1109, tokens:370}`；内容以 `"# Knorvia Studio Desktop Context\n\n### Files & URLs\n"` 开头，含 `### Inline Code Comments`、`::code-comment{...}` 指令说明与示例行 `- Example: ::code-comment{title="[P2] Off-by-one" … start=10 end=11 priority=2}`。
+- 错误语义：不抛错。时序与并发：纯函数（常量内容）。幂等：是。资源释放：不适用。平台差异：不适用（文案与平台无关）。状态所有者：无。日志级别：不适用。
+- （测试：tests/context-sections.test.mjs「X7 Desktop Context section（逐字冻结）」）
+
+## X8 Environment Info 与 git 上下文（`context/sections/env-info.ts`）
+
+- 输入：`buildEnvInfoSection(envInfo, model?)`、`buildGitSystemContextSection(envInfo)`。
+- 输出（**逐字冻结**）：最小 `envInfo`（`cwd:"/w"`、`platform:"linux"`、`isGitRepository:false`、`nodeVersion:"v24.0.0"`）下 `{name:"Environment Info", source:"env_info", injectionTarget:"system", cacheHint:"dynamic", chars:184, tokens:62}`；内容以 `"# Environment\nYou have been invoked in the following environment:\n"` 开头，逐行 `- Primary working directory: /w`、`- Is a git repository: no`、`- Platform: linux`、`- Shell: undefined`、`- OS Version: undefined`（**未给字段回落为字面 `undefined`**）。非 git 仓库时 `buildGitSystemContextSection` 返回 `null`（不产出 git 段）。
+- 错误语义：不抛错。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：`platform`/`cwd` 由调用方给，本 section 只做文本呈现（不做路径改写）。状态所有者：无。日志级别：不适用。
+- （测试：tests/context-sections.test.mjs「X8 Environment Info 与 git 上下文（含 undefined 回落）」）
+
+## X9 Workflow Actor Identity section（`context/sections/workflow-actor.ts`）
+
+- 输入：`buildWorkflowActorIdentitySection(actor: WorkflowActorContext)`（`{name?, persona?}` 都可缺席）。
+- 输出（**逐字冻结**）：`{name:"Workflow Actor Identity", source:"workflow_actor_identity", injectionTarget:"system", cacheHint:"stable", chars:2731, tokens:911}`；内容以 `"You are a subagent inside a dynamic workflow run."` 开头，含 `"There is no user in this conversation to talk to."`、**与 X6 逐字同一份**安全 IMPORTANT 行与 `# Harness` 五条要点、`# Working inside a workflow` 契约段，并含标记 `\`submit_result\``、`\`escalate\``、`path:line`、`not run`（"未执行就如实报未执行"）。
+- 错误语义：不抛错（`{}` 也产出基座身份）。时序与并发：纯函数。幂等：是。资源释放：不适用。平台差异：不适用。状态所有者：无。日志级别：不适用。
+- 说明：`buildSecurityNotice()` 与 `buildHarnessBlock()` **不经公开入口导出**（内部函数），其文本通过 X6/X9 的"逐字同一份"断言间接冻结。
+- （测试：tests/context-sections.test.mjs「X9 Workflow Actor Identity section（共用安全行/Harness + 工作流契约）」）
+
+> **context 子块 3（待补）**：`builder.ts`（`ContextBuilder` 装配顺序、`createContextBuilder` 默认列表、`buildContextMetaUserBody`/`buildSkillsMetaUserBody` 的去重裁剪）、`sections/skills.ts`（清单截断规则，探针显示其入参形状不是 `{skills}`，需读源码）、`sections/request-user-context.ts`（`# agentsMd` 段与 `[File truncated]` 规则，内部函数）、`dynamic-sections.ts` 四个动态 section、`types.ts` 类型面（B6 式编译期用例）。

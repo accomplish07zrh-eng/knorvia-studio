@@ -77,3 +77,14 @@
 | X5 context 区公开面 | `tests/context.test.mjs`「X5 context 区公开面（区域桶）」 |
 
 context 子块 2（`builder.ts` 装配顺序/去重、`identity`/`env-info`/`skills`/`desktop`/`workflow-actor`/`request-user-context` 文案、`dynamic-sections`、`types`）待补；补齐前合同不得合并。
+
+## 条目 → 测试对照表（context 子块 2，X6–X9）
+
+| 条目 | 测试 |
+| --- | --- |
+| X6 Agent Identity section | `tests/context-sections.test.mjs`「X6 Agent Identity section（逐字冻结 + output style 分支）」 |
+| X7 Desktop Context section | `tests/context-sections.test.mjs`「X7 Desktop Context section（逐字冻结）」 |
+| X8 Environment Info 与 git 上下文 | `tests/context-sections.test.mjs`「X8 Environment Info 与 git 上下文（含 undefined 回落）」 |
+| X9 Workflow Actor Identity section | `tests/context-sections.test.mjs`「X9 Workflow Actor Identity section（共用安全行/Harness + 工作流契约）」 |
+
+context 子块 3（`builder.ts` 装配顺序/去重、`skills`/`request-user-context` 文案、`dynamic-sections`、`types`）待补。
