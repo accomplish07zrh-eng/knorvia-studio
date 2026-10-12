@@ -30,8 +30,19 @@ const unavailableMessage =
 const temporaryDirectoryPrefix = "knorvia-read-pdf-";
 const imagePrefix = "page";
 const imageMediaType = "image/jpeg" as const;
+/** pdftoppm 固定参数：100dpi JPEG。 */
+const RENDER_FLAGS = ["-jpeg", "-r", "100"] as const;
 
-/** 渲染流程的结果：成功带页面，失败带原因，交由清理阶段统一决定抛出时机。 */
+const PASSWORD_PATTERN = /password/iu;
+const RANGE_PATTERN = /Wrong page range given[\s\S]*last page \((\d+)\)/iu;
+const CORRUPT_PATTERN = /damaged|corrupt|invalid/iu;
+const SYNTAX_PATTERN =
+  /Syntax Error(?: \(\d+\))?: Couldn't (?:find trailer dictionary|read xref table)/iu;
+const COMMAND_ERROR_PATTERN = /^(?:Command Line Error|Internal Error)(?: \(\d+\))?: /u;
+const PAGE_COUNT_PATTERN = /^Pages:\s+(\d+)\s*$/imu;
+const PAGE_IMAGE_PATTERN = /-(\d+)\.jpg$/iu;
+
+/** 渲染流程的结果：成功带页面，失败带原因，交给清理阶段决定抛出时机。 */
 type ExtractionOutcome =
   | { succeeded: true; pages: PdfDocumentRenderedPage[] }
   | { succeeded: false; cause: unknown };
@@ -50,6 +61,18 @@ interface ToolCall {
   timeoutMs: number;
   trace: PdfDocumentRenderPagesRequest["trace"];
 }
+
+/** 诊断分类的输入：stderr 原文与派生的首行/拼接详情。 */
+interface DiagnosticContext {
+  detail: string;
+  firstLine: string;
+  lines: string[];
+  request: PdfDocumentRenderPagesRequest;
+  result: ExecutionResult;
+  stderr: string;
+}
+
+type DiagnosticStep = (context: DiagnosticContext) => PdfDocumentPortError | undefined;
 
 function filesystemFailure(
   message: string,
@@ -97,16 +120,53 @@ function pageRangeFailure(
   return new PdfDocumentPortError("page_out_of_range", message);
 }
 
+const passwordFailure: DiagnosticStep = ({ stderr }) =>
+  PASSWORD_PATTERN.test(stderr)
+    ? new PdfDocumentPortError(
+        "password_protected",
+        "PDF is password-protected. Please provide an unprotected version.",
+      )
+    : undefined;
+
+/** 页区间越界：0 页视为损坏，正数页数给出可用的请求区间。 */
+const rangeFailure: DiagnosticStep = ({ request, stderr }) => {
+  const diagnostic = RANGE_PATTERN.exec(stderr);
+  if (diagnostic === null) return undefined;
+  const count = Number(diagnostic[1]);
+  if (count === 0) {
+    return new PdfDocumentPortError(
+      "corrupted",
+      "PDF reports 0 pages (empty page tree). The PDF may be invalid.",
+    );
+  }
+  if (!Number.isSafeInteger(count) || count < 1) return undefined;
+  return pageRangeFailure(request, count);
+};
+
 /** 首行 I/O 与权限错误：只在没有命令行诊断行时采用。 */
-function firstLineFailure(firstLine: string, filePath: string): PdfDocumentPortError | undefined {
-  if (firstLine.startsWith("I/O Error: ") && firstLine.includes(`'${filePath}'`)) {
+const firstLineFailure: DiagnosticStep = ({ firstLine, lines, request }) => {
+  if (lines.some((line) => COMMAND_ERROR_PATTERN.test(line))) return undefined;
+  if (firstLine.startsWith("I/O Error: ") && firstLine.includes(`'${request.filePath}'`)) {
     return new PdfDocumentPortError("io_error", `Could not render PDF: ${firstLine}`);
   }
   if (firstLine.startsWith("Permission Error: ")) {
     return new PdfDocumentPortError("permission_denied", `Could not render PDF: ${firstLine}`);
   }
   return undefined;
-}
+};
+
+const corruptedFailure: DiagnosticStep = ({ stderr }) =>
+  CORRUPT_PATTERN.test(stderr) || SYNTAX_PATTERN.test(stderr)
+    ? new PdfDocumentPortError("corrupted", "PDF file is corrupted or invalid.")
+    : undefined;
+
+/** 分类顺序即优先级：密码 → 页区间 → 首行 I/O/权限 → 损坏；都不匹配则进程失败。 */
+const DIAGNOSTIC_STEPS: readonly DiagnosticStep[] = [
+  passwordFailure,
+  rangeFailure,
+  firstLineFailure,
+  corruptedFailure,
+];
 
 function inspectRenderOutcome(
   result: ExecutionResult,
@@ -124,43 +184,21 @@ function inspectRenderOutcome(
   if (result.status === "completed" && result.exitCode === 0) return;
 
   const stderr = result.stderr.text;
-  const detail = diagnosticDetail(result);
-
-  if (/password/iu.test(stderr)) {
-    throw new PdfDocumentPortError(
-      "password_protected",
-      "PDF is password-protected. Please provide an unprotected version.",
-    );
-  }
-
-  const rangeDiagnostic = /Wrong page range given[\s\S]*last page \((\d+)\)/iu.exec(stderr);
-  if (rangeDiagnostic) {
-    const count = Number(rangeDiagnostic[1]);
-    if (count === 0) {
-      throw new PdfDocumentPortError(
-        "corrupted",
-        "PDF reports 0 pages (empty page tree). The PDF may be invalid.",
-      );
-    }
-    if (Number.isSafeInteger(count) && count >= 1) throw pageRangeFailure(request, count);
-  }
-
   const lines = stderr.split("\n");
-  const firstLine = lines[0] ?? "";
-  const commandDiagnostic = lines.some((line) =>
-    /^(?:Command Line Error|Internal Error)(?: \(\d+\))?: /u.test(line),
-  );
-  if (!commandDiagnostic) {
-    const early = firstLineFailure(firstLine, request.filePath);
-    if (early !== undefined) throw early;
+  const context: DiagnosticContext = {
+    detail: diagnosticDetail(result),
+    firstLine: lines[0] ?? "",
+    lines,
+    request,
+    result,
+    stderr,
+  };
+  for (const step of DIAGNOSTIC_STEPS) {
+    const failure = step(context);
+    if (failure !== undefined) throw failure;
   }
-  if (
-    /damaged|corrupt|invalid/iu.test(stderr) ||
-    /Syntax Error(?: \(\d+\))?: Couldn't (?:find trailer dictionary|read xref table)/iu.test(stderr)
-  ) {
-    throw new PdfDocumentPortError("corrupted", "PDF file is corrupted or invalid.");
-  }
-  const message = detail.length > 0 ? `pdftoppm failed: ${detail}` : "pdftoppm failed.";
+  const message =
+    context.detail.length > 0 ? `pdftoppm failed: ${context.detail}` : "pdftoppm failed.";
   throw new PdfDocumentPortError("process_failed", message, { cause: result.error?.cause });
 }
 
@@ -168,7 +206,7 @@ function inspectRenderOutcome(
 function pageEntries(names: string[]): PageEntry[] {
   const pages: PageEntry[] = [];
   for (const name of names) {
-    const match = /-(\d+)\.jpg$/iu.exec(name);
+    const match = PAGE_IMAGE_PATTERN.exec(name);
     if (match === null) continue;
     const pageNumber = Number(match[1]);
     if (Number.isSafeInteger(pageNumber) && pageNumber >= 1) pages.push({ name, pageNumber });
@@ -211,9 +249,6 @@ async function collectPages(
   }
 }
 
-/** pdftoppm 固定参数：100dpi JPEG。 */
-const RENDER_FLAGS = ["-jpeg", "-r", "100"] as const;
-
 /** pdftoppm 渲染参数：固定 flags + 请求区间 + 输入文件 + 输出前缀。 */
 function renderArgs(request: PdfDocumentRenderPagesRequest, outputPrefix: string): string[] {
   return [
@@ -227,6 +262,24 @@ function renderArgs(request: PdfDocumentRenderPagesRequest, outputPrefix: string
   ];
 }
 
+function toolCall(
+  executionPort: ExecutionPort,
+  file: string,
+  args: string[],
+  timeoutMs: number,
+  trace: PdfDocumentRenderPagesRequest["trace"],
+  signal: AbortSignal | undefined,
+): ToolCall {
+  return { args, executionPort, file, signal, timeoutMs, trace };
+}
+
+/** pdfinfo 输出解析：`Pages: N`；缺失或非法返回 undefined（调用方视为未知页数）。 */
+function parsePageCount(text: string): number | undefined {
+  const match = PAGE_COUNT_PATTERN.exec(text);
+  const count = Number(match?.[1]);
+  return Number.isSafeInteger(count) && count >= 0 ? count : undefined;
+}
+
 export function createPopplerPdfDocumentAdapter(
   options: PopplerPdfDocumentAdapterOptions,
 ): PdfDocumentPort {
@@ -237,14 +290,15 @@ export function createPopplerPdfDocumentAdapter(
     signal: AbortSignal | undefined,
   ): Promise<void> {
     if (toolAvailable) return;
-    const result = await runTool({
-      args: ["-v"],
-      executionPort: options.executionPort,
-      file: "pdftoppm",
+    const call = toolCall(
+      options.executionPort,
+      "pdftoppm",
+      ["-v"],
+      READ_PDF_AVAILABILITY_TIMEOUT_MS,
+      request.trace,
       signal,
-      timeoutMs: READ_PDF_AVAILABILITY_TIMEOUT_MS,
-      trace: request.trace,
-    });
+    );
+    const result = await runTool(call);
     if (result.cancelled || signal?.aborted) {
       throw new PdfDocumentPortError("cancelled", extractionCancelled);
     }
@@ -271,21 +325,21 @@ export function createPopplerPdfDocumentAdapter(
       request: PdfDocumentPageCountRequest,
       callOptions?: { signal?: AbortSignal },
     ): Promise<number | undefined> {
-      const result = await runTool({
-        args: [request.filePath],
-        executionPort: options.executionPort,
-        file: "pdfinfo",
-        signal: callOptions?.signal,
-        timeoutMs: READ_PDF_INFO_TIMEOUT_MS,
-        trace: request.trace,
-      });
-      if (result.cancelled || callOptions?.signal?.aborted) {
+      const signal = callOptions?.signal;
+      const call = toolCall(
+        options.executionPort,
+        "pdfinfo",
+        [request.filePath],
+        READ_PDF_INFO_TIMEOUT_MS,
+        request.trace,
+        signal,
+      );
+      const result = await runTool(call);
+      if (result.cancelled || signal?.aborted) {
         throw new PdfDocumentPortError("cancelled", "PDF inspection was cancelled.");
       }
       if (result.status !== "completed" || result.exitCode !== 0) return undefined;
-      const match = /^Pages:\s+(\d+)\s*$/imu.exec(result.stdout.text);
-      const count = Number(match?.[1]);
-      return Number.isSafeInteger(count) && count >= 0 ? count : undefined;
+      return parsePageCount(result.stdout.text);
     },
 
     async renderPages(
@@ -308,15 +362,15 @@ export function createPopplerPdfDocumentAdapter(
 
       let outcome: ExtractionOutcome;
       try {
-        const result = await runTool({
-          args: renderArgs(request, join(workDir, imagePrefix)),
-          executionPort: options.executionPort,
-          file: "pdftoppm",
+        const call = toolCall(
+          options.executionPort,
+          "pdftoppm",
+          renderArgs(request, join(workDir, imagePrefix)),
+          READ_PDF_RENDER_TIMEOUT_MS,
+          request.trace,
           signal,
-          timeoutMs: READ_PDF_RENDER_TIMEOUT_MS,
-          trace: request.trace,
-        });
-        inspectRenderOutcome(result, request);
+        );
+        inspectRenderOutcome(await runTool(call), request);
         outcome = { succeeded: true, pages: await collectPages(workDir, signal) };
       } catch (cause) {
         outcome = { succeeded: false, cause };
