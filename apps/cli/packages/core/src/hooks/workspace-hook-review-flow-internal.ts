@@ -138,7 +138,7 @@ export class WorkspaceHookReviewFlowRegistry {
 
   validate(
     target: HookReviewTarget,
-    decisionValue: WorkspaceHookReviewDecision,
+    decisionInput: WorkspaceHookReviewDecision,
   ): WorkspaceHookReviewResolveResult {
     const current = this.flows.get(target.sessionId);
     const superseded = {
@@ -154,7 +154,7 @@ export class WorkspaceHookReviewFlowRegistry {
       return superseded;
     if (!isSameSnapshot(current.request, target)) return mismatch;
 
-    const decision = workspaceHookReviewDecisionSchema.parse(decisionValue);
+    const decision = workspaceHookReviewDecisionSchema.parse(decisionInput);
     const requested = [...new Set(decision.reviewItemIds)];
     const declared = new Set(current.request.items.map((item) => item.reviewItemId));
     if (requested.some((reviewItemId) => !declared.has(reviewItemId))) return mismatch;
@@ -164,24 +164,24 @@ export class WorkspaceHookReviewFlowRegistry {
 
   resolve(
     target: HookReviewTarget,
-    decisionValue: WorkspaceHookReviewDecision,
+    decisionInput: WorkspaceHookReviewDecision,
   ): WorkspaceHookReviewResolveResult {
-    const validation = this.validate(target, decisionValue);
-    if (!validation.accepted) return validation;
+    const outcome = this.validate(target, decisionInput);
+    if (!outcome.accepted) return outcome;
 
     const current = this.flows.get(target.sessionId);
     if (!current) return { accepted: false, reasonCode: "workspace_hooks_review_superseded" };
 
-    const decision = workspaceHookReviewDecisionSchema.parse(decisionValue);
+    const decision = workspaceHookReviewDecisionSchema.parse(decisionInput);
     if (current.state.state === "pending") {
       this.setState(current, "resolved");
       current.settle({
         action: decision.action,
         reasonCode: undefined,
-        reviewItemIds: validation.reviewItemIds,
+        reviewItemIds: outcome.reviewItemIds,
       });
     }
-    return validation;
+    return outcome;
   }
 
   /** 失败与"无决定关闭"都要求代与快照都匹配且仍在等待；不匹配时不改状态。 */
