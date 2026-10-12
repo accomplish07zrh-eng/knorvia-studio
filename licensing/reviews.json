@@ -133485,6 +133485,28 @@
         "specs/contracts/contracts-01/README.md",
         "specs/contracts/contracts-01/gate-old.json"
       ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/design.md",
+      "normalizedSha256": "8b690ae4498026b9714db1d3a6387a5747ad3889f86c4345b84c902e29df6836",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of contracts-01 against contract v1: replacement design note and stub-gate record produced by the replacement work; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/contracts-01/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-01/stub-gate.json",
+      "normalizedSha256": "ce0f0ca7bc195f90e5eb56276b9983860c4540782aee8c134fde5ef3b1628dd4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of contracts-01 against contract v1: replacement design note and stub-gate record produced by the replacement work; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/contracts-01/README.md"
+      ]
     }
   ]
 }
