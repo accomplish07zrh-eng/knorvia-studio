@@ -26,10 +26,29 @@ import {
 import type { ToolExecutorDeps } from "./types.js";
 import { isRecord } from "./utils.js";
 
+// 一次运行的显式状态；由 trackBackgroundTask 创建，传给各阶段函数。
+type RunState = {
+  stopped: boolean;
+  pollInFlight: boolean;
+  terminalPublishing: boolean;
+  lastRunningSignature: string;
+  interval: ReturnType<typeof setInterval> | undefined;
+  maxRuntimeTimeout: ReturnType<typeof setTimeout> | undefined;
+};
+
 export class BackgroundTaskTracker {
   private readonly trackedTaskIds = new Set<string>();
 
   constructor(private readonly deps: ToolExecutorDeps) {}
+
+  // 收口清理：停掉两个定时器并从追踪集合里摘掉任务 id。幂等，可重复调用。
+  private cleanup(run: RunState, taskId: string): void {
+    if (run.interval) clearInterval(run.interval);
+    run.interval = undefined;
+    if (run.maxRuntimeTimeout) clearTimeout(run.maxRuntimeTimeout);
+    run.maxRuntimeTimeout = undefined;
+    this.trackedTaskIds.delete(taskId);
+  }
 
   async trackBackgroundTask(
     toolCall: ExecutableToolCall,
@@ -119,13 +138,6 @@ export class BackgroundTaskTracker {
       interval: undefined as ReturnType<typeof setInterval> | undefined,
       maxRuntimeTimeout: undefined as ReturnType<typeof setTimeout> | undefined,
     };
-    const cleanup = (): void => {
-      if (run.interval) clearInterval(run.interval);
-      run.interval = undefined;
-      if (run.maxRuntimeTimeout) clearTimeout(run.maxRuntimeTimeout);
-      run.maxRuntimeTimeout = undefined;
-      this.trackedTaskIds.delete(taskId);
-    };
     const publishRunning = async (snapshot: TaskSnapshot): Promise<void> => {
       const signature = runningSignature(snapshot);
       if (signature === run.lastRunningSignature) return;
@@ -170,7 +182,7 @@ export class BackgroundTaskTracker {
             turnId,
           );
           run.stopped = true;
-          cleanup();
+          this.cleanup(run, taskId);
           return;
         }
         if (snapshot.status === "running") {
@@ -178,7 +190,7 @@ export class BackgroundTaskTracker {
           await publishRunning(snapshot);
           if (!hasSnapshot) {
             run.stopped = true;
-            cleanup();
+            this.cleanup(run, taskId);
           }
           return;
         }
@@ -198,7 +210,7 @@ export class BackgroundTaskTracker {
             },
           );
           run.stopped = true;
-          cleanup();
+          this.cleanup(run, taskId);
           return;
         }
         this.deps.logger?.info?.("Background task terminal snapshot observed", {
@@ -226,7 +238,7 @@ export class BackgroundTaskTracker {
           turnId,
         );
         run.stopped = true;
-        cleanup();
+        this.cleanup(run, taskId);
       } finally {
         run.terminalPublishing = false;
       }
@@ -300,7 +312,7 @@ export class BackgroundTaskTracker {
           });
           if (!hasSnapshot) {
             run.stopped = true;
-            cleanup();
+            this.cleanup(run, taskId);
           }
         }
       })();
