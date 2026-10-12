@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// 工作流存储：事件/图的 JSONL 追加、快照与索引的原子写、定义目录的读取。
 import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
 import { randomUUID } from "node:crypto";
 import { appendFile, mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
@@ -33,8 +35,23 @@ interface WorkflowIndexFile {
   runs: WorkflowRunListItem[];
 }
 
+/** 可传取消信号的调用选项：与 port 声明的 `{ signal? }` 结构等价，仅用于压缩签名。 */
+type CallOptions = { signal?: AbortSignal } | undefined;
+
+/** 目录内的固定文件名：改名或换布局时只需改这一处。 */
+const FILES = {
+  events: "events.jsonl",
+  graph: "graph.jsonl",
+  index: "index.json",
+  report: "report.md",
+  run: "run.json",
+} as const;
+
+const DEFINITION_EXTENSION = ".json";
 const DEFAULT_WORKFLOW_ROOT = join(resolveKnorviaDataRoot(), "cli", "workflows");
-const WORKFLOW_DEFINITION_FILE_EXTENSION = ".json";
+const ID_PATTERN = /^[a-zA-Z0-9._-]+$/u;
+const PARENT_REFERENCE = /(?:^|[/\\])\.\.(?:[/\\]|$)/u;
+const RESERVED_IDS: ReadonlySet<string> = new Set([".", ".."]);
 
 export class NodeWorkflowStore implements WorkflowStorePort {
   private readonly rootDir: string;
@@ -43,7 +60,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
     this.rootDir = options.rootDir ?? DEFAULT_WORKFLOW_ROOT;
   }
 
-  async appendEvent(event: WorkflowEvent, options?: { signal?: AbortSignal }): Promise<void> {
+  async appendEvent(event: WorkflowEvent, options?: CallOptions): Promise<void> {
     throwIfAborted(options?.signal, "Workflow event append cancelled");
     WorkflowEventSchema.parse(event);
     await appendJsonLine(this.eventsPath(event.runId), event, options?.signal);
@@ -52,7 +69,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
   async appendGraphRecord(
     runId: string,
     record: WorkflowGraphRecord,
-    options?: { signal?: AbortSignal },
+    options?: CallOptions,
   ): Promise<void> {
     throwIfAborted(options?.signal, "Workflow graph append cancelled");
     WorkflowGraphRecordSchema.parse(record);
@@ -61,20 +78,20 @@ export class NodeWorkflowStore implements WorkflowStorePort {
 
   async listRuns(
     options: { cwd?: string; kind?: WorkflowKind; limit?: number } = {},
-    signalOptions?: { signal?: AbortSignal },
+    signalOptions?: CallOptions,
   ): Promise<WorkflowRunListItem[]> {
     throwIfAborted(signalOptions?.signal, "Workflow run list cancelled");
-    const index = await this.readIndex(signalOptions?.signal);
-    const filtered = index.runs.filter(
+    const ledger = await this.readIndex(signalOptions?.signal);
+    const matching = ledger.runs.filter(
       (run) =>
         (options.cwd === undefined || run.cwd === options.cwd) &&
         (options.kind === undefined || run.kind === options.kind),
     );
-    const sorted = filtered.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-    return options.limit === undefined ? sorted : sorted.slice(0, options.limit);
+    const ordered = matching.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+    return options.limit === undefined ? ordered : ordered.slice(0, options.limit);
   }
 
-  async readEvents(runId: string, options?: { signal?: AbortSignal }): Promise<WorkflowEvent[]> {
+  async readEvents(runId: string, options?: CallOptions): Promise<WorkflowEvent[]> {
     throwIfAborted(options?.signal, "Workflow event read cancelled");
     const lines = await readJsonLines(this.eventsPath(runId), options?.signal);
     return lines.map((line) => WorkflowEventSchema.parse(line));
@@ -82,17 +99,14 @@ export class NodeWorkflowStore implements WorkflowStorePort {
 
   async readLatestRun(
     options: { cwd?: string; kind?: WorkflowKind } = {},
-    signalOptions?: { signal?: AbortSignal },
+    signalOptions?: CallOptions,
   ): Promise<WorkflowRunSnapshot | null> {
     const [latest] = await this.listRuns({ ...options, limit: 1 }, signalOptions);
     if (!latest) return null;
     return await this.readRun(latest.runId, signalOptions);
   }
 
-  async readRun(
-    runId: string,
-    options?: { signal?: AbortSignal },
-  ): Promise<WorkflowRunSnapshot | null> {
+  async readRun(runId: string, options?: CallOptions): Promise<WorkflowRunSnapshot | null> {
     throwIfAborted(options?.signal, "Workflow snapshot read cancelled");
     const parsed = await readJson(this.snapshotPath(runId), options?.signal);
     return parsed === null ? null : WorkflowRunSnapshotSchema.parse(parsed);
@@ -102,36 +116,34 @@ export class NodeWorkflowStore implements WorkflowStorePort {
     runId: string,
     relativePath: string,
     content: string,
-    options?: { signal?: AbortSignal },
+    options?: CallOptions,
   ): Promise<{ path: string; relativePath: string }> {
     throwIfAborted(options?.signal, "Workflow artifact write cancelled");
     const safeRelativePath = normalizeRelativePath(relativePath);
-    const path = join(this.runRoot(runId), safeRelativePath);
-    await writeTextFile(path, content, options?.signal);
-    return { path, relativePath: safeRelativePath };
+    const target = join(this.runRoot(runId), safeRelativePath);
+    await writeTextFile(target, content, options?.signal);
+    return { path: target, relativePath: safeRelativePath };
   }
 
   async writeReport(
     runId: string,
     content: string,
-    options?: { signal?: AbortSignal },
+    options?: CallOptions,
   ): Promise<{ path: string; relativePath: string }> {
-    return await this.writeArtifact(runId, "report.md", content, options);
+    return await this.writeArtifact(runId, FILES.report, content, options);
   }
 
-  async writeSnapshot(
-    snapshot: WorkflowRunSnapshot,
-    options?: { signal?: AbortSignal },
-  ): Promise<void> {
+  async writeSnapshot(snapshot: WorkflowRunSnapshot, options?: CallOptions): Promise<void> {
     throwIfAborted(options?.signal, "Workflow snapshot write cancelled");
     WorkflowRunSnapshotSchema.parse(snapshot);
     await writeJsonFile(this.snapshotPath(snapshot.runId), snapshot, options?.signal);
     await this.upsertIndex(snapshot, options?.signal);
   }
 
+  /** 索引更新：同 runId 只保留一条，按 updatedAt 倒序。 */
   private async upsertIndex(snapshot: WorkflowRunSnapshot, signal?: AbortSignal): Promise<void> {
-    const index = await this.readIndex(signal);
-    const item: WorkflowRunListItem = {
+    const ledger = await this.readIndex(signal);
+    const entry: WorkflowRunListItem = {
       completedAt: snapshot.completedAt,
       createdAt: snapshot.createdAt,
       cwd: snapshot.cwd,
@@ -141,31 +153,28 @@ export class NodeWorkflowStore implements WorkflowStorePort {
       task: snapshot.task,
       updatedAt: snapshot.updatedAt,
     };
-    const nextRuns = [item, ...index.runs.filter((run) => run.runId !== snapshot.runId)].sort(
-      (a, b) => b.updatedAt.localeCompare(a.updatedAt),
-    );
+    const rest = ledger.runs.filter((run) => run.runId !== snapshot.runId);
+    const nextRuns = [entry, ...rest].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
     await writeJsonFile(this.indexPath(), { runs: nextRuns }, signal);
   }
 
   private async readIndex(signal?: AbortSignal): Promise<WorkflowIndexFile> {
     const parsed = await readJson(this.indexPath(), signal);
     if (parsed === null) return { runs: [] };
-    const runs = Array.isArray((parsed as { runs?: unknown }).runs)
-      ? (parsed as { runs: WorkflowRunListItem[] }).runs
-      : [];
-    return { runs };
+    const candidate = parsed as { runs?: unknown };
+    return { runs: Array.isArray(candidate.runs) ? (candidate.runs as WorkflowRunListItem[]) : [] };
   }
 
   private eventsPath(runId: string): string {
-    return join(this.runRoot(runId), "events.jsonl");
+    return join(this.runRoot(runId), FILES.events);
   }
 
   private graphPath(runId: string): string {
-    return join(this.runRoot(runId), "graph.jsonl");
+    return join(this.runRoot(runId), FILES.graph);
   }
 
   private indexPath(): string {
-    return join(this.rootDir, "index.json");
+    return join(this.rootDir, FILES.index);
   }
 
   private runRoot(runId: string): string {
@@ -173,7 +182,7 @@ export class NodeWorkflowStore implements WorkflowStorePort {
   }
 
   private snapshotPath(runId: string): string {
-    return join(this.runRoot(runId), "run.json");
+    return join(this.runRoot(runId), FILES.run);
   }
 }
 
@@ -185,24 +194,18 @@ export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort 
   private readonly definitionsDir: string;
 
   constructor(options: NodeWorkflowDefinitionStoreOptions = {}) {
-    this.definitionsDir =
-      options.definitionsDir ?? join(options.rootDir ?? DEFAULT_WORKFLOW_ROOT, "definitions");
+    const base = options.rootDir ?? DEFAULT_WORKFLOW_ROOT;
+    this.definitionsDir = options.definitionsDir ?? join(base, "definitions");
   }
 
-  async listDefinitions(options?: { signal?: AbortSignal }): Promise<WorkflowDefinition[]> {
+  async listDefinitions(options?: CallOptions): Promise<WorkflowDefinition[]> {
     throwIfAborted(options?.signal, "Workflow definition list cancelled");
-    let entries: string[];
-    try {
-      entries = await readdir(this.definitionsDir);
-    } catch (error) {
-      if (isNodeError(error) && error.code === "ENOENT") return [];
-      throw error;
-    }
-
+    const entries = await this.listDefinitionFiles(options?.signal);
     const definitionIds = entries
-      .filter((entry) => extname(entry) === WORKFLOW_DEFINITION_FILE_EXTENSION)
-      .map((entry) => parse(entry).name)
+      .filter((name) => extname(name) === DEFINITION_EXTENSION)
+      .map((name) => parse(name).name)
       .sort((a, b) => a.localeCompare(b));
+
     const definitions: WorkflowDefinition[] = [];
     for (const definitionId of definitionIds) {
       const definition = await this.readDefinition(definitionId, options);
@@ -213,7 +216,7 @@ export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort 
 
   async readDefinition(
     definitionId: string,
-    options?: { signal?: AbortSignal },
+    options?: CallOptions,
   ): Promise<WorkflowDefinition | null> {
     throwIfAborted(options?.signal, "Workflow definition read cancelled");
     validateDefinitionId(definitionId);
@@ -221,15 +224,24 @@ export class NodeWorkflowDefinitionStore implements WorkflowDefinitionStorePort 
     if (parsed === null) return null;
     const definition = WorkflowDefinitionSchema.parse(parsed);
     if (definition.definitionId !== definitionId) {
-      throw new Error(
-        `Workflow definition id mismatch: requested ${definitionId}, file declares ${definition.definitionId}`,
-      );
+      const text = `Workflow definition id mismatch: requested ${definitionId}, file declares ${definition.definitionId}`;
+      throw new Error(text);
     }
     return definition;
   }
 
+  /** 定义目录缺失按「没有定义」处理，其余错误继续上抛。 */
+  private async listDefinitionFiles(signal?: AbortSignal): Promise<string[]> {
+    try {
+      return await readdir(this.definitionsDir);
+    } catch (cause) {
+      if (isNodeError(cause) && cause.code === "ENOENT") return [];
+      throw cause;
+    }
+  }
+
   private definitionPath(definitionId: string): string {
-    return join(this.definitionsDir, `${definitionId}${WORKFLOW_DEFINITION_FILE_EXTENSION}`);
+    return join(this.definitionsDir, `${definitionId}${DEFINITION_EXTENSION}`);
   }
 }
 
@@ -247,57 +259,63 @@ export function getDefaultWorkflowDefinitionsRoot(): string {
   return join(DEFAULT_WORKFLOW_ROOT, "definitions");
 }
 
-async function appendJsonLine(path: string, value: unknown, signal?: AbortSignal): Promise<void> {
+async function appendJsonLine(target: string, value: unknown, signal?: AbortSignal): Promise<void> {
   throwIfAborted(signal, "Workflow JSONL append cancelled");
-  await mkdir(dirname(path), { recursive: true });
-  await appendFile(path, `${JSON.stringify(value)}\n`, "utf8");
+  await mkdir(dirname(target), { recursive: true });
+  await appendFile(target, `${JSON.stringify(value)}\n`, "utf8");
 }
 
-async function readJson(path: string, signal?: AbortSignal): Promise<unknown | null> {
-  throwIfAborted(signal, "Workflow JSON read cancelled");
+/** 读取文本；文件不存在返回 null（调用方决定空值与错误的区别）。 */
+async function readTextOrNull(
+  target: string,
+  signal: AbortSignal | undefined,
+  cancelled: string,
+): Promise<string | null> {
+  throwIfAborted(signal, cancelled);
   try {
-    return JSON.parse(await readFile(path, "utf8"));
-  } catch (error) {
-    if (isNodeError(error) && error.code === "ENOENT") return null;
-    throw error;
+    return await readFile(target, "utf8");
+  } catch (cause) {
+    if (isNodeError(cause) && cause.code === "ENOENT") return null;
+    throw cause;
   }
 }
 
-async function readJsonLines(path: string, signal?: AbortSignal): Promise<unknown[]> {
-  throwIfAborted(signal, "Workflow JSONL read cancelled");
-  try {
-    const content = await readFile(path, "utf8");
-    return content
-      .split(/\r?\n/)
-      .filter((line) => line.trim().length > 0)
-      .map((line) => JSON.parse(line));
-  } catch (error) {
-    if (isNodeError(error) && error.code === "ENOENT") return [];
-    throw error;
-  }
+async function readJson(target: string, signal?: AbortSignal): Promise<unknown | null> {
+  const content = await readTextOrNull(target, signal, "Workflow JSON read cancelled");
+  return content === null ? null : JSON.parse(content);
 }
 
-async function writeJsonFile(path: string, value: unknown, signal?: AbortSignal): Promise<void> {
-  await writeTextFile(path, `${JSON.stringify(value, null, 2)}\n`, signal);
+/** JSONL：跳过空行，逐行解析。 */
+function parseJsonLines(content: string): unknown[] {
+  const rows = content.split(/\r?\n/u).filter((line) => line.trim().length > 0);
+  return rows.map((line) => JSON.parse(line));
 }
 
-async function writeTextFile(path: string, content: string, signal?: AbortSignal): Promise<void> {
+async function readJsonLines(target: string, signal?: AbortSignal): Promise<unknown[]> {
+  const content = await readTextOrNull(target, signal, "Workflow JSONL read cancelled");
+  return content === null ? [] : parseJsonLines(content);
+}
+
+async function writeJsonFile(target: string, value: unknown, signal?: AbortSignal): Promise<void> {
+  await writeTextFile(target, `${JSON.stringify(value, null, 2)}\n`, signal);
+}
+
+/** 原子写：先写临时文件再 rename，避免读到半截文件。 */
+async function writeTextFile(target: string, content: string, signal?: AbortSignal): Promise<void> {
   throwIfAborted(signal, "Workflow file write cancelled");
-  await mkdir(dirname(path), { recursive: true });
-  const tempPath = `${path}.${randomUUID()}.tmp`;
-  await writeFile(tempPath, content, "utf8");
-  await rename(tempPath, path);
+  await mkdir(dirname(target), { recursive: true });
+  const staging = `${target}.${randomUUID()}.tmp`;
+  await writeFile(staging, content, "utf8");
+  await rename(staging, target);
 }
 
+/** 产物路径必须落在 run 目录内：拒绝绝对路径与任何 `..` 片段。 */
 function normalizeRelativePath(value: string): string {
   const normalized = normalize(value);
-  if (
-    isAbsolute(normalized) ||
-    normalized === ".." ||
-    normalized.startsWith(`..\\`) ||
-    normalized.startsWith("../")
-  ) {
-    throw new Error(`Workflow artifact path must stay inside the run directory: ${value}`);
+  const escapes = isAbsolute(normalized) || PARENT_REFERENCE.test(normalized);
+  if (escapes) {
+    const text = `Workflow artifact path must stay inside the run directory: ${value}`;
+    throw new Error(text);
   }
   return normalized;
 }
@@ -306,20 +324,18 @@ function sanitizePathSegment(value: string): string {
   return value.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120) || "unknown";
 }
 
-function validateDefinitionId(value: string): void {
-  if (
-    value.length === 0 ||
-    value === "." ||
-    value === ".." ||
-    value.includes("/") ||
-    value.includes("\\") ||
-    normalize(value) !== value ||
-    !/^[a-zA-Z0-9._-]+$/.test(value)
-  ) {
-    throw new Error(`Workflow definition id must be a file-safe name: ${value}`);
-  }
+function isFileSafeId(value: string): boolean {
+  if (value.length === 0 || RESERVED_IDS.has(value)) return false;
+  if (value.includes("/") || value.includes("\\")) return false;
+  return normalize(value) === value && ID_PATTERN.test(value);
 }
 
+function validateDefinitionId(value: string): void {
+  if (isFileSafeId(value)) return;
+  throw new Error(`Workflow definition id must be a file-safe name: ${value}`);
+}
+
+/** 取消检查：优先透传 `signal.reason`，否则用调用方给的兜底文案。 */
 function throwIfAborted(signal: AbortSignal | undefined, message: string): void {
   if (!signal?.aborted) return;
   throw signal.reason instanceof Error ? signal.reason : new Error(message);
