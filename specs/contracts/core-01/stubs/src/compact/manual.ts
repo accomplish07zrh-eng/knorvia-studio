@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: Apache-2.0
+// core-01 桩：保留 interface.md 列出的导出名与种类；函数体抛 Error，运行时值在首次使用时抛错。
+// 精确签名见 interface.md（替换 PR 会用按签名生成的实现替换这些文件并删除旧实现）。
+
+const notImplemented = (): never => {
+  throw new Error("not implemented: core-01");
+};
+
+const _unimplementedValue = (): never => notImplemented();
+export type CompactModelMessage = never;
+export type TokenUsageLike = never;
+export type BuildManualCompactBoundaryInput = never;
+export const MAX_COMPACT_PROMPT_TOO_LONG_RETRIES = new Proxy({} as never, { get: _unimplementedValue });
+export const COMPACT_PROMPT_TOO_LONG_RETRY_MARKER = new Proxy({} as never, { get: _unimplementedValue });
+export const COMPACT_PROMPT_TOO_LONG_USER_MESSAGE = new Proxy({} as never, { get: _unimplementedValue });
+export function getMessagesToSummarize(..._args: unknown[]): never {
+  return notImplemented();
+}
+export function hasEnoughMessagesToCompact(..._args: unknown[]): never {
+  return notImplemented();
+}
+export function buildManualCompactBoundary(..._args: unknown[]): never {
+  return notImplemented();
+}
+export function estimateMessageTokens(..._args: unknown[]): never {
+  return notImplemented();
+}
+export function getUsageTotalTokens(..._args: unknown[]): never {
+  return notImplemented();
+}
+export function createCompactBoundaryId(..._args: unknown[]): never {
+  return notImplemented();
+}
