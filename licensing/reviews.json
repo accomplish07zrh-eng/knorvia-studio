@@ -82107,7 +82107,7 @@
     },
     {
       "path": "specs/contracts/core-hooks/behavior.md",
-      "normalizedSha256": "884718bb8e62f619034f9d5ad236abe6e85a0c92c745d79fe43da7fa4c70c21a",
+      "normalizedSha256": "265510581ce2aee7df3fc8d11c0b8415ad272e77f173953b0a7750ee30d4a50a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
@@ -82119,7 +82119,7 @@
     },
     {
       "path": "specs/contracts/core-hooks/interface.md",
-      "normalizedSha256": "0e9263979a963e41f5a0f61d738e598ca57f0df6f4211ffe8a3e9ca76d21eaa2",
+      "normalizedSha256": "7beb68d55a9fa5ac757fa75efd26b26d5fdbbf1bec61a71e2a58cb695cd78023",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
@@ -82131,7 +82131,7 @@
     },
     {
       "path": "specs/contracts/core-hooks/callers.md",
-      "normalizedSha256": "91c4ece710bfb00c5c008587ef5b2dc9ebeec828f8484be56566bc797cdaf098",
+      "normalizedSha256": "7d4132433725c3572272a9860198cda24724936e467ea35bfd277ec349ca2dcd",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
@@ -82155,7 +82155,7 @@
     },
     {
       "path": "specs/contracts/core-hooks/acceptance.md",
-      "normalizedSha256": "cffdb0c8cd1dcdab98f149c25460027a4989ffb869bea120887a7312a61e34ae",
+      "normalizedSha256": "68a0dd91c7d45c46e055a5457cb0aecf152e4bd5a0d274c38f04300df149cc65",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",
@@ -82167,7 +82167,7 @@
     },
     {
       "path": "specs/contracts/core-hooks/gate-old.json",
-      "normalizedSha256": "8eabf6e34f0399709fe1133b531a65a9852686674f99fc40e1d3d5b68a9877d1",
+      "normalizedSha256": "2f560e625a4e7d38258b9a1f49b1fb4e11e3bf25e227802b6cf0a79a90e51c7f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-hooks contract v1 documents authored for the Knorvia independent-replacement plan (M0-13 pilot 1): scope, behavior spec B1..B19, interface list, callers, known differences and acceptance record for the 16 inherited files in apps/cli/packages/core/src/hooks/. The replaced implementation was read to extract behavior and callers; no code was copied, renamed or rewritten line by line. Old gate: source entry 33/33, dist entry 33/33, stub replacement 0 pass / 33 fail (specs/contracts/core-hooks/gate-old.json).",

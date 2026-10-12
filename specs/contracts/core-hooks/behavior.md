@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-// core-hooks 合同版本 v1 的行为规格。行为用本仓库自己的话描述；编号发布后不重用。
+// core-hooks 合同版本 v1.1 的行为规格。行为用本仓库自己的话描述；编号发布后不重用。
 
-# core-hooks 行为规格（v1）
+# core-hooks 行为规格（v1.1）
 
 ## 范围与口径
 

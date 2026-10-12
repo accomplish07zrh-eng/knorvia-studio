@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-# core-hooks 设计（替换实现，合同 v1）
+# core-hooks 设计（替换实现，合同 v1.1）
 
 本文件说明替换实现的状态所有者、模块划分、关键数据结构与事件顺序，并给出每条 B 的落点。
 实现依据 `behavior.md` 的 B1..B19；`behavior.md` 附录 A 的行为由保留的已独立候选文件提供，本设计不重写。

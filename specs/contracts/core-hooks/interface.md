@@ -355,3 +355,7 @@ interface SessionMailboxRegistrationOptions {
   sessionId: SessionId;
 }
 ```
+
+## 合同版本
+
+合同版本：**v1.1**（v1.1 相对 v1 仅补充兼容面导出类型名：`WorkspaceHookEntryEvaluationInput`、`SessionMailboxRegistrationOptions`；公开签名与行为条目不变）。
