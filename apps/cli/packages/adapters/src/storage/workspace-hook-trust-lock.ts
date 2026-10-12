@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 信任库文件锁：`wx` 创建即获锁，锁文件里记录 pid/token/启动时间，
+// 争用时先尝试回收明显过期的锁，超时后抛错。
 
 import { randomUUID } from "node:crypto";
 import { open, readFile, stat, unlink } from "node:fs/promises";
@@ -16,7 +19,9 @@ const DEFAULT_LOCK_TIMEOUT_MS = 5000;
 const DEFAULT_STALE_LOCK_MS = 30000;
 const CONTENTION_INTERVAL_MS = 10;
 const PROCESS_START_TOLERANCE_MS = 2000;
+const PROCESS_BASIS = "process";
 
+/** 锁相关选项：超时、过期阈值、进程探测与元数据写入。 */
 export type TrustLockOptions = Pick<
   FileWorkspaceHookTrustStoreOptions,
   "lockTimeoutMs" | "staleLockMs" | "probeProcessStartTime" | "writeLockOwnerMetadata"
@@ -29,141 +34,169 @@ interface Owner {
   startTimeBasis: unknown;
 }
 
-interface Lease {
+interface HeldLock {
   handle: FileHandle;
   token: string;
 }
 
-function hasCode(error: unknown, code: string): boolean {
-  return error instanceof Error && "code" in error && error.code === code;
+function hasCode(cause: unknown, code: string): boolean {
+  return cause instanceof Error && "code" in cause && cause.code === code;
 }
 
-async function readOwner(path: string): Promise<Owner | null> {
-  try {
-    const decoded: unknown = JSON.parse(await readFile(path, "utf8"));
-    if (!decoded || typeof decoded !== "object") return null;
-    const fields = decoded as Record<string, unknown>;
-    if (typeof fields.pid !== "number" || typeof fields.token !== "string") return null;
-    return {
-      pid: fields.pid,
-      token: fields.token,
-      startTime: typeof fields.startTime === "number" ? fields.startTime : undefined,
-      startTimeBasis: fields.startTimeBasis,
-    };
-  } catch {
-    return null;
-  }
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object";
 }
 
+function readOwner(lockPath: string): Promise<Owner | null> {
+  return readFile(lockPath, "utf8").then(
+    (raw) => {
+      const decoded: unknown = JSON.parse(raw);
+      if (!isRecord(decoded)) return null;
+      const { pid, token, startTime, startTimeBasis } = decoded;
+      if (typeof pid !== "number" || typeof token !== "string") return null;
+      return {
+        pid,
+        token,
+        startTime: typeof startTime === "number" ? startTime : undefined,
+        startTimeBasis,
+      };
+    },
+    () => null,
+  );
+}
+
+/** pid 存活探测：`kill(pid, 0)` 成功即活；EPERM 说明活着但不属于本用户。 */
 function isAlive(pid: number): boolean {
   try {
     process.kill(pid, 0);
     return true;
-  } catch (error) {
-    return hasCode(error, "EPERM");
+  } catch (cause) {
+    return hasCode(cause, "EPERM");
   }
 }
 
-async function removeStaleLock(path: string, options: TrustLockOptions): Promise<void> {
+/** 探测持有进程的启动时间；探测失败返回 undefined 表示「无法判定，保留锁」。 */
+async function observedStartTime(
+  holder: Owner,
+  settings: TrustLockOptions,
+): Promise<number | undefined> {
   try {
-    const observed = await stat(path);
-    if (Date.now() - observed.mtimeMs <= (options.staleLockMs ?? DEFAULT_STALE_LOCK_MS)) return;
-  } catch (error) {
-    if (hasCode(error, "ENOENT")) return;
-    throw error;
-  }
-  const owner = await readOwner(path);
-  if (owner) {
-    if (owner.pid === process.pid) return;
-    if (isAlive(owner.pid)) {
-      // 旧版本的 startTime 可能是系统启动时间；活 PID 必须有明确的新标记才可比较。
-      if (owner.startTimeBasis !== "process" || !Number.isFinite(owner.startTime)) return;
-      let actual: number | null;
-      try {
-        actual = await (options.probeProcessStartTime ?? probeProcessStartTime)(owner.pid);
-      } catch (error) {
-        // 探测期间的 ENOENT 不能据此回收活 owner；保留锁并继续原争用流程。
-        if (hasCode(error, "ENOENT")) return;
-        throw error;
-      }
-      if (actual === null || !Number.isFinite(actual)) return;
-      if (Math.abs(actual - owner.startTime!) <= PROCESS_START_TOLERANCE_MS) return;
-    }
-  }
-  try {
-    await unlink(path);
-  } catch (error) {
-    if (!hasCode(error, "ENOENT")) throw error;
+    const probe = settings.probeProcessStartTime ?? probeProcessStartTime;
+    const observed = await probe(holder.pid);
+    return observed === null || !Number.isFinite(observed) ? undefined : observed;
+  } catch (cause) {
+    // 探测期间的 ENOENT 不能据此回收活 owner；保留锁并继续原争用流程。
+    if (hasCode(cause, "ENOENT")) return undefined;
+    throw cause;
   }
 }
 
-async function cleanCreatedLock(path: string, handle: FileHandle): Promise<void> {
+/** 判断过期锁是否可回收：同进程、仍存活且启动时间未变的一律保留。 */
+async function holderIsGone(holder: Owner, settings: TrustLockOptions): Promise<boolean> {
+  if (holder.pid === process.pid) return false;
+  if (!isAlive(holder.pid)) return true;
+  // 旧版本的 startTime 可能是系统启动时间；活 PID 必须有明确的新标记才可比较。
+  if (holder.startTimeBasis !== PROCESS_BASIS || !Number.isFinite(holder.startTime)) return false;
+  const observed = await observedStartTime(holder, settings);
+  if (observed === undefined) return false;
+  return Math.abs(observed - holder.startTime!) > PROCESS_START_TOLERANCE_MS;
+}
+
+async function removeLockFile(lockPath: string): Promise<void> {
   try {
-    await handle.close();
+    await unlink(lockPath);
+  } catch (cause) {
+    if (!hasCode(cause, "ENOENT")) throw cause;
+  }
+}
+
+/** 只有确认「锁够旧 + 持有者确实不在」才删除，避免误抢活锁。 */
+async function removeStaleLock(lockPath: string, settings: TrustLockOptions): Promise<void> {
+  try {
+    const observed = await stat(lockPath);
+    if (Date.now() - observed.mtimeMs <= (settings.staleLockMs ?? DEFAULT_STALE_LOCK_MS)) return;
+  } catch (cause) {
+    if (hasCode(cause, "ENOENT")) return;
+    throw cause;
+  }
+  const holder = await readOwner(lockPath);
+  if (holder && !(await holderIsGone(holder, settings))) return;
+  await removeLockFile(lockPath);
+}
+
+/** 创建者失败清理：先尽力关句柄，再删文件（删除可能撞上替换竞态）。 */
+async function cleanCreatedLock(lockPath: string, io: FileHandle): Promise<void> {
+  try {
+    await io.close();
   } catch {
     /* 尽力关闭，不覆盖 metadata 的首因。 */
   }
   try {
-    await unlink(path);
+    await unlink(lockPath);
   } catch {
     /* 创建者失败清理可能遇到替换竞态。 */
   }
 }
 
-async function acquire(path: string, options: TrustLockOptions): Promise<Lease> {
-  const started = Date.now();
-  const timeout = options.lockTimeoutMs ?? DEFAULT_LOCK_TIMEOUT_MS;
-  while (true) {
-    let handle: FileHandle | undefined;
+function ownerFileContent(token: string): string {
+  const owner = {
+    pid: process.pid,
+    token,
+    startTime: CURRENT_PROCESS_START_TIME,
+    startTimeBasis: PROCESS_BASIS,
+  };
+  return `${JSON.stringify(owner)}\n`;
+}
+
+async function acquire(lockPath: string, settings: TrustLockOptions): Promise<HeldLock> {
+  const beganAt = Date.now();
+  const budget = settings.lockTimeoutMs ?? DEFAULT_LOCK_TIMEOUT_MS;
+  for (;;) {
+    let io: FileHandle | undefined;
     try {
-      handle = await open(path, "wx", LOCK_MODE);
+      io = await open(lockPath, "wx", LOCK_MODE);
       const token = randomUUID();
-      const content = `${JSON.stringify({
-        pid: process.pid,
-        token,
-        startTime: CURRENT_PROCESS_START_TIME,
-        startTimeBasis: "process",
-      })}\n`;
-      if (options.writeLockOwnerMetadata) await options.writeLockOwnerMetadata(handle, content);
-      else await handle.writeFile(content, "utf8");
-      return { handle, token };
-    } catch (error) {
-      if (handle) await cleanCreatedLock(path, handle);
+      const content = ownerFileContent(token);
+      if (settings.writeLockOwnerMetadata) await settings.writeLockOwnerMetadata(io, content);
+      else await io.writeFile(content, "utf8");
+      return { handle: io, token };
+    } catch (cause) {
+      if (io) await cleanCreatedLock(lockPath, io);
       // metadata 注入也可能抛出 EEXIST；完成自身清理后按同一争用路径处理。
-      if (!hasCode(error, "EEXIST")) throw error;
-      await removeStaleLock(path, options);
-      if (Date.now() - started >= timeout) {
-        throw new Error(`Timed out acquiring Workspace Hook Trust store lock: ${path}`);
+      if (!hasCode(cause, "EEXIST")) throw cause;
+      await removeStaleLock(lockPath, settings);
+      if (Date.now() - beganAt >= budget) {
+        throw new Error(`Timed out acquiring Workspace Hook Trust store lock: ${lockPath}`);
       }
       await delay(CONTENTION_INTERVAL_MS);
     }
   }
 }
 
-async function release(path: string, lease: Lease): Promise<void> {
+async function release(lockPath: string, held: HeldLock): Promise<void> {
   try {
-    await lease.handle.close();
+    await held.handle.close();
   } catch {
     /* 释放失败不改变操作结果。 */
   }
-  const owner = await readOwner(path);
-  if (owner?.token !== lease.token) return;
+  const holder = await readOwner(lockPath);
+  if (holder?.token !== held.token) return;
   try {
-    await unlink(path);
+    await unlink(lockPath);
   } catch {
     /* token 核对与删除并非原子操作。 */
   }
 }
 
 export async function withTrustLock<T>(
-  path: string,
-  options: TrustLockOptions,
+  lockPath: string,
+  settings: TrustLockOptions,
   operation: () => Promise<T>,
 ): Promise<T> {
-  const lease = await acquire(path, options);
+  const held = await acquire(lockPath, settings);
   try {
     return await operation();
   } finally {
-    await release(path, lease);
+    await release(lockPath, held);
   }
 }
