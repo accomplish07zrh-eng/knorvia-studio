@@ -359,3 +359,19 @@
 `read-file-state-hydrator.ts`：文件读取状态水合的运行时投影函数（其 `ReadFileStateHydrationResult` 类型经 `runtime/deps.ts` 再导出，见 §2）。
 
 补齐后跑**完整旧门**（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。
+
+## 22. 最后 1 项（`read-file-state-hydrator.ts`）的探针实测与交接
+
+本轮对 `agent/read-file-state-hydrator.ts` 做了导出探针，实测：
+
+1. 运行时导出：`hydrateReadFileStateFromSession(...)`（**异步/同步未定，见下**），其第一参需要包含 **`states` 映射**——传 `{}`、`[]`、`{messages: []}`、`{entries: []}` 都会在实现第 52 行 `states.clear()` 抛 `TypeError: Cannot read properties of undefined (reading 'clear')`。因此它的入参形状是「会话/消息 + 一个 `states`（Map 或类似带 `clear()` 的容器）」的组合，**不是** `session.messages` 单参。
+2. 探针输出被错误栈截断，`read-file-state-hydrator.ts` 的**其余导出名与 arity 尚未取全**（该文件 3.8 KB）。
+
+**下一步（一项即可收口）**：读 `apps/cli/packages/core/src/agent/read-file-state-hydrator.ts`（仅 3.8 KB）确认 ① 全部导出名与签名；② `states` 的容器类型与读写语义（`clear()`/`set`/`get` 的键是什么）；③ 返回计数或 void；然后按 A13/A14 的节奏写一条两入口测试（源码 + dist），即可跑**完整旧门**（`scripts/contract-gate.mjs`：源码 + dist + 桩替换）并提 `contract: core-01 v1`。
+
+### 分支现状（全绿，可直接接力）
+
+- 分支：`contract/core-01`，最新 commit `af01f75f`（A14）；工作树干净。
+- `specs/contracts/core-01/tests/` 共 **17 个测试文件**：源码 **41/41**、dist **41/41**（M1–M5、E1–E2、C1–C6、X1–X13、A1–A14）。
+- 合同文件齐备：README（条目→测试对照表按块列出，无空行）、behavior.md（M/C/X/A 全块）、interface.md（38 个文件，AST + `dep:refs` 交叉核对）、callers.md、known-differences.md（平台边界 + 两条 turn-machine quirk + localeCompare）、acceptance.md（§1–§22）、stubs/（38 个桩 + targets.txt）、gate-old.json（契约阶段 9/9 两入口 + 桩替换）。
+- 剩余：本节第 1 项（`read-file-state-hydrator.ts`）→ 然后完整旧门 → PR。
