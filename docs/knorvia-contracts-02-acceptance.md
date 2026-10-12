@@ -46,18 +46,21 @@ node <tool> --repo . --candidate <文件> \
 
 ### 3.3 workflow 组（7 个文件；已完成 2 个逻辑模块 → 7 个文件）
 
-| 文件                                    | 计分模式           | 兼容面行数 X | 残留行数 Y | X/(X+Y) | 实测（containment / run / structural） | 说明                                                          |
-| --------------------------------------- | ------------------ | ------------ | ---------- | ------- | -------------------------------------- | ------------------------------------------------------------- |
-| `workflow/session-links.ts`             | **普通模式**       | —            | —          | —       | 0.196 / run < 8 ✓                      | 状态映射改查表常量、可选字段显式条件赋值、尝试分组键抽函数    |
-| `workflow/definition-validation.ts`     | **普通模式**       | —            | —          | —       | 0.186 / run < 8 ✓                      | 四类交叉校验改成「一次遍历收集问题」的纯函数                  |
-| `workflow/definition.ts`                | 声明模式（薄入口） | 11           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 只组装基础 schema + `superRefine`，并按清单逐个再导出         |
-| `workflow/definition-schemas.ts`        | 声明模式           | 86           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 22 个声明块全部由 `interface.md` 名字命中剔除；普通模式 0.930 |
-| `workflow/graph-schema-validation.ts`   | **普通模式**       | —            | —          | —       | 0.182 / run < 8 ✓                      | 内联 refine 谓词抽成具名纯函数                                |
-| `workflow/graph-schema.ts`              | 声明模式（薄入口） | 2            | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯再导出                                                      |
-| `workflow/graph-schema-declarations.ts` | 声明模式           | 102          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯 schema 声明；普通模式 0.961                                |
-| `workflow/index.ts`                     | 声明模式（barrel） | 44           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 纯再导出 + 两个 port 接口（冻结面）；普通模式 1.000           |
-| `workflow/run-schema.ts`                | 声明模式（薄入口） | 1            | 1          | 50%     | PASS（1 行残留，containment < 0.2）✓   | 纯再导出                                                      |
-| `workflow/run-schema-declarations.ts`   | 声明模式           | 213          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                    | 14 个 schema 与全部类型；普通模式为纯声明                     |
+| 文件                                       | 计分模式           | 兼容面行数 X | 残留行数 Y | X/(X+Y) | 实测（containment / run / structural）  | 说明                                                                    |
+| ------------------------------------------ | ------------------ | ------------ | ---------- | ------- | --------------------------------------- | ----------------------------------------------------------------------- |
+| `workflow/session-links.ts`                | **普通模式**       | —            | —          | —       | 0.196 / run < 8 ✓                       | 状态映射改查表常量、可选字段显式条件赋值、尝试分组键抽函数              |
+| `workflow/definition-validation.ts`        | **普通模式**       | —            | —          | —       | 0.186 / run < 8 ✓                       | 四类交叉校验改成「一次遍历收集问题」的纯函数                            |
+| `workflow/definition.ts`                   | 声明模式（薄入口） | 11           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 只组装基础 schema + `superRefine`，并按清单逐个再导出                   |
+| `workflow/definition-schemas.ts`           | 声明模式           | 86           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 22 个声明块全部由 `interface.md` 名字命中剔除；普通模式 0.930           |
+| `workflow/graph-schema-validation.ts`      | **普通模式**       | —            | —          | —       | 0.182 / run < 8 ✓                       | 内联 refine 谓词抽成具名纯函数                                          |
+| `workflow/graph-schema.ts`                 | 声明模式（薄入口） | 2            | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 纯再导出                                                                |
+| `workflow/graph-schema-declarations.ts`    | 声明模式           | 102          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 纯 schema 声明；普通模式 0.961                                          |
+| `workflow/index.ts`                        | 声明模式（barrel） | 44           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 纯再导出 + 两个 port 接口（冻结面）；普通模式 1.000                     |
+| `workflow/run-schema.ts`                   | 声明模式（薄入口） | 1            | 1          | 50%     | PASS（1 行残留，containment < 0.2）✓    | 纯再导出                                                                |
+| `workflow/run-schema-declarations.ts`      | 声明模式           | 213          | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 14 个 schema 与全部类型；普通模式为纯声明                               |
+| `workflow/scheduler-state-derivation.ts`   | **普通模式**       | —            | —          | —       | 0.183 / 5 / 0.015 ✓                     | 建索引/逐节点派生/逐集合汇总拆三个纯函数；旧新实现差分探针 6/6 深度相等 |
+| `workflow/scheduler-state.ts`              | 声明模式（薄入口） | 2            | 1          | 67%     | 0.000 / 0 / 0.000 ✓（普通模式亦 0.000） | 纯再导出                                                                |
+| `workflow/scheduler-state-declarations.ts` | 声明模式           | 54           | 0          | 100%    | 0.000 / 0 / 0.000 ✓                     | 8 个声明块剔除；普通模式为纯声明                                        |
 
 **合同冻结行说明**：`interface.md` 列出上述文件的导出名与签名；声明模式按名字剔除整块声明（含 `const` schema 与常量表）后，剩余行才是需要独立创作的实现。八个文件的残留行合计 61 行，最长相同段 ≤ 1 行；`target-evaluation`（5 行）与 `active-branch`（3 行）在普通模式下也低于门槛 8。
 

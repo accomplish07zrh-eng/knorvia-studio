@@ -133485,7 +133485,7 @@
     },
     {
       "path": "docs/knorvia-contracts-02-acceptance.md",
-      "normalizedSha256": "a3a6da21c1a92479982da1e257328282f47dd00250f80c8838816b35ff787fa5",
+      "normalizedSha256": "442b2caa66786fdbcfdacf6950afc18d1e33f12f4a647b09a97ef4037ebcb68d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
@@ -133553,6 +133553,22 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 replacement module: run-schema split into a pure declaration module (run-schema-declarations.ts) and a thin re-export entry (run-schema.ts). Public export names and signatures match specs/contracts/contracts-02/interface.md; declaration-mode similarity residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/scheduler-state-declarations.ts",
+      "normalizedSha256": "e2a8b36ce50c5b3b45d242579fbe974c0c7ff5231f0bec7e4e47e39f47f7cfe4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (scheduler-state split): declaration module holds the frozen schemas, derivation module holds the rewritten adjacency/classification/collection projection with a different organization (buildAdjacency / classifyNodes / deriveCollectionState). The author read the replaced implementation; a differential probe compared old vs new outputs on 6 graph/snapshot cases with deep equality. Public export names and signatures match specs/contracts/contracts-02/interface.md; derivation normal-mode similarity containment 0.183 / run 5.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/scheduler-state-derivation.ts",
+      "normalizedSha256": "fcbc530039a3f2440ccdb5c91376a201e395bef25933e234b940b022837da67c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (scheduler-state split): declaration module holds the frozen schemas, derivation module holds the rewritten adjacency/classification/collection projection with a different organization (buildAdjacency / classifyNodes / deriveCollectionState). The author read the replaced implementation; a differential probe compared old vs new outputs on 6 graph/snapshot cases with deep equality. Public export names and signatures match specs/contracts/contracts-02/interface.md; derivation normal-mode similarity containment 0.183 / run 5.",
       "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
     }
   ]
