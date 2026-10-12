@@ -84618,6 +84618,14 @@
         "specs/contracts/contracts-02/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/design.md",
+      "normalizedSha256": "d7cb3dfa387333a2209515a8f7125c0a9b9b1f79215cd3651fe9ed1df6cb8a0e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement design: module split, state owners, data structures and per-entry landing map for the independent rewrite. No upstream or replaced implementation code copied.",
+      "evidence": ["specs/contracts/contracts-02/design.md"]
     }
   ]
 }
