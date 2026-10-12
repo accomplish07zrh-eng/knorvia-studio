@@ -1,14 +1,16 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
-// contracts-02 契约测试：运行时可观察行为（B2–B9）。只走公开入口。
+// contracts-02 契约测试：运行时可观察行为（B2–B9）。只走公开入口，语料取自合同目录的 fixtures。
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { load } from "./entry.mjs";
+import { load } from "./contracts-02-entry.mjs";
 
+// test/ → 包 → packages → cli → apps → 仓库根，再进合同目录。
+const contractDirectory = new URL("../../../../../specs/contracts/contracts-02/", import.meta.url);
 const samples = JSON.parse(
-  readFileSync(fileURLToPath(new URL("../fixtures/samples.json", import.meta.url)), "utf8"),
+  readFileSync(fileURLToPath(new URL("fixtures/samples.json", contractDirectory)), "utf8"),
 );
 
 const root = await load();

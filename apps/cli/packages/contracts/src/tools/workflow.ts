@@ -1,6 +1,5 @@
-// ============================================================
-// Workflow Tool - deterministic multi-agent workflow launcher
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// Workflow 工具声明：启动一次确定性的多代理工作流（脚本内联、命名工作流或脚本文件）。
 
 import { z } from "zod";
 import type { TraceId } from "../interfaces/shared.js";

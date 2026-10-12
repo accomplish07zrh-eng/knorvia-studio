@@ -1,6 +1,11 @@
-// 既有公开协议声明原样保留；声明搬家不构成新的原创或独立性决定。
+// SPDX-License-Identifier: Apache-2.0
+// 追踪的公开协议声明。字段与可选性来自 contracts-02 的 interface.md（B2/B3），
+// 内部实现按职责拆在 span-record.ts 与 tracer.ts 里。
 import type { QueryId, SessionId, TraceId, TurnId } from "../interfaces/shared.js";
 import type { Logger } from "../logging/logger.js";
+
+/** span 属性只允许可安全序列化的标量，避免追踪数据把任意对象带进日志上下文。 */
+export type SpanAttributes = Record<string, string | number | boolean>;
 
 export interface TraceContext {
   traceId: TraceId;
@@ -10,7 +15,7 @@ export interface TraceContext {
   parentId?: string;
   sessionId?: SessionId;
   turnId?: TurnId;
-  attributes?: Record<string, string | number | boolean>;
+  attributes?: SpanAttributes;
 }
 
 export interface ExecutionContext {
@@ -26,13 +31,13 @@ export interface Span {
   readonly name: string;
   readonly startTime: Date;
   endTime?: Date;
-  attributes: Record<string, string | number | boolean>;
+  attributes: SpanAttributes;
   status: "running" | "completed" | "error";
   error?: Error;
   setAttribute(key: string, value: string | number | boolean): void;
-  setAttributes(attributes: Record<string, string | number | boolean>): void;
+  setAttributes(attributes: SpanAttributes): void;
   end(error?: Error): void;
-  addEvent(name: string, attributes?: Record<string, string | number | boolean>): void;
+  addEvent(name: string, attributes?: SpanAttributes): void;
 }
 
 export interface Tracer {

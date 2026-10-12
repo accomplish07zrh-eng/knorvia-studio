@@ -1,34 +1,43 @@
-// ============================================================
-// Bash Tool - Shell Execution Tool
-// ============================================================
-// Reference: shell tool input / output shape
+// SPDX-License-Identifier: Apache-2.0
+// Bash 工具的声明面：前台/后台执行 shell 命令的输入、输出与错误码形状。
+// 输入侧的语义化数字/布尔处理与输出侧的字段说明分开摆放，方便对照合同逐项核对。
 
 import { z } from "zod";
 import { ToolCallId, TraceId } from "../interfaces/shared.js";
 import { toToolJsonSchema } from "./json-schema.js";
 import { ToolExecutionTelemetrySchema } from "./performance.js";
 
-const MAX_BASH_TIMEOUT_MS = 600_000;
+// 单次命令的超时上限：与 describe 文案里给模型看的数字同源，改这里就改那里。
+const BASH_TIMEOUT_CEILING_MS = 600_000;
+// 两个词表决定哪些字符串算真、哪些算假；不在表里的字符串一律按非法值处理。
 const TRUE_BOOLEAN_STRINGS = new Set(["true", "1", "yes", "y", "on"]);
 const FALSE_BOOLEAN_STRINGS = new Set(["false", "0", "no", "n", "off"]);
-const BASH_DESCRIPTION_FIELD_PROMPT = [
-  'Clear, concise description of what this command does in active voice. Never use words like "complex" or "risk" in the description - just describe what it does.',
-  "",
-  "For simple commands (git, npm, standard CLI tools), keep it brief (5-10 words):",
-  '- ls → "List files in current directory"',
-  '- git status → "Show working tree status"',
-  '- npm install → "Install package dependencies"',
-  "",
-  "For commands that are harder to parse at a glance (piped commands, obscure flags, etc.), add enough context to clarify what it does:",
-  '- find . -name "*.tmp" -exec rm {} \\; → "Find and delete all .tmp files recursively"',
-  '- git reset --hard origin/main → "Discard all local changes and match remote main"',
-  "- curl -s url | jq '.data[]' → \"Fetch JSON from URL and extract data array elements\"",
-].join("\n");
+// description 字段的用法说明（模型可见）：第一段讲写什么、怎么保持简短并给简单命令的例子，
+// 第二段讲难一眼看懂的命令（管道、冷门 flag）要多给一点上下文。段落内部逐行拼接、
+// 段落之间空一行，最终文本与合同冻结的那份逐字一致。
+const BASH_DESCRIPTION_PARAGRAPHS = [
+  [
+    'Clear, concise description of what this command does in active voice. Never use words like "complex" or "risk" in the description - just describe what it does.',
+  ],
+  [
+    "For simple commands (git, npm, standard CLI tools), keep it brief (5-10 words):",
+    '- ls → "List files in current directory"',
+    '- git status → "Show working tree status"',
+    '- npm install → "Install package dependencies"',
+  ],
+  [
+    "For commands that are harder to parse at a glance (piped commands, obscure flags, etc.), add enough context to clarify what it does:",
+    '- find . -name "*.tmp" -exec rm {} \\; → "Find and delete all .tmp files recursively"',
+    '- git reset --hard origin/main → "Discard all local changes and match remote main"',
+    "- curl -s url | jq '.data[]' → \"Fetch JSON from URL and extract data array elements\"",
+  ],
+];
+const BASH_DESCRIPTION_HINT = BASH_DESCRIPTION_PARAGRAPHS.map((paragraph) =>
+  paragraph.join("\n"),
+).join("\n\n");
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
-
+// 输入 schema：command 必填；timeout / description / 后台与沙箱开关都可选，
+// 数字与布尔先经下方两个预处理函数接受常见字符串写法。
 export const BashInputSchema = z
   .object({
     command: z.string().describe("The command to execute"),
@@ -37,7 +46,7 @@ export const BashInputSchema = z
      */
     timeout: semanticNumber(z.number())
       .optional()
-      .describe(`Optional timeout in milliseconds (max ${MAX_BASH_TIMEOUT_MS})`),
+      .describe(`Optional timeout in milliseconds (max ${BASH_TIMEOUT_CEILING_MS})`),
     /**
      * Clear, concise description of what this command does in active voice.
      * Never use words like "complex" or "risk" in the description - just describe what it does.
@@ -53,7 +62,7 @@ export const BashInputSchema = z
      * - git reset --hard origin/main → "Discard all local changes and match remote main"
      * - curl -s url | jq '.data[]' → "Fetch JSON from URL and extract data array elements"
      */
-    description: z.string().optional().describe(BASH_DESCRIPTION_FIELD_PROMPT),
+    description: z.string().optional().describe(BASH_DESCRIPTION_HINT),
     /**
      * Set to true to run this command in the background. Use Read to read the output later.
      */
@@ -75,6 +84,8 @@ export type BashInput = z.infer<typeof BashInputSchema>;
 
 export const BashInputJsonSchema = toToolJsonSchema(BashInputSchema);
 
+// 数字参数接受 JSON 里常见的字符串写法（例如 "15000"）：能安全转成有限数就转，
+// 转不动就把原值交给 zod，由它按原类型报错，不做静默兜底。
 function semanticNumber(schema: z.ZodNumber): z.ZodEffects<z.ZodNumber, number, unknown> {
   return z.preprocess((value) => {
     if (typeof value !== "string") return value;
@@ -85,6 +96,8 @@ function semanticNumber(schema: z.ZodNumber): z.ZodEffects<z.ZodNumber, number, 
   }, schema);
 }
 
+// 布尔参数同理：接受 true/false 与 1/0，也接受 yes/no、on/off 这类常见词；
+// 不认识的值原样交给 zod 报错。
 function semanticBoolean(): z.ZodEffects<z.ZodBoolean, boolean, unknown> {
   return z.preprocess((value) => {
     if (typeof value === "boolean") return value;
@@ -102,9 +115,7 @@ function semanticBoolean(): z.ZodEffects<z.ZodBoolean, boolean, unknown> {
   }, z.boolean());
 }
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出形状：运行结果（stdout/stderr、状态、退出码与信号、截断情况、落盘路径）加上追加给模型的提示。
 
 export interface BashOutput {
   /**
@@ -264,9 +275,7 @@ export const BashOutputSchema = z
 
 export const BashOutputJsonSchema = toToolJsonSchema(BashOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 一次工具调用的记录形状：入参、trace 归属与开始时刻。
 
 export interface BashToolCall {
   id: ToolCallId;
@@ -283,9 +292,7 @@ export interface BashToolResult {
   durationMs: number;
 }
 
-// -----------------------------------------------
-// Background Task
-// -----------------------------------------------
+// 后台任务的记录形状：有自己的 id、命令与状态，与前台的一次调用分开管理。
 
 export interface BackgroundTask {
   id: string;
@@ -300,9 +307,7 @@ export interface BackgroundTask {
   completedAt?: Date;
 }
 
-// -----------------------------------------------
-// Bash Errors
-// -----------------------------------------------
+// 错误码：每个码都是稳定字符串常量，上层按码把失败翻译成用户可读的提示。
 
 export const BashErrorCode = {
   COMMAND_NOT_PARSABLE: "bash_command_not_parsable",
@@ -322,9 +327,7 @@ export const BashErrorCode = {
 
 export type BashErrorCode = (typeof BashErrorCode)[keyof typeof BashErrorCode];
 
-// -----------------------------------------------
-// Shell Permission Types
-// -----------------------------------------------
+// shell 权限策略：allow/deny 规则加模式串，另有只读放行、沙箱与危险开关三个布尔。
 
 export type ShellPermissionRule = {
   type: "allow" | "deny";

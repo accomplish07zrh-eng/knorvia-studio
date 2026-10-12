@@ -77816,7 +77816,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "1dfb07bfe8b984e58c4a2075bf4ba6495264ea9631d8e2186207e6e3d5de4577",
+      "normalizedSha256": "ea59f9447ae81712f033d7c3c094205dbe126cbc70bfee77847856cee80a6500",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.06 (packages/zcode-server-cli/src/packaging/stage.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. 2026-10-12 由 contracts-01 替换 PR 按先例 4bf32a33 重固定：本仓库 core 的 current artifact receipt 中 2 条 contracts dist 声明摘要（workflow/run-schema.d.ts、workflow/script.d.ts）随替换实现更新，差异仅为 tsc 类型打印顺序（联合成员/推断键顺序）而源码与同文件 .js 字节一致；新摘要取自真实构建，Windows 与 Linux 一致，清空 dist 重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。见 docs/knorvia-contracts-01-acceptance.md §9 与 specs/contracts/contracts-01/known-differences.md。",
@@ -77851,7 +77851,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "701723d1654ecf84cc49dc57ef85468d654048dfe405339f236dea8985afd179",
+      "normalizedSha256": "b6a71c484f49ee56fc5915ff8c9ba2fcd1c0bf36b260262daf8cbeafe011ba24",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (apps/zcode-cli/turbo.json), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. 2026-10-12 由 contracts-01 替换 PR 按先例 4bf32a33 重固定：本仓库 core 的 current artifact receipt 中 2 条 contracts dist 声明摘要（workflow/run-schema.d.ts、workflow/script.d.ts）随替换实现更新，差异仅为 tsc 类型打印顺序（联合成员/推断键顺序）而源码与同文件 .js 字节一致；新摘要取自真实构建，Windows 与 Linux 一致，清空 dist 重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。见 docs/knorvia-contracts-01-acceptance.md §9 与 specs/contracts/contracts-01/known-differences.md。",
@@ -133126,7 +133126,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/acceptance.md",
-      "normalizedSha256": "2941a86e660b6e6c72b2df5f2239191ea7b87defc0ff2b14670cdeada226257e",
+      "normalizedSha256": "6e483a3a2f9da3517b51c30e3244cdd3338983df25c6e757e1dbcc1e839e8320",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -133181,7 +133181,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/known-differences.md",
-      "normalizedSha256": "b072998fb7070fd9b49a96204440da1b24494f77022fddabf9dee9c83ed96559",
+      "normalizedSha256": "7cf041b22b7e6d05d00e0eedec90262e8e3db8adddf34c1bb1735c5469841c5e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -133192,7 +133192,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/README.md",
-      "normalizedSha256": "c835e7614548dca8eb54f9c4ff48a4fc6d110fa063effe98ec679d8c8b8f6222",
+      "normalizedSha256": "a299aa48beb5539a2a1a2409bb5f35f73d0dba672ec4df455b05476392f9a7b3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -133213,113 +133213,1024 @@
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/targets.txt",
-      "normalizedSha256": "1f8ec1ab96764dd562a2aad7bf6e850020ba6d86c0c0fe5fcdcf6226fbb5d743",
+      "path": "specs/contracts/contracts-02/design.md",
+      "normalizedSha256": "d7cb3dfa387333a2209515a8f7125c0a9b9b1f79215cd3651fe9ed1df6cb8a0e",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "basis": "Knorvia-authored contracts-02 replacement design: module split, state owners, data structures and per-entry landing map for the independent rewrite. No upstream or replaced implementation code copied.",
+      "evidence": ["specs/contracts/contracts-02/design.md"]
+    },
+    {
+      "path": "docs/knorvia-contracts-02-acceptance.md",
+      "normalizedSha256": "b23fcf7bc31284228947fd2a4c486a443afdb55886130344b44a7bce4adeb61e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/rewind/payload-schemas.ts",
+      "normalizedSha256": "16fa720267323c18e108bbfed22165be79a37bfb4720f5ad20ae69771a791166",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/rewind/target-evaluation.ts",
+      "normalizedSha256": "941439d62c4ea1ca5c872dec61a4adb37a1e6bda163e9b5e885ef95e6c104754",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/rewind/active-branch.ts",
+      "normalizedSha256": "80f67f590c4288d1182d3e5b45857763dcf262f21b84779d9b6ce5b0eba7da7e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (rewind group) and acceptance document.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/definition-schemas.ts",
+      "normalizedSha256": "e6ad0294c732d4d412a946535724d562778550df3f9bb7e1abcacd915eddf1d5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/definition-validation.ts",
+      "normalizedSha256": "98d9bcad6d99f25ff4850bd743f813fc00b4bb8cce2e86410c69d7f913a8f4d1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/graph-schema-declarations.ts",
+      "normalizedSha256": "2ae5263fff0cf8e430b33b5477391555cee70821d106aa197349a27fe48c5d4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/graph-schema-validation.ts",
+      "normalizedSha256": "6fd00754fbdc81fcb4eae7a8fec6f932009d127be0871004240dc5d127aa34fd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (workflow group: definition split into schemas/validation/thin entry, graph-schema split into declarations/validation/thin entry, session-links rewritten). The author read the replaced implementation to derive behavior and callers; public export names and signatures match specs/contracts/contracts-02/interface.md. Similarity: session-links normal 0.196, definition-validation normal 0.186, graph-schema-validation normal 0.182; declaration-mode files residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/run-schema-declarations.ts",
+      "normalizedSha256": "8b07eaf9a74abff68d2a38cca22f47b332d7145309714c599ed10a1ca4646d5a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement module: run-schema split into a pure declaration module (run-schema-declarations.ts) and a thin re-export entry (run-schema.ts). Public export names and signatures match specs/contracts/contracts-02/interface.md; declaration-mode similarity residual 0 lines.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/scheduler-state-declarations.ts",
+      "normalizedSha256": "e2a8b36ce50c5b3b45d242579fbe974c0c7ff5231f0bec7e4e47e39f47f7cfe4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (scheduler-state split): declaration module holds the frozen schemas, derivation module holds the rewritten adjacency/classification/collection projection with a different organization (buildAdjacency / classifyNodes / deriveCollectionState). The author read the replaced implementation; a differential probe compared old vs new outputs on 6 graph/snapshot cases with deep equality. Public export names and signatures match specs/contracts/contracts-02/interface.md; derivation normal-mode similarity containment 0.183 / run 5.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/scheduler-state-derivation.ts",
+      "normalizedSha256": "fcbc530039a3f2440ccdb5c91376a201e395bef25933e234b940b022837da67c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (scheduler-state split): declaration module holds the frozen schemas, derivation module holds the rewritten adjacency/classification/collection projection with a different organization (buildAdjacency / classifyNodes / deriveCollectionState). The author read the replaced implementation; a differential probe compared old vs new outputs on 6 graph/snapshot cases with deep equality. Public export names and signatures match specs/contracts/contracts-02/interface.md; derivation normal-mode similarity containment 0.183 / run 5.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/script-declarations.ts",
+      "normalizedSha256": "6266a07c166d90c448df186ef155fc1cfe24d0ff00e69caceabac5ab1a4057e6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (script group): script-declarations.ts holds the frozen schemas, constants, types and port interfaces; script-validation.ts holds the rewritten duplicate-phase-title check extracted from the schema refine (named pure function). The author read the replaced implementation; a differential probe compared old vs new WorkflowScriptMetaSchema parsing (success, issue message and path) on 12 inputs with deep equality. Internal agent limit constants were renamed (values unchanged). Public export names and signatures match specs/contracts/contracts-02/interface.md; validation normal-mode containment 0.182 / run 5.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/script-validation.ts",
+      "normalizedSha256": "15d5be06341ec05f122afb615f05d59ab4fe40251e1ccaafc483aea3882e5c97",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (script group): script-declarations.ts holds the frozen schemas, constants, types and port interfaces; script-validation.ts holds the rewritten duplicate-phase-title check extracted from the schema refine (named pure function). The author read the replaced implementation; a differential probe compared old vs new WorkflowScriptMetaSchema parsing (success, issue message and path) on 12 inputs with deep equality. Internal agent limit constants were renamed (values unchanged). Public export names and signatures match specs/contracts/contracts-02/interface.md; validation normal-mode containment 0.182 / run 5.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/contract-declarations.ts",
+      "normalizedSha256": "b88ed01e84f80bc36b1c9b9baa89600adb4e7370ec92124e749565b02e40e8b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (contract split): contract-declarations.ts holds the frozen tool contract types, tool-scope-predicates.ts holds the rewritten side-effect predicates (readOnly short-circuit then scope-set membership instead of ternary chains), contract.ts is a thin re-export entry. The author read the replaced implementation; a differential probe compared old vs new predicate results on 48 capability combinations plus empty capability and the mutating-scope set (51/51 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md; predicates normal-mode containment 0.182.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/tool-scope-predicates.ts",
+      "normalizedSha256": "5f6e8598dde2892008fd18bf9b1116a73705035d5b5ae5d1c76eb4d2e7344198",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (contract split): contract-declarations.ts holds the frozen tool contract types, tool-scope-predicates.ts holds the rewritten side-effect predicates (readOnly short-circuit then scope-set membership instead of ternary chains), contract.ts is a thin re-export entry. The author read the replaced implementation; a differential probe compared old vs new predicate results on 48 capability combinations plus empty capability and the mutating-scope set (51/51 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md; predicates normal-mode containment 0.182.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question-json.ts",
+      "normalizedSha256": "9b28db11b53556d70091f06979968a13a6861fc7130f72a7722dfeb1f6be6940",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (ask-user-question split): JSON-schema projection helper and HTML preview validation extracted into two implementation modules and rewritten with a rule table and single-line issue helper; the main module keeps the frozen schemas byte-identical. A differential probe compared old vs new on 16 schema cases, the projected JSON schema and its required list (20/20 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question-preview.ts",
+      "normalizedSha256": "a47bcaadb9d9e2b655e97024bb29e1b923267b3334f3da070845242d1c046916",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 replacement modules (ask-user-question split): JSON-schema projection helper and HTML preview validation extracted into two implementation modules and rewritten with a rule table and single-line issue helper; the main module keeps the frozen schemas byte-identical. A differential probe compared old vs new on 16 schema cases, the projected JSON schema and its required list (20/20 deep equal). Public export names and signatures match specs/contracts/contracts-02/interface.md.",
+      "evidence": ["docs/knorvia-contracts-02-acceptance.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/rewind/index.ts",
+      "normalizedSha256": "5f4d4ff7ae9c174f73870970e2e4d2475486359e59152cf716113f0f6e1276ec",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/src/rewind/index.ts",
-      "normalizedSha256": "ec03c2a92e2413d2d282b4e55e1310ec1049f3b3409b8de994e809d6dbeb139e",
+      "path": "apps/cli/packages/contracts/src/tools/agent.ts",
+      "normalizedSha256": "9a2dc9326732e722468a40484de36c3afc8a0bdecc8393125f54088213e0d988",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/src/tools/index.ts",
-      "normalizedSha256": "7cf6ead22cac90b6bd2a16939c803cf608dd1397fdd03ada21d27bed2a45b23a",
+      "path": "apps/cli/packages/contracts/src/tools/amend-workflow.ts",
+      "normalizedSha256": "aee63530a6207c7981c6259b750bebd506d66a83222000802f8790e6901259b1",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/src/tools/node-repl.ts",
-      "normalizedSha256": "a1eb1e770324497de3825ad09bbb6bd52c4d6a5e4bd1ffb0e5b189ed583d36bb",
+      "path": "apps/cli/packages/contracts/src/tools/apply-patch.ts",
+      "normalizedSha256": "7f7815b0bd0e562a3a76136339cf94de2278992bec316d62afd9498b1cd9cf2c",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/src/tools/websearch.ts",
-      "normalizedSha256": "e856735d14bbf36766c1c54d939eef6462300f04727edd692cfd96ddf254165d",
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question.ts",
+      "normalizedSha256": "452204f7b0a69362b958055f87739647d453dbda95c697ed79f51cb3ff4efa1e",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/src/tracing/tracer.ts",
-      "normalizedSha256": "a80cf6d1fd6218ea646491354d3cfde4f8d2e7cbe54c69d4a9907cec5601ac54",
+      "path": "apps/cli/packages/contracts/src/tools/automation.ts",
+      "normalizedSha256": "942afb9cc91de793db00be367c795df11d90422697db365975a3583f607c29c2",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/stubs/src/workflow/index.ts",
-      "normalizedSha256": "5eec4bfbec7962a2527094457cde30c7030aa9b00077cd5c83adf4943a204370",
+      "path": "apps/cli/packages/contracts/src/tools/contract.ts",
+      "normalizedSha256": "69df4ffec45bce9e4ccc736ea6dc6a80aafd1cd988000dd6172a33f1637e08c3",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/tests/api-surface.test.mjs",
-      "normalizedSha256": "3c7af58c26b3077ba45c122a5f428cf0a5bfb5ebae4e4df3636827c0b4b794bd",
+      "path": "apps/cli/packages/contracts/src/tools/edit.ts",
+      "normalizedSha256": "f8bd54db49aa547a51aef3308acf70628bc1566c8a6d9a7efd2e379e5756b714",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/tests/behavior.test.mjs",
-      "normalizedSha256": "e6e68b9dae2f5d596c3532a64c4fc985749706910bb1252f3884104b4521df0f",
+      "path": "apps/cli/packages/contracts/src/tools/escalate.ts",
+      "normalizedSha256": "84e39a52c7c5d87f8b1e3ab02ad1f08026c176f920cd43487e6ade7e871f475a",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
       ]
     },
     {
-      "path": "specs/contracts/contracts-02/tests/entry.mjs",
-      "normalizedSha256": "dc5d693eeb18f0a0d44cbf905af944ae2e9f436af1cd26148d125a834f86b007",
+      "path": "apps/cli/packages/contracts/src/tools/eval-workflow-snippet.ts",
+      "normalizedSha256": "e39d69fbfb153394bc903d6c6082d4bf60f7f1981ab6e0b6a9837f705de8819d",
       "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
       "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
         "specs/contracts/contracts-02/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run-roster.ts",
+      "normalizedSha256": "b49937f5d29b8be7cc652aeb27ccd6802c504f109a1d11359aeb806f25f9079d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run.ts",
+      "normalizedSha256": "08eb597be07d3b053bbcdb9d9be5771cd5e637d63046bb07c8b1d0829544772b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/glob.ts",
+      "normalizedSha256": "42ce4c5c1434530f3c9c190b8f2f3bfbacd7e7c2301f5f812558dc3e2753c809",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/grep.ts",
+      "normalizedSha256": "d11efefa9113ce862097d73f5ed653cb297e7f10fd13e54dd9294d642caa468d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/index.ts",
+      "normalizedSha256": "92044b1bd5f0f246b1d29624b9a3a0a79c3bf8a6c8f6d6af87dd0124c1583ba9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/list-models.ts",
+      "normalizedSha256": "3d6eac6234f2707cd048603093a620bd1f3f9c3008484e0cf63039072ce06b12",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/list-saved-workflows.ts",
+      "normalizedSha256": "64a9f38f7a691a3964551bfdbe320c4045eaca8272d1c080a9ca37f31a422aff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/list-workflow-runs.ts",
+      "normalizedSha256": "9205185f725f7e275bc4191edefa72f731028400a1d26936fc280f852c876e09",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/off-peak.ts",
+      "normalizedSha256": "b831d2f0b499ec8d7f6aa455da21dba33e7ad7bea45a8807641710a1819ff9e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/performance.ts",
+      "normalizedSha256": "6253bed8906c215ad71d3cc06b14ea2c7da0ff7fc937bf32ecf26554bccf3fbc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/plan-mode.ts",
+      "normalizedSha256": "737aaec72a9e1792c528113ac0e54a886cd20f41485f61c42edb3070d46e90ba",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-pdf.ts",
+      "normalizedSha256": "246c8f90e00b9266adba391bc45b4325d0a918858b154ab148a9dca9893c0f38",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-state.ts",
+      "normalizedSha256": "f7cedc982589867245267bff57a76f6b065b81b4541e28e27a7e32fb091985e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/resolve-workflow-question.ts",
+      "normalizedSha256": "a24a17b1833fcede8ae6b7d7a0963e0c339d2828b9a18a9632db4deec21e3a76",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/resume-workflow-run.ts",
+      "normalizedSha256": "ea0d7c093e0061b7186c121ea9d4fecfb275fc377d0fccb5a6396ca5086aaa30",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/save-workflow.ts",
+      "normalizedSha256": "8dab09f7136396c75f30a1242784bae221139bd2f2948b208319a17444674e5e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/saved-workflow.ts",
+      "normalizedSha256": "d7e9194e5b9ef9f8728b57f636eacbb019389edd7d438c379af8a88d57248992",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/skill.ts",
+      "normalizedSha256": "1b3f70b1a20ca840623ea73ba414de1c0a47cd88fee5ecf716726a5ed631f07c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/submit-result.ts",
+      "normalizedSha256": "2aaa1b75f89abf76e9d14bdfa32cb5804797a4f6dede436030699be54c4e4c2b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/task-output.ts",
+      "normalizedSha256": "fb73d55757a839adb063802ed41c42661b837fd0ef7732d6f6d44636f7c731ad",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/todo.ts",
+      "normalizedSha256": "831063c7c70c4ba18c70f33aa8d38a4f861921c3baca14358ac0bb5dbb9af1c3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/webfetch.ts",
+      "normalizedSha256": "3051ac6c2fe6f4c4572e0434cfe25f01b6fceaff0345f506d747102063a7b025",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/websearch.ts",
+      "normalizedSha256": "669340623db15795bf1e5b4b14351dc3b945403744a48262a7b8ef4916d62961",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/workflow-observation-display.ts",
+      "normalizedSha256": "fc71d65dfff0542dbd7c32230e5c76e5123d33b46f239034b3560933b31eaaf8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/workflow.ts",
+      "normalizedSha256": "aec011bdeca2d9a9e145b3771c57fbbdf5e800279cba412477e3e99406b2e12e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/write.ts",
+      "normalizedSha256": "68a17da1767a2e6cb2c7f87a0d478dbd2a463e09b0a3a1137669241a5bc189dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/local-turn-preparation.ts",
+      "normalizedSha256": "660a85f0b70820b6b41e37c5e2838dced557c0e130ea5c8293f9d3a6bc3a9408",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/span-residence.ts",
+      "normalizedSha256": "4db8ca9f8631d02021a6653943b03c90e03e49b8b08e28ce238ff512b08f107f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer-types.ts",
+      "normalizedSha256": "8d2abb889bd2b88a54f97c71a164ff2b84a5a658a104b0f02746594f42ed4795",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "normalizedSha256": "d8c3598863bb33c1d3a4c785a2df20eba7e39edfb642e165c6107bd7a7e21f7c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/definition.ts",
+      "normalizedSha256": "f70ee2e011f9cf63d173499931c2f266d20ac2eba9216ec41e6e49609bca5f94",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/graph-schema.ts",
+      "normalizedSha256": "95ad44551d00d33ce07f46c163f1e62d97c77dda1168c582178ec3a6e0cdffb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/run-schema.ts",
+      "normalizedSha256": "5da874da4438a6baf06e7bb9644215b11f1647eae11c060122f427ee4e29b043",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/scheduler-state.ts",
+      "normalizedSha256": "1371114a6f8535fa7a258ac830a4473e8978b2da497ddaf422743470e0d6e691",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/script.ts",
+      "normalizedSha256": "9523e07093e5fbdc134fd436034b2802e67a3b33d1071a3f9291a802dd7d8213",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/session-links.ts",
+      "normalizedSha256": "14cd4b35f7f0d66146643baef5d6174cc12641dea6e92b0909d6f9d46205306d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/gate-replace-stub.json",
+      "normalizedSha256": "83fec6b1084db2df767fba523f993c1fb37d2a3154f4e22d0598d61aa48d828d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementations in @knorvia/contracts (tools / tracing / workflow / rewind). Every module was rewritten in place from the frozen contract in specs/contracts/contracts-02, preserving exported names, signatures, constant values, schema accept/reject sets and model-visible strings while newly authoring the comments, internal structure and helper decomposition. Per-file scoring mode (declaration mode against interface.md, or normal-mode line and structural gates), differential probes against the replaced implementation and gate output are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/known-differences.md",
+        "specs/contracts/contracts-02/acceptance.md",
+        "specs/contracts/contracts-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/test/contracts-02-api-surface.test.mjs",
+      "normalizedSha256": "1575622525791581651d0db078995f571077d3cdecf1bf9d1d335fd0d29a9716",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract tests (B1 export surface and B2-B9 observable behaviour) plus their entry resolver and the replacement-phase gate runner. The tests were relocated from specs/contracts/contracts-02/tests into the package test directory so scripts/test-studio.mjs picks them up in CI, and still read the frozen contract artifacts (interface.md, fixtures/samples.json) from specs/contracts/contracts-02 while asserting solely through the package public entries in both source and dist modes.",
+      "evidence": [
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/fixtures/samples.json",
+        "specs/contracts/contracts-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/test/contracts-02-behavior.test.mjs",
+      "normalizedSha256": "f3012cfb2c22479aa01e985c4d407c8f78b4d08296fb64f08398b6713eca8bd9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract tests (B1 export surface and B2-B9 observable behaviour) plus their entry resolver and the replacement-phase gate runner. The tests were relocated from specs/contracts/contracts-02/tests into the package test directory so scripts/test-studio.mjs picks them up in CI, and still read the frozen contract artifacts (interface.md, fixtures/samples.json) from specs/contracts/contracts-02 while asserting solely through the package public entries in both source and dist modes.",
+      "evidence": [
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/fixtures/samples.json",
+        "specs/contracts/contracts-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/test/contracts-02-entry.mjs",
+      "normalizedSha256": "7192556c260672645017b82a3b115200d4977471730a3bbafeddf108d4c943d3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract tests (B1 export surface and B2-B9 observable behaviour) plus their entry resolver and the replacement-phase gate runner. The tests were relocated from specs/contracts/contracts-02/tests into the package test directory so scripts/test-studio.mjs picks them up in CI, and still read the frozen contract artifacts (interface.md, fixtures/samples.json) from specs/contracts/contracts-02 while asserting solely through the package public entries in both source and dist modes.",
+      "evidence": [
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/fixtures/samples.json",
+        "specs/contracts/contracts-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/contracts-02/tests/run-old-gate.mjs",
+      "normalizedSha256": "ef83fac6266f7d5ad21406d9271f5bd3a5159c292c480557fde3f1160d537410",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contracts-02 contract tests (B1 export surface and B2-B9 observable behaviour) plus their entry resolver and the replacement-phase gate runner. The tests were relocated from specs/contracts/contracts-02/tests into the package test directory so scripts/test-studio.mjs picks them up in CI, and still read the frozen contract artifacts (interface.md, fixtures/samples.json) from specs/contracts/contracts-02 while asserting solely through the package public entries in both source and dist modes.",
+      "evidence": [
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md",
+        "specs/contracts/contracts-02/fixtures/samples.json",
+        "specs/contracts/contracts-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-session-context.ts",
+      "normalizedSha256": "1c4211bf921842e28469c961614be4fa3ab8463e7867a240bc7214277d7135f9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 declaration modules in @knorvia/contracts (tools / workflow). The frozen declarations (export names, signatures, constant values, schema accept/reject sets and model-visible strings) are preserved verbatim per specs/contracts/contracts-02/interface.md, while the file header and explanatory comments are newly authored in Knorvia's own words. Scoring basis and result are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/respond-to-coordinator.ts",
+      "normalizedSha256": "509003da5b29d1802fd8e844f093cc8b887e2aeec06730f8d83d83ba7dd4e3ce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 declaration modules in @knorvia/contracts (tools / workflow). The frozen declarations (export names, signatures, constant values, schema accept/reject sets and model-visible strings) are preserved verbatim per specs/contracts/contracts-02/interface.md, while the file header and explanatory comments are newly authored in Knorvia's own words. Scoring basis and result are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/send-message.ts",
+      "normalizedSha256": "1c93f2894f60257a25dc84a1363bb1796ed53b1b1f03202fcac4ae5614de6cd0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 declaration modules in @knorvia/contracts (tools / workflow). The frozen declarations (export names, signatures, constant values, schema accept/reject sets and model-visible strings) are preserved verbatim per specs/contracts/contracts-02/interface.md, while the file header and explanatory comments are newly authored in Knorvia's own words. Scoring basis and result are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/task-stop.ts",
+      "normalizedSha256": "67e2ceb941dd6910a3de50bbb5bfab61660f6c15ac00eaa74bd922b98e7e2c03",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 declaration modules in @knorvia/contracts (tools / workflow). The frozen declarations (export names, signatures, constant values, schema accept/reject sets and model-visible strings) are preserved verbatim per specs/contracts/contracts-02/interface.md, while the file header and explanatory comments are newly authored in Knorvia's own words. Scoring basis and result are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/index.ts",
+      "normalizedSha256": "4e7868bc7af50cca77a6fb5c048b77b2f9553df978106aae518f4b17b61f8c26",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 declaration modules in @knorvia/contracts (tools / workflow). The frozen declarations (export names, signatures, constant values, schema accept/reject sets and model-visible strings) are preserved verbatim per specs/contracts/contracts-02/interface.md, while the file header and explanatory comments are newly authored in Knorvia's own words. Scoring basis and result are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/bash.ts",
+      "normalizedSha256": "e73ed95687a70fc998429225570fe29c56ca9d767687a7b421128274236202f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation modules tools/bash.ts and tools/tool-result-metadata.ts. Frozen declarations (exported schema/signature/constant surface and model-visible strings) are preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (named base helpers, paragraph-grouped model hint, shared key-dropping helpers for the persisted-display scrubbers). A differential probe compared the replaced implementation with the new one on JSON-schema projections, 21 input-parsing cases and 16 legacy persisted payloads (73/73 identical), and the per-file similarity result is recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/tool-result-metadata.ts",
+      "normalizedSha256": "a9949d2589f451461c0ab341adb2431c6cefc15d0e809139d6f541ad0d552551",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation modules tools/bash.ts and tools/tool-result-metadata.ts. Frozen declarations (exported schema/signature/constant surface and model-visible strings) are preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (named base helpers, paragraph-grouped model hint, shared key-dropping helpers for the persisted-display scrubbers). A differential probe compared the replaced implementation with the new one on JSON-schema projections, 21 input-parsing cases and 16 legacy persisted payloads (73/73 identical), and the per-file similarity result is recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "normalizedSha256": "6f5927a0c85f472925c1d9da032a371a438a95e6ccf5ad6498170aae74c2bdb5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation modules tools/read.ts and tools/target.ts. The frozen surface (exported names, signatures, constant values, schema accept/reject sets, and every model-visible prompt/description string asserted by B4-B6) is preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (single-line extension/device lists, named field shapes, consolidated JSON-parse helper, named prompt constants and paragraph joins). Differential probes compared the replaced implementation with the new one (read: contract gate B4/B5 plus B6 prompt text; target: 98 comparisons over all exported functions, schemas, constants and 20 parse texts) with zero differences; per-file similarity results are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/target.ts",
+      "normalizedSha256": "ac5f89a38b8f8469abf7421d8659968107d11c0333b971f40640da8d0326cd9a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation modules tools/read.ts and tools/target.ts. The frozen surface (exported names, signatures, constant values, schema accept/reject sets, and every model-visible prompt/description string asserted by B4-B6) is preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (single-line extension/device lists, named field shapes, consolidated JSON-parse helper, named prompt constants and paragraph joins). Differential probes compared the replaced implementation with the new one (read: contract gate B4/B5 plus B6 prompt text; target: 98 comparisons over all exported functions, schemas, constants and 20 parse texts) with zero differences; per-file similarity results are recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/create-workflow.ts",
+      "normalizedSha256": "953f7e365dd2f11694de717407603c8540445fc4117dce7a4be02df490819a66",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored independent replacement of the inherited contracts-02 implementation module tools/create-workflow.ts. The frozen surface (exported names/signatures, constant values, schema accept/reject sets, and model-visible describe strings) is preserved per specs/contracts/contracts-02/interface.md; the private surface was newly written (named field shapes plus named description constants, rewritten section documentation, and comment blocks converted from JSDoc). A differential probe compared the replaced implementation with the new one on all exported schema projections, 20 input parses, 10 phase-graph cases for both exported helpers and the output schema (96 comparisons, zero differences); the export surface was verified identical to the replaced file and the per-file similarity result is recorded in docs/knorvia-contracts-02-acceptance.md.",
+      "evidence": [
+        "docs/knorvia-contracts-02-acceptance.md",
+        "specs/contracts/contracts-02/interface.md",
+        "specs/contracts/contracts-02/behavior.md"
       ]
     },
     {
