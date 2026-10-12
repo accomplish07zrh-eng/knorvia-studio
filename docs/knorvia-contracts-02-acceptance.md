@@ -126,6 +126,18 @@ node <tool> --repo . --candidate <文件> \
 | `tools/edit.ts`          | 156          | 4          | 纯分节横幅换自有措辞（与 glob/grep/webfetch/write 同一处理）                 |
 | `tools/save-workflow.ts` | 72           | 3          | 11 处 JSDoc/段落说明逐块改写为自有措辞（顶层 JSDoc 改 `//`、嵌套块保持缩进） |
 
+### 3.10 tools 组第 7 批（3 个文件，声明模式 3/3 PASS）
+
+| 文件                               | 兼容面行数 X | 残留行数 Y | 处理                                                                                                               |
+| ---------------------------------- | ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| `tools/saved-workflow.ts`          | 77           | 14         | 16 处 JSDoc/段落说明按行范围改为自有措辞                                                                           |
+| `tools/get-workflow-run-roster.ts` | 104          | 8          | 18 处说明改为自有措辞（镜像关系与截断口径保留）                                                                    |
+| `tools/list-workflow-runs.ts`      | 85           | 4          | 15 处说明改写；`clampedLimit` 的钳制抽成 `clampLimit`（截断 → 抬下限 → 压上限三步命名），消掉裸 `return Math.min(` |
+
+**差分探针**：`list-workflow-runs` 的输入 schema（limit 钳制）12 组 —— 缺省、0/1/20/50/51、3.7、-5、`"20"`、`null`、`cwd`、未知键 → **12/12 deepStrictEqual**（0 被抬到 1、51 被压到 50、3.7 截断为 3，字符串与未知键照旧拒绝）。
+
+**返工记录**：行范围法在 `list-workflow-runs` 上第一刀切多了两行（吞掉一行注释、留一个多余花括号），靠 `pnpm --dir … typecheck` 立刻暴露并修回。经验：**行范围替换后必须马上 typecheck**，不能只跑相似度。
+
 **踩坑记录（已固定做法）**：顶层 JSDoc 块在文件里**没有前导空格**（`/**` 顶格、`*` 单空格），嵌套块才有 8 空格缩进；用精确字符串锚点很容易错缩进。本批改为**按行范围替换**（先 dump 注释块行号、从后往前 splice），一次通过。
 
 **差分探针**：`websearch.ts` 的三种导出行为旧 vs 新 —— 输入 schema 9 组（域名互斥、maxUses 0/9 边界、未知键、过短 query）、输出 schema 4 组（缺字段、负时长、空 URL、含 serverToolUse）、`toWebSearchProviderNativeArgs` 3 组 → **16/16 deepStrictEqual**。
