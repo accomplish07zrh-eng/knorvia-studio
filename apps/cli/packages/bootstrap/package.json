@@ -41,7 +41,6 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "@knorvia/formal-proof": "workspace:*",
     "@types/node": "^24.0.0",
     "@types/yazl": "^3.3.1",
     "yazl": "^3.3.1"

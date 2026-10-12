@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "purpose": "core-tool-01 B47-B50 读取状态条目的选取样例：同一路径多条记录取最新，不同路径互不影响。路径为虚构占位值。",
+  "entries": [
+    { "key": "a", "path": "/workspace/notes.md", "readAtMs": 1000 },
+    { "key": "b", "path": "/workspace/notes.md", "readAtMs": 2000 },
+    { "key": "c", "path": "/workspace/other.md", "readAtMs": 9000 }
+  ],
+  "expected": {
+    "latestForNotesMs": 2000,
+    "latestForOtherMs": 9000,
+    "latestForMissingPath": null
+  }
+}

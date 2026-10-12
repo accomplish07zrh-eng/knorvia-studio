@@ -928,10 +928,34 @@ test("B47 config-factory 导出面：运行时只暴露 2 个函数、内部函�
 test("B49 配置路径解析与默认路径", () => {
   assert.equal(fileConfig.resolvePath("~/config.json"), join(homedir(), "config.json"));
   assert.equal(fileConfig.resolvePath("~"), resolve("~"));
-  assert.equal(
-    fileConfig.getDefaultConfigPath(),
-    join(fileConfig.resolvePath(join(homedir(), ".knorvia-studio", "cli")), "config.json"),
+
+  // 默认路径由数据根决定，而数据根可被环境覆盖：`test:studio` 会把 KNORVIA_DATA_BASE_DIR
+  // 指向临时目录。期望值因此必须走**同一套解析入口**推导（默认 → DATA_BASE_DIR →
+  // KNORVIA_HOME 的优先级），不能写死真实 HOME；本测试进程的环境在启动时固定，与实现
+  // 读取环境的时机一致。
+  const expectedDefaultConfigPath = () => {
+    const baseDir = process.env.KNORVIA_DATA_BASE_DIR?.trim();
+    if (baseDir) {
+      return join(
+        fileConfig.resolvePath(join(resolve(baseDir), ".knorvia-studio", "cli")),
+        "config.json",
+      );
+    }
+    const homeOverride = process.env.KNORVIA_HOME?.trim();
+    if (homeOverride) {
+      return join(fileConfig.resolvePath(join(resolve(homeOverride), "cli")), "config.json");
+    }
+    return join(fileConfig.resolvePath(join(homedir(), ".knorvia-studio", "cli")), "config.json");
+  };
+  assert.equal(fileConfig.getDefaultConfigPath(), expectedDefaultConfigPath());
+  // 覆盖生效时，默认路径必须落在覆盖出来的数据根之下。
+  const dataRoot = resolve(
+    process.env.KNORVIA_DATA_BASE_DIR?.trim() ||
+      process.env.KNORVIA_HOME?.trim() ||
+      join(homedir(), ".knorvia-studio"),
   );
+  assert.equal(fileConfig.getDefaultConfigPath().startsWith(dataRoot), true);
+
   assert.equal(typeof fileConfig.getDefaultConfigPath(), "string");
   assert.equal(typeof fileConfig.hasDefaultConfigFile(), "boolean");
 });

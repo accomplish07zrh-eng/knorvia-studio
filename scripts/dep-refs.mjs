@@ -19,6 +19,10 @@ const DEFAULT_GLOBS = [
   "packages/*/test/**/*.{ts,tsx,mts,cts}",
   "apps/*/src/**/*.{ts,tsx,mts,cts}",
   "apps/*/test/**/*.{ts,tsx,mts,cts}",
+  // CLI 从 apps/zcode-cli/src 改名为 apps/cli/packages/<包>/{src,test} 后比 apps/*/src 深两层，
+  // 旧 glob 再也匹配不到 CLI 源码，导致所有 CLI 包查询都报「源文件未加载到 project」。
+  "apps/cli/packages/*/src/**/*.{ts,tsx,mts,cts}",
+  "apps/cli/packages/*/test/**/*.{ts,tsx,mts,cts}",
   "harness/**/*.{ts,tsx,mts,cts}",
   ...EXCLUDE_GLOBS,
 ];
