@@ -69,8 +69,10 @@ const explicitTests = [
   "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
   "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
   "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
-  // 合同旧门跑法的自测（在临时目录造最小合同，验证源码入口记录与桩替换全失败）。
   "scripts/contract-gate.test.mjs",
+  "scripts/contract-test-discovery.test.mjs",
+  "scripts/provenance/similarity.test.mjs",
+  "scripts/provenance/inherited-triage.test.mjs",
 ];
 const tests = [...explicitTests];
 
