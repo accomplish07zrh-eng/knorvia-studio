@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// 文本元数据：编码探测/解码/编码、流式解码器与行尾归一。
 import { StringDecoder } from "node:string_decoder";
 import { TextDecoder } from "node:util";
 import {
@@ -12,128 +14,158 @@ const MAX_INCOMPLETE_SUFFIX = 3;
 const CONTROL_FRACTION = 0.3;
 const LF = "\n";
 const CRLF = "\r\n";
+const UTF8_BOM = [0xef, 0xbb, 0xbf] as const;
+const UTF16LE_BOM = [0xff, 0xfe] as const;
+/** 传输编码不需要行尾归一：它们本来就是字节级载体。 */
 const TRANSPORT_ENCODINGS = new Set(["base64", "base64url", "hex"]);
+
+type Encoding = FileSystemTextEncoding;
 type ChineseEncoding = (typeof CHINESE_ENCODINGS)[number];
 
-interface DecodedTextBuffer {
+interface DecodedText {
   content: string;
-  encoding: FileSystemTextEncoding;
+  encoding: Encoding;
 }
+
 interface StreamingTextDecoder {
   write(buffer: Buffer): string;
   end(): string;
 }
+
 interface TextCodec {
   decode(buffer: Buffer): string;
   encode(content: string): Buffer;
   stream(): StreamingTextDecoder;
 }
 
-function isChinese(encoding: FileSystemTextEncoding): encoding is ChineseEncoding {
+function isChinese(encoding: Encoding): encoding is ChineseEncoding {
   return CHINESE_ENCODINGS.includes(encoding as ChineseEncoding);
 }
 
-// 同一编码的完整读取、写入与流式解码由同一个 codec 选择边界负责。
-function codec(encoding: FileSystemTextEncoding): TextCodec {
-  if (isChinese(encoding)) {
-    return {
-      decode: (buffer) => iconv.decode(buffer, encoding),
-      encode: (content) => iconv.encode(content, encoding),
-      stream() {
-        const state = iconv.getDecoder(encoding);
-        return { write: (buffer) => state.write(buffer), end: () => state.end() ?? "" };
-      },
-    };
-  }
+function startsWithBytes(buffer: Buffer, prefix: readonly number[]): boolean {
+  return prefix.every((byte, index) => buffer[index] === byte);
+}
+
+function unsupported(path?: string): Error {
+  const suffix = path ? `: ${path}` : "";
+  return createFileSystemError({
+    code: "unsupported",
+    message: `Unsupported or binary text encoding${suffix}`,
+    path,
+  });
+}
+
+/** 中文编码走 iconv；其余编码走 Node 原生 Buffer/StringDecoder。 */
+function chineseCodec(encoding: ChineseEncoding): TextCodec {
+  return {
+    decode: (buffer) => iconv.decode(buffer, encoding),
+    encode: (content) => iconv.encode(content, encoding),
+    stream() {
+      const state = iconv.getDecoder(encoding);
+      return { end: () => state.end() ?? "", write: (buffer) => state.write(buffer) };
+    },
+  };
+}
+
+function bufferCodec(encoding: Encoding): TextCodec {
   return {
     decode: (buffer) => buffer.toString(encoding),
     encode: (content) => Buffer.from(content, encoding),
     stream() {
       const state = new StringDecoder(encoding);
-      return { write: (buffer) => state.write(buffer), end: () => state.end() };
+      return { end: () => state.end(), write: (buffer) => state.write(buffer) };
     },
   };
 }
 
-function unsupported(path?: string): Error {
-  return createFileSystemError({
-    code: "unsupported",
-    path,
-    message: `Unsupported or binary text encoding${path ? `: ${path}` : ""}`,
-  });
+/** 同一编码的完整读取、写入与流式解码由同一个 codec 选择边界负责。 */
+function codec(encoding: Encoding): TextCodec {
+  return isChinese(encoding) ? chineseCodec(encoding) : bufferCodec(encoding);
 }
 
-export function detectTextEncoding(buffer: Buffer, path?: string): FileSystemTextEncoding {
-  // BOM 的权重高于内容中的 NUL；UTF-16 文件不能先经二进制筛选。
-  if (buffer[0] === 0xef && buffer[1] === 0xbb && buffer[2] === 0xbf) return "utf8";
-  if (buffer[0] === 0xff && buffer[1] === 0xfe) return "utf16le";
+/** NUL 与过多控制字符都视为二进制；UTF-16 已由 BOM 提前返回，不在此列。 */
+function assertTextual(buffer: Buffer, path?: string): void {
   let controls = 0;
-  for (let index = 0; index < buffer.length; index++) {
-    const byte = buffer[index]!;
+  for (const byte of buffer) {
     if (byte === 0) throw unsupported(path);
-    if (byte < 9 || (byte > 13 && byte < 32)) controls++;
+    if (byte < 9 || (byte > 13 && byte < 32)) controls += 1;
   }
   if (controls / buffer.length > CONTROL_FRACTION) throw unsupported(path);
+}
+
+function isFatalUtf8(buffer: Buffer): boolean {
   try {
     new TextDecoder("utf-8", { fatal: true }).decode(buffer);
-    return "utf8";
+    return true;
   } catch {
-    // 采样可能恰好切断中文字符，只有可逐字节往返的非空前缀可通过。
+    return false;
   }
+}
+
+/** 采样可能恰好切断中文字符：只有可逐字节往返的非空前缀才算命中。 */
+function roundTripsAsChinese(buffer: Buffer, encoding: ChineseEncoding): boolean {
+  const conversion = codec(encoding);
+  const shortest = Math.max(1, buffer.length - MAX_INCOMPLETE_SUFFIX);
+  for (let end = buffer.length; end >= shortest; end -= 1) {
+    const prefix = buffer.subarray(0, end);
+    if (conversion.encode(conversion.decode(prefix)).equals(prefix)) return true;
+  }
+  return false;
+}
+
+export function detectTextEncoding(buffer: Buffer, path?: string): Encoding {
+  // BOM 的权重高于内容中的 NUL；UTF-16 文件不能先经二进制筛选。
+  if (startsWithBytes(buffer, UTF8_BOM)) return "utf8";
+  if (startsWithBytes(buffer, UTF16LE_BOM)) return "utf16le";
+  assertTextual(buffer, path);
+  if (isFatalUtf8(buffer)) return "utf8";
   for (const encoding of CHINESE_ENCODINGS) {
-    const conversion = codec(encoding);
-    const shortest = Math.max(1, buffer.length - MAX_INCOMPLETE_SUFFIX);
-    for (let end = buffer.length; end >= shortest; end--) {
-      const prefix = buffer.subarray(0, end);
-      if (conversion.encode(conversion.decode(prefix)).equals(prefix)) return encoding;
-    }
+    if (roundTripsAsChinese(buffer, encoding)) return encoding;
   }
   throw unsupported(path);
 }
 
 export function decodeTextBuffer(request: {
   buffer: Buffer;
-  encoding?: FileSystemTextEncoding;
+  encoding?: Encoding;
   path?: string;
-}): DecodedTextBuffer {
+}): DecodedText {
   const encoding = request.encoding ?? detectTextEncoding(request.buffer, request.path);
   return { content: codec(encoding).decode(request.buffer), encoding };
 }
 
 export function encodeTextContent(request: {
   content: string;
-  encoding?: FileSystemTextEncoding;
+  encoding?: Encoding;
   path?: string;
 }): Buffer {
   const encoding = request.encoding ?? "utf8";
   const conversion = codec(encoding);
   const bytes = conversion.encode(request.content);
   if (isChinese(encoding) && conversion.decode(bytes) !== request.content) {
-    throw createFileSystemError({
-      code: "unsupported",
-      path: request.path,
-      message: `Content cannot be encoded as ${encoding}${request.path ? `: ${request.path}` : ""}`,
-    });
+    const suffix = request.path ? `: ${request.path}` : "";
+    const message = `Content cannot be encoded as ${encoding}${suffix}`;
+    throw createFileSystemError({ code: "unsupported", message, path: request.path });
   }
   return bytes;
 }
 
-export function createStreamingTextDecoder(encoding: FileSystemTextEncoding): StreamingTextDecoder {
+export function createStreamingTextDecoder(encoding: Encoding): StreamingTextDecoder {
   return codec(encoding).stream();
 }
 
-export function shouldNormalizeLineEndings(encoding: FileSystemTextEncoding): boolean {
+export function shouldNormalizeLineEndings(encoding: Encoding): boolean {
   return !TRANSPORT_ENCODINGS.has(encoding.toLowerCase());
 }
 
+/** 行尾判定：CRLF 记 +1、裸 LF 记 -1，净值为正即 CRLF。 */
 export function detectLineEndings(content: string): FileSystemLineEndings {
   let balance = 0;
-  for (
-    let newline = content.indexOf(LF);
-    newline !== -1;
-    newline = content.indexOf(LF, newline + 1)
-  )
-    balance += content[newline - 1] === "\r" ? 1 : -1;
+  let at = content.indexOf(LF);
+  while (at !== -1) {
+    balance += content[at - 1] === "\r" ? 1 : -1;
+    at = content.indexOf(LF, at + 1);
+  }
   return balance > 0 ? "CRLF" : "LF";
 }
 
@@ -147,5 +179,6 @@ export function applyRequestedLineEndings(
 ): string {
   if (lineEndings === undefined) return content;
   const normalized = normalizeLineEndings(content);
-  return lineEndings === "CRLF" ? normalized.replaceAll(LF, CRLF) : normalized;
+  if (lineEndings === "LF") return normalized;
+  return normalized.replaceAll(LF, CRLF);
 }
