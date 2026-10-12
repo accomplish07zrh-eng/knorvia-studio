@@ -163,6 +163,14 @@ async function backUpScreenshot(
   }
 }
 
+// 省略/保存路径的两条补充说明：截图邻接提示与缺少 artifact store 的提示都是兼容面文案。
+const SCREENSHOT_ADJACENT_NOTE =
+  "The original browser screenshot remains available at the adjacent absolute path.";
+const NO_ARTIFACT_STORE_NOTE =
+  "No artifact store is configured, so the original image could not be saved.";
+
+const textBlock = (lines: string[]): McpContentBlock => ({ type: "text", text: lines.join("\n") });
+
 async function projectEntry(
   input: NormalizationInput,
   entry: McpContentBlock,
@@ -188,32 +196,18 @@ async function projectEntry(
     mimeType,
   };
   if (screenshotPath) {
-    return {
-      type: "text",
-      text: [
-        omittedImageMessage(summary),
-        "The original browser screenshot remains available at the adjacent absolute path.",
-      ].join("\n"),
-    };
+    return textBlock([omittedImageMessage(summary), SCREENSHOT_ADJACENT_NOTE]);
   }
   if (!input.context.artifactStore) {
-    return {
-      type: "text",
-      text: [
-        omittedImageMessage(summary),
-        "No artifact store is configured, so the original image could not be saved.",
-      ].join("\n"),
-    };
+    return textBlock([omittedImageMessage(summary), NO_ARTIFACT_STORE_NOTE]);
   }
   const artifact = await saveOversizedImage(input, data, payload, summary);
-  return {
-    type: "text",
-    text: [
-      `MCP image content saved instead of being inlined: ${summary.mimeType}, base64=${sizeLabel(summary.base64Bytes)}, inlineLimit=${sizeLabel(summary.inlineLimitBytes)}.`,
-      `Artifact: ${artifact.path ?? artifact.uri}`,
-      `Artifact URI: ${artifact.uri}`,
-    ].join("\n"),
-  };
+  const savedNotice = `MCP image content saved instead of being inlined: ${summary.mimeType}, base64=${sizeLabel(summary.base64Bytes)}, inlineLimit=${sizeLabel(summary.inlineLimitBytes)}.`;
+  return textBlock([
+    savedNotice,
+    `Artifact: ${artifact.path ?? artifact.uri}`,
+    `Artifact URI: ${artifact.uri}`,
+  ]);
 }
 
 // 压缩目标边长：与内联上限一起决定压缩结果是否可替换原图。
