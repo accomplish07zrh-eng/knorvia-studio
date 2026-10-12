@@ -3,12 +3,17 @@
   "plugins": null,
   "categories": {},
   "rules": {
-    "max-lines": ["error", { "max": 400, "skipBlankLines": true, "skipComments": true }]
+    "max-lines": [
+      "error",
+      {
+        "max": 400,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ]
   },
   "overrides": [
     {
-      // 测试文件天然会堆叠大量场景与断言，继续复用生产代码的行数上限会造成误报，
-      // 因此只对 test/spec 文件关闭 max-lines，避免放宽业务代码约束。
       "files": [
         "**/*.test.ts",
         "**/*.test.tsx",
@@ -66,10 +71,10 @@
     "packages/ui/src/components/ui",
     "packages/ui/src/components/ai-elements",
     ".agents/skills",
-    "packages/formal-proof",
     "apps/cli",
     "docs/evidence",
     "licensing/evidence",
-    "docs/electron"
+    "docs/electron",
+    "packages/formal-proof"
   ]
 }

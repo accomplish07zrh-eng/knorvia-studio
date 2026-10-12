@@ -1,8 +1,7 @@
-// ============================================================
-// Grep Tool - Content Search Tool
-// ============================================================
+// Grep 工具声明：按正则搜索文件内容。
 // Reference: grep-style search tool
 
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";
 import { toToolJsonSchema } from "./json-schema.js";
@@ -15,9 +14,7 @@ export const GrepOutputMode = {
 
 export type GrepOutputMode = (typeof GrepOutputMode)[keyof typeof GrepOutputMode];
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
+// 输入 schema（冻结面）。
 
 export const GrepInputSchema = z.object({
   /**
@@ -106,9 +103,7 @@ export type GrepInput = z.infer<typeof GrepInputSchema>;
 
 export const GrepInputJsonSchema = toToolJsonSchema(GrepInputSchema);
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出类型与错误码。
 
 export interface GrepOutput {
   mode: GrepOutputMode;
@@ -140,9 +135,7 @@ export const GrepOutputSchema = z
 
 export const GrepOutputJsonSchema = toToolJsonSchema(GrepOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 工具调用结构：供 handler 与结果投影读取的字段。
 
 export interface GrepToolCall {
   id: ToolCallId;
@@ -159,9 +152,7 @@ export interface GrepToolResult {
   durationMs: number;
 }
 
-// -----------------------------------------------
-// Grep Errors
-// -----------------------------------------------
+// Grep 的错误码枚举。
 
 export const GrepErrorCode = {
   INVALID_PATTERN: "grep_invalid_pattern",

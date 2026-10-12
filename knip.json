@@ -7,7 +7,24 @@
         ".release-it.mjs",
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
-        "scripts/mise-run.mjs"
+        "scripts/mise-run.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/tests/*.mjs",
+        "specs/contracts/*/fixtures/*.mjs",
+        "scripts/provenance/inherited-triage.mjs",
+        "scripts/provenance/inherited-triage.test.mjs",
+        "scripts/generate-knorvia-notification-sound.mjs",
+        "scripts/contract-gate.mjs",
+        "scripts/contract-gate.test.mjs",
+        "scripts/contract-test-discovery.mjs",
+        "scripts/contract-test-discovery.test.mjs",
+        "scripts/provenance/similarity.mjs",
+        "scripts/provenance/similarity.test.mjs",
+        "specs/contracts/*/tests/*.test.mjs",
+        "specs/contracts/*/tests/fixtures/*.mjs",
+        "scripts/provenance/bookkeeping-round2.mjs",
+        "scripts/provenance/bookkeeping-round2-similarity.mjs",
+        "specs/contracts/*/dist-entry-loader.mjs"
       ]
     },
     "packages/desktop": {
@@ -27,7 +44,10 @@
     },
     "apps/cli/packages/browser-use-plugin": {
       "entry": ["src/browser-client.ts"]
+    },
+    "packages/ui": {
+      "entry": ["test/knorvia-notification-sound.test.ts"]
     }
   },
-  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**"]
+  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**", "specs/contracts/*/stubs/**"]
 }

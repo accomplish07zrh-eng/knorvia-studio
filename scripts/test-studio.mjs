@@ -69,14 +69,16 @@ const explicitTests = [
   "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
   "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
   "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
-  // M0-11 截图基线工具的纯逻辑用例（PNG 编解码、像素比较、几何、pages.json、产物与比较器）。
-  // 需要 Chromium 的确定性用例不在这里：它依赖本机浏览器缓存，单独用 pnpm ui-baseline:test 跑。
   "scripts/ui-baseline/test/png.test.mjs",
   "scripts/ui-baseline/test/pixel-diff.test.mjs",
   "scripts/ui-baseline/test/geometry.test.mjs",
   "scripts/ui-baseline/test/pages.test.mjs",
   "scripts/ui-baseline/test/baseline.test.mjs",
   "scripts/ui-baseline/test/compare.test.mjs",
+  "scripts/contract-gate.test.mjs",
+  "scripts/contract-test-discovery.test.mjs",
+  "scripts/provenance/similarity.test.mjs",
+  "scripts/provenance/inherited-triage.test.mjs",
 ];
 const tests = [...explicitTests];
 

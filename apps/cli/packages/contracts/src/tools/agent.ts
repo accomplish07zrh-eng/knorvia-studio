@@ -1,7 +1,5 @@
-// ============================================================
-// Agent Tool - Subagent orchestration tool
-// ============================================================
-// 支持基于配置的子代理和异步启动。
+// SPDX-License-Identifier: Apache-2.0
+// Agent 工具声明：按配置派生并编排子代理（支持异步启动）。
 
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";
