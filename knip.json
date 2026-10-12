@@ -8,8 +8,15 @@
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
+        "scripts/contract-test-discovery.mjs",
+        "scripts/contract-test-discovery.test.mjs",
+        "scripts/provenance/similarity.mjs",
+        "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/inherited-triage.mjs",
-        "scripts/provenance/inherited-triage.test.mjs"
+        "scripts/provenance/inherited-triage.test.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/tests/*.test.mjs",
+        "specs/contracts/*/tests/fixtures/*.mjs"
       ]
     },
     "packages/desktop": {
@@ -31,5 +38,5 @@
       "entry": ["src/browser-client.ts"]
     }
   },
-  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**"]
+  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**", "specs/contracts/*/stubs/**"]
 }
