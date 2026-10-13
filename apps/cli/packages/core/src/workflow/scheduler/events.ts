@@ -39,20 +39,34 @@ export type WorkflowCollectionPlannerRuntime = PlannerIdentityPorts &
  * - 事件先落库、再回调订阅者，回调抛错不影响已落库的事实。
  */
 export class WorkflowSchedulerEventLog {
+  readonly #clock: WorkflowGraphSchedulerDeps["now"];
+  readonly #eventPort: WorkflowGraphSchedulerDeps["appendEvent"];
+  readonly #graphPort: WorkflowGraphSchedulerDeps["appendGraphRecord"];
+  readonly #observer: WorkflowGraphSchedulerDeps["onWorkflowEvent"];
   readonly #ports: RecordPorts;
 
   constructor(deps: WorkflowGraphSchedulerDeps) {
+    // 构造期按上游顺序捕获：端口 → 图端口 → 时钟 → 观察者；探针会记录 deps 的读取顺序。
+    const eventPort = deps.appendEvent;
+    const graphPort = deps.appendGraphRecord;
+    const now = deps.now;
+    const observer = deps.onWorkflowEvent;
+    this.#eventPort = eventPort;
+    this.#graphPort = graphPort;
+    this.#clock = now;
+    this.#observer = observer;
+    // 转发层：仍以实例方法形式调用端口，注入实现才能观察到 this=事件日志实例（上游语义）。
     this.#ports = {
-      eventPort: deps.appendEvent,
-      graphPort: deps.appendGraphRecord,
-      observer: deps.onWorkflowEvent,
-      timestamp: () => deps.now().toISOString(),
+      eventPort: (...args) => this.#eventPort(...args),
+      graphPort: (...args) => this.#graphPort(...args),
+      observer: (...args) => this.#observer?.(...args),
+      timestamp: () => this.timestamp(),
     };
   }
 
-  /** 统一时钟：所有记录与事件的时间都取自这里。 */
+  /** 统一时钟：实例方法调用，注入时钟的 this 即事件日志实例。 */
   timestamp(): string {
-    return this.#ports.timestamp();
+    return this.#clock().toISOString();
   }
 
   /** 节点状态记录。 */
