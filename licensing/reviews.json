@@ -136733,6 +136733,17 @@
         "specs/contracts/core-01/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/microcompact-internal.ts",
+      "normalizedSha256": "956e909b6f55d966557626504356fc5180a872f9c462bc18b20c73942afecf69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal module split out of the core-01 compact microcompact file: holds trigger detection, clearable-run collection, message copying and boundary payload assembly so the public microcompact.ts keeps only the frozen constants, compatible types and the two exported entry points. Behavior verified identical to the inherited implementation on a 23-case matrix; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
