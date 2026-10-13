@@ -55,6 +55,9 @@ function lastBoundary(messages: MessageWithParts[]): number {
   return -1;
 }
 
+/** 段落之间在合并文本里的分隔：两个换行，与展示层约定一致。 */
+const SEGMENT_GAP = "\n\n";
+
 export function activeSessionMessages(
   messages: MessageWithParts[],
   options: {
@@ -259,8 +262,8 @@ async function appendUser(
               block.type === "text",
           )
           .map((block) => block.text)
-          .filter(Boolean)
-          .join("\n\n");
+          .filter((entry) => Boolean(entry))
+          .join(SEGMENT_GAP);
   const meaningful = !!modelMessageContentToText(content).trim();
   const metadata = userMetadata(parts);
   const restoreEnvelope =
@@ -314,7 +317,7 @@ export async function hydrateMessageHistoryFromSession(input: {
     const text = parts
       .filter((part): part is Text => part.type === "text" && !part.ignored)
       .map((part) => part.text)
-      .join("\n\n");
+      .join(SEGMENT_GAP);
     const reasoning: ModelReasoningContentBlock[] = parts
       .filter((part) => part.type === "reasoning")
       .map((part) => ({
