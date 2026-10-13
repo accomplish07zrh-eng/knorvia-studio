@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 消息与分片的写入/读取：两条 UPSERT 负责「保留旧文档的 legacy 字段」这一语义。
+// SQL 文本（含 legacy json_set 片段）与排序列都是数据格式的一部分，逐字保留。
 
 import type { DatabaseSync } from "node:sqlite";
 import type {
@@ -25,10 +28,15 @@ import { withWriteTransaction } from "./write-transaction.js";
 type StorageTable = keyof typeof LEGACY_FIELDS;
 type CopySource = { sessionID: SessionId; id: string };
 
+const MESSAGE_ORDER = "sequence IS NULL, sequence, time_created, rowid";
+const PART_ORDER = "sequence IS NULL, sequence, time_created, id";
+
+/** legacy 字段存在性判断：任一字段在新文档里存在，就只更新这几个字段。 */
 function retainedLegacy(table: StorageTable): string {
-  const present = LEGACY_FIELDS[table]
-    .map((field) => `json_type(${table}.data, '$.${field}') IS NOT NULL`)
-    .join(" OR ");
+  const fieldChecks = LEGACY_FIELDS[table].map(
+    (field) => `json_type(${table}.data, '$.${field}') IS NOT NULL`,
+  );
+  const present = fieldChecks.join(" OR ");
   const patches = LEGACY_FIELDS[table].map(
     (field) => `
       CASE WHEN json_type(${table}.data, '$.${field}') IS NOT NULL THEN '$.${field}' END,
@@ -61,141 +69,157 @@ const UPSERT_PART = `
     data = CASE WHEN part.session_id = excluded.session_id AND part.message_id = excluded.message_id
       THEN ${retainedLegacy("part")} ELSE excluded.data END
 `;
-const MESSAGE_ORDER = "sequence IS NULL, sequence, time_created, rowid";
-const PART_ORDER = "sequence IS NULL, sequence, time_created, id";
 
+/** 复制来源的旧文档：取自同一张表同一会话，缺失即报错（不能静默丢 legacy 字段）。 */
 function documentWithCopy(
-  db: DatabaseSync,
+  database: DatabaseSync,
   table: StorageTable,
   document: Record<string, unknown>,
   source: CopySource | undefined,
 ): Record<string, unknown> {
   if (!source) return document;
-  const row = db
+  const found = database
     .prepare(`SELECT data FROM ${table} WHERE id = ? AND session_id = ?`)
     .get(source.id, source.sessionID) as { data: string } | undefined;
-  if (!row) throw new Error(`Storage copy source missing: ${table}/${source.id}`);
-  return applyLegacySnapshot(document, row.data, table);
+  if (!found) throw new Error(`Storage copy source missing: ${table}/${source.id}`);
+  return applyLegacySnapshot(document, found.data, table);
+}
+
+function upsertMessageRow(
+  database: DatabaseSync,
+  request: MessageInfo,
+  created: number,
+  updated: number,
+  data: string | null,
+): void {
+  database
+    .prepare(UPSERT_MESSAGE)
+    .run(request.id, request.sessionID, request.sessionID, created, updated, data);
 }
 
 export async function saveMessage(
-  db: DatabaseSync,
-  input: MessageInfo,
+  database: DatabaseSync,
+  request: MessageInfo,
   copyFrom?: CopySource,
 ): Promise<void> {
-  saveMessageSync(db, input, copyFrom);
+  saveMessageSync(database, request, copyFrom);
 }
 
 // 提升事务不能跨 await；公开 Promise API 与同域同步调用共用这一条写入路径。
-export function saveMessageSync(db: DatabaseSync, input: MessageInfo, copyFrom?: CopySource): void {
-  const document = messageDocument(input);
-  const created = input.time.created;
-  const updated = input.role === "assistant" ? (input.time.completed ?? Date.now()) : created;
+export function saveMessageSync(
+  database: DatabaseSync,
+  request: MessageInfo,
+  copyFrom?: CopySource,
+): void {
+  const document = messageDocument(request);
+  const created = request.time.created;
+  const updated = request.role === "assistant" ? (request.time.completed ?? Date.now()) : created;
   // 自有事务覆盖来源快照、目标写入与 touch；外层已有事务时仍由调用者收尾。
-  withWriteTransaction(db, "borrow", () => {
-    const data = encodeJson(documentWithCopy(db, "message", document, copyFrom));
-    db.prepare(UPSERT_MESSAGE).run(
-      input.id,
-      input.sessionID,
-      input.sessionID,
-      created,
-      updated,
-      data,
-    );
-    touchSession(db, input.sessionID, updated);
+  withWriteTransaction(database, "borrow", () => {
+    const data = encodeJson(documentWithCopy(database, "message", document, copyFrom));
+    upsertMessageRow(database, request, created, updated, data);
+    touchSession(database, request.sessionID, updated);
   });
 }
 
 export async function savePart(
-  db: DatabaseSync,
-  input: MessagePart,
+  database: DatabaseSync,
+  request: MessagePart,
   copyFrom?: CopySource,
 ): Promise<void> {
-  savePartSync(db, input, copyFrom);
+  savePartSync(database, request, copyFrom);
 }
 
-export function savePartSync(db: DatabaseSync, input: MessagePart, copyFrom?: CopySource): void {
-  const document = partDocument(input);
-  const updated = Date.now();
-  const created = partCreatedAt(input, updated);
+export function savePartSync(
+  database: DatabaseSync,
+  request: MessagePart,
+  copyFrom?: CopySource,
+): void {
+  const document = partDocument(request);
+  const now = Date.now();
+  const created = partCreatedAt(request, now);
   // touch 失败时一并撤销本次片段写入；借用事务仍由外层决定清理。
-  withWriteTransaction(db, "borrow", () => {
-    const data = encodeJson(documentWithCopy(db, "part", document, copyFrom));
-    db.prepare(UPSERT_PART).run(
-      input.id,
-      input.sessionID,
-      input.messageID,
-      input.messageID,
-      created,
-      updated,
-      data,
-    );
-    touchSession(db, input.sessionID, updated);
+  withWriteTransaction(database, "borrow", () => {
+    const data = encodeJson(documentWithCopy(database, "part", document, copyFrom));
+    database
+      .prepare(UPSERT_PART)
+      .run(request.id, request.sessionID, request.messageID, request.messageID, created, now, data);
+    touchSession(database, request.sessionID, now);
   });
 }
 
+/** 按 messageID 归组：读取消息列表时一次查完所有分片再分发。 */
+function groupPartsByMessage(fragments: PartRow[]): Map<string, MessagePart[]> {
+  const grouped = new Map<string, MessagePart[]>();
+  for (const record of fragments) {
+    const part = decodePartRow(record);
+    const bucket = grouped.get(part.messageID);
+    if (bucket) bucket.push(part);
+    else grouped.set(part.messageID, [part]);
+  }
+  return grouped;
+}
+
+function withParts(info: MessageInfo, parts: MessagePart[]): MessageWithParts {
+  const bundle = {} as MessageWithParts;
+  bundle.info = info;
+  bundle.parts = parts;
+  return bundle;
+}
+
 export async function messages(
-  db: DatabaseSync,
-  input: { sessionID: SessionId },
+  database: DatabaseSync,
+  request: { sessionID: SessionId },
 ): Promise<MessageWithParts[]> {
-  return messagesSync(db, input);
+  return messagesSync(database, request);
 }
 
 export function messagesSync(
-  db: DatabaseSync,
-  input: { sessionID: SessionId },
+  database: DatabaseSync,
+  request: { sessionID: SessionId },
 ): MessageWithParts[] {
-  const messageRows = db
+  const messageRows = database
     .prepare(`SELECT * FROM message WHERE session_id = ? ORDER BY ${MESSAGE_ORDER}`)
-    .all(input.sessionID) as unknown as MessageRow[];
-  const partRows = db
+    .all(request.sessionID) as unknown as MessageRow[];
+  const partRows = database
     .prepare(`SELECT * FROM part WHERE session_id = ? ORDER BY message_id, ${PART_ORDER}`)
-    .all(input.sessionID) as unknown as PartRow[];
-  const partsByMessage = new Map<string, MessagePart[]>();
-  for (const row of partRows) {
-    const part = decodePartRow(row);
-    const group = partsByMessage.get(part.messageID);
-    if (group) group.push(part);
-    else partsByMessage.set(part.messageID, [part]);
-  }
-  return messageRows.map((row) => {
-    const info = decodeMessageRow(row);
-    return { info, parts: partsByMessage.get(info.id) ?? [] };
+    .all(request.sessionID) as unknown as PartRow[];
+  const grouped = groupPartsByMessage(partRows);
+  return messageRows.map((record) => {
+    const info = decodeMessageRow(record);
+    return withParts(info, grouped.get(info.id) ?? []);
   });
 }
 
 export async function messageWithParts(
-  db: DatabaseSync,
-  input: { sessionID: SessionId; messageID: MessageId },
+  database: DatabaseSync,
+  request: { sessionID: SessionId; messageID: MessageId },
 ): Promise<MessageWithParts | null> {
-  const row = db
+  const found = database
     .prepare("SELECT * FROM message WHERE id = ? AND session_id = ?")
-    .get(input.messageID, input.sessionID) as unknown as MessageRow | undefined;
-  if (!row) return null;
-  const partRows = db
+    .get(request.messageID, request.sessionID) as unknown as MessageRow | undefined;
+  if (!found) return null;
+  const fragments = database
     .prepare(`SELECT * FROM part WHERE session_id = ? AND message_id = ? ORDER BY ${PART_ORDER}`)
-    .all(input.sessionID, input.messageID) as unknown as PartRow[];
-  const info = decodeMessageRow(row);
-  return { info, parts: partRows.map(decodePartRow) };
+    .all(request.sessionID, request.messageID) as unknown as PartRow[];
+  const info = decodeMessageRow(found);
+  return withParts(info, fragments.map(decodePartRow));
 }
 
 export async function removeMessage(
-  db: DatabaseSync,
-  input: { sessionID: SessionId; messageID: MessageId },
+  database: DatabaseSync,
+  request: { sessionID: SessionId; messageID: MessageId },
 ): Promise<void> {
-  db.prepare("DELETE FROM message WHERE id = ? AND session_id = ?").run(
-    input.messageID,
-    input.sessionID,
-  );
+  database
+    .prepare("DELETE FROM message WHERE id = ? AND session_id = ?")
+    .run(request.messageID, request.sessionID);
 }
 
 export async function removePart(
-  db: DatabaseSync,
-  input: { sessionID: SessionId; messageID: MessageId; partID: PartId },
+  database: DatabaseSync,
+  request: { sessionID: SessionId; messageID: MessageId; partID: PartId },
 ): Promise<void> {
-  db.prepare("DELETE FROM part WHERE id = ? AND message_id = ? AND session_id = ?").run(
-    input.partID,
-    input.messageID,
-    input.sessionID,
-  );
+  database
+    .prepare("DELETE FROM part WHERE id = ? AND message_id = ? AND session_id = ?")
+    .run(request.partID, request.messageID, request.sessionID);
 }
