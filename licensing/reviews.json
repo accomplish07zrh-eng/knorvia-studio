@@ -136581,6 +136581,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: run loop split into phases, completion and failure modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-runs.ts",
+      "normalizedSha256": "f8aaebda78b0fc90d67ab2397747d0ae05d1e02e6be8ef091f566310f4fef25d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime commands split into runtime-runs (start/resume/retry/cancel/status/list/events + result helpers + persistRepair), class is a thin dispatcher; similarity 2/2 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
