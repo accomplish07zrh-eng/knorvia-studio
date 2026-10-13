@@ -407,3 +407,25 @@ export interface LocalhostOAuthCallbackServer {
   waitForCallback(): Promise<LocalhostOAuthCallback>;
 }
 ```
+
+## `apps/cli/packages/adapters/src/http/public-egress-policy-types.ts`
+
+用途：http 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；`DnsLookupAddress`/`DnsLookup` 由实现文件原样再导出，`Completion`/`PublicEgressLookupOptions` 仅供模块内部使用。
+
+```ts
+export type DnsLookupAddress = { address: string; family: number };
+export type DnsLookup = (
+  hostname: string,
+  options: { all: true; verbatim: true },
+) => Promise<DnsLookupAddress[]>;
+
+export interface PublicEgressLookupOptions {
+  signal?: AbortSignal;
+}
+
+export type Completion = (
+  error: NodeJS.ErrnoException | null,
+  address?: string | DnsLookupAddress[],
+  family?: number,
+) => void;
+```
