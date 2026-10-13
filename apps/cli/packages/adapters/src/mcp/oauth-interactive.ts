@@ -139,6 +139,25 @@ async function followAuthorization(
   return { status: "pending", ...(projectedUrl ? { authorizationUrl: projectedUrl } : {}) };
 }
 
+/** 事务 provider 的直传字段：必填四项 + 仅在存在时传入的四项可选项。 */
+function passthroughFields(input: McpInteractiveAuthorizationInput) {
+  const required = {
+    config: input.config,
+    credentialStore: input.credentialStore,
+    keyPrefix: input.keyPrefix,
+    serverName: input.serverName,
+  };
+  const optional = {
+    ...(input.logger ? { logger: input.logger } : {}),
+    ...(input.onAuthorizationRequired
+      ? { onAuthorizationRequired: input.onAuthorizationRequired }
+      : {}),
+    ...(input.openAuthorizationUrl ? { openAuthorizationUrl: input.openAuthorizationUrl } : {}),
+    ...(input.requestedScope ? { requestedScope: input.requestedScope } : {}),
+  };
+  return { ...required, ...optional };
+}
+
 async function leadAuthorization(
   input: McpInteractiveAuthorizationInput,
   attemptId: string,
@@ -171,19 +190,12 @@ async function leadAuthorization(
 
   // 保留构造阶段边界：事务 provider 成功创建后，才进入 callback 的关闭范围。
   const provider = createInteractiveTransactionProvider({
-    config: input.config,
-    credentialStore: input.credentialStore,
-    keyPrefix: input.keyPrefix,
-    logger: input.logger,
-    onAuthorizationRequired: input.onAuthorizationRequired,
-    openAuthorizationUrl: input.openAuthorizationUrl,
-    requestedScope: input.requestedScope,
-    serverName: input.serverName,
-    callback,
+    ...passthroughFields(input),
     attemptId,
     baselineGeneration,
-    ttlMs,
+    callback,
     state,
+    ttlMs,
   });
   try {
     const result = await auth(provider, sdkAuthOptions(input));
