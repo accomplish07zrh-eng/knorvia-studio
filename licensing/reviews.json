@@ -135931,6 +135931,78 @@
         "specs/contracts/core-02/acceptance.md",
         "specs/contracts/core-02/gate-old.json"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-artifacts.test.ts",
+      "normalizedSha256": "a7cb6a4764225b851e879c85d8e61de763c631e0605fc7ee672f3eabaf834cd6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-background.test.ts",
+      "normalizedSha256": "800ee7bc204dfca0a6a3e6ff0d74cf578f9d8b07dd6514bfe19ee93825c965ac",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-cancellation.test.ts",
+      "normalizedSha256": "13126606a4922eb00a2abc4329f103980701082b1ec9e26f5c0d21b52c57cef8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-child.test.ts",
+      "normalizedSha256": "efe185e3df53677c0b4a5fffd14a006861123815ab46857d60380cd6f71ed794",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-foreground.test.ts",
+      "normalizedSha256": "74a966ca84784611f97c03952529abe21f548f82b70b38c6c7432f86f343a3eb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-message.test.ts",
+      "normalizedSha256": "d4e35b54fdbc085d29d3b1822fe45e419f8b9c0e8db211969387cb794424cf43",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-publication.test.ts",
+      "normalizedSha256": "23603f32b21a5d726f7064be3f6bebefc916bd3cd5eaefc60846bf059c735331",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-state.test.ts",
+      "normalizedSha256": "045ef37f19af8a637ff9df54b7dde0da3353602d9724fb73fe5bdb8ebe0b66af",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-stop.test.ts",
+      "normalizedSha256": "905e9d5a6af968a2b4ffc9029e5e2083617c9c9eb5a4be784aabe6e5f1375626",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table (create/register/terminal), readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
     }
   ]
 }
