@@ -46,7 +46,7 @@ function fromSourceTree(): boolean {
 
 function levelFromEnv(env: NodeJS.ProcessEnv): LogLevel {
   const runtime = normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY]);
-  const mapped = LEVEL_BY_RUNTIME[runtime];
+  const mapped = runtime === undefined ? undefined : LEVEL_BY_RUNTIME[runtime];
   if (mapped !== undefined) return mapped;
   return fromSourceTree() ? Level.Debug : Level.Info;
 }
