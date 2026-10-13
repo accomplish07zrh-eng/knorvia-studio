@@ -136261,6 +136261,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: interface surface fixed from built d.ts (35 inherited files, export * expanded) and behavior spec with acceptance scenarios per region barrel.",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/known-differences.md",
+      "normalizedSha256": "f23494061253938d1abfbf79b64f05a7b302169fa83ceef7863969a9b7a7c71a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: known differences record (type-as-value re-export fix in package root, boundary ruling for three root files, dead-code candidate, immutable compatibility surface).",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
