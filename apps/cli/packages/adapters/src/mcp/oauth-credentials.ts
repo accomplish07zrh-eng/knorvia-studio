@@ -40,19 +40,21 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/** 字段规格表：每项一个断言，新增字段只需加一行（顺序无关）。 */
+const CANONICAL_FIELD_CHECKS: readonly ((value: Record<string, unknown>) => boolean)[] = [
+  (value) =>
+    typeof value.version === "number" && MCP_OAUTH_SUPPORTED_CREDENTIAL_VERSIONS.has(value.version),
+  (value) => typeof value.published_by === "string" && value.published_by.length > 0,
+  (value) => isRecord(value.client_information),
+  (value) => isRecord(value.tokens),
+  (value) =>
+    isRecord(value.client_information) && typeof value.client_information.client_id === "string",
+  (value) => isRecord(value.tokens) && typeof value.tokens.access_token === "string",
+  (value) => isRecord(value.tokens) && typeof value.tokens.token_type === "string",
+];
+
 export function isCanonicalCredentials(value: unknown): value is McpOAuthCanonicalCredentials {
-  return (
-    isRecord(value) &&
-    typeof value.version === "number" &&
-    MCP_OAUTH_SUPPORTED_CREDENTIAL_VERSIONS.has(value.version) &&
-    typeof value.published_by === "string" &&
-    value.published_by.length > 0 &&
-    isRecord(value.client_information) &&
-    isRecord(value.tokens) &&
-    typeof value.client_information.client_id === "string" &&
-    typeof value.tokens.access_token === "string" &&
-    typeof value.tokens.token_type === "string"
-  );
+  return isRecord(value) && CANONICAL_FIELD_CHECKS.every((check) => check(value));
 }
 
 function parseRaw(raw: string | null | undefined): unknown {
@@ -72,18 +74,33 @@ function generationFor(canonical: McpOAuthCanonicalCredentials, raw: string): st
   return `legacy-${digest.slice(0, LEGACY_DIGEST_LENGTH)}`;
 }
 
+/** 可选字段映射：canonical 的落盘键 → 快照字段（缺席即不写入）。 */
+const OPTIONAL_FIELD_MAP = [
+  ["expires_at", "expiresAt"],
+  ["issuer", "issuer"],
+  ["obtained_at", "obtainedAt"],
+] as const;
+
+/** 投影可选字段：按表遍历，值为 undefined 的键不出现。 */
+function optionalFields(canonical: McpOAuthCanonicalCredentials): Record<string, unknown> {
+  const source = canonical as unknown as Record<string, unknown>;
+  const present: Record<string, unknown> = {};
+  for (const [from, to] of OPTIONAL_FIELD_MAP) {
+    if (source[from] !== undefined) present[to] = source[from];
+  }
+  return present;
+}
+
 function canonicalFields(
   canonical: McpOAuthCanonicalCredentials,
   readRaw: () => string,
 ): Omit<CanonicalCredentialSnapshot, "tokens"> {
   return {
     clientInformation: canonical.client_information,
-    ...(canonical.expires_at !== undefined ? { expiresAt: canonical.expires_at } : {}),
     generation: generationFor(canonical, readRaw()),
-    ...(canonical.issuer !== undefined ? { issuer: canonical.issuer } : {}),
-    ...(canonical.obtained_at !== undefined ? { obtainedAt: canonical.obtained_at } : {}),
     raw: readRaw(),
-  };
+    ...optionalFields(canonical),
+  } as Omit<CanonicalCredentialSnapshot, "tokens">;
 }
 
 export async function loadCanonicalCredentials(
