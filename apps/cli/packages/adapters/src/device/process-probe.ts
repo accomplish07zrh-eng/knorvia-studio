@@ -6,4 +6,5 @@ export type {
   ProcessProbeExecFile,
   ProcessProbeSample,
 } from "./probe-types.js";
-export { createProcessProbe, type ProcessProbe, type ProcessTreeScope } from "./probe-factory.js";
+export { createProcessProbe } from "./probe-factory.js";
+export type { ProcessProbe, ProcessTreeScope } from "./probe-types.js";
