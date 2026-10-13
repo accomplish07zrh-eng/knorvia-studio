@@ -9,7 +9,6 @@ import {
   type WorkflowGraphSeed,
   type WorkflowRunSnapshot,
 } from "@knorvia/contracts";
-import type { ApplyWorkflowGraphSeedOptions, ApplyWorkflowGraphSeedResult } from "./lifecycle.js";
 
 type Edge = WorkflowGraphEdge;
 type SeedNode = WorkflowGraphSeed["nodes"][number];
@@ -85,6 +84,23 @@ function hasPath(links: readonly Edge[], origin: string, goal: string): boolean 
   }
   return reached;
 }
+
+/** 图种子选项：相位可选与必填时间戳。 */
+export type ApplyWorkflowGraphSeedOptions = Partial<{ phase: string }> & { timestamp: string };
+
+/** 图种子结果的公共字段。 */
+type SeedResultBase = {
+  addedCollections: WorkflowGraphCollection[];
+  addedEdges: WorkflowGraphEdge[];
+  addedNodes: WorkflowGraphNode[];
+  changed: boolean;
+};
+
+/** 图种子结果：公共字段 + 目标快照类型。 */
+export type ApplyWorkflowGraphSeedResult<TSnapshotType extends WorkflowRunSnapshot> =
+  SeedResultBase & {
+    snapshot: TSnapshotType;
+  };
 
 export function applyWorkflowGraphSeed<TSnapshotType extends WorkflowRunSnapshot>(
   input: TSnapshotType,
