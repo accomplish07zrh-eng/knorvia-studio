@@ -1,199 +1,96 @@
+// SPDX-License-Identifier: Apache-2.0
+// 图与快照写入助手：节点/集合更新、活动与工件登记、边 id 与紧凑载荷。
+// 读取类助手（集合与可执行节点）在 graph-collections.ts / graph-nodes.ts，此处再导出以保持既有导出面。
 import {
-  deriveWorkflowSchedulerState,
   deriveWorkflowSessionLinks,
   type WorkflowActivitySnapshot,
   type WorkflowArtifact,
-  type WorkflowGraph,
   type WorkflowGraphCollection,
   type WorkflowGraphNode,
-  type WorkflowNodeStatus,
   type WorkflowRunSnapshot,
 } from "@knorvia/contracts";
-import type { SchedulerCollection, WorkflowGraphRecordEdge } from "./types.js";
+import { graphCollections, normalizeCollection, nodeById } from "./graph-collections.js";
+import type { WorkflowGraphRecordEdge } from "./types.js";
 
-const COMPLETED_NODE_STATUSES = new Set<WorkflowNodeStatus>(["cancelled", "completed", "skipped"]);
+export * from "./graph-collections.js";
+export * from "./graph-nodes.js";
 
-export function readyExecutableNodes(
-  graph: WorkflowGraph,
-  executableNodeIds: Set<string>,
-): WorkflowGraphNode[] {
-  const state = deriveWorkflowSchedulerState(graph);
-  const readyNodeIds = new Set(state.readyNodeIds);
-  return graph.nodes.filter((node) => executableNodeIds.has(node.id) && readyNodeIds.has(node.id));
-}
+type Snapshot = WorkflowRunSnapshot;
+type Activity = WorkflowActivitySnapshot;
+type Artifact = WorkflowArtifact;
+type NodePatch = Partial<Pick<WorkflowGraphNode, "attempts" | "error" | "status">>;
+type CollectionPatch = Partial<WorkflowGraphCollection>;
 
-export function blockedExecutableNodes(
-  graph: WorkflowGraph,
-  executableNodeIds: Set<string>,
-): Array<{ blockedBy: string[]; nodeId: string }> {
-  return deriveWorkflowSchedulerState(graph).blockedNodes.filter((entry) =>
-    executableNodeIds.has(entry.nodeId),
-  );
-}
+const EDGE_ARROW = "->";
 
-export function areExecutableNodesComplete(
-  graph: WorkflowGraph,
-  executableNodeIds: Set<string>,
-  waitsForCollections: boolean,
-): boolean {
-  const executableNodes = graph.nodes.filter((node) => executableNodeIds.has(node.id));
-  if (!executableNodes.every((node) => COMPLETED_NODE_STATUSES.has(node.status))) {
-    return false;
-  }
-  if (!waitsForCollections) return true;
-  return graphCollections(graph)
-    .filter((collection) => collection.explorable && isCollectionRelevant(collection, graph))
-    .every((collection) => collection.exhausted || collection.status === "exhausted");
-}
+/** 按键替换列表项：剔除同键项后把新值追加到末尾。 */
+const replaceBy = <TItem>(
+  list: readonly TItem[],
+  keyOf: (item: TItem) => string,
+  item: TItem,
+): TItem[] => [...list.filter((entry) => keyOf(entry) !== keyOf(item)), item];
 
-export function updateGraphNode(
-  snapshot: WorkflowRunSnapshot,
-  nodeId: string,
-  patch: Partial<Pick<WorkflowGraphNode, "attempts" | "error" | "status">>,
-): WorkflowRunSnapshot {
-  return {
-    ...snapshot,
-    graph: {
-      collections: snapshot.graph.collections,
-      edges: snapshot.graph.edges,
-      nodes: snapshot.graph.nodes.map((node) =>
-        node.id === nodeId
-          ? {
-              ...node,
-              ...patch,
-            }
-          : node,
-      ),
-    },
-  };
-}
-
-export function updateGraphCollection(
-  snapshot: WorkflowRunSnapshot,
-  collectionId: string,
-  patch: Partial<WorkflowGraphCollection>,
-  timestamp: string,
-): WorkflowRunSnapshot {
-  const collections = graphCollections(snapshot.graph);
-  const existing = collections.find((collection) => collection.collectionId === collectionId);
-  const nextCollection = normalizeCollection({
-    ...(existing ?? { collectionId }),
-    ...patch,
-    collectionId,
+/** 图投影：只换节点列表，集合与边原样带过。 */
+const withNodes = (state: Snapshot, nodes: Snapshot["graph"]["nodes"]): Snapshot =>
+  Object.assign({}, state, {
+    graph: { collections: state.graph.collections, edges: state.graph.edges, nodes },
   });
-  const found = existing !== undefined;
-  return {
-    ...snapshot,
-    graph: {
-      collections: found
-        ? collections.map((collection) =>
-            collection.collectionId === collectionId ? nextCollection : collection,
-          )
-        : [...collections, nextCollection],
-      edges: snapshot.graph.edges,
-      nodes: snapshot.graph.nodes,
-    },
-    updatedAt: timestamp,
-  };
-}
 
-export function upsertActivity(
-  snapshot: WorkflowRunSnapshot,
-  activity: WorkflowActivitySnapshot,
-  timestamp: string,
-): WorkflowRunSnapshot {
-  const activities = [
-    ...snapshot.activities.filter((item) => item.activityId !== activity.activityId),
-    activity,
-  ];
-  return {
-    ...snapshot,
+/** 节点更新：按 id 覆盖给定字段，图结构不变。 */
+export const updateGraphNode = (state: Snapshot, nodeId: string, patch: NodePatch): Snapshot => {
+  const target = nodeById(state.graph, nodeId);
+  if (target === undefined) return withNodes(state, state.graph.nodes);
+  const nodes = replaceBy(state.graph.nodes, (node) => node.id, Object.assign({}, target, patch));
+  return withNodes(state, nodes);
+};
+
+/** 集合更新：已存在则原地替换，否则追加；时间戳单独传入。 */
+export const updateGraphCollection = (
+  state: Snapshot,
+  collectionId: string,
+  patch: CollectionPatch,
+  at: string,
+): Snapshot => {
+  const collections = graphCollections(state.graph);
+  const existing = collections.find((entry) => entry.collectionId === collectionId);
+  const merged = normalizeCollection(
+    Object.assign({}, existing ?? { collectionId }, patch, { collectionId }),
+  );
+  const next = collections.some((entry) => entry.collectionId === collectionId)
+    ? collections.map((entry) => (entry.collectionId === collectionId ? merged : entry))
+    : [...collections, merged];
+  return Object.assign({}, state, {
+    graph: { collections: next, edges: state.graph.edges, nodes: state.graph.nodes },
+    updatedAt: at,
+  });
+};
+
+/** 活动登记：同 id 覆盖，并重算会话链接。 */
+export const upsertActivity = (state: Snapshot, activity: Activity, at: string): Snapshot => {
+  const activities = replaceBy(state.activities, (item) => item.activityId, activity);
+  return Object.assign({}, state, {
     activities,
-    sessionLinks: deriveWorkflowSessionLinks({ activities, runId: snapshot.runId }),
-    updatedAt: timestamp,
-  };
-}
+    sessionLinks: deriveWorkflowSessionLinks({ activities, runId: state.runId }),
+    updatedAt: at,
+  });
+};
 
-export function addArtifact(
-  snapshot: WorkflowRunSnapshot,
-  artifact: WorkflowArtifact,
-  timestamp: string,
-): WorkflowRunSnapshot {
-  return {
-    ...snapshot,
-    artifacts: [...snapshot.artifacts.filter((item) => item.path !== artifact.path), artifact],
-    updatedAt: timestamp,
-  };
-}
+/** 工件登记：同路径覆盖。 */
+export const addArtifact = (state: Snapshot, artifact: Artifact, at: string): Snapshot =>
+  Object.assign({}, state, {
+    artifacts: replaceBy(state.artifacts, (item) => item.path, artifact),
+    updatedAt: at,
+  });
 
-export function graphCollections(graph: WorkflowGraph): SchedulerCollection[] {
-  return (graph.collections ?? []).map(normalizeCollection);
-}
-
-export function normalizeCollection(collection: WorkflowGraphCollection): SchedulerCollection {
-  return {
-    ...collection,
-    analyzedNodeIds: collection.analyzedNodeIds ?? [],
-    errorCount: collection.errorCount ?? 0,
-    exhausted: collection.exhausted ?? false,
-    explorable: collection.explorable ?? false,
-    nodeIds: collection.nodeIds ?? [],
-    plannerRuns: collection.plannerRuns ?? 0,
-    status: collection.status ?? "active",
-  };
-}
-
-export function collectionNodeIdsForGraph(
-  collection: WorkflowGraphCollection,
-  graph: WorkflowGraph,
-): string[] {
-  return [
-    ...new Set([
-      ...(collection.nodeIds ?? []),
-      ...graph.nodes
-        .filter((node) => node.collectionId === collection.collectionId)
-        .map((node) => node.id),
-    ]),
-  ];
-}
-
-export function compactWorkflowPayload(
+/** 紧凑载荷：丢掉值为 undefined 的字段。 */
+export const compactWorkflowPayload = (
   value: Record<string, unknown | undefined>,
-): Record<string, unknown> {
-  return Object.fromEntries(
-    Object.entries(value).filter(([, entry]) => entry !== undefined),
-  ) as Record<string, unknown>;
-}
+): Record<string, unknown> =>
+  Object.entries(value).reduce<Record<string, unknown>>((compact, [key, entry]) => {
+    if (entry !== undefined) compact[key] = entry;
+    return compact;
+  }, {});
 
-export function collectionFrontier(
-  graph: WorkflowGraph,
-  collection: WorkflowGraphCollection,
-): number {
-  return collectionNodeIdsForGraph(collection, graph).filter((nodeId) => {
-    const status = nodeById(graph, nodeId)?.status;
-    return status === "pending" || status === "active";
-  }).length;
-}
-
-export function nodeById(graph: WorkflowGraph, nodeId: string): WorkflowGraphNode | undefined {
-  return graph.nodes.find((node) => node.id === nodeId);
-}
-
-export function isCollectionInPhase(
-  collection: WorkflowGraphCollection,
-  graph: WorkflowGraph,
-  executableNodeIds: Set<string>,
-  phase: string,
-): boolean {
-  if (collection.phase) return collection.phase === phase;
-  const nodeIds = collectionNodeIdsForGraph(collection, graph);
-  return nodeIds.length === 0 || nodeIds.some((nodeId) => executableNodeIds.has(nodeId));
-}
-
-function isCollectionRelevant(collection: WorkflowGraphCollection, graph: WorkflowGraph): boolean {
-  return collectionNodeIdsForGraph(collection, graph).length > 0;
-}
-
-export function edgeId(edge: WorkflowGraphRecordEdge): string {
-  return `${edge.from}->${edge.to}`;
-}
+/** 边 id：`from->to`。 */
+export const edgeId = (edge: WorkflowGraphRecordEdge): string =>
+  [edge.from, edge.to].join(EDGE_ARROW);
