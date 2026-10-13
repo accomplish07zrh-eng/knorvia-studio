@@ -21,29 +21,12 @@ const FOLLOW_POLL_MS = 500;
 const STATE_BYTES = 24;
 const STATE_ID_LENGTH = 16;
 
-export type McpInteractiveAuthorizationOutcome =
-  | { status: "authorized" }
-  | { status: "already-authorized" }
-  | { status: "pending"; authorizationUrl?: string }
-  | { status: "failed"; error: unknown };
+export type { McpInteractiveAuthorizationOutcome } from "./oauth-interactive-types.js";
 
-interface McpInteractiveAuthorizationInput {
-  adapterInstanceId?: string;
-  config: Extract<McpOAuthConfig, { type: "authorization_code" }>;
-  credentialStore: SharedKnorviaCredentialStore;
-  fetchFn?: FetchLike;
-  forceReauthorization?: boolean;
-  keyPrefix: string;
-  logger?: Logger;
-  onAuthorizationRequired?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
-  openAuthorizationUrl?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
-  requestedScope?: string;
-  resourceMetadataUrl?: URL;
-  serverName: string;
-  serverUrl: string;
-  signal?: AbortSignal;
-  transactionTtlMs?: number;
-}
+import type {
+  McpInteractiveAuthorizationInput,
+  McpInteractiveAuthorizationOutcome,
+} from "./oauth-interactive-types.js";
 
 function hasNewerCredentials(
   current: CanonicalCredentialSnapshot | undefined,

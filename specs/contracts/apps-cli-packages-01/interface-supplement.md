@@ -748,3 +748,33 @@ export interface CredentialPairSnapshot {
   tokens?: OAuthTokens;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/oauth-interactive-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；结果联合由实现文件原样再导出，入参接口仅供模块内部使用。
+
+```ts
+export type McpInteractiveAuthorizationOutcome =
+  | { status: "authorized" }
+  | { status: "already-authorized" }
+  | { status: "pending"; authorizationUrl?: string }
+  | { status: "failed"; error: unknown };
+
+interface McpInteractiveAuthorizationInput {
+  adapterInstanceId?: string;
+  config: Extract<McpOAuthConfig, { type: "authorization_code" }>;
+  credentialStore: SharedKnorviaCredentialStore;
+  fetchFn?: FetchLike;
+  forceReauthorization?: boolean;
+  keyPrefix: string;
+  logger?: Logger;
+  onAuthorizationRequired?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
+  openAuthorizationUrl?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
+  requestedScope?: string;
+  resourceMetadataUrl?: URL;
+  serverName: string;
+  serverUrl: string;
+  signal?: AbortSignal;
+  transactionTtlMs?: number;
+}
+```
