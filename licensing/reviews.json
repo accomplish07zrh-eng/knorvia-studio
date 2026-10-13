@@ -136317,6 +136317,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: contract test harness (dual entry via KNORVIA_CORE_03_ENTRY) and the first surface/boundary tests (B15/B16/B18/B19).",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/fixtures.mjs",
+      "normalizedSha256": "a5d85a142f6a86479b10cb45caf39a4ee4e1fd7ed453a0ce8039ac1af5aa68be",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: synthetic snapshot/node factories (validated by contracts zod schemas) and injected scheduler deps (event/snapshot/artifact recorders) for behavior tests.",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
