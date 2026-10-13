@@ -136766,6 +136766,28 @@
         "specs/contracts/core-01/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/rounds-internal.ts",
+      "normalizedSha256": "9039e2cf2a49e87426a3de95001a46f6a79a29622af4e157b1a5914152c8d283",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal modules split out of the core-01 compact rounds and prompt files: rounds-internal.ts holds the assistant-round grouping (object-parameter form) while rounds.ts adapts the positional public signature; prompt-internal.ts holds the rewritten compaction prompt text and summary formatting while prompt.ts forwards the three exported entry points. Rounds and summary-formatting behaviour verified identical to the inherited implementation across 14 round cases and 12 summary cases; the prompt wording is intentionally rewritten with unchanged assembly structure.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/prompt-internal.ts",
+      "normalizedSha256": "9d9c4ece92d7f358e3c4d4a7172e6bc82dd224d082d09fa12a8d75845df2a767",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal modules split out of the core-01 compact rounds and prompt files: rounds-internal.ts holds the assistant-round grouping (object-parameter form) while rounds.ts adapts the positional public signature; prompt-internal.ts holds the rewritten compaction prompt text and summary formatting while prompt.ts forwards the three exported entry points. Rounds and summary-formatting behaviour verified identical to the inherited implementation across 14 round cases and 12 summary cases; the prompt wording is intentionally rewritten with unchanged assembly structure.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
