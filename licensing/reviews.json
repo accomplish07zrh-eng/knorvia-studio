@@ -136421,6 +136421,78 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-journal.ts",
+      "normalizedSha256": "79382397b89faf28ca36ddc50346f29d38ea60ccbe308ae4c862a31c4aacc9a6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-payloads.ts",
+      "normalizedSha256": "544e031cf4832b2e451539a7760a011b3adb8b2463ffbea76513543f244af916",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-helpers.ts",
+      "normalizedSha256": "dbb70259f36c2b06ff0596c955a1a8ebdddd1345de408ed17393ba554220a827",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-snapshot.ts",
+      "normalizedSha256": "578a2134afe5f335750f21c3a2beac6d32d16db39d167b649894255560eddcbf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-updates.ts",
+      "normalizedSha256": "699e8476cbad1d92f0f897d95075decf53f151374a64164daab8c042b9996566",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-abort.ts",
+      "normalizedSha256": "b0bdcbc0b99a9815357e3359b54125623cf24d8608047bd952f97a3f69eb26ac",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-events.ts",
+      "normalizedSha256": "a8d9f0df1e1791aafbac66574e62e869c963b077f626079c86c8f4ccb865fbbc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-lookup.ts",
+      "normalizedSha256": "aa8d82ca5faca93d4e0cc4637cf0eb2998829f0ff8292641fb4796f27c82b5a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context-initial-fields.ts",
+      "normalizedSha256": "00b4ecae5ffbd4b7fc5aad8297fafdf5aa4d4425a61e59d83484609092ec8b26",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: runtime-context split into semantic modules (journal, payloads, helpers, snapshot, updates, abort, events, lookup, initial-fields) with the class delegating; similarity 10/10 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
