@@ -25,7 +25,7 @@
 | 源码入口      | 见 `gate-old.json`（运行后填写）                 |
 | dist 入口     | 见 `gate-old.json`（运行后填写）                 |
 | 桩替换        | 见 `gate-old.json`（运行后填写；要求**全失败**） |
-| commit / node | 见 `gate-old.json`                               |
+| commit / node | `f777bd58…` / `v24.14.0`                         |
 
 ## 四、本包内完成的修复与发现
 
@@ -37,3 +37,5 @@
 - 本包不含 `src/environment.ts` / `src/output.ts` / `src/runtime.ts` 与 `subagent` / `system-reminder` 等区域（别的包负责）；
 - `src/index.ts` 中指向别包区域的 `export *` 不改其实现（仅保证再导出的**种类**正确）；
 - 哈希基线类测试工件（`apps/cli/packages/core/test/*.json`）不在本包改写范围，删除死代码文件时需同步重生成（已记入 `known-differences.md`）。
+
+旧门脚本：`node specs/contracts/core-03/tests/run-old-gate.mjs`（自动替换桩 → 重跑 → 还原，证据写入 `gate-old.json`）。

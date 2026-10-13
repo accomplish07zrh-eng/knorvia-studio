@@ -136280,7 +136280,7 @@
     },
     {
       "path": "specs/contracts/core-03/acceptance.md",
-      "normalizedSha256": "7ec10477173369ff7d4bd584efbc67f004ef527cfae2d3a56019e4bbd38fab71",
+      "normalizedSha256": "e44002f06c005e18a3e09937ff8951995adf11fc1ac1f5f697f79d69ff9b0dd6",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: package README and acceptance record (35 inherited files, behavior coverage B1-B19, old-gate structure, in-package fixes).",
@@ -136341,6 +136341,30 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: event-log, collection-planning, parser-failure and telemetry behavior tests (B8/B9/B13/B14/B17).",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/run-old-gate.mjs",
+      "normalizedSha256": "1a4314963c2c547b9b4607d9b48a7cdc2a3d1e6419b0b27a174517f636876c00",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: old-gate runner, 35-file stub target list, and gate-old.json evidence (source 16/16, dist 16/16, stub replacement 0 pass).",
+      "evidence": ["specs/contracts/core-03/gate-old.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/targets.txt",
+      "normalizedSha256": "e0427f663070672e1138c071ffd8bb43cfb484d553902c2c965eb6de9bf1db35",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: old-gate runner, 35-file stub target list, and gate-old.json evidence (source 16/16, dist 16/16, stub replacement 0 pass).",
+      "evidence": ["specs/contracts/core-03/gate-old.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/gate-old.json",
+      "normalizedSha256": "1b7cb3e89eac79390dab7954674f063ba66c852087ea993204f6d3bda7b944b3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: old-gate runner, 35-file stub target list, and gate-old.json evidence (source 16/16, dist 16/16, stub replacement 0 pass).",
+      "evidence": ["specs/contracts/core-03/gate-old.json"]
     }
   ]
 }
