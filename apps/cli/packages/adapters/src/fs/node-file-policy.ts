@@ -2,6 +2,7 @@
 // 文件系统策略：路径与错误归一、取消判定、节点类型与体积展示。
 import { createHash } from "node:crypto";
 import { isAbsolute, normalize } from "node:path";
+import type { FileSystemErrorCode } from "@knorvia/contracts";
 import { createFileSystemError, type FileSystemNodeKind } from "@knorvia/contracts";
 
 const KIB = 1024;
@@ -73,7 +74,7 @@ function ioFailure(
   const text = mapping === undefined ? fallback : mapping[1](path);
   return createFileSystemError({
     cause: error,
-    code: mapping?.[0] ?? "io_error",
+    code: (mapping?.[0] ?? "io_error") as FileSystemErrorCode,
     message: text,
     path,
   });
@@ -81,7 +82,7 @@ function ioFailure(
 
 export function failure(error: unknown, path: string): Error {
   const named = error instanceof Error ? error.name : "";
-  if (named === "FileSystemPortError") return error;
+  if (error instanceof Error && named === "FileSystemPortError") return error;
   if (named === "AbortError") return asCancelled(path, error);
   const errnoCode = code(error);
   const mapping = typeof errnoCode === "string" ? FAILURE_BY_ERRNO.get(errnoCode) : undefined;
