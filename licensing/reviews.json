@@ -136269,6 +136269,22 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: known differences record (type-as-value re-export fix in package root, boundary ruling for three root files, dead-code candidate, immutable compatibility surface).",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/README.md",
+      "normalizedSha256": "d6d604c1028235b01935fd46aecb5abebab1937abe5a289353504ed8c8b9ce68",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: package README and acceptance record (35 inherited files, behavior coverage B1-B19, old-gate structure, in-package fixes).",
+      "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/acceptance.md",
+      "normalizedSha256": "7ec10477173369ff7d4bd584efbc67f004ef527cfae2d3a56019e4bbd38fab71",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: package README and acceptance record (35 inherited files, behavior coverage B1-B19, old-gate structure, in-package fixes).",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
