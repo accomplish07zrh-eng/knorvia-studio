@@ -218,7 +218,7 @@ export function loadConfigFile(filePath?: string, options: FileLoadOptions = {})
     const migrated = migrateLegacyCuaIds(original);
     if (migrated !== undefined) persistMigration(path, migrated);
     const parsed = parseConfigFileToRuntimePatchWithDiagnostics(original);
-    const diagnostics = parsed.diagnostics.map((diagnostic) => ({
+    const diagnostics = parsed.diagnostics.map((diagnostic: ConfigDiagnostic) => ({
       ...diagnostic,
       filePath: diagnostic.filePath ?? path,
     }));
