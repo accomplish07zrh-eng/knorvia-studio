@@ -488,3 +488,15 @@ interface CreateMcpOAuthTokenProviderInput {
   serverUrl: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/oauth-shared-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口由 oauth-shared.ts 原样再导出。
+
+```ts
+export interface McpOAuthAuthorizationContext {
+  authorizationUrl: string;
+  redirectUrl: string;
+  serverName: string;
+}
+```
