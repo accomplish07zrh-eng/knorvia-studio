@@ -136722,6 +136722,17 @@
         "specs/contracts/core-01/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/shell-internal.ts",
+      "normalizedSha256": "1e2d53e2b4147fcd83bb4379c2a6b9501d61cd5318867b18bc6a4555af4bc3a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal module split out of the core-01 embedded-search shell file: holds the Bash-prelude switch, the POSIX dialect allow-list and both implementations so the public shell.ts only forwards the two exported predicates. Behavior identical to the inherited implementation; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
