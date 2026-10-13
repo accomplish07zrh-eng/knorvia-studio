@@ -136755,6 +136755,17 @@
         "specs/contracts/core-01/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/manual-internal.ts",
+      "normalizedSha256": "2592283116c3ce70aa6929a30717cff1af8c0bc4660b1d25d33bb37ad58c864f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal module split out of the core-01 compact manual file: holds summarizable-message filtering, round thresholding, token estimation, usage totals and boundary assembly, while the public manual.ts keeps the compatible types, the three constants and the six exported entry points. Behavior verified identical to the inherited implementation across 11 message sets, 10 usage cases, 11 token cases and 3 boundary inputs; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }

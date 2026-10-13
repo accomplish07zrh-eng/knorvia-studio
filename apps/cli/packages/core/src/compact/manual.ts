@@ -1,24 +1,20 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// compact 手动压缩的公开面：兼容类型、三个常量与六个导出函数。候选筛选、轮次门槛、token
+// 估算与边界装配都在 ./manual-internal.js；本模块只做参数与默认值转发。
+import type * as contracts from "@knorvia/contracts";
 import {
-  CompactTrigger,
-  modelMessageContentBlockToText,
-  modelMessageContentToText,
-} from "@knorvia/contracts";
-import type {
-  CompactBoundaryPayload,
-  CompactPhase,
-  CompactPreservedSegment,
-  CompactReason,
-  CompactTrigger as CompactTriggerValue,
-  MessageId,
-  ModelMessageContent,
-  TraceContext,
-} from "@knorvia/contracts";
-import { ESTIMATED_TOKEN_CHAR_DIVISOR } from "@knorvia/shared";
-import { groupByAssistantStartedRounds } from "./rounds.js";
+  assembleCompactBoundary,
+  boundaryIdFrom,
+  enoughRoundsToCompact,
+  estimateTokens,
+  summarizableMessages,
+  usageTotalTokens,
+} from "./manual-internal.js";
 
 export interface CompactModelMessage {
   role: string;
-  content: ModelMessageContent;
+  content: contracts.ModelMessageContent;
   toolCalls?: readonly {
     name: string;
     input: unknown;
@@ -37,18 +33,18 @@ export interface TokenUsageLike {
 export interface BuildManualCompactBoundaryInput {
   autoCompactThreshold?: number;
   boundaryId: string;
-  compactReason?: CompactReason;
+  compactReason?: contracts.CompactReason;
   customInstructions?: string;
   keptMessageCount?: number;
-  lastSummarizedMessageId?: MessageId;
-  phase?: CompactPhase;
+  lastSummarizedMessageId?: contracts.MessageId;
+  phase?: contracts.CompactPhase;
   postCompactTokenCount?: number;
-  preservedSegment?: CompactPreservedSegment;
+  preservedSegment?: contracts.CompactPreservedSegment;
   preCompactTokenCount: number;
   summarizedMessageCount: number;
-  summaryMessageId: MessageId;
-  traceContext: TraceContext;
-  trigger?: CompactTriggerValue;
+  summaryMessageId: contracts.MessageId;
+  traceContext: contracts.TraceContext;
+  trigger?: contracts.CompactTrigger;
   truePostCompactTokenCount?: number;
   willRetriggerNextTurn?: boolean;
 }
@@ -59,90 +55,38 @@ export const COMPACT_PROMPT_TOO_LONG_RETRY_MARKER =
 export const COMPACT_PROMPT_TOO_LONG_USER_MESSAGE =
   "Conversation too long to compact automatically. Try /compact again after narrowing the active context.";
 
+/** 可摘要消息：去掉 system 与系统提醒，其余浅拷贝返回。 */
 export function getMessagesToSummarize(
   messages: readonly CompactModelMessage[],
 ): CompactModelMessage[] {
-  return messages
-    .filter(
-      (message) =>
-        message.role !== "system" &&
-        !(
-          message.role === "user" &&
-          modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")
-        ),
-    )
-    .map((message) => ({ ...message }));
+  return summarizableMessages(messages);
 }
 
+/** 是否满足压缩条件：至少两轮且出现过助手消息。 */
 export function hasEnoughMessagesToCompact(messages: readonly CompactModelMessage[]): boolean {
-  const summarizableMessages = getMessagesToSummarize(messages);
-  const rounds = groupByAssistantStartedRounds(summarizableMessages, (message) => message.role);
-  return rounds.length >= 2 && summarizableMessages.some((message) => message.role === "assistant");
+  return enoughRoundsToCompact(messages);
 }
 
+/** 组装手动压缩边界载荷（summarySource 固定 model）。 */
 export function buildManualCompactBoundary(
   input: BuildManualCompactBoundaryInput,
-): CompactBoundaryPayload {
-  return {
-    boundaryId: input.boundaryId,
-    trigger: input.trigger ?? CompactTrigger.Manual,
-    phase: input.phase,
-    compactReason: input.compactReason,
-    summarySource: "model",
-    preCompactTokenCount: input.preCompactTokenCount,
-    postCompactTokenCount: input.postCompactTokenCount,
-    truePostCompactTokenCount: input.truePostCompactTokenCount,
-    autoCompactThreshold: input.autoCompactThreshold,
-    willRetriggerNextTurn: input.willRetriggerNextTurn,
-    summarizedMessageCount: input.summarizedMessageCount,
-    keptMessageCount: input.keptMessageCount ?? 0,
-    lastSummarizedMessageId: input.lastSummarizedMessageId,
-    preservedSegment: input.preservedSegment,
-    summaryMessageIds: [input.summaryMessageId],
-    customInstructions: input.customInstructions !== undefined,
-    traceId: input.traceContext.traceId,
-    turnId: input.traceContext.turnId,
-  };
+): contracts.CompactBoundaryPayload {
+  return assembleCompactBoundary(input);
 }
 
+/** 消息 token 估算（含工具调用名字与序列化入参）。 */
 export function estimateMessageTokens(messages: readonly CompactModelMessage[]): number {
-  let total = 0;
-  messages.forEach((message) => {
-    const content = message.content;
-    const text =
-      typeof content === "string"
-        ? content
-        : content
-            .map((block) =>
-              block.type === "reasoning" ? block.text : modelMessageContentBlockToText(block),
-            )
-            .filter(Boolean)
-            .join("\n\n");
-    let chars = text.length;
-    for (const toolCall of message.toolCalls ?? []) {
-      const name = toolCall.name;
-      const input = toolCall.input ?? {};
-      let serializedInput = "{}";
-      try {
-        serializedInput = JSON.stringify(input) ?? "{}";
-      } catch {
-        // Serialization failures use the same empty-object fallback.
-      }
-      chars += (name + serializedInput).length;
-    }
-    total += Math.ceil(chars / ESTIMATED_TOKEN_CHAR_DIVISOR);
-  });
-  return total;
+  return estimateTokens(messages);
 }
 
+/** 用量合计：优先 totalTokens，否则输入（含缓存读写）+ 输出。 */
 export function getUsageTotalTokens(usage?: TokenUsageLike): number {
-  const inputTokens =
-    usage?.inputTokens ?? (usage?.cacheReadTokens ?? 0) + (usage?.cacheWriteTokens ?? 0);
-  return usage?.totalTokens ?? inputTokens + (usage?.outputTokens ?? 0);
+  return usageTotalTokens(usage);
 }
 
+/** 边界 id 生成：默认用 crypto.randomUUID，可注入以便测试。 */
 export function createCompactBoundaryId(
   randomUUID: () => string = () => crypto.randomUUID(),
 ): string {
-  return "compact_" + randomUUID();
+  return boundaryIdFrom(randomUUID);
 }
