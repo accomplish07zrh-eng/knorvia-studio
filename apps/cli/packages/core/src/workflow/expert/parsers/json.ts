@@ -99,3 +99,27 @@ export const readLoosePositiveInteger = (
   source: Record<string, unknown>,
   aliases: readonly string[],
 ): number | undefined => readLoose(source, aliases, "positiveInteger") as number | undefined;
+
+/** 结构化解码器：只依赖 safeParse，便于在调用点用同一段空值语义。 */
+interface Decoder<TValue> {
+  safeParse(value: unknown): { success: true; data: TValue } | { success: false };
+}
+
+/** 用 schema 解析：成功返回值，失败返回 null。 */
+export const parseOrNull = <TValue>(decoder: Decoder<TValue>, value: unknown): TValue | null => {
+  const parsed = decoder.safeParse(value);
+  return parsed.success ? parsed.data : null;
+};
+
+/** 过滤 null：等价于 filter + 类型谓词，但写成 flatMap 更短。 */
+export const withoutNulls = <TValue>(items: readonly (TValue | null)[]): TValue[] =>
+  items.flatMap((item) => (item === null ? [] : [item]));
+
+/** 执行可能抛错的解析：失败按空值处理（模型偶尔直接给散文）。 */
+export const attemptOrNull = <TValue>(attempt: () => TValue): TValue | null => {
+  try {
+    return attempt();
+  } catch {
+    return null;
+  }
+};
