@@ -136301,6 +136301,22 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: callers inventory (80 importers, package-root entry) and replacement design (region state owners, event order, rewrite strategy, test strategy).",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/entry.mjs",
+      "normalizedSha256": "9d82a173bca3bde96d9204138a7f6117d85d8f43bcc041825487506fb2a46f1b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: contract test harness (dual entry via KNORVIA_CORE_03_ENTRY) and the first surface/boundary tests (B15/B16/B18/B19).",
+      "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/surface.test.ts",
+      "normalizedSha256": "dd99456142adfee8d7450b447e5a692f882de62ade331f8826f2c14b370f8a7f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: contract test harness (dual entry via KNORVIA_CORE_03_ENTRY) and the first surface/boundary tests (B15/B16/B18/B19).",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
