@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-// core-hooks 合同版本 v1 的调用方清单。数据来源：全仓导入解析 + `pnpm dep:refs` 语义的
+// core-hooks 合同版本 v1.1 的调用方清单。数据来源：全仓导入解析 + `pnpm dep:refs` 语义的
 // ts-morph 引用分析（静态分析，不含 dynamic import 与字符串路径引用）。
 
-# core-hooks 调用方（v1）
+# core-hooks 调用方（v1.1）
 
 ## 一、生产代码调用方（兼容面必须保持）
 

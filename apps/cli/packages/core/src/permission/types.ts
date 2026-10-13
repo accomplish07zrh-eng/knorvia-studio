@@ -1,18 +1,12 @@
-import type {
-  CollaborationMode,
-  ModelToolSideEffectScope,
-  PermissionCapabilityGroup as PermissionCapabilityGroupType,
-  RiskLevel,
-  ToolPermissionSpec,
-} from "@knorvia/contracts";
+import type * as contracts from "@knorvia/contracts";
 
 export interface PermissionContext {
   toolName: string;
   input: unknown;
-  riskLevel: RiskLevel;
-  mode: CollaborationMode;
+  riskLevel: contracts.RiskLevel;
+  mode: contracts.CollaborationMode;
   planEnabled?: boolean;
-  prePlanMode?: Exclude<CollaborationMode, "plan">;
+  prePlanMode?: Exclude<contracts.CollaborationMode, "plan">;
   /**
    * 会话工作目录。判定相对路径的落点用（目前只有 workflow 草稿免确认这一条），
    * 可选：拿不到工作目录的调用方照常按其余规则判定，不会因此少一层确认。
@@ -26,11 +20,11 @@ export interface PermissionToolCapability {
   readOnly?: boolean;
   destructive?: boolean;
   requiresUserInteraction?: boolean;
-  sideEffectScope?: ModelToolSideEffectScope;
-  riskLevel?: RiskLevel;
+  sideEffectScope?: contracts.ModelToolSideEffectScope;
+  riskLevel?: contracts.RiskLevel;
   needsApproval?: boolean;
-  permissionCapabilityGroup?: PermissionCapabilityGroupType;
-  permission?: ToolPermissionSpec;
+  permissionCapabilityGroup?: contracts.PermissionCapabilityGroup;
+  permission?: contracts.ToolPermissionSpec;
 }
 
 export type PermissionBehavior = "allow" | "ask" | "deny";
@@ -41,10 +35,10 @@ export interface PermissionDecisionResult {
   reason?: string;
   modifiedInput?: unknown;
   escalated: boolean;
-  mode: CollaborationMode;
+  mode: contracts.CollaborationMode;
   ruleId: string;
-  riskLevel: RiskLevel;
-  sideEffectScope?: ModelToolSideEffectScope;
+  riskLevel: contracts.RiskLevel;
+  sideEffectScope?: contracts.ModelToolSideEffectScope;
   /**
    * 该 ask 来自工具的 alwaysAsk 声明，不是模式或规则推导出来的。下游（PreToolUse hook 的
    * allow 覆盖）靠这个结构化标记识别"不可抹掉的确认"，而不是去匹配 ruleId 字符串。
@@ -59,16 +53,14 @@ export interface ResolvedPermissionCapability {
   readOnly: boolean;
   destructive: boolean;
   requiresUserInteraction: boolean;
-  sideEffectScope: ModelToolSideEffectScope;
-  riskLevel: RiskLevel;
+  sideEffectScope: contracts.ModelToolSideEffectScope;
+  riskLevel: contracts.RiskLevel;
   needsApproval: boolean;
-  permissionCapabilityGroup?: PermissionCapabilityGroupType;
+  permissionCapabilityGroup?: contracts.PermissionCapabilityGroup;
   permissionName?: string;
 }
 
-// -----------------------------------------------
-// Configuration
-// -----------------------------------------------
+// 权限配置与决策形状：默认配置、行为枚举、工具能力与解析结果都在这一节。
 
 export interface PermissionConfig {
   allowedTools: Set<string>;
