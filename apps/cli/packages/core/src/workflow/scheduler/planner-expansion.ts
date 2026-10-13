@@ -169,7 +169,20 @@ const assembleExpansion = (
   };
 };
 
-export function applyPlannerExpansion(input: PlannerExpansionInput): AppliedPlannerExpansion {
+export function applyPlannerExpansion(
+  snapshot: WorkflowRunSnapshot,
+  collection: SchedulerCollection,
+  rawResult: WorkflowGraphSchedulerPlannerRunResult,
+  unseenCompletions: readonly string[],
+  timestamp: string,
+): AppliedPlannerExpansion {
+  const input: PlannerExpansionInput = {
+    collection,
+    rawResult,
+    snapshot,
+    timestamp,
+    unseenCompletions,
+  };
   const result = WorkflowGraphPlannerResultSchema.parse(input.rawResult);
   const graph = input.snapshot.graph;
   const addedNodes = result.nodes.map(

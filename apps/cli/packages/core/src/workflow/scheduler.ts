@@ -113,9 +113,26 @@ export class WorkflowGraphScheduler {
           ids,
           Boolean(this.#ports.plannerRunner),
         ) && active.size === 0;
-      if (complete) return await this.#finish(input, holder.snapshot);
+      if (complete) {
+        await this.#eventLog.emitEvent(holder.snapshot, "executor_completed", {
+          message: `${input.phase} scheduler completed.`,
+          phase: input.phase,
+          signal: input.abortSignal,
+        });
+        return { reason: "completed", snapshot: holder.snapshot, status: "completed" };
+      }
       if (consecutiveErrors >= limits.errors) {
-        return await this.#pauseForErrors(input, holder.snapshot, consecutiveErrors, active);
+        if (active.size > 0) {
+          await Promise.all(active.values());
+          active.clear();
+        }
+        await this.#eventLog.emitEvent(holder.snapshot, "executor_paused", {
+          message: `${input.phase} scheduler paused after ${consecutiveErrors} consecutive node error(s).`,
+          payload: { consecutiveErrors },
+          phase: input.phase,
+          signal: input.abortSignal,
+        });
+        return { reason: "error_threshold", snapshot: holder.snapshot, status: "paused" };
       }
 
       const readyNodes = orderedReadyExecutableNodes(holder.snapshot.graph, ids).filter(
@@ -148,36 +165,14 @@ export class WorkflowGraphScheduler {
         consecutiveErrors = outcome.ok ? 0 : consecutiveErrors + 1;
         continue;
       }
-      return await this.#pauseForDeadlock(input, holder.snapshot, ids);
+      await this.#eventLog.emitEvent(holder.snapshot, "executor_paused", {
+        message: `${input.phase} scheduler paused because pending nodes are blocked.`,
+        payload: { blockedNodes: blockedExecutableNodes(holder.snapshot.graph, ids) },
+        phase: input.phase,
+        signal: input.abortSignal,
+      });
+      return { reason: "deadlock", snapshot: holder.snapshot, status: "paused" };
     }
-  }
-
-  /** 完成：发 executor_completed 并返回完成结果。 */
-  async #finish(input: RunOptions, snapshot: Snapshot): Promise<RunResult> {
-    await this.#eventLog.emitEvent(snapshot, "executor_completed", {
-      message: `${input.phase} scheduler completed.`,
-      phase: input.phase,
-      signal: input.abortSignal,
-    });
-    return { reason: "completed", snapshot, status: "completed" };
-  }
-
-  /** 连续错误达阈值：等完活动节点后发 executor_paused。 */
-  async #pauseForErrors(
-    input: RunOptions,
-    snapshot: Snapshot,
-    consecutiveErrors: number,
-    active: ActiveMap,
-  ): Promise<RunResult> {
-    await Promise.all(active.values());
-    active.clear();
-    await this.#eventLog.emitEvent(snapshot, "executor_paused", {
-      message: `${input.phase} scheduler paused after ${consecutiveErrors} consecutive node error(s).`,
-      payload: { consecutiveErrors },
-      phase: input.phase,
-      signal: input.abortSignal,
-    });
-    return { reason: "error_threshold", snapshot, status: "paused" };
   }
 
   /** 死锁：无可分派且无活动节点时发 executor_paused。 */

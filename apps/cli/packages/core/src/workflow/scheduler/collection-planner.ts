@@ -62,17 +62,7 @@ const exhaust = (
   options: Options,
   runtime: Runtime,
   reason: string,
-): Promise<Snap> =>
-  exhaustCollection(
-    {
-      collectionId: collection.collectionId,
-      options,
-      payload: { reason },
-      runtime,
-      snapshot: current,
-    },
-    collection,
-  );
+): Promise<Snap> => exhaustCollection(current, collection, options, runtime, { reason });
 
 export async function checkCollectionPlanners(
   snapshot: Snap,

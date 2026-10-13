@@ -35,7 +35,7 @@
       ]
     },
     "workflow-collection-planner-current.json": {
-      "historicalSelectorSha256": "177e3e349637c4a7c5037dcdcb4d0111c517fdb7e116260166c1956a10ed8dac",
+      "historicalSelectorSha256": "303a50a73d218ab221ca30fb710452babafd61ef8e30f921ab7adf54e4ceb11c",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -119,7 +119,7 @@
       ]
     },
     "workflow-event-log-pins.json": {
-      "historicalSelectorSha256": "32711283f5543f1e8a535ebe42492a4fdb83e3e251a805947978b16240450924",
+      "historicalSelectorSha256": "845e15327182fb25aa448970f650f8f66f22451041d453893b3d8ad07849c58f",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "src/workflow/scheduler/events.ts",
@@ -302,7 +302,7 @@
       ]
     },
     "workflow-planner-expansion-current.json": {
-      "historicalSelectorSha256": "b2d48e418f30b517df5bca3379871346e3754e8c402c770e88b1616bdeedb786",
+      "historicalSelectorSha256": "5bdbee5029fb3dd1267f81df3478d65b0bdb529fdf5ea767d582f0cf29a38476",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -387,7 +387,7 @@
       ]
     },
     "workflow-ready-order-current.json": {
-      "historicalSelectorSha256": "04ad24052ee4faaa48eae4086ad478efbe26138622cd6d14793b38bad2667cb1",
+      "historicalSelectorSha256": "d1169e557df20170596150a68c7336da0f594a0941d8e77e621586b85aa30b2c",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -585,7 +585,7 @@
       ]
     },
     "workflow-scheduler-observation-pins.json": {
-      "historicalSelectorSha256": "1283f3032140592da0a51b94d354851dabc0268e724987172c7d9adcec171180",
+      "historicalSelectorSha256": "032f54c219b0a994e4cbe10bd6344ee50dc2a3a3355cc7c5628d9f618ae694b2",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -638,7 +638,7 @@
       ]
     },
     "workflow-scheduler-state-current.json": {
-      "historicalSelectorSha256": "d638dc60e17ae46d049a30783da9f57d27dc4232c63b0dabe31942718efb85a3",
+      "historicalSelectorSha256": "58b5aa80e4d7764bd70b80a82fcc351e4d2c1bff24a867ddcb2aa8f0beb1b7d9",
       "readerRoot": "apps/cli/packages",
       "paths": [
         "core/dist/workflow/definition.js",
@@ -723,7 +723,7 @@
       ]
     },
     "workflow-node-publication-current.json": {
-      "historicalSelectorSha256": "80ff83a7ea0ff86ef413993e025a142b674398f678634e9f7c713cb7f5161926",
+      "historicalSelectorSha256": "14c6e2a3957da9fa4467d165bef99aa9b1cf74bdc34173b7a4bf5dc4cb564979",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "src/workflow/scheduler/node-runner.ts",
@@ -883,14 +883,14 @@
     "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js": "cbbff3ead8ae17fdd43ab656aa9e3f6e00a7698cae204eeb5e5799de3c1c74c3",
     "apps/cli/packages/core/dist/workflow/lifecycle.js": "bb6f140d7732ba306fe197149ac5886211a1e9a0e08703282b76c2436d64e670",
     "apps/cli/packages/core/dist/workflow/scheduler.d.ts": "98cf19bbe5420d6527d6cc4ed04afd456c7847e504c0986a2e321e16429a9f23",
-    "apps/cli/packages/core/dist/workflow/scheduler.js": "19603264e8d9d0262a82213cd1628eecebce37b801aaccf383e612b226e9fa9e",
-    "apps/cli/packages/core/dist/workflow/scheduler/collection-events.js": "ed33e19c0b5935350ec4e91e8a8ccee26b2bcb4eca85d2644fbd68c371407045",
-    "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js": "8b0f1efa125c2906486083043180ec300e8f418b218d1b81f38ed9c1c2a02b51",
+    "apps/cli/packages/core/dist/workflow/scheduler.js": "63fdb03678159bdc5dd6e961711c7a06bd1282e6f4aa60cf98c64f72699502f4",
+    "apps/cli/packages/core/dist/workflow/scheduler/collection-events.js": "8ee4c13b5fc7fe3c9de390ec8b3a3ea5c4ccde5a0c44ed611b63ee238eb5d15b",
+    "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js": "fc41a63e986be60461ab5d883484ceedce1e58d3b49e9847bf28df7502280725",
     "apps/cli/packages/core/dist/workflow/scheduler/events.js": "29ec7d861ac7edd3e32ec058370f467620821b5bf1fa1920c8bd8b7a5e6c1cec",
     "apps/cli/packages/core/dist/workflow/scheduler/graph.js": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
     "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.js": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
     "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js": "9a850fd48821d6c3b23a0a859c3ab240d426efa6f95863d21b468f5a50c97291",
-    "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js": "02b3e262b8aa2e50f463d112ba273723744d2436710d2e8b76e5b86b41befc9a",
+    "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js": "d7e347e2bd9282da85bc945e6367b22eef7d1851a239f319e6d6ccefab6a8274",
     "apps/cli/packages/core/dist/workflow/scheduler/prompts.js": "c827cd4e6ba54678c525c349637c1cde4a04f931d7d8d83cfe963f48afad0955",
     "apps/cli/packages/core/src/workflow/definition.ts": "079e0e412d81144b78c87f3a9ed13e62cbc492a11c88994c517e1cf04f3e14e9",
     "apps/cli/packages/core/src/workflow/expert/ids.ts": "75f58a8a4c94dbd70dede18a28b3c438498fc0c8c811a6ba20fd905ec4f95883",
@@ -900,14 +900,14 @@
     "apps/cli/packages/core/src/workflow/expert/prompts.ts": "f144b9757e25a43700a14816787b7e8802297ab6a76f1af662235a3a6c2758dd",
     "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts": "8276b5e9a943146b92ec91a6f7b4ec4a9e599b19ff38c6b485100d2a6c54779f",
     "apps/cli/packages/core/src/workflow/lifecycle.ts": "548f61106731dbd483a3a847d3a98679b68e3afd7015f13cab5233917d5645c1",
-    "apps/cli/packages/core/src/workflow/scheduler.ts": "000bf36aa76eb598be1bb27ae21b2c8de73c20d92ec1274242a174e63a5a7c16",
-    "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts": "6e5d3a539728e8e402f454f986b3e55d14b37d88e9de8e2cb2d9b634ccd93eb0",
-    "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": "bcd07a469b60d8ddbd6109df550a7cff52e3d9021be2125ff7959e97056a5e2d",
+    "apps/cli/packages/core/src/workflow/scheduler.ts": "61065977578fe950e5800cfba45b2164630c793fa42f957f45bf9881f85472a8",
+    "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts": "08a0ed2fdd14731b3f65c9f8c4169a6ed213180e1d0db63e0e18940ef819336b",
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": "970c1b2d52c65b0b207fd8a9e67a4ee9330fd9cfc0e328f17fd301c77a0879c3",
     "apps/cli/packages/core/src/workflow/scheduler/events.ts": "267f1a8167008627caea91569a25c033f7ded8ab334bc36510c664e7e3cb9391",
     "apps/cli/packages/core/src/workflow/scheduler/graph.ts": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
     "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a",
     "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts": "5fa9434135f2a3d40186883398799260097bfe4c05828e0e081e9c195ced2e49",
-    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": "2c4b59012bccb45040892905eea64510c1ef29d25381452e60ae279594d6e487",
+    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": "ebac80ae68a808efc4c88e155f5953d3a442525d0828d9249be4d80bf5a34d3e",
     "apps/cli/packages/core/src/workflow/scheduler/prompts.ts": "3e319a71655e1daefa20739b4b3dfb5518ccbac71701c767956fb6971684d1a2",
     "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.d.ts": "80e2c618fb487a7fa217863cd78d6a9417fc120904fd0c49b64dcc21d0d2e27e",
     "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts": "ef97b8309e26f6c9f0a687095ee3f7e4f060b6226820d2f1b5b054e0b9d66637",
@@ -968,7 +968,7 @@
     "apps/cli/packages/core/dist/workflow/expert/phase-runner.js": "ad2e24fc3baead05677aa6ed3dcb5e4deed761b3806576e953dec432a9940cc1",
     "apps/cli/packages/core/dist/workflow/expert/phase-runner.d.ts": "14aac536784d33bcbc24c6577adb65bb82c757caa991dc4e9f88e21920ba0c18",
     "apps/cli/packages/core/dist/workflow/expert/runtime-context.js": "e16aa24958a7ac89807c78f58430fcbc465b451589e20403e04d0f2d84e00122",
-    "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.d.ts": "f521defcf99cedb7cdaf01c481273849e904116b05c671bc1b76eee0c4968c6d",
+    "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.d.ts": "916fe3ecbc86643b011cd3b64cca3965aa5b671b1d3da0b11b6deb44668bf650",
     "apps/cli/packages/core/dist/workflow/expert/runtime.js": "a6bd0245ec0117434c1d9dbd9970b67d7858f191d1d0384248d51d9e9705cebc",
     "apps/cli/packages/core/dist/workflow/expert/failures.js": "e61b3d1391856e70860dabc4fc1d5473da5f4c52fa59b61fa1f336d74f53cc6c",
     "apps/cli/packages/core/src/workflow/expert/runtime-context.ts": "312268c4584aeae1060d1cef32fae97ff9fc11956dece570d9f6d6867b4ec239",
@@ -993,7 +993,7 @@
     "apps/cli/packages/core/dist/workflow/lifecycle-seed.js": "a474e6de0674b61a9d32d0508251421e35c0ef049b8fd3895b56e53b1ce013d4",
     "apps/cli/packages/core/dist/workflow/lifecycle-seed.d.ts": "dbebe9b13724279cbd75d5dab997ebe2136014701027b7aae58e8f8fb41fea5b",
     "apps/cli/packages/core/dist/workflow/scheduler/prompts.d.ts": "af64e0a314da0c7cdf7c13e5123917ffe99dcd7dee2691eb03049838d3732fd3",
-    "apps/cli/packages/core/dist/workflow/scheduler/collection-events.d.ts": "cd9f18202fc0b96493182a45689a64f25bb5bc874c3e6d56c6e6912a790e77d2",
+    "apps/cli/packages/core/dist/workflow/scheduler/collection-events.d.ts": "aeb163fb80a953b73708646232bc8069c74af2f53ace65ac3128266b112ce37b",
     "apps/cli/packages/core/src/workflow/expert/critic-loop.ts": "2e8a9488029fa7d6313564ddab8ce29b2518b2f0ef17751138c1a886345c71d2",
     "apps/cli/packages/core/dist/workflow/expert/critic-loop.js": "dc76128dc2fc5345f739352b3fe7daac52638b8318d4d79efdca7ade3dbc7226",
     "apps/cli/packages/core/dist/workflow/expert/critic-loop.d.ts": "24a435c0042446d74162ec6688beacacf9a712e927bb10ed904178b77026eba3",

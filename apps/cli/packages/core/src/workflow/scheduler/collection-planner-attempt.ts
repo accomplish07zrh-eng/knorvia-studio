@@ -288,13 +288,13 @@ const finishPlannerCompleted = async (args: {
     result.response,
     { signal: options.abortSignal },
   );
-  const expansion = applyPlannerExpansion({
-    collection: activeCollection,
-    rawResult: result,
-    snapshot: state.childLinked,
-    timestamp: runtime.eventLog.timestamp(),
-    unseenCompletions: unseen,
-  });
+  const expansion = applyPlannerExpansion(
+    state.childLinked,
+    activeCollection,
+    result,
+    unseen,
+    runtime.eventLog.timestamp(),
+  );
   const record = Object.fromEntries([
     ["contentType", "text/markdown"],
     ["createdAt", runtime.eventLog.timestamp()],
@@ -333,10 +333,7 @@ const finishPlannerCompleted = async (args: {
       nodeCount: expansion.addedNodes.length,
     },
   );
-  await emitExpansionEvents(
-    { collectionId: original.collectionId, options, runtime, snapshot: completed },
-    expansion,
-  );
+  await emitExpansionEvents(completed, expansion, original.collectionId, options, runtime);
   void childTrace;
   return { addedNodeIds: expansion.addedNodes.map((node) => node.id), snapshot: completed };
 };

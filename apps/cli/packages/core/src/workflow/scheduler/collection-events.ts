@@ -36,9 +36,13 @@ const emit = (
 
 /** 扩张事件：有新增节点或边时发 graph_expanded；集合耗尽时补发 collection_exhausted。 */
 export async function emitExpansionEvents(
-  input: CollectionEventInput,
+  snapshot: WorkflowRunSnapshot,
   expansion: AppliedPlannerExpansion,
+  collectionId: string,
+  options: WorkflowGraphSchedulerRunOptions,
+  runtime: WorkflowCollectionPlannerRuntime,
 ): Done {
+  const input: CollectionEventInput = { collectionId, options, runtime, snapshot };
   const grew = expansion.addedNodes.length > 0 || expansion.addedEdges.length > 0;
   if (grew) {
     const payload = {
@@ -67,9 +71,19 @@ const EXHAUSTED_PATCH = { exhausted: true, status: "exhausted" } as const;
 
 /** 耗尽集合：投影集合状态、落盘、写集合记录并发出事件。 */
 export async function exhaustCollection(
-  input: CollectionEventInput,
+  snapshot: WorkflowRunSnapshot,
   collection: SchedulerCollection,
+  options: WorkflowGraphSchedulerRunOptions,
+  runtime: WorkflowCollectionPlannerRuntime,
+  payload: Record<string, unknown>,
 ): Promise<WorkflowRunSnapshot> {
+  const input: CollectionEventInput = {
+    collectionId: collection.collectionId,
+    options,
+    payload,
+    runtime,
+    snapshot,
+  };
   const projected = Object.assign({}, collection, EXHAUSTED_PATCH) as SchedulerCollection;
   const next = updateGraphCollection(
     input.snapshot,
@@ -78,7 +92,6 @@ export async function exhaustCollection(
     input.runtime.eventLog.timestamp(),
   );
 
-  const { runtime, options } = input;
   await runtime.writeSnapshot(next, { signal: options.abortSignal });
   await runtime.eventLog.appendCollectionRecord(next, projected, options.abortSignal);
   await emit(input, "collection_exhausted", `Collection exhausted: ${projected.collectionId}`, {
