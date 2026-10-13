@@ -283,3 +283,31 @@ export interface ProxyFetchOptionSet {
   noProxy?: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/network/http-config-types.ts`
+
+用途：network 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分（本文件仅供内部使用，不改变 http-config.ts 的导出面）。
+
+```ts
+export interface NetworkProxyOptions {
+  env?: Record<string, string | undefined>;
+  httpProxy?: string;
+  noProxy?: string;
+}
+
+export interface NetworkTlsOptions {
+  caCertFile?: string;
+  env?: Record<string, string | undefined>;
+}
+
+export interface NetworkProxyResolution {
+  noProxyMatched: boolean;
+  proxySource?: string;
+  proxyUrl?: string;
+}
+
+export interface BypassRule {
+  host: string;
+  port?: string;
+}
+```

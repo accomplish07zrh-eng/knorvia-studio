@@ -18,8 +18,6 @@ import {
 import { openProxyResponse } from "./proxy-fetch-exchange.js";
 import type { FetchLike, ProxyFetchOptionSet } from "./proxy-fetch-types.js";
 
-export type { FetchLike, ProxyFetchOptionSet } from "./proxy-fetch-types.js";
-
 /** 一次调用的规范化结果：URL、方法、头、信号与可选请求体。 */
 interface NormalizedCall {
   body: Buffer | undefined;
