@@ -119,8 +119,8 @@ export class ConfigStore {
     const before = this.get(key);
     const slice = { held: value, provenance: [{ key, path: source, scope, value }] } as Slice;
     this.slots.set(key, slice);
-    this.listeners.get(key)?.forEach((notify) => notify(value, before as never));
-    this.broadcast.forEach((notify) => notify(key, value, before));
+    this.listeners.get(key)?.forEach((notify) => notify(value as never, before as never));
+    this.broadcast.forEach((notify) => notify(key, value, before as never));
   }
 
   getSources(of: ConfigKey): ConfigSource[] {
