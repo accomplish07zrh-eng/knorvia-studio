@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 // 目录遍历：显式目录帧的 DFS，保持 readdir/stat 次序，VCS 目录整棵跳过。
+import type { Dirent } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { aborted } from "./node-file-policy.js";
 
 const VCS_DIRECTORIES = new Set<string>(".git .svn .hg .bzr .jj .sl".split(" "));
 
-type Dirents = Awaited<ReturnType<typeof readdir>>;
+/** 目录项：readdir 的重载在当前 Node 类型下会落到 Buffer 变体，这里显式收窄。 */
+type Dirents = Dirent<string>[];
 type FileInfo = Awaited<ReturnType<typeof stat>>;
 
 interface DirectoryFrame {
@@ -46,7 +48,7 @@ export async function walk(
   aborted(signal);
   const rootFrame = {} as DirectoryFrame;
   rootFrame.cursor = 0;
-  rootFrame.entries = await readdir(root, { withFileTypes: true });
+  rootFrame.entries = (await readdir(root, { withFileTypes: true })) as Dirents;
   rootFrame.path = root;
   const pending: DirectoryFrame[] = [rootFrame];
 
@@ -61,7 +63,9 @@ export async function walk(
     aborted(signal);
     if (isSkippedDirectory(dirent)) continue;
     if (dirent.isDirectory()) {
-      const entries = await readdir(join(frame.path, dirent.name), { withFileTypes: true });
+      const entries = (await readdir(join(frame.path, dirent.name), {
+        withFileTypes: true,
+      })) as Dirents;
       pending.push(childFrame(frame, dirent.name, entries));
       continue;
     }
