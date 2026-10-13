@@ -6,6 +6,9 @@
 // 二、段间用换行分隔后整体取 SHA-256，再截取前 24 位十六进制作为命名空间。
 // 三、任意一段变化都会得到新命名空间，旧令牌因此不会被新配置误用。
 // 四、前缀固定为 mcp:oauth:，便于人工排查凭据文件时按前缀识别来源。
+// 五、缺省值统一按空串参与摘要，不让 undefined 与 "" 产生两个不同命名空间。
+// 六、摘要长度取 24 位十六进制（96 bit）：冲突概率足够低，同时便于人工核对。
+// 七、命名空间只参与凭据键名，不含任何授权端点或令牌内容。
 
 import { createHash } from "node:crypto";
 import type { McpOAuthConfig } from "@knorvia/contracts";
@@ -22,33 +25,23 @@ const NAMESPACE_PREFIX = "mcp:oauth:";
 export type { McpOAuthAuthorizationContext };
 export type { McpOAuthRuntimeOptions } from "./oauth-types.js";
 
-/** 摘要输入：五段以换行拼接，缺省值统一按空串参与，避免 undefined 影响摘要。 */
-function namespaceParts(
-  serverName: string,
-  serverUrl: string,
-  config: McpAuthorizationCodeOAuthConfig,
-): string {
-  const segments = [
-    serverName,
-    serverUrl,
-    config.clientId ?? "",
-    config.scope ?? "",
-    config.redirectPath ?? "",
-  ];
-  return segments.join(NAMESPACE_SEPARATOR);
-}
-
-function digestOf(input: string): string {
-  return createHash("sha256").update(input).digest("hex");
+// 摘要输入：顺序即摘要顺序，调整顺序会让既有令牌失效。
+function namespaceInput(parts: readonly (string | undefined)[]): string {
+  return parts.map((part) => part ?? "").join(NAMESPACE_SEPARATOR);
 }
 
 export function createCredentialKeyPrefix(
-  serverName: string,
-  serverUrl: string,
-  config: McpAuthorizationCodeOAuthConfig,
+  serviceName: string,
+  serviceUrl: string,
+  oauthConfig: McpAuthorizationCodeOAuthConfig,
 ): string {
-  const hash = digestOf(namespaceParts(serverName, serverUrl, config));
-  return `${NAMESPACE_PREFIX}${hash.slice(0, NAMESPACE_DIGEST_LENGTH)}`;
+  const parts = [
+    serviceName,
+    serviceUrl,
+    oauthConfig.clientId,
+    oauthConfig.scope,
+    oauthConfig.redirectPath,
+  ];
+  const digest = createHash("sha256").update(namespaceInput(parts));
+  return NAMESPACE_PREFIX + digest.digest("hex").slice(0, NAMESPACE_DIGEST_LENGTH);
 }
-
-/** 运行期选项类型在此一并可见，调用方既可从此处引入，也可直接引用 oauth-types。 */
