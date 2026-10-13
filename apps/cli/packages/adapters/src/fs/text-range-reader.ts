@@ -4,6 +4,7 @@ import { createReadStream, type Stats } from "node:fs";
 import { readFile } from "node:fs/promises";
 import {
   createFileSystemError,
+  type FileSystemReadTextRangeRequest,
   type FileSystemReadTextRangeResult,
   type FileSystemTextEncoding,
 } from "@knorvia/contracts";
