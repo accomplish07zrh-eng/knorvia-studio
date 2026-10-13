@@ -328,13 +328,13 @@ export async function hydrateMessageHistoryFromSession(input: {
     const tools = selectToolPartsForHistory(
       parts.filter((part): part is ToolPart => part.type === "tool"),
     );
-    if (
+    // 空回合：既没有文本、推理与工具，也没有可继承的 token 基线 → 整条跳过。
+    const hasNothingToSend =
       !text.trim() &&
       !reasoning.length &&
       !tools.length &&
-      !persistedTokenUsageBaseline(info.tokens)
-    )
-      continue;
+      !persistedTokenUsageBaseline(info.tokens);
+    if (hasNothingToSend) continue;
     const calls: ToolCallInput[] = tools.map((part) => ({
       id: part.callID,
       input: part.state.input,
