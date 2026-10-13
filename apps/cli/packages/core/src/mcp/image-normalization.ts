@@ -67,23 +67,44 @@ export async function normalizeMcpToolResultForModel(
       ? await backUpScreenshot({ context: input.context, toolName: input.toolName }, entry)
       : undefined;
     const normalized = await projectEntry(entryInput, entry, screenshotPath);
-    // 官方 CUA 图片引用文本不进模型上下文：它是帧的引用标记，不是可读内容。
-    if (isOfficialCuaImageRefTextBlock(normalized)) {
-      changed = true;
-      continue;
-    }
-    if (normalized !== entry) changed = true;
-    content.push(normalized);
-    // 备份过的浏览器截图在内容之后追加一行落盘位置，调用方据此向用户展示。
-    const savedPathNote =
-      screenshotPath === undefined ? undefined : `Browser screenshot saved to: ${screenshotPath}`;
-    if (savedPathNote !== undefined) {
-      content.push({ type: "text", text: savedPathNote });
-      changed = true;
+    const outcome = classifyProjectedEntry(entry, normalized, screenshotPath);
+    switch (outcome.kind) {
+      case "drop":
+        changed = true;
+        break;
+      case "keep":
+        content.push(outcome.block);
+        break;
+      default:
+        changed = true;
+        content.push(outcome.block, ...outcome.extra);
+        break;
     }
   }
   return changed ? { ...input.result, content } : input.result;
 }
+
+// 单个条目的投影结果：drop 表示整条丢弃；keep 表示原样保留；replace 表示替换并可能追加落盘提示。
+type ProjectedEntryOutcome =
+  | { kind: "drop" }
+  | { kind: "keep"; block: McpContentBlock; extra: McpContentBlock[] }
+  | { kind: "replace"; block: McpContentBlock; extra: McpContentBlock[] };
+
+const classifyProjectedEntry = (
+  entry: McpContentBlock,
+  normalized: McpContentBlock,
+  screenshotPath: string | undefined,
+): ProjectedEntryOutcome => {
+  // 官方 CUA 图片引用文本不进模型上下文：它是帧的引用标记，不是可读内容。
+  if (isOfficialCuaImageRefTextBlock(normalized)) return { kind: "drop" };
+  // 备份过的浏览器截图在内容之后追加一行落盘位置，调用方据此向用户展示。
+  const extra: McpContentBlock[] =
+    screenshotPath === undefined
+      ? []
+      : [{ type: "text", text: `Browser screenshot saved to: ${screenshotPath}` }];
+  const replaced = normalized !== entry || extra.length > 0;
+  return { kind: replaced ? "replace" : "keep", block: normalized, extra };
+};
 
 const isOfficialCuaImageRefTextBlock = (block: McpContentBlock): boolean =>
   block.type === "text" &&
