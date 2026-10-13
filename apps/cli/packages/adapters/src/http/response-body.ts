@@ -60,12 +60,12 @@ export async function readResponseBody(
   return new Promise<Uint8Array>((resolve, reject) => {
     const chunks: Uint8Array[] = [];
     let total = 0;
-    let settled = false;
+    let finished = false;
 
-    function finish(outcome: Outcome): void {
-      if (settled) return;
-      settled = true;
-      signal.removeEventListener("abort", onAbort);
+    function complete(outcome: Outcome): void {
+      if (finished) return;
+      finished = true;
+      signal.removeEventListener("abort", abortHandler);
 
       if (!outcome.ok && outcome.cancel) {
         requestCancellation(() => reader.cancel());
@@ -82,9 +82,9 @@ export async function readResponseBody(
       else reject(outcome.error);
     }
 
-    function onAbort(): void {
-      if (settled) return;
-      finish({
+    function abortHandler(): void {
+      if (finished) return;
+      complete({
         ok: false,
         error: error("cancelled", "HTTP request was cancelled while reading response body"),
         cancel: true,
@@ -92,11 +92,11 @@ export async function readResponseBody(
     }
 
     function onReadFailure(reason: unknown): void {
-      finish({ ok: false, error: reason, cancel: false });
+      complete({ ok: false, error: reason, cancel: false });
     }
 
     function onRead(result: ReadableStreamReadResult<Uint8Array>): void {
-      if (settled) return;
+      if (finished) return;
       try {
         if (result.done) {
           const bytes = new Uint8Array(total);
@@ -105,7 +105,7 @@ export async function readResponseBody(
             bytes.set(chunk, offset);
             offset += chunk.byteLength;
           }
-          finish({ ok: true, bytes });
+          complete({ ok: true, bytes });
           return;
         }
 
@@ -113,7 +113,7 @@ export async function readResponseBody(
         if (chunk) {
           total += chunk.byteLength;
           if (total > maxResponseBytes) {
-            finish({
+            complete({
               ok: false,
               error: error("too_large", `HTTP response is too large: bytes>${maxResponseBytes}`),
               cancel: true,
@@ -129,7 +129,7 @@ export async function readResponseBody(
     }
 
     function readNext(): void {
-      if (settled) return;
+      if (finished) return;
       try {
         // 读失败始终有观察者，包括取消或释放锁之后才交付的落败拒绝。
         void reader.read().then(onRead, onReadFailure);
@@ -138,9 +138,9 @@ export async function readResponseBody(
       }
     }
 
-    signal.addEventListener("abort", onAbort, { once: true });
+    signal.addEventListener("abort", abortHandler, { once: true });
     // 等待中的 read 本身不会保证响应 signal，必须独立监听并补查已取消状态。
-    if (signal.aborted) onAbort();
+    if (signal.aborted) abortHandler();
     else readNext();
   });
 }
