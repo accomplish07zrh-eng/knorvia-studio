@@ -297,33 +297,39 @@ export const McpToolOutputJsonSchema: JsonSchema = {
   additionalProperties: false,
 } satisfies JsonSchema;
 
-function bridgeInputSchema(schema: JsonSchema, observation: boolean): JsonSchema {
-  let normalized: JsonSchema;
+// 归一化：非对象入参回落到空对象 schema；对象入参补 type 并保证 properties 是对象。
+function normalizeInputSchema(schema: JsonSchema): JsonSchema {
   if (!schema || typeof schema !== "object") {
-    normalized = { type: "object", properties: {}, additionalProperties: true };
-  } else {
-    const properties = schema.properties;
-    normalized = {
-      ...schema,
-      type: "object",
-      properties:
-        properties && typeof properties === "object" && !Array.isArray(properties)
-          ? properties
-          : {},
-    };
+    return { type: "object", properties: {}, additionalProperties: true };
   }
-  if (!observation) return normalized;
-  const required = Array.isArray(normalized.required)
-    ? normalized.required.filter((value): value is string => typeof value === "string")
-    : [];
+  const properties = schema.properties;
+  const safeProperties =
+    properties && typeof properties === "object" && !Array.isArray(properties) ? properties : {};
+  return { ...schema, type: "object", properties: safeProperties };
+}
+
+// required 里只保留字符串项：非数组或非字符串项一律丢弃。
+function stringRequiredFields(schema: JsonSchema): string[] {
+  if (!Array.isArray(schema.required)) return [];
+  return schema.required.filter((value): value is string => typeof value === "string");
+}
+
+// 观察模式：在属性表上追加 title 策略，并把 title 并入必填项（去重）。
+function withObservationTitle(schema: JsonSchema, required: string[]): JsonSchema {
   return {
-    ...normalized,
+    ...schema,
     properties: {
-      ...(normalized.properties as Record<string, unknown>),
+      ...(schema.properties as Record<string, unknown>),
       title: observationTitlePolicy,
     },
     required: [...new Set([...required, "title"])],
   };
+}
+
+function bridgeInputSchema(schema: JsonSchema, observation: boolean): JsonSchema {
+  const normalized = normalizeInputSchema(schema);
+  if (!observation) return normalized;
+  return withObservationTitle(normalized, stringRequiredFields(normalized));
 }
 
 function needsObservationTitle(descriptor: McpToolDescriptor): boolean {
