@@ -35,7 +35,7 @@
       ]
     },
     "workflow-collection-planner-current.json": {
-      "historicalSelectorSha256": "7e94786484de6bf9f0d8b50cb0325e41ee004cf5a1391ac6ade937deec51261f",
+      "historicalSelectorSha256": "2b41f559354484a1503ac511e21d7272ff9a7cdd6d183a3f0b1074f3f164d751",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -163,7 +163,7 @@
       ]
     },
     "workflow-graph-artifacts-current.json": {
-      "historicalSelectorSha256": "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba",
+      "historicalSelectorSha256": "1c471aad67c76fa803b68f4a136d5ff081e3933b53d4788c210f4d74e0fd97a7",
       "readerRoot": "apps/cli/packages",
       "paths": [
         "core/src/workflow/expert/graph-artifacts.ts",
@@ -302,7 +302,7 @@
       ]
     },
     "workflow-planner-expansion-current.json": {
-      "historicalSelectorSha256": "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91",
+      "historicalSelectorSha256": "7922701ddeac531f8805e3ac57f2235fd4ee4390e2166d41f3c0ad86c6aec888",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -387,7 +387,7 @@
       ]
     },
     "workflow-ready-order-current.json": {
-      "historicalSelectorSha256": "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df",
+      "historicalSelectorSha256": "f79bc62d3d40569a26b82099847a1e39627d8b2fde00327298335d8a51f68121",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -638,7 +638,7 @@
       ]
     },
     "workflow-scheduler-state-current.json": {
-      "historicalSelectorSha256": "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66",
+      "historicalSelectorSha256": "0dca901e16e82c99b5e43d4a02a5b1ed0549aa95ec2061b80c1115b00bffa5f2",
       "readerRoot": "apps/cli/packages",
       "paths": [
         "core/dist/workflow/definition.js",
@@ -919,23 +919,23 @@
     "apps/cli/packages/contracts/dist/workflow/index.js": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
     "apps/cli/packages/contracts/dist/workflow/index.d.ts": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f",
     "apps/cli/packages/contracts/src/workflow/definition.ts": "f70ee2e011f9cf63d173499931c2f266d20ac2eba9216ec41e6e49609bca5f94",
-    "apps/cli/packages/contracts/dist/workflow/definition.js": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
-    "apps/cli/packages/contracts/dist/workflow/definition.d.ts": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3",
+    "apps/cli/packages/contracts/dist/workflow/definition.js": "8af4f51ca58b56502a5b72e29cfec713667c75d1b68887d723938d37cc86b144",
+    "apps/cli/packages/contracts/dist/workflow/definition.d.ts": "e60349cee05083a2840792dfb152124c709a8ff07a2727d36dd11a3104fdb6c7",
     "apps/cli/packages/contracts/src/workflow/graph-schema.ts": "95ad44551d00d33ce07f46c163f1e62d97c77dda1168c582178ec3a6e0cdffb9",
-    "apps/cli/packages/contracts/dist/workflow/graph-schema.js": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
-    "apps/cli/packages/contracts/dist/workflow/graph-schema.d.ts": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2",
+    "apps/cli/packages/contracts/dist/workflow/graph-schema.js": "c8af4c021fa5b76cd4d44567695c4482403e1fa41c5ec5ab21040c6b91385629",
+    "apps/cli/packages/contracts/dist/workflow/graph-schema.d.ts": "4bc8e8cb801958a13906c29c0a80a06fa103e7dd53ee31e793d6b3fe05633e5f",
     "apps/cli/packages/contracts/src/workflow/run-schema.ts": "5da874da4438a6baf06e7bb9644215b11f1647eae11c060122f427ee4e29b043",
-    "apps/cli/packages/contracts/dist/workflow/run-schema.js": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
-    "apps/cli/packages/contracts/dist/workflow/run-schema.d.ts": "20804dfdb8acec54538de4d49154552bca3bcc9eb66dac436528eb8bfab93f14",
+    "apps/cli/packages/contracts/dist/workflow/run-schema.js": "30520aa376398aa36d9ce220aae2203a806be1f7d30f3f020197a93988de4ef3",
+    "apps/cli/packages/contracts/dist/workflow/run-schema.d.ts": "91ebe98f545f10dd8ee32e3502b89f10b357aca7ef1b56f01f6f0725842f3881",
     "apps/cli/packages/contracts/src/workflow/scheduler-state.ts": "1371114a6f8535fa7a258ac830a4473e8978b2da497ddaf422743470e0d6e691",
-    "apps/cli/packages/contracts/dist/workflow/scheduler-state.js": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
-    "apps/cli/packages/contracts/dist/workflow/scheduler-state.d.ts": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473",
+    "apps/cli/packages/contracts/dist/workflow/scheduler-state.js": "0239d6f1225a2289dd0f11687de632fc911105e0885877fb1c0f4bd0688567e9",
+    "apps/cli/packages/contracts/dist/workflow/scheduler-state.d.ts": "81bfe09e4ecce6a80c0a8a79c7e234f56b4564e46e797e61e76052fa445651b9",
     "apps/cli/packages/contracts/src/workflow/session-links.ts": "14cd4b35f7f0d66146643baef5d6174cc12641dea6e92b0909d6f9d46205306d",
-    "apps/cli/packages/contracts/dist/workflow/session-links.js": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+    "apps/cli/packages/contracts/dist/workflow/session-links.js": "262628a8e82894135794fba2217e7d67de54642292651ad597123acfaf10d4a9",
     "apps/cli/packages/contracts/dist/workflow/session-links.d.ts": "2d0afc7bdb9b4faaf41595f834404b9be261e23a623e04b70333709445674083",
     "apps/cli/packages/contracts/src/workflow/script.ts": "9523e07093e5fbdc134fd436034b2802e67a3b33d1071a3f9291a802dd7d8213",
-    "apps/cli/packages/contracts/dist/workflow/script.js": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97",
-    "apps/cli/packages/contracts/dist/workflow/script.d.ts": "cb919c31a4ab8a3f0fda47914fde8451468fb802e379fce7c8442affe84c1282",
+    "apps/cli/packages/contracts/dist/workflow/script.js": "9a55fc7af53d6f0495efae2f4aa6fbec19533123cb8195c5d84621d858c631f1",
+    "apps/cli/packages/contracts/dist/workflow/script.d.ts": "1ac7c376cc85ee6d53c7a182e74ea4d41efc4706015140eb35ac21c4d5254959",
     "apps/cli/packages/contracts/src/index.ts": "76ea9600f0b8425c4c646cfad606298a9b3497e1ded006ea8bc58acabee407a0",
     "apps/cli/packages/contracts/dist/index.js": "33db2cb0b32e5ffb4ddcface5d994c36e557f61429489a29f810531f07f42b5f",
     "apps/cli/packages/contracts/dist/index.d.ts": "99a6034c36a54fade9d6e9e4d0b60a1519ae2aa1b0e06186d406c4053104d658",
@@ -1083,7 +1083,7 @@
   },
   "previousReceipt": {
     "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-    "sha256": "846b4eabf53b5cf07b9fb5b49a7f56fd2f39b887105b01767c708c432d86ac89"
+    "sha256": "de4ba7697277db751337ac8af9751c1d4f41ef46ba1f5bd0a01859ebc3b7bed5"
   },
   "build": {
     "node": "24.14.0",
