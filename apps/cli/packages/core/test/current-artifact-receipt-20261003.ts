@@ -22,7 +22,7 @@ const text = await readFile(
   new URL("./current-message-buffer-artifact-receipt-20261003.json", import.meta.url),
   "utf8",
 );
-assert.equal(sha(text), "82228c743bb6cd39a238115f1280b2351692d5b04a16260202b203dbcd2cf4cd");
+assert.equal(sha(text), "01509f145b3c415a50c0f4f397c9c4d38c91634acb21800ff5fdc8ba2a0bfc41");
 const receipt: CurrentReceipt = JSON.parse(text);
 assert.equal(receipt.formatVersion, 3);
 assert.equal(receipt.sourceCheckpoint, "c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9");
@@ -32,7 +32,7 @@ assert.equal(
 );
 assert.equal(
   receipt.previousReceipt.sha256,
-  "846b4eabf53b5cf07b9fb5b49a7f56fd2f39b887105b01767c708c432d86ac89",
+  "de4ba7697277db751337ac8af9751c1d4f41ef46ba1f5bd0a01859ebc3b7bed5",
 );
 const repository = new URL("../../../../../", import.meta.url);
 const packages = new URL("apps/cli/packages/", repository);

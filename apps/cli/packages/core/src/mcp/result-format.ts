@@ -38,14 +38,11 @@ const stringify = (value: unknown): string => {
 
 /** 只有"真的带信息"的结构化内容才值得追加块；空对象/空数组/空值都不算。 */
 const hasInformativeStructuredContent = (value: unknown): boolean => {
+  // undefined 与 null 都必须在 Object.keys 之前拦下：前者交给 Object.keys 会抛 TypeError。
+  if (value === undefined || value === null) return false;
   if (Array.isArray(value)) return value.length > 0;
-  switch (typeof value) {
-    case "undefined":
-    case "object":
-      return value === null ? false : Object.keys(value as object).length > 0;
-    default:
-      /* 其余类型 */ return /* 命中 */ true;
-  }
+  if (typeof value === "object") return Object.keys(value as object).length > 0;
+  return true;
 };
 
 const isMcpToolCallResult = (value: unknown): value is McpToolCallResult =>

@@ -57,9 +57,9 @@
     "contracts/dist/index.js": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
     "contracts/dist/index.d.ts": "08a1b5a343aa43201c4240bb792f143238f58f9ca3081ab1257c3455ffc55974",
     "contracts/src/workflow/index.ts": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62",
-    "contracts/dist/workflow/index.js": "f635707057e69ccda1903035de524ae49db9ffba03dad1e8a7dc7e05069ce174",
-    "contracts/dist/workflow/index.d.ts": "1d4798e8c1c6cee273b83cd0ccd388aaebd9287e3b028e9b0d2b6c497891c612",
+    "contracts/dist/workflow/index.js": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+    "contracts/dist/workflow/index.d.ts": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f",
     "contracts/src/workflow/script.ts": "9282b115b4c7bf6bfc184c6aad657e6a8ad1a6336e6fb4620c228335b434eb8d",
-    "contracts/dist/workflow/script.js": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97"
+    "contracts/dist/workflow/script.js": "9a55fc7af53d6f0495efae2f4aa6fbec19533123cb8195c5d84621d858c631f1"
   }
 }

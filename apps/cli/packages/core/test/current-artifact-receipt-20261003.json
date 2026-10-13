@@ -32,7 +32,7 @@
       ]
     },
     "workflow-collection-planner-current.json": {
-      "historicalSelectorSha256": "7e94786484de6bf9f0d8b50cb0325e41ee004cf5a1391ac6ade937deec51261f",
+      "historicalSelectorSha256": "2b41f559354484a1503ac511e21d7272ff9a7cdd6d183a3f0b1074f3f164d751",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -160,7 +160,7 @@
       ]
     },
     "workflow-graph-artifacts-current.json": {
-      "historicalSelectorSha256": "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba",
+      "historicalSelectorSha256": "1c471aad67c76fa803b68f4a136d5ff081e3933b53d4788c210f4d74e0fd97a7",
       "readerRoot": "apps/cli/packages",
       "paths": [
         "core/src/workflow/expert/graph-artifacts.ts",
@@ -299,7 +299,7 @@
       ]
     },
     "workflow-planner-expansion-current.json": {
-      "historicalSelectorSha256": "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91",
+      "historicalSelectorSha256": "7922701ddeac531f8805e3ac57f2235fd4ee4390e2166d41f3c0ad86c6aec888",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -384,7 +384,7 @@
       ]
     },
     "workflow-ready-order-current.json": {
-      "historicalSelectorSha256": "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df",
+      "historicalSelectorSha256": "f79bc62d3d40569a26b82099847a1e39627d8b2fde00327298335d8a51f68121",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "dist/workflow/definition.js",
@@ -635,7 +635,7 @@
       ]
     },
     "workflow-scheduler-state-current.json": {
-      "historicalSelectorSha256": "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66",
+      "historicalSelectorSha256": "0dca901e16e82c99b5e43d4a02a5b1ed0549aa95ec2061b80c1115b00bffa5f2",
       "readerRoot": "apps/cli/packages",
       "paths": [
         "core/dist/workflow/definition.js",
