@@ -1,7 +1,10 @@
+// SPDX-License-Identifier: Apache-2.0
+// 规划器扩张落地：解析结果、构造新增节点与依赖边、逐条校验、更新集合状态。
 import {
   WorkflowGraphPlannerResultSchema,
   type WorkflowGraphCollectionStatus,
   type WorkflowGraphNode,
+  type WorkflowGraphPlannerResult,
   type WorkflowRunSnapshot,
 } from "@knorvia/contracts";
 import {
@@ -11,6 +14,8 @@ import {
   graphCollections,
   normalizeCollection,
 } from "./graph.js";
+import { RouteIndex } from "./planner-expansion-routes.js";
+import { edgeRejection } from "./planner-expansion-validate.js";
 import type {
   AppliedPlannerExpansion,
   SchedulerCollection,
@@ -18,154 +23,170 @@ import type {
   WorkflowGraphSchedulerPlannerRunResult,
 } from "./types.js";
 
-function addRoute(routes: Map<string, Set<string>>, edge: WorkflowGraphRecordEdge): void {
-  let targets = routes.get(edge.from);
-  if (targets === undefined) {
-    targets = new Set<string>();
-    routes.set(edge.from, targets);
-  }
-  targets.add(edge.to);
+type Graph = WorkflowRunSnapshot["graph"];
+type PlannerNode = WorkflowGraphPlannerResult["nodes"][number];
+
+/** 扩张输入：快照、目标集合、规划器结果、未见的完成节点与时间戳。 */
+export interface PlannerExpansionInput {
+  collection: SchedulerCollection;
+  rawResult: WorkflowGraphSchedulerPlannerRunResult;
+  snapshot: WorkflowRunSnapshot;
+  timestamp: string;
+  unseenCompletions: readonly string[];
 }
 
-function hasRoute(
-  routes: ReadonlyMap<string, ReadonlySet<string>>,
-  start: string,
-  destination: string,
-): boolean {
-  const pending = [start];
-  const visited = new Set<string>();
-  while (pending.length > 0) {
-    const current = pending.pop()!;
-    if (current === destination) return true;
-    if (visited.has(current)) continue;
-    visited.add(current);
-    const targets = routes.get(current);
-    if (targets !== undefined) {
-      for (const target of targets) {
-        if (!visited.has(target)) pending.push(target);
-      }
-    }
-  }
-  return false;
-}
-
-export function applyPlannerExpansion(
-  snapshot: WorkflowRunSnapshot,
-  collection: SchedulerCollection,
-  rawResult: WorkflowGraphSchedulerPlannerRunResult,
-  unseenCompletions: readonly string[],
-  timestamp: string,
-): AppliedPlannerExpansion {
-  const result = WorkflowGraphPlannerResultSchema.parse(rawResult);
-  const graph = snapshot.graph;
-
-  const addedNodes: WorkflowGraphNode[] = result.nodes.map((node) => ({
-    collectionId: node.collectionId ?? collection.collectionId,
-    dependsOn: node.dependsOn,
-    description: node.description,
-    id: node.id,
-    kind: node.kind,
-    phase: node.phase,
-    prompt: node.prompt,
-    status: "pending",
-    title: node.title,
-  }));
-
-  const nodeIds = new Set(graph.nodes.map((node) => node.id));
-  for (const node of addedNodes) {
-    if (nodeIds.has(node.id)) {
+/** 唯一性断言：新增节点 id 不得与图中已有节点重复，返回合并后的 id 集合。 */
+const assertUniqueNodes = (graph: Graph, nodes: readonly WorkflowGraphNode[]): Set<string> => {
+  const ids = new Set(graph.nodes.map((node) => node.id));
+  for (const node of nodes) {
+    if (ids.has(node.id)) {
       throw new Error(`Planner returned duplicate workflow node: ${node.id}`);
     }
-    nodeIds.add(node.id);
+    ids.add(node.id);
   }
+  return ids;
+};
 
-  const addedEdges: WorkflowGraphRecordEdge[] = [...result.edges];
-  const inferenceKeys = new Set<string>();
-  for (const edge of graph.edges) inferenceKeys.add(edgeId(edge));
-  for (const edge of addedEdges) inferenceKeys.add(edgeId(edge));
-  for (const node of addedNodes) {
-    for (const dependency of node.dependsOn) {
-      const edge = { from: dependency, to: node.id };
-      const key = edgeId(edge);
-      if (!inferenceKeys.has(key)) {
-        addedEdges.push(edge);
-        inferenceKeys.add(key);
-      }
-    }
-  }
-
-  const acceptedKeys = new Set<string>();
-  const routes = new Map<string, Set<string>>();
+/** 索引种子：把图中已有边灌入接受集合与路由索引。 */
+const seedIndex = (graph: Graph): { accepted: Set<string>; index: RouteIndex } => {
+  const accepted = new Set<string>();
+  const index = new RouteIndex();
   for (const edge of graph.edges) {
-    acceptedKeys.add(edgeId(edge));
-    addRoute(routes, edge);
+    accepted.add(edgeId(edge));
+    index.add(edge);
   }
-  for (const edge of addedEdges) {
-    if (edge.from === edge.to) {
-      throw new Error(`Planner returned a self-loop edge: ${edge.from} -> ${edge.to}`);
-    }
-    if (!nodeIds.has(edge.from)) {
-      throw new Error(`Planner returned an edge with unknown source node: ${edge.from}`);
-    }
-    if (!nodeIds.has(edge.to)) {
-      throw new Error(`Planner returned an edge with unknown target node: ${edge.to}`);
-    }
-    const key = edgeId(edge);
-    if (acceptedKeys.has(key)) {
-      throw new Error(`Planner returned duplicate workflow edge: ${key}`);
-    }
-    if (hasRoute(routes, edge.to, edge.from)) {
-      throw new Error(`Planner returned an edge that would create a cycle: ${key}`);
-    }
-    acceptedKeys.add(key);
-    addRoute(routes, edge);
-  }
+  return { accepted, index };
+};
 
+/** 集合成员：已有成员 + 规划器声明的成员（缺省为全部新增节点）。 */
+const nextMembership = (
+  collection: SchedulerCollection,
+  graph: Graph,
+  result: WorkflowGraphPlannerResult,
+  nodes: readonly WorkflowGraphNode[],
+): Set<string> => {
   const membership = new Set(collectionNodeIdsForGraph(collection, graph));
-  const requestedMembers = result.collectionNodeIds ?? addedNodes.map((node) => node.id);
-  for (const id of requestedMembers) membership.add(id);
+  const requested = result.collectionNodeIds ?? nodes.map((node) => node.id);
+  for (const id of requested) membership.add(id);
+  return membership;
+};
 
-  const analyzed = new Set(collection.analyzedNodeIds);
-  for (const id of unseenCompletions) analyzed.add(id);
+/** 新增节点字段表：集合缺省时归入当前集合。 */
+const addedNodeFields = (
+  node: PlannerNode,
+  collectionId: string,
+): readonly (readonly [string, unknown])[] => [
+  ["collectionId", node.collectionId ?? collectionId],
+  ["dependsOn", node.dependsOn],
+  ["description", node.description],
+  ["id", node.id],
+  ["kind", node.kind],
+  ["phase", node.phase],
+  ["prompt", node.prompt],
+  ["status", "pending"],
+  ["title", node.title],
+];
 
-  const graphChanged = addedNodes.length > 0 || addedEdges.length > 0;
-  let status: WorkflowGraphCollectionStatus;
-  if (result.exhausted === true) {
-    status = "exhausted";
-  } else if (
-    graphChanged ||
-    collectionFrontier(graph, collection) > 0 ||
-    unseenCompletions.length > 0
-  ) {
-    status = "active";
-  } else {
-    status = collection.status === "draining" ? "exhausted" : "draining";
+/** 依赖边补全：折叠出「尚未存在的依赖边」，跨节点去重。 */
+const inferDependencyEdges = (
+  graph: Graph,
+  nodes: readonly WorkflowGraphNode[],
+  edges: readonly WorkflowGraphRecordEdge[],
+): WorkflowGraphRecordEdge[] => {
+  const state = nodes.reduce<{ edges: WorkflowGraphRecordEdge[]; known: Set<string> }>(
+    (outer, node) =>
+      node.dependsOn.reduce((inner, dependency) => {
+        const candidate = { from: dependency, to: node.id };
+        const key = edgeId(candidate);
+        if (inner.known.has(key)) return inner;
+        inner.known.add(key);
+        inner.edges.push(candidate);
+        return inner;
+      }, outer),
+    { edges: [], known: new Set([...graph.edges, ...edges].map((edge) => edgeId(edge))) },
+  );
+  return [...edges, ...state.edges];
+};
+
+/** 集合状态推进：耗尽 → active → draining/exhausted 三档。 */
+const nextCollectionStatus = (
+  result: WorkflowGraphPlannerResult,
+  collection: SchedulerCollection,
+  graph: Graph,
+  graphChanged: boolean,
+  unseenCompletions: readonly string[],
+): WorkflowGraphCollectionStatus => {
+  if (result.exhausted === true) return "exhausted";
+  if (graphChanged || collectionFrontier(graph, collection) > 0 || unseenCompletions.length > 0) {
+    return "active";
   }
+  return collection.status === "draining" ? "exhausted" : "draining";
+};
 
-  const nextCollection = normalizeCollection({
-    ...collection,
-    analyzedNodeIds: [...analyzed],
-    exhausted: status === "exhausted",
-    lastGraphChangeAt: graphChanged ? timestamp : collection.lastGraphChangeAt,
-    nodeIds: [...membership],
-    status,
-  });
+/** 图投影：把新增边与节点并入原图，并替换目标集合条目。 */
+const projectGraph = (
+  graph: Graph,
+  collections: Graph["collections"],
+  addedNodes: readonly WorkflowGraphNode[],
+  addedEdges: readonly WorkflowGraphRecordEdge[],
+): Graph => ({
+  collections,
+  edges: [...graph.edges, ...addedEdges],
+  nodes: [...graph.nodes, ...addedNodes],
+});
+
+/** 尾部装配：更新集合状态、替换集合条目并产出新快照。 */
+const assembleExpansion = (
+  input: PlannerExpansionInput,
+  addedNodes: readonly WorkflowGraphNode[],
+  addedEdges: readonly WorkflowGraphRecordEdge[],
+  graphChanged: boolean,
+  result: WorkflowGraphPlannerResult,
+): AppliedPlannerExpansion => {
+  const { collection, snapshot, timestamp, unseenCompletions } = input;
+  const graph = snapshot.graph;
+  const status = nextCollectionStatus(result, collection, graph, graphChanged, unseenCompletions);
+  const patch = Object.fromEntries([
+    ["analyzedNodeIds", [...new Set([...collection.analyzedNodeIds, ...unseenCompletions])]],
+    ["exhausted", status === "exhausted"],
+    ["lastGraphChangeAt", graphChanged ? timestamp : collection.lastGraphChangeAt],
+    ["nodeIds", [...nextMembership(collection, graph, result, addedNodes)]],
+    ["status", status],
+  ]);
+  const nextCollection = normalizeCollection({ ...collection, ...patch });
   const collections = graphCollections(graph).map((entry) =>
     entry.collectionId === collection.collectionId ? nextCollection : entry,
   );
-
   return {
-    addedEdges,
-    addedNodes,
+    addedEdges: [...addedEdges],
+    addedNodes: [...addedNodes],
     collection: nextCollection,
     snapshot: {
       ...snapshot,
-      graph: {
-        collections,
-        edges: [...graph.edges, ...addedEdges],
-        nodes: [...graph.nodes, ...addedNodes],
-      },
+      graph: projectGraph(graph, collections, addedNodes, addedEdges),
       updatedAt: timestamp,
     },
   };
+};
+
+export function applyPlannerExpansion(input: PlannerExpansionInput): AppliedPlannerExpansion {
+  const result = WorkflowGraphPlannerResultSchema.parse(input.rawResult);
+  const graph = input.snapshot.graph;
+  const addedNodes = result.nodes.map(
+    (node) =>
+      Object.fromEntries(addedNodeFields(node, input.collection.collectionId)) as WorkflowGraphNode,
+  );
+  const nodeIds = assertUniqueNodes(graph, addedNodes);
+  const addedEdges = inferDependencyEdges(graph, addedNodes, result.edges);
+
+  const { accepted, index } = seedIndex(graph);
+  for (const edge of addedEdges) {
+    const reason = edgeRejection({ accepted, edge, index, nodeIds });
+    if (reason !== null) throw new Error(reason);
+    accepted.add(edgeId(edge));
+    index.add(edge);
+  }
+
+  const graphChanged = addedNodes.length > 0 || addedEdges.length > 0;
+  return assembleExpansion(input, addedNodes, addedEdges, graphChanged, result);
 }

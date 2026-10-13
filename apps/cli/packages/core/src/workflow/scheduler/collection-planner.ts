@@ -255,13 +255,13 @@ async function attemptPlanner(
       result.response,
       { signal: options.abortSignal },
     );
-    const expansion = applyPlannerExpansion(
-      childLinked,
-      activeCollection,
-      result,
-      unseen,
-      runtime.eventLog.timestamp(),
-    );
+    const expansion = applyPlannerExpansion({
+      collection: activeCollection,
+      rawResult: result,
+      snapshot: childLinked,
+      timestamp: runtime.eventLog.timestamp(),
+      unseenCompletions: unseen,
+    });
     let completed = addArtifact(
       expansion.snapshot,
       {
