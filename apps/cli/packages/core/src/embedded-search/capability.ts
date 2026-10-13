@@ -22,25 +22,13 @@ function evaluateEmbeddedSearchBranchCapability(
   context: EmbeddedSearchBranchCapabilityContext,
 ): EmbeddedSearchBranchCapabilityDecision {
   const branchEnabled = context.embeddedSearchBranchEnabled ?? ENABLE_EMBEDDED_SEARCH_BRANCH;
-
-  if (!branchEnabled) {
-    return {
-      reason: "disabled_by_global_flag",
-      useEmbeddedSearchBranch: false,
-    };
-  }
-
-  if (!context.bashAvailable) {
-    return {
-      reason: "bash_unavailable",
-      useEmbeddedSearchBranch: false,
-    };
-  }
-
-  return {
-    reason: "supported",
-    useEmbeddedSearchBranch: true,
-  };
+  // 关闭原因按优先级取一个：全局开关优先于 shell 能力；只有 supported 才开启分支。
+  const reason: EmbeddedSearchBranchCapabilityReason = !branchEnabled
+    ? "disabled_by_global_flag"
+    : context.bashAvailable
+      ? "supported"
+      : "bash_unavailable";
+  return { reason, useEmbeddedSearchBranch: reason === "supported" };
 }
 
 export function resolveEmbeddedSearchBranchCapability(input: {
