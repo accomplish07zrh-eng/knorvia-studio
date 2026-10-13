@@ -44,6 +44,6 @@
 
 - **普通模式**（默认）：实现文件。
 - **声明模式**（`--declaration --interface specs/contracts/core-03/interface.md`）：**声明占主体的文件**。
-  - 已使用者：`workflow/expert/types.ts`（106 行、22 个声明块、85 行声明、**residual-lines 0** ⇒ 0.000 PASS）。
+  - 已使用者：`workflow/expert/types.ts`（106 行、22 个声明块、85 行声明、**residual-lines 0** ⇒ 0.000 PASS）；`workflow/scheduler/types.ts`（144 行、17 个声明块、116 行声明、**residual-lines 0** ⇒ 0.000 PASS）。
   - 判定口径：文件中值导出/实现语句占比极低（本文件为 0），声明模式剥离后无残留可比较行。
 - 其余文件（含所有实现模块）一律普通模式；两模式**不得混用于同一文件**。

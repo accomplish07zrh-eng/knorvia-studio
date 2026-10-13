@@ -1,149 +1,22 @@
+// SPDX-License-Identifier: Apache-2.0
+// 调度器事件日志：持有写入端口与时钟，把记录/事件写入委托给 events-records.ts。
 import type {
   WorkflowEvent,
   WorkflowGraphCollection,
   WorkflowNodeStatus,
   WorkflowRunSnapshot,
 } from "@knorvia/contracts";
-import { edgeId } from "./graph.js";
+import {
+  appendCollectionSnapshot,
+  appendExpansionRecords,
+  appendStatusRecord,
+  emitSchedulerEvent,
+  type EventOptions,
+  type RecordPorts,
+} from "./events-records.js";
 import type { AppliedPlannerExpansion, WorkflowGraphSchedulerDeps } from "./types.js";
 
-export class WorkflowSchedulerEventLog {
-  readonly #eventPort: WorkflowGraphSchedulerDeps["appendEvent"];
-  readonly #graphPort: WorkflowGraphSchedulerDeps["appendGraphRecord"];
-  readonly #clock: WorkflowGraphSchedulerDeps["now"];
-  readonly #observer: WorkflowGraphSchedulerDeps["onWorkflowEvent"];
-
-  constructor(deps: WorkflowGraphSchedulerDeps) {
-    this.#eventPort = deps.appendEvent;
-    this.#graphPort = deps.appendGraphRecord;
-    this.#clock = deps.now;
-    this.#observer = deps.onWorkflowEvent;
-  }
-
-  timestamp(): string {
-    return this.#clock().toISOString();
-  }
-
-  async appendGraphStatus(
-    snapshot: WorkflowRunSnapshot,
-    nodeId: string,
-    phase: string,
-    status: WorkflowNodeStatus,
-    signal?: AbortSignal,
-  ): Promise<void> {
-    await this.#graphPort(
-      snapshot.runId,
-      {
-        nodeId,
-        phase,
-        recordType: "op",
-        runId: snapshot.runId,
-        status,
-        timestamp: this.timestamp(),
-        type: "update_status",
-      },
-      { signal },
-    );
-  }
-
-  async appendCollectionRecord(
-    snapshot: WorkflowRunSnapshot,
-    collection: WorkflowGraphCollection,
-    signal?: AbortSignal,
-  ): Promise<void> {
-    await this.#graphPort(
-      snapshot.runId,
-      {
-        collection,
-        recordType: "collection",
-        runId: snapshot.runId,
-        timestamp: this.timestamp(),
-      },
-      { signal },
-    );
-  }
-
-  async appendExpansionRecords(
-    snapshot: WorkflowRunSnapshot,
-    expansion: AppliedPlannerExpansion,
-    phase: string,
-    signal?: AbortSignal,
-  ): Promise<void> {
-    for (const node of expansion.addedNodes) {
-      await this.#graphPort(
-        snapshot.runId,
-        {
-          node,
-          recordType: "node",
-          runId: snapshot.runId,
-          timestamp: this.timestamp(),
-        },
-        { signal },
-      );
-    }
-
-    for (const edge of expansion.addedEdges) {
-      await this.#graphPort(
-        snapshot.runId,
-        {
-          edge,
-          recordType: "edge",
-          runId: snapshot.runId,
-          timestamp: this.timestamp(),
-        },
-        { signal },
-      );
-    }
-
-    await this.appendCollectionRecord(snapshot, expansion.collection, signal);
-
-    await this.#graphPort(
-      snapshot.runId,
-      {
-        collectionId: expansion.collection.collectionId,
-        edgeIds: expansion.addedEdges.map((edge) => edgeId(edge)),
-        nodeIds: expansion.addedNodes.map((node) => node.id),
-        payload: {
-          exhausted: expansion.collection.exhausted,
-          plannerRuns: expansion.collection.plannerRuns,
-          status: expansion.collection.status,
-        },
-        phase,
-        recordType: "op",
-        runId: snapshot.runId,
-        timestamp: this.timestamp(),
-        type: "graph_expanded",
-      },
-      { signal },
-    );
-  }
-
-  async emitEvent(
-    snapshot: WorkflowRunSnapshot,
-    type: WorkflowEvent["type"],
-    options: {
-      message?: string;
-      nodeId?: string;
-      payload?: Record<string, unknown>;
-      phase?: string;
-      signal?: AbortSignal;
-    } = {},
-  ): Promise<void> {
-    const event: WorkflowEvent = {
-      kind: snapshot.kind,
-      message: options.message,
-      nodeId: options.nodeId,
-      payload: options.payload,
-      phase: options.phase,
-      runId: snapshot.runId,
-      timestamp: this.timestamp(),
-      type,
-    };
-
-    await this.#eventPort(event, { signal: options.signal });
-    await this.#observer?.(event);
-  }
-}
+export type { EventOptions } from "./events-records.js";
 
 /** 标识与规划器端口：规划器运行需要生成活动 id，并可能调用规划器运行器。 */
 type PlannerIdentityPorts = Pick<WorkflowGraphSchedulerDeps, "createActivityId" | "plannerRunner">;
@@ -156,3 +29,68 @@ export type WorkflowCollectionPlannerRuntime = PlannerIdentityPorts &
   PlannerSinkPorts & {
     eventLog: WorkflowSchedulerEventLog;
   };
+
+/**
+ * 调度器事件日志：调度循环里所有「写」动作的唯一出口。
+ *
+ * 约定：
+ * - 图记录与工作流事件都经 `#ports` 写入，调用方不直接触碰 store；
+ * - 时间统一取 `timestamp()`（注入时钟），保证记录与事件的先后可判定；
+ * - 事件先落库、再回调订阅者，回调抛错不影响已落库的事实。
+ */
+export class WorkflowSchedulerEventLog {
+  readonly #ports: RecordPorts;
+
+  constructor(deps: WorkflowGraphSchedulerDeps) {
+    this.#ports = {
+      eventPort: deps.appendEvent,
+      graphPort: deps.appendGraphRecord,
+      observer: deps.onWorkflowEvent,
+      timestamp: () => deps.now().toISOString(),
+    };
+  }
+
+  /** 统一时钟：所有记录与事件的时间都取自这里。 */
+  timestamp(): string {
+    return this.#ports.timestamp();
+  }
+
+  /** 节点状态记录。 */
+  async appendGraphStatus(
+    run: WorkflowRunSnapshot,
+    targetNodeId: string,
+    phaseName: string,
+    nextStatus: WorkflowNodeStatus,
+    cancel?: AbortSignal,
+  ): Promise<void> {
+    await appendStatusRecord(this.#ports, run, targetNodeId, phaseName, nextStatus, cancel);
+  }
+
+  /** 集合记录。 */
+  async appendCollectionRecord(
+    run: WorkflowRunSnapshot,
+    target: WorkflowGraphCollection,
+    cancel?: AbortSignal,
+  ): Promise<void> {
+    await appendCollectionSnapshot(this.#ports, run, target, cancel);
+  }
+
+  /** 扩张记录：节点、边、集合与汇总 op。 */
+  async appendExpansionRecords(
+    run: WorkflowRunSnapshot,
+    applied: AppliedPlannerExpansion,
+    phaseName: string,
+    cancel?: AbortSignal,
+  ): Promise<void> {
+    await appendExpansionRecords(this.#ports, run, applied, phaseName, cancel);
+  }
+
+  /** 事件发出。 */
+  async emitEvent(
+    run: WorkflowRunSnapshot,
+    eventType: WorkflowEvent["type"],
+    input: EventOptions = {},
+  ): Promise<void> {
+    await emitSchedulerEvent(this.#ports, run, eventType, input);
+  }
+}
