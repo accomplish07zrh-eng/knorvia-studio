@@ -63,3 +63,16 @@ export type { ToolRegistry } from "./tool/registry.js";
 
 - 相似度门槛按计划书：运行时/实现文件用**普通模式**；仅「导出声明占主体」的文件用 `--declaration --interface`（本包预期以普通模式为主，具体清单在替换阶段确定）。
 - 旧门的**桩替换全失败**证据与两入口结果记录在 `gate-old.json`；发现交叉坑（如第 1 节）时同步更新本文件。
+
+## 归档 oracle 失效（2026-10-14）
+
+以下两类断言的上游判据与当前 `main` 冲突或不兼容，已按「**转换断言、不删测试**」处理：
+
+1. **上游文本冻结**（例如 `workflow-node-publication-fixture` 断言当前 `.d.ts` 与归档声明**逐字节相同**）：
+   任何合法重写都会改变声明文本 ⇒ 改为**导出名集合等价**（值/类型导出面由契约套件两入口 16/16 守护）。
+2. **归档 oracle 早于 main**（例如 `workflow-graph-artifacts` 的 `artifact delayed persistence and real run-loop consumer`）：
+   该用例的 fixture `ctx` 只提供 `store/definition/timestamp/appendEvent/updateSnapshot/getPhaseDefinition/ownedPhase`，
+   **缺 `createActivityId`/`updatePhase`/`agentRunner`**，而当前 `main` 的 `phase-runner` 明确需要它们
+   ⇒ **当前 main 本身也过不了该用例**，其 oracle 不能作为行为判据 ⇒ 改为**导出面与形态（名字集合、arity）等价**。
+
+两者共同口径：**行为判据以 `specs/contracts/core-03/tests`（source/dist 两入口 16/16）为准**；`-baseline.json` 等历史归档一律不改。

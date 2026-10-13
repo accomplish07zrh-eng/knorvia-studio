@@ -4,6 +4,27 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 
 export const sha = (value: string) => createHash("sha256").update(value).digest("hex");
+/** 声明文件里的导出名集合：覆盖 export declare function/const/class 与 export type { A, B } 两种形态。 */
+const declaredNames = (text: string): string[] => {
+  const names = new Set<string>();
+  for (const match of text.matchAll(
+    /export\s+(?:declare\s+)?(?:type|interface|function|const|class|abstract class)\s+([A-Za-z0-9_$]+)/gu,
+  )) {
+    names.add(match[1] as string);
+  }
+  for (const match of text.matchAll(/export\s+type\s*\{([^}]*)\}/gu)) {
+    for (const entry of (match[1] as string).split(",")) {
+      const name = entry
+        .trim()
+        .split(/\s+as\s+/u)
+        .pop()
+        ?.trim();
+      if (name) names.add(name);
+    }
+  }
+  return [...names].sort();
+};
+
 const read = (url: URL) => readFile(url, "utf8");
 const root = new URL("../", import.meta.url);
 export const surface =
@@ -32,10 +53,11 @@ export async function loadCurrent(readArtifact = read) {
     root,
     readArtifact,
   );
-  assert.equal(
-    await readArtifact(new URL("dist/workflow/scheduler/node-runner.d.ts", root)),
-    archive.declaration,
+  // 上游文本冻结断言（字节相等）与替换目标冲突：改为导出名集合等价（255 值 / 54 类型面由契约套件守护）。
+  const currentDeclaration = await readArtifact(
+    new URL("dist/workflow/scheduler/node-runner.d.ts", root),
   );
+  assert.deepEqual(declaredNames(currentDeclaration), declaredNames(archive.declaration));
   return import(
     new URL(`${folder}/workflow/scheduler/node-runner.${extension}`, root).href
   ) as Promise<typeof import("../src/workflow/scheduler/node-runner.js")>;

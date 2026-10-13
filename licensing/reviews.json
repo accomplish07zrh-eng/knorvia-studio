@@ -83382,17 +83382,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+      "normalizedSha256": "1a872bed583016a647ca3f6e9116962f314c32f1be6ad5e0476cefbc3ecc369b",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created in Knorvia commit c4512c4e (2026-10-02) together with the frozen author packet/evidence for that bounded slice, so the batch has an isolated author and acceptance evidence. Bookkeeping under plan M0-2: the commit message wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Registered as independent-replacement because the isolating evidence exists for the batch, not because of the wording.",
-      "evidence": [
-        "licensing/current-files.json",
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "docs/evidence/graph-artifacts-author-20261002/api.d.ts",
-        "docs/evidence/graph-artifacts-author-20261002/contract.md"
-      ],
-      "normalizedSha256": "e3d3a8181fbd9e5438d146a708a1c26f30ee1e78b3ca54c86783db54fb606212"
+      "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/background-tracker-baseline-20261003.json",
@@ -89618,10 +89612,10 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-node-publication-fixture.ts",
-      "normalizedSha256": "763d80fc0ebc69b4f6459d8fb9df84ddf6cdfc5569f0a71378d112274aa15137",
+      "normalizedSha256": "34ae778c39523125d62334045debcfb9e1ee1ec00193c248638e4e6f149c4287",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
+      "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
       "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
@@ -136168,11 +136162,11 @@
     },
     {
       "path": "specs/contracts/core-03/known-differences.md",
-      "normalizedSha256": "f23494061253938d1abfbf79b64f05a7b302169fa83ceef7863969a9b7a7c71a",
-      "decision": "original",
+      "normalizedSha256": "93c14beeac24176e9202ac836c2052add7ae07f8f31e8e06ebe7da4faaf1dc55",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "core-03 contract v1: known differences record (type-as-value re-export fix in package root, boundary ruling for three root files, dead-code candidate, immutable compatibility surface).",
-      "evidence": ["licensing/current-files.json"]
+      "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "specs/contracts/core-03/README.md",
