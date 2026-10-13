@@ -77813,7 +77813,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "f8192f4bd94fe4d4b6dae822b1e7d078e64ba20712adb4ccbc90e59a5dc5f903",
+      "normalizedSha256": "7f9aa074410b11924d881db52cd04a85ffafadc5f8d76c3160836031b71f8db6",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -77843,7 +77843,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "c1398ad5c4ecbcd39a522b6c9fee7dd36e6750800e4a2e28cb639a7c67809819",
+      "normalizedSha256": "9471873218d00d1d1bbf8d10ef9052529299a9872b12325cd9d7f4cbe9b6df40",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -78815,7 +78815,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-event-log-fixture.ts",
-      "normalizedSha256": "66a329357d00865d554de7ea92a1fb2c08f0f0cb5a121ac3a5ac6c2b7b0f103a",
+      "normalizedSha256": "9d75166e58166cce7c7230144d1b1bd240f92c5eb733be366b41ef606805b167",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -78835,7 +78835,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-event-log-pins.json",
-      "normalizedSha256": "e72704366a39c9b6e77596e76cb4dc0a2f2f303e54d8847ff755927ba782507a",
+      "normalizedSha256": "2ce699691e5ed2611c7ed943875421a4a22674ded59799f49061a52dcccf9649",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -79022,7 +79022,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-ready-order-fixture.ts",
-      "normalizedSha256": "cbb1f5215acd0366b90c3403e66384d806f7db3e0e5a28468edfabc52d780db1",
+      "normalizedSha256": "5780eaf6524e298ac00e0cfb88b0c78caaadf160c351798e6a286a4ba3dec7e7",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -83584,7 +83584,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
-      "normalizedSha256": "4166e0c51770d529b752510374acf77c4408a15eff5d94e097389c3504e7cbeb",
+      "normalizedSha256": "a666384b2cce79af2c505df864eacabbbf5a8972a4e4e1d8a589e2f06d116baf",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -83592,7 +83592,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts",
-      "normalizedSha256": "94e1610e7f548c2d7ea9d4d965bc811af3f48d83f544b5f5db6c5447be9bdc9a",
+      "normalizedSha256": "c1d8cec9eb1425511e36cf27569f31d3cfd8af797eee1c042bbe6159eab48d8c",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -83913,7 +83913,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-ready-order-current.json",
-      "normalizedSha256": "8bda781d75c4914a91495f6fe5664d09ce5640d5967b7852f95143e12cbac046",
+      "normalizedSha256": "7b8f339c338510e763b61c263d1b3e8a882e3c8bd9ad331dac74fe0517c75aae",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -88448,7 +88448,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-observation-fixture.ts",
-      "normalizedSha256": "4c67db8da32c65ca6e6ba5a5b0055fddd0118f38b9edf6150838edce4777489d",
+      "normalizedSha256": "91304a53d6312d13865ed0e83086722f751125786b60b26d5cdb3a8d51307222",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -88456,7 +88456,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
-      "normalizedSha256": "1b414e16f0cfe5e6dd55404cc77c354daf98a1e11205dd1c1ccf7e00ac341918",
+      "normalizedSha256": "0865fbbacd78e1e9a111b7d97567f3f475982d58711c0490c4d0751275d67210",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -89604,7 +89604,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-node-publication-current.json",
-      "normalizedSha256": "d61e5c07ecf858e0a8627be4e567d81e086aee07bac10ffbfd7ca30922e95395",
+      "normalizedSha256": "84e31b8f68a7391dbcef80cf9b07bfc5e2e48a0a0b399b62e280c0d44a1ad94e",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -89612,7 +89612,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-node-publication-fixture.ts",
-      "normalizedSha256": "34ae778c39523125d62334045debcfb9e1ee1ec00193c248638e4e6f149c4287",
+      "normalizedSha256": "be28f9733939e659748cae8d13a2860e84d11570ef9a4d5eb532f0b71d358b19",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -90136,7 +90136,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
-      "normalizedSha256": "09a33b4b4756a01bcaaae5a4c29d34bf157abdf7cdefbd2019f18f552a491c4b",
+      "normalizedSha256": "27875dbf822f8386ed6d923112d3ab2370555b4afbd97bec90779158622608b1",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -90144,7 +90144,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
-      "normalizedSha256": "ead0dd2c64f7955b0dca64cce533ca1b33c2131e48031dabe61baf93651f9c52",
+      "normalizedSha256": "c56625f8fdd5cc0febba3daa8c65fe01b497bd7ce9d4a62b0b0f318e3d0befcc",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -90176,7 +90176,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
-      "normalizedSha256": "36198a72eb601d82fa7e11df5cd1916551b062701b4d756058b38967e5fc190e",
+      "normalizedSha256": "a2073780c5fd1736519bf71cb4efbb4ee2ee3c54e5e27e35da5085965ad4ff70",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
@@ -90184,7 +90184,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts",
-      "normalizedSha256": "02dcd448d405cdccfc601d5e61f2aa025324f69348a353435bc66241739b865c",
+      "normalizedSha256": "503006f3d4f61f4eac19eed5fe171b7aff696fe902d2bc71ca98bce7d12013ca",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",

@@ -80,9 +80,9 @@ const activityInput = (ctx: RunContext, traceId: string | undefined): ActivityIn
 /** 启动段：写 active 快照与 node_started 事件，并解析 started promise。 */
 const startNode = async (
   ctx: RunContext,
+  initial: Snap,
   resolveStarted: (value: NodeRunStarted) => void,
 ): Promise<{ snapshot: Snap; traceContext?: TraceContext }> => {
-  const initial = ctx.access.getSnapshot();
   const traceContext = childTrace(ctx.options.traceContext, ctx, initial);
   const activeGraph = updateGraphNode(initial, ctx.node.id, {
     error: undefined,
@@ -276,7 +276,7 @@ export function runWorkflowNode(
       runtime,
       startedAt: runtime.eventLog.timestamp(),
     };
-    const { snapshot, traceContext } = await startNode(ctx, resolveStarted);
+    const { snapshot, traceContext } = await startNode(ctx, initial, resolveStarted);
     try {
       return await finishCompleted(ctx, snapshot, traceContext);
     } catch (error) {
