@@ -136557,6 +136557,30 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: phase-runner split into activation, session-link and settle modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/run-loop-phases.ts",
+      "normalizedSha256": "7d502cec2bd7da80091e67b40795af5df8ade4a08da0ae0ff2d446329b5a0541",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: run loop split into phases, completion and failure modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/run-loop-completion.ts",
+      "normalizedSha256": "d1a46032657a8c86d22ac471985fa0f64feabc2682a4fa9bc98aadbc7a358c33",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: run loop split into phases, completion and failure modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/run-loop-failure.ts",
+      "normalizedSha256": "e3706ab7d257e3c675449d4770db5894c3f5092142b7291831c262c470d9c44a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: run loop split into phases, completion and failure modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
