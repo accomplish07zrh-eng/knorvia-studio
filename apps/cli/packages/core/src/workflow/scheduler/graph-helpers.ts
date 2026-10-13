@@ -23,12 +23,17 @@ type CollectionPatch = Partial<WorkflowGraphCollection>;
 
 const EDGE_ARROW = "->";
 
-/** 按键替换列表项：剔除同键项后把新值追加到末尾。 */
+/** 按键原位替换列表项：命中则替换且保持位置，未命中则追加（上游语义）。 */
 const replaceBy = <TItem>(
   list: readonly TItem[],
   keyOf: (item: TItem) => string,
   item: TItem,
-): TItem[] => [...list.filter((entry) => keyOf(entry) !== keyOf(item)), item];
+): TItem[] => {
+  const key = keyOf(item);
+  const at = list.findIndex((entry) => keyOf(entry) === key);
+  if (at < 0) return [...list, item];
+  return list.map((entry, index) => (index === at ? item : entry));
+};
 
 /** 图投影：只换节点列表，集合与边原样带过。 */
 const withNodes = (state: Snapshot, nodes: Snapshot["graph"]["nodes"]): Snapshot =>
