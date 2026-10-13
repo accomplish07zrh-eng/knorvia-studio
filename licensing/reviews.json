@@ -134673,7 +134673,7 @@
     },
     {
       "path": "specs/contracts/core-01/acceptance.md",
-      "normalizedSha256": "ed54a76e01881c716fd0450f1fe3919990608f7b58fb3b8506de0a1458a2ef62",
+      "normalizedSha256": "7def41ce223b5c4c04c2034ce72c56b48f52bde4696756181adbbcfcd903c3ef",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-01 contract artifact for @knorvia/core (M2 first core package: agent, compact, context, embedded-search, mcp; 38 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries (plus file-level entries for exports the area barrels do not re-export), and stubs keep only interface.md names with bodies that throw not implemented: core-01. Old gate: source 42/42, dist 42/42, stub replacement 42/42 failed.",
