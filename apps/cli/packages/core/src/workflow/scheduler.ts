@@ -118,52 +118,38 @@ export class WorkflowGraphScheduler {
         return await this.#pauseForErrors(input, holder.snapshot, consecutiveErrors, active);
       }
 
-      const dispatched = await this.#dispatch(input, holder, ids, active, limits);
-      if (dispatched > 0) continue;
-      if (active.size === 0) return await this.#pauseForDeadlock(input, holder.snapshot, ids);
-      consecutiveErrors = await this.#harvest(active, consecutiveErrors);
-    }
-  }
-
-  /** 分派就绪节点：受并发上限约束，返回派发数量；快照经 holder 与节点 promise 共享。 */
-  async #dispatch(
-    input: RunOptions,
-    holder: SnapshotHolder,
-    ids: Ids,
-    active: ActiveMap,
-    limits: Limits,
-  ): Promise<number> {
-    const ready = orderedReadyExecutableNodes(holder.snapshot.graph, ids).filter(
-      (node) => !active.has(node.id),
-    );
-    let count = 0;
-    for (const node of ready) {
-      if (active.size >= limits.concurrent) break;
-      const promise = runWorkflowNode(
-        {
-          getSnapshot: () => holder.snapshot,
-          setSnapshot: (next) => {
-            holder.snapshot = next;
-            return next;
-          },
-        },
-        node,
-        input,
-        limits.errors,
-        nodeRunnerRuntime(this.#eventLog, this.#ports),
+      const readyNodes = orderedReadyExecutableNodes(holder.snapshot.graph, ids).filter(
+        (node) => !active.has(node.id),
       );
-      active.set(node.id, promise);
-      holder.snapshot = (await promise.started).snapshot;
-      count += 1;
+      let dispatched = 0;
+      for (const node of readyNodes) {
+        if (active.size >= limits.concurrent) break;
+        const promise = runWorkflowNode(
+          {
+            getSnapshot: () => holder.snapshot,
+            setSnapshot: (next) => {
+              holder.snapshot = next;
+              return next;
+            },
+          },
+          node,
+          input,
+          limits.errors,
+          nodeRunnerRuntime(this.#eventLog, this.#ports),
+        );
+        active.set(node.id, promise);
+        holder.snapshot = (await promise.started).snapshot;
+        dispatched += 1;
+      }
+      if (dispatched > 0) continue;
+      if (active.size > 0) {
+        const outcome = await Promise.race(active.values());
+        active.delete(outcome.nodeId);
+        consecutiveErrors = outcome.ok ? 0 : consecutiveErrors + 1;
+        continue;
+      }
+      return await this.#pauseForDeadlock(input, holder.snapshot, ids);
     }
-    return count;
-  }
-
-  /** 收割一个完成节点：返回更新后的连续错误计数。 */
-  async #harvest(active: ActiveMap, consecutiveErrors: number): Promise<number> {
-    const outcome = await Promise.race(active.values());
-    active.delete(outcome.nodeId);
-    return outcome.ok ? 0 : consecutiveErrors + 1;
   }
 
   /** 完成：发 executor_completed 并返回完成结果。 */

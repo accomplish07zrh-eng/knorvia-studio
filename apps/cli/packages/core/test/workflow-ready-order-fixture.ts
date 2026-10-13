@@ -21,7 +21,7 @@ export async function loadHistorical(reader = read) {
 }
 export const archive = await loadHistorical();
 const text = await read(new URL("./workflow-ready-order-current.json", import.meta.url));
-assert.equal(sha(text), "1bd9818abe92137db9375022e9f220ca3b91793912c0aaaf2cfa2d3f03a66c61");
+assert.equal(sha(text), "04ad24052ee4faaa48eae4086ad478efbe26138622cd6d14793b38bad2667cb1");
 const pins: { files: Record<string, string> } = JSON.parse(text);
 export async function loadCurrent(reader = read) {
   await verifyCurrentArtifacts("workflow-ready-order-current.json", text, pins.files, root, reader);

@@ -23,7 +23,7 @@ export async function loadHistorical(readArchive = read) {
 export const archive = await loadHistorical();
 const selectorURL = new URL("./workflow-scheduler-observation-pins.json", import.meta.url);
 const selector = await read(selectorURL);
-assert.equal(sha(selector), "cefa87cfe0b4087bfb5ef5103354d5132e8e0f8de23729a66f4232d4e3c8d07e");
+assert.equal(sha(selector), "1283f3032140592da0a51b94d354851dabc0268e724987172c7d9adcec171180");
 export const pins: { files: Record<string, string> } = JSON.parse(selector);
 export async function loadCurrent(readArtifact = read) {
   await verifyCurrentArtifacts(
