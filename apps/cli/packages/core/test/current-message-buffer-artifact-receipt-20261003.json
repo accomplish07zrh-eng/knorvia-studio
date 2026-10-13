@@ -163,7 +163,7 @@
       ]
     },
     "workflow-graph-artifacts-current.json": {
-      "historicalSelectorSha256": "fb8f9291b4a0a17463228d92b090c659ed8d27cb64dfafb6c2ec2837a6ace0ca",
+      "historicalSelectorSha256": "a47eda3589c374741e176496c6ac761e55a1e85ef94d756b9a57b626f2c5cc92",
       "readerRoot": "apps/cli/packages",
       "paths": [
         "core/src/workflow/expert/graph-artifacts.ts",
@@ -279,7 +279,7 @@
       ]
     },
     "workflow-phase-runner-current.json": {
-      "historicalSelectorSha256": "2a90944672b8d018f8e0243f91efd91d0827efafd7a18a867cfe2e66235c4a06",
+      "historicalSelectorSha256": "928a5a74ae70bd59a5fcb0363b4e58924130220cbc55407740aa95b820b9a249",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "src/workflow/expert/phase-runner.ts",
@@ -472,7 +472,7 @@
       ]
     },
     "workflow-run-loop-current.json": {
-      "historicalSelectorSha256": "a59acdc1b146586b8cb65d9aaea169d30c9de09ef8777b9ecf5fc8f627194381",
+      "historicalSelectorSha256": "c5175658434ffccae0b82f1a5049626cb7c139afdf995a2bea6bb7e7c56a3dd1",
       "readerRoot": "apps/cli/packages/core",
       "paths": [
         "src/workflow/expert/run-loop.ts",
@@ -948,8 +948,8 @@
     "apps/cli/packages/core/dist/workflow/scheduler/ready-order.d.ts": "b10c1647caf974f094bcfd5378ca2fedcc07069e14e1a9cf75d59010728b58ab",
     "apps/cli/packages/core/dist/workflow/scheduler/events.d.ts": "fb6814db23a33b857bdde4709445c32585043a44c3c52281417638a59431b897",
     "apps/cli/packages/core/dist/workflow/scheduler/node-runner.d.ts": "8ab60e14d61d95e3fcb81f663a3b6ed07136a361e70283ee80648a71ff6291b8",
-    "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": "ca66ade2fb0ecfd7880fb6cbfea36055f074bd55c92e575bb555b659fdf82b6a",
-    "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js": "b1032f1a95e258d8189e97cfd631ee50d177b0e30e145b2ba18baefd4d7177eb",
+    "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": "15adff747213994367384ab82215fcffb0f7f8ad90ad17ca8b64cf3bc76fa5a1",
+    "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js": "c222aae48699a066d944ce49fa9298873516db37e04d8a9afc194884ca792483",
     "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.d.ts": "02167f9e14cd859a28952cfe065bf068a57ac7c80ae8ee6765c386daf1d470f7",
     "apps/cli/packages/core/src/workflow/expert/run-loop.ts": "e6a320cdb22b94955a6ee65632a79ca8492cf8f9dd202c9d61c4f43916ea84d6",
     "apps/cli/packages/core/dist/workflow/expert/run-loop.js": "529cfd5018094277650e1d563ba9436f3ea4b473241e7c205208e94e74af7c62",

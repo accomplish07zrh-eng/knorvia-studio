@@ -20,18 +20,19 @@ type JournalKind = "node" | "edge" | "collection";
 /** 一次图记录写入：键名与 recordType 同源，避免逐类复制粘贴。 */
 async function appendJournal(
   runtime: Runtime,
-  runId: string,
+  snapshot: Snapshot,
   kind: JournalKind,
   payload: unknown,
   cancel?: AbortSignal,
 ): Promise<void> {
+  // 每条记录都实时读快照的 runId：观察者可能在写记录期间改写快照（上游同语义）。
   const record = {
     [kind]: payload,
     recordType: kind,
-    runId,
+    runId: snapshot.runId,
     timestamp: runtime.timestamp(),
   } as unknown as GraphRecord;
-  await runtime.store.appendGraphRecord(runId, record, { signal: cancel });
+  await runtime.store.appendGraphRecord(snapshot.runId, record, { signal: cancel });
 }
 
 /** 播种后的图日志：三类新增记录 + 一条汇总 op。 */
@@ -41,28 +42,27 @@ async function journalSeed(
   sourcePhase: string,
   cancel?: AbortSignal,
 ): Promise<void> {
-  const runId = outcome.snapshot.runId;
   const batches: readonly (readonly [JournalKind, readonly unknown[]])[] = [
     ["node", outcome.addedNodes],
     ["edge", outcome.addedEdges],
     ["collection", outcome.addedCollections],
   ];
   for (const [kind, items] of batches) {
-    for (const item of items) await appendJournal(runtime, runId, kind, item, cancel);
+    for (const item of items) await appendJournal(runtime, outcome.snapshot, kind, item, cancel);
   }
 
   const edgeIds = outcome.addedEdges.map(edgeId);
   const nodeIds = outcome.addedNodes.map((node) => node.id);
   const collectionIds = outcome.addedCollections.map((collection) => collection.collectionId);
   await runtime.store.appendGraphRecord(
-    runId,
+    outcome.snapshot.runId,
     {
       edgeIds,
       nodeIds,
       payload: { collectionIds, sourcePhase },
       phase: sourcePhase,
       recordType: "op",
-      runId,
+      runId: outcome.snapshot.runId,
       timestamp: runtime.timestamp(),
       type: "graph_seeded",
     } as unknown as GraphRecord,
