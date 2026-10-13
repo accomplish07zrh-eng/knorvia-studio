@@ -5,7 +5,7 @@
     "dist/workflow/expert/phase-runner.d.ts": "14aac536784d33bcbc24c6577adb65bb82c757caa991dc4e9f88e21920ba0c18",
     "dist/workflow/expert/run-loop.js": "529cfd5018094277650e1d563ba9436f3ea4b473241e7c205208e94e74af7c62",
     "dist/workflow/expert/runtime-context.js": "e16aa24958a7ac89807c78f58430fcbc465b451589e20403e04d0f2d84e00122",
-    "dist/workflow/expert/graph-artifacts.js": "c222aae48699a066d944ce49fa9298873516db37e04d8a9afc194884ca792483",
+    "dist/workflow/expert/graph-artifacts.js": "052fdabc71432aa2e77032d2fbe1b8856e14b03cb799b73357aa176fec70ac5b",
     "dist/workflow/expert/prompts.js": "a2c401c636c3137542791ae86ce74b10d6b61d074f43b45c0728959fcd6c59c4",
     "dist/workflow/expert/ids.js": "5f7e85ea02a7ed38957462aa62dc894642195b73ad43915f82f1f0dfd0181343",
     "dist/workflow/definition.js": "7600483cd4c55ca704516510be76295b0e4c46c0f6bd38322c9fcb002a45b4a1"

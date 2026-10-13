@@ -15,25 +15,6 @@ import type { ExpertWorkflowRunSnapshot, WorkflowPhaseDefinition } from "@knorvi
 type Runtime = ExpertWorkflowRuntimeContext;
 type Snapshot = ExpertWorkflowRunSnapshot;
 type GraphRecord = Parameters<Runtime["store"]["appendGraphRecord"]>[1];
-type JournalKind = "node" | "edge" | "collection";
-
-/** 一次图记录写入：键名与 recordType 同源，避免逐类复制粘贴。 */
-async function appendJournal(
-  runtime: Runtime,
-  snapshot: Snapshot,
-  kind: JournalKind,
-  payload: unknown,
-  cancel?: AbortSignal,
-): Promise<void> {
-  // 每条记录都实时读快照的 runId：观察者可能在写记录期间改写快照（上游同语义）。
-  const record = {
-    [kind]: payload,
-    recordType: kind,
-    runId: snapshot.runId,
-    timestamp: runtime.timestamp(),
-  } as unknown as GraphRecord;
-  await runtime.store.appendGraphRecord(snapshot.runId, record, { signal: cancel });
-}
 
 /** 播种后的图日志：三类新增记录 + 一条汇总 op。 */
 async function journalSeed(
@@ -42,13 +23,44 @@ async function journalSeed(
   sourcePhase: string,
   cancel?: AbortSignal,
 ): Promise<void> {
-  const batches: readonly (readonly [JournalKind, readonly unknown[]])[] = [
-    ["node", outcome.addedNodes],
-    ["edge", outcome.addedEdges],
-    ["collection", outcome.addedCollections],
-  ];
-  for (const [kind, items] of batches) {
-    for (const item of items) await appendJournal(runtime, outcome.snapshot, kind, item, cancel);
+  // 三段内联写记录：不引入函数调用边界，await 次数与上游一致（测试按 tick 计数）。
+  for (const node of outcome.addedNodes) {
+    await runtime.store.appendGraphRecord(
+      outcome.snapshot.runId,
+      {
+        node,
+        recordType: "node",
+        runId: outcome.snapshot.runId,
+        timestamp: runtime.timestamp(),
+      } as unknown as GraphRecord,
+      { signal: cancel },
+    );
+  }
+
+  for (const edge of outcome.addedEdges) {
+    await runtime.store.appendGraphRecord(
+      outcome.snapshot.runId,
+      {
+        edge,
+        recordType: "edge",
+        runId: outcome.snapshot.runId,
+        timestamp: runtime.timestamp(),
+      } as unknown as GraphRecord,
+      { signal: cancel },
+    );
+  }
+
+  for (const collection of outcome.addedCollections) {
+    await runtime.store.appendGraphRecord(
+      outcome.snapshot.runId,
+      {
+        collection,
+        recordType: "collection",
+        runId: outcome.snapshot.runId,
+        timestamp: runtime.timestamp(),
+      } as unknown as GraphRecord,
+      { signal: cancel },
+    );
   }
 
   const edgeIds = outcome.addedEdges.map(edgeId);
