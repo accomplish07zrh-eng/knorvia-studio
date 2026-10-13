@@ -136365,6 +136365,62 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: old-gate runner, 35-file stub target list, and gate-old.json evidence (source 16/16, dist 16/16, stub replacement 0 pass).",
       "evidence": ["specs/contracts/core-03/gate-old.json"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts.text.ts",
+      "normalizedSha256": "6f363c5b7a5da7a3805128960434236bc89a2da98a7186b12781250dc8b8e0b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts-sections.ts",
+      "normalizedSha256": "999a90920ba63d8fea3809c4fc022dc09d707dd92d05a179e527986dbde2e0e9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts-phase.ts",
+      "normalizedSha256": "fe97b7076f13d64fec4a554e87d2abdefe68026ad8cad842a18bbb47869cd28e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts-node.ts",
+      "normalizedSha256": "6dc574adc246f5adf4c897d1d82dba133916a8e738d6efd6b86d4a0425707892",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts-summary.ts",
+      "normalizedSha256": "f535111440fc07b8d3f36b42df5c17d60b7845eac1512d1d7f0d8ceab1d2dec6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts-report.ts",
+      "normalizedSha256": "47ec6e20825ac931f1677a12e841c729ab1956458c121527912403cfefa1b9ef",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts-graph.ts",
+      "normalizedSha256": "03c04e018bac107057bfba28afce52bbdfb812a0c655f04c35497c0de6f245b5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: prompts render split into semantic section modules (text table, shared builders, phase/node/summary/report/graph), public entry keeps identical exports; verified by 28-case output equivalence against origin/main implementation.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
