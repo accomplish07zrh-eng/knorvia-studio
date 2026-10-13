@@ -267,3 +267,19 @@ export interface SessionTaskLinkRow {
   time_updated: number;
 }
 ```
+
+## `apps/cli/packages/adapters/src/network/proxy-fetch-types.ts`
+
+用途：network 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分。
+
+```ts
+export type FetchLike = typeof globalThis.fetch;
+
+export interface ProxyFetchOptionSet {
+  caCertFile?: string;
+  env?: Record<string, string | undefined>;
+  fetch?: FetchLike;
+  httpProxy?: string;
+  noProxy?: string;
+}
+```

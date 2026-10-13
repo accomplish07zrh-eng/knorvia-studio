@@ -8,24 +8,24 @@
 
 以下区域的继承文件全部过线（containment < 0.2、最长连续段 < 8、结构相似度 < 0.4），逐文件得分见 issue #95 各批记录：
 
-| 区域 | 备注 |
-| --- | --- |
-| `context` / `image` / `commands` / `device` / `skills` / `config` / `fs` / `logging` | 九区；`logging` 含 facade/桶与纯声明模块 |
-| `storage/` 根（15 文件） | `session-store` 桶 0.045、`workspace-hook-trust-types` 声明模式 0.083、`artifact-files` 0.102、`fs-fault-injection` 0.107、`workspace-hook-trust-path` 0.113、`workspace-hook-trust-process` 0.119、`artifact-policy` 0.125、`artifact-media` 0.143、`workspace-hook-trust-file` 0.167、`session-target` 0.173、`workspace-hook-trust-store` 0.180、`session-target-run` 0.188、`workspace-hook-trust-lock` 0.197、`storage/index` 0.197 |
-| `storage/session-store/`（批次 A–D） | 批次 B 7/7（`message-storage` 0.115、`codecs` 0.118、`fork-commit` 0.123、`input-history` 0.129、`session-input-documents` 0.139、`dwf-journal-run-state` 0.189、`script-workflow-runs` 0.102）；批次 C 12/12（`session-scopes` 0.098 … `errors` 声明模式 0.000）；批次 D 7/7（见下节） |
+| 区域                                                                                 | 备注                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `context` / `image` / `commands` / `device` / `skills` / `config` / `fs` / `logging` | 九区；`logging` 含 facade/桶与纯声明模块                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `storage/` 根（15 文件）                                                             | `session-store` 桶 0.045、`workspace-hook-trust-types` 声明模式 0.083、`artifact-files` 0.102、`fs-fault-injection` 0.107、`workspace-hook-trust-path` 0.113、`workspace-hook-trust-process` 0.119、`artifact-policy` 0.125、`artifact-media` 0.143、`workspace-hook-trust-file` 0.167、`session-target` 0.173、`workspace-hook-trust-store` 0.180、`session-target-run` 0.188、`workspace-hook-trust-lock` 0.197、`storage/index` 0.197 |
+| `storage/session-store/`（批次 A–D）                                                 | 批次 B 7/7（`message-storage` 0.115、`codecs` 0.118、`fork-commit` 0.123、`input-history` 0.129、`session-input-documents` 0.139、`dwf-journal-run-state` 0.189、`script-workflow-runs` 0.102）；批次 C 12/12（`session-scopes` 0.098 … `errors` 声明模式 0.000）；批次 D 7/7（见下节）                                                                                                                                                  |
 
 ### 批次 D（含 SQL/DDL 的迁移文件）
 
-| 文件 | 计分模式 | 剔除行 | 结果 |
-| --- | --- | --- | --- |
-| `session-store/rows.ts` | 声明模式（基础 `interface.md`） | — | **0.000**（零改动即过：9 个声明块被剥离、残留 0） |
-| `repositories/script-workflow-rows.ts`（新拆） | 声明模式（补充名单） | — | 0.083 |
-| `repositories/script-workflow-codecs.ts` | 普通 | — | 0.042（structural 0.057） |
-| `migrations/0020-provider-model-selection.ts` | `--sql-freeze` | 73 | 0.139（structural 0.167） |
-| `migrations/0021-official-glm-selection.ts` | `--sql-freeze` | 33 | 0.125 |
-| `migrations/0022-backfilled-session-reasoning.ts` | `--sql-freeze` | 61 | 0.000 |
-| `migrations.ts` | `--sql-freeze` | **821** | 0.063 |
-| `session-store/options.ts` | 声明模式（基础 `interface.md`） | — | **0.000**（零改动即过） |
+| 文件                                              | 计分模式                        | 剔除行  | 结果                                              |
+| ------------------------------------------------- | ------------------------------- | ------- | ------------------------------------------------- |
+| `session-store/rows.ts`                           | 声明模式（基础 `interface.md`） | —       | **0.000**（零改动即过：9 个声明块被剥离、残留 0） |
+| `repositories/script-workflow-rows.ts`（新拆）    | 声明模式（补充名单）            | —       | 0.083                                             |
+| `repositories/script-workflow-codecs.ts`          | 普通                            | —       | 0.042（structural 0.057）                         |
+| `migrations/0020-provider-model-selection.ts`     | `--sql-freeze`                  | 73      | 0.139（structural 0.167）                         |
+| `migrations/0021-official-glm-selection.ts`       | `--sql-freeze`                  | 33      | 0.125                                             |
+| `migrations/0022-backfilled-session-reasoning.ts` | `--sql-freeze`                  | 61      | 0.000                                             |
+| `migrations.ts`                                   | `--sql-freeze`                  | **821** | 0.063                                             |
+| `session-store/options.ts`                        | 声明模式（基础 `interface.md`） | —       | **0.000**（零改动即过）                           |
 
 ## 二、计分模式判据（**先判模式，再谈门槛**）
 
@@ -62,12 +62,12 @@
 
 ## 五、门禁与登记
 
-| 项 | 结果 |
-| --- | --- |
-| 契约测试 | **118/118**（`specs/contracts/apps-cli-packages-01/tests/` 9 个文件） |
+| 项                              | 结果                                                                                   |
+| ------------------------------- | -------------------------------------------------------------------------------------- |
+| 契约测试                        | **118/118**（`specs/contracts/apps-cli-packages-01/tests/` 9 个文件）                  |
 | `pnpm --dir apps/cli typecheck` | **0 错误**（清掉 36 个基线错误；方法：逐文件、本文件清零 + 无新增 + 契约用例后再提交） |
-| 相似度工具测试 | **27/27**（含为 `--sql-freeze` 新增的 3 个用例） |
-| `pnpm provenance:report` | `reviewProblems` **47 → 0**（47 条 basis 登记含 SQL 冻结事实与剔除前后实测值） |
+| 相似度工具测试                  | **27/27**（含为 `--sql-freeze` 新增的 3 个用例）                                       |
+| `pnpm provenance:report`        | `reviewProblems` **47 → 0**（47 条 basis 登记含 SQL 冻结事实与剔除前后实测值）         |
 
 ## 六、例外与已知差异（如实登记）
 
@@ -80,16 +80,16 @@
 
 全包 `src/` 共 348 个 `.ts`（不含 `browser/`），当前正常模式复扫：**PASS 179 / FAIL 169**。剩余量按目录：
 
-| 目录 | 总数 | 正常模式 FAIL | 说明 |
-| --- | --- | --- | --- |
-| `model/` | 51 | 44 | 未开始 |
-| `plugins/` | 49 | 33 | 未开始 |
-| `mcp/` | 34 | 31 | 未开始 |
-| `exec/` | 24 | 20 | 未开始 |
-| `http/` | 4 | 4 | 未开始 |
-| `auth/` | 5 | 3 | 未开始 |
-| `network/` | 4 | 3 | 未开始 |
-| `storage/` | 71 | 15 | 其中多数为纯声明/桶/SQL 文件（在对应模式下通过），少数实现文件待收口 |
-| 其余小目录 | — | ≤8 | 多为纯声明/桶文件，需按其模式复核 |
+| 目录       | 总数 | 正常模式 FAIL | 说明                                                                 |
+| ---------- | ---- | ------------- | -------------------------------------------------------------------- |
+| `model/`   | 51   | 44            | 未开始                                                               |
+| `plugins/` | 49   | 33            | 未开始                                                               |
+| `mcp/`     | 34   | 31            | 未开始                                                               |
+| `exec/`    | 24   | 20            | 未开始                                                               |
+| `http/`    | 4    | 4             | 未开始                                                               |
+| `auth/`    | 5    | 3             | 未开始                                                               |
+| `network/` | 4    | 3             | 未开始                                                               |
+| `storage/` | 71   | 15            | 其中多数为纯声明/桶/SQL 文件（在对应模式下通过），少数实现文件待收口 |
+| 其余小目录 | —    | ≤8            | 多为纯声明/桶文件，需按其模式复核                                    |
 
 **注意**：上表为**普通模式**读数；纯声明文件（声明模式）与 SQL 冻结文件（`--sql-freeze`）应按第二节判据复核后登记，不能据此判定未完成。

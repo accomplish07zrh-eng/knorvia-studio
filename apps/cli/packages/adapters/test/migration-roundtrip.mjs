@@ -37,7 +37,9 @@ function ledger() {
 }
 
 function extract(id, path) {
-  const row = db.prepare("SELECT json_extract(data, ?) AS value FROM message WHERE id = ?").get(path, id);
+  const row = db
+    .prepare("SELECT json_extract(data, ?) AS value FROM message WHERE id = ?")
+    .get(path, id);
   return row?.value ?? null;
 }
 
@@ -53,7 +55,11 @@ const fullLedger = ledger();
 assert.equal(fullLedger.size, SQLITE_MIGRATIONS.length, "首次运行应写入全部迁移台账");
 for (const id of PENDING_IDS) db.prepare("DELETE FROM schema_migration WHERE id = ?").run(id);
 const legacyLedger = ledger();
-assert.equal(legacyLedger.size, SQLITE_MIGRATIONS.length - PENDING_IDS.length, "旧库台账应少掉未发布迁移");
+assert.equal(
+  legacyLedger.size,
+  SQLITE_MIGRATIONS.length - PENDING_IDS.length,
+  "旧库台账应少掉未发布迁移",
+);
 console.log(
   `旧库状态：台账 ${legacyLedger.size} 条（撤销 ${PENDING_IDS.length} 条待发布迁移：${PENDING_IDS.join(", ")}）`,
 );
@@ -78,14 +84,26 @@ console.log("旧写：写入 1 个会话 + 2 条旧协议消息（user 嵌套 mo
 runSqliteSessionMigrations(db, dbPath);
 const upgradedLedger = ledger();
 assert.equal(upgradedLedger.size, SQLITE_MIGRATIONS.length, "升级后台账应补齐");
-assert.equal(extract("msg_user", "$.modelSelection") !== null, true, "旧 user 消息应被补出 modelSelection");
+assert.equal(
+  extract("msg_user", "$.modelSelection") !== null,
+  true,
+  "旧 user 消息应被补出 modelSelection",
+);
 const provider = extract("msg_user", "$.modelSelection.providerId");
 assert.ok(
   provider === "zai-api" || provider === "builtin:zai",
   `providerId 应为映射前后之一，实际 ${String(provider)}`,
 );
-assert.equal(extract("msg_asst", "$.providerId"), "builtin:zai", "assistant 的扁平 providerID 应被搬到 providerId");
-assert.equal(extract("msg_asst", "$.modelId"), "glm-5.3", "assistant 的扁平 modelID 应被搬到 modelId");
+assert.equal(
+  extract("msg_asst", "$.providerId"),
+  "builtin:zai",
+  "assistant 的扁平 providerID 应被搬到 providerId",
+);
+assert.equal(
+  extract("msg_asst", "$.modelId"),
+  "glm-5.3",
+  "assistant 的扁平 modelID 应被搬到 modelId",
+);
 console.log(
   `新读：迁移应用完毕（台账 ${upgradedLedger.size} 条）；user 行补出 modelSelection(providerId=${String(provider)})，assistant 行补出扁平 providerId/modelId`,
 );
@@ -101,9 +119,17 @@ insertMessage("msg_new", 2, {
   },
 });
 runSqliteSessionMigrations(db, dbPath);
-assert.equal(extract("msg_new", "$.modelSelection.providerId"), "account:zai-start-plan", "新写入的 modelSelection 必须保持原样");
+assert.equal(
+  extract("msg_new", "$.modelSelection.providerId"),
+  "account:zai-start-plan",
+  "新写入的 modelSelection 必须保持原样",
+);
 assert.equal(extract("msg_new", "$.providerId"), null, "新写入不应凭空产生 legacy 扁平字段");
-assert.deepEqual([...ledger().entries()], [...afterUpgrade.entries()], "升级后再跑迁移不得改变台账（checksum 一致）");
+assert.deepEqual(
+  [...ledger().entries()],
+  [...afterUpgrade.entries()],
+  "升级后再跑迁移不得改变台账（checksum 一致）",
+);
 console.log("新写→旧读：新行保持 modelSelection、未回填 legacy 字段；台账与升级后完全一致");
 
 db.close();
