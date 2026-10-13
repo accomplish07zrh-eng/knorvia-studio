@@ -311,3 +311,22 @@ export interface BypassRule {
   port?: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/network/subprocess-env-types.ts`
+
+用途：network 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；`NetworkEgressEnvPolicy` 由 subprocess-env.ts 原样再导出，`…Options` 仅供内部使用。
+
+```ts
+export interface NetworkEgressEnvPolicy {
+  caCertFile?: string;
+  httpProxy?: string;
+  noProxy?: string;
+}
+
+export interface NetworkEgressEnvOptions {
+  network?: NetworkEgressEnvPolicy;
+  platform?: NodeJS.Platform;
+  sourceEnv?: Record<string, string | undefined>;
+  toolEnvPassthrough?: boolean;
+}
+```
