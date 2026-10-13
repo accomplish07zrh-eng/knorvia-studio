@@ -136525,6 +136525,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: scheduled-phase split into runner adapters and completion module, orchestrator uses port forwarders; similarity 3/3 PASS, contract tests 16/16 both entries.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/critic-reopen.ts",
+      "normalizedSha256": "c657a6a75126ae620a898eb39cf7ed9b477b630f143ebc9adfba620903c911ed",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: critic loop split into reopen helpers and loop orchestrator; similarity 2/2 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
