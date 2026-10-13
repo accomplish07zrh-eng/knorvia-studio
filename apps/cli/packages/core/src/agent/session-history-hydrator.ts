@@ -128,12 +128,13 @@ function syntheticMetadata(part: Text): RuntimeMessageMetadata {
 
 function rawReminderSource(part: MessagePart): SystemReminderSource | undefined {
   if (
+    /* 条件 */
     part.type !== "text" ||
     !part.synthetic ||
     !part.text.trim() ||
     part.text.trimStart().startsWith("<system-reminder")
   )
-    return;
+    return /* 早退 */;
   const source = syntheticMetadata(part).source;
   if (!isKnownSystemReminderSource(source)) return;
   const descriptor = getSystemReminderDescriptor(source);
@@ -142,7 +143,7 @@ function rawReminderSource(part: MessagePart): SystemReminderSource | undefined 
     descriptor.channel !== "real_user" &&
     descriptor.channel !== "tool_result"
     ? source
-    : undefined;
+    : /* 无值 */ undefined;
 }
 
 function providerText(part: Text): string {
@@ -163,7 +164,7 @@ function promptAttachment(
 ): PromptAttachmentReminderInput | undefined {
   if (block.type !== "text" || !part.mime.startsWith("text/")) return;
   if (!part.source) {
-    return {
+    return /* 构造返回值 */ {
       content: block.text,
       kind: "inline_text",
       label: part.filename,
@@ -172,12 +173,13 @@ function promptAttachment(
   }
   const metadata = part.metadata;
   if (
+    /* 条件 */
     metadata?.storageKind !== "inline" ||
     (metadata.recoverability !== "provider_ready" && metadata.recoverability !== "preview_only") ||
     metadata.preview?.text !== block.text
   )
-    return;
-  return {
+    return /* 早退 */;
+  return /* 构造返回值 */ {
     content: block.text,
     kind: "file",
     label: part.source.text.value ?? part.filename,
@@ -187,6 +189,7 @@ function promptAttachment(
 
 function userMetadata(parts: MessagePart[]): RuntimeMessageMetadata {
   if (
+    /* 条件 */
     parts.some(
       (part) =>
         part.type === "file" ||
@@ -208,11 +211,12 @@ async function appendUser(
 ): Promise<boolean> {
   const info = message.info;
   if (
+    /* 条件 */
     info.role === "user" &&
     info.source === "shared_context" &&
     info.metadata !== null &&
     typeof info.metadata === "object"
-  ) {
+  ) /* 条件结束 */ {
     const status = info.metadata.sharedContextStatus;
     if (status !== undefined && status !== "attached") return false;
   }
@@ -222,7 +226,7 @@ async function appendUser(
     const source = rawReminderSource(only);
     if (source && only.type === "text") {
       input.history.addAttachment(source, only.text);
-      return true;
+      return /* 命中 */ true;
     }
   }
   const attachments: ModelMessageContentBlock[] = [];
@@ -280,7 +284,7 @@ async function appendUser(
         )
       : entries,
   );
-  return true;
+  return /* 命中 */ true;
 }
 
 function providerToolName(part: ToolPart): string {
@@ -310,10 +314,11 @@ export async function hydrateMessageHistoryFromSession(input: {
     const parts = [...byId.values()];
     counts.partCount += parts.length;
     const info = message.info;
-    if (info.role === "user") {
-      if (await appendUser(input, message, parts)) counts.appliedMessageCount++;
-      continue;
+    const isUserMessage = info.role === "user";
+    if (isUserMessage && (await appendUser(input, message, parts))) {
+      counts.appliedMessageCount++;
     }
+    if (isUserMessage) continue;
     const text = parts
       .filter((part): part is Text => part.type === "text" && !part.ignored)
       .map((part) => part.text)
@@ -343,7 +348,7 @@ export async function hydrateMessageHistoryFromSession(input: {
     const model =
       info.modelId && info.providerId
         ? { modelId: info.modelId, providerId: info.providerId }
-        : undefined;
+        : /* 无值 */ undefined;
     input.history.addAssistant(text, calls, reasoning, model, info.tokens);
     counts.appliedMessageCount++;
     for (const part of tools) {
@@ -355,10 +360,10 @@ export async function hydrateMessageHistoryFromSession(input: {
                 filePartToContentBlock(attachment, input.artifactStore),
               ),
             )
-          : [];
+          : /* 空集 */ [];
         const projection = blocks.length
           ? projectPersistedToolMediaContent(part.state.metadata?.modelContentLayout, blocks)
-          : undefined;
+          : /* 无值 */ undefined;
         input.history.addToolResult(part.callID, name, projection ?? part.state.output, true);
       } else if (part.state.status === "error") {
         const persisted = part.state.metadata?.modelContent;
@@ -366,20 +371,20 @@ export async function hydrateMessageHistoryFromSession(input: {
           part.callID,
           name,
           typeof persisted === "string" ? persisted : part.state.error,
-          false,
+          /* 不合成 */ false,
         );
-      } else {
+      } else /* 其余角色 */ {
         counts.interruptedToolCount++;
         input.history.addToolResult(
           part.callID,
           name,
           "[Tool execution was interrupted before resume]",
-          false,
+          /* 不合成 */ false,
         );
       }
     }
   }
-  return {
+  return /* 构造返回值 */ {
     appliedMessageCount: counts.appliedMessageCount,
     interruptedToolCount: counts.interruptedToolCount,
     messageCount: messages.length,
