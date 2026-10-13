@@ -75,45 +75,51 @@ const emitPlannerEvent = (
     signal: options.abortSignal,
   });
 
-/** 活动公共字段：身份、工件、相位与追踪 id。 */
-const baseFields = (args: {
+/** 运行中的规划器活动。 */
+const activePlannerActivity = (args: {
   activityId: string;
   inputArtifactPaths: string[];
   options: Options;
   startedAt: string;
   traceId?: string;
-}): readonly (readonly [string, unknown])[] => [
-  ["activityId", args.activityId],
-  ["inputArtifactPaths", args.inputArtifactPaths],
-  ["kind", PLANNER_KIND],
-  ["parentSessionId", args.options.parentSessionId],
-  ["phase", args.options.phase],
-  ["startedAt", args.startedAt],
-  ["traceId", args.traceId],
-];
-
-/** 运行中的规划器活动。 */
-const activePlannerActivity = (args: Parameters<typeof baseFields>[0]): Activity =>
+}): Activity =>
   Object.fromEntries([
-    ...baseFields(args),
+    ["activityId", args.activityId],
+    ["inputArtifactPaths", args.inputArtifactPaths],
+    ["kind", PLANNER_KIND],
     ["outputArtifactPaths", []],
+    ["parentSessionId", args.options.parentSessionId],
+    ["phase", args.options.phase],
+    ["startedAt", args.startedAt],
     ["status", "active"],
+    ["traceId", args.traceId],
   ]) as unknown as Activity;
 
 /** 完成的规划器活动。 */
 const completedPlannerActivity = (
-  args: Parameters<typeof baseFields>[0],
+  args: {
+    activityId: string;
+    inputArtifactPaths: string[];
+    options: Options;
+    startedAt: string;
+    traceId?: string;
+  },
   result: { model?: string; sessionId: string; traceId?: string; turnId?: string },
   artifactPath: string,
   completedAt: string,
 ): Activity =>
   Object.fromEntries([
-    ...baseFields(args),
+    ["activityId", args.activityId],
     ["artifactPath", artifactPath],
     ["completedAt", completedAt],
+    ["inputArtifactPaths", args.inputArtifactPaths],
+    ["kind", PLANNER_KIND],
     ["outputArtifactPaths", [artifactPath]],
+    ["parentSessionId", args.options.parentSessionId],
+    ["phase", args.options.phase],
     ...(result.model ? [["model", result.model]] : []),
     ["sessionId", result.sessionId],
+    ["startedAt", args.startedAt],
     ["status", "completed"],
     ["traceId", result.traceId ?? args.traceId],
     ["turnId", result.turnId],
@@ -121,18 +127,29 @@ const completedPlannerActivity = (
 
 /** 失败的规划器活动：保留已链接的模型/会话/回合。 */
 const failedPlannerActivity = (
-  args: Parameters<typeof baseFields>[0],
+  args: {
+    activityId: string;
+    inputArtifactPaths: string[];
+    options: Options;
+    startedAt: string;
+    traceId?: string;
+  },
   linked: Activity | undefined,
   message: string,
   completedAt: string,
 ): Activity =>
   Object.fromEntries([
-    ...baseFields(args),
+    ["activityId", args.activityId],
     ["completedAt", completedAt],
     ["error", message],
-    ["outputArtifactPaths", []],
+    ["inputArtifactPaths", args.inputArtifactPaths],
+    ["kind", PLANNER_KIND],
     ...(linked?.model ? [["model", linked.model]] : []),
+    ["outputArtifactPaths", []],
+    ["parentSessionId", args.options.parentSessionId],
+    ["phase", args.options.phase],
     ...(linked?.sessionId ? [["sessionId", linked.sessionId]] : []),
+    ["startedAt", args.startedAt],
     ["status", "failed"],
     ["traceId", linked?.traceId ?? args.traceId],
     ...(linked?.turnId ? [["turnId", linked.turnId]] : []),
@@ -234,7 +251,13 @@ const activate = async (args: {
 /** 成功段：落工件、应用扩张、写完成活动并发事件。 */
 const finishPlannerCompleted = async (args: {
   activeCollection: Collection;
-  activityBase: Parameters<typeof baseFields>[0];
+  activityBase: {
+    activityId: string;
+    inputArtifactPaths: string[];
+    options: Options;
+    startedAt: string;
+    traceId?: string;
+  };
   activityId: string;
   artifactDirectory: string;
   childTrace: ReturnType<typeof plannerTrace>;
@@ -321,7 +344,13 @@ const finishPlannerCompleted = async (args: {
 /** 失败段：按错误阈值决定 draining/exhausted，并写 planner_failed。 */
 const finishPlannerFailed = async (args: {
   activeCollection: Collection;
-  activityBase: Parameters<typeof baseFields>[0];
+  activityBase: {
+    activityId: string;
+    inputArtifactPaths: string[];
+    options: Options;
+    startedAt: string;
+    traceId?: string;
+  };
   activityId: string;
   childTrace: ReturnType<typeof plannerTrace>;
   error: unknown;

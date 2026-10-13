@@ -30,8 +30,8 @@ export const graphCollections = (graph: Graph): SchedulerCollection[] =>
 export const normalizeCollection = (collection: Collection): SchedulerCollection =>
   Object.assign(
     {},
-    COLLECTION_DEFAULTS,
     definedEntries(collection),
+    COLLECTION_DEFAULTS,
   ) as unknown as SchedulerCollection;
 
 /** 集合成员：显式声明 + 图上归属该集合的节点，去重后保持顺序。 */

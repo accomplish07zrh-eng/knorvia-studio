@@ -34,24 +34,19 @@ export interface ActivityInput {
   traceId?: string;
 }
 
-/** 活动字段表：公共部分（kind/nodeId/相位/父会话/开始时间/追踪 id）。 */
-const baseFields = (input: ActivityInput): readonly (readonly [string, unknown])[] => [
-  ["activityId", input.activityId],
-  ["inputArtifactPaths", input.inputArtifactPaths],
-  ["kind", "agent_session"],
-  ["nodeId", input.node.id],
-  ["parentSessionId", input.options.parentSessionId],
-  ["phase", input.options.phase],
-  ["startedAt", input.startedAt],
-  ["traceId", input.traceId],
-];
-
 /** 运行中活动：输出路径为空、状态 active。 */
 export const activeActivity = (input: ActivityInput): Activity =>
   Object.fromEntries([
-    ...baseFields(input),
+    ["activityId", input.activityId],
+    ["inputArtifactPaths", input.inputArtifactPaths],
+    ["kind", "agent_session"],
+    ["nodeId", input.node.id],
     ["outputArtifactPaths", []],
+    ["parentSessionId", input.options.parentSessionId],
+    ["phase", input.options.phase],
+    ["startedAt", input.startedAt],
     ["status", "active"],
+    ["traceId", input.traceId],
   ]) as unknown as Activity;
 
 /** 完成活动：带工件路径、模型/会话/回合与完成时间。 */
@@ -62,12 +57,18 @@ export const completedActivity = (
   completedAt: string,
 ): Activity =>
   Object.fromEntries([
-    ...baseFields(input),
+    ["activityId", input.activityId],
     ["artifactPath", artifactPath],
     ["completedAt", completedAt],
+    ["inputArtifactPaths", input.inputArtifactPaths],
+    ["kind", "agent_session"],
+    ["nodeId", input.node.id],
     ["outputArtifactPaths", [artifactPath]],
+    ["parentSessionId", input.options.parentSessionId],
+    ["phase", input.options.phase],
     ...(result.model ? [["model", result.model]] : []),
     ["sessionId", result.sessionId],
+    ["startedAt", input.startedAt],
     ["status", "completed"],
     ["traceId", result.traceId ?? input.traceId],
     ["turnId", result.turnId],
@@ -82,12 +83,18 @@ export const failedActivity = (
   completedAt: string,
 ): Activity =>
   Object.fromEntries([
-    ...baseFields(input),
+    ["activityId", input.activityId],
     ["completedAt", completedAt],
     ["error", errorMessage],
-    ["outputArtifactPaths", []],
+    ["inputArtifactPaths", input.inputArtifactPaths],
+    ["kind", "agent_session"],
     ...(linked?.model ? [["model", linked.model]] : []),
+    ["nodeId", input.node.id],
+    ["outputArtifactPaths", []],
+    ["parentSessionId", input.options.parentSessionId],
+    ["phase", input.options.phase],
     ...(linked?.sessionId ? [["sessionId", linked.sessionId]] : []),
+    ["startedAt", input.startedAt],
     ["status", status],
     ["traceId", linked?.traceId ?? input.traceId],
     ...(linked?.turnId ? [["turnId", linked.turnId]] : []),
