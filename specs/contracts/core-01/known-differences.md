@@ -95,3 +95,9 @@ export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/execu
 ### 签名（导出面，不得增删）
 
 `normalizeMcpToolResultForModel(input: McpImageNormalizationInput): Promise<McpToolCallResult>`（入参接口**不导出**）、`asDataUrl(data, mimeType)`、`base64PayloadFromMcpImageData(data)`，以及四个常量（上表）。内部函数（`projectEntry`/`compressForInline`/`backUpScreenshot`/`saveOversizedImage`/`markedScreenshotIndices`/`hasOfficialCuaFrameAuthority` 的辅助件）不进导出面，替换实现可自由重组。
+
+## 8. `agent/session-history-hydrator.ts` 普通模式命中为合同冻结面成员行（声明模式计分依据）
+
+普通模式读数 0.246（残留 289 / 命中 71；改前 0.292）**不用于计分**：其残留命中行是 `interface.md` 列名的**声明行本身**（即合同冻结面成员行），而非实现表达。声明模式（把声明块与具名行剔除后）读数为 **0.109（残留 55 / 命中 6）**，即真实实现面达标。
+
+同口径先例：`mcp/image-normalization.ts`（0.186）、`index.ts`（0.159）、`message-history.ts`（0.192）——均以声明模式计分，普通模式读数作为参考并在此如实记录。
