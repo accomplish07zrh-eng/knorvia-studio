@@ -4,11 +4,15 @@ import type {
   HookEventName,
   HookMatcherConfig,
   PluginOptionValues,
-  PluginOptions,
   RuntimeConfigPatch,
-  RuntimeHooksConfig,
 } from "@knorvia/contracts";
 import { ConfigScope, ConfigScopePriority } from "@knorvia/contracts";
+
+/** 插件配置：按插件名索引的选项值表（契约只导出值类型，这里派生别名）。 */
+type PluginOptions = Record<string, PluginOptionValues>;
+
+/** 钩子配置：取「配置补丁」里 hooks 字段的非空类型，避免依赖不存在的导出名。 */
+type RuntimeHooksConfig = NonNullable<RuntimeConfigPatch["hooks"]>;
 
 interface PrioritizedConfig {
   config: RuntimeConfigPatch;
