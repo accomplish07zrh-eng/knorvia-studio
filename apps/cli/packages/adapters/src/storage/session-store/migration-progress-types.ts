@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
-//
 // 迁移进度与选项的形状声明：由 migration-runner.ts 再导出，公开面不变。
-//
 // 稳定性说明：
 // 一、phase 联合的取值是调用方判断进度与失败的依据，新增取值前先确认消费端。
 // 二、migration 字段只在 migrating 阶段带上迁移事实，其余阶段为 undefined。
@@ -11,7 +9,7 @@
 // 五、onProgress 的拒绝在失败阶段会被吞掉，避免二次报错覆盖原始失败。
 // 六、lockWaitTimeoutMs 只影响异步驱动的等待上限，同步启动用默认常量。
 
-import type { DatabaseMigrationFacts } from "@knorvia/shared";
+import type { DatabaseMigrationFacts as MigrationFacts } from "@knorvia/shared";
 
 export type SqliteMigrationPhase =
   | "checking"
@@ -24,7 +22,7 @@ export type SqliteMigrationPhase =
 export interface SqliteMigrationProgress {
   phase: SqliteMigrationPhase;
   elapsedMs: number;
-  migration?: DatabaseMigrationFacts;
+  migration?: MigrationFacts;
   migrationId?: string;
   total?: number;
   completed?: number;
