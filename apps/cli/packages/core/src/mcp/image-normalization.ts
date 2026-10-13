@@ -123,6 +123,9 @@ export function base64PayloadFromMcpImageData(data: string): string {
 type NormalizationInput = Parameters<typeof normalizeMcpToolResultForModel>[0];
 type ImageSummary = { base64Bytes: number; inlineLimitBytes: number; mimeType: string };
 
+// 缺少 artifact store 时的错误文案：调用方按消息判断可恢复性，逐字保留。
+const MISSING_ARTIFACT_STORE_MESSAGE = "MCP image artifact store is not configured";
+
 // 二进制 artifact 写入请求：字段名、顺序与 retention 取值都是兼容面。
 const binaryArtifactRequest = (
   context: ToolExecutionContext,
@@ -294,7 +297,7 @@ async function saveOversizedImage(
 ) {
   const dataUrl = asDataUrl(data, summary.mimeType);
   const store = input.context.artifactStore;
-  if (!store) throw new Error("MCP image artifact store is not configured");
+  if (!store) throw new Error(MISSING_ARTIFACT_STORE_MESSAGE);
   const write = store.writeToolResultBinaryArtifact;
   if (write) {
     return await write.call(
