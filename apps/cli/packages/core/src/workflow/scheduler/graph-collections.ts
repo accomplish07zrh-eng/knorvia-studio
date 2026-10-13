@@ -26,13 +26,14 @@ const definedEntries = (value: object): Record<string, unknown> =>
 export const graphCollections = (graph: Graph): SchedulerCollection[] =>
   (graph.collections ?? []).map(normalizeCollection);
 
-/** 集合归一化：默认值与集合自身字段合并。 */
-export const normalizeCollection = (collection: Collection): SchedulerCollection =>
-  Object.assign(
-    {},
-    definedEntries(collection),
-    COLLECTION_DEFAULTS,
-  ) as unknown as SchedulerCollection;
+/** 集合归一化：保留集合自身的键序与取值，只补缺失字段（与原文 { ...collection, … } 语义一致）。 */
+export const normalizeCollection = (collection: Collection): SchedulerCollection => {
+  const merged: Record<string, unknown> = definedEntries(collection);
+  for (const [key, value] of Object.entries(COLLECTION_DEFAULTS)) {
+    merged[key] = merged[key] ?? value;
+  }
+  return merged as unknown as SchedulerCollection;
+};
 
 /** 集合成员：显式声明 + 图上归属该集合的节点，去重后保持顺序。 */
 export const collectionNodeIdsForGraph = (collection: Collection, graph: Graph): string[] => {
