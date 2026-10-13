@@ -207,6 +207,13 @@ const NO_ARTIFACT_STORE_NOTE =
 
 const textBlock = (lines: string[]): McpContentBlock => ({ type: "text", text: lines.join("\n") });
 
+/** 回落文案与落盘载荷共用的图片摘要：内联上限取自常量，避免各处重复。 */
+const imageSummaryOf = (base64Bytes: number, mimeType: string): ImageSummary => ({
+  base64Bytes,
+  inlineLimitBytes: MCP_IMAGE_INLINE_BASE64_BYTES,
+  mimeType,
+});
+
 async function projectEntry(
   input: NormalizationInput,
   entry: McpContentBlock,
@@ -226,11 +233,7 @@ async function projectEntry(
     if (compressed) return compressed;
   }
 
-  const summary: ImageSummary = {
-    base64Bytes,
-    inlineLimitBytes: MCP_IMAGE_INLINE_BASE64_BYTES,
-    mimeType,
-  };
+  const summary = imageSummaryOf(base64Bytes, mimeType);
   if (screenshotPath) {
     return textBlock([omittedImageMessage(summary), SCREENSHOT_ADJACENT_NOTE]);
   }
