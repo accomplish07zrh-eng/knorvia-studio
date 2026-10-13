@@ -5,7 +5,7 @@ import type { ImageCompressionStrategy } from "@knorvia/contracts";
 import { fitsImageBudget, type ImageBudget } from "./image-budget.js";
 import { jimpOutputMediaType, throwIfAborted } from "./jimp-media.js";
 
-type DecodedImage = Awaited<ReturnType<typeof Jimp.decode>>;
+type DecodedImage = InstanceType<typeof Jimp>;
 type OutputMediaType = ReturnType<typeof jimpOutputMediaType>;
 type PngSettings = { deflateLevel: number; deflateStrategy: number };
 
