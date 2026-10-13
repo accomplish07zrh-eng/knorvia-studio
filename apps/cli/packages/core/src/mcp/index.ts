@@ -56,6 +56,21 @@ const mcpDescriptorNames = (
   return { authority, descriptorName, modelName };
 };
 
+// 名单过滤：不在允许名单（若给定）或命中拒绝名单的描述符直接跳过。
+type McpNameSet = { has(value: string): boolean } | undefined;
+
+const isMcpDescriptorExcluded = (
+  names: { descriptorName: string; modelName: string },
+  allowed: McpNameSet,
+  denied: McpNameSet,
+): boolean => {
+  const blockedByAllowList =
+    allowed !== undefined && !allowed.has(names.modelName) && !allowed.has(names.descriptorName);
+  const blockedByDenyList =
+    denied?.has(names.modelName) === true || denied?.has(names.descriptorName) === true;
+  return blockedByAllowList || blockedByDenyList;
+};
+
 export function registerMcpTools(
   registry: ToolRegistry,
   mcpPort: McpPort,
@@ -73,8 +88,7 @@ export function registerMcpTools(
       options,
       canonicalPrefix,
     );
-    if (allowed && !allowed.has(modelName) && !allowed.has(descriptorName)) continue;
-    if (denied?.has(modelName) || denied?.has(descriptorName)) continue;
+    if (isMcpDescriptorExcluded({ descriptorName, modelName }, allowed, denied)) continue;
 
     const trustedWindows = isTrustedWindowsComputerUseTool(
       descriptor,
