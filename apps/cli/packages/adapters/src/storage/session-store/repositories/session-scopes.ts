@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 会话作用域与历史数据修复：列表筛选的动态 SQL、以及三条回填更新。
+// SQL 片段、ESCAPE 语义与顺序（时间倒序、id 倒序）都是数据格式，逐字保留。
 
 import type { DatabaseSync, SQLInputValue } from "node:sqlite";
 import {
@@ -13,100 +16,126 @@ import {
 import { decodeSessionRow } from "../codecs.js";
 import type { SessionRow } from "../rows.js";
 
-export async function listSessions(
-  db: DatabaseSync,
-  input: ListSessionsInput = {},
-): Promise<SessionInfo[]> {
-  const predicates: string[] = [];
-  const parameters: SQLInputValue[] = [];
-  const addFilter = (predicate: string, ...values: SQLInputValue[]) => {
-    predicates.push(predicate);
-    parameters.push(...values);
-  };
-  if (input.projectID) addFilter("project_id = ?", input.projectID);
-  if (input.workspaceID === null) addFilter("workspace_id IS NULL");
-  else if (input.workspaceID !== undefined) addFilter("workspace_id = ?", input.workspaceID);
-  if (input.directory) addFilter("directory = ?", input.directory);
-  if (input.path !== undefined) {
-    if (input.path === "") addFilter("(path IS NULL OR path = '')");
-    else {
-      // 只让实现追加的后代通配符生效，路径内的反斜线、百分号和下划线都是字面字符。
-      const literal = input.path.replace(/[\\%_]/g, (character) => `\\${character}`);
-      addFilter("(path = ? OR path LIKE ? ESCAPE '\\')", input.path, `${literal}/%`);
-    }
+/** 追加一个筛选片段并同步它的绑定值。 */
+/** 任务类型：与契约允许集合同源，避免把任意外部字符串传进筛选。 */
+type TaskType = (typeof SESSION_TASK_TYPES)[number];
+
+type AppendFilter = (predicate: string, ...values: SQLInputValue[]) => void;
+
+/** 路径筛选：空串按「未设置」匹配，其它值按「自身或其后代」匹配。 */
+function addPathFilter(path: string, append: AppendFilter): void {
+  if (path === "") {
+    append("(path IS NULL OR path = '')");
+    return;
   }
-  if (input.roots) addFilter("parent_id IS NULL");
-  const taskTypes = [
-    ...new Set(input.taskTypes?.filter((taskType) => SESSION_TASK_TYPES.includes(taskType)) ?? []),
+  // 只让实现追加的后代通配符生效，路径内的反斜线、百分号和下划线都是字面字符。
+  const literal = path.replace(/[\\%_]/g, (character) => `\\${character}`);
+  append("(path = ? OR path LIKE ? ESCAPE '\\')", path, `${literal}/%`);
+}
+
+/** 任务类型筛选：先按允许集合过滤并去重，空集合不产生条件。 */
+function addTaskTypeFilter(taskTypes: readonly TaskType[] | undefined, append: AppendFilter): void {
+  const selected = [
+    ...new Set(taskTypes?.filter((taskType) => SESSION_TASK_TYPES.includes(taskType)) ?? []),
   ];
-  if (taskTypes.length) {
-    addFilter(`task_type IN (${taskTypes.map(() => "?").join(",")})`, ...taskTypes);
+  if (!selected.length) return;
+  append(`task_type IN (${selected.map(() => "?").join(",")})`, ...selected);
+}
+
+/** 拼装列表 SQL：WHERE 由片段决定，排序与 LIMIT 固定。 */
+function buildSessionQuery(request: ListSessionsInput, bindings: SQLInputValue[]): string {
+  const conditions: string[] = [];
+  const append: AppendFilter = (predicate, ...values) => {
+    conditions.push(predicate);
+    bindings.push(...values);
+  };
+  if (request.projectID) append("project_id = ?", request.projectID);
+  if (request.workspaceID === null) append("workspace_id IS NULL");
+  else if (request.workspaceID !== undefined) append("workspace_id = ?", request.workspaceID);
+  if (request.directory) append("directory = ?", request.directory);
+  if (request.path !== undefined) addPathFilter(request.path, append);
+  if (request.roots) append("parent_id IS NULL");
+  addTaskTypeFilter(request.taskTypes, append);
+  if (!request.includeArchived) append("time_archived IS NULL");
+
+  let sql = "SELECT * FROM session";
+  if (conditions.length) sql += ` WHERE ${conditions.join(" AND ")}`;
+  sql += " ORDER BY time_updated DESC, id DESC";
+  if (request.limit !== undefined && request.limit > 0) {
+    sql += " LIMIT ?";
+    bindings.push(request.limit);
   }
-  if (!input.includeArchived) addFilter("time_archived IS NULL");
-  let query = "SELECT * FROM session";
-  if (predicates.length) query += ` WHERE ${predicates.join(" AND ")}`;
-  query += " ORDER BY time_updated DESC, id DESC";
-  if (input.limit !== undefined && input.limit > 0) {
-    query += " LIMIT ?";
-    parameters.push(input.limit);
-  }
-  const rows = db.prepare(query).all(...parameters) as unknown as SessionRow[];
-  return rows.map(decodeSessionRow);
+  return sql;
+}
+
+export async function listSessions(
+  database: DatabaseSync,
+  request: ListSessionsInput = {},
+): Promise<SessionInfo[]> {
+  const bindings: SQLInputValue[] = [];
+  const sql = buildSessionQuery(request, bindings);
+  const records = database.prepare(sql).all(...bindings) as unknown as SessionRow[];
+  return records.map(decodeSessionRow);
+}
+
+/** 认领：只更新指定目录下尚未认领的会话，返回实际改动行数。 */
+function selectedIds(sessionIDs: readonly string[]): string[] {
+  return [...new Set(sessionIDs)];
 }
 
 export function claimLegacySessionWorkspace(
-  db: DatabaseSync,
-  input: ClaimLegacySessionWorkspaceInput,
+  database: DatabaseSync,
+  request: ClaimLegacySessionWorkspaceInput,
 ): number {
-  const ids = [...new Set(input.sessionIDs)];
+  const ids = selectedIds(request.sessionIDs);
   if (!ids.length) return 0;
-  const result = db
+  const outcome = database
     .prepare(`
     UPDATE session SET workspace_id = ?
     WHERE directory = ? AND workspace_id IS NULL AND id IN (${ids.map(() => "?").join(",")})
   `)
-    .run(input.workspaceID, input.directory, ...ids);
-  return Number(result.changes);
+    .run(request.workspaceID, request.directory, ...ids);
+  return Number(outcome.changes);
 }
 
 export function repairLegacyRemoteSessionWorkspace(
-  db: DatabaseSync,
-  input: RepairLegacyRemoteSessionWorkspaceInput,
+  database: DatabaseSync,
+  request: RepairLegacyRemoteSessionWorkspaceInput,
 ): boolean {
-  const result = db
+  const outcome = database
     .prepare(`
     UPDATE session SET project_id = ?, workspace_id = ?, directory = ?, path = ?
     WHERE id = ? AND workspace_id IS NULL AND directory = ? AND (path IS NULL OR path = ?)
   `)
     .run(
-      input.projectID,
-      input.workspaceID,
-      input.workspacePath,
-      input.workspacePath,
-      input.sessionID,
-      input.legacyWorkspaceDirectory,
-      input.legacyWorkspaceDirectory,
+      request.projectID,
+      request.workspaceID,
+      request.workspacePath,
+      request.workspacePath,
+      request.sessionID,
+      request.legacyWorkspaceDirectory,
+      request.legacyWorkspaceDirectory,
     );
-  return Number(result.changes) === 1;
+  return Number(outcome.changes) === 1;
 }
 
 export function repairRemoteSessionPaths(
-  db: DatabaseSync,
-  input: RepairRemoteSessionPathsInput,
+  database: DatabaseSync,
+  request: RepairRemoteSessionPathsInput,
 ): boolean {
-  const result = db
+  const outcome = database
     .prepare(`
     UPDATE session SET directory = ?, path = ?, time_updated = MAX(time_updated, ?)
     WHERE id = ? AND workspace_id = ? AND directory = ? AND path IS ?
   `)
     .run(
-      input.directory,
-      input.path,
-      input.timeUpdated,
-      input.sessionID,
-      input.workspaceID,
-      input.expectedDirectory,
-      input.expectedPath,
+      request.directory,
+      request.path,
+      request.timeUpdated,
+      request.sessionID,
+      request.workspaceID,
+      request.expectedDirectory,
+      request.expectedPath,
     );
-  return Number(result.changes) === 1;
+  return Number(outcome.changes) === 1;
 }
