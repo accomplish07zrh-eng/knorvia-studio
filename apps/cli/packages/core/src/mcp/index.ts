@@ -332,10 +332,18 @@ function bridgeInputSchema(schema: JsonSchema, observation: boolean): JsonSchema
   return withObservationTitle(normalized, stringRequiredFields(normalized));
 }
 
+// 工具名比对形式：去首尾空白、小写，并把连字符折成下划线。
+const normalizeToolNameForComparison = (name: string): string =>
+  name.trim().toLowerCase().replace(/-/g, "_");
+
+// 服务名比对形式：去首尾空白、小写，并把下划线折成连字符。
+const normalizeServerNameForComparison = (name: string): string =>
+  name.trim().toLowerCase().replace(/_/g, "-");
+
 function needsObservationTitle(descriptor: McpToolDescriptor): boolean {
-  if (descriptor.toolName.trim().toLowerCase().replace(/-/g, "_") !== "get_app_state") return false;
+  if (normalizeToolNameForComparison(descriptor.toolName) !== "get_app_state") return false;
   if (descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME) return true;
-  const server = descriptor.serverName.trim().toLowerCase().replace(/_/g, "-");
+  const server = normalizeServerNameForComparison(descriptor.serverName);
   return (
     server === "knorvia-cua" ||
     server === "zcode-cua" ||
