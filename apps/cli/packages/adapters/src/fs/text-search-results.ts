@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // 搜索结果公开面：结果装配转发 + ripgrep 输出解析、新近度排序与失败归一。
 import { stat } from "node:fs/promises";
+import type { FileSystemErrorCode } from "@knorvia/contracts";
 import {
   createFileSystemError,
   type FileSystemSearchTextEntry,
@@ -175,5 +176,5 @@ export function ripgrepFailure(diagnostics: string, path: string, expression: st
   let code = "io_error";
   if (hasAny(haystack, ACCESS_HINTS)) code = "permission_denied";
   else if (hasAny(haystack, ABSENT_HINTS)) code = "not_found";
-  return createFileSystemError({ code, message: detail, path });
+  return createFileSystemError({ code: code as FileSystemErrorCode, message: detail, path });
 }
