@@ -243,6 +243,19 @@ async function projectEntry(
   ]);
 }
 
+// 压缩请求：三个上限字段与 trace 都是兼容面，超限由处理器按同一组阈值裁剪。
+const imagePreparationRequest = (
+  context: ToolExecutionContext,
+  payload: { bytes: Buffer; mimeType: string },
+) => ({
+  data: payload.bytes,
+  maxBase64Bytes: MCP_IMAGE_INLINE_BASE64_BYTES,
+  maxDimension: COMPRESS_MAX_DIMENSION,
+  maxRawBytes: MCP_IMAGE_INLINE_RAW_BYTES,
+  mediaType: payload.mimeType,
+  trace: artifactTrace(context),
+});
+
 // 压缩目标边长：与内联上限一起决定压缩结果是否可替换原图。
 const COMPRESS_MAX_DIMENSION = 2000;
 
@@ -257,14 +270,7 @@ async function compressForInline(
   if (bytes.byteLength === 0) return undefined;
   try {
     const prepared = await processor.prepareForModel(
-      {
-        data: bytes,
-        maxBase64Bytes: MCP_IMAGE_INLINE_BASE64_BYTES,
-        maxDimension: COMPRESS_MAX_DIMENSION,
-        maxRawBytes: MCP_IMAGE_INLINE_RAW_BYTES,
-        mediaType: mimeType,
-        trace: artifactTrace(input.context),
-      },
+      imagePreparationRequest(input.context, { bytes, mimeType }),
       { signal: input.context.abortSignal },
     );
     const data = Buffer.from(prepared.data).toString("base64");
