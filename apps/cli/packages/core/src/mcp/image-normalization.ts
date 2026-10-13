@@ -120,6 +120,22 @@ export function base64PayloadFromMcpImageData(data: string): string {
 type NormalizationInput = Parameters<typeof normalizeMcpToolResultForModel>[0];
 type ImageSummary = { base64Bytes: number; inlineLimitBytes: number; mimeType: string };
 
+// 二进制 artifact 写入请求：字段名、顺序与 retention 取值都是兼容面。
+const binaryArtifactRequest = (
+  context: ToolExecutionContext,
+  payload: { bytes: Buffer; mimeType: string; toolName: string },
+) => ({
+  sessionId: context.sessionId,
+  turnId: context.turnId,
+  toolCallId: context.toolCallId,
+  toolName: payload.toolName,
+  content: payload.bytes,
+  contentType: payload.mimeType,
+  extension: extensionForMime(payload.mimeType),
+  retention: "session" as const,
+  trace: artifactTrace(context),
+});
+
 // 兼容旧 meta 键：新键优先，取不到时才回落到历史键。
 const LEGACY_SCREENSHOT_INDEX_META_KEY = "knorvia/browserScreenshotContentIndices";
 
@@ -154,17 +170,7 @@ async function backUpScreenshot(
   try {
     const artifact = await write.call(
       store,
-      {
-        sessionId: input.context.sessionId,
-        turnId: input.context.turnId,
-        toolCallId: input.context.toolCallId,
-        toolName,
-        content: bytes,
-        contentType: mimeType,
-        extension: extensionForMime(mimeType),
-        retention: "session",
-        trace: artifactTrace(input.context),
-      },
+      binaryArtifactRequest(input.context, { bytes, mimeType, toolName }),
       { signal: input.context.abortSignal },
     );
     return absoluteArtifactPath(artifact.path);
