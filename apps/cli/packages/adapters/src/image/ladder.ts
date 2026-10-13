@@ -83,7 +83,7 @@ async function encodeWith(
   const data =
     settings === undefined
       ? await image.getBuffer(step.mediaType)
-      : await image.getBuffer(step.mediaType, settings);
+      : await image.getBuffer(step.mediaType, settings as never);
   throwIfAborted(signal);
   const candidate = {
     data,
