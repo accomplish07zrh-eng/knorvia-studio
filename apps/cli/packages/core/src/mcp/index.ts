@@ -33,12 +33,15 @@ export interface RegisterMcpToolsOptions {
   trustedWindowsComputerUseServerNames?: ReadonlySet<string>;
 }
 
+// 观察标题的模型提示词：逐字保留（含不用 CUA、MCP、get_app_state 等实现术语的要求）。
+const OBSERVATION_TITLE_DESCRIPTION =
+  "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state";
+
 const observationTitlePolicy: JsonSchema = {
   type: "string",
   minLength: 1,
   maxLength: 120,
-  description:
-    "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state",
+  description: OBSERVATION_TITLE_DESCRIPTION,
 };
 
 // 单个描述符的命名与授权信息：官方 CUA 命名空间用规范化前缀拼接，其余沿用 toMcpToolName。
