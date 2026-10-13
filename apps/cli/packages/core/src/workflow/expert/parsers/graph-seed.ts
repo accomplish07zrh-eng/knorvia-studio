@@ -1,4 +1,9 @@
-import { WorkflowGraphSeedSchema, type WorkflowGraphSeed } from "@knorvia/contracts";
+import {
+  WorkflowGraphPlannerResultSchema,
+  WorkflowGraphSeedSchema,
+  type WorkflowGraphPlannerResult,
+  type WorkflowGraphSeed,
+} from "@knorvia/contracts";
 import { edgeId } from "../ids.js";
 import {
   isRecord,
@@ -182,4 +187,43 @@ function isEdgeLike(value: unknown): boolean {
     (typeof readLooseValue(value, ["from", "source"]) === "string" ||
       typeof readLooseValue(value, ["to", "target"]) === "string")
   );
+}
+
+const PLANNER_RESULT_ERROR = "Workflow planner did not return JSON graph expansion data";
+
+/** 集合节点 id 的候选键：驼峰与下划线两种写法都接受。 */
+const COLLECTION_KEYS = [
+  "collectionNodeIds",
+  "collection_node_ids",
+  "collectionUpdates",
+  "collection_updates",
+] as const;
+
+/** 规划器结果：先按 schema 直读，失败再走「宽松种子 + 集合节点」重建。 */
+export function parseWorkflowPlannerResult(
+  payload: string,
+  fallbackPhase: string,
+): WorkflowGraphPlannerResult {
+  const raw = parsePlannerJson(payload);
+  const direct = WorkflowGraphPlannerResultSchema.safeParse(raw);
+  if (direct.success) return direct.data;
+  if (!isRecord(raw)) {
+    throw new Error(PLANNER_RESULT_ERROR);
+  }
+
+  const seed = normalizeWorkflowGraphSeedCandidate(raw, fallbackPhase);
+  const collectionNodeIds =
+    readLooseStringArray(raw, COLLECTION_KEYS) ??
+    seed?.collections.flatMap((collection) => collection.nodeIds);
+  const rebuilt = WorkflowGraphPlannerResultSchema.safeParse({
+    collectionNodeIds,
+    edges: seed?.edges ?? [],
+    exhausted: readLooseBoolean(raw, ["exhausted"]),
+    nodes: seed?.nodes ?? [],
+    reasoning: stringValue(raw.reasoning),
+  });
+  if (!rebuilt.success) {
+    throw new Error(PLANNER_RESULT_ERROR);
+  }
+  return rebuilt.data;
 }

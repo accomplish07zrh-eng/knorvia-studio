@@ -136589,6 +136589,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: runtime commands split into runtime-runs (start/resume/retry/cancel/status/list/events + result helpers + persistRepair), class is a thin dispatcher; similarity 2/2 PASS, contract tests 16/16 both entries.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+      "normalizedSha256": "d0a7abbbd35851222283fa03a39b52ededcffaf64dc2d62c6fe8806a7e5c3231",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: json parser now uses a generic loose reader with coercer table; planner-result merged into graph-seed with a thin re-export shell (public path/export names unchanged).",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
