@@ -77805,7 +77805,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
-      "normalizedSha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+      "normalizedSha256": "47ba96cf4ee044fd17d24865cce45810beeb3a4a91e7aa46d16268fcf6338c5f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -77816,7 +77816,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "ea59f9447ae81712f033d7c3c094205dbe126cbc70bfee77847856cee80a6500",
+      "normalizedSha256": "41d553781392d6613fa4f51c85003856d88c5226723e14ac80ca9807dabd655c",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.06 (packages/zcode-server-cli/src/packaging/stage.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. 2026-10-12 由 contracts-01 替换 PR 按先例 4bf32a33 重固定：本仓库 core 的 current artifact receipt 中 2 条 contracts dist 声明摘要（workflow/run-schema.d.ts、workflow/script.d.ts）随替换实现更新，差异仅为 tsc 类型打印顺序（联合成员/推断键顺序）而源码与同文件 .js 字节一致；新摘要取自真实构建，Windows 与 Linux 一致，清空 dist 重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。见 docs/knorvia-contracts-01-acceptance.md §9 与 specs/contracts/contracts-01/known-differences.md。",
@@ -77829,7 +77829,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-      "normalizedSha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553",
+      "normalizedSha256": "628b3f3a63a685e0d118407a0beef37036efdde6f66142a320a43a257bbb2796",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (apps/zcode-cli/turbo.json), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -77851,7 +77851,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "b6a71c484f49ee56fc5915ff8c9ba2fcd1c0bf36b260262daf8cbeafe011ba24",
+      "normalizedSha256": "c76f104ec24edaae07c80d8e71288eac2dc55d01b0d9fdf42f76d3a589e6aed1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (apps/zcode-cli/turbo.json), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. 2026-10-12 由 contracts-01 替换 PR 按先例 4bf32a33 重固定：本仓库 core 的 current artifact receipt 中 2 条 contracts dist 声明摘要（workflow/run-schema.d.ts、workflow/script.d.ts）随替换实现更新，差异仅为 tsc 类型打印顺序（联合成员/推断键顺序）而源码与同文件 .js 字节一致；新摘要取自真实构建，Windows 与 Linux 一致，清空 dist 重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。见 docs/knorvia-contracts-01-acceptance.md §9 与 specs/contracts/contracts-01/known-differences.md。",
@@ -83453,7 +83453,7 @@
         "docs/evidence/background-tracker-author-20261003/call-api.d.ts",
         "docs/evidence/background-tracker-author-20261003/contract.md"
       ],
-      "normalizedSha256": "21ad66af851971aa60edef827577865d37de02ad32b02ec0ebdf5d2873cc8eb3"
+      "normalizedSha256": "3024cee948439c4ce5236f1530ebbeaaa1e290f2e3f5a49f817997ddcb290b08"
     },
     {
       "path": "apps/cli/packages/core/test/background-tracker-fixture-20261003.mjs",
@@ -136103,114 +136103,6 @@
       ]
     },
     {
-      "path": "specs/contracts/core-02/stubs/build-stubs.mjs",
-      "normalizedSha256": "7ef55e661ad4f56ec0413bead9abfb42c51e99068a75c803951ee8518ff9449b",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/targets.txt",
-      "normalizedSha256": "38c789475bee8e17d2db4920e7b73042121e86e0d152a39d1e3ba23fab703909",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/memory/project-root.ts",
-      "normalizedSha256": "ad3c8e28b415be426dbb0ff6ce64fc1a66ff7563b54983ce486b93657a794464",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/model/auxiliary-model-options.ts",
-      "normalizedSha256": "a77075a094aeb7bc5979abc4ebd447a6a6c1b84b1ba07b1c37293f4dd14ce91b",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/permission/workflow-draft-path.ts",
-      "normalizedSha256": "ab463232e3434fa5c1df4f3fc9b997edce87d7ce8210da164fc5f4e309fdebd6",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/plugin-reference/references.ts",
-      "normalizedSha256": "b9b9de36d18b0c1a141d0df906bbbee9a0907886eb69ad705e9e02ece46fe22a",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/runtime-task/registry.ts",
-      "normalizedSha256": "98315d12e800d15c48c99bc2f0b7c9a5fcbfa2c2f06be6e419de46c437591327",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/session-context/utils.ts",
-      "normalizedSha256": "e65b34f9b718e5999ec84b1abccf59c0d50829122c8c3e15fd7a0280d44d4428",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-02/stubs/apps/cli/packages/core/src/subagent/tool-policy.ts",
-      "normalizedSha256": "32cdaef2c53c61f4d89318587bc973bb9a9724401cd219682953d7fe396e5cab",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored core-02 contract artifacts for the @knorvia/core memory / model / permission / plugin-reference / runtime-task / session-context / subagent area (58 inherited files): scope and entry-to-test tables, an interface.md generated from the TypeScript checker (58 modules, 287 exports), behavior B1-B12 with testable assertions, caller survey, known differences, acceptance record, black-box contract tests that load area barrels and module entries only, fixtures, and minimal stubs used solely for the old-gate stub-replacement verification.",
-      "evidence": [
-        "specs/contracts/core-02/interface.md",
-        "specs/contracts/core-02/acceptance.md",
-        "specs/contracts/core-02/gate-old.json"
-      ]
-    },
-    {
       "path": "specs/contracts/core-02/tests/api-surface.test.mjs",
       "normalizedSha256": "a68150cb93aec6f075b5a4fac7a52959602fb24efe28aaf0004c30a1a6e3a225",
       "decision": "original",
@@ -136365,6 +136257,78 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: old-gate runner, 35-file stub target list, and gate-old.json evidence (source 16/16, dist 16/16, stub replacement 0 pass).",
       "evidence": ["specs/contracts/core-03/gate-old.json"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-artifacts.test.ts",
+      "normalizedSha256": "a7cb6a4764225b851e879c85d8e61de763c631e0605fc7ee672f3eabaf834cd6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-background.test.ts",
+      "normalizedSha256": "800ee7bc204dfca0a6a3e6ff0d74cf578f9d8b07dd6514bfe19ee93825c965ac",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-cancellation.test.ts",
+      "normalizedSha256": "13126606a4922eb00a2abc4329f103980701082b1ec9e26f5c0d21b52c57cef8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-child.test.ts",
+      "normalizedSha256": "efe185e3df53677c0b4a5fffd14a006861123815ab46857d60380cd6f71ed794",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-foreground.test.ts",
+      "normalizedSha256": "74a966ca84784611f97c03952529abe21f548f82b70b38c6c7432f86f343a3eb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-message.test.ts",
+      "normalizedSha256": "d4e35b54fdbc085d29d3b1822fe45e419f8b9c0e8db211969387cb794424cf43",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-publication.test.ts",
+      "normalizedSha256": "23603f32b21a5d726f7064be3f6bebefc916bd3cd5eaefc60846bf059c735331",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-state.test.ts",
+      "normalizedSha256": "045ef37f19af8a637ff9df54b7dde0da3353602d9724fb73fe5bdb8ebe0b66af",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-runner-stop.test.ts",
+      "normalizedSha256": "905e9d5a6af968a2b4ffc9029e5e2083617c9c9eb5a4be784aabe6e5f1375626",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored core-02 replacement-phase internal tests for the @knorvia/core subagent runner: state-machine migration table, readiness gate and cancellation semantics, artifact persistence order, stop guards and the notification invariant, publication event ordering and notification dedupe, message delivery guards and queue fallback, child readiness sequence, background lifecycle failure split, foreground start sequence. Tests use injected fakes and assert observed behaviour.",
+      "evidence": ["apps/cli/packages/core/test/subagent-runner-state.test.ts"]
     }
   ]
 }

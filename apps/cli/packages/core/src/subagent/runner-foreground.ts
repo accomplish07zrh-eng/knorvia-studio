@@ -1,3 +1,8 @@
+// 前台运行路径上重复出现的取值：错误码、载荷角色与可恢复标记。
+const CHILD_RUNTIME_FAILED_CODE = AgentErrorCode.CHILD_RUNTIME_FAILED;
+const PAYLOAD_ROLE_WRAPPER = ErrorPayloadRole.Wrapper;
+const IS_RECOVERABLE = true;
+
 import {
   AgentErrorCode,
   CoreErrorType,
@@ -175,16 +180,16 @@ export function runMethod(state: RunnerState): SubagentPort["run"] {
         cause: error instanceof Error ? error : undefined,
         context: withErrorPayloadRole(
           {
-            code: AgentErrorCode.CHILD_RUNTIME_FAILED,
+            code: CHILD_RUNTIME_FAILED_CODE,
             agentId: execution.agentId,
             agentType: request.agentType,
             parentToolCallId: request.parentToolCallId,
           },
-          ErrorPayloadRole.Wrapper,
+          PAYLOAD_ROLE_WRAPPER,
         ),
-        recoverable: true,
+        recoverable: IS_RECOVERABLE,
       });
-    } finally {
+    } finally /* 无论成败都要收尾 */ {
       activity.stop();
       cancelTimer?.();
     }
