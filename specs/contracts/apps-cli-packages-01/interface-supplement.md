@@ -53,3 +53,32 @@ export interface WorkspaceHookTrustStorePathOptions {
 ```
 
 约束：字段名与类型属于契约，不得为降低相似度而改名；本名单与源码形状必须保持逐字一致。
+
+## `apps/cli/packages/adapters/src/storage/session-store/migration-progress-types.ts`
+
+```ts
+export type SqliteMigrationPhase =
+  | "checking"
+  | "migrating"
+  | "waiting_for_lock"
+  | "committing"
+  | "ready"
+  | "failed";
+
+export interface SqliteMigrationProgress {
+  phase: SqliteMigrationPhase;
+  elapsedMs: number;
+  migration?: DatabaseMigrationFacts;
+  migrationId?: string;
+  total?: number;
+  completed?: number;
+  errorCode?: string;
+  systemCode?: string;
+  sqliteCode?: number;
+}
+
+export interface AsyncSqliteMigrationOptions {
+  onProgress?: (progress: SqliteMigrationProgress) => Promise<void>;
+  lockWaitTimeoutMs?: number;
+}
+```
