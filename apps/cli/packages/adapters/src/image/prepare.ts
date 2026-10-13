@@ -111,7 +111,7 @@ export async function prepareJimpImageForModel(
   const chosen = await selectEncoding({
     budget: limits,
     height: original.height,
-    image: decoded,
+    image: decoded as never,
     maxDimension: request.maxDimension,
     signal: gate,
     sourceMediaType,
