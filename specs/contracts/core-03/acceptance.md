@@ -39,3 +39,11 @@
 - 哈希基线类测试工件（`apps/cli/packages/core/test/*.json`）不在本包改写范围，删除死代码文件时需同步重生成（已记入 `known-differences.md`）。
 
 旧门脚本：`node specs/contracts/core-03/tests/run-old-gate.mjs`（自动替换桩 → 重跑 → 还原，证据写入 `gate-old.json`）。
+
+## 六、计分模式记录（替换阶段）
+
+- **普通模式**（默认）：实现文件。
+- **声明模式**（`--declaration --interface specs/contracts/core-03/interface.md`）：**声明占主体的文件**。
+  - 已使用者：`workflow/expert/types.ts`（106 行、22 个声明块、85 行声明、**residual-lines 0** ⇒ 0.000 PASS）。
+  - 判定口径：文件中值导出/实现语句占比极低（本文件为 0），声明模式剥离后无残留可比较行。
+- 其余文件（含所有实现模块）一律普通模式；两模式**不得混用于同一文件**。

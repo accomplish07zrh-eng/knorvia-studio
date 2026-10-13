@@ -96,15 +96,29 @@ export async function checkCollectionPlanners(
       continue;
     }
     if ((latest.plannerRuns ?? 0) >= current.strategy.executor.maxPlannerRuns) {
-      current = await exhaustCollection(current, latest, options, runtime, {
-        reason: "max_planner_runs",
-      });
+      current = await exhaustCollection(
+        {
+          collectionId: latest.collectionId,
+          options,
+          payload: { reason: "max_planner_runs" },
+          runtime,
+          snapshot: current,
+        },
+        latest,
+      );
       continue;
     }
     if ((latest.errorCount ?? 0) >= current.strategy.executor.maxConsecutiveErrors) {
-      current = await exhaustCollection(current, latest, options, runtime, {
-        reason: "planner_error_threshold",
-      });
+      current = await exhaustCollection(
+        {
+          collectionId: latest.collectionId,
+          options,
+          payload: { reason: "planner_error_threshold" },
+          runtime,
+          snapshot: current,
+        },
+        latest,
+      );
       continue;
     }
 
@@ -297,7 +311,10 @@ async function attemptPlanner(
       phase: options.phase,
       signal: options.abortSignal,
     });
-    await emitExpansionEvents(completed, expansion, original.collectionId, options, runtime);
+    await emitExpansionEvents(
+      { collectionId: original.collectionId, options, runtime, snapshot: completed },
+      expansion,
+    );
     return { addedNodeIds: expansion.addedNodes.map((node) => node.id), snapshot: completed };
   } catch (error) {
     if (options.abortSignal?.aborted) throw error;

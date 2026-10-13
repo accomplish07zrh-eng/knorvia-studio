@@ -136280,7 +136280,7 @@
     },
     {
       "path": "specs/contracts/core-03/acceptance.md",
-      "normalizedSha256": "e44002f06c005e18a3e09937ff8951995adf11fc1ac1f5f697f79d69ff9b0dd6",
+      "normalizedSha256": "0d5ce6d964a252dcd77cd129dfad8123386ce4bde187684d151a408dca342063",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: package README and acceptance record (35 inherited files, behavior coverage B1-B19, old-gate structure, in-package fixes).",
