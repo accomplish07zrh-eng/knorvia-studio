@@ -526,3 +526,20 @@ export interface CreateInteractiveAuthorizationErrorInput extends InteractiveAut
   serverName: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/stdio-transport-types.ts`
+
+用途：mcp 区新增的内部形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口仅供实现模块内部导入，不新增公开导出。
+
+```ts
+interface StdioProcessExitInfo {
+  exitCode: number | null;
+  endedAt: number;
+  signal: NodeJS.Signals | null;
+  beganAt: number;
+}
+
+interface ProcessTreeStdioClientTransportOptions {
+  windowsJobObjectFactory?: JobFactory;
+}
+```
