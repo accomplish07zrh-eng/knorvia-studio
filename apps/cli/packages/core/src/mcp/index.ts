@@ -71,6 +71,32 @@ const isMcpDescriptorExcluded = (
   return blockedByAllowList || blockedByDenyList;
 };
 
+// 单个描述符的执行策略：受信 Windows CUA 走窄工具策略，其余按注解与主机上下文判定。
+const mcpDescriptorPolicy = (
+  descriptor: McpToolDescriptor,
+  options: RegisterMcpToolsOptions,
+): {
+  destructive: boolean;
+  hostExecution: boolean;
+  readOnly: boolean;
+  trustedWindows: boolean;
+  windowsAccessRequest: boolean;
+} => {
+  const trustedWindows = isTrustedWindowsComputerUseTool(
+    descriptor,
+    options.trustedWindowsComputerUseServerNames,
+  );
+  const windowsAccessRequest = trustedWindows && descriptor.toolName === "computer_request_access";
+  const readOnly = trustedWindows
+    ? descriptor.toolName === "computer_list_windows" || descriptor.toolName === "computer_observe"
+    : descriptor.annotations?.readOnlyHint === true;
+  const destructive = trustedWindows
+    ? descriptor.toolName === "computer_action"
+    : descriptor.annotations?.destructiveHint === true;
+  const hostExecution = descriptor.serverName === "node_repl" && descriptor.toolName === "js";
+  return { destructive, hostExecution, readOnly, trustedWindows, windowsAccessRequest };
+};
+
 export function registerMcpTools(
   registry: ToolRegistry,
   mcpPort: McpPort,
@@ -90,20 +116,8 @@ export function registerMcpTools(
     );
     if (isMcpDescriptorExcluded({ descriptorName, modelName }, allowed, denied)) continue;
 
-    const trustedWindows = isTrustedWindowsComputerUseTool(
-      descriptor,
-      options.trustedWindowsComputerUseServerNames,
-    );
-    const windowsAccessRequest =
-      trustedWindows && descriptor.toolName === "computer_request_access";
-    const readOnly = trustedWindows
-      ? descriptor.toolName === "computer_list_windows" ||
-        descriptor.toolName === "computer_observe"
-      : descriptor.annotations?.readOnlyHint === true;
-    const destructive = trustedWindows
-      ? descriptor.toolName === "computer_action"
-      : descriptor.annotations?.destructiveHint === true;
-    const hostExecution = descriptor.serverName === "node_repl" && descriptor.toolName === "js";
+    const { destructive, hostExecution, readOnly, trustedWindows, windowsAccessRequest } =
+      mcpDescriptorPolicy(descriptor, options);
     const sideEffectScope: ModelToolSideEffectScope =
       hostExecution || trustedWindows ? "system" : "network";
     const riskLevel: RiskLevel =
