@@ -136509,6 +136509,22 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: telemetry split into port (declaration surface + noop writers) and classify modules; facade keeps RuntimeTelemetryFacade export. Similarity 3/3 PASS in normal mode, contract tests 16/16 both entries.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase-runners.ts",
+      "normalizedSha256": "0d2d7251f29ec3305fa4d03792e885007730c97f64643d6544a409c67eaac6ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: scheduled-phase split into runner adapters and completion module, orchestrator uses port forwarders; similarity 3/3 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase-completion.ts",
+      "normalizedSha256": "ea5b8f662a9f2911bd3fe7ea66191797f1c978002423086a782920d19257e940",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: scheduled-phase split into runner adapters and completion module, orchestrator uses port forwarders; similarity 3/3 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
