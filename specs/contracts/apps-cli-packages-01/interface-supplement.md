@@ -543,3 +543,42 @@ interface ProcessTreeStdioClientTransportOptions {
   windowsJobObjectFactory?: JobFactory;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/client-state-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；导出接口由 client-state.ts 原样再导出。
+
+```ts
+export interface CreateMcpAdapterOptions {
+  clientName?: string;
+  clientVersion?: string;
+  connectionContext?: McpConnectionContext;
+  env?: NodeJS.ProcessEnv;
+  logger?: Logger;
+  telemetry?: McpTelemetryTracker;
+  mcpOAuth?: McpOAuthRuntimeOptions;
+  network?: NetworkEgressEnvPolicy;
+  officialMcpAuth?: {
+    authHeadersPort?: OfficialMcpAuthHeadersPort;
+    trustedOrigins: OfficialMcpTrustedOriginRegistry;
+    resolveKnorviaApiOrigin?: () => string;
+    workspaceIdentity?: string;
+  };
+  workingDirectory?: string;
+}
+
+export type ProtocolTransport = Parameters<Client["connect"]>[0];
+export interface ServerRecord {
+  config: McpServerConfig;
+  status: McpServerStatus;
+  tools: McpToolDescriptor[];
+  client?: Client;
+  transport?: ProtocolTransport;
+  pending?: Promise<McpServerStatus>;
+  owner?: AbortController;
+}
+export interface ConnectionDiagnostic {
+  failureKind: McpServerFailureKind;
+  serverRequestId?: string;
+}
+```
