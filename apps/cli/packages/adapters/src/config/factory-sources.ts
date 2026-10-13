@@ -59,7 +59,7 @@ export function readProjectDiscovery(options: ProjectReadOptions): ProjectConfig
   const { workingDirectory, projectConfigPath } = options;
   if (workingDirectory) return loadProjectConfigs(workingDirectory, projectConfigPath);
   if (!projectConfigPath) return summarizeProjectConfigs([]);
-  const explicit = {} as Parameters<typeof loadProjectConfigFile>[1];
+  const explicit = {} as NonNullable<Parameters<typeof loadProjectConfigFile>[1]>;
   explicit.discoveryOrder = 0;
   explicit.explicitProjectConfig = true;
   return summarizeProjectConfigs([loadProjectConfigFile(projectConfigPath, explicit)]);
