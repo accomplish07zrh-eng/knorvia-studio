@@ -9,8 +9,8 @@ import type {
   SkillMetadata,
   SkillOperationOptions,
   SkillRoot,
-  SkillRootResolutionOptions,
 } from "@knorvia/contracts";
+import type { SkillRootResolutionOptions } from "./roots.js";
 import { skillBody } from "./frontmatter.js";
 import { parseSkillMetadata, readSkillSource, type LabelLookup } from "./metadata.js";
 import { resolvePluginName } from "./plugin-name.js";
