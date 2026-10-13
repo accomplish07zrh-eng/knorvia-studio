@@ -100,6 +100,29 @@ const mcpDescriptorPolicy = (
   return { destructive, hostExecution, readOnly, trustedWindows, windowsAccessRequest };
 };
 
+// 工具结果预算三档：受信 CUA、node_repl 主机执行、其余；各档数值与策略逐字保留。
+const CUA_IMAGE_LIMITS: ToolEntry["resultBudget"] = {
+  maxInlineBytes: 256 * 1024,
+  maxModelBytes: 256 * 1024,
+  strategy: "truncate",
+  preview: { direction: "head" },
+};
+
+const LARGE_IMAGE_LIMITS: ToolEntry["resultBudget"] = {
+  maxInlineBytes: 1000000,
+  maxModelBytes: 64 * 1024,
+  strategy: "artifact",
+  preview: { direction: "tail", maxBytes: 64 * 1024 },
+  artifact: { enabled: true, retention: "session" },
+};
+
+const SMALL_IMAGE_LIMITS: ToolEntry["resultBudget"] = {
+  maxInlineBytes: 100000,
+  maxModelBytes: 50000,
+  strategy: "truncate",
+  preview: { direction: "head" },
+};
+
 export function registerMcpTools(
   registry: ToolRegistry,
   mcpPort: McpPort,
@@ -136,26 +159,10 @@ export function registerMcpTools(
         : "";
     const resultBudget: ToolEntry["resultBudget"] =
       authority || trustedWindows
-        ? {
-            maxInlineBytes: 256 * 1024,
-            maxModelBytes: 256 * 1024,
-            strategy: "truncate",
-            preview: { direction: "head" },
-          }
+        ? CUA_IMAGE_LIMITS
         : hostExecution
-          ? {
-              maxInlineBytes: 1000000,
-              maxModelBytes: 64 * 1024,
-              strategy: "artifact",
-              preview: { direction: "tail", maxBytes: 64 * 1024 },
-              artifact: { enabled: true, retention: "session" },
-            }
-          : {
-              maxInlineBytes: 100000,
-              maxModelBytes: 50000,
-              strategy: "truncate",
-              preview: { direction: "head" },
-            };
+          ? LARGE_IMAGE_LIMITS
+          : SMALL_IMAGE_LIMITS;
 
     const entry: ToolEntry = {
       ...(windowsAccessRequest ? { approvalAuthority: "user" as const } : {}),
