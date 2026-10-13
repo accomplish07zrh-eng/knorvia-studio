@@ -136533,6 +136533,30 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: critic loop split into reopen helpers and loop orchestrator; similarity 2/2 PASS, contract tests 16/16 both entries.",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/phase-runner-activation.ts",
+      "normalizedSha256": "c8c693d1f1f48d3473041a26accab3c377f5d9ea950195f1ab8968dbcb7a4579",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: phase-runner split into activation, session-link and settle modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/phase-runner-session-link.ts",
+      "normalizedSha256": "8f57fbc870feabf107ea1d22419db741321264155bf79c0f9ec0d0c2d615c739",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: phase-runner split into activation, session-link and settle modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/phase-runner-settle.ts",
+      "normalizedSha256": "9bb26740597f03f495138b030434de58b313a598e4e64cd5d7bc1f54f96c1d81",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: phase-runner split into activation, session-link and settle modules; similarity 4/4 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
