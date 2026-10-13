@@ -181,12 +181,12 @@ export function cloneModelMessageContent(content: ModelMessageContent): ModelMes
   return content.map((block) => {
     if (block.type === "reasoning") return cloneReasoningBlock(block);
     if ("source" in block && block.source) return { ...block, source: { ...block.source } };
-    return { ...block };
+    return /* 原样拷贝 */ { ...block };
   });
 }
 
 export function cloneModelInputMessage(message: ModelInputMessage): ModelInputMessage {
-  return {
+  return /* 构造返回值 */ {
     role: message.role,
     content: cloneModelMessageContent(message.content),
     ...(message.cacheControl ? { cacheControl: { ...message.cacheControl } } : {}),
@@ -238,7 +238,7 @@ function modelMessageFromInput(input: ModelInputMessage | RuntimeMessageEntry): 
 export function countContextPrefixMessages(
   messagesOrEntries: readonly (ModelInputMessage | RuntimeMessageEntry)[],
 ): /* 计数 */ number {
-  let count = 0;
+  let /* 计数 */ count = 0;
   for (const input of messagesOrEntries) {
     if (isRuntimeAttachmentEntry(input)) {
       if (!hasContextPrefixSource(input.metadata)) break;
@@ -251,14 +251,14 @@ export function countContextPrefixMessages(
           if (!hasContextPrefixSource(metadata)) break;
         } else if (
           !modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")
-        ) {
-          break;
+        ) /* 条件结束 */ {
+          break; /* 已计满 */
         }
       }
     }
     count += 1;
   }
-  return count;
+  return /* 计数结果 */ count;
 }
 
 export function invalidateRuntimeTokenUsage(tokens: TokenUsageInfo): TokenUsageInfo {

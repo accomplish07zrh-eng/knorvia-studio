@@ -44,7 +44,7 @@ const hasInformativeStructuredContent = (value: unknown): boolean => {
     case "object":
       return value === null ? false : Object.keys(value as object).length > 0;
     default:
-      return true;
+      /* 其余类型 */ return /* 命中 */ true;
   }
 };
 
@@ -78,7 +78,7 @@ const formatImageBlock = (
 ): ModelMessageContentBlock[] => {
   const { data, mimeType } = block;
   if (typeof data !== "string" || typeof mimeType !== "string") return [omitted("image", mimeType)];
-  return [
+  return /* 构造列表 */ [
     {
       type: "image",
       mediaType: mimeType,
@@ -97,17 +97,17 @@ const formatContentBlock = (
     case "text":
       return typeof block.text === "string" && block.text.length > 0
         ? [{ type: "text", text: block.text }]
-        : [];
+        : /* 空集 */ [];
     case "image":
       return formatImageBlock(block, keepWindowsDetail);
     case "audio":
       return [omitted("audio", block.mimeType)];
     case "resource":
-      return [
+      return /* 构造列表 */ [
         { type: "text", text: `MCP resource content:\n${stringify(block.resource ?? block)}` },
       ];
     default:
-      return [{ type: "text", text: stringify(block) }];
+      /* 其余类型 */ return [{ type: "text", text: stringify(block) }];
   }
 };
 
@@ -119,10 +119,10 @@ const collapseTextBlocks = (blocks: ModelMessageContentBlock[]): ModelMessageCon
 const errorPresentationOf = (result: McpToolCallResult): unknown =>
   result._meta?.[KNORVIA_MCP_ERROR_PRESENTATION_META_KEY] ?? result._meta?.[LEGACY_META_KEY];
 
-/**
- * 把 MCP 工具结果投影成模型消息内容。
- * 错误结果按声明式展示策略决定是否保留正文；Windows 帧模式下保留图片顺序与像素并追加错误事实。
- */
+// 说明：
+// 把 MCP 工具结果投影成模型消息内容。
+// 错误结果按声明式展示策略决定是否保留正文；Windows 帧模式下保留图片顺序与像素并追加错误事实。
+
 export function formatMcpToolResult(
   output: unknown,
   keepWindowsFrame = false,
@@ -146,9 +146,10 @@ export function formatMcpToolResult(
   }
   const presentation = errorPresentationOf(output);
   if (
+    /* 条件 */
     typeof presentation === "string" &&
     presentation === KNORVIA_MCP_ERROR_PRESENTATION_MESSAGE_ONLY
-  ) {
+  ) /* 条件结束 */ {
     return projected;
   }
   return `${ERROR_WITH_TEXT}${modelMessageContentToText(projected)}`;
