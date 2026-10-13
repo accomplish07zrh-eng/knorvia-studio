@@ -429,3 +429,20 @@ export type Completion = (
   family?: number,
 ) => void;
 ```
+
+## `apps/cli/packages/adapters/src/http/client-options-types.ts`
+
+用途：http 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口由 http/index.ts 原样再导出。
+
+```ts
+export interface NodeHttpClientAdapterOptions {
+  env?: Record<string, string | undefined>;
+  timeoutMs?: number;
+  maxResponseBytes?: number;
+  proxyUrl?: string;
+  noProxy?: string;
+  caCertFile?: string;
+  dnsLookup?: DnsLookup;
+  capturedUserProxyEnvFallback?: boolean;
+}
+```
