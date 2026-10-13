@@ -6,6 +6,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { stripDeclarationBlocks, stripDeclarationLines } from "./similarity-declarations.mjs";
 import { fileKind, isBinary, normalizeLines } from "./similarity-lines.mjs";
+import { stripFrozenSqlLines } from "./similarity-sql-freeze.mjs";
 
 export function readPathList(file) {
   return readFileSync(resolve(file), "utf8")
@@ -74,9 +75,10 @@ export function loadUpstream(root) {
 /**
  * 候选文件：`--declaration --interface` 模式下先按 interface.md 剔除整块声明
  * （interface/type/class/enum，含成员与嵌套），再剔除剩余含兼容名字的行；
+ * `--sql-freeze` 模式下再按 schema.md 清单精确剔除需要逐字节保留的 SQL 行；
  * 普通模式不做任何剔除，行为与输出保持不变。
  */
-export function loadCandidate({ repo, givenPath, declarationNames }) {
+export function loadCandidate({ repo, givenPath, declarationNames, frozenSqlLines }) {
   const path = resolve(repo, givenPath);
   const bytes = readFileSync(path);
   const kind = fileKind(path);
@@ -91,6 +93,7 @@ export function loadCandidate({ repo, givenPath, declarationNames }) {
       declaration: false,
       linesBeforeStrip: 0,
       strippedBlocks: 0,
+      sqlFrozenLines: 0,
     };
   const original = bytes.toString("utf8");
   const declaration = declarationNames.length > 0;
@@ -102,6 +105,8 @@ export function loadCandidate({ repo, givenPath, declarationNames }) {
     strippedBlocks = blocks.strippedBlocks;
     text = stripDeclarationLines(text, declarationNames).text;
   }
+  const sqlFreeze = stripFrozenSqlLines(text, frozenSqlLines);
+  text = sqlFreeze.text;
   const lines = normalizeLines(text);
   return {
     path,
@@ -113,6 +118,7 @@ export function loadCandidate({ repo, givenPath, declarationNames }) {
     declaration,
     linesBeforeStrip: declaration ? normalizeLines(original).length : lines.length,
     strippedBlocks,
+    sqlFrozenLines: sqlFreeze.strippedLines,
   };
 }
 

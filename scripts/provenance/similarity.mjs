@@ -11,6 +11,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { extractDeclarationNames } from "./similarity-declarations.mjs";
+import { extractFrozenSqlLines, mergeFrozenSqlLines } from "./similarity-sql-freeze.mjs";
 import { loadCandidate, loadUpstream, readOldFile, readPathList } from "./similarity-inputs.mjs";
 import {
   THRESHOLDS,
@@ -45,6 +46,7 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
 声明文件：
   --interface <file>        interface.md，可重复；从中提取兼容名字
   --declaration             候选按纯声明文件处理：先剔除含兼容名字的行，再算两道门槛
+--sql-freeze <schema.md>  按清单精确剔除必须逐字节保留的 SQL 行（可多次传入），再算两道门槛
 
 其他：
   --repo <dir>              仓库根，默认当前目录
@@ -74,6 +76,7 @@ const { values } = parseArgs({
     "upstream-rev": { type: "string" },
     interface: { type: "string", multiple: true },
     declaration: { type: "boolean" },
+    "sql-freeze": { type: "string", multiple: true },
     gates: { type: "string" },
     json: { type: "string" },
     calibrate: { type: "boolean" },
@@ -111,6 +114,12 @@ const declarationNames = (values.interface ?? []).flatMap((file) =>
 if (values.declaration && declarationNames.length === 0)
   usageError("--declaration requires --interface with at least one name");
 
+const frozenSqlLines = mergeFrozenSqlLines(
+  (values["sql-freeze"] ?? []).map((file) =>
+    extractFrozenSqlLines(readFileSync(resolve(file), "utf8")),
+  ),
+);
+
 const oldFiles = [
   ...(values.old ?? []),
   ...(values["old-list"] ? readPathList(values["old-list"]) : []),
@@ -118,7 +127,12 @@ const oldFiles = [
 
 const upstream = loadUpstream(upstreamRoot);
 const candidates = candidatePaths.map((givenPath) =>
-  loadCandidate({ repo, givenPath, declarationNames: values.declaration ? declarationNames : [] }),
+  loadCandidate({
+    repo,
+    givenPath,
+    declarationNames: values.declaration ? declarationNames : [],
+    frozenSqlLines: frozenSqlLines.get(givenPath),
+  }),
 );
 const results = candidates.map((candidate) => evaluateLines(candidate));
 if (gates !== "line") applyStructural(results);
@@ -180,6 +194,7 @@ function evaluateLines(candidate) {
     strippedLines: linesBeforeStrip - residualLines,
     residualLines,
     strippedBlocks: candidate.strippedBlocks ?? 0,
+    sqlFrozen: candidate.sqlFrozenLines ?? 0,
     maxContainment: null,
     longestRun: null,
     structural: null,
@@ -346,7 +361,8 @@ function explainResults(candidates, results) {
 
 function describe(result) {
   if (result.binary) return `SKIP  ${result.path} binary`;
-  const declaration = result.declaration
+  const sqlFreeze = result.sqlFrozen > 0 ? ` sql-frozen=${result.sqlFrozen}` : "";
+const declaration = result.declaration
     ? ` declaration=true declaration-lines=${result.strippedLines} residual-lines=${result.residualLines} stripped-blocks=${result.strippedBlocks}`
     : " declaration=false";
   const line =
@@ -359,7 +375,7 @@ function describe(result) {
       ? " structural=skipped"
       : ` structural=${format(result.structural.value)} (${result.structural.file})`;
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${line}${structural}${verdict}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${sqlFreeze}${line}${structural}${verdict}`;
 }
 
 function calibrate(results) {

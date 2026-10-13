@@ -19,6 +19,11 @@ import {
   normalizeLines,
 } from "./similarity-lines.mjs";
 import { structuralFingerprints, structuralOverlap } from "./similarity-structural.mjs";
+import {
+  extractFrozenSqlLines,
+  mergeFrozenSqlLines,
+  stripFrozenSqlLines,
+} from "./similarity-sql-freeze.mjs";
 
 const tool = fileURLToPath(new URL("./similarity.mjs", import.meta.url));
 
@@ -712,4 +717,49 @@ test("--explain 辅助：命中行下标与最长连续段位置", () => {
     candidateStart: -1,
     comparedStart: -1,
   });
+});
+
+
+test("--sql-freeze 清单解析：按文件收集 sql 代码块，忽略其它语言块", () => {
+  const markdown = [
+    "# 清单",
+    "",
+    "## `a/b.ts`",
+    "",
+    "```sql",
+    "select 1;",
+    "  select 2;  ",
+    "```",
+    "",
+    "```ts",
+    "const ignored = 1;",
+    "```",
+    "",
+    "## `c/d.ts`",
+    "",
+    "```sql",
+    "update t set x = 1;",
+    "```",
+  ].join("\n");
+  const parsed = extractFrozenSqlLines(markdown);
+  assert.deepEqual([...parsed.get("a/b.ts")], ["select 1;", "  select 2;"]);
+  assert.deepEqual([...parsed.get("c/d.ts")], ["update t set x = 1;"]);
+  assert.equal(parsed.size, 2);
+});
+
+test("--sql-freeze 剔除：精确行匹配、只影响计分文本", () => {
+  const frozen = new Set(["select 1;", "update t set x = 1;"]);
+  const text = ["code();", "select 1;", "other();", "update t set x = 1;"].join("\n");
+  const stripped = stripFrozenSqlLines(text, frozen);
+  assert.equal(stripped.strippedLines, 2);
+  assert.deepEqual(stripped.text.split("\n"), ["code();", "other();"]);
+  assert.deepEqual(stripFrozenSqlLines(text, undefined), { text, strippedLines: 0 });
+});
+
+test("--sql-freeze 合并：多个清单文件按相同路径取并集", () => {
+  const merged = mergeFrozenSqlLines([
+    extractFrozenSqlLines("## `a.ts`\n\n```sql\nline one;\n```\n"),
+    extractFrozenSqlLines("## `a.ts`\n\n```sql\nline two;\n```\n"),
+  ]);
+  assert.deepEqual([...merged.get("a.ts")].sort(), ["line one;", "line two;"]);
 });
