@@ -92,6 +92,23 @@ function waitForPoll(signal?: AbortSignal): Promise<void> {
   });
 }
 
+/** 单次轮询结果：done 表示本次等待可以结束（已有更新的凭据）。 */
+interface PollResult {
+  announcedUrl?: string;
+  done: boolean;
+}
+
+/** 单次轮询：先看凭据是否已被别的进程刷新，再看是否有待授权记录可展示。 */
+async function pollOnce(
+  input: McpInteractiveAuthorizationInput,
+  baselineGeneration: string | undefined,
+): Promise<PollResult> {
+  const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
+  if (hasNewerCredentials(current, baselineGeneration)) return { done: true };
+  const pending = await loadPendingAuthorization(input.credentialStore, input.keyPrefix);
+  return { done: false, ...(pending ? { announcedUrl: pending.authorizationUrl } : {}) };
+}
+
 async function followAuthorization(
   input: McpInteractiveAuthorizationInput,
   ttlMs: number,
@@ -107,11 +124,10 @@ async function followAuthorization(
     "waiting",
   );
   while (Date.now() < deadline && !input.signal?.aborted) {
-    const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
-    if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
-    const pending = await loadPendingAuthorization(input.credentialStore, input.keyPrefix);
-    if (pending && pending.authorizationUrl !== projectedUrl) {
-      projectedUrl = pending.authorizationUrl;
+    const polled = await pollOnce(input, baselineGeneration);
+    if (polled.done) return { status: "already-authorized" };
+    if (polled.announcedUrl && polled.announcedUrl !== projectedUrl) {
+      projectedUrl = polled.announcedUrl;
       await input.onAuthorizationRequired?.({
         authorizationUrl: projectedUrl,
         redirectUrl: "",
