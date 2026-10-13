@@ -58,11 +58,11 @@ function lastBoundary(messages: MessageWithParts[]): number {
 export function activeSessionMessages(
   messages: MessageWithParts[],
   options: {
-    branchCutAfterMessageId?: MessageId;
+    branchCutAfterMessageId?: MessageId; // 只取该消息之后的分支段（截断点，可选）
     includeCompactPreservedSegment?: boolean;
-    rewindCreatedMessageId?: MessageId;
-    rewindKeptMessageIds?: readonly MessageId[];
-    rewindTargetMessageId?: MessageId;
+    rewindCreatedMessageId?: MessageId; // rewind 新建出来的消息 id（可选）
+    rewindKeptMessageIds?: readonly MessageId[]; // rewind 后保留的消息 id（可选）
+    rewindTargetMessageId?: MessageId; // rewind 要回到的目标消息 id（可选）
   } = {},
 ): MessageWithParts[] {
   if (options.branchCutAfterMessageId) {
@@ -95,7 +95,7 @@ export function activeSessionMessages(
 
 function nestedMetadata(part: Text): RuntimeMessageMetadata | undefined {
   const value = part.metadata?.runtimeMessage;
-  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return;
   const runtime = value as Record<string, unknown>;
   const presentation = runtimeInputMetadata(runtime.inputPresentation);
   if (presentation) return presentation;
@@ -130,9 +130,9 @@ function rawReminderSource(part: MessagePart): SystemReminderSource | undefined 
     !part.text.trim() ||
     part.text.trimStart().startsWith("<system-reminder")
   )
-    return undefined;
+    return;
   const source = syntheticMetadata(part).source;
-  if (!isKnownSystemReminderSource(source)) return undefined;
+  if (!isKnownSystemReminderSource(source)) return;
   const descriptor = getSystemReminderDescriptor(source);
   return descriptor.isMeta &&
     descriptor.providerVisibility === "provider_visible" &&
@@ -158,7 +158,7 @@ function promptAttachment(
   part: FilePart,
   block: ModelMessageContentBlock,
 ): PromptAttachmentReminderInput | undefined {
-  if (block.type !== "text" || !part.mime.startsWith("text/")) return undefined;
+  if (block.type !== "text" || !part.mime.startsWith("text/")) return;
   if (!part.source) {
     return {
       content: block.text,
@@ -173,7 +173,7 @@ function promptAttachment(
     (metadata.recoverability !== "provider_ready" && metadata.recoverability !== "preview_only") ||
     metadata.preview?.text !== block.text
   )
-    return undefined;
+    return;
   return {
     content: block.text,
     kind: "file",
@@ -287,12 +287,12 @@ function providerToolName(part: ToolPart): string {
 
 export async function hydrateMessageHistoryFromSession(input: {
   artifactStore?: ToolArtifactStorePort;
-  branchCutAfterMessageId?: MessageId;
+  branchCutAfterMessageId?: MessageId; // 只取该消息之后的分支段（截断点，可选）
   history: MessageHistory;
   messages: MessageWithParts[];
-  rewindCreatedMessageId?: MessageId;
-  rewindKeptMessageIds?: readonly MessageId[];
-  rewindTargetMessageId?: MessageId;
+  rewindCreatedMessageId?: MessageId; // rewind 新建出来的消息 id（可选）
+  rewindKeptMessageIds?: readonly MessageId[]; // rewind 后保留的消息 id（可选）
+  rewindTargetMessageId?: MessageId; // rewind 要回到的目标消息 id（可选）
 }): Promise<SessionHistoryHydrationResult> {
   const messages = activeSessionMessages(input.messages, {
     branchCutAfterMessageId: input.branchCutAfterMessageId,
