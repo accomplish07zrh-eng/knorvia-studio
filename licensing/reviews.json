@@ -134673,7 +134673,7 @@
     },
     {
       "path": "specs/contracts/core-01/acceptance.md",
-      "normalizedSha256": "7def41ce223b5c4c04c2034ce72c56b48f52bde4696756181adbbcfcd903c3ef",
+      "normalizedSha256": "f2f88495ef355aafd377f3b1b96bdb93d06b6148992e3a83f1e3ffeeb74e69d3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-01 contract artifact for @knorvia/core (M2 first core package: agent, compact, context, embedded-search, mcp; 38 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries (plus file-level entries for exports the area barrels do not re-export), and stubs keep only interface.md names with bodies that throw not implemented: core-01. Old gate: source 42/42, dist 42/42, stub replacement 42/42 failed.",
@@ -134733,7 +134733,7 @@
     },
     {
       "path": "specs/contracts/core-01/known-differences.md",
-      "normalizedSha256": "3fa764e4612bb0c7524bf11e33287a486453440a0b7d44c8e0d5a472d87f7ba4",
+      "normalizedSha256": "88f60ac9b39f45851571d97fa623a79c317a1dc3913100cde883aa16477fbecf",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-01 contract artifact for @knorvia/core (M2 first core package: agent, compact, context, embedded-search, mcp; 38 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries (plus file-level entries for exports the area barrels do not re-export), and stubs keep only interface.md names with bodies that throw not implemented: core-01. Old gate: source 42/42, dist 42/42, stub replacement 42/42 failed.",
