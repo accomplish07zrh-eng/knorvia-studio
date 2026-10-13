@@ -1,5 +1,12 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// script workflow 的解码器：行 → 契约记录。行形状见 script-workflow-rows.ts，本文件原样再导出。
+// 解码约定：可空列「有值才赋值」（产出对象不带 null）；JSON 列走 decodeJson 容错；
+// 列名到字段名的映射是契约的一部分，签名与字段名不得随意调整。
+
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 
 import type {
   ScriptWorkflowActivityRecord,
@@ -13,192 +20,118 @@ import type {
 } from "@knorvia/contracts";
 import { decodeJson } from "../json.js";
 
-export interface WorkflowDefinitionRow {
-  enabled: number;
-  id: string;
-  meta_json: string;
-  name: string;
-  scope: "builtin" | "explicit" | "project" | "user";
-  script_hash: string;
-  script_path: string | null;
-  source: "builtin" | "user";
-  time_created: number;
-  time_updated: number;
-  trusted: number;
-}
+export type {
+  WorkflowDefinitionRow,
+  WorkflowRunRow,
+  WorkflowActivityRow,
+  WorkflowEventRow,
+  SessionTaskLinkRow,
+} from "./script-workflow-rows.js";
 
-export interface WorkflowRunRow {
-  args_hash: string | null;
-  args_json: string | null;
-  budget_spent: number;
-  budget_total: number | null;
-  current_phase: string | null;
-  cwd: string;
-  definition_id: string | null;
-  failure_json: string | null;
-  id: string;
-  kind: "script";
-  name: string;
-  parent_session_id: SessionId | null;
-  script_hash: string;
-  script_path: string | null;
-  stats_json: string | null;
-  status: ScriptWorkflowRunStatus;
-  time_completed: number | null;
-  time_created: number;
-  time_started: number | null;
-  time_updated: number;
-}
+import type {
+  WorkflowDefinitionRow,
+  WorkflowRunRow,
+  WorkflowActivityRow,
+  WorkflowEventRow,
+  SessionTaskLinkRow,
+} from "./script-workflow-rows.js";
 
-export interface WorkflowActivityRow {
-  attempt: number;
-  call_index: number;
-  call_path: string;
-  child_session_id: SessionId | null;
-  error_json: string | null;
-  id: string;
-  input_hash: string;
-  label: string | null;
-  opts_json: string | null;
-  parent_activity_id: string | null;
-  phase: string | null;
-  prompt: string | null;
-  result_json: string | null;
-  run_id: string;
-  status: ScriptWorkflowActivityStatus;
-  time_completed: number | null;
-  time_created: number;
-  time_started: number | null;
-  time_updated: number;
-  type: ScriptWorkflowActivityRecord["type"];
-}
-
-export interface WorkflowEventRow {
-  activity_id: string | null;
-  id: string;
-  payload_json: string | null;
-  phase: string | null;
-  run_id: string;
-  sequence: number;
-  time_created: number;
-  type: string;
-}
-
-export interface SessionTaskLinkRow {
-  activity_id: string | null;
-  agent_type: string | null;
-  child_session_id: SessionId;
-  depth: number;
-  id: string;
-  label: string | null;
-  model: string | null;
-  parent_link_id: string | null;
-  parent_session_id: SessionId | null;
-  path: string;
-  phase: string | null;
-  role: string;
-  root_workflow_run_id: string | null;
-  status: string;
-  time_created: number;
-  time_updated: number;
-}
-
-export function decodeDefinition(row: WorkflowDefinitionRow): ScriptWorkflowDefinitionRecord {
+export function decodeDefinition(record: WorkflowDefinitionRow): ScriptWorkflowDefinitionRecord {
   return {
-    enabled: row.enabled === 1,
-    id: row.id,
-    meta: JSON.parse(row.meta_json) as ScriptWorkflowDefinitionRecord["meta"],
-    name: row.name,
-    scope: row.scope,
-    scriptHash: row.script_hash,
-    scriptPath: row.script_path ?? undefined,
-    source: row.source,
-    timeCreated: row.time_created,
-    timeUpdated: row.time_updated,
-    trusted: row.trusted === 1,
+    enabled: record.enabled === 1,
+    id: record.id,
+    meta: JSON.parse(record.meta_json) as ScriptWorkflowDefinitionRecord["meta"],
+    name: record.name,
+    scope: record.scope,
+    scriptHash: record.script_hash,
+    scriptPath: record.script_path ?? undefined,
+    source: record.source,
+    timeCreated: record.time_created,
+    timeUpdated: record.time_updated,
+    trusted: record.trusted === 1,
   };
 }
 
-export function decodeRun(row: WorkflowRunRow): ScriptWorkflowRunRecord {
+export function decodeRun(record: WorkflowRunRow): ScriptWorkflowRunRecord {
   return {
-    args: decodeJson(row.args_json),
-    argsHash: row.args_hash ?? undefined,
-    budgetSpent: row.budget_spent,
-    budgetTotal: row.budget_total ?? undefined,
-    completedAt: row.time_completed ?? undefined,
-    createdAt: row.time_created,
-    currentPhase: row.current_phase ?? undefined,
-    cwd: row.cwd,
-    definitionId: row.definition_id ?? undefined,
-    failure: decodeJson(row.failure_json),
-    id: row.id,
-    kind: row.kind,
-    name: row.name,
-    parentSessionId: row.parent_session_id ?? undefined,
-    scriptHash: row.script_hash,
-    scriptPath: row.script_path ?? undefined,
-    startedAt: row.time_started ?? undefined,
-    stats: decodeJson<ScriptWorkflowRunRecord["stats"]>(row.stats_json),
-    status: row.status,
-    updatedAt: row.time_updated,
+    args: decodeJson(record.args_json),
+    argsHash: record.args_hash ?? undefined,
+    budgetSpent: record.budget_spent,
+    budgetTotal: record.budget_total ?? undefined,
+    completedAt: record.time_completed ?? undefined,
+    createdAt: record.time_created,
+    currentPhase: record.current_phase ?? undefined,
+    cwd: record.cwd,
+    definitionId: record.definition_id ?? undefined,
+    failure: decodeJson(record.failure_json),
+    id: record.id,
+    kind: record.kind,
+    name: record.name,
+    parentSessionId: record.parent_session_id ?? undefined,
+    scriptHash: record.script_hash,
+    scriptPath: record.script_path ?? undefined,
+    startedAt: record.time_started ?? undefined,
+    stats: decodeJson<ScriptWorkflowRunRecord["stats"]>(record.stats_json),
+    status: record.status,
+    updatedAt: record.time_updated,
   };
 }
 
-export function decodeActivity(row: WorkflowActivityRow): ScriptWorkflowActivityRecord {
+export function decodeActivity(record: WorkflowActivityRow): ScriptWorkflowActivityRecord {
   return {
-    attempt: row.attempt,
-    callIndex: row.call_index,
-    callPath: row.call_path,
-    childSessionId: row.child_session_id ?? undefined,
-    completedAt: row.time_completed ?? undefined,
-    createdAt: row.time_created,
-    error: decodeJson(row.error_json),
-    id: row.id,
-    inputHash: row.input_hash,
-    label: row.label ?? undefined,
-    opts: decodeJson<ScriptWorkflowActivityRecord["opts"]>(row.opts_json),
-    parentActivityId: row.parent_activity_id ?? undefined,
-    phase: row.phase ?? undefined,
-    prompt: row.prompt ?? undefined,
-    result: decodeJson(row.result_json),
-    runId: row.run_id,
-    startedAt: row.time_started ?? undefined,
-    status: row.status,
-    type: row.type,
-    updatedAt: row.time_updated,
+    attempt: record.attempt,
+    callIndex: record.call_index,
+    callPath: record.call_path,
+    childSessionId: record.child_session_id ?? undefined,
+    completedAt: record.time_completed ?? undefined,
+    createdAt: record.time_created,
+    error: decodeJson(record.error_json),
+    id: record.id,
+    inputHash: record.input_hash,
+    label: record.label ?? undefined,
+    opts: decodeJson<ScriptWorkflowActivityRecord["opts"]>(record.opts_json),
+    parentActivityId: record.parent_activity_id ?? undefined,
+    phase: record.phase ?? undefined,
+    prompt: record.prompt ?? undefined,
+    result: decodeJson(record.result_json),
+    runId: record.run_id,
+    startedAt: record.time_started ?? undefined,
+    status: record.status,
+    type: record.type,
+    updatedAt: record.time_updated,
   };
 }
 
-export function decodeEvent(row: WorkflowEventRow): ScriptWorkflowEventRecord {
+export function decodeEvent(record: WorkflowEventRow): ScriptWorkflowEventRecord {
   return {
-    activityId: row.activity_id ?? undefined,
-    createdAt: row.time_created,
-    id: row.id,
-    payload: decodeJson(row.payload_json),
-    phase: row.phase ?? undefined,
-    runId: row.run_id,
-    sequence: row.sequence,
-    type: row.type,
+    activityId: record.activity_id ?? undefined,
+    createdAt: record.time_created,
+    id: record.id,
+    payload: decodeJson(record.payload_json),
+    phase: record.phase ?? undefined,
+    runId: record.run_id,
+    sequence: record.sequence,
+    type: record.type,
   };
 }
 
-export function decodeTaskLink(row: SessionTaskLinkRow): SessionTaskLinkRecord {
+export function decodeTaskLink(record: SessionTaskLinkRow): SessionTaskLinkRecord {
   return {
-    activityId: row.activity_id ?? undefined,
-    agentType: row.agent_type ?? undefined,
-    childSessionId: row.child_session_id,
-    createdAt: row.time_created,
-    depth: row.depth,
-    id: row.id,
-    label: row.label ?? undefined,
-    model: row.model ?? undefined,
-    parentLinkId: row.parent_link_id ?? undefined,
-    parentSessionId: row.parent_session_id ?? undefined,
-    path: row.path,
-    phase: row.phase ?? undefined,
-    role: row.role,
-    rootWorkflowRunId: row.root_workflow_run_id ?? undefined,
-    status: row.status,
-    updatedAt: row.time_updated,
+    activityId: record.activity_id ?? undefined,
+    agentType: record.agent_type ?? undefined,
+    childSessionId: record.child_session_id,
+    createdAt: record.time_created,
+    depth: record.depth,
+    id: record.id,
+    label: record.label ?? undefined,
+    model: record.model ?? undefined,
+    parentLinkId: record.parent_link_id ?? undefined,
+    parentSessionId: record.parent_session_id ?? undefined,
+    path: record.path,
+    phase: record.phase ?? undefined,
+    role: record.role,
+    rootWorkflowRunId: record.root_workflow_run_id ?? undefined,
+    status: record.status,
+    updatedAt: record.time_updated,
   };
 }

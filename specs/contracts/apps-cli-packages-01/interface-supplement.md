@@ -171,3 +171,99 @@ export interface DwfEventRow {
   type: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-rows.ts`
+
+用途：新增的行形状模块在 `interface.md` 中无条目，按本名单剥离声明块后计分（声明模式）。
+
+```ts
+export interface WorkflowDefinitionRow {
+  enabled: number;
+  id: string;
+  meta_json: string;
+  name: string;
+  scope: "builtin" | "explicit" | "project" | "user";
+  script_hash: string;
+  script_path: string | null;
+  source: "builtin" | "user";
+  time_created: number;
+  time_updated: number;
+  trusted: number;
+}
+
+export interface WorkflowRunRow {
+  args_hash: string | null;
+  args_json: string | null;
+  budget_spent: number;
+  budget_total: number | null;
+  current_phase: string | null;
+  cwd: string;
+  definition_id: string | null;
+  failure_json: string | null;
+  id: string;
+  kind: "script";
+  name: string;
+  parent_session_id: SessionId | null;
+  script_hash: string;
+  script_path: string | null;
+  stats_json: string | null;
+  status: ScriptWorkflowRunStatus;
+  time_completed: number | null;
+  time_created: number;
+  time_started: number | null;
+  time_updated: number;
+}
+
+export interface WorkflowActivityRow {
+  attempt: number;
+  call_index: number;
+  call_path: string;
+  child_session_id: SessionId | null;
+  error_json: string | null;
+  id: string;
+  input_hash: string;
+  label: string | null;
+  opts_json: string | null;
+  parent_activity_id: string | null;
+  phase: string | null;
+  prompt: string | null;
+  result_json: string | null;
+  run_id: string;
+  status: ScriptWorkflowActivityStatus;
+  time_completed: number | null;
+  time_created: number;
+  time_started: number | null;
+  time_updated: number;
+  type: ScriptWorkflowActivityRecord["type"];
+}
+
+export interface WorkflowEventRow {
+  activity_id: string | null;
+  id: string;
+  payload_json: string | null;
+  phase: string | null;
+  run_id: string;
+  sequence: number;
+  time_created: number;
+  type: string;
+}
+
+export interface SessionTaskLinkRow {
+  activity_id: string | null;
+  agent_type: string | null;
+  child_session_id: SessionId;
+  depth: number;
+  id: string;
+  label: string | null;
+  model: string | null;
+  parent_link_id: string | null;
+  parent_session_id: SessionId | null;
+  path: string;
+  phase: string | null;
+  role: string;
+  root_workflow_run_id: string | null;
+  status: string;
+  time_created: number;
+  time_updated: number;
+}
+```
