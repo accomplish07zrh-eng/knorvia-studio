@@ -100,12 +100,15 @@ export function hasOfficialCuaFrameAuthority(result: unknown): result is McpTool
   const content = candidate.content;
   if (!Array.isArray(content)) return false;
   if (!candidate._meta?.[OFFICIAL_CUA_FRAME_INTEGRITY_META_KEY]) return false;
-  return content.some((entry, index) => {
-    if (!entry || typeof entry !== "object" || entry.type !== "image") return false;
-    const next = content[index + 1];
-    return typeof next?.text === "string" && isOfficialCuaImageRefText(next.text);
-  });
+  return content.some((entry, index) => isFrameFollowedByRefText(entry, content[index + 1]));
 }
+
+// 帧权威的配对条件：一张 image 之后紧跟官方 CUA 图片引用文本。
+const isFrameFollowedByRefText = (entry: unknown, next: unknown): boolean => {
+  if (!isRecordLike(entry) || entry.type !== "image") return false;
+  const text = isRecordLike(next) ? next.text : undefined;
+  return typeof text === "string" && isOfficialCuaImageRefText(text);
+};
 
 export function asDataUrl(data: string, mimeType: string): string {
   return data.startsWith("data:") ? data : `data:${mimeType};base64,${data}`;
