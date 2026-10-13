@@ -144,3 +144,15 @@ export class WorkflowSchedulerEventLog {
     await this.#observer?.(event);
   }
 }
+
+/** 标识与规划器端口：规划器运行需要生成活动 id，并可能调用规划器运行器。 */
+type PlannerIdentityPorts = Pick<WorkflowGraphSchedulerDeps, "createActivityId" | "plannerRunner">;
+
+/** 落盘端口：快照与工件写入都由调度器注入。 */
+type PlannerSinkPorts = Pick<WorkflowGraphSchedulerDeps, "writeArtifact" | "writeSnapshot">;
+
+/** 规划器运行时端口：两组端口 + 共享事件日志。 */
+export type WorkflowCollectionPlannerRuntime = PlannerIdentityPorts &
+  PlannerSinkPorts & {
+    eventLog: WorkflowSchedulerEventLog;
+  };
