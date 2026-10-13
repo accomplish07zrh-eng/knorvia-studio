@@ -136285,6 +136285,22 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: package README and acceptance record (35 inherited files, behavior coverage B1-B19, old-gate structure, in-package fixes).",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/callers.md",
+      "normalizedSha256": "38c0472f1ce5a0421ae1f438cfbcf6762db987207768723f4d96ebfc989c2577",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: callers inventory (80 importers, package-root entry) and replacement design (region state owners, event order, rewrite strategy, test strategy).",
+      "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/design.md",
+      "normalizedSha256": "bf0efe2a08deefd17d3f5216b3cbf802ab74126a8835689681e52d46aebd2b13",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: callers inventory (80 importers, package-root entry) and replacement design (region state owners, event order, rewrite strategy, test strategy).",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
