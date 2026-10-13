@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// 相位工件 → 图变更：把「从工件里读出的图种子 / 节点提示词」应用到快照，并把变更写进图日志与事件。
+// 三类图记录（node/edge/collection）用同一张表驱动，避免三段近乎相同的循环。
 import {
   applyWorkflowGraphSeed,
   applyWorkflowNodePromptUpdates,
@@ -9,164 +12,149 @@ import { parseWorkflowNodePromptUpdateSet } from "./parsers/node-prompts.js";
 import type { ExpertWorkflowRuntimeContext } from "./runtime-context.js";
 import type { ExpertWorkflowRunSnapshot, WorkflowPhaseDefinition } from "@knorvia/contracts";
 
-async function appendSeedJournal(
-  ctx: ExpertWorkflowRuntimeContext,
-  applied: ApplyWorkflowGraphSeedResult<ExpertWorkflowRunSnapshot>,
-  phase: string,
-  signal?: AbortSignal,
+type Runtime = ExpertWorkflowRuntimeContext;
+type Snapshot = ExpertWorkflowRunSnapshot;
+type GraphRecord = Parameters<Runtime["store"]["appendGraphRecord"]>[1];
+type JournalKind = "node" | "edge" | "collection";
+
+/** 一次图记录写入：键名与 recordType 同源，避免逐类复制粘贴。 */
+async function appendJournal(
+  runtime: Runtime,
+  runId: string,
+  kind: JournalKind,
+  payload: unknown,
+  cancel?: AbortSignal,
 ): Promise<void> {
-  for (const node of applied.addedNodes) {
-    await ctx.store.appendGraphRecord(
-      applied.snapshot.runId,
-      {
-        node,
-        recordType: "node",
-        runId: applied.snapshot.runId,
-        timestamp: ctx.timestamp(),
-      },
-      { signal },
-    );
+  const record = {
+    [kind]: payload,
+    recordType: kind,
+    runId,
+    timestamp: runtime.timestamp(),
+  } as unknown as GraphRecord;
+  await runtime.store.appendGraphRecord(runId, record, { signal: cancel });
+}
+
+/** 播种后的图日志：三类新增记录 + 一条汇总 op。 */
+async function journalSeed(
+  runtime: Runtime,
+  outcome: ApplyWorkflowGraphSeedResult<Snapshot>,
+  sourcePhase: string,
+  cancel?: AbortSignal,
+): Promise<void> {
+  const runId = outcome.snapshot.runId;
+  const batches: readonly (readonly [JournalKind, readonly unknown[]])[] = [
+    ["node", outcome.addedNodes],
+    ["edge", outcome.addedEdges],
+    ["collection", outcome.addedCollections],
+  ];
+  for (const [kind, items] of batches) {
+    for (const item of items) await appendJournal(runtime, runId, kind, item, cancel);
   }
 
-  for (const edge of applied.addedEdges) {
-    await ctx.store.appendGraphRecord(
-      applied.snapshot.runId,
-      {
-        edge,
-        recordType: "edge",
-        runId: applied.snapshot.runId,
-        timestamp: ctx.timestamp(),
-      },
-      { signal },
-    );
-  }
-
-  for (const collection of applied.addedCollections) {
-    await ctx.store.appendGraphRecord(
-      applied.snapshot.runId,
-      {
-        collection,
-        recordType: "collection",
-        runId: applied.snapshot.runId,
-        timestamp: ctx.timestamp(),
-      },
-      { signal },
-    );
-  }
-
-  await ctx.store.appendGraphRecord(
-    applied.snapshot.runId,
+  const edgeIds = outcome.addedEdges.map(edgeId);
+  const nodeIds = outcome.addedNodes.map((node) => node.id);
+  const collectionIds = outcome.addedCollections.map((collection) => collection.collectionId);
+  await runtime.store.appendGraphRecord(
+    runId,
     {
-      edgeIds: applied.addedEdges.map(edgeId),
-      nodeIds: applied.addedNodes.map((node) => node.id),
-      payload: {
-        collectionIds: applied.addedCollections.map((collection) => collection.collectionId),
-        sourcePhase: phase,
-      },
-      phase,
+      edgeIds,
+      nodeIds,
+      payload: { collectionIds, sourcePhase },
+      phase: sourcePhase,
       recordType: "op",
-      runId: applied.snapshot.runId,
-      timestamp: ctx.timestamp(),
+      runId,
+      timestamp: runtime.timestamp(),
       type: "graph_seeded",
-    },
-    { signal },
+    } as unknown as GraphRecord,
+    { signal: cancel },
   );
 }
 
 export async function seedGraphFromPhaseArtifact(
-  ctx: ExpertWorkflowRuntimeContext,
-  snapshot: ExpertWorkflowRunSnapshot,
-  definition: WorkflowPhaseDefinition,
-  response: string,
-  signal?: AbortSignal,
-): Promise<ExpertWorkflowRunSnapshot> {
-  const configuration = definition.seedGraphFromArtifact;
-  if (!configuration) return snapshot;
+  runtime: Runtime,
+  input: Snapshot,
+  phaseDefinition: WorkflowPhaseDefinition,
+  payload: string,
+  cancel?: AbortSignal,
+): Promise<Snapshot> {
+  const settings = phaseDefinition.seedGraphFromArtifact;
+  if (!settings) return input;
 
-  const targetPhase = configuration.targetPhase;
-  let seed = parseWorkflowGraphSeed(response, targetPhase);
-  if (!seed || (seed.nodes.length === 0 && seed.collections.length === 0)) {
-    return snapshot;
+  const targetPhase = settings.targetPhase;
+  let seeded = parseWorkflowGraphSeed(payload, targetPhase);
+  if (!seeded) return input;
+  const nothingSeeded = seeded.nodes.length === 0 && seeded.collections.length === 0;
+  if (nothingSeeded) return input;
+
+  if (settings.gateAfterPhase) {
+    seeded = gateRootSeedNodes(seeded, phaseNodeId(settings.gateAfterPhase));
   }
 
-  if (configuration.gateAfterPhase) {
-    seed = gateRootSeedNodes(seed, phaseNodeId(configuration.gateAfterPhase));
-  }
-
-  const applied = applyWorkflowGraphSeed(snapshot, seed, {
+  const outcome = applyWorkflowGraphSeed(input, seeded, {
     phase: targetPhase,
-    timestamp: ctx.timestamp(),
+    timestamp: runtime.timestamp(),
   });
-  if (!applied.changed) return snapshot;
+  if (!outcome.changed) return input;
 
-  await ctx.store.writeSnapshot(applied.snapshot, { signal });
-  const journalPhase = definition.phase;
-  await appendSeedJournal(ctx, applied, journalPhase, signal);
+  await runtime.store.writeSnapshot(outcome.snapshot, { signal: cancel });
+  await journalSeed(runtime, outcome, phaseDefinition.phase, cancel);
 
-  await ctx.appendEvent(applied.snapshot.runId, "graph_expanded", {
-    message: `Workflow graph seeded from ${definition.title}.`,
-    payload: {
-      collectionIds: applied.addedCollections.map((collection) => collection.collectionId),
-      edgeIds: applied.addedEdges.map(edgeId),
-      nodeIds: applied.addedNodes.map((node) => node.id),
-      sourcePhase: definition.phase,
-      targetPhase,
-    },
-    phase: definition.phase,
-    signal,
+  const edgeIds = outcome.addedEdges.map(edgeId);
+  const nodeIds = outcome.addedNodes.map((node) => node.id);
+  const collectionIds = outcome.addedCollections.map((collection) => collection.collectionId);
+  await runtime.appendEvent(outcome.snapshot.runId, "graph_expanded", {
+    message: `Workflow graph seeded from ${phaseDefinition.title}.`,
+    payload: { collectionIds, edgeIds, nodeIds, sourcePhase: phaseDefinition.phase, targetPhase },
+    phase: phaseDefinition.phase,
+    signal: cancel,
   });
 
-  return applied.snapshot;
+  return outcome.snapshot;
 }
 
 export async function updateNodePromptsFromPhaseArtifact(
-  ctx: ExpertWorkflowRuntimeContext,
-  snapshot: ExpertWorkflowRunSnapshot,
-  definition: WorkflowPhaseDefinition,
-  response: string,
-  signal?: AbortSignal,
-): Promise<ExpertWorkflowRunSnapshot> {
-  const configuration = definition.nodePromptsFromArtifact;
-  if (!configuration) return snapshot;
+  runtime: Runtime,
+  input: Snapshot,
+  phaseDefinition: WorkflowPhaseDefinition,
+  payload: string,
+  cancel?: AbortSignal,
+): Promise<Snapshot> {
+  const settings = phaseDefinition.nodePromptsFromArtifact;
+  if (!settings) return input;
 
-  const targetPhase = configuration.targetPhase;
-  const updateSet = parseWorkflowNodePromptUpdateSet(response);
-  if (!updateSet || updateSet.nodes.length === 0) return snapshot;
+  const targetPhase = settings.targetPhase;
+  const updateSet = parseWorkflowNodePromptUpdateSet(payload);
+  if (!updateSet || updateSet.nodes.length === 0) return input;
 
-  const applied = applyWorkflowNodePromptUpdates(snapshot, updateSet.nodes, {
+  const outcome = applyWorkflowNodePromptUpdates(input, updateSet.nodes, {
     phase: targetPhase,
-    timestamp: ctx.timestamp(),
+    timestamp: runtime.timestamp(),
   });
-  if (!applied.changed) return snapshot;
+  if (!outcome.changed) return input;
 
-  await ctx.store.writeSnapshot(applied.snapshot, { signal });
-  await ctx.store.appendGraphRecord(
-    applied.snapshot.runId,
+  await runtime.store.writeSnapshot(outcome.snapshot, { signal: cancel });
+  const nodeIds = outcome.updatedNodes.map((node) => node.id);
+  const sourcePhase = phaseDefinition.phase;
+  await runtime.store.appendGraphRecord(
+    outcome.snapshot.runId,
     {
-      nodeIds: applied.updatedNodes.map((node) => node.id),
-      payload: {
-        sourcePhase: definition.phase,
-        targetPhase,
-      },
-      phase: definition.phase,
+      nodeIds,
+      payload: { sourcePhase, targetPhase },
+      phase: sourcePhase,
       recordType: "op",
-      runId: applied.snapshot.runId,
-      timestamp: ctx.timestamp(),
+      runId: outcome.snapshot.runId,
+      timestamp: runtime.timestamp(),
       type: "node_prompts_updated",
-    },
-    { signal },
+    } as unknown as GraphRecord,
+    { signal: cancel },
   );
 
-  await ctx.appendEvent(applied.snapshot.runId, "graph_updated", {
-    message: `Workflow node prompts updated from ${definition.title}.`,
-    payload: {
-      nodeIds: applied.updatedNodes.map((node) => node.id),
-      sourcePhase: definition.phase,
-      targetPhase,
-    },
-    phase: definition.phase,
-    signal,
+  await runtime.appendEvent(outcome.snapshot.runId, "graph_updated", {
+    message: `Workflow node prompts updated from ${phaseDefinition.title}.`,
+    payload: { nodeIds, sourcePhase, targetPhase },
+    phase: sourcePhase,
+    signal: cancel,
   });
 
-  return applied.snapshot;
+  return outcome.snapshot;
 }
