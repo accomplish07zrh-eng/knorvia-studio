@@ -136788,6 +136788,50 @@
         "specs/contracts/core-01/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/section-core.ts",
+      "normalizedSha256": "a18be3c297108663236e5e9a02a15f5eb52ee3ca8789ce5a96036eba12864f6f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal modules split out of the core-01 context block: section-core.ts assembles a ContextSection from name/source/target/cache/content; skills-core.ts renders the skill list (sorting, description truncation, name-only fallback); request-user-context keeps its public signature and moves the block assembly into helpers; builder-pipeline.ts collects, ranks and assembles sections while builder.ts keeps only the class facade and mutual-exclusion check; dynamic-sections-texts.ts holds the rewritten communication / autonomy guidance wording. Frozen model-visible text is byte-identical where the contract tests pin chars/tokens; verified by the 14 context contract tests on both source and dist entries.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/skills-core.ts",
+      "normalizedSha256": "0c6bf63b16efd579ec777db0ce278099ae9b4692cabf7b3dd22199a0bc5e4a20",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal modules split out of the core-01 context block: section-core.ts assembles a ContextSection from name/source/target/cache/content; skills-core.ts renders the skill list (sorting, description truncation, name-only fallback); request-user-context keeps its public signature and moves the block assembly into helpers; builder-pipeline.ts collects, ranks and assembles sections while builder.ts keeps only the class facade and mutual-exclusion check; dynamic-sections-texts.ts holds the rewritten communication / autonomy guidance wording. Frozen model-visible text is byte-identical where the contract tests pin chars/tokens; verified by the 14 context contract tests on both source and dist entries.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/builder-pipeline.ts",
+      "normalizedSha256": "6378699dd04f71494ebd2b534cb76ff2c0442b46410c1504e93a0e8b55ab73b1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal modules split out of the core-01 context block: section-core.ts assembles a ContextSection from name/source/target/cache/content; skills-core.ts renders the skill list (sorting, description truncation, name-only fallback); request-user-context keeps its public signature and moves the block assembly into helpers; builder-pipeline.ts collects, ranks and assembles sections while builder.ts keeps only the class facade and mutual-exclusion check; dynamic-sections-texts.ts holds the rewritten communication / autonomy guidance wording. Frozen model-visible text is byte-identical where the contract tests pin chars/tokens; verified by the 14 context contract tests on both source and dist entries.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/dynamic-sections-texts.ts",
+      "normalizedSha256": "bdfcfe2c10a9eda707d85d8f1a8fae93f078b7cff85f760b6db0fe74b88eefe6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal modules split out of the core-01 context block: section-core.ts assembles a ContextSection from name/source/target/cache/content; skills-core.ts renders the skill list (sorting, description truncation, name-only fallback); request-user-context keeps its public signature and moves the block assembly into helpers; builder-pipeline.ts collects, ranks and assembles sections while builder.ts keeps only the class facade and mutual-exclusion check; dynamic-sections-texts.ts holds the rewritten communication / autonomy guidance wording. Frozen model-visible text is byte-identical where the contract tests pin chars/tokens; verified by the 14 context contract tests on both source and dist entries.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }

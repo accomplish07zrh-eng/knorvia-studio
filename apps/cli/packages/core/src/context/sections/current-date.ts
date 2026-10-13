@@ -1,25 +1,15 @@
-// ============================================================
-// Current Date Section Builder
-// ============================================================
-
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// 当前日期 section：没有日期就不出段（返回 null），有日期则注入 meta user 且标记为动态。
 import type { ContextSection } from "../types.js";
-import { estimateTokens } from "../utils.js";
+import { contextSectionFromText } from "./section-core.js";
 
-export function buildCurrentDateSection(currentDate: string | undefined): ContextSection | null {
-  if (!currentDate) {
-    return null;
-  }
+const DATE_HEADING = "# currentDate";
 
-  const content = `# currentDate\nToday's date is ${currentDate}.`;
+const DATE_SENTENCE_PREFIX = "Today's date is ";
 
-  return {
-    name: "Current Date",
-    source: "current_date",
-    injectionTarget: "meta_user",
-    cacheHint: "dynamic",
-    chars: content.length,
-    tokens: estimateTokens(content),
-    content,
-    preview: content.slice(0, 100),
-  };
-}
+export const buildCurrentDateSection = (currentDate: string | undefined): ContextSection | null => {
+  if (!currentDate) return null;
+  const content = `${DATE_HEADING}\n${DATE_SENTENCE_PREFIX}${currentDate}.`;
+  return contextSectionFromText("Current Date", "current_date", "meta_user", "dynamic", content);
+};
