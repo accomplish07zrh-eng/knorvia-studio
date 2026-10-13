@@ -20,17 +20,22 @@ import {
 } from "./project-permission-cell.js";
 import { commitProjectPermissionUpdate } from "./project-permission-transaction.js";
 
+/** 领域别名：项目引用的 id（与契约 ProjectId 同型，仅用于签名可读性）。 */
+type Project = ProjectId;
+/** 规则集或未设置：读取方向的返回形状。 */
+type MaybeRuleset = PermissionRuleset | null;
+
 const RULESET_CELL = "ruleset";
 const MODE_CELL = "mode";
 
 interface ProjectRef {
-  projectID: ProjectId;
+  projectID: Project;
 }
 
 /** 规则集写入：时间戳由调用时决定，写入后立即回读以确认落库。 */
 function persistRuleset(
   database: DatabaseSync,
-  projectID: ProjectId,
+  projectID: Project,
   permission: PermissionRuleset,
   at: number,
 ): void {
@@ -40,8 +45,8 @@ function persistRuleset(
 
 export async function getProjectPermission(
   database: DatabaseSync,
-  projectID: ProjectId,
-): Promise<PermissionRuleset | null> {
+  projectID: Project,
+): Promise<MaybeRuleset> {
   return readProjectRules(database, projectID);
 }
 
@@ -56,7 +61,7 @@ export async function saveProjectPermission(
 }
 
 /** 模式单元：非法的历史值一律按「未设置」返回 null，不抛错。 */
-function readModeValue(database: DatabaseSync, projectID: ProjectId): unknown {
+function readModeValue(database: DatabaseSync, projectID: Project): unknown {
   const entry = readPermissionCell(database, projectID, MODE_CELL);
   if (!entry) return undefined;
   return decodeJson<{ mode?: unknown }>(entry.value)?.mode;
@@ -64,7 +69,7 @@ function readModeValue(database: DatabaseSync, projectID: ProjectId): unknown {
 
 export function getProjectPermissionMode(
   database: DatabaseSync,
-  projectID: ProjectId,
+  projectID: Project,
 ): CollaborationMode | null {
   const mode = readModeValue(database, projectID);
   return isCollaborationMode(mode) ? mode : null;
@@ -72,7 +77,7 @@ export function getProjectPermissionMode(
 
 function persistMode(
   database: DatabaseSync,
-  projectID: ProjectId,
+  projectID: Project,
   mode: CollaborationMode,
   at: number,
 ): void {
