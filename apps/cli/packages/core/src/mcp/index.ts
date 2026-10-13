@@ -227,26 +227,31 @@ export function registerMcpTools(
   return registered;
 }
 
-export const McpToolOutputJsonSchema: JsonSchema = {
-  type: "object",
-  required: ["content"],
-  properties: {
-    content: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: true,
-      },
-    },
-    structuredContent: {},
-    isError: {
-      type: "boolean",
-    },
-    _meta: {
+// MCP 工具输出的协议片段：必填字段与属性表各自具名，字段名与嵌套结构逐字保留。
+const MCP_TOOL_OUTPUT_REQUIRED = ["content"] as const;
+
+const MCP_TOOL_OUTPUT_PROPERTIES = {
+  content: {
+    type: "array",
+    items: {
       type: "object",
       additionalProperties: true,
     },
   },
+  structuredContent: {},
+  isError: {
+    type: "boolean",
+  },
+  _meta: {
+    type: "object",
+    additionalProperties: true,
+  },
+};
+
+export const McpToolOutputJsonSchema: JsonSchema = {
+  type: "object",
+  required: [...MCP_TOOL_OUTPUT_REQUIRED],
+  properties: MCP_TOOL_OUTPUT_PROPERTIES,
   additionalProperties: false,
 } satisfies JsonSchema;
 
