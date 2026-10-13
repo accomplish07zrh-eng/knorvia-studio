@@ -420,3 +420,45 @@ node scripts/contract-gate.mjs --contract specs/contracts/core-01 --tests "*.tes
 ### 下一轮（第 2 步）
 
 来源登记（新增测试文件 + 合同文件 + `stubs/` 的 38 个桩 → `original`）→ 四步铁律 `fmt` → `fmt:check` → `provenance:report` → `provenance:check` → 提 PR `contract: core-01 v1` → 按「合同审查」清单自查 → CI 双平台绿 → squash 合并。
+
+## 25. `mcp/image-normalization.ts` 采用声明模式计分（裁定口径第三条）
+
+### 逐文件算式（要求 ①）
+
+```text
+node scripts/provenance/similarity.mjs \
+  --candidate apps/cli/packages/core/src/mcp/image-normalization.ts \
+  --old-rev origin/main --upstream-dir cache/zcode-872ad960 \
+  --declaration --interface specs/contracts/core-01/interface.md
+```
+
+实测输出（`replace/core-01` tip `aaed3d8c`）：
+
+```text
+PASS  lines=129  declaration=true  declaration-lines=189  residual-lines=129
+      stripped-blocks=12  containment=0.186  run=2  structural=0.000
+```
+
+- **兼容面行数 X = 189 − 129 = 60**（`stripped-blocks=12`，即 `interface.md` 列名的声明块与具名行）；
+- **残留行数 Y = 129**；
+- **算式：X/Y = 60/129 = 46.5% ≥ 20%** ✓（占声明行比 60/189 = 31.7%）；普通模式数学上不可达：25 处结构改写后仍为 0.211，剩余命中全部落在**必须逐字保留的文案模板串与阈值常量行**。
+
+### 三条门槛（声明模式）
+
+| 指标 | 值 | 门槛 |
+| --- | --- | --- |
+| containment | **0.186** | < 0.20 ✓ |
+| 最长同段 | **2** | < 8 ✓ |
+| 结构相似度 | **0.000** | < 0.40 ✓ |
+
+### 行为覆盖（要求 ②）
+
+`specs/contracts/core-01/tests/mcp.test.mjs`（黑盒，区域桶 `src/mcp/index.ts`）**3/3** 覆盖 M1（名称）、M3（图像阈值与归一）、M4（桶导出面）；M2/M5 见 §4.1 的间接覆盖口径。文件内三个内部可达函数（`normalizeMcpToolResultForModel`、`asDataUrl`、`base64PayloadFromMcpImageData`）中，前两个经 `mcp/index.ts` 的 `registerMcpTools` 路径被黑盒触达，`base64PayloadFromMcpImageData` 由替换阶段内部单测复核（§4.1 口径）。
+
+### 逐字签名/文案要求（要求 ③）
+
+见 `known-differences.md` §7（新增）：三个阈值常量、六条文案模板串、两个 meta 键与错误消息逐字清单。
+
+### 后续相似度运行口径
+
+本文件在**替换阶段的两道门槛与最终门禁**中一律用**声明模式**（附上 `--interface specs/contracts/core-01/interface.md`）；其余 `mcp` 文件（`name.ts` / `windows-computer-use.ts` / `result-format.ts`）继续用普通模式（0.125 / 0.046 / 0.143，均已过线）。

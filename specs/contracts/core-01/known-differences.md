@@ -60,3 +60,38 @@ export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/execu
 2. **`startToolExecution` 重标所有非等待调用**：`beginToolCalls` 把状态不是 `waiting_permission` 的调用一律改成 `running` 并刷新 `startedAt`（包括已经 `completed`/`failed`/`permission_denied` 的）。因此它只能在**完成工具之前**调用；`completeTool` 与 `resolvePermission` 都只 `project()`（不改阶段）。另外 `decideToolCalls` 只在 `deny` 时改状态（→ `permission_denied`），`allow` 保持 `waiting_permission`，所以"允许后继续执行"必须由调用方先把状态推进到 `executing_tools` 再调用 `startToolExecution`。
 
 两条都由 `tests/agent-turn-machine.test.mjs` 的 A4/A6 断言固定（含抛错文案与状态取值）。
+
+## 7. `mcp/image-normalization.ts` 的逐字兼容面（声明模式计分依据）
+
+本文件按裁定口径第三条用**声明模式**计分（算式见 `acceptance.md` §25）。以下内容必须**逐字保留**——它们是协议面/用户可见文案，改一个字都会改行为或日志：
+
+### 阈值常量（导出）
+
+| 常量 | 值 |
+| --- | --- |
+| `MCP_IMAGE_INLINE_BASE64_BYTES` | `200 * 1024` = **204800** |
+| `MCP_IMAGE_INLINE_RAW_BYTES` | `Math.floor(204800 * 3 / 4)` = **153600** |
+| `HOST_NODE_REPL_IMAGE_MAX_DIMENSION` | **2048** |
+| 压缩目标边长（内部） | `COMPRESS_MAX_DIMENSION` = **2000** |
+
+### 文案模板串（逐字）
+
+1. `[MCP ${kind} content omitted: ${label}]`（kind = `image` / `audio`，label 取 `mimeType`，缺失时为 `unknown`）；
+2. `MCP image content omitted: ${mime}, base64=${sizeLabel(bytes)} exceeds inline limit ${sizeLabel(limit)}.`
+3. `No artifact store is configured, so the original image could not be saved.`
+4. `The original browser screenshot remains available at the adjacent absolute path.`
+5. `Browser screenshot saved to: ${path}`
+6. `MCP image content saved instead of being inlined: ${mime}, base64=${sizeLabel(bytes)}, inlineLimit=${sizeLabel(limit)}.`
+7. `Artifact: ${path ?? uri}` / `Artifact URI: ${uri}`（两行分别输出，`\n` 连接）
+8. 错误消息 `MCP image artifact store is not configured`（缺 store 时 `throw new Error(...)`）
+
+### meta 键与判定
+
+- 新键：`KNORVIA_MCP_BROWSER_SCREENSHOT_CONTENT_INDICES_META_KEY`（`@knorvia/contracts` 常量，逐字使用）；
+- 兼容旧键：`"knorvia/browserScreenshotContentIndices"`（`LEGACY_SCREENSHOT_INDEX_META_KEY`，`??` 回落语义）；
+- 帧权威键：`OFFICIAL_CUA_FRAME_INTEGRITY_META_KEY`（同上，来自 contracts）；
+- 帧权威配对条件：一张 `image` 之后**紧跟**官方 CUA 图片引用文本（`isOfficialCuaImageRefText`）；命中即整体转交 `preserveOfficialCuaFrameResult`。
+
+### 签名（导出面，不得增删）
+
+`normalizeMcpToolResultForModel(input: McpImageNormalizationInput): Promise<McpToolCallResult>`（入参接口**不导出**）、`asDataUrl(data, mimeType)`、`base64PayloadFromMcpImageData(data)`，以及四个常量（上表）。内部函数（`projectEntry`/`compressForInline`/`backUpScreenshot`/`saveOversizedImage`/`markedScreenshotIndices`/`hasOfficialCuaFrameAuthority` 的辅助件）不进导出面，替换实现可自由重组。
