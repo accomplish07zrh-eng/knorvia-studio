@@ -692,3 +692,59 @@ export interface McpTelemetryTracker {
   stop(): void;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/oauth-credentials-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；导出类型由 oauth-credentials.ts 原样再导出。
+
+```ts
+export interface McpOAuthCanonicalCredentials {
+  client_information: OAuthClientInformationMixed;
+  expires_at?: number;
+  generation?: string;
+  issuer?: string;
+  obtained_at?: number;
+  published_by: string;
+  tokens: OAuthTokens;
+  version: 1 | typeof MCP_OAUTH_CREDENTIALS_VERSION;
+}
+
+export interface CanonicalCredentialSnapshot {
+  clientInformation: OAuthClientInformationMixed;
+  expiresAt?: number;
+  generation: string;
+  issuer?: string;
+  obtainedAt?: number;
+  raw: string;
+  tokens: OAuthTokens;
+}
+
+interface PublishCanonicalCredentialsInput {
+  clientInformation: OAuthClientInformationMixed;
+  issuer?: string;
+  obtainedAt?: number;
+  publishedBy: string;
+  tokens: OAuthTokens;
+}
+
+interface PublishedCanonicalCredentials {
+  canonical: McpOAuthCanonicalCredentials;
+  generation: string;
+  legacyClientRaw: string;
+  legacyTokensRaw: string;
+  raw: string;
+}
+
+type CanonicalInvalidationScope = "tokens" | "all";
+
+export interface CredentialPairSnapshot {
+  clientInformation?: OAuthClientInformationMixed;
+  expiresAt?: number;
+  generation?: string;
+  issuer?: string;
+  obtainedAt?: number;
+  raw?: string;
+  source: "canonical" | "legacy";
+  tokens?: OAuthTokens;
+}
+```

@@ -17,55 +17,20 @@ const LEGACY_DIGEST_LENGTH = 32;
 const EXPIRY_SKEW_MS = 30_000;
 const MILLISECONDS_PER_SECOND = 1_000;
 
-export interface McpOAuthCanonicalCredentials {
-  client_information: OAuthClientInformationMixed;
-  expires_at?: number;
-  generation?: string;
-  issuer?: string;
-  obtained_at?: number;
-  published_by: string;
-  tokens: OAuthTokens;
-  version: 1 | typeof MCP_OAUTH_CREDENTIALS_VERSION;
-}
+export type {
+  CanonicalCredentialSnapshot,
+  CredentialPairSnapshot,
+  McpOAuthCanonicalCredentials,
+} from "./oauth-credentials-types.js";
 
-export interface CanonicalCredentialSnapshot {
-  clientInformation: OAuthClientInformationMixed;
-  expiresAt?: number;
-  generation: string;
-  issuer?: string;
-  obtainedAt?: number;
-  raw: string;
-  tokens: OAuthTokens;
-}
-
-interface PublishCanonicalCredentialsInput {
-  clientInformation: OAuthClientInformationMixed;
-  issuer?: string;
-  obtainedAt?: number;
-  publishedBy: string;
-  tokens: OAuthTokens;
-}
-
-interface PublishedCanonicalCredentials {
-  canonical: McpOAuthCanonicalCredentials;
-  generation: string;
-  legacyClientRaw: string;
-  legacyTokensRaw: string;
-  raw: string;
-}
-
-type CanonicalInvalidationScope = "tokens" | "all";
-
-export interface CredentialPairSnapshot {
-  clientInformation?: OAuthClientInformationMixed;
-  expiresAt?: number;
-  generation?: string;
-  issuer?: string;
-  obtainedAt?: number;
-  raw?: string;
-  source: "canonical" | "legacy";
-  tokens?: OAuthTokens;
-}
+import type {
+  CanonicalCredentialSnapshot,
+  CanonicalInvalidationScope,
+  CredentialPairSnapshot,
+  McpOAuthCanonicalCredentials,
+  PublishCanonicalCredentialsInput,
+  PublishedCanonicalCredentials,
+} from "./oauth-credentials-types.js";
 
 export function mcpOAuthCredentialKey(keyPrefix: string, name: string): string {
   return `${keyPrefix}:${name}`;
