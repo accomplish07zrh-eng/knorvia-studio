@@ -35,15 +35,45 @@ function hasNewerCredentials(
   return Boolean(current?.tokens && current.generation !== baselineGeneration);
 }
 
-function outerLogContext(input: McpInteractiveAuthorizationInput, state?: string) {
+/** 日志公共字段：一次算好，四处日志复用（字段名逐字保留）。 */
+function logFields(input: McpInteractiveAuthorizationInput, state?: string) {
   return {
     adapterInstanceId: input.adapterInstanceId,
     credentialKeyPrefix: input.keyPrefix,
     mcpServerName: input.serverName,
+    processId: process.pid,
     ...(state
       ? { oauthStateId: createHash("sha256").update(state).digest("hex").slice(0, STATE_ID_LENGTH) }
       : {}),
-    processId: process.pid,
+  };
+}
+
+/** 统一日志出口：event/status 由调用点给出，其余字段按需附加。 */
+function emitLog(
+  input: McpInteractiveAuthorizationInput,
+  level: "info" | "warn",
+  event: string,
+  message: string,
+  status: "cancelled" | "completed" | "failed" | "started" | "waiting",
+  extra: Record<string, unknown> = {},
+  state?: string,
+): void {
+  input.logger?.[level](message, { event, ...logFields(input, state), status, ...extra });
+}
+
+/** SDK 鉴权选项：公共字段一次装配，两处调用各自补充私有字段（额外字段名逐字保留）。 */
+function sdkAuthOptions(
+  input: McpInteractiveAuthorizationInput,
+  extra: { authorizationCode?: string; iss?: string } = {},
+) {
+  return {
+    serverUrl: input.serverUrl,
+    ...(input.requestedScope ? { scope: input.requestedScope } : {}),
+    ...(input.resourceMetadataUrl ? { resourceMetadataUrl: input.resourceMetadataUrl } : {}),
+    ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
+    ...(input.forceReauthorization ? { forceReauthorization: true } : {}),
+    ...(extra.authorizationCode ? { authorizationCode: extra.authorizationCode } : {}),
+    ...(extra.iss ? { iss: extra.iss } : {}),
   };
 }
 
@@ -69,11 +99,13 @@ async function followAuthorization(
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const deadline = Date.now() + ttlMs;
   let projectedUrl: string | undefined;
-  input.logger?.info("MCP OAuth authorization is already in progress elsewhere", {
-    event: "mcp.oauth.authorization.following",
-    ...outerLogContext(input),
-    status: "waiting",
-  });
+  emitLog(
+    input,
+    "info",
+    "mcp.oauth.authorization.following",
+    "MCP OAuth authorization is already in progress elsewhere",
+    "waiting",
+  );
   while (Date.now() < deadline && !input.signal?.aborted) {
     const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
     if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
@@ -109,12 +141,15 @@ async function leadAuthorization(
   try {
     callback = await createLocalhostOAuthCallbackServer({ callbackPath, state });
   } catch (error) {
-    input.logger?.warn("MCP OAuth callback listener failed", {
-      event: "mcp.oauth.callback_listener.failed",
-      ...outerLogContext(input, state),
-      error: error instanceof Error ? error.message : String(error),
-      status: "failed",
-    });
+    emitLog(
+      input,
+      "warn",
+      "mcp.oauth.callback_listener.failed",
+      "MCP OAuth callback listener failed",
+      "failed",
+      { error: error instanceof Error ? error.message : String(error) },
+      state,
+    );
     return { status: "failed", error };
   }
 
@@ -135,13 +170,7 @@ async function leadAuthorization(
     state,
   });
   try {
-    const result = await auth(provider, {
-      serverUrl: input.serverUrl,
-      ...(input.requestedScope ? { scope: input.requestedScope } : {}),
-      ...(input.resourceMetadataUrl ? { resourceMetadataUrl: input.resourceMetadataUrl } : {}),
-      ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
-      ...(input.forceReauthorization ? { forceReauthorization: true } : {}),
-    });
+    const result = await auth(provider, sdkAuthOptions(input));
     if (result === "AUTHORIZED") return { status: "authorized" };
     const response = await withTimeout(
       callback.waitForCallback(),
@@ -153,29 +182,35 @@ async function leadAuthorization(
     const authorizationCode = callbackUrl.searchParams.get("code") ?? response.code;
     const issuer = callbackUrl.searchParams.get("iss");
     // 交换及其 saveTokens 完成后才离开此范围，不用人机等待超时提前释放 lease。
-    await auth(provider, {
-      serverUrl: input.serverUrl,
-      authorizationCode,
-      ...(issuer ? { iss: issuer } : {}),
-      ...(input.requestedScope ? { scope: input.requestedScope } : {}),
-      ...(input.resourceMetadataUrl ? { resourceMetadataUrl: input.resourceMetadataUrl } : {}),
-      ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
-    });
-    input.logger?.info("MCP OAuth authorization completed", {
-      event: "mcp.oauth.authorization.completed",
-      ...outerLogContext(input, state),
-      status: "completed",
-    });
+    await auth(
+      provider,
+      sdkAuthOptions(input, {
+        authorizationCode,
+        ...(issuer ? { iss: issuer } : {}),
+      }),
+    );
+    emitLog(
+      input,
+      "info",
+      "mcp.oauth.authorization.completed",
+      "MCP OAuth authorization completed",
+      "completed",
+      {},
+      state,
+    );
     return { status: "authorized" };
   } catch (error) {
     const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
     if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
-    input.logger?.warn("MCP OAuth authorization failed", {
-      event: "mcp.oauth.authorization.failed",
-      ...outerLogContext(input, state),
-      error: error instanceof Error ? error.message : String(error),
-      status: "failed",
-    });
+    emitLog(
+      input,
+      "warn",
+      "mcp.oauth.authorization.failed",
+      "MCP OAuth authorization failed",
+      "failed",
+      { error: error instanceof Error ? error.message : String(error) },
+      state,
+    );
     return { status: "failed", error };
   } finally {
     await callback.close().catch(() => undefined);
