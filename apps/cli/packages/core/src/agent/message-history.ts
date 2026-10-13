@@ -133,10 +133,13 @@ export function createRuntimeUserEntry(
 }
 
 function cloneReasoningBlock(block: ReasoningContentInput): ReasoningContentInput {
-  const reasoningCopy = {
-    ...block,
-    providerOptions: block.providerOptions ? { ...block.providerOptions } : undefined,
-  };
+  // 没有 providerOptions 时直接浅拷贝；有则显式赋值一层，避免共享嵌套对象。
+  if (block.providerOptions === undefined) {
+    const shallowCopy = { ...block };
+    return shallowCopy;
+  }
+  const reasoningCopy = { ...block };
+  reasoningCopy.providerOptions = { ...block.providerOptions };
   return reasoningCopy;
 }
 
@@ -153,7 +156,7 @@ export function createRuntimeAssistantEntry(
 ): RuntimeMessageMessageEntry {
   const blocks = reasoning?.map(cloneReasoningBlock) ?? [];
   const message: ModelInputMessage = {
-    role: "assistant",
+    role: "assistant" as const,
     content:
       blocks.length > 0
         ? [...blocks, ...(content.length > 0 ? [{ type: "text" as const, text: content }] : [])]
@@ -200,7 +203,7 @@ export function cloneRuntimeMessageEntry(entry: RuntimeMessageEntry): RuntimeMes
   if (isRuntimeAttachmentEntry(entry)) {
     // 附件分支保持 RuntimeAttachmentEntry 断言：不要改成联合窄化后的类型，后续访问依赖它。
     const attachmentEntry = {
-      kind: "attachment",
+      kind: "attachment" as const,
       content: entry.content,
       cacheControl: entry.cacheControl ? { ...entry.cacheControl } : undefined,
       metadata: entry.metadata ? { ...entry.metadata } : undefined,
@@ -234,7 +237,7 @@ function modelMessageFromInput(input: ModelInputMessage | RuntimeMessageEntry): 
 
 export function countContextPrefixMessages(
   messagesOrEntries: readonly (ModelInputMessage | RuntimeMessageEntry)[],
-): number {
+): /* 计数 */ number {
   let count = 0;
   for (const input of messagesOrEntries) {
     if (isRuntimeAttachmentEntry(input)) {
@@ -336,7 +339,7 @@ export class MessageHistoryImpl implements MessageHistory {
     this.recomputeCacheStats();
   }
 
-  getMessageCount(): number {
+  getMessageCount(): /* 计数 */ number {
     return this.entries.length;
   }
 
