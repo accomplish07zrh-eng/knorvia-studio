@@ -22,7 +22,8 @@ const TEXT_LIMIT_MESSAGE = "Computer Use result exceeds the text limit";
 const SUBAGENT_DENIAL_MESSAGE = "Computer Use is unavailable to subagents";
 const FRAME_MIME = "image/png";
 
-const jsonBytes = (value: unknown): number => Buffer.byteLength(JSON.stringify(value ?? {}), "utf8");
+const jsonBytes = (value: unknown): number =>
+  Buffer.byteLength(JSON.stringify(value ?? {}), "utf8");
 
 const isTrustedTool = (
   descriptor: Pick<McpToolDescriptor, "serverName" | "toolName">,

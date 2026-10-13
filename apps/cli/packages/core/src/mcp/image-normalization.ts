@@ -107,9 +107,7 @@ const classifyProjectedEntry = (
 };
 
 const isOfficialCuaImageRefTextBlock = (block: McpContentBlock): boolean =>
-  block.type === "text" &&
-  typeof block.text === "string" &&
-  isOfficialCuaImageRefText(block.text);
+  block.type === "text" && typeof block.text === "string" && isOfficialCuaImageRefText(block.text);
 
 // 非空对象且不是数组：后续字段读取的前提。
 const isRecordLike = (value: unknown): value is Record<string, unknown> =>

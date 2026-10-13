@@ -49,7 +49,9 @@ const hasInformativeStructuredContent = (value: unknown): boolean => {
 };
 
 const isMcpToolCallResult = (value: unknown): value is McpToolCallResult =>
-  typeof value === "object" && value !== null && Array.isArray((value as McpToolCallResult).content);
+  typeof value === "object" &&
+  value !== null &&
+  Array.isArray((value as McpToolCallResult).content);
 
 const base64ByteEstimate = (value: string): number | undefined => {
   const payload = base64PayloadFromMcpImageData(value);
@@ -101,7 +103,9 @@ const formatContentBlock = (
     case "audio":
       return [omitted("audio", block.mimeType)];
     case "resource":
-      return [{ type: "text", text: `MCP resource content:\n${stringify(block.resource ?? block)}` }];
+      return [
+        { type: "text", text: `MCP resource content:\n${stringify(block.resource ?? block)}` },
+      ];
     default:
       return [{ type: "text", text: stringify(block) }];
   }
@@ -113,8 +117,7 @@ const collapseTextBlocks = (blocks: ModelMessageContentBlock[]): ModelMessageCon
     : blocks;
 
 const errorPresentationOf = (result: McpToolCallResult): unknown =>
-  result._meta?.[KNORVIA_MCP_ERROR_PRESENTATION_META_KEY] ??
-  result._meta?.[LEGACY_META_KEY];
+  result._meta?.[KNORVIA_MCP_ERROR_PRESENTATION_META_KEY] ?? result._meta?.[LEGACY_META_KEY];
 
 /**
  * 把 MCP 工具结果投影成模型消息内容。
@@ -142,7 +145,10 @@ export function formatMcpToolResult(
     return [...projected, { type: "text", text: ERROR_ONLY_TEXT }];
   }
   const presentation = errorPresentationOf(output);
-  if (typeof presentation === "string" && presentation === KNORVIA_MCP_ERROR_PRESENTATION_MESSAGE_ONLY) {
+  if (
+    typeof presentation === "string" &&
+    presentation === KNORVIA_MCP_ERROR_PRESENTATION_MESSAGE_ONLY
+  ) {
     return projected;
   }
   return `${ERROR_WITH_TEXT}${modelMessageContentToText(projected)}`;

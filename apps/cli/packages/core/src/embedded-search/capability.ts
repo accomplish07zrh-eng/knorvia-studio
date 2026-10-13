@@ -1,5 +1,4 @@
-// 模型可见的 embedded search 分支默认开启：Bash 的 find/grep prelude 注入由执行层另行决定，
-// shell 不支持 function 注入不应改变模型看到的 tool/prompt surface。
+// 模型可见的 embedded search 分支默认开启：Bash 的 find/grep prelude 注入由执行层另行决定，shell 不支持 function 注入不应改变模型看到的 tool/prompt surface。
 const ENABLE_EMBEDDED_SEARCH_BRANCH = true;
 
 // 决策原因的三个取值（字符串是兼容面，逐字保留）。
@@ -16,7 +15,6 @@ interface EmbeddedSearchBranchCapabilityContext {
   bashAvailable: boolean;
   embeddedSearchBranchEnabled?: boolean;
 }
-
 interface EmbeddedSearchBranchCapabilityDecision {
   reason: EmbeddedSearchBranchCapabilityReason;
   useEmbeddedSearchBranch: boolean;
@@ -35,9 +33,14 @@ function evaluateEmbeddedSearchBranchCapability(
   context: EmbeddedSearchBranchCapabilityContext,
 ): EmbeddedSearchBranchCapabilityDecision {
   const branchEnabled = context.embeddedSearchBranchEnabled ?? ENABLE_EMBEDDED_SEARCH_BRANCH;
-  if (!branchEnabled) return decideEmbeddedSearchBranch(EMBEDDED_SEARCH_REASONS.disabledByGlobalFlag);
-  if (!context.bashAvailable) return decideEmbeddedSearchBranch(EMBEDDED_SEARCH_REASONS.bashUnavailable);
-  return decideEmbeddedSearchBranch(EMBEDDED_SEARCH_REASONS.supported);
+  switch (true) {
+    case !branchEnabled:
+      return decideEmbeddedSearchBranch(EMBEDDED_SEARCH_REASONS.disabledByGlobalFlag);
+    case !context.bashAvailable:
+      return decideEmbeddedSearchBranch(EMBEDDED_SEARCH_REASONS.bashUnavailable);
+    default:
+      return decideEmbeddedSearchBranch(EMBEDDED_SEARCH_REASONS.supported);
+  }
 }
 
 export const resolveEmbeddedSearchBranchCapability = (input: {

@@ -10,7 +10,9 @@ const REPEATED_UNDERSCORES = /_+/gu;
 
 /** 单段名称清洗：非法字符折成下划线、连续下划线压成一个；整段为空时用 `unknown` 占位。 */
 export const toModelVisibleMcpNamePart = (name: string): string => {
-  const sanitized = name.replace(DISALLOWED_NAME_CHARACTERS, "_").replace(REPEATED_UNDERSCORES, "_");
+  const sanitized = name
+    .replace(DISALLOWED_NAME_CHARACTERS, "_")
+    .replace(REPEATED_UNDERSCORES, "_");
   return sanitized === "" ? UNKNOWN_NAME_PART : sanitized;
 };
 
@@ -37,7 +39,5 @@ export const matchesModelVisibleMcpServerName = (
     serverName.trim().toLowerCase(),
     toModelVisibleMcpNamePart(serverName).toLowerCase(),
   ];
-  return candidates.some(
-    (candidate) => candidate === expected || candidate.includes(expected),
-  );
+  return candidates.some((candidate) => candidate === expected || candidate.includes(expected));
 };

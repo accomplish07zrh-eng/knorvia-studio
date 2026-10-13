@@ -4,27 +4,27 @@
 
 ## 1. 状态所有者
 
-| 关注点 | 所有者 | 说明 |
-| --- | --- | --- |
-| 回合阶段与回合内子状态 | `TurnMachineImpl` / `TurnState`（`agent/turn-state.ts` + `agent/turn-machine.ts`） | 调用方持有 `TurnState`；machine 是状态的载体，所有方法**返回新状态、不改接收者** |
-| 消息历史与缓存统计 | `MessageHistoryImpl`（`agent/message-history.ts`） | 条目数组 + `cacheStats`；`borrowReadOnlyRuntimeEntries` 返回**共享视图**（约定式只读） |
-| 读文件状态快照 | 调用方传入的 `readFileState`（Map，`agent/read-file-state-hydrator.ts` 只写入） | 水合先 `clear()`，只从持久化事实投影，不重读磁盘 |
-| 上下文装配 | `ContextBuilder`（`context/builder.ts`） | 段列表有序；`addSection` 追加不去重；`setEnvInfo` 替换环境段 |
-| 压缩策略判定 | 纯函数（`compact/policy.ts`） | 无状态；阈值由配置推导 |
-| MCP 工具注册与结果投影 | 调用方的 registry / artifact store（`mcp/*`） | 本包只做判定、投影与上限校验，不持有连接 |
-| 遥测（telemetry 区不在本包） | — | 本包无遥测状态 |
+| 关注点                       | 所有者                                                                             | 说明                                                                                   |
+| ---------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| 回合阶段与回合内子状态       | `TurnMachineImpl` / `TurnState`（`agent/turn-state.ts` + `agent/turn-machine.ts`） | 调用方持有 `TurnState`；machine 是状态的载体，所有方法**返回新状态、不改接收者**       |
+| 消息历史与缓存统计           | `MessageHistoryImpl`（`agent/message-history.ts`）                                 | 条目数组 + `cacheStats`；`borrowReadOnlyRuntimeEntries` 返回**共享视图**（约定式只读） |
+| 读文件状态快照               | 调用方传入的 `readFileState`（Map，`agent/read-file-state-hydrator.ts` 只写入）    | 水合先 `clear()`，只从持久化事实投影，不重读磁盘                                       |
+| 上下文装配                   | `ContextBuilder`（`context/builder.ts`）                                           | 段列表有序；`addSection` 追加不去重；`setEnvInfo` 替换环境段                           |
+| 压缩策略判定                 | 纯函数（`compact/policy.ts`）                                                      | 无状态；阈值由配置推导                                                                 |
+| MCP 工具注册与结果投影       | 调用方的 registry / artifact store（`mcp/*`）                                      | 本包只做判定、投影与上限校验，不持有连接                                               |
+| 遥测（telemetry 区不在本包） | —                                                                                  | 本包无遥测状态                                                                         |
 
 ## 2. 模块划分（保持 38 个公开路径不变）
 
 替换实现**必须保留** `interface.md` 列出的模块路径与导出名；内部实现可在同文件内重组或拆到内部模块（内部模块不进 `package.json` 的 `exports`）：
 
-| 子区域 | 文件数 | 替换策略 |
-| --- | --- | --- |
-| `agent` | 11 | `turn-state`/`turn-machine` 保持"状态 + 纯推进"；`message-history` 保持实现类与工厂；`session-history-hydrator`/`read-file-state-hydrator`/`file-part-hydration`/`compact-session`/`tool-part-order`/`runtime-input-presentation`/`message-history-usage` 保持现有导出面（部分为内部可达） |
-| `compact` | 6 | `policy` 的阈值与五分支决策是兼容面；`prompt`/`manual`/`microcompact` 的文案与阈值逐字冻结；`rounds` 只被 `manual` 使用 |
-| `context` | 14 | `builder` 的**装配顺序**与 meta_user 组装是兼容面；`sections/*` 的标题、顺序与文案逐字冻结；`utils` 的 token 权重与除数冻结 |
-| `embedded-search` | 2 | 判定与 dialect 白名单冻结；不经公开入口（间接覆盖） |
-| `mcp` | 5 | 名称 sanitize、结果投影文案、图像/帧阈值、受信与借用策略冻结 |
+| 子区域            | 文件数 | 替换策略                                                                                                                                                                                                                                                                                   |
+| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `agent`           | 11     | `turn-state`/`turn-machine` 保持"状态 + 纯推进"；`message-history` 保持实现类与工厂；`session-history-hydrator`/`read-file-state-hydrator`/`file-part-hydration`/`compact-session`/`tool-part-order`/`runtime-input-presentation`/`message-history-usage` 保持现有导出面（部分为内部可达） |
+| `compact`         | 6      | `policy` 的阈值与五分支决策是兼容面；`prompt`/`manual`/`microcompact` 的文案与阈值逐字冻结；`rounds` 只被 `manual` 使用                                                                                                                                                                    |
+| `context`         | 14     | `builder` 的**装配顺序**与 meta_user 组装是兼容面；`sections/*` 的标题、顺序与文案逐字冻结；`utils` 的 token 权重与除数冻结                                                                                                                                                                |
+| `embedded-search` | 2      | 判定与 dialect 白名单冻结；不经公开入口（间接覆盖）                                                                                                                                                                                                                                        |
+| `mcp`             | 5      | 名称 sanitize、结果投影文案、图像/帧阈值、受信与借用策略冻结                                                                                                                                                                                                                               |
 
 ## 3. 关键数据结构
 
@@ -72,12 +72,12 @@ flowchart LR
 
 ## 5. 每条行为条目的落点
 
-| 条目 | 实现位置 |
-| --- | --- |
-| M1–M5 | `mcp/name.ts`、`mcp/result-format.ts`、`mcp/image-normalization.ts`、`mcp/index.ts`、`mcp/windows-computer-use.ts` |
-| E1–E2 | `embedded-search/capability.ts`、`embedded-search/shell.ts` |
-| C1–C6 | `compact/policy.ts`、`compact/manual.ts`、`compact/prompt.ts`、`compact/microcompact.ts`、`compact/rounds.ts`、`compact/index.ts` |
-| X1–X13 | `context/utils.ts`、`context/sections/*`、`context/builder.ts`、`context/dynamic-sections.ts`、`context/types.ts`、`context/index.ts` |
+| 条目   | 实现位置                                                                                                                                                                                                                                                                                                                                |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| M1–M5  | `mcp/name.ts`、`mcp/result-format.ts`、`mcp/image-normalization.ts`、`mcp/index.ts`、`mcp/windows-computer-use.ts`                                                                                                                                                                                                                      |
+| E1–E2  | `embedded-search/capability.ts`、`embedded-search/shell.ts`                                                                                                                                                                                                                                                                             |
+| C1–C6  | `compact/policy.ts`、`compact/manual.ts`、`compact/prompt.ts`、`compact/microcompact.ts`、`compact/rounds.ts`、`compact/index.ts`                                                                                                                                                                                                       |
+| X1–X13 | `context/utils.ts`、`context/sections/*`、`context/builder.ts`、`context/dynamic-sections.ts`、`context/types.ts`、`context/index.ts`                                                                                                                                                                                                   |
 | A1–A15 | `agent/turn-state.ts`、`agent/turn-machine.ts`、`agent/tool-part-order.ts`、`agent/runtime-input-presentation.ts`、`agent/message-history.ts`、`agent/message-history-usage.ts`、`agent/compact-session.ts`、`agent/session-history-hydrator.ts`、`agent/file-part-hydration.ts`、`agent/read-file-state-hydrator.ts`、`agent/index.ts` |
 
 ## 6. 实现约束

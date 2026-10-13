@@ -67,12 +67,12 @@ export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/execu
 
 ### 阈值常量（导出）
 
-| 常量 | 值 |
-| --- | --- |
-| `MCP_IMAGE_INLINE_BASE64_BYTES` | `200 * 1024` = **204800** |
-| `MCP_IMAGE_INLINE_RAW_BYTES` | `Math.floor(204800 * 3 / 4)` = **153600** |
-| `HOST_NODE_REPL_IMAGE_MAX_DIMENSION` | **2048** |
-| 压缩目标边长（内部） | `COMPRESS_MAX_DIMENSION` = **2000** |
+| 常量                                 | 值                                        |
+| ------------------------------------ | ----------------------------------------- |
+| `MCP_IMAGE_INLINE_BASE64_BYTES`      | `200 * 1024` = **204800**                 |
+| `MCP_IMAGE_INLINE_RAW_BYTES`         | `Math.floor(204800 * 3 / 4)` = **153600** |
+| `HOST_NODE_REPL_IMAGE_MAX_DIMENSION` | **2048**                                  |
+| 压缩目标边长（内部）                 | `COMPRESS_MAX_DIMENSION` = **2000**       |
 
 ### 文案模板串（逐字）
 
