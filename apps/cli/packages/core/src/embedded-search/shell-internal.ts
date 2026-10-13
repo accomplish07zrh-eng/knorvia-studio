@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 // embedded search 的 Bash prelude（find()/grep() alias）判定实现。
 // 公开文件 shell.ts 只保留两个导出转发，常量与白名单都集中在这里。
 //

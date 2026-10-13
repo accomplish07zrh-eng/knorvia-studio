@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 // embedded search 分支能力的判定实现。
 // 公开文件 capability.ts 只保留导出转发，常量、类型与决策逻辑都集中在这里。
 //
