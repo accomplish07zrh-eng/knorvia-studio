@@ -61,8 +61,9 @@ function extractExtras(fields: LogContext): Record<string, unknown> {
 function converterFor(field: string): (record: LogEntry, masker: LogRedactor) => unknown {
   const direct = FIELD_CONVERTERS[field];
   if (direct !== undefined) return direct;
-  if (REDACTED_FIELDS.has(field)) return (record, masker) => masker.redact(record[field]);
-  return (record) => record[field];
+  if (REDACTED_FIELDS.has(field))
+    return (record, masker) => masker.redact((record as unknown as Record<string, unknown>)[field]);
+  return (record) => (record as unknown as Record<string, unknown>)[field];
 }
 
 export function stripReservedContext(fields: LogContext): Record<string, unknown> | undefined {
