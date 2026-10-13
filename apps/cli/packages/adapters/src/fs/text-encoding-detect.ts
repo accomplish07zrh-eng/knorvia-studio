@@ -33,10 +33,10 @@ const ICONV_KIT: CodecKit = {
 
 /** 原生族：Buffer 与 StringDecoder 已覆盖 utf8/utf16le/latin1/ascii 等。 */
 const NATIVE_KIT: CodecKit = {
-  toText: (buffer, encoding) => buffer.toString(encoding),
-  toBytes: (content, encoding) => Buffer.from(content, encoding),
+  toText: (buffer, encoding) => buffer.toString(encoding as BufferEncoding),
+  toBytes: (content, encoding) => Buffer.from(content, encoding as BufferEncoding),
   streamer(encoding) {
-    const state = new StringDecoder(encoding);
+    const state = new StringDecoder(encoding as BufferEncoding);
     const stream = {} as StreamingTextDecoder;
     stream.write = (buffer) => state.write(buffer);
     stream.end = () => state.end();
