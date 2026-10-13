@@ -79,9 +79,9 @@ function connectionIdentity(serverName: string, source: McpTelemetrySource, salt
   return `builtin:${encoded.join(":")}`;
 }
 
-function ownerSessionCount(registration: Registration): number {
+function ownerSessionCount(entry: Registration): number {
   const sessions = new Set<string>();
-  for (const sessionId of registration.owners.values()) {
+  for (const sessionId of entry.owners.values()) {
     if (sessionId !== undefined) sessions.add(sessionId);
   }
   return sessions.size;
@@ -203,91 +203,102 @@ function startupEvent(fields: {
 /** 跟踪器上下文：把注册表、发射器与时钟集中成一处，方法体因此可以放在模块级。 */
 interface TrackerContext {
   arch: McpTelemetryEvent["arch"];
-  emit(event: McpTelemetryEvent): void;
+  publish(event: McpTelemetryEvent): void;
   idSalt: string;
   now(): number;
   platform: McpTelemetryEvent["platform"];
   randomId(): string;
-  registrations: Map<string, Registration>;
+  registry: Map<string, Registration>;
+}
+
+/** 统一取登记：找不到即跳过，消除各处重复的「get + 判空」序列。 */
+function withRegistration(
+  tracker: TrackerContext,
+  connectionId: string,
+  mutate: (entry: Registration) => void,
+): void {
+  const entry = tracker.registry.get(connectionId);
+  if (!entry) return;
+  mutate(entry);
 }
 
 /** 占用登记：记录 owner 与会话，并清掉「无人占用」起点。 */
 function acquireOwner(
-  context: TrackerContext,
-  input: { connectionId: string; ownerId: string; sessionId?: string },
+  tracker: TrackerContext,
+  request: { connectionId: string; ownerId: string; sessionId?: string },
 ): void {
-  const registration = context.registrations.get(input.connectionId);
-  if (!registration) return;
-  registration.owners.set(input.ownerId, input.sessionId);
-  registration.unownedAt = undefined;
+  withRegistration(tracker, request.connectionId, (entry) => {
+    entry.owners.set(request.ownerId, request.sessionId);
+    entry.unownedAt = undefined;
+  });
 }
 
 /** 崩溃记录：清掉进程句柄后发射一次崩溃事件。 */
 function recordCrashed(
-  context: TrackerContext,
-  input: { connectionId: string; exitCode: number | null; signal: string | null },
+  tracker: TrackerContext,
+  request: { connectionId: string; exitCode: number | null; signal: string | null },
 ): void {
-  const registration = context.registrations.get(input.connectionId);
-  const current = registration?.process;
-  if (!registration || !current) return;
-  registration.process = undefined;
-  const occurredAt = context.now();
-  context.emit(
+  const entry = tracker.registry.get(request.connectionId);
+  const current = entry?.process;
+  if (!entry || !current) return;
+  entry.process = undefined;
+  const occurredAt = tracker.now();
+  tracker.publish(
     crashEvent({
-      affectedSessionCount: ownerSessionCount(registration),
-      arch: context.arch,
-      exitCode: input.exitCode,
+      affectedSessionCount: ownerSessionCount(entry),
+      arch: tracker.arch,
+      exitCode: request.exitCode,
       instanceId: current.instanceId,
-      isolation: registration.isolation,
-      mcpId: registration.mcpId,
+      isolation: entry.isolation,
+      mcpId: entry.mcpId,
       occurredAt,
-      platform: context.platform,
-      signal: input.signal,
-      source: registration.source,
+      platform: tracker.platform,
+      signal: request.signal,
+      source: entry.source,
       startedAt: current.startedAt,
     }),
   );
 }
 
 /** 进程关闭：无 owner 时顺带移除登记，避免留下空壳。 */
-function recordClosed(context: TrackerContext, input: { connectionId: string }): void {
-  const registration = context.registrations.get(input.connectionId);
-  if (!registration) return;
-  registration.process = undefined;
-  if (registration.owners.size === 0) context.registrations.delete(input.connectionId);
+function recordClosed(tracker: TrackerContext, request: { connectionId: string }): void {
+  withRegistration(tracker, request.connectionId, (entry) => {
+    entry.process = undefined;
+    if (entry.owners.size === 0) tracker.registry.delete(request.connectionId);
+  });
 }
 
 /** 进程启动：校验 pid、生成实例 id、发射启动事件并回传遥测身份。 */
 function recordStarted(
-  context: TrackerContext,
-  input: { connectionId: string; pid: number },
+  tracker: TrackerContext,
+  request: { connectionId: string; pid: number },
 ): McpProcessTelemetryIdentity | undefined {
-  const registration = context.registrations.get(input.connectionId);
-  if (!registration) return undefined;
-  const pid = input.pid;
+  const entry = tracker.registry.get(request.connectionId);
+  if (!entry) return undefined;
+  const pid = request.pid;
   if (!Number.isInteger(pid) || pid <= 0) return undefined;
-  const instanceId = context.randomId();
-  const startedAt = context.now();
-  registration.process = { instanceId, pid, startedAt };
-  if (registration.owners.size === 0) registration.unownedAt ??= startedAt;
-  context.emit(
+  const instanceId = tracker.randomId();
+  const startedAt = tracker.now();
+  entry.process = { instanceId, pid, startedAt };
+  if (entry.owners.size === 0) entry.unownedAt ??= startedAt;
+  tracker.publish(
     startEvent({
-      arch: context.arch,
+      arch: tracker.arch,
       instanceId,
-      isolation: registration.isolation,
-      mcpId: registration.mcpId,
+      isolation: entry.isolation,
+      mcpId: entry.mcpId,
       occurredAt: startedAt,
-      platform: context.platform,
-      source: registration.source,
+      platform: tracker.platform,
+      source: entry.source,
     }),
   );
-  return { mcpId: registration.mcpId, mcpInstanceId: instanceId };
+  return { mcpId: entry.mcpId, mcpInstanceId: instanceId };
 }
 
 /** 会话启动统计：四个计数与会话 id 原样透传。 */
 function recordStartup(
-  context: TrackerContext,
-  input: {
+  tracker: TrackerContext,
+  request: {
     configuredCount: number;
     connectedCount: number;
     failedCount: number;
@@ -295,72 +306,73 @@ function recordStartup(
     sessionId: string;
   },
 ): void {
-  context.emit(
+  tracker.publish(
     startupEvent({
-      arch: context.arch,
-      configuredCount: input.configuredCount,
-      connectedCount: input.connectedCount,
-      failedCount: input.failedCount,
-      occurredAt: context.now(),
-      platform: context.platform,
-      processCount: input.processCount,
-      sessionId: input.sessionId,
+      arch: tracker.arch,
+      configuredCount: request.configuredCount,
+      connectedCount: request.connectedCount,
+      failedCount: request.failedCount,
+      occurredAt: tracker.now(),
+      platform: tracker.platform,
+      processCount: request.processCount,
+      sessionId: request.sessionId,
     }),
   );
 }
 
 /** 释放 owner：只有确实删掉了映射才更新无主起点。 */
 function releaseOwnerRole(
-  context: TrackerContext,
-  input: { connectionId: string; ownerId: string },
+  tracker: TrackerContext,
+  request: { connectionId: string; ownerId: string },
 ): void {
-  const registration = context.registrations.get(input.connectionId);
-  if (!registration || !registration.owners.delete(input.ownerId)) return;
-  if (registration.owners.size === 0) registration.unownedAt = context.now();
+  withRegistration(tracker, request.connectionId, (entry) => {
+    if (!entry.owners.delete(request.ownerId)) return;
+    if (entry.owners.size === 0) entry.unownedAt = tracker.now();
+  });
 }
 
 /** 注册连接：来源缺省按服务名推断，mcpId 由服务名 + 来源 + 盐派生。 */
 function registerConnection(
-  context: TrackerContext,
-  input: {
+  tracker: TrackerContext,
+  request: {
     connectionId: string;
     isolation: McpTelemetryIsolation;
     serverName: string;
     source?: McpTelemetrySource;
   },
 ): void {
-  const source = input.source ?? defaultSource(input.serverName);
-  const mcpId = connectionIdentity(input.serverName, source, context.idSalt);
-  context.registrations.set(input.connectionId, {
-    connectionId: input.connectionId,
-    isolation: input.isolation,
+  const source = request.source ?? defaultSource(request.serverName);
+  const mcpId = connectionIdentity(request.serverName, source, tracker.idSalt);
+  tracker.registry.set(request.connectionId, {
+    connectionId: request.connectionId,
+    isolation: request.isolation,
     mcpId,
     owners: new Map(),
-    serverName: input.serverName,
+    serverName: request.serverName,
     source,
   });
 }
 
 /** 注销连接：清空 owner；若已无进程句柄则直接移除登记。 */
-function unregisterConnection(context: TrackerContext, input: { connectionId: string }): void {
-  const registration = context.registrations.get(input.connectionId);
-  if (!registration) return;
-  registration.owners.clear();
-  registration.unownedAt ??= context.now();
-  if (!registration.process) context.registrations.delete(input.connectionId);
+function unregisterConnection(tracker: TrackerContext, request: { connectionId: string }): void {
+  withRegistration(tracker, request.connectionId, (entry) => {
+    entry.owners.clear();
+    entry.unownedAt ??= tracker.now();
+    if (!entry.process) tracker.registry.delete(request.connectionId);
+  });
 }
 
 /** 进程清单：只列出仍持有进程句柄的连接，插件名按需解析。 */
-function listProcesses(context: TrackerContext): McpTrackedProcess[] {
+function listProcesses(tracker: TrackerContext): McpTrackedProcess[] {
   const rows: McpTrackedProcess[] = [];
-  for (const registration of context.registrations.values()) {
-    if (!registration.process) continue;
-    const pluginName = resolvePluginName(registration.serverName);
+  for (const entry of tracker.registry.values()) {
+    if (!entry.process) continue;
+    const pluginName = resolvePluginName(entry.serverName);
     rows.push({
-      mcpSource: registration.source,
-      pid: registration.process.pid,
+      mcpSource: entry.source,
+      pid: entry.process.pid,
       ...(pluginName ? { pluginName } : {}),
-      serverName: registration.serverName,
+      serverName: entry.serverName,
     });
   }
   return rows;
@@ -369,51 +381,50 @@ function listProcesses(context: TrackerContext): McpTrackedProcess[] {
 /** 采样构建上下文：注册表、发射器与时钟由调用方注入。 */
 interface ProcessBuildContext {
   arch: McpTelemetryEvent["arch"];
-  emit(event: McpTelemetryEvent): void;
+  publish(event: McpTelemetryEvent): void;
   platform: McpTelemetryEvent["platform"];
-  registrations: Map<string, Registration>;
+  registry: Map<string, Registration>;
 }
 
 /** 进程采样入口：把当前注册表投影成资源进程列表。 */
-function buildProcesses(context: ProcessBuildContext): McpResourceProcess[] {
+function buildProcesses(tracker: ProcessBuildContext): McpResourceProcess[] {
   const entries: McpResourceProcess[] = [];
-  for (const registration of context.registrations.values()) {
-    const capturedProcess = registration.process;
+  for (const entry of tracker.registry.values()) {
+    const capturedProcess = entry.process;
     if (!capturedProcess) continue;
     entries.push({
       instanceId: capturedProcess.instanceId,
       isCurrent() {
         return (
-          context.registrations.get(registration.connectionId) === registration &&
-          registration.process === capturedProcess
+          tracker.registry.get(entry.connectionId) === entry && entry.process === capturedProcess
         );
       },
-      mcpId: registration.mcpId,
+      mcpId: entry.mcpId,
       observed(tree, sampledAt, scope) {
         if (!tree) {
-          if (registration.owners.size === 0) {
-            registration.process = undefined;
-            context.registrations.delete(registration.connectionId);
+          if (entry.owners.size === 0) {
+            entry.process = undefined;
+            tracker.registry.delete(entry.connectionId);
           }
           return;
         }
         const unownedMs =
-          registration.owners.size === 0 && registration.unownedAt !== undefined
-            ? Math.max(0, sampledAt - registration.unownedAt)
+          entry.owners.size === 0 && entry.unownedAt !== undefined
+            ? Math.max(0, sampledAt - entry.unownedAt)
             : 0;
-        context.emit(
+        tracker.publish(
           memoryEvent({
-            arch: context.arch,
+            arch: tracker.arch,
             instanceId: capturedProcess.instanceId,
-            isolation: registration.isolation,
-            mcpId: registration.mcpId,
+            isolation: entry.isolation,
+            mcpId: entry.mcpId,
             occurredAt: sampledAt,
-            orphanSuspected: registration.owners.size === 0 && unownedMs > ORPHAN_THRESHOLD_MS,
-            ownerSessionCount: ownerSessionCount(registration),
-            platform: context.platform,
+            orphanSuspected: entry.owners.size === 0 && unownedMs > ORPHAN_THRESHOLD_MS,
+            ownerSessionCount: ownerSessionCount(entry),
+            platform: tracker.platform,
             rssKb: tree.reduce((sum, sample) => sum + sample.rssKb, 0),
             scope,
-            source: registration.source,
+            source: entry.source,
             unownedSeconds: unownedMs / MILLISECONDS_PER_SECOND,
           }),
         );
@@ -426,51 +437,51 @@ function buildProcesses(context: ProcessBuildContext): McpResourceProcess[] {
 }
 
 export function createMcpTelemetryTracker(
-  options: CreateMcpTelemetryTrackerOptions,
+  settings: CreateMcpTelemetryTrackerOptions,
 ): McpTelemetryTracker {
-  const arch = options.arch ?? (process.arch as McpTelemetryEvent["arch"]);
-  const now = options.now ?? Date.now;
-  const platform = options.platform ?? (process.platform as McpTelemetryEvent["platform"]);
-  const randomId = options.randomId ?? randomUUID;
-  const registrations = new Map<string, Registration>();
+  const arch = settings.arch ?? (process.arch as McpTelemetryEvent["arch"]);
+  const now = settings.now ?? Date.now;
+  const platform = settings.platform ?? (process.platform as McpTelemetryEvent["platform"]);
+  const randomId = settings.randomId ?? randomUUID;
+  const registry = new Map<string, Registration>();
 
-  const emit = (event: McpTelemetryEvent): void => {
+  const publish = (event: McpTelemetryEvent): void => {
     try {
-      options.onEvent(event);
+      settings.onEvent(event);
     } catch {
       // 只忽略同步通知失败；状态修改、字段投影和时钟仍在此边界之外。
     }
   };
 
-  const context: TrackerContext = {
+  const tracker: TrackerContext = {
     arch,
-    emit,
-    idSalt: options.idSalt,
+    publish,
+    idSalt: settings.idSalt,
     now,
     platform,
     randomId,
-    registrations,
+    registry,
   };
   const sampler = createMcpResourceTelemetry({
-    ...options,
+    ...settings,
     arch,
-    getProcesses: () => buildProcesses({ arch, emit, platform, registrations }),
+    getProcesses: () => buildProcesses({ arch, publish, platform, registry }),
     now,
     platform,
   });
 
   return {
-    acquireOwner: (input) => acquireOwner(context, input),
-    listProcesses: () => listProcesses(context),
-    recordProcessClosed: (input) => recordClosed(context, input),
-    recordProcessCrashed: (input) => recordCrashed(context, input),
-    recordProcessStarted: (input) => recordStarted(context, input),
-    recordSessionStartup: (input) => recordStartup(context, input),
-    registerConnection: (input) => registerConnection(context, input),
-    releaseOwner: (input) => releaseOwnerRole(context, input),
+    acquireOwner: (request) => acquireOwner(tracker, request),
+    listProcesses: () => listProcesses(tracker),
+    recordProcessClosed: (request) => recordClosed(tracker, request),
+    recordProcessCrashed: (request) => recordCrashed(tracker, request),
+    recordProcessStarted: (request) => recordStarted(tracker, request),
+    recordSessionStartup: (request) => recordStartup(tracker, request),
+    registerConnection: (request) => registerConnection(tracker, request),
+    releaseOwner: (request) => releaseOwnerRole(tracker, request),
     sampleNow: sampler.sampleNow,
     start: sampler.start,
     stop: sampler.stop,
-    unregisterConnection: (input) => unregisterConnection(context, input),
+    unregisterConnection: (request) => unregisterConnection(tracker, request),
   };
 }
