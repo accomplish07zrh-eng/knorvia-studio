@@ -77813,10 +77813,10 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "58c4eedc59189d34c65259a5ecd892f531ef97883507dfc677f517092c225235",
+      "normalizedSha256": "1d477a0efb8bb1d251529f9557012c9568b3479cba506c60e390b803a8ddacb4",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件（apps/cli/packages/core/{src,dist}/workflow/** 与 test/workflow-*.json）的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
+      "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
       "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
