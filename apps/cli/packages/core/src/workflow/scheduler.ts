@@ -61,12 +61,32 @@ const limitsOf = (snapshot: Snapshot): Limits => ({
 });
 
 export class WorkflowGraphScheduler {
+  readonly #createActivityId: Deps["createActivityId"];
   readonly #eventLog: WorkflowSchedulerEventLog;
-  readonly #ports: SchedulerPorts;
+  readonly #plannerRunner: Deps["plannerRunner"];
+  readonly #runner: Deps["runner"];
+  readonly #writeArtifact: Deps["writeArtifact"];
+  readonly #writeSnapshot: Deps["writeSnapshot"];
 
   constructor(deps: Deps) {
+    // 与上游一致的读取顺序：createActivityId → 事件日志（内部读 appendEvent/appendGraphRecord/now/onWorkflowEvent）→ plannerRunner → runner → writeArtifact → writeSnapshot。
+    this.#createActivityId = deps.createActivityId;
     this.#eventLog = new WorkflowSchedulerEventLog(deps);
-    this.#ports = schedulerPorts(deps);
+    this.#plannerRunner = deps.plannerRunner;
+    this.#runner = deps.runner;
+    this.#writeArtifact = deps.writeArtifact;
+    this.#writeSnapshot = deps.writeSnapshot;
+  }
+
+  /** 下游运行时端口：以实例字段组装，端口函数仍以「运行时对象」为 receiver（与上游一致）。 */
+  #schedulerPorts(): SchedulerPorts {
+    return {
+      createActivityId: this.#createActivityId,
+      plannerRunner: this.#plannerRunner,
+      runner: this.#runner,
+      writeArtifact: this.#writeArtifact,
+      writeSnapshot: this.#writeSnapshot,
+    };
   }
 
   async run(input: RunOptions): Promise<RunResult> {
@@ -78,7 +98,7 @@ export class WorkflowGraphScheduler {
     });
     const holder: SnapshotHolder = { snapshot: repair.snapshot };
     if (repair.changed) {
-      await this.#ports.writeSnapshot(holder.snapshot, { signal: input.abortSignal });
+      await this.#writeSnapshot(holder.snapshot, { signal: input.abortSignal });
     }
 
     const limits = limitsOf(holder.snapshot);
@@ -93,7 +113,7 @@ export class WorkflowGraphScheduler {
         holder.snapshot,
         ids,
         input,
-        collectionPlannerRuntime(this.#eventLog, this.#ports),
+        collectionPlannerRuntime(this.#eventLog, this.#schedulerPorts()),
       );
       holder.snapshot = planned.snapshot;
       for (const nodeId of planned.addedNodeIds) ids.add(nodeId);
@@ -108,11 +128,8 @@ export class WorkflowGraphScheduler {
       });
 
       const complete =
-        areExecutableNodesComplete(
-          holder.snapshot.graph,
-          ids,
-          Boolean(this.#ports.plannerRunner),
-        ) && active.size === 0;
+        areExecutableNodesComplete(holder.snapshot.graph, ids, Boolean(this.#plannerRunner)) &&
+        active.size === 0;
       if (complete) {
         await this.#eventLog.emitEvent(holder.snapshot, "executor_completed", {
           message: `${input.phase} scheduler completed.`,
@@ -152,7 +169,7 @@ export class WorkflowGraphScheduler {
           node,
           input,
           limits.errors,
-          nodeRunnerRuntime(this.#eventLog, this.#ports),
+          nodeRunnerRuntime(this.#eventLog, this.#schedulerPorts()),
         );
         active.set(node.id, promise);
         holder.snapshot = (await promise.started).snapshot;

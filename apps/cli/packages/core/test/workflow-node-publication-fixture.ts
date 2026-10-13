@@ -22,7 +22,7 @@ export async function loadBaseline(readArchive = read) {
 }
 export const archive = await loadBaseline();
 const selector = await read(new URL("./workflow-node-publication-current.json", import.meta.url));
-assert.equal(sha(selector), "955602a53334a1b25d6987b04e1f2dab96c6830364c1829932b89140712c76d8");
+assert.equal(sha(selector), "d61e5c07ecf858e0a8627be4e567d81e086aee07bac10ffbfd7ca30922e95395");
 export const pins: { files: Record<string, string> } = JSON.parse(selector);
 export async function loadCurrent(readArtifact = read) {
   await verifyCurrentArtifacts(
