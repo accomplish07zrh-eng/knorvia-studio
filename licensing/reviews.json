@@ -21893,7 +21893,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21901,7 +21904,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21909,7 +21915,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21917,7 +21926,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21925,7 +21937,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21933,7 +21948,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21941,7 +21959,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21949,7 +21970,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21957,7 +21981,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21965,7 +21992,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21973,7 +22003,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21981,7 +22014,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -25786,14 +25822,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/local-settings.ts",
-      "normalizedSha256": "6ebef3f129e622a3a7c0374cdf9d889edab6d0b1e44439e127865f95ebabe8bf",
+      "normalizedSha256": "c917f6bf9f22f7a9c740e57848d0705c61b2a3537204fbcc57b9dfbacb592c0a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New small repository presents rule/mode operations through one fixed permission-cell owner; old explicit-save asynchronous readback and overwrite semantics remain separate from the new committed-transform operation. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-project-permission-atomicity.md",
-        "docs/knorvia-project-permission-atomicity-acceptance.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "c917f6bf9f22f7a9c740e57848d0705c61b2a3537204fbcc57b9dfbacb592c0a",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/project-permission-cell.ts",
@@ -25907,15 +25946,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access.ts",
-      "normalizedSha256": "ec75e3a80c8c7f68854910017e8eed3e74a01037477b5d2001b563f912f191fa",
+      "normalizedSha256": "24f73a4d2fbc0da51e4136d2ab4916e401f60a89c6b399667865f99a653be075",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New synchronous transaction owner validates admission and delegates one program; only a still-active owned transaction is rolled back, preserving automatic rollback first cause and both errors on cleanup failure. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-full-access-storage.md",
-        "docs/knorvia-full-access-storage-acceptance.md",
-        "licensing/evidence/full-access-payload.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "24f73a4d2fbc0da51e4136d2ab4916e401f60a89c6b399667865f99a653be075",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access-program.ts",
@@ -26017,16 +26058,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/json.ts",
-      "normalizedSha256": "2707c36459c1a6a0dbd1d8559448bc06aacab45d71525295f8a8e1840f1e8a87",
+      "normalizedSha256": "a6d531a3f94c6383d8b1914381be06dcc0325e96854faab8e27bac4ce2b71785",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-authored optional JSON cell adapter uses native serialization and all-falsy runtime absence without absorbing required-document parsing. Thin functional wrapper has little expressive latitude; not claimed as a new algorithm. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-value-codecs.md",
-        "docs/knorvia-storage-value-codecs-acceptance.md",
-        "licensing/evidence/storage-value-codecs.md",
-        "licensing/evidence/full-access-payload.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "a6d531a3f94c6383d8b1914381be06dcc0325e96854faab8e27bac4ce2b71785",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/record-projection.ts",
@@ -26043,16 +26085,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/codecs.ts",
-      "normalizedSha256": "8740c310b97f8d0f015d883f0b73a952aa31866f2d5131e6a602c43c205be27e",
+      "normalizedSha256": "107aa9869ce48c1bd6b3b662ffacf0a06e642e4ac710212101b7a983dc512140",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh contract-authored pure row/document projection composes shared ordered output transformations and public model-selection validation. Fixed columns and timestamp selection remain explicit; required versus optional JSON and three invalid-selection policies stay distinct. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-value-codecs.md",
-        "docs/knorvia-storage-value-codecs-acceptance.md",
-        "licensing/evidence/storage-value-codecs.md",
-        "licensing/evidence/full-access-payload.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "107aa9869ce48c1bd6b3b662ffacf0a06e642e4ac710212101b7a983dc512140",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/storage-codec-fixture.ts",
@@ -26147,27 +26190,31 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-entries.ts",
-      "normalizedSha256": "264a881a0e1e38f3973f2c3983cd152422942d7350449c579eb76f7ac5f025df",
+      "normalizedSha256": "9e86237378235cd63c57315857471ee0c97a7c9da2fe1492622dcd0a7e81a016",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh contract-authored entry writer combines pre-SQL encoding, one scoped UPSERT and explicit borrowed/owned transaction policy. Standalone entry plus touch is atomic; created identity and legacy JSON members stay preserved. Read projection retains established sorting and filtering. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-entry-todo-storage.md",
-        "docs/knorvia-entry-todo-storage-acceptance.md",
-        "licensing/evidence/entry-todo-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "9e86237378235cd63c57315857471ee0c97a7c9da2fe1492622dcd0a7e81a016",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/todos.ts",
-      "normalizedSha256": "33086c2a98272046a741d42fd5154a8c838846c3a87c7ad6b13a8d8bef1ac2a1",
+      "normalizedSha256": "068352f812598dd78b6ea4c578fd6f0de98148467448043873559fd642c994e5",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh ordered replacement repository captures one timestamp, expresses session-scoped delete/insert/touch in a required owned boundary, and skips unused INSERT preparation for empty input. Uses existing decoder with no new business state. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-entry-todo-storage.md",
-        "docs/knorvia-entry-todo-storage-acceptance.md",
-        "licensing/evidence/entry-todo-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "068352f812598dd78b6ea4c578fd6f0de98148467448043873559fd642c994e5",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/write-transaction.ts",
@@ -26291,18 +26338,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/message-storage.ts",
-      "normalizedSha256": "5d5bf9f3f6cd08d2b798e34a104618a7b09e6d19bd01525de9c7d6758e04cdcd",
+      "normalizedSha256": "a1ab2d3e1beffdf6e1c2bca22333b409a3e9b847937f3b61e41b5e49a7f3a073",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New synchronous repository orchestration reuses explicit owned/borrowed boundary for source read, scoped UPSERT and touch. Multi-path native JSON1 preservation, sequence/creation identity, read phase order and scoped removal follow prior contract without copying old nested SQL helper. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access. Session-input follow-up: root exposed three internal synchronous bodies under the unchanged public Promise wrappers, reusing exactly one existing message implementation. This bounded modification extends the prior reviewed MIT basis and is not a new claim of an unexposed-author rewrite. Message regression and synchronous promotion acceptance are separately recorded.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-message-storage.md",
-        "docs/knorvia-message-storage-acceptance.md",
-        "licensing/evidence/message-storage.md",
-        "specs/knorvia-session-input-storage.md",
-        "docs/knorvia-session-input-storage-acceptance.md",
-        "licensing/evidence/session-input-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "a1ab2d3e1beffdf6e1c2bca22333b409a3e9b847937f3b61e41b5e49a7f3a073",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/message-storage-fixture.ts",
@@ -26420,27 +26466,31 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-records.ts",
-      "normalizedSha256": "d3a4ad63cfd9fe7dff42e030ac35003e085e7e4ca618beb65785faa6b526485d",
+      "normalizedSha256": "cf18a56fbf215fe757cba7047bcabd3d22940d3c27f3294252b19b591bda284d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh creation projection and synchronous patch operation own read/gate/encoding/update/result inside existing transaction helper, shared by update/revert/clear. Prior multi-step update source was not supplied to author; fixed columns and standard SQL remain compatibility constraints. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-records.md",
-        "docs/knorvia-session-records-acceptance.md",
-        "licensing/evidence/session-records.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "cf18a56fbf215fe757cba7047bcabd3d22940d3c27f3294252b19b591bda284d",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-scopes.ts",
-      "normalizedSha256": "376c362d02d2110274f24ea2a42d0a98cba690b4ef0d3806766ce8686bdb021e",
+      "normalizedSha256": "e6fb6bd4b8b2f23a260811e234856df0f330f293367008f30406ae6bceac87f0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New bound predicate builder with literal path escaping, public task-type normalization, strict claim scope and NULL-safe atomic path repair, written from behavior contract without old repository body. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-records.md",
-        "docs/knorvia-session-records-acceptance.md",
-        "licensing/evidence/session-records.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "e6fb6bd4b8b2f23a260811e234856df0f330f293367008f30406ae6bceac87f0",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/session-records-fixture.ts",
@@ -26540,15 +26590,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/input-history.ts",
-      "normalizedSha256": "ed96b3997f1a337c7a15b1f41c4f11d5b18bea9825be062f35b0855c5cbe7478",
+      "normalizedSha256": "d780e9eacc7a6ecfaa2fe40985639dc3866de5d7f3596981e572e43f180d71bd",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh shared attachment/row projection and synchronous selection, read-only duplicate precheck and authoritative own-transaction reread/insert/global-retention flow; preserves caller no-op boundary and delegates cleanup to existing reviewed helper. Written from bounded contract, not copied/extracted old body. Root and reviewer inspected old implementation to extract behavior; no whole-process clean-room or whole-product MIT claim. Isolated author only read prior behavior contract, selected public declarations and dependency signatures plus behavior-only clarifications. Old target/history/baseline/dist/maps/tests/other repository bodies prohibited; exact inputs/output reviewed. Compatibility names, fixed columns, common SQL and JSON expressions are not claimed as novel algorithms. Existing facade/schema/migrations/row declarations and other modules retain their applicable licenses. Root Apache and preview identity remain; fabricated memory/temporary SQLite only.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-input-history-storage.md",
-        "docs/knorvia-input-history-storage-acceptance.md",
-        "licensing/evidence/input-history-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "d780e9eacc7a6ecfaa2fe40985639dc3866de5d7f3596981e572e43f180d71bd",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/input-history-fixture.ts",
@@ -26660,15 +26712,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-values.ts",
-      "normalizedSha256": "565acefa1a2b9778620d7a7b540ea783f0b72d95bdecc0705dc889709a79c47e",
+      "normalizedSha256": "441d17a7f545acab5eb718d74470bc74f295b8742431a6c6b5a6d0de6aa18cb7",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh small shared finite-number count policy for write projection and task inference; generic short expression not a standalone novelty claim. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-usage-storage.md",
-        "docs/knorvia-usage-storage-acceptance.md",
-        "licensing/evidence/usage-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "441d17a7f545acab5eb718d74470bc74f295b8742431a6c6b5a6d0de6aa18cb7",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-writes.ts",
@@ -26684,27 +26738,31 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-app.ts",
-      "normalizedSha256": "c85ffbd7e410c7a6c4294f79fac311536322e55393220d7fde2f81c4172b2312",
+      "normalizedSha256": "1af8e6dcb99a79d20e5466f799a329d40b440ddffefbd8a394dbc33ec16dbf6c",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh ordered aggregate-read plan, plain projections and sparse-day merge preserving native null/sort and limited consistency boundaries, authored from contract not extracted old body. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-usage-storage.md",
-        "docs/knorvia-usage-storage-acceptance.md",
-        "licensing/evidence/usage-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "1af8e6dcb99a79d20e5466f799a329d40b440ddffefbd8a394dbc33ec16dbf6c",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-task.ts",
-      "normalizedSha256": "45f8792523ce95551d0e14f02f87fe2a3fd4896f3e13ab2a7c6c0a8074f5f205",
+      "normalizedSha256": "c954b471d851a6754220ba96cbdd61e98b5d82c638c0f3058741f4bbfc33b0e2",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh session-ordered accounting fold with closed-source incremental baselines, cache-inclusion inference and separate raw totals; no shared generic engine with app aggregates. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-usage-storage.md",
-        "docs/knorvia-usage-storage-acceptance.md",
-        "licensing/evidence/usage-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "c954b471d851a6754220ba96cbdd61e98b5d82c638c0f3058741f4bbfc33b0e2",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/usage-storage-fixture.ts",
@@ -26828,30 +26886,31 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-inputs.ts",
-      "normalizedSha256": "3be13c6fd2e8ca9cbdfc469e4ce36bc58c0becbd23b5e6afcadd201c52a04986",
+      "normalizedSha256": "995df7baff256a9bd2a8f88b66112322ff71b07eeb46abc7d4269b52a6245a6e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh ledger admission, guarded edits/marker/settlement and recovery queries with one SQLite fact owner, synchronous single-statement borrowed writes and own batch edit boundary. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices. The facade batch exposes the existing admission body through saveSessionInputSync and forwards the existing async call into it; no second SQL/encoding/time/write path is created. Earlier source evidence remains.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-input-storage.md",
-        "docs/knorvia-session-input-storage-acceptance.md",
-        "licensing/evidence/session-input-storage.md",
-        "specs/knorvia-session-store-facade.md",
-        "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "995df7baff256a9bd2a8f88b66112322ff71b07eeb46abc7d4269b52a6245a6e",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-documents.ts",
-      "normalizedSha256": "eb6ed9353c663773cfa82fcadbdb4113b878c66b3c792c52a42d9830d6c4e21b",
+      "normalizedSha256": "e7d9a2237f911ccada3e3661ffcabfc79605eb5305ed919fd3bc45fec5e927f1",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh tolerant row projection and canonical/legacy intent value edits; preserves unknown members, object boundaries and ordinary JSON order from the prior behavior contract. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-input-storage.md",
-        "docs/knorvia-session-input-storage-acceptance.md",
-        "licensing/evidence/session-input-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "e7d9a2237f911ccada3e3661ffcabfc79605eb5305ed919fd3bc45fec5e927f1",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-promotion.ts",
@@ -26990,39 +27049,45 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-runs.ts",
-      "normalizedSha256": "52fd6119db91f7d67c5db2397d3bcd85b8f7b752658107a36bcaf4a2e0795da9",
+      "normalizedSha256": "2928f6fd2419f47e80290d29032bfaa7ff12e96a9b67fc6c77f8d0542e360923",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh definition/run operations with synchronous current-row patch selection, native writes and complete readback inside the existing borrowed transaction boundary; unchanged Promise surface and one SQLite state owner. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-script-workflow-storage.md",
-        "docs/knorvia-script-workflow-storage-acceptance.md",
-        "licensing/evidence/script-workflow-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "2928f6fd2419f47e80290d29032bfaa7ff12e96a9b67fc6c77f8d0542e360923",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-activities.ts",
-      "normalizedSha256": "0687769f825027b9f41ea2781b5c7ba8b1a6e78d09a963300454c36b317f4fe0",
+      "normalizedSha256": "b5aefb4ba3239f26c5bde0d2d097bcc954386fb7ba6037a77dfb211ace58038f",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh activity/event/task-link operations with synchronous borrowed owner, native number allocation and specified conflict scope; initial JS numeric-affinity regression corrected from behavioral feedback after red-first native cases. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-script-workflow-storage.md",
-        "docs/knorvia-script-workflow-storage-acceptance.md",
-        "licensing/evidence/script-workflow-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "b5aefb4ba3239f26c5bde0d2d097bcc954386fb7ba6037a77dfb211ace58038f",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-codecs.ts",
-      "normalizedSha256": "08b0db617156096b0284fcb8c4fc897ffa8f7641dfe755a9b1f7dd7fec51864e",
+      "normalizedSha256": "74809ace6bd7a06bdd0f035d58a78748c8969a4f496a24b1c59bd71030428d2d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh output from restricted behavioral/structural inputs for five pure row projections. Fixed ordered field mapping is highly similar to inherited mapping and carries no claim of algorithmic novelty; MIT headers and type-spelling edits are not the evidence. Decision relies on recorded restricted-author creation and verified input/output identities, not resemblance reduction; approved declarations and common expressions are compatibility constraints. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-script-workflow-storage.md",
-        "docs/knorvia-script-workflow-storage-acceptance.md",
-        "licensing/evidence/script-workflow-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "74809ace6bd7a06bdd0f035d58a78748c8969a4f496a24b1c59bd71030428d2d",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/script-workflow-fixture.ts",
@@ -27157,39 +27222,45 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal.ts",
-      "normalizedSha256": "7a10b6dbcda765abf2720a82972258a9e65a85dbd88a730f3833398117299398",
+      "normalizedSha256": "79edc0d1adc6c6ce3ffd33607fefde15b8ade87fdde603eb20388f1be3382b36",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh single-connection object factory implementing all synchronous domain and host operations, public receiver diagnostics, complete native upserts and single-statement event sequence allocation. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-dwf-journal-storage.md",
-        "docs/knorvia-dwf-journal-storage-acceptance.md",
-        "licensing/evidence/dwf-journal-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "79edc0d1adc6c6ce3ffd33607fefde15b8ade87fdde603eb20388f1be3382b36",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-codecs.ts",
-      "normalizedSha256": "44ab8d19578c1c5c380468ea4fdbbcad26b2091f57ca42561699cb8e886ad85b",
+      "normalizedSha256": "541b8bf72755863928ae6e3f82e86b0f73a94ce78bb6ddafaee9a4297255cf65",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh restricted-contract row projections and compatibility exports. Fixed ordered field mapping and approved structural declarations remain highly similar to inherited forms; headers, type-spelling changes, extraction or line counts are not the evidence. Creation process and exact inputs/outputs are recorded with these limitations. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-dwf-journal-storage.md",
-        "docs/knorvia-dwf-journal-storage-acceptance.md",
-        "licensing/evidence/dwf-journal-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "541b8bf72755863928ae6e3f82e86b0f73a94ce78bb6ddafaee9a4297255cf65",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts.ts",
-      "normalizedSha256": "2c2b874d366b16f132c3679463b387bfbbc098eb90e8a9609afde29f57ffcf05",
+      "normalizedSha256": "d083e6218e215b5362058058d86d12a1bbd93fe8d8cd462e03a10f407a22baf6",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh artifact node and report-event query implementation with selected-row decode, strict cursor, caller pagination probe, version/order and scalar/undefined item preservation. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-dwf-journal-storage.md",
-        "docs/knorvia-dwf-journal-storage-acceptance.md",
-        "licensing/evidence/dwf-journal-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "d083e6218e215b5362058058d86d12a1bbd93fe8d8cd462e03a10f407a22baf6",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection.ts",
@@ -27205,15 +27276,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-run-state.ts",
-      "normalizedSha256": "10139e069fda354f0311e0c8b15c576ac8de12d406b2fed5acc39b4ce3e21e11",
+      "normalizedSha256": "156ab2d42eef51d5ca221926c612672d9e99fe2338fd8740cf5086da4d4c646c",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New cohesive internal logical/physical settlement and predicate implementation replacing the state responsibility of the inherited codec module. Initial malformed-envelope recognition regression was observed before correction and repaired using behavioral feedback only; not an extraction of inherited function bodies. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-dwf-journal-storage.md",
-        "docs/knorvia-dwf-journal-storage-acceptance.md",
-        "licensing/evidence/dwf-journal-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "156ab2d42eef51d5ca221926c612672d9e99fe2338fd8740cf5086da4d4c646c",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/dwf-journal-run-codec.test.ts",
@@ -27313,75 +27386,87 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/migration-runner.ts",
-      "normalizedSha256": "7cfa0f32166d685f36bb72f328b680c160fe3ced55589ccfa32a93d5ac3b9de0",
+      "normalizedSha256": "16ad8ac944e0ad489394df5444d017ca6fd245bf1e1f82eb50411edc84d69c8b",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Restricted-contract synchronous and asynchronous effect consumers, original callback rejection and ordered execution/timeout cleanup, consuming one invocation owner. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-bootstrap.md",
-        "docs/knorvia-storage-bootstrap-acceptance.md",
-        "licensing/evidence/storage-bootstrap.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "16ad8ac944e0ad489394df5444d017ca6fd245bf1e1f82eb50411edc84d69c8b",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/migration-execution.ts",
-      "normalizedSha256": "a5f4a731ac327e8bef6bc9bacc0cc89f12c3671c307d428058543c89adcd347c",
+      "normalizedSha256": "6fa6c181f97393b451f7b37ed54476c99fcd0eef84a3d548bfcfeff80b453245",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New internal invocation-owned execution sequence replacing inherited runner control: catalog/ledger validation, bounded native-BUSY acquisition, owned transaction, point-in-time progress and per-item live ledger checks. Root review corrected stale applied-set and unknown-ledger old-column assumptions through behavior feedback before integration. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-bootstrap.md",
-        "docs/knorvia-storage-bootstrap-acceptance.md",
-        "licensing/evidence/storage-bootstrap.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "6fa6c181f97393b451f7b37ed54476c99fcd0eef84a3d548bfcfeff80b453245",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/migration-native-error.ts",
-      "normalizedSha256": "06c193426526b3fc65a932d03a73e25fdcef382b433658256f3e6e0c92c9133a",
+      "normalizedSha256": "f2c629573dbd61adcef4e1c38c38ac6f6fc078ab579d50a049a9ce7818bc9e17",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New shared internal native error policy used by execution and snapshot, structured BUSY recognition, original typed-error identity and normalization through retained public classifier. This is common protocol policy rather than a new algorithm claim. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-bootstrap.md",
-        "docs/knorvia-storage-bootstrap-acceptance.md",
-        "licensing/evidence/storage-bootstrap.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "f2c629573dbd61adcef4e1c38c38ac6f6fc078ab579d50a049a9ce7818bc9e17",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/migration-snapshot.ts",
-      "normalizedSha256": "487c312fc46d94cdec3613d39c32f500a3335bff71e589a8f76145c63c4ef5f5",
+      "normalizedSha256": "35a1c5d740d7a1da4ff7af79d9a2a1b36dfae16cb3ce2f5b616e560ec328068e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Restricted-contract exclusive snapshot reservation and owned partial-file cleanup. Root review corrected stat-vs-atomic-create decision before native integration; committed WAL copying remains native SQLite. No-match prior snapshot source was not presumed original. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-bootstrap.md",
-        "docs/knorvia-storage-bootstrap-acceptance.md",
-        "licensing/evidence/storage-bootstrap.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "35a1c5d740d7a1da4ff7af79d9a2a1b36dfae16cb3ce2f5b616e560ec328068e",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/paths.ts",
-      "normalizedSha256": "db8ef6ccaf8a5abb95172046581a37bcf3b83f726485e0313c3a7c7904b06fa6",
+      "normalizedSha256": "b7e1f578ae04b19108c3b94b3cbdf7a87e7fc8b0b5a739056824b795451c430e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh expression from the approved dynamic-root and mkdir-fault contract. These short standard adapter operations necessarily resemble inherited forms; guard style and removed unused import alone are not independent evidence. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-bootstrap.md",
-        "docs/knorvia-storage-bootstrap-acceptance.md",
-        "licensing/evidence/storage-bootstrap.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "b7e1f578ae04b19108c3b94b3cbdf7a87e7fc8b0b5a739056824b795451c430e",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/errors.ts",
-      "normalizedSha256": "b07425c151c24809cca2c0c9e17b868019d5c70ed5e599b3cd6163e7a5b05fc2",
+      "normalizedSha256": "b60eeb1ecb2c065372cca9306d75c354dd1943261fcea77bf269e5c92682f4f7",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh public Error subclass projection from approved declarations, fields and native descriptors. Shape and assignments closely match inherited expressions; field-order spelling or MIT header is not evidence by itself. Restricted creation and narrow functional surface are documented without a novel-algorithm claim. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-bootstrap.md",
-        "docs/knorvia-storage-bootstrap-acceptance.md",
-        "licensing/evidence/storage-bootstrap.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "b60eeb1ecb2c065372cca9306d75c354dd1943261fcea77bf269e5c92682f4f7",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/session-bootstrap-edges.test.ts",
@@ -27493,63 +27578,73 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/sqlite-session-store.ts",
-      "normalizedSha256": "1c52ffcd57679764895dce8a5a3c7477f76e894a2fcf9d0da06be2cb1fa93a65",
+      "normalizedSha256": "fa6da2b55ca3a68812987de4e84cfe679819a4adc54716a81cc49b2ae8614260",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led single owner of connection, path, fault options and lazy journal; 73 explicit public methods and the exact 22 prewrite fault gates, with public-close cleanup on asynchronous startup failure. Short forwarding is reviewed as constrained compatibility expression rather than an independent algorithm. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-store-facade.md",
-        "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "fa6da2b55ca3a68812987de4e84cfe679819a4adc54716a81cc49b2ae8614260",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/session-store-connection.ts",
-      "normalizedSha256": "4a74aabf2bcc3f3569902b9a2da78e59264d1e0da2b17bed4cc8000af294a721",
+      "normalizedSha256": "63ee664e4a07c167a2b91f119f2e259af8679d02a6be6d30574e14058620e818",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New narrow connection preparation and synchronous startup cleanup sequence consuming the already reviewed initializer, without duplicating migrations or owning an additional connection. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-store-facade.md",
-        "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "63ee664e4a07c167a2b91f119f2e259af8679d02a6be6d30574e14058620e818",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/fork-commit.ts",
-      "normalizedSha256": "ec3d6bbf5143656b245d0a14c239f388649658d062243708fed6f8f03d0a1d91",
+      "normalizedSha256": "9bc189aee3cb2455599ed6fc3e42a84057d715dd1e66a1e1c27babf47b78fdea",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New synchronous compound-commit coordination using one existing transaction owner and synchronous repositories, including seven fault stages and parent-command fact replay. Preserves the original failure and prevents unrelated same-turn writes joining a suspended transaction. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-store-facade.md",
-        "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "9bc189aee3cb2455599ed6fc3e42a84057d715dd1e66a1e1c27babf47b78fdea",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/fork-validation.ts",
-      "normalizedSha256": "b5538e3a1c939f5ed120a84c234ceaaafd6690b1c538594f652e5eaaf33e6428",
+      "normalizedSha256": "76cb495066257efdfff8ad902bab72267f9f22831d007cc26ceaa1342f651092",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led ordered child, owner and reference validation with invocation-local sets; identifiers and fixed error text remain constrained interface facts. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-store-facade.md",
-        "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "76cb495066257efdfff8ad902bab72267f9f22831d007cc26ceaa1342f651092",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/shared-context-commit.ts",
-      "normalizedSha256": "89f405cc7cef4646bbe986cfbb768b504dbcfca3ce9ee05f84489285b83ac715",
+      "normalizedSha256": "28e132e5f9d57cc2e2815c91d331ec57b106dada09b97ccfeb05be700129d6b1",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New synchronous import/transition coordination with per-call false control signal, exact data eligibility and cleanup preservation, sharing the existing transaction and write owners. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-store-facade.md",
-        "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "28e132e5f9d57cc2e2815c91d331ec57b106dada09b97ccfeb05be700129d6b1",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/debug.ts",
@@ -27771,39 +27866,45 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-target.ts",
-      "normalizedSha256": "1d8ec2e987f6205411fe4d6168d967f46b2c5570fadc633990b5a29044375231",
+      "normalizedSha256": "f630aa4244e99162f8239bc146c852b1f8831520980f0c84d696ad6ce6861244",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led synchronous target identity and metadata coordination through the existing transaction owner; guarded create retains identity collision and pre-touch snapshot behavior, while fork retains structural source facts without reading discarded activity fields. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-target-storage.md",
-        "docs/knorvia-session-target-storage-acceptance.md",
-        "licensing/evidence/session-target-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "f630aa4244e99162f8239bc146c852b1f8831520980f0c84d696ad6ce6861244",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-target-record.ts",
-      "normalizedSha256": "68c5f00b94f480dc3c7e1b3a8695fff2634324cca9f9aaa6829106c2bd412f71",
+      "normalizedSha256": "321dc6d89517debba09beffdc081d1d4926c58b5e57c2ed191d7b8bd17878a61",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led fixed row projection, required readback, caller-session touch and common insertion/upsert expression, without an additional connection, schema, validation or cache. Field maps and common SQL are compatibility material. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-target-storage.md",
-        "docs/knorvia-session-target-storage-acceptance.md",
-        "licensing/evidence/session-target-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "321dc6d89517debba09beffdc081d1d4926c58b5e57c2ed191d7b8bd17878a61",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-target-run.ts",
-      "normalizedSha256": "0da849791873404f5fc1a3a4c3b135735a14048ec414c69222e8e97eacc0cb40",
+      "normalizedSha256": "346614130a6b7a32e40e04fad56de3071cc70ff2415574263d027c70e6cdf708",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led native SQLite usage/elapsed-time updates, budget transitions, stale-run CAS and locked re-observation for finish/recover. Reuses one existing transaction cleanup policy, preserving read-only early returns and native binding behavior. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-session-target-storage.md",
-        "docs/knorvia-session-target-storage-acceptance.md",
-        "licensing/evidence/session-target-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "346614130a6b7a32e40e04fad56de3071cc70ff2415574263d027c70e6cdf708",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/session-target-lifecycle.test.ts",
@@ -27939,75 +28040,87 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-store.ts",
-      "normalizedSha256": "b637cf6f1f4162e24a2724bc265ad539b0295efbdc8de1b1cd03e84e5f076fdc",
+      "normalizedSha256": "3a6f52a0eb3d70a4df38ac76e41d4533f89e25e9001d73344a1b2d5c92fb7ceb",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led file-backed record and per-instance queue coordination, capturing grant/factory inputs at their established boundaries and keeping load under the same process lease. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "3a6f52a0eb3d70a4df38ac76e41d4533f89e25e9001d73344a1b2d5c92fb7ceb",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-file.ts",
-      "normalizedSha256": "03c84b69851db225c5f66b417dd4a874b0a06d46f077fac15395a428afacd254",
+      "normalizedSha256": "01e9dc67b61cb489a740caf1dda7c5fb08c2f336675ea181eadebe1ea3231555",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led corruption isolation and exclusive temporary publication, preserving exact callback/retry/chmod failure behavior and only removing a temporary file created by this operation. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "01e9dc67b61cb489a740caf1dda7c5fb08c2f336675ea181eadebe1ea3231555",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-lock.ts",
-      "normalizedSha256": "a656da833084c3f81cdc8dde57096b5f8d61f5701327443679ae566cd1151630",
+      "normalizedSha256": "80e60961bd91d03658193f7de1fc26f6db569214156b83ac592322488a3ed729",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led owned lease acquisition/release with finite process-instance identity and conservative legacy live-owner treatment. Native old-first evidence demonstrates a lost write with the inherited boot-time identity; approved changes preserve live locks. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "80e60961bd91d03658193f7de1fc26f6db569214156b83ac592322488a3ed729",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-path.ts",
-      "normalizedSha256": "214525946efcb4623aaf6ce5d3a63c3635e285ab932f467078c467565cff9e05",
+      "normalizedSha256": "19f4e9058f880778811114c30af5f959d75d4a897b4f71ff4e7d91647cdf0de4",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led existing configuration, home-prefix and portable data-root resolution, including corrected repeated slash and pre-await snapshot boundaries; delegates to the retained public shared dependency. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "19f4e9058f880778811114c30af5f959d75d4a897b4f71ff4e7d91647cdf0de4",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-process.ts",
-      "normalizedSha256": "498bc974b66a82825c406a07a01528fd6a2c2525e583d7de633082de33fce5d0",
+      "normalizedSha256": "7c10341a51c0d58a65373dd602627425203c5584d7b8eae74dcc08cfbe53ab62",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led process-instance facts and existing platform start-time probes. A separate actual Windows probe was checked against a task-owned child; no claim of local Linux/macOS validation. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "7c10341a51c0d58a65373dd602627425203c5584d7b8eae74dcc08cfbe53ab62",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-types.ts",
-      "normalizedSha256": "1264d88f6343dda64c6efc5079e9663d939ed254337ec84b6b3fa6d98f357d63",
+      "normalizedSha256": "dd64f1af6fd0cb96967e1bbe07a974b3578c41d188f6e0853306d641ef4f71a9",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Necessary public port/type declarations placed in a neutral internal module and re-exported without interface change. Fixed structural declarations are constrained compatibility material, not claimed novel algorithms. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "dd64f1af6fd0cb96967e1bbe07a974b3578c41d188f6e0853306d641ef4f71a9",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/workspace-hook-trust-records.test.ts",
@@ -28169,15 +28282,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/fs-fault-injection.ts",
-      "normalizedSha256": "bee4cfa37fc5e023a4d08d196c4062595f7684ddc123d994127df4adca4b5ac2",
+      "normalizedSha256": "e796e4c29457d2516a4bec13455e50b9b0ee2bb6b83c5ddb15f299277cbc248d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led synchronous fault port with one lazy successful-initialization cache and ordered normalized rule counters. Preserves exact activation, full-array shape validation before field errors, public errors and finite/unlimited matching without IO or an extra public port. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-storage-fault-injection.md",
-        "docs/knorvia-storage-fault-injection-acceptance.md",
-        "licensing/evidence/storage-fault-injection.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "e796e4c29457d2516a4bec13455e50b9b0ee2bb6b83c5ddb15f299277cbc248d",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/fs-fault-injection.fixture.ts",
@@ -28265,51 +28380,59 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/index.ts",
-      "normalizedSha256": "7d70f48382163bb8fb8eb993f44268051b8c75d7ff875d33bda4845eef6581a0",
+      "normalizedSha256": "29ad8f676dec81da16a4bbcb5ae56f5404603996fda2b3010a6e1686f45caa08",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led Store and URI pending-flight owner, eight public methods and unchanged retained barrel identities; winning request snapshots and exact shared Promise identity. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-artifact-storage.md",
-        "docs/knorvia-artifact-storage-acceptance.md",
-        "licensing/evidence/artifact-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "29ad8f676dec81da16a4bbcb5ae56f5404603996fda2b3010a6e1686f45caa08",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/artifact-files.ts",
-      "normalizedSha256": "d2ca966da242085fe5bc4839f09d6f16a466778c5b0c9ec91482bc1bddfac467",
+      "normalizedSha256": "af3551908b604370307ce45ca5ce9eabb98769493c97c05fd30568ce8f7db83d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New durable byte IO and shared URI lookup boundary, consistent request captures, preflight abort semantics and native errors without a parallel metadata store. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-artifact-storage.md",
-        "docs/knorvia-artifact-storage-acceptance.md",
-        "licensing/evidence/artifact-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "af3551908b604370307ce45ca5ce9eabb98769493c97c05fd30568ce8f7db83d",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/artifact-media.ts",
-      "normalizedSha256": "da6089134435aded0d6dee2209e9e107fe6c0d932ebef25d3607e2c3a89f20e5",
+      "normalizedSha256": "0daae236e323ca08d0a0709bc8df5577eb82d85b385a4b5a8128a4597250305a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New ordered derived-media validation and publication module, same-kind data URL decoding, PDF signature, regular-file cache, fault gates and cleanup precedence. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-artifact-storage.md",
-        "docs/knorvia-artifact-storage-acceptance.md",
-        "licensing/evidence/artifact-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "0daae236e323ca08d0a0709bc8df5577eb82d85b385a4b5a8128a4597250305a",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/artifact-policy.ts",
-      "normalizedSha256": "9f2d165cca38f60475cee79d124a9dec147c4c164123b14662192a019abd4ed7",
+      "normalizedSha256": "fc595c54719b05f7008a8954a1642f9c5a72682894007805b041d19411de3008",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New pure URI/path/format policy using fixed compatibility tables and precise dot-session guard; root rejected first prototype-key and dot-basename regressions before bounded revision. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
       "evidence": [
-        "specs/knorvia-artifact-storage.md",
-        "docs/knorvia-artifact-storage-acceptance.md",
-        "licensing/evidence/artifact-storage.md"
-      ]
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "specs/contracts/apps-cli-packages-01/interface-supplement.md",
+        "specs/contracts/apps-cli-packages-01/sql-freeze.md"
+      ],
+      "sha256": "fc595c54719b05f7008a8954a1642f9c5a72682894007805b041d19411de3008",
+      "status": "accepted"
     },
     {
       "path": "apps/cli/packages/adapters/test/artifact-store-corrections.test.ts",
@@ -35044,7 +35167,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
     },
     {
@@ -35052,7 +35177,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
-      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "evidence": [
+        "docs/knorvia-logging-sparse-array-20260930.md"
+      ],
       "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     },
     {
@@ -35060,7 +35187,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "9ce3f3ede16592f12b07bedd651ae7bfa499e93c1c69495433cad41a2b974703"
     },
     {
@@ -35068,7 +35197,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "d0d0b043e02ddffce0b7b4a586ee0d95380fddd4da99e4b25c956d62e9bcd089"
     },
     {
@@ -35076,7 +35207,9 @@
       "decision": "original",
       "license": "MIT",
       "basis": "New source-binding audit/test or acceptance expression authored from fixed Git metadata and failure-first requirements. No publisher SVG or implementation expression is copied into this tooling; no product, asset, trademark or application license grant. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
-      "evidence": ["docs/knorvia-material-icon-historical-evidence-20260930.md"],
+      "evidence": [
+        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+      ],
       "normalizedSha256": "83bb8b8cf2e550dd0bdd7216bba1cf28796787b8f1228f138b668269fac3b79b"
     },
     {
