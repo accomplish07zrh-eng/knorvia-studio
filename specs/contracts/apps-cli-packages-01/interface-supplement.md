@@ -500,3 +500,29 @@ export interface McpOAuthAuthorizationContext {
   serverName: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/oauth-error-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；导出类型由 oauth-errors.ts 原样再导出。
+
+```ts
+export type McpOAuthInteractiveRequiredReason =
+  | "no_credentials"
+  | "no_refresh_token"
+  | "invalid_grant"
+  | "invalid_client"
+  | "insufficient_scope"
+  | "unauthorized"
+  | "legacy_provider_seam";
+
+export interface InteractiveAuthorizationTrigger {
+  reason: McpOAuthInteractiveRequiredReason;
+  requiredScope?: string;
+  resourceMetadataUrl?: string;
+}
+
+export interface CreateInteractiveAuthorizationErrorInput extends InteractiveAuthorizationTrigger {
+  cause?: unknown;
+  serverName: string;
+}
+```
