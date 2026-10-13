@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // 命令目录扫描：显式栈 DFS（帧对象）+ 根校验；深度上限与符号链接规则在这里收口。
+import type { Dirent } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import type { CustomCommandDiagnostic } from "@knorvia/contracts";
@@ -10,8 +11,11 @@ const SCAN_FAILED = "custom_command_scan_failed";
 const ROOT_FALLBACK = "Failed to scan command root: ";
 const DIRECTORY_FALLBACK = "Failed to scan command directory: ";
 
+/** 目录项：readdir 的重载在当前 Node 类型下会落到 Buffer 变体，这里显式收窄。 */
+type DirectoryEntries = Dirent<string>[];
+
 interface DirectoryFrame {
-  entries: Awaited<ReturnType<typeof readdir>>;
+  entries: DirectoryEntries;
   position: number;
   depth: number;
   path: string;
@@ -44,7 +48,9 @@ export async function filesUnderRoot(
   if (rootEntries === undefined) return [];
 
   const found: string[] = [];
-  const stack: DirectoryFrame[] = [{ depth: 0, entries: rootEntries, path: rootPath, position: 0 }];
+  const stack: DirectoryFrame[] = [
+    { depth: 0, entries: rootEntries as DirectoryEntries, path: rootPath, position: 0 },
+  ];
   while (stack.length > 0) {
     const frame = stack[stack.length - 1]!;
     if (frame.position >= frame.entries.length) {
@@ -70,7 +76,12 @@ export async function filesUnderRoot(
         return undefined;
       });
       if (entries !== undefined)
-        stack.push({ depth: frame.depth + 1, entries, path: absolute, position: 0 });
+        stack.push({
+          depth: frame.depth + 1,
+          entries: entries as DirectoryEntries,
+          path: absolute,
+          position: 0,
+        });
       continue;
     }
     if (isFile && entry.name.toLowerCase().endsWith(".md")) found.push(absolute);
