@@ -45,76 +45,6 @@ WHERE type = 'runtime/model_selection' AND CASE WHEN json_valid(data) THEN
 
 0022 冻结行 61
 
-## `apps/cli/packages/adapters/src/storage/session-store/migrations/0022-backfilled-session-reasoning.ts`
-
-迁移版本：0022（回填会话 reasoning）。保留理由：与 0020/0021 同批发布，旧库必须能按原 SQL 读回，checksum 覆盖文本。
-
-```sql
-export const BACKFILLED_SESSION_REASONING_MIGRATION_SQL = `
-WITH last_user AS (
-  SELECT session_id, data, row_number() OVER (
-    PARTITION BY session_id ORDER BY sequence DESC, time_created DESC, rowid DESC
-  ) AS rank
-  FROM message
-  WHERE CASE WHEN json_valid(data) THEN json_extract(data, '$.role') = 'user' ELSE 0 END
-), normalized_user AS (
-  SELECT session_id,
-    CASE trim(json_extract(data, '$.modelSelection.providerId'))
-      WHEN 'builtin:bigmodel' THEN 'bigmodel-api'
-      WHEN 'builtin:zai' THEN 'zai-api'
-      WHEN 'builtin:bigmodel-start-plan' THEN 'account:bigmodel-start-plan'
-      WHEN 'builtin:zai-start-plan' THEN 'account:zai-start-plan'
-      WHEN 'builtin:bigmodel-coding-plan' THEN 'account:bigmodel-individual-coding-plan'
-      WHEN 'builtin:zai-coding-plan' THEN 'account:zai-individual-coding-plan'
-      ELSE CASE WHEN substr(trim(json_extract(data, '$.modelSelection.providerId')), 1, 8) = 'builtin:'
-        THEN NULL ELSE trim(json_extract(data, '$.modelSelection.providerId')) END
-    END AS provider_id,
-    trim(json_extract(data, '$.modelSelection.modelId')) AS model_id,
-    json_extract(data, '$.modelSelection.options.reasoningLevel') AS level
-  FROM last_user
-  WHERE rank = 1
-    AND json_type(data, '$.modelSelection.providerId') = 'text'
-    AND json_type(data, '$.modelSelection.modelId') = 'text'
-    AND json_type(data, '$.modelSelection.options.reasoningLevel') = 'text'
-    AND length(trim(json_extract(data, '$.modelSelection.options.reasoningLevel'))) > 0
-), canonical_user AS (
-  SELECT session_id, provider_id, level,
-    CASE WHEN provider_id IN (${officialProviders.map((id) => `'${id}'`).join(", ")})
-      THEN CASE lower(model_id)
-        ${officialModels.map((id) => `WHEN '${id.toLowerCase()}' THEN '${id}'`).join("\n        ")}
-        ELSE model_id END
-      ELSE model_id END AS model_id
-  FROM normalized_user
-), untouched_entries AS (
-  SELECT e.id, CASE WHEN json_valid(e.data) THEN e.data ELSE '{}' END AS data, e.session_id
-  FROM session_entry e
-  JOIN session s ON s.id = e.session_id
-  JOIN schema_migration m ON m.id = '0020_provider_model_selection'
-  WHERE e.type = 'runtime/model_selection'
-    AND e.id = e.session_id || ':runtime-model-selection'
-    AND e.time_updated <= m.time_applied AND s.time_updated <= m.time_applied
-), repairs AS (
-  SELECT e.id, u.level
-  FROM untouched_entries e JOIN canonical_user u ON u.session_id = e.session_id
-  WHERE json_type(e.data, '$.providerId') IS NULL
-    AND json_type(e.data, '$.modelId') IS NULL
-    AND json_type(e.data, '$.thoughtLevel') IS NULL
-    AND json_type(e.data, '$.modelSelection.options') IS NULL
-    AND json_type(e.data, '$.modelSelection.providerId') = 'text'
-    AND json_type(e.data, '$.modelSelection.modelId') = 'text'
-    AND length(u.provider_id) > 0 AND length(u.model_id) > 0
-    AND json_extract(e.data, '$.modelSelection.providerId') = u.provider_id
-    AND json_extract(e.data, '$.modelSelection.modelId') = u.model_id
-)
-UPDATE session_entry AS e
-SET data = json_set(data, '$.modelSelection.options.reasoningLevel',
-  (SELECT level FROM repairs WHERE repairs.id = e.id))
-WHERE id IN (SELECT id FROM repairs);
-`;
-```
-
-migrations.ts 分组 22 个版本、冻结行 720；首个版本 0001_base_session_store 行数 86
-
 ## `apps/cli/packages/adapters/src/storage/session-store/migrations.ts`
 
 迁移版本：0001–0022 全量（按版本分块列出，便于逐条审计）。保留理由：既有库的 DDL/DML 必须字节一致，checksum 账本按文本计算。
@@ -1011,5 +941,73 @@ export const PROVIDER_MODEL_SELECTION_MIGRATION_SQL = `
   ${partSelectionUpdate("fromModel", "fromModelSelection")}
   ${partSelectionUpdate("toModel", "toModelSelection")}
   ${partSelectionUpdate("model", "modelSelection")}
+`;
+```
+
+## `apps/cli/packages/adapters/src/storage/session-store/migrations/0022-backfilled-session-reasoning.ts`
+
+迁移版本：0022（回填会话 reasoning）。保留理由：与 0020/0021 同批发布，旧库必须能按原 SQL 读回；checksum 覆盖文本。TS 侧仅把名单数组改为规格串，SQL 字节未改。
+
+```sql
+export const BACKFILLED_SESSION_REASONING_MIGRATION_SQL = `
+WITH last_user AS (
+  SELECT session_id, data, row_number() OVER (
+    PARTITION BY session_id ORDER BY sequence DESC, time_created DESC, rowid DESC
+  ) AS rank
+  FROM message
+  WHERE CASE WHEN json_valid(data) THEN json_extract(data, '$.role') = 'user' ELSE 0 END
+), normalized_user AS (
+  SELECT session_id,
+    CASE trim(json_extract(data, '$.modelSelection.providerId'))
+      WHEN 'builtin:bigmodel' THEN 'bigmodel-api'
+      WHEN 'builtin:zai' THEN 'zai-api'
+      WHEN 'builtin:bigmodel-start-plan' THEN 'account:bigmodel-start-plan'
+      WHEN 'builtin:zai-start-plan' THEN 'account:zai-start-plan'
+      WHEN 'builtin:bigmodel-coding-plan' THEN 'account:bigmodel-individual-coding-plan'
+      WHEN 'builtin:zai-coding-plan' THEN 'account:zai-individual-coding-plan'
+      ELSE CASE WHEN substr(trim(json_extract(data, '$.modelSelection.providerId')), 1, 8) = 'builtin:'
+        THEN NULL ELSE trim(json_extract(data, '$.modelSelection.providerId')) END
+    END AS provider_id,
+    trim(json_extract(data, '$.modelSelection.modelId')) AS model_id,
+    json_extract(data, '$.modelSelection.options.reasoningLevel') AS level
+  FROM last_user
+  WHERE rank = 1
+    AND json_type(data, '$.modelSelection.providerId') = 'text'
+    AND json_type(data, '$.modelSelection.modelId') = 'text'
+    AND json_type(data, '$.modelSelection.options.reasoningLevel') = 'text'
+    AND length(trim(json_extract(data, '$.modelSelection.options.reasoningLevel'))) > 0
+), canonical_user AS (
+  SELECT session_id, provider_id, level,
+    CASE WHEN provider_id IN (${OFFICIAL_PROVIDER_IDS.map((id) => `'${id}'`).join(", ")})
+      THEN CASE lower(model_id)
+        ${OFFICIAL_MODEL_NAMES.map((id) => `WHEN '${id.toLowerCase()}' THEN '${id}'`).join("\n        ")}
+        ELSE model_id END
+      ELSE model_id END AS model_id
+  FROM normalized_user
+), untouched_entries AS (
+  SELECT e.id, CASE WHEN json_valid(e.data) THEN e.data ELSE '{}' END AS data, e.session_id
+  FROM session_entry e
+  JOIN session s ON s.id = e.session_id
+  JOIN schema_migration m ON m.id = '0020_provider_model_selection'
+  WHERE e.type = 'runtime/model_selection'
+    AND e.id = e.session_id || ':runtime-model-selection'
+    AND e.time_updated <= m.time_applied AND s.time_updated <= m.time_applied
+), repairs AS (
+  SELECT e.id, u.level
+  FROM untouched_entries e JOIN canonical_user u ON u.session_id = e.session_id
+  WHERE json_type(e.data, '$.providerId') IS NULL
+    AND json_type(e.data, '$.modelId') IS NULL
+    AND json_type(e.data, '$.thoughtLevel') IS NULL
+    AND json_type(e.data, '$.modelSelection.options') IS NULL
+    AND json_type(e.data, '$.modelSelection.providerId') = 'text'
+    AND json_type(e.data, '$.modelSelection.modelId') = 'text'
+    AND length(u.provider_id) > 0 AND length(u.model_id) > 0
+    AND json_extract(e.data, '$.modelSelection.providerId') = u.provider_id
+    AND json_extract(e.data, '$.modelSelection.modelId') = u.model_id
+)
+UPDATE session_entry AS e
+SET data = json_set(data, '$.modelSelection.options.reasoningLevel',
+  (SELECT level FROM repairs WHERE repairs.id = e.id))
+WHERE id IN (SELECT id FROM repairs);
 `;
 ```
