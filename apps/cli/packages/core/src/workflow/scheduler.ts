@@ -1,14 +1,22 @@
+// SPDX-License-Identifier: Apache-2.0
+// 图调度循环：恢复修复 → 集合规划 → 前沿事件 → 完成/暂停判定 → 分派与收割。
+// 端口组装见 scheduler-runtimes.ts，前沿事件与取消检查见 scheduler-frontier.ts。
 import { reconcileWorkflowSnapshotForResume } from "./lifecycle.js";
 import { checkCollectionPlanners } from "./scheduler/collection-planner.js";
-import type { WorkflowCollectionPlannerRuntime } from "./scheduler/collection-runtime.js";
 import { WorkflowSchedulerEventLog } from "./scheduler/events.js";
 import {
   areExecutableNodesComplete,
   blockedExecutableNodes,
   orderedReadyExecutableNodes,
-  readyExecutableNodes,
 } from "./scheduler/graph.js";
-import { runWorkflowNode, type WorkflowNodeRunnerRuntime } from "./scheduler/node-runner.js";
+import { emitFrontierChanged, throwIfAborted } from "./scheduler-frontier.js";
+import { runWorkflowNode } from "./scheduler/node-runner.js";
+import {
+  collectionPlannerRuntime,
+  nodeRunnerRuntime,
+  schedulerPorts,
+  type SchedulerPorts,
+} from "./scheduler-runtimes.js";
 import type {
   WorkflowGraphSchedulerDeps,
   WorkflowGraphSchedulerRunOptions,
@@ -31,186 +39,169 @@ export type {
   WorkflowGraphSchedulerRunner,
 } from "./scheduler/types.js";
 
-export class WorkflowGraphScheduler {
-  private readonly createActivityId: () => string;
-  private readonly eventLog: WorkflowSchedulerEventLog;
-  private readonly plannerRunner?: WorkflowGraphSchedulerDeps["plannerRunner"];
-  private readonly runner: WorkflowGraphSchedulerDeps["runner"];
-  private readonly writeArtifact: WorkflowGraphSchedulerDeps["writeArtifact"];
-  private readonly writeSnapshot: WorkflowGraphSchedulerDeps["writeSnapshot"];
+type Deps = WorkflowGraphSchedulerDeps;
+type RunOptions = WorkflowGraphSchedulerRunOptions;
+type RunResult = WorkflowGraphSchedulerRunResult;
+type NodePromise = WorkflowSchedulerNodePromise;
+type Snapshot = RunResult["snapshot"];
+type Ids = Set<string>;
+type ActiveMap = Map<string, NodePromise>;
+type Limits = { concurrent: number; errors: number };
+/** 快照持有者：run 与派发出去的节点 promise 共享同一个可变引用。 */
+type SnapshotHolder = { snapshot: Snapshot };
 
-  constructor(deps: WorkflowGraphSchedulerDeps) {
-    this.createActivityId = deps.createActivityId;
-    this.eventLog = new WorkflowSchedulerEventLog(deps);
-    this.plannerRunner = deps.plannerRunner;
-    this.runner = deps.runner;
-    this.writeArtifact = deps.writeArtifact;
-    this.writeSnapshot = deps.writeSnapshot;
+/** 可执行节点集合：显式给定时用它，否则用全图节点。 */
+const executableIdsOf = (input: RunOptions): Ids =>
+  new Set(input.executableNodeIds ?? input.snapshot.graph.nodes.map((node) => node.id));
+
+/** 执行器上限：并发与连续错误都取下界 1。 */
+const limitsOf = (snapshot: Snapshot): Limits => ({
+  concurrent: Math.max(1, snapshot.strategy.executor.maxConcurrentLoops),
+  errors: Math.max(1, snapshot.strategy.executor.maxConsecutiveErrors),
+});
+
+export class WorkflowGraphScheduler {
+  readonly #eventLog: WorkflowSchedulerEventLog;
+  readonly #ports: SchedulerPorts;
+
+  constructor(deps: Deps) {
+    this.#eventLog = new WorkflowSchedulerEventLog(deps);
+    this.#ports = schedulerPorts(deps);
   }
 
-  async run(options: WorkflowGraphSchedulerRunOptions): Promise<WorkflowGraphSchedulerRunResult> {
-    const executableNodeIds = new Set(
-      options.executableNodeIds ?? options.snapshot.graph.nodes.map((node) => node.id),
-    );
-    const resumeRepair = reconcileWorkflowSnapshotForResume(options.snapshot, {
-      nodeIds: executableNodeIds,
+  async run(input: RunOptions): Promise<RunResult> {
+    const ids = executableIdsOf(input);
+    const repair = reconcileWorkflowSnapshotForResume(input.snapshot, {
+      nodeIds: ids,
       resetPhases: false,
-      timestamp: this.eventLog.timestamp(),
+      timestamp: this.#eventLog.timestamp(),
     });
-    let snapshot = resumeRepair.snapshot;
-    if (resumeRepair.changed) {
-      await this.writeSnapshot(snapshot, { signal: options.abortSignal });
+    const holder: SnapshotHolder = { snapshot: repair.snapshot };
+    if (repair.changed) {
+      await this.#ports.writeSnapshot(holder.snapshot, { signal: input.abortSignal });
     }
 
-    const maxConcurrent = Math.max(1, snapshot.strategy.executor.maxConcurrentLoops);
-    const maxConsecutiveErrors = Math.max(1, snapshot.strategy.executor.maxConsecutiveErrors);
-    const active = new Map<string, WorkflowSchedulerNodePromise>();
+    const limits = limitsOf(holder.snapshot);
+    const active: ActiveMap = new Map();
     let consecutiveErrors = 0;
     let frontierKey = "";
 
     while (true) {
-      throwIfAborted(options.abortSignal);
-      const plannerResult = await checkCollectionPlanners(
-        snapshot,
-        executableNodeIds,
-        options,
-        this.collectionPlannerRuntime(),
+      throwIfAborted(input.abortSignal);
+
+      const planned = await checkCollectionPlanners(
+        holder.snapshot,
+        ids,
+        input,
+        collectionPlannerRuntime(this.#eventLog, this.#ports),
       );
-      snapshot = plannerResult.snapshot;
-      for (const nodeId of plannerResult.addedNodeIds) {
-        executableNodeIds.add(nodeId);
-      }
-      if (plannerResult.plannersRan > 0) {
-        frontierKey = "";
-      }
+      holder.snapshot = planned.snapshot;
+      for (const nodeId of planned.addedNodeIds) ids.add(nodeId);
+      if (planned.plannersRan > 0) frontierKey = "";
 
-      frontierKey = await this.emitFrontierChangedIfNeeded(
-        snapshot,
-        executableNodeIds,
-        frontierKey,
-        options.abortSignal,
-      );
-
-      if (
-        areExecutableNodesComplete(
-          snapshot.graph,
-          executableNodeIds,
-          Boolean(this.plannerRunner),
-        ) &&
-        active.size === 0
-      ) {
-        await this.eventLog.emitEvent(snapshot, "executor_completed", {
-          message: `${options.phase} scheduler completed.`,
-          phase: options.phase,
-          signal: options.abortSignal,
-        });
-        return { reason: "completed", snapshot, status: "completed" };
-      }
-
-      if (consecutiveErrors >= maxConsecutiveErrors) {
-        if (active.size > 0) {
-          await Promise.all(active.values());
-          active.clear();
-        }
-        await this.eventLog.emitEvent(snapshot, "executor_paused", {
-          message: `${options.phase} scheduler paused after ${consecutiveErrors} consecutive node error(s).`,
-          payload: { consecutiveErrors },
-          phase: options.phase,
-          signal: options.abortSignal,
-        });
-        return { reason: "error_threshold", snapshot, status: "paused" };
-      }
-
-      const readyNodes = orderedReadyExecutableNodes(snapshot.graph, executableNodeIds).filter(
-        (node) => !active.has(node.id),
-      );
-      let dispatched = 0;
-      for (const node of readyNodes) {
-        if (active.size >= maxConcurrent) break;
-        const promise = runWorkflowNode(
-          {
-            getSnapshot: () => snapshot,
-            setSnapshot: (nextSnapshot) => {
-              snapshot = nextSnapshot;
-              return nextSnapshot;
-            },
-          },
-          node,
-          options,
-          maxConsecutiveErrors,
-          this.nodeRunnerRuntime(),
-        );
-        active.set(node.id, promise);
-        snapshot = (await promise.started).snapshot;
-        dispatched++;
-      }
-
-      if (dispatched > 0) continue;
-
-      if (active.size > 0) {
-        const outcome = await Promise.race(active.values());
-        active.delete(outcome.nodeId);
-        consecutiveErrors = outcome.ok ? 0 : consecutiveErrors + 1;
-        continue;
-      }
-
-      await this.eventLog.emitEvent(snapshot, "executor_paused", {
-        message: `${options.phase} scheduler paused because pending nodes are blocked.`,
-        payload: {
-          blockedNodes: blockedExecutableNodes(snapshot.graph, executableNodeIds),
-        },
-        phase: options.phase,
-        signal: options.abortSignal,
+      frontierKey = await emitFrontierChanged({
+        ids,
+        log: this.#eventLog,
+        previous: frontierKey,
+        signal: input.abortSignal,
+        snapshot: holder.snapshot,
       });
-      return { reason: "deadlock", snapshot, status: "paused" };
+
+      const complete =
+        areExecutableNodesComplete(
+          holder.snapshot.graph,
+          ids,
+          Boolean(this.#ports.plannerRunner),
+        ) && active.size === 0;
+      if (complete) return await this.#finish(input, holder.snapshot);
+      if (consecutiveErrors >= limits.errors) {
+        return await this.#pauseForErrors(input, holder.snapshot, consecutiveErrors, active);
+      }
+
+      const dispatched = await this.#dispatch(input, holder, ids, active, limits);
+      if (dispatched > 0) continue;
+      if (active.size === 0) return await this.#pauseForDeadlock(input, holder.snapshot, ids);
+      consecutiveErrors = await this.#harvest(active, consecutiveErrors);
     }
   }
 
-  private collectionPlannerRuntime(): WorkflowCollectionPlannerRuntime {
-    return {
-      createActivityId: this.createActivityId,
-      eventLog: this.eventLog,
-      plannerRunner: this.plannerRunner,
-      writeArtifact: this.writeArtifact,
-      writeSnapshot: this.writeSnapshot,
-    };
-  }
-
-  private nodeRunnerRuntime(): WorkflowNodeRunnerRuntime {
-    return {
-      createActivityId: this.createActivityId,
-      eventLog: this.eventLog,
-      runner: this.runner,
-      writeArtifact: this.writeArtifact,
-      writeSnapshot: this.writeSnapshot,
-    };
-  }
-
-  private async emitFrontierChangedIfNeeded(
-    snapshot: WorkflowGraphSchedulerRunResult["snapshot"],
-    executableNodeIds: Set<string>,
-    previousKey: string,
-    signal?: AbortSignal,
-  ): Promise<string> {
-    const readyNodeIds = readyExecutableNodes(snapshot.graph, executableNodeIds).map(
-      (node) => node.id,
+  /** 分派就绪节点：受并发上限约束，返回派发数量；快照经 holder 与节点 promise 共享。 */
+  async #dispatch(
+    input: RunOptions,
+    holder: SnapshotHolder,
+    ids: Ids,
+    active: ActiveMap,
+    limits: Limits,
+  ): Promise<number> {
+    const ready = orderedReadyExecutableNodes(holder.snapshot.graph, ids).filter(
+      (node) => !active.has(node.id),
     );
-    const activeNodeIds = snapshot.graph.nodes
-      .filter((node) => executableNodeIds.has(node.id) && node.status === "active")
-      .map((node) => node.id);
-    const blockedNodes = blockedExecutableNodes(snapshot.graph, executableNodeIds);
-    const nextKey = JSON.stringify({ activeNodeIds, blockedNodes, readyNodeIds });
-    if (nextKey === previousKey) return previousKey;
-    await this.eventLog.emitEvent(snapshot, "frontier_changed", {
-      message: "Workflow scheduler frontier changed.",
-      payload: { activeNodeIds, blockedNodes, readyNodeIds },
-      signal,
-    });
-    return nextKey;
+    let count = 0;
+    for (const node of ready) {
+      if (active.size >= limits.concurrent) break;
+      const promise = runWorkflowNode(
+        {
+          getSnapshot: () => holder.snapshot,
+          setSnapshot: (next) => {
+            holder.snapshot = next;
+            return next;
+          },
+        },
+        node,
+        input,
+        limits.errors,
+        nodeRunnerRuntime(this.#eventLog, this.#ports),
+      );
+      active.set(node.id, promise);
+      holder.snapshot = (await promise.started).snapshot;
+      count += 1;
+    }
+    return count;
   }
-}
 
-function throwIfAborted(signal: AbortSignal | undefined): void {
-  if (!signal?.aborted) return;
-  throw signal.reason instanceof Error ? signal.reason : new Error("Workflow scheduler aborted");
+  /** 收割一个完成节点：返回更新后的连续错误计数。 */
+  async #harvest(active: ActiveMap, consecutiveErrors: number): Promise<number> {
+    const outcome = await Promise.race(active.values());
+    active.delete(outcome.nodeId);
+    return outcome.ok ? 0 : consecutiveErrors + 1;
+  }
+
+  /** 完成：发 executor_completed 并返回完成结果。 */
+  async #finish(input: RunOptions, snapshot: Snapshot): Promise<RunResult> {
+    await this.#eventLog.emitEvent(snapshot, "executor_completed", {
+      message: `${input.phase} scheduler completed.`,
+      phase: input.phase,
+      signal: input.abortSignal,
+    });
+    return { reason: "completed", snapshot, status: "completed" };
+  }
+
+  /** 连续错误达阈值：等完活动节点后发 executor_paused。 */
+  async #pauseForErrors(
+    input: RunOptions,
+    snapshot: Snapshot,
+    consecutiveErrors: number,
+    active: ActiveMap,
+  ): Promise<RunResult> {
+    await Promise.all(active.values());
+    active.clear();
+    await this.#eventLog.emitEvent(snapshot, "executor_paused", {
+      message: `${input.phase} scheduler paused after ${consecutiveErrors} consecutive node error(s).`,
+      payload: { consecutiveErrors },
+      phase: input.phase,
+      signal: input.abortSignal,
+    });
+    return { reason: "error_threshold", snapshot, status: "paused" };
+  }
+
+  /** 死锁：无可分派且无活动节点时发 executor_paused。 */
+  async #pauseForDeadlock(input: RunOptions, snapshot: Snapshot, ids: Ids): Promise<RunResult> {
+    await this.#eventLog.emitEvent(snapshot, "executor_paused", {
+      message: `${input.phase} scheduler paused because pending nodes are blocked.`,
+      payload: { blockedNodes: blockedExecutableNodes(snapshot.graph, ids) },
+      phase: input.phase,
+      signal: input.abortSignal,
+    });
+    return { reason: "deadlock", snapshot, status: "paused" };
+  }
 }
