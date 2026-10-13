@@ -41,6 +41,21 @@ const observationTitlePolicy: JsonSchema = {
     "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state",
 };
 
+// 单个描述符的命名与授权信息：官方 CUA 命名空间用规范化前缀拼接，其余沿用 toMcpToolName。
+const mcpDescriptorNames = (
+  descriptor: McpToolDescriptor,
+  options: RegisterMcpToolsOptions,
+  canonicalPrefix: string,
+): { authority: boolean; descriptorName: string; modelName: string } => {
+  const authority = options.officialCuaServerNames?.has(descriptor.serverName) === true;
+  const descriptorName = toMcpToolName(descriptor);
+  const modelName =
+    authority && descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
+      ? `${canonicalPrefix}${toModelVisibleMcpNamePart(descriptor.toolName)}`
+      : toMcpToolName(descriptor);
+  return { authority, descriptorName, modelName };
+};
+
 export function registerMcpTools(
   registry: ToolRegistry,
   mcpPort: McpPort,
@@ -53,12 +68,11 @@ export function registerMcpTools(
   const canonicalPrefix = "mcp__computer-use__";
 
   for (const descriptor of descriptors) {
-    const authority = options.officialCuaServerNames?.has(descriptor.serverName) === true;
-    const descriptorName = toMcpToolName(descriptor);
-    const modelName =
-      authority && descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
-        ? `${canonicalPrefix}${toModelVisibleMcpNamePart(descriptor.toolName)}`
-        : toMcpToolName(descriptor);
+    const { authority, descriptorName, modelName } = mcpDescriptorNames(
+      descriptor,
+      options,
+      canonicalPrefix,
+    );
     if (allowed && !allowed.has(modelName) && !allowed.has(descriptorName)) continue;
     if (denied?.has(modelName) || denied?.has(descriptorName)) continue;
 
