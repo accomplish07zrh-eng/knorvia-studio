@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// 失败归类与恢复建议：把任意抛出物归一成 WorkflowFailure 的 kind/code/retryable，并给出可展示的
+// 恢复动作。分类规则集中在两张表里（核心错误类型表 + 文本线索表），避免长的分支链。
 import {
   CoreErrorType,
   isCoreError,
@@ -7,144 +10,175 @@ import {
   type WorkflowRecoveryAction,
 } from "@knorvia/contracts";
 
-function errorChain(error: unknown): unknown[] {
-  const entries: unknown[] = [];
-  const seen = new WeakSet<object>();
-  let current = error;
-  while (current !== null && current !== undefined && entries.length < 8) {
-    entries.push(current);
-    if (typeof current !== "object") break;
-    if (seen.has(current)) break;
-    seen.add(current);
-    current = (current as { cause?: unknown }).cause;
+const MAX_CHAIN_DEPTH = 8;
+
+/** 核心错误类型 → 失败类别（类别名是协议值，不可改动）。 */
+const CORE_ERROR_KINDS: ReadonlyMap<CoreErrorType, WorkflowFailure["kind"]> = new Map([
+  [CoreErrorType.ModelContextExceeded, "model_context"],
+  [CoreErrorType.ModelRateLimited, "rate_limit"],
+  [CoreErrorType.ModelTimeout, "timeout"],
+  [CoreErrorType.PermissionDenied, "permission"],
+  [CoreErrorType.PermissionTimeout, "permission"],
+  [CoreErrorType.ToolExecutionFailed, "tool"],
+  [CoreErrorType.ToolTimeout, "tool"],
+  [CoreErrorType.ToolMaxCalls, "tool"],
+  [CoreErrorType.ConfigurationError, "configuration"],
+  [CoreErrorType.TurnCancelled, "cancelled"],
+]);
+
+/** 文本线索 → 失败类别；按表内顺序优先匹配。 */
+const TEXT_KIND_HINTS: readonly (readonly [clue: string, kind: WorkflowFailure["kind"]])[] = [
+  ["rate", "rate_limit"],
+  ["timeout", "timeout"],
+  ["context", "model_context"],
+  ["auth", "auth"],
+  ["not_configured", "auth"],
+  ["permission", "permission"],
+  ["tool", "tool"],
+  ["network", "network"],
+  ["proxy", "network"],
+  ["tls", "network"],
+  ["provider", "provider"],
+  ["model_request_failed", "provider"],
+];
+
+/** 这几类失败不该被自动重试。 */
+const NON_RETRYABLE_KINDS: ReadonlySet<WorkflowFailure["kind"]> = new Set([
+  "auth",
+  "cancelled",
+  "configuration",
+]);
+
+const asRecord = (candidate: unknown): Record<string, unknown> =>
+  candidate !== null && typeof candidate === "object" ? (candidate as Record<string, unknown>) : {};
+
+const asText = (candidate: unknown): string => (typeof candidate === "string" ? candidate : "");
+
+/** 沿 cause 链收集抛出物，最多 8 层并去重（自引用链不能无限展开）。 */
+function errorChain(thrown: unknown): unknown[] {
+  const chain: unknown[] = [];
+  const visited = new WeakSet<object>();
+  let node: unknown = thrown;
+  for (let depth = 0; depth < MAX_CHAIN_DEPTH; depth += 1) {
+    if (node === null || node === undefined) break;
+    chain.push(node);
+    if (typeof node !== "object") break;
+    if (visited.has(node)) break;
+    visited.add(node);
+    node = (node as { cause?: unknown }).cause;
   }
-  return entries;
+  return chain;
 }
 
-function recordOf(value: unknown): Record<string, unknown> {
-  return value && typeof value === "object" ? (value as Record<string, unknown>) : {};
-}
-
-function rawString(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function failureKind(error: unknown): WorkflowFailure["kind"] {
-  for (const entry of errorChain(error)) {
-    if (isCoreError(entry)) {
-      switch (entry.type) {
-        case CoreErrorType.ModelContextExceeded:
-          return "model_context";
-        case CoreErrorType.ModelRateLimited:
-          return "rate_limit";
-        case CoreErrorType.ModelTimeout:
-          return "timeout";
-        case CoreErrorType.PermissionDenied:
-        case CoreErrorType.PermissionTimeout:
-          return "permission";
-        case CoreErrorType.ToolExecutionFailed:
-        case CoreErrorType.ToolTimeout:
-        case CoreErrorType.ToolMaxCalls:
-          return "tool";
-        case CoreErrorType.ConfigurationError:
-          return "configuration";
-        case CoreErrorType.TurnCancelled:
-          return "cancelled";
-      }
-    }
-    const record = recordOf(entry);
-    const code = rawString(record.code).toLowerCase();
-    const type = rawString(record.type).toLowerCase();
-    const reason = rawString(record.reason ?? recordOf(record.context).reason).toLowerCase();
-    const combined = `${code} ${type} ${reason}`;
-    if (combined.includes("rate")) return "rate_limit";
-    if (combined.includes("timeout")) return "timeout";
-    if (combined.includes("context")) return "model_context";
-    if (combined.includes("auth") || combined.includes("not_configured")) {
-      return "auth";
-    }
-    if (combined.includes("permission")) return "permission";
-    if (combined.includes("tool")) return "tool";
-    if (combined.includes("network") || combined.includes("proxy") || combined.includes("tls")) {
-      return "network";
-    }
-    if (combined.includes("provider") || combined.includes("model_request_failed")) {
-      return "provider";
-    }
+/** 单个抛出物的归类；无法归类时返回 undefined，由调用方继续看下一层。 */
+function classify(entry: unknown): WorkflowFailure["kind"] | undefined {
+  if (isCoreError(entry)) {
+    const known = CORE_ERROR_KINDS.get(entry.type);
+    if (known !== undefined) return known;
   }
-  return "unknown";
-}
-
-function failureCode(error: unknown): string | undefined {
-  for (const entry of errorChain(error)) {
-    const record = recordOf(entry);
-    const code = rawString(record.code || record.type);
-    if (code) return code;
+  const record = asRecord(entry);
+  const context = asRecord(record.context);
+  const clue = [asText(record.code), asText(record.type), asText(record.reason ?? context.reason)]
+    .join(" ")
+    .toLowerCase();
+  if (clue.trim() === "") return undefined;
+  for (const [needle, kind] of TEXT_KIND_HINTS) {
+    if (clue.includes(needle)) return kind;
   }
   return undefined;
 }
 
-function retryability(kind: WorkflowFailure["kind"], error: unknown): boolean {
-  if (kind === "auth" || kind === "cancelled" || kind === "configuration") {
-    return false;
+function failureKind(thrown: unknown): WorkflowFailure["kind"] {
+  for (const entry of errorChain(thrown)) {
+    const kind = classify(entry);
+    if (kind !== undefined) return kind;
   }
-  for (const entry of errorChain(error)) {
-    const record = recordOf(entry);
+  return "unknown";
+}
+
+function failureCode(thrown: unknown): string | undefined {
+  for (const entry of errorChain(thrown)) {
+    const code = asText(asRecord(entry).code || asRecord(entry).type);
+    if (code !== "") return code;
+  }
+  return undefined;
+}
+
+/** 显式 retryable 字段优先；否则按类别判断，默认可重试。 */
+function isRetryable(kind: WorkflowFailure["kind"], thrown: unknown): boolean {
+  if (NON_RETRYABLE_KINDS.has(kind)) return false;
+  for (const entry of errorChain(thrown)) {
+    const record = asRecord(entry);
     if (typeof record.retryable === "boolean") return record.retryable;
-    const context = recordOf(record.context);
+    const context = asRecord(record.context);
     if (typeof context.retryable === "boolean") return context.retryable;
   }
   return true;
 }
 
+const scopeEntries = (source: {
+  activityId?: string;
+  nodeId?: string;
+  phase?: string;
+  sessionId?: string;
+  traceId?: string;
+  turnId?: string;
+}): Record<string, unknown> =>
+  Object.fromEntries(
+    [
+      ["activityId", source.activityId],
+      ["nodeId", source.nodeId],
+      ["phase", source.phase],
+      ["sessionId", source.sessionId],
+      ["traceId", source.traceId],
+      ["turnId", source.turnId],
+    ].filter(([, value]) => Boolean(value)),
+  );
+
 export function latestWorkflowActivity(
-  snapshot: ExpertWorkflowRunSnapshot,
+  input: ExpertWorkflowRunSnapshot,
 ): WorkflowActivitySnapshot | undefined {
-  return [...snapshot.activities]
-    .reverse()
-    .find(
-      (activity) =>
-        activity.status === "failed" ||
-        activity.status === "active" ||
-        activity.phase === snapshot.currentPhase,
-    );
+  for (let index = input.activities.length - 1; index >= 0; index -= 1) {
+    const activity = input.activities[index];
+    if (activity === undefined) continue;
+    const isRelevant =
+      activity.status === "failed" ||
+      activity.status === "active" ||
+      activity.phase === input.currentPhase;
+    if (isRelevant) return activity;
+  }
+  return undefined;
 }
 
 export function workflowFailureFromError(
-  error: unknown,
-  message: string,
-  activity?: WorkflowActivitySnapshot,
+  thrown: unknown,
+  summary: string,
+  source?: WorkflowActivitySnapshot,
 ): WorkflowFailure {
-  const kind = failureKind(error);
-  const code = failureCode(error);
+  const kind = failureKind(thrown);
+  const code = failureCode(thrown);
+  const scope = source === undefined ? {} : scopeEntries(source);
   return {
-    ...(activity?.activityId ? { activityId: activity.activityId } : {}),
-    ...(code ? { code } : {}),
+    ...scope,
+    ...(code === undefined ? {} : { code }),
     kind,
-    message,
-    ...(activity?.nodeId ? { nodeId: activity.nodeId } : {}),
-    ...(activity?.phase ? { phase: activity.phase } : {}),
+    message: summary,
     recoverable: kind !== "cancelled",
-    retryable: retryability(kind, error),
-    ...(activity?.sessionId ? { sessionId: activity.sessionId } : {}),
-    ...(activity?.traceId ? { traceId: activity.traceId } : {}),
-    ...(activity?.turnId ? { turnId: activity.turnId } : {}),
-  };
+    retryable: isRetryable(kind, thrown),
+  } as WorkflowFailure;
 }
 
-export function workflowRecoveryActions(failure: WorkflowFailure): WorkflowRecoveryAction[] {
-  const scoped = {
-    ...(failure.activityId ? { activityId: failure.activityId } : {}),
-    ...(failure.nodeId ? { nodeId: failure.nodeId } : {}),
-    ...(failure.phase ? { phase: failure.phase } : {}),
-  };
-  return [
-    { action: "retry", label: "Retry", ...scoped },
-    {
-      action: "retry_with_current_model",
-      label: "Retry with current model",
-      ...scoped,
-    },
-    { action: "cancel", destructive: true, label: "Cancel workflow", ...scoped },
+export function workflowRecoveryActions(record: WorkflowFailure): WorkflowRecoveryAction[] {
+  const scope = scopeEntries(record);
+  const choices: readonly (readonly [WorkflowRecoveryAction["action"], string, boolean])[] = [
+    ["retry", "Retry", false],
+    ["retry_with_current_model", "Retry with current model", false],
+    ["cancel", "Cancel workflow", true],
   ];
+  return choices.map(([action, label, destructive]) => ({
+    action,
+    label,
+    ...(destructive ? { destructive: true } : {}),
+    ...scope,
+  })) as WorkflowRecoveryAction[];
 }
