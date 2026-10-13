@@ -77,39 +77,6 @@ const activityInput = (ctx: RunContext, traceId: string | undefined): ActivityIn
   traceId,
 });
 
-/** 启动段：写 active 快照与 node_started 事件，并解析 started promise。 */
-const startNode = async (
-  ctx: RunContext,
-  initial: Snap,
-  resolveStarted: (value: NodeRunStarted) => void,
-): Promise<{ snapshot: Snap; traceContext?: TraceContext }> => {
-  const traceContext = childTrace(ctx.options.traceContext, ctx, initial);
-  const activeGraph = updateGraphNode(initial, ctx.node.id, {
-    error: undefined,
-    status: "active",
-  });
-  const activity = activeActivity(activityInput(ctx, traceContext?.traceId));
-  const snapshot = upsertActivity(activeGraph, activity, ctx.runtime.eventLog.timestamp());
-
-  await ctx.runtime.writeSnapshot(snapshot, { signal: ctx.options.abortSignal });
-  ctx.access.setSnapshot(snapshot);
-  await ctx.runtime.eventLog.appendGraphStatus(
-    snapshot,
-    ctx.node.id,
-    ctx.options.phase,
-    "active",
-    ctx.options.abortSignal,
-  );
-  await ctx.runtime.eventLog.emitEvent(snapshot, "node_started", {
-    message: `Node started: ${ctx.node.title}`,
-    nodeId: ctx.node.id,
-    phase: ctx.options.phase,
-    signal: ctx.options.abortSignal,
-  });
-  resolveStarted({ snapshot });
-  return { snapshot, traceContext };
-};
-
 /** 运行请求：把节点、相位、提示词与追踪上下文交给 runner。 */
 const buildRequest = (
   ctx: RunContext,
@@ -143,12 +110,12 @@ const buildRequest = (
 });
 
 /** 完成段：落工件、更新节点与活动、发 artifact_written 与 node_completed。 */
-const finishCompleted = async (
+const finishAfterRun = async (
   ctx: RunContext,
   activeSnapshot: Snap,
   traceContext: TraceContext | undefined,
+  result: Awaited<ReturnType<Runtime["runner"]["run"]>>,
 ): Promise<Outcome> => {
-  const result = await ctx.runtime.runner.run(buildRequest(ctx, activeSnapshot, traceContext));
   const directory = ctx.options.artifactDirectory ?? DEFAULT_ARTIFACT_DIRECTORY;
   const artifact = await ctx.runtime.writeArtifact(
     activeSnapshot.runId,
@@ -276,9 +243,32 @@ export function runWorkflowNode(
       runtime,
       startedAt: runtime.eventLog.timestamp(),
     };
-    const { snapshot, traceContext } = await startNode(ctx, initial, resolveStarted);
+    // 启动段与 runner 调用必须同 tick：上游在 resolveStarted 之后紧接着建立请求并调用 runner，
+    // 端口探针按调用序列断言，任何插入的 await 边界都会让 runner 调用晚一个微任务。
+    const traceContext = childTrace(options.traceContext, ctx, initial);
+    const activeGraph = updateGraphNode(initial, node.id, { error: undefined, status: "active" });
+    const activity = activeActivity(activityInput(ctx, traceContext?.traceId));
+    const snapshot = upsertActivity(activeGraph, activity, runtime.eventLog.timestamp());
+    await runtime.writeSnapshot(snapshot, { signal: options.abortSignal });
+    snapshotAccess.setSnapshot(snapshot);
+    await runtime.eventLog.appendGraphStatus(
+      snapshot,
+      node.id,
+      options.phase,
+      "active",
+      options.abortSignal,
+    );
+    await runtime.eventLog.emitEvent(snapshot, "node_started", {
+      message: `Node started: ${node.title}`,
+      nodeId: node.id,
+      phase: options.phase,
+      signal: options.abortSignal,
+    });
+    resolveStarted({ snapshot });
+
     try {
-      return await finishCompleted(ctx, snapshot, traceContext);
+      const result = await runtime.runner.run(buildRequest(ctx, snapshot, traceContext));
+      return await finishAfterRun(ctx, snapshot, traceContext, result);
     } catch (error) {
       if (options.abortSignal?.aborted) throw error;
       return await finishFailed(ctx, error, maxAttempts, traceContext);
