@@ -136597,6 +136597,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 replace: json parser now uses a generic loose reader with coercer table; planner-result merged into graph-seed with a thin re-export shell (public path/export names unchanged).",
       "evidence": ["specs/contracts/core-03/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed-normalize.ts",
+      "normalizedSha256": "071df46679000e5d0af363ac1fdfa373a9019206de8bc61979bb3a9fb62d66cb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 replace: graph-seed split into normalize module (field tables + predicate tables) and orchestrator (rootNodesOf/withGateEdges/parseSeedCandidate); similarity 2/2 PASS, contract tests 16/16 both entries.",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     }
   ]
 }
