@@ -125,17 +125,19 @@ export function createRuntimeUserEntry(
   content: ModelMessageContent,
   metadata?: RuntimeMessageMetadata,
 ): RuntimeMessageMessageEntry {
-  return {
-    message: { role: "user", content },
+  const userMessage = {
+    message: { role: "user" as const, content },
     metadata: metadata ? { ...metadata } : undefined,
   };
+  return userMessage;
 }
 
 function cloneReasoningBlock(block: ReasoningContentInput): ReasoningContentInput {
-  return {
+  const reasoningCopy = {
     ...block,
     providerOptions: block.providerOptions ? { ...block.providerOptions } : undefined,
   };
+  return reasoningCopy;
 }
 
 function cloneTokenUsage(tokens: TokenUsageInfo): TokenUsageInfo {
@@ -196,19 +198,22 @@ export function cloneModelInputMessage(message: ModelInputMessage): ModelInputMe
 
 export function cloneRuntimeMessageEntry(entry: RuntimeMessageEntry): RuntimeMessageEntry {
   if (isRuntimeAttachmentEntry(entry)) {
-    return {
+    // 附件分支保持 RuntimeAttachmentEntry 断言：不要改成联合窄化后的类型，后续访问依赖它。
+    const attachmentEntry = {
       kind: "attachment",
       content: entry.content,
       cacheControl: entry.cacheControl ? { ...entry.cacheControl } : undefined,
       metadata: entry.metadata ? { ...entry.metadata } : undefined,
     } as RuntimeAttachmentEntry;
+    return attachmentEntry;
   }
-  return {
+  const runtimeEntry = {
     message: cloneModelInputMessage(entry.message),
     metadata: entry.metadata ? { ...entry.metadata } : undefined,
     ...(entry.tokens ? { tokens: cloneTokenUsage(entry.tokens) } : {}),
     ...(entry.queryScope ? { queryScope: entry.queryScope } : {}),
   };
+  return runtimeEntry;
 }
 
 function cloneEntryInput(input: ModelInputMessage | RuntimeMessageEntry): RuntimeMessageEntry {
