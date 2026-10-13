@@ -152,19 +152,25 @@ function markedScreenshotIndices(result: McpToolCallResult): Set<number> {
   return new Set(marked.filter((index) => isValidContentIndex(index, upperBound)));
 }
 
+// 备份所需的图片字节：非图片、缺 data/mimeType 或 base64 为空时没有可写内容。
+const imageBytesOf = (entry: McpContentBlock): { bytes: Buffer; mimeType: string } | undefined => {
+  if (entry.type !== "image") return undefined;
+  const { data, mimeType } = entry;
+  if (typeof data !== "string" || data.length === 0) return undefined;
+  if (typeof mimeType !== "string" || mimeType.length === 0) return undefined;
+  return { bytes: Buffer.from(base64PayloadFromMcpImageData(data), "base64"), mimeType };
+};
+
 async function backUpScreenshot(
   input: Pick<NormalizationInput, "context" | "toolName">,
   entry: McpContentBlock,
 ): Promise<string | undefined> {
-  if (entry.type !== "image") return undefined;
-  const data = entry.data;
-  const mimeType = entry.mimeType;
-  if (typeof data !== "string" || !data || typeof mimeType !== "string" || !mimeType)
-    return undefined;
+  const inline = imageBytesOf(entry);
+  if (!inline) return undefined;
+  const { bytes, mimeType } = inline;
   const store = input.context.artifactStore;
   const write = store?.writeToolResultBinaryArtifact;
   if (!store || !write) return undefined;
-  const bytes = Buffer.from(base64PayloadFromMcpImageData(data), "base64");
   if (bytes.byteLength === 0) return undefined;
   const toolName = input.toolName;
   try {
