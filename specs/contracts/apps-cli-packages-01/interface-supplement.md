@@ -604,3 +604,40 @@ export interface Establishment {
   authorizationAttempted?: boolean;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/process-tree-types.ts`
+
+用途：mcp 区新增的内部形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口仅供实现模块内部导入，不新增公开导出。
+
+```ts
+interface CommandResult {
+  error?: unknown;
+  status: number | null;
+  stderr: string;
+  stdout: string;
+}
+
+type KillFn = typeof process.kill;
+type ExecFileFn = (
+  file: string,
+  args: readonly string[],
+  options: ExecFileOptionsWithStringEncoding,
+) => Promise<CommandResult>;
+
+interface TerminatorOptions {
+  execFile?: ExecFileFn;
+  kill?: KillFn;
+  now?: () => number;
+  platform?: NodeJS.Platform;
+  sleep?: (ms: number) => Promise<void>;
+}
+
+const ENUMERATION_TIMEOUT_MS = 1000;
+const TASKKILL_TIMEOUT_MS = 2000;
+const POLL_INTERVAL_MS = 25;
+const FINAL_WAIT_MS = 250;
+const GRACE_STAGES = [
+  ["SIGINT", 250],
+  ["SIGTERM", 750],
+] as const;
+```
