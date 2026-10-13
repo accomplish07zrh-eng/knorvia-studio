@@ -30,7 +30,7 @@ const UPDATE_SUMMARY_TITLE =
 const DELETE_TARGET = "DELETE FROM session_target WHERE session_id = ?";
 
 /** 借用边界：无外层事务时也要保证这一段要么全成、要么不留痕。 */
-function borrow<T>(database: DatabaseSync, work: () => T): T {
+function borrow(database: DatabaseSync, work: () => void): void {
   return withWriteTransaction(database, "borrow", work);
 }
 

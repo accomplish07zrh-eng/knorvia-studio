@@ -182,7 +182,7 @@ export function createDwfJournalStore(database: DatabaseSync): JournalStorePort 
         encodeJson(row.stats),
         row.messageBoundary ?? null,
         row.artifactId ?? null,
-        encodeJson(row.request),
+        encodeJson(row.input),
         time,
         time,
       );

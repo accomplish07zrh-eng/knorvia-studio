@@ -64,12 +64,12 @@ interface AccountUsageInput extends SessionRef {
 interface SettleInput {
   at: number;
   database: DatabaseSync;
-  mutation: { changes: number };
+  mutation: { changes: number | bigint };
   session: SessionRef;
 }
 
 /** 借用边界：与写入口一致，无外层事务时也不留半次写入。 */
-function borrow<T>(database: DatabaseSync, work: () => T): T {
+function borrow(database: DatabaseSync, work: () => void): void {
   return withWriteTransaction(database, "borrow", work);
 }
 

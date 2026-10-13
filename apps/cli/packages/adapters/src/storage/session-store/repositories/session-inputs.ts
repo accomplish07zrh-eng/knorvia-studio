@@ -114,7 +114,7 @@ export async function listSessionInputs(
   request: ListQuery,
 ): Promise<SessionInputRecord[]> {
   const statement = database.prepare(`${READ_INPUT}
-    WHERE session_id = ?${input.status ? " AND status = ?" : ""} ORDER BY admitted_sequence ASC
+    WHERE session_id = ?${request.status ? " AND status = ?" : ""} ORDER BY admitted_sequence ASC
   `);
   const entries = request.status
     ? statement.all(request.sessionID, request.status)

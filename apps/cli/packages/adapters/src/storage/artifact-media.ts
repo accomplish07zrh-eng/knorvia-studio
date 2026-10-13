@@ -16,7 +16,7 @@ const BASE64_ENCODING = "base64";
 type MediaTarget = NonNullable<ReturnType<typeof mediaTarget>>;
 
 /** 目标是否已是常规文件：按原生 code 判缺失，保留非 Error 值的访问边界。 */
-async function isExistingFile(target: string): Promise<boolean> {
+async function isExistingFile(path: string): Promise<boolean> {
   try {
     return (await stat(path)).isFile();
   } catch (error) {
@@ -111,6 +111,6 @@ export async function ensureMedia(
   if (!requested) return { status: "unsupported" };
   if (await isExistingFile(requested.path)) return { status: "ready", path: requested.path };
   const backing = await loader(sourceUri);
-  const decoded = decodeDataUrl(backing.text, requested.mediaClass, sourceUri);
+  const decoded = decodeDataUrl(backing.content, requested.kind, sourceUri);
   return publishMedia(artifactRoots, sourceUri, decoded.declaredType, decoded.encodedBytes);
 }

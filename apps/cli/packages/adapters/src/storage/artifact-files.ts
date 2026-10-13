@@ -31,8 +31,8 @@ const ARTIFACT_ID_PREFIX = "tool-result-";
 const DEFAULT_CONTENT_TYPE = "application/json";
 const JSON_TYPE = "application/json";
 const TEXT_TYPE_PREFIX = "text/";
-const JSON_ENCODING = "utf8";
-const BINARY_ENCODING = "base64";
+const JSON_ENCODING = "utf8" as const;
+const BINARY_ENCODING = "base64" as const;
 
 function throwIfCancelled(signal: AbortSignal | undefined, message: string): void {
   if (!signal?.aborted) return;
@@ -141,7 +141,7 @@ async function locate(root: string, uri: string): Promise<string> {
   return join(directory, selected);
 }
 
-function textEncodingFor(contentType: string): string {
+function textEncodingFor(contentType: string): BufferEncoding {
   const textual = contentType === JSON_TYPE || contentType.startsWith(TEXT_TYPE_PREFIX);
   return textual ? JSON_ENCODING : BINARY_ENCODING;
 }
