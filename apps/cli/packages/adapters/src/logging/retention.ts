@@ -2,9 +2,13 @@
 // Modified by Knorvia Studio contributors, 2026-09-30.
 // Reimplemented calendar/cleanup adapter; source review remains open.
 
+import type { Dirent } from "node:fs";
 import { readdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "@knorvia/contracts";
+
+/** 目录项：readdir 的重载在当前 Node 类型下会落到 Buffer 变体，这里显式收窄。 */
+type DirectoryEntry = Dirent<string>;
 
 /**
  * 日志保留策略：
@@ -170,18 +174,16 @@ function emptyOutcome(boundary: string, keepDays: number): LogRetentionCleanupRe
 }
 
 /** 读目录：ENOENT 视为「没有日志目录」，其余失败置 status 并上报。 */
-async function readLogDirectory(
-  context: FailureContext,
-): Promise<Awaited<ReturnType<typeof readdir>> | undefined> {
-  return await readdir(context.options.logDir, { withFileTypes: true }).catch(
-    (cause: unknown): undefined => {
-      if (!isMissing(cause)) {
-        context.outcome.status = "failed";
-        reportFailure(context, cause);
-      }
-      return undefined;
-    },
-  );
+async function readLogDirectory(context: FailureContext): Promise<DirectoryEntry[] | undefined> {
+  return await (
+    readdir(context.options.logDir, { withFileTypes: true }) as Promise<DirectoryEntry[]>
+  ).catch((cause: unknown): undefined => {
+    if (!isMissing(cause)) {
+      context.outcome.status = "failed";
+      reportFailure(context, cause);
+    }
+    return undefined;
+  });
 }
 
 export async function cleanupLogRetention(
