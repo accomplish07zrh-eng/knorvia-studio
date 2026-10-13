@@ -1,63 +1,78 @@
-import type { WorkspaceHookPolicy } from "@knorvia/contracts";
-import { workspaceHookPolicySchema } from "@knorvia/contracts";
+// SPDX-License-Identifier: Apache-2.0
+// 策略提供者：默认"用户自行决定"，可按 workspace 覆盖。写入先校验，值没变就不广播，
+// 这样上层的安全修订只反映真实变化。内部用"覆盖表 + 订阅者集合 + 变更类型"表达。
+import { workspaceHookPolicySchema, type WorkspaceHookPolicy } from "@knorvia/contracts";
+import type { WorkspaceHookPolicyChange, WorkspaceHookPolicyProvider } from "./types.js";
 
-const DEFAULT_POLICY: WorkspaceHookPolicy = Object.freeze({
+export type { WorkspaceHookPolicyChange, WorkspaceHookPolicyProvider } from "./types.js";
+
+/** 默认策略冻结，避免调用方通过返回值改写共享默认值。 */
+const BUILTIN_DEFAULT: WorkspaceHookPolicy = Object.freeze({
   mode: "user_decides",
   policyRevision: "builtin:user-decides:v1",
 });
 
-export interface WorkspaceHookPolicyChange {
-  workspaceIdentity?: string;
-  policy: WorkspaceHookPolicy;
-}
+/** 变更类型表：写明每种写入影响的是"某个 workspace"还是"所有 workspace"。 */
+const CHANGE_SCOPE = { default: "all", workspace: "one" } as const;
 
-export interface WorkspaceHookPolicyProvider {
-  getPolicy(workspaceIdentity: string): WorkspaceHookPolicy;
-  subscribe(listener: (change: WorkspaceHookPolicyChange) => void): () => void;
+function canonical(policy: WorkspaceHookPolicy): string {
+  return [policy.mode, policy.policyRevision].join("\u0000");
 }
 
 export class InMemoryWorkspaceHookPolicyProvider implements WorkspaceHookPolicyProvider {
-  private defaultPolicy: WorkspaceHookPolicy;
-  private readonly policies = new Map<string, WorkspaceHookPolicy>();
-  private readonly listeners = new Set<(change: WorkspaceHookPolicyChange) => void>();
+  private readonly overrides = new Map<string, WorkspaceHookPolicy>();
+  private readonly subscribers = new Set<(change: WorkspaceHookPolicyChange) => void>();
+  private fallback: WorkspaceHookPolicy;
 
-  constructor(defaultPolicy: WorkspaceHookPolicy = DEFAULT_POLICY) {
-    this.defaultPolicy = workspaceHookPolicySchema.parse(defaultPolicy);
+  constructor(initial: WorkspaceHookPolicy = BUILTIN_DEFAULT) {
+    this.fallback = workspaceHookPolicySchema.parse(initial);
   }
 
-  getPolicy(workspaceIdentity: string): WorkspaceHookPolicy {
-    return this.policies.get(workspaceIdentity) ?? this.defaultPolicy;
+  getPolicy(identity: string): WorkspaceHookPolicy {
+    const found = this.overrides.get(identity);
+    return found === undefined ? this.fallback : found;
   }
 
-  subscribe(listener: (change: WorkspaceHookPolicyChange) => void): () => void {
-    this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
+  subscribe(handler: (update: WorkspaceHookPolicyChange) => void): () => void {
+    this.subscribers.add(handler);
+    return () => {
+      this.subscribers.delete(handler);
+    };
   }
 
-  setWorkspacePolicy(workspaceIdentity: string, policy: WorkspaceHookPolicy): void {
-    const next = workspaceHookPolicySchema.parse(policy);
-    if (samePolicy(this.policies.get(workspaceIdentity), next)) return;
-    this.policies.set(workspaceIdentity, next);
-    this.emit({ workspaceIdentity, policy: next });
+  setWorkspacePolicy(identity: string, next: WorkspaceHookPolicy): void {
+    this.commit(CHANGE_SCOPE.workspace, identity, workspaceHookPolicySchema.parse(next));
   }
 
-  clearWorkspacePolicy(workspaceIdentity: string): void {
-    if (!this.policies.delete(workspaceIdentity)) return;
-    this.emit({ workspaceIdentity, policy: this.defaultPolicy });
+  clearWorkspacePolicy(identity: string): void {
+    if (!this.overrides.has(identity)) return;
+    this.overrides.delete(identity);
+    this.broadcast({ policy: this.fallback, workspaceIdentity: identity });
   }
 
-  setDefaultPolicy(policy: WorkspaceHookPolicy): void {
-    const next = workspaceHookPolicySchema.parse(policy);
-    if (samePolicy(this.defaultPolicy, next)) return;
-    this.defaultPolicy = next;
-    this.emit({ policy: next });
+  setDefaultPolicy(next: WorkspaceHookPolicy): void {
+    this.commit(CHANGE_SCOPE.default, undefined, workspaceHookPolicySchema.parse(next));
   }
 
-  private emit(change: WorkspaceHookPolicyChange): void {
-    for (const listener of this.listeners) listener(change);
+  /** 两类写入共用一条提交路径：先算"现在是什么"，相同就不广播。 */
+  private commit(
+    scope: (typeof CHANGE_SCOPE)[keyof typeof CHANGE_SCOPE],
+    identity: string | undefined,
+    next: WorkspaceHookPolicy,
+  ): void {
+    if (scope === CHANGE_SCOPE.workspace && identity !== undefined) {
+      const current = this.overrides.get(identity);
+      if (current && canonical(current) === canonical(next)) return;
+      this.overrides.set(identity, next);
+      this.broadcast({ policy: next, workspaceIdentity: identity });
+      return;
+    }
+    if (canonical(this.fallback) === canonical(next)) return;
+    this.fallback = next;
+    this.broadcast({ policy: next });
   }
-}
 
-function samePolicy(current: WorkspaceHookPolicy | undefined, next: WorkspaceHookPolicy): boolean {
-  return current !== undefined && JSON.stringify(current) === JSON.stringify(next);
+  private broadcast(change: WorkspaceHookPolicyChange): void {
+    for (const subscriber of Array.from(this.subscribers)) subscriber(change);
+  }
 }

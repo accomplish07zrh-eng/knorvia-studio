@@ -1,9 +1,9 @@
 {
   "contract": "core-hooks",
   "version": "v1",
-  "commit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
+  "commit": "f9b34ee9a7e6522c4187e824b2d6a6a7cb619073",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-11T10:36:43.670Z",
+  "generatedAt": "2026-10-12T05:47:42.798Z",
   "testFiles": [
     "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/configured-runner.test.ts",
     "D:/knorvia studio开发/wt/exec-2-hooks/specs/contracts/core-hooks/tests/display-metadata.test.ts",
@@ -24,7 +24,7 @@
       "pass": 33,
       "fail": 0,
       "skipped": 0,
-      "outputTail": "✔ B11 策略 fail-closed、持久信任变更资格与 corrupt 状态 (2.982ms)\n✔ B12 trustState 判定顺序与 effectiveRunnable (1.0311ms)\n✔ B12 allow_trusted_only 缺记录时 blocked_policy，deny 优先于一切 (0.8386ms)\n✔ B16 信任记录：去重、字段映射与错误 (0.9687ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 27964.9197"
+      "outputTail": "✔ B11 策略 fail-closed、持久信任变更资格与 corrupt 状态 (3.3348ms)\n✔ B12 trustState 判定顺序与 effectiveRunnable (1.1989ms)\n✔ B12 allow_trusted_only 缺记录时 blocked_policy，deny 优先于一切 (0.8771ms)\n✔ B16 信任记录：去重、字段映射与错误 (1.0496ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18153.0573"
     },
     "dist": {
       "entry": "dist",
@@ -33,13 +33,8 @@
       "pass": 33,
       "fail": 0,
       "skipped": 0,
-      "outputTail": "✔ B11 策略 fail-closed、持久信任变更资格与 corrupt 状态 (4.7393ms)\n✔ B12 trustState 判定顺序与 effectiveRunnable (1.6205ms)\n✔ B12 allow_trusted_only 缺记录时 blocked_policy，deny 优先于一切 (1.0994ms)\n✔ B16 信任记录：去重、字段映射与错误 (1.1558ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 30586.9647"
+      "outputTail": "✔ B11 策略 fail-closed、持久信任变更资格与 corrupt 状态 (3.0654ms)\n✔ B12 trustState 判定顺序与 effectiveRunnable (1.2928ms)\n✔ B12 allow_trusted_only 缺记录时 blocked_policy，deny 优先于一切 (0.9343ms)\n✔ B16 信任记录：去重、字段映射与错误 (1.043ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 27630.3661"
     }
   },
-  "stubReplacement": {
-    "tests": 33,
-    "pass": 0,
-    "fail": 33,
-    "allFail": true
-  }
+  "stubReplacement": null
 }
