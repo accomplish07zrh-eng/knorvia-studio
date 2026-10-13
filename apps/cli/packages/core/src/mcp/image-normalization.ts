@@ -290,17 +290,11 @@ async function saveOversizedImage(
   if (write) {
     return await write.call(
       store,
-      {
-        sessionId: input.context.sessionId,
-        turnId: input.context.turnId,
-        toolCallId: input.context.toolCallId,
+      binaryArtifactRequest(input.context, {
+        bytes: Buffer.from(payload, "base64"),
+        mimeType: summary.mimeType,
         toolName: input.toolName,
-        content: Buffer.from(payload, "base64"),
-        contentType: summary.mimeType,
-        extension: extensionForMime(summary.mimeType),
-        retention: "session",
-        trace: artifactTrace(input.context),
-      },
+      }),
       { signal: input.context.abortSignal },
     );
   }
