@@ -120715,7 +120715,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "1295971b4137fd961e97250980f991dc2014148855320882eab0a4b5ca8ed49c"
+      "normalizedSha256": "963d81b94afbc0fb9c529298bb69f0f8a43f8e0db80ecfcd23f9225bb5141bae"
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/windows-computer-turn-end.ts",
@@ -134673,7 +134673,7 @@
     },
     {
       "path": "specs/contracts/core-01/acceptance.md",
-      "normalizedSha256": "0da4cf488e786d28f9e1bd0cd7c67f98f97c1b15d89c6c4e09af8f562623943b",
+      "normalizedSha256": "ed54a76e01881c716fd0450f1fe3919990608f7b58fb3b8506de0a1458a2ef62",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-01 contract artifact for @knorvia/core (M2 first core package: agent, compact, context, embedded-search, mcp; 38 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries (plus file-level entries for exports the area barrels do not re-export), and stubs keep only interface.md names with bodies that throw not implemented: core-01. Old gate: source 42/42, dist 42/42, stub replacement 42/42 failed.",
@@ -134733,7 +134733,7 @@
     },
     {
       "path": "specs/contracts/core-01/known-differences.md",
-      "normalizedSha256": "17f5a0fd9c9d519d23dee0a9bc79f6fc63635ccdaf08921791887e73ded5ee9a",
+      "normalizedSha256": "3fa764e4612bb0c7524bf11e33287a486453440a0b7d44c8e0d5a472d87f7ba4",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-01 contract artifact for @knorvia/core (M2 first core package: agent, compact, context, embedded-search, mcp; 38 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries (plus file-level entries for exports the area barrels do not re-export), and stubs keep only interface.md names with bodies that throw not implemented: core-01. Old gate: source 42/42, dist 42/42, stub replacement 42/42 failed.",
@@ -136710,6 +136710,17 @@
         "specs/contracts/core-02/interface.md",
         "specs/contracts/core-02/acceptance.md",
         "specs/contracts/core-02/gate-old.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/capability-internal.ts",
+      "normalizedSha256": "437c211c5b299f4bc8e52ac879952d5a3257ad1dc611ee4fbfd2ee799a3b072c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal module split out of the core-01 embedded-search capability file: holds the branch-capability constants, types and state lookup so the public capability.ts only forwards the exported resolver. Behavior identical to the inherited implementation; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
       ]
     }
   ]
