@@ -77805,7 +77805,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
-      "normalizedSha256": "47ba96cf4ee044fd17d24865cce45810beeb3a4a91e7aa46d16268fcf6338c5f",
+      "normalizedSha256": "e9db179869f7f3ea497e2bda333185f1166466d21ff24a78c82c5ea7a58d89f6",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -77816,7 +77816,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "41d553781392d6613fa4f51c85003856d88c5226723e14ac80ca9807dabd655c",
+      "normalizedSha256": "d0e216ad581324f8284154f438f7c5f88beca6fb78adb079a4133ecce9d07e1a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.06 (packages/zcode-server-cli/src/packaging/stage.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. 2026-10-12 由 contracts-01 替换 PR 按先例 4bf32a33 重固定：本仓库 core 的 current artifact receipt 中 2 条 contracts dist 声明摘要（workflow/run-schema.d.ts、workflow/script.d.ts）随替换实现更新，差异仅为 tsc 类型打印顺序（联合成员/推断键顺序）而源码与同文件 .js 字节一致；新摘要取自真实构建，Windows 与 Linux 一致，清空 dist 重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。见 docs/knorvia-contracts-01-acceptance.md §9 与 specs/contracts/contracts-01/known-differences.md。",
@@ -77829,7 +77829,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-      "normalizedSha256": "628b3f3a63a685e0d118407a0beef37036efdde6f66142a320a43a257bbb2796",
+      "normalizedSha256": "846b4eabf53b5cf07b9fb5b49a7f56fd2f39b887105b01767c708c432d86ac89",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (apps/zcode-cli/turbo.json), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -77851,7 +77851,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "c76f104ec24edaae07c80d8e71288eac2dc55d01b0d9fdf42f76d3a589e6aed1",
+      "normalizedSha256": "82228c743bb6cd39a238115f1280b2351692d5b04a16260202b203dbcd2cf4cd",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 10f38c6e (2026-10-03) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (apps/zcode-cli/turbo.json), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. 2026-10-12 由 contracts-01 替换 PR 按先例 4bf32a33 重固定：本仓库 core 的 current artifact receipt 中 2 条 contracts dist 声明摘要（workflow/run-schema.d.ts、workflow/script.d.ts）随替换实现更新，差异仅为 tsc 类型打印顺序（联合成员/推断键顺序）而源码与同文件 .js 字节一致；新摘要取自真实构建，Windows 与 Linux 一致，清空 dist 重建后 220/220 匹配，core 的 6 个 workflow 测试 30/30 通过。见 docs/knorvia-contracts-01-acceptance.md §9 与 specs/contracts/contracts-01/known-differences.md。",
