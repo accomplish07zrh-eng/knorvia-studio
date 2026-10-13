@@ -1,14 +1,18 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// 工具 part 的历史选择：同一声明只取最后新建的那条记录。
 import type { ToolPart } from "@knorvia/contracts";
 
-export function selectToolPartsForHistory(parts: ToolPart[]): ToolPart[] {
-  // 提前执行失败或断流恢复会另建 part；同一声明只恢复最后新建的记录，旧 part 迟到更新不影响选择。
-  // 保留所选记录的物理顺序，原始 parts 仍供 UI 和文件读取状态恢复使用。
-  const latestByCallId = new Map(parts.map((part) => [part.callID, part]));
-  const latestParts = parts.filter((part) => latestByCallId.get(part.callID) === part);
-  if (latestParts.some((part) => part.declarationIndex === undefined)) {
-    // 旧记录或混合版本可能缺少声明序号，整组保留原序。
-    return latestParts;
+// 提前失败或断流恢复会另建 part，所以同一个 callID 只保留最后一条；
+// 声明序号齐全时按序号排序（只读工具可能先落盘），缺序号就整组保持原序。
+// 入参数组不被改写，UI 与文件读取状态恢复仍用原始 parts。
+export const selectToolPartsForHistory = (parts: ToolPart[]): ToolPart[] => {
+  const lastSeen = new Map<string, ToolPart>();
+  for (const candidate of parts) {
+    lastSeen.set(candidate.callID, candidate);
   }
-  // 只读工具可能先落盘；provider calls/results 应共用声明顺序，不改 UI 的原始 parts。
-  return latestParts.sort((left, right) => left.declarationIndex! - right.declarationIndex!);
-}
+  const latest = parts.filter((part) => lastSeen.get(part.callID) === part);
+  const orderUnknown = latest.some((part) => part.declarationIndex === undefined);
+  if (orderUnknown) return latest;
+  return latest.sort((left, right) => (left.declarationIndex ?? 0) - (right.declarationIndex ?? 0));
+};
