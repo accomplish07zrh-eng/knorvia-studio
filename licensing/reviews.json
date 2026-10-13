@@ -136325,6 +136325,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: synthetic snapshot/node factories (validated by contracts zod schemas) and injected scheduler deps (event/snapshot/artifact recorders) for behavior tests.",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/scheduler.test.ts",
+      "normalizedSha256": "f869615d2e154c57f285e46a3b378c9033001bf1ee787af24f40169e622c5e3b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: scheduler behavior tests (B1-B7, B10) driven by injected deps and schema-validated synthetic snapshots.",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
