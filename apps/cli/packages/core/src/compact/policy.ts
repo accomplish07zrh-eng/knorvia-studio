@@ -1,10 +1,16 @@
-import { DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY } from "@knorvia/shared";
-import {
-  estimateMessageTokens,
-  hasEnoughMessagesToCompact,
-  type CompactModelMessage,
-} from "./manual.js";
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// compact 自动压缩策略的公开面：冻结的阈值常量、兼容类型与四个导出函数。窗口与阈值的计算都在
+// ./policy-internal.js；本模块只负责把公开默认值注入进去。
+import type { CompactModelMessage } from "./manual.js";
 import type { LocalMicrocompactPolicyConfig } from "./microcompact.js";
+import {
+  autoCompactThresholdFor,
+  decideAutoCompact,
+  effectiveContextWindowFor,
+  outputReserveFor,
+  type AutoCompactRuntimeDefaults,
+} from "./policy-internal.js";
 
 export const DEFAULT_COMPACT_CONTEXT_WINDOW = 200000;
 export const DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS = 32000;
@@ -64,85 +70,45 @@ export interface AutoCompactDecision {
     | "above_threshold";
 }
 
-function normalizeNonnegativeInteger(value: number | undefined): number | undefined {
-  if (value === undefined || !Number.isFinite(value) || value < 0) {
-    return undefined;
-  }
-  return Math.floor(value);
-}
+/** 输出预留的上限：provider 的窗口由输入输出共享，这里最多只让出 21K。 */
+const OUTPUT_RESERVE_CAP_TOKENS = 21000;
 
+const PUBLIC_POLICY_DEFAULTS: AutoCompactRuntimeDefaults = {
+  buffer: AUTOCOMPACT_BUFFER_TOKENS,
+  failureLimit: MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES,
+  maxOutputReserve: DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS,
+  percent: DEFAULT_AUTOCOMPACT_THRESHOLD_PERCENT,
+  reserveCeiling: OUTPUT_RESERVE_CAP_TOKENS,
+  windowSize: DEFAULT_COMPACT_CONTEXT_WINDOW,
+};
+
+/** 有效上下文窗口 = 窗口大小 − 输出预留，结果不小于 0。 */
 export function getEffectiveContextWindowSize(config: AutoCompactPolicyConfig = {}): number {
-  const contextWindow =
-    normalizeNonnegativeInteger(config.contextWindow) ?? DEFAULT_COMPACT_CONTEXT_WINDOW;
-  const reserve = Math.min(getAutoCompactOutputReserveTokens(config), contextWindow);
-  return Math.max(0, contextWindow - reserve);
+  return effectiveContextWindowFor(config, PUBLIC_POLICY_DEFAULTS);
 }
 
+/** 输出预留 = 配置的输出上限（缺省 32K），再压到 21K 以内。 */
 export function getAutoCompactOutputReserveTokens(config: AutoCompactPolicyConfig = {}): number {
-  const maxOutputTokens =
-    normalizeNonnegativeInteger(config.maxOutputTokens) ??
-    DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS;
-  return Math.min(maxOutputTokens, 21000);
+  return outputReserveFor(config, PUBLIC_POLICY_DEFAULTS);
 }
 
+/** 自动压缩阈值 = 有效上下文窗口 − 缓冲余量（缺省 13K），结果不小于 0。 */
 export function getAutoCompactThreshold(config: AutoCompactPolicyConfig = {}): number {
-  const effectiveContextWindow = getEffectiveContextWindowSize(config);
-  const bufferTokens =
-    normalizeNonnegativeInteger(config.bufferTokens) ?? AUTOCOMPACT_BUFFER_TOKENS;
-  return Math.max(0, effectiveContextWindow - bufferTokens);
+  return autoCompactThresholdFor(config, PUBLIC_POLICY_DEFAULTS);
 }
 
+/** 五分支决策：禁用 → 消息不足 → 熔断 → 低于阈值 → 达到阈值即压缩。 */
 export function shouldAutoCompact(input: {
-  messages: readonly CompactModelMessage[];
-  config?: AutoCompactPolicyConfig;
-  consecutiveFailures?: number;
-  tokenOverride?: AutoCompactTokenOverride;
+  messages: readonly CompactModelMessage[]; // 参与轮次分组与 token 估算的消息
+  config?: AutoCompactPolicyConfig; // 策略覆盖：窗口、输出预留、缓冲余量与熔断次数
+  consecutiveFailures?: number; // 已连续失败的压缩次数，达到上限即熔断
+  tokenOverride?: AutoCompactTokenOverride; // provider 用量覆盖，只影响决策字段
 }): AutoCompactDecision {
-  const config = input.config ?? {};
-  const contextWindow =
-    normalizeNonnegativeInteger(config.contextWindow) ?? DEFAULT_COMPACT_CONTEXT_WINDOW;
-  const effectiveContextWindow = getEffectiveContextWindowSize(config);
-  const outputReserveTokens = Math.min(getAutoCompactOutputReserveTokens(config), contextWindow);
-  const threshold = getAutoCompactThreshold(config);
-  const thresholdPercent = DEFAULT_AUTOCOMPACT_THRESHOLD_PERCENT;
-  const estimatedTokenCount = estimateMessageTokens(input.messages);
-  const tokenCount = input.tokenOverride?.tokenCount ?? estimatedTokenCount;
-  const tokenSource = input.tokenOverride?.source ?? "estimate";
-
-  // 对象属性会把来源字面量拓宽为 string；用公开决策字段契约约束五个分支的共同投影。
-  const common: Omit<AutoCompactDecision, "shouldCompact" | "reason"> = {
-    contextWindow,
-    effectiveContextWindow,
-    estimatedTokenCount,
-    providerCacheReadTokens: input.tokenOverride?.cacheReadTokens,
-    providerCacheWriteTokens: input.tokenOverride?.cacheWriteTokens,
-    maxOutputTokens: normalizeNonnegativeInteger(config.maxOutputTokens),
-    modelContextBudgetStrategy: DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY,
-    outputReserveTokens,
-    providerBaseTokenCount: input.tokenOverride?.baseTokenCount,
-    providerContextUsageTokenCount: input.tokenOverride?.contextUsageTokenCount,
-    providerIncrementalTokenCount: input.tokenOverride?.incrementalTokenCount,
-    providerOutputTokens: input.tokenOverride?.outputTokens,
-    threshold,
-    thresholdPercent,
-    tokenCount,
-    tokenSource,
-  };
-
-  if (config.enabled === false) {
-    return { ...common, shouldCompact: false, reason: "disabled" };
-  }
-  if (!hasEnoughMessagesToCompact(input.messages)) {
-    return { ...common, shouldCompact: false, reason: "not_enough_messages" };
-  }
-  const maximumFailures =
-    normalizeNonnegativeInteger(config.maxConsecutiveFailures) ??
-    MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES;
-  if ((input.consecutiveFailures ?? 0) >= maximumFailures) {
-    return { ...common, shouldCompact: false, reason: "circuit_breaker" };
-  }
-  if (tokenCount < threshold) {
-    return { ...common, shouldCompact: false, reason: "below_threshold" };
-  }
-  return { ...common, shouldCompact: true, reason: "above_threshold" };
+  return decideAutoCompact(
+    input.config,
+    input.messages,
+    input.consecutiveFailures,
+    input.tokenOverride,
+    PUBLIC_POLICY_DEFAULTS,
+  );
 }

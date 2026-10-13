@@ -136744,6 +136744,17 @@
         "specs/contracts/core-01/acceptance.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/policy-internal.ts",
+      "normalizedSha256": "ed1da4625f62b97a89a16b5e7ac73620ce19ddcdacf357dcc04e26315e986c5b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored internal module split out of the core-01 compact policy file: holds the effective-window / output-reserve / threshold arithmetic and the five-branch decision, while the public policy.ts keeps the frozen constants, compatible types and the four exported entry points. Behavior verified identical to the inherited implementation on 20 config cases and 17 decision cases; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-01/acceptance.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
