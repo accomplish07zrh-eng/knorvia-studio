@@ -459,3 +459,32 @@ export interface McpConnectionContext {
   workspaceKey?: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/oauth-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口由实现文件原样再导出。
+
+```ts
+export interface McpOAuthRuntimeOptions {
+  authorizationTimeoutMs?: number;
+  credentialStore?: SharedKnorviaCredentialStore;
+  onAuthorizationRequired?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
+  openAuthorizationUrl?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
+}
+```
+
+## `apps/cli/packages/adapters/src/mcp/oauth-provider-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口由实现文件原样再导出。
+
+```ts
+interface CreateMcpOAuthTokenProviderInput {
+  config: McpAuthorizationCodeOAuthConfig;
+  credentialStore: SharedKnorviaCredentialStore;
+  fetchFn?: FetchLike;
+  keyPrefix: string;
+  logger?: Logger;
+  serverName: string;
+  serverUrl: string;
+}
+```
