@@ -3,31 +3,31 @@
 
 import { createServer, type Server, type ServerResponse } from "node:http";
 
-export const MCP_OAUTH_CALLBACK_DENIED_ERROR_CODE = "MCP_OAUTH_CALLBACK_DENIED";
+export const MCP_OAUTH_CALLBACK_DENIED_ERROR_CODE: McpOAuthCallbackDeniedCode =
+  "MCP_OAUTH_CALLBACK_DENIED";
 
-export interface McpOAuthCallbackDeniedError extends Error {
-  code: typeof MCP_OAUTH_CALLBACK_DENIED_ERROR_CODE;
-  oauthError: string;
-  oauthErrorDescription?: string;
-}
+export type {
+  LocalhostOAuthCallback,
+  LocalhostOAuthCallbackServer,
+  McpOAuthCallbackDeniedError,
+  McpOAuthCallbackDeniedCode,
+} from "./localhost-callback-types.js";
 
-export interface LocalhostOAuthCallback {
-  code: string;
-  url: string;
-}
+import type {
+  McpOAuthCallbackDeniedCode,
+  LocalhostOAuthCallback,
+  LocalhostOAuthCallbackServer,
+  McpOAuthCallbackDeniedError,
+} from "./localhost-callback-types.js";
 
-export interface LocalhostOAuthCallbackServer {
-  callbackPath: string;
-  callbackUrl: string;
-  close(): Promise<void>;
-  waitForCallback(): Promise<LocalhostOAuthCallback>;
-}
-
+/** 回环地址与三份浏览器可见文案（文案面向用户，逐字保留）。 */
 const LOOPBACK_HOST = "127.0.0.1";
-const SUCCESS_TEXT = "Authorization successful! You may close this window and return to the CLI.";
-const FAILURE_TEXT = "Authorization failed. You may close this window and return to the CLI.";
-const MISSING_CODE_TEXT = "OAuth callback is missing an authorization code.";
 const REQUEST_URL_BASE = `http://${LOOPBACK_HOST}`;
+const CALLBACK_TEXTS = {
+  failure: "Authorization failed. You may close this window and return to the CLI.",
+  missingCode: "OAuth callback is missing an authorization code.",
+  success: "Authorization successful! You may close this window and return to the CLI.",
+} as const;
 
 function writeResponse(response: ServerResponse, statusCode: number, text: string): void {
   response.statusCode = statusCode;
@@ -108,33 +108,33 @@ export async function createLocalhostOAuthCallbackServer(input: {
     try {
       const requestUrl = new URL(request.url ?? "/", REQUEST_URL_BASE);
       if (requestUrl.pathname !== input.callbackPath) {
-        writeResponse(response, 404, FAILURE_TEXT);
+        writeResponse(response, 404, CALLBACK_TEXTS.failure);
         return;
       }
       if ((requestUrl.searchParams.get("state") ?? "") !== input.state) {
-        writeResponse(response, 400, FAILURE_TEXT);
+        writeResponse(response, 400, CALLBACK_TEXTS.failure);
         return;
       }
 
       const oauthError = requestUrl.searchParams.get("error");
       if (oauthError) {
         const description = requestUrl.searchParams.get("error_description") || undefined;
-        writeResponse(response, 400, FAILURE_TEXT);
+        writeResponse(response, 400, CALLBACK_TEXTS.failure);
         settleFailure(createDeniedError(oauthError, description));
         return;
       }
 
       const code = requestUrl.searchParams.get("authCode") ?? requestUrl.searchParams.get("code");
       if (code) {
-        writeResponse(response, 200, SUCCESS_TEXT);
+        writeResponse(response, 200, CALLBACK_TEXTS.success);
         settleSuccess({ code, url: requestUrl.toString() });
         return;
       }
 
-      writeResponse(response, 400, FAILURE_TEXT);
-      settleFailure(new Error(MISSING_CODE_TEXT));
+      writeResponse(response, 400, CALLBACK_TEXTS.failure);
+      settleFailure(new Error(CALLBACK_TEXTS.missingCode));
     } catch (error) {
-      writeResponse(response, 500, FAILURE_TEXT);
+      writeResponse(response, 500, CALLBACK_TEXTS.failure);
       settleFailure(asError(error));
     }
   });

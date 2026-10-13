@@ -381,3 +381,29 @@ export interface SharedKnorviaCredentialStore {
   saveReplacing(key: string, value: string, replacedKeys: readonly string[]): Promise<void>;
 }
 ```
+
+## `apps/cli/packages/adapters/src/auth/localhost-callback-types.ts`
+
+用途：auth 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；三个接口由 localhost-callback.ts 原样再导出，公开面不变。
+
+```ts
+export type McpOAuthCallbackDeniedCode = "MCP_OAUTH_CALLBACK_DENIED";
+
+export interface McpOAuthCallbackDeniedError extends Error {
+  code: McpOAuthCallbackDeniedCode;
+  oauthError: string;
+  oauthErrorDescription?: string;
+}
+
+export interface LocalhostOAuthCallback {
+  code: string;
+  url: string;
+}
+
+export interface LocalhostOAuthCallbackServer {
+  callbackPath: string;
+  callbackUrl: string;
+  close(): Promise<void>;
+  waitForCallback(): Promise<LocalhostOAuthCallback>;
+}
+```
