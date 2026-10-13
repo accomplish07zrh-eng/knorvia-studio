@@ -330,3 +330,21 @@ export interface NetworkEgressEnvOptions {
   toolEnvPassthrough?: boolean;
 }
 ```
+
+## `apps/cli/packages/adapters/src/auth/browser-types.ts`
+
+用途：auth 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；两个接口由 browser.ts 原样再导出，公开面不变。
+
+```ts
+export interface BrowserOpenResult {
+  command: string;
+  opened: boolean;
+  reason?: string;
+}
+
+export interface BrowserOpenOptions {
+  platform?: NodeJS.Platform;
+  spawnProcess?: typeof spawn;
+  timeoutMs?: number;
+}
+```
