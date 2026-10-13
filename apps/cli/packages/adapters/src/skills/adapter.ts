@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // 技能适配器：构造时解析禁用名单，两个公开方法转发给 catalog。
-import { realpathSync } from "node:fs";
+import { existsSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
 import type {
   SkillContent,
@@ -9,6 +9,7 @@ import type {
   SkillPort,
   SkillRoot,
 } from "@knorvia/contracts";
+import type { SkillMetadata } from "@knorvia/contracts";
 import { discoverSkillCatalog, loadSkillContent, type DiscoveryContext } from "./catalog.js";
 import type { SkillRootResolutionOptions } from "./roots.js";
 
@@ -33,7 +34,7 @@ function blockedPathSet(paths: Iterable<string>): Set<string> {
   for (const entry of paths) {
     const canonical = resolve(entry);
     blocked.add(canonical);
-    const real = realpathSync(canonical, { throwIfNoEntry: false });
+    const real = existsSync(canonical) ? realpathSync(canonical) : undefined;
     if (real !== undefined && real !== canonical) blocked.add(real);
   }
   return blocked;
