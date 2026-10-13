@@ -136592,7 +136592,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
-      "normalizedSha256": "d0a7abbbd35851222283fa03a39b52ededcffaf64dc2d62c6fe8806a7e5c3231",
+      "normalizedSha256": "5efd170ebb45a22dfe6f4c4aba2e73c9b43b31cacfff4efc64c71a2834d71b91",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-03 replace: json parser now uses a generic loose reader with coercer table; planner-result merged into graph-seed with a thin re-export shell (public path/export names unchanged).",
