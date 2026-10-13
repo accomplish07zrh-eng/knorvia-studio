@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// 图种子落地：把 schema 校验过的种子（节点/边/集合）并入快照。合并前挡住重复 id、未知端点、
+// 自环与成环；任一校验失败直接抛错，绝不做部分合并（调用方据此把失败归到对应相位工件）。
 import {
   WorkflowGraphSeedSchema,
   type WorkflowGraphCollection,
@@ -8,153 +11,177 @@ import {
 } from "@knorvia/contracts";
 import type { ApplyWorkflowGraphSeedOptions, ApplyWorkflowGraphSeedResult } from "./lifecycle.js";
 
-function orderedNonempty(values: readonly string[]): string[] {
-  const retained: string[] = [];
-  const seen = new Set<string>();
-  for (const value of values) {
-    if (typeof value !== "string" || value.length === 0 || seen.has(value)) continue;
-    seen.add(value);
-    retained.push(value);
-  }
-  return retained;
+type Edge = WorkflowGraphEdge;
+type SeedNode = WorkflowGraphSeed["nodes"][number];
+type SeedCollection = WorkflowGraphSeed["collections"][number];
+
+const EDGE_ARROW = "->";
+const SEED_REJECTED = "Workflow graph seed returned ";
+const SEED_COLLECTION_REJECTED = "Workflow graph seed collection ";
+
+/** 去重并剔除空串，保留首次出现的顺序。 */
+function orderedNonempty(items: readonly string[]): string[] {
+  const taken = new Set<string>();
+  return items.filter((item) => {
+    const usable = typeof item === "string" && item.length > 0 && !taken.has(item);
+    if (usable) taken.add(item);
+    return usable;
+  });
 }
 
-function edgeId(edge: WorkflowGraphEdge): string {
-  return `${edge.from}->${edge.to}`;
-}
+const edgeId = (link: Edge): string => link.from + EDGE_ARROW + link.to;
 
-function hasPath(edges: readonly WorkflowGraphEdge[], start: string, target: string): boolean {
-  const destinations = new Map<string, string[]>();
-  for (const edge of edges) {
-    const neighbors = destinations.get(edge.from);
-    if (neighbors) neighbors.push(edge.to);
-    else destinations.set(edge.from, [edge.to]);
-  }
-  const visited = new Set<string>();
-  const pending = [start];
-  while (pending.length > 0) {
-    const current = pending.pop()!;
-    if (current === target) return true;
-    if (visited.has(current)) continue;
-    visited.add(current);
-    for (const destination of destinations.get(current) ?? []) {
-      if (!visited.has(destination)) pending.push(destination);
+/** 节点字段搬运表：键名与种子字段同名，集中在一处便于核对。 */
+const NODE_FIELD_READERS: readonly (readonly [
+  keyof WorkflowGraphNode,
+  (node: SeedNode) => unknown,
+])[] = [
+  ["collectionId", (node) => node.collectionId],
+  ["description", (node) => node.description],
+  ["id", (node) => node.id],
+  ["prompt", (node) => node.prompt],
+  ["title", (node) => node.title],
+];
+
+/** 集合字段搬运表。 */
+const COLLECTION_FIELD_READERS: readonly (readonly [
+  keyof WorkflowGraphCollection,
+  (item: SeedCollection) => unknown,
+])[] = [
+  ["collectionId", (item) => item.collectionId],
+  ["explorable", (item) => item.explorable],
+  ["frontierTarget", (item) => item.frontierTarget],
+  ["goal", (item) => item.goal],
+  ["metric", (item) => item.metric],
+  ["title", (item) => item.title],
+];
+
+const carry = <TItem, TTarget>(
+  readers: readonly (readonly [keyof TTarget, (item: TItem) => unknown])[],
+  item: TItem,
+): Partial<TTarget> =>
+  Object.fromEntries(readers.map(([key, read]) => [key, read(item)])) as Partial<TTarget>;
+
+/** 邻接表可达性判定：只在需要时展开邻居，避免为每条候选边重建整张图。 */
+function hasPath(links: readonly Edge[], origin: string, goal: string): boolean {
+  const adjacency = links.reduce<Map<string, string[]>>((table, link) => {
+    const bucket = table.get(link.from);
+    if (bucket === undefined) table.set(link.from, [link.to]);
+    else bucket.push(link.to);
+    return table;
+  }, new Map());
+  const walked = new Set<string>();
+  const frontier = [origin];
+  let reached = false;
+  while (!reached && frontier.length > 0) {
+    const cursor = frontier.pop() as string;
+    if (cursor === goal) reached = true;
+    else if (!walked.has(cursor)) {
+      walked.add(cursor);
+      for (const next of adjacency.get(cursor) ?? []) {
+        if (!walked.has(next)) frontier.push(next);
+      }
     }
   }
-  return false;
+  return reached;
 }
 
-export function applyWorkflowGraphSeed<TSnapshot extends WorkflowRunSnapshot>(
-  snapshot: TSnapshot,
-  seed: WorkflowGraphSeed,
-  options: ApplyWorkflowGraphSeedOptions,
-): ApplyWorkflowGraphSeedResult<TSnapshot> {
-  const parsed = WorkflowGraphSeedSchema.parse(seed);
-  const graph = snapshot.graph;
-  const knownNodes = new Set(graph.nodes.map((node) => node.id));
-  const addedNodes: WorkflowGraphNode[] = [];
-  for (const node of parsed.nodes) {
-    if (knownNodes.has(node.id)) {
-      throw new Error(`Workflow graph seed returned duplicate node: ${node.id}`);
+export function applyWorkflowGraphSeed<TSnapshotType extends WorkflowRunSnapshot>(
+  input: TSnapshotType,
+  candidate: WorkflowGraphSeed,
+  settings: ApplyWorkflowGraphSeedOptions,
+): ApplyWorkflowGraphSeedResult<TSnapshotType> {
+  const parsed = WorkflowGraphSeedSchema.parse(candidate);
+  const { graph } = input;
+
+  const knownNodeIds = new Set(graph.nodes.map((node) => node.id));
+  const addedNodes: WorkflowGraphNode[] = parsed.nodes.map((node) => {
+    if (knownNodeIds.has(node.id)) {
+      throw new Error(`${SEED_REJECTED}duplicate node: ${node.id}`);
     }
-    knownNodes.add(node.id);
-    addedNodes.push({
-      collectionId: node.collectionId,
+    knownNodeIds.add(node.id);
+    return {
+      ...carry<SeedNode, WorkflowGraphNode>(NODE_FIELD_READERS, node),
       dependsOn: orderedNonempty(node.dependsOn),
-      description: node.description,
-      id: node.id,
       kind: node.kind ?? "task",
-      phase: node.phase ?? options.phase,
-      prompt: node.prompt,
+      phase: node.phase ?? settings.phase,
       status: "pending",
-      title: node.title,
-    });
-  }
+    } as WorkflowGraphNode;
+  });
 
-  const addedEdges: WorkflowGraphEdge[] = parsed.edges.map((edge) => ({
-    from: edge.from,
-    to: edge.to,
-  }));
-  const knownEdges = new Set([...graph.edges, ...addedEdges].map(edgeId));
-  for (const node of addedNodes) {
-    for (const dependency of node.dependsOn) {
-      const edge = { from: dependency, to: node.id };
-      const id = edgeId(edge);
-      if (knownEdges.has(id)) continue;
-      addedEdges.push(edge);
-      knownEdges.add(id);
+  const addedEdges: Edge[] = parsed.edges.map((link) => ({ from: link.from, to: link.to }));
+  const knownEdgeIds = new Set([...graph.edges, ...addedEdges].map(edgeId));
+  for (const pendingNode of addedNodes) {
+    for (const prerequisite of pendingNode.dependsOn) {
+      const link = { from: prerequisite, to: pendingNode.id };
+      const id = edgeId(link);
+      if (knownEdgeIds.has(id)) continue;
+      addedEdges.push(link);
+      knownEdgeIds.add(id);
     }
   }
 
   const pendingEdges = [...graph.edges];
-  const acceptedIds = new Set(graph.edges.map(edgeId));
-  for (const edge of addedEdges) {
-    if (edge.from === edge.to) {
-      throw new Error(`Workflow graph seed returned a self-loop edge: ${edge.from} -> ${edge.to}`);
+  const acceptedEdgeIds = new Set(graph.edges.map(edgeId));
+  for (const link of addedEdges) {
+    const id = edgeId(link);
+    const checks: readonly (readonly [broken: boolean, detail: string])[] = [
+      [link.from === link.to, `${SEED_REJECTED}a self-loop edge: ${link.from} -> ${link.to}`],
+      [
+        !knownNodeIds.has(link.from),
+        `${SEED_REJECTED}an edge with unknown source node: ${link.from}`,
+      ],
+      [!knownNodeIds.has(link.to), `${SEED_REJECTED}an edge with unknown target node: ${link.to}`],
+      [acceptedEdgeIds.has(id), `${SEED_REJECTED}duplicate edge: ${id}`],
+      [
+        hasPath(pendingEdges, link.to, link.from),
+        `${SEED_REJECTED}an edge that would create a cycle: ${id}`,
+      ],
+    ];
+    for (const [broken, detail] of checks) {
+      if (broken) throw new Error(detail);
     }
-    if (!knownNodes.has(edge.from)) {
-      throw new Error(
-        `Workflow graph seed returned an edge with unknown source node: ${edge.from}`,
-      );
-    }
-    if (!knownNodes.has(edge.to)) {
-      throw new Error(`Workflow graph seed returned an edge with unknown target node: ${edge.to}`);
-    }
-    const id = edgeId(edge);
-    if (acceptedIds.has(id)) {
-      throw new Error(`Workflow graph seed returned duplicate edge: ${id}`);
-    }
-    if (hasPath(pendingEdges, edge.to, edge.from)) {
-      throw new Error(`Workflow graph seed returned an edge that would create a cycle: ${id}`);
-    }
-    pendingEdges.push(edge);
-    acceptedIds.add(id);
+    pendingEdges.push(link);
+    acceptedEdgeIds.add(id);
   }
 
-  const knownCollections = new Set((graph.collections ?? []).map((item) => item.collectionId));
-  const addedCollections: WorkflowGraphCollection[] = [];
-  for (const collection of parsed.collections) {
-    if (knownCollections.has(collection.collectionId)) {
-      throw new Error(
-        `Workflow graph seed returned duplicate collection: ${collection.collectionId}`,
-      );
+  const knownCollectionIds = new Set((graph.collections ?? []).map((item) => item.collectionId));
+  const addedCollections: WorkflowGraphCollection[] = parsed.collections.map((collection) => {
+    if (knownCollectionIds.has(collection.collectionId)) {
+      throw new Error(`${SEED_REJECTED}duplicate collection: ${collection.collectionId}`);
     }
-    knownCollections.add(collection.collectionId);
-    const nodeIds = orderedNonempty([
+    knownCollectionIds.add(collection.collectionId);
+    const declaredIds = orderedNonempty([
       ...(collection.nodeIds ?? []),
       ...addedNodes
         .filter((node) => node.collectionId === collection.collectionId)
         .map((node) => node.id),
     ]);
-    for (const id of nodeIds) {
-      if (!knownNodes.has(id)) {
+    for (const declaredId of declaredIds) {
+      if (!knownNodeIds.has(declaredId)) {
         throw new Error(
-          `Workflow graph seed collection "${collection.collectionId}" references unknown node: ${id}`,
+          `${SEED_COLLECTION_REJECTED}"${collection.collectionId}" references unknown node: ${declaredId}`,
         );
       }
     }
-    addedCollections.push({
-      collectionId: collection.collectionId,
-      explorable: collection.explorable,
-      frontierTarget: collection.frontierTarget,
-      goal: collection.goal,
-      metric: collection.metric,
-      nodeIds,
-      phase: collection.phase ?? options.phase,
-      title: collection.title,
-    });
-  }
-  const changed = addedNodes.length > 0 || addedEdges.length > 0 || addedCollections.length > 0;
+    return {
+      ...carry<SeedCollection, WorkflowGraphCollection>(COLLECTION_FIELD_READERS, collection),
+      nodeIds: declaredIds,
+      phase: collection.phase ?? settings.phase,
+    } as WorkflowGraphCollection;
+  });
+
+  const changed = addedNodes.length + addedEdges.length + addedCollections.length > 0;
   const next = changed
     ? {
-        ...snapshot,
+        ...input,
         graph: {
           collections: [...(graph.collections ?? []), ...addedCollections],
           edges: [...graph.edges, ...addedEdges],
           nodes: [...graph.nodes, ...addedNodes],
         },
-        updatedAt: options.timestamp,
+        updatedAt: settings.timestamp,
       }
-    : snapshot;
+    : input;
   return { addedCollections, addedEdges, addedNodes, changed, snapshot: next };
 }
