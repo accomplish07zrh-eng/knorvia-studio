@@ -15,7 +15,7 @@ import { SQLITE_MIGRATIONS } from "./migrations.js";
 import type { SqliteMigrationPhase, SqliteMigrationProgress } from "./migration-runner.js";
 
 export type MigrationEffect =
-  | { type: "progress"; progress: SqliteMigrationProgress }
+  | { type: "progress"; report: SqliteMigrationProgress }
   | { type: "delay"; milliseconds: number };
 
 const INITIAL_LOCK_RETRY_MS = 10;
@@ -28,23 +28,24 @@ function checksum(sql: string): string {
 
 function isApplied(
   database: DatabaseSync,
-  dbPath: string,
-  migration: { id: string; sql: string },
+  databasePath: string,
+  step: { id: string; sql: string },
 ): boolean {
-  const entry = database
-    .prepare("SELECT checksum FROM schema_migration WHERE id = ?")
-    .get(migration.id);
+  const entry = database.prepare("SELECT checksum FROM schema_migration WHERE id = ?").get(step.id);
   if (entry === undefined) return false;
-  if (entry.checksum !== checksum(migration.sql)) {
+  if (entry.checksum !== checksum(step.sql)) {
     throw new SqliteSessionMigrationError(
       `SQLite migration checksum mismatch for ${migration.id}. Historical migrations are immutable; add a new migration instead.`,
-      { dbPath, kind: "checksum_mismatch", migrationId: migration.id },
+      { databasePath, kind: "checksum_mismatch", migrationId: step.id },
     );
   }
   return true;
 }
 
-function inspectCatalog(database: DatabaseSync, dbPath: string): DatabaseMigrationFacts["kind"] {
+function inspectCatalog(
+  database: DatabaseSync,
+  databasePath: string,
+): DatabaseMigrationFacts["kind"] {
   const hasLedger =
     database
       .prepare(`
@@ -55,16 +56,16 @@ function inspectCatalog(database: DatabaseSync, dbPath: string): DatabaseMigrati
   const entries = hasLedger ? database.prepare("SELECT id FROM schema_migration").all() : [];
   for (const entry of entries) {
     const id = String(entry.id);
-    if (!SQLITE_MIGRATIONS.some((migration) => migration.id === id)) {
+    if (!SQLITE_MIGRATIONS.some((step) => step.id === id)) {
       throw new SqliteSessionMigrationError(
         "Session database has migrations unknown to this build; open it with a newer compatible version.",
-        { dbPath, kind: "newer_database" },
+        { databasePath, kind: "newer_database" },
       );
     }
   }
   let missing = false;
-  for (const migration of SQLITE_MIGRATIONS) {
-    if (!hasLedger || !isApplied(database, dbPath, migration)) missing = true;
+  for (const step of SQLITE_MIGRATIONS) {
+    if (!hasLedger || !isApplied(database, databasePath, step)) missing = true;
   }
   if (!missing) return "none";
   const applicationTable = database
@@ -76,39 +77,39 @@ function inspectCatalog(database: DatabaseSync, dbPath: string): DatabaseMigrati
   return applicationTable === undefined ? "initialize" : "upgrade";
 }
 
-function ensureWal(database: DatabaseSync, dbPath: string): void {
+function ensureWal(database: DatabaseSync, databasePath: string): void {
   const modeOf = (entry: Record<string, unknown> | undefined): string =>
     typeof entry?.journal_mode === "string" ? entry.journal_mode.toLowerCase() : "unknown";
   const accepted = (mode: string): boolean =>
-    mode === "wal" || (dbPath === ":memory:" && mode === "memory");
+    mode === "wal" || (databasePath === ":memory:" && mode === "memory");
   const current = modeOf(database.prepare("PRAGMA journal_mode").get());
   if (accepted(current)) return;
   const selected = modeOf(database.prepare("PRAGMA journal_mode = WAL").get());
   if (!accepted(selected)) {
     throw new SqliteSessionMigrationError(
       `SQLite refused WAL journal mode for ${dbPath}; received ${selected}`,
-      { dbPath, kind: "sql_failed" },
+      { databasePath, kind: "sql_failed" },
     );
   }
 }
 
 export function* createMigrationExecution(
   database: DatabaseSync,
-  dbPath: string,
-  lockTimeoutMs: number,
+  databasePath: string,
+  lockBudgetMs: number,
 ): Generator<MigrationEffect, void, void> {
   const start = Date.now();
-  const deadline = start + Math.max(0, lockTimeoutMs);
+  const deadline = start + Math.max(0, lockBudgetMs);
   let facts: DatabaseMigrationFacts | undefined;
   let ownsTransaction = false;
 
-  const progress = (phase: SqliteMigrationPhase): SqliteMigrationProgress => {
+  const report = (phase: SqliteMigrationPhase): SqliteMigrationProgress => {
     const payload: SqliteMigrationProgress = { phase, elapsedMs: Date.now() - start };
-    if (facts !== undefined) payload.migration = { ...facts };
+    if (facts !== undefined) payload.step = { ...facts };
     return payload;
   };
   const observe = (): DatabaseMigrationFacts["kind"] => {
-    const kind = inspectCatalog(database, dbPath);
+    const kind = inspectCatalog(database, databasePath);
     facts = { kind, executedCount: 0, committedCount: 0 };
     return kind;
   };
@@ -129,13 +130,13 @@ export function* createMigrationExecution(
       try {
         operation();
         return;
-      } catch (error) {
-        if (!isSqliteBusy(error)) throw error;
+      } catch (cause) {
+        if (!isSqliteBusy(cause)) throw cause;
         const remaining = deadline - Date.now();
-        if (remaining <= 0) throw error;
+        if (remaining <= 0) throw cause;
         if (!notified) {
           notified = true;
-          yield { type: "progress", progress: progress("waiting_for_lock") };
+          yield { type: "progress", report: report("waiting_for_lock") };
         }
         yield { type: "delay", milliseconds: Math.min(delay, remaining) };
         delay = Math.min(MAX_LOCK_RETRY_MS, delay * LOCK_RETRY_MULTIPLIER);
@@ -144,21 +145,21 @@ export function* createMigrationExecution(
   }
 
   try {
-    yield { type: "progress", progress: progress("checking") };
+    yield { type: "progress", report: report("checking") };
     database.exec("PRAGMA foreign_keys = ON");
     yield* acquire(() => {
-      if (observe() === "upgrade") createSessionMigrationSnapshot(database, dbPath);
+      if (observe() === "upgrade") createSessionMigrationSnapshot(database, databasePath);
     });
-    yield* acquire(() => ensureWal(database, dbPath));
+    yield* acquire(() => ensureWal(database, databasePath));
     yield* acquire(() => {
       observe();
     });
-    yield { type: "progress", progress: progress("checking") };
+    yield { type: "progress", report: report("checking") };
     yield* acquire(() => {
       database.exec("BEGIN IMMEDIATE");
     });
     ownsTransaction = true;
-    inspectCatalog(database, dbPath);
+    inspectCatalog(database, databasePath);
     database.exec(`
       CREATE TABLE IF NOT EXISTS schema_migration (
         id TEXT PRIMARY KEY,
@@ -174,48 +175,48 @@ export function* createMigrationExecution(
     currentFacts.lastAppliedMigrationId =
       baseline === undefined ? null : databaseMigrationIdSchema.safeParse(baseline.id).data;
 
-    let completed = 0;
-    for (const migration of SQLITE_MIGRATIONS) {
+    let applied = 0;
+    for (const step of SQLITE_MIGRATIONS) {
       try {
         // 前项 SQL 或通知可改变后项账本，每项都读取当时的身份与校验值。
-        if (isApplied(database, dbPath, migration)) {
-          completed++;
+        if (isApplied(database, databasePath, step)) {
+          applied++;
           continue;
         }
         if (currentFacts.kind === "none") currentFacts.kind = "upgrade";
         yield {
           type: "progress",
-          progress: {
-            ...progress("migrating"),
-            migrationId: migration.id,
-            completed,
+          report: {
+            ...report("migrating"),
+            migrationId: step.id,
+            applied,
             total: SQLITE_MIGRATIONS.length,
           },
         };
-        database.exec(migration.sql);
+        database.exec(step.sql);
         currentFacts.executedCount++;
         database
           .prepare(`
           INSERT INTO schema_migration (id, checksum, app_version, time_applied) VALUES (?, ?, ?, ?)
         `)
-          .run(migration.id, checksum(migration.sql), migration.appVersion, Date.now());
-      } catch (error) {
-        throw normalizeMigrationFailure(error, dbPath, migration.id);
+          .run(step.id, checksum(step.sql), step.appVersion, Date.now());
+      } catch (cause) {
+        throw normalizeMigrationFailure(cause, databasePath, step.id);
       }
-      completed++;
+      applied++;
     }
-    yield { type: "progress", progress: progress("committing") };
+    yield { type: "progress", report: report("committing") };
     database.exec("COMMIT");
     ownsTransaction = false;
     currentFacts.committedCount = currentFacts.executedCount;
-    yield { type: "progress", progress: progress("ready") };
-  } catch (error) {
+    yield { type: "progress", report: report("ready") };
+  } catch (cause) {
     rollbackOwned();
-    const failure = normalizeMigrationFailure(error, dbPath);
+    const failure = normalizeMigrationFailure(cause, databasePath);
     yield {
       type: "progress",
-      progress: {
-        ...progress("failed"),
+      report: {
+        ...report("failed"),
         errorCode: failure.kind,
         ...databaseStartupErrorDetails(failure),
         migrationId: failure.migrationId,
