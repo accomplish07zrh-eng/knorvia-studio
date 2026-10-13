@@ -136333,6 +136333,14 @@
       "license": "Apache-2.0",
       "basis": "core-03 contract v1: scheduler behavior tests (B1-B7, B10) driven by injected deps and schema-validated synthetic snapshots.",
       "evidence": ["licensing/current-files.json"]
+    },
+    {
+      "path": "specs/contracts/core-03/tests/misc.test.ts",
+      "normalizedSha256": "f82ae3bd9e15b77b4f278518d4cd3087ec40589e5f8898c17d507574736c7197",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-03 contract v1: event-log, collection-planning, parser-failure and telemetry behavior tests (B8/B9/B13/B14/B17).",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
