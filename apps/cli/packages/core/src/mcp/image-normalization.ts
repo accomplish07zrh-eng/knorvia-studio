@@ -29,14 +29,20 @@ const normalizationInputFor = (input: NormalizationInput): NormalizationInput =>
   toolName: input.toolName,
 });
 
-export async function normalizeMcpToolResultForModel(input: {
+// 归一化入参：不导出（导出面只保留 normalizeMcpToolResultForModel 与两个纯函数），
+// 文件内其它别名继续通过 Parameters<> 取用。
+interface McpImageNormalizationInput {
   compressOversizedImages: boolean;
   context: ToolExecutionContext;
   descriptor: McpToolDescriptor;
   preserveOfficialCuaFrames?: boolean;
   result: McpToolCallResult;
   toolName: string;
-}): Promise<McpToolCallResult> {
+}
+
+export async function normalizeMcpToolResultForModel(
+  input: McpImageNormalizationInput,
+): Promise<McpToolCallResult> {
   // 具名步骤一：判定是否整体转交 @knorvia/cua（共享 node 上下文里带帧权威，或调用方显式要求）。
   const sharedNodeContext =
     input.descriptor.serverName === "node_repl" || input.toolName === "mcp__node_repl__js";
