@@ -10,54 +10,20 @@ import {
 } from "./resource-telemetry.js";
 
 type McpTelemetryEvent = KnorviaMcpTelemetryEvent;
-type StartEvent = Extract<McpTelemetryEvent, { kind: "process_start" }>;
-export type McpTelemetrySource = StartEvent["mcpSource"];
-export type McpTelemetryIsolation = StartEvent["mcpIsolation"];
 
-export interface McpProcessTelemetryIdentity {
-  mcpId: string;
-  mcpInstanceId: string;
-}
+export type {
+  McpProcessTelemetryIdentity,
+  McpTelemetryTracker,
+  McpTrackedProcess,
+} from "./telemetry-types.js";
+export type { McpTelemetryIsolation, McpTelemetrySource } from "./telemetry-types.js";
 
-export interface McpTrackedProcess {
-  pid: number;
-  serverName: string;
-  mcpSource: McpTelemetrySource;
-  pluginName?: string;
-}
-
-export interface McpTelemetryTracker {
-  acquireOwner(input: { connectionId: string; ownerId: string; sessionId?: string }): void;
-  recordSessionStartup(input: {
-    configuredCount: number;
-    connectedCount: number;
-    failedCount: number;
-    processCount: number;
-    sessionId: string;
-  }): void;
-  recordProcessCrashed(input: {
-    connectionId: string;
-    exitCode: number | null;
-    signal: string | null;
-  }): void;
-  recordProcessClosed(input: { connectionId: string }): void;
-  recordProcessStarted(input: {
-    connectionId: string;
-    pid: number;
-  }): McpProcessTelemetryIdentity | undefined;
-  releaseOwner(input: { connectionId: string; ownerId: string }): void;
-  registerConnection(input: {
-    connectionId: string;
-    isolation: McpTelemetryIsolation;
-    serverName: string;
-    source?: McpTelemetrySource;
-  }): void;
-  unregisterConnection(input: { connectionId: string }): void;
-  listProcesses(): McpTrackedProcess[];
-  sampleNow(): Promise<void>;
-  start(): void;
-  stop(): void;
-}
+import type {
+  McpProcessTelemetryIdentity,
+  McpTrackedProcess,
+  McpTelemetryTracker,
+} from "./telemetry-types.js";
+import type { McpTelemetryIsolation, McpTelemetrySource } from "./telemetry-types.js";
 
 interface CreateMcpTelemetryTrackerOptions {
   arch?: McpTelemetryEvent["arch"];
@@ -126,6 +92,114 @@ export function resolvePluginName(serverName: string): string | undefined {
   return serverName.slice(PLUGIN_PREFIX.length).split(":")[0]?.trim() || undefined;
 }
 
+/** 采样事件：内存总量按 scope 汇总，孤儿判定只看「无 owner 且超阈值」。 */
+function memoryEvent(fields: {
+  arch: McpTelemetryEvent["arch"];
+  isolation: McpTelemetryIsolation;
+  instanceId: string;
+  mcpId: string;
+  occurredAt: number;
+  orphanSuspected: boolean;
+  ownerSessionCount: number;
+  platform: McpTelemetryEvent["platform"];
+  rssKb: number;
+  scope: "direct_process" | "process_tree";
+  source: McpTelemetrySource;
+  unownedSeconds: number;
+}): McpTelemetryEvent {
+  return {
+    arch: fields.arch,
+    kind: "memory",
+    mcpId: fields.mcpId,
+    mcpInstanceId: fields.instanceId,
+    mcpIsolation: fields.isolation,
+    mcpSource: fields.source,
+    platform: fields.platform,
+    occurredAt: fields.occurredAt,
+    memoryKb: fields.rssKb,
+    memoryScope: fields.scope,
+    orphanSuspected: fields.orphanSuspected,
+    ownerSessionCount: fields.ownerSessionCount,
+    unownedSeconds: fields.unownedSeconds,
+  };
+}
+
+/** 崩溃事件：uptime 用「发生时刻 - 启动时刻」计算，避免负值。 */
+function crashEvent(fields: {
+  arch: McpTelemetryEvent["arch"];
+  affectedSessionCount: number;
+  exitCode: number | null;
+  instanceId: string;
+  isolation: McpTelemetryIsolation;
+  mcpId: string;
+  occurredAt: number;
+  platform: McpTelemetryEvent["platform"];
+  signal: string | null;
+  startedAt: number;
+  source: McpTelemetrySource;
+}): McpTelemetryEvent {
+  return {
+    affectedSessionCount: fields.affectedSessionCount,
+    arch: fields.arch,
+    exitCode: fields.exitCode,
+    kind: "process_crash",
+    mcpId: fields.mcpId,
+    mcpInstanceId: fields.instanceId,
+    mcpIsolation: fields.isolation,
+    mcpSource: fields.source,
+    occurredAt: fields.occurredAt,
+    platform: fields.platform,
+    signal: fields.signal,
+    uptimeMs: Math.max(0, fields.occurredAt - fields.startedAt),
+  };
+}
+
+/** 启动事件：实例 id 在调用方生成，本构造器只做投影。 */
+function startEvent(fields: {
+  arch: McpTelemetryEvent["arch"];
+  instanceId: string;
+  isolation: McpTelemetryIsolation;
+  mcpId: string;
+  occurredAt: number;
+  platform: McpTelemetryEvent["platform"];
+  source: McpTelemetrySource;
+}): McpTelemetryEvent {
+  return {
+    arch: fields.arch,
+    kind: "process_start",
+    mcpId: fields.mcpId,
+    mcpInstanceId: fields.instanceId,
+    mcpIsolation: fields.isolation,
+    mcpSource: fields.source,
+    occurredAt: fields.occurredAt,
+    platform: fields.platform,
+  };
+}
+
+/** 会话启动事件：四个计数与会话 id 由调用方给出。 */
+function startupEvent(fields: {
+  arch: McpTelemetryEvent["arch"];
+  configuredCount: number;
+  connectedCount: number;
+  failedCount: number;
+  occurredAt: number;
+  platform: McpTelemetryEvent["platform"];
+  processCount: number;
+  sessionId: string;
+}): McpTelemetryEvent {
+  return {
+    arch: fields.arch,
+    configuredCount: fields.configuredCount,
+    connectedCount: fields.connectedCount,
+    failedCount: fields.failedCount,
+    kind: "session_startup",
+    occurredAt: fields.occurredAt,
+    platform: fields.platform,
+    processCount: fields.processCount,
+    sessionId: fields.sessionId,
+  };
+}
+
 export function createMcpTelemetryTracker(
   options: CreateMcpTelemetryTrackerOptions,
 ): McpTelemetryTracker {
@@ -135,17 +209,10 @@ export function createMcpTelemetryTracker(
   const randomId = options.randomId ?? randomUUID;
   const registrations = new Map<string, Registration>();
 
-  function emit(event: McpTelemetryEvent): void {
-    try {
-      options.onEvent(event);
-    } catch {
-      // 只忽略同步通知失败；状态修改、字段投影和时钟仍在此边界之外。
-    }
-  }
-
-  function getProcesses(): McpResourceProcess[] {
+  /** 进程采样入口：把当前注册表投影成资源进程列表（闭包依赖改为显式参数）。 */
+  function buildProcesses(context: ProcessBuildContext): McpResourceProcess[] {
     const entries: McpResourceProcess[] = [];
-    for (const registration of registrations.values()) {
+    for (const registration of context.registrations.values()) {
       const capturedProcess = registration.process;
       if (!capturedProcess) continue;
       entries.push({
@@ -155,7 +222,7 @@ export function createMcpTelemetryTracker(
         startedAt: capturedProcess.startedAt,
         isCurrent() {
           return (
-            registrations.get(registration.connectionId) === registration &&
+            context.registrations.get(registration.connectionId) === registration &&
             registration.process === capturedProcess
           );
         },
@@ -163,7 +230,7 @@ export function createMcpTelemetryTracker(
           if (!tree) {
             if (registration.owners.size === 0) {
               registration.process = undefined;
-              registrations.delete(registration.connectionId);
+              context.registrations.delete(registration.connectionId);
             }
             return;
           }
@@ -171,28 +238,49 @@ export function createMcpTelemetryTracker(
             registration.owners.size === 0 && registration.unownedAt !== undefined
               ? Math.max(0, sampledAt - registration.unownedAt)
               : 0;
-          emit({
-            arch,
-            kind: "memory",
-            mcpId: registration.mcpId,
-            mcpInstanceId: capturedProcess.instanceId,
-            mcpIsolation: registration.isolation,
-            mcpSource: registration.source,
-            platform,
-            occurredAt: sampledAt,
-            memoryKb: tree.reduce((sum, sample) => sum + sample.rssKb, 0),
-            memoryScope: scope,
-            orphanSuspected: registration.owners.size === 0 && unownedMs > ORPHAN_THRESHOLD_MS,
-            ownerSessionCount: ownerSessionCount(registration),
-            unownedSeconds: unownedMs / MILLISECONDS_PER_SECOND,
-          });
+          context.emit(
+            memoryEvent({
+              arch: context.arch,
+              instanceId: capturedProcess.instanceId,
+              isolation: registration.isolation,
+              mcpId: registration.mcpId,
+              occurredAt: sampledAt,
+              orphanSuspected: registration.owners.size === 0 && unownedMs > ORPHAN_THRESHOLD_MS,
+              ownerSessionCount: ownerSessionCount(registration),
+              platform: context.platform,
+              rssKb: tree.reduce((sum, sample) => sum + sample.rssKb, 0),
+              scope,
+              source: registration.source,
+              unownedSeconds: unownedMs / MILLISECONDS_PER_SECOND,
+            }),
+          );
         },
       });
     }
     return entries;
   }
 
-  const sampler = createMcpResourceTelemetry({ ...options, arch, platform, now, getProcesses });
+  interface ProcessBuildContext {
+    arch: McpTelemetryEvent["arch"];
+    emit(event: McpTelemetryEvent): void;
+    platform: McpTelemetryEvent["platform"];
+    registrations: Map<string, Registration>;
+  }
+  function emit(event: McpTelemetryEvent): void {
+    try {
+      options.onEvent(event);
+    } catch {
+      // 只忽略同步通知失败；状态修改、字段投影和时钟仍在此边界之外。
+    }
+  }
+
+  const sampler = createMcpResourceTelemetry({
+    ...options,
+    arch,
+    platform,
+    now,
+    getProcesses: () => buildProcesses({ arch, emit, platform, registrations }),
+  });
 
   return {
     acquireOwner(input) {
@@ -207,20 +295,21 @@ export function createMcpTelemetryTracker(
       if (!registration || !current) return;
       registration.process = undefined;
       const occurredAt = now();
-      emit({
-        affectedSessionCount: ownerSessionCount(registration),
-        arch,
-        exitCode: input.exitCode,
-        kind: "process_crash",
-        mcpId: registration.mcpId,
-        mcpInstanceId: current.instanceId,
-        mcpIsolation: registration.isolation,
-        mcpSource: registration.source,
-        occurredAt,
-        platform,
-        signal: input.signal,
-        uptimeMs: Math.max(0, occurredAt - current.startedAt),
-      });
+      emit(
+        crashEvent({
+          affectedSessionCount: ownerSessionCount(registration),
+          arch,
+          exitCode: input.exitCode,
+          instanceId: current.instanceId,
+          isolation: registration.isolation,
+          mcpId: registration.mcpId,
+          occurredAt,
+          platform,
+          signal: input.signal,
+          source: registration.source,
+          startedAt: current.startedAt,
+        }),
+      );
     },
     recordProcessClosed(input) {
       const registration = registrations.get(input.connectionId);
@@ -237,30 +326,32 @@ export function createMcpTelemetryTracker(
       const startedAt = now();
       registration.process = { instanceId, pid, startedAt };
       if (registration.owners.size === 0) registration.unownedAt ??= startedAt;
-      emit({
-        arch,
-        kind: "process_start",
-        mcpId: registration.mcpId,
-        mcpInstanceId: instanceId,
-        mcpIsolation: registration.isolation,
-        mcpSource: registration.source,
-        occurredAt: startedAt,
-        platform,
-      });
+      emit(
+        startEvent({
+          arch,
+          instanceId,
+          isolation: registration.isolation,
+          mcpId: registration.mcpId,
+          occurredAt: startedAt,
+          platform,
+          source: registration.source,
+        }),
+      );
       return { mcpId: registration.mcpId, mcpInstanceId: instanceId };
     },
     recordSessionStartup(input) {
-      emit({
-        arch,
-        configuredCount: input.configuredCount,
-        connectedCount: input.connectedCount,
-        failedCount: input.failedCount,
-        kind: "session_startup",
-        occurredAt: now(),
-        platform,
-        processCount: input.processCount,
-        sessionId: input.sessionId,
-      });
+      emit(
+        startupEvent({
+          arch,
+          configuredCount: input.configuredCount,
+          connectedCount: input.connectedCount,
+          failedCount: input.failedCount,
+          occurredAt: now(),
+          platform,
+          processCount: input.processCount,
+          sessionId: input.sessionId,
+        }),
+      );
     },
     releaseOwner(input) {
       const registration = registrations.get(input.connectionId);

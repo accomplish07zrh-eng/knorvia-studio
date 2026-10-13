@@ -641,3 +641,54 @@ const GRACE_STAGES = [
   ["SIGTERM", 750],
 ] as const;
 ```
+
+## `apps/cli/packages/adapters/src/mcp/telemetry-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；导出类型由 telemetry.ts 原样再导出。
+
+```ts
+export interface McpProcessTelemetryIdentity {
+  mcpId: string;
+  mcpInstanceId: string;
+}
+
+export interface McpTrackedProcess {
+  pid: number;
+  serverName: string;
+  mcpSource: McpTelemetrySource;
+  pluginName?: string;
+}
+
+export interface McpTelemetryTracker {
+  acquireOwner(input: { connectionId: string; ownerId: string; sessionId?: string }): void;
+  recordSessionStartup(input: {
+    configuredCount: number;
+    connectedCount: number;
+    failedCount: number;
+    processCount: number;
+    sessionId: string;
+  }): void;
+  recordProcessCrashed(input: {
+    connectionId: string;
+    exitCode: number | null;
+    signal: string | null;
+  }): void;
+  recordProcessClosed(input: { connectionId: string }): void;
+  recordProcessStarted(input: {
+    connectionId: string;
+    pid: number;
+  }): McpProcessTelemetryIdentity | undefined;
+  releaseOwner(input: { connectionId: string; ownerId: string }): void;
+  registerConnection(input: {
+    connectionId: string;
+    isolation: McpTelemetryIsolation;
+    serverName: string;
+    source?: McpTelemetrySource;
+  }): void;
+  unregisterConnection(input: { connectionId: string }): void;
+  listProcesses(): McpTrackedProcess[];
+  sampleNow(): Promise<void>;
+  start(): void;
+  stop(): void;
+}
+```
