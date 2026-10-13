@@ -60,25 +60,38 @@ function defaultSource(serverName: string): McpTelemetrySource {
   return serverName.startsWith(PLUGIN_PREFIX) ? "plugin" : "custom";
 }
 
+/** 身份里允许逐字保留的字节：字母、数字与 . _ ~ -（与既有身份格式一致）。 */
+const IDENTITY_SAFE_BYTES = new Set<number>(
+  [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._~-"].map((char) =>
+    char.charCodeAt(0),
+  ),
+);
+
+/** 单个片段编码：安全字节原样保留，其余按 UTF-8 逐字节写成大写百分号转义。 */
+function encodeIdentitySegment(segment: string): string {
+  const bytes = new TextEncoder().encode(segment);
+  const parts: string[] = [];
+  for (const byte of bytes) {
+    parts.push(
+      IDENTITY_SAFE_BYTES.has(byte)
+        ? String.fromCharCode(byte)
+        : `%${byte.toString(16).toUpperCase().padStart(2, "0")}`,
+    );
+  }
+  return parts.join("");
+}
+
 function connectionIdentity(serverName: string, source: McpTelemetrySource, salt: string): string {
   if (source !== "builtin") {
     const digest = createHmac("sha256", salt).update(serverName).digest("hex");
     return `${source}:${digest.slice(0, HASH_ID_LENGTH)}`;
   }
-  const name = serverName.startsWith(PLUGIN_PREFIX)
+  const rawName = serverName.startsWith(PLUGIN_PREFIX)
     ? serverName.slice(PLUGIN_PREFIX.length)
     : serverName;
-  const encoded = name.split(":").map((segment) =>
-    Array.from(Buffer.from(segment), (byte) => {
-      const character = String.fromCharCode(byte);
-      return /^[A-Za-z0-9._~-]$/.test(character)
-        ? character
-        : `%${byte.toString(16).toUpperCase().padStart(2, "0")}`;
-    }).join(""),
-  );
-  return `builtin:${encoded.join(":")}`;
+  const segments = rawName.split(":").map(encodeIdentitySegment);
+  return `builtin:${segments.join(":")}`;
 }
-
 function ownerSessionCount(entry: Registration): number {
   const sessions = new Set<string>();
   for (const sessionId of entry.owners.values()) {
