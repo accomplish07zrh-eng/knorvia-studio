@@ -582,3 +582,25 @@ export interface ConnectionDiagnostic {
   serverRequestId?: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/client-lifecycle-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口由 client-lifecycle.ts 原样再导出。
+
+```ts
+export interface Establishment {
+  name: string;
+  config: McpServerConfig;
+  generation: number;
+  timeoutMs: number;
+  started: number;
+  connectDurationMs?: number;
+  listToolsDurationMs?: number;
+  stderr: StderrCapture;
+  client?: Client;
+  transport?: ProtocolTransport;
+  signal?: AbortSignal;
+  workingDirectory?: string;
+  authorizationAttempted?: boolean;
+}
+```
