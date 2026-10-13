@@ -32,15 +32,14 @@ export interface EventOptions {
 /** 扩张批次：节点与边各自成批，recordType 即批次名。 */
 type ExpansionBatch = readonly [kind: "edge" | "node", rows: readonly unknown[]];
 
-/** 图记录：字段平铺后补 runId 与时间戳。 */
+/** 图记录：字段表由调用方按上游键序给出（含 runId 与 timestamp），这里只负责派发。 */
 export async function writeRecord(
   ports: RecordPorts,
   run: WorkflowRunSnapshot,
-  fields: Record<string, unknown>,
+  record: Record<string, unknown>,
   cancel?: AbortSignal,
 ): Promise<void> {
-  const record = { ...fields, runId: run.runId, timestamp: ports.timestamp() } as GraphRecord;
-  await ports.graphPort(run.runId, record, { signal: cancel });
+  await ports.graphPort(run.runId, record as GraphRecord, { signal: cancel });
 }
 
 /** 节点状态记录：op 记录里带上状态与相位。 */
@@ -59,7 +58,9 @@ export async function appendStatusRecord(
       nodeId: targetNodeId,
       phase: phaseName,
       recordType: "op",
+      runId: run.runId,
       status: nextStatus,
+      timestamp: ports.timestamp(),
       type: "update_status",
     },
     cancel,
@@ -73,7 +74,17 @@ export async function appendCollectionSnapshot(
   target: WorkflowGraphCollection,
   cancel?: AbortSignal,
 ): Done {
-  await writeRecord(ports, run, { collection: target, recordType: "collection" }, cancel);
+  await writeRecord(
+    ports,
+    run,
+    {
+      collection: target,
+      recordType: "collection",
+      runId: run.runId,
+      timestamp: ports.timestamp(),
+    },
+    cancel,
+  );
 }
 
 /** 扩张记录：新增节点与边逐条落库，再写集合与汇总 op 记录。 */
@@ -90,7 +101,12 @@ export async function appendExpansionRecords(
   ];
   for (const [kind, rows] of batches) {
     for (const row of rows) {
-      await writeRecord(ports, run, { [kind]: row, recordType: kind }, cancel);
+      await writeRecord(
+        ports,
+        run,
+        { [kind]: row, recordType: kind, runId: run.runId, timestamp: ports.timestamp() },
+        cancel,
+      );
     }
   }
 
@@ -111,6 +127,8 @@ export async function appendExpansionRecords(
       payload,
       phase: phaseName,
       recordType: "op",
+      runId: run.runId,
+      timestamp: ports.timestamp(),
       type: "graph_expanded",
     },
     cancel,
