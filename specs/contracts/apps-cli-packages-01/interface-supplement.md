@@ -446,3 +446,16 @@ export interface NodeHttpClientAdapterOptions {
   capturedUserProxyEnvFallback?: boolean;
 }
 ```
+
+## `apps/cli/packages/adapters/src/mcp/pool-identity-types.ts`
+
+用途：mcp 区新增的形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口由 pool-identity.ts 与 pool.ts 原样再导出。
+
+```ts
+export interface McpConnectionContext {
+  mcpConnectionId: string;
+  mcpIsolation: "session" | "workspace";
+  sessionId?: string;
+  workspaceKey?: string;
+}
+```
