@@ -137259,6 +137259,20 @@
         "docs/knorvia-m1-retro-20261015.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts",
+      "normalizedSha256": "60fa5acd9f5c357f4e51b1d1e944ee39da92680e4bc5e98dd708f1457fcf612b",
+      "decision": "third-party",
+      "license": "ISC",
+      "basis": "Deterministically generated from the @withfig/autocomplete v2.692.3 registry by apps/cli/scripts/generate-bash-command-registry.mjs; the file header records Source: @withfig/autocomplete@2.692.3 (ISC) and input hash 1b0d34b4f4fadc4dafab139702e8687830396154c01f23c5a7d523cecd8dad03. The npm release metadata gitHead equals the pinned GitHub revision aef52acff84c45edde61ae610cc2c964802b9a38, so the npm release and the pinned revision are the same source. This is third-party material per plan choice 2 (Fig command registry: verify and register, do not rewrite) and the 2026-10-15 Lead ruling on issue #158; it is registered, not rewritten or deleted. Content unchanged: this review corrects the bookkeeping classification only (upstream-unchanged → third-party) and changes no file bytes. License recorded as ISC per the file's existing header declaration; the upstream repository LICENSE file is MIT while its package.json declares ISC, and that discrepancy is already recorded in third-party/copied-components.json and third-party/inventory.json (id \"Fig autocomplete registry\"). See docs/knorvia-third-party-verification-20261011.md for the M0-6 comparison material.",
+      "evidence": [
+        "docs/knorvia-third-party-verification-20261011.md",
+        "third-party/source-verification-20261011/third-party-file-comparison.json",
+        "third-party/copied-components.json",
+        "https://github.com/withfig/autocomplete/tree/aef52acff84c45edde61ae610cc2c964802b9a38",
+        "https://www.npmjs.com/package/@withfig/autocomplete/v/2.692.3"
+      ]
     }
   ]
 }
