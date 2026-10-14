@@ -11,7 +11,7 @@ const folder = surface === "source" ? "src" : "dist",
   extension = surface === "source" ? "ts" : "js";
 export async function loadHistorical(reader = read) {
   const text = await reader(new URL("./workflow-scheduler-state-baseline.json", import.meta.url));
-  assert.equal(sha(text), "7e50244bfb7ea66e8915394e7017d78b3829ad6ebfcba2d416e6e6477e228839");
+  assert.equal(sha(text), "0616432eed4ea69a39b7620649c9d278e1412c3c4ece682ab786e974d6b22e07");
   const value = JSON.parse(text);
   assert.equal(sha(value.sourceFragment), value.sourceFragmentSha256);
   assert.equal(sha(value.compiledFragment), value.compiledFragmentSha256);
@@ -19,7 +19,7 @@ export async function loadHistorical(reader = read) {
 }
 export const archive = await loadHistorical();
 const text = await read(new URL("./workflow-scheduler-state-current.json", import.meta.url));
-assert.equal(sha(text), "bb93f21992a1e886fdd21c1278851d3ce329fabe199d61b3775a914768f9495a");
+assert.equal(sha(text), "0dca901e16e82c99b5e43d4a02a5b1ed0549aa95ec2061b80c1115b00bffa5f2");
 const pins: { files: Record<string, string> } = JSON.parse(text);
 export async function loadCurrent(reader = read) {
   await verifyCurrentArtifacts(

@@ -1,3 +1,8 @@
+// 取消路径上重复出现的取值：错误类型、错误码与可恢复标记，提成常量便于统一维护。
+const CANCELLED_ERROR_TYPE = CoreErrorType.ToolCancelled;
+const CHILD_RUNTIME_FAILED_CODE = AgentErrorCode.CHILD_RUNTIME_FAILED;
+const IS_RECOVERABLE = true;
+
 import {
   AgentErrorCode,
   CoreErrorType,
@@ -36,10 +41,10 @@ export function abortGuard<T>(
 ): Promise<T> {
   if (!signal) return promise;
   return new Promise<T>((resolve, reject) => {
-    let settled = false;
+    let alreadySettled = false;
     const settle = (success: boolean, value: unknown) => {
-      if (settled) return;
-      settled = true;
+      if (alreadySettled) return;
+      alreadySettled = true;
       signal.removeEventListener("abort", aborted);
       if (success) resolve(value as T);
       else reject(value);
@@ -50,17 +55,17 @@ export function abortGuard<T>(
         isCoreError(signal.reason)
           ? signal.reason
           : createCoreError(
-              CoreErrorType.ToolCancelled,
+              CANCELLED_ERROR_TYPE,
               "Agent was cancelled before the subagent returned findings or background launch completed",
               {
                 cause: signal.reason instanceof Error ? signal.reason : undefined,
                 context: {
-                  code: AgentErrorCode.CHILD_RUNTIME_FAILED,
+                  code: CHILD_RUNTIME_FAILED_CODE,
                   agentId: execution.agentId,
                   agentType: execution.request.agentType,
                   parentToolCallId: execution.request.parentToolCallId,
                 },
-                recoverable: true,
+                recoverable: IS_RECOVERABLE,
               },
             ),
       );
@@ -78,31 +83,31 @@ export function watchdog(state: RunnerState, execution: Execution, controller: A
   if (!Number.isFinite(timeout) || timeout <= 0)
     return { start() {}, reportActivity() {}, stop() {} };
   let activeAt = Date.now();
-  let timer: ReturnType<typeof setTimeout> | undefined;
+  let idleTimer: ReturnType<typeof setTimeout> | undefined;
   const stop = () => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = undefined;
+    if (idleTimer) {
+      clearTimeout(idleTimer);
+      idleTimer = undefined;
     }
   };
-  const schedule = () => {
+  const armTimer = () => {
     stop();
     if (controller.signal.aborted) return;
-    timer = setTimeout(() => {
+    idleTimer = setTimeout(() => {
       const idleMs = Date.now() - activeAt;
       const error = createCoreError(
         CoreErrorType.ToolTimeout,
         `Subagent was inactive for ${timeout}ms`,
         {
           context: {
-            code: AgentErrorCode.CHILD_RUNTIME_FAILED,
+            code: CHILD_RUNTIME_FAILED_CODE,
             agentId: execution.agentId,
             agentType: execution.request.agentType,
             idleMs,
             parentToolCallId: execution.request.parentToolCallId,
             timeoutMs: timeout,
           },
-          recoverable: true,
+          recoverable: IS_RECOVERABLE,
           retryable: true,
         },
       );
@@ -122,7 +127,7 @@ export function watchdog(state: RunnerState, execution: Execution, controller: A
   };
   const activity = () => {
     activeAt = Date.now();
-    schedule();
+    armTimer();
   };
   return { start: activity, reportActivity: activity, stop };
 }
@@ -130,11 +135,11 @@ export function autoBackground(state: RunnerState, execution: Execution, signal:
   let cancel = () => {};
   const promise = new Promise<{ kind: "backgrounded" | "ignored" }>((resolve) => {
     let done = false;
-    let timer: ReturnType<typeof setTimeout> | undefined;
+    let idleTimer: ReturnType<typeof setTimeout> | undefined;
     const finish = (result: "backgrounded" | "ignored") => {
       if (done) return;
       done = true;
-      if (timer) clearTimeout(timer);
+      if (idleTimer) clearTimeout(idleTimer);
       signal.removeEventListener("abort", aborted);
       resolve({ kind: result });
     };
@@ -144,7 +149,7 @@ export function autoBackground(state: RunnerState, execution: Execution, signal:
       aborted();
       return;
     }
-    timer = setTimeout(
+    idleTimer = setTimeout(
       () =>
         finish(state.registry.requestBackground(execution.agentId) ? "backgrounded" : "ignored"),
       state.autoBackgroundMs,

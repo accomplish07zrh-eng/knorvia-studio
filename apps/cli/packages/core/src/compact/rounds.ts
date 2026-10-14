@@ -1,35 +1,12 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// 助手起轮分组的公开面：分组规则见 ./rounds-internal.js，本模块只适配位置参数。
+import { groupAssistantStartedRounds } from "./rounds-internal.js";
+
 export function groupByAssistantStartedRounds<T>(
   items: readonly T[],
   roleOf: (item: T) => string | undefined,
   assistantIdOf?: (item: T) => string | undefined,
 ): T[][] {
-  const groups: T[][] = [];
-  let current: T[] = [];
-  let lastAssistantId: string | undefined;
-
-  for (const item of items) {
-    const role = roleOf(item);
-    const assistantId = role === "assistant" ? assistantIdOf?.(item) : undefined;
-    const startsNewAssistantRound =
-      role === "assistant" &&
-      current.length > 0 &&
-      (assistantId === undefined || assistantId !== lastAssistantId);
-
-    if (startsNewAssistantRound) {
-      groups.push(current);
-      current = [item];
-    } else {
-      current.push(item);
-    }
-
-    if (role === "assistant") {
-      lastAssistantId = assistantId;
-    }
-  }
-
-  if (current.length > 0) {
-    groups.push(current);
-  }
-
-  return groups;
+  return groupAssistantStartedRounds({ assistantIdOf, entries: items, roleOf });
 }

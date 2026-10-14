@@ -32,10 +32,10 @@ export function createOfficialCuaPolicy(
   catalog: PluginReferenceCatalog | undefined,
 ): OfficialCuaPolicy {
   const toolNames = new Set<string>();
-  let officialDescriptorCount = 0;
+  let cuaDescriptorCount = 0;
   for (const descriptor of descriptors) {
-    if (!officialServerNames.has(descriptor.serverName)) continue;
-    officialDescriptorCount += 1;
+    if (!officialServerNames.has(descriptor.serverName)) continue; // 该描述符不属于官方 CUA，跳过
+    cuaDescriptorCount += 1;
     toolNames.add(toMcpToolName(descriptor));
     if (descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME) {
       const suffix = toModelVisibleMcpNamePart(descriptor.toolName);
@@ -44,74 +44,77 @@ export function createOfficialCuaPolicy(
     }
   }
 
-  const officialToolPrefixes = new Set<string>();
+  const cuaToolPrefixes = new Set<string>();
   for (const serverName of officialServerNames) {
-    officialToolPrefixes.add(`mcp__${toModelVisibleMcpNamePart(serverName)}__`);
+    cuaToolPrefixes.add(`mcp__${toModelVisibleMcpNamePart(serverName)}__`);
   }
   if (officialServerNames.has(KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME)) {
-    officialToolPrefixes.add(OFFICIAL_CUA_CANONICAL_PREFIX);
-    officialToolPrefixes.add(OFFICIAL_CUA_ALIAS_PREFIX);
+    cuaToolPrefixes.add(OFFICIAL_CUA_CANONICAL_PREFIX);
+    cuaToolPrefixes.add(OFFICIAL_CUA_ALIAS_PREFIX);
   }
 
-  const officialServerSelectorParts = new Set<string>();
+  const cuaServerSelectorParts = new Set<string>();
   for (const serverName of officialServerNames) {
     if (serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME) {
-      for (const part of OFFICIAL_CUA_SERVER_PARTS) officialServerSelectorParts.add(part);
-      continue;
+      for (const part of OFFICIAL_CUA_SERVER_PARTS) cuaServerSelectorParts.add(part);
+      continue; // 该描述符不属于官方 CUA，跳过
     }
-    officialServerSelectorParts.add(toModelVisibleMcpNamePart(serverName));
+    cuaServerSelectorParts.add(toModelVisibleMcpNamePart(serverName));
   }
 
   const officialPlugin = catalog?.plugins.find(
     (plugin) => plugin.pluginId === KNORVIA_CUA_OFFICIAL_PLUGIN_ID,
   );
-  const skillQualifiedNames = new Set(officialPlugin?.skillQualifiedNames ?? []);
-  const skillBareNames = new Set(
-    [...skillQualifiedNames]
+  const qualifiedSkillNames = new Set(officialPlugin?.skillQualifiedNames ?? []);
+  const bareSkillNames = new Set(
+    [...qualifiedSkillNames]
       .map((name) => name.slice(name.indexOf(":") + 1))
       .filter((name) => name.length > 0),
   );
-  const officialRootPath = officialPlugin?.rootPath;
-  const officialPluginName = officialPlugin?.name;
+  const cuaRootPath = officialPlugin?.rootPath;
+  const cuaPluginName = officialPlugin?.name;
 
   return {
+    // 判定所需的官方 CUA 视图
+    // 判定所需的官方 CUA 视图
     serverNames: new Set(officialServerNames),
     isOfficialToolRequest(name) {
-      const normalized = name.trim();
-      if (toolNames.has(normalized)) return true;
-      // Parent MCP 尚无启动快照时，只能依赖已认证 server 的 namespace；一旦收到
-      // descriptor，就收窄为精确工具集合，避免第三方同名工具被误判成官方 CUA。
-      if (officialDescriptorCount > 0 || officialToolPrefixes.size === 0) return false;
-      return [...officialToolPrefixes].some(
-        (prefix) => normalized.startsWith(prefix) && normalized.length > prefix.length,
+      const toolName = name.trim();
+      if (toolNames.has(toolName)) return true;
+      // 父进程 MCP 还没有启动快照时，只能靠已认证 server 的命名空间来认；一旦拿到
+      // descriptor，就收窄成精确工具集合，免得同名的第三方工具被当成官方 CUA。
+      if (cuaDescriptorCount > 0 || cuaToolPrefixes.size === 0) return false;
+      return [...cuaToolPrefixes].some(
+        (toolPrefix) => toolName.startsWith(toolPrefix) && toolName.length > toolPrefix.length,
       );
     },
     isOfficialServerSelector(name) {
-      const normalized = name.trim();
+      const toolName = name.trim();
       if (officialServerNames.size === 0) return false;
-      if (!normalized.startsWith("mcp__") || !normalized.endsWith("__*")) return false;
-      const serverPart = normalized.slice("mcp__".length, -"__*".length);
-      return officialServerSelectorParts.has(serverPart);
+      if (!toolName.startsWith("mcp__") || !toolName.endsWith("__*")) return false;
+      const serverSegment = toolName.slice("mcp__".length, -"__*".length);
+      return cuaServerSelectorParts.has(serverSegment);
     },
     isOfficialSkillRequest(name) {
-      const normalized = name.trim();
-      // Bare names are resolved against live Skill metadata below. Treating a bare
+      const toolName = name.trim();
+      // 裸名要在下面的实时 Skill 元数据里再解析一次；只凭裸名判断会漏判。
       // name as official here would reject a third-party Skill with the same name.
-      return skillQualifiedNames.has(normalized);
+      return qualifiedSkillNames.has(toolName);
     },
     isOfficialSkill(metadata) {
+      // 该 Skill 是否属于官方 CUA
       if (metadata.source !== "plugin") return false;
-      if (!officialPluginName || !officialRootPath) return false;
-      if (metadata.pluginName !== officialPluginName) return false;
-      if (!isPathWithin(officialRootPath, metadata.rootPath)) return false;
+      if (!cuaPluginName || !cuaRootPath) return false;
+      if (metadata.pluginName !== cuaPluginName) return false;
+      if (!isUnderRoot(cuaRootPath, metadata.rootPath)) return false;
       return metadata.qualifiedName !== undefined
-        ? skillQualifiedNames.has(metadata.qualifiedName)
-        : skillBareNames.has(metadata.name);
+        ? qualifiedSkillNames.has(metadata.qualifiedName)
+        : bareSkillNames.has(metadata.name);
     },
   };
 }
 
-function isPathWithin(rootPath: string, candidatePath: string): boolean {
-  const relativePath = relative(rootPath, candidatePath);
-  return relativePath === "" || (!relativePath.startsWith("..") && !isAbsolute(relativePath));
+function isUnderRoot(rootPath: string, candidatePath: string): boolean {
+  const pathFromRoot = relative(rootPath, candidatePath);
+  return pathFromRoot === "" || (!pathFromRoot.startsWith("..") && !isAbsolute(pathFromRoot));
 }

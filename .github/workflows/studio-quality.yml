@@ -82,10 +82,13 @@ jobs:
         run: node scripts/provenance/cli.mjs --check
 
       - name: Install frozen dependencies
+        shell: bash
         run: |
           pnpm install ${{ inputs.install-args }} || {
-            echo "::warning::pnpm install 失败，疑似 ERR_PNPM_ENOENT 重命名竞态（vite/esbuild 临时目录）；清理污染点后强制重装一次"
-            rm -rf node_modules/vite/node_modules/_tmp_* node_modules/.pnpm/_tmp_* || true
+            echo "::warning::pnpm install 失败，疑似 ERR_PNPM_ENOENT 重命名竞态（vite/esbuild 等临时目录）；清理污染点后强制重装一次"
+            # 覆盖 vite、bundle-require 等任意嵌套路径下的 _tmp_*（含 .pnpm）
+            shopt -s globstar nullglob
+            rm -rf node_modules/**/_tmp_* || true
             sleep 5
             pnpm install ${{ inputs.install-args }} --force
           }

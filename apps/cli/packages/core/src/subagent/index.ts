@@ -1,6 +1,6 @@
-// ============================================================
-// Subagent exports
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// subagent 区的公开入口：explore / context-builder / system-prompt / general-purpose /
+// profile / explore-tools / runner / runtime-task-registry 的导出面在这里汇出。
 
 export * from "./explore.js";
 export * from "./context-builder.js";

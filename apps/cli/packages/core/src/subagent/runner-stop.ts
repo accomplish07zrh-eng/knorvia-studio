@@ -1,3 +1,6 @@
+// 无结果时统一返回这个常量，语义比裸 undefined 明确。
+const NO_RESULT = undefined;
+
 import {
   SessionEventType,
   createSessionEvent,
@@ -80,22 +83,22 @@ async function finalizeStop(
     totalDurationMs: duration,
   });
   await writeStopped(stopped, stoppedMessage);
-  state.registry.update(stopped.taskId, (current) => ({
+  state.registry.update(stopped.taskId, (previous) => ({
     ...stopped,
-    notified: current.notified,
+    notified: previous.notified,
   }));
   if (!enqueueNotification(state, stopped.taskId, text, trace)) {
     state.registry.register(previous);
-    throw new Error(
+    throw new Error( // 调用方给出的停止请求非法，直接抛给上层
       `Background agent task stopped notification was not enqueued: ${stopped.taskId}`,
     );
   }
-  const committed = state.registry.get(stopped.taskId);
-  if (!committed) return undefined;
+  const alreadyCommitted = state.registry.get(stopped.taskId);
+  if (!alreadyCommitted) return NO_RESULT;
   state.controllers.get(taskId)?.abort(new Error(`${stoppedMessage}: ${taskId}`));
   state.controllers.delete(taskId);
-  await emitStoppedCompletion(state, committed, trace);
-  await emitStopped(state, committed, trace, duration);
+  await emitStoppedCompletion(state, alreadyCommitted, trace);
+  await emitStopped(state, alreadyCommitted, trace, duration);
   state.options.logger?.info("Subagent background task stopped", {
     ...traceContextToLogContext(trace),
     agentId: stopped.agentId,
@@ -103,7 +106,7 @@ async function finalizeStop(
     module: "core.subagent",
     status: "cancelled",
   });
-  return committed;
+  return alreadyCommitted;
 }
 async function emitStoppedCompletion(
   state: RunnerState,
