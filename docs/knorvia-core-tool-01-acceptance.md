@@ -1,6 +1,6 @@
 # core-tool-01 替换验收（docs/knorvia-core-tool-01-acceptance.md）
 
-替换阶段（M1 试点 2）的验收记录。合同见 `specs/contracts/core-tool-01/`（v1，PR #110 已合并），替换分支 `replace/core-tool-01`。最终态：**32 个公开模块路径全部过两道门槛（32/32），4 个新增内部模块同样全过（合计 36/36）**；契约测试两入口各 81/81；桩替换复现 0 通过 / 9 全失败。
+替换阶段（M1 试点 2）的验收记录。合同见 `specs/contracts/core-tool-01/`（v1，PR #110 已合并；v2 收尾修订见第 11 节——裁决 C：删桩 + B88 oracle 改指 `interface.md`），替换分支 `replace/core-tool-01`。最终态：**32 个公开模块路径全部过两道门槛（32/32），4 个新增内部模块同样全过（合计 36/36）**；契约测试两入口各 81/81；桩替换证据 0 通过 / 9 全失败（v1 留证，桩已删）。
 
 ## 1. 范围
 
@@ -66,6 +66,7 @@
 
 - **合同阶段**：`gate-old.json.stubReplacement`——32 个桩覆盖目标文件后 0/81 通过、9 个测试级条目失败，失败信息全部是 `not implemented: core-tool-01`（常量桩在求值时抛错，测试文件在导入阶段中止）。Lead 审查已认可该记录口径（PR #110 评审）。
 - **替换分支复现（2026-10-14）**：32 个桩再次覆盖目标 → 源码入口 `node --test` 报 **tests 9 / pass 0 / fail 9 / skipped 0**，退出码 1，**9/9 条失败信息均携带 `not implemented: core-tool-01`**；随后 `git checkout --` 还原全部 32 个目标，工作树恢复干净（前后各一次 `git status --porcelain` 核对）。日志存仓库外（`.scratch-exec2/stub-replace-repro.log`、`stub-replace-full2.log`），结论以本节记录为准。
+- **终态（2026-10-15，裁决 C）**：`specs/contracts/core-tool-01/stubs/` 已整体删除（32 个桩文件，`git rm -r`）；全仓 `git grep -F "not implemented: core-tool-01" -- packages apps scripts` 为 0。上面两条桩替换证据作为 v1 阶段留证保留在 `gate-old.json` 与本节，不再可复跑。
 
 ## 5. 首次失败与修正
 
@@ -93,7 +94,7 @@
 
 1. **就地改写文件的登记口径**：32 个公开路径为就地改写（同路径换实现）。替换 PR 只登记**新增文件**（4 个内部模块、`design.md`、验收文档、`gate-similarity-*` 报告 9 份）——与已合并的 contracts-01/02/03、core-hooks、core-01/02/03 **七个替换 PR 完全同口径**；就地改写文件的来源改判留待统一记账轮按两道门槛实测登记（M0-2 口径）。实测佐证：`executor.ts` 字节与上游完全一致（纯 barrel、声明模式残留 0），按 provenance「相同上游字节与原创决定冲突」规则其 `original` 登记会被判 `conflict`（`reviewProblems` 1），回退后 `provenance:report`/`provenance:check` 均退出码 0（`reviewProblems 0`、`missingReviews []`）。
 2. **契约测试位置**：保留在 `specs/contracts/core-tool-01/tests/`（见第 1 节理由）。
-3. **桩目录**：`specs/contracts/core-tool-01/stubs/**` 当前**保留**——B88（`executor.test.ts`）按合同读取桩文件做「源码导出面 ⊆ 桩」断言，删除桩后该断言 ENOENT（实测 executor 20/21、fail 1）；M0-10 收集后 CI 的 `test:studio` 会执行 B88，「删桩」与红线「不改测试断言」在本合同上正面冲突。已提交 Lead 裁决：A 保留桩（CI 绿，`verify-replace` 第 3 项不绿）/ B 删桩（CI 必红）/ C 删桩并把 B88 的 oracle 从桩文件改指向 `interface.md` 导出声明块（断言方向与 `deepEqual(missing, [])` 不变）。裁决前维持保留，裁决后按结论复核 `verify-replace` 与本节。
+3. **桩目录**：~~当前保留~~ **已按 Lead 裁决 C（2026-10-14，issue #148）删除**——裁决选 C：删桩 + B88 的 oracle 从桩文件改指 `interface.md` 的 ```ts 导出声明块，断言方向与强度（源码导出面 ⊆ 合同声明、`deepEqual(missing, [])`）逐字不变。合同随之升 v2、按 core-hooks v1.1 先例对旧实现重跑旧门（两入口各 81/81，`gate-old.json`的`oldGateReRun`段），差异登记`known-differences.md` K4。`verify-replace`第 3 项（桩目录不存在）与 CI 的`test:studio`（M0-10 收集 B88）同时满足。详见第 11 节。
 4. **`pnpm knip`**：退出码 1，但**未新增任何未使用文件或导出**——分支未使用文件集合与 main 的差集恰为 1（`specs/contracts/core-tool-01/tests/run-old-gate.mjs`，已加入 `knip.json` entry 清零）；其余 1,774 条未使用文件与 main 完全一致（main 同样退出码 1），按计划书默认裁决「main 上本来就失败的检查不算本包问题」在 PR 中写明。
 5. **`pnpm build:cli-packages`**：16/17 任务成功，唯一失败 `@knorvia/cua-plugin#build`——`stage-windows-driver.mjs` 下载官方 Cua driver 在 120 秒超时上限内未完成（`DOMException [TimeoutError]`），属网络依赖；本包全部 16 个 CLI 包构建成功，且 `dist/windows` 内已按钉定 SHA-256 完成暂存（三个 exe 与 `driver.json` 摘要逐一核对通过）。详见第 8 节的复跑记录。
 6. **`provenance` 信息行**：`Unresolved third-party material obligations: 26` 为报告信息行（不参与退出码；分支基于旧 main，合并时由 `prepare-merge` 的 `refresh-third-party` 归一）。
@@ -131,6 +132,6 @@
 
 ## 10. 未覆盖与遗留
 
-1. 桩目录终态待 Lead 裁决（第 7.3 条）；裁决后同步更新本节与 `verify-replace` 复核记录。
+1. ~~桩目录终态待 Lead 裁决~~ 已裁决（C）并执行，见第 7.3 条与第 11 节；`verify-replace` 全项复核记录见 PR #153 描述。
 2. `perf:baseline` 与合并 main 后的 `test:studio` 全量结果记在 PR 描述的门禁表。
 3. 就地改写 32 文件的 `reviews.json` 来源改判不在本 PR（第 7.1 条口径）。

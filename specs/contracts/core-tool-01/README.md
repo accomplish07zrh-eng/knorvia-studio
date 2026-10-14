@@ -1,9 +1,10 @@
-# core-tool-01 合同（v1）
+# core-tool-01 合同（v2）
 
-版本 **v1**（2026-10-11）。`apps/cli/packages/core/src/tool`（直接子文件）+ `apps/cli/packages/core/src/tool/executor/` 的替换合同。计划书「每包流程」第二步的产物；试点 2（M0-13），issue #95。
+版本 **v2**（2026-10-15）。v2 = v1（2026-10-11，试点 2 / M0-13，issue #95）按 Lead 裁决 C（2026-10-14，issue #148 评论）的收尾修订：**删除 `stubs/`，B88 的 oracle 从 `stubs/<路径>` 改指 `interface.md` 各节的 ```ts 导出声明块**；断言方向与强度逐字不变（源码导出名 ⊆ 合同声明，`assert.deepEqual(missing, [])`），其余 80 例断言不动、不删、不跳过。`apps/cli/packages/core/src/tool`（直接子文件）+ `apps/cli/packages/core/src/tool/executor/` 的替换合同。计划书「每包流程」第二步的产物。
 
-- 分支：`contract/core-tool-01`（从 `origin/main` @ `6ea4cbe7` 检出）
-- 状态：**合同完成**。旧门在两个入口各 81/81 通过（`gate-old.json`）；替换实现不在本 PR 范围。
+- v2 另含两处配套修订：① `interface.md` 6 行常量简写（`NAME = 值;`）改回逐字源码形式 `export const NAME = 值;`（与本文件「逐字取自源码」的口径一致，旧实现 6ea4cbe7 逐行核对）；② 按 core-hooks v1.1 先例对旧实现重跑更新后的旧门并刷新 `gate-old.json` / `acceptance.md`（复跑记录见两者）。
+- 分支：`replace/core-tool-01`（PR #153；v1 合同原分支 `contract/core-tool-01`，检出点 `6ea4cbe7`）
+- 状态：**合同完成（v2）**。旧门 v2 复跑：源码入口 81/81、dist 入口 81/81，预登记差异 0 条（`gate-old.json`）。
 
 ## 范围与边界
 
@@ -20,19 +21,19 @@
 
 ## 完成度
 
-| 产物                                                                                                                | 状态 |
-| ------------------------------------------------------------------------------------------------------------------- | ---- |
-| 选包与边界（继承 32 文件 / 3,914 行；66 个已登记 `independent-replacement` 不在范围）                               | 完成 |
-| `interface.md`（32 文件、134 个导出声明，逐字取自源码）                                                             | 完成 |
-| `stubs/`（32 个模块路径的最小桩，签名齐全、函数体抛 `Error("not implemented: core-tool-01")`，语法校验 32/32 通过） | 完成 |
-| `behavior.md`（B1–B88，逐条含输入/输出/错误/时序/幂等/资源释放/平台差异/状态所有者/日志级别/可测断言）              | 完成 |
-| `tests/`（81 例，两个入口各 81/81；条 → 测试对照见文末）                                                            | 完成 |
-| dist 入口旧门（`dist-entry-loader.mjs` + `pnpm build:cli-packages`）                                                | 完成 |
-| `callers.md`（覆盖 `pnpm dep:refs` 的全部结果：32 文件、184 个导出名、228 个外部调用方）                            | 完成 |
-| `known-differences.md`（K1–K3，每条都有对应用例）                                                                   | 完成 |
-| `acceptance.md` / `gate-old.json`                                                                                   | 完成 |
-| `fixtures/`（3 份夹具，由 `tests/fixtures.test.ts` 实际读取）                                                       | 完成 |
-| `licensing/reviews.json` 登记合同文件、`knip.json` 根 `entry`                                                       | 完成 |
+| 产物                                                                                                                | 状态                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 选包与边界（继承 32 文件 / 3,914 行；66 个已登记 `independent-replacement` 不在范围）                               | 完成                                                                                                    |
+| `interface.md`（32 文件、134 个导出声明，逐字取自源码）                                                             | 完成                                                                                                    |
+| `stubs/`（32 个模块路径的最小桩，签名齐全、函数体抛 `Error("not implemented: core-tool-01")`，语法校验 32/32 通过） | v1 完成 → **v2 已删除**（裁决 C；桩替换后契约 0/9 通过的证据留存 `gate-old.json` 的 `stubReplacement`） |
+| `behavior.md`（B1–B88，逐条含输入/输出/错误/时序/幂等/资源释放/平台差异/状态所有者/日志级别/可测断言）              | 完成                                                                                                    |
+| `tests/`（81 例，两个入口各 81/81；条 → 测试对照见文末）                                                            | 完成                                                                                                    |
+| dist 入口旧门（`dist-entry-loader.mjs` + `pnpm build:cli-packages`）                                                | 完成                                                                                                    |
+| `callers.md`（覆盖 `pnpm dep:refs` 的全部结果：32 文件、184 个导出名、228 个外部调用方）                            | 完成                                                                                                    |
+| `known-differences.md`（K1–K3，每条都有对应用例）                                                                   | 完成                                                                                                    |
+| `acceptance.md` / `gate-old.json`                                                                                   | 完成                                                                                                    |
+| `fixtures/`（3 份夹具，由 `tests/fixtures.test.ts` 实际读取）                                                       | 完成                                                                                                    |
+| `licensing/reviews.json` 登记合同文件、`knip.json` 根 `entry`                                                       | 完成                                                                                                    |
 
 ## 合同文件
 
@@ -40,7 +41,7 @@
 - `interface.md`：32 文件的模块路径与导出签名（逐字自源码提取）。
 - `callers.md`：调用方与 `dep:refs` 结果。
 - `known-differences.md`：既存差异与既有缺陷。
-- `stubs/`：32 个最小桩（只含签名）。
+- `stubs/`：32 个最小桩（只含签名）。**v2 已删除**（裁决 C：桩是合同阶段脚手架，「桩=接口派生快照」的检查证据留存 `gate-old.json` 的 `stubReplacement`）。
 - `tests/`：81 例契约测试；`fixtures/`：夹具。
 - `acceptance.md`、`gate-old.json`：验收与旧门结果。
 - `dist-entry-loader.mjs`：dist 入口的解析钩子（同一份测试跑两个入口）。
@@ -60,7 +61,7 @@ node <node24> --import tsx --import ./specs/contracts/core-tool-01/dist-entry-lo
   --test specs/contracts/core-tool-01/tests/*.test.ts
 ```
 
-当前结果（旧实现）：源码入口 81/81、dist 入口 81/81，预登记差异 0 条。
+当前结果（旧实现，v2 旧门复跑 2026-10-15）：源码入口 81/81、dist 入口 81/81，预登记差异 0 条。
 
 各测试文件覆盖的条目：
 
@@ -72,11 +73,11 @@ node <node24> --import tsx --import ./specs/contracts/core-tool-01/dist-entry-lo
 
 ## 注意事项
 
-1. **桩的 lint 告警：接受。** `pnpm lint` 在本分支退出码 0，共 206 条 warning 全部来自 `specs/contracts/core-tool-01/stubs/**`（只含签名的桩必然产生未使用导入/参数），另有 1 条是 main 上已有的 `scripts/packaged-runtime-evidence.mjs`。没有改任何 lint 配置、没有加免检注释；桩在替换阶段随旧文件一起删除。
+1. **桩的 lint 告警：已随桩删除消失。** v1 合同阶段 `pnpm lint` 退出码 0、206 条 warning 全部来自 `specs/contracts/core-tool-01/stubs/**`（只含签名的桩必然产生未使用导入/参数）；v2 删桩后这批 warning 不复存在，lint 仍然退出码 0。没有改任何 lint 配置、没有加免检注释。
 2. **K1 不要顺手改。** `normalizeToolPathForComparison` 的显式非宿主平台结果随宿主 `path.normalize` 变化（`known-differences.md` K1，用例在 B43）。重写时**不得**把它改成 `path.posix.normalize`——那会改变现有行为。
 3. **时序类断言用事件序列，不用 sleep。** B60–B67 的轮询、去重、最长运行定时器都由 `node:test` 的假定时器驱动（`deps-and-timers.test.ts`）。
 4. **不动的文件。** 66 个 `independent-replacement` 文件及其既有缺陷不在本包补偿范围；`callers.md` 里从这些文件进来的调用关系只要求模块路径与导出名保持可用。
-5. **桩覆盖验证在替换阶段做**：用 `stubs/` 覆盖 32 个文件后，81 例必须全部失败且原因是 `not implemented: core-tool-01`。
+5. **桩覆盖验证已做并留证（历史项）**：v1 阶段用 `stubs/` 覆盖 32 个文件后契约测试 0/9 通过、失败原因全是 `not implemented: core-tool-01`（常量桩在求值时抛错，测试文件在导入阶段中止），实测记录在 `gate-old.json` 的 `stubReplacement`。v2 按裁决 C 删桩，该验证不再可复跑，仅作留证。
 
 ## 条目 → 测试对照表
 
@@ -160,6 +161,6 @@ node <node24> --import tsx --import ./specs/contracts/core-tool-01/dist-entry-lo
 | B85     | `pure.test.ts`「B85 enqueue gates and releases the claim on failure」                                                                                                 | 通过 |
 | B86     | `pure.test.ts`「B86 only Workflow/Bash family produce notification text」                                                                                             | 通过 |
 | B87     | `executor.test.ts`「B87 workflow manifest bounds result, error and duration」                                                                                         | 通过 |
-| B88     | `executor.test.ts`「B88 interface.md export names match the source, and stubs mirror them」                                                                           | 通过 |
+| B88     | `executor.test.ts`「B88 interface.md export declarations cover the source exports」                                                                                   | 通过 |
 
 共 88 条行为、79 行对照，每行都有对应用例（无空行）。

@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "package": "core-tool-01",
   "kind": "contract-old-gate",
+  "contractVersion": "v2",
   "repository": "accomplish07zrh-eng/knorvia-studio",
   "branch": "contract/core-tool-01",
   "baseCommit": "6ea4cbe751a3d4b35d08460151eed758f5a76ac8",
@@ -43,7 +44,27 @@
   ],
   "preregisteredDifferences": [],
   "assertionsWeakened": false,
+  "oldGateReRun": {
+    "contractVersion": "v2",
+    "date": "2026-10-15",
+    "reason": "Lead ruling C (2026-10-14, issue #148): delete the contract stubs (mandatory replace-acceptance end state) and point the B88 oracle from stubs/<path> to the interface.md ```ts export declaration blocks. Assertion direction and strength unchanged: source exports ⊆ contract declarations, assert.deepEqual(missing, []); the other 80 assertions untouched.",
+    "oldImplementationWorktree": "wt/exec-4-tool",
+    "oldImplementationBranch": "contract/core-tool-01-cont",
+    "oldImplementationCommit": "4b53a0b7",
+    "oldSourcesIdenticalTo": ["6ea4cbe7 (contract base)", "5a129165 (origin/main on re-run day)"],
+    "identicalVerification": "git diff --stat 6ea4cbe7 4b53a0b7 / 4b53a0b7 origin/main / 6ea4cbe7 origin/main -- apps/cli/packages/core/src/tool all empty",
+    "contractFilesUpdatedSinceV1": [
+      "specs/contracts/core-tool-01/interface.md (6 const shorthand lines rewritten verbatim as export const NAME = value;)",
+      "specs/contracts/core-tool-01/tests/executor.test.ts (B88 oracle swap only)"
+    ],
+    "results": {
+      "source": { "tests": 81, "pass": 81, "fail": 0, "skipped": 0, "exitCode": 0 },
+      "dist": { "tests": 81, "pass": 81, "fail": 0, "skipped": 0, "exitCode": 0 }
+    },
+    "preregisteredDifferences": 0
+  },
   "stubReplacement": {
+    "status": "historical — stubs deleted in contract v2 per ruling C; evidence retained",
     "command": "copy specs/contracts/core-tool-01/stubs/** over the 32 in-scope files, then node <node24> --import tsx --test specs/contracts/core-tool-01/tests/*.test.ts",
     "entry": "source",
     "tests": 9,
@@ -145,7 +166,7 @@
       "B85": "pure.test.ts: B85 enqueue gates and releases the claim on failure",
       "B86": "pure.test.ts: B86 only Workflow/Bash family produce notification text",
       "B87": "executor.test.ts: B87 workflow manifest bounds result, error and duration",
-      "B88": "executor.test.ts: B88 interface.md export names match the source, and stubs mirror them"
+      "B88": "executor.test.ts: B88 interface.md export declarations cover the source exports (v2: oracle reads interface.md ts blocks instead of stubs)"
     },
     "emptyRows": 0
   },
@@ -178,9 +199,10 @@
     }
   ],
   "stubLintWarnings": {
+    "status": "historical — stubs deleted in contract v2 per ruling C; these warnings no longer exist",
     "count": 206,
     "scope": "specs/contracts/core-tool-01/stubs/**",
-    "reason": "Signature-only stubs necessarily leave unused imports and parameters; the stubs are deleted in the replacement phase.",
+    "reason": "Signature-only stubs necessarily leave unused imports and parameters; the stubs are deleted in the replacement phase (done in v2, 2026-10-15).",
     "lintExitCode": 0,
     "configChanged": false,
     "disableCommentsAdded": false

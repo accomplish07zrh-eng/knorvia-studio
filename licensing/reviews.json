@@ -82094,7 +82094,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/README.md",
-      "normalizedSha256": "59bb2babbb37e61ee05080c3b8a1716fb573375b49f9123b48b6f03c97b18818",
+      "normalizedSha256": "60f31d9a53e76541508649c456a917af3025f11e59e369f036d1cec0dde1fdad",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82118,7 +82118,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/interface.md",
-      "normalizedSha256": "5023a247d8590470b836900f7a5bcbd1b45df34f7585e404b81e85c9eff35378",
+      "normalizedSha256": "c599000bcb55a4307e51f1b07a89a938d61b437ccc68e758179187188f066191",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82142,7 +82142,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/known-differences.md",
-      "normalizedSha256": "807bb90e55b5803aa5e001f40058d1b77572001f9031a40bcc53856c68bb0440",
+      "normalizedSha256": "742903caf4731216f3c479210ba31b673ec604665963e2c8c55e1b7523dda192",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82154,7 +82154,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/acceptance.md",
-      "normalizedSha256": "d93079315104e18f311c5a8d0b6a15617e01ec98d997abb3ab65e70694271652",
+      "normalizedSha256": "ca2955ffbed556fa7d8a4a6cdfb58f6ef80380566f02175f20d127ccdc434f9a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82166,7 +82166,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/gate-old.json",
-      "normalizedSha256": "f2256f08720ca514d8bc24f5b4033d61ecf1c2dcbabc2946996137cee448c73b",
+      "normalizedSha256": "3cab0edf32452b87584f2e7a562bd6f6b3faa342622c8a7a130e53ea543760df",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -82190,7 +82190,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/tests/executor.test.ts",
-      "normalizedSha256": "37fa7625fda9784935bc71fd95f18632ec89f72ad376112f2192c417aa1d496c",
+      "normalizedSha256": "2e691011fead8218540d65fe30e2c4828a4086b5f0afd9be0339b6d617e16b77",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract tests authored from behavior.md. They assert the documented behavior through public entry points only, use in-memory doubles and node:test fake timers instead of sleeps (B67 included), and pass on the unmodified implementation as the old gate on both the source and the built entry. No assertion was weakened and no code was copied, renamed or rewritten line by line.",
@@ -82273,390 +82273,6 @@
       ]
     },
     {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/bash-timeout-policy.ts",
-      "normalizedSha256": "32498adaa029a91a9a0025f31893b52cc2b592099d18ba400b1d7712f12e5671",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/compat.ts",
-      "normalizedSha256": "f504563566299b8751c8c35d3b845de94f6a701d9a3ae1fe2f6c57d9fec57fb9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/diff.ts",
-      "normalizedSha256": "398ab9d8fd97ac99c8ecb6bc291c23be38cc22530f860ad5f8b85704ca9f9aa9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/edit-match-distance.ts",
-      "normalizedSha256": "843fbc2acaaf93f1dd7ee783c5a9256cb0241f65815f2eb92830be2f1da4964a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/edit-match-text.ts",
-      "normalizedSha256": "6a91d63721ece8762ccbd5ccf7cdfbdbd8dd24e995b19c73c8124f1880e502f4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/edit-matchers.ts",
-      "normalizedSha256": "6a14c52371462bca27adc8d22704bbb8f042662e116a0286e489d62c3e4bb585",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor.ts",
-      "normalizedSha256": "14444744f9d8c40bbb9ca004748696e737663b2ba3c416c33f10cc1a5e9adb05",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/index.ts",
-      "normalizedSha256": "f4afd8b71fb959c4882c23fac28abbd71ef31a4e4e94bda1f43449572312a79d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/model-contract.ts",
-      "normalizedSha256": "a7c5ce778c049ba1df110f16ac53842395bde58bdaa1e588343799069b12f130",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/path-normalization.ts",
-      "normalizedSha256": "a346d094f816be981cd6337580ab2e9029989bd3e87c5c2effcc08222fff1e35",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/path-policy.ts",
-      "normalizedSha256": "ffc9983e247d86fcce80f657dc736ce957b6cb28a4a1473908ba32b053243081",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/provider-visible-order.ts",
-      "normalizedSha256": "1dbdcf04948dbba3cb11a40d6436985f0b3429762a640bfd7912350e7c9a27c4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/read-file-state-metadata.ts",
-      "normalizedSha256": "0d83b795b967c4739fa77363130661748ca581ede751b2d9761bfa591e3a6f8c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/read-file-state.ts",
-      "normalizedSha256": "0ee1d1794a044867c66e8420c7cddfcd54487f023419922e211dadad6b9f770d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/tool-visibility.ts",
-      "normalizedSha256": "fff2845c843c7b91eb8b4cc93761c950f632eb182b8ff1ff366396e896faf7c2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/types.ts",
-      "normalizedSha256": "f0b2fab7802a5921597b6f92b82cce8739dd57a9731051ab35c547e75a51fc5e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/webfetch-preapproved.ts",
-      "normalizedSha256": "e031f582576bae9c39c23a09e7813633bd10e5c38df8a7eacc087acdb030809b",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/impl.ts",
-      "normalizedSha256": "ee356498fb76604e54848aa4fb73b790857debce68a16a72893fd686b4a680be",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/types.ts",
-      "normalizedSha256": "dd6f294955159fd240aa03962baa8defb3bb738c6637d4bf677284ea02be5ea6",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/events.ts",
-      "normalizedSha256": "db05175eaa99737530386628139a2c3f581781b6c82b9dcaa0c16c4c1b6f2479",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/telemetry.ts",
-      "normalizedSha256": "c1e7e01a712b3e3522e91404cd3ea3bd65a4d6910c3c4a17b933610366a7a48f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/turn-control.ts",
-      "normalizedSha256": "ed4100187ecad2b269a5713deb00ce4c4ee89b01459f1695071740ee2b0d6ed1",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/model-status-sink.ts",
-      "normalizedSha256": "e06468d152d8d4ca0357ce7f9c9c2209a7f95fd1360853a3548bfba2a28f2b57",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/memory-file-permission.ts",
-      "normalizedSha256": "21c1d5085db0efabc4deee06b35c2b5682f566e803402d7579752199bcb59bdf",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/background-tasks.ts",
-      "normalizedSha256": "163c253a317abed716dd9d9ed733e3abccd367633a9625eb065c6057c18aaf7c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/background-task-registry.ts",
-      "normalizedSha256": "6c48f7fff64bc3ab7e249e1a63462556759340dd84ee46ac7c13806eb6a24005",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/background-task-output.ts",
-      "normalizedSha256": "624be221aca4035ad002dd300b979a79f57771751415960b46dd13cdc7169416",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts",
-      "normalizedSha256": "dfb124f0e71968afd966b5a8777ce9c9c9c0158fbff19ccc990f77869cdeeb6c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts",
-      "normalizedSha256": "e48c3ce9ecb3391b84459ba21e62090a0646d3354b6c4218aadc46419de6d33d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/utils.ts",
-      "normalizedSha256": "437772149e9e713d7a366d1daaa8ab0ceaa4f8f5caa294bb1ba5ffadc66ee609",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
-      "normalizedSha256": "6c0709d3f2127d6750b8aa0c8eed18f19b73ecc0811ffc9c81f7e881e7fcbecf",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
-      "path": "specs/contracts/core-tool-01/stubs/apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
-      "normalizedSha256": "1aeb9969fabacd1ff0814bd9e51ff898866cc37186cf8adc9c1d31058f4a8408",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New core-tool-01 signature-only stubs, one per in-scope module path. Signatures come from interface.md, which was extracted from the replaced implementation with the TypeScript compiler API; bodies only throw Error(\\\"not implemented: core-tool-01\\\"). No implementation logic was copied. The stubs are deleted together with the old files in the replacement phase.",
-      "evidence": [
-        "docs/knorvia-independent-replacement-plan.md",
-        "specs/contracts/core-tool-01/README.md",
-        "specs/contracts/core-tool-01/gate-old.json"
-      ]
-    },
-    {
       "path": "specs/contracts/core-tool-01/dist-entry-loader.mjs",
       "normalizedSha256": "c663d4b88de9949bfa8a7edd8726ca435a6517b0214c222c16405eb96fed9542",
       "decision": "original",
@@ -82682,7 +82298,7 @@
     },
     {
       "path": "docs/knorvia-core-tool-01-acceptance.md",
-      "normalizedSha256": "e708f03737ed83e184210c3d74c4731c57ab6d45bd741b84891d06e3ba275f69",
+      "normalizedSha256": "382ef915b5de0613df6694d71f248e70329eba3891087fdbc06142d3c4a1eb4b",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "core-tool-01 replacement acceptance record: scope and boundaries, per-file two-gate similarity measurements for all 32 public module paths and 4 internal modules, contract test results on both entries (81/81 each), stub-replacement reproduction (0 pass / 9 fail), first failures with fixes, bookkeeping conventions and open deviations.",
@@ -82741,7 +82357,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/design.md",
-      "normalizedSha256": "a8e3f103e12ebc8c14b10bedba87aa9581d88a4c1d096ab5b13a539296728861",
+      "normalizedSha256": "a15c64ccd8c37a78de98ea0c5f5c5a72ca54f157ceea89fb1ccbcbd11607ccdc",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Replacement design note for the core-tool-01 rewrite: state owners, module split table, sequence diagrams for the two long chains and the B1-B88 landing table. Written for the Knorvia independent-replacement plan from the contract documents; describes the documented work, not any file's origin.",

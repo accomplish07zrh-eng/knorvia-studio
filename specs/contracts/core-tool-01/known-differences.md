@@ -23,6 +23,14 @@
 - 处理：合同记录该语义（B33、B34、B38），重写不得自行改成幂等。
 - 对应测试：`tests/pure.test.ts` 的 B33、B34、B38 用例。
 
+## K4 v2 删桩：B88 的 oracle 从 `stubs/<路径>` 改指 `interface.md` 的 ```ts 导出声明块（Lead 裁决 C）
+
+- 原因：替换验收的强制终态要求「旧文件与桩全部删除、`not implemented: core-tool-01` 全仓为零」（计划书「每包流程」五.1 与验收清单「替换验收」，`lead/verify-replace.mjs` 第 3 项同样要求 `stubs/` 目录不存在；4 个已合并替换 PR 先例一致）。而 v1 的 B88 把 `stubs/<32 路径>` 当 oracle 读取，「留桩」与「删桩」互锁。Lead 2026-10-14 裁决选 C（issue #148 评论）：删桩，B88 oracle 改指合同自身的 `interface.md` 导出声明块。
+- 变更内容：`tests/executor.test.ts` 的 B88 只换 oracle 的读取对象（`stubs/<文件>` → `interface.md` 对应 `###` 节内全部 ```ts 块的导出声明），**断言方向与强度逐字不变**——源码导出名 ⊆ 合同声明，`assert.deepEqual(missing, [])`、`files.length === 32`、`missing`的`file:name`格式与两侧同一条解析正则全部原样；其余 80 例断言不动、不删、不跳过。配套把`interface.md` 6 行常量简写（`NAME = 值;`）改回逐字源码形式 `export const NAME = 值;`（对照旧实现 `6ea4cbe7` 逐行核对，6/6 一致），使 ts 块内 134 行导出声明全部可被同一正则解析（与「导出 134 个声明」的文件口径精确相等）。
+- 强度对照：v1 oracle（桩）与 v2 oracle（interface.md 块）覆盖同一批导出名；被删掉的只是「桩=接口派生快照」这半边脚手架检查，其证据留存 `gate-old.json` 的 `stubReplacement`（桩替换后 0/9 通过、失败原因全是 `not implemented: core-tool-01`）。v2 旧门已对旧实现复跑：两入口各 81/81、预登记差异 0（`gate-old.json`、`acceptance.md` 的 v2 复跑记录）。
+- 结论：**断言强度不变，没有任何放宽**。依据：计划书「合同写错就改测试」通道 + 默认裁决表「前后不一致选更保守：不放宽测试」。
+- 对应测试：`tests/executor.test.ts`「B88 interface.md export declarations cover the source exports」。
+
 ## 已在别处登记、本包不补偿的既有缺陷
 
 - **`executor/timeout.ts` 的 handler 同步 throw 会绕过 timer 清理**：已由 `specs/knorvia-tool-deadline.md` 登记为「本次明确修复」，属**已独立替换**的文件（不在本包 32 文件内），本包不重复处理。
@@ -31,4 +39,4 @@
 
 ## 状态
 
-K1–K3 每条都有对应测试；`acceptance.md`、`gate-old.json` 已完成，dist 入口旧门已跑（`dist-entry-loader.mjs`），B1–B88 全部有用例（对照表见 `README.md` 文末）。见 `gate-old.json`。
+K1–K3 每条都有对应测试；K4 是 v2 的合同修订记录（裁决 C，断言强度不变）。v2 旧门复跑已完成：两入口各 81/81、预登记差异 0 条，dist 入口用 `dist-entry-loader.mjs`；B1–B88 全部有用例（对照表见 `README.md` 文末）。见 `gate-old.json` 与 `acceptance.md`。
