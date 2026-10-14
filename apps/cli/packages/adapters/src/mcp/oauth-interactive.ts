@@ -93,11 +93,11 @@ function waitForPoll(signal?: AbortSignal): Promise<void> {
   return new Promise((resolve) => {
     const onAbort = () => {
       clearTimeout(timer);
-      resolve();
+      resolve(/* 授权流程结束，兑现等待中的 promise */);
     };
     const timer = setTimeout(() => {
       signal?.removeEventListener("abort", onAbort);
-      resolve();
+      resolve(/* 授权流程结束，兑现等待中的 promise */);
     }, FOLLOW_POLL_MS);
     signal?.addEventListener("abort", onAbort, { once: true });
   });
@@ -120,13 +120,13 @@ async function pollOnce(
   return { done: false, ...(pending ? { announcedUrl: pending.authorizationUrl } : {}) };
 }
 
-async function followAuthorization(
+async function /* 跟进授权：轮询等待用户在浏览器完成 */ followAuthorization(
   input: McpInteractiveAuthorizationInput,
   ttlMs: number,
   baselineGeneration: Generation,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const deadline = Date.now() + ttlMs;
-  let projectedUrl: string | undefined;
+  let projectedUrl: /* 已向用户播报过的授权地址 */ string | undefined;
   emitLog(
     input,
     "info",
@@ -171,7 +171,7 @@ function passthroughFields(input: McpInteractiveAuthorizationInput) {
   return { ...required, ...optional };
 }
 
-async function leadAuthorization(
+async function /* 主导授权：发起挑战并等待回调 */ leadAuthorization(
   input: McpInteractiveAuthorizationInput,
   attemptId: string,
   ttlMs: number,
@@ -186,7 +186,7 @@ async function leadAuthorization(
       ? customPath
       : `/${customPath}`;
   let callback: Awaited<ReturnType<typeof createLocalhostOAuthCallbackServer>>;
-  try {
+  try /* 本段可能抛错，收尾统一交给下方 finally */ {
     callback = await createLocalhostOAuthCallbackServer({ callbackPath, state });
   } catch (error) {
     emitLog(
@@ -196,7 +196,7 @@ async function leadAuthorization(
       "MCP OAuth callback listener failed",
       "failed",
       { error: error instanceof Error ? error.message : String(error) },
-      state,
+      /* 授权流程状态：仅用于日志关联 */ state,
     );
     return { status: "failed", error };
   }
@@ -207,10 +207,10 @@ async function leadAuthorization(
     attemptId,
     baselineGeneration,
     callback,
-    state,
+    /* 授权流程状态：仅用于日志关联 */ state,
     ttlMs,
   });
-  try {
+  try /* 本段可能抛错，收尾统一交给下方 finally */ {
     const result = await auth(provider, sdkAuthOptions(input));
     if (result === "AUTHORIZED") return { status: "authorized" };
     const response = await withTimeout(
@@ -226,7 +226,7 @@ async function leadAuthorization(
     await auth(
       provider,
       sdkAuthOptions(input, {
-        authorizationCode,
+        /* 授权码：来自回调 query */ authorizationCode,
         ...(issuer ? { iss: issuer } : /* 无扩展 */ {}),
       }),
     );
@@ -237,7 +237,7 @@ async function leadAuthorization(
       "MCP OAuth authorization completed",
       "completed",
       {},
-      state,
+      /* 授权流程状态：仅用于日志关联 */ state,
     );
     return { status: "authorized" };
   } catch (error) {
@@ -250,15 +250,15 @@ async function leadAuthorization(
       "MCP OAuth authorization failed",
       "failed",
       { error: error instanceof Error ? error.message : String(error) },
-      state,
+      /* 授权流程状态：仅用于日志关联 */ state,
     );
     return { status: "failed", error };
-  } finally {
+  } finally /* 无论成败都要归还租约，避免泄漏 */ {
     await callback.close().catch(() => undefined);
   }
 }
 
-export async function runMcpInteractiveAuthorization(
+export async function /* 交互式授权入口 */ runMcpInteractiveAuthorization(
   input: McpInteractiveAuthorizationInput,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const ttlMs = input.transactionTtlMs ?? MCP_OAUTH_AUTHORIZATION_TRANSACTION_TTL_MS;
@@ -282,16 +282,16 @@ async function runWithAuthorizationLease(
   ttlMs: number,
   baselineGeneration: Generation | undefined,
 ): Promise<McpInteractiveAuthorizationOutcome> {
-  try {
+  try /* 本段可能抛错，收尾统一交给下方 finally */ {
     const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
     if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
     return await leadAuthorization(input, lease.attemptId, ttlMs, baselineGeneration);
-  } finally {
+  } finally /* 无论成败都要归还租约，避免泄漏 */ {
     await deletePendingAuthorizationIfOwned(
       input.credentialStore,
       input.keyPrefix,
-      lease.attemptId,
-    ).catch(() => undefined);
-    await lease.release();
+      /* 本次尝试标识：用于幂等归属判定 */ lease.attemptId,
+    ).catch(/* 清理失败不应影响主流程 */ () => undefined);
+    await lease.release(/* 幂等释放：重复调用无副作用 */);
   }
 }
