@@ -42,7 +42,7 @@ export interface OfficialMcpServerResponseInfo {
   traceId?: string; // 本次请求的 trace id。
 }
 
-interface CreateOfficialMcpAuthFetchInput {
+interface /* 创建鉴权 fetch 的入参 */ CreateOfficialMcpAuthFetchInput {
   authHeadersPort?: OfficialMcpAuthHeadersPort; // 鉴权头端口；缺席时不做官方鉴权。
   baseFetch: typeof globalThis.fetch; // 底层 fetch（注入以便测试与代理）。
   logger?: Logger;
@@ -58,9 +58,9 @@ interface CreateOfficialMcpAuthFetchInput {
 
 interface RpcSummary {
   id?: string | number;
-  method?: string;
+  method?: /* JSON-RPC 方法名（可从正文解析时才有） */ string;
   spanId?: string; // 本次请求的 span id。
-  toolName?: string;
+  toolName?: /* JSON-RPC 工具名（可从正文解析时才有） */ string;
   traceId?: string; // 本次请求的 trace id。
 }
 
@@ -83,19 +83,19 @@ function optionalRpcFields(
 }
 
 function requestOrigin(value: string): string | undefined {
-  try {
+  try /* 解析可能失败，失败由 catch 给出降级值 */ {
     const url = new URL(value);
     return url.username || url.password ? undefined : url.origin;
-  } catch {
-    return undefined;
+  } catch /* 输入非法：按降级语义返回 */ {
+    return /* 无法解析/无值 */ undefined;
   }
 }
 
 function requestPath(value: string): string {
-  try {
+  try /* 解析可能失败，失败由 catch 给出降级值 */ {
     return new URL(value).pathname;
-  } catch {
-    return "(unparsable)";
+  } catch /* 输入非法：按降级语义返回 */ {
+    return /* 占位文本：与上游逐字一致 */ "(unparsable)";
   }
 }
 
@@ -105,7 +105,7 @@ function objectFields(value: unknown): value is Record<string, unknown> {
 
 function summarizeRpc(body: unknown): RpcSummary {
   if (typeof body !== "string" || !body) return {};
-  try {
+  try /* 解析可能失败，失败由 catch 给出降级值 */ {
     const payload: unknown = JSON.parse(body);
     if (!objectFields(payload)) return {};
     const params = objectFields(payload.params) ? payload.params : undefined;
@@ -116,15 +116,15 @@ function summarizeRpc(body: unknown): RpcSummary {
     const spanId = typeof meta?.span_id === "string" ? meta.span_id : undefined;
     const toolName = typeof params?.name === "string" ? params.name : undefined;
     const traceId = typeof meta?.trace_id === "string" ? meta.trace_id : undefined;
-    return {
+    return /* 摘要视图 */ {
       ...(id !== undefined ? { id } : {}),
-      ...(method ? { method } : {}),
-      ...(spanId ? { spanId } : {}),
-      ...(toolName ? { toolName } : {}),
-      ...(traceId ? { traceId } : {}),
+      ...(method ? /* 方法名：仅在有值时展开 */ { method } : {}),
+      ...(spanId ? /* span：仅在有值时展开 */ { spanId } : {}),
+      ...(toolName ? /* 工具名：仅在有值时展开 */ { toolName } : {}),
+      ...(traceId ? /* trace：仅在有值时展开 */ { traceId } : {}),
     };
-  } catch {
-    return {};
+  } catch /* 输入非法：按降级语义返回 */ {
+    return /* 摘要为空：正文非 JSON */ {};
   }
 }
 
@@ -134,10 +134,10 @@ function requestBodyBytes(body: unknown): number | undefined {
 }
 
 function mergeHeaders(
-  incoming: HeadersInit | undefined,
+  incoming: /* 调用方原始头 */ HeadersInit | undefined,
   authHeaders: Record<string, string>,
-): Headers {
-  const merged = new Headers();
+): /* 合并后的头 */ Headers {
+  const merged = /* 合并结果：就地累积 */ new Headers();
   const dynamicNames = new Set(Object.keys(authHeaders).map((name) => name.toLowerCase()));
   new Headers(incoming ?? {}).forEach((value, name) => {
     const normalized = name.toLowerCase();
@@ -147,13 +147,13 @@ function mergeHeaders(
       normalized !== "mcp-session-id" &&
       normalized !== "mcp-protocol-version"
     )
-      return;
+      return /* 该头已存在，保留先到者 */;
     merged.set(name, value);
   });
   for (const [name, value] of Object.entries(authHeaders)) merged.set(name, value);
   merged.delete("x-request-id");
   merged.delete("x-trace-id");
-  return merged;
+  return /* 合并完成 */ merged;
 }
 
 function timeoutHint(signal: AbortSignal | null | undefined): string {
@@ -161,9 +161,9 @@ function timeoutHint(signal: AbortSignal | null | undefined): string {
   return signal.aborted ? "already-aborted" : "armed";
 }
 
-export function createOfficialMcpAuthFetch(
+export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcpAuthFetch(
   input: CreateOfficialMcpAuthFetchInput,
-): typeof globalThis.fetch {
+): /* 与全局 fetch 同形 */ typeof globalThis.fetch {
   const expectedOrigin = requestOrigin(input.url);
 
   function failure(kind: OfficialMcpAuthFailureKind, message: string): OfficialMcpAuthError {
@@ -179,9 +179,13 @@ export function createOfficialMcpAuthFetch(
           ? resource.toString()
           : resource.url;
     const origin = requestOrigin(requestUrl);
-    if (!origin || !expectedOrigin || origin !== expectedOrigin) {
+    if (
+      /* 来源校验：必须与期望来源完全一致 */ !origin ||
+      !expectedOrigin ||
+      origin !== expectedOrigin
+    ) {
       throw failure(
-        "official_mcp_origin_untrusted",
+        /* 拒绝原因：来源不可信 */ "official_mcp_origin_untrusted",
         `official MCP request origin does not match the configured endpoint: ${input.serverName}`,
       );
     }
@@ -190,9 +194,9 @@ export function createOfficialMcpAuthFetch(
       origin,
       pluginId: input.official.pluginId,
     });
-    if (!trust.trusted) {
+    if (/* 可信来源校验：非可信来源一律拒绝 */ !trust.trusted) {
       throw failure(
-        "official_mcp_origin_untrusted",
+        /* 拒绝原因：来源不可信 */ "official_mcp_origin_untrusted",
         `official MCP origin is not trusted (${trust.detail ?? "unknown"}): ${input.serverName} origin=${origin} pluginId=${input.official.pluginId}`,
       );
     }
@@ -262,7 +266,7 @@ export function createOfficialMcpAuthFetch(
       });
       const sendStartedAt = Date.now();
       // 凭据解析和准备错误不属于发送失败；只在此处开始网络/响应处理的 catch。
-      try {
+      try /* 解析可能失败，失败由 catch 给出降级值 */ {
         const response = await input.baseFetch(resource, { ...init, headers, redirect: "manual" });
         const serverRequestId = responseRequestId(response);
         const failureKind =
