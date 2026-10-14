@@ -778,3 +778,21 @@ interface McpInteractiveAuthorizationInput {
   transactionTtlMs?: number;
 }
 ```
+
+## `apps/cli/packages/adapters/src/plugins/atomic-directory-types.ts`
+
+```ts
+export interface AtomicDirectoryActivation {
+  transactionId: string;
+  finalize: () => Promise<void>;
+  rollback: () => Promise<void>;
+}
+
+export interface AtomicDirectoryActivationInput {
+  authorityPath?: string;
+  prepare?: (stagedPath: string) => Promise<void>;
+  signal?: AbortSignal;
+  sourcePath?: string;
+  targetPath: string;
+}
+```
