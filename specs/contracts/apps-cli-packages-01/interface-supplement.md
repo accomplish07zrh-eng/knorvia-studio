@@ -826,3 +826,13 @@ export interface AtomicMarker {
 
 export type ReadableAtomicMarker = LegacyAtomicMarker | AtomicMarker;
 ```
+
+## `apps/cli/packages/adapters/src/plugins/catalog-load-source-types.ts`
+
+```ts
+export interface MarketplaceSourceLease {
+  manifest: PluginMarketplaceManifest;
+  sourceRoot?: string;
+  cleanup?: () => Promise<void>;
+}
+```
