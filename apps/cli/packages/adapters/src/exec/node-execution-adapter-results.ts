@@ -33,15 +33,15 @@ export function statusFailure(
   timeoutMs: number,
 ): ExecutionFailure | undefined {
   if (stopReason === "timeout") {
-    return {
+    return /* 结果构造 */ {
       type: "timeout",
       message: `Command timed out after ${formatTimeoutDuration(timeoutMs)}.`,
     };
   }
   if (stopReason === "cancelled") return { type: "cancelled", message: "Command was cancelled." };
   if (stopReason === "output_limit") {
-    return {
-      type: "output_limit",
+    return /* 结果构造 */ {
+      type: /* 结果类型：输出超限 */ "output_limit",
       message: "Execution output exceeded the persisted output limit",
     };
   }
@@ -61,12 +61,12 @@ export function createResult(args: {
   stderr: ExecutionStreamResult;
   stopReason?: StopReason;
   pid?: number;
-  exitCode?: number;
+  exitCode?: /* 退出码（未退出时无） */ number;
   signal?: string;
   error?: ExecutionFailure;
-  resolvedCwd?: string;
-}): ExecutionResult {
-  return {
+  resolvedCwd?: /* 解析后的工作目录 */ string;
+}): /* 执行结果 */ ExecutionResult {
+  return /* 结果构造 */ {
     status: args.status,
     exitCode: args.exitCode,
     signal: args.signal,
@@ -87,13 +87,13 @@ export function createStoppedResult(
   startedAt: Date,
   status: Extract<ExecutionStatus, "cancelled" | "timed_out">,
   message: string,
-): ExecutionResult {
+): /* 执行结果 */ ExecutionResult {
   const completedAt = new Date();
   const stopReason: StopReason = status === "timed_out" ? "timeout" : "cancelled";
   return createResult({
     status,
     startedAt,
-    completedAt,
+    /* 完成时间 */ completedAt,
     stdout: emptyStream(),
     stderr: emptyStream(),
     stopReason,
@@ -102,10 +102,10 @@ export function createStoppedResult(
 }
 
 export function emit(options: ExecutionRunOptions, event: ExecutionEvent): void {
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     const pending = options.onEvent?.(event);
     if (pending) void Promise.resolve(pending).catch(() => undefined);
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     // User event callbacks never own execution settlement.
   }
 }
@@ -117,7 +117,7 @@ export function emitResult(options: ExecutionRunOptions, result: ExecutionResult
       error: result.error ?? { type: "spawn_error", message: "Failed to spawn command." },
       timestamp: new Date(),
     });
-  } else {
+  } else /* 其他情况 */ {
     emit(options, { type: "completed", result, timestamp: new Date() });
   }
 }
@@ -125,7 +125,7 @@ export function emitResult(options: ExecutionRunOptions, result: ExecutionResult
 export async function readBashResult(
   file: BashFileOutput,
   maxInlineBytes: number,
-  exit: ExitState,
+  exit: /* 退出状态 */ ExitState,
   stopReason: StopReason | undefined,
 ): Promise<ExecutionStreamResult> {
   const output = await file.result(maxInlineBytes);
@@ -137,17 +137,17 @@ export async function readBashResult(
 }
 
 export function normalizeBashOutputLimitResult(
-  result: ExecutionResult,
-  persistedLimitReached: boolean,
-): ExecutionResult {
-  if (!persistedLimitReached) return result;
-  return {
-    ...result,
+  result: /* 原执行结果 */ ExecutionResult,
+  persistedLimitReached: /* 是否达到落盘上限 */ boolean,
+): /* 执行结果 */ ExecutionResult {
+  if (!persistedLimitReached) return /* 未超限：原样返回 */ result;
+  return /* 结果构造 */ {
+    /* 保留原结果字段 */ ...result,
     status: "cancelled",
-    exitCode: 137,
-    cancelled: true,
+    exitCode: /* 137 = 被 SIGKILL 终止的约定值 */ 137,
+    cancelled: /* 视为被取消 */ true,
     error: {
-      type: "output_limit",
+      type: /* 结果类型：输出超限 */ "output_limit",
       message: "Bash output exceeded the 5GB persisted output limit.",
     },
   };
@@ -155,7 +155,7 @@ export function normalizeBashOutputLimitResult(
 
 async function removeArtifact(stream: ExecutionStreamResult): Promise<ExecutionStreamResult> {
   if (stream.artifactPath) {
-    try {
+    try /* 可能失败：按降级语义处理 */ {
       await unlink(stream.artifactPath);
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") return stream;
@@ -185,10 +185,10 @@ export async function capArtifactStream(
 ): Promise<ExecutionStreamResult> {
   if (!stream.artifactPath || maxBytes === undefined || maxBytes < 0) return stream;
   if ((stream.artifactBytes ?? 0) <= maxBytes) return stream;
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     await truncate(stream.artifactPath, maxBytes);
     return { ...stream, artifactBytes: maxBytes, artifactTruncated: true };
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     return stream;
   }
 }
