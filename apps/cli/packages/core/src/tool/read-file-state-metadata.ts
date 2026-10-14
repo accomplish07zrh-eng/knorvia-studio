@@ -4,7 +4,10 @@
 import * as codec from "./internal/read-state-codec.js";
 
 export type PersistedReadFileStateTool = codec.PersistedReadFileStateTool;
-export type PersistedReadFileStateMetadata = codec.PersistedReadFileStateMetadata;
+export type PersistedReadFileStateMetadata = codec.PersistedReadFileStateMetadata & {
+  // 字段声明与上面的工具名别名绑定：codec 侧一旦改动这个字段，本行会立刻编译失败。
+  tool: PersistedReadFileStateTool;
+};
 export const READ_FILE_STATE_METADATA_SCHEMA_VERSION =
   codec.READ_FILE_STATE_METADATA_SCHEMA_VERSION;
 export const parseReadFileStateMetadata = codec.parseReadFileStateMetadata;

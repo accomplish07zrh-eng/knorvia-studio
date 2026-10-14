@@ -9,6 +9,7 @@
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
         "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/tests/run-old-gate.mjs",
         "specs/contracts/*/dist-entry-loader.mjs"
       ]
     },
