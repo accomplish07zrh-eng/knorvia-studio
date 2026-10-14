@@ -127,7 +127,7 @@ export interface EncodeTopicWireFramesOptions<F> {
 }
 
 // 帧外壳：complete 与 fragment 共享的七个字段，键序即线上字节序。
-interface WireEnvelope<F> {
+interface WireEnvelope {
   wireVersion: typeof V4_WIRE_PROTOCOL_VERSION;
   kind: "complete" | "fragment";
   deliveryKind: /* 交付语义随外壳一起落进每一帧 */ TopicFrameDeliveryKind;
@@ -157,8 +157,8 @@ function boundedLimit({ requested, fallback, field, failure }: LimitRequest): nu
 function wireEnvelope<F>(
   settings: EncodeTopicWireFramesOptions<F>,
   kind: "complete" | "fragment",
-): WireEnvelope<F> {
-  const shell = {} as WireEnvelope<F>;
+): WireEnvelope {
+  const shell = {} as WireEnvelope;
   shell.wireVersion = V4_WIRE_PROTOCOL_VERSION;
   shell.kind = kind;
   shell.deliveryKind = settings.deliveryKind;

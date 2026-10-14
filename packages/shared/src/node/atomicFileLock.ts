@@ -50,7 +50,7 @@ const systemCode = (fault: unknown): string | undefined => {
   return typeof raw === "string" ? raw : undefined;
 };
 
-/** 只承认有限、非负、且不超前观测时刻太多的时间戳；其余按读不出处理。 */
+/** 只承认有限、非负、且不超前「观测时刻 + 允许的元数据时钟超前量」的时间戳；其余按读不出处理。 */
 const trustedClock = (value: unknown, ceiling: number): number | null => {
   if (typeof value !== "number") return null;
   const finite = Number.isFinite(value);
@@ -101,12 +101,15 @@ const ownerRecyclable = async (
   watchInstance: ObserveLockInstance,
 ): Promise<boolean> => {
   const seenAt = Date.now();
-  const record = decodeOwnerRecord(await readFile(ownerPath, "utf-8"), seenAt);
+  const admissionCeiling = seenAt + MAX_METADATA_LEEWAY_MS;
+  const record = decodeOwnerRecord(await readFile(ownerPath, "utf-8"), admissionCeiling);
 
   let bornAt = record.bornAt;
   if (bornAt === null) {
     const ownerStat = await stat(ownerPath);
-    bornAt = trustedClock(ownerStat.mtimeMs, seenAt) ?? watchInstance(ownerPath, ownerStat, seenAt);
+    bornAt =
+      trustedClock(ownerStat.mtimeMs, admissionCeiling) ??
+      watchInstance(ownerPath, ownerStat, seenAt);
   }
 
   const holderGone = record.holder !== null && !processResponds(record.holder);
@@ -157,7 +160,8 @@ const reclaimAbandonedLock = async (
 
       const seenAt = Date.now();
       const bornAt =
-        trustedClock(lockStat.mtimeMs, seenAt) ?? watchInstance(lockPath, lockStat, seenAt);
+        trustedClock(lockStat.mtimeMs, seenAt + MAX_METADATA_LEEWAY_MS) ??
+        watchInstance(lockPath, lockStat, seenAt);
       if (seenAt - bornAt < staleGraceMs) return LOCK_STILL_HELD;
 
       const allRecyclable = await everyOwnerRecyclable(
