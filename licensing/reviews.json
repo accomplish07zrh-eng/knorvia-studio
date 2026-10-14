@@ -128930,7 +128930,7 @@
     },
     {
       "path": "specs/contracts/core-tool-handlers-bash-01/behavior.md",
-      "normalizedSha256": "c0f297c1c62de2046544025f32d3e686b10642baad3fa1de602c2ae2e0734273",
+      "normalizedSha256": "89e5ed2323b5bde060bc6c82353aa03b990ad413a5d46527f2eceeeb283b5743",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia contract for core-tool-handlers-bash-01 v1 (behavior spec B-ro/B-ex, machine-generated interface, dep-refs callers, black-box contract tests, read-only decision-sample fixtures, 38 import-throw stubs and the two-entry old-gate record) authored against the old implementation recorded behavior; read-only rule tables captured as judgment samples per replacement plan choice 9, no upstream code copied, renamed or line-rewritten. Old gate: source 43/43, dist 43/43, 38-stub replacement 0/43 (all-fail).",
@@ -128974,7 +128974,7 @@
     },
     {
       "path": "specs/contracts/core-tool-handlers-bash-01/gate-old.json",
-      "normalizedSha256": "53036b4fa3468e647657602839a26b124c93d3bb10bb589bea6cf2973d00374b",
+      "normalizedSha256": "c3f325d4c0231afaf863ae9b6590fe132c3980219f8bce356fada98eed61b55e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia contract for core-tool-handlers-bash-01 v1 (behavior spec B-ro/B-ex, machine-generated interface, dep-refs callers, black-box contract tests, read-only decision-sample fixtures, 38 import-throw stubs and the two-entry old-gate record) authored against the old implementation recorded behavior; read-only rule tables captured as judgment samples per replacement plan choice 9, no upstream code copied, renamed or line-rewritten. Old gate: source 43/43, dist 43/43, 38-stub replacement 0/43 (all-fail).",
@@ -128996,7 +128996,7 @@
     },
     {
       "path": "specs/contracts/core-tool-handlers-bash-01/known-differences.md",
-      "normalizedSha256": "c4249682944582048d566c708c110890c2d565f084a866d0dd6590627a6ec5f8",
+      "normalizedSha256": "bca68ae66ef24e17d1a82ca8cf3393e89421e4093a4d12493328bc51a01077bf",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia contract for core-tool-handlers-bash-01 v1 (behavior spec B-ro/B-ex, machine-generated interface, dep-refs callers, black-box contract tests, read-only decision-sample fixtures, 38 import-throw stubs and the two-entry old-gate record) authored against the old implementation recorded behavior; read-only rule tables captured as judgment samples per replacement plan choice 9, no upstream code copied, renamed or line-rewritten. Old gate: source 43/43, dist 43/43, 38-stub replacement 0/43 (all-fail).",
@@ -129491,7 +129491,7 @@
     },
     {
       "path": "specs/contracts/core-tool-handlers-bash-01/tests/bash-readonly.test.ts",
-      "normalizedSha256": "7a14779250f5ed0644edea7c8d5c4d2f6c23b08a81a5aca3576180ff80be80d6",
+      "normalizedSha256": "8164a964c72dc71feb0b5d265d8e455f26f26a88c4691edc4d4eae02b7ca5758",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia contract for core-tool-handlers-bash-01 v1 (behavior spec B-ro/B-ex, machine-generated interface, dep-refs callers, black-box contract tests, read-only decision-sample fixtures, 38 import-throw stubs and the two-entry old-gate record) authored against the old implementation recorded behavior; read-only rule tables captured as judgment samples per replacement plan choice 9, no upstream code copied, renamed or line-rewritten. Old gate: source 43/43, dist 43/43, 38-stub replacement 0/43 (all-fail).",

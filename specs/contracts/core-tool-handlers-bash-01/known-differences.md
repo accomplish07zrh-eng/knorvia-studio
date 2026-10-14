@@ -23,6 +23,13 @@
 - 处理：合同保留旧判定（B-ro-15）。重写重建时保持 `ps` 只读；`top` 是否纳入只读表为独立决策，本合同不改。
 - 对应测试：`tests/bash-readonly.test.ts` B-ro-15。
 
+## K-ro-4 `xargs` 只读判定随平台变化
+
+- 事实：`bash-readonly-policy-argv.ts` 在 `process.platform === "win32"` 且 argv[0] 为 `xargs` 时返回 `undefined` → `isRuntimeReadOnlyBashCommand` 判非只读；POSIX 上 `xargs` 走目标分析，`echo/wc/grep/head/tail` 等安全目标判只读、`rm` 等危险目标判非只读。例：`cat list.txt | xargs echo` 在 win32=false、Linux=true。
+- 影响：同一命令在两平台审批行为不同；属实现对「win32 无原生 xargs」的保守处理，非缺陷。
+- 处理：合同保留旧判定，断言按平台取期望值（`tests/bash-readonly.test.ts` 用 `!IS_WIN32`）。重写重建时保持该平台差异，不得统一成单一平台行为。
+- 对应测试：`tests/bash-readonly.test.ts` B-ro-9（安全目标样例 `!IS_WIN32`、`xargs rm` 恒 false）。
+
 ## 状态
 
-K-ro-1..3 各有对应样例断言；本簇在旧实现源码与 dist 两入口均通过（选择 9：判定样例即基线）。
+K-ro-1..4 各有对应样例断言；本簇在旧实现源码与 dist 两入口、Windows 与 Linux 两平台均通过（选择 9：判定样例即基线）。

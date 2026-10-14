@@ -12,6 +12,11 @@ import {
   isSedInPlaceBashCommand,
 } from "../../../../apps/cli/packages/core/src/tool/handlers/bash-semantics.js";
 
+// 只读规则表在 win32 与 POSIX 上有一处真实差异（见 known-differences.md K-ro-4）：
+// win32 上 `xargs` 的 argv 求值返回 undefined（保守判非只读）；POSIX 上 `xargs <安全目标>`
+// 依 XARGS_TARGET_COMMANDS 判只读。故安全目标的 xargs 样例按平台取期望值。
+const IS_WIN32 = process.platform === "win32";
+
 // [command, expectedReadOnly, category]
 const SAMPLES: ReadonlyArray<readonly [string, boolean, string]> = [
   // B-ro-1 simple read-only commands
@@ -55,8 +60,8 @@ const SAMPLES: ReadonlyArray<readonly [string, boolean, string]> = [
   ["sudo rm -rf /tmp/x", false, "sudo-mutating"],
   ["sudo apt-get install foo", false, "sudo-mutating"],
   // B-ro-9 xargs is not read-only
-  ["cat list.txt | xargs echo", false, "xargs"],
-  ["ls | xargs wc -l", false, "xargs"],
+  ["cat list.txt | xargs echo", !IS_WIN32, "xargs"],
+  ["ls | xargs wc -l", !IS_WIN32, "xargs"],
   ["find . -name '*.log' | xargs rm", false, "xargs-mutating"],
   // B-ro-10 git read-only subcommands
   ["git status", true, "git-ro"],

@@ -20,7 +20,7 @@
 - **B-ro-6 重定向**：`<` 入重定向只读；`>`/`>>` 出重定向判非只读（写文件）。测试 B-ro-6。
 - **B-ro-7 子 shell/命令替换/赋值**：`( )`、`$( )`、反引号、`x=$( )` 一律非只读。测试 B-ro-7。
 - **B-ro-8 sudo**：任何 `sudo …` 非只读（提权，不因被提权命令只读而只读）。测试 B-ro-8。
-- **B-ro-9 xargs**：含 `xargs` 的管道非只读（可执行任意目标命令）。测试 B-ro-9。
+- **B-ro-9 xargs**：含 `xargs` 的管道非只读（可执行任意目标命令）。平台差异（K-ro-4）：win32 上 `xargs` 的 argv 求值返回 undefined → 一律判非只读；POSIX 上 `xargs <安全目标>`（echo/wc/grep/head/tail 等 XARGS_TARGET_COMMANDS）判只读，`xargs <危险目标>`（如 rm）判非只读。断言按平台取期望（安全目标样例 `!IS_WIN32`；`xargs rm` 恒 false）。测试 B-ro-9。
 - **B-ro-10 git 只读子命令**：`status/log/diff/show/branch/remote/config --get` 判只读。测试 B-ro-10。
 - **B-ro-11 git 变更子命令**：`commit/push/checkout/merge/reset/add/rebase/clean` 判非只读；`git clean -n`（干跑）仍判非只读（见 K-ro-2）。测试 B-ro-11。
 - **B-ro-12 就地变更**：`sed -i`、`tee`、`dd of=` 判非只读；`sed`（无 -i）只读。测试 B-ro-12。
