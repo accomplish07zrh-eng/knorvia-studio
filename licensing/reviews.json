@@ -77805,7 +77805,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
-      "normalizedSha256": "296b0bde7825712d99bd07af486634a34d911a099c422a785559eee4df8e4696",
+      "normalizedSha256": "d8e96c522eb27a24111210a318b201ad655773a0082d2ff3a88104862f11bc48",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -77816,7 +77816,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "407cd30ebb68a343dc4127b8be05dfc8416d6d17bd688cd3b4ada5c097cd0258",
+      "normalizedSha256": "1225807e41be5739f869d79f8e4a91f5c6499c375bf122b75b810bcae8b74ac5",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -77827,7 +77827,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-      "normalizedSha256": "26a36eb9f0bbd73493246ebe56b6e49e4eb2b12a20e4414cb0f8af02e44a10e2",
+      "normalizedSha256": "f5ae59661642f57e2aa5c520fc11674f3be1255b78243fbc8df1e574b38de0b9",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -77849,7 +77849,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "6adbdb7f9ef7ca843bf9c20bfefd244609a0352f30548c4ae38fd4b687bb4978",
+      "normalizedSha256": "1377bc4ca946b7e7cb8e2d650c138a64f4ba4ea25d5df39fb6e2701a7be8bd30",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",

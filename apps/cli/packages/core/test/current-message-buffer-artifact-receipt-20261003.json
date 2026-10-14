@@ -1050,8 +1050,8 @@
     "apps/cli/packages/core/src/tool/executor/utils.ts": "17df4dc4968e41728f4f1e0e76bb8fec0d60d5aa560c00fe245e1e335c03ee44",
     "apps/cli/packages/core/dist/tool/executor/utils.js": "d4041354446ee33fcd17d1789e7965672c17de5770a8658d7b5586f19c51830a",
     "apps/cli/packages/core/dist/tool/executor/utils.d.ts": "80fb6e31b4db6af1cec008aa3e8104ffbaaba1a82a592d23a93fafa8faa6c5ca",
-    "apps/cli/packages/core/src/tool/diff.ts": "d46401fe40e367dc2f50a5fa3b5267b5881b9cb41746d61163ebdd1fa47dc48c",
-    "apps/cli/packages/core/dist/tool/diff.js": "d826b19114c9378d49e573ebc332b17d3149a7133753d621f7ebdb9125045ad8",
+    "apps/cli/packages/core/src/tool/diff.ts": "377bf01678cf2b2d8af478712fa6674176b3d3e857182e451b9b1d57035eaac7",
+    "apps/cli/packages/core/dist/tool/diff.js": "d0dae2d55a1b97a0b11aaec5108855857507ebcc89c396e3f814c160f7412e13",
     "apps/cli/packages/core/dist/tool/diff.d.ts": "ea20aa0bd999918a5b18c3d674ea6552017c59a344551b669129c515e4eb2e5c",
     "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts": "c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19",
     "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
@@ -1083,7 +1083,7 @@
   },
   "previousReceipt": {
     "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-    "sha256": "26a36eb9f0bbd73493246ebe56b6e49e4eb2b12a20e4414cb0f8af02e44a10e2"
+    "sha256": "f5ae59661642f57e2aa5c520fc11674f3be1255b78243fbc8df1e574b38de0b9"
   },
   "build": {
     "node": "24.14.0",
