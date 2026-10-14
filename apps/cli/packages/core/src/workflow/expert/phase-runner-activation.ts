@@ -28,7 +28,7 @@ const activeActivityFields = (
   startedAt: string,
 ): readonly (readonly [string, unknown])[] => [
   ["activityId", activityId],
-  ["inputArtifactPaths", [...inputs]],
+  ["inputArtifactPaths", inputs],
   ["kind", "agent_session"],
   ["nodeId", phaseNodeId(phase.phase)],
   ["outputArtifactPaths", []],
