@@ -12,16 +12,39 @@
 
 import { execFile, type ExecFileOptionsWithStringEncoding } from "node:child_process";
 
-import {
-  ENUMERATION_TIMEOUT_MS,
-  FINAL_WAIT_MS,
-  GRACE_STAGES,
-  POLL_INTERVAL_MS,
-  TASKKILL_TIMEOUT_MS,
-  type CommandResult,
-  type ExecFileFn,
-  type TerminatorOptions,
-} from "./process-tree-types.js";
+// 进程树终止的内部形状与预算常量（原独立形状模块并回本文件：边界契约只允许既有的依赖面）。
+interface CommandResult {
+  error?: unknown;
+  status: number | null;
+  stderr: string;
+  stdout: string;
+}
+
+type KillFn = typeof process.kill;
+type ExecFileFn = (
+  file: string,
+  args: readonly string[],
+  options: ExecFileOptionsWithStringEncoding,
+) => Promise<CommandResult>;
+
+interface TerminatorOptions {
+  execFile?: ExecFileFn;
+  kill?: KillFn;
+  now?: () => number;
+  platform?: NodeJS.Platform;
+  sleep?: (ms: number) => Promise<void>;
+}
+
+// 预算常量：枚举 1s、taskkill 2s、轮询 25ms、SIGKILL 后核对 250ms；
+// 两级宽限 SIGINT 250ms → SIGTERM 750ms，顺序不可颠倒。
+const ENUMERATION_TIMEOUT_MS = 1000;
+const TASKKILL_TIMEOUT_MS = 2000;
+const POLL_INTERVAL_MS = 25;
+const FINAL_WAIT_MS = 250;
+const GRACE_STAGES = [
+  ["SIGINT", 250],
+  ["SIGTERM", 750],
+] as const;
 
 function exitStatus(cause: unknown): number | null {
   if (!cause || typeof cause !== "object" || !("code" in cause)) return 0;
@@ -201,7 +224,7 @@ export async function terminateMcpStdioProcessTree(
   const leftover = hardPids.filter((target) => isRunning(target, options));
   if (leftover.length > 0) {
     throw new Error(
-      `SIGKILL failed for MCP stdio process tree pid=${pid} leftover=${leftover.join(",")}`,
+      `SIGKILL failed for MCP stdio process tree pid=${pid} remaining=${leftover.join(",")}`,
     );
   }
 }

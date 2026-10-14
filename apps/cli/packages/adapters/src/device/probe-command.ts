@@ -32,25 +32,25 @@ function failureDetail(response: ProcessProbeCommandResult): string {
 }
 
 export async function runProbeCommand(
-  probe: ProcessProbeExecFile,
-  binary: string,
-  argv: readonly string[],
-  extra?: Partial<SpawnOptions>,
+  execFile: ProcessProbeExecFile,
+  file: string,
+  args: readonly string[],
+  extraOptions?: Partial<ExecFileOptionsWithStringEncoding>,
 ): Promise<string> {
-  const response = await probe(binary, argv, commandOptions(extra));
+  const response = await execFile(file, args, commandOptions(extraOptions));
   if (response.status === 0 && response.error === undefined) return response.stdout;
-  throw new ProcessProbeFailure(`${binary} 采样失败: ${failureDetail(response)}`);
+  throw new ProcessProbeFailure(`${file} 采样失败: ${failureDetail(response)}`);
 }
 
 /** 默认执行器：把 child_process 的失败也转成结果对象，永不 reject。 */
 export async function defaultProbeExecFile(
-  binary: string,
-  argv: readonly string[],
-  spawnOptions: SpawnOptions,
+  file: string,
+  args: readonly string[],
+  options: ExecFileOptionsWithStringEncoding,
 ): Promise<ProcessProbeCommandResult> {
   const run = promisify(nodeExecFile);
   try {
-    const outcome = await run(binary, argv, spawnOptions);
+    const outcome = await run(file, args, options);
     return { status: 0, stderr: outcome.stderr, stdout: outcome.stdout };
   } catch (error) {
     return failureResult(error);

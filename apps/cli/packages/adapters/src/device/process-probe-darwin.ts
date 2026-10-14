@@ -81,8 +81,8 @@ export async function readDarwinProcessTable(
 
 export async function readDarwinProcessGroup(
   execFile: ProcessProbeExecFile,
-  groupId: number,
+  processGroupId: number,
 ): Promise<readonly ProcessRow[]> {
-  const query = [...GROUP_QUERY, "-g", String(groupId)];
+  const query = [...GROUP_QUERY, "-g", String(processGroupId)];
   return parseTable(await runProbeCommand(execFile, PS, query), { pidIndex: 0, rssIndex: 1 });
 }

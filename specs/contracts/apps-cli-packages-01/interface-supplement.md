@@ -534,9 +534,9 @@ export interface CreateInteractiveAuthorizationErrorInput extends InteractiveAut
 ```ts
 interface StdioProcessExitInfo {
   exitCode: number | null;
-  endedAt: number;
+  exitedAt: number;
   signal: NodeJS.Signals | null;
-  beganAt: number;
+  startedAt: number;
 }
 
 interface ProcessTreeStdioClientTransportOptions {

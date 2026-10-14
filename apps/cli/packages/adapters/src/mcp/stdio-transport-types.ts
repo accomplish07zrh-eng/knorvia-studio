@@ -8,9 +8,9 @@ import type { WindowsJobObjectController } from "./windows-job-object.js";
 
 export interface StdioProcessExitInfo {
   exitCode: number | null;
-  endedAt: number;
+  exitedAt: number;
   signal: NodeJS.Signals | null;
-  beganAt: number;
+  startedAt: number;
 }
 
 export interface ProcessTreeStdioClientTransportOptions {

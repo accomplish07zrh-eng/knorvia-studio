@@ -85,7 +85,10 @@ export function toSerializableEntry(record: LogEntry, masker: LogRedactor): Seri
 export function formatConsoleLine(record: LogEntry): string {
   const segments = [record.levelName.toLowerCase(), `[${record.module ?? "log"}]`];
   const optional = [
-    record.traceId ? `trace=${record.traceId.slice(0, 8)}` : undefined,
+    // traceId 按类型过滤后可能是任意 JSON 值：只有非空字符串才截取展示。
+    typeof record.traceId === "string" && record.traceId
+      ? `trace=${record.traceId.slice(0, 8)}`
+      : undefined,
     record.event ? `event=${record.event}` : undefined,
   ];
   for (const part of optional) {

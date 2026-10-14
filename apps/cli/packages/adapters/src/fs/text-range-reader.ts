@@ -162,23 +162,24 @@ async function sampleEncoding(path: string, signal?: AbortSignal): Promise<FileS
 }
 
 export async function readTextFileRangeFromNode(
-  query: RangeRequest,
+  request: FileSystemReadTextRangeRequest,
   info: Stats,
   signal?: AbortSignal,
 ): Promise<FileSystemReadTextRangeResult> {
   throwIfCancelled(signal);
-  const maxBytes = query.maxBytes;
-  if (maxBytes !== undefined && info.size > maxBytes) throw tooLargeError(query, info.size);
+  const maxBytes = request.maxBytes;
+  if (maxBytes !== undefined && info.size > maxBytes) throw tooLargeError(request, info.size);
 
-  const offset = Math.max(0, Math.trunc(query.offsetLine ?? 0));
+  const offset = Math.max(0, Math.trunc(request.offsetLine ?? 0));
   const limit =
-    query.limitLines === undefined ? undefined : Math.max(0, Math.trunc(query.limitLines));
-  const shared: RangeInput = { limit, offset, query, signal };
+    request.limitLines === undefined ? undefined : Math.max(0, Math.trunc(request.limitLines));
+  const shared: RangeInput = { limit, offset, query: request, signal };
+
   const fields =
     info.size <= WHOLE_FILE_THRESHOLD ? await wholeFile(shared) : await scanFile(shared);
 
   const result = {} as FileSystemReadTextRangeResult;
-  result.path = query.path;
+  result.path = request.path;
   Object.assign(result, fields);
   result.sizeBytes = info.size;
   result.truncated = false;

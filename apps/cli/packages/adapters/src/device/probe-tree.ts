@@ -42,12 +42,12 @@ function treeMembers(index: EdgeIndex, root: number): number[] {
 }
 
 export function collectProcessTreePids(
-  edges: readonly ProcessRelation[],
+  relations: readonly ProcessRelation[],
   rootPids: readonly number[],
 ): ReadonlyMap<number, readonly number[]> {
   const present = new Set<number>();
-  for (const edge of edges) present.add(edge.pid);
-  const index = buildEdges(edges);
+  for (const edge of relations) present.add(edge.pid);
+  const index = buildEdges(relations);
   const byRoot = new Map<number, readonly number[]>();
   for (const root of rootPids) {
     if (!present.has(root)) continue;

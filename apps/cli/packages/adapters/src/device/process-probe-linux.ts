@@ -140,21 +140,21 @@ async function buildTrees(
 }
 
 export async function sampleLinuxProcessTrees(
-  io: LinuxProcReaders,
-  roots: readonly number[],
+  readers: LinuxProcReaders,
+  rootPids: readonly number[],
 ): Promise<ReadonlyMap<number, readonly ProcessProbeSample[]>> {
-  const relations = await readRelations(io);
-  const trees = collectProcessTreePids(relations, roots);
-  return await buildTrees(io, trees, relations);
+  const relations = await readRelations(readers);
+  const trees = collectProcessTreePids(relations, rootPids);
+  return await buildTrees(readers, trees, relations);
 }
 
 export async function sampleLinuxProcessGroup(
-  io: LinuxProcReaders,
-  groupId: number,
+  readers: LinuxProcReaders,
+  processGroupId: number,
 ): Promise<readonly ProcessProbeSample[]> {
-  const relations = await readRelations(io);
+  const relations = await readRelations(readers);
   return await sampleRelations(
-    io,
-    relations.filter((row) => row.processGroupId === groupId),
+    readers,
+    relations.filter((row) => row.processGroupId === processGroupId),
   );
 }

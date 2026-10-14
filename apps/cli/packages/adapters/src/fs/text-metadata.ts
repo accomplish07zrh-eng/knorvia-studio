@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 // 文本元数据公开面：解码/编码、流式解码器与行尾归一；探测实现在 text-encoding-detect。
-import { createFileSystemError, type FileSystemLineEndings } from "@knorvia/contracts";
+import {
+  createFileSystemError,
+  type FileSystemLineEndings,
+  type FileSystemTextEncoding,
+} from "@knorvia/contracts";
 import { detectEncoding, isChineseEncoding, kitFor } from "./text-encoding-detect.js";
-import type { DecodedText, Encoding, StreamingTextDecoder } from "./text-codec-types.js";
+import type { DecodedTextBuffer, StreamingTextDecoder } from "./text-codec-types.js";
 
 const LINE_FEED = "\n";
 const CARRIAGE_RETURN = "\r\n";
@@ -10,42 +14,34 @@ const CARRIAGE_RETURN = "\r\n";
 const BYTE_LEVEL_ENCODINGS = new Set(["base64", "base64url", "hex"]);
 const LINE_BREAKS = /\r?\n/gu;
 
-type MaybeLineEndings = FileSystemLineEndings | undefined;
-
-/** 解码请求：encoding 省略时按内容探测。 */
-interface DecodeRequest {
-  buffer: Buffer;
-  encoding?: Encoding;
-  path?: string;
-}
-
-/** 编码请求：encoding 省略时按 utf8 写出。 */
-interface EncodeRequest {
-  content: string;
-  encoding?: Encoding;
-  path?: string;
-}
-
-export function detectTextEncoding(buffer: Buffer, path?: string): Encoding {
+export function detectTextEncoding(buffer: Buffer, path?: string): FileSystemTextEncoding {
   return detectEncoding(buffer, path);
 }
 
-export function decodeTextBuffer(request: DecodeRequest): DecodedText {
+export function decodeTextBuffer(request: {
+  buffer: Buffer;
+  encoding?: FileSystemTextEncoding;
+  path?: string;
+}): DecodedTextBuffer {
   const encoding = request.encoding ?? detectEncoding(request.buffer, request.path);
-  const decoded = {} as DecodedText;
+  const decoded = {} as DecodedTextBuffer;
   decoded.content = kitFor(encoding).toText(request.buffer, encoding);
   decoded.encoding = encoding;
   return decoded;
 }
 
 /** 中文编码写入前必须往返校验：不能无损表达时拒绝而不是静默替换。 */
-function roundTripError(encoding: Encoding, path: string | undefined): Error {
+function roundTripError(encoding: FileSystemTextEncoding, path: string | undefined): Error {
   const suffix = path ? `: ${path}` : "";
   const message = `Content cannot be encoded as ${encoding}${suffix}`;
   return createFileSystemError({ code: "unsupported", message, path });
 }
 
-export function encodeTextContent(request: EncodeRequest): Buffer {
+export function encodeTextContent(request: {
+  content: string;
+  encoding?: FileSystemTextEncoding;
+  path?: string;
+}): Buffer {
   const encoding = request.encoding ?? "utf8";
   const kit = kitFor(encoding);
   const bytes = kit.toBytes(request.content, encoding);
@@ -54,11 +50,11 @@ export function encodeTextContent(request: EncodeRequest): Buffer {
   throw roundTripError(encoding, request.path);
 }
 
-export function createStreamingTextDecoder(encoding: Encoding): StreamingTextDecoder {
+export function createStreamingTextDecoder(encoding: FileSystemTextEncoding): StreamingTextDecoder {
   return kitFor(encoding).streamer(encoding);
 }
 
-export function shouldNormalizeLineEndings(encoding: Encoding): boolean {
+export function shouldNormalizeLineEndings(encoding: FileSystemTextEncoding): boolean {
   return !BYTE_LEVEL_ENCODINGS.has(encoding.toLowerCase());
 }
 
@@ -77,7 +73,10 @@ export function normalizeLineEndings(content: string): string {
   return content.split(CARRIAGE_RETURN).join(LINE_FEED);
 }
 
-export function applyRequestedLineEndings(content: string, lineEndings: MaybeLineEndings): string {
+export function applyRequestedLineEndings(
+  content: string,
+  lineEndings: FileSystemLineEndings | undefined,
+): string {
   if (lineEndings === undefined) return content;
   const converted = normalizeLineEndings(content);
   if (lineEndings === "LF") return converted;

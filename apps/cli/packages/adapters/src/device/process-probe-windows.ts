@@ -64,11 +64,11 @@ function rowSample(line: string, wanted: ReadonlySet<number>): ProcessProbeSampl
 }
 
 export async function readWindowsProcessMemory(
-  probe: ProcessProbeExecFile,
-  targets: readonly number[],
+  execFile: ProcessProbeExecFile,
+  pids: readonly number[],
 ): Promise<readonly ProcessProbeSample[]> {
-  const wanted = new Set(targets);
-  const table = await runProbeCommand(probe, TASKLIST, TASKLIST_ARGS, { windowsHide: true });
+  const wanted = new Set(pids);
+  const table = await runProbeCommand(execFile, TASKLIST, TASKLIST_ARGS, { windowsHide: true });
   const samples: ProcessProbeSample[] = [];
   for (const line of table.split(/\r?\n/u)) {
     const sample = rowSample(line, wanted);

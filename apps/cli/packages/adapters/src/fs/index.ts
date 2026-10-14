@@ -108,7 +108,9 @@ function tooLargeBytesError(target: string, message: string): Error {
 export class NodeFileSystemAdapter implements FileSystemPort {
   constructor(private readonly adapterOptions: NodeFileSystemAdapterOptions = {}) {}
 
-  async createDirectory(request: CreateRequest): Promise<CreateResult> {
+  async createDirectory(
+    request: FileSystemCreateDirectoryRequest,
+  ): Promise<FileSystemCreateDirectoryResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       maybeThrowStorageFsFault({ operation: "mkdir", path: target });
@@ -117,7 +119,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async stat(request: StatRequest): Promise<StatResult> {
+  async stat(request: FileSystemStatRequest): Promise<FileSystemStatResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -132,7 +134,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async readTextFile(request: TextRequest): Promise<TextResult> {
+  async readTextFile(request: FileSystemReadTextRequest): Promise<FileSystemReadTextResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -154,7 +156,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async readBinaryFile(request: BytesRequest): Promise<BytesResult> {
+  async readBinaryFile(request: FileSystemReadBytesRequest): Promise<FileSystemReadBytesResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -183,7 +185,10 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async readTextFileRange(request: RangeRequest, options?: CallOptions): Promise<RangeResult> {
+  async readTextFileRange(
+    request: FileSystemReadTextRangeRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<FileSystemReadTextRangeResult> {
     const target = absolute(request.path);
     return await guarded(target, async () => {
       const info = await stat(target);
@@ -192,7 +197,7 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async writeTextFile(request: WriteRequest): Promise<WriteResult> {
+  async writeTextFile(request: FileSystemWriteTextRequest): Promise<FileSystemWriteTextResult> {
     const target = absolute(request.path);
     const encoding = request.encoding ?? "utf8";
     const bytes = encodeTextContent({
@@ -226,7 +231,10 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async removeFile(request: RemoveRequest, options?: CallOptions): Promise<RemoveResult> {
+  async removeFile(
+    request: FileSystemRemoveFileRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<FileSystemRemoveFileResult> {
     const target = absolute(request.path);
     try {
       aborted(options?.signal);
@@ -244,7 +252,10 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     }
   }
 
-  async listDirectory(request: ListRequest, options?: CallOptions): Promise<ListResult> {
+  async listDirectory(
+    request: FileSystemListDirectoryRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<FileSystemListDirectoryResult> {
     const target = absolute(request.path);
     const startedAt = Date.now();
     return await guarded(target, async () => {
@@ -272,11 +283,17 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     });
   }
 
-  async searchFiles(request: FilesRequest, options?: CallOptions): Promise<FilesResult> {
+  async searchFiles(
+    request: FileSystemSearchFilesRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<FileSystemSearchFilesResult> {
     return searchFiles(request, options?.signal);
   }
 
-  async searchText(request: SearchRequest, options?: CallOptions): Promise<SearchResult> {
+  async searchText(
+    request: FileSystemSearchTextRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<FileSystemSearchTextResult> {
     const target = absolute(request.path);
     const normalized = request.path === target ? request : { ...request, path: target };
     return searchText(normalized, this.adapterOptions.textSearchEngine, options?.signal);

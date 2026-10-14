@@ -52,20 +52,20 @@ function withInjectedMeta(frame: JSONRPCMessage, metaFields: Meta): JSONRPCMessa
 /** 记录首次退出：已有记录不覆盖；进程已退出则立即记录，否则挂一次性监听。 */
 function observeFirstExit(
   proc: ChildProcess,
-  beganAt: number,
+  startedAt: number,
+  isRecorded: () => boolean,
   remember: (info: StdioProcessExitInfo) => void,
 ): void {
-  const build = (exitCode: number | null, signal: NodeJS.Signals | null): StdioProcessExitInfo => ({
-    exitCode,
-    endedAt: Date.now(),
-    signal,
-    beganAt,
-  });
+  const record = (exitCode: number | null, signal: NodeJS.Signals | null): void => {
+    // 已有记录时直接忽略：既不覆盖，也不再读时钟。
+    if (isRecorded()) return;
+    remember({ exitCode, exitedAt: Date.now(), signal, startedAt });
+  };
   if (proc.exitCode !== null || proc.signalCode !== null) {
-    remember(build(proc.exitCode, proc.signalCode));
+    record(proc.exitCode, proc.signalCode);
     return;
   }
-  proc.once("exit", (exitCode, signal) => remember(build(exitCode, signal)));
+  proc.once("exit", (exitCode, signal) => record(exitCode, signal));
 }
 
 /** 结束 job：terminate 与 close 各自兜错，引用已由调用方先清空。 */
@@ -133,9 +133,16 @@ export class ProcessTreeStdioClientTransport extends StdioClientTransport {
     const proc = (this as unknown as { _process?: ChildProcess | null })._process;
     if (!proc) return;
     this.#child = proc;
-    observeFirstExit(proc, launchStartedAt, (info) => {
-      this.#firstExit ??= info;
-    });
+    observeFirstExit(
+      proc,
+      launchStartedAt,
+      () => this.#firstExit !== undefined,
+      (info) => {
+        this.#firstExit = info;
+      },
+    );
+    // 进程在 start 期间就已退出：不再挂 exit 监听，也不再绑定 job object。
+    if (proc.exitCode !== null || proc.signalCode !== null) return;
     if (process.platform !== "win32" || this.pid == null) return;
     try {
       this.#job = await this.#jobFactory(this.pid);

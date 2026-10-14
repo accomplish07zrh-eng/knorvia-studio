@@ -4,7 +4,7 @@ import type { FileSystemTextEncoding } from "@knorvia/contracts";
 
 export type Encoding = FileSystemTextEncoding;
 
-export interface DecodedText {
+export interface DecodedTextBuffer {
   content: string;
   encoding: Encoding;
 }
