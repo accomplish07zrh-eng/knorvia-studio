@@ -1,0 +1,208 @@
+{
+  "family": "actors",
+  "samples": [
+    {
+      "id": "actors/duplicate-literal-names",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9005,
+          "column": 36,
+          "line": 1,
+          "message": "two actors are named \"same\" (the first is on line 1): an actor name must be unique within a run. The name is the identity key an amended re-run matches its imported cache against, and any run can become the predecessor of one, so a repeated name makes that match ambiguous. Give this one its own name, or drop the name entirely — anonymous actors are legal (they just never reuse cached work)."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "actors/distinct-literal-names",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"one\" @1:11 order=0\nactor actor#2 \"two\" @1:35 order=1\nask ask#1 \"a\" @1:57 order=2 type=\"string\"\nask ask#2 \"b\" @1:82 order=3 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact ask-actor ask#2 <- actor#2 exact\nfact return <- ask#2 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nspawn actor#2 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\nissue ask#2 in=seq#1 phase=unphased\nsettle ask#2 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"one\" @1:11\nlane actor#2 \"two\" @1:35\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:57 lane=actor#1 region=seq#1 always\nstep ask#2 ask \"b\" @1:82 lane=actor#2 region=seq#1 always\nedge ask#1 -> ask#2 seq always\nsink ask#2\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nnode ask#2@1 issue site=ask#2 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> ask#2@1 next\nedge ask#2@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"one\" steps=ask#1\nparticipant unphased:actor#2 \"two\" steps=ask#2\nhandoff unphased:actor#1 -> unphased:actor#2\n",
+      "site": "node source\nnode ask#1 \"a\" @1:57 actors=actor#1 type=\"string\"\nnode ask#2 \"b\" @1:82 actors=actor#2 type=\"string\"\nnode sink\nactor actor#1 \"one\" @1:11\nactor actor#2 \"two\" @1:35\nedge source -> ask#1 data exact\nedge source -> ask#2 data exact\nedge ask#2 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"one\" @1:11\nactor-node actor#2 \"two\" @1:35\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge source -> actor#2 exact count=1\nactor-edge actor#2 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/template-name",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"a\" @1:26 order=0\nask ask#1 \"a\" @1:67 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:26\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:67 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:67 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:26\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:26\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/binding-name-fallback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"reviewer\" @1:18 order=0\nask ask#1 \"reviewer\" @1:49 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"reviewer\" @1:18\nregion seq#1 seq\nstep ask#1 ask \"reviewer\" @1:49 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"reviewer\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"reviewer\" @1:49 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"reviewer\" @1:18\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"reviewer\" @1:18\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/anonymous-many",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "ask ask#1 \"ask\" @1:15 order=0 type=\"string\"\nactor actor#1 @1:7 order=1\nask ask#2 \"ask\" @1:39 order=2 type=\"string\"\nactor actor#2 @1:31 order=3\nask ask#3 \"ask\" @1:70 order=4 type=\"string\"\nactor actor#3 @1:62 order=5\nfact ask-actor ask#1 <- actor#1 exact\nfact ask-actor ask#2 <- actor#2 exact\nfact ask-actor ask#3 <- actor#3 exact\nfact return <- ask#3 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\nspawn actor#2 in=seq#1\nissue ask#2 in=seq#1 phase=unphased\nsettle ask#2 in=seq#1\nspawn actor#3 in=seq#1\nissue ask#3 in=seq#1 phase=unphased\nsettle ask#3 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 @1:7\nlane actor#2 @1:31\nlane actor#3 @1:62\nregion seq#1 seq\nstep ask#1 ask \"ask\" @1:15 lane=actor#1 region=seq#1 always\nstep ask#2 ask \"ask\" @1:39 lane=actor#2 region=seq#1 always\nstep ask#3 ask \"ask\" @1:70 lane=actor#3 region=seq#1 always\nedge ask#1 -> ask#2 seq always\nedge ask#2 -> ask#3 seq always\nsink ask#3\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nnode ask#2@1 issue site=ask#2 phase=unphased\nnode ask#3@1 issue site=ask#3 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> ask#2@1 next\nedge ask#2@1 -> ask#3@1 next\nedge ask#3@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 steps=ask#1\nparticipant unphased:actor#2 steps=ask#2\nparticipant unphased:actor#3 steps=ask#3\nhandoff unphased:actor#1 -> unphased:actor#2\nhandoff unphased:actor#2 -> unphased:actor#3\n",
+      "site": "node source\nnode ask#1 \"ask\" @1:15 actors=actor#1 type=\"string\"\nnode ask#2 \"ask\" @1:39 actors=actor#2 type=\"string\"\nnode ask#3 \"ask\" @1:70 actors=actor#3 type=\"string\"\nnode sink\nactor actor#1 @1:7\nactor actor#2 @1:31\nactor actor#3 @1:62\nedge source -> ask#1 data exact\nedge source -> ask#2 data exact\nedge source -> ask#3 data exact\nedge ask#3 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 @1:7\nactor-node actor#2 @1:31\nactor-node actor#3 @1:62\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge source -> actor#2 exact count=1\nactor-edge source -> actor#3 exact count=1\nactor-edge actor#3 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/duplicate-binding-names",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"one\" @1:16 order=0\nactor actor#2 \"two\" @1:44 order=1\nask ask#1 \"worker\" @1:71 order=2 type=\"string\"\nask ask#2 \"other\" @1:100 order=3 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact ask-actor ask#2 <- actor#2 exact\nfact return <- ask#2 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nspawn actor#2 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\nissue ask#2 in=seq#1 phase=unphased\nsettle ask#2 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"one\" @1:16\nlane actor#2 \"two\" @1:44\nregion seq#1 seq\nstep ask#1 ask \"worker\" @1:71 lane=actor#1 region=seq#1 always\nstep ask#2 ask \"other\" @1:100 lane=actor#2 region=seq#1 always\nedge ask#1 -> ask#2 seq always\nsink ask#2\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nnode ask#2@1 issue site=ask#2 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> ask#2@1 next\nedge ask#2@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"one\" steps=ask#1\nparticipant unphased:actor#2 \"two\" steps=ask#2\nhandoff unphased:actor#1 -> unphased:actor#2\n",
+      "site": "node source\nnode ask#1 \"worker\" @1:71 actors=actor#1 type=\"string\"\nnode ask#2 \"other\" @1:100 actors=actor#2 type=\"string\"\nnode sink\nactor actor#1 \"one\" @1:16\nactor actor#2 \"two\" @1:44\nedge source -> ask#1 data exact\nedge source -> ask#2 data exact\nedge ask#2 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"one\" @1:16\nactor-node actor#2 \"two\" @1:44\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge source -> actor#2 exact count=1\nactor-edge actor#2 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/same-name-loop-static",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9006,
+          "column": 37,
+          "line": 1,
+          "message": "this agent(...) runs once per element of a fan-out but its name \"static\" is a fixed string, so every element creates a different actor under the same name — the run fails with DuplicateActorName as soon as the collection holds more than one item. An actor name must be unique within a run: it is the identity key an amended re-run matches its imported cache against. Build a per-element name (`static-${item}`), or drop the name — anonymous actors are legal (they just never reuse cached work)."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": "fan-out fan-out#1 \"fan-out\" @1:1 order=0 count=2\nask ask#1 \"static\" @1:53 order=1 within=fan-out#1 type=\"string\"\nactor actor#1 \"static\" @1:37 order=2 within=fan-out#1\nfact ask-data ask#1 <- fan-out#1 exact\nfact ask-actor ask#1 <- actor#1 exact\nregion seq#1 seq entered\nregion loop#1 loop parent=seq#1 @1:1\nspawn actor#1 in=seq#1>loop#1\nissue ask#1 in=seq#1>loop#1 phase=unphased\nsettle ask#1 in=seq#1>loop#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"static\" @1:37 families=loop#1\nregion seq#1 seq\nregion loop#1 loop parent=seq#1 @1:1\nstep ask#1 ask \"static\" @1:53 lane=actor#1 region=loop#1 maybe serial\nedge ask#1 -> ask#1 carry maybe\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge entry -> sink exit\nedge ask#1@1 -> ask#1@1 loop\nedge ask#1@1 -> sink exit\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1[0] \"static\" member=0/2 steps=ask#1\nparticipant unphased:actor#1[1] \"static\" member=1/2 steps=ask#1\n",
+      "site": "node source\nnode fan-out#1 \"fan-out\" @1:1\nnode ask#1 \"static\" @1:53 actors=actor#1 within=fan-out#1 type=\"string\"\nnode sink\nactor actor#1 \"static\" @1:37 within=fan-out#1\nedge source -> fan-out#1 data exact\nedge fan-out#1 -> ask#1 data exact\n",
+      "actor": "actor-node actor#1 \"static\" @1:37 family=fan-out#1\n"
+    },
+    {
+      "id": "actors/template-name-in-fanout",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "join join#1 \"join\" @1:45 order=0 type=\"string[]\"\nfan-out fan-out#1 \"fan-out\" @1:49 order=1 count=2 type=\"string[]\"\nask ask#1 \"ask\" head=\"r-\" @1:91 order=2 within=fan-out#1 type=\"string\"\nactor actor#1 head=\"r-\" @1:75 order=3 within=fan-out#1\nfact ask-data ask#1 <- fan-out#1 exact\nfact ask-actor ask#1 <- actor#1 exact\nfact join-in join#1 <- ask#1 exact\nfact join-in join#1 <- fan-out#1 exact\nfact return <- ask#1 exact\nfact return <- join#1 exact\nfact return <- fan-out#1 exact\nregion seq#1 seq entered\nregion fanout#1 fanout parent=seq#1 @1:49 label=\"map\" strand\nspawn actor#1 in=seq#1>fanout#1\nissue ask#1 in=seq#1>fanout#1 phase=unphased\nsettle ask#1 in=seq#1>fanout#1\nsettle ask#1 in=seq#1 joins=fanout#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 name-head=\"r-\" @1:75 families=fanout#1\nregion seq#1 seq\nregion fanout#1 fanout parent=seq#1 @1:49 label=\"map\"\nstep ask#1 ask \"ask\" label-head=\"r-\" @1:91 lane=actor#1 region=fanout#1 maybe serial\nedge ask#1 -> ask#1 carry maybe\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 fork\nedge entry -> sink jump via=return\nedge ask#1@1 -> sink join\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1[0] member=0/2 steps=ask#1\nparticipant unphased:actor#1[1] member=1/2 steps=ask#1\n",
+      "site": "node source\nnode join#1 \"join\" @1:45 type=\"string[]\"\nnode fan-out#1 \"fan-out\" @1:49 type=\"string[]\"\nnode ask#1 \"ask\" @1:91 actors=actor#1 within=fan-out#1 type=\"string\"\nnode sink\nactor actor#1 @1:75 within=fan-out#1\nedge source -> fan-out#1 data exact\nedge join#1 -> sink data exact type=\"string[]\"\nedge fan-out#1 -> join#1 data exact type=\"string[]\"\nedge fan-out#1 -> ask#1 data exact type=\"string[]\"\nedge fan-out#1 -> sink data exact type=\"string[]\"\nedge ask#1 -> join#1 data exact type=\"string\"\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node actor#1 @1:75 family=fan-out#1\nactor-node sink\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/persona-and-name",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"lead\" @1:14 order=0\nactor actor#2 \"sub\" @1:71 order=1\nask ask#1 \"lead\" @1:103 order=2 type=\"string\"\nask ask#2 \"sub\" @1:117 order=3 type=\"string\"\nfact ask-data ask#1 <- ask#2 exact\nfact ask-actor ask#1 <- actor#1 exact\nfact ask-actor ask#2 <- actor#2 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nspawn actor#2 in=seq#1\nissue ask#2 in=seq#1 phase=unphased\nsettle ask#2 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"lead\" @1:14\nlane actor#2 \"sub\" @1:71\nregion seq#1 seq\nstep ask#1 ask \"lead\" @1:103 lane=actor#1 region=seq#1 always\nstep ask#2 ask \"sub\" @1:117 lane=actor#2 region=seq#1 always\nedge ask#2 -> ask#1 data always exact\nsink ask#1\n",
+      "flow": "node ask#2@1 issue site=ask#2 phase=unphased\nnode ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#2@1 next\nedge ask#2@1 -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#2 \"sub\" steps=ask#2\nparticipant unphased:actor#1 \"lead\" steps=ask#1\nhandoff unphased:actor#2 -> unphased:actor#1 types=\"string\"\n",
+      "site": "node source\nnode ask#1 \"lead\" @1:103 actors=actor#1 type=\"string\"\nnode ask#2 \"sub\" @1:117 actors=actor#2 type=\"string\"\nnode sink\nactor actor#1 \"lead\" @1:14\nactor actor#2 \"sub\" @1:71\nedge source -> ask#2 data exact\nedge ask#1 -> sink data exact type=\"string\"\nedge ask#2 -> ask#1 data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"lead\" @1:14\nactor-node actor#2 \"sub\" @1:71\nactor-node sink\nactor-edge source -> actor#2 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\nactor-edge actor#2 -> actor#1 exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/name-number-concat",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"a\" @1:11 order=0\nask ask#1 \"a\" @1:56 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:11\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:56 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:56 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:11\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:11\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/template-name-two-expressions",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"a\" @1:47 order=0\nask ask#1 \"a\" @1:94 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:47\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:94 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:94 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:47\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:47\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "actors/persona-and-dup-name",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9005,
+          "column": 53,
+          "line": 1,
+          "message": "two actors are named \"dup\" (the first is on line 1): an actor name must be unique within a run. The name is the identity key an amended re-run matches its imported cache against, and any run can become the predecessor of one, so a repeated name makes that match ambiguous. Give this one its own name, or drop the name entirely — anonymous actors are legal (they just never reuse cached work)."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "actors/anonymous-in-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "fan-out fan-out#1 \"fan-out\" @1:1 order=0 count=2\nask ask#1 \"ask\" @1:45 order=1 within=fan-out#1 type=\"string\"\nactor actor#1 @1:37 order=2 within=fan-out#1\nfact ask-data ask#1 <- fan-out#1 exact\nfact ask-actor ask#1 <- actor#1 exact\nregion seq#1 seq entered\nregion loop#1 loop parent=seq#1 @1:1\nspawn actor#1 in=seq#1>loop#1\nissue ask#1 in=seq#1>loop#1 phase=unphased\nsettle ask#1 in=seq#1>loop#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 @1:37 families=loop#1\nregion seq#1 seq\nregion loop#1 loop parent=seq#1 @1:1\nstep ask#1 ask \"ask\" @1:45 lane=actor#1 region=loop#1 maybe serial\nedge ask#1 -> ask#1 carry maybe\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge entry -> sink exit\nedge ask#1@1 -> ask#1@1 loop\nedge ask#1@1 -> sink exit\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1[0] member=0/2 steps=ask#1\nparticipant unphased:actor#1[1] member=1/2 steps=ask#1\n",
+      "site": "node source\nnode fan-out#1 \"fan-out\" @1:1\nnode ask#1 \"ask\" @1:45 actors=actor#1 within=fan-out#1 type=\"string\"\nnode sink\nactor actor#1 @1:37 within=fan-out#1\nedge source -> fan-out#1 data exact\nedge fan-out#1 -> ask#1 data exact\n",
+      "actor": "actor-node actor#1 @1:37 family=fan-out#1\n"
+    },
+    {
+      "id": "actors/name-with-spaces",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"review bot\" @1:11 order=0\nask ask#1 \"a\" @1:47 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"review bot\" @1:11\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:47 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"review bot\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:47 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"review bot\" @1:11\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"review bot\" @1:11\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    }
+  ]
+}

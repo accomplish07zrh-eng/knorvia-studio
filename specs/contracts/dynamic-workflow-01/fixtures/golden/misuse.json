@@ -1,0 +1,436 @@
+{
+  "family": "misuse",
+  "samples": [
+    {
+      "id": "misuse/alias-agent",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 15,
+          "line": 1,
+          "message": "facade function 'agent' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 32,
+          "line": 1,
+          "message": "facade function 'agent' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/alias-ask",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 38,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 56,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/destructure-ask",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 31,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 55,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/destructure-renamed",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 31,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 61,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/destructure-assignment",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 42,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 81,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/bind-ask",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 39,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 65,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 48,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; retyping a facade value to a structurally-compatible non-facade type escapes site identity (the disguised '.ask(...)' resolves to the local type and runs unsited)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/pass-agent-as-argument",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2345,
+          "column": 73,
+          "line": 1,
+          "message": "Argument of type '<T = string>(instructions: string) => Node<T>' is not assignable to parameter of type '() => void'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/computed-member-call",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 20,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/retype-as-local-interface",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 87,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; retyping a facade value to a structurally-compatible non-facade type escapes site identity (the disguised '.ask(...)' resolves to the local type and runs unsited)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/retype-into-parameter",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2345,
+          "column": 121,
+          "line": 1,
+          "message": "Argument of type 'Agent' is not assignable to parameter of type 'Askable'.\n  The types returned by 'ask(...)' are incompatible between these types.\n    Type 'Node<string>' is missing the following properties from type 'Promise<string>': catch, finally, [Symbol.toStringTag]"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/alias-files-read",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 20,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 42,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/alias-phase",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 14,
+          "line": 1,
+          "message": "facade function 'phase' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/alias-log",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "ask ask#1 \"a\" @1:48 order=0 type=\"string\"\nactor actor#1 \"a\" @1:37 order=1\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:37\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:48 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:48 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:37\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:37\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "misuse/retyping-result-stays-legal",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"a\" @1:11 order=0\nask ask#1 \"a\" @1:52 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:11\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:52 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:52 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:11\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:11\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "misuse/alias-git-status",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 15,
+          "line": 1,
+          "message": "facade function 'status' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 39,
+          "line": 1,
+          "message": "facade function 'status' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/alias-artifact-metrics",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 20,
+          "line": 1,
+          "message": "facade function 'metrics' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 29,
+          "line": 1,
+          "message": "facade function 'metrics' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/alias-report",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 11,
+          "line": 1,
+          "message": "facade function 'report' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 19,
+          "line": 1,
+          "message": "facade function 'report' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/destructure-files-read",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 9,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 41,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "misuse/pass-agent-into-function",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"a\" @1:11 order=0\nask ask#1 \"a\" @1:86 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nregion call#1 call parent=seq#1 @1:63 entered label=\"use\"\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:11\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:86 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:86 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:11\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:11\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    }
+  ]
+}
