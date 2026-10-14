@@ -121,21 +121,21 @@ export class /* bash 输出文件句柄管理 */ BashFileOutput {
         this.unsubscribeProgress = subscribeBashOutputProgress(intervalMs, async (isActive) => {
           if (!isActive() || ownGeneration !== generation) return;
           try /* 可能失败：按降级语义处理 */ {
-            const output = await readBashOutput(
+            const output = /* 读取结果 */ await readBashOutput(
               this.path,
               Math.min(maxBytes, MAX_PROGRESS_READ_BYTES),
               true,
-              this.legacyEncoding,
+              /* 遗留编码 */ this.legacyEncoding,
             );
             if (!isActive() || ownGeneration !== generation) return;
-            const preview = buildBashOutputPreview(
+            const preview = /* 构造预览 */ buildBashOutputPreview(
               output.text,
-              output.bytesRead,
+              /* 已读字节 */ output.bytesRead,
               output.bytes,
-              previousLines,
+              /* 上一轮行数 */ previousLines,
             );
             previousLines = preview.totalLines;
-            onRead(output, preview);
+            /* 回调上层 */ onRead(output, preview);
           } catch /* 失败降级：不抛出 */ {
             // Progress reads are advisory.
           }
@@ -150,23 +150,23 @@ export class /* bash 输出文件句柄管理 */ BashFileOutput {
     try /* 可能失败：按降级语义处理 */ {
       return await readBashOutput(this.path, maxBytes, false, this.legacyEncoding);
     } catch /* 失败降级：不抛出 */ {
-      return {
+      return /* 构造返回值 */ {
         text: OUTPUT_UNAVAILABLE_TEXT,
         bytes: 0,
-        truncated: false,
+        truncated: /* 未截断 */ false,
         artifactPath: this.path,
         artifactBytes: 0,
-        artifactTruncated: false,
+        artifactTruncated: /* 产物未截断 */ false,
       };
     }
   }
 }
 
-export async function readBashOutput(
+export async function /* 读取 bash 输出（尾部可选） */ readBashOutput(
   pathValue: string,
   maxBytes: number,
-  tail: boolean,
-  legacyEncoding: string | null,
+  tail: /* 是否只读尾部 */ boolean,
+  legacyEncoding: /* 遗留编码（无则 null） */ string | null,
 ): Promise<ExecutionStreamResult & { bytesRead: number }> {
   const handle = await open(pathValue, "r");
   try /* 可能失败：按降级语义处理 */ {
@@ -176,16 +176,16 @@ export async function readBashOutput(
     const position = tail ? Math.max(0, details.size - bounded) : 0;
     const { bytesRead } =
       bounded > 0 ? await handle.read(buffer, 0, bounded, position) : { bytesRead: 0 };
-    return {
+    return /* 构造返回值 */ {
       text: decodeExecutionOutputBuffer(buffer.subarray(0, bytesRead), legacyEncoding),
       bytes: details.size,
-      bytesRead,
+      /* 已读字节 */ bytesRead,
       truncated: bytesRead < details.size,
       artifactPath: pathValue,
       artifactBytes: details.size,
-      artifactTruncated: false,
+      artifactTruncated: /* 产物未截断 */ false,
     };
-  } finally {
+  } finally /* 无论如何都要收尾 */ {
     try /* 可能失败：按降级语义处理 */ {
       /* 关闭底层句柄 */ await handle.close();
     } catch /* 失败降级：不抛出 */ {
@@ -202,7 +202,7 @@ export async function diagnoseLostBashOutput(outputPath: string): Promise<string
     if (details.ffree <= 0)
       return "Bash output could not be written because the output filesystem has no free inodes.";
   } catch /* 失败降级：不抛出 */ {
-    return undefined;
+    return /* 无可用输出 */ undefined;
   }
-  return undefined;
+  return /* 无可用输出 */ undefined;
 }
