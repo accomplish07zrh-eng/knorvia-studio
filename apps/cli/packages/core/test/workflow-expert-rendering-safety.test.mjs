@@ -15,7 +15,7 @@ assert.equal(
       fs.readFileSync(new URL("./workflow-expert-prompt-rendering-current.json", import.meta.url)),
     )
     .digest("hex"),
-  "0b92ffc7a1350dfe2b2149d39fa10384a2efb67d741a7b922c76931cbb2d9430",
+  "df715ad382dc77b72210c0092828ac5fd2c8128c50111564a63b467677002bff",
 );
 const root = new URL("../../../../../", import.meta.url),
   core = new URL("../", import.meta.url);
