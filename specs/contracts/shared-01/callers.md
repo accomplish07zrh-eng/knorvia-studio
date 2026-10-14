@@ -4,20 +4,22 @@
 `@knorvia/shared/protocol-v4` 的静态 import（跳过 `node_modules`、`dist`、`out`、
 `licensing`、`third-party` 与 `.tmp`）。生成脚本不提交；重新生成即可。
 
-**共 279 个文件**出现这两条子路径的 import。
+**共 281 个文件**出现这两条子路径的 import。
 
 ## 按工作区汇总
 
 | 工作区                   | `shared/node` | `shared/protocol-v4` | 合计 |
 | ------------------------ | ------------: | -------------------: | ---: |
-| `apps/cli/packages`      |            26 |                   61 |   87 |
+| `apps/cli/packages`      |            25 |                   62 |   87 |
 | `docs`                   |             2 |                    0 |    2 |
 | `packages/desktop`       |             2 |                    0 |    2 |
 | `packages/provider-node` |             4 |                    0 |    4 |
 | `packages/server`        |             0 |                    1 |    1 |
 | `packages/server-cli`    |             0 |                    1 |    1 |
 | `packages/services`      |             6 |                   21 |   27 |
+| `packages/shared`        |             0 |                    1 |    1 |
 | `packages/ui`            |             0 |                  155 |  155 |
+| `scripts`                |             0 |                    1 |    1 |
 
 ## 逐文件明细
 
@@ -101,9 +103,9 @@
 | `apps/cli/packages/cli/src/sea-runtime-tools.ts`                                          | node         |
 | `apps/cli/packages/cli/src/tui-runtime-loader.ts`                                         | node         |
 | `apps/cli/packages/contracts/src/interfaces/dynamic-workflow-run.port.ts`                 | protocol-v4  |
-| `apps/cli/packages/core/src/hooks/workspace-hook-review-flow.ts`                          | protocol-v4  |
+| `apps/cli/packages/core/src/hooks/types.ts`                                               | protocol-v4  |
+| `apps/cli/packages/core/src/hooks/workspace-hook-review-flow-internal.ts`                 | protocol-v4  |
 | `apps/cli/packages/core/src/tool/handlers/saved-workflows/store.ts`                       | node         |
-| `apps/cli/packages/debug/server/sources.ts`                                               | node         |
 | `apps/cli/packages/telemetry/src/bootstrap.ts`                                            | node         |
 | `apps/cli/packages/tui/src/app-workflow-controller.ts`                                    | protocol-v4  |
 | `apps/cli/packages/tui/src/app-workflow-events.ts`                                        | protocol-v4  |
@@ -147,6 +149,7 @@
 | `packages/services/test/services-projection-effects-contract-20261003.test.ts`            | protocol-v4  |
 | `packages/services/test/task-index-topic-contract-20261003.test.ts`                       | protocol-v4  |
 | `packages/services/test/task-index-workspace-contract-20261003.test.ts`                   | protocol-v4  |
+| `packages/shared/test/workflow-projection-consumers.test.ts`                              | protocol-v4  |
 | `packages/ui/src/app-shell/SubagentDirectorySidePane.tsx`                                 | protocol-v4  |
 | `packages/ui/src/app-shell/useWorkflowRunPaneSettings.ts`                                 | protocol-v4  |
 | `packages/ui/src/app-shell/workflow-artifacts/artifactPresentation.tsx`                   | protocol-v4  |
@@ -302,3 +305,4 @@
 | `packages/ui/test/native-session-handoff.test.ts`                                         | protocol-v4  |
 | `packages/ui/test/studio-native-handoff-transport.test.ts`                                | protocol-v4  |
 | `packages/ui/test/studio-session-handoff.test.ts`                                         | protocol-v4  |
+| `scripts/studio-handoff-smoke.mjs`                                                        | protocol-v4  |
