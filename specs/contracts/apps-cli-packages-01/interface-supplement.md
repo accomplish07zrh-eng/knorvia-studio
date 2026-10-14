@@ -836,3 +836,13 @@ export interface MarketplaceSourceLease {
   cleanup?: () => Promise<void>;
 }
 ```
+
+## `apps/cli/packages/adapters/src/plugins/catalog-describe-types.ts`
+
+```ts
+export interface DescribeMarketplacePluginInput {
+  marketplace: string;
+  name: string;
+  storageRoot: string;
+}
+```
