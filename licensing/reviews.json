@@ -77816,14 +77816,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "94e72fbd9ea0b428d9dabbe6aed3129ad0a5895198e3736b0b9b20a09fd9413e",
+      "normalizedSha256": "83df4e7a08c1e99e699dd31607cd9480558e21715f6a615ab006a84ec8165e13",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
@@ -77849,14 +77846,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "01509f145b3c415a50c0f4f397c9c4d38c91634acb21800ff5fdc8ba2a0bfc41",
+      "normalizedSha256": "0cee79205b88d7ef74520d9064ad94aea33720d0654169f31a2989e54ca2d4b0",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/eval-workflow-snippet-business-contract.json",
@@ -78824,15 +78818,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-event-log-fixture.ts",
-      "normalizedSha256": "e4d2f13433830c8d5f291d98093d134448fdd9a4842d15c13f74678cfc03df95",
-      "decision": "original",
+      "normalizedSha256": "69584575f154dbf0383e6532ef4b745b31706da7a2a6176997192db9ba9d7b63",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia commit f3302dff (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.03 (packages/desktop/src/main/browserView/browserGuestManager.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "git:f3302dffd2b597703da465fb4510ca7132624cdd",
-        "licensing/upstream-baseline.json",
-        "specs/knorvia-workflow-events-author-packet-20261002.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
@@ -78848,15 +78838,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-event-log-pins.json",
-      "normalizedSha256": "340e14254fbbe5fce2a123065448b2baedcaed7f8f2b36b6e52d44b5d8a13a05",
-      "decision": "original",
+      "normalizedSha256": "080505468a0c2fc3970bb982002b56d52c62c5320686e5b979cf1fd64e990cdb",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia commit f3302dff (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "git:f3302dffd2b597703da465fb4510ca7132624cdd",
-        "licensing/upstream-baseline.json",
-        "specs/knorvia-workflow-events-author-packet-20261002.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-expert-delivery-safety.test.mjs",
@@ -79008,14 +78994,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-phase-runner-current.json",
-      "normalizedSha256": "1ad6917f650d5c5ff5af80e9cdfff69f91d2e47edfb4e5663f97f2ebd0013d7d",
-      "decision": "original",
+      "normalizedSha256": "a446ba5e1dade505760dd144be49b6eb1f6ae7afd7d3e6fe8f2dd09f89a8ef7f",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia commit 11cec625 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "git:11cec625d62cf502a8c551bc1370e354736549d1",
-        "licensing/upstream-baseline.json"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
@@ -79042,14 +79025,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-ready-order-fixture.ts",
-      "normalizedSha256": "4c14bef0d95c3b4e94b27ed72b43a0190f9403d2ca1d7b1c1e4d36a852e72c66",
+      "normalizedSha256": "1718cb9d76a6c657c2aacca634a002fbb31ebe0f601b5b6d9631eaa4a6e282d9",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-ready-order.test.ts",
@@ -79088,14 +79068,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-run-loop-current.json",
-      "normalizedSha256": "6348e165702fcbf337af0dfa405c348afe96f7aa7d45956f2238487519e9a6d3",
-      "decision": "original",
+      "normalizedSha256": "f13eddf413878348437be2f1b6c9a75c4ed1ddbb0a01e925f34ff56613c17473",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia commit b6454a74 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "git:b6454a74ab8a9bef49310bf16242a6dd5d2a084d",
-        "licensing/upstream-baseline.json"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
@@ -79110,14 +79087,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-runtime-context-current.json",
-      "normalizedSha256": "4829e023bd3862f49afac026ca9e26c024f83f36452a882ffc6cf61e05abad88",
-      "decision": "original",
+      "normalizedSha256": "c02676dd2f4124c94f8606662d89318ab2e6351b5c7b403c40b4a8e315598242",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia commit 3973614d (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 7 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
-      "evidence": [
-        "git:3973614d401d2d80859db56bf102b5167fa21b0b",
-        "licensing/upstream-baseline.json"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
@@ -83381,25 +83355,19 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
-      "normalizedSha256": "1c471aad67c76fa803b68f4a136d5ff081e3933b53d4788c210f4d74e0fd97a7",
+      "normalizedSha256": "3eaad0591ac0bf5eac6145270deefe57cd25f6478f6b225934eb0830c2a27bd5",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-graph-artifacts-fixture.ts",
-      "normalizedSha256": "a43640586287b53f2a6c6477979945e101fea3368ed635a44c9f1fb61b107f90",
+      "normalizedSha256": "88d1ffe408ebb4f8fb0d95486d75e5e02b57efa9fb69afda6135dfa495a1efe3",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-graph-artifacts-ports.ts",
@@ -83417,17 +83385,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+      "normalizedSha256": "1a872bed583016a647ca3f6e9116962f314c32f1be6ad5e0476cefbc3ecc369b",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created in Knorvia commit c4512c4e (2026-10-02) together with the frozen author packet/evidence for that bounded slice, so the batch has an isolated author and acceptance evidence. Bookkeeping under plan M0-2: the commit message wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Registered as independent-replacement because the isolating evidence exists for the batch, not because of the wording.",
-      "evidence": [
-        "licensing/current-files.json",
-        "docs/knorvia-independent-replacement-plan.md",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "docs/evidence/graph-artifacts-author-20261002/api.d.ts",
-        "docs/evidence/graph-artifacts-author-20261002/contract.md"
-      ],
-      "normalizedSha256": "e3d3a8181fbd9e5438d146a708a1c26f30ee1e78b3ca54c86783db54fb606212"
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/background-tracker-baseline-20261003.json",
@@ -83622,25 +83584,19 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
-      "normalizedSha256": "0dca901e16e82c99b5e43d4a02a5b1ed0549aa95ec2061b80c1115b00bffa5f2",
+      "normalizedSha256": "20d6ad7948b2ed39e3932674e46ee78292bb784e05f08eaf954788651289f939",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts",
-      "normalizedSha256": "e80f8d8f91ba70acb470f7556f2f50a7f792b084bffddb3661d105106d3dc935",
+      "normalizedSha256": "997e4da0e2b47ac934faae7124e33200b415b9166f7ceca3dad49c6406c0bf2c",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-state.test.ts",
@@ -83957,14 +83913,11 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-ready-order-current.json",
-      "normalizedSha256": "f79bc62d3d40569a26b82099847a1e39627d8b2fde00327298335d8a51f68121",
+      "normalizedSha256": "7d789f42ca038b5f5bab68ccf5db025c8ede2ac26784a8f0fa3eb4e9a5675a92",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-runtime-context-baseline.json",
@@ -88495,27 +88448,19 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-observation-fixture.ts",
-      "decision": "original",
+      "normalizedSha256": "73fb0af252862b6cbd6c16e047edea1c8c187421aeeced407d710a10d34f7507",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.02 (packages/desktop/src/main/browserView/browserGuestManager.ts), longest identical run 1 lines, structural similarity 0.0000 (null). Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
-      "evidence": [
-        "licensing/current-files.json",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "scripts/provenance/similarity.mjs"
-      ],
-      "normalizedSha256": "fdc72d5f35905c93a71e748b3fbb6c2e702960f87e47802c573f8e067c41c750"
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
-      "decision": "original",
+      "normalizedSha256": "b48ae6e9fea7b14ed3e344f5f4128c60f97a552ab94a5bbf3778dc32d15ab0a3",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.00 (none), longest identical run 0 lines; the structural gate does not apply to this file kind. Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
-      "evidence": [
-        "licensing/current-files.json",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "scripts/provenance/similarity.mjs"
-      ],
-      "normalizedSha256": "0e3ba33f51a7ac11d918a25ec7ffdff1857311325b9c744dc272ad246637ea64"
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-scheduler-observation-ports.ts",
@@ -89659,27 +89604,19 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-node-publication-current.json",
-      "decision": "original",
+      "normalizedSha256": "01ebb9c8540792f3ceb30d0e2065a330e069fbfcd5928d1b33e30206705a59ca",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.00 (none), longest identical run 0 lines; the structural gate does not apply to this file kind. Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
-      "evidence": [
-        "licensing/current-files.json",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "scripts/provenance/similarity.mjs"
-      ],
-      "normalizedSha256": "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2"
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-node-publication-fixture.ts",
-      "decision": "original",
+      "normalizedSha256": "5c47f386c2da422beb2ef53ad612f9ec87b66c3c87ff8933d392694888cef82b",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.02 (packages/desktop/src/main/browserView/browserGuestManager.ts), longest identical run 1 lines, structural similarity 0.0000 (null). Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
-      "evidence": [
-        "licensing/current-files.json",
-        "docs/knorvia-m02-registration-2026-10-11.md",
-        "scripts/provenance/similarity.mjs"
-      ],
-      "normalizedSha256": "d0b4b2b7ca28b6f7c1724ffd0c2c796a23c4b48dd53df61e203c90a6e4939fb4"
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-node-publication-ports.ts",
@@ -90199,25 +90136,19 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
-      "normalizedSha256": "2b41f559354484a1503ac511e21d7272ff9a7cdd6d183a3f0b1074f3f164d751",
+      "normalizedSha256": "f1267793ab220aaeeea4bea85482e33b76360642378ffeecf461233ea9a829a9",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
-      "normalizedSha256": "1b948086880fa01d7c06899a1f7ec4ca79b2e49e47a5e7b7a50f7330b35a67a4",
+      "normalizedSha256": "138e65eaab98b2120a54944611f9533f2198aec6e2319fa666fb0d76bc868ea5",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
@@ -90245,25 +90176,19 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
-      "normalizedSha256": "7922701ddeac531f8805e3ac57f2235fd4ee4390e2166d41f3c0ad86c6aec888",
+      "normalizedSha256": "4b41ceea1f0d1817c33a3c52037ced749404610f125f27158f2aaec060cc2628",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts",
-      "normalizedSha256": "8834fd40ae817a6ec1a1934bb4f2b19e18846753129198a71b17a4486e817964",
+      "normalizedSha256": "172dfbeec5077d9882e29c16ecc35397c8e66ae4fc736e95f51e14742c35c433",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
-      "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
@@ -135661,11 +135586,11 @@
     },
     {
       "path": "specs/contracts/core-03/known-differences.md",
-      "normalizedSha256": "f23494061253938d1abfbf79b64f05a7b302169fa83ceef7863969a9b7a7c71a",
-      "decision": "original",
+      "normalizedSha256": "832833eb1eb95b39c9447ad083e65f5c094d8085d3cd00b106008b1761949180",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "core-03 contract v1: known differences record (type-as-value re-export fix in package root, boundary ruling for three root files, dead-code candidate, immutable compatibility surface).",
-      "evidence": ["licensing/current-files.json"]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "specs/contracts/core-03/README.md",
@@ -135677,11 +135602,11 @@
     },
     {
       "path": "specs/contracts/core-03/acceptance.md",
-      "normalizedSha256": "e44002f06c005e18a3e09937ff8951995adf11fc1ac1f5f697f79d69ff9b0dd6",
-      "decision": "original",
+      "normalizedSha256": "b9dda8b0a5c27c14b85d1e882811d21d070a202a62adc618774b1759e4155add",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "core-03 contract v1: package README and acceptance record (35 inherited files, behavior coverage B1-B19, old-gate structure, in-package fixes).",
-      "evidence": ["licensing/current-files.json"]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "specs/contracts/core-03/callers.md",
@@ -135757,11 +135682,11 @@
     },
     {
       "path": "specs/contracts/core-03/gate-old.json",
-      "normalizedSha256": "1b7cb3e89eac79390dab7954674f063ba66c852087ea993204f6d3bda7b944b3",
-      "decision": "original",
+      "normalizedSha256": "e78d975cd9bca645f9258733a68fa4b0406be0905aaf57c745d36c3ae8f62140",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "core-03 contract v1: old-gate runner, 35-file stub target list, and gate-old.json evidence (source 16/16, dist 16/16, stub replacement 0 pass).",
-      "evidence": ["specs/contracts/core-03/gate-old.json"]
+      "basis": "合并 origin/main 后的证据刷新：仅重算 core-03 自有工件的 sha 与登记摘要，未改变上游证据语义。",
+      "evidence": ["specs/contracts/core-03/interface.md"]
     },
     {
       "path": "apps/cli/packages/core/test/subagent-runner-artifacts.test.ts",

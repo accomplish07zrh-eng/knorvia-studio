@@ -81,6 +81,7 @@ export type { ToolRegistry } from "./tool/registry.js";
 
 `scheduler/collection-planner-admission.ts` 为**零引用死代码**（全库扫描：源码、测试、契约调用方清单均无引用）。
 **删除推迟为独立后续任务**，原因：
+
 1. 契约 `#142` 已把它登记为继承模块，删除会**改变契约面**；
 2. 接收单链为**多跳硬编码**（`previousReceipt.sha256` × N + 校验脚本内的字面量 × N + 校验脚本自身的 `sha(text)` 自断言），删除需**从链尾往链头逐跳重算**并在同一脚本内完成；
 3. 属**可选清理**，优先级低于「保持门禁全绿」。

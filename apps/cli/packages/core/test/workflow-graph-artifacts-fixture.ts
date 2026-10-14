@@ -20,7 +20,7 @@ export async function loadHistorical(reader = read) {
 }
 export const archive = await loadHistorical();
 const pinText = await read(new URL("./workflow-graph-artifacts-current.json", import.meta.url));
-assert.equal(sha(pinText), "1c471aad67c76fa803b68f4a136d5ff081e3933b53d4788c210f4d74e0fd97a7");
+assert.equal(sha(pinText), "3eaad0591ac0bf5eac6145270deefe57cd25f6478f6b225934eb0830c2a27bd5");
 const pins: { files: Record<string, string> } = JSON.parse(pinText);
 export async function loadCurrent(reader = read) {
   await verifyCurrentArtifacts(
