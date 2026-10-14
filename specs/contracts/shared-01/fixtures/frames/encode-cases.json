@@ -1,0 +1,761 @@
+{
+  "measure": "utf8JsonByteLength+1",
+  "cases": [
+    {
+      "name": "complete-small",
+      "input": {
+        "frame": {
+          "topic": "conversation/frame",
+          "subscriptionId": "sub-1",
+          "seq": 1,
+          "text": "hello"
+        },
+        "options": {
+          "deliveryKind": "initial",
+          "topic": "conv/abc",
+          "subscriptionId": "sub-1",
+          "logicalFrameId": "lf-1",
+          "logicalFrameOrdinal": 1,
+          "maxPhysicalFrameBytes": 4096,
+          "maxAssemblyBytes": 65536
+        }
+      },
+      "expected": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "initial",
+          "logicalFrameId": "lf-1",
+          "logicalFrameOrdinal": 1,
+          "topic": "conv/abc",
+          "subscriptionId": "sub-1",
+          "frame": {
+            "topic": "conversation/frame",
+            "subscriptionId": "sub-1",
+            "seq": 1,
+            "text": "hello"
+          }
+        }
+      ]
+    },
+    {
+      "name": "complete-uses-full-envelope",
+      "input": {
+        "frame": {
+          "topic": "conversation/frame",
+          "subscriptionId": "sub-2",
+          "rows": [
+            {
+              "rowId": 7,
+              "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "note": "边界：恰好装进物理预算"
+        },
+        "options": {
+          "deliveryKind": "online",
+          "topic": "conv/边界 空格",
+          "subscriptionId": "sub-2",
+          "logicalFrameId": "lf-2",
+          "logicalFrameOrdinal": 42,
+          "maxPhysicalFrameBytes": 1024,
+          "maxAssemblyBytes": 65536
+        }
+      },
+      "expected": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-2",
+          "logicalFrameOrdinal": 42,
+          "topic": "conv/边界 空格",
+          "subscriptionId": "sub-2",
+          "frame": {
+            "topic": "conversation/frame",
+            "subscriptionId": "sub-2",
+            "rows": [
+              {
+                "rowId": 7,
+                "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "note": "边界：恰好装进物理预算"
+          }
+        }
+      ]
+    },
+    {
+      "name": "fragments-bounded",
+      "input": {
+        "frame": {
+          "topic": "conversation/frame",
+          "subscriptionId": "sub-3",
+          "text": "行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文行一\r\n行二\n行三中文"
+        },
+        "options": {
+          "deliveryKind": "recovery",
+          "topic": "conv/def",
+          "subscriptionId": "sub-3",
+          "logicalFrameId": "lf-3",
+          "logicalFrameOrdinal": 3,
+          "maxPhysicalFrameBytes": 512,
+          "maxAssemblyBytes": 65536
+        }
+      },
+      "expected": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "lf-3",
+          "logicalFrameOrdinal": 3,
+          "topic": "conv/def",
+          "subscriptionId": "sub-3",
+          "fragmentIndex": 0,
+          "fragmentCount": 3,
+          "logicalBytes": 425,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "72e90e2e"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9mcmFtZSIsInN1YnNjcmlwdGlvbklkIjoic3ViLTMiLCJ0ZXh0Ijoi6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "lf-3",
+          "logicalFrameOrdinal": 3,
+          "topic": "conv/def",
+          "subscriptionId": "sub-3",
+          "fragmentIndex": 1,
+          "fragmentCount": 3,
+          "logicalBytes": 425,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "72e90e2e"
+          },
+          "dataBase64": "6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJc"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "lf-3",
+          "logicalFrameOrdinal": 3,
+          "topic": "conv/def",
+          "subscriptionId": "sub-3",
+          "fragmentIndex": 2,
+          "fragmentCount": 3,
+          "logicalBytes": 425,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "72e90e2e"
+          },
+          "dataBase64": "buihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paH6KGM5LiAXHJcbuihjOS6jFxu6KGM5LiJ5Lit5paHIn0="
+        }
+      ]
+    },
+    {
+      "name": "fragments-many-small-physical",
+      "input": {
+        "frame": {
+          "blob": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "options": {
+          "deliveryKind": "online",
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "maxPhysicalFrameBytes": 320,
+          "maxAssemblyBytes": 65536
+        }
+      },
+      "expected": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 0,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eyJibG9iIjoieHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 1,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 2,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 3,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 4,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 5,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 6,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 7,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 8,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 9,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 10,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 11,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 12,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 13,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 14,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 15,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 16,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 17,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 18,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 19,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 20,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 21,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 22,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 23,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 24,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 25,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 26,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 27,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 28,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 29,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "lf-4",
+          "logicalFrameOrdinal": 4,
+          "topic": "conv/ghi",
+          "subscriptionId": "sub-4",
+          "fragmentIndex": 30,
+          "fragmentCount": 31,
+          "logicalBytes": 911,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "c60365bf"
+          },
+          "dataBase64": "eHh4eHh4eHh4In0="
+        }
+      ]
+    },
+    {
+      "name": "assembly-too-large",
+      "input": {
+        "frame": {
+          "blob": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+        },
+        "options": {
+          "deliveryKind": "initial",
+          "topic": "conv/jkl",
+          "subscriptionId": "sub-5",
+          "logicalFrameId": "lf-5",
+          "logicalFrameOrdinal": 5,
+          "maxPhysicalFrameBytes": 4096,
+          "maxAssemblyBytes": 64
+        }
+      },
+      "expectedError": "proto.frameAssemblyTooLarge"
+    },
+    {
+      "name": "invalid-limit-physical",
+      "input": {
+        "frame": {
+          "a": 1
+        },
+        "options": {
+          "deliveryKind": "initial",
+          "topic": "conv/mno",
+          "subscriptionId": "sub-6",
+          "logicalFrameId": "lf-6",
+          "logicalFrameOrdinal": 6,
+          "maxPhysicalFrameBytes": 0,
+          "maxAssemblyBytes": 65536
+        }
+      },
+      "expectedError": "proto.invalidLimit.maxPhysicalFrameBytes"
+    },
+    {
+      "name": "invalid-limit-assembly",
+      "input": {
+        "frame": {
+          "a": 1
+        },
+        "options": {
+          "deliveryKind": "initial",
+          "topic": "conv/pqr",
+          "subscriptionId": "sub-7",
+          "logicalFrameId": "lf-7",
+          "logicalFrameOrdinal": 7,
+          "maxPhysicalFrameBytes": 4096,
+          "maxAssemblyBytes": 0
+        }
+      },
+      "expectedError": "proto.invalidLimit.maxAssemblyBytes"
+    }
+  ]
+}
