@@ -39,7 +39,9 @@ export const createStructuredPatch = (input: StructuredPatchInput): DiffHunk[] =
 
 export const countPatchLines = (hunks: DiffHunk[]): { additions: number; deletions: number } => {
   const tally = { additions: 0, deletions: 0 };
-  const lines = hunks.flatMap((hunk) => hunk.lines);
+  // Array.from 走数组迭代器：稀疏行位会物化成 undefined，随后在 startsWith 上抛
+  // TypeError（与外部显示契约对畸形补丁的拒绝语义一致，见 tool-display-text 用例）。
+  const lines = hunks.flatMap((hunk) => Array.from(hunk.lines));
   for (const line of lines) {
     const kind = PATCH_LINE_KINDS.find((entry) => line.startsWith(entry.prefix));
     if (kind) tally[kind.counter] += 1;
