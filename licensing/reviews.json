@@ -136255,7 +136255,7 @@
     },
     {
       "path": "specs/contracts/shared-01/acceptance.md",
-      "normalizedSha256": "b9acfe28fef671e27e18cfa9d3d6bf810c731f15df733399bb0276a09528513d",
+      "normalizedSha256": "5532227e7b96ecabdf03ebea894b4ec828df5ef5900b5a4f9647d95b9684ce6f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
