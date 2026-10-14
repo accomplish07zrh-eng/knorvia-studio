@@ -1,6 +1,8 @@
 # shared-01 验收记录（acceptance.md）
 
-合同版本 **v1**。本文件记录范围、旧门、门禁、未覆盖项与红线对照，供「合同审查」逐项自查。
+合同版本 **v2**（v1 = PR #152，2026-10-14 合入 main `5a129165`；v2 = 按 Lead 裁决 C（issue #148
+评论，2026-10-14）删桩 + 旧门复跑，本包无桩 oracle 断言，见 `known-differences.md` 第 7 节）。
+本文件记录范围、旧门、门禁、未覆盖项与红线对照，供「合同审查」逐项自查。
 
 ## 1. 范围与文件数（继承口径）
 
@@ -29,15 +31,21 @@ node scripts/contract-gate.mjs --contract specs/contracts/shared-01 --tests "*.t
   --stub-root specs/contracts/shared-01/stubs --stub-targets specs/contracts/shared-01/stubs/targets.txt
 ```
 
-| 入口/验证                                                           | tests | pass | fail | 结论                                 |
-| ------------------------------------------------------------------- | ----: | ---: | ---: | ------------------------------------ |
-| 源码（`src`，`--import tsx`）                                       |    56 |   56 |    0 | 通过                                 |
-| dist（`KNORVIA_SHARED_01_ENTRY=dist`，先 `tsc -b packages/shared`） |    56 |   56 |    0 | 通过                                 |
-| 桩替换（27 个模块路径，import 即抛 `not implemented: shared-01`）   |     6 |    0 |    6 | `allFail=true`：测试确实测到公开行为 |
+| 入口/验证                                                           | tests | pass | fail | 结论                                                                     |
+| ------------------------------------------------------------------- | ----: | ---: | ---: | ------------------------------------------------------------------------ |
+| 源码（`src`，`--import tsx`）                                       |    56 |   56 |    0 | 通过                                                                     |
+| dist（`KNORVIA_SHARED_01_ENTRY=dist`，先 `tsc -b packages/shared`） |    56 |   56 |    0 | 通过                                                                     |
+| 桩替换（27 个模块路径，import 即抛 `not implemented: shared-01`）   |     6 |    0 |    6 | `allFail=true`：测试确实测到公开行为（**v2 起历史项，`stubs/` 已删除**） |
 
+- **v2 旧门复跑（2026-10-15，Node v24.14.0，`commit` = `5a129165`）**：把 `.scratch-exec4/old`
+  的 27 个旧实现换回工作树 → `tsc -b packages/shared --force` → 跑 `scripts/contract-gate.mjs`
+  三段（源码 56/56、dist 56/56、桩替换 0/6 `allFail=true`）→ 换回新实现并重建 dist。
+  桩替换那段从此不可复跑（桩已删），记录保留在 `gate-old.json` 的 `stubReplacement`
+  （`status: historical`）。
+- **删桩后的契约复核（新实现，2026-10-15）**：源码入口 **56/56**、dist 入口 **56/56**、
+  skipped 0 —— 证明没有任何断言依赖 `stubs/`，本包不存在 core-tool-01 那种「桩镜像半边 oracle」。
 - 预登记差异：**无**（56/56 全过，没有放宽或跳过的断言）。
-- 运行基线：以 `gate-old.json` 的 `commit` 字段为准（在合同分支合入最新 main 之后的 HEAD 上运行，
-  合同文件处于已提交状态；`gate-old.json` 与本记录随后落盘，除此之外合同未再改动）。
+- 运行基线：以 `gate-old.json` 的 `commit` 字段为准。
 - 完整报告见 [`gate-old.json`](gate-old.json)（含两入口输出尾部与桩替换输出尾部）。
 - 录制口径：金样全部由旧实现录制（临时脚本 `record-shared01-fixtures.mjs` 按 Lead 的
   临时脚本口径留在执行工作区 `.scratch-exec4/`，不入库）；`encode-cases`/`measure-cases`/

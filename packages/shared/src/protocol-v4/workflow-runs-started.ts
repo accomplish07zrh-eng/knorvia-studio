@@ -1,71 +1,50 @@
-// ============================================================
-// workflowRuns 归约的 `run-started` 分支
-// ============================================================
-// 从 workflow-runs-reducer.ts 拆出（max-lines 门）：主归约只剩 switch 的分派，与
-// `concurrency-changed` / `phase-entered` 同一条先例。这条事件要说的事最多——resume 的
-// 重臂语义、lineage 指针、本 run 自己的并发界——而三者彼此相关：同一个 runId 的第二条
-// `run-started` 既要清掉上一世的结算残影，又不能把进程里已经学到的共享 cap 抹回天花板。
-
+// SPDX-License-Identifier: Apache-2.0
+// workflowRuns 归约的 run-started 分支：把一条 run 拉回 running，并清掉上一世的结算残影。
+// 同一个 runId 可能再次收到 run-started（进程内 cancel → resume 的重臂）。原样展开会让上一世
+// 的结算残影（error / resultPreview / 停驻问题 / resumable / stopReason）挂在一个 running 的
+// run 上，因此这条事件要把它们剥净。concurrency 与 subagentModel 不在剥除之列：前者是这个 run
+// 跑在什么并发下的事实（共享桶那侧甚至是进程级现状），后者是用户给这次 run 定下的条件，resume
+// 重臂会带同一个值。lineage 指针随载荷到达，读不出就沿用已知值。
 import { reduceRunStartedConcurrency } from "./workflow-runs-concurrency.js";
 import { readRunIdField } from "./workflow-runs-lineage.js";
 import { WORKFLOW_RUNS_LIMITS, type WorkflowRunState } from "./workflow-runs.js";
 
-/**
- * 载荷上的子代理模型（规范串 `providerId/modelId[$reasoningLevel]`）。
- * 超界整条丢弃而不是截断：一个被砍短的模型 id 是假话，宁可什么都不显示。
- */
-function readSubagentModel(value: unknown): string | undefined {
-  if (typeof value !== "string") return undefined;
-  const text = value.trim();
-  return text.length > 0 && text.length <= WORKFLOW_RUNS_LIMITS.maxSubagentModelLength
-    ? text
-    : undefined;
+// 上一世结算后残留、run-started 必须剥除的键。
+const SETTLED_RESIDUE = [
+  "error",
+  "resultPreview",
+  "pendingQuestions",
+  "resumable",
+  "stopReason",
+] as const;
+
+// 载荷上的子代理模型（providerId/modelId[$reasoningLevel]）。超界整条丢弃而不是截断：一个被
+// 砍短的模型 id 是假话，宁可什么都不显示。
+function acceptSubagentModel(raw: unknown): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const label = raw.trim();
+  const usable = label.length > 0 && label.length <= WORKFLOW_RUNS_LIMITS.maxSubagentModelLength;
+  return usable ? label : undefined;
 }
 
-/**
- * `run-started` → run 回到 running、用量归零、上一世的结算残影剥净。
- *
- * resume 修复：
- * 同 runId 可能再次 run-started（进程内 cancel → resume）。原样展开会让上一世的
- * 结算残影（error / resultPreview）挂在一个 running 的 run 上——journal 侧的清空
- * 语义（updateRunStatus 非终态清 settlement）在投影侧的对应就是这几行剥除。
- * 停驻中的升级问题同属"上一世的残影"，而且比结算残影更没有活下去的理由：那些问题
- * 挂在上一世的停驻 deferred 上，cancel 时已随 cancelAsk 一起被拒。新的一世里对应的
- * ask 会重跑、actor 重新提问、得一个**新 qid**——留着旧的只会让侧栏摆出一个永远
- * 等不到答案、也再没有人在等它的问题。
- * `resumable` 同属上一世的结算事实：resume 一旦开跑，它就不再可恢复。
- *
- * `concurrency` **不**在剥除之列：它不是上一世的残影，而是这个 run 跑在什么并发下的事实
- * （两条界都是），而共享桶那一侧甚至是进程级的现状。规则在 workflow-runs-concurrency.ts。
- * `subagentModel` 同理，而且更硬：它是用户给这次 run 定下的条件，resume 重臂带同一个值。
- */
+// 把 run 摊成一份不含结算残影的基底，再按载荷回到 running、归零用量并更新本 run 自己的条件。
 export function reduceRunStarted(
-  run: WorkflowRunState,
-  payload: Record<string, unknown>,
+  current: WorkflowRunState,
+  incoming: Record<string, unknown>,
 ): WorkflowRunState {
-  const {
-    error: staleError,
-    resultPreview: staleResultPreview,
-    pendingQuestions: staleQuestions,
-    resumable: staleResumable,
-    stopReason: staleStopReason,
-    ...rebased
-  } = run;
-  void [staleError, staleResultPreview, staleQuestions, staleResumable, staleStopReason];
-  // lineage 指针随 `run-started` 到达（CLI 从 launch 入参或 journal 行派生）；重臂带同一个值，搬运即可。
-  const resumedFrom = readRunIdField(payload.resumedFrom) ?? rebased.resumedFrom;
-  // 子代理模型：与 `limit` 同族的「本 run 自己的条件」，只随
-  // 这条事件到达。读不出就退回已知值——老 CLI 不发这个键，而把已经显示出来的模型抹掉是退化里
-  // 最坏的一种：run 看上去换了模型，其实只是少了一个字段。缺席即整个键不在（不是 undefined）。
-  const subagentModel = readSubagentModel(payload.subagentModel) ?? rebased.subagentModel;
-  return reduceRunStartedConcurrency(
-    {
-      ...rebased,
-      ...(resumedFrom === undefined ? {} : { resumedFrom }),
-      ...(subagentModel === undefined ? {} : { subagentModel }),
-      status: "running",
-      usage: { spentTokens: 0, nodesUsed: 0 },
-    },
-    payload,
-  );
+  const base = { ...current } as Record<string, unknown>;
+  for (const residue of SETTLED_RESIDUE) delete base[residue];
+
+  // lineage 指针与子代理模型：载荷读得出就用载荷，读不出退回已知值（老 CLI 少发是退化）。
+  const lineage = readRunIdField(incoming.resumedFrom) ?? current.resumedFrom;
+  const agentModel = acceptSubagentModel(incoming.subagentModel) ?? current.subagentModel;
+
+  const restarted: Record<string, unknown> = { ...base };
+  restarted.status = "running";
+  restarted.usage = { spentTokens: 0, nodesUsed: 0 };
+  if (lineage !== undefined) restarted.resumedFrom = lineage;
+  if (agentModel !== undefined) restarted.subagentModel = agentModel;
+
+  // 并发（含本 run 的 limit、天花板）交给并发分支按载荷归约，规则见 workflow-runs-concurrency。
+  return reduceRunStartedConcurrency(restarted as WorkflowRunState, incoming);
 }

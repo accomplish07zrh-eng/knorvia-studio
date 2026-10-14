@@ -62,3 +62,32 @@
 - 金样全部由旧实现录制（`record-shared01-fixtures.mjs` 只读旧实现并落盘），不改录制口径。
 - 夹具只含合成数据（`subagent-state.*`、`plugin-cache-layout.json` 等均自造），无凭据、
   无真实用户数据、无内部地址。
+
+## 7. v2 修订：删桩（Lead 裁决 C，2026-10-14，issue #148 评论）
+
+- **原因**：替换验收的强制终态要求「旧文件与桩全部删除、`not implemented: shared-01` 全仓为零」
+  （计划书「每包流程」五.1 与「替换验收」清单，`lead/verify-replace.mjs` 第 1、3 项同样要求
+  `specs/contracts/shared-01/stubs/` 目录不存在；已合并的替换 PR 先例一致）。而 v1 的桩目录与
+  「桩替换后契约测试必须全失败」这条验证互锁——留桩则验收不过，删桩则验证不可复跑。Lead 裁决选
+  **C**：删桩，桩的证据转为 `gate-old.json` 里的留证。
+- **本包与 core-tool-01 的差别（如实登记）**：core-tool-01 的 B88 把 `stubs/<32 路径>` 当 oracle
+  读取，所以 C 通道在那一包有「换 oracle 到 `interface.md` 导出声明块」这个动作；**shared-01 没有
+  这类断言**——`tests/` 下 6 个 `.test.mjs` 中检索 `stubs`、`targets` 均为 0 命中，
+  `surface.test.mjs` 的 B43 从 v1 起就是以 `interface.md` 与 `interface-appendix-protocol-v4.md`
+  为 oracle，B44 只读 `scope-files.json` 判 27 个继承模块路径存在。因此本包 C 通道**没有 oracle
+  可换**，落在合同上的实质动作是：删桩、合同升 v2、旧门复跑、桩替换记录转 historical。
+  删桩后契约测试在**源码与 dist 两个入口各 56/56 全过**（`acceptance.md` v2 复跑记录），
+  证明没有任何断言依赖桩。
+- **变更内容**：删除 `specs/contracts/shared-01/stubs/` 全部 29 个文件（27 个模块桩 +
+  `build-stubs.mjs` + `targets.txt`）；`README.md`、`acceptance.md` 升 **v2**；`gate-old.json`
+  追加 `contractVersion`/`oldGateReRun` 并把 `stubReplacement` 标记为 historical。
+- **强度对照**：**断言方向与强度逐字不变**——56 个用例的断言一条没改、没删、没跳过，
+  `interface.md` / 附录内容不变；被拿掉的只是「桩 = 接口派生快照」这半边合同阶段脚手架，
+  其证据留存 `gate-old.json` 的 `stubReplacement`（旧实现上桩替换 27 个目标后 0/6 通过、
+  失败原因全是 `not implemented: shared-01`）。v2 旧门已在旧实现（`.scratch-exec4/old` 的 27 个
+  文件，与 `origin/main` 一致）上复跑：源码 56/56、dist 56/56、桩替换 0/6 `allFail=true`、
+  预登记差异 0 条。
+- **结论：没有放宽任何测试。** 依据：计划书「合同写错就改测试」通道 + 默认裁决表
+  「前后不一致选更保守：不放宽测试」。
+- **对应测试**：`surface.test.mjs`「B43 protocol-v4 入口导出面」「B43 node 入口导出面」
+  （oracle 自 v1 起即为合同接口文件）与「B44 模块路径兼容面」。
