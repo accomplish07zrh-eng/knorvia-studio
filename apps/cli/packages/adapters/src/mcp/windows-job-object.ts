@@ -64,27 +64,20 @@ async function loadNativeApi(): Promise<WindowsJobObjectApi | undefined> {
       ["PeakProcessMemoryUsed", "size_t"],
       ["PeakJobMemoryUsed", "size_t"],
     ]);
-    const createJob = kernel.func("__stdcall", "CreateJobObjectW", handleType, ["void *", "str16"]);
-    const setInformation = kernel.func("__stdcall", "SetInformationJobObject", "bool", [
+    // 原生函数一律用「名字 + 返回类型 + 参数表」声明；参数顺序即调用约定顺序。
+    const declOf = (name: string, returns: unknown, params: readonly unknown[]) =>
+      kernel.func("__stdcall", name, returns as never, params as never);
+    const createJob = declOf("CreateJobObjectW", handleType, ["void *", "str16"]);
+    const setInformation = declOf("SetInformationJobObject", "bool", [
       handleType,
       "uint32",
       koffi.pointer(extendedType),
       "uint32",
     ]);
-    const openProcess = kernel.func("__stdcall", "OpenProcess", handleType, [
-      "uint32",
-      "bool",
-      "uint32",
-    ]);
-    const assignProcess = kernel.func("__stdcall", "AssignProcessToJobObject", "bool", [
-      handleType,
-      handleType,
-    ]);
-    const terminateJob = kernel.func("__stdcall", "TerminateJobObject", "bool", [
-      handleType,
-      "uint32",
-    ]);
-    const closeHandle = kernel.func("__stdcall", "CloseHandle", "bool", [handleType]);
+    const openProcess = declOf("OpenProcess", handleType, ["uint32", "bool", "uint32"]);
+    const assignProcess = declOf("AssignProcessToJobObject", "bool", [handleType, handleType]);
+    const terminateJob = declOf("TerminateJobObject", "bool", [handleType, "uint32"]);
+    const closeHandle = declOf("CloseHandle", "bool", [handleType]);
     return {
       create() {
         const job = createJob(null, null);
