@@ -1,0 +1,51 @@
+{
+  "contract": "core-runtime-helpers-01",
+  "commit": "95426e4117d82a891776b6c19920865bc2ed531c",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-14T20:59:46.977Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-runtime-helpers-01/tests/attachments.test.ts",
+    "specs/contracts/core-runtime-helpers-01/tests/compact-provider.test.ts",
+    "specs/contracts/core-runtime-helpers-01/tests/errors-timing.test.ts",
+    "specs/contracts/core-runtime-helpers-01/tests/media.test.ts",
+    "specs/contracts/core-runtime-helpers-01/tests/permission-steering.test.ts",
+    "specs/contracts/core-runtime-helpers-01/tests/runtime-session.test.ts",
+    "specs/contracts/core-runtime-helpers-01/tests/surface.test.ts"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 63,
+      "pass": 63,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B44 远程会话路径修复：四态判定、CAS 回读与损坏即抛 (1.1747ms)\n✔ B45 项目记忆根的启用判定 (0.5163ms)\n✔ B46 记忆抽取：前置条件短路与排空 (1.4198ms)\n✔ B47 上下文用量分类贡献者 (0.3239ms)\n✔ interface.md × 运行时导出：60 模块 / 316 导出逐名一致 (5479.8951ms)\n✔ 桶入口与单模块入口互相覆盖，且入口取值受控 (0.6041ms)\nℹ tests 63\nℹ suites 0\nℹ pass 63\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 40409.4981"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 63,
+      "pass": 63,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B44 远程会话路径修复：四态判定、CAS 回读与损坏即抛 (1.2284ms)\n✔ B45 项目记忆根的启用判定 (0.5445ms)\n✔ B46 记忆抽取：前置条件短路与排空 (1.4562ms)\n✔ B47 上下文用量分类贡献者 (0.3452ms)\n✔ interface.md × 运行时导出：60 模块 / 316 导出逐名一致 (3507.8177ms)\n✔ 桶入口与单模块入口互相覆盖，且入口取值受控 (0.4429ms)\nℹ tests 63\nℹ suites 0\nℹ pass 63\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26348.2603",
+      "environment": {
+        "KNORVIA_CORE_RUNTIME_HELPERS_01_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 60,
+    "tests": 8,
+    "pass": 0,
+    "fail": 8,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "      at async TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\exec-1-h01\\specs\\contracts\\core-runtime-helpers-01\\tests\\surface.test.ts:89:23)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)\n\ntest at specs\\contracts\\core-runtime-helpers-01\\tests\\surface.test.ts:1:3298\n✖ 桶入口与单模块入口互相覆盖，且入口取值受控 (16.4399ms)\n  Error: not implemented: core-runtime-helpers-01\n      at <anonymous> (D:\\knorvia studio开发\\wt\\exec-1-h01\\apps\\cli\\packages\\core\\src\\runtime\\helpers\\index.ts:7:7)\n      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n      at async helpers (D:\\knorvia studio开发\\wt\\exec-1-h01\\specs\\contracts\\core-runtime-helpers-01\\tests\\entry.mjs:47:21)\n      at async TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\exec-1-h01\\specs\\contracts\\core-runtime-helpers-01\\tests\\surface.test.ts:113:18)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)"
+  },
+  "pass": true
+}

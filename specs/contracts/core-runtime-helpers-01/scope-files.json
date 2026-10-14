@@ -1,0 +1,366 @@
+{
+  "package": "core-runtime-helpers-01",
+  "root": "apps/cli/packages/core/src/runtime/helpers",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/child-client-ports.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/commands.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-preservation.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-selection.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/index.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-broker.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/rewind.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/steering.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-interaction-broker.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-selection.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    }
+  ]
+}
