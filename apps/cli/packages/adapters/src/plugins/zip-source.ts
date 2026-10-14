@@ -122,14 +122,17 @@ export async function /* 解析 zip 插件源（必须带 sha256） */ resolveZi
   return resolveHttpZipSource(input);
 }
 
-export function isZipPluginUrlSource(source: unknown): source is {
-  source: "url";
-  type: "zip";
-  sha256: /* 期望摘要（64 位十六进制） */ string;
-  url: /* 下载地址 */ string;
-} {
+/* zip URL 源的判定形状：四要素齐备才接受 */
+interface ZipUrlSourceShape {
+  /* 来源类别固定为 url */ source: "url";
+  /* 载荷类型固定为 zip */ type: "zip";
+  /* 期望摘要（64 位十六进制） */ sha256: string;
+  /* 下载地址 */ url: string;
+}
+
+export function isZipPluginUrlSource(source: unknown): source is ZipUrlSourceShape {
   return (
-    /* 类型判定：source/type/url/sha256 四者齐备 */ isRecord(source) &&
+    /* 四项齐备才算 zip URL 源 */ isRecord(source) &&
     source.source === "url" &&
     source.type === "zip" &&
     typeof source.url === "string" &&
@@ -139,6 +142,6 @@ export function isZipPluginUrlSource(source: unknown): source is {
 
 export function /* 读取 zip 源摘要 */ readZipPluginSourceSha256(
   source: unknown,
-): string | undefined {
+): /* 摘要或 undefined */ string | undefined {
   return isZipPluginUrlSource(source) ? source.sha256 : undefined;
 }

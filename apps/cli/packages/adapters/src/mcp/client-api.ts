@@ -26,6 +26,18 @@ import { errorText } from "./client-stdio-log.js";
 import { McpToolCalls } from "./client-tools.js";
 import { waitForRecord } from "./client-wait.js";
 
+/** ping 报错时判断错误是否来自协议层：协议层能报错说明服务端仍有响应。 */
+function protocolLayerReply(candidate: unknown): boolean {
+  if (candidate instanceof ProtocolError) return true;
+  return (
+    candidate !== null &&
+    typeof candidate === "object" &&
+    !Array.isArray(candidate) &&
+    "code" in candidate &&
+    typeof candidate.code === "number"
+  );
+}
+
 export class McpClientApi implements McpPort {
   private readonly state: McpClientState;
   private readonly connections: McpConnections;
@@ -58,13 +70,10 @@ export class McpClientApi implements McpPort {
     await Promise.all(
       Object.entries(servers).map(([name, config]) => {
         const existing = this.state.records.get(name);
-        if (
-          existing?.pending &&
-          existing.status.status === "connecting" &&
-          existing.status.authorization &&
-          isDeepStrictEqual(existing.config, config)
-        ) {
-          return waitForRecord(this.state, name, existing, options);
+        if (existing?.pending && existing.status.status === "connecting") {
+          if (existing.status.authorization && isDeepStrictEqual(existing.config, config)) {
+            return waitForRecord(this.state, name, existing, options);
+          }
         }
         return this.connectServer(name, config, options);
       }),
@@ -117,15 +126,8 @@ export class McpClientApi implements McpPort {
       await client.ping({ timeout });
       return /* 连接可用 */ true;
     } catch (error) {
-      if (
-        error instanceof ProtocolError ||
-        (error !== null &&
-          typeof error === "object" &&
-          !Array.isArray(error) &&
-          "code" in error &&
-          typeof error.code === "number")
-      )
-        return /* 连接可用 */ true;
+      /* 协议层报错说明服务端仍有响应，按连接可用处理 */
+      if (protocolLayerReply(error)) return /* 连接可用 */ true;
       if (state.generations.get(name) !== generation) return false;
       const current = state.records.get(name);
       if (current?.client === client)

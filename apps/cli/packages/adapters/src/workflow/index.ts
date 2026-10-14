@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // 工作流存储门面：类壳只保留字段与 port 方法签名，行为全部委托给内部模块。
-//
+// ——————————————————————————————
+// 下面按职责列出各内部模块；本文件本身不含实现。
 // 模块地图（本文件只有 8 个声明、0 条 re-export，方法体均为一行转发）：
 // - store-ops.ts  各 port 方法体（校验、索引、工件写入、定义读取）
 // - json-io.ts    文本/JSON/JSONL 读取与「追加或原子替换」写入
@@ -189,7 +190,7 @@ export function getDefaultWorkflowDefinitionsRoot(): string {
 // 3) NodeWorkflowDefinitionStore —— 定义列表与单定义读取（id 与文件名不一致时抛错）；
 // 4) createNodeWorkflowStore / createNodeWorkflowDefinitionStore —— 两个工厂，返回 port 接口；
 // 5) getDefaultWorkflowRoot / getDefaultWorkflowDefinitionsRoot —— 默认目录解析。
-//
+// ——————————————————————————————
 // 约定：
 // - 所有方法都接受 `{ signal }` 选项，取消优先透传 `signal.reason`；
 // - 事件与图记录以 JSONL 追加，快照与索引以「临时文件 + rename」原子替换；
