@@ -8,6 +8,9 @@
         ".vscode/*.mjs",
         "scripts/check-workspace-freshness.mjs",
         "scripts/mise-run.mjs",
+        "specs/contracts/*/tests/*.test.ts",
+        "specs/contracts/*/tests/run-old-gate.mjs",
+        "specs/contracts/*/dist-entry-loader.mjs",
         "scripts/provenance/inherited-triage.mjs",
         "scripts/provenance/inherited-triage.test.mjs",
         "scripts/generate-knorvia-notification-sound.mjs",
@@ -19,7 +22,6 @@
         "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/bookkeeping-round2.mjs",
         "scripts/provenance/bookkeeping-round2-similarity.mjs",
-        "specs/contracts/*/dist-entry-loader.mjs",
         "specs/contracts/core-hooks/tests/run-old-gate.mjs"
       ]
     },

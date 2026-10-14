@@ -683,7 +683,7 @@ test("B87 workflow manifest bounds result, error and duration", async () => {
   assert.equal(noManifest, undefined);
 });
 
-test("B88 interface.md export names match the source, and stubs mirror them", async () => {
+test("B88 interface.md export declarations cover the source exports", async () => {
   const { readFileSync } = await import("node:fs");
   const contractRoot = new URL("../", import.meta.url);
   const repoRoot = new URL("../../../../", import.meta.url);
@@ -700,15 +700,24 @@ test("B88 interface.md export names match the source, and stubs mirror them", as
         ),
       ].map((match) => match[1]!),
     );
-    const stub = readFileSync(new URL(`stubs/${file}`, contractRoot), "utf8");
-    const stubNames = new Set(
+    // v2（Lead 裁决 C，2026-10-14）：oracle 从 `stubs/<路径>` 改指本文件各节的 ```ts 导出声明块
+    // （桩已按替换验收强制终态删除）。断言方向与强度逐字不变：源码导出名 ⊆ 合同声明，
+    // 缺任何一个仍由 assert.deepEqual(missing, []) 拦下。
+    const heading = `### \`${file}\``;
+    const sectionStart = interfaceText.indexOf(heading);
+    const sectionEnd = interfaceText.indexOf("\n### ", sectionStart + 1);
+    const section = interfaceText.slice(sectionStart, sectionEnd === -1 ? undefined : sectionEnd);
+    const contractNames = new Set(
       [
-        ...stub.matchAll(
-          /^export\s+(?:type\s+)?(?:declare\s+)?(?:abstract\s+)?(?:async\s+)?(?:class|interface|function|const|let|var|type|enum|namespace)\s+([A-Za-z0-9_$]+)/gm,
-        ),
+        ...[...section.matchAll(/```ts\r?\n([\s\S]*?)```/g)]
+          .map((block) => block[1]!)
+          .join("\n")
+          .matchAll(
+            /^export\s+(?:type\s+)?(?:declare\s+)?(?:abstract\s+)?(?:async\s+)?(?:class|interface|function|const|let|var|type|enum|namespace)\s+([A-Za-z0-9_$]+)/gm,
+          ),
       ].map((match) => match[1]!),
     );
-    for (const name of names) if (!stubNames.has(name)) missing.push(`${file}:${name}`);
+    for (const name of names) if (!contractNames.has(name)) missing.push(`${file}:${name}`);
   }
   assert.deepEqual(missing, []);
 });
