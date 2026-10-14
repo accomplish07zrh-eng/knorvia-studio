@@ -33,14 +33,14 @@ export class OutputCollector {
   private truncated = false;
 
   constructor(options: {
-    maxInlineBytes: number;
-    maxPersistedBytes: number;
-    legacyOutputEncoding: string | null;
-    maxTailBytes: number;
-    onPersistedLimit?: () => void;
-    outputPath?: string;
-    persistOutput: OutputPersistenceMode;
-    aggregatePersistedBudget?: AggregatePersistedOutputBudget;
+    maxInlineBytes: /* 内联回显上限 */ number;
+    maxPersistedBytes: /* 落盘上限 */ number;
+    legacyOutputEncoding: /* 遗留输出编码（无则为 null） */ string | null;
+    maxTailBytes: /* 尾部保留字节 */ number;
+    onPersistedLimit?: /* 达到落盘上限时回调 */ () => void;
+    outputPath?: /* 落盘文件路径 */ string;
+    persistOutput: /* 落盘模式 */ OutputPersistenceMode;
+    aggregatePersistedBudget?: /* 跨任务聚合预算 */ AggregatePersistedOutputBudget;
   }) {
     this.maxInlineBytes = Math.max(0, options.maxInlineBytes);
     this.maxPersistedBytes = Math.max(0, options.maxPersistedBytes);
@@ -56,7 +56,7 @@ export class OutputCollector {
     if (chunk.length === 0) return;
     const previousTotal = this.totalBytes;
     this.totalBytes += chunk.length;
-    this.appendTail(chunk);
+    /* 同时累积尾部预览 */ this.appendTail(chunk);
     const inlineRemaining = Math.max(0, this.maxInlineBytes - this.inlineBytes);
     const inlinePart = chunk.subarray(0, inlineRemaining);
     if (inlinePart.length > 0) {
@@ -67,7 +67,7 @@ export class OutputCollector {
 
     if (this.persistOutput === "always") {
       this.activatePersistence(false);
-      this.writePersisted(chunk, source);
+      /* 写入落盘流 */ this.writePersisted(chunk, source);
       return;
     }
     if (
@@ -80,7 +80,7 @@ export class OutputCollector {
           previousTotal < this.maxInlineBytes ? this.chunks.slice(0, -1) : this.chunks;
         for (const prefix of prefixBeforeChunk) this.writePersisted(prefix);
       }
-      this.writePersisted(chunk, source);
+      /* 写入落盘流 */ this.writePersisted(chunk, source);
     }
   }
 
@@ -96,11 +96,11 @@ export class OutputCollector {
     });
   }
 
-  result(): ExecutionStreamResult {
+  result /* 汇总执行流结果 */(): ExecutionStreamResult {
     const result: ExecutionStreamResult = {
       text: decodeExecutionOutputBuffer(Buffer.concat(this.chunks), this.legacyOutputEncoding),
       bytes: this.totalBytes,
-      truncated: this.truncated,
+      /* 是否截断 */ truncated: this.truncated,
     };
     if (this.stream && this.outputPath) {
       result.artifactPath = this.outputPath;
@@ -111,10 +111,10 @@ export class OutputCollector {
   }
 
   get bytes(): number {
-    return this.totalBytes;
+    return /* 总字节数 */ this.totalBytes;
   }
 
-  tailText(): string | undefined {
+  tailText /* 尾部预览文本 */(): string | undefined {
     return this.tail.length > 0
       ? decodeExecutionOutputBuffer(this.tail, this.legacyOutputEncoding)
       : undefined;
@@ -132,21 +132,21 @@ export class OutputCollector {
       mkdirSync(path.dirname(this.outputPath), { recursive: true, mode: 0o700 });
       const stream = createWriteStream(this.outputPath, { flags: "w", mode: 0o600 });
       stream.on("error", () => {
-        this.artifactTruncated = true;
+        /* 标记产物截断 */ this.artifactTruncated = true;
         this.persistenceFailed = true;
       });
       this.stream = stream;
     } catch {
-      this.artifactTruncated = true;
+      /* 标记产物截断 */ this.artifactTruncated = true;
       this.persistenceFailed = true;
     }
     return this.stream;
   }
 
   private activatePersistence(_backfill: boolean): void {
-    if (this.persistenceActive) return;
-    this.persistenceActive = true;
-    this.ensurePersistedStream();
+    if (/* 已激活：避免重复建立流 */ this.persistenceActive) return;
+    /* 标记已激活 */ this.persistenceActive = true;
+    /* 建立落盘流 */ this.ensurePersistedStream();
   }
 
   private writePersisted(chunk: Buffer, source?: NodeJS.ReadableStream): void {
@@ -174,12 +174,12 @@ export class OutputCollector {
           });
         }
       } catch {
-        this.artifactTruncated = true;
+        /* 标记产物截断 */ this.artifactTruncated = true;
         this.persistenceFailed = true;
       }
     }
     if (accepted < chunk.length) {
-      this.artifactTruncated = true;
+      /* 标记产物截断 */ this.artifactTruncated = true;
       this.notifyPersistedLimit();
     }
   }
