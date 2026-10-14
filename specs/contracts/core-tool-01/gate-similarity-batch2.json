@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "thresholds": {
+    "minLines": 10,
+    "containment": 0.2,
+    "longestRun": 8,
+    "structural": 0.4
+  },
+  "gates": "all",
+  "upstream": {
+    "root": "D:\\knorvia studio开发\\cache\\zcode-872ad960",
+    "revision": "872ad960de7ec172591f7e1952f7849229f94521",
+    "files": 6973,
+    "binary": 87,
+    "kinds": {
+      "md": 186,
+      "sh": 7,
+      "script": 4016,
+      "yaml": 9,
+      "json": 100,
+      "dockerignore": 2,
+      "development": 1,
+      "example": 1,
+      "production": 1,
+      "gitattributes": 2,
+      "gitignore": 5,
+      "npmrc": 1,
+      "nvmrc": 2,
+      "prettierignore": 1,
+      "editorconfig": 1,
+      "template": 1,
+      "(none)": 6,
+      "gz": 14,
+      "zip": 4,
+      "html": 6,
+      "css": 5,
+      "map": 10,
+      "toml": 1,
+      "png": 51,
+      "plist": 3,
+      "icns": 3,
+      "ico": 4,
+      "nsh": 1,
+      "yml": 1,
+      "swift": 1,
+      "manifest": 1,
+      "cs": 1,
+      "svg": 2306,
+      "mp3": 1,
+      "webp": 6,
+      "patch": 3,
+      "txt": 209
+    }
+  },
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/tool/edit-match-text.ts",
+      "kind": "script",
+      "lines": 95,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 95,
+      "strippedLines": 0,
+      "residualLines": 95,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0.14736842105263157,
+        "file": "apps/cli/packages/core/src/tool/edit-match-text.ts"
+      },
+      "longestRun": {
+        "value": 5,
+        "file": "apps/cli/packages/core/src/tool/edit-match-text.ts"
+      },
+      "structural": {
+        "value": 0.0375,
+        "file": "apps/cli/packages/core/src/tool/edit-match-text.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/edit-matchers.ts",
+      "kind": "script",
+      "lines": 211,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 211,
+      "strippedLines": 0,
+      "residualLines": 211,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0.14218009478672985,
+        "file": "apps/zcode-cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "longestRun": {
+        "value": 7,
+        "file": "apps/zcode-cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "structural": {
+        "value": 0.046242774566473986,
+        "file": "apps/cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    }
+  ],
+  "summary": {
+    "candidates": 2,
+    "passed": 2,
+    "failed": 0,
+    "binary": 0,
+    "structuralSkipped": 0
+  },
+  "pass": true
+}

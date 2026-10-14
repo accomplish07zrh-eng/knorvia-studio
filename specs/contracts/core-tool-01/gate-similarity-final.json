@@ -1,0 +1,1057 @@
+{
+  "schemaVersion": 1,
+  "thresholds": {
+    "minLines": 10,
+    "containment": 0.2,
+    "longestRun": 8,
+    "structural": 0.4
+  },
+  "gates": "all",
+  "upstream": {
+    "root": "D:\\knorvia studio开发\\cache\\zcode-872ad960",
+    "revision": "872ad960de7ec172591f7e1952f7849229f94521",
+    "files": 6973,
+    "binary": 87,
+    "kinds": {
+      "md": 186,
+      "sh": 7,
+      "script": 4016,
+      "yaml": 9,
+      "json": 100,
+      "dockerignore": 2,
+      "development": 1,
+      "example": 1,
+      "production": 1,
+      "gitattributes": 2,
+      "gitignore": 5,
+      "npmrc": 1,
+      "nvmrc": 2,
+      "prettierignore": 1,
+      "editorconfig": 1,
+      "template": 1,
+      "(none)": 6,
+      "gz": 14,
+      "zip": 4,
+      "html": 6,
+      "css": 5,
+      "map": 10,
+      "toml": 1,
+      "png": 51,
+      "plist": 3,
+      "icns": 3,
+      "ico": 4,
+      "nsh": 1,
+      "yml": 1,
+      "swift": 1,
+      "manifest": 1,
+      "cs": 1,
+      "svg": 2306,
+      "mp3": 1,
+      "webp": 6,
+      "patch": 3,
+      "txt": 209
+    }
+  },
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/tool/bash-timeout-policy.ts",
+      "kind": "script",
+      "lines": 54,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 54,
+      "strippedLines": 0,
+      "residualLines": 54,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.1111111111111111,
+        "file": "apps/zcode-cli/packages/core/src/tool/bash-timeout-policy.ts"
+      },
+      "longestRun": {
+        "value": 2,
+        "file": "apps/zcode-cli/packages/core/src/tool/bash-timeout-policy.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/compat.ts",
+      "kind": "script",
+      "lines": 28,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 28,
+      "strippedLines": 0,
+      "residualLines": 28,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.14285714285714285,
+        "file": "apps/zcode-cli/packages/core/src/tool/compat.ts"
+      },
+      "longestRun": {
+        "value": 1,
+        "file": "apps/zcode-cli/packages/adapters/src/mcp/index.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/diff.ts",
+      "kind": "script",
+      "lines": 32,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 32,
+      "strippedLines": 0,
+      "residualLines": 32,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.09375,
+        "file": "apps/zcode-cli/packages/core/src/tool/diff.ts"
+      },
+      "longestRun": {
+        "value": 3,
+        "file": "apps/zcode-cli/packages/core/src/tool/diff.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/edit-match-distance.ts",
+      "kind": "script",
+      "lines": 43,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 43,
+      "strippedLines": 0,
+      "residualLines": 43,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.16279069767441862,
+        "file": "packages/ui/src/lib/toolDiffPreview.ts"
+      },
+      "longestRun": {
+        "value": 3,
+        "file": "packages/services/src/zcode-agent/zcodeTaskServiceAdapter.ts"
+      },
+      "structural": {
+        "value": 0.047619047619047616,
+        "file": "apps/zcode-cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/edit-match-text.ts",
+      "kind": "script",
+      "lines": 95,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 95,
+      "strippedLines": 0,
+      "residualLines": 95,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.14736842105263157,
+        "file": "apps/cli/packages/core/src/tool/edit-match-text.ts"
+      },
+      "longestRun": {
+        "value": 5,
+        "file": "apps/cli/packages/core/src/tool/edit-match-text.ts"
+      },
+      "structural": {
+        "value": 0.0375,
+        "file": "apps/cli/packages/core/src/tool/edit-match-text.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/edit-matchers.ts",
+      "kind": "script",
+      "lines": 211,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 211,
+      "strippedLines": 0,
+      "residualLines": 211,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.14218009478672985,
+        "file": "apps/zcode-cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "longestRun": {
+        "value": 7,
+        "file": "apps/zcode-cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "structural": {
+        "value": 0.046242774566473986,
+        "file": "apps/cli/packages/core/src/tool/edit-matchers.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-task-output.ts",
+      "kind": "script",
+      "lines": 103,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 103,
+      "strippedLines": 0,
+      "residualLines": 103,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.07766990291262135,
+        "file": "apps/cli/packages/core/src/tool/executor/background-task-output.ts"
+      },
+      "longestRun": {
+        "value": 1,
+        "file": "apps/zcode-cli/packages/adapters/src/mcp/index.ts"
+      },
+      "structural": {
+        "value": 0.06060606060606061,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-task-output.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-task-registry.ts",
+      "kind": "script",
+      "lines": 264,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 264,
+      "strippedLines": 0,
+      "residualLines": 264,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.19318181818181818,
+        "file": "apps/cli/packages/core/src/tool/executor/background-task-registry.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-task-registry.ts"
+      },
+      "structural": {
+        "value": 0.03225806451612903,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-task-registry.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+      "kind": "script",
+      "lines": 271,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 271,
+      "strippedLines": 0,
+      "residualLines": 271,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.07011070110701106,
+        "file": "apps/cli/packages/core/src/tool/executor/background-tasks.ts"
+      },
+      "longestRun": {
+        "value": 6,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts"
+      },
+      "structural": {
+        "value": 0.011111111111111112,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts",
+      "kind": "script",
+      "lines": 419,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 419,
+      "strippedLines": 0,
+      "residualLines": 419,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.08591885441527446,
+        "file": "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts"
+      },
+      "structural": {
+        "value": 0.022988505747126436,
+        "file": "packages/shared/src/conversation-message-projection-policy.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts",
+      "kind": "script",
+      "lines": 266,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 266,
+      "strippedLines": 0,
+      "residualLines": 266,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.16917293233082706,
+        "file": "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts"
+      },
+      "longestRun": {
+        "value": 7,
+        "file": "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts"
+      },
+      "structural": {
+        "value": 0.04,
+        "file": "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/events.ts",
+      "kind": "script",
+      "lines": 277,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 277,
+      "strippedLines": 0,
+      "residualLines": 277,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.08303249097472924,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/events.ts"
+      },
+      "longestRun": {
+        "value": 2,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts"
+      },
+      "structural": {
+        "value": 0.012658227848101266,
+        "file": "apps/zcode-cli/packages/core/src/runtime/methods/browser-turn-screenshot.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/impl.ts",
+      "kind": "script",
+      "lines": 5,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 5,
+      "strippedLines": 0,
+      "residualLines": 5,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/memory-file-permission.ts",
+      "kind": "script",
+      "lines": 67,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 67,
+      "strippedLines": 0,
+      "residualLines": 67,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.04477611940298507,
+        "file": "apps/zcode-cli/packages/adapters/src/mcp/index.ts"
+      },
+      "longestRun": {
+        "value": 1,
+        "file": "apps/zcode-cli/packages/adapters/src/mcp/index.ts"
+      },
+      "structural": {
+        "value": 0.12195121951219512,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/memory-file-permission.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/model-status-sink.ts",
+      "kind": "script",
+      "lines": 43,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 43,
+      "strippedLines": 0,
+      "residualLines": 43,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.09302325581395349,
+        "file": "apps/zcode-cli/packages/bootstrap/src/zcode-protocol-v4/product-projection.ts"
+      },
+      "longestRun": {
+        "value": 1,
+        "file": "apps/zcode-cli/packages/adapters/src/mcp/index.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/telemetry.ts",
+      "kind": "script",
+      "lines": 42,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 42,
+      "strippedLines": 0,
+      "residualLines": 42,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.16666666666666666,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/telemetry.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/telemetry.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/turn-control.ts",
+      "kind": "script",
+      "lines": 89,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 89,
+      "strippedLines": 0,
+      "residualLines": 89,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.10112359550561797,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/turn-control.ts"
+      },
+      "longestRun": {
+        "value": 3,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/turn-control.ts"
+      },
+      "structural": {
+        "value": 0.025,
+        "file": "apps/zcode-cli/packages/cli/src/run.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/utils.ts",
+      "kind": "script",
+      "lines": 44,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 44,
+      "strippedLines": 0,
+      "residualLines": 44,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.13636363636363635,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/utils.ts"
+      },
+      "longestRun": {
+        "value": 3,
+        "file": "packages/ui/src/app-shell/workflow-artifacts/presets/apply.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
+      "kind": "script",
+      "lines": 45,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 45,
+      "strippedLines": 0,
+      "residualLines": 45,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.13333333333333333,
+        "file": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts"
+      },
+      "longestRun": {
+        "value": 1,
+        "file": "apps/zcode-cli/packages/adapters/src/mcp/index.ts"
+      },
+      "structural": {
+        "value": 0.23529411764705882,
+        "file": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "kind": "script",
+      "lines": 243,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 243,
+      "strippedLines": 0,
+      "residualLines": 243,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.1728395061728395,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts"
+      },
+      "longestRun": {
+        "value": 7,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts"
+      },
+      "structural": {
+        "value": 0.1,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/model-contract.ts",
+      "kind": "script",
+      "lines": 48,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 48,
+      "strippedLines": 0,
+      "residualLines": 48,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.1875,
+        "file": "apps/zcode-cli/packages/core/src/tool/model-contract.ts"
+      },
+      "longestRun": {
+        "value": 5,
+        "file": "apps/zcode-cli/packages/core/src/tool/model-contract.ts"
+      },
+      "structural": {
+        "value": 0.05,
+        "file": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-source.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/path-normalization.ts",
+      "kind": "script",
+      "lines": 53,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 53,
+      "strippedLines": 0,
+      "residualLines": 53,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.1320754716981132,
+        "file": "apps/zcode-cli/packages/core/src/tool/path-normalization.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/path-normalization.ts"
+      },
+      "structural": {
+        "value": 0.09090909090909091,
+        "file": "apps/zcode-cli/packages/core/src/tool/path-normalization.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/path-policy.ts",
+      "kind": "script",
+      "lines": 44,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 44,
+      "strippedLines": 0,
+      "residualLines": 44,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.18181818181818182,
+        "file": "apps/zcode-cli/packages/core/src/tool/path-policy.ts"
+      },
+      "longestRun": {
+        "value": 2,
+        "file": "apps/zcode-cli/packages/core/src/tool/path-policy.ts"
+      },
+      "structural": {
+        "value": 0.041666666666666664,
+        "file": "apps/zcode-cli/packages/core/src/tool/path-policy.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/provider-visible-order.ts",
+      "kind": "script",
+      "lines": 20,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 20,
+      "strippedLines": 0,
+      "residualLines": 20,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.15,
+        "file": "apps/zcode-cli/packages/core/src/tool/provider-visible-order.ts"
+      },
+      "longestRun": {
+        "value": 3,
+        "file": "apps/zcode-cli/packages/core/src/tool/provider-visible-order.ts"
+      },
+      "structural": {
+        "value": 0.09090909090909091,
+        "file": "apps/zcode-cli/packages/adapters/src/workflow/index.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts",
+      "kind": "script",
+      "lines": 9,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 9,
+      "strippedLines": 0,
+      "residualLines": 9,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state.ts",
+      "kind": "script",
+      "lines": 6,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 6,
+      "strippedLines": 0,
+      "residualLines": 6,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/tool-visibility.ts",
+      "kind": "script",
+      "lines": 6,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 6,
+      "strippedLines": 0,
+      "residualLines": 6,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/webfetch-preapproved.ts",
+      "kind": "script",
+      "lines": 46,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 46,
+      "strippedLines": 0,
+      "residualLines": 46,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.15217391304347827,
+        "file": "apps/zcode-cli/packages/core/src/tool/webfetch-preapproved.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/webfetch-preapproved.ts"
+      },
+      "structural": {
+        "value": 0.13333333333333333,
+        "file": "apps/zcode-cli/packages/core/src/tool/webfetch-preapproved.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/internal/tool-executor.ts",
+      "kind": "script",
+      "lines": 98,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 98,
+      "strippedLines": 0,
+      "residualLines": 98,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.16326530612244897,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/impl.ts"
+      },
+      "longestRun": {
+        "value": 5,
+        "file": "apps/zcode-cli/packages/core/src/tool/executor/impl.ts"
+      },
+      "structural": {
+        "value": 0.018518518518518517,
+        "file": "apps/zcode-cli/packages/adapters/src/exec/embedded-search-prelude.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/read-state-codec.ts",
+      "kind": "script",
+      "lines": 135,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 135,
+      "strippedLines": 0,
+      "residualLines": 135,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.14814814814814814,
+        "file": "apps/zcode-cli/packages/core/src/tool/read-file-state-metadata.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/read-file-state-metadata.ts"
+      },
+      "structural": {
+        "value": 0.06172839506172839,
+        "file": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/read-state-query.ts",
+      "kind": "script",
+      "lines": 56,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 56,
+      "strippedLines": 0,
+      "residualLines": 56,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.19642857142857142,
+        "file": "apps/cli/packages/core/src/tool/read-file-state.ts"
+      },
+      "longestRun": {
+        "value": 5,
+        "file": "apps/cli/packages/core/src/tool/read-file-state.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/tool-visibility-rules.ts",
+      "kind": "script",
+      "lines": 46,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 46,
+      "strippedLines": 0,
+      "residualLines": 46,
+      "strippedBlocks": 0,
+      "sqlFrozen": 0,
+      "maxContainment": {
+        "value": 0.17391304347826086,
+        "file": "apps/zcode-cli/packages/core/src/tool/tool-visibility.ts"
+      },
+      "longestRun": {
+        "value": 2,
+        "file": "apps/zcode-cli/packages/core/src/tool/tool-visibility.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    }
+  ],
+  "summary": {
+    "candidates": 32,
+    "passed": 32,
+    "failed": 0,
+    "binary": 0,
+    "structuralSkipped": 0
+  },
+  "pass": true
+}
