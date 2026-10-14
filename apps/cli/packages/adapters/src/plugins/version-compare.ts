@@ -6,11 +6,11 @@ import { coerce, gt, valid } from "semver";
 export type PluginUpdateStatus = "none" | "update-available" | "version-changed";
 
 export function comparePluginVersions(input: {
-  installed: string | undefined;
-  latest: string | undefined;
-}): PluginUpdateStatus {
+  installed: /* 已安装版本（可缺省） */ string | undefined;
+  latest: /* 最新版本（可缺省） */ string | undefined;
+}): /* 更新状态 */ PluginUpdateStatus {
   const { installed, latest } = input;
-  if (!installed || !latest) return "none";
+  if (!installed || !latest) return /* 缺任一侧：无从比较 */ "none";
 
   const installedVersion = valid(coerce(installed) ?? installed);
   const latestVersion = valid(coerce(latest) ?? latest);
@@ -21,11 +21,11 @@ export function comparePluginVersions(input: {
 }
 
 export function comparePluginUpdate(input: {
-  installedVersion: string | undefined;
-  installedSha: string | undefined;
-  latestVersion: string | undefined;
-  latestSha: string | undefined;
-}): PluginUpdateStatus {
+  installedVersion: /* 已安装版本号 */ string | undefined;
+  installedSha: /* 已安装提交指纹 */ string | undefined;
+  latestVersion: /* 最新版本号 */ string | undefined;
+  latestSha: /* 最新提交指纹 */ string | undefined;
+}): /* 更新状态 */ PluginUpdateStatus {
   if (input.latestVersion) {
     return comparePluginVersions({
       installed: input.installedVersion,
