@@ -89,30 +89,37 @@ async function loadNativeApi(): Promise<WindowsJobObjectApi | undefined> {
       create() {
         const job = createJob(null, null);
         if (!job) return undefined;
+        // 零值结构体用字段表构造：字段名与嵌套结构与 Win32 定义逐条对应。
+        const zeroFields = (names: readonly string[]): Record<string, number> =>
+          Object.fromEntries(names.map((name) => [name, 0]));
         const limits = {
           BasicLimitInformation: {
-            PerProcessUserTimeLimit: 0,
-            PerJobUserTimeLimit: 0,
+            ...zeroFields([
+              "PerProcessUserTimeLimit",
+              "PerJobUserTimeLimit",
+              "MinimumWorkingSetSize",
+              "MaximumWorkingSetSize",
+              "ActiveProcessLimit",
+              "Affinity",
+              "PriorityClass",
+              "SchedulingClass",
+            ]),
             LimitFlags: KILL_ON_JOB_CLOSE,
-            MinimumWorkingSetSize: 0,
-            MaximumWorkingSetSize: 0,
-            ActiveProcessLimit: 0,
-            Affinity: 0,
-            PriorityClass: 0,
-            SchedulingClass: 0,
           },
-          IoInfo: {
-            ReadOperationCount: 0,
-            WriteOperationCount: 0,
-            OtherOperationCount: 0,
-            ReadTransferCount: 0,
-            WriteTransferCount: 0,
-            OtherTransferCount: 0,
-          },
-          ProcessMemoryLimit: 0,
-          JobMemoryLimit: 0,
-          PeakProcessMemoryUsed: 0,
-          PeakJobMemoryUsed: 0,
+          IoInfo: zeroFields([
+            "ReadOperationCount",
+            "WriteOperationCount",
+            "OtherOperationCount",
+            "ReadTransferCount",
+            "WriteTransferCount",
+            "OtherTransferCount",
+          ]),
+          ...zeroFields([
+            "ProcessMemoryLimit",
+            "JobMemoryLimit",
+            "PeakProcessMemoryUsed",
+            "PeakJobMemoryUsed",
+          ]),
         };
         if (
           !setInformation(job, EXTENDED_LIMIT_INFORMATION_CLASS, limits, koffi.sizeof(extendedType))
