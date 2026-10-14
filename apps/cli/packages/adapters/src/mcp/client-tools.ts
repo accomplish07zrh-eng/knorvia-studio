@@ -42,7 +42,7 @@ export class McpToolCalls {
     if (!connected?.client || connected.status.status !== "connected") {
       throw new Error(`MCP server is not connected: ${request.serverName}`);
     }
-    try {
+    try /* 调用可能失败，失败交由下方 catch 归类（授权/重连） */ {
       return await this.attempt(
         connected.client,
         request,
@@ -67,9 +67,9 @@ export class McpToolCalls {
         return this.resend(request, options, deadline, timeoutMessage, error);
       }
       if (!(error instanceof Error) || error.message !== "Not connected") throw error;
-      try {
+      try /* 重连等待可能失败，失败不覆盖原错误 */ {
         await wait(this.reconnect(request.serverName, connected));
-      } catch (reconnectError) {
+      } catch (reconnectError) /* 仅记录告警，保持原错误路径 */ {
         // 重连失败不覆盖原错误，继续按原路径处理。
         this.state.logger?.warn("MCP server reconnect failed", {
           error: errorText(reconnectError),
@@ -126,7 +126,7 @@ export class McpToolCalls {
     };
     this.state.logger?.debug("MCP tool call started", { ...base, argumentKeys, status: "started" });
     const started = Date.now();
-    try {
+    try /* 单次调用可能失败，失败交由上层归类 */ {
       const metadata = toolRequestMetadata(request);
       const result = await client.callTool(
         // 真正发起一次工具调用。
@@ -140,7 +140,7 @@ export class McpToolCalls {
       const durationMs = Date.now() - started;
       const isError = typeof result.isError === "boolean" ? result.isError : false; // 只有明确为布尔时才当作失败。
       const serverRequestId = this.state.consumeToolResponse(request.trace?.spanId);
-      const outcome = {
+      const outcome = /* 归一化后的调用结果视图 */ {
         // 观测结果对象：字段形状由本模块定义。
         ...base,
         contentBlocks: Array.isArray(result.content) ? result.content.length : 0,
@@ -162,7 +162,7 @@ export class McpToolCalls {
       this.state.logger?.warn("MCP tool call failed", {
         ...base,
         argumentKeys, // 参数键（不含值），仅用于观测。
-        durationMs,
+        /* 本次调用耗时 */ durationMs,
         error: message,
         ...(serverRequestId ? { serverRequestId } : {}),
         errorName: errorName(error),
