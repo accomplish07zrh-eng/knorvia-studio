@@ -1,11 +1,14 @@
 # shared-01 合同（`packages/shared/src` · `node`、`protocol-v4`）
 
-**合同版本：v1**（旧门基线以 [`gate-old.json`](gate-old.json) 的 `commit` 字段为准；此后合同任何改动都要重跑旧门并升版本）
+**合同版本：v2**（v2 = v1（2026-10-14，PR #152）按 Lead 裁决 C（2026-10-14，issue #148 评论）的收尾修订：**删除 `stubs/`**，桩替换证据转 `gate-old.json` 留证；本包契约测试没有读桩的断言，故无 oracle 可换，详见 `known-differences.md` 第 7 节。旧门基线以 [`gate-old.json`](gate-old.json) 的 `commit` 字段为准；此后合同任何改动都要重跑旧门并升版本）
+
+v2 另含两处配套：① `README.md`/`acceptance.md` 按 core-hooks v1.1 先例升版本并记录旧门复跑；
+② 按 core-tool-01 v2 先例把 `gate-old.json` 的 `stubReplacement` 标为 historical（记录本身保留）。
 
 本目录是 M3 首包 `shared-01` 的**兼容合同**：先冻结公开行为与签名，再按合同独立实现
 （替换阶段见计划书「每包流程」四、五）。
 
-- 分支：`contract/shared-01`（工作树 `wt/exec-5-contract`）
+- 分支：`replace/shared-01`（替换阶段 PR；v1 合同原分支 `contract/shared-01`，工作树 `wt/exec-5-contract`）
 - 依据：《Knorvia 独立替换任务计划书》「每包流程」一～三、分包总表 `shared-01` 行、
   「共享、服务与服务端」区域的「协议与 wire-codec」要求
 - 第三方核实结论：`docs/knorvia-third-party-verification-20261011.md` 的 `shared-01` 小节（M0-6）——
@@ -63,19 +66,19 @@
 
 ## 五、合同文件
 
-| 文件                                | 内容                                                                             |
-| ----------------------------------- | -------------------------------------------------------------------------------- |
-| `README.md`                         | 本文件：范围、条目 → 测试对照表、旧门结论                                        |
-| `behavior.md`                       | B1–B44：输入/输出/错误语义/时序与并发/幂等/资源释放/平台差异/状态所有者/日志级别 |
-| `interface.md`                      | 入口与 `node` 的 13 个导出（相似度声明模式的剔除依据）                           |
-| `interface-appendix-protocol-v4.md` | `protocol-v4` 571 项导出清单（机器生成）                                         |
-| `callers.md`                        | `dep:refs` 全量调用方                                                            |
-| `tests/`                            | 6 个黑盒契约测试文件（`entry.mjs` 支持源码/dist 两入口）                         |
-| `fixtures/`                         | 旧实现录制的帧、计量与旧写样例                                                   |
-| `stubs/`                            | 27 个继承模块的最小桩（import 即抛）+ `build-stubs.mjs` + `targets.txt`          |
-| `known-differences.md`              | 不在范围的文件、必须逐字保留的部分、旧行为特征                                   |
-| `acceptance.md`                     | 验收记录：范围、旧门两入口、桩替换、门禁、未覆盖项                               |
-| `gate-old.json`                     | 旧门报告（`scripts/contract-gate.mjs` 生成）                                     |
+| 文件                                | 内容                                                                                                                                    |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `README.md`                         | 本文件：范围、条目 → 测试对照表、旧门结论                                                                                               |
+| `behavior.md`                       | B1–B44：输入/输出/错误语义/时序与并发/幂等/资源释放/平台差异/状态所有者/日志级别                                                        |
+| `interface.md`                      | 入口与 `node` 的 13 个导出（相似度声明模式的剔除依据）                                                                                  |
+| `interface-appendix-protocol-v4.md` | `protocol-v4` 571 项导出清单（机器生成）                                                                                                |
+| `callers.md`                        | `dep:refs` 全量调用方                                                                                                                   |
+| `tests/`                            | 6 个黑盒契约测试文件（`entry.mjs` 支持源码/dist 两入口）                                                                                |
+| `fixtures/`                         | 旧实现录制的帧、计量与旧写样例                                                                                                          |
+| `stubs/`                            | 27 个继承模块的最小桩（import 即抛）+ `build-stubs.mjs` + `targets.txt`；**v2 已删除**（裁决 C，桩替换 0/6 的证据留存 `gate-old.json`） |
+| `known-differences.md`              | 不在范围的文件、必须逐字保留的部分、旧行为特征                                                                                          |
+| `acceptance.md`                     | 验收记录：范围、旧门两入口、桩替换、门禁、未覆盖项                                                                                      |
+| `gate-old.json`                     | 旧门报告（`scripts/contract-gate.mjs` 生成）                                                                                            |
 
 ## 六、条目 → 测试对照表
 
@@ -128,9 +131,10 @@
 
 B1–B44 全部有条目、全部有测试（无空行）；未被行为条目覆盖的纯类型导出见 `acceptance.md`「未覆盖项」。
 
-## 七、旧门（旧实现上的结论）
+## 七、旧门（旧实现上的结论，v2 复跑 2026-10-15）
 
 ```powershell
+# v1 用法（含桩替换那段；stubs/ 已在 v2 删除，命令仅作历史记录）
 node scripts/contract-gate.mjs --contract specs/contracts/shared-01 --tests "*.test.mjs" `
   --dist-env KNORVIA_SHARED_01_ENTRY=dist `
   --stub-root specs/contracts/shared-01/stubs --stub-targets specs/contracts/shared-01/stubs/targets.txt
@@ -138,8 +142,13 @@ node scripts/contract-gate.mjs --contract specs/contracts/shared-01 --tests "*.t
 
 - 源码入口：tests=56 **pass=56** fail=0
 - dist 入口（前置：`tsc -b packages/shared` 生成 `packages/shared/dist`）：tests=56 **pass=56** fail=0
-- 桩替换（27 个目标文件）：tests=6 **pass=0** fail=6 → `allFail=true`：契约测试确实测到公开行为
+- 桩替换（27 个目标文件）：tests=6 **pass=0** fail=6 → `allFail=true`：契约测试确实测到公开行为。
+  **v2 起为历史项**：`stubs/` 已按裁决 C 删除，该段不再可复跑，记录保留在 `gate-old.json`
+  的 `stubReplacement`（`status: historical`）。
 - 预登记差异：**无**；跳过：0；详细输出见 [`gate-old.json`](gate-old.json)
+- v2 复跑基线：Node **v24.14.0**、`commit` = `5a129165`（合同 v1 合入 main 的那个提交），
+  旧实现取 `.scratch-exec4/old` 的 27 个文件（与 `origin/main` 同内容），复跑后工作树已换回
+  新实现并 `tsc -b packages/shared --force` 重建 dist。
 
 ## 八、运行契约测试（两个入口）
 
