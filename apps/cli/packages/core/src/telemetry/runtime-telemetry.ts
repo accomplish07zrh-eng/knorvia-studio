@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// 运行时遥测门面：把会话/回合/步骤/压缩/分离操作的埋点收敛到一个入口；
+// 无端口时回落到空实现（runtime-telemetry-noop.ts），归类规则见 runtime-telemetry-classify.ts。
 import type {
   AgentExecutionTelemetryPort,
   AgentStepSpanWriter,
@@ -5,250 +8,116 @@ import type {
   AgentTelemetryCausation,
   AgentTelemetryLaunchSurface,
   AgentTurnSpanWriter,
-  CommandExecutionSpanWriter,
   CompactionTraceStart,
   ContextCompactionSpanWriter,
   DetachedOperationSpanWriter,
   DetachedOperationTraceStart,
   MessageId,
-  ModelAttemptSpanWriter,
-  ModelCallSpanWriter,
   SessionId,
   SessionTaskType,
   SyntheticUserMessageSource,
-  ToolExecutionSpanWriter,
   TraceContext,
 } from "@knorvia/contracts";
+import { actorKindFromTaskType, normalizeInputSource } from "./runtime-telemetry-classify.js";
+import type {
+  CompactionRequest,
+  DetachedRequest,
+  FacadeIdentity,
+  RuntimeTelemetryFacadeOptions,
+  StepRequest,
+  TurnRequest,
+} from "./runtime-telemetry-port.js";
+import { NOOP_AGENT_EXECUTION_TELEMETRY } from "./runtime-telemetry-port.js";
 
-interface RuntimeTelemetryFacadeOptions {
-  agentName?: string;
-  causation?: AgentTelemetryCausation;
-  causationMode?: "child" | "linked_root";
-  launchSurface?: AgentTelemetryLaunchSurface;
-  parentSessionId?: SessionId;
-  port?: AgentExecutionTelemetryPort;
-  sessionId: SessionId;
-  taskType?: SessionTaskType;
-}
+export type { RuntimeTelemetryFacadeOptions } from "./runtime-telemetry-port.js";
+
+/** 执行上下文：把门面身份与调用方的 trace 上下文合并。 */
+const executionContextOf = (identity: FacadeIdentity, trace: TraceContext) => {
+  const [actorKind, agentName, launchSurface, parentSessionId, parentTurnId, sessionId] = identity;
+  return {
+    actorKind,
+    agentName,
+    launchSurface,
+    parentSessionId,
+    parentTurnId,
+    queryId: trace.queryId,
+    sessionId: trace.sessionId ?? sessionId,
+    turnId: trace.turnId,
+  };
+};
 
 export class RuntimeTelemetryFacade {
-  readonly port: AgentExecutionTelemetryPort;
-  readonly actorKind: AgentTelemetryActorKind;
-  private readonly agentName?: string;
-  private readonly causation?: AgentTelemetryCausation;
-  private readonly causationMode?: "child" | "linked_root";
-  private readonly launchSurface: AgentTelemetryLaunchSurface;
-  private readonly parentSessionId?: string;
-  private readonly parentTurnId?: string;
-  private readonly sessionId: SessionId;
+  declare readonly port: AgentExecutionTelemetryPort;
+  declare readonly actorKind: AgentTelemetryActorKind;
+  declare private readonly agentName?: string;
+  declare private readonly causation?: AgentTelemetryCausation;
+  declare private readonly causationMode?: "child" | "linked_root";
+  declare private readonly launchSurface: AgentTelemetryLaunchSurface;
+  declare private readonly parentSessionId?: string;
+  declare private readonly parentTurnId?: string;
+  declare private readonly sessionId: SessionId;
 
   constructor(options: RuntimeTelemetryFacadeOptions) {
-    this.port = options.port ?? NOOP_AGENT_EXECUTION_TELEMETRY;
-    this.actorKind = actorKindFromTaskType(options.taskType);
-    this.agentName = options.agentName;
-    this.causation = options.causation;
-    this.causationMode = options.causationMode;
-    this.launchSurface = options.launchSurface ?? "standalone_cli";
-    this.parentSessionId = options.parentSessionId ?? options.causation?.sessionId;
-    this.parentTurnId = options.causation?.turnId;
-    this.sessionId = options.sessionId;
+    const {
+      agentName,
+      causation,
+      causationMode,
+      launchSurface,
+      parentSessionId,
+      port,
+      sessionId,
+      taskType,
+    } = options;
+    this.port = port ?? NOOP_AGENT_EXECUTION_TELEMETRY;
+    this.actorKind = actorKindFromTaskType(taskType);
+    this.agentName = agentName;
+    this.causation = causation;
+    this.causationMode = causationMode;
+    this.launchSurface = launchSurface ?? "standalone_cli";
+    this.parentSessionId = parentSessionId ?? causation?.sessionId;
+    this.parentTurnId = causation?.turnId;
+    this.sessionId = sessionId;
+  }
+
+  /** 门面身份快照：供上下文合并使用（顺序与 FacadeIdentity 一致）。 */
+  private identity(): FacadeIdentity {
+    return [
+      this.actorKind,
+      this.agentName,
+      this.launchSurface,
+      this.parentSessionId,
+      this.parentTurnId,
+      this.sessionId,
+    ];
   }
 
   captureCausation(): AgentTelemetryCausation | undefined {
     return this.port.captureCausation();
   }
 
-  turn(input: {
-    inputSource?: SyntheticUserMessageSource;
-    traceContext: TraceContext;
-    turnNumber: number;
-  }): AgentTurnSpanWriter {
+  turn(request: TurnRequest): AgentTurnSpanWriter {
     return this.port.startTurn({
       causation: this.causation,
       causationMode: this.causationMode,
-      context: this.executionContext(input.traceContext),
-      inputSource: normalizeInputSource(input.inputSource),
-      turnNumber: input.turnNumber,
+      context: executionContextOf(this.identity(), request.traceContext),
+      inputSource: normalizeInputSource(request.inputSource),
+      turnNumber: request.turnNumber,
     });
   }
 
-  step(input: { stepId: MessageId; stepIndex: number }): AgentStepSpanWriter {
-    return this.port.startStep({
-      stepId: input.stepId,
-      stepIndex: input.stepIndex,
-    });
+  step(request: StepRequest): AgentStepSpanWriter {
+    return this.port.startStep({ stepId: request.stepId, stepIndex: request.stepIndex });
   }
 
-  compaction(
-    input: CompactionTraceStart & { traceContext?: TraceContext },
-  ): ContextCompactionSpanWriter {
-    return this.port.startCompaction(input);
+  compaction(request: CompactionRequest): ContextCompactionSpanWriter {
+    return this.port.startCompaction(request);
   }
 
-  detached(
-    input: Omit<DetachedOperationTraceStart, "causation" | "context"> & {
-      causation?: AgentTelemetryCausation;
-      traceContext: TraceContext;
-    },
-  ): DetachedOperationSpanWriter {
+  detached(request: DetachedRequest): DetachedOperationSpanWriter {
     return this.port.startDetachedOperation({
-      ...input,
-      causation: input.causation ?? this.captureCausation(),
-      context: this.executionContext(input.traceContext),
+      ...request,
+      causation: request.causation ?? this.captureCausation(),
+      context: executionContextOf(this.identity(), request.traceContext),
     });
   }
-
-  private executionContext(traceContext: TraceContext) {
-    return {
-      actorKind: this.actorKind,
-      agentName: this.agentName,
-      launchSurface: this.launchSurface,
-      parentSessionId: this.parentSessionId,
-      parentTurnId: this.parentTurnId,
-      queryId: traceContext.queryId,
-      sessionId: traceContext.sessionId ?? this.sessionId,
-      turnId: traceContext.turnId,
-    };
-  }
-}
-
-const NOOP_SCOPE = {
-  captureCausation: () => undefined,
-  run: <T>(execute: () => T): T => execute(),
-};
-
-const NOOP_COMMAND: CommandExecutionSpanWriter = {
-  ...NOOP_SCOPE,
-  finishBackgrounded() {},
-  finishCancelled() {},
-  finishCompleted() {},
-  finishFailed() {},
-  markFirstOutput() {},
-  markTerminationRequested() {},
-  setExitCode() {},
-  setOutputBytes() {},
-  setSignal() {},
-  setTimedOut() {},
-};
-
-const NOOP_TOOL: ToolExecutionSpanWriter = {
-  ...NOOP_SCOPE,
-  finishCancelled() {},
-  finishCompleted() {},
-  finishDenied() {},
-  finishFailed() {},
-  markPermissionRequested() {},
-  setOutputBytes() {},
-  setOutputTruncated() {},
-  setPermissionDecision() {},
-  startCommand: () => NOOP_COMMAND,
-};
-
-const NOOP_STEP: AgentStepSpanWriter = {
-  ...NOOP_SCOPE,
-  finishCancelled() {},
-  finishCompleted() {},
-  finishDiscarded() {},
-  finishFailed() {},
-};
-
-const NOOP_TURN: AgentTurnSpanWriter = {
-  ...NOOP_SCOPE,
-  finishCancelled() {},
-  finishCompleted() {},
-  finishFailed() {},
-};
-
-const NOOP_COMPACTION: ContextCompactionSpanWriter = {
-  ...NOOP_SCOPE,
-  finishCancelled() {},
-  finishCompleted() {},
-  finishDiscarded() {},
-  finishFailed() {},
-  markFallbackSelected() {},
-  setInputTokens() {},
-  setOutputTokens() {},
-};
-
-const NOOP_DETACHED: DetachedOperationSpanWriter = {
-  ...NOOP_SCOPE,
-  finishCancelled() {},
-  finishCompleted() {},
-  finishFailed() {},
-  setResultType() {},
-};
-
-const NOOP_ATTEMPT: ModelAttemptSpanWriter = {
-  ...NOOP_SCOPE,
-  finishAbandoned() {},
-  finishCancelled() {},
-  finishCompleted() {},
-  finishFailed() {},
-  markFirstContent() {},
-  markFirstProviderEvent() {},
-  markFirstText() {},
-  markStreamStalled() {},
-  setCacheReadTokens() {},
-  setCacheWriteTokens() {},
-  setEffectiveReasoningBudgetTokens() {},
-  setEffectiveReasoningControl() {},
-  setEffectiveReasoningLevel() {},
-  setEffectiveReasoningState() {},
-  setFinishReason() {},
-  setHttpStatusCode() {},
-  setInputTokens() {},
-  setOutputTokens() {},
-  setProviderErrorCode() {},
-  setProviderErrorMessage() {},
-  setProviderRequestId() {},
-  setReasoningTokens() {},
-  setResponseModel() {},
-  setRetryAfterMs() {},
-  setStreamOutputCommitted() {},
-};
-
-const NOOP_CALL: ModelCallSpanWriter = {
-  ...NOOP_SCOPE,
-  finishAbandoned() {},
-  finishCancelled() {},
-  finishCompleted() {},
-  finishFailed() {},
-  markFallbackSelected() {},
-  startAttempt: () => NOOP_ATTEMPT,
-};
-
-const NOOP_AGENT_EXECUTION_TELEMETRY: AgentExecutionTelemetryPort = {
-  abandonSession() {},
-  captureCausation() {
-    return undefined;
-  },
-  startCompaction() {
-    return NOOP_COMPACTION;
-  },
-  startDetachedOperation() {
-    return NOOP_DETACHED;
-  },
-  startStep() {
-    return NOOP_STEP;
-  },
-  startTool() {
-    return NOOP_TOOL;
-  },
-  startTurn() {
-    return NOOP_TURN;
-  },
-};
-
-function actorKindFromTaskType(taskType: SessionTaskType | undefined): AgentTelemetryActorKind {
-  if (taskType === "subagent_child") return "subagent";
-  if (taskType === "workflow_child" || taskType === "nested_workflow_child") {
-    return "workflow_child";
-  }
-  return "main";
-}
-
-function normalizeInputSource(
-  inputSource: SyntheticUserMessageSource | undefined,
-): "user" | SyntheticUserMessageSource {
-  return inputSource ?? "user";
 }

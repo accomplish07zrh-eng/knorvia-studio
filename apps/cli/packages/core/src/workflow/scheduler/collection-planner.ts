@@ -1,363 +1,106 @@
-import { createChildTraceContext } from "@knorvia/contracts";
-import type { WorkflowActivitySnapshot, WorkflowRunSnapshot } from "@knorvia/contracts";
-import type { WorkflowCollectionPlannerRuntime } from "./collection-runtime.js";
-import { emitExpansionEvents, exhaustCollection } from "./collection-events.js";
+// SPDX-License-Identifier: Apache-2.0
+// 集合规划入口：遍历集合，按门控决定跳过/激活/耗尽/规划；单次规划见 collection-planner-attempt.ts。
+import type { WorkflowRunSnapshot } from "@knorvia/contracts";
+import { throwIfAborted } from "../scheduler-frontier.js";
+import { attemptPlanner } from "./collection-planner-attempt.js";
 import {
-  addArtifact,
-  collectionFrontier,
-  collectionNodeIdsForGraph,
-  compactWorkflowPayload,
-  graphCollections,
-  isCollectionInPhase,
-  nodeById,
-  normalizeCollection,
-  updateGraphCollection,
-  upsertActivity,
-} from "./graph.js";
-import { applyPlannerExpansion } from "./planner-expansion.js";
-import { buildDefaultPlannerPrompt, safeArtifactName } from "./prompts.js";
-import type {
-  SchedulerCollection,
-  WorkflowGraphSchedulerChildSessionStartedEvent,
-  WorkflowGraphSchedulerRunOptions,
-} from "./types.js";
+  analyzeCollection,
+  exceedsErrorThreshold,
+  exceedsPlannerRuns,
+  hasReachedFrontierTarget,
+  isAnalyzable,
+  isFirstFrontier,
+  isExhausted,
+} from "./collection-planner-gates.js";
+import { exhaustCollection } from "./collection-events.js";
+import type { WorkflowCollectionPlannerRuntime } from "./collection-runtime.js";
+import { graphCollections, updateGraphCollection } from "./graph.js";
+import type { SchedulerCollection, WorkflowGraphSchedulerRunOptions } from "./types.js";
 
-interface AttemptOutcome {
+type Snap = WorkflowRunSnapshot;
+type Options = WorkflowGraphSchedulerRunOptions;
+type Runtime = WorkflowCollectionPlannerRuntime;
+type Collection = SchedulerCollection;
+
+/** 检查结果：新增节点 id、规划次数与最新快照。 */
+export interface CollectionPlannerCheckResult {
   addedNodeIds: string[];
-  snapshot: WorkflowRunSnapshot;
+  plannersRan: number;
+  snapshot: Snap;
 }
+
+/** 集合打补丁：时间戳统一取事件日志时钟。 */
+const touchCollection = (
+  current: Snap,
+  collectionId: string,
+  patch: Partial<Collection>,
+  runtime: Runtime,
+): Snap => updateGraphCollection(current, collectionId, patch, runtime.eventLog.timestamp());
+
+/** 刷新完成时间：存在未见完成节点时打标。 */
+const markCompletions = (current: Snap, collection: Collection, runtime: Runtime): Snap =>
+  touchCollection(
+    current,
+    collection.collectionId,
+    { lastCompletionAt: runtime.eventLog.timestamp() },
+    runtime,
+  );
+
+/** 取最新集合：图上找不到时退回原集合。 */
+const latestCollection = (current: Snap, original: Collection): Collection =>
+  graphCollections(current.graph).find((entry) => entry.collectionId === original.collectionId) ??
+  original;
+
+/** 激活集合：状态置为 active。 */
+const activate = (current: Snap, collection: Collection, runtime: Runtime): Snap =>
+  touchCollection(current, collection.collectionId, { status: "active" }, runtime);
+
+/** 耗尽集合：带原因负载。 */
+const exhaust = (
+  current: Snap,
+  collection: Collection,
+  options: Options,
+  runtime: Runtime,
+  reason: string,
+): Promise<Snap> => exhaustCollection(current, collection, options, runtime, { reason });
 
 export async function checkCollectionPlanners(
-  snapshot: WorkflowRunSnapshot,
-  executableNodeIds: Set<string>,
-  options: WorkflowGraphSchedulerRunOptions,
-  runtime: WorkflowCollectionPlannerRuntime,
-): Promise<{ addedNodeIds: string[]; plannersRan: number; snapshot: WorkflowRunSnapshot }> {
-  const addedNodeIds: string[] = [];
-  let plannersRan = 0;
-  if (!runtime.plannerRunner) {
-    return { addedNodeIds, plannersRan, snapshot };
-  }
+  snapshot: Snap,
+  ids: Set<string>,
+  options: Options,
+  runtime: Runtime,
+): Promise<CollectionPlannerCheckResult> {
+  const acc = { addedNodeIds: [] as string[], plannersRan: 0 };
+  if (!runtime.plannerRunner) return { ...acc, snapshot };
 
-  const initialCollections = graphCollections(snapshot.graph);
   let current = snapshot;
-  for (const original of initialCollections) {
-    if (options.abortSignal?.aborted) {
-      const reason = options.abortSignal.reason;
-      throw reason instanceof Error ? reason : new Error("Workflow scheduler aborted");
+  for (const original of graphCollections(snapshot.graph)) {
+    throwIfAborted(options.abortSignal);
+    if (!isAnalyzable(original, current, ids, options.phase)) continue;
+
+    const analysis = analyzeCollection(current, original);
+    if (analysis.unseen.length > 0) current = markCompletions(current, original, runtime);
+    const latest = latestCollection(current, original);
+    if (isExhausted(latest)) continue;
+
+    const strategy = current.strategy;
+    if (isFirstFrontier(analysis, latest) || hasReachedFrontierTarget(analysis, latest, strategy)) {
+      current = activate(current, latest, runtime);
+      continue;
     }
-    if (
-      !original.explorable ||
-      !isCollectionInPhase(original, current.graph, executableNodeIds, options.phase)
-    ) {
+    if (exceedsPlannerRuns(latest, strategy)) {
+      current = await exhaust(current, latest, options, runtime, "max_planner_runs");
+      continue;
+    }
+    if (exceedsErrorThreshold(latest, strategy)) {
+      current = await exhaust(current, latest, options, runtime, "planner_error_threshold");
       continue;
     }
 
-    const members = collectionNodeIdsForGraph(original, current.graph);
-    const frontier = collectionFrontier(current.graph, original);
-    const analyzed = original.analyzedNodeIds ?? [];
-    const unseen = members.filter(
-      (id) => nodeById(current.graph, id)?.status === "completed" && !analyzed.includes(id),
-    );
-    if (unseen.length > 0) {
-      current = updateGraphCollection(
-        current,
-        original.collectionId,
-        {
-          lastCompletionAt: runtime.eventLog.timestamp(),
-        },
-        runtime.eventLog.timestamp(),
-      );
-    }
-    const latest =
-      graphCollections(current.graph).find(
-        (collection) => collection.collectionId === original.collectionId,
-      ) ?? original;
-    if (latest.exhausted || latest.status === "exhausted") continue;
-
-    const firstFrontier =
-      frontier > 0 &&
-      (latest.plannerRuns ?? 0) === 0 &&
-      (latest.analyzedNodeIds ?? []).length === 0 &&
-      unseen.length === 0;
-    if (
-      firstFrontier ||
-      (frontier >= (latest.frontierTarget ?? current.strategy.executor.frontierTarget) &&
-        unseen.length === 0)
-    ) {
-      current = updateGraphCollection(
-        current,
-        latest.collectionId,
-        {
-          status: "active",
-        },
-        runtime.eventLog.timestamp(),
-      );
-      continue;
-    }
-    if ((latest.plannerRuns ?? 0) >= current.strategy.executor.maxPlannerRuns) {
-      current = await exhaustCollection(current, latest, options, runtime, {
-        reason: "max_planner_runs",
-      });
-      continue;
-    }
-    if ((latest.errorCount ?? 0) >= current.strategy.executor.maxConsecutiveErrors) {
-      current = await exhaustCollection(current, latest, options, runtime, {
-        reason: "planner_error_threshold",
-      });
-      continue;
-    }
-
-    const outcome = await attemptPlanner(current, latest, unseen, options, runtime);
+    const outcome = await attemptPlanner(current, latest, analysis.unseen, options, runtime);
     current = outcome.snapshot;
-    for (const nodeId of outcome.addedNodeIds) {
-      addedNodeIds.push(nodeId);
-    }
-    plannersRan += 1;
+    acc.addedNodeIds.push(...outcome.addedNodeIds);
+    acc.plannersRan += 1;
   }
-  return { addedNodeIds, plannersRan, snapshot: current };
-}
-
-async function attemptPlanner(
-  snapshot: WorkflowRunSnapshot,
-  original: SchedulerCollection,
-  unseen: string[],
-  options: WorkflowGraphSchedulerRunOptions,
-  runtime: WorkflowCollectionPlannerRuntime,
-): Promise<AttemptOutcome> {
-  if (!runtime.plannerRunner) return { addedNodeIds: [], snapshot };
-
-  const activityId = runtime.createActivityId();
-  const startedAt = runtime.eventLog.timestamp();
-  const plannerRuns = (original.plannerRuns ?? 0) + 1;
-  const inputArtifactPaths = snapshot.artifacts.map((artifact) => artifact.path);
-  const parentTrace = options.traceContext;
-  const childTrace = parentTrace
-    ? createChildTraceContext(parentTrace, {
-        attributes: {
-          workflowActivityId: activityId,
-          workflowCollectionId: original.collectionId,
-          workflowKind: snapshot.kind,
-          workflowPhase: options.phase,
-          workflowRunId: snapshot.runId,
-        },
-        sessionId: parentTrace.sessionId,
-      })
-    : undefined;
-  const activeCollection = normalizeCollection({
-    ...original,
-    plannerRuns,
-    status: "active",
-  });
-  let activation = updateGraphCollection(
-    snapshot,
-    original.collectionId,
-    activeCollection,
-    runtime.eventLog.timestamp(),
-  );
-  activation = upsertActivity(
-    activation,
-    {
-      activityId,
-      inputArtifactPaths,
-      kind: "planner_agent",
-      outputArtifactPaths: [],
-      parentSessionId: options.parentSessionId,
-      phase: options.phase,
-      startedAt,
-      status: "active",
-      traceId: childTrace?.traceId,
-    },
-    runtime.eventLog.timestamp(),
-  );
-  let childLinked = activation;
-
-  await runtime.writeSnapshot(activation, { signal: options.abortSignal });
-  await runtime.eventLog.appendCollectionRecord(activation, activeCollection, options.abortSignal);
-  await runtime.eventLog.emitEvent(activation, "planner_started", {
-    message: `Planner started for collection: ${original.collectionId}`,
-    payload: {
-      collectionId: original.collectionId,
-      frontier: collectionFrontier(activation.graph, activeCollection),
-      plannerRuns,
-      unseenCompletions: unseen,
-    },
-    phase: options.phase,
-    signal: options.abortSignal,
-  });
-
-  const linkChild = async (
-    event: WorkflowGraphSchedulerChildSessionStartedEvent,
-  ): Promise<void> => {
-    const previous = childLinked.activities.find((activity) => activity.activityId === activityId);
-    if (!previous || previous.status !== "active") return;
-    childLinked = upsertActivity(
-      childLinked,
-      {
-        ...previous,
-        ...(event.model ? { model: event.model } : {}),
-        sessionId: event.sessionId,
-        traceId: event.traceId ?? previous.traceId,
-        turnId: event.turnId ?? previous.turnId,
-      },
-      runtime.eventLog.timestamp(),
-    );
-    await runtime.writeSnapshot(childLinked, { signal: options.abortSignal });
-    await runtime.eventLog.emitEvent(childLinked, "workflow_session_linked", {
-      message: `Workflow session linked: ${event.sessionId}`,
-      payload: compactWorkflowPayload({
-        activityId,
-        collectionId: original.collectionId,
-        model: event.model,
-        sessionId: event.sessionId,
-        traceId: event.traceId,
-        turnId: event.turnId,
-      }),
-      phase: options.phase,
-      signal: options.abortSignal,
-    });
-  };
-
-  try {
-    const result = await runtime.plannerRunner!.run({
-      abortSignal: options.abortSignal,
-      activityId,
-      collection: activeCollection,
-      cwd: options.cwd,
-      graph: activation.graph,
-      onChildSessionStarted: linkChild,
-      onEvent: options.onEvent,
-      parentSessionId: options.parentSessionId,
-      phase: options.phase,
-      prompt: buildDefaultPlannerPrompt(activation, activeCollection, options.phase),
-      runId: childLinked.runId,
-      snapshot: childLinked,
-      task: childLinked.task,
-      traceContext: childTrace,
-    });
-    const artifact = await runtime.writeArtifact(
-      childLinked.runId,
-      `${options.artifactDirectory ?? "artifacts/exec"}/planners/${safeArtifactName(original.collectionId)}-${plannerRuns}.md`,
-      result.response,
-      { signal: options.abortSignal },
-    );
-    const expansion = applyPlannerExpansion(
-      childLinked,
-      activeCollection,
-      result,
-      unseen,
-      runtime.eventLog.timestamp(),
-    );
-    let completed = addArtifact(
-      expansion.snapshot,
-      {
-        contentType: "text/markdown",
-        createdAt: runtime.eventLog.timestamp(),
-        label: `Planner ${original.collectionId}`,
-        path: artifact.relativePath,
-        phase: options.phase,
-      },
-      runtime.eventLog.timestamp(),
-    );
-    completed = upsertActivity(
-      completed,
-      {
-        activityId,
-        artifactPath: artifact.relativePath,
-        completedAt: runtime.eventLog.timestamp(),
-        inputArtifactPaths,
-        kind: "planner_agent",
-        outputArtifactPaths: [artifact.relativePath],
-        parentSessionId: options.parentSessionId,
-        phase: options.phase,
-        ...(result.model ? { model: result.model } : {}),
-        sessionId: result.sessionId,
-        startedAt,
-        status: "completed",
-        traceId: result.traceId ?? childTrace?.traceId,
-        turnId: result.turnId,
-      },
-      runtime.eventLog.timestamp(),
-    );
-
-    await runtime.writeSnapshot(completed, { signal: options.abortSignal });
-    await runtime.eventLog.appendExpansionRecords(
-      completed,
-      expansion,
-      options.phase,
-      options.abortSignal,
-    );
-    await runtime.eventLog.emitEvent(completed, "planner_completed", {
-      message: `Planner completed for collection: ${original.collectionId}`,
-      payload: {
-        collectionId: original.collectionId,
-        edgeCount: expansion.addedEdges.length,
-        nodeCount: expansion.addedNodes.length,
-      },
-      phase: options.phase,
-      signal: options.abortSignal,
-    });
-    await emitExpansionEvents(completed, expansion, original.collectionId, options, runtime);
-    return { addedNodeIds: expansion.addedNodes.map((node) => node.id), snapshot: completed };
-  } catch (error) {
-    if (options.abortSignal?.aborted) throw error;
-
-    const message = error instanceof Error ? error.message : String(error);
-    const errorCount = (activeCollection.errorCount ?? 0) + 1;
-    const linked = childLinked.activities.find((activity) => activity.activityId === activityId);
-    const exhausted = errorCount >= childLinked.strategy.executor.maxConsecutiveErrors;
-    const failedCollection: SchedulerCollection = {
-      ...activeCollection,
-      errorCount,
-      exhausted,
-      status: exhausted ? "exhausted" : "draining",
-    };
-    let failed = updateGraphCollection(
-      childLinked,
-      original.collectionId,
-      failedCollection,
-      runtime.eventLog.timestamp(),
-    );
-    const failedActivity: WorkflowActivitySnapshot = {
-      activityId,
-      completedAt: runtime.eventLog.timestamp(),
-      error: message,
-      inputArtifactPaths,
-      kind: "planner_agent",
-      ...(linked?.model ? { model: linked.model } : {}),
-      outputArtifactPaths: [],
-      parentSessionId: options.parentSessionId,
-      phase: options.phase,
-      ...(linked?.sessionId ? { sessionId: linked.sessionId } : {}),
-      startedAt,
-      status: "failed",
-      traceId: linked?.traceId ?? childTrace?.traceId,
-      ...(linked?.turnId ? { turnId: linked.turnId } : {}),
-    };
-    failed = upsertActivity(failed, failedActivity, runtime.eventLog.timestamp());
-    await runtime.writeSnapshot(failed, { signal: options.abortSignal });
-    await runtime.eventLog.appendCollectionRecord(failed, failedCollection, options.abortSignal);
-    await runtime.eventLog.emitEvent(failed, "planner_failed", {
-      message,
-      payload: {
-        collectionId: original.collectionId,
-        errorCount,
-        exhausted,
-      },
-      phase: options.phase,
-      signal: options.abortSignal,
-    });
-    if (exhausted) {
-      await runtime.eventLog.emitEvent(failed, "collection_exhausted", {
-        message: `Collection exhausted: ${original.collectionId}`,
-        payload: {
-          collectionId: original.collectionId,
-          reason: "planner_error_threshold",
-        },
-        phase: options.phase,
-        signal: options.abortSignal,
-      });
-    }
-    return { addedNodeIds: [], snapshot: failed };
-  }
+  return { ...acc, snapshot: current };
 }

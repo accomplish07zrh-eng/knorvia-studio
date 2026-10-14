@@ -1,349 +1,176 @@
-import { randomUUID } from "node:crypto";
-import {
-  WorkflowDefinitionSchema,
-  deriveWorkflowSessionLinks,
-  type ExpertWorkflowRunSnapshot,
-  type WorkflowActivitySnapshot,
-  type WorkflowArtifact,
-  type WorkflowDefinition,
-  type WorkflowEvent,
-  type WorkflowNodeStatus,
-  type WorkflowPhaseDefinition,
-  type WorkflowPhaseSnapshot,
+// SPDX-License-Identifier: Apache-2.0
+// 专家工作流的运行时上下文：持有定义、端口与时钟；快照、图日志、事件与取消逻辑分别委托给
+// runtime-context-*.ts。对外仍是同一个类与同一组方法。
+import type {
+  ExpertWorkflowRunSnapshot,
+  WorkflowActivitySnapshot,
+  WorkflowArtifact,
+  WorkflowDefinition,
+  WorkflowEvent,
+  WorkflowNodeStatus,
+  WorkflowPhaseDefinition,
+  WorkflowPhaseSnapshot,
 } from "@knorvia/contracts";
-import { createExpertWorkflowDefinition, workflowDefinitionPhaseMap } from "../definition.js";
-import type { WorkflowGraphNodeChange, WorkflowSnapshotLifecycleResult } from "../lifecycle.js";
-import { phaseNodeId, safeRunIdSegment } from "./ids.js";
-import { createPhaseGraph, updateGraphNodeStatus } from "./prompts.js";
+import type { WorkflowGraphNodeChange } from "../lifecycle.js";
+import { registerRunAbortSignal } from "./runtime-context-abort.js";
+import { appendEvent, type WorkflowEventOptions } from "./runtime-context-events.js";
+import {
+  defaultActivityId,
+  defaultClock,
+  defaultRunIdFactory,
+  resolveDefinition,
+} from "./runtime-context-helpers.js";
+import {
+  appendGraphNodeStatus,
+  appendGraphStatus,
+  appendLifecycleGraphChanges,
+  writeInitialGraph,
+} from "./runtime-context-journal.js";
+import {
+  getPhaseDefinition as getPhaseDefinitionOfRun,
+  resolveSnapshot as resolveSnapshotOfRun,
+  timestampOf,
+} from "./runtime-context-lookup.js";
+import { createInitialSnapshot, type InitialSnapshotInput } from "./runtime-context-snapshot.js";
+import {
+  addArtifact as addArtifactToRun,
+  updatePhase as updatePhaseOfRun,
+  updateSnapshot as updateSnapshotOfRun,
+  upsertActivity as upsertActivityInRun,
+  type SnapshotPatch,
+} from "./runtime-context-updates.js";
 import type { ExpertWorkflowLookupOptions, ExpertWorkflowRuntimeDeps } from "./types.js";
 
+export {
+  compactWorkflowPayload,
+  dedupeWorkflowNodeChanges,
+  lifecyclePayload,
+} from "./runtime-context-payloads.js";
+export type { InitialSnapshotInput, SnapshotPatch, WorkflowEventOptions };
+
+/** 委托方法的返回类型：日志与事件写入都是异步完成。 */
+type Done = Promise<void>;
+
+/** 取消句柄：dispose 释放监听，signal 供内部运行使用。 */
+type AbortHandle = { dispose: () => void; signal: AbortSignal };
+
+/** 运行时上下文：定义、端口、时钟与取消注册表的唯一持有者。 */
 export class ExpertWorkflowRuntimeContext {
-  readonly activeRunAbortControllers = new Map<string, AbortController>();
-  readonly agentRunner: ExpertWorkflowRuntimeDeps["agentRunner"];
-  readonly createActivityId: () => string;
-  readonly createRunId: () => string;
-  readonly definition: WorkflowDefinition;
-  readonly now: () => Date;
-  readonly onWorkflowEvent?: (event: WorkflowEvent) => void | Promise<void>;
-  readonly phaseDefinitions: Map<string, WorkflowPhaseDefinition>;
-  readonly store: ExpertWorkflowRuntimeDeps["store"];
+  declare readonly definition: WorkflowDefinition;
+  declare readonly phaseDefinitions: Map<string, WorkflowPhaseDefinition>;
+  declare readonly agentRunner: ExpertWorkflowRuntimeDeps["agentRunner"];
+  declare readonly store: ExpertWorkflowRuntimeDeps["store"];
+  declare readonly now: () => Date;
+  declare readonly createActivityId: () => string;
+  declare readonly createRunId: () => string;
+  declare readonly onWorkflowEvent?: (event: WorkflowEvent) => void | Promise<void>;
+  declare readonly activeRunAbortControllers: Map<string, AbortController>;
 
-  constructor(deps: ExpertWorkflowRuntimeDeps) {
-    this.definition = WorkflowDefinitionSchema.parse(
-      deps.definition ?? createExpertWorkflowDefinition(),
+  constructor(runtimeDeps: ExpertWorkflowRuntimeDeps) {
+    const definition = resolveDefinition(runtimeDeps);
+    const phaseDefinitions = new Map(
+      definition.phases.map((entry) => [entry.phase, entry] as const),
     );
-    this.phaseDefinitions = workflowDefinitionPhaseMap(this.definition);
-    this.agentRunner = deps.agentRunner;
-    this.createActivityId = deps.createActivityId ?? (() => `act_${randomUUID()}`);
-    this.createRunId =
-      deps.createRunId ?? (() => `wf_${safeRunIdSegment(this.definition.kind)}_${randomUUID()}`);
-    this.now = deps.now ?? (() => new Date());
-    this.onWorkflowEvent = deps.onWorkflowEvent;
-    this.store = deps.store;
+    const { agentRunner, createActivityId, createRunId, now, onWorkflowEvent, store } = runtimeDeps;
+    this.definition = definition;
+    this.phaseDefinitions = phaseDefinitions;
+    this.agentRunner = agentRunner;
+    this.store = store;
+    this.now = now ?? defaultClock;
+    this.createActivityId = createActivityId ?? defaultActivityId;
+    this.createRunId = createRunId ?? defaultRunIdFactory(definition.kind);
+    this.onWorkflowEvent = onWorkflowEvent;
+    this.activeRunAbortControllers = new Map<string, AbortController>();
   }
 
-  createInitialSnapshot(options: {
-    cwd: string;
-    sessionId?: string;
-    task: string;
-    traceContext?: { traceId: string };
-  }): ExpertWorkflowRunSnapshot {
-    const runId = this.createRunId();
-    const timestamp = this.timestamp();
-    const phaseOrder = this.definition.phaseOrder;
-    // 草稿使用了不存在的定义字段；初始快照与日志必须保留已解析的定义标识。
-    return {
-      activities: [],
-      artifacts: [],
-      createdAt: timestamp,
-      cwd: options.cwd,
-      definitionId: this.definition.definitionId,
-      definitionVersion: this.definition.definitionVersion,
-      graph: createPhaseGraph(this.definition),
-      kind: this.definition.kind,
-      phaseOrder,
-      phases: phaseOrder.map((phase) => ({ phase, status: "pending" })),
-      recoveryActions: [],
-      runId,
-      schemaVersion: 1,
-      sessionId: options.sessionId,
-      sessionLinks: [],
-      status: "pending",
-      strategy: this.definition.strategy,
-      task: options.task,
-      traceId: options.traceContext?.traceId,
-      updatedAt: timestamp,
-    };
+  createInitialSnapshot(request: InitialSnapshotInput): ExpertWorkflowRunSnapshot {
+    return createInitialSnapshot(this, request, this.createRunId());
   }
 
-  async writeInitialGraph(
-    snapshot: ExpertWorkflowRunSnapshot,
-    signal?: AbortSignal,
-  ): Promise<void> {
-    await this.store.appendGraphRecord(
-      snapshot.runId,
-      {
-        createdAt: snapshot.createdAt,
-        definitionId: snapshot.definitionId,
-        definitionVersion: snapshot.definitionVersion,
-        phaseOrder: snapshot.phaseOrder,
-        recordType: "meta",
-        runId: snapshot.runId,
-        schemaVersion: 1,
-        strategy: snapshot.strategy,
-      },
-      { signal },
-    );
-    for (const node of snapshot.graph.nodes) {
-      await this.store.appendGraphRecord(
-        snapshot.runId,
-        {
-          node,
-          recordType: "node",
-          runId: snapshot.runId,
-          timestamp: this.timestamp(),
-        },
-        { signal },
-      );
-    }
-    for (const edge of snapshot.graph.edges) {
-      await this.store.appendGraphRecord(
-        snapshot.runId,
-        {
-          edge,
-          recordType: "edge",
-          runId: snapshot.runId,
-          timestamp: this.timestamp(),
-        },
-        { signal },
-      );
-    }
-    for (const collection of snapshot.graph.collections ?? []) {
-      await this.store.appendGraphRecord(
-        snapshot.runId,
-        {
-          collection,
-          recordType: "collection",
-          runId: snapshot.runId,
-          timestamp: this.timestamp(),
-        },
-        { signal },
-      );
-    }
+  async writeInitialGraph(target: ExpertWorkflowRunSnapshot, abort?: AbortSignal): Done {
+    await writeInitialGraph(this, target, abort);
   }
 
   async appendGraphStatus(
-    snapshot: ExpertWorkflowRunSnapshot,
-    phase: string,
-    status: WorkflowNodeStatus,
-    signal?: AbortSignal,
-  ): Promise<void> {
-    await this.appendGraphNodeStatus(snapshot, phaseNodeId(phase), status, signal, phase);
+    target: ExpertWorkflowRunSnapshot,
+    section: string,
+    nextStatus: WorkflowNodeStatus,
+    abort?: AbortSignal,
+  ): Done {
+    await appendGraphStatus(this, target, section, nextStatus, abort);
   }
 
   async appendGraphNodeStatus(
-    snapshot: ExpertWorkflowRunSnapshot,
-    nodeId: string,
-    status: WorkflowNodeStatus,
-    signal?: AbortSignal,
-    phase?: string,
-  ): Promise<void> {
-    await this.store.appendGraphRecord(
-      snapshot.runId,
-      {
-        nodeId,
-        phase,
-        recordType: "op",
-        runId: snapshot.runId,
-        status,
-        timestamp: this.timestamp(),
-        type: "update_status",
-      },
-      { signal },
-    );
+    target: ExpertWorkflowRunSnapshot,
+    targetId: string,
+    nextStatus: WorkflowNodeStatus,
+    abort?: AbortSignal,
+    section?: string,
+  ): Done {
+    await appendGraphNodeStatus(this, target, targetId, nextStatus, abort, section);
   }
 
   async appendEvent(
     runId: string,
-    type: WorkflowEvent["type"],
-    options: {
-      message?: string;
-      nodeId?: string;
-      payload?: Record<string, unknown>;
-      phase?: string;
-      signal?: AbortSignal;
-    } = {},
-  ): Promise<void> {
-    const event: WorkflowEvent = {
-      kind: this.definition.kind,
-      message: options.message,
-      nodeId: options.nodeId,
-      payload: options.payload,
-      phase: options.phase,
-      runId,
-      timestamp: this.timestamp(),
-      type,
-    };
-    await this.store.appendEvent(event, { signal: options.signal });
-    await this.onWorkflowEvent?.(event);
+    eventType: WorkflowEvent["type"],
+    options: WorkflowEventOptions = {},
+  ): Done {
+    await appendEvent(this, runId, eventType, options);
   }
 
   async appendLifecycleGraphChanges(
-    snapshot: ExpertWorkflowRunSnapshot,
-    nodeChanges: readonly WorkflowGraphNodeChange[],
-    signal?: AbortSignal,
-  ): Promise<void> {
-    for (const change of nodeChanges) {
-      await this.appendGraphNodeStatus(
-        snapshot,
-        change.nodeId,
-        change.status,
-        signal,
-        change.phase,
-      );
-    }
+    target: ExpertWorkflowRunSnapshot,
+    changes: readonly WorkflowGraphNodeChange[],
+    abort?: AbortSignal,
+  ): Done {
+    await appendLifecycleGraphChanges(this, target, changes, abort);
   }
 
   updateSnapshot(
-    snapshot: ExpertWorkflowRunSnapshot,
-    patch: Partial<
-      Pick<
-        ExpertWorkflowRunSnapshot,
-        | "completedAt"
-        | "currentPhase"
-        | "failure"
-        | "pauseReason"
-        | "recoveryActions"
-        | "reportPath"
-        | "startedAt"
-        | "status"
-      >
-    >,
+    target: ExpertWorkflowRunSnapshot,
+    patch: SnapshotPatch,
   ): ExpertWorkflowRunSnapshot {
-    return { ...snapshot, ...patch, updatedAt: this.timestamp() };
+    return updateSnapshotOfRun(this, target, patch);
   }
 
   updatePhase(
-    snapshot: ExpertWorkflowRunSnapshot,
-    phase: string,
-    patch: Partial<WorkflowPhaseSnapshot>,
+    target: ExpertWorkflowRunSnapshot,
+    section: string,
+    changes: Partial<WorkflowPhaseSnapshot>,
   ): ExpertWorkflowRunSnapshot {
-    return this.updateSnapshot(
-      {
-        ...snapshot,
-        currentPhase: phase,
-        graph: updateGraphNodeStatus(snapshot.graph, phase, patch.status),
-        phases: snapshot.phases.map((entry) =>
-          entry.phase === phase ? { ...entry, ...patch } : entry,
-        ),
-      },
-      { currentPhase: phase },
-    );
+    return updatePhaseOfRun(this, target, section, changes);
   }
 
   addArtifact(
-    snapshot: ExpertWorkflowRunSnapshot,
-    artifact: WorkflowArtifact,
+    target: ExpertWorkflowRunSnapshot,
+    entry: WorkflowArtifact,
   ): ExpertWorkflowRunSnapshot {
-    const artifacts = [
-      ...snapshot.artifacts.filter((entry) => entry.path !== artifact.path),
-      artifact,
-    ];
-    return { ...snapshot, artifacts, updatedAt: this.timestamp() };
+    return addArtifactToRun(this, target, entry);
   }
 
   upsertActivity(
-    snapshot: ExpertWorkflowRunSnapshot,
+    target: ExpertWorkflowRunSnapshot,
     activity: WorkflowActivitySnapshot,
   ): ExpertWorkflowRunSnapshot {
-    const activities = [
-      ...snapshot.activities.filter((entry) => entry.activityId !== activity.activityId),
-      activity,
-    ];
-    return {
-      ...snapshot,
-      activities,
-      sessionLinks: deriveWorkflowSessionLinks({ activities, runId: snapshot.runId }),
-      updatedAt: this.timestamp(),
-    };
+    return upsertActivityInRun(this, target, activity);
   }
 
   async resolveSnapshot(
-    options: ExpertWorkflowLookupOptions,
+    input: ExpertWorkflowLookupOptions,
   ): Promise<ExpertWorkflowRunSnapshot | null> {
-    if (options.runId) {
-      return await this.store.readRun(options.runId, { signal: options.abortSignal });
-    }
-    return await this.store.readLatestRun(
-      { cwd: options.cwd, kind: this.definition.kind },
-      { signal: options.abortSignal },
-    );
+    return await resolveSnapshotOfRun(this, input);
   }
 
-  getPhaseDefinition(phase: string): WorkflowPhaseDefinition {
-    const definition = this.phaseDefinitions.get(phase);
-    if (!definition) {
-      throw new Error(`${this.definition.title} definition is missing phase: ${phase}`);
-    }
-    return definition;
+  getPhaseDefinition(section: string): WorkflowPhaseDefinition {
+    return getPhaseDefinitionOfRun(this, section);
   }
 
   timestamp(): string {
-    return this.now().toISOString();
+    const clock = this.now;
+    return timestampOf(clock);
   }
 
-  registerRunAbortSignal(
-    runId: string,
-    externalSignal: AbortSignal | undefined,
-  ): { dispose: () => void; signal: AbortSignal } {
-    const controller = new AbortController();
-    const forwardAbort = () => {
-      controller.abort(
-        externalSignal?.reason instanceof Error
-          ? externalSignal.reason
-          : new Error("Workflow aborted"),
-      );
-    };
-    this.activeRunAbortControllers.set(runId, controller);
-    if (externalSignal?.aborted) {
-      forwardAbort();
-    } else {
-      externalSignal?.addEventListener("abort", forwardAbort, { once: true });
-    }
-    return {
-      dispose: () => {
-        externalSignal?.removeEventListener("abort", forwardAbort);
-        if (this.activeRunAbortControllers.get(runId) === controller) {
-          this.activeRunAbortControllers.delete(runId);
-        }
-      },
-      signal: controller.signal,
-    };
+  registerRunAbortSignal(runId: string, externalSignal: AbortSignal | undefined): AbortHandle {
+    return registerRunAbortSignal(this, runId, externalSignal);
   }
-}
-
-export function lifecyclePayload(
-  result: WorkflowSnapshotLifecycleResult<ExpertWorkflowRunSnapshot>,
-): Record<string, unknown> {
-  return {
-    activityIds: result.activityIds,
-    nodeIds: result.nodeChanges.map((change) => change.nodeId),
-    phaseIds: result.phaseIds,
-  };
-}
-
-export function compactWorkflowPayload(
-  value: Record<string, unknown | undefined>,
-): Record<string, unknown> {
-  return Object.fromEntries(Object.entries(value).filter(([, entry]) => entry !== undefined));
-}
-
-export function dedupeWorkflowNodeChanges(
-  changes: WorkflowGraphNodeChange[],
-): WorkflowGraphNodeChange[] {
-  const byNodeId = new Map<string, WorkflowGraphNodeChange>();
-  for (const change of changes) {
-    byNodeId.set(change.nodeId, change);
-  }
-  return Array.from(byNodeId.values());
 }
