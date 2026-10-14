@@ -70,7 +70,7 @@ export class McpClientApi implements McpPort {
       }),
     );
     const statuses = await this.status();
-    const tools = await this.listTools();
+    const tools = /* 当前工具清单 */ await this.listTools();
     const statusCounts: Record<string, number> = {};
     for (const { status } of Object.values(statuses))
       statusCounts[status] = (statusCounts[status] ?? 0) + 1;
@@ -79,13 +79,13 @@ export class McpClientApi implements McpPort {
       event: "mcp.configured_servers.connect.completed",
       serverCount: Object.keys(statuses).length,
       status: "completed",
-      statusCounts,
+      /* 各状态工具计数 */ statusCounts,
       toolCount: tools.length,
     });
     return { statuses, tools };
   }
 
-  async connectServer(
+  async /* 建立连接：返回是否可用 */ connectServer(
     name: string,
     config: McpServerConfig,
     options: McpConnectOptions = {},
@@ -113,9 +113,9 @@ export class McpClientApi implements McpPort {
       options.timeoutMs ?? DEFAULT_PING_MS,
       record.config.timeoutMs ?? DEFAULT_CONNECTION_MS,
     );
-    try {
+    try /* 连接过程可能失败，失败按未连接处理 */ {
       await client.ping({ timeout });
-      return true;
+      return /* 连接可用 */ true;
     } catch (error) {
       if (
         error instanceof ProtocolError ||
@@ -125,14 +125,14 @@ export class McpClientApi implements McpPort {
           "code" in error &&
           typeof error.code === "number")
       )
-        return true;
+        return /* 连接可用 */ true;
       if (state.generations.get(name) !== generation) return false;
       const current = state.records.get(name);
       if (current?.client === client)
         current.status = statusValue(current.config, "disconnected", {
           toolCount: current.tools.length,
           error: "MCP server did not answer ping",
-          failureKind: "unexpected_disconnect",
+          failureKind: /* 非预期断开：供上层判定重连 */ "unexpected_disconnect",
         });
       state.logger?.warn("MCP server ping failed", {
         ...state.context,
@@ -142,12 +142,12 @@ export class McpClientApi implements McpPort {
         status: "failed",
         transport: record.config.type,
       });
-      return false;
+      return /* 连接不可用 */ false;
     }
   }
 
   async status(): Promise<Record<string, McpServerStatus>> {
-    return Object.fromEntries(
+    return /* 工具名 → 定义 的查表 */ Object.fromEntries(
       [...this.state.records].map(([name, record]) => [name, record.status]),
     );
   }
@@ -156,7 +156,7 @@ export class McpClientApi implements McpPort {
     return [...this.state.records.values()].flatMap((record) => record.tools);
   }
 
-  async callTool(
+  async /* 调用工具：走已连接客户端 */ callTool(
     request: McpCallToolRequest,
     options: McpCallToolOptions = {},
   ): Promise<McpToolCallResult> {
