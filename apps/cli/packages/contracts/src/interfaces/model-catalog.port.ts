@@ -1,39 +1,38 @@
-// ============================================================
-// Model Catalog Port - 宿主已配置模型的只读快照边界
-// ============================================================
-// 存在的理由只有一个：
-// 工具层要把用户说的模型名（"GLM-5.3-Flash"）解析成一次 workflow run 的子代理选型，而 core
-// 看不见 provider 注册表。端口把「有哪些模型」这件宿主事实递进来，解析本身留在 core
-// （纯函数，无 I/O）。
-//
-// 刻意**同步、无 I/O**：调用点在 `resolveInput` 与 `ListModels` 的 handler 里，两处都不该
-// 为了列一张表去等网络；宿主侧本来就只是读一份内存里的注册表视图。
+// SPDX-License-Identifier: Apache-2.0
+// ════════════════════════════════════════════════════════════
+// 模型目录端口 —— 「这台机器此刻有哪些模型可选」的只读视图
+// ════════════════════════════════════════════════════════════
+// 工具层要把用户随口说出的模型名（比如 “GLM-5.3-Flash”）解析成一次子代理派活的选型，可 core 这侧
+// 看不到 provider 注册表。这个端口就是把宿主的注册表事实递过来的那扇小窗：它只回答「有哪些」，
+// 解析规则本身留在 core（纯函数，不碰 I/O）。
 
-/** 目录里的一个模型条目（一条 provider × model 的组合）。 */
-export interface ModelCatalogEntry {
-  providerId: string;
-  modelId: string;
-  /** provider 的人类可读名；注册表没给就缺席（读侧退回 `providerId`）。 */
-  providerLabel?: string;
-  /** 该模型支持的推理档位（`$level` 的合法取值）。没有档位的模型是**空数组**，不是缺席。 */
-  reasoningLevels: string[];
-  /** 注册表的默认档位；`reasoningLevels` 为空时缺席。 */
-  defaultReasoningLevel?: string;
-  contextWindow?: number;
-  /** 本条目是否就是会话当前的选择（provider + model 同一）。整张表至多一条为真。 */
-  current: boolean;
-  /** 不可选用的理由（未配置密钥、被策略禁用等）；可选用即缺席。 */
-  disabledReason?: string;
+// 刻意保持同步、无 I/O：调用点在 resolveInput 与 ListModels 的 handler 上，两处都不该为了列一张表
+// 去等网络；宿主那边给出的本来也只是内存里注册表的一份视图。
+
+// 章节：一 端口承诺 · 二 条目形状
+
+// ── 一、端口承诺 ─────────────────────────────────────────────────────
+
+/** 模型目录的读面，由宿主实现后交给工具层。 listModels 每次都必须现读注册表的活视图，不能把构造期看到的那一份冻结起来：provider 在会话中途 被增删改是常态，一份过期的目录会解析出已经不存在的模型或旧配置，而这类错误往往要等到子代理第一次 真正开口才炸——那时离用户按下确认已经隔了很远。 */
+export interface ModelCatalogPort {
+  listModels(): ModelCatalogEntry[];
 }
 
-export interface ModelCatalogPort {
-  /**
-   * 列出此刻可选的模型。
-   *
-   * **每次调用都必须现读注册表的活视图**，绝不返回构造期冻结的拷贝：provider 可以在会话
-   * 中途被增删改（stale provider registry 的教训就是子代理抱着父会话构造时的
-   * 那一份适配器不放）。一份过期的目录会让解析挑中一个已经不存在的模型，而失败要到子代理
-   * 第一次开口时才炸——离用户按下确认已经很远了。
-   */
-  listModels(): ModelCatalogEntry[];
+// ── 二、条目形状 ─────────────────────────────────────────────────────
+
+/** 注册表里的一行：某个 provider 下的某个模型。它一次回答三件事——这条是谁的（两个标识），它有多大 的胃口（上下文窗口与可用推理档位），以及此刻能不能选（是不是会话正在用的那条、被拦下的原因）。 整张表活在宿主内存里，读取方只是借看，不拥有这些条目。 */
+export interface ModelCatalogEntry {
+  providerId: string;
+  /** 界面展示用的名字；宿主注册表可以不给，此时显示层用 providerId 顶上。 */
+  providerLabel?: string;
+  modelId: string;
+  contextWindow?: number;
+  /** `$level` 能取哪些值由这里给出。不支持任何档位的模型用空数组表示，而不是省略这一列——「零个」与 「不知道」是两种不同的事实。 */
+  reasoningLevels: string[];
+  /** 宿主挑的默认档位；一个档位都不支持的模型也就没有默认值可给。 */
+  defaultReasoningLevel?: string;
+  /** 会话此刻选中的就是这条时取真（provider 与 model 同时相同）；全表最多一条为真。 */
+  current: boolean;
+  /** 这条被拦下的原因（凭据缺失、策略不允许之类）；能正常选用的条目不写这个字段。 */
+  disabledReason?: string;
 }

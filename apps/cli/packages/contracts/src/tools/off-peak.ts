@@ -1,6 +1,5 @@
-// ============================================================
-// Off-Peak tools - session-level idle-time task creation
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// Off-Peak 工具声明：在会话空闲时段创建任务。
 // 闲时任务与 cron automation 是兄弟实体：schema 独立镜像，禁止互相复用。
 // workspace/凭证不是模型入参；permissionMode/model/thoughtLevel 缺省在 host 端解析
 // （yolo / allowed_models 末位 / 最高推理档），模型只在用户显式要求时覆盖。
@@ -39,7 +38,7 @@ export const OffPeakCreateInputSchema = z
 export type OffPeakCreateInput = z.infer<typeof OffPeakCreateInputSchema>;
 export const OffPeakCreateInputJsonSchema = toToolJsonSchema(OffPeakCreateInputSchema);
 
-/** 客户端执行态（与 shared KnorviaOffPeakTaskStatus 同值镜像；zod v3/v4 边界不 import shared）。 */
+// 客户端执行态：与 shared 的 KnorviaOffPeakTaskStatus 同值镜像（zod 边界处不 import shared）。
 export const OffPeakTaskStatusSchema = z.enum([
   "queued",
   "paused",
@@ -50,7 +49,7 @@ export const OffPeakTaskStatusSchema = z.enum([
 ]);
 export type OffPeakTaskStatus = z.infer<typeof OffPeakTaskStatusSchema>;
 
-/** 轮尾卡片与 OffPeakList 的最小任务快照：不暴露 serverTicketId / providerName。 */
+// 轮尾卡片与 OffPeakList 用的最小任务快照：不外泄服务端票据与供应方名称。
 export const OffPeakTaskSummarySchema = z
   .object({
     offPeakTaskId: nonEmptyString,

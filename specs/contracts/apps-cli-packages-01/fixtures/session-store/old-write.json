@@ -1,0 +1,19 @@
+{
+  "contract": "apps-cli-packages-01",
+  "synthetic": true,
+  "note": "旧版写入切片：全部是虚构占位值，用于旧写 → 新读 → 新写 → 旧读 往返。不得填入真实用户数据、凭据或内部服务地址。local_setting.value 在存储层是 JSON 编码的文本。",
+  "upToMigrationId": "0019_dwf_journal",
+  "localSetting": {
+    "scope": "project",
+    "scopeId": "fixture-project",
+    "namespace": "permission",
+    "key": "mode",
+    "value": "plan",
+    "valueJson": "{\"mode\":\"plan\"}",
+    "schemaVersion": 1,
+    "timeCreated": 1700000000000,
+    "timeUpdated": 1700000000000
+  },
+  "newWriteProjectId": "fixture-project-next",
+  "newWriteMode": "build"
+}

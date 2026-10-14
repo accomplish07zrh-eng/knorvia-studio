@@ -1,16 +1,7 @@
-// ============================================================
-// Context Builder Types
-// ============================================================
-
-import type {
-  EnvInfo,
-  Model,
-  ModelInputMessage,
-  ProjectContext,
-  ResolvedUserInstructions,
-  SkillLoadOutcome,
-  UserInstructionsOptions,
-} from "@knorvia/contracts";
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// context 区的类型面：来源标识、section 形状、构建结果与 builder 配置。
+import type * as contracts from "@knorvia/contracts";
 import type { AutoCompactPolicyConfig } from "../compact/index.js";
 import type { AgentProfile } from "../subagent/profile.js";
 
@@ -24,10 +15,7 @@ export type {
   UserInstructionsOptions,
 } from "@knorvia/contracts";
 
-// -----------------------------------------------
-// Context Source
-// -----------------------------------------------
-
+// 来源标识：每个 section 自己的 source 取值。
 export type ContextSource =
   | "cli_prefix" // CLI / 产品身份前缀
   | "identity" // Agent 基础描述
@@ -55,10 +43,7 @@ export type ContextCacheHint = "stable" | "dynamic";
 
 export type PresentationSurface = "terminal" | "knorvia_desktop";
 
-// -----------------------------------------------
-// Context Section
-// -----------------------------------------------
-
+// section 形状：名称、来源、注入位置、缓存提示与三份正文度量。
 export interface ContextSection {
   name: string; // 人类可读的 section 名称
   source: ContextSource; // 来源标识
@@ -77,15 +62,12 @@ export interface ContextMetaUserAttachment {
   content: string;
 }
 
-// -----------------------------------------------
-// Context Build Result
-// -----------------------------------------------
-
+// 构建结果：section 明细 + 两条合计 + 组装好的消息与 meta user 附件。
 export interface ContextBuildResult {
   sections: ContextSection[];
   totalChars: number;
   totalTokens: number;
-  systemMessages: ModelInputMessage[]; // ContextBuilder 只组装 system messages
+  systemMessages: contracts.ModelInputMessage[]; // ContextBuilder 只组装 system messages
   metaUserAttachments: ContextMetaUserAttachment[]; // 未包裹 <system-reminder> 的 meta user body
 }
 
@@ -95,22 +77,19 @@ export interface OutputStylePromptConfig {
   keepCodingInstructions?: boolean;
 }
 
-// -----------------------------------------------
-// Context Builder Config
-// -----------------------------------------------
-
+// builder 配置：一次构建需要的全部输入。
 export interface ContextBuilderConfig {
   workingDirectory: string;
-  envInfo: EnvInfo;
+  envInfo: contracts.EnvInfo;
   /** 当前步骤的执行对象，不进入 Context Source 或持久化环境快照。 */
-  model?: Model;
+  model?: contracts.Model;
   presentationSurface?: PresentationSurface;
   currentDate?: string;
-  userInstructions?: ResolvedUserInstructions;
-  projectContext?: ProjectContext;
+  userInstructions?: contracts.ResolvedUserInstructions;
+  projectContext?: contracts.ProjectContext;
   memoryRoot?: string;
   memoryIndexContent?: string;
-  skills?: SkillLoadOutcome;
+  skills?: contracts.SkillLoadOutcome;
   agentProfiles?: readonly AgentProfile[];
   embeddedSearchEnabled?: boolean;
   skillMetadataBudget?: number;
@@ -127,13 +106,11 @@ export interface ContextBuilderConfig {
   guidanceToolNames?: readonly string[];
 }
 
-/**
- * 工作流子代理的身份输入：有效名（匿名缺席）、作者写的 persona system prompt（可缺席）。
- * 没有工具档位：每个子代理都有完整工作工具集，契约只有一份文本。
- */
+// 工作流子代理的身份输入：有效名（匿名缺席）与作者写的 persona（可缺席）。
+// 没有工具档位：每个子代理都有完整工作工具集，契约只有一份文本。
 export interface WorkflowActorContext {
   name?: string;
   persona?: string;
 }
 
-export type ContextUserInstructionsRequest = UserInstructionsOptions;
+export type ContextUserInstructionsRequest = contracts.UserInstructionsOptions;

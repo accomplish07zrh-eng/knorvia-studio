@@ -1,8 +1,7 @@
-// ============================================================
-// Edit Tool - File Editing Tool
-// ============================================================
+// Edit 工具声明：按字符串替换编辑文件。
 // Reference: file edit input / output shape
 
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 import { ToolCallId, TraceId } from "../interfaces/shared.js";
 import { toToolJsonSchema } from "./json-schema.js";
@@ -11,9 +10,7 @@ import { ToolExecutionTelemetrySchema } from "./performance.js";
 const TRUE_BOOLEAN_STRINGS = new Set(["true", "1", "yes", "y", "on"]);
 const FALSE_BOOLEAN_STRINGS = new Set(["false", "0", "no", "n", "off"]);
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
+// 输入 schema（冻结面）。
 
 export const EditInputSchema = z.object({
   /**
@@ -43,9 +40,7 @@ export type EditInput = z.infer<typeof EditInputSchema>;
 
 export const EditInputJsonSchema = toToolJsonSchema(EditInputSchema);
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出类型与错误码。
 
 export interface EditOutput {
   /**
@@ -151,9 +146,7 @@ export const EditOutputSchema = z
 
 export const EditOutputJsonSchema = toToolJsonSchema(EditOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 工具调用结构：供 handler 与结果投影读取的字段。
 
 export interface EditToolCall {
   id: ToolCallId;
@@ -170,9 +163,7 @@ export interface EditToolResult {
   durationMs: number;
 }
 
-// -----------------------------------------------
-// Edit Errors
-// -----------------------------------------------
+// Edit 的错误码枚举。
 
 export const EditErrorCode = {
   NO_CHANGE: 1,

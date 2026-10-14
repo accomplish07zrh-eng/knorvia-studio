@@ -1,0 +1,47 @@
+{
+  "contract": "contracts-03",
+  "commit": "02f2212ee46b7ee762ce0d8cb5292df17c26be5c",
+  "node": "v26.3.0",
+  "generatedAt": "2026-10-12T07:17:41.939Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/contracts-03/tests/api-surface.test.mjs",
+    "specs/contracts/contracts-03/tests/behavior.test.mjs",
+    "specs/contracts/contracts-03/tests/types.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B4 telemetry schema 版本与 agent operation 取值表 (2.0647ms)\n✔ B5 本地 ISO 日期：补零、本地时区语义、年不补零 (6.696ms)\n✔ B7 包根对 @knorvia/shared 的取值转发 (2523.0698ms)\n(node:53876) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n✔ B6 类型面：正向用例通过编译、反向用例必须报错 (6006.7715ms)\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 13624.7624"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B4 telemetry schema 版本与 agent operation 取值表 (1.9274ms)\n✔ B5 本地 ISO 日期：补零、本地时区语义、年不补零 (3.4335ms)\n✔ B7 包根对 @knorvia/shared 的取值转发 (2169.6842ms)\n(node:45104) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n✔ B6 类型面：正向用例通过编译、反向用例必须报错 (5170.7486ms)\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 11639.2745",
+      "environment": {
+        "KNORVIA_CONTRACTS_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 5,
+    "tests": 9,
+    "pass": 0,
+    "fail": 9,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "  true !== false\n  \n      at TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-7-c01/specs/contracts/contracts-03/tests/types.test.mjs:194:12)\n      at Test.runInAsyncScope (node:async_hooks:226:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: true,\n    expected: false,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }"
+  },
+  "pass": true
+}
