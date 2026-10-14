@@ -46,7 +46,7 @@ export class McpToolCalls {
       return await this.attempt(
         connected.client,
         request,
-        remainingMcpDeadlineMs(deadline, timeoutMessage),
+        remainingMcpDeadlineMs(deadline, timeoutMessage), // 单次调用只使用剩余预算，不重新计时。
         options.signal,
       );
     } catch (error) {
@@ -70,6 +70,7 @@ export class McpToolCalls {
       try {
         await wait(this.reconnect(request.serverName, connected));
       } catch (reconnectError) {
+        // 重连失败不覆盖原错误，继续按原路径处理。
         this.state.logger?.warn("MCP server reconnect failed", {
           error: errorText(reconnectError),
           event: "mcp.server.reconnect.failed",
@@ -128,6 +129,7 @@ export class McpToolCalls {
     try {
       const metadata = toolRequestMetadata(request);
       const result = await client.callTool(
+        // 真正发起一次工具调用。
         {
           name: request.toolName,
           arguments: request.arguments ?? {},
@@ -136,15 +138,16 @@ export class McpToolCalls {
         { signal, timeout: timeoutMs, resetTimeoutOnProgress: true },
       );
       const durationMs = Date.now() - started;
-      const isError = typeof result.isError === "boolean" ? result.isError : false;
+      const isError = typeof result.isError === "boolean" ? result.isError : false; // 只有明确为布尔时才当作失败。
       const serverRequestId = this.state.consumeToolResponse(request.trace?.spanId);
       const outcome = {
+        // 观测结果对象：字段形状由本模块定义。
         ...base,
         contentBlocks: Array.isArray(result.content) ? result.content.length : 0,
-        durationMs,
-        hasStructuredContent: result.structuredContent !== undefined,
-        isError,
-        ...(serverRequestId ? { serverRequestId } : {}),
+        durationMs, // 本次调用耗时（毫秒）。
+        hasStructuredContent: result.structuredContent !== undefined, // 是否有结构化内容，供上层决定渲染方式。
+        isError, // 本次调用是否失败。
+        ...(serverRequestId ? { serverRequestId } : {}), // 有服务端请求 id 时才带上。
       };
       if (isError)
         this.state.logger?.warn("MCP tool returned an error", { ...outcome, status: "failed" });
@@ -153,18 +156,18 @@ export class McpToolCalls {
     } catch (error) {
       const durationMs = Date.now() - started;
       const message = errorText(error);
-      const timedOut =
+      const timedOut = // 超时判定：由截止时间与超时文案决定。
         TIMED_OUT_TEXT.test(message) || (error instanceof Error && error.name === "AbortError");
       const serverRequestId = this.state.consumeToolResponse(request.trace?.spanId);
       this.state.logger?.warn("MCP tool call failed", {
         ...base,
-        argumentKeys,
+        argumentKeys, // 参数键（不含值），仅用于观测。
         durationMs,
         error: message,
         ...(serverRequestId ? { serverRequestId } : {}),
         errorName: errorName(error),
         status: "failed",
-        timedOut,
+        timedOut, // 本次调用是否超时。
         ...(timedOut ? { budgetExhausted: durationMs >= timeoutMs * EXHAUSTED_FRACTION } : {}),
       });
       throw error;
