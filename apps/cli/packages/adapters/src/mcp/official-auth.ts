@@ -64,6 +64,24 @@ interface RpcSummary {
   traceId?: string; // 本次请求的 trace id。
 }
 
+/** 可选 RPC 字段表：仅保留有值的字段；键名与上游逐字一致（契约面）。 */
+function optionalRpcFields(
+  rpc: { method?: string; toolName?: string; spanId?: string; traceId?: string },
+  failureKind: string | undefined,
+  serverRequestId: string | undefined,
+): Record<string, string> {
+  return Object.fromEntries(
+    [
+      ["failureKind", failureKind],
+      ["serverRequestId", serverRequestId],
+      ["rpcMethod", rpc.method],
+      ["rpcToolName", rpc.toolName],
+      ["spanId", rpc.spanId],
+      ["traceId", rpc.traceId],
+    ].filter((entry): entry is [string, string] => entry[1] !== undefined),
+  );
+}
+
 function requestOrigin(value: string): string | undefined {
   try {
     const url = new URL(value);
@@ -252,12 +270,7 @@ export function createOfficialMcpAuthFetch(
         if (serverRequestId || failureKind) {
           input.onServerResponse?.({
             httpStatus: response.status,
-            ...(failureKind ? /* 失败分类：仅在有值时展开 */ { failureKind } : {}),
-            ...(serverRequestId ? /* 服务端请求标识：仅在有值时展开 */ { serverRequestId } : {}),
-            ...(rpc.method ? { rpcMethod: rpc.method } : {}),
-            ...(rpc.toolName ? { rpcToolName: rpc.toolName } : {}),
-            ...(rpc.spanId ? /* 链路 span：用于跨端关联 */ { spanId: rpc.spanId } : {}),
-            ...(rpc.traceId ? /* 链路 trace：用于跨端关联 */ { traceId: rpc.traceId } : {}),
+            ...optionalRpcFields(rpc, failureKind, serverRequestId),
           });
         }
         const outcome = {
