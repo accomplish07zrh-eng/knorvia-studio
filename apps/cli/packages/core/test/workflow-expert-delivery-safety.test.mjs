@@ -19,7 +19,7 @@ assert.equal(
       ),
     )
     .digest("hex"),
-  "508320a0267f1b9a035c3c0d9f96a7560602d60ffca8d6cc85409cbb2761d9bf",
+  "fdc85dd33812104a1e69b9b83f19b8c518dc7df8f9c151cab94440b32bb9f2d5",
 );
 const core = new URL("../", import.meta.url),
   root = new URL("../../../../../", import.meta.url);

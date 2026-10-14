@@ -1,210 +1,32 @@
-import type {
-  ExpertWorkflowRunSnapshot,
-  WorkflowDefinition,
-  WorkflowGraph,
-  WorkflowGraphNode,
-  WorkflowNodeStatus,
-  WorkflowPhaseDefinition,
-} from "@knorvia/contracts";
-import { workflowDefinitionPhaseMap } from "../definition.js";
-import { phaseNodeId } from "./ids.js";
+// SPDX-License-Identifier: Apache-2.0
+// 提示词与报告的公开入口：段落渲染器按语义拆在 prompts-*.ts，本文件只做组装与导出，
+// 公开路径与导出名保持不变。
+import type { WorkflowGraphNode } from "@knorvia/contracts";
+import { nodePromptLines } from "./prompts-node.js";
+import { PHASE_SECTIONS } from "./prompts-phase.js";
+import {
+  joinSections,
+  type PhaseDef,
+  type RenderContext,
+  type Run,
+  type Text,
+} from "./prompts-sections.js";
 
-export function buildPhasePrompt(
-  snapshot: ExpertWorkflowRunSnapshot,
-  definition: WorkflowPhaseDefinition,
-): string {
-  const artifactLines = snapshot.artifacts
-    .map((artifact) => `- ${artifact.label}: ${artifact.path}`)
-    .join("\n");
-  const architectureLines =
-    definition.seedGraphFromArtifact !== undefined
-      ? [
-          "",
-          "Architecture graph contract:",
-          `Return a JSON object, either raw or fenced as \`\`\`json, so the workflow runtime can seed the ${definition.seedGraphFromArtifact.targetPhase} DAG:`,
-          '{"nodes":[{"id":"implement_auth","title":"Implement auth","description":"small executable unit","dependsOn":["setup_config"],"collectionId":"implementation","prompt":"optional node-specific instructions"}],"edges":[{"from":"setup_config","to":"implement_auth"}],"collections":[{"collectionId":"implementation","title":"Implementation","nodeIds":["setup_config","implement_auth"],"explorable":false,"goal":"ship the feature","metric":"tests pass"}],"reasoning":"brief rationale"}',
-          "Node ids must be unique, references must point to real node ids, and edges must not create cycles.",
-        ]
-      : [];
+export { createPhaseGraph, updateGraphNodeStatus } from "./prompts-graph.js";
+export { buildReport } from "./prompts-report.js";
+export { buildScheduledPhaseSummary } from "./prompts-summary.js";
 
-  return [
-    `You are running the Knorvia Studio workflow phase: ${definition.phase}.`,
-    `Workflow run: ${snapshot.runId}`,
-    `Working directory: ${snapshot.cwd}`,
-    "",
-    `User task:\n${snapshot.task}`,
-    "",
-    "Scheduling strategy:",
-    `- Clarify max rounds: ${snapshot.strategy.clarify.maxRounds}, min rounds: ${snapshot.strategy.clarify.minRounds}, confidence threshold: ${snapshot.strategy.clarify.confidenceThreshold}`,
-    `- Executor frontier target: ${snapshot.strategy.executor.frontierTarget}, max concurrent loops: ${snapshot.strategy.executor.maxConcurrentLoops}, max planner runs: ${snapshot.strategy.executor.maxPlannerRuns}`,
-    `- React loop max rounds: ${snapshot.strategy.reactLoop.maxRounds}`,
-    `- Final critic max iterations: ${snapshot.strategy.finalCritic.maxIterations}`,
-    "",
-    `Phase objective:\n${definition.description}`,
-    "",
-    artifactLines
-      ? `Previous artifacts available on disk:\n${artifactLines}`
-      : "No previous artifacts yet.",
-    ...architectureLines,
-    "",
-    "Output a concise Markdown artifact for this phase. Preserve concrete file paths, commands, risks, and next actions. If this phase executes code, make the edits and run focused validation when practical.",
-  ].join("\n");
+export function buildPhasePrompt(run: Run, phaseDefinition: PhaseDef): Text {
+  return joinSections(PHASE_SECTIONS, { phaseDefinition, run });
 }
 
 export function buildScheduledNodePrompt(
-  snapshot: ExpertWorkflowRunSnapshot,
-  definition: WorkflowPhaseDefinition,
-  node: WorkflowGraphNode,
-): string {
-  if (node.phase === definition.phase && node.kind === "phase") {
-    return buildPhasePrompt(snapshot, definition);
-  }
-
-  const artifactLines = snapshot.artifacts
-    .map((artifact) => `- ${artifact.label}: ${artifact.path}`)
-    .join("\n");
-  return [
-    `You are running a Knorvia Studio workflow node inside phase: ${definition.phase}.`,
-    `Workflow run: ${snapshot.runId}`,
-    `Working directory: ${snapshot.cwd}`,
-    "",
-    `User task:\n${snapshot.task}`,
-    "",
-    `Node: ${node.title}`,
-    `Node id: ${node.id}`,
-    node.description ? `Node objective:\n${node.description}` : undefined,
-    node.prompt ? `Node prompt:\n${node.prompt}` : undefined,
-    "",
-    "Scheduling constraints:",
-    `- Max concurrent loops: ${snapshot.strategy.executor.maxConcurrentLoops}`,
-    `- React loop max rounds: ${snapshot.strategy.reactLoop.maxRounds}`,
-    "",
-    artifactLines
-      ? `Previous artifacts available on disk:\n${artifactLines}`
-      : "No previous artifacts yet.",
-    "",
-    "Execute only this node's scope. Return a concise Markdown artifact with changes, validation, and residual risk.",
-  ]
-    .filter((line) => line !== undefined)
-    .join("\n");
-}
-
-export function buildScheduledPhaseSummary(
-  snapshot: ExpertWorkflowRunSnapshot,
-  phase: string,
-): string {
-  const activityLines = snapshot.activities
-    .filter((activity) => activity.phase === phase)
-    .map(
-      (activity) =>
-        `- ${activity.nodeId ?? activity.activityId}: ${activity.status}` +
-        (activity.artifactPath ? ` (${activity.artifactPath})` : "") +
-        (activity.error ? ` error=${activity.error}` : ""),
-    )
-    .join("\n");
-  const nodeLines = snapshot.graph.nodes
-    .filter((node) => node.phase === phase || node.kind === "task")
-    .map(
-      (node) =>
-        `- ${node.id}: ${node.status}` +
-        (node.attempts ? ` attempts=${node.attempts}` : "") +
-        (node.error ? ` error=${node.error}` : ""),
-    )
-    .join("\n");
-
-  return [
-    `# ${phase} Scheduler Summary`,
-    "",
-    `Run: ${snapshot.runId}`,
-    `Status: ${snapshot.status}`,
-    `Updated: ${snapshot.updatedAt}`,
-    "",
-    "## Nodes",
-    "",
-    nodeLines || "- No scheduled nodes.",
-    "",
-    "## Activities",
-    "",
-    activityLines || "- No activities.",
-    "",
-  ].join("\n");
-}
-
-export function buildReport(snapshot: ExpertWorkflowRunSnapshot): string {
-  const phaseLines = snapshot.phases.map(
-    (phase) =>
-      `- ${phase.phase}: ${phase.status}` + (phase.artifactPath ? ` (${phase.artifactPath})` : ""),
-  );
-
-  return [
-    "# Workflow Report",
-    "",
-    `Run: ${snapshot.runId}`,
-    `Task: ${snapshot.task}`,
-    `Status: ${snapshot.status}`,
-    `Directory: ${snapshot.cwd}`,
-    `Created: ${snapshot.createdAt}`,
-    `Updated: ${snapshot.updatedAt}`,
-    "",
-    "## Phases",
-    "",
-    ...phaseLines,
-    "",
-    "## Activities",
-    "",
-    ...snapshot.activities.map(
-      (activity) =>
-        `- ${activity.phase}: ${activity.status} (${activity.activityId})` +
-        (activity.sessionId ? ` session=${activity.sessionId}` : "") +
-        (activity.turnId ? ` turn=${activity.turnId}` : ""),
-    ),
-    "",
-    "## Artifacts",
-    "",
-    ...snapshot.artifacts.map((artifact) => `- ${artifact.label}: ${artifact.path}`),
-    "",
-  ].join("\n");
-}
-
-export function createPhaseGraph(definition: WorkflowDefinition): WorkflowGraph {
-  const phaseMap = workflowDefinitionPhaseMap(definition);
-  const nodes = definition.phaseOrder.map<WorkflowGraphNode>((phase) => {
-    const phaseDefinition = phaseMap.get(phase);
-    if (!phaseDefinition) {
-      throw new Error(`${definition.title} definition is missing phase: ${phase}`);
-    }
-    return {
-      dependsOn: [],
-      description: phaseDefinition.description,
-      id: phaseNodeId(phaseDefinition.phase),
-      kind: "phase",
-      phase: phaseDefinition.phase,
-      status: "pending",
-      title: phaseDefinition.title,
-    };
-  });
-  const edges: WorkflowGraph["edges"] = [];
-  for (let index = 1; index < definition.phaseOrder.length; index += 1) {
-    const previous = definition.phaseOrder[index - 1];
-    const current = definition.phaseOrder[index];
-    edges.push({ from: phaseNodeId(previous), to: phaseNodeId(current) });
-    nodes[index].dependsOn = [phaseNodeId(previous)];
-  }
-  return { collections: [], edges, nodes };
-}
-
-export function updateGraphNodeStatus(
-  graph: WorkflowGraph,
-  phase: string,
-  status: WorkflowNodeStatus | undefined,
-): WorkflowGraph {
-  if (!status) return graph;
-  const target = phaseNodeId(phase);
-  return {
-    collections: graph.collections,
-    edges: graph.edges,
-    nodes: graph.nodes.map((node) =>
-      node.id === target && node.kind === "phase" ? { ...node, status } : node,
-    ),
-  };
+  run: Run,
+  phaseDefinition: PhaseDef,
+  graphNode: WorkflowGraphNode,
+): Text {
+  const isPhaseNode = graphNode.phase === phaseDefinition.phase && graphNode.kind === "phase";
+  if (isPhaseNode) return buildPhasePrompt(run, phaseDefinition);
+  const context: RenderContext = { graphNode, phaseDefinition, run };
+  return nodePromptLines(context);
 }
