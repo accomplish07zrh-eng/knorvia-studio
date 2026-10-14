@@ -12,7 +12,7 @@ const archive = JSON.parse(archiveText);
 for (const name of ["source", "compiled", "declaration"])
   assert.equal(sha(archive[name]), archive[`${name}Sha256`]);
 const pinsText = await read("test/workflow-run-loop-current.json");
-assert.equal(sha(pinsText), "6348e165702fcbf337af0dfa405c348afe96f7aa7d45956f2238487519e9a6d3");
+assert.equal(sha(pinsText), "f13eddf413878348437be2f1b6c9a75c4ed1ddbb0a01e925f34ff56613c17473");
 const pins = JSON.parse(pinsText);
 async function select(reader = read) {
   await verifyCurrentArtifacts(

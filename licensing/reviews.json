@@ -78984,7 +78984,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
-      "normalizedSha256": "6bb9bf7660c897df1733f052fbf8c87fa76d5474009102bfa05338081d684ab0",
+      "normalizedSha256": "ce5b770c50d84b217588159ef5d2d104b80e3598a3d6d106b226b9dafa57465a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 266dff18 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.04 (packages/services/test/nonCliAcpRetirement.test.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -79058,7 +79058,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
-      "normalizedSha256": "eb60ea6ce2d97819e5596ded649d586e363ea4859a0f5f3f23c7ea08fcf7e85d",
+      "normalizedSha256": "1256f8394842ef0fd338a5c69f584b700fdb1af99a1129c620aca9754c3262fd",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit b6246d40 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.03 (packages/services/test/nonCliAcpRetirement.test.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -79077,7 +79077,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
-      "normalizedSha256": "b862f41c13d50acad8cb658a410dbf435288bfbf5db323a57afec437745ef138",
+      "normalizedSha256": "c4f27eb230796e92a936ef64dd8dc77696e739b3d471c881214f7770d062ea4c",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 89e47013 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.04 (packages/services/test/nonCliAcpRetirement.test.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
