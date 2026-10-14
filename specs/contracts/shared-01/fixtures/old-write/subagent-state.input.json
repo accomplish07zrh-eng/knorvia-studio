@@ -1,0 +1,9 @@
+{
+  "note": "shared-01 合同夹具：合成数据，不含真实用户数据",
+  "legacyBuiltInModels": {
+    "Explore": {
+      "providerId": "builtin:official",
+      "modelId": "glm-4.7"
+    }
+  }
+}

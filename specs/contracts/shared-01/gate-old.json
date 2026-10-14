@@ -1,0 +1,50 @@
+{
+  "contract": "shared-01",
+  "commit": "1e98ed2674426294beb2d205eae7f104f22949ab",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-14T16:57:48.328Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/shared-01/tests/node-persistence.test.mjs",
+    "specs/contracts/shared-01/tests/payload-schemas.test.mjs",
+    "specs/contracts/shared-01/tests/protocol-schemas.test.mjs",
+    "specs/contracts/shared-01/tests/surface.test.mjs",
+    "specs/contracts/shared-01/tests/wire-frames.test.mjs",
+    "specs/contracts/shared-01/tests/workflow-runs.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 56,
+      "pass": 56,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (7.2429ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (8.4932ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (1.6795ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.1476ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (0.9489ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.3644ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16735.4497"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 56,
+      "pass": 56,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (7.9305ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (8.2837ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (1.5768ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.1209ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (0.9508ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.3721ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 14884.4509",
+      "environment": {
+        "KNORVIA_SHARED_01_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 27,
+    "tests": 6,
+    "pass": 0,
+    "fail": 6,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\protocol-schemas.test.mjs (944.5636ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\surface.test.mjs (986.7935ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs (1242.125ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs (997.0264ms)\n  'test failed'"
+  },
+  "pass": true
+}

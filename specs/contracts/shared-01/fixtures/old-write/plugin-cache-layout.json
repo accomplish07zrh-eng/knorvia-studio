@@ -1,0 +1,26 @@
+{
+  "description": "旧 CLI seed 的 cache/knorvia-plugins-bundled/<name>/<version>/ 布局；合成目录名",
+  "tree": [
+    "cache/knorvia-plugins-bundled/alpha/1.9.0/.keep",
+    "cache/knorvia-plugins-bundled/alpha/1.10.0/.keep",
+    "cache/knorvia-plugins-bundled/alpha/1.10.0.backup/.keep",
+    "cache/knorvia-plugins-bundled/alpha/2.0.0.seed-lock/.keep",
+    "cache/knorvia-plugins-bundled/alpha/scratch.tmp-123/.keep",
+    "cache/knorvia-plugins-bundled/beta/3.0.0/.keep",
+    "cache/knorvia-plugins-bundled/gamma/0.0.1.backup/.keep",
+    "cache/knorvia-plugins-bundled/loose-file.txt"
+  ],
+  "expected": [
+    {
+      "name": "alpha",
+      "versions": [
+        "cache/knorvia-plugins-bundled/alpha/1.10.0",
+        "cache/knorvia-plugins-bundled/alpha/1.9.0"
+      ]
+    },
+    {
+      "name": "beta",
+      "versions": ["cache/knorvia-plugins-bundled/beta/3.0.0"]
+    }
+  ]
+}
