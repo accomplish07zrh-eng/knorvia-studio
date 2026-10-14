@@ -10,7 +10,7 @@ import {
 } from "./domain.js";
 
 /** Parameter actuals keyed by `fnId:param` (see TaintState.paramActuals). */
-export type ParamActuals = ReadonlyMap<string, AbstractValue>;
+type ParamActuals = ReadonlyMap<string, AbstractValue>;
 
 /** Collapsed occurrences of `value` after expanding every parameter placeholder. */
 export function resolveOccurrences(actuals: ParamActuals, value: AbstractValue): TaintOcc[] {
