@@ -10,12 +10,14 @@ function partitionDirectory(storageRoot: string): string {
   return join(storageRoot, "marketplaces", KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE);
 }
 
-function readJsonRecord(path: string): Record<string, unknown> | undefined {
+function /* 读 JSON 为普通对象：失败或非对象返回 undefined */ readJsonRecord(
+  path: string,
+): Record<string, unknown> | undefined {
   try {
     const value: unknown = JSON.parse(readFileSync(path, "utf8"));
-    return isRecord(value) ? value : undefined;
+    return /* 非普通对象一律当作缺失 */ isRecord(value) ? value : undefined;
   } catch {
-    return undefined;
+    return /* 解析失败同样按缺失处理 */ undefined;
   }
 }
 
@@ -25,7 +27,9 @@ function bundledManifest(directory: string): Record<string, unknown> | undefined
 }
 
 function entries(manifest: Record<string, unknown> | undefined): Record<string, unknown>[] {
-  return Array.isArray(manifest?.plugins) ? manifest.plugins.filter(isRecord) : [];
+  return /* 清单缺插件数组视为无条目 */ Array.isArray(manifest?.plugins)
+    ? manifest.plugins.filter(isRecord)
+    : [];
 }
 
 function namedEntry(
@@ -41,7 +45,7 @@ function writeChangedJson(path: string, value: unknown): void {
   } catch {
     // A read failure does not suppress the write's own, more relevant result.
   }
-  mkdirSync(dirname(path), { recursive: true });
+  /* 分区目录逐级创建 */ mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, bytes, "utf8");
 }
 
@@ -50,6 +54,7 @@ function mergePartitions(directory: string): Record<string, unknown> {
   const cdn = readJsonRecord(join(directory, "cdn-marketplace.json"));
   const remoteEntries = entries(cdn);
   const overridden = new Set(remoteEntries.filter(namedEntry).map((entry) => entry.name));
+  /* 分区合并：CDN 条目优先，捆绑条目只补空缺 */
   const merged = {
     ...bundled,
     ...cdn,
@@ -60,7 +65,7 @@ function mergePartitions(directory: string): Record<string, unknown> {
     ],
   };
   writeChangedJson(join(directory, "marketplace.json"), merged);
-  return merged;
+  return /* 合并结果同时作为写出内容 */ merged;
 }
 
 function assertOfficial(manifest: Record<string, unknown>): void {
@@ -69,24 +74,24 @@ function assertOfficial(manifest: Record<string, unknown>): void {
   }
 }
 
-export function writeBundledOfficialMarketplacePartitionSync(input: {
-  manifest: Record<string, unknown>;
-  storageRoot: string;
-}): Record<string, unknown> {
+export function /* 写入捆绑分区并重算合并视图 */ writeBundledOfficialMarketplacePartitionSync(input: {
+  /* 官方清单正文 */ manifest: Record<string, unknown>;
+  /* 插件数据根 */ storageRoot: string;
+}): /* 合并后的官方市场 */ Record<string, unknown> {
   assertOfficial(input.manifest);
   const directory = partitionDirectory(input.storageRoot);
   // 兼容既有分区的规范字节顺序，避免内容未变时仅因字段次序不同而重写。
   writeChangedJson(join(directory, "bundled-marketplace.json"), {
-    manifest: input.manifest,
-    version: 1,
+    manifest: /* 分区信封里的清单 */ input.manifest,
+    version: /* 分区信封格式版本 */ 1,
   });
   return mergePartitions(directory);
 }
 
-export function writeCdnOfficialMarketplacePartitionSync(input: {
-  manifest: Record<string, unknown>;
-  storageRoot: string;
-}): Record<string, unknown> {
+export function /* 写入 CDN 分区并重算合并视图 */ writeCdnOfficialMarketplacePartitionSync(input: {
+  /* 官方清单正文 */ manifest: Record<string, unknown>;
+  /* 插件数据根 */ storageRoot: string;
+}): /* 合并后的官方市场 */ Record<string, unknown> {
   assertOfficial(input.manifest);
   const directory = partitionDirectory(input.storageRoot);
   writeChangedJson(join(directory, "cdn-marketplace.json"), input.manifest);
@@ -96,7 +101,7 @@ export function writeCdnOfficialMarketplacePartitionSync(input: {
 function strictlyInside(root: string, candidate: string): boolean {
   const distance = relative(root, candidate);
   return (
-    !!distance &&
+    /* 逐项排除越界与绝对路径 */ !!distance &&
     distance !== ".." &&
     !distance.startsWith("../") &&
     !distance.startsWith("..\\") &&
