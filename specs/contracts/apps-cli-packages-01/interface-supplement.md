@@ -866,3 +866,32 @@ export interface UninstallMarketplacePluginInput {
   keepData?: boolean;
 }
 ```
+
+## `apps/cli/packages/adapters/src/plugins/catalog-refresh-types.ts`
+
+```ts
+export interface AddMarketplaceInput {
+  expectedId?: string;
+  signal?: AbortSignal;
+  source: MarketplaceSource;
+  storageRoot: string;
+  trustedId?: string;
+}
+
+export interface EnsureMarketplaceManifestAvailableInput {
+  marketplace: string;
+  signal?: AbortSignal;
+  storageRoot: string;
+}
+
+export interface UpdateMarketplaceInput {
+  marketplace?: string;
+  signal?: AbortSignal;
+  storageRoot: string;
+}
+
+export interface RemoveMarketplaceInput {
+  marketplace: string;
+  storageRoot: string;
+}
+```
