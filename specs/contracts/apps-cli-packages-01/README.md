@@ -372,11 +372,11 @@ node specs/contracts/apps-cli-packages-01/tests/run-old-gate.mjs --with-stubs
 
 **依据**：计划书默认裁决表「包太大或依赖成环 → 按依赖重切，单包不超过 60 个文件」。替换阶段实测本包继承数远超上限（model 44 + plugins 33 + mcp 31 + exec 20 + storage 15+），其中 `model/` 整体未开工、边界干净（只被同包内的 provider/exec/workflow 适配层调用，无反向依赖），因此移出（Lead 裁决 2026-10-15，issue #149 评论）。
 
-| 项 | 内容 |
-| --- | --- |
-| 移出范围 | `apps/cli/packages/adapters/src/model/**`（实测 51 个文件，其中继承 44 个，约 6.5k 行） |
-| 新包 ID | `apps-cli-packages-01-model`（M2，由 Lead 另派线按「每包流程」从选包+合同做起，不与本包并行改同目录） |
-| 分包总表 | 替换 PR 描述中补一行：`apps-cli-packages-01-model`，44 继承 / 约 6.5k 行 |
+| 项       | 内容                                                                                                  |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| 移出范围 | `apps/cli/packages/adapters/src/model/**`（实测 51 个文件，其中继承 44 个，约 6.5k 行）               |
+| 新包 ID  | `apps-cli-packages-01-model`（M2，由 Lead 另派线按「每包流程」从选包+合同做起，不与本包并行改同目录） |
+| 分包总表 | 替换 PR 描述中补一行：`apps-cli-packages-01-model`，44 继承 / 约 6.5k 行                              |
 
 **调用方与依赖衔接**（保持替换期间包边界稳定）：
 
