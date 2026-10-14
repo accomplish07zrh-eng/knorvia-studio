@@ -11,42 +11,42 @@ import path from "node:path";
 import type { ExecutionShellDialect } from "@knorvia/contracts";
 import type { StartupShellDialect } from "./bash-startup-script.js";
 
-type ShellInitSnapshotExecFile = (
+type /* 执行器签名别名：注入 execFile 便于测试 */ ShellInitSnapshotExecFile = (
   file: string,
   args: string[],
   options: ExecFileOptionsWithStringEncoding,
 ) => Promise<{ stdout: string; stderr: string }>;
 type ShellInitSnapshotDialect = Extract<ExecutionShellDialect, "posix" | "git-bash">;
-interface ShellInitSnapshot {
+interface /* 快照结构：落盘路径 + 方言 + 元数据 */ ShellInitSnapshot {
   path: string;
-  shellPath: string;
+  shellPath: /* shell 可执行文件路径 */ string;
 }
-interface ShellInitSnapshotCleanupResult {
-  deleted: number;
+interface /* 清理结果：已删除数量 */ ShellInitSnapshotCleanupResult {
+  deleted: /* 已删除的过期快照数 */ number;
   errors: number;
 }
-interface CleanupStaleShellInitSnapshotsOptions {
+interface /* 清理选项：根目录与保留期 */ CleanupStaleShellInitSnapshotsOptions {
   now?: Date;
   retentionDays?: number;
   rootDir: string;
 }
-interface ShellInitSnapshotRequest {
+interface /* 快照请求入参 */ ShellInitSnapshotRequest {
   env: NodeJS.ProcessEnv;
   rootDir: string;
-  shellDialect: StartupShellDialect;
-  shellPath: string;
+  shellDialect: /* 启动 shell 方言：决定初始化脚本形态 */ StartupShellDialect;
+  shellPath: /* shell 可执行文件路径 */ string;
 }
-interface ShellInitSnapshotManagerOptions {
+interface /* 管理器选项：执行器/超时/目录 */ ShellInitSnapshotManagerOptions {
   execFile?: ShellInitSnapshotExecFile;
 }
 
-const SNAPSHOT_TIMEOUT_MS = 10_000;
+const SNAPSHOT_TIMEOUT_MS = /* 生成快照的超时上限 */ 10_000;
 const SNAPSHOT_MAX_BYTES = 1024 * 1024;
 const DEFAULT_RETENTION_DAYS = 30;
 const defaultExecFile = promisify(execFileCallback) as unknown as ShellInitSnapshotExecFile;
 
 function snapshotScript(): string {
-  return [
+  /* 列表构造：逐个后缀/片段 */ return [
     "typeset -f 2>/dev/null || declare -f 2>/dev/null || true",
     "alias 2>/dev/null || true",
     "set +o 2>/dev/null || true",
@@ -54,7 +54,7 @@ function snapshotScript(): string {
   ].join("; ");
 }
 
-export class ShellInitSnapshotManager {
+export class /* 管理器：生成、复用与清理快照 */ ShellInitSnapshotManager {
   private readonly cache = new Map<string, Promise<ShellInitSnapshot | undefined>>();
   private readonly cleanupRegistry = new Set<string>();
   private readonly execFile: ShellInitSnapshotExecFile;
