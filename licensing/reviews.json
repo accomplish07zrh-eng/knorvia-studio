@@ -97009,7 +97009,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "c46977f82234263761acd213bcbeb19a5710d5d4895441cacdaff10170cd5254",
+      "normalizedSha256": "1bf10d4fa8e2ae6303fec64a457567870fe0c7c923c822378049f6a77a1812b9",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
@@ -136366,6 +136366,17 @@
       "evidence": [
         "specs/contracts/shared-01/acceptance.md",
         "specs/contracts/shared-01/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-m1-retro-20261015.md",
+      "normalizedSha256": "605dc3d573a56d358733cd3fbb903e7552c125dbe460e656076d010f95720120",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "M1 pilot retrospective authored by the Knorvia replacement team Lead; records measured contract sizes, first-failure fixes and similarity distributions of pilots core-hooks and core-tool-01, and the resulting plan-book adjustments per the M1 exit condition.",
+      "evidence": [
+        "docs/knorvia-m1-retro-20261015.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
     }
