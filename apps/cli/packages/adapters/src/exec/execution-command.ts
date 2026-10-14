@@ -48,7 +48,7 @@ export function buildExecutionEnv(
     network?: NetworkEgressEnvPolicy;
     platform?: NodeJS.Platform;
     processEnv?: NodeJS.ProcessEnv;
-  } = {},
+  } = /* 默认空选项 */ {},
 ): NodeJS.ProcessEnv {
   const platform = options.platform ?? process.platform;
   const source = options.processEnv ?? process.env;
@@ -57,7 +57,7 @@ export function buildExecutionEnv(
   applyExecutionTextEnv(env as Record<string, string>, platform);
   env = applyNetworkEgressEnv(env as Record<string, string>, {
     network: options.network,
-    platform,
+    /* 平台（win32 走 cmd） */ platform,
     sourceEnv: source,
     toolEnvPassthrough: overlay?.base !== "empty",
   });
@@ -73,11 +73,11 @@ function quoteCmdArgument(value: string): string {
 }
 
 function resolvedCmd(command: string, env: NodeJS.ProcessEnv): ResolvedSpawnCommand {
-  return {
+  return /* 构造结果 */ {
     file: getWindowsEnvValue(env, "ComSpec") || "cmd.exe",
     args: ["/d", "/s", "/c", command],
-    cwdDialect: "cmd",
-    shell: false,
+    cwdDialect: /* cmd 方言下的 cwd 语义 */ "cmd",
+    shell: /* 不启用 shell */ false,
   };
 }
 
@@ -89,13 +89,13 @@ function resolveArgv(
     exists: (path: string) => boolean;
     platform: NodeJS.Platform;
   },
-): ResolvedSpawnCommand {
+): /* 解析后的 spawn 命令 */ ResolvedSpawnCommand {
   if (options.platform !== "win32") {
-    return {
+    return /* 构造结果 */ {
       file: command.file,
       args: [...(command.args ?? [])],
-      cwdDialect: "posix",
-      shell: false,
+      cwdDialect: /* posix 方言下的 cwd 语义 */ "posix",
+      shell: /* 不启用 shell */ false,
     };
   }
   const candidates = windowsExecutableCandidates(command.file, options.env, options.cwd);
@@ -108,14 +108,14 @@ function resolveArgv(
   return { file, args: [...(command.args ?? [])], cwdDialect: "cmd", shell: false };
 }
 
-function resolveShell(
+function /* 解析 shell 配置 */ resolveShell(
   command: Extract<ExecutionCommand, { mode: "shell" }>,
   options: {
     env: NodeJS.ProcessEnv;
     platform: NodeJS.Platform;
-    resolvedShell?: ResolvedSpawnCommand;
+    resolvedShell?: /* 已解析的 shell（可缺省） */ ResolvedSpawnCommand;
   },
-): ResolvedSpawnCommand {
+): /* 解析后的 spawn 命令 */ ResolvedSpawnCommand {
   if (command.shellProfile === "posix-bash" && options.resolvedShell) {
     return applyResolvedShellCommand(options.resolvedShell, command.command);
   }
@@ -130,27 +130,27 @@ function resolveShell(
     if (options.platform === "win32" && (base === "cmd" || base === "cmd.exe")) {
       return resolvedCmd(command.command, { ...options.env, ComSpec: explicit });
     }
-    return {
+    return /* 构造结果 */ {
       file: explicit,
       args: ["-c", command.command],
       cwdDialect: options.platform === "win32" ? "git-bash" : "posix",
-      shell: false,
+      shell: /* 不启用 shell */ false,
     };
   }
   const file = options.env.SHELL || "/bin/sh";
   return { file, args: ["-c", command.command], cwdDialect: "posix", shell: false };
 }
 
-export function resolveExecutionCommand(
+export function /* 入口：解析执行命令 */ resolveExecutionCommand(
   command: ExecutionCommand,
   options: {
     cwd?: string;
     env?: NodeJS.ProcessEnv;
     exists?: (path: string) => boolean;
     platform?: NodeJS.Platform;
-    resolvedShell?: ResolvedSpawnCommand;
-  } = {},
-): ResolvedSpawnCommand {
+    resolvedShell?: /* 已解析的 shell（可缺省） */ ResolvedSpawnCommand;
+  } = /* 默认空选项 */ {},
+): /* 解析后的 spawn 命令 */ ResolvedSpawnCommand {
   const platform = options.platform ?? process.platform;
   const env = options.env ?? process.env;
   if (command.mode === "argv") {
@@ -158,16 +158,16 @@ export function resolveExecutionCommand(
       cwd: options.cwd,
       env,
       exists: options.exists ?? existsSync,
-      platform,
+      /* 平台（win32 走 cmd） */ platform,
     });
   }
   return resolveShell(command, { env, platform, resolvedShell: options.resolvedShell });
 }
 
-export function setResolvedShellLoginMode(
-  resolved: ResolvedSpawnCommand,
-  useLoginShell: boolean,
-): ResolvedSpawnCommand {
+export function /* 设置登录 shell 模式 */ setResolvedShellLoginMode(
+  resolved: /* 待改写的解析结果 */ ResolvedSpawnCommand,
+  useLoginShell: /* 是否使用登录 shell */ boolean,
+): /* 解析后的 spawn 命令 */ ResolvedSpawnCommand {
   if (resolved.cwdDialect === "cmd") return { ...resolved, usesLoginShell: false };
   const commandIndex = resolved.args.indexOf("-c");
   const optionEnd = commandIndex < 0 ? resolved.args.length : commandIndex;
@@ -177,10 +177,10 @@ export function setResolvedShellLoginMode(
   return { ...resolved, args, usesLoginShell: useLoginShell };
 }
 
-export function applyResolvedShellCommand(
-  resolved: ResolvedSpawnCommand,
+export function /* 应用解析结果到命令 */ applyResolvedShellCommand(
+  resolved: /* 待改写的解析结果 */ ResolvedSpawnCommand,
   command: string,
-): ResolvedSpawnCommand {
+): /* 解析后的 spawn 命令 */ ResolvedSpawnCommand {
   const args = [...resolved.args];
   const commandIndex = args.lastIndexOf("-c");
   if (commandIndex >= 0) args.splice(commandIndex + 1, 1, command);
@@ -192,5 +192,5 @@ export function applyResolvedShellCommand(
 export const applyResolvedShellCommandForTest = applyResolvedShellCommand;
 
 export function defaultCwdDialect(platform: NodeJS.Platform): ExecutionShellDialect {
-  return platform === "win32" ? "cmd" : "posix";
+  return /* win32 → cmd，其余 → posix */ platform === "win32" ? "cmd" : "posix";
 }
