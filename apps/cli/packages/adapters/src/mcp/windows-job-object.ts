@@ -33,33 +33,37 @@ async function loadNativeApi(): Promise<WindowsJobObjectApi | undefined> {
     const koffi = ("default" in imported ? imported.default : imported) as typeof import("koffi");
     const kernel = koffi.load("kernel32.dll");
     const handleType = koffi.pointer("HANDLE", koffi.opaque());
-    const basicType = koffi.struct("JOBOBJECT_BASIC_LIMIT_INFORMATION", {
-      PerProcessUserTimeLimit: "int64",
-      PerJobUserTimeLimit: "int64",
-      LimitFlags: "uint32",
-      MinimumWorkingSetSize: "size_t",
-      MaximumWorkingSetSize: "size_t",
-      ActiveProcessLimit: "uint32",
-      Affinity: "uintptr_t",
-      PriorityClass: "uint32",
-      SchedulingClass: "uint32",
-    });
-    const ioType = koffi.struct("IO_COUNTERS", {
-      ReadOperationCount: "uint64",
-      WriteOperationCount: "uint64",
-      OtherOperationCount: "uint64",
-      ReadTransferCount: "uint64",
-      WriteTransferCount: "uint64",
-      OtherTransferCount: "uint64",
-    });
-    const extendedType = koffi.struct("JOBOBJECT_EXTENDED_LIMIT_INFORMATION", {
-      BasicLimitInformation: basicType,
-      IoInfo: ioType,
-      ProcessMemoryLimit: "size_t",
-      JobMemoryLimit: "size_t",
-      PeakProcessMemoryUsed: "size_t",
-      PeakJobMemoryUsed: "size_t",
-    });
+    // 结构体一律用「名字 + 字段表」建：字段顺序即结构体布局顺序，逐条可核对。
+    const structOf = (name: string, fields: readonly (readonly [string, unknown])[]) =>
+      // Object.fromEntries 的返回类型对 koffi 的重载不友好；字段值本身已由 koffi 校验。
+      koffi.struct(name, Object.fromEntries(fields) as Record<string, never>);
+    const basicType = structOf("JOBOBJECT_BASIC_LIMIT_INFORMATION", [
+      ["PerProcessUserTimeLimit", "int64"],
+      ["PerJobUserTimeLimit", "int64"],
+      ["LimitFlags", "uint32"],
+      ["MinimumWorkingSetSize", "size_t"],
+      ["MaximumWorkingSetSize", "size_t"],
+      ["ActiveProcessLimit", "uint32"],
+      ["Affinity", "uintptr_t"],
+      ["PriorityClass", "uint32"],
+      ["SchedulingClass", "uint32"],
+    ]);
+    const ioType = structOf("IO_COUNTERS", [
+      ["ReadOperationCount", "uint64"],
+      ["WriteOperationCount", "uint64"],
+      ["OtherOperationCount", "uint64"],
+      ["ReadTransferCount", "uint64"],
+      ["WriteTransferCount", "uint64"],
+      ["OtherTransferCount", "uint64"],
+    ]);
+    const extendedType = structOf("JOBOBJECT_EXTENDED_LIMIT_INFORMATION", [
+      ["BasicLimitInformation", basicType],
+      ["IoInfo", ioType],
+      ["ProcessMemoryLimit", "size_t"],
+      ["JobMemoryLimit", "size_t"],
+      ["PeakProcessMemoryUsed", "size_t"],
+      ["PeakJobMemoryUsed", "size_t"],
+    ]);
     const createJob = kernel.func("__stdcall", "CreateJobObjectW", handleType, ["void *", "str16"]);
     const setInformation = kernel.func("__stdcall", "SetInformationJobObject", "bool", [
       handleType,
