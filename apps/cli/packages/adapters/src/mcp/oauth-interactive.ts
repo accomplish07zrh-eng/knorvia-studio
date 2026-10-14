@@ -39,14 +39,19 @@ function hasNewerCredentials(
 }
 
 /** 日志公共字段：一次算好，四处日志复用（字段名逐字保留）。 */
-function logFields(input: McpInteractiveAuthorizationInput, state?: string) {
+function logFields(input: McpInteractiveAuthorizationInput, oauthState?: string) {
   return {
     adapterInstanceId: input.adapterInstanceId,
     credentialKeyPrefix: input.keyPrefix,
     mcpServerName: input.serverName,
     processId: process.pid,
-    ...(state
-      ? { oauthStateId: createHash("sha256").update(state).digest("hex").slice(0, STATE_ID_LENGTH) }
+    ...(oauthState
+      ? {
+          oauthStateId: createHash("sha256")
+            .update(oauthState)
+            .digest("hex")
+            .slice(0, STATE_ID_LENGTH),
+        }
       : {}),
   };
 }
@@ -59,9 +64,9 @@ function emitLog(
   message: string,
   status: "cancelled" | "completed" | "failed" | "started" | "waiting",
   extra: Record<string, unknown> = {},
-  state?: string,
+  oauthState?: string,
 ): void {
-  input.logger?.[level](message, { event, ...logFields(input, state), status, ...extra });
+  input.logger?.[level](message, { event, ...logFields(input, oauthState), status, ...extra });
 }
 
 /** SDK 鉴权选项：公共字段一次装配，两处调用各自补充私有字段（额外字段名逐字保留）。 */
