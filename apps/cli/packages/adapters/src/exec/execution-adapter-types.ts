@@ -19,7 +19,7 @@ export interface /* 退出状态 */ ExitState {
   error?: Error;
 }
 
-export interface BackgroundTaskRecord extends BackgroundExecutionSnapshot {
+export interface /* 后台任务记录：扩展执行快照 */ BackgroundTaskRecord extends BackgroundExecutionSnapshot {
   sessionId?: string;
   isBash: /* 是否 bash 方言 */ boolean;
   legacyOutputEncoding: /* 遗留输出编码（无则 null） */ string | null;
@@ -35,7 +35,7 @@ export interface /* 输出落盘路径集合 */ ExecutionOutputPaths {
   stdoutPersistedOutputPath?: /* stdout 落盘路径 */ string;
 }
 
-export interface InternalExecutionRunOptions extends ExecutionRunOptions {
+export interface /* 内部运行选项：扩展运行选项 */ InternalExecutionRunOptions extends ExecutionRunOptions {
   onOutputEncodingResolved?: (encoding: string | null) => void;
   bashLifecycle?: /* bash 生命周期钩子 */ {
     isBackgrounded: /* 是否已转后台 */ () => boolean;
@@ -67,28 +67,28 @@ export interface PreparedExecution extends PreparedChildSpawn {
   request: ExecutionRequest;
 }
 
-export interface ActiveExecutionRecord {
+export interface /* 活跃执行记录 */ ActiveExecutionRecord {
   completion: Promise<void>;
-  resolveCompletion: () => void;
-  stop: (reason: StopReason) => void;
+  resolveCompletion: /* 完成时兑现 */ () => void;
+  stop: /* 停止回调（带原因） */ (reason: StopReason) => void;
 }
 
-export interface NodeExecutionAdapterOptions {
+export interface /* 适配器选项 */ NodeExecutionAdapterOptions {
   onToolExecResource?: (sample: KnorviaToolExecResource) => void;
-  outputRootDir?: string;
-  maxPersistedOutputBytes?: number;
+  outputRootDir?: /* 输出根目录 */ string;
+  maxPersistedOutputBytes?: /* 落盘上限字节 */ number;
   network?: NetworkEgressEnvPolicy;
   platform?: NodeJS.Platform;
   processEnv?: NodeJS.ProcessEnv;
-  progressIntervalMs?: number;
-  progressTailBytes?: number;
-  progressThresholdMs?: number;
+  progressIntervalMs?: /* 进度上报间隔 */ number;
+  progressTailBytes?: /* 进度尾部字节 */ number;
+  progressThresholdMs?: /* 进度上报阈值 */ number;
 }
 
-export type OutputPersistenceMode = "none" | "on_truncate" | "always";
-export type StopReason = "timeout" | "cancelled" | "output_limit";
+export type /* 落盘模式 */ OutputPersistenceMode = "none" | "on_truncate" | "always";
+export type /* 停止原因 */ StopReason = "timeout" | "cancelled" | "output_limit";
 
 export interface RunControl {
   child?: ChildProcess;
-  stop: (reason: StopReason) => void;
+  stop: /* 停止回调（带原因） */ (reason: StopReason) => void;
 }
