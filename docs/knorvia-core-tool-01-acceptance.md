@@ -135,3 +135,12 @@
 1. ~~桩目录终态待 Lead 裁决~~ 已裁决（C）并执行，见第 7.3 条与第 11 节；`verify-replace` 全项复核记录见 PR #153 描述。
 2. `perf:baseline` 与合并 main 后的 `test:studio` 全量结果记在 PR 描述的门禁表。
 3. 就地改写 32 文件的 `reviews.json` 来源改判不在本 PR（第 7.1 条口径）。
+
+## 11. 合同 v2 收尾修订与旧门复跑（2026-10-15，裁决 C）
+
+- **裁决**：Lead 2026-10-14 就「桩删除 vs 契约 B88 互锁」裁决**选 C**（issue #148 / PR #153 评论，记录 `lead/ruling-stub-b88.md`）：删桩 + B88 的 oracle 从 `stubs/<路径>` 改指 `interface.md` 各节的 ```ts 导出声明块；**断言方向与强度逐字不变**（源码导出名 ⊆ 合同声明、`assert.deepEqual(missing, [])`、`files.length === 32`、`missing`的`file:name`格式），其余 80 例断言不动、不删、不跳过。逐条登记见合同`specs/contracts/core-tool-01/known-differences.md` K4。
+- **合同升 v2**：README 版本号与状态、`interface.md` 6 行常量简写改回逐字源码形式 `export const NAME = 值;`（对照旧实现 `6ea4cbe7` 逐行核对 6/6 一致）、`tests/executor.test.ts` 的 B88 只换 oracle 的读取对象（前后对照见 PR #153 描述）。
+- **旧门复跑（core-hooks v1.1 先例）**：对旧实现 `wt/exec-4-tool` @ `4b53a0b7`（32 个旧文件与合同基线 `6ea4cbe7`、复跑当日 `origin/main` `5a129165` 两两 `git diff -- apps/cli/packages/core/src/tool` 均为空）只覆盖 2 个更新文件（`interface.md`、`tests/executor.test.ts`）后复跑——源码入口 **81/81**、dist 入口 **81/81**、fail 0、skipped 0、预登记差异 **0** 条；机器可读结果刷新在 `gate-old.json` 的 `oldGateReRun` 段，方法与命令在合同 `specs/contracts/core-tool-01/acceptance.md` 的「v2 旧门复跑记录」。
+- **终态证据**：`specs/contracts/core-tool-01/stubs/` 不存在（32 个桩 `git rm`，`verify-replace` 第 3 项 PASS）；全仓 `git grep -F "not implemented: core-tool-01" -- packages apps scripts` 为 **0**；删桩后契约两入口仍各 81/81（新实现本轮实测，见 PR #153 门禁表）。
+- **登记口径（Lead 复核通过，PR #153 评论）**：**就地路径沿用既有登记，M6 复算口径覆盖**——32 个就地改写路径不重登记 `original`、维持既有登记（第 7.1 条，七个已合并替换 PR 同口径；这些路径在 M6 全量复算里按原分类被查且已 32/32 过线），新模块路径按计划书登记 `original`。
+- **行为补齐来源标注（Lead PR 评论要求）**：`countPatchLines` 稀疏补丁 `TypeError`（`236d4153`，`flatMap` 跳空位 → 迭代器物化恢复）属**旧实现缺陷修复 / 行为对齐**，由 main 既有 oracle `tool-display-text`（12/12）抓到；对应测试未放宽、未改断言，re-pin 范围与依据见第 7.1 条与 PR #153 描述。
