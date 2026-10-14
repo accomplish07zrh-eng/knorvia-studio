@@ -265,12 +265,24 @@ export async function runMcpInteractiveAuthorization(
     keyPrefix: input.keyPrefix,
   });
   if (!lease) return await followAuthorization(input, ttlMs, baselineGeneration);
+  return await runWithAuthorizationLease(input, lease, ttlMs, baselineGeneration);
+}
+
+type AuthorizationLease = NonNullable<Awaited<ReturnType<typeof tryAcquireAuthorizationLease>>>;
+
+// 租约路径：拿到租约后重新读一次凭据（别人可能已授权），再走 lead 流程；
+// 无论成败都清理待授权记录并释放租约——清理失败只忽略返回 Promise 的拒绝，release 的拒绝保留优先级。
+async function runWithAuthorizationLease(
+  input: McpInteractiveAuthorizationInput,
+  lease: AuthorizationLease,
+  ttlMs: number,
+  baselineGeneration: Generation | undefined,
+): Promise<McpInteractiveAuthorizationOutcome> {
   try {
     const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
     if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
     return await leadAuthorization(input, lease.attemptId, ttlMs, baselineGeneration);
   } finally {
-    // 仅忽略返回 Promise 的清理拒绝；同步调用失败及最终 release 拒绝仍保留优先级。
     await deletePendingAuthorizationIfOwned(
       input.credentialStore,
       input.keyPrefix,
