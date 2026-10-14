@@ -1,0 +1,556 @@
+{
+  "schema": 1,
+  "themes": ["light", "dark"],
+  "viewports": [
+    {
+      "width": 1360,
+      "height": 900
+    },
+    {
+      "width": 820,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "pages": [
+    {
+      "id": "chat-single",
+      "group": "workspace",
+      "title": "主界面 · 单聊（内置内核）",
+      "description": "活动栏、会话侧栏、对话区与主输入框；空会话状态。",
+      "open": [
+        {
+          "waitFor": "v4-composer-input"
+        }
+      ],
+      "testIds": [
+        "studio-activity-rail",
+        "studio-window-titlebar",
+        "sidebar",
+        "conversation",
+        "v4-session-title",
+        "v4-timeline",
+        "chat-empty",
+        "chat-error-banner",
+        "v4-composer",
+        "v4-composer-input",
+        "v4-composer-send"
+      ],
+      "wideOnlyTestIds": ["studio-activity-rail", "studio-window-titlebar"]
+    },
+    {
+      "id": "workbench",
+      "group": "workspace",
+      "title": "主界面 · 工作台",
+      "description": "任务格画布、格内核选择与布局工具条；零任务夹具。",
+      "open": [
+        {
+          "click": "studio-workbench-open"
+        },
+        {
+          "waitFor": "task-workbench"
+        }
+      ],
+      "testIds": [
+        "studio-activity-rail",
+        "task-workbench",
+        "workbench-new-task",
+        "workbench-add-conversations",
+        "workbench-collect",
+        "workbench-tile-count",
+        "workbench-zoom-out",
+        "workbench-zoom-reset",
+        "workbench-zoom-in",
+        "workbench-canvas",
+        "workbench-tile",
+        "workbench-kernel"
+      ],
+      "openWidth": "wide",
+      "wideOnlyTestIds": ["studio-activity-rail"]
+    },
+    {
+      "id": "groups",
+      "group": "workspace",
+      "title": "主界面 · 群聊",
+      "description": "群聊列表与空状态入口。",
+      "open": [
+        {
+          "click": "studio-groups-open"
+        },
+        {
+          "waitFor": "studio-groups-page"
+        }
+      ],
+      "testIds": ["studio-activity-rail", "studio-groups-page"],
+      "openWidth": "wide",
+      "wideOnlyTestIds": ["studio-activity-rail"]
+    },
+    {
+      "id": "workflows",
+      "group": "workspace",
+      "title": "主界面 · 工作流",
+      "description": "工作流模板与空白画布入口。",
+      "open": [
+        {
+          "click": "studio-workflows-open"
+        },
+        {
+          "waitFor": "studio-workflows"
+        }
+      ],
+      "testIds": ["studio-activity-rail", "studio-workflows"],
+      "openWidth": "wide",
+      "wideOnlyTestIds": ["studio-activity-rail"]
+    },
+    {
+      "id": "creation",
+      "group": "workspace",
+      "title": "主界面 · 创作",
+      "description": "创作页的图片/视频分页与生成入口。",
+      "open": [
+        {
+          "click": "studio-creation-open"
+        },
+        {
+          "waitFor": "studio-creation-page"
+        }
+      ],
+      "testIds": ["studio-activity-rail", "studio-creation-page"],
+      "openWidth": "wide",
+      "wideOnlyTestIds": ["studio-activity-rail"]
+    },
+    {
+      "id": "plugins",
+      "group": "settings",
+      "title": "设置 · 插件",
+      "description": "插件管理全宽页：范围、搜索与创建入口。",
+      "open": [
+        {
+          "click": "studio-plugins-open"
+        },
+        {
+          "waitFor": "plugin-settings-scope-trigger"
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-back-button",
+        "plugin-settings-scope-trigger",
+        "plugin-settings-search",
+        "plugin-settings-add"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-general",
+      "group": "settings",
+      "title": "设置 · 常规",
+      "description": "语言、原生搜索、提问自动处理与数据位置。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-general"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "general"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-general",
+        "settings-locale-select-trigger",
+        "settings-native-search-switch",
+        "settings-ask-user-question-auto-resolution-switch",
+        "settings-actual-data-location"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-appearance",
+      "group": "settings",
+      "title": "设置 · 外观",
+      "description": "主题、界面字号、代码预览与素材设置。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-appearance"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "appearance"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-appearance",
+        "appearance-materials"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-model-provider",
+      "group": "settings",
+      "title": "设置 · 模型供应商",
+      "description": "供应商列表与添加供应商模板选择。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-modelProvider"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "modelProvider"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-modelProvider",
+        "model-provider-add-provider-button"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-agents",
+      "group": "settings",
+      "title": "设置 · Agent",
+      "description": "Agent 列表与本机 CLI 内核状态。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-agents"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "agents"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-agents",
+        "studio-agents-section",
+        "cli-switch-status-claude-code",
+        "cli-switch-status-codex",
+        "cli-switch-status-grok-build"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-usage",
+      "group": "settings",
+      "title": "设置 · 用量统计",
+      "description": "用量统计分区（空夹具下无数据）。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-usage"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "usage"
+          }
+        }
+      ],
+      "testIds": ["settings-page", "settings-nav-search", "settings-section-nav-usage"],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-subagents",
+      "group": "settings",
+      "title": "设置 · 子 Agent",
+      "description": "内置子 Agent 列表与其模型触发器。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-subagents"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "subagents"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-subagents",
+        "subagent-row-general-purpose",
+        "subagent-row-Explore"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-memory",
+      "group": "settings",
+      "title": "设置 · 记忆",
+      "description": "工作区记忆开关与查看入口。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-memory"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "memory"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-memory",
+        "settings-memory-switch"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-skill",
+      "group": "settings",
+      "title": "设置 · 技能",
+      "description": "技能管理页：范围触发器与搜索。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-skill"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "skill"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-skill",
+        "plugin-settings-scope-trigger",
+        "plugin-settings-search"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-mcp",
+      "group": "settings",
+      "title": "设置 · MCP",
+      "description": "MCP 管理页：范围触发器与搜索。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-mcp"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "mcp"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-mcp",
+        "plugin-settings-scope-trigger",
+        "plugin-settings-search"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-commands",
+      "group": "settings",
+      "title": "设置 · 命令",
+      "description": "自定义命令管理页：范围触发器与搜索。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-commands"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "commands"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-commands",
+        "plugin-settings-scope-trigger",
+        "plugin-settings-search"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-hooks",
+      "group": "settings",
+      "title": "设置 · Hook",
+      "description": "Hook 管理分区与新增入口。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-hooks"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "hooks"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-hooks",
+        "hooks-settings-section"
+      ],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-browser",
+      "group": "settings",
+      "title": "设置 · 浏览器",
+      "description": "内嵌浏览器设置分区。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-browser"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "browser"
+          }
+        }
+      ],
+      "testIds": ["settings-page", "settings-nav-search", "settings-section-nav-browser"],
+      "openWidth": "wide"
+    },
+    {
+      "id": "settings-shortcuts",
+      "group": "settings",
+      "title": "设置 · 快捷键",
+      "description": "快捷键分组、搜索与逐条绑定。",
+      "open": [
+        {
+          "click": "task-settings-button"
+        },
+        {
+          "waitFor": "settings-page"
+        },
+        {
+          "click": "settings-section-nav-shortcuts"
+        },
+        {
+          "waitForAttribute": {
+            "testId": "settings-page",
+            "attribute": "data-active-section",
+            "value": "shortcuts"
+          }
+        }
+      ],
+      "testIds": [
+        "settings-page",
+        "settings-nav-search",
+        "settings-section-nav-shortcuts",
+        "settings-shortcuts-section",
+        "settings-shortcut-search-input",
+        "settings-shortcut-group-general",
+        "settings-shortcut-group-navigation",
+        "settings-shortcut-group-conversation",
+        "settings-shortcut-group-view"
+      ],
+      "openWidth": "wide"
+    }
+  ]
+}
