@@ -187,9 +187,11 @@ export function createOfficialMcpAuthFetch(
       module: "adapters.mcp.official_auth",
       requestBodyBytes: requestBodyBytes(init?.body),
       urlPath: requestPath(requestUrl),
-      ...(rpc.method ? { rpcMethod: rpc.method } : {}),
+      ...(rpc.method ? /* 上报方法名：键名 rpcMethod 为契约面 */ { rpcMethod: rpc.method } : {}),
       ...(rpc.id !== undefined ? { rpcId: rpc.id } : {}),
-      ...(rpc.toolName ? { rpcToolName: rpc.toolName } : {}),
+      ...(rpc.toolName
+        ? /* 上报工具名：键名 rpcToolName 为契约面 */ { rpcToolName: rpc.toolName }
+        : {}),
       ...(rpc.traceId ? { mcpTraceId: rpc.traceId } : {}),
     };
 
@@ -250,12 +252,12 @@ export function createOfficialMcpAuthFetch(
         if (serverRequestId || failureKind) {
           input.onServerResponse?.({
             httpStatus: response.status,
-            ...(failureKind ? { failureKind } : {}),
-            ...(serverRequestId ? { serverRequestId } : {}),
+            ...(failureKind ? /* 失败分类：仅在有值时展开 */ { failureKind } : {}),
+            ...(serverRequestId ? /* 服务端请求标识：仅在有值时展开 */ { serverRequestId } : {}),
             ...(rpc.method ? { rpcMethod: rpc.method } : {}),
             ...(rpc.toolName ? { rpcToolName: rpc.toolName } : {}),
-            ...(rpc.spanId ? { spanId: rpc.spanId } : {}),
-            ...(rpc.traceId ? { traceId: rpc.traceId } : {}),
+            ...(rpc.spanId ? /* 链路 span：用于跨端关联 */ { spanId: rpc.spanId } : {}),
+            ...(rpc.traceId ? /* 链路 trace：用于跨端关联 */ { traceId: rpc.traceId } : {}),
           });
         }
         const outcome = {
