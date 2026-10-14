@@ -31,11 +31,12 @@ import type {
 // 基线代次：缺席表示调用方没有基线快照，判定语义与空串不同。
 type Generation = string | undefined;
 
+// 快照是否比基线更新：有令牌且 generation 前进过。
 function hasNewerCredentials(
   current: CanonicalCredentialSnapshot | undefined,
-  baselineGeneration: Generation,
+  baseline: Generation,
 ): boolean {
-  return Boolean(current?.tokens && current.generation !== baselineGeneration);
+  return Boolean(current?.tokens && current.generation !== baseline);
 }
 
 /** 日志公共字段：一次算好，四处日志复用（字段名逐字保留）。 */
