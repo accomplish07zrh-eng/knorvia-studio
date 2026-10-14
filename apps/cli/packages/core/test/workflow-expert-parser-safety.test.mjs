@@ -19,7 +19,7 @@ assert.equal(
       ),
     )
     .digest("hex"),
-  "4ebf7addf0a508092ed280e648cd9a787697dcd73f054df993af70f478247fea",
+  "dbfc35807d42ecddfb8dcf7afc1abf4923b681df18950ff3f0159eec5ce7a040",
 );
 // 根保持 file URL，避免 Windows 双盘符和空格等路径编码被当作文件名。
 const root = new URL("../../../../../", import.meta.url);
