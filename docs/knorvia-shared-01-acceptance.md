@@ -148,9 +148,36 @@ $env:KNORVIA_SHARED_01_ENTRY = "dist"; node --import tsx --test "specs/contracts
 > `MAX_METADATA_LEEWAY_MS` 那一条是本次替换里唯一一处「行为被改坏又靠 lint 告警发现」的缺陷：
 > 契约测试没有覆盖到超前量的边界，属于「测试没测到」，按纪律补回实现而不是改测试。
 
-## 7. 接入门禁输出摘要（本机 Node v24.14.0 + pnpm，工作树 `wt/exec-5-contract`，合并 main `95426e41` 之后）
+## 7. 接入门禁输出摘要（本机 Node v24.14.0 + pnpm 10.x，工作树 `wt/exec-5-contract`，HEAD = 合并 `origin/main` `1ebaa2bc` 之后）
 
-见本文件末尾「§7 门禁表」，在门禁全部跑完后回填。
+| 检查                                               | 结果                                                                                                                                                                                                                                                                                                                               |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `node scripts/check-workspace-freshness.mjs`       | 0（基线新鲜，ahead 5 / behind 0，阈值 50）                                                                                                                                                                                                                                                                                         |
+| `pnpm fmt` / `pnpm fmt:check`                      | 0 / 0                                                                                                                                                                                                                                                                                                                              |
+| `pnpm lint`                                        | 0 error；205 条 warning **全部来自仓库其它文件，本包 27 个文件 0 条**（含先前 `MAX_METADATA_LEEWAY_MS`、`WireEnvelope<F>` 两条，已修）                                                                                                                                                                                             |
+| `pnpm typecheck`（含 `i18n:check`）                | 0（5573 对键一致）                                                                                                                                                                                                                                                                                                                 |
+| `pnpm architecture:check`                          | 0（violations 0 / baseline 0 / new 0）                                                                                                                                                                                                                                                                                             |
+| `pnpm build:cli-packages`                          | 0（15/15 tasks）                                                                                                                                                                                                                                                                                                                   |
+| `pnpm provenance:report` / `pnpm provenance:check` | 0 / 0（`reviewProblems` 0、`missingReviews` []）                                                                                                                                                                                                                                                                                   |
+| `pnpm knip`                                        | 1 —— **main 上同样失败**。逐项核对：`packages/shared/src/node/**` 与 `protocol-v4/**` 在 knip 输出里 **0 条**；唯一与本包相关的是合同阶段就有的 `Unlisted dependencies: zod ← specs/contracts/shared-01/tests/wire-frames.test.mjs:5`（Lead 裁决「留待工具 PR，不阻塞」）；`specs/contracts/*/stubs/**` 的 ignore 也没有 knip 提示 |
+| `pnpm perf:baseline`                               | 0 —— 与 `docs/knorvia-replacement-baseline-2026-10-11-perf.json` 对比无回退：raf 回调 69.6 → **171.5**/s、帧间隔 P50 13.3 → **3.4** ms、P95 26.7 → **13.3** ms、慢帧（>33ms）2 → **0**（10000 条合成消息滚动；浏览器 154 → 155）                                                                                                   |
+| 两道相似度门槛                                     | normal **11/11 PASS**、declaration **16/16 PASS**（见 §4）                                                                                                                                                                                                                                                                         |
+| 契约测试两入口（新实现）                           | 源码 **56/56**、dist **56/56**、skipped 0（见 §3）                                                                                                                                                                                                                                                                                 |
+| `pnpm test:studio`                                 | 9095 例：**9088 过 / 2 失败 / 5 跳过**（见 §7.1）                                                                                                                                                                                                                                                                                  |
+| 远端 CI                                            | Linux + Windows，以 PR 状态为准                                                                                                                                                                                                                                                                                                    |
+
+### §7.1 全量离线回归（`pnpm test:studio`）
+
+本机 2 个失败，**两个都是 main 既有问题、与本包无关**：
+
+| 失败                                                                                                                                                              | 判定依据                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/desktop/test/official-plugin-staging.test.mjs`                                                                                                          | 合同 v1 验收记录里就已列为本机环境失败（需 `--experimental-test-module-mocks` 等 test-studio 口径）；纯 main 工作树同样复现                                                  |
+| `packages/services/test/studio-workspace-runtime-health.test.ts`「health loss withdraws preview and fails; exit of an owned service is not displayed as stopped」 | 本次**在纯 `origin/main`（`c7e58013`）上单独复跑同样失败**（30.9s：`git switch --detach origin/main` → `tsc -b packages/shared --force` → 单跑该文件），判定为 main 既有失败 |
+
+上一轮全量（合并 `core-tool-01 #153` 之前）还出现过 `creation-polish.test.ts` 的
+「asynchronous JSON mapping …」一例，本轮已通过——与合同 v1 记录的「creation-\* 断言属本机环境问题」一致。
+本包 6 个契约测试文件共 56 例在两次全量运行中全过；CI 的 `studio-offline.yml` 在 Linux 与 Windows 双平台另跑同一套件。
 
 ## 8. 未覆盖的内容（与合同 v2 `acceptance.md` §4 一致）
 
