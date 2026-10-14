@@ -77805,35 +77805,35 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
-      "normalizedSha256": "633f90f82c89abdf3fe2439815fbfab5ce07009a5c76ddcb762778c9f3d90573",
+      "normalizedSha256": "296b0bde7825712d99bd07af486634a34d911a099c422a785559eee4df8e4696",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
+      "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
       "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-tool-01/acceptance.md",
+        "docs/knorvia-core-tool-01-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "94e72fbd9ea0b428d9dabbe6aed3129ad0a5895198e3736b0b9b20a09fd9413e",
+      "normalizedSha256": "407cd30ebb68a343dc4127b8be05dfc8416d6d17bd688cd3b4ada5c097cd0258",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
+      "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
       "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-tool-01/acceptance.md",
+        "docs/knorvia-core-tool-01-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-      "normalizedSha256": "de4ba7697277db751337ac8af9751c1d4f41ef46ba1f5bd0a01859ebc3b7bed5",
+      "normalizedSha256": "26a36eb9f0bbd73493246ebe56b6e49e4eb2b12a20e4414cb0f8af02e44a10e2",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
+      "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
       "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-tool-01/acceptance.md",
+        "docs/knorvia-core-tool-01-acceptance.md"
       ]
     },
     {
@@ -77849,13 +77849,13 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "01509f145b3c415a50c0f4f397c9c4d38c91634acb21800ff5fdc8ba2a0bfc41",
+      "normalizedSha256": "6adbdb7f9ef7ca843bf9c20bfefd244609a0352f30548c4ae38fd4b687bb4978",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Scoped re-pin after the contracts rewrite: refreshes only the frozen sha256 records for apps/cli/packages/contracts/dist/workflow artifacts (definition.js, script.js) plus the selector, receipt and fixture shas derived from them, restoring the pre-rewrite evidence semantics without touching any assertion logic or product behaviour.",
+      "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
       "evidence": [
-        "specs/contracts/core-01/acceptance.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-tool-01/acceptance.md",
+        "docs/knorvia-core-tool-01-acceptance.md"
       ]
     },
     {
