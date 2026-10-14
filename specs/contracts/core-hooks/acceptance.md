@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-# core-hooks 合同验收记录（v1）
+# core-hooks 合同验收记录（v1.1）
 
 ## 一、范围与口径
 
@@ -17,7 +17,7 @@
   `apps/cli/packages/adapters/src/storage/**`（Trust store 文件实现）。
   这些只作为调用方在 `callers.md` 出现，不在本包重写范围。
 
-## 二、旧门结果（v1，`gate-old.json`）
+## 二、旧门结果（v1.1，`gate-old.json`）
 
 | 项目                                                                  | 结果                                                     |
 | --------------------------------------------------------------------- | -------------------------------------------------------- |
@@ -75,3 +75,9 @@ node specs/contracts/core-hooks/tests/run-old-gate.mjs --with-stubs
 | 计划书分包总表与目录实际文件数不一致      | 以**继承文件口径**为准（Lead 2026-10-11 确认），本包继承 16                                       |
 | 某段行为是否属于本包                      | 不确定时归入附录 A 并在本文第五节写明，不写进 B 条目（默认裁决「不确定是否还有用 → 保留、不删」） |
 | 合同与既有 `specs/` 规格冲突              | 以本合同 B 编号为准并登记；当前无冲突                                                             |
+
+## v1.1 旧门复跑记录
+
+- 触发原因：v1.1 新增两个兼容面导出类型名（`WorkspaceHookEntryEvaluationInput`、`SessionMailboxRegistrationOptions`），供声明模式的兼容行剔除使用；公开签名与行为条目不变。
+- 复跑命令：`node specs/contracts/core-hooks/tests/run-old-gate.mjs`
+- 结果：源码入口 **33/33**、dist 入口 **33/33**、fail 0；commit `f9b34ee9...`、node `v24.14.0`；详见 `gate-old.json`。

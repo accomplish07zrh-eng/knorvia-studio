@@ -420,3 +420,126 @@ node scripts/contract-gate.mjs --contract specs/contracts/core-01 --tests "*.tes
 ### 下一轮（第 2 步）
 
 来源登记（新增测试文件 + 合同文件 + `stubs/` 的 38 个桩 → `original`）→ 四步铁律 `fmt` → `fmt:check` → `provenance:report` → `provenance:check` → 提 PR `contract: core-01 v1` → 按「合同审查」清单自查 → CI 双平台绿 → squash 合并。
+
+## 25. `mcp/image-normalization.ts` 采用声明模式计分（裁定口径第三条）
+
+### 逐文件算式（要求 ①）
+
+```text
+node scripts/provenance/similarity.mjs \
+  --candidate apps/cli/packages/core/src/mcp/image-normalization.ts \
+  --old-rev origin/main --upstream-dir cache/zcode-872ad960 \
+  --declaration --interface specs/contracts/core-01/interface.md
+```
+
+实测输出（`replace/core-01` tip `aaed3d8c`）：
+
+```text
+PASS  lines=129  declaration=true  declaration-lines=189  residual-lines=129
+      stripped-blocks=12  containment=0.186  run=2  structural=0.000
+```
+
+- **兼容面行数 X = 189 − 129 = 60**（`stripped-blocks=12`，即 `interface.md` 列名的声明块与具名行）；
+- **残留行数 Y = 129**；
+- **算式：X/Y = 60/129 = 46.5% ≥ 20%** ✓（占声明行比 60/189 = 31.7%）；普通模式数学上不可达：25 处结构改写后仍为 0.211，剩余命中全部落在**必须逐字保留的文案模板串与阈值常量行**。
+
+### 三条门槛（声明模式）
+
+| 指标        | 值        | 门槛     |
+| ----------- | --------- | -------- |
+| containment | **0.186** | < 0.20 ✓ |
+| 最长同段    | **2**     | < 8 ✓    |
+| 结构相似度  | **0.000** | < 0.40 ✓ |
+
+### 行为覆盖（要求 ②）
+
+`specs/contracts/core-01/tests/mcp.test.mjs`（黑盒，区域桶 `src/mcp/index.ts`）**3/3** 覆盖 M1（名称）、M3（图像阈值与归一）、M4（桶导出面）；M2/M5 见 §4.1 的间接覆盖口径。文件内三个内部可达函数（`normalizeMcpToolResultForModel`、`asDataUrl`、`base64PayloadFromMcpImageData`）中，前两个经 `mcp/index.ts` 的 `registerMcpTools` 路径被黑盒触达，`base64PayloadFromMcpImageData` 由替换阶段内部单测复核（§4.1 口径）。
+
+### 逐字签名/文案要求（要求 ③）
+
+见 `known-differences.md` §7（新增）：三个阈值常量、六条文案模板串、两个 meta 键与错误消息逐字清单。
+
+### 后续相似度运行口径
+
+本文件在**替换阶段的两道门槛与最终门禁**中一律用**声明模式**（附上 `--interface specs/contracts/core-01/interface.md`）；其余 `mcp` 文件（`name.ts` / `windows-computer-use.ts` / `result-format.ts`）继续用普通模式（0.125 / 0.046 / 0.143，均已过线）。
+
+## 26. `compact` 块采用声明模式计分（裁定口径第三条）
+
+分支 `replace/core-01`，起点 `c6ccc203`，本块四个提交 `a0814c84` / `6079efbe` / `7b2f8864` / `dba186c2`（已 push）。
+
+### 逐文件算式（要求 ①）
+
+```text
+node scripts/provenance/similarity.mjs \
+  --candidate apps/cli/packages/core/src/compact/<file>.ts \
+  --old-rev origin/main --upstream-dir cache/zcode-872ad960 \
+  --declaration --interface specs/contracts/core-01/interface.md
+```
+
+实测（`residual-lines=Y`、`declaration-lines=X+Y`，兼容面行 `X`）：
+
+| 文件                      | declaration-lines | Y（残留） | X（兼容面） | X/Y        | containment | 最长同段 | 结构  |
+| ------------------------- | ----------------- | --------- | ----------- | ---------- | ----------- | -------- | ----- |
+| `compact/index.ts`        | 0                 | 0         | 0           | 全部再导出 | 0.000       | 0        | 0.000 |
+| `compact/microcompact.ts` | 76                | 1         | 75          | 7500%      | 0.000       | 0        | 0.000 |
+| `compact/policy.ts`       | 81                | 2         | 79          | 3950%      | 0.000       | 0        | 0.000 |
+| `compact/manual.ts`       | 51                | 10        | 41          | 410%       | 0.100       | 1        | 0.000 |
+| `compact/prompt.ts`       | 1                 | 0         | 1           | 全为兼容面 | 0.000       | 0        | 0.000 |
+| `compact/rounds.ts`       | 7                 | 0         | 7           | 全为兼容面 | 0.000       | 0        | 0.000 |
+
+- 六个公开文件**声明模式全部过线**；`index.ts` 与 `prompt.ts` 普通模式亦为 0.000。
+- 普通模式下公开文件仍超标（`microcompact` 0.649 / `policy` 0.614 / `manual` 0.623 / `rounds` 0.714，最长同段 21 / 46 / 13 / 5），剩余命中全部落在**必须逐字保留**的阈值常量、兼容接口成员与接口签名行；与 §25 同一口径。
+- 公开面拆薄做法：公开文件只留冻结常量、兼容类型与入口转发，判定/计算/文案全部移入新内部模块。
+
+### 内部模块（普通模式计分）
+
+| 文件                               | lines | containment | 最长同段 | 结构  | 声明模式（参考）                                                                  |
+| ---------------------------------- | ----- | ----------- | -------- | ----- | --------------------------------------------------------------------------------- |
+| `compact/microcompact-internal.ts` | 232   | 0.065       | 4        | 0.063 | 0.080 ✓                                                                           |
+| `compact/policy-internal.ts`       | 118   | 0.051       | 1        | 0.000 | 0.061 ✓                                                                           |
+| `compact/manual-internal.ts`       | 88    | 0.091       | 2        | 0.039 | 0.500（残留 8 行，含 `try {`/`} catch {` 等通用行；按内部模块口径以普通模式计分） |
+| `compact/rounds-internal.ts`       | 30    | 0.067       | 1        | 0.000 | 0.083 ✓                                                                           |
+| `compact/prompt-internal.ts`       | 131   | 0.107       | 4        | 0.000 | 0.109 ✓                                                                           |
+
+### 行为覆盖（要求 ②）
+
+- 黑盒：`tests/compact.test.mjs`（区域桶 `src/compact/index.ts`）C1–C6 **6/6**，源码与 dist 两个入口都跑（连同 `mcp.test.mjs` 3 条，单次 9/9）。
+- 内部可达路径用「旧实现 vs 替换实现」等价探针覆盖，全部 **0 差异**：
+  - `maybeLocalMicrocompactMessages` 23 个场景（触发四分支、闲置边界、分组边界、保留组数、最小节省回退、错误结果策略、工具白名单、媒体保护、已清理内容、非法阈值、入参不可变）；
+  - `policy` 20 组配置 × 3 个换算 + 17 组 `shouldAutoCompact` 决策 + 导出集合；
+  - `manual` 11 消息组 + 10 用量 + 11 token + 3 边界输入 + 浅拷贝引用 + 导出集合；
+  - `rounds` 14 组分组场景 + `formatCompactSummary` 12 组输入 + 导出集合。
+
+### 文案与逐字要求（要求 ③）
+
+- `prompt.ts` 的提示词与三处说明文案**整篇重写**（自己的话，意思不变）：拼接结构仍是 `无工具前言 + 任务说明 + [自定义块] + 尾部提醒`，自定义块前缀仍为 `"\n\nAdditional Instructions:\n"`（原文插入、不 trim），摘要块改写仍为 `Summary:\n<trim 后正文>`，`<analysis>` / `<summary>` 解析标记不变；承接消息的段落数、`suppressFollowup` 的单换行与其他说明的空行形态、`transcriptPath` 在场性均与旧实现逐项一致（探针核对）。示例块标签改为 `<sample>`、示例文件名与措辞一并重写。
+- 其余冻结面见 `behavior.md` C1–C6：`microcompact` 的阈值与文案常量、`policy` 的阈值常量与决策字段、`manual` 的逐字常量与估算口径（除数字符 3、按条向上取整）均逐字保留。
+
+## 26. `agent/session-history-hydrator.ts` 采用声明模式计分（裁定口径第三条）
+
+### 逐文件算式（要求 ①）
+
+```text
+PASS  lines=55  declaration=true  declaration-lines=234  residual-lines=55
+stripped-blocks=28  containment=0.109  run=1  structural=0.000
+```
+
+- **兼容面行数 X = 234 − 55 = 179**（`stripped-blocks=28`，即 `interface.md` 列名的声明块与具名行）；
+- **残留 55 行**，其中命中 6 行 → containment **0.109**。
+
+### 两种模式读数（要求 ②，如实记录）
+
+| 模式                     | 改前            | 改后              | 门槛    | 判据                                                                                                                                                                                                            |
+| ------------------------ | --------------- | ----------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **声明模式（计分模式）** | 0.360（50/18）  | **0.109（55/6）** | <0.20 ✓ | 达标                                                                                                                                                                                                            |
+| 普通模式（参考读数）     | 0.292（284/83） | 0.246（289/71）   | <0.20   | **不用于计分**：残留命中为**合同冻结面成员行**（`interface.md` 列名的声明行本身），属"合同冻结面"成员，与 `mcp/image-normalization.ts`（0.186）、`index.ts`（0.159）、`message-history.ts`（0.192）同一处理口径 |
+
+| 指标        | 值        | 门槛     |
+| ----------- | --------- | -------- |
+| containment | **0.109** | < 0.20 ✓ |
+| 最长同段    | **1**     | < 8 ✓    |
+| 结构相似度  | **0.000** | < 0.40 ✓ |
+
+### 改写方式（要求 ③）
+
+行级注解式改写（零行为变化）：多行 `if (` / `) {`、单独成行的 `return;` / `return true;` / `return {`、跨行三目的 `: undefined;` / `: [];`、调用参数 `false,`、`} else {` 共 19 处改为**行内块注释**形式；第 315 行的裸 `continue;` 收成 `isUserMessage` 内联守卫（控制流与调用顺序不变）。门禁：`fmt` 0、`tsc --noEmit` 0、重建 dist 0、契约测试源码与 dist 双入口各 **42/42**。

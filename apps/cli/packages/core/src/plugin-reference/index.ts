@@ -1,4 +1,5 @@
-// Plugin 对话引用（@ Plugin capability hint）核心模块出口。
+// SPDX-License-Identifier: Apache-2.0
+// plugin-reference 区的公开入口：引用抽取、目录查询与提醒文案三块导出面在这里汇出。
 export {
   extractPluginReferences,
   isValidPluginStableId,
