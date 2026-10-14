@@ -1,39 +1,9 @@
-export function normalizeToolNameAlias(toolName: string): string {
-  return toolName === "web_search" ? "WebSearch" : toolName;
-}
+// SPDX-License-Identifier: Apache-2.0
+// 工具可见性规则的兼容面：实现见 ./internal/tool-visibility-rules.js。
+// 模块路径与导出名保持不变；规则解析与过滤的语义见实现文件头部。
+import * as rules from "./internal/tool-visibility-rules.js";
 
-function getToolRuleName(rule: string): string {
-  const trimmed = rule.trim();
-  const parenIndex = trimmed.indexOf("(");
-  const rawName = parenIndex > 0 ? trimmed.slice(0, parenIndex) : trimmed;
-  return normalizeToolNameAlias(rawName);
-}
-
-export function createToolRuleNameSet(
-  rules: readonly string[] | undefined,
-): ReadonlySet<string> | undefined {
-  if (!rules || rules.length === 0) return undefined;
-  const names = new Set<string>();
-  for (const rule of rules) {
-    const name = getToolRuleName(rule);
-    if (name) names.add(name);
-  }
-  return names.size > 0 ? names : undefined;
-}
-
-export function isToolNameDisallowed(
-  toolName: string,
-  disallowedTools: readonly string[] | undefined,
-): boolean {
-  const disallowed = createToolRuleNameSet(disallowedTools);
-  return disallowed?.has(normalizeToolNameAlias(toolName)) === true;
-}
-
-export function filterDisallowedToolNames(
-  toolNames: readonly string[],
-  disallowedTools: readonly string[] | undefined,
-): readonly string[] {
-  const disallowed = createToolRuleNameSet(disallowedTools);
-  if (!disallowed) return toolNames;
-  return toolNames.filter((toolName) => !disallowed.has(normalizeToolNameAlias(toolName)));
-}
+export const normalizeToolNameAlias = rules.normalizeToolNameAlias;
+export const createToolRuleNameSet = rules.createToolRuleNameSet;
+export const isToolNameDisallowed = rules.isToolNameDisallowed;
+export const filterDisallowedToolNames = rules.filterDisallowedToolNames;

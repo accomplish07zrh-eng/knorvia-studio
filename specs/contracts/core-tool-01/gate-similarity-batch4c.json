@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "thresholds": {
+    "minLines": 10,
+    "containment": 0.2,
+    "longestRun": 8,
+    "structural": 0.4
+  },
+  "gates": "all",
+  "upstream": {
+    "root": "D:\\knorvia studio开发\\cache\\zcode-872ad960",
+    "revision": "872ad960de7ec172591f7e1952f7849229f94521",
+    "files": 6973,
+    "binary": 87,
+    "kinds": {
+      "md": 186,
+      "sh": 7,
+      "script": 4016,
+      "yaml": 9,
+      "json": 100,
+      "dockerignore": 2,
+      "development": 1,
+      "example": 1,
+      "production": 1,
+      "gitattributes": 2,
+      "gitignore": 5,
+      "npmrc": 1,
+      "nvmrc": 2,
+      "prettierignore": 1,
+      "editorconfig": 1,
+      "template": 1,
+      "(none)": 6,
+      "gz": 14,
+      "zip": 4,
+      "html": 6,
+      "css": 5,
+      "map": 10,
+      "toml": 1,
+      "png": 51,
+      "plist": 3,
+      "icns": 3,
+      "ico": 4,
+      "nsh": 1,
+      "yml": 1,
+      "swift": 1,
+      "manifest": 1,
+      "cs": 1,
+      "svg": 2306,
+      "mp3": 1,
+      "webp": 6,
+      "patch": 3,
+      "txt": 209
+    }
+  },
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state.ts",
+      "kind": "script",
+      "lines": 6,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 6,
+      "strippedLines": 0,
+      "residualLines": 6,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts",
+      "kind": "script",
+      "lines": 9,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 9,
+      "strippedLines": 0,
+      "residualLines": 9,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/tool-visibility.ts",
+      "kind": "script",
+      "lines": 6,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 6,
+      "strippedLines": 0,
+      "residualLines": 6,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0,
+        "file": null
+      },
+      "longestRun": {
+        "value": 0,
+        "file": null
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/read-state-query.ts",
+      "kind": "script",
+      "lines": 56,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 56,
+      "strippedLines": 0,
+      "residualLines": 56,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0.19642857142857142,
+        "file": "apps/cli/packages/core/src/tool/read-file-state.ts"
+      },
+      "longestRun": {
+        "value": 5,
+        "file": "apps/cli/packages/core/src/tool/read-file-state.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/read-state-codec.ts",
+      "kind": "script",
+      "lines": 132,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 132,
+      "strippedLines": 0,
+      "residualLines": 132,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0.12878787878787878,
+        "file": "apps/zcode-cli/packages/core/src/tool/read-file-state-metadata.ts"
+      },
+      "longestRun": {
+        "value": 4,
+        "file": "apps/zcode-cli/packages/core/src/tool/read-file-state-metadata.ts"
+      },
+      "structural": {
+        "value": 0.04054054054054054,
+        "file": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts"
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/internal/tool-visibility-rules.ts",
+      "kind": "script",
+      "lines": 46,
+      "binary": false,
+      "declaration": false,
+      "linesBeforeStrip": 46,
+      "strippedLines": 0,
+      "residualLines": 46,
+      "strippedBlocks": 0,
+      "maxContainment": {
+        "value": 0.17391304347826086,
+        "file": "apps/zcode-cli/packages/core/src/tool/tool-visibility.ts"
+      },
+      "longestRun": {
+        "value": 2,
+        "file": "apps/zcode-cli/packages/core/src/tool/tool-visibility.ts"
+      },
+      "structural": {
+        "value": 0,
+        "file": null
+      },
+      "structuralSkipped": false,
+      "checks": {
+        "line": true,
+        "structural": true
+      },
+      "violations": [],
+      "pass": true
+    }
+  ],
+  "summary": {
+    "candidates": 6,
+    "passed": 6,
+    "failed": 0,
+    "binary": 0,
+    "structuralSkipped": 0
+  },
+  "pass": true
+}

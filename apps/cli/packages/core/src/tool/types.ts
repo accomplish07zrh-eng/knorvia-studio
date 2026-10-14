@@ -1,6 +1,5 @@
-// ============================================================
-// Tool Types - Core tool types for registry and executor
-// ============================================================
+// 工具类型定义：注册表与执行器共用的核心类型。
+// 本文件只声明类型与常量，不含实现；行为口径见同目录各模块与本包 behavior.md。
 
 import type {
   ExecutionShellSelection,
@@ -58,9 +57,7 @@ import type {
 import type { PersistedReadFileStateMetadata } from "./read-file-state-metadata.js";
 import type { RuntimeTaskRegistry } from "../runtime-task/registry.js";
 
-// -----------------------------------------------
-// Tool Metadata
-// -----------------------------------------------
+// ── 工具元数据 ──
 
 export interface ToolMetadata {
   name: string;
@@ -93,9 +90,7 @@ export interface ToolMetadata {
   };
 }
 
-// -----------------------------------------------
-// Tool Execution Context
-// -----------------------------------------------
+// ── 工具执行上下文 ──
 
 export type ToolRuntimeScope = "main" | "subagent";
 
@@ -215,9 +210,7 @@ export interface ReadFileStateEntry {
 
 export type ReadFileStateMap = Map<string, ReadFileStateEntry>;
 
-// -----------------------------------------------
-// Tool Handler
-// -----------------------------------------------
+// ── 工具处理器 ──
 
 // tool handler 用该返回值表达可预期业务失败；成功 output 不使用此保留形状。
 export interface ToolHandlerFailure {
@@ -232,10 +225,9 @@ export interface ToolInputValidationContext {
 
 export type ToolInputValidationResult = { result: true } | ToolHandlerFailure;
 
-/**
- * {@link ToolEntry.resolveInput} 的上下文。窄到只有解析真正需要的东西——工作目录是「项目内
- * 的东西住在哪」的唯一入口，再多给就会把一个归一化钩子变成第二个执行入口。
- */
+// {@link ToolEntry.resolveInput} 的入参上下文。
+// 只带解析真正需要的东西：工作目录是「项目内的东西住在哪」的唯一来源；
+// 再宽一点，这个归一化钩子就会长成第二个执行入口。
 export interface ToolInputResolutionContext {
   workingDirectory?: string;
   runtimeTaskRegistry?: RuntimeTaskRegistry;
@@ -262,9 +254,7 @@ export type ToolHandler<TInput = unknown, TOutput = unknown> = (
   context: ToolExecutionContext,
 ) => Promise<TOutput>;
 
-// -----------------------------------------------
-// Tool Entry
-// -----------------------------------------------
+// ── 工具条目 ──
 
 export interface ToolEntry extends ToolContractDeclaration {
   /** 仅宿主注册时写入：明确要求用户应答的接管操作，不能由自动 hook 或持久规则授予。 */
@@ -395,9 +385,7 @@ export interface ToolExecutionModelContext {
   model?: Model;
 }
 
-// -----------------------------------------------
-// Execution Results
-// -----------------------------------------------
+// ── 执行结果 ──
 
 export interface ToolExecutionResult {
   toolCallId: string;
@@ -457,9 +445,7 @@ export interface ToolBatchResult {
   allSucceeded: boolean;
 }
 
-// -----------------------------------------------
-// Executable Tool Call
-// -----------------------------------------------
+// ── 可执行工具调用 ──
 
 export interface ExecutableToolCall {
   id: string;
@@ -467,9 +453,7 @@ export interface ExecutableToolCall {
   input: unknown;
 }
 
-// -----------------------------------------------
-// Batch Events
-// -----------------------------------------------
+// ── 批次事件 ──
 
 export type ToolBatchEvent =
   | { type: "batch_start"; parallelGroupIndex: number; toolCallIds: string[] }
