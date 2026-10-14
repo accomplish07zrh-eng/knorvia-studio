@@ -31,35 +31,36 @@ export class McpConnections {
   constructor(readonly state: McpClientState) {}
 
   async connect(
-    name: string,
-    config: McpServerConfig,
+    /* 服务名 */ name: string,
+    /* 服务配置 */ config: McpServerConfig,
     options: McpConnectOptions = {},
   ): Promise<McpServerStatus> {
-    const state = this.state;
+    const sessionState = this.state;
     const started = Date.now();
-    const timeoutMs = config.timeoutMs ?? DEFAULT_CONNECTION_MS;
-    const generation = state.advance(name);
-    state.authFailures.delete(name);
-    state.diagnostics.delete(name);
-    state.logger?.info("MCP server connection started", {
-      event: "mcp.server.connect.started",
+    const budgetMs = config.timeoutMs ?? DEFAULT_CONNECTION_MS;
+    const generation = sessionState.advance(name);
+    sessionState.authFailures.delete(name);
+    sessionState.diagnostics.delete(name);
+    sessionState.logger?.info("MCP server connection started", {
+      event: /* 连接开始 */ "mcp.server.connect.started",
       mcpServerName: name,
-      status: "started",
-      timeoutMs,
+      status: /* 已开始 */ "started",
+      timeoutMs: budgetMs,
       transport: config.type,
     });
-    await closeRecord(state, name);
-    if (config.enabled === false) {
+    await closeRecord(sessionState, name);
+    const disabled = config.enabled === false;
+    if (disabled) {
       const status = statusValue(config, "disabled");
-      state.records.set(name, { config, status, tools: [] });
-      state.logger?.info("MCP server connection skipped", {
+      sessionState.records.set(name, { config, status, tools: /* 未连接无工具 */ [] });
+      sessionState.logger?.info("MCP server connection skipped", {
         durationMs: Date.now() - started,
-        event: "mcp.server.connect.skipped",
+        event: /* 因禁用被跳过 */ "mcp.server.connect.skipped",
         mcpServerName: name,
-        status: "completed",
+        status: /* 无需连接 */ "completed",
         transport: config.type,
       });
-      return status;
+      return /* 直接返回禁用状态 */ status;
     }
     const owner = new AbortController();
     const forward = () =>
@@ -67,65 +68,68 @@ export class McpConnections {
     if (options.signal?.aborted) forward();
     else options.signal?.addEventListener("abort", forward, { once: true });
     const record: ServerRecord = {
-      config,
+      config: /* 待连接的配置 */ config,
       status: statusValue(config, "connecting"),
-      tools: [],
+      tools: /* 握手完成后才填充 */ [],
       owner,
     };
-    state.records.set(name, record);
+    sessionState.records.set(name, record);
     record.pending = this.open(
-      establishment(name, config, generation, timeoutMs, owner.signal, options.workingDirectory),
+      establishment(name, config, generation, budgetMs, owner.signal, options.workingDirectory),
     ).finally(() => {
       options.signal?.removeEventListener("abort", forward);
     });
-    return waitForRecord(state, name, record, options);
+    return waitForRecord(sessionState, name, record, options);
   }
 
   async open(attempt: Establishment): Promise<McpServerStatus> {
-    const state = this.state;
-    const { name, config, generation, timeoutMs, signal } = attempt;
+    const sessionState = this.state;
+    const { name, config, generation, timeoutMs: budgetMs, signal } = attempt;
     let fallback: McpServerFailureKind =
-      config.type === "stdio" ? "process_start_failed" : "network_unreachable";
+      /* stdio 归进程启动失败，其余归网络不可达 */ config.type === "stdio"
+        ? "process_start_failed"
+        : "network_unreachable";
     try {
-      const transport = createTransport(
-        state,
-        name,
-        config,
-        generation,
-        signal,
+      const wire = createTransport(
+        /* 状态 */ sessionState,
+        /* 服务名 */ name,
+        /* 配置 */ config,
+        /* 代次 */ generation,
+        /* 取消信号 */ signal,
         attempt.workingDirectory,
       );
-      attempt.transport = transport;
-      attempt.stderr.attach(transport, name, state.logger);
-      const versionNegotiation = negotiation(config, timeoutMs);
-      const client = new Client(
-        { name: state.clientName, version: state.clientVersion },
+      attempt.transport = wire;
+      attempt.stderr.attach(wire, name, sessionState.logger);
+      const versionNegotiation = negotiation(config, budgetMs);
+      const mcpClient = new Client(
+        { name: sessionState.clientName, version: sessionState.clientVersion },
         { versionNegotiation },
       );
-      attempt.client = client;
-      const current = state.records.get(name);
-      if (state.current(name, generation) && current) {
-        current.client = client;
-        current.transport = transport;
+      attempt.client = mcpClient;
+      const existing = sessionState.records.get(name);
+      if (sessionState.current(name, generation) && existing) {
+        existing.client = mcpClient;
+        existing.transport = wire;
       }
       const connecting = Date.now();
+      /* 握手阶段：统一超时 + 取消透传 */
       await withTimeout(
-        client.connect(transport),
-        timeoutMs,
-        `MCP server ${name} connection timed out after ${timeoutMs}ms`,
-        signal,
+        mcpClient.connect(wire),
+        budgetMs,
+        `MCP server ${name} connection timed out after ${budgetMs}ms`,
+        /* 取消信号 */ signal,
       );
       attempt.connectDurationMs = Date.now() - connecting;
       fallback = "tool_list_failed";
       const listing = Date.now();
       const result = await withTimeout(
-        client.listTools(),
-        timeoutMs,
-        `MCP server ${name} tool listing timed out after ${timeoutMs}ms`,
+        /* 工具清单拉取同样受超时约束 */ mcpClient.listTools(),
+        budgetMs,
+        `MCP server ${name} tool listing timed out after ${budgetMs}ms`,
         signal,
       );
       attempt.listToolsDurationMs = Date.now() - listing;
-      const tools = result.tools.map((tool) =>
+      const toolDescriptors = result.tools.map((tool) =>
         normalizeMcpToolDescriptor(
           name,
           tool,
@@ -133,32 +137,41 @@ export class McpConnections {
           config.type === "http" && config.auth?.type === KNORVIA_OFFICIAL_MCP_AUTH_TYPE,
         ),
       );
-      const protocolEra = client.getProtocolEra();
-      const protocolVersion = client.getNegotiatedProtocolVersion();
-      const status = statusValue(config, "connected", { toolCount: tools.length, protocolEra });
-      if (!state.current(name, generation)) {
-        await closeHandles(state, name, client, transport);
-        return state.snapshot(name, status);
+      const protocolEra = mcpClient.getProtocolEra();
+      const protocolVersion = mcpClient.getNegotiatedProtocolVersion();
+      const status = statusValue(config, "connected", {
+        toolCount: toolDescriptors.length,
+        protocolEra,
+      });
+      if (!sessionState.current(name, generation)) {
+        await closeHandles(sessionState, name, mcpClient, wire);
+        return sessionState.snapshot(name, status);
       }
-      state.diagnostics.delete(name);
-      state.records.set(name, { config, status, tools, client, transport });
-      const pid = transportPid(transport);
+      sessionState.diagnostics.delete(name);
+      sessionState.records.set(name, {
+        config,
+        status,
+        tools: toolDescriptors,
+        client: mcpClient,
+        transport: wire,
+      });
+      const pid = transportPid(wire);
       const identity =
-        pid !== undefined && state.context
-          ? state.telemetry?.recordProcessStarted({
-              connectionId: state.context.mcpConnectionId,
+        pid !== undefined && sessionState.context
+          ? sessionState.telemetry?.recordProcessStarted({
+              connectionId: sessionState.context.mcpConnectionId,
               pid,
             })
           : undefined;
-      watchEstablished(state, attempt, client, transport, identity, pid);
-      state.logger?.info("MCP server connected", {
-        ...state.context,
+      watchEstablished(sessionState, attempt, mcpClient, wire, identity, pid);
+      sessionState.logger?.info("MCP server connected", {
+        ...sessionState.context,
         connectDurationMs: attempt.connectDurationMs,
         durationMs: Date.now() - attempt.started,
-        event: "mcp.server.connected",
+        event: /* 连接成功 */ "mcp.server.connected",
         listToolsDurationMs: attempt.listToolsDurationMs,
-        mcpClientName: state.clientName,
-        mcpClientVersion: state.clientVersion,
+        mcpClientName: sessionState.clientName,
+        mcpClientVersion: sessionState.clientVersion,
         mcpProtocolEra: protocolEra ?? "unknown",
         mcpProtocolVersion: protocolVersion ?? "unknown",
         mcpServerName: name,
@@ -168,25 +181,33 @@ export class McpConnections {
           typeof versionNegotiation.mode === "object"
             ? versionNegotiation.mode.pin
             : versionNegotiation.mode,
-        status: "completed",
-        toolCount: tools.length,
+        status: /* 完成 */ "completed",
+        toolCount: toolDescriptors.length,
         transport: config.type,
       });
       return status;
-    } catch (error) {
+    } catch (failure) {
       const trigger = !attempt.authorizationAttempted
-        ? classifyInteractiveAuthorizationTrigger(error)
+        ? classifyInteractiveAuthorizationTrigger(failure)
         : undefined;
       const code = trigger && config.type !== "stdio" ? authorizationCode(config) : undefined;
       if (trigger && code && config.type !== "stdio") {
-        await closeHandles(state, name, attempt.client, attempt.transport);
-        const outcome = await authorize(state, name, config, code, generation, trigger, signal);
+        await closeHandles(sessionState, name, attempt.client, attempt.transport);
+        const outcome = await authorize(
+          sessionState,
+          name,
+          config,
+          code,
+          generation,
+          trigger,
+          signal,
+        );
         if (outcome.status === "authorized" || outcome.status === "already-authorized") {
           const retry = establishment(
             name,
             config,
             generation,
-            timeoutMs,
+            budgetMs,
             signal,
             attempt.workingDirectory,
           );
@@ -194,47 +215,47 @@ export class McpConnections {
           return this.open(retry);
         }
         return failEstablishment(
-          state,
+          sessionState,
           { ...attempt, client: undefined, transport: undefined },
           authorizationFailure(name, outcome),
           "oauth_authorization_failed",
         );
       }
       return failEstablishment(
-        state,
+        sessionState,
         attempt,
-        error,
-        protocolFailure(error) ? "protocol_negotiation_failed" : fallback,
+        failure,
+        protocolFailure(failure) ? "protocol_negotiation_failed" : fallback,
       );
     }
   }
 
   recoverAuthorization(
-    name: string,
-    previous: ServerRecord,
-    trigger: InteractiveAuthorizationTrigger,
-    error: unknown,
+    /* 服务名 */ name: string,
+    /* 失败前的服务器记录 */ previous: ServerRecord,
+    /* 触发交互授权的原因 */ trigger: InteractiveAuthorizationTrigger,
+    /* 原始失败 */ error: unknown,
   ): Promise<McpServerStatus> {
-    const state = this.state;
+    const sessionState = this.state;
     const config = previous.config;
     const code = authorizationCode(config);
     if (config.type === "stdio" || !code) throw error;
-    const current = state.records.get(name);
+    const ongoing = sessionState.records.get(name);
     if (
-      current?.pending &&
-      current.status.status === "connecting" &&
-      isDeepStrictEqual(current.config, config)
+      ongoing?.pending &&
+      ongoing.status.status === "connecting" &&
+      isDeepStrictEqual(ongoing.config, config)
     )
-      return current.pending;
-    const generation = state.advance(name);
+      return ongoing.pending;
+    const generation = sessionState.advance(name);
     const owner = new AbortController();
     const record: ServerRecord = {
-      config,
+      config: /* 沿用原配置 */ config,
       status: statusValue(config, "connecting", { toolCount: previous.tools.length }),
-      tools: previous.tools,
+      tools: /* 沿用失败前已知的工具列表 */ previous.tools,
       owner,
     };
-    state.records.set(name, record);
+    sessionState.records.set(name, record);
     const attempt = establishment(
       name,
       config,
@@ -244,9 +265,9 @@ export class McpConnections {
     );
     record.pending = (async () => {
       try {
-        await closeHandles(state, name, previous.client, previous.transport);
+        await closeHandles(sessionState, name, previous.client, previous.transport);
         const outcome = await authorize(
-          state,
+          sessionState,
           name,
           config,
           code,
@@ -259,13 +280,13 @@ export class McpConnections {
           return await this.open(attempt);
         }
         return await failEstablishment(
-          state,
+          sessionState,
           attempt,
           authorizationFailure(name, outcome),
           "oauth_authorization_failed",
         );
       } catch (failure) {
-        return failEstablishment(state, attempt, failure, "oauth_authorization_failed");
+        return failEstablishment(sessionState, attempt, failure, "oauth_authorization_failed");
       }
     })();
     return record.pending;
