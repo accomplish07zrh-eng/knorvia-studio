@@ -1,28 +1,28 @@
 // Copyright (c) Knorvia contributors
 // SPDX-License-Identifier: MIT
 
-type WindowsJobHandle = object;
+type WindowsJobHandle = object; // Win32 句柄（koffi 的 opaque 指针），不透明类型。
 
 export interface WindowsJobObjectController {
-  terminate(): void;
-  close(): void;
+  terminate(): void; // 终止整个任务对象（连带其进程）。
+  close(): void; // 释放控制器持有的句柄。
 }
 
 interface WindowsJobObjectApi {
-  create(): WindowsJobHandle | undefined;
-  assign(job: WindowsJobHandle, pid: number): boolean;
-  terminate(job: WindowsJobHandle): void;
-  close(job: WindowsJobHandle): void;
+  create(): WindowsJobHandle | undefined; // 创建任务对象；平台不支持时返回 undefined。
+  assign(job: WindowsJobHandle, pid: number): boolean; // 把进程加入任务对象。
+  terminate(job: WindowsJobHandle): void; // 终止任务对象及其中的进程。
+  close(job: WindowsJobHandle): void; // 关闭任务对象句柄。
 }
 
 interface AttachOptions {
-  api?: WindowsJobObjectApi;
-  platform?: NodeJS.Platform;
+  api?: WindowsJobObjectApi; // 注入原生 API（测试用替身）。
+  platform?: NodeJS.Platform; // 覆盖平台判定（测试用）。
 }
 
-const KILL_ON_JOB_CLOSE = 0x2000;
-const EXTENDED_LIMIT_INFORMATION_CLASS = 9;
-const PROCESS_SET_QUOTA = 0x0100;
+const KILL_ON_JOB_CLOSE = 0x2000; // JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE：句柄关闭即杀掉进程。
+const EXTENDED_LIMIT_INFORMATION_CLASS = 9; // JobObjectExtendedLimitInformation：SetInformationJobObject 的信息类。
+const PROCESS_SET_QUOTA = 0x0100; // OpenProcess 需要的 PROCESS_SET_QUOTA 权限。
 const PROCESS_TERMINATE = 0x0001;
 const TERMINATION_EXIT_CODE = 1;
 let nativeApiPromise: Promise<WindowsJobObjectApi | undefined> | undefined;
