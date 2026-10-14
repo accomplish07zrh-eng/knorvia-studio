@@ -10,6 +10,7 @@ import { addArtifact, updateGraphNode, upsertActivity } from "./graph.js";
 import {
   activeActivity,
   activeActivityOf,
+  anyActivityOf,
   completedActivity,
   failedActivity,
   linkChildSession,
@@ -191,7 +192,7 @@ const finishFailed = async (
   const input = activityInput(ctx, traceContext?.traceId);
   const activity = failedActivity(
     input,
-    activeActivityOf(current, ctx.activityId),
+    anyActivityOf(current, ctx.activityId),
     status,
     message,
     ctx.runtime.eventLog.timestamp(),

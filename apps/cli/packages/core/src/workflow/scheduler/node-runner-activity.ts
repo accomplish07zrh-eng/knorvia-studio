@@ -106,6 +106,10 @@ export const activeActivityOf = (snapshot: Snap, activityId: string): Activity |
   return found && found.status === "active" ? found : undefined;
 };
 
+/** 按 id 查找活动（不要求 active）：失败路径要保留已链接的模型/会话/回合。 */
+export const anyActivityOf = (snapshot: Snap, activityId: string): Activity | undefined =>
+  snapshot.activities.find((activity) => activity.activityId === activityId);
+
 /** 子会话链接：更新活动并把新快照落盘、发 workflow_session_linked 事件。 */
 export const linkChildSession = async (args: {
   access: { getSnapshot: () => Snap; setSnapshot: (next: Snap) => Snap };

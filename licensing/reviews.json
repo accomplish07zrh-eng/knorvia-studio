@@ -77813,7 +77813,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "e60f537653547bd21d1e190d3d68ac2178e80a8fc731aef396cff8896cfa6ff6",
+      "normalizedSha256": "b4d2aafef9425a171235fb8d683d9332f8a6be88f85e6dfba54f87d67a9587fe",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "本文件属本包替换范围的证据刷新（范围化 re-pin）：仅刷新 core-03 自有工件的 sha 记录、selector sha 与产出对象键序，未改变上游证据语义；非 core-03 条目与全部 -baseline.json 一律未动。",
