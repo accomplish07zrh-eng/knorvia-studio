@@ -14,7 +14,7 @@ type Activity = Parameters<ExpertWorkflowRuntimeContext["upsertActivity"]>[1];
 const startedAtOf = (state: Run, activityId: string, fallback: string): string =>
   state.activities.find((entry) => entry.activityId === activityId)?.startedAt ?? fallback;
 
-/** 完成态活动字段表。 */
+/** 完成态活动字段表：模型插在 kind 之后，键序即落库键序。 */
 const completedActivityFields = (
   activityId: string,
   artifactPath: string,
@@ -32,6 +32,9 @@ const completedActivityFields = (
     ["completedAt", now],
     ["inputArtifactPaths", inputs],
     ["kind", "agent_session"],
+  ];
+  if (result.model) rows.push(["model", result.model]);
+  rows.push(
     ["nodeId", phaseNodeId(phase.phase)],
     ["outputArtifactPaths", [artifactPath]],
     ["parentSessionId", started.sessionId],
@@ -41,8 +44,7 @@ const completedActivityFields = (
     ["status", "completed"],
     ["traceId", traceId],
     ["turnId", result.turnId],
-  ];
-  if (result.model !== undefined) rows.push(["model", result.model]);
+  );
   return rows;
 };
 
@@ -109,7 +111,7 @@ export async function completePhaseRun(
   return completedSnapshot;
 }
 
-/** 失败态活动字段表：只保留已有活动里能带过来的字段。 */
+/** 失败态活动字段表：只保留已有活动里能带过来的字段，缺省字段按既有键位插入。 */
 const failedActivityFields = (
   activityId: string,
   inputs: readonly string[],
@@ -126,17 +128,17 @@ const failedActivityFields = (
     ["error", errorMessage],
     ["inputArtifactPaths", inputs],
     ["kind", "agent_session"],
+  ];
+  if (current?.model) rows.push(["model", current.model]);
+  rows.push(
     ["nodeId", phaseNodeId(phase.phase)],
     ["outputArtifactPaths", []],
     ["parentSessionId", started.sessionId],
     ["phase", phase.phase],
-    ["startedAt", current?.startedAt ?? now],
-    ["status", "failed"],
-    ["traceId", traceId],
-  ];
-  if (current?.model !== undefined) rows.push(["model", current.model]);
-  if (current?.sessionId !== undefined) rows.push(["sessionId", current.sessionId]);
-  if (current?.turnId !== undefined) rows.push(["turnId", current.turnId]);
+  );
+  if (current?.sessionId) rows.push(["sessionId", current.sessionId]);
+  rows.push(["startedAt", current?.startedAt ?? now], ["status", "failed"], ["traceId", traceId]);
+  if (current?.turnId) rows.push(["turnId", current.turnId]);
   return rows;
 };
 
@@ -155,13 +157,15 @@ export async function failPhaseRun(
   const errorMessage = thrown instanceof Error ? thrown.message : String(thrown);
   const current = state.activities.find((entry) => entry.activityId === activityId);
   const traceId = current?.traceId ?? trace?.traceId;
-  const now = runtime.timestamp();
+  // 两个时间戳各自取样：相位补丁与活动记录之间还要隔一次 updatedAt 取样，时钟推进次数必须与既有实现一致。
+  const phaseCompletedAt = runtime.timestamp();
   const failedPhase = runtime.updatePhase(state, phase.phase, {
     activityId,
-    completedAt: now,
+    completedAt: phaseCompletedAt,
     error: errorMessage,
     status: "failed",
   });
+  const now = runtime.timestamp();
   const activity = Object.fromEntries(
     failedActivityFields(activityId, inputs, phase, started, current, errorMessage, traceId, now),
   ) as unknown as Activity;

@@ -14,12 +14,13 @@ export interface SnapshotCursor {
   current: Run;
 }
 
-/** 事件负载：活动、模型、会话与可选的 trace/turn 标识。 */
+/** 事件负载：活动 → 模型 → 会话 → trace/turn（键序即落库键序，缺省字段不出现）。 */
 const linkedPayload = (activityId: string, event: ChildSessionEvent): Record<string, unknown> => {
-  const payload: Record<string, unknown> = { activityId, sessionId: event.sessionId };
-  if (event.model !== undefined) payload.model = event.model;
-  if (event.traceId !== undefined) payload.traceId = event.traceId;
-  if (event.turnId !== undefined) payload.turnId = event.turnId;
+  const payload: Record<string, unknown> = { activityId };
+  if (event.model) payload.model = event.model;
+  payload.sessionId = event.sessionId;
+  if (event.traceId) payload.traceId = event.traceId;
+  if (event.turnId) payload.turnId = event.turnId;
   return payload;
 };
 
@@ -45,11 +46,13 @@ export const childSessionLinker =
       traceId,
       turnId,
     });
-    const nextActivity = { ...current, sessionId: event.sessionId, traceId, turnId };
-    cursor.current = runtime.upsertActivity(
-      linkedPhase,
-      event.model === undefined ? nextActivity : { ...nextActivity, model: event.model },
-    );
+    // 键序即落库键序：模型插在既有字段之后、会话字段之前，与录制的运行记录保持一致。
+    const linkedActivity: typeof current = { ...current };
+    if (event.model) linkedActivity.model = event.model;
+    linkedActivity.sessionId = event.sessionId;
+    linkedActivity.traceId = traceId;
+    linkedActivity.turnId = turnId;
+    cursor.current = runtime.upsertActivity(linkedPhase, linkedActivity);
 
     await runtime.store.writeSnapshot(cursor.current, { signal: options.abortSignal });
     await runtime.appendEvent(cursor.current.runId, "workflow_session_linked", {

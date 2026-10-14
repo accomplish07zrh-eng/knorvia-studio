@@ -30,15 +30,23 @@ const appendRecord = async (
   await journal.store.appendGraphRecord(runId, record, { signal: cancel });
 };
 
-/** meta 记录沿用既有形态：不带时间戳，只记录定义与策略。 */
+/** meta 记录沿用既有形态：不带时间戳，只记录定义与策略（键序即落库键序）。 */
 const appendMetaRecord = async (
   journal: JournalContext,
-  runId: string,
-  payload: Record<string, unknown>,
+  run: ExpertWorkflowRunSnapshot,
   cancel?: AbortSignal,
 ): Promise<void> => {
-  const record = { ...payload, recordType: "meta", runId } as unknown as GraphRecord;
-  await journal.store.appendGraphRecord(runId, record, { signal: cancel });
+  const record = {
+    createdAt: run.createdAt,
+    definitionId: run.definitionId,
+    definitionVersion: run.definitionVersion,
+    phaseOrder: run.phaseOrder,
+    recordType: "meta",
+    runId: run.runId,
+    schemaVersion: 1,
+    strategy: run.strategy,
+  } as unknown as GraphRecord;
+  await journal.store.appendGraphRecord(run.runId, record, { signal: cancel });
 };
 
 /** 初始图日志：先写 meta，再逐条写节点、边与集合。 */
@@ -48,19 +56,7 @@ export async function writeInitialGraph(
   cancel?: AbortSignal,
 ): Promise<void> {
   const runId = run.runId;
-  await appendMetaRecord(
-    journal,
-    runId,
-    {
-      createdAt: run.createdAt,
-      definitionId: run.definitionId,
-      definitionVersion: run.definitionVersion,
-      phaseOrder: run.phaseOrder,
-      schemaVersion: 1,
-      strategy: run.strategy,
-    },
-    cancel,
-  );
+  await appendMetaRecord(journal, run, cancel);
 
   const batches: readonly (readonly [string, readonly unknown[]])[] = [
     ["node", run.graph.nodes],
@@ -74,7 +70,7 @@ export async function writeInitialGraph(
   }
 }
 
-/** 节点状态日志：相位存在时一并写入，便于按相位回溯。 */
+/** 节点状态日志：相位存在时一并写入，记录键序与既有日志一致。 */
 export async function appendGraphNodeStatus(
   journal: JournalContext,
   run: ExpertWorkflowRunSnapshot,
@@ -83,13 +79,16 @@ export async function appendGraphNodeStatus(
   cancel?: AbortSignal,
   phaseName?: string,
 ): Promise<void> {
-  await appendRecord(
-    journal,
-    run.runId,
-    "op",
-    { nodeId: targetNodeId, phase: phaseName, status, type: "update_status" },
-    cancel,
-  );
+  const record = {
+    nodeId: targetNodeId,
+    phase: phaseName,
+    recordType: "op",
+    runId: run.runId,
+    status,
+    timestamp: journal.timestamp(),
+    type: "update_status",
+  } as unknown as GraphRecord;
+  await journal.store.appendGraphRecord(run.runId, record, { signal: cancel });
 }
 
 /** 相位状态日志：节点 id 由相位名派生。 */

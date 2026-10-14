@@ -26,7 +26,7 @@ export interface EventContext {
 /** 可选字段键：只有这些键允许缺省，其余字段必须始终出现。 */
 const OPTIONAL_KEYS: ReadonlySet<string> = new Set(["message", "nodeId", "payload", "phase"]);
 
-/** 事件行表：固定字段与可选字段同表，落库前过滤掉未提供的可选值。 */
+/** 事件行表：按落库键序排列，固定字段与可选字段同表，落库前过滤掉未提供的可选值。 */
 const eventRows = (
   runtime: EventContext,
   targetRunId: string,
@@ -36,13 +36,13 @@ const eventRows = (
   (
     [
       ["kind", runtime.definition.kind],
-      ["runId", targetRunId],
-      ["timestamp", runtime.timestamp()],
-      ["type", eventType],
       ["message", input.message],
       ["nodeId", input.nodeId],
       ["payload", input.payload],
       ["phase", input.phase],
+      ["runId", targetRunId],
+      ["timestamp", runtime.timestamp()],
+      ["type", eventType],
     ] as readonly (readonly [string, unknown])[]
   ).filter(([key, value]) => !OPTIONAL_KEYS.has(key) || value !== undefined);
 
