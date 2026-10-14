@@ -9,6 +9,7 @@ import {
   isCancellable,
   withLinks,
   withNodes,
+  withPhases,
 } from "./lifecycle-shared.js";
 import { accumulator, type WorkflowSnapshotLifecycleResult } from "./lifecycle-resume.js";
 
@@ -23,14 +24,15 @@ export type CancelWorkflowSnapshotOptions = Partial<{ reason: string }> & { time
 /** 是否有任何条目被改动。 */
 const hasChanges = (counts: readonly number[]): boolean => counts.some((count) => count > 0);
 
-/** 取消态快照：节点/活动投影后补 completedAt 与 status。 */
+/** 取消态快照：节点/相位/活动投影后补 completedAt 与 status。 */
 const cancelledSnapshot = <T extends Snap>(
   snapshot: T,
   nodes: Node[],
+  phases: Phase[],
   activities: Activity[],
   at: string,
 ): T =>
-  Object.assign({}, withLinks(withNodes(snapshot, nodes), activities, at), {
+  Object.assign({}, withLinks(withPhases(withNodes(snapshot, nodes), phases), activities, at), {
     completedAt: at,
     status: "cancelled" as const,
   }) as T;
@@ -66,6 +68,6 @@ export function cancelWorkflowSnapshot<T extends Snap>(
   return {
     ...acc,
     changed,
-    snapshot: cancelledSnapshot(snapshot, nodes, activities, at),
+    snapshot: cancelledSnapshot(snapshot, nodes, phases, activities, at),
   };
 }

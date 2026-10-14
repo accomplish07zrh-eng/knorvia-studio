@@ -44,6 +44,10 @@ export const withLinks = <T extends Snap>(snapshot: T, activities: Activity[], a
     updatedAt: at,
   }) as T;
 
+/** 相位投影：只换相位列表（取消与恢复修复都要重写相位状态）。 */
+export const withPhases = <T extends Snap>(snapshot: T, phases: Phase[]): T =>
+  Object.assign({}, snapshot, { phases }) as T;
+
 /** 取消态节点：写错误原因并置为 cancelled。 */
 export const cancelledNode = (node: Node, reason: string): Node =>
   Object.assign({}, node, { error: reason, status: "cancelled" as const });

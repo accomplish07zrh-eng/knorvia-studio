@@ -8,6 +8,7 @@ import {
   pendingPhase,
   withLinks,
   withNodes,
+  withPhases,
   type WorkflowGraphNodeChange,
 } from "./lifecycle-shared.js";
 
@@ -88,9 +89,6 @@ export function reconcileWorkflowSnapshotForResume<T extends Snap>(
 
   const changed = acc.nodeChanges.length + acc.phaseIds.length + acc.activityIds.length > 0;
   if (!changed) return { ...acc, changed, snapshot };
-  return {
-    ...acc,
-    changed,
-    snapshot: withLinks(withNodes(snapshot, nodes as Node[]), activities, opts.timestamp),
-  };
+  const repaired = withLinks(withNodes(snapshot, nodes as Node[]), activities, opts.timestamp);
+  return { ...acc, changed, snapshot: withPhases(repaired, phases) };
 }
