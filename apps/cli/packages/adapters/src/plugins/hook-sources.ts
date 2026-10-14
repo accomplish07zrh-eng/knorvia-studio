@@ -8,18 +8,18 @@ import { diagnostic } from "./discovery-diagnostics.js";
 import type { LoadedPlugin } from "./types.js";
 
 interface PluginHookSource {
-  rawHooks: unknown;
-  sourcePath: string;
-  wrapper: boolean;
+  /* hooks 声明原文 */ rawHooks: unknown;
+  /* 声明所在的文件路径 */ sourcePath: string;
+  /* 是否来自 hooks 包装层 */ wrapper: boolean;
 }
 interface SourceInput {
-  diagnostics: PluginDiagnostic[];
-  loaded: LoadedPlugin;
+  /* 诊断收集器 */ diagnostics: PluginDiagnostic[];
+  /* 已装载的插件上下文 */ loaded: LoadedPlugin;
 }
 
 export function listPluginHookSources({ diagnostics, loaded }: SourceInput): PluginHookSource[] {
   const result: PluginHookSource[] = [];
-  const seen = new Set<string>();
+  const visited = new Set<string>();
   const add = (rawHooks: unknown, sourcePath: string): void => {
     if (!isRecord(rawHooks)) {
       diagnostic(
@@ -36,12 +36,12 @@ export function listPluginHookSources({ diagnostics, loaded }: SourceInput): Plu
   const file = (path: string, optional: boolean): void => {
     try {
       const canonical = realpathSync(path);
-      if (seen.has(canonical)) return;
-      seen.add(canonical);
+      if (visited.has(canonical)) return;
+      visited.add(canonical);
       const value: unknown = JSON.parse(readFileSync(path, "utf8"));
       add(value, path);
-    } catch (error) {
-      if (!optional || !isNotFoundError(error))
+    } catch (failure) {
+      if (!optional || !isNotFoundError(failure))
         diagnostic(
           diagnostics,
           "plugin_hook_read_failed",
