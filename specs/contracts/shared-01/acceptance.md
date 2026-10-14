@@ -36,9 +36,8 @@ node scripts/contract-gate.mjs --contract specs/contracts/shared-01 --tests "*.t
 | 桩替换（27 个模块路径，import 即抛 `not implemented: shared-01`）   |     6 |    0 |    6 | `allFail=true`：测试确实测到公开行为 |
 
 - 预登记差异：**无**（56/56 全过，没有放宽或跳过的断言）。
-- 运行基线：`gate-old.json` 记录的 `commit = aadcabcf`（合同分支合入含 #151（M0-10 收录修复）
-  与 #119（M0-11）的最新 main 之后的 HEAD，合同文件处于已提交状态；记录文件本身随后落盘，
-  除此之外合同未再改动）。
+- 运行基线：以 `gate-old.json` 的 `commit` 字段为准（在合同分支合入最新 main 之后的 HEAD 上运行，
+  合同文件处于已提交状态；`gate-old.json` 与本记录随后落盘，除此之外合同未再改动）。
 - 完整报告见 [`gate-old.json`](gate-old.json)（含两入口输出尾部与桩替换输出尾部）。
 - 录制口径：金样全部由旧实现录制（临时脚本 `record-shared01-fixtures.mjs` 按 Lead 的
   临时脚本口径留在执行工作区 `.scratch-exec4/`，不入库）；`encode-cases`/`measure-cases`/
