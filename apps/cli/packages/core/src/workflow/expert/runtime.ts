@@ -1,15 +1,16 @@
-import type {
-  SessionEvent,
-  TraceContext,
-  WorkflowEvent,
-  WorkflowRunListItem,
-} from "@knorvia/contracts";
-import { cancelWorkflowSnapshot, reconcileWorkflowSnapshotForResume } from "../lifecycle.js";
-import { formatExpertWorkflowStatus } from "./formatters.js";
-import { isTerminalStatus } from "./ids.js";
-import { prepareSnapshotForRetry } from "./retry-state.js";
-import { continueRun } from "./run-loop.js";
-import { ExpertWorkflowRuntimeContext, lifecyclePayload } from "./runtime-context.js";
+// SPDX-License-Identifier: Apache-2.0
+// 专家工作流运行时：对外命令入口；实现与结果构造见 runtime-runs.ts。
+import { ExpertWorkflowRuntimeContext } from "./runtime-context.js";
+import {
+  cancelRunCommand,
+  eventsOf,
+  listOf,
+  resumeRun,
+  retryRun,
+  startRun,
+  startRunInBackground,
+  statusOf,
+} from "./runtime-runs.js";
 import type {
   ExpertWorkflowCommandResult,
   ExpertWorkflowEventsOptions,
@@ -19,218 +20,65 @@ import type {
   ExpertWorkflowRunOptions,
   ExpertWorkflowRuntimeDeps,
 } from "./types.js";
+import type {
+  SessionEvent,
+  TraceContext,
+  WorkflowEvent,
+  WorkflowRunListItem,
+} from "@knorvia/contracts";
 
+type Command = ExpertWorkflowCommandResult;
+type ResumeInput = ExpertWorkflowLookupOptions & {
+  onEvent?: (event: SessionEvent) => void | Promise<void>;
+  traceContext?: TraceContext;
+};
+
+/** 专家工作流运行时：持有上下文，把每条命令分派给 runtime-runs.ts。 */
 export class ExpertWorkflowRuntime {
   private readonly ctx: ExpertWorkflowRuntimeContext;
 
-  constructor(deps: ExpertWorkflowRuntimeDeps) {
-    this.ctx = new ExpertWorkflowRuntimeContext(deps);
+  constructor(runtimeDeps: ExpertWorkflowRuntimeDeps) {
+    this.ctx = new ExpertWorkflowRuntimeContext(runtimeDeps);
   }
 
-  async start(options: ExpertWorkflowRunOptions): Promise<ExpertWorkflowCommandResult> {
-    const snapshot = this.ctx.createInitialSnapshot(options);
-    await this.ctx.store.writeSnapshot(snapshot, { signal: options.abortSignal });
-    await this.ctx.writeInitialGraph(snapshot, options.abortSignal);
-    await this.ctx.appendEvent(snapshot.runId, "run_started", {
-      message: `${this.ctx.definition.title} started.`,
-      signal: options.abortSignal,
-    });
-    const registration = this.ctx.registerRunAbortSignal(snapshot.runId, options.abortSignal);
-    try {
-      return await continueRun(this.ctx, snapshot, {
-        ...options,
-        abortSignal: registration.signal,
-      });
-    } finally {
-      registration.dispose();
-    }
+  /** 前台启动：写初始快照与图，注册取消信号后跑完整循环。 */
+  async start(input: ExpertWorkflowRunOptions): Promise<Command> {
+    return await startRun(this.ctx, input);
   }
 
-  async startBackground(options: ExpertWorkflowRunOptions): Promise<ExpertWorkflowCommandResult> {
-    const snapshot = this.ctx.createInitialSnapshot(options);
-    await this.ctx.store.writeSnapshot(snapshot, { signal: options.abortSignal });
-    await this.ctx.writeInitialGraph(snapshot, options.abortSignal);
-    await this.ctx.appendEvent(snapshot.runId, "run_started", {
-      message: `${this.ctx.definition.title} started.`,
-      signal: options.abortSignal,
-    });
-    const running = this.ctx.updateSnapshot(snapshot, {
-      startedAt: snapshot.startedAt ?? this.ctx.timestamp(),
-      status: "running",
-    });
-    await this.ctx.store.writeSnapshot(running, { signal: options.abortSignal });
-    const registration = this.ctx.registerRunAbortSignal(snapshot.runId, options.abortSignal);
-    continueRun(this.ctx, running, {
-      ...options,
-      abortSignal: registration.signal,
-    })
-      .catch(async (error) => {
-        if (registration.signal.aborted) return;
-        await this.ctx.appendEvent(snapshot.runId, "run_failed", {
-          message: error instanceof Error ? error.message : String(error),
-        });
-      })
-      .finally(() => registration.dispose());
-    return {
-      response: formatExpertWorkflowStatus(running),
-      runId: running.runId,
-      snapshot: running,
-      status: running.status,
-      traceId: running.traceId,
-    };
+  /** 后台启动：立即返回 running，运行在后台继续，失败仅记事件。 */
+  async startBackground(input: ExpertWorkflowRunOptions): Promise<Command> {
+    return await startRunInBackground(this.ctx, input);
   }
 
-  async resume(
-    options: ExpertWorkflowLookupOptions & {
-      onEvent?: (event: SessionEvent) => void | Promise<void>;
-      traceContext?: TraceContext;
-    },
-  ): Promise<ExpertWorkflowCommandResult> {
-    const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) return { response: "No expert workflow found." };
-    if (isTerminalStatus(snapshot.status)) {
-      return {
-        response: formatExpertWorkflowStatus(snapshot),
-        runId: snapshot.runId,
-        snapshot,
-        status: snapshot.status,
-        traceId: snapshot.traceId,
-      };
-    }
-    const repair = reconcileWorkflowSnapshotForResume(snapshot, {
-      timestamp: this.ctx.timestamp(),
-    });
-    const resumed = {
-      ...repair.snapshot,
-      status: "running" as const,
-      updatedAt: this.ctx.timestamp(),
-    };
-    await this.ctx.store.writeSnapshot(resumed, { signal: options.abortSignal });
-    await this.ctx.appendLifecycleGraphChanges(resumed, repair.nodeChanges, options.abortSignal);
-    if (repair.changed) {
-      await this.ctx.appendEvent(resumed.runId, "graph_updated", {
-        message: "Workflow resume repaired stale active work.",
-        payload: lifecyclePayload(repair),
-        signal: options.abortSignal,
-      });
-    }
-    const registration = this.ctx.registerRunAbortSignal(resumed.runId, options.abortSignal);
-    try {
-      return await continueRun(this.ctx, resumed, {
-        abortSignal: registration.signal,
-        cwd: resumed.cwd,
-        onEvent: options.onEvent,
-        sessionId: resumed.sessionId,
-        task: resumed.task,
-        traceContext: options.traceContext,
-      });
-    } finally {
-      registration.dispose();
-    }
+  /** 恢复：终态直接回状态，否则修复陈旧活动后继续。 */
+  async resume(input: ResumeInput): Promise<Command> {
+    return await resumeRun(this.ctx, input);
   }
 
-  async status(options: ExpertWorkflowLookupOptions): Promise<ExpertWorkflowCommandResult> {
-    const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) return { response: "No expert workflow found." };
-    return {
-      reportPath: snapshot.reportPath,
-      response: formatExpertWorkflowStatus(snapshot),
-      runId: snapshot.runId,
-      snapshot,
-      status: snapshot.status,
-      traceId: snapshot.traceId,
-    };
+  /** 状态查询：返回格式化状态与报告路径。 */
+  async status(input: ExpertWorkflowLookupOptions): Promise<Command> {
+    return await statusOf(this.ctx, input);
   }
 
-  async retry(options: ExpertWorkflowRetryOptions): Promise<ExpertWorkflowCommandResult> {
-    const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) return { response: "No expert workflow found." };
-    if (snapshot.status === "completed" || snapshot.status === "cancelled") {
-      return {
-        response: formatExpertWorkflowStatus(snapshot),
-        runId: snapshot.runId,
-        snapshot,
-        status: snapshot.status,
-        traceId: snapshot.traceId,
-      };
-    }
-    const prepared = prepareSnapshotForRetry(this.ctx, snapshot, options);
-    await this.ctx.store.writeSnapshot(prepared.snapshot, { signal: options.abortSignal });
-    await this.ctx.appendLifecycleGraphChanges(
-      prepared.snapshot,
-      prepared.nodeChanges,
-      options.abortSignal,
-    );
-    await this.ctx.appendEvent(prepared.snapshot.runId, "workflow_retry_started", {
-      message: `${this.ctx.definition.title} retry started.`,
-      payload: {
-        activityId: options.activityId,
-        nodeId: options.nodeId,
-        phase: options.phase ?? prepared.snapshot.currentPhase,
-        resetNodeIds: prepared.nodeChanges.map((change) => change.nodeId),
-      },
-      phase: options.phase ?? prepared.snapshot.currentPhase,
-      signal: options.abortSignal,
-    });
-    const registration = this.ctx.registerRunAbortSignal(
-      prepared.snapshot.runId,
-      options.abortSignal,
-    );
-    try {
-      return await continueRun(this.ctx, prepared.snapshot, {
-        abortSignal: registration.signal,
-        cwd: prepared.snapshot.cwd,
-        onEvent: options.onEvent,
-        sessionId: prepared.snapshot.sessionId,
-        task: prepared.snapshot.task,
-        traceContext: options.traceContext,
-      });
-    } finally {
-      registration.dispose();
-    }
+  /** 重试：完成/取消直接回状态，否则重置失败节点后继续。 */
+  async retry(input: ExpertWorkflowRetryOptions): Promise<Command> {
+    return await retryRun(this.ctx, input);
   }
 
-  async cancel(options: ExpertWorkflowLookupOptions): Promise<ExpertWorkflowCommandResult> {
-    const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) return { response: "No expert workflow found." };
-    if (isTerminalStatus(snapshot.status)) {
-      return {
-        response: formatExpertWorkflowStatus(snapshot),
-        runId: snapshot.runId,
-        snapshot,
-        status: snapshot.status,
-        traceId: snapshot.traceId,
-      };
-    }
-    const repair = cancelWorkflowSnapshot(snapshot, { timestamp: this.ctx.timestamp() });
-    const cancelled = repair.snapshot;
-    await this.ctx.store.writeSnapshot(cancelled, { signal: options.abortSignal });
-    await this.ctx.appendLifecycleGraphChanges(cancelled, repair.nodeChanges, options.abortSignal);
-    await this.ctx.appendEvent(cancelled.runId, "run_cancelled", {
-      message: `${this.ctx.definition.title} cancelled.`,
-      payload: lifecyclePayload(repair),
-      signal: options.abortSignal,
-    });
-    this.ctx.activeRunAbortControllers.get(snapshot.runId)?.abort(new Error("Workflow cancelled"));
-    return {
-      response: formatExpertWorkflowStatus(cancelled),
-      runId: cancelled.runId,
-      snapshot: cancelled,
-      status: cancelled.status,
-      traceId: cancelled.traceId,
-    };
+  /** 取消：修复快照、落盘、发事件，并中止正在运行的控制器。 */
+  async cancel(input: ExpertWorkflowLookupOptions): Promise<Command> {
+    return await cancelRunCommand(this.ctx, input);
   }
 
-  async list(options: ExpertWorkflowListOptions): Promise<WorkflowRunListItem[]> {
-    return await this.ctx.store.listRuns(
-      { cwd: options.cwd, kind: this.ctx.definition.kind, limit: options.limit },
-      { signal: options.abortSignal },
-    );
+  /** 列表：按工作区与类型列出运行。 */
+  async list(input: ExpertWorkflowListOptions): Promise<WorkflowRunListItem[]> {
+    return await listOf(this.ctx, input);
   }
 
-  async events(options: ExpertWorkflowEventsOptions): Promise<WorkflowEvent[]> {
-    const events = await this.ctx.store.readEvents(options.runId, { signal: options.abortSignal });
-    return options.limit === undefined ? events : events.slice(-Math.max(0, options.limit));
+  /** 事件：按 runId 读取，limit 为从尾部截取的数量。 */
+  async events(input: ExpertWorkflowEventsOptions): Promise<WorkflowEvent[]> {
+    return await eventsOf(this.ctx, input);
   }
 }
 

@@ -1,140 +1,92 @@
-import { type ExpertWorkflowRunSnapshot, type WorkflowPhaseDefinition } from "@knorvia/contracts";
-import { WorkflowGraphScheduler } from "../scheduler.js";
+// SPDX-License-Identifier: Apache-2.0
+// 调度相位：把相位标记为 active、装配调度器依赖、执行调度循环，再交给收尾模块完成相位。
+import type { ExpertWorkflowRunSnapshot, WorkflowPhaseDefinition } from "@knorvia/contracts";
+import {
+  WorkflowGraphScheduler,
+  type WorkflowGraphSchedulerDeps,
+  type WorkflowGraphSchedulerRunOptions,
+} from "../scheduler.js";
 import { executableNodeIdsForPhase, safeArtifactName } from "./ids.js";
-import { parseWorkflowPlannerResult } from "./parsers/planner-result.js";
-import { buildScheduledNodePrompt, buildScheduledPhaseSummary } from "./prompts.js";
+import { buildScheduledNodePrompt } from "./prompts.js";
+import { completeScheduledPhase } from "./scheduled-phase-completion.js";
+import { nodeRunnerOf, plannerRunnerOf } from "./scheduled-phase-runners.js";
 import type { ExpertWorkflowRuntimeContext } from "./runtime-context.js";
 import type { ExpertWorkflowRunOptions } from "./types.js";
 
+/** 端口转发器：把门面的 store 端口适配成调度器需要的回调。 */
+const appendEventVia =
+  (runtime: ExpertWorkflowRuntimeContext) =>
+  (
+    event: Parameters<ExpertWorkflowRuntimeContext["store"]["appendEvent"]>[0],
+    eventOptions?: Parameters<ExpertWorkflowRuntimeContext["store"]["appendEvent"]>[1],
+  ) =>
+    runtime.store.appendEvent(event, eventOptions);
+
+const appendGraphRecordVia =
+  (runtime: ExpertWorkflowRuntimeContext) =>
+  (...args: Parameters<ExpertWorkflowRuntimeContext["store"]["appendGraphRecord"]>) =>
+    runtime.store.appendGraphRecord(...args);
+
+const writeArtifactVia =
+  (runtime: ExpertWorkflowRuntimeContext) =>
+  (...args: Parameters<ExpertWorkflowRuntimeContext["store"]["writeArtifact"]>) =>
+    runtime.store.writeArtifact(...args);
+
+const writeSnapshotVia =
+  (runtime: ExpertWorkflowRuntimeContext) =>
+  (...args: Parameters<ExpertWorkflowRuntimeContext["store"]["writeSnapshot"]>) =>
+    runtime.store.writeSnapshot(...args);
+
+/** 调度器依赖：端口全部来自门面，规划/节点运行器来自适配模块。 */
+const depsOf = (
+  runtime: ExpertWorkflowRuntimeContext,
+  phaseDefinition: WorkflowPhaseDefinition,
+): WorkflowGraphSchedulerDeps => ({
+  appendEvent: appendEventVia(runtime),
+  appendGraphRecord: appendGraphRecordVia(runtime),
+  createActivityId: runtime.createActivityId,
+  now: runtime.now,
+  onWorkflowEvent: runtime.onWorkflowEvent,
+  plannerRunner: plannerRunnerOf(runtime, phaseDefinition),
+  runner: nodeRunnerOf(runtime),
+  writeArtifact: writeArtifactVia(runtime),
+  writeSnapshot: writeSnapshotVia(runtime),
+});
+/** 执行一个调度相位：active → 调度循环 → 完成；调度器暂停时抛错交给上层归类。 */
 export async function runScheduledPhase(
-  ctx: ExpertWorkflowRuntimeContext,
-  snapshot: ExpertWorkflowRunSnapshot,
-  definition: WorkflowPhaseDefinition,
-  options: ExpertWorkflowRunOptions,
+  runtime: ExpertWorkflowRuntimeContext,
+  input: ExpertWorkflowRunSnapshot,
+  phaseDefinition: WorkflowPhaseDefinition,
+  runOptions: ExpertWorkflowRunOptions,
 ): Promise<ExpertWorkflowRunSnapshot> {
-  const active = ctx.updatePhase(snapshot, definition.phase, {
+  const activated = runtime.updatePhase(input, phaseDefinition.phase, {
     error: undefined,
-    startedAt: ctx.timestamp(),
+    startedAt: runtime.timestamp(),
     status: "active",
   });
-  await ctx.store.writeSnapshot(active, { signal: options.abortSignal });
-  await ctx.appendEvent(active.runId, "phase_started", {
-    message: `${definition.title} started.`,
-    phase: definition.phase,
-    signal: options.abortSignal,
+  await runtime.store.writeSnapshot(activated, { signal: runOptions.abortSignal });
+  await runtime.appendEvent(activated.runId, "phase_started", {
+    message: `${phaseDefinition.title} started.`,
+    phase: phaseDefinition.phase,
+    signal: runOptions.abortSignal,
   });
 
-  const scheduler = new WorkflowGraphScheduler({
-    appendEvent: (event, eventOptions) => ctx.store.appendEvent(event, eventOptions),
-    appendGraphRecord: (runId, record, graphOptions) =>
-      ctx.store.appendGraphRecord(runId, record, graphOptions),
-    createActivityId: ctx.createActivityId,
-    now: ctx.now,
-    onWorkflowEvent: ctx.onWorkflowEvent,
-    plannerRunner: {
-      async run(input) {
-        const result = await ctx.agentRunner.run({
-          abortSignal: input.abortSignal,
-          activityId: input.activityId,
-          cwd: input.cwd,
-          onChildSessionStarted: input.onChildSessionStarted,
-          onEvent: input.onEvent,
-          parentSessionId: input.parentSessionId,
-          phase: input.phase,
-          prompt: input.prompt,
-          runId: input.runId,
-          task: input.task,
-          traceContext: input.traceContext,
-          workflowKind: ctx.definition.kind,
-        });
-        const plannerResult = parseWorkflowPlannerResult(result.response, definition.phase);
-        return {
-          ...plannerResult,
-          model: result.model,
-          response: result.response,
-          sessionId: result.sessionId,
-          traceId: result.traceId,
-          turnId: result.turnId,
-        };
-      },
-    },
-    runner: {
-      run: async (input) =>
-        ctx.agentRunner.run({
-          abortSignal: input.abortSignal,
-          activityId: input.activityId,
-          cwd: input.cwd,
-          onChildSessionStarted: input.onChildSessionStarted,
-          onEvent: input.onEvent,
-          parentSessionId: input.parentSessionId,
-          phase: input.phase,
-          prompt: input.prompt,
-          runId: input.runId,
-          task: input.task,
-          traceContext: input.traceContext,
-          workflowKind: ctx.definition.kind,
-        }),
-    },
-    writeArtifact: (runId, artifactPath, content, artifactOptions) =>
-      ctx.store.writeArtifact(runId, artifactPath, content, artifactOptions),
-    writeSnapshot: (nextSnapshot, snapshotOptions) =>
-      ctx.store.writeSnapshot(nextSnapshot, snapshotOptions),
-  });
-
-  const result = await scheduler.run({
-    abortSignal: options.abortSignal,
-    artifactDirectory: `artifacts/${safeArtifactName(definition.phase)}`,
+  const request: WorkflowGraphSchedulerRunOptions = {
+    abortSignal: runOptions.abortSignal,
+    artifactDirectory: `artifacts/${safeArtifactName(phaseDefinition.phase)}`,
     buildPrompt: ({ node, snapshot: promptSnapshot }) =>
-      buildScheduledNodePrompt(promptSnapshot, definition, node),
-    cwd: options.cwd,
-    executableNodeIds: executableNodeIdsForPhase(active.graph, definition.phase),
-    onEvent: options.onEvent,
-    parentSessionId: active.sessionId,
-    phase: definition.phase,
-    snapshot: active,
-    traceContext: options.traceContext,
-  });
-  if (result.status !== "completed") {
-    throw new Error(`Workflow ${definition.phase} scheduler paused: ${result.reason}`);
+      buildScheduledNodePrompt(promptSnapshot, phaseDefinition, node),
+    cwd: runOptions.cwd,
+    executableNodeIds: executableNodeIdsForPhase(activated.graph, phaseDefinition.phase),
+    onEvent: runOptions.onEvent,
+    parentSessionId: activated.sessionId,
+    phase: phaseDefinition.phase,
+    snapshot: activated,
+    traceContext: runOptions.traceContext,
+  };
+  const outcome = await new WorkflowGraphScheduler(depsOf(runtime, phaseDefinition)).run(request);
+  if (outcome.status !== "completed") {
+    throw new Error(`Workflow ${phaseDefinition.phase} scheduler paused: ${outcome.reason}`);
   }
-
-  const summary = buildScheduledPhaseSummary(result.snapshot, definition.phase);
-  const artifact = await ctx.store.writeArtifact(
-    result.snapshot.runId,
-    definition.artifactPath ?? `artifacts/${definition.phase}.md`,
-    summary,
-    { signal: options.abortSignal },
-  );
-  const activity = result.snapshot.activities
-    .filter((entry) => entry.phase === definition.phase && entry.status === "completed")
-    .at(-1);
-  const completed = ctx.updatePhase(result.snapshot, definition.phase, {
-    activityId: activity?.activityId,
-    artifactPath: artifact.relativePath,
-    completedAt: ctx.timestamp(),
-    sessionId: activity?.sessionId,
-    status: "completed",
-    traceId: activity?.traceId,
-    turnId: activity?.turnId,
-  });
-  const withArtifact = ctx.addArtifact(completed, {
-    contentType: "text/markdown",
-    createdAt: ctx.timestamp(),
-    label: definition.title,
-    path: artifact.relativePath,
-    phase: definition.phase,
-  });
-  await ctx.store.writeSnapshot(withArtifact, { signal: options.abortSignal });
-  await ctx.appendGraphStatus(withArtifact, definition.phase, "completed", options.abortSignal);
-  await ctx.appendEvent(withArtifact.runId, "artifact_written", {
-    message: `Artifact written: ${artifact.relativePath}`,
-    phase: definition.phase,
-    signal: options.abortSignal,
-  });
-  await ctx.appendEvent(withArtifact.runId, "phase_completed", {
-    message: `${definition.title} completed.`,
-    phase: definition.phase,
-    signal: options.abortSignal,
-  });
-  return withArtifact;
+  return await completeScheduledPhase(runtime, outcome.snapshot, phaseDefinition, runOptions);
 }
