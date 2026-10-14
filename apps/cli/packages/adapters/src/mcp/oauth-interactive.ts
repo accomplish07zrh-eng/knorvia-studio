@@ -28,9 +28,12 @@ import type {
   McpInteractiveAuthorizationOutcome,
 } from "./oauth-interactive-types.js";
 
+// 基线代次：缺席表示调用方没有基线快照，判定语义与空串不同。
+type Generation = string | undefined;
+
 function hasNewerCredentials(
   current: CanonicalCredentialSnapshot | undefined,
-  baselineGeneration: string | undefined,
+  baselineGeneration: Generation,
 ): boolean {
   return Boolean(current?.tokens && current.generation !== baselineGeneration);
 }
@@ -101,7 +104,7 @@ interface PollResult {
 /** 单次轮询：先看凭据是否已被别的进程刷新，再看是否有待授权记录可展示。 */
 async function pollOnce(
   input: McpInteractiveAuthorizationInput,
-  baselineGeneration: string | undefined,
+  baselineGeneration: Generation,
 ): Promise<PollResult> {
   const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
   if (hasNewerCredentials(current, baselineGeneration)) return { done: true };
@@ -112,7 +115,7 @@ async function pollOnce(
 async function followAuthorization(
   input: McpInteractiveAuthorizationInput,
   ttlMs: number,
-  baselineGeneration: string | undefined,
+  baselineGeneration: Generation,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const deadline = Date.now() + ttlMs;
   let projectedUrl: string | undefined;
@@ -162,7 +165,7 @@ async function leadAuthorization(
   input: McpInteractiveAuthorizationInput,
   attemptId: string,
   ttlMs: number,
-  baselineGeneration: string | undefined,
+  baselineGeneration: Generation,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const state = randomBytes(STATE_BYTES).toString("base64url");
   const fallbackPath = `/oauth/callback/mcp/${encodeURIComponent(input.serverName)}`;
