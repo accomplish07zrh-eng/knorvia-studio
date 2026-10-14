@@ -41,7 +41,7 @@ function hasNewerCredentials(
 
 /** 日志公共字段：一次算好，四处日志复用（字段名逐字保留）。 */
 function logFields(input: McpInteractiveAuthorizationInput, oauthState?: string) {
-  return {
+  return /* 日志公共字段 */ {
     adapterInstanceId: input.adapterInstanceId,
     credentialKeyPrefix: input.keyPrefix,
     mcpServerName: input.serverName,
@@ -53,7 +53,7 @@ function logFields(input: McpInteractiveAuthorizationInput, oauthState?: string)
             .digest("hex")
             .slice(0, STATE_ID_LENGTH),
         }
-      : {}),
+      : /* 无扩展 */ {}),
   };
 }
 
@@ -75,14 +75,16 @@ function sdkAuthOptions(
   input: McpInteractiveAuthorizationInput,
   extra: { authorizationCode?: string; iss?: string } = {},
 ) {
-  return {
+  return /* 构造返回值 */ {
     serverUrl: input.serverUrl,
-    ...(input.requestedScope ? { scope: input.requestedScope } : {}),
-    ...(input.resourceMetadataUrl ? { resourceMetadataUrl: input.resourceMetadataUrl } : {}),
-    ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
-    ...(input.forceReauthorization ? { forceReauthorization: true } : {}),
-    ...(extra.authorizationCode ? { authorizationCode: extra.authorizationCode } : {}),
-    ...(extra.iss ? { iss: extra.iss } : {}),
+    ...(input.requestedScope ? { scope: input.requestedScope } : /* 无扩展 */ {}),
+    ...(input.resourceMetadataUrl
+      ? { resourceMetadataUrl: input.resourceMetadataUrl }
+      : /* 无扩展 */ {}),
+    ...(input.fetchFn ? { fetchFn: input.fetchFn } : /* 无扩展 */ {}),
+    ...(input.forceReauthorization ? { forceReauthorization: true } : /* 无扩展 */ {}),
+    ...(extra.authorizationCode ? { authorizationCode: extra.authorizationCode } : /* 无扩展 */ {}),
+    ...(extra.iss ? { iss: extra.iss } : /* 无扩展 */ {}),
   };
 }
 
@@ -139,7 +141,7 @@ async function followAuthorization(
       projectedUrl = polled.announcedUrl;
       await input.onAuthorizationRequired?.({
         authorizationUrl: projectedUrl,
-        redirectUrl: "",
+        redirectUrl: /* 初始为空 */ "",
         serverName: input.serverName,
       });
     }
@@ -157,12 +159,14 @@ function passthroughFields(input: McpInteractiveAuthorizationInput) {
     serverName: input.serverName,
   };
   const optional = {
-    ...(input.logger ? { logger: input.logger } : {}),
+    ...(input.logger ? { logger: input.logger } : /* 无扩展 */ {}),
     ...(input.onAuthorizationRequired
       ? { onAuthorizationRequired: input.onAuthorizationRequired }
-      : {}),
-    ...(input.openAuthorizationUrl ? { openAuthorizationUrl: input.openAuthorizationUrl } : {}),
-    ...(input.requestedScope ? { requestedScope: input.requestedScope } : {}),
+      : /* 无扩展 */ {}),
+    ...(input.openAuthorizationUrl
+      ? { openAuthorizationUrl: input.openAuthorizationUrl }
+      : /* 无扩展 */ {}),
+    ...(input.requestedScope ? { requestedScope: input.requestedScope } : /* 无扩展 */ {}),
   };
   return { ...required, ...optional };
 }
@@ -223,7 +227,7 @@ async function leadAuthorization(
       provider,
       sdkAuthOptions(input, {
         authorizationCode,
-        ...(issuer ? { iss: issuer } : {}),
+        ...(issuer ? { iss: issuer } : /* 无扩展 */ {}),
       }),
     );
     emitLog(
