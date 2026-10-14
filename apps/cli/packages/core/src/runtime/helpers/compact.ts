@@ -27,7 +27,6 @@ export {
   selectCompactEntriesForInitialPromptTooLong,
   truncateCompactSummaryRequestEntriesAfterPromptTooLong,
 } from "./compact-selection.js";
-export type { CompactEntrySelection } from "./compact-selection.js";
 
 interface RuntimeMicrocompactResult {
   decision: ReturnType<typeof maybeLocalMicrocompactMessages>["decision"];
