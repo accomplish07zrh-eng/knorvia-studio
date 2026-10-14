@@ -35,28 +35,28 @@ function directories(root: string, diagnostics: PluginDiagnostic[]): string[] {
         undefined,
         root,
       );
-    return [];
+    return /* 枚举失败按空清单处理，诊断已入列 */ [];
   }
 }
 
 export function collectCandidates(
-  request: PluginDiscoverRequest,
-  diagnostics: PluginDiagnostic[],
-  options?: PluginAbortOptions,
-): PluginCandidate[] {
+  /* 发现请求：配置目录/官方根/存储根 */ request: PluginDiscoverRequest,
+  /* 逐条诊断收集器 */ diagnostics: PluginDiagnostic[],
+  /* 中止选项 */ options?: PluginAbortOptions,
+): /* 三类来源汇总为候选数组 */ PluginCandidate[] {
   throwIfAborted(options);
   const candidates: PluginCandidate[] = request.config.dirs.map((root) => ({
-    rootPath: resolve(request.workingDirectory, root),
+    rootPath: /* 内联插件根：相对工作目录解析 */ resolve(request.workingDirectory, root),
     marketplace: KNORVIA_INLINE_PLUGIN_MARKETPLACE,
-    source: "inline",
-    defaultEnabled: true,
+    source: /* 配置目录内联来源 */ "inline",
+    defaultEnabled: /* 内联目录默认启用 */ true,
   }));
   const official = (rootPath: string): void => {
     candidates.push({
       rootPath: resolve(rootPath),
       marketplace: KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE,
       source: "official",
-      defaultEnabled: false,
+      defaultEnabled: /* 官方捆绑默认不启用，需显式打开 */ false,
     });
   };
   for (const root of request.officialPluginRoots ?? []) official(root);
@@ -73,18 +73,20 @@ export function collectCandidates(
     }
   }
   for (const record of listInstalledPluginRecords(request.storageRoot)) {
-    throwIfAborted(options);
+    throwIfAborted(/* 每条记录前复查中止，长清单也能及时退出 */ options);
     candidates.push({
       rootPath: resolveInstalledPluginRoot(request.storageRoot, record),
       marketplace: record.marketplace,
       source: "cache",
-      defaultEnabled: false,
+      defaultEnabled: /* 已安装插件沿用安装时的启用设置 */ false,
     });
   }
   return candidates;
 }
 
-export function collectListings(storageRoot: string): Record<string, PluginStoreListing> {
+export function /* 汇总各市场清单里的门店展示信息（键为 插件名@市场） */ collectListings(
+  /* 市场数据根目录 */ storageRoot: string,
+): Record<string, PluginStoreListing> {
   const entries: Array<[string, PluginStoreListing]> = [];
   for (const market of loadKnownMarketplacesSync(storageRoot)) {
     const manifest = loadMarketplaceManifestSync(storageRoot, market.id);
