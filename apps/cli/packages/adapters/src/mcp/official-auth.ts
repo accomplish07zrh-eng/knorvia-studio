@@ -191,7 +191,7 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
     }
     const trust = await input.trustedOrigins.isTrusted({
       mcpKey: input.official.mcpKey,
-      origin,
+      /* 实际来源 */ origin,
       pluginId: input.official.pluginId,
     });
     if (/* 可信来源校验：非可信来源一律拒绝 */ !trust.trusted) {
@@ -202,7 +202,7 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
     }
 
     const rpc = summarizeRpc(init?.body);
-    const logBase = {
+    const logBase = /* 日志公共字段：一次算好复用 */ {
       event: "mcp.official_auth.request",
       mcpKey: input.official.mcpKey,
       mcpServerName: input.serverName,
@@ -214,12 +214,12 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
       ...(rpc.toolName
         ? /* 上报工具名：键名 rpcToolName 为契约面 */ { rpcToolName: rpc.toolName }
         : {}),
-      ...(rpc.traceId ? { mcpTraceId: rpc.traceId } : {}),
+      ...(rpc.traceId ? /* 契约键 mcpTraceId 为对外名 */ { mcpTraceId: rpc.traceId } : {}),
     };
 
     async function send(attempt: number): Promise<{ response: Response; authApplied: boolean }> {
       let authHeaders: Record<string, string> = {};
-      let resolveDurationMs: number | undefined;
+      let resolveDurationMs: /* 解析耗时：失败路径保持 undefined */ number | undefined;
       if (input.authHeadersPort) {
         const startedAt = Date.now();
         const resolved = await input.authHeadersPort.resolveHeaders({
@@ -231,38 +231,39 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
           ...(init?.signal ? { signal: init.signal } : {}),
         });
         resolveDurationMs = Date.now() - startedAt;
-        if (resolved.ok) {
-          authHeaders = resolved.headers;
-        } else {
+        if (/* 解析成功：带上鉴权头 */ resolved.ok) {
+          authHeaders = /* 已解析出的鉴权头 */ resolved.headers;
+        } else /* 失败分支：按原因走匿名回退 */ {
           input.logger?.warn("Official MCP auth headers unavailable for request", {
-            ...logBase,
-            attempt,
+            /* 公共字段 */ ...logBase,
+            /* 第几次尝试 */ attempt,
             event: "mcp.official_auth.resolve",
-            fallback: "anonymous",
-            reason: resolved.reason,
-            resolveDurationMs,
+            fallback: /* 回退模式：匿名 */ "anonymous",
+            reason: /* 解析器给出的具体原因 */ resolved.reason,
+            /* 解析耗时 */ resolveDurationMs,
             status: "failed",
           });
         }
-      } else {
+      } else /* 失败分支：按原因走匿名回退 */ {
         input.logger?.warn("Official MCP auth port unavailable for request", {
-          ...logBase,
-          attempt,
+          /* 公共字段 */ ...logBase,
+          /* 第几次尝试 */ attempt,
           event: "mcp.official_auth.resolve",
-          fallback: "anonymous",
-          reason: "official_auth_unavailable",
+          fallback: /* 回退模式：匿名 */ "anonymous",
+          reason: /* 固定原因：鉴权不可用 */ "official_auth_unavailable",
           status: "failed",
         });
       }
-      const identity = summarizeOfficialMcpIdentityHeaders(authHeaders);
+      const identity =
+        /* 身份头摘要：随日志上报 */ summarizeOfficialMcpIdentityHeaders(authHeaders);
       const headers = mergeHeaders(init?.headers, authHeaders);
       input.logger?.debug("Official MCP request sending", {
-        ...logBase,
-        attempt,
-        resolveDurationMs,
+        /* 公共字段 */ ...logBase,
+        /* 第几次尝试 */ attempt,
+        /* 解析耗时 */ resolveDurationMs,
         status: "started",
         timeoutHint: timeoutHint(init?.signal),
-        ...identity,
+        /* 身份头摘要字段 */ ...identity,
       });
       const sendStartedAt = Date.now();
       // 凭据解析和准备错误不属于发送失败；只在此处开始网络/响应处理的 catch。
@@ -270,16 +271,17 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
         const response = await input.baseFetch(resource, { ...init, headers, redirect: "manual" });
         const serverRequestId = responseRequestId(response);
         const failureKind =
+          /* tools/call 视为正常，其余按响应分类 */
           rpc.method === "tools/call" ? undefined : await classifyResponse(response);
-        if (serverRequestId || failureKind) {
+        if (/* 有服务端标识或失败分类才上报 */ serverRequestId || failureKind) {
           input.onServerResponse?.({
             httpStatus: response.status,
             ...optionalRpcFields(rpc, failureKind, serverRequestId),
           });
         }
-        const outcome = {
-          ...logBase,
-          attempt,
+        const outcome = /* 归一化调用结果 */ {
+          /* 公共字段 */ ...logBase,
+          /* 第几次尝试 */ attempt,
           httpStatus: response.status,
           responseBodyBytes: numericHeader(response.headers.get("content-length")),
           sendDurationMs: Date.now() - sendStartedAt,
@@ -290,18 +292,18 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
             ...outcome,
             status: "completed",
           });
-        } else {
+        } else /* 失败分支：按原因走匿名回退 */ {
           input.logger?.warn("Official MCP response failed", { ...outcome, status: "failed" });
         }
         return { response, authApplied: Object.keys(authHeaders).length > 0 };
       } catch (error) {
         const sendDurationMs = Date.now() - sendStartedAt;
         input.logger?.warn("Official MCP request did not complete", {
-          ...logBase,
+          /* 公共字段 */ ...logBase,
           aborted:
             error instanceof Error &&
             (error.name === "AbortError" || error.name === "TimeoutError"),
-          attempt,
+          /* 第几次尝试 */ attempt,
           error: error instanceof Error ? error.message : String(error),
           errorName: error instanceof Error ? error.name : "unknown",
           sendDurationMs,
@@ -314,7 +316,7 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
     let result = await send(1);
     if (result.response.status === 401 && result.authApplied) {
       input.logger?.info("Official MCP retrying once after 401", {
-        ...logBase,
+        /* 公共字段 */ ...logBase,
         attempt: 2,
         status: "started",
       });
