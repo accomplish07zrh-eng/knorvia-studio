@@ -13,7 +13,7 @@ import type {
   ExecutionShellDialect,
 } from "@knorvia/contracts";
 
-export interface ExitState {
+export interface /* 退出状态 */ ExitState {
   code?: number;
   signal?: string;
   error?: Error;
@@ -21,49 +21,49 @@ export interface ExitState {
 
 export interface BackgroundTaskRecord extends BackgroundExecutionSnapshot {
   sessionId?: string;
-  isBash: boolean;
-  legacyOutputEncoding: string | null;
+  isBash: /* 是否 bash 方言 */ boolean;
+  legacyOutputEncoding: /* 遗留输出编码（无则 null） */ string | null;
   completion: Promise<BackgroundExecutionSnapshot>;
-  controller: AbortController;
-  externalAbort?: () => void;
+  controller: /* 取消控制器 */ AbortController;
+  externalAbort?: /* 外部中止回调 */ () => void;
   resolveCompletion: (snapshot: BackgroundExecutionSnapshot) => void;
 }
 
-export interface ExecutionOutputPaths {
-  outputPath?: string;
-  stderrPersistedOutputPath?: string;
-  stdoutPersistedOutputPath?: string;
+export interface /* 输出落盘路径集合 */ ExecutionOutputPaths {
+  outputPath?: /* 主输出路径 */ string;
+  stderrPersistedOutputPath?: /* stderr 落盘路径 */ string;
+  stdoutPersistedOutputPath?: /* stdout 落盘路径 */ string;
 }
 
 export interface InternalExecutionRunOptions extends ExecutionRunOptions {
   onOutputEncodingResolved?: (encoding: string | null) => void;
-  bashLifecycle?: {
-    isBackgrounded: () => boolean;
-    onBackgrounded?: () => void;
-    onExit?: () => void;
+  bashLifecycle?: /* bash 生命周期钩子 */ {
+    isBackgrounded: /* 是否已转后台 */ () => boolean;
+    onBackgrounded?: /* 转后台回调 */ () => void;
+    onExit?: /* 退出回调 */ () => void;
   };
-  onPersistedLimit?: () => void;
-  sharePersistedOutputLimitAcrossStreams?: boolean;
-  shouldStopOnPersistedLimit?: () => boolean;
-  shouldRetainExecutionAfterRootExit?: () => boolean;
+  onPersistedLimit?: /* 达到落盘上限回调 */ () => void;
+  sharePersistedOutputLimitAcrossStreams?: /* 各流共享落盘额度 */ boolean;
+  shouldStopOnPersistedLimit?: /* 超限是否停止 */ () => boolean;
+  shouldRetainExecutionAfterRootExit?: /* 根进程退出后是否保留 */ () => boolean;
   suppressTerminalEvent?: boolean;
 }
 
-export type BashBackgroundLifecycleMode = "explicit" | "auto_on_timeout";
-export type BashBackgroundLifecycleResult =
+export type /* 后台生命周期模式 */ BashBackgroundLifecycleMode = "explicit" | "auto_on_timeout";
+export type /* 后台生命周期结果 */ BashBackgroundLifecycleResult =
   | { kind: "foreground"; result: ExecutionResult }
   | { kind: "backgrounded"; task: BackgroundExecutionStartResult };
 
-export interface PreparedChildSpawn {
+export interface /* 预备好的子进程 spawn */ PreparedChildSpawn {
   command: ResolvedSpawnCommand;
-  cwdDialect: ExecutionShellDialect;
-  cwdFilePath?: string;
-  spawnOptions: SpawnOptions;
+  cwdDialect: /* cwd 方言 */ ExecutionShellDialect;
+  cwdFilePath?: /* cwd 结果文件 */ string;
+  spawnOptions: /* 透传给 spawn 的选项 */ SpawnOptions;
 }
 
 export interface PreparedExecution extends PreparedChildSpawn {
-  isBash: boolean;
-  legacyOutputEncoding: string | null;
+  isBash: /* 是否 bash 方言 */ boolean;
+  legacyOutputEncoding: /* 遗留输出编码（无则 null） */ string | null;
   request: ExecutionRequest;
 }
 
