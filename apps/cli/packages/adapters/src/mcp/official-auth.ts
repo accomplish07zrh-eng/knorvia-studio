@@ -34,34 +34,34 @@ export class OfficialMcpAuthError extends Error {
 
 export interface OfficialMcpServerResponseInfo {
   failureKind?: McpServerFailureKind;
-  httpStatus: number;
-  rpcMethod?: string;
-  rpcToolName?: string;
-  serverRequestId?: string;
-  spanId?: string;
-  traceId?: string;
+  httpStatus: number; // 服务端返回的 HTTP 状态码。
+  rpcMethod?: string; // JSON-RPC 方法名（能从正文解析出来时才有）。
+  rpcToolName?: string; // JSON-RPC 工具名（能从正文解析出来时才有）。
+  serverRequestId?: string; // 服务端请求 id（响应头带回来时才有）。
+  spanId?: string; // 本次请求的 span id。
+  traceId?: string; // 本次请求的 trace id。
 }
 
 interface CreateOfficialMcpAuthFetchInput {
-  authHeadersPort?: OfficialMcpAuthHeadersPort;
-  baseFetch: typeof globalThis.fetch;
+  authHeadersPort?: OfficialMcpAuthHeadersPort; // 鉴权头端口；缺席时不做官方鉴权。
+  baseFetch: typeof globalThis.fetch; // 底层 fetch（注入以便测试与代理）。
   logger?: Logger;
   onAuthFailure?: (kind: OfficialMcpAuthFailureKind) => void;
-  onServerResponse?: (response: OfficialMcpServerResponseInfo) => void;
+  onServerResponse?: (response: OfficialMcpServerResponseInfo) => void; // 服务端响应观察回调。
   official: McpOfficialProvenance;
-  serverName: string;
-  trustedOrigins: OfficialMcpTrustedOriginRegistry;
-  url: string;
+  serverName: string; // 服务端名字，用于鉴权与可信来源判定。
+  trustedOrigins: OfficialMcpTrustedOriginRegistry; // 可信来源登记表。
+  url: string; // 目标请求地址。
   workspaceIdentity?: string;
-  workspacePath?: string;
+  workspacePath?: string; // 工作区路径（鉴权头端口可能需要）。
 }
 
 interface RpcSummary {
   id?: string | number;
   method?: string;
-  spanId?: string;
+  spanId?: string; // 本次请求的 span id。
   toolName?: string;
-  traceId?: string;
+  traceId?: string; // 本次请求的 trace id。
 }
 
 function requestOrigin(value: string): string | undefined {
