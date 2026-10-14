@@ -33,12 +33,94 @@ export interface RegisterMcpToolsOptions {
   trustedWindowsComputerUseServerNames?: ReadonlySet<string>;
 }
 
+// 观察标题的模型提示词：逐字保留（含不用 CUA、MCP、get_app_state 等实现术语的要求）。
+const OBSERVATION_TITLE_DESCRIPTION =
+  "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state";
+
 const observationTitlePolicy: JsonSchema = {
   type: "string",
   minLength: 1,
   maxLength: 120,
-  description:
-    "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state",
+  description: OBSERVATION_TITLE_DESCRIPTION,
+};
+
+// 单个描述符的命名与授权信息：官方 CUA 命名空间用规范化前缀拼接，其余沿用 toMcpToolName。
+const mcpDescriptorNames = (
+  descriptor: McpToolDescriptor,
+  options: RegisterMcpToolsOptions,
+  canonicalPrefix: string,
+): { authority: boolean; descriptorName: string; modelName: string } => {
+  const authority = options.officialCuaServerNames?.has(descriptor.serverName) === true;
+  const descriptorName = toMcpToolName(descriptor);
+  const modelName =
+    authority && descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
+      ? `${canonicalPrefix}${toModelVisibleMcpNamePart(descriptor.toolName)}`
+      : toMcpToolName(descriptor);
+  return { authority, descriptorName, modelName };
+};
+
+// 名单过滤：不在允许名单（若给定）或命中拒绝名单的描述符直接跳过。
+type McpNameSet = { has(value: string): boolean } | undefined;
+
+const isMcpDescriptorExcluded = (
+  names: { descriptorName: string; modelName: string },
+  allowed: McpNameSet,
+  denied: McpNameSet,
+): boolean => {
+  const blockedByAllowList =
+    allowed !== undefined && !allowed.has(names.modelName) && !allowed.has(names.descriptorName);
+  const blockedByDenyList =
+    denied?.has(names.modelName) === true || denied?.has(names.descriptorName) === true;
+  return blockedByAllowList || blockedByDenyList;
+};
+
+// 单个描述符的执行策略：受信 Windows CUA 走窄工具策略，其余按注解与主机上下文判定。
+const mcpDescriptorPolicy = (
+  descriptor: McpToolDescriptor,
+  options: RegisterMcpToolsOptions,
+): {
+  destructive: boolean;
+  hostExecution: boolean;
+  readOnly: boolean;
+  trustedWindows: boolean;
+  windowsAccessRequest: boolean;
+} => {
+  const trustedWindows = isTrustedWindowsComputerUseTool(
+    descriptor,
+    options.trustedWindowsComputerUseServerNames,
+  );
+  const windowsAccessRequest = trustedWindows && descriptor.toolName === "computer_request_access";
+  const readOnly = trustedWindows
+    ? descriptor.toolName === "computer_list_windows" || descriptor.toolName === "computer_observe"
+    : descriptor.annotations?.readOnlyHint === true;
+  const destructive = trustedWindows
+    ? descriptor.toolName === "computer_action"
+    : descriptor.annotations?.destructiveHint === true;
+  const hostExecution = descriptor.serverName === "node_repl" && descriptor.toolName === "js";
+  return { destructive, hostExecution, readOnly, trustedWindows, windowsAccessRequest };
+};
+
+// 工具结果预算三档：受信 CUA、node_repl 主机执行、其余；各档数值与策略逐字保留。
+const CUA_IMAGE_LIMITS: ToolEntry["resultBudget"] = {
+  maxInlineBytes: 256 * 1024,
+  maxModelBytes: 256 * 1024,
+  strategy: "truncate",
+  preview: { direction: "head" },
+};
+
+const LARGE_IMAGE_LIMITS: ToolEntry["resultBudget"] = {
+  maxInlineBytes: 1000000,
+  maxModelBytes: 64 * 1024,
+  strategy: "artifact",
+  preview: { direction: "tail", maxBytes: 64 * 1024 },
+  artifact: { enabled: true, retention: "session" },
+};
+
+const SMALL_IMAGE_LIMITS: ToolEntry["resultBudget"] = {
+  maxInlineBytes: 100000,
+  maxModelBytes: 50000,
+  strategy: "truncate",
+  preview: { direction: "head" },
 };
 
 export function registerMcpTools(
@@ -53,29 +135,15 @@ export function registerMcpTools(
   const canonicalPrefix = "mcp__computer-use__";
 
   for (const descriptor of descriptors) {
-    const authority = options.officialCuaServerNames?.has(descriptor.serverName) === true;
-    const descriptorName = toMcpToolName(descriptor);
-    const modelName =
-      authority && descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
-        ? `${canonicalPrefix}${toModelVisibleMcpNamePart(descriptor.toolName)}`
-        : toMcpToolName(descriptor);
-    if (allowed && !allowed.has(modelName) && !allowed.has(descriptorName)) continue;
-    if (denied?.has(modelName) || denied?.has(descriptorName)) continue;
-
-    const trustedWindows = isTrustedWindowsComputerUseTool(
+    const { authority, descriptorName, modelName } = mcpDescriptorNames(
       descriptor,
-      options.trustedWindowsComputerUseServerNames,
+      options,
+      canonicalPrefix,
     );
-    const windowsAccessRequest =
-      trustedWindows && descriptor.toolName === "computer_request_access";
-    const readOnly = trustedWindows
-      ? descriptor.toolName === "computer_list_windows" ||
-        descriptor.toolName === "computer_observe"
-      : descriptor.annotations?.readOnlyHint === true;
-    const destructive = trustedWindows
-      ? descriptor.toolName === "computer_action"
-      : descriptor.annotations?.destructiveHint === true;
-    const hostExecution = descriptor.serverName === "node_repl" && descriptor.toolName === "js";
+    if (isMcpDescriptorExcluded({ descriptorName, modelName }, allowed, denied)) continue;
+
+    const { destructive, hostExecution, readOnly, trustedWindows, windowsAccessRequest } =
+      mcpDescriptorPolicy(descriptor, options);
     const sideEffectScope: ModelToolSideEffectScope =
       hostExecution || trustedWindows ? "system" : "network";
     const riskLevel: RiskLevel =
@@ -91,26 +159,10 @@ export function registerMcpTools(
         : "";
     const resultBudget: ToolEntry["resultBudget"] =
       authority || trustedWindows
-        ? {
-            maxInlineBytes: 256 * 1024,
-            maxModelBytes: 256 * 1024,
-            strategy: "truncate",
-            preview: { direction: "head" },
-          }
+        ? CUA_IMAGE_LIMITS
         : hostExecution
-          ? {
-              maxInlineBytes: 1000000,
-              maxModelBytes: 64 * 1024,
-              strategy: "artifact",
-              preview: { direction: "tail", maxBytes: 64 * 1024 },
-              artifact: { enabled: true, retention: "session" },
-            }
-          : {
-              maxInlineBytes: 100000,
-              maxModelBytes: 50000,
-              strategy: "truncate",
-              preview: { direction: "head" },
-            };
+          ? LARGE_IMAGE_LIMITS
+          : SMALL_IMAGE_LIMITS;
 
     const entry: ToolEntry = {
       ...(windowsAccessRequest ? { approvalAuthority: "user" as const } : {}),
@@ -227,62 +279,81 @@ export function registerMcpTools(
   return registered;
 }
 
-export const McpToolOutputJsonSchema: JsonSchema = {
-  type: "object",
-  required: ["content"],
-  properties: {
-    content: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: true,
-      },
-    },
-    structuredContent: {},
-    isError: {
-      type: "boolean",
-    },
-    _meta: {
+// MCP 工具输出的协议片段：必填字段与属性表各自具名，字段名与嵌套结构逐字保留。
+const MCP_TOOL_OUTPUT_REQUIRED = ["content"] as const;
+
+const MCP_TOOL_OUTPUT_PROPERTIES = {
+  content: {
+    type: "array",
+    items: {
       type: "object",
       additionalProperties: true,
     },
   },
+  structuredContent: {},
+  isError: {
+    type: "boolean",
+  },
+  _meta: {
+    type: "object",
+    additionalProperties: true,
+  },
+};
+
+export const McpToolOutputJsonSchema: JsonSchema = {
+  type: "object",
+  required: [...MCP_TOOL_OUTPUT_REQUIRED],
+  properties: MCP_TOOL_OUTPUT_PROPERTIES,
   additionalProperties: false,
 } satisfies JsonSchema;
 
-function bridgeInputSchema(schema: JsonSchema, observation: boolean): JsonSchema {
-  let normalized: JsonSchema;
+// 归一化：非对象入参回落到空对象 schema；对象入参补 type 并保证 properties 是对象。
+function normalizeInputSchema(schema: JsonSchema): JsonSchema {
   if (!schema || typeof schema !== "object") {
-    normalized = { type: "object", properties: {}, additionalProperties: true };
-  } else {
-    const properties = schema.properties;
-    normalized = {
-      ...schema,
-      type: "object",
-      properties:
-        properties && typeof properties === "object" && !Array.isArray(properties)
-          ? properties
-          : {},
-    };
+    return { type: "object", properties: {}, additionalProperties: true };
   }
-  if (!observation) return normalized;
-  const required = Array.isArray(normalized.required)
-    ? normalized.required.filter((value): value is string => typeof value === "string")
-    : [];
+  const properties = schema.properties;
+  const safeProperties =
+    properties && typeof properties === "object" && !Array.isArray(properties) ? properties : {};
+  return { ...schema, type: "object", properties: safeProperties };
+}
+
+// required 里只保留字符串项：非数组或非字符串项一律丢弃。
+function stringRequiredFields(schema: JsonSchema): string[] {
+  if (!Array.isArray(schema.required)) return [];
+  return schema.required.filter((value): value is string => typeof value === "string");
+}
+
+// 观察模式：在属性表上追加 title 策略，并把 title 并入必填项（去重）。
+function withObservationTitle(schema: JsonSchema, required: string[]): JsonSchema {
   return {
-    ...normalized,
+    ...schema,
     properties: {
-      ...(normalized.properties as Record<string, unknown>),
+      ...(schema.properties as Record<string, unknown>),
       title: observationTitlePolicy,
     },
     required: [...new Set([...required, "title"])],
   };
 }
 
+function bridgeInputSchema(schema: JsonSchema, observation: boolean): JsonSchema {
+  const normalized = normalizeInputSchema(schema);
+  if (!observation) return normalized;
+  return withObservationTitle(normalized, stringRequiredFields(normalized));
+}
+
+// 工具名比对形式：去首尾空白、小写，并把连字符折成下划线。
+const normalizeToolNameForComparison = (name: string): string =>
+  name.trim().toLowerCase().replace(/-/g, "_");
+
+// 服务名比对形式：去首尾空白、小写，并把下划线折成连字符。
+const normalizeServerNameForComparison = (name: string): string =>
+  name.trim().toLowerCase().replace(/_/g, "-");
+
 function needsObservationTitle(descriptor: McpToolDescriptor): boolean {
-  if (descriptor.toolName.trim().toLowerCase().replace(/-/g, "_") !== "get_app_state") return false;
+  if (normalizeToolNameForComparison(descriptor.toolName) !== "get_app_state") return false;
   if (descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME) return true;
-  const server = descriptor.serverName.trim().toLowerCase().replace(/_/g, "-");
+  const server = normalizeServerNameForComparison(descriptor.serverName);
   return (
     server === "knorvia-cua" ||
     server === "zcode-cua" ||

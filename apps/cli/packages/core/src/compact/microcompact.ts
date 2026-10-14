@@ -1,12 +1,14 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// microcompact 的公开面：冻结的阈值常量、兼容类型与两个导出函数。判定与改写都在
+// ./microcompact-internal.js；本模块只把公开默认值与调用请求接在一起。
+import type { MicrocompactBoundaryPayload, MicrocompactTrigger } from "@knorvia/contracts";
+import type { CompactModelMessage } from "./manual.js";
 import {
-  MicrocompactStrategy,
-  MicrocompactTrigger,
-  modelMessageContentToText,
-  type MicrocompactBoundaryPayload,
-  type ModelMessageContent,
-  type ToolCallId,
-} from "@knorvia/contracts";
-import { estimateMessageTokens, type CompactModelMessage } from "./manual.js";
+  applyMicrocompactPass,
+  buildMicrocompactThreshold,
+  type MicrocompactRuntimeDefaults,
+} from "./microcompact-internal.js";
 
 export const MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX = "[Old tool result content cleared]";
 export const MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE = "[Old tool result content cleared]";
@@ -71,195 +73,31 @@ export interface LocalMicrocompactResult<T extends LocalMicrocompactMessage> {
   payload?: LocalMicrocompactBoundaryPayload;
 }
 
-type Candidate = { index: number; toolCallId: string };
+/** 未配置空闲阈值时的缺省分钟数（空闲触发判定用）。 */
+const IDLE_THRESHOLD_MINUTES_FALLBACK = 60;
 
-function normalizeCount(value: number | undefined): number | undefined {
-  if (value === undefined || !Number.isFinite(value) || value < 0) {
-    return undefined;
-  }
-  return Math.floor(value);
-}
+/** 公开默认值的唯一一份装配；内部模块只读这里传进去的值。 */
+const PUBLIC_RUNTIME_DEFAULTS: MicrocompactRuntimeDefaults = {
+  clearedText: MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE,
+  compactableTools: DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS,
+  idleThresholdMinutes: IDLE_THRESHOLD_MINUTES_FALLBACK,
+  keepRecentToolResults: DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS,
+  minTokenSavings: DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS,
+  thresholdBufferTokens: DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS,
+  thresholdRatio: DEFAULT_MICROCOMPACT_THRESHOLD_RATIO,
+};
 
-function cloneContent(content: ModelMessageContent): ModelMessageContent {
-  if (typeof content === "string") return content;
-  return content.map((block) => {
-    if ("source" in block && block.source) {
-      return { ...block, source: { ...block.source } };
-    }
-    if ("providerOptions" in block && block.providerOptions) {
-      return { ...block, providerOptions: { ...block.providerOptions } };
-    }
-    return { ...block };
-  });
-}
-
-function cloneMessages<T extends LocalMicrocompactMessage>(messages: readonly T[]): T[] {
-  return messages.map((message) => ({
-    ...message,
-    content: cloneContent(message.content),
-    toolCalls: message.toolCalls?.map((call) => ({ ...call })),
-  }));
-}
-
-function makeDecision(
-  estimatedTokenCount: number,
-  reason: LocalMicrocompactDecision["reason"],
-  thresholdTokens: number | undefined,
-  trigger?: MicrocompactTrigger,
-): LocalMicrocompactDecision {
-  if (trigger === undefined) {
-    return { estimatedTokenCount, reason, thresholdTokens };
-  }
-  return { estimatedTokenCount, reason, thresholdTokens, trigger };
-}
-
-function collectGroups(
-  messages: readonly LocalMicrocompactMessage[],
-  allowedNames: Set<string>,
-  clearErrorResults: boolean,
-): Candidate[][] {
-  const groups: Candidate[][] = [];
-  let active: Candidate[] | undefined;
-  for (let index = 0; index < messages.length; index += 1) {
-    const message = messages[index]!;
-    if (message.role === "assistant" && message.toolCalls && message.toolCalls.length > 0) {
-      if (active && active.length > 0) groups.push(active);
-      active = [];
-    }
-    if (
-      message.role !== "tool" ||
-      !message.toolCallId ||
-      !message.toolName ||
-      !allowedNames.has(message.toolName) ||
-      (message.isError && !clearErrorResults)
-    ) {
-      continue;
-    }
-    if (modelMessageContentToText(message.content) === MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE) {
-      continue;
-    }
-    if (
-      Array.isArray(message.content) &&
-      message.content.some(
-        (block) => block.type === "image" || block.type === "video" || block.type === "file",
-      )
-    ) {
-      continue;
-    }
-    const candidate = { index, toolCallId: message.toolCallId };
-    if (active === undefined) groups.push([candidate]);
-    else active.push(candidate);
-  }
-  if (active && active.length > 0) groups.push(active);
-  return groups;
-}
-
+/** 比例上限与缓冲余量取小、下界 0；调用方给的自动压缩阈值不变。 */
 export function buildDefaultMicrocompactThreshold(autoCompactThreshold: number): number {
-  return Math.max(
-    0,
-    Math.min(
-      Math.floor(autoCompactThreshold * DEFAULT_MICROCOMPACT_THRESHOLD_RATIO),
-      autoCompactThreshold - DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS,
-    ),
-  );
+  return buildMicrocompactThreshold(autoCompactThreshold, PUBLIC_RUNTIME_DEFAULTS);
 }
 
+/** 本地微压缩入口：判定触发、按要求保留最近若干组工具结果、清掉更早的那些。 */
 export function maybeLocalMicrocompactMessages<T extends LocalMicrocompactMessage>(input: {
-  config?: LocalMicrocompactPolicyConfig;
-  lastAssistantCompletedAtMs?: number;
-  messages: readonly T[];
-  nowMs?: number;
+  config?: LocalMicrocompactPolicyConfig; // 策略覆盖：开关、token 阈值、空闲分钟、保留组数、工具白名单、错误结果与最小节省
+  lastAssistantCompletedAtMs?: number; // 上一回合助手的完成时刻，用于空闲触发判定
+  messages: readonly T[]; // 待判定的消息；返回的是副本，原数组不会被改写
+  nowMs?: number; // 判定用的当前时刻，缺省取系统时间
 }): LocalMicrocompactResult<T> {
-  const config = input.config ?? {};
-  const messages = cloneMessages(input.messages);
-  const estimatedTokenCount = estimateMessageTokens(messages);
-  const thresholdTokens = normalizeCount(config.thresholdTokens);
-  if (config.enabled === false) {
-    return {
-      decision: makeDecision(estimatedTokenCount, "disabled", thresholdTokens),
-      messages,
-    };
-  }
-
-  const lastAssistantCompletedAtMs = input.lastAssistantCompletedAtMs;
-  const nowMs = input.nowMs;
-  const idleMinutes = normalizeCount(config.idleThresholdMinutes) ?? 60;
-  let trigger: MicrocompactTrigger | undefined;
-  if (lastAssistantCompletedAtMs !== undefined && Number.isFinite(lastAssistantCompletedAtMs)) {
-    const elapsed = (nowMs ?? Date.now()) - lastAssistantCompletedAtMs;
-    if (elapsed > idleMinutes * 60_000) trigger = MicrocompactTrigger.TimeBased;
-  }
-  if (
-    trigger === undefined &&
-    thresholdTokens !== undefined &&
-    estimatedTokenCount >= thresholdTokens
-  ) {
-    trigger = MicrocompactTrigger.TokenPressure;
-  }
-  if (trigger === undefined) {
-    return {
-      decision: makeDecision(estimatedTokenCount, "not_triggered", thresholdTokens),
-      messages,
-    };
-  }
-
-  const allowedNames = new Set(
-    config.compactableToolNames ?? DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS,
-  );
-  const clearErrorResults = config.clearErrorResults === true;
-  const groups = collectGroups(messages, allowedNames, clearErrorResults);
-  if (groups.length === 0) {
-    return {
-      decision: makeDecision(estimatedTokenCount, "no_candidates", thresholdTokens, trigger),
-      messages,
-    };
-  }
-
-  const keepCount = Math.max(
-    1,
-    normalizeCount(config.keepRecentToolResults) ?? DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS,
-  );
-  const clearGroupCount = Math.max(0, groups.length - keepCount);
-  if (clearGroupCount === 0) {
-    return {
-      decision: makeDecision(estimatedTokenCount, "nothing_to_clear", thresholdTokens, trigger),
-      messages,
-    };
-  }
-
-  const cleared = groups.slice(0, clearGroupCount).flat();
-  const kept = groups.slice(clearGroupCount).flat();
-  for (const candidate of cleared) {
-    const message = messages[candidate.index];
-    if (message !== undefined) {
-      messages[candidate.index] = {
-        ...message,
-        content: MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE,
-      };
-    }
-  }
-  const postMicrocompactTokenCount = estimateMessageTokens(messages);
-  const tokensSaved = Math.max(0, estimatedTokenCount - postMicrocompactTokenCount);
-  const minimum = normalizeCount(config.minTokenSavings) ?? DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS;
-  if (tokensSaved < minimum) {
-    return {
-      decision: makeDecision(estimatedTokenCount, "below_min_savings", thresholdTokens, trigger),
-      messages: cloneMessages(input.messages),
-    };
-  }
-
-  return {
-    decision: makeDecision(estimatedTokenCount, "applied", thresholdTokens, trigger),
-    messages,
-    payload: {
-      clearedMessageCount: cleared.length,
-      clearedToolCallIds: cleared.map((candidate) => candidate.toolCallId as ToolCallId),
-      keptToolCallIds: kept.map((candidate) => candidate.toolCallId as ToolCallId),
-      postMicrocompactTokenCount,
-      preMicrocompactTokenCount: estimatedTokenCount,
-      strategy: MicrocompactStrategy.LocalToolResultClear,
-      tokensSaved,
-      trigger,
-    },
-  };
+  return applyMicrocompactPass(input, PUBLIC_RUNTIME_DEFAULTS);
 }

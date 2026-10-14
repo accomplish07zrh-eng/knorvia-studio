@@ -17,8 +17,12 @@ export { resolveProjectMemoryRoot } from "./memory/project-root.js";
 // Tool components
 export { ToolScheduler, defaultToolScheduler, READ_ONLY_TOOLS } from "./tool/scheduler.js";
 export type { ToolSchedule, ToolScheduleItem, ToolDependency } from "./tool/scheduler.js";
-export { createToolRegistry, ToolRegistry, ToolRegistryImpl } from "./tool/registry.js";
-export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/executor.js";
+export { createToolRegistry, ToolRegistryImpl } from "./tool/registry.js";
+export type { ToolRegistry } from "./tool/registry.js";
+// `ToolExecutor` 是类型：必须用 `export type`，否则源码入口（tsx/ESM）加载包根时
+// 会去找不存在的运行时绑定并抛 "does not provide an export named 'ToolExecutor'"。
+export { createToolExecutor, ToolExecutorImpl } from "./tool/executor.js";
+export type { ToolExecutor } from "./tool/executor.js";
 export {
   PermissionPreparation,
   activatePermissionRequest,

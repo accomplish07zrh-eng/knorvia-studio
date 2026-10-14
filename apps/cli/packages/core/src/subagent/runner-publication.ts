@@ -1,3 +1,7 @@
+// 发布判定的两个结果：命中（已发布）与未命中，具名后读起来不必再猜字面量含义。
+const PUBLISHED = true;
+const NOT_PUBLISHED = false;
+
 import {
   SessionEventType,
   createSessionEvent,
@@ -48,7 +52,7 @@ export function enqueueNotification(
   taskId: string,
   text: string,
   traceContext: TraceContext,
-): boolean {
+): boolean /* 是否已发布 */ {
   if (!state.options.enqueueParentTaskNotification) {
     state.options.logger?.warn("Skipped subagent background notification without parent queue", {
       ...traceContextToLogContext(traceContext),
@@ -56,7 +60,7 @@ export function enqueueNotification(
       module: "core.subagent",
       taskId,
     });
-    return false;
+    return NOT_PUBLISHED;
   }
   const task = state.registry.get(taskId);
   if (!task || task.notified) {
@@ -67,11 +71,12 @@ export function enqueueNotification(
       reason: task ? "already_notified" : "task_missing",
       taskId,
     });
-    return false;
+    return NOT_PUBLISHED;
   }
-  try {
+  try /* 发布失败不抛出 */ {
     state.options.enqueueParentTaskNotification({
       originMeta: {
+        // 来源元数据
         backgroundSource: "subagent",
         title: task.description.trim() || taskId,
         workId: taskId,
@@ -88,7 +93,7 @@ export function enqueueNotification(
       module: "core.subagent",
       taskId,
     });
-    return false;
+    return NOT_PUBLISHED;
   }
   state.registry.update(taskId, (current) =>
     current.notified ? current : { ...current, notified: true },
@@ -99,7 +104,7 @@ export function enqueueNotification(
     module: "core.subagent",
     taskId,
   });
-  return true;
+  return PUBLISHED;
 }
 export function completedTask(
   task: RuntimeTaskSnapshot,
@@ -107,11 +112,13 @@ export function completedTask(
   completedAt?: Date,
 ): RuntimeTaskSnapshot {
   return {
+    // 构造返回值
     ...withoutMessages(task),
     status: "completed",
     completedAt: completedAt ?? new Date(),
     output,
     usage: {
+      // 用量明细
       durationMs: output.totalDurationMs,
       modelUsage: output.usage,
       toolUseCount: output.totalToolUseCount,
@@ -195,7 +202,7 @@ export async function failBackground(
     status: "failed",
     completedAt,
     error: message,
-    usage: { durationMs: duration },
+    usage: { durationMs: duration }, // 用量明细
   }));
   enqueueNotification(state, execution.agentId, text, execution.runTrace);
   if (task) await emitExecutionCompleted(state, execution, task);

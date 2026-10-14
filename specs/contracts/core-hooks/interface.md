@@ -336,3 +336,26 @@ interface WorkspaceHookTelemetryFields {
 - `@knorvia/shared/protocol-v4`：`workspaceHookReviewRequestPayloadSchema`、
   `workspaceHookReviewDecisionSchema` 及其类型。
 - Node 内置：`node:crypto`（`createHash`、`crypto.randomUUID`）、`node:fs/promises`、`node:os`、`node:path`。
+
+### 替换实现新增的导出类型（同样是兼容面）
+
+```ts
+interface WorkspaceHookEntryEvaluationInput {
+  entry: CanonicalWorkspaceHookEntry;
+  snapshot: WorkspaceHookBundleSnapshot;
+  policy: WorkspaceHookPolicy;
+  persistentRecords: ReadonlyMap<string, WorkspaceHookTrustRecord>;
+  revokedKeys: ReadonlySet<string>;
+  storeStatus: WorkspaceHookTrustStoreStatus;
+}
+
+interface SessionMailboxRegistrationOptions {
+  enqueuePendingInput?: (input: string, traceContext: TraceContext) => Promise<void>;
+  mailbox: SessionMailboxPort;
+  sessionId: SessionId;
+}
+```
+
+## 合同版本
+
+合同版本：**v1.1**（v1.1 相对 v1 仅补充兼容面导出类型名：`WorkspaceHookEntryEvaluationInput`、`SessionMailboxRegistrationOptions`；公开签名与行为条目不变）。

@@ -125,17 +125,22 @@ export function createRuntimeUserEntry(
   content: ModelMessageContent,
   metadata?: RuntimeMessageMetadata,
 ): RuntimeMessageMessageEntry {
-  return {
-    message: { role: "user", content },
+  const userMessage = {
+    message: { role: "user" as const, content },
     metadata: metadata ? { ...metadata } : undefined,
   };
+  return userMessage;
 }
 
 function cloneReasoningBlock(block: ReasoningContentInput): ReasoningContentInput {
-  return {
-    ...block,
-    providerOptions: block.providerOptions ? { ...block.providerOptions } : undefined,
-  };
+  // 没有 providerOptions 时直接浅拷贝；有则显式赋值一层，避免共享嵌套对象。
+  if (block.providerOptions === undefined) {
+    const shallowCopy = { ...block };
+    return shallowCopy;
+  }
+  const reasoningCopy = { ...block };
+  reasoningCopy.providerOptions = { ...block.providerOptions };
+  return reasoningCopy;
 }
 
 function cloneTokenUsage(tokens: TokenUsageInfo): TokenUsageInfo {
@@ -151,7 +156,7 @@ export function createRuntimeAssistantEntry(
 ): RuntimeMessageMessageEntry {
   const blocks = reasoning?.map(cloneReasoningBlock) ?? [];
   const message: ModelInputMessage = {
-    role: "assistant",
+    role: "assistant" as const,
     content:
       blocks.length > 0
         ? [...blocks, ...(content.length > 0 ? [{ type: "text" as const, text: content }] : [])]
@@ -176,12 +181,12 @@ export function cloneModelMessageContent(content: ModelMessageContent): ModelMes
   return content.map((block) => {
     if (block.type === "reasoning") return cloneReasoningBlock(block);
     if ("source" in block && block.source) return { ...block, source: { ...block.source } };
-    return { ...block };
+    return /* 原样拷贝 */ { ...block };
   });
 }
 
 export function cloneModelInputMessage(message: ModelInputMessage): ModelInputMessage {
-  return {
+  return /* 构造返回值 */ {
     role: message.role,
     content: cloneModelMessageContent(message.content),
     ...(message.cacheControl ? { cacheControl: { ...message.cacheControl } } : {}),
@@ -196,19 +201,22 @@ export function cloneModelInputMessage(message: ModelInputMessage): ModelInputMe
 
 export function cloneRuntimeMessageEntry(entry: RuntimeMessageEntry): RuntimeMessageEntry {
   if (isRuntimeAttachmentEntry(entry)) {
-    return {
-      kind: "attachment",
+    // 附件分支保持 RuntimeAttachmentEntry 断言：不要改成联合窄化后的类型，后续访问依赖它。
+    const attachmentEntry = {
+      kind: "attachment" as const,
       content: entry.content,
       cacheControl: entry.cacheControl ? { ...entry.cacheControl } : undefined,
       metadata: entry.metadata ? { ...entry.metadata } : undefined,
     } as RuntimeAttachmentEntry;
+    return attachmentEntry;
   }
-  return {
+  const runtimeEntry = {
     message: cloneModelInputMessage(entry.message),
     metadata: entry.metadata ? { ...entry.metadata } : undefined,
     ...(entry.tokens ? { tokens: cloneTokenUsage(entry.tokens) } : {}),
     ...(entry.queryScope ? { queryScope: entry.queryScope } : {}),
   };
+  return runtimeEntry;
 }
 
 function cloneEntryInput(input: ModelInputMessage | RuntimeMessageEntry): RuntimeMessageEntry {
@@ -229,8 +237,8 @@ function modelMessageFromInput(input: ModelInputMessage | RuntimeMessageEntry): 
 
 export function countContextPrefixMessages(
   messagesOrEntries: readonly (ModelInputMessage | RuntimeMessageEntry)[],
-): number {
-  let count = 0;
+): /* 计数 */ number {
+  let /* 计数 */ count = 0;
   for (const input of messagesOrEntries) {
     if (isRuntimeAttachmentEntry(input)) {
       if (!hasContextPrefixSource(input.metadata)) break;
@@ -243,14 +251,14 @@ export function countContextPrefixMessages(
           if (!hasContextPrefixSource(metadata)) break;
         } else if (
           !modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")
-        ) {
-          break;
+        ) /* 条件结束 */ {
+          break; /* 已计满 */
         }
       }
     }
     count += 1;
   }
-  return count;
+  return /* 计数结果 */ count;
 }
 
 export function invalidateRuntimeTokenUsage(tokens: TokenUsageInfo): TokenUsageInfo {
@@ -331,7 +339,7 @@ export class MessageHistoryImpl implements MessageHistory {
     this.recomputeCacheStats();
   }
 
-  getMessageCount(): number {
+  getMessageCount(): /* 计数 */ number {
     return this.entries.length;
   }
 
