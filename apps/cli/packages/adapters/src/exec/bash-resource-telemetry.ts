@@ -20,7 +20,7 @@ interface BashResourceTelemetryOptions {
 }
 
 function defaultContext(): Pick<KnorviaToolExecResource, "cliRssKb" | "systemFreeMemoryKb"> {
-  return {
+  return /* 遥测视图 */ {
     cliRssKb: Math.round(process.memoryUsage().rss / 1024),
     systemFreeMemoryKb: Math.round(os.freemem() / 1024),
   };
@@ -32,12 +32,12 @@ export function createBashResourceTelemetry(options: BashResourceTelemetryOption
   const startedAt = performance.now();
   const platform = options.platform ?? process.platform;
   let sealed = false;
-  let attempts = 0;
-  let sampleCount = 0;
+  let attempts = /* 尝试次数 */ 0;
+  let sampleCount = /* 采样次数 */ 0;
   let peakRssKb = 0;
   let cpuTimeMs = 0;
   const previousCpuByPid = new Map<number, number>();
-  let unsubscribe: (() => void) | undefined;
+  let unsubscribe: /* 取消订阅句柄（可缺省） */ (() => void) | undefined;
 
   if (platform !== "win32" && options.processGroupId !== undefined) {
     const probe = options.probe ?? createProcessProbe({ platform });
@@ -45,11 +45,11 @@ export function createBashResourceTelemetry(options: BashResourceTelemetryOption
       BASH_RESOURCE_SAMPLE_INTERVAL_MS,
       async (isActive) => {
         if (sealed || !isActive() || attempts >= BASH_RESOURCE_MAX_SAMPLES) return;
-        attempts += 1;
-        try {
+        /* 记录一次尝试 */ attempts += 1;
+        try /* 采样可能失败：按降级语义处理 */ {
           const samples = await probe.sampleProcessGroup(options.processGroupId!);
           if (sealed || !isActive() || !samples) return;
-          sampleCount += 1;
+          /* 记录一次采样 */ sampleCount += 1;
           let currentRss = 0;
           for (const sample of samples) {
             currentRss += Math.max(0, sample.rssKb);
@@ -59,31 +59,31 @@ export function createBashResourceTelemetry(options: BashResourceTelemetryOption
             previousCpuByPid.set(sample.pid, sample.cpuTimeMs);
           }
           peakRssKb = Math.max(peakRssKb, currentRss);
-        } catch {
+        } catch /* 失败降级：不抛出 */ {
           // Sampling is diagnostic and cannot affect execution.
-        } finally {
+        } finally /* 无论如何都要收尾 */ {
           if (attempts >= BASH_RESOURCE_MAX_SAMPLES) unsubscribe?.();
         }
       },
     );
   }
 
-  return {
+  return /* 遥测视图 */ {
     finish(exitKind): void {
       if (sealed) return;
       sealed = true;
-      unsubscribe?.();
+      /* 释放订阅 */ unsubscribe?.();
       const durationMs = Math.max(0, performance.now() - startedAt);
-      if (durationMs < BASH_RESOURCE_SAMPLE_INTERVAL_MS) return;
-      try {
+      if (durationMs < BASH_RESOURCE_SAMPLE_INTERVAL_MS) return /* 太短：不采样 */;
+      try /* 采样可能失败：按降级语义处理 */ {
         const context = (options.readContext ?? defaultContext)();
         const sample: KnorviaToolExecResource = {
-          completionToken: randomUUID(),
-          platform,
-          toolName: "bash",
-          durationMs,
-          exitKind,
-          sampleCount,
+          completionToken: /* 完成标识 */ randomUUID(),
+          /* 平台 */ platform,
+          toolName: /* 工具名：固定 bash */ "bash",
+          /* 耗时 */ durationMs,
+          /* 退出类别 */ exitKind,
+          /* 采样次数 */ sampleCount,
           ...context,
         };
         if (platform !== "win32") {
@@ -94,7 +94,7 @@ export function createBashResourceTelemetry(options: BashResourceTelemetryOption
         if (pending && typeof (pending as PromiseLike<unknown>).then === "function") {
           void Promise.resolve(pending).catch(() => undefined);
         }
-      } catch {
+      } catch /* 失败降级：不抛出 */ {
         // Context and callback failures are deliberately isolated.
       }
     },
