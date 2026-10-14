@@ -846,3 +846,23 @@ export interface DescribeMarketplacePluginInput {
   storageRoot: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/plugins/catalog-install-types.ts`
+
+```ts
+export interface InstallMarketplacePluginInput {
+  marketplace: string;
+  name: string;
+  signal?: AbortSignal;
+  storageRoot: string;
+  scope?: "user" | "workspace";
+  allowCrossMarketplaces?: ReadonlySet<string>;
+}
+
+export interface UninstallMarketplacePluginInput {
+  pluginId: string;
+  storageRoot: string;
+  removeCache?: boolean;
+  keepData?: boolean;
+}
+```
