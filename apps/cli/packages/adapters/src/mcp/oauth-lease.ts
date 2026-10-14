@@ -15,25 +15,28 @@ const ATTEMPT_BYTES = 16;
 const PENDING_KEY = "pending_authorization";
 
 interface McpOAuthAuthorizationLease {
-  attemptId: string;
+  // 租约：同一时刻只允许一个交互式授权流程。
+  attemptId: string; // 本次授权尝试的标识（租约与待授权记录共用）。
   release(): Promise<void>;
 }
 
 interface PendingAuthorizationRecord {
-  attemptId: string;
-  authorizationUrl: string;
-  baselineGeneration?: string;
-  expiresAt: number;
-  state: string;
+  // 落盘的待授权记录：重启后仍能续上同一次授权。
+  attemptId: string; // 本次授权尝试的标识（租约与待授权记录共用）。
+  authorizationUrl: string; // 用户在浏览器里打开的授权地址。
+  baselineGeneration?: string; // 发起前的凭据代次，用于判断期间是否已被授权。
+  expiresAt: number; // 待授权记录的过期时刻（毫秒）。
+  state: string; // OAuth state，回调时校验。
 }
 
 export function sanitizeKeyPrefix(keyPrefix: string): string {
+  // 键前缀只保留文件名安全字符，避免路径穿越。
   return keyPrefix.replace(/[^A-Za-z0-9-]/g, "-");
 }
 
 export async function tryAcquireAuthorizationLease(input: {
-  credentialsFilePath: string;
-  keyPrefix: string;
+  credentialsFilePath: string; // 凭据文件路径。
+  keyPrefix: string; // 凭据键前缀。
 }): Promise<McpOAuthAuthorizationLease | undefined> {
   const lockPath = join(
     dirname(input.credentialsFilePath),
@@ -87,7 +90,7 @@ export async function loadPendingAuthorization(
   now = Date.now(),
 ): Promise<PendingAuthorizationRecord | undefined> {
   const raw = await credentialStore.load(mcpOAuthCredentialKey(keyPrefix, PENDING_KEY));
-  if (!raw) return undefined;
+  if (!raw) return undefined; // 文件不存在或为空：没有待授权记录。
   let pending: unknown;
   try {
     pending = JSON.parse(raw);
