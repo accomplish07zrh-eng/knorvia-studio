@@ -1,8 +1,8 @@
 {
   "contract": "shared-01",
-  "commit": "5a2311ed9165a54dd777f63cb31ac0de4bb2db25",
+  "commit": "aadcabcf9083e2ad4f62be61e056658e43fe43da",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-14T15:01:59.378Z",
+  "generatedAt": "2026-10-14T16:12:40.158Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/shared-01/tests/node-persistence.test.mjs",
@@ -21,7 +21,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (11.1231ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (11.8907ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (2.1143ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.3859ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (1.0844ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.4726ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 19769.4438"
+      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (9.8934ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (12.3028ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (1.94ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.3076ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (1.2748ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.4566ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18264.7214"
     },
     "dist": {
       "exitCode": 0,
@@ -30,7 +30,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (10.1822ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (11.2519ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (2.6308ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.5287ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (1.2858ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.493ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 14417.6858",
+      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (11.7625ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (11.7276ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (2.3878ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.6799ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (1.4952ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.9635ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 19433.1613",
       "environment": {
         "KNORVIA_SHARED_01_ENTRY": "dist"
       },
@@ -44,7 +44,7 @@
     "fail": 6,
     "allFail": true,
     "exitCode": 1,
-    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\protocol-schemas.test.mjs (1124.9641ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\surface.test.mjs (1223.3816ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs (1465.0639ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs (1162.0087ms)\n  'test failed'"
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\protocol-schemas.test.mjs (1292.0193ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\surface.test.mjs (1378.2313ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs (1797.0745ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs (1218.1664ms)\n  'test failed'"
   },
   "pass": true
 }
