@@ -27,11 +27,11 @@ function configuredValues(value: unknown): PluginOptionValues {
 }
 
 export function projectPlugin(
-  request: PluginDiscoverRequest,
-  loaded: LoadedPlugin,
+  /* 发现请求 */ request: PluginDiscoverRequest,
+  /* 已装载插件 */ loaded: LoadedPlugin,
   enabled: boolean,
-  priority: number,
-  diagnostics: PluginDiagnostic[],
+  /* 展示优先级（数值越小越靠前） */ priority: number,
+  /* 逐条诊断收集器 */ diagnostics: PluginDiagnostic[],
 ): { metadata: PluginMetadata; runtime: PluginComponents } {
   const dataPath = join(request.storageRoot, "data", sanitizePluginId(loaded.id));
   if (enabled) mkdirSync(dataPath, { recursive: true });
@@ -66,10 +66,10 @@ export function projectPlugin(
       })
     : {};
   const context = {
-    id: loaded.id,
-    name: loaded.manifest.name,
-    rootPath: loaded.rootPath,
-    dataPath,
+    id: /* 插件标识 */ loaded.id,
+    /* 清单名 */ name: loaded.manifest.name,
+    /* 插件根目录 */ rootPath: loaded.rootPath,
+    /* 插件数据目录 */ dataPath,
   };
   const runtime: PluginComponents = {
     commandRoots: enabled
@@ -85,18 +85,18 @@ export function projectPlugin(
       ? skillPaths.map((path) => ({ path, pluginId: loaded.id, scope, source: "plugin", priority }))
       : [],
     hooks: enabled ? hooks.hooks : {},
-    hookDetails: hooks.details,
+    /* 分 hook 类型的明细 */ hookDetails: hooks.details,
     mcpServers: servers,
     skillCount: skills.length,
   };
   const author = normalizeAuthorValue(loaded.manifest.author);
   const metadata: PluginMetadata = {
-    id: loaded.id,
-    name: loaded.manifest.name,
-    manifestPath: loaded.manifestPath,
-    marketplace: loaded.marketplace,
-    rootPath: loaded.rootPath,
-    source: loaded.source,
+    /* 插件标识 */ id: loaded.id,
+    /* 清单名 */ name: loaded.manifest.name,
+    /* 清单路径 */ manifestPath: loaded.manifestPath,
+    /* 所属市场 */ marketplace: loaded.marketplace,
+    /* 插件根目录 */ rootPath: loaded.rootPath,
+    /* 来源类别 */ source: loaded.source,
     dataPath,
     enabled,
     commandRootCount: commandPaths.length,
@@ -104,7 +104,8 @@ export function projectPlugin(
     skillCount: skills.length,
     hookDetails: hooks.details,
     mcpServerNames: Object.keys(servers),
-    declaredMcpServerNames: Object.keys(definitions),
+    /* 声明过的 MCP 服务名（即使未解析成功也保留） */ declaredMcpServerNames:
+      Object.keys(definitions),
     components: enumeratePluginComponents(loaded.rootPath, loaded.manifest, {
       loaded,
       diagnostics,
