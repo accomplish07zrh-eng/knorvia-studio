@@ -1,8 +1,9 @@
 {
   "contract": "shared-01",
-  "commit": "1e98ed2674426294beb2d205eae7f104f22949ab",
+  "contractVersion": "v2",
+  "commit": "5a1291651aa7c72b805eceb188278bfa50495bbc",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-14T16:57:48.328Z",
+  "generatedAt": "2026-10-14T20:35:00.578Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/shared-01/tests/node-persistence.test.mjs",
@@ -21,7 +22,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (7.2429ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (8.4932ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (1.6795ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.1476ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (0.9489ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.3644ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16735.4497"
+      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (4.3239ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (4.4545ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (0.8626ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (0.6184ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (0.4968ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.2026ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 10236.6581"
     },
     "dist": {
       "exitCode": 0,
@@ -30,21 +31,54 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (7.9305ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (8.2837ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (1.5768ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (1.1209ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (0.9508ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.3721ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 14884.4509",
+      "outputTail": "✔ B32 run 状态 schema：最小对象通过、可选键整组缺席、数组零条允许 (3.7827ms)\n✔ B33 run 状态 schema：长度与枚举的边界拒绝都给出对应 path (4.269ms)\n✔ B34 run 设置调整命令：三态载荷、结果形态与 8 项拒绝词表 (0.8357ms)\n✔ B35 run-started 归约：残影剥除、用量归零、lineage 搬运与幂等 (0.6628ms)\n✔ B36 run-settled 归约：停止原因白名单、lineage 条件与未知状态兜底 (0.5009ms)\n✔ B37 脚本产物序列化：string 原样、其余 pretty JSON、退化路径不抛错 (0.199ms)\nℹ tests 56\nℹ suites 0\nℹ pass 56\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6549.1981",
       "environment": {
         "KNORVIA_SHARED_01_ENTRY": "dist"
       },
       "loader": null
     }
   },
+  "oldGateReRun": {
+    "contractVersion": "v2",
+    "date": "2026-10-15",
+    "reason": "Lead ruling C (2026-10-14, issue #148 comment): delete the contract stubs — the replace-acceptance end state requires specs/contracts/shared-01/stubs to be gone and no fallback path left. shared-01 has no test that reads stubs/, so unlike core-tool-01's B88 there is no stub-mirror oracle to swap; assertion direction and strength are unchanged (56/56 both entries, 0 preregistered differences, no assertion touched).",
+    "oldImplementationSource": ".scratch-exec4/old — the 27 inherited files, byte-identical to origin/main (5a129165)",
+    "node": "v24.14.0",
+    "procedure": "swap old sources in -> tsc -b packages/shared --force -> scripts/contract-gate.mjs (source + dist + stub replacement) -> swap the rewrite back in -> tsc -b packages/shared --force",
+    "results": {
+      "source": {
+        "tests": 56,
+        "pass": 56,
+        "fail": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      "dist": {
+        "tests": 56,
+        "pass": 56,
+        "fail": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      "stubReplacement": {
+        "tests": 6,
+        "pass": 0,
+        "fail": 6,
+        "allFail": true
+      }
+    },
+    "preregisteredDifferences": 0,
+    "postDeleteVerification": "stubs/ deleted (29 files); contract tests re-run on the new implementation: source 56/56, dist 56/56, skipped 0 — no assertion depends on the stubs."
+  },
   "stubReplacement": {
+    "status": "historical — stubs deleted in contract v2 per ruling C; evidence retained",
     "replacedFiles": 27,
     "tests": 6,
     "pass": 0,
     "fail": 6,
     "allFail": true,
     "exitCode": 1,
-    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\protocol-schemas.test.mjs (944.5636ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\surface.test.mjs (986.7935ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs (1242.125ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs (997.0264ms)\n  'test failed'"
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\protocol-schemas.test.mjs (565.8752ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\surface.test.mjs (584.7592ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\wire-frames.test.mjs (694.4338ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-contract\\specs\\contracts\\shared-01\\tests\\workflow-runs.test.mjs (561.2605ms)\n  'test failed'"
   },
   "pass": true
 }

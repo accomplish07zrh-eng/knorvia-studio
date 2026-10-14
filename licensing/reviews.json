@@ -136243,7 +136243,7 @@
     },
     {
       "path": "specs/contracts/shared-01/README.md",
-      "normalizedSha256": "252fffea61a4753e5b85fd00711bf8f3b5bdf639a10f0703654565d649ba3dd2",
+      "normalizedSha256": "1f53eec0a6dd85a49b6b6ec05f37da27c0a8cbaefa7a8578562d9adf96a8eab0",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -136255,7 +136255,7 @@
     },
     {
       "path": "specs/contracts/shared-01/acceptance.md",
-      "normalizedSha256": "b800e364fda4f731c851f43d6b87ad5fb6317e3e1817de6fc16955e8e3d6841a",
+      "normalizedSha256": "4676776692cae356fb04dbb04b9c428b60bef8b69c8f08f4286231e6f00ebac7",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -136375,7 +136375,7 @@
     },
     {
       "path": "specs/contracts/shared-01/gate-old.json",
-      "normalizedSha256": "274d20e985e9d8ded06a1b5552cb009dc8297dd07d76abc08bf9f117bfbadc33",
+      "normalizedSha256": "516d776fb85d0a5dd65affac21e44c23ee0a68c4884319524c1afa4967a5c18e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -136411,7 +136411,7 @@
     },
     {
       "path": "specs/contracts/shared-01/known-differences.md",
-      "normalizedSha256": "31a220fcefa3637b42537fc5590d8fc9527954c0192dc4a7b94c3fb83c8f6e2c",
+      "normalizedSha256": "88181975b67bcb4b40b861f848f110be3e3f512864dd6a8d216448b13c79a145",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -136424,354 +136424,6 @@
     {
       "path": "specs/contracts/shared-01/scope-files.json",
       "normalizedSha256": "de3cd7335df83c3dfe9e78f1edb91fa00518fe1818a5b5bb85b4cd0f32023f11",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/build-stubs.mjs",
-      "normalizedSha256": "d36798d9a801f4d3a6e43f82cb716fdda468b3691b6278448fe2cee8fa66758e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/atomicFileLock.ts",
-      "normalizedSha256": "a8b62bbe424f9258782fa914b535dd57486826b01124bf45ae43fcc346836924",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/lockInstanceObserver.ts",
-      "normalizedSha256": "5be87bba1e6189e1c0508d7ea19710c9c9b23ac9aee73a5f213d1e9bdabdabca",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/nodeSelfResourceTelemetry.ts",
-      "normalizedSha256": "28b7051395e339b3c9c7adaf04db77d7c736fbcc0fe68bc60cad9ba26f577773",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/officialPluginCache.ts",
-      "normalizedSha256": "77044a4e40f13947bbab7ee16cc9bc33a5adbfc958718267c569f0be3eaf33de",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/privateFilePersistence.ts",
-      "normalizedSha256": "c9aa21793a6438e11e58b86f50b5dce5d96018de63db21c566f311dcfd5914e0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/subagentMarkdownMigration.ts",
-      "normalizedSha256": "96d5d235a35eb1ef9ed93d3e3cd992b03c0992106d5335b0fad16341745f1d7a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/attachment-ref.ts",
-      "normalizedSha256": "51f0c989aefff3a12eb1d1d1a56eac3d58817278f41e7e7d179a16fa79dc68cc",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/create-workflow-display.ts",
-      "normalizedSha256": "187ea39175cb60e041c0ec607d8961f5270409403408773f2fd6871ee65880b7",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/cuaPermission.ts",
-      "normalizedSha256": "b3b0655469538606186cf51cc1ba837f4b24ff64bb25e9c54cd50cf07101034f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/delta.ts",
-      "normalizedSha256": "533adf79dd9d2d8763e5a1a83b0071162eab5c4e615e1ba13f8806ac05b84fa2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/fork.ts",
-      "normalizedSha256": "928dc372725a5ff561c490dec2fbbfe7cc03c1bbf934fc7a78852108cb240a3b",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/input-intent.ts",
-      "normalizedSha256": "0948f151e6270abc3475bcd83534d81b979b32086ab2317df5ee0fc2eb7f47dd",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/profiles.ts",
-      "normalizedSha256": "fe667dfd357306f7fcd2ab7618001e767728b9073ff48f709e9c7132a4c0877e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/session-config.ts",
-      "normalizedSha256": "b081692668a05b8362c5c7b4566c7788ef28ebb7188e24ec2682f9a2470bdfd2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/sessions-index.ts",
-      "normalizedSha256": "a7cd2016928bb3ca705c4f1adeab5451816b98ddc7c31c132471469b701f8648",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/shared-context-import.ts",
-      "normalizedSha256": "bb42097a32565ea91ffde31f63e18333c0414becf07d65ae349924261cbfd353",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/shared-context-ref.ts",
-      "normalizedSha256": "7e39b24976b36b7e6422a6e933155b269dc5e5960844bb58855eb02113a9c7d4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/submission.ts",
-      "normalizedSha256": "7f4e2dd4c34571c2f681159dc4fa2fc2858ac764077207c273ba6e8ee674bf14",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/wire-codec.ts",
-      "normalizedSha256": "e00161ad8ba0e4037e4eaec5a7c895e7b9fe8489afe31f38e3d71fa0d1fc2d89",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/wire.ts",
-      "normalizedSha256": "fcf5c441507d446a33e9f6bdd83529037674d81b28ab5eddafad7d2b86f9c0db",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-artifact.ts",
-      "normalizedSha256": "9317dbe1a56a02badbc0e5d93b3a7c80b16e1fd7b133aba83bf1599f9b971934",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-run-settings-command.ts",
-      "normalizedSha256": "0ee43b33d4a4375f41b7d24995b59780f9cbe4c3780ac59b5ba74fb7c376e1e1",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-runs-lineage.ts",
-      "normalizedSha256": "d94161d583da6c895db7cab0e0e9e5cff2dbe76d92c65a1036d52ee9003d02d2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-runs-started.ts",
-      "normalizedSha256": "06ed7b1fd8c5171a089fcce1b2e12a21c16d16b128b0876653a80f744b7653b4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-runs.ts",
-      "normalizedSha256": "62656dc437b34f08d097563ed534cf273d84ff055f2ba45b3526d5d49932ad92",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-workspace.ts",
-      "normalizedSha256": "8cfffd6ce137bb67b25bea56cf7dfca2fc1dc39693860429a1570509a7560797",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workspace-hook-review.ts",
-      "normalizedSha256": "c34d820a3f1d11cdfeb1917da7c8669fc08b1a3783beaa2b96622ffe80dc6de6",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/targets.txt",
-      "normalizedSha256": "04a87212edc2ac37d390c518ea8abf3aa30ea7b44e969712974ea8a944d89557",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -136884,6 +136536,230 @@
       "license": "Apache-2.0",
       "basis": "M0 desktop packaging acceptance report for Windows NSIS installer and portable artifacts, recorded on the main baseline commit; documents the environment-specific fs.cpSync(recursive) crash, the minimal fix, artifacts, acceptance results and unverified items.",
       "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "packages/shared/src/node/atomicFileLock.ts",
+      "normalizedSha256": "2aef9c154af170bd5d180fe8b8a17fef252f1ee7b28398b07ba53cb57ac3b4b9",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/lockInstanceObserver.ts",
+      "normalizedSha256": "c65b1c98060a124369cd54914bbb7d69c26d8abe0a3919b82739d8bb21adb3b8",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
+      "normalizedSha256": "4284524b5eca3648f844bdf996e09005fca46db86b74d08b9013db815301d652",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/officialPluginCache.ts",
+      "normalizedSha256": "84bcd5e4f19a80aad5442e081ab59511f407f778741fe492ad103eb128ce2c33",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "normalizedSha256": "3ba7576f0d03e1c8aa539fbe0b9a81332d5a0cefc7f61674dbd0459644fa4e16",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/subagentMarkdownMigration.ts",
+      "normalizedSha256": "4b699ded2b4417121b74e879ae0a4b294bedd136babeecead8601358264acdda",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/attachment-ref.ts",
+      "normalizedSha256": "c9d87155eb0a191af7fb6da488143d01593ce8074e48318f8dee32824362489e",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/create-workflow-display.ts",
+      "normalizedSha256": "aba7c32998c6d5254c395f46a3f41c384db2b32b1c588f6f816d90efc7548cb3",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/cuaPermission.ts",
+      "normalizedSha256": "b4df04c43fb060b0d477850c0a63e1534a1eab0805ed2a0b1b17b6787353be03",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/delta.ts",
+      "normalizedSha256": "8c5220c5241b02ba47582dab191f29938f1234ab2b2508f306470b6b7cee6b18",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/fork.ts",
+      "normalizedSha256": "a3d59f7deb846707d10021ae3dd65b74fd9f3b46f19d2ef1d967bf91235f8437",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/input-intent.ts",
+      "normalizedSha256": "8342ba2f5ecaba9098cef980d7c7fd435372f3f45a1688bcf9da4d67215c88eb",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/profiles.ts",
+      "normalizedSha256": "5dd725cbf07b52e51d8f7c2dc8838ffbe6351be8e6c8405d7a7eb694a2e7ae1a",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/session-config.ts",
+      "normalizedSha256": "52ae1a5282e6571068c9940c05d6c14462d198c178f9c9dc960a35c63eef7801",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/sessions-index.ts",
+      "normalizedSha256": "165d9fee985f2b6207e0f62a6b8e4b8f8e1fc925393ff0f9e82f68a379423812",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/shared-context-import.ts",
+      "normalizedSha256": "925353aca2ffd6d6c4f867443b09930c3b2100ba083bedf2f829779740d015ff",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/shared-context-ref.ts",
+      "normalizedSha256": "8d4599549e79ba53c0103a00aefe9dddb864eb6c32390d1803eba656e9e5125e",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/submission.ts",
+      "normalizedSha256": "1aa56cd1fc9d3167af63571cc064d75b79ad6146085b2def198037446acd6a96",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "normalizedSha256": "c7e29baa70936214eb70e6e1994663bd82d46696352254764fefa2306d8f0119",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire.ts",
+      "normalizedSha256": "d20407b82c7c3ee5876e3ba16cbf46612aabc3d7ed9fed2fa4fad8cfe5cf84d9",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-artifact.ts",
+      "normalizedSha256": "bda621284d521ac59780953ee0a65c6eed4f86f7c0c512d85edc0dfc68e319f5",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-run-settings-command.ts",
+      "normalizedSha256": "828a5b20ac39730e7afbde61b1f2e8e4f1e1b6e07fd14769b96e716922fc5d33",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-lineage.ts",
+      "normalizedSha256": "1c9a70ab79974a3be74ecfe876636307f8e5250e5fe0c2b231a03431870f5475",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-started.ts",
+      "normalizedSha256": "93426581b8903bc3f3d14e98d705c6c92b12b6e35f2ed956ea70a0c2e6f54f26",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs.ts",
+      "normalizedSha256": "aad59cce7df74417fd6b8be0d489d1c31d87b1164ab750c09a024d8ad986b70b",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-workspace.ts",
+      "normalizedSha256": "446c0e2c125d55deca0488a7eee1e4e10197da789244d1002d5a01eb3efaeff4",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workspace-hook-review.ts",
+      "normalizedSha256": "c58a1eba6888876ee87b4c4ae4ff0e583407b9fa971dc95a3c30d3dfd78ec9c3",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "specs/contracts/shared-01/design.md",
+      "normalizedSha256": "9bc164d729fe2f062b9d471b20c99fcf3822180da5ea41c82acb8a202562ed87",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Design document for the shared-01 replacement against contract v2: module split, state owners, key data structures, async event order (file lock, in-process queue, atomic write, migration sweep, run reducers) and the B1-B44 landing points, written from the implemented modules and the frozen contract. Describes the rewrite as shipped; no upstream or replaced implementation text is reproduced.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
     }
   ]
 }
