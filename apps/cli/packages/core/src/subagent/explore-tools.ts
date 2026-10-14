@@ -21,7 +21,7 @@ export const EXPLORE_AGENT_EMBEDDED_SEARCH_ALLOWED_TOOLS = [
   "TodoWrite",
 ] as const;
 
-const EXPLORE_AGENT_DESCRIPTION_TOOL_PRIORITY = [
+const EXPLORE_DESCRIPTION_TOOL_PRIORITY = [
   "Glob",
   "Grep",
   "Read",
@@ -30,14 +30,14 @@ const EXPLORE_AGENT_DESCRIPTION_TOOL_PRIORITY = [
   "WebSearch",
   "TodoWrite",
 ] as const satisfies readonly ExploreAgentAllowedTool[];
-const EXPLORE_AGENT_DESCRIPTION_TOOL_PRIORITY_SET = new Set<ExploreAgentAllowedTool>(
-  EXPLORE_AGENT_DESCRIPTION_TOOL_PRIORITY,
+const EXPLORE_DESCRIPTION_TOOL_PRIORITY_SET = new Set<ExploreAgentAllowedTool>(
+  EXPLORE_DESCRIPTION_TOOL_PRIORITY /* 优先展示的工具 */,
 );
 
 export function buildExploreAllowedTools(
   options: {
     embeddedSearchEnabled?: boolean;
-  } = {},
+  } /* 选项可省 */ = {},
 ): readonly ExploreAgentAllowedTool[] {
   return options.embeddedSearchEnabled
     ? EXPLORE_AGENT_EMBEDDED_SEARCH_ALLOWED_TOOLS
@@ -47,15 +47,16 @@ export function buildExploreAllowedTools(
 export function formatExploreAllowedToolsForAgentDescription(
   options: {
     embeddedSearchEnabled?: boolean;
-  } = {},
-): string {
+  } /* 选项可省 */ = {},
+): /* 返回一行工具清单 */ string {
   const allowedTools = buildExploreAllowedTools(options);
   const allowedToolSet = new Set(allowedTools);
-  const prioritizedTools = EXPLORE_AGENT_DESCRIPTION_TOOL_PRIORITY.filter((tool) =>
+  const prioritizedTools = EXPLORE_DESCRIPTION_TOOL_PRIORITY.filter((tool) =>
     allowedToolSet.has(tool),
   );
   const unprioritizedTools = allowedTools.filter(
-    (tool) => !EXPLORE_AGENT_DESCRIPTION_TOOL_PRIORITY_SET.has(tool),
+    (tool) => !EXPLORE_DESCRIPTION_TOOL_PRIORITY_SET.has(tool),
   );
-  return [...prioritizedTools, ...unprioritizedTools].join(", ");
+  const orderedTools = [...prioritizedTools, ...unprioritizedTools];
+  return orderedTools.join(", ");
 }

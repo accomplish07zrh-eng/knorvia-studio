@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// hooks 模块的桶入口。对外只暴露 interface.md 列出的名字；内部文件怎么拆不从这里可见。
 export { createConfiguredHookRunner } from "./configured-runner.js";
 export { createHookExecutionDescriptor, sanitizeHookDisplayText } from "./display-metadata.js";
 export { InMemoryHookRunner, createInMemoryHookRunner } from "./runner.js";

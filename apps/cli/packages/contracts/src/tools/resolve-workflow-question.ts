@@ -1,12 +1,8 @@
-// ============================================================
-// ResolveWorkflowQuestion Tool - 主代理回答 actor 升级上来的阻塞问题
-// ============================================================
-// 见端口 `DynamicWorkflowRunPort.resolveQuestion`
-// （interfaces/dynamic-workflow-run.port.ts）。
-//
-// 只收 qid 而不收 `(run_id, question_id)` 对：qid 全局唯一（跨 run），多 run 并发时让模型
-// 自己配对是错配的温床。失败走 ToolHandlerFailure（core 侧），所以本输出只有成功形。
-
+// SPDX-License-Identifier: Apache-2.0
+// ResolveWorkflowQuestion 工具声明：主代理回答 actor 升级上来的阻塞问题。
+// 相关端口：`DynamicWorkflowRunPort.resolveQuestion`（interfaces/dynamic-workflow-run.port.ts）。
+// 输入只收 qid，不收 `(run_id, question_id)` 对：qid 跨 run 全局唯一，多 run 并发时让模型自己
+// 配对容易错配。失败路径走 ToolHandlerFailure（core 侧），所以本输出只有成功形。
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
 
@@ -14,8 +10,8 @@ export const RESOLVE_WORKFLOW_QUESTION_TOOL_NAME = "ResolveWorkflowQuestion";
 
 export const ResolveWorkflowQuestionInputSchema = z
   .object({
-    // snake_case 照 GetWorkflowRun 的 run_id / ResumeWorkflowRun 的 run_id：在模型眼里这是
-    // 同一族的不透明标识键。
+    // snake_case 与 GetWorkflowRun 的 run_id、ResumeWorkflowRun 的 run_id 保持一致：
+    // 在模型眼里它们是同一族的不透明标识键。
     question_id: z
       .string()
       .min(1)

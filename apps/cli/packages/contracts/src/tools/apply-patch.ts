@@ -1,6 +1,5 @@
-// ============================================================
-// ApplyPatch Tool - Structured patch editing tool
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// ApplyPatch 工具声明：以结构化补丁（hunk 列表）方式编辑文件。
 
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";

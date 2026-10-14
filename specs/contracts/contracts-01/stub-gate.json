@@ -1,0 +1,22 @@
+{
+  "package": "contracts-01",
+  "stage": "stub-gate",
+  "recordedAt": "2026-10-11",
+  "repositoryCommit": "0a9a6c0891befb1f5e1355a5334630b8973333c0",
+  "method": "把 specs/contracts/contracts-01/stubs/src/** 覆盖到 apps/cli/packages/contracts/src 的对应模块路径后，运行契约测试（源码入口）。",
+  "command": "node --import tsx --test specs/contracts/contracts-01/tests/api-surface.test.mjs specs/contracts/contracts-01/tests/behavior.test.mjs",
+  "result": {
+    "tests": 5,
+    "passed": 0,
+    "failed": 5,
+    "detail": [
+      "api-surface：每个公开子路径都能载入，空 capabilities 允许零导出 → 失败",
+      "api-surface：interface.md 列出的运行时导出都能从公开入口取到 → 失败",
+      "api-surface：事件投影内部文件通过 ./events 的 reduce/apply 间接可达 → 失败",
+      "api-surface：包根入口覆盖 logging / network / path / interfaces-shared / model 媒体策略 → 失败",
+      "behavior：模块入口加载即失败（导出缺失）→ 整文件失败"
+    ]
+  },
+  "conclusion": "桩覆盖后契约测试全部失败，说明测试确实测到了公开行为；随后恢复旧文件并进入实现。",
+  "next": "按 specs/contracts/contracts-01/interface.md 与 behavior.md 重写，两道相似度门槛（运行时文件普通模式、纯声明/桶文件 --declaration --interface）"
+}

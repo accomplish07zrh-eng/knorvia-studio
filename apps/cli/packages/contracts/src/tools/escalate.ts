@@ -1,12 +1,9 @@
-// ============================================================
-// escalate Tool - actor 把阻塞问题升级给主代理
-// ============================================================
-// 与 `submit_result` 完全同构地注入 actor 会话
-// （端口在场即注册、`tools:"none"` 下仍由 core 补回），但两者结算的是不同的东西：
-// submit 结算**这次 ask 的结果**，escalate 结算**一次问答**。
-//
-// 输出形状刻意是「带判别位的扁平对象」而不是 union：两支都是普通工具结果（不是错误），
-// 模型读到的只有一段文本，判别位 `status` 只服务日志与结果投影。
+// SPDX-License-Identifier: Apache-2.0
+// escalate 工具声明：actor 把阻塞问题升级给主代理。
+// 注入方式与 submit_result 同构（端口在场即注册，tools:"none" 下由 core 补回），区别在结算对象：
+// submit_result 结算一次 ask 的结果，escalate 结算一次问答。
+// 输出刻意做成「带判别位的扁平对象」而不是 union：两支都是普通工具结果而非错误，
+// 模型只读到一段文本，判别位 status 仅服务日志与结果投影。
 
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
@@ -34,21 +31,18 @@ export type EscalateInput = z.infer<typeof EscalateInputSchema>;
 
 export const EscalateInputJsonSchema = toToolJsonSchema(EscalateInputSchema);
 
-/**
- * 一次升级的结局。
- *
- * - `answered`：`message` 是主代理给出的答案原文，`qid` 是这次问答的全局唯一 id。
- * - `refused`：`message` 是陈述现状与下一步的文案（预算已尽 / 无在飞 ask），`reason` 是
- *   判别键。**这不是错误**——把「预算已尽」渲染成 error tool_result 会让模型当成可重试的
- *   故障，反复撞同一堵墙，而那正是本特性要消灭的行为。
- */
+// 一次升级的结局有两种取值：
+// answered 时 message 是主代理给出的答案原文，qid 是本次问答的全局唯一 id；
+// refused 时 message 陈述现状与下一步（预算已尽 / 无在飞 ask），reason 是判别键。
+// refused 不是错误：把「预算已尽」渲染成 error tool_result 会被模型当成可重试故障，
+// 反复重试同一件事，而这正是升级机制要避免的行为。
 export const EscalateOutputSchema = z
   .object({
     status: z.enum(["answered", "refused"]),
     message: z.string(),
-    /** `answered` 才在场。 */
+    // 仅 answered 时在场。
     qid: z.string().optional(),
-    /** `refused` 才在场。 */
+    // 仅 refused 时在场。
     reason: z.enum(["budget_exhausted", "no_active_ask"]).optional(),
   })
   .strict();

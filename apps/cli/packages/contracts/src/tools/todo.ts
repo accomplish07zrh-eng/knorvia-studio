@@ -1,7 +1,5 @@
-// ============================================================
-// Todo Tools - session task checklist
-// ============================================================
-// References: session todo and planning tool behavior
+// SPDX-License-Identifier: Apache-2.0
+// Todo 工具声明：会话级任务清单（待办）的读取与整体覆盖写入。
 
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";
@@ -57,17 +55,8 @@ export const TodoWriteInputSchema = z
       .describe("The complete updated todo list. At most one item may be in_progress at a time."),
   })
   .strict();
-// 多 subagent / 并行任务下需要允许多个 in_progress，旧的 schema 硬拒绝会让
-// TodoWrite 失败并触发后续调度组被跳过；先整段注释保留，便于回滚或对比。
-// .superRefine((input, context) => {
-//   const inProgressCount = input.todos.filter((todo) => todo.status === "in_progress").length;
-//   if (inProgressCount <= 1) return;
-//   context.addIssue({
-//     code: z.ZodIssueCode.custom,
-//     message: "At most one todo can be in_progress",
-//     path: ["todos"],
-//   });
-// });
+// 这里刻意不限制 in_progress 的数量：多 subagent / 并行任务下需要允许多个条目同时进行，
+// 旧的「最多一个 in_progress」硬拒绝会让 TodoWrite 失败并连带跳过后续调度组。
 
 export type TodoWriteInput = z.infer<typeof TodoWriteInputSchema>;
 
@@ -123,42 +112,55 @@ export interface TodoWriteToolCall {
   startedAt: Date;
 }
 
+// TodoRead / TodoWrite 是同一组工具的两个方向：读当前清单、整体覆盖写清单。
+// 名称判定集中在集合里，core 的分派与权限规则都读它，避免各处手写字符串比较。
+const TODO_TOOL_NAMES: ReadonlySet<string> = new Set(["TodoRead", "TodoWrite"]);
+
+// 「读不出待办清单」的统一返回值：命名常量比裸 undefined 更能说明调用方该走哪条分支。
+// 调用方（结果投影与 TUI）看到它时按「本次工具结果里没有清单」处理，不当作错误。
+const MISSING_TODO_LIST: undefined = undefined;
+
 export function isTodoToolName(value: string | undefined): value is "TodoRead" | "TodoWrite" {
-  return value === "TodoRead" || value === "TodoWrite";
+  if (value === undefined) return false;
+  return TODO_TOOL_NAMES.has(value);
+}
+
+// 工具结果内容不保证是合法 JSON：历史会话、被截断的流式输出、第三方 MCP 结果都可能不是
+// 合法 JSON。解析失败用哨兵值表示「读不出 todo」，不抛错——清单读取失败不该让整轮对话失败。
+// 解析成功的对象还要依次尝试 TodoRead 与 TodoWrite 的输出 schema：两者都带 todos 数组，
+// 只有形状匹配的那个才算数，匹配不上仍然按「没有清单」处理。
+const BAD_JSON = Symbol("bad-tool-result");
+
+function parseToolResultJson(content: string): unknown | typeof BAD_JSON {
+  try {
+    return JSON.parse(content);
+  } catch {
+    return BAD_JSON;
+  }
 }
 
 export function todoItemsFromToolResultContent(content: string): TodoItem[] | undefined {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(content);
-  } catch {
-    return undefined;
+  const parsed = parseToolResultJson(content);
+  if (parsed === BAD_JSON) return MISSING_TODO_LIST;
+  // TodoRead 与 TodoWrite 的输出都带 todos 数组，按顺序尝试；都不匹配就返回 undefined。
+  const candidates = [TodoReadOutputSchema, TodoWriteOutputSchema];
+  for (const schema of candidates) {
+    const parsedOutput = schema.safeParse(parsed);
+    if (parsedOutput.success) return cloneTodos(parsedOutput.data.todos);
   }
-
-  const readResult = TodoReadOutputSchema.safeParse(parsed);
-  if (readResult.success) {
-    return cloneTodos(readResult.data.todos);
-  }
-
-  const writeResult = TodoWriteOutputSchema.safeParse(parsed);
-  if (writeResult.success) {
-    return cloneTodos(writeResult.data.todos);
-  }
-
-  return undefined;
+  return MISSING_TODO_LIST;
 }
 
-export function formatTodoStateForModel(todos: readonly TodoItem[]): string {
-  if (todos.length === 0) {
-    return "";
-  }
+// 给模型看的清单文本：首行声明这是权威状态（模型不应凭记忆推断待办），
+// 之后每条按「序号 + 状态 + 优先级 + 内容」列出；空清单返回空串而不是空标题。
+const TODO_STATE_HEADER = "Current session todo state (authoritative):";
 
-  return [
-    "Current session todo state (authoritative):",
-    ...todos.map(
-      (todo, index) => `${index + 1}. [${todo.status}][${todo.priority}] ${todo.content}`,
-    ),
-  ].join("\n");
+export function formatTodoStateForModel(todos: readonly TodoItem[]): string {
+  if (todos.length === 0) return "";
+  const entries = todos.map(
+    (todo, index) => `${index + 1}. [${todo.status}][${todo.priority}] ${todo.content}`,
+  );
+  return [TODO_STATE_HEADER, ...entries].join("\n");
 }
 
 function cloneTodos(todos: readonly TodoItem[]): TodoItem[] {

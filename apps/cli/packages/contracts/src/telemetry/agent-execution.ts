@@ -1,23 +1,16 @@
-import type { CompactPhase, CompactTrigger } from "../compact/index.js";
-import type { SyntheticUserMessageSource } from "../interfaces/session-store.port.js";
+// SPDX-License-Identifier: Apache-2.0
+// Agent 执行 telemetry 的公开面：取值表与 schema 版本从内部模块再导出，类型面就地声明。
+// 类型声明是合同冻结的兼容面（B6 用编译期用例固定形状），实现细节不在本文件。
+import {
+  AgentTelemetryOperation as AGENT_OPERATION_TABLE,
+  TELEMETRY_SCHEMA_VERSION as SCHEMA_VERSION,
+} from "./agent-execution_core.js";
 
-export const TELEMETRY_SCHEMA_VERSION = 6 as const;
+/** 13 个语义 → 线上取值；键名与取值都是兼容面。 */
+export const AgentTelemetryOperation = AGENT_OPERATION_TABLE;
 
-export const AgentTelemetryOperation = {
-  AgentStep: "agent_step",
-  ContextCompaction: "context_compaction",
-  GoalCompletionVerification: "goal_completion_verification",
-  GoalTitleGeneration: "goal_title_generation",
-  ProjectMemoryExtract: "project_memory_extract",
-  ReadSessionContextExtract: "read_session_context_extract",
-  ReadSessionContextSynthesize: "read_session_context_synthesize",
-  SessionTitleGeneration: "session_title_generation",
-  ToolInternalModelCall: "tool_internal_model_call",
-  WebFetchProcessing: "web_fetch_processing",
-  WebSearch: "web_search",
-  WorkspaceGitCommitMessage: "workspace_git_commit_message",
-  WorkspaceGenerateText: "workspace_generate_text",
-} as const;
+/** 载荷 schema 版本，导出器据此判定兼容性。 */
+export const TELEMETRY_SCHEMA_VERSION = SCHEMA_VERSION;
 
 export type AgentTelemetryOperation =
   (typeof AgentTelemetryOperation)[keyof typeof AgentTelemetryOperation];
@@ -29,7 +22,9 @@ export type AgentTelemetryLaunchSurface =
   | "web_remote"
   | "automation"
   | "bot";
-export type AgentTelemetryInputSource = "user" | SyntheticUserMessageSource;
+export type AgentTelemetryInputSource =
+  | "user"
+  | import("../interfaces/session-store.port.js").SyntheticUserMessageSource;
 export type AgentTelemetryIdentityState = "authenticated" | "anonymous" | "unknown";
 export type AgentTelemetryRuntimeSurface =
   | "standalone_cli"
@@ -75,10 +70,7 @@ export interface AgentTelemetryExecutionContext {
   userSubjectId?: string;
 }
 
-/**
- * 可跨异步/进程边界保存的因果引用。SpanContext 字段保持 OTel 原义；
- * session/turn 只用于 ARMS 无法 Link Join 时的受控查询投影。
- */
+// 可跨异步/进程边界保存的因果引用；SpanContext 字段保持 OTel 原义，session/turn 只用于 ARMS 无法 Link Join 时的受控查询投影。
 export interface AgentTelemetryCausation {
   isRemote: boolean;
   spanId: string;
@@ -137,12 +129,12 @@ export interface CompactionTraceStart {
   maxAttempts?: number;
   modelMode: "streaming" | "non_streaming";
   outerAttempt?: number;
-  phase: CompactPhase;
+  phase: import("../compact/index.js").CompactPhase;
   policyContextWindowTokens?: number;
   recoveredFromLogicalCallId?: string;
   thresholdTokens?: number;
   tokenSource?: "estimate" | "provider_usage";
-  trigger: CompactTrigger;
+  trigger: import("../compact/index.js").CompactTrigger;
   triggeringStepIndex?: number;
 }
 
