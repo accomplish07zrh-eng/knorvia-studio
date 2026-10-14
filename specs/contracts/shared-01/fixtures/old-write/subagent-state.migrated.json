@@ -1,0 +1,4 @@
+{
+  "note": "shared-01 合同金样：旧实现迁移写回的精确字节（JSON 转义保存，勿手改）",
+  "bytes": "{\n  \"note\": \"shared-01 合同夹具：合成数据，不含真实用户数据\",\n  \"legacyBuiltInModels\": {\n    \"Explore\": {\n      \"providerId\": \"builtin:official\",\n      \"modelId\": \"glm-4.7\"\n    }\n  },\n  \"builtInModelSelectionOverrides\": {},\n  \"pluginAgentModelSelectionOverrides\": {}\n}"
+}
