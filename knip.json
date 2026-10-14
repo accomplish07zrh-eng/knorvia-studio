@@ -1,8 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "tags": [
-    "-lintignore"
-  ],
+  "tags": ["-lintignore"],
   "workspaces": {
     ".": {
       "entry": [
@@ -37,39 +35,20 @@
       ]
     },
     "packages/server": {
-      "entry": [
-        "src/index.ts",
-        "src/entry-stdio.ts",
-        "build-remote.ts"
-      ]
+      "entry": ["src/index.ts", "src/entry-stdio.ts", "build-remote.ts"]
     },
     "packages/services": {
-      "entry": [
-        "src/index.ts",
-        "src/storage/module.ts"
-      ]
+      "entry": ["src/index.ts", "src/storage/module.ts"]
     },
     "apps/cli/packages/browser-use-plugin": {
-      "entry": [
-        "src/browser-client.ts"
-      ]
+      "entry": ["src/browser-client.ts"]
     },
     "packages/ui": {
-      "entry": [
-        "test/knorvia-notification-sound.test.ts"
-      ]
+      "entry": ["test/knorvia-notification-sound.test.ts"]
     },
     "apps/cli/packages/core": {
-      "entry": [
-        "test/core-hooks-entry.mjs",
-        "test/fixtures/core-hooks-builders.mjs"
-      ]
+      "entry": ["test/core-hooks-entry.mjs", "test/fixtures/core-hooks-builders.mjs"]
     }
   },
-  "ignore": [
-    ".agents/**",
-    "docs/**",
-    "packages/ui/src/components/**",
-    "specs/contracts/*/stubs/**"
-  ]
+  "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**", "specs/contracts/*/stubs/**"]
 }
