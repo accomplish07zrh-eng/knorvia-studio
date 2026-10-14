@@ -72,10 +72,10 @@ function decodeCachedState(
 export async function loadDiscoveryRecord(
   credentials: SharedKnorviaCredentialStore,
   namespacePrefix: string,
-  settings: { expectedIssuer?: string; currentTime?: number; maxAgeMs?: number } = {},
+  settings: { expectedIssuer?: string; now?: number; ttlMs?: number } = {},
 ): Promise<OAuthDiscoveryState | undefined> {
-  const currentTime = settings.currentTime ?? Date.now();
-  const maxAgeMs = settings.maxAgeMs ?? DEFAULT_DISCOVERY_TTL_MS;
+  const currentTime = settings.now ?? Date.now();
+  const maxAgeMs = settings.ttlMs ?? DEFAULT_DISCOVERY_TTL_MS;
   const stateKey = mcpOAuthCredentialKey(namespacePrefix, "discovery_state");
   const fetchedAtKey = mcpOAuthCredentialKey(namespacePrefix, "discovery_state_fetched_at");
   const stored = await credentials.loadMany([stateKey, fetchedAtKey]);

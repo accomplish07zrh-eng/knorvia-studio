@@ -53,10 +53,19 @@ const CANONICAL_FIELD_CHECKS: readonly ((value: Record<string, unknown>) => bool
   (value) => typeof value.published_by === "string" && value.published_by.length > 0,
   (value) => isRecord(value.client_information),
   (value) => isRecord(value.tokens),
-  (value) =>
-    isRecord(value.client_information) && typeof value.client_information.client_id === "string",
-  (value) => isRecord(value.tokens) && typeof value.tokens.access_token === "string",
-  (value) => isRecord(value.tokens) && typeof value.tokens.token_type === "string",
+  (value) => {
+    // 每个字段只读一次：类型判定与内层校验共用同一引用（代理记录读取顺序）。
+    const information = value.client_information;
+    return isRecord(information) && typeof information.client_id === "string";
+  },
+  (value) => {
+    const held = value.tokens;
+    return isRecord(held) && typeof held.access_token === "string";
+  },
+  (value) => {
+    const held = value.tokens;
+    return isRecord(held) && typeof held.token_type === "string";
+  },
 ];
 
 export function isCanonicalCredentials(value: unknown): value is McpOAuthCanonicalCredentials {
@@ -87,26 +96,26 @@ const OPTIONAL_FIELD_MAP = [
   ["obtained_at", "obtainedAt"],
 ] as const;
 
-/** 投影可选字段：按表遍历，值为 undefined 的键不出现。 */
-function optionalFields(record: McpOAuthCanonicalCredentials): Record<string, unknown> {
-  const source = record as unknown as Record<string, unknown>;
-  const present: Record<string, unknown> = {};
-  for (const [from, to] of OPTIONAL_FIELD_MAP) {
-    if (source[from] !== undefined) present[to] = source[from];
-  }
-  return present;
-}
-
+/**
+ * 投影 canonical 快照字段。键顺序固定为字母序
+ * （clientInformation → expiresAt → generation → issuer → obtainedAt → raw），
+ * 调用方再补 source / tokens，读者按 Object.keys 也能拿到稳定形状。
+ */
 function canonicalFields(
   record: McpOAuthCanonicalCredentials,
   readText: () => string,
 ): Omit<CanonicalCredentialSnapshot, "tokens"> {
-  return {
-    clientInformation: record.client_information,
-    generation: generationFor(record, readText()),
-    raw: readText(),
-    ...optionalFields(record),
-  } as Omit<CanonicalCredentialSnapshot, "tokens">;
+  const source = record as unknown as Record<string, unknown>;
+  const snapshot: Record<string, unknown> = { clientInformation: record.client_information };
+  if (source[OPTIONAL_FIELD_MAP[0][0]] !== undefined) {
+    snapshot[OPTIONAL_FIELD_MAP[0][1]] = source[OPTIONAL_FIELD_MAP[0][0]];
+  }
+  snapshot.generation = generationFor(record, readText());
+  for (const [from, to] of OPTIONAL_FIELD_MAP.slice(1)) {
+    if (source[from] !== undefined) snapshot[to] = source[from];
+  }
+  snapshot.raw = readText();
+  return snapshot as Omit<CanonicalCredentialSnapshot, "tokens">;
 }
 
 export async function loadCanonicalCredentials(
@@ -175,29 +184,14 @@ export async function invalidateCanonicalCredentials(
   return await store.deleteManyIfValue(canonicalKey, expectedText, keyList);
 }
 
-/** canonical 版本 2 的决策上下文：一次算好全部匹配位，交给决策表。 */
+/** canonical 版本 2 的决策上下文：一次算好全部匹配位，交给分支判定。 */
 interface DecisionContext {
   record: McpOAuthCanonicalCredentials;
   canonicalRaw: string;
-  hasLegacyClient: boolean;
-  hasLegacyTokens: boolean;
   mirrorClient: OAuthClientInformationMixed | undefined;
   mirrorTokens: OAuthTokens | undefined;
   clientMatchesCanonical: boolean;
   tokensMatchCanonical: boolean;
-}
-
-type Decision = (context: DecisionContext) => CredentialPairSnapshot;
-
-/** 状态码：版本 + 四个匹配位，决策表按它单次查表（不再嵌套判断）。 */
-function decisionCode(context: DecisionContext, version: 1 | 2): string {
-  const flags = [
-    context.hasLegacyTokens ? "T" : "-",
-    context.hasLegacyClient ? "C" : "-",
-    context.tokensMatchCanonical ? "t" : "-",
-    context.clientMatchesCanonical ? "c" : "-",
-  ];
-  return `v${version}:${flags.join("")}`;
 }
 
 /** 纯 legacy 视图：只有两个镜像文本，没有 canonical。 */
@@ -218,21 +212,38 @@ function canonicalView(context: DecisionContext): CredentialPairSnapshot {
 }
 
 /**
- * 版本 2 的决策表（键 = decisionCode 的状态码）：
- * v2:---- 无镜像令牌 → 仅返回 legacy 客户端信息；
- * v2:T-t- 令牌一致且客户端一致 → 用 canonical 快照；
- * v2:T-tc 令牌一致、客户端不一致 → 只回 legacy 令牌；
- * v2:TCtc 两者都与 canonical 一致 → 回 legacy 双方；
- * v2:T*-- 其余含 legacy 令牌的情况 → 只回 legacy 令牌与客户端信息。
+ * 版本 2（及未来更高版本）的镜像决策，按令牌 → 客户端两级判定：
+ * 一、镜像令牌必须有真值才算「在用」；弱值（null/false/0/""）视为已作废，
+ *     永远不复活——此时只回客户端镜像（含 undefined 的自有键）。
+ * 二、令牌与 canonical 一致时：弱值/缺省客户端省略 clientInformation 自有键；
+ *     真值且一致的客户端回 legacy 三元组；真值但不同的客户端回 canonical 对。
+ * 三、令牌已变时只保留客户端镜像（含弱值原样透传），供重新授权使用。
  */
-const V2_DECISIONS: Record<string, Decision> = {
-  "v2:----": (context) => ({ clientInformation: context.mirrorClient, source: "legacy" }),
-  "v2:TCtc": (context) => ({
-    clientInformation: context.mirrorClient,
-    source: "legacy",
-    tokens: context.mirrorTokens,
-  }),
-};
+function decideVersion2Mirror(context: DecisionContext): CredentialPairSnapshot {
+  const tokensUsable = Boolean(context.mirrorTokens);
+  const clientUsable = Boolean(context.mirrorClient);
+  if (!tokensUsable) return { clientInformation: context.mirrorClient, source: "legacy" };
+  if (!context.tokensMatchCanonical) {
+    // 令牌已变：仅当客户端仍是同一家（真值且与 canonical 一致）时采纳这次刷新。
+    if (clientUsable && context.clientMatchesCanonical) {
+      return {
+        clientInformation: context.mirrorClient,
+        source: "legacy",
+        tokens: context.mirrorTokens,
+      };
+    }
+    return { clientInformation: context.mirrorClient, source: "legacy" };
+  }
+  if (!clientUsable) return { source: "legacy", tokens: context.mirrorTokens };
+  if (context.clientMatchesCanonical) {
+    return {
+      clientInformation: context.mirrorClient,
+      source: "legacy",
+      tokens: context.mirrorTokens,
+    };
+  }
+  return canonicalView(context);
+}
 
 export function deriveCredentialPair(payload: {
   canonicalRaw?: string;
@@ -251,8 +262,6 @@ export function deriveCredentialPair(payload: {
     record: record ?? ({ tokens: {} as OAuthTokens } as McpOAuthCanonicalCredentials),
     canonicalRaw: payload.canonicalRaw ?? "",
     clientMatchesCanonical: false,
-    hasLegacyClient: mirrorClient !== undefined,
-    hasLegacyTokens: mirrorTokens !== undefined,
     mirrorClient,
     mirrorTokens,
     tokensMatchCanonical: false,
@@ -280,17 +289,7 @@ export function deriveCredentialPair(payload: {
     };
   }
 
-  const decision = V2_DECISIONS[decisionCode(context, 2)];
-  if (decision) return decision(context);
-  if (context.hasLegacyTokens && context.tokensMatchCanonical) {
-    if (context.hasLegacyClient) return canonicalView(context);
-    return { source: "legacy", tokens: context.mirrorTokens };
-  }
-  if (!context.hasLegacyTokens) return { clientInformation: mirrorClient, source: "legacy" };
-  if (context.hasLegacyClient && context.clientMatchesCanonical) {
-    return { clientInformation: mirrorClient, source: "legacy", tokens: mirrorTokens };
-  }
-  return { clientInformation: mirrorClient, source: "legacy" };
+  return decideVersion2Mirror(context);
 }
 export async function loadCredentialPair(
   store: SharedKnorviaCredentialStore,
