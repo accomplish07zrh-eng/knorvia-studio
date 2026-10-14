@@ -82093,188 +82093,12 @@
       ]
     },
     {
-      "path": "scripts/ui-baseline/capture.mjs",
-      "normalizedSha256": "91fa7dd96c9a89a7aa6da435c8903667abb53ed3b7910c3f5930ca9aae952c6d",
+      "path": "docs/knorvia-desktop-packaging-m0-20261012.md",
+      "normalizedSha256": "4366196090347ff07301bf6992127345f2f0bc49765ef44b19cd99b6a428cf7b",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/compare.mjs",
-      "normalizedSha256": "aa7c8935fa31e5532034409006463aaafd5d8d24b4357253128b8918ebc97d2a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/pages.json",
-      "normalizedSha256": "f5e86af6b1b0f1e0973fadb49e2cde9fd5d5d04e71cf92589b57e6d8d8e3dcd3",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/publish.mjs",
-      "normalizedSha256": "9a381499305b45fc1c7564209daca82d308bac93430bbfe3025572641ce9817e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/README.md",
-      "normalizedSha256": "777ee0127789900c7d81e0baec91c8b25efd30fcad0a47dae6f984c1e76fd9dd",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/baseline.mjs",
-      "normalizedSha256": "a826fe4b682729e127b662a61d68ea0082953df2e99124951757c2291c834922",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/browser.mjs",
-      "normalizedSha256": "a28f5f690cda7c48fe31fa436e968dd826b527c48e8d30c031630b08858db7e7",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/chrome.mjs",
-      "normalizedSha256": "9051ec647b47ed6cc36754317ac24ec7fb3d29370a0f17fb8ccbf5de5ccdbdc3",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/environment.mjs",
-      "normalizedSha256": "40508c1976d8326f05569bf85ea77453049d360bc743b9c2d5a2465901710e41",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/fixture.mjs",
-      "normalizedSha256": "9637f1dfae0f26d3dfdef0850a69ee00ee07aa2e00f0524d3ce665be86cc1840",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/geometry.mjs",
-      "normalizedSha256": "7c7d04c08d94ed26aedddd0ebffb3a6caba887c0be21aa089164dec5ceaefa3d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/pages.mjs",
-      "normalizedSha256": "0721b85b8d96c1ae0c37a4a413c6d31e424bd4cc5c51de6c09b69c0c063291ea",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/pixel-diff.mjs",
-      "normalizedSha256": "ae1e69cfaa636a3615e35a10dbda331406dca11712d65d0697004d49ad65d25f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/lib/png.mjs",
-      "normalizedSha256": "0c05a0359164dbedd6af678959fbcbe9fdb0a5dcebc1bbbd2c48623e8709a10c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/baseline.test.mjs",
-      "normalizedSha256": "4c005d3ee22dfcfbb320fe0fb8a3921e643b0c30c71be56b2044adde11a6e0f9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/compare.test.mjs",
-      "normalizedSha256": "ccf9f753f63ed8339407d367d8b969d7bb55b95d1c6cad1797de56ea559cc73a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/determinism.test.mjs",
-      "normalizedSha256": "60a698e1516f69214d48ace4142f6466042d92cffb008e5d15aaea4f56877741",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/geometry.test.mjs",
-      "normalizedSha256": "62b76fdf5c3659d1502baffa5706e0b2ddcf8978128ce4a1e1a4603bb105f3ef",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/pages.test.mjs",
-      "normalizedSha256": "788f70dccdda28880b60fd81534b80d10f8550730f9954a4d983ab0937eed4c3",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/pixel-diff.test.mjs",
-      "normalizedSha256": "fbcdd50e246436f40c69d7eaf600017e33426dd424217c719f3bab633a1b4c5a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/png.test.mjs",
-      "normalizedSha256": "234d6091609600a30c000d9e2af85249e41da306b3883f578ef5c095616cc43f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/fixtures/chromium-rgb.png",
-      "normalizedSha256": "8072b66221339e23edc0c0dc6f6693aec8115c8268586c117659f53f1e4ef7be",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
-    },
-    {
-      "path": "scripts/ui-baseline/test/fixtures/rgba-with-alpha.png",
-      "normalizedSha256": "ea17c8e60d6baf7cfb17491f2efe0b44a06aba4e58fa1bbbf3007bd9ec2e0cbe",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
-      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+      "basis": "M0 desktop packaging acceptance report for Windows NSIS installer and portable artifacts, recorded on the main baseline commit; documents the environment-specific fs.cpSync(recursive) crash, the minimal fix, artifacts, acceptance results and unverified items.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
     },
     {
       "path": "specs/contracts/contracts-01/README.md",
@@ -136240,6 +136064,190 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-01 contract design document (scope split, scoring-mode basis, entry and coverage design) produced for the @knorvia/core replacement package.",
       "evidence": ["specs/contracts/core-01/acceptance.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/capture.mjs",
+      "normalizedSha256": "91fa7dd96c9a89a7aa6da435c8903667abb53ed3b7910c3f5930ca9aae952c6d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/compare.mjs",
+      "normalizedSha256": "aa7c8935fa31e5532034409006463aaafd5d8d24b4357253128b8918ebc97d2a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/pages.json",
+      "normalizedSha256": "f5e86af6b1b0f1e0973fadb49e2cde9fd5d5d04e71cf92589b57e6d8d8e3dcd3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/publish.mjs",
+      "normalizedSha256": "9a381499305b45fc1c7564209daca82d308bac93430bbfe3025572641ce9817e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/README.md",
+      "normalizedSha256": "777ee0127789900c7d81e0baec91c8b25efd30fcad0a47dae6f984c1e76fd9dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/baseline.mjs",
+      "normalizedSha256": "a826fe4b682729e127b662a61d68ea0082953df2e99124951757c2291c834922",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/browser.mjs",
+      "normalizedSha256": "a28f5f690cda7c48fe31fa436e968dd826b527c48e8d30c031630b08858db7e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/chrome.mjs",
+      "normalizedSha256": "9051ec647b47ed6cc36754317ac24ec7fb3d29370a0f17fb8ccbf5de5ccdbdc3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/environment.mjs",
+      "normalizedSha256": "40508c1976d8326f05569bf85ea77453049d360bc743b9c2d5a2465901710e41",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/fixture.mjs",
+      "normalizedSha256": "9637f1dfae0f26d3dfdef0850a69ee00ee07aa2e00f0524d3ce665be86cc1840",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/geometry.mjs",
+      "normalizedSha256": "7c7d04c08d94ed26aedddd0ebffb3a6caba887c0be21aa089164dec5ceaefa3d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/pages.mjs",
+      "normalizedSha256": "0721b85b8d96c1ae0c37a4a413c6d31e424bd4cc5c51de6c09b69c0c063291ea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/pixel-diff.mjs",
+      "normalizedSha256": "ae1e69cfaa636a3615e35a10dbda331406dca11712d65d0697004d49ad65d25f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/lib/png.mjs",
+      "normalizedSha256": "0c05a0359164dbedd6af678959fbcbe9fdb0a5dcebc1bbbd2c48623e8709a10c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/baseline.test.mjs",
+      "normalizedSha256": "4c005d3ee22dfcfbb320fe0fb8a3921e643b0c30c71be56b2044adde11a6e0f9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/compare.test.mjs",
+      "normalizedSha256": "ccf9f753f63ed8339407d367d8b969d7bb55b95d1c6cad1797de56ea559cc73a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/determinism.test.mjs",
+      "normalizedSha256": "60a698e1516f69214d48ace4142f6466042d92cffb008e5d15aaea4f56877741",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/geometry.test.mjs",
+      "normalizedSha256": "62b76fdf5c3659d1502baffa5706e0b2ddcf8978128ce4a1e1a4603bb105f3ef",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/pages.test.mjs",
+      "normalizedSha256": "788f70dccdda28880b60fd81534b80d10f8550730f9954a4d983ab0937eed4c3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/pixel-diff.test.mjs",
+      "normalizedSha256": "fbcdd50e246436f40c69d7eaf600017e33426dd424217c719f3bab633a1b4c5a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/png.test.mjs",
+      "normalizedSha256": "234d6091609600a30c000d9e2af85249e41da306b3883f578ef5c095616cc43f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/fixtures/chromium-rgb.png",
+      "normalizedSha256": "8072b66221339e23edc0c0dc6f6693aec8115c8268586c117659f53f1e4ef7be",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
+    },
+    {
+      "path": "scripts/ui-baseline/test/fixtures/rgba-with-alpha.png",
+      "normalizedSha256": "ea17c8e60d6baf7cfb17491f2efe0b44a06aba4e58fa1bbbf3007bd9ec2e0cbe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "New M0-11 tooling: Playwright-based UI screenshot baseline capture, comparison (pixel tiers + data-testid geometry) and orphan-branch publishing under scripts/ui-baseline. Written against docs/knorvia-independent-replacement-plan.md tool requirements; no upstream implementation copied, renamed or rewritten.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md", "scripts/ui-baseline/README.md"]
     }
   ]
 }
