@@ -796,3 +796,33 @@ export interface AtomicDirectoryActivationInput {
   targetPath: string;
 }
 ```
+
+## `apps/cli/packages/adapters/src/plugins/atomic-protocol-types.ts`
+
+```ts
+export interface AtomicPaths {
+  target: string;
+  parent: string;
+  marker: string;
+  backup: string;
+  stagePrefix: string;
+}
+
+export interface LegacyAtomicMarker {
+  version: 1;
+  stageName: string;
+}
+
+export interface AtomicMarker {
+  version: 2;
+  stageName: string;
+  transactionId: string;
+  ownerId: string;
+  ownerPid: number;
+  hadTarget: boolean;
+  mode: "coordinated" | "standalone";
+  authorityPath?: string;
+}
+
+export type ReadableAtomicMarker = LegacyAtomicMarker | AtomicMarker;
+```
