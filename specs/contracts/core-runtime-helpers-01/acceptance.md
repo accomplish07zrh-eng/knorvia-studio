@@ -40,7 +40,8 @@
 | 桩替换（60 个目标换成 import 即抛桩，源码入口）         | 8    | **0**  | 8    | **全失败**（`allFail: true`） |
 
 - 跑法：`node scripts/contract-gate.mjs --contract specs/contracts/core-runtime-helpers-01
---dist-env KNORVIA_CORE_RUNTIME_HELPERS_01_ENTRY=dist --stub-root …/stubs --stub-targets …/targets.txt`。
+--dist-env KNORVIA_CORE_RUNTIME_HELPERS_01_ENTRY=dist --stub-root …/stubs --stub-targets …/targets.txt`
+  （历史项：桩已随替换删除，该验证不再可复跑，仅作留证）。
 - 报告里的 `commit` 字段记录旧门跑动时的主仓提交号，`node` 为 `v24.14.0`（mise 固定版本）。
 - **预登记差异 0 条**：旧行为没有被放宽的断言；桩替换失败的 8 个用例是 7 个测试文件的加载级失败
   - 文件级汇总（模块 import 即抛 → 整个测试文件不可加载），符合「桩替换后契约测试必须全部失败」。

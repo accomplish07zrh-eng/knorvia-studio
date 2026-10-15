@@ -1,12 +1,12 @@
 {
   "compiler": "TypeScript6.0.2 actual scoped emit",
   "files": {
-    "src/runtime/helpers/conversation.ts": "374f85af6a14a3063860a6ce85143bd4a240a1dde38ca90a24f62f040774dde4",
-    "dist/runtime/helpers/conversation.js": "d1b7be1429baa012ff33aeb00f6ec3b652bc1b28f432216af4e6838d8f158e06",
-    "dist/runtime/helpers/conversation.d.ts": "0ea75ca73eda927a20bba872e797e1a87c367092f5c4c4116215ec364552c464",
-    "src/runtime/helpers/streaming-tool-ledger.ts": "037c246f2f677db43d8c6e7083742069568979c7bb030edbfc9650dec73b8a44",
-    "dist/runtime/helpers/streaming-tool-ledger.js": "d8162b78a71be8d1939914b16ba1f702263451c76ce5b74439bda6c6e4e11428",
-    "dist/runtime/helpers/streaming-tool-ledger.d.ts": "06dfdc2034daf07e629bde41945caccf8443621205009e24ebd6be66650f93ba",
+    "src/runtime/helpers/conversation.ts": "79670884165e9f8708be296a46ececb1652135a85636678e4f89a34e39a8847b",
+    "dist/runtime/helpers/conversation.js": "05778a7559798ed44e0bf336bd2270d98526882c7356d96e08e7e333ff9383ce",
+    "dist/runtime/helpers/conversation.d.ts": "9af33f2692b616c3cf9bebfb2bde2598dfb6c646223e2df61c5eff178eeb3e9e",
+    "src/runtime/helpers/streaming-tool-ledger.ts": "ef2a47cb265010577f99ab40221960c1e76f64fe381ba9ef6b90d5d98c8ff6df",
+    "dist/runtime/helpers/streaming-tool-ledger.js": "33c1a6b6a52b285e0a6381e5789e57841ac88e120f3e1e6cdf76cc10c9d281f4",
+    "dist/runtime/helpers/streaming-tool-ledger.d.ts": "b54c55f7b35ed3ad85a16d1ddd0bea78a73eca98a3e69a6f94636fc0035b1e43",
     "src/runtime/methods/streaming-tool-coordinator.ts": "a2a71814ae493aaf06ad5cc63c3e4a0c269279210c42c00416ccd98c2d8128f0",
     "dist/runtime/methods/streaming-tool-coordinator.js": "c5e1c3c9b5630ac730f3de4e420ab37c2b70ad6284d9fde0f8a35a628420a323",
     "dist/runtime/methods/streaming-tool-coordinator.d.ts": "c2facc16e7ffb4b9e08ef58a2435f6a91c41c514f5da355e36039dfc77a6aa51",

@@ -1,19 +1,8 @@
-import type { FilePartSource, TurnAttachment } from "../../deps.js";
-import type {
-  resolveInlineMediaAttachment,
-  resolveLocalMediaAttachment,
-} from "../attachment-media-resolver.js";
+// SPDX-License-Identifier: Apache-2.0
+// 媒体分派选项与上下文的类型兼容面（B7）。
+import type * as inline from "../attachments/inline-media-readers.js";
+import type * as local from "../attachments/local-media-readers.js";
 
-export type InlineOptions = Parameters<typeof resolveInlineMediaAttachment>[3];
-export type LocalOptions = Parameters<typeof resolveLocalMediaAttachment>[2];
-
-export interface LocalMediaContext {
-  absolutePath: string;
-  attachment: TurnAttachment;
-  filename: string;
-  index: number;
-  mime: string;
-  options: LocalOptions;
-  source: FilePartSource;
-  stat: Awaited<ReturnType<LocalOptions["fileSystemPort"]["stat"]>>;
-}
+export type InlineOptions = inline.InlineMediaOptions;
+export type LocalOptions = local.LocalMediaOptions;
+export type LocalMediaContext = local.LocalMediaContext;
