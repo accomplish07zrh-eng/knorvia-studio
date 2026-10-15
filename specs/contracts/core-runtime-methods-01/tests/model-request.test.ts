@@ -700,3 +700,436 @@ test("B1 请求组装与投影管线", async () => {
   );
   assert.equal(generatedResult.text, "answer");
 });
+
+test("B5 请求头刷新钩子", async () => {
+  const headers = await methods("model-runtime-headers");
+  const modelRef = { modelId: "model-contract", providerId: "provider-contract" };
+
+  // 端口缺席不装钩子。
+  const bare = createMethodsRuntime();
+  assert.equal(
+    headers.createRefreshRuntimeHeadersBeforeModelAttempt(bare.runtime, {
+      model: modelRef,
+      traceContext: trace,
+    }),
+    undefined,
+  );
+
+  // 显式 false 不装钩子。
+  const refused = createMethodsRuntime();
+  (refused.runtime as unknown as Record<string, unknown>).providerRuntimeHeadersPort = {
+    shouldRefreshBeforeModelRequest: () => false,
+  };
+  assert.equal(
+    headers.createRefreshRuntimeHeadersBeforeModelAttempt(refused.runtime, {
+      model: modelRef,
+      traceContext: trace,
+    }),
+    undefined,
+  );
+
+  const calls: Record<string, unknown>[] = [];
+  const fake = createMethodsRuntime();
+  (fake.runtime as unknown as Record<string, unknown>).providerRuntimeHeadersPort = {
+    async refreshBeforeModelRequest(input: Record<string, unknown>) {
+      calls.push(input);
+      return { headersApplied: true, requestAuth: { token: "contract-token" } };
+    },
+    shouldRefreshBeforeModelRequest: undefined,
+  };
+  const refresh = headers.createRefreshRuntimeHeadersBeforeModelAttempt(fake.runtime, {
+    abortSignal: undefined,
+    model: modelRef,
+    traceContext: trace,
+  });
+  assert.equal(typeof refresh, "function", "缺省 shouldRefresh 视为 true");
+  const attemptSignal = new AbortController().signal;
+  const applied = await refresh?.({ attempt: 2, abortSignal: attemptSignal });
+  assert.deepEqual(applied, { headersApplied: true, requestAuth: { token: "contract-token" } });
+  assert.deepEqual(calls[0], {
+    accountAccess: undefined,
+    abortSignal: attemptSignal,
+    modelId: "model-contract",
+    providerId: "provider-contract",
+    reason: "model-request",
+    sessionId: "session-contract-0001",
+    traceContext: trace,
+    turnId: "turn-contract-0001",
+  });
+  const refreshedLog = fake.logger.records.at(-1);
+  assert.equal(
+    refreshedLog?.message,
+    "Provider runtime headers refreshed before model request attempt",
+  );
+  assert.equal(
+    (refreshedLog?.context[0] as { event: string }).event,
+    "model.request.runtime_headers_refreshed",
+  );
+  assert.equal((refreshedLog?.context[0] as { attempt: number }).attempt, 2);
+  assert.equal((refreshedLog?.context[0] as { headersApplied: boolean }).headersApplied, true);
+
+  // headersApplied 非真抛固定文案。
+  const unapplied = createMethodsRuntime();
+  (unapplied.runtime as unknown as Record<string, unknown>).providerRuntimeHeadersPort = {
+    async refreshBeforeModelRequest() {
+      return { headersApplied: false };
+    },
+  };
+  const failingRefresh = headers.createRefreshRuntimeHeadersBeforeModelAttempt(unapplied.runtime, {
+    model: modelRef,
+    traceContext: trace,
+  });
+  await assert.rejects(
+    failingRefresh?.({ attempt: 1 }),
+    new Error("Provider runtime headers were not applied before model request attempt."),
+  );
+  assert.deepEqual(unapplied.logger.records, [], "抛错不打日志");
+});
+
+test("B6 状态 sink 与七类状态日志", async () => {
+  const statusModule = await methods("model-status");
+  const wire = (fake: FakeMethodsRuntime) => {
+    (fake.runtime as unknown as Record<string, unknown>).logModelNetworkStatus = (
+      event: unknown,
+      traceContext: unknown,
+    ) => statusModule.logModelNetworkStatus.call(fake.runtime, event, traceContext);
+  };
+
+  // publish 五步顺序：onStatus → 日志 → 持久化 → events.push。
+  const fake = createMethodsRuntime();
+  wire(fake);
+  const seen: Record<string, unknown>[] = [];
+  const sink = statusModule.createModelStatusSink.call(fake.runtime, trace, [] as unknown[], {
+    onStatus: (event: Record<string, unknown>) => seen.push(event),
+    streamRecovery: { anchorId: "anchor-1", maxRetries: 10, retryNumber: 1 },
+  }) as { publish(event: Record<string, unknown>): Promise<void> };
+  const gate = fake.gateNextAppend();
+  const pending = sink.publish({
+    type: "model_request_started",
+    attempt: 1,
+    baseURL: "https://provider.invalid",
+    maxAttempts: 3,
+    modelId: "model-contract",
+    providerId: "provider-contract",
+    providerKind: "openai-compatible",
+    requestId: "req-0001",
+    transport: "https",
+  });
+  assert.equal(seen.length, 1, "①② 载荷合并 streamRecovery 后先回调 onStatus");
+  assert.equal(
+    (seen[0] as { streamRecovery?: { anchorId: string } }).streamRecovery?.anchorId,
+    "anchor-1",
+  );
+  assert.equal(fake.logger.records.length, 1, "③ 日志在持久化之前");
+  assert.equal(fake.appended.length, 0, "④ 持久化未完成前 events 不入数组");
+  gate.close();
+  await pending;
+  assert.equal(fake.appended.length, 1);
+  const persisted = fake.appended[0] as unknown as {
+    payload: Record<string, unknown>;
+    type: string;
+  };
+  assert.equal(persisted.type, String(SessionEventType.ModelNetworkStatus));
+  assert.deepEqual(persisted.payload, seen[0], "⑤ 持久化的就是合并后的载荷");
+
+  // 七类 type 的 level/label/event 与字段逐个对。
+  const table: [
+    string,
+    string,
+    string,
+    Record<string, unknown>,
+    (ctx: Record<string, unknown>) => void,
+  ][] = [
+    [
+      "model_request_queued",
+      "debug",
+      "Model network request queued for admission",
+      {},
+      (c) => {
+        assert.equal(c.event, "model.network.queued");
+        assert.equal(c.status, "waiting");
+      },
+    ],
+    [
+      "model_request_admitted",
+      "debug",
+      "Model network request admitted",
+      { queuedMs: 120 },
+      (c) => {
+        assert.equal(c.event, "model.network.admitted");
+        assert.equal(c.queuedMs, 120);
+        assert.equal(c.status, "started");
+      },
+    ],
+    [
+      "model_request_started",
+      "debug",
+      "Model network request started",
+      {},
+      (c) => {
+        assert.equal(c.event, "model.network.started");
+        assert.equal(c.status, "started");
+      },
+    ],
+    [
+      "model_request_completed",
+      "info",
+      "Model network request completed",
+      { durationMs: 900, finishReason: "stop" },
+      (c) => {
+        assert.equal(c.event, "model.network.completed");
+        assert.equal(c.durationMs, 900);
+        assert.equal(c.finishReason, "stop");
+        assert.equal(c.status, "completed");
+      },
+    ],
+    [
+      "model_request_failed",
+      "warn",
+      "Model network request failed",
+      {
+        durationMs: 50,
+        reason: "network_error",
+        retryable: true,
+        statusCode: 502,
+        message: "bad gateway",
+      },
+      (c) => {
+        assert.equal(c.event, "model.network.failed");
+        assert.equal(c.status, "failed");
+        assert.equal(c.reason, "network_error");
+        assert.equal(c.retryable, true);
+        assert.equal(c.statusCode, 502);
+        assert.equal(c.statusMessage, "bad gateway");
+      },
+    ],
+    [
+      "model_request_failed",
+      "warn",
+      "Model network request failed",
+      {
+        durationMs: 5,
+        reason: "cancelled",
+        retryable: false,
+        statusCode: 499,
+        message: "cancelled by user",
+      },
+      (c) => {
+        assert.equal(c.status, "cancelled", "reason=cancelled 时 status 归 cancelled");
+      },
+    ],
+    [
+      "model_retry_scheduled",
+      "warn",
+      "Model network retry scheduled",
+      {
+        delayMs: 1_000,
+        nextAttempt: 2,
+        reason: "rate_limited",
+        statusCode: 429,
+        message: "slow down",
+      },
+      (c) => {
+        assert.equal(c.event, "model.network.retry_scheduled");
+        assert.equal(c.delayMs, 1_000);
+        assert.equal(c.nextAttempt, 2);
+        assert.equal(c.status, "waiting");
+        assert.equal(c.statusMessage, "slow down");
+      },
+    ],
+    [
+      "model_stream_stalled",
+      "warn",
+      "Model network stream stalled",
+      { idleMs: 30_000, timeoutMs: 60_000, message: "stream idle" },
+      (c) => {
+        assert.equal(c.event, "model.network.stream_stalled");
+        assert.equal(c.idleMs, 30_000);
+        assert.equal(c.timeoutMs, 60_000);
+        assert.equal(c.status, "waiting");
+        assert.equal(c.statusMessage, "stream idle");
+      },
+    ],
+  ];
+  for (const [type, level, label, fields, check] of table) {
+    const entry = createMethodsRuntime();
+    wire(entry);
+    const entrySink = statusModule.createModelStatusSink.call(
+      entry.runtime,
+      trace,
+      [] as unknown[],
+    ) as { publish(event: Record<string, unknown>): Promise<void> };
+    await entrySink.publish({
+      type,
+      attempt: 4,
+      baseURL: "https://provider.invalid",
+      maxAttempts: 6,
+      modelId: "model-contract",
+      providerId: "provider-contract",
+      providerKind: "anthropic-compatible",
+      requestId: "req-0002",
+      transport: "sse",
+      ...fields,
+    } as Record<string, unknown>);
+    const [record] = entry.logger.records;
+    assert.equal(record.level, level, `${type} 日志级别`);
+    assert.equal(record.message, label, `${type} 日志文案`);
+    const context = record.context[0] as Record<string, unknown>;
+    assert.equal(context.module, "core.runtime");
+    assert.equal(context.attempt, 4);
+    assert.equal(context.baseURL, "https://provider.invalid");
+    assert.equal(context.maxAttempts, 6);
+    assert.equal(context.modelId, "model-contract");
+    assert.equal(context.providerId, "provider-contract");
+    assert.equal(context.providerKind, "anthropic-compatible");
+    assert.equal(context.requestId, "req-0002");
+    assert.equal(context.transport, "sse");
+    check(context);
+    assert.equal(entry.appended.length, 1);
+  }
+
+  // streamRecovery 元数据字段映射。
+  const recoveryRun = createMethodsRuntime();
+  wire(recoveryRun);
+  const recoverySink = statusModule.createModelStatusSink.call(
+    recoveryRun.runtime,
+    trace,
+    [] as unknown[],
+    {
+      streamRecovery: {
+        anchorId: "anchor-9",
+        maxRetries: 10,
+        recoveredFromRequestId: "req-old",
+        retryNumber: 3,
+      },
+    },
+  ) as { publish(event: Record<string, unknown>): Promise<void> };
+  await recoverySink.publish({
+    type: "model_request_started",
+    attempt: 1,
+    modelId: "m",
+    providerId: "p",
+    streamRecovery: {
+      anchorId: "anchor-9",
+      maxRetries: 10,
+      recoveredFromRequestId: "req-old",
+      retryNumber: 3,
+    },
+  } as Record<string, unknown>);
+  const recoveryContext = recoveryRun.logger.records[0].context[0] as Record<string, unknown>;
+  assert.equal(recoveryContext.streamRecoveryAnchorId, "anchor-9");
+  assert.equal(recoveryContext.streamRecoveryFromRequestId, "req-old");
+  assert.equal(recoveryContext.streamRecoveryMaxRetries, 10);
+  assert.equal(recoveryContext.streamRecoveryRetryNumber, 3);
+
+  // 未知 type 只走公共元数据、不打类型日志；appendEvent 失败原样冒泡（先观测后持久化）。
+  const unknownType = createMethodsRuntime();
+  wire(unknownType);
+  const unknownSink = statusModule.createModelStatusSink.call(
+    unknownType.runtime,
+    trace,
+    [] as unknown[],
+  ) as { publish(event: Record<string, unknown>): Promise<void> };
+  await unknownSink.publish({
+    type: "model_request_mystery",
+    attempt: 1,
+    modelId: "m",
+    providerId: "p",
+  });
+  assert.deepEqual(unknownType.logger.records, [], "未知 type 不打类型日志");
+  assert.equal(unknownType.appended.length, 1, "事件仍持久化");
+
+  const failedPersist = createMethodsRuntime();
+  wire(failedPersist);
+  const failedSink = statusModule.createModelStatusSink.call(
+    failedPersist.runtime,
+    trace,
+    [] as unknown[],
+  ) as { publish(event: Record<string, unknown>): Promise<void> };
+  failedPersist.failNextAppend(new Error("persist broke"));
+  await assert.rejects(
+    failedSink.publish({
+      type: "model_request_started",
+      attempt: 1,
+      modelId: "m",
+      providerId: "p",
+    }),
+    /persist broke/,
+  );
+  assert.equal(failedPersist.logger.records.length, 1, "onStatus 与日志已完成——先观测后持久化");
+});
+
+test("B12 运行时模型句柄与调用上下文合并", async () => {
+  const runtimeModel = await methods("runtime-model");
+  const deps = await coreDeps();
+  const captured: unknown[] = [];
+  const inner = {
+    providerId: "provider-contract",
+    modelId: "model-contract",
+    displayName: "Contract Model",
+    properties: { contextWindow: 128_000 },
+    optionSpecs: [],
+    options: {},
+    bind(this: Record<string, unknown>, bindOptions: unknown) {
+      return { ...this, options: bindOptions };
+    },
+    async generateText() {
+      captured.push(deps.getCurrentModelInvocationContext());
+      return { finishReason: "stop", text: "", toolCalls: [], usage: {} };
+    },
+    async *streamText() {
+      captured.push(deps.getCurrentModelInvocationContext());
+    },
+  };
+
+  // 选择缺失抛 ConfigurationError（recoverable: true）。
+  const bare = createMethodsRuntime();
+  (bare.runtime as unknown as Record<string, unknown>).modelFactory = () => inner;
+  assert.throws(
+    () => runtimeModel.createRuntimeModel(bare.runtime, { selection: undefined } as never),
+    (error: { message?: string; recoverable?: boolean; type?: string }) => {
+      assert.equal(error.type, CoreErrorType.ConfigurationError);
+      assert.equal(error.message, "Select a model before continuing");
+      assert.equal(error.recoverable, true);
+      return true;
+    },
+  );
+
+  // 句柄工厂绑定一次：workflow child 的 Unbounded 预算 + 准入端口透传。
+  (bare.runtime.config as Record<string, unknown>).taskType = "workflow_child";
+  (bare.runtime as unknown as Record<string, unknown>).modelRequestAdmission = { gate: "contract" };
+  const handle = runtimeModel.createRuntimeModel(bare.runtime, {
+    selection: { modelId: "model-contract", providerId: "provider-contract" },
+  } as never);
+  assert.equal(handle.providerId, "provider-contract");
+  assert.equal(handle.modelId, "model-contract");
+  assert.equal(handle.displayName, "Contract Model");
+  assert.equal(Object.isFrozen(handle), true, "包装对象冻结不可变");
+  await handle.generateText({} as never);
+  const boundContext = captured.at(-1) as Record<string, unknown>;
+  assert.equal(boundContext.modelRetryBudget, ModelRetryBudget.Unbounded);
+  assert.deepEqual(boundContext.modelRequestAdmission, { gate: "contract" });
+
+  // 合并语义：包装层 createContext 后写压过调用层。
+  const wrapped = runtimeModel.withModelInvocationContext(inner, () => ({
+    modelRetryBudget: ModelRetryBudget.Default,
+  }));
+  await deps.runWithModelInvocationContext({ modelRetryBudget: ModelRetryBudget.Unbounded }, () =>
+    wrapped.generateText({} as never),
+  );
+  assert.equal(
+    (captured.at(-1) as { modelRetryBudget: unknown }).modelRetryBudget,
+    ModelRetryBudget.Default,
+    "包装层 createContext 后写压过调用层",
+  );
+
+  // bind 递归再包同一上下文层。
+  const bound = wrapped.bind({ temperature: 0.2 } as never);
+  assert.equal(Object.isFrozen(bound), true);
+  await bound.generateText({} as never);
+  assert.equal(
+    (captured.at(-1) as { modelRetryBudget: unknown }).modelRetryBudget,
+    ModelRetryBudget.Default,
+    "bind 结果仍带同一上下文层",
+  );
+});
