@@ -2,8 +2,10 @@
 // core-runtime-methods-01 契约测试：请求元数据、限额、流式队列与流状态（B3/B4/B7–B11）。
 // B7 的进入顺序与背压用 gate 握手断言，无 sleep、无固定超时。
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import test from "node:test";
-import { contractsBundle, coreDeps, methods } from "./entry.mjs";
+import { contractDir, contractsBundle, coreDeps, methods } from "./entry.mjs";
 import { createMethodsRuntime, type FakeMethodsRuntime } from "./fixtures.js";
 
 const { ModelRequestSessionType, ModelRetryBudget, SessionEventType } = await contractsBundle();
@@ -1131,5 +1133,67 @@ test("B12 运行时模型句柄与调用上下文合并", async () => {
     (captured.at(-1) as { modelRetryBudget: unknown }).modelRetryBudget,
     ModelRetryBudget.Default,
     "bind 结果仍带同一上下文层",
+  );
+});
+
+test("B1 模型请求/响应投影金样往返", async () => {
+  const golden = JSON.parse(
+    readFileSync(join(contractDir, "fixtures/model-request-roundtrip.json"), "utf8"),
+  ) as {
+    emitted: { done: boolean; kind: string }[];
+    request: { keys: string[]; messagesIdentityPreserved: boolean; tools: unknown };
+    result: Record<string, unknown>;
+    script: unknown[];
+  };
+  const messages = [
+    { role: "system", content: "Fictional system prompt." },
+    { role: "user", content: "Fictional user question." },
+  ];
+  const tools = [{ name: "lookup", description: "Fictional lookup tool." }];
+  const fake = createMethodsRuntime();
+  const events: unknown[] = [];
+  let captured: Record<string, unknown> = {};
+  const replayModel = {
+    providerId: "provider-fixture",
+    modelId: "model-fixture",
+    properties: { contextWindow: 128_000 },
+    async *streamText(request: unknown) {
+      captured = request as Record<string, unknown>;
+      for (const event of golden.script) yield event;
+    },
+  };
+  const result = (await modelRequest.runModelTextRequest.call(fake.runtime, {
+    abortSignal: undefined,
+    assistantMessageId: "assistant-msg-0001",
+    events,
+    messages,
+    model: replayModel,
+    tools,
+    traceContext: trace,
+  } as never)) as Record<string, unknown>;
+  assert.deepEqual(Object.keys(captured), golden.request.keys);
+  assert.equal(captured.messages === messages, golden.request.messagesIdentityPreserved);
+  assert.deepEqual(captured.tools, golden.request.tools);
+  assert.deepEqual(
+    events.map((event) => {
+      const payload = (event as { payload: { done?: boolean; kind: string } }).payload;
+      return { done: payload.done ?? false, kind: payload.kind };
+    }),
+    golden.emitted,
+    "流事件→队列载荷序列与金样一致",
+  );
+  assert.deepEqual(
+    JSON.parse(
+      JSON.stringify({
+        finishReason: result.finishReason,
+        providerMetadata: result.providerMetadata,
+        reasoning: result.reasoning,
+        text: result.text,
+        toolCalls: result.toolCalls,
+        usage: result.usage,
+      }),
+    ),
+    golden.result,
+    "响应投影与金样一致",
   );
 });

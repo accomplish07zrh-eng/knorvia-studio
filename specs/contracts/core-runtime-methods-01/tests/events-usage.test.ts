@@ -2,8 +2,10 @@
 // core-runtime-methods-01 契约测试：事件管线、sink 通知、会话持久化与追加汇总（B23–B25/B27）。
 // B23/B25 的日志序列与 B24 的串行通知都用 gate 握手断言，无 sleep、无固定超时。
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import test from "node:test";
-import { contractsBundle, coreDeps, methods } from "./entry.mjs";
+import { contractDir, contractsBundle, coreDeps, methods } from "./entry.mjs";
 import { createMethodsRuntime, type FakeMethodsRuntime } from "./fixtures.js";
 
 const { SessionEventType } = await contractsBundle();
@@ -833,4 +835,106 @@ test("B31 用量投影纯函数", async () => {
   assert.equal(projection.usageCount(12.9), 12);
   assert.equal(projection.usageCount(-3), 0);
   assert.equal(projection.usageCount(Number.NaN), 0);
+});
+
+test("B28 流事件→用量/账本金样往返", async () => {
+  const golden = JSON.parse(
+    readFileSync(join(contractDir, "fixtures/stream-usage-roundtrip.json"), "utf8"),
+  ) as {
+    modelFact: Record<string, unknown>;
+    toolFacts: Record<string, unknown>[];
+    turnFact: Record<string, unknown>;
+  };
+  const usage = await methods("usage-observability");
+  const fake = createMethodsRuntime();
+  const { calls, store } = recordingStore();
+  (fake.runtime as unknown as Record<string, unknown>).sessionStore = store;
+  const networkEvents = [
+    { type: SessionEventType.ModelNetworkStatus, payload: { type: "model_request_started" } },
+    {
+      type: SessionEventType.ModelNetworkStatus,
+      payload: { type: "model_retry_scheduled", reason: "rate_limited" },
+    },
+    {
+      type: SessionEventType.ModelNetworkStatus,
+      payload: { type: "model_request_failed", reason: "network_error", retryable: false },
+    },
+    {
+      type: SessionEventType.ModelStreaming,
+      payload: { kind: "text_delta", delta: "tok" },
+      timestamp: new Date(1_700_000_000_100),
+    },
+  ];
+  const toolEvents = [
+    {
+      type: SessionEventType.ToolCallScheduled,
+      payload: { toolCallId: "call-1", toolName: "lookup" },
+      timestamp: new Date(1_700_000_000_200),
+    },
+    {
+      type: SessionEventType.ToolCallResult,
+      payload: {
+        toolCallId: "call-1",
+        toolName: "lookup",
+        duration: 12.7,
+        result: { returnedBytes: 100, truncated: true },
+      },
+      timestamp: new Date(1_700_000_000_300),
+    },
+  ];
+  await usage.recordModelUsageFact(fake.runtime, {
+    assistantMessageId: "assistant-msg-0001",
+    attemptIndex: 1,
+    events: networkEvents,
+    model: { modelId: "model-fixture", options: {}, providerId: "provider-fixture" },
+    networkEventStartIndex: 0,
+    querySource: "main_turn",
+    result: {
+      finishReason: "stop",
+      usage: {
+        cacheReadTokens: 11,
+        cacheWriteTokens: 22,
+        inputTokens: 33,
+        outputTokens: 44,
+        reasoningTokens: 5,
+        totalTokens: 99,
+      },
+    },
+    startedAt: 1_700_000_000_000,
+    status: "completed",
+    traceContext: trace,
+  } as never);
+  for (const event of toolEvents) {
+    await usage.recordToolUsageFromEvent(fake.runtime, event as never, trace);
+  }
+  await usage.recordTurnUsageFact(fake.runtime, {
+    completedAt: 1_700_000_005_000,
+    events: [...networkEvents, ...toolEvents],
+    startedAt: 1_700_000_000_000,
+    status: "completed",
+    traceContext: trace,
+    turnId: "turn-contract-0001",
+    userMessageId: "user-msg-0001",
+  } as never);
+
+  const liveModelFact = JSON.parse(
+    JSON.stringify(calls.find((entry) => entry.method === "recordModelUsage")?.args[0]),
+  ) as Record<string, unknown>;
+  liveModelFact.completedAt = "<completedAt>";
+  liveModelFact.durationMs = "<durationMs>";
+  assert.deepEqual(liveModelFact, golden.modelFact, "模型用量事实与金样一致");
+  assert.deepEqual(
+    JSON.parse(
+      JSON.stringify(
+        calls.filter((entry) => entry.method === "upsertToolUsage").map((entry) => entry.args[0]),
+      ),
+    ),
+    golden.toolFacts,
+    "工具用量账本与金样一致",
+  );
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(calls.find((entry) => entry.method === "upsertTurnUsage")?.args[0])),
+    golden.turnFact,
+    "回合用量事实与金样一致",
+  );
 });
