@@ -22,7 +22,10 @@
         "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/bookkeeping-round2.mjs",
         "scripts/provenance/bookkeeping-round2-similarity.mjs",
-        "specs/contracts/core-hooks/tests/run-old-gate.mjs"
+        "specs/contracts/core-hooks/tests/run-old-gate.mjs",
+        "specs/contracts/dynamic-workflow-01/tests/record-golden.mjs",
+        "specs/contracts/dynamic-workflow-01/tests/gen-interface.mjs",
+        "specs/contracts/dynamic-workflow-01/tests/scan-callers.mjs"
       ]
     },
     "packages/desktop": {

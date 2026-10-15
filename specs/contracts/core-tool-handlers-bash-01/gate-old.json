@@ -1,0 +1,47 @@
+{
+  "contract": "core-tool-handlers-bash-01",
+  "commit": "cc2f93b1953ace1ea8ea0417a3146407d212363e",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-14T23:49:54.978Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-tool-handlers-bash-01/tests/bash-exec-entry-perf.test.ts",
+    "specs/contracts/core-tool-handlers-bash-01/tests/bash-exec-pipeline.test.ts",
+    "specs/contracts/core-tool-handlers-bash-01/tests/bash-exec-semantics.test.ts",
+    "specs/contracts/core-tool-handlers-bash-01/tests/bash-readonly.test.ts",
+    "specs/contracts/core-tool-handlers-bash-01/tests/fixtures.test.ts"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 43,
+      "pass": 43,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B-ex-20 isGitRuntimeContextUnsafe keys off a resolvable working directory (0.1425ms)\n✔ B-ex-21 getGhRateLimitHint fires once per cooldown and only for gh rate-limit output (0.3011ms)\n✔ B-ro-1..15 isRuntimeReadOnlyBashCommand reproduces the recorded judgment baseline (6.3446ms)\n✔ B-ro-16 judgment oracle is total and boolean across every sample (1.6994ms)\n✔ B-ro-17 isSedInPlaceBashCommand flags only sed -i (0.2109ms)\n✔ B-ro-18 extended fixture baseline reproduces every recorded read-only judgment (4.4859ms)\nℹ tests 43\nℹ suites 0\nℹ pass 43\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 12093.3765"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 43,
+      "pass": 43,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B-ex-20 isGitRuntimeContextUnsafe keys off a resolvable working directory (0.1247ms)\n✔ B-ex-21 getGhRateLimitHint fires once per cooldown and only for gh rate-limit output (0.273ms)\n✔ B-ro-1..15 isRuntimeReadOnlyBashCommand reproduces the recorded judgment baseline (6.5226ms)\n✔ B-ro-16 judgment oracle is total and boolean across every sample (1.816ms)\n✔ B-ro-17 isSedInPlaceBashCommand flags only sed -i (0.2279ms)\n✔ B-ro-18 extended fixture baseline reproduces every recorded read-only judgment (4.5204ms)\nℹ tests 43\nℹ suites 0\nℹ pass 43\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6909.6045",
+      "environment": {},
+      "loader": "specs/contracts/core-tool-handlers-bash-01/dist-entry-loader.mjs"
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 38,
+    "tests": 5,
+    "pass": 0,
+    "fail": 5,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-2-h01\\specs\\contracts\\core-tool-handlers-bash-01\\tests\\bash-exec-pipeline.test.ts (657.0675ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-bash-01\\tests\\bash-exec-semantics.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-2-h01\\specs\\contracts\\core-tool-handlers-bash-01\\tests\\bash-exec-semantics.test.ts (670.7885ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-bash-01\\tests\\bash-readonly.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-2-h01\\specs\\contracts\\core-tool-handlers-bash-01\\tests\\bash-readonly.test.ts (514.2868ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-bash-01\\tests\\fixtures.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-2-h01\\specs\\contracts\\core-tool-handlers-bash-01\\tests\\fixtures.test.ts (509.8969ms)\n  'test failed'"
+  },
+  "pass": true
+}

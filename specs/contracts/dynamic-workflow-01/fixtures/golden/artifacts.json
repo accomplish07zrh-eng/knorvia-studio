@@ -1,0 +1,532 @@
+{
+  "family": "artifacts",
+  "samples": [
+    {
+      "id": "artifacts/report-untagged",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "actor actor#1 \"a\" @1:11 order=0\nask ask#1 \"a\" @1:41 order=1 type=\"string\"\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nspawn actor#1 in=seq#1\nissue ask#1 in=seq#1 phase=unphased\nsettle ask#1 in=seq#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:11\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:41 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> ask#1@1 next\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:41 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:11\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:11\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "artifacts/report-tagged-chart",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "perf",
+          "kind": "chart"
+        }
+      ],
+      "core": "region seq#1 seq entered\nregion loop#1 loop parent=seq#1 @1:68 entered bound=2\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/table-with-key",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "rows",
+          "kind": "table"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/metrics-tiles",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "tiles",
+          "kind": "metrics"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/board-columns",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "kanban",
+          "kind": "board"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/markdown-publish",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "summary",
+          "kind": "markdown"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/file-publish",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "report",
+          "kind": "file"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/file-in-try",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "report",
+          "kind": "file"
+        }
+      ],
+      "core": "ask ask#1 \"a\" @1:123 order=1 type=\"string\"\nactor actor#1 \"a\" @1:112 order=2\nfact ask-actor ask#1 <- actor#1 exact\nfact return <- ask#1 exact\nregion seq#1 seq entered\nregion try#1 try parent=seq#1 @1:1 entered\nregion attempt#1 attempt parent=try#1 @1:5 entered\nregion catch#1 catch parent=try#1 @1:91\njump return seq#1 in=seq#1>try#1>attempt#1 phase=unphased\nspawn actor#1 in=seq#1>try#1>catch#1\nissue ask#1 in=seq#1>try#1>catch#1 phase=unphased\nsettle ask#1 in=seq#1>try#1>catch#1\njump return seq#1 in=seq#1>try#1>catch#1 phase=unphased\n",
+      "causality": "lane actor#1 \"a\" @1:112\nregion seq#1 seq\nstep ask#1 ask \"a\" @1:123 lane=actor#1 region=seq#1 always\nsink ask#1\n",
+      "flow": "node ask#1@1 issue site=ask#1 phase=unphased\nedge entry -> sink jump via=return\nedge ask#1@1 -> sink jump via=return\n",
+      "handoff": "phase unphased\nparticipant unphased:actor#1 \"a\" steps=ask#1\n",
+      "site": "node source\nnode ask#1 \"a\" @1:123 actors=actor#1 type=\"string\"\nnode sink\nactor actor#1 \"a\" @1:112\nedge source -> ask#1 data exact\nedge ask#1 -> sink data exact type=\"string\"\n",
+      "actor": "actor-node source\nactor-node actor#1 \"a\" @1:112\nactor-node sink\nactor-edge source -> actor#1 exact count=1\nactor-edge actor#1 -> sink exact count=1 types=\"string\"\n"
+    },
+    {
+      "id": "artifacts/primary-markdown",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "deliverable",
+          "kind": "markdown"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/duplicate-id-same-spec",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "m",
+          "kind": "metrics"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/report-tag-unknown",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9007,
+          "column": 18,
+          "line": 1,
+          "message": "report()'s tag \"missing-preset\" names no preset artifact declared in this script (this script declares no preset artifacts at all). Declare it first — artifact.chart(\"missing-preset\", { x, y }) at the top of the script — or drop the tag."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "artifacts/id-non-literal",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9007,
+          "column": 36,
+          "line": 1,
+          "message": "an artifact id must be a compile-time string literal (\"report\" or a no-substitution template): the set of artifacts a run can publish is fixed when the script is submitted, so it can be listed before anything runs. Write the id inline; put the runtime value in the title instead (artifact.file(\"report\", path, { title: `Report for ${name}` }))."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "artifacts/primary-conflict",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9009,
+          "column": 119,
+          "line": 1,
+          "message": "artifact \"t\" is marked primary, but \"m\" already is (artifact.metrics on line 1). A run has one deliverable — the card and the run pane lead with it. Drop primary from one of them, or publish this content as a new version of the other id."
+        }
+      ],
+      "declaredArtifacts": [
+        {
+          "id": "m",
+          "kind": "metrics"
+        },
+        {
+          "id": "t",
+          "kind": "table"
+        }
+      ],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "artifacts/declaration-in-loop",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9007,
+          "column": 48,
+          "line": 1,
+          "message": "an artifact id must be a compile-time string literal (\"report\" or a no-substitution template): the set of artifacts a run can publish is fixed when the script is submitted, so it can be listed before anything runs. Write the id inline; put the runtime value in the title instead (artifact.file(\"report\", path, { title: `Report for ${name}` }))."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "artifacts/id-too-long",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9007,
+          "column": 18,
+          "line": 1,
+          "message": "artifact id \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" is 65 characters; the limit is 64. The id is a key, not a description — put the prose in the title."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "artifacts/report-before-declare",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "late",
+          "kind": "metrics"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/many-ids",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "b1",
+          "kind": "board"
+        },
+        {
+          "id": "c1",
+          "kind": "chart"
+        },
+        {
+          "id": "m1",
+          "kind": "metrics"
+        },
+        {
+          "id": "t1",
+          "kind": "table"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/chart-baseline-log",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "perf",
+          "kind": "chart"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/chart-scatter-type",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "scatter",
+          "kind": "chart"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/table-key-replace",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "t",
+          "kind": "table"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/table-append-only",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "rows",
+          "kind": "table"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/metrics-two-tiles",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "tiles",
+          "kind": "metrics"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/board-cardtitle-detail",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "b",
+          "kind": "board"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/markdown-primary-last",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "doc",
+          "kind": "markdown"
+        },
+        {
+          "id": "t",
+          "kind": "table"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/report-dot-path",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "m",
+          "kind": "metrics"
+        }
+      ],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/publish-in-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [
+        {
+          "id": "doc",
+          "kind": "markdown"
+        }
+      ],
+      "core": "region seq#1 seq entered\nregion call#1 call parent=seq#1 @1:115 entered label=\"publish\" strand\njump return call#1 in=seq#1>call#1 phase=unphased\nsettle in=seq#1 joins=call#1\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "artifacts/file-and-md-two-primary",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9009,
+          "column": 121,
+          "line": 1,
+          "message": "artifact \"doc\" is marked primary, but \"out\" already is (artifact.file on line 1). A run has one deliverable — the card and the run pane lead with it. Drop primary from one of them, or publish this content as a new version of the other id."
+        }
+      ],
+      "declaredArtifacts": [
+        {
+          "id": "doc",
+          "kind": "markdown"
+        },
+        {
+          "id": "out",
+          "kind": "file"
+        }
+      ],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    }
+  ]
+}
