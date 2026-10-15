@@ -96904,7 +96904,7 @@
     },
     {
       "path": "scripts/contract-gate.mjs",
-      "normalizedSha256": "bff2914b9777c9c6c62e9d7dcd85f8df486d67d2fd53d442df16a1c8fdfdc8b0",
+      "normalizedSha256": "05ee4f829786bae4d295b75ca580740cd2243c8853ca28cff10b484fee7175fc",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored replacement-process tooling: a shared runner for a package contract's old gate (source and dist entries) that also records the stub-replacement check into the standard gate-old.json shape. Replaces per-package ad-hoc runners; no thresholds or product code are involved.",
