@@ -48,23 +48,23 @@ apps/cli/packages/core/src/tool/handlers/
 
 **公开路径的三种角色**（替换后）：
 
-| 角色       | 路径                                                                                                                                                                                              | 做法                                                     |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| 判定管线   | `bash-readonly-policy.ts`、`-argv.ts`、`-argv-flags.ts`、`-argv-direct.ts`、`-argv-git.ts`、`-argv-io.ts`                                                                                            | 重写实现（阶段顺序重排、表驱动），可调用 `bash-rules/`    |
-| 数据转发   | `-commands.ts`、`-simple-commands.ts`、`-flags.ts`、`-flags-text.ts`、`-flags-file.ts`、`-flags-git.ts`、`-flags-process.ts`、`-git-subcommands-core.ts`、`-git-subcommands-history.ts`、`-multiword-core.ts`、`-multiword-gh.ts`、`-callbacks.ts`、`-git-callbacks.ts` | 导出名/类型保持，内容来自 `bash-rules/` 重建数据          |
-| 类型声明   | `-types.ts`                                                                                                                                                                                        | 兼容声明块唯一集中点（M1 复盘硬要求②）                   |
+| 角色     | 路径                                                                                                                                                                                                                                                                    | 做法                                                   |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 判定管线 | `bash-readonly-policy.ts`、`-argv.ts`、`-argv-flags.ts`、`-argv-direct.ts`、`-argv-git.ts`、`-argv-io.ts`                                                                                                                                                               | 重写实现（阶段顺序重排、表驱动），可调用 `bash-rules/` |
+| 数据转发 | `-commands.ts`、`-simple-commands.ts`、`-flags.ts`、`-flags-text.ts`、`-flags-file.ts`、`-flags-git.ts`、`-flags-process.ts`、`-git-subcommands-core.ts`、`-git-subcommands-history.ts`、`-multiword-core.ts`、`-multiword-gh.ts`、`-callbacks.ts`、`-git-callbacks.ts` | 导出名/类型保持，内容来自 `bash-rules/` 重建数据       |
+| 类型声明 | `-types.ts`                                                                                                                                                                                                                                                             | 兼容声明块唯一集中点（M1 复盘硬要求②）                 |
 
 执行簇（18 文件）按管线阶段重写：**解析**（`bash-command-parser.ts`，继续以 npm 依赖 `unbash` 的 AST 为语法事实来源，节点分类与提取逻辑重写）→ **判定/求值**（`bash-semantics.ts`、`bash-command-rule-evaluator.ts`、`bash-command-permission-policy.ts`）→ **投影/格式化**（`bash-output.ts`、`bash-model-content.ts`、`bash-metadata.ts`、`bash-prompt.ts`）→ **生命周期/IO**（`bash.ts`、`bash-background-*.ts`、`bash-cwd-policy.ts`、`bash-git-runtime-safety.ts`、`bash-gh-rate-limit.ts`、`bash-image-output.ts`、`bash-read-file-*.ts`）→ **遥测助手**（`tool-perf.ts`）。超过约 250 行的实现拆入 `bash-exec/` 内部模块，公开文件保留导出面（单文件 ≤400 行，AGENTS 规则）。
 
 ## 2. 状态所有者
 
-| 状态                                   | 唯一所有者                        | 写点                                                                              | 备注                                   |
-| -------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------- |
-| gh 限流提示冷却时间戳                   | `bash-gh-rate-limit.ts` 模块级    | 仅命中（gh 命令 + 限流输出）的那一次调用写入；其后冷却期内直接返回 undefined        | 单进程语义；B-ex-21 事件序列断言        |
-| 命令 span 遥测（start/finish*）        | `bash.ts`（经 `context.telemetry`）| handler 内唯一调用点；`tool-perf.ts` 只提供纯助手                                 | 不在投影层写 span                      |
-| 进度计时 firstOutputMs                 | 每次执行的局部 `BashProgressTiming` | `onEvent` progress 首个非零输出事件一次写入                                     | 无跨执行共享                           |
-| 读文件状态表失效                       | `bash-read-file-state.ts`         | 命令完成后单点调用（`applyBashReadFileStateEffects`），经状态端口失效缓存          | 端口替身单测覆盖                        |
-| 工作目录                               | 会话运行时（`context.setWorkingDirectory`） | `bash.ts` 只在 cwd 决策给出 `nextWorkingDirectory` 时调用一次           | bash 侧不自持 cwd 状态                  |
+| 状态                             | 唯一所有者                                  | 写点                                                                         | 备注                             |
+| -------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------- |
+| gh 限流提示冷却时间戳            | `bash-gh-rate-limit.ts` 模块级              | 仅命中（gh 命令 + 限流输出）的那一次调用写入；其后冷却期内直接返回 undefined | 单进程语义；B-ex-21 事件序列断言 |
+| 命令 span 遥测（start/finish\*） | `bash.ts`（经 `context.telemetry`）         | handler 内唯一调用点；`tool-perf.ts` 只提供纯助手                            | 不在投影层写 span                |
+| 进度计时 firstOutputMs           | 每次执行的局部 `BashProgressTiming`         | `onEvent` progress 首个非零输出事件一次写入                                  | 无跨执行共享                     |
+| 读文件状态表失效                 | `bash-read-file-state.ts`                   | 命令完成后单点调用（`applyBashReadFileStateEffects`），经状态端口失效缓存    | 端口替身单测覆盖                 |
+| 工作目录                         | 会话运行时（`context.setWorkingDirectory`） | `bash.ts` 只在 cwd 决策给出 `nextWorkingDirectory` 时调用一次                | bash 侧不自持 cwd 状态           |
 
 除上表外全部为纯函数：无隐藏全局状态、无模块级可变缓存（multiword 前缀排序缓存属惰性纯派生数据，保持只读）。
 
@@ -124,27 +124,27 @@ sequenceDiagram
 
 ## 4. 行为条目落点（B-ro / B-ex → 实现模块）
 
-| 条目                | 实现模块                                                                                  |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| B-ro-1..9（简单/内建/glob/管道/链/重定向/子shell/sudo/xargs） | `bash-semantics.ts`（入口）+ `bash-rules/plain-gates.ts`、`bash-rules/families/shell.ts` |
-| B-ro-10..14（git/就地/gh/docker 多词）          | `bash-rules/git-subcommands.ts`、`bash-rules/danger-checks.ts`、`bash-rules/families/{git,gh,docker}.ts`、`bash-rules/multiword-matcher.ts` |
-| B-ro-15（进程/运行时/包/网络/文件系统/数据库）  | `bash-rules/families/process-net.ts`、`bash-rules/families/files.ts`                       |
-| B-ro-16..17（总量性、sed -i）                   | `bash-semantics.ts` + `bash-rules/danger-checks.ts`（isSedInPlaceOption）                  |
-| B-ro-18（夹具 30 条）                           | 同 B-ro 主链（`fixtures/read-only-baseline.json` 驱动）                                    |
-| B-ex-1..3（静默判定）      | `bash-semantics.ts`                                                                        |
-| B-ex-4..7（退出码解读/判错）| `bash-semantics.ts`                                                                        |
-| B-ex-8..12（解析/权限安全） | `bash-command-parser.ts`                                                                   |
-| B-ex-13..14（规则求值）    | `bash-command-rule-evaluator.ts`                                                           |
-| B-ex-15..17（cwd 策略）    | `bash-cwd-policy.ts`                                                                       |
-| B-ex-18..20（git 运行时安全）| `bash-git-runtime-safety.ts`                                                              |
-| B-ex-21（gh 限流提示）     | `bash-gh-rate-limit.ts`                                                                    |
-| B-ex-22..24（元数据）      | `bash-metadata.ts`                                                                         |
-| B-ex-25..26（输出/模型内容）| `bash-model-content.ts`                                                                    |
-| B-ex-27..28（性能 span）   | `bash-output.ts`（+ `tool-perf.ts` 纯助手）                                                |
-| B-ex-29（provider 描述）   | `bash-prompt.ts`                                                                           |
-| B-ex-30（自动后台资格）    | `bash-background-policy.ts`                                                                |
-| B-ex-31（工具入口声明）    | `bash.ts`                                                                                  |
-| B-ex-32..39（性能助手）    | `tool-perf.ts`                                                                             |
+| 条目                                                          | 实现模块                                                                                                                                    |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| B-ro-1..9（简单/内建/glob/管道/链/重定向/子shell/sudo/xargs） | `bash-semantics.ts`（入口）+ `bash-rules/plain-gates.ts`、`bash-rules/families/shell.ts`                                                    |
+| B-ro-10..14（git/就地/gh/docker 多词）                        | `bash-rules/git-subcommands.ts`、`bash-rules/danger-checks.ts`、`bash-rules/families/{git,gh,docker}.ts`、`bash-rules/multiword-matcher.ts` |
+| B-ro-15（进程/运行时/包/网络/文件系统/数据库）                | `bash-rules/families/process-net.ts`、`bash-rules/families/files.ts`                                                                        |
+| B-ro-16..17（总量性、sed -i）                                 | `bash-semantics.ts` + `bash-rules/danger-checks.ts`（isSedInPlaceOption）                                                                   |
+| B-ro-18（夹具 30 条）                                         | 同 B-ro 主链（`fixtures/read-only-baseline.json` 驱动）                                                                                     |
+| B-ex-1..3（静默判定）                                         | `bash-semantics.ts`                                                                                                                         |
+| B-ex-4..7（退出码解读/判错）                                  | `bash-semantics.ts`                                                                                                                         |
+| B-ex-8..12（解析/权限安全）                                   | `bash-command-parser.ts`                                                                                                                    |
+| B-ex-13..14（规则求值）                                       | `bash-command-rule-evaluator.ts`                                                                                                            |
+| B-ex-15..17（cwd 策略）                                       | `bash-cwd-policy.ts`                                                                                                                        |
+| B-ex-18..20（git 运行时安全）                                 | `bash-git-runtime-safety.ts`                                                                                                                |
+| B-ex-21（gh 限流提示）                                        | `bash-gh-rate-limit.ts`                                                                                                                     |
+| B-ex-22..24（元数据）                                         | `bash-metadata.ts`                                                                                                                          |
+| B-ex-25..26（输出/模型内容）                                  | `bash-model-content.ts`                                                                                                                     |
+| B-ex-27..28（性能 span）                                      | `bash-output.ts`（+ `tool-perf.ts` 纯助手）                                                                                                 |
+| B-ex-29（provider 描述）                                      | `bash-prompt.ts`                                                                                                                            |
+| B-ex-30（自动后台资格）                                       | `bash-background-policy.ts`                                                                                                                 |
+| B-ex-31（工具入口声明）                                       | `bash.ts`                                                                                                                                   |
+| B-ex-32..39（性能助手）                                       | `tool-perf.ts`                                                                                                                              |
 
 **IO 重路径的补充覆盖**（合同「未覆盖」节）：`bash.ts` 执行路径、`toBashOutput`、`bash-image-output.ts`、`bash-read-file-*.ts`、`bash-background-lifecycle.ts`、`resolveBashPermissionRulePolicy` 以**端口替身 + 包内单元测试**覆盖（`apps/cli/packages/core/test/` 下新增 bash 专项单测），不依赖真实 spawn/写盘。
 
@@ -161,17 +161,17 @@ sequenceDiagram
 
 ## 6. 实施簇（每簇 3–7 文件，簇内 fmt → 契约双入口 → normal+decl 双门 → lint/tsc → 小步提交）
 
-| 簇 | 文件                                                                                  | 主题                     |
-| -- | ------------------------------------------------------------------------------------- | ------------------------ |
-| C1 | `-types`、`-argv-io`、`-argv-direct`、`-argv-git`                                     | 规则管线：类型 + 闸门    |
-| C2 | `-readonly-policy`、`-argv`、`-argv-flags`、`-commands`、`-simple-commands`           | 规则管线：判定链 + 简单命令表 |
-| C3 | `-callbacks`、`-git-callbacks`、`-flags`、`-flags-text`、`-flags-file`                | 危险回调 + 文本/文件安全旗标 |
-| C4 | `-flags-git`、`-flags-process`、`-git-subcommands-core`、`-git-subcommands-history`   | git/进程族数据           |
-| C5 | `-multiword-core`、`-multiword-gh`、`bash-semantics`                                  | 多词表 + 语义判定入口    |
-| C6 | `bash-command-parser`、`bash-command-rule-evaluator`、`bash-command-permission-policy` | 解析与权限规则           |
-| C7 | `bash-cwd-policy`、`bash-git-runtime-safety`、`bash-gh-rate-limit`、`bash-background-policy`、`bash-background-lifecycle` | 生命周期小模块           |
-| C8 | `bash-metadata`、`bash-model-content`、`bash-output`、`bash-prompt`、`bash-image-output` | 投影/格式化/遥测 span    |
-| C9 | `bash-read-file-sources`、`bash-read-file-state`、`bash.ts`、`tool-perf`              | IO + 入口 + 性能助手     |
+| 簇  | 文件                                                                                                                      | 主题                          |
+| --- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| C1  | `-types`、`-argv-io`、`-argv-direct`、`-argv-git`                                                                         | 规则管线：类型 + 闸门         |
+| C2  | `-readonly-policy`、`-argv`、`-argv-flags`、`-commands`、`-simple-commands`                                               | 规则管线：判定链 + 简单命令表 |
+| C3  | `-callbacks`、`-git-callbacks`、`-flags`、`-flags-text`、`-flags-file`                                                    | 危险回调 + 文本/文件安全旗标  |
+| C4  | `-flags-git`、`-flags-process`、`-git-subcommands-core`、`-git-subcommands-history`                                       | git/进程族数据                |
+| C5  | `-multiword-core`、`-multiword-gh`、`bash-semantics`                                                                      | 多词表 + 语义判定入口         |
+| C6  | `bash-command-parser`、`bash-command-rule-evaluator`、`bash-command-permission-policy`                                    | 解析与权限规则                |
+| C7  | `bash-cwd-policy`、`bash-git-runtime-safety`、`bash-gh-rate-limit`、`bash-background-policy`、`bash-background-lifecycle` | 生命周期小模块                |
+| C8  | `bash-metadata`、`bash-model-content`、`bash-output`、`bash-prompt`、`bash-image-output`                                  | 投影/格式化/遥测 span         |
+| C9  | `bash-read-file-sources`、`bash-read-file-state`、`bash.ts`、`tool-perf`                                                  | IO + 入口 + 性能助手          |
 
 ## 7. 门禁与证据
 

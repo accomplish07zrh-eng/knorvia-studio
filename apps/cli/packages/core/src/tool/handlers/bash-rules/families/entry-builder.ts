@@ -5,8 +5,6 @@ import type { BashReadonlyCommandPolicy, SafeFlagValue } from "../policy-shapes.
 
 export type ReadonlyEntry = readonly [string, BashReadonlyCommandPolicy];
 
-export type DangerGuard = (subject: string, args: readonly string[]) => boolean;
-
 export function compose(
   ...parts: Readonly<Record<string, SafeFlagValue>>[]
 ): Readonly<Record<string, SafeFlagValue>> {
@@ -16,7 +14,7 @@ export function compose(
 export function queryEntry(
   prefix: string,
   image: Readonly<Record<string, SafeFlagValue>>,
-  guard?: DangerGuard,
+  guard?: (subject: string, args: readonly string[]) => boolean,
 ): ReadonlyEntry {
   const policy: BashReadonlyCommandPolicy = { safeFlags: image };
   if (guard) policy.additionalCommandIsDangerousCallback = guard;
