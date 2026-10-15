@@ -796,3 +796,155 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 日志级别：同 B51。
 - 语义常量：`firstContentAt` 取**首个可见内容**时刻；流式完成事件补报 `usage` 与首内容耗时（历史缺陷修复：对话底部 tok/s 恒「—」、步数与缓存不更新；与非流式路径一致，保持）。
 - （依据：runner-stream.ts 35-412 行）
+
+## 批次 G：状态、调试持久化、重试与归一（runner-status / runner-debug / runner-retry / runner-normalization / runner-diagnostics / runner-attribution / runner-network-headers / runner-runtime-headers / runner-record / runner-telemetry）
+
+### B53 状态上下文、attempt 上下文与事件发布（含接收端去重）
+
+- 输入：请求、已解析模型、transport、`maxAttempts`；发布入参为事件 + 接收端集合。
+- 输出：`ModelStatusContext`；`publishModelStatus` 把脱敏后的事件并发投递给全部接收端。
+- 错误语义：任一接收端抛错被捕获 → `logger.warn("Model status sink rejected an event", { type, error })`，不影响其他接收端与请求结果。
+- 时序与并发：`Promise.all` 并发投递；`admissionWaitPublishers` 的 `onQueued`/`onAdmitted` 事件序列见 B14（不含票据接收端自身）。
+- 幂等：事件每调用一次；attempt ≤ 1 **复用同一上下文（同一 requestId）**，attempt ≥ 2 换新 requestId（uuid）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：逻辑请求上下文；物理 attempt 的 requestId。
+- 日志级别：warn（见错误语义）。
+- 语义常量：上下文字段来源——`traceId` = `traceContext.traceId ?? metadata.traceId ?? <uuid>`；`queryId`/`sessionId`/`turnId` = `traceContext.* ?? metadata.*`；`parentSessionId`/`toolCallId`/`querySource` 只看 metadata；`spanId`/`parentSpanId` 只看 traceContext；`requestId` = `metadata.requestId ?? <uuid>`；`modelCall` 缺省 `{ actorKind: "main", operation: "model" }`；`modelRequestSessionType` 按 B59 解析。发布规则——`requestHeaders`/`responseHeaders` 先经 B60 脱敏；接收端按**对象身份去重**（票据 → 请求级 → 适配器级，重复跳过）；票据接收端只收普通 `publish`；仅适配器级（`statusSink`）接收端在 `model_request_failed` 且带 `failureError` 时优先调 `publishFailure(event, failureError)`（若实现）；`model_request_queued`/`model_request_admitted`（带 `queuedMs`）**不投递给票据接收端**；遥测里程碑（`model_first_provider_event`/`model_first_content`/`model_first_text`）只投递适配器级接收端；`modelStatusContextToLogContext` 固定 12 字段（traceId、queryId、sessionId、turnId、requestId、providerId、modelId、providerKind、transport、attempt、maxAttempts）。
+- （依据：runner-status.ts 25-206 行）
+
+### B54 调试持久化（JSONL 记录、限额、轮转、脱敏）——持久化往返核心
+
+- 输入：attempt 记录要素（选项、请求、结果/错误、计时）；`debugDir`、`isDev`、`fullRetention`、`recordModelIO`。
+- 输出：一行 JSONL 记录追加（或覆盖）到会话文件；无输出（禁用/跳过/失败吞掉）。
+- 错误语义：写盘任何失败**静默吞掉**（调试不影响请求结果）。
+- 时序与并发：流式记录先以 **1000ms** 上限收敛聚合（`text`/`reasoning`/`toolResults`/`sources`/`response` 五个 promise 竞速 `allSettled`）再落盘；生成式记录直接落盘。
+- 幂等：同输入追加一行（append 语义）；覆盖仅在超限分支发生。
+- 资源释放：不适用（文件保持句柄不常驻）。
+- 平台差异：文件名经跨平台消毒（见语义常量）。
+- 状态所有者：`debugDir` 下的 `<会话键>.jsonl` 文件；模块级 `priorMessages` 表（会话键 → 上次 canonical messages，决定 delta/baseline）。
+- 日志级别：不适用（本模块不打日志）。
+- 语义常量：
+  - 开关：`shouldRecordModelIO = KNORVIA_RUNTIME_ENV !== "test"`（test runtime 关闭、其余含未设置默认启用）；`isDevelopmentModelIOEnv = KNORVIA_RUNTIME_ENV === "development"`；生成式记录另受 `metadata.skipTranscript === true` 跳过（**非流记录遵守 skipTranscript，流式只看环境门**）；`debugDir` 缺省见 B47（development → `cli/debug`，其余 → `cli/rollout`）。
+  - 会话文件键：`traceContext.sessionId ?? metadata.sessionId ?? metadata.session_id ?? metadata.session ?? requestId`；消毒：去首尾空白、`[^a-zA-Z0-9_.-]+` → `_`、截 160、Windows 保留设备名（`con/prn/aux/nul/com1-9/lpt1-9`，含扩展形）加 `_` 前缀、空则退 `requestId`、再退 `"request"`。
+  - 记录形状（JSONL 一行一记录）：`kind`（`generate`/`stream`）、`attempt`、`startedAt`、`completedAt`、`providerId`、`modelId`、`request`、`response`（generate）或 `aggregate`（stream，五项 `allSettled` 结果）、`toolCalls`、`error`、`fullRetention`、`development`；错误序列化为「可枚举自有属性 + `name` + `message`」。
+  - canonical 与 SDK 副本：非全量、非开发、无错误的生成式记录里 `request.messages` 换成 canonical `request.messages` 并把 SDK 副本放 `sdkMessages`；**成功生产记录清理重复**（删 `sdkMessages`、`body.messages`、`request.body.messages`、`response.body`、各 step 的同名副本、`aggregate.response.value.body`），失败/开发/全量保留不清理。
+  - 消息压缩：`messageLimit` = 开发 **256** / 生产 **64**；有连续性（文件已有内容）且上次消息是本次前缀 → `messageContext = { mode: "delta", retainedPrefix }`、`messages` 只留增量；否则 `messageContext = { mode: "baseline", omitted }`、`messages` 只留**最近 `messageLimit` 条**（连续性不明时必须保住最近上下文，不得只留 omitted 计数）。
+  - 限额：单文件上限 = 开发 **256 MiB** / 生产 **64 MiB**；单行超限 → 换写瘦身行（保留 `kind`、`attempt`、`startedAt`、`completedAt`、`providerId`、`modelId`、`error` 与 `truncated: { originalBytes, reason: "model-io-record-size-limit" }`）；写入时「已有字节 + 新行 ≥ 上限」→ **用 baseline 压缩后的行覆盖整个文件**（writeFile），否则追加。
+  - 生产轮转：非全量、非开发时，目录内 `.jsonl` 文件（含将写的当前文件）**至多保留 3 个**，按 mtime 从旧到新删（`allSettled` 尽力而为，当前文件不删）。
+  - 全量保留（`modelIoFullRetentionEnabled`，B47 开关）：不做压缩、不去重、不瘦身、不轮转，原样追加（脱敏仍生效）。
+  - 脱敏（经范围外模块 `runner-debug-redaction`）：headers、Anthropic user id（B35）、媒体原始数据一律脱敏，全量保留不豁免。
+- > 往返候选：**本条全部是持久化格式**——旧写 → 新读 → 新写 → 旧读 的往返金样以本条为准（JSONL 行形状、`messageContext` 两模式、瘦身行、文件名消毒、轮转上限）。
+- （依据：runner-debug.ts 1-305 行）
+
+### B55 重试延迟、退避等待与适配错误（语义常量条目）
+
+- 输入：重试参数、attempt、可选 `retryAfterMs`；`sleep` 另有 `abortSignal`；`toAdapterError` 另有错误、失败分类、状态上下文。
+- 输出：延迟毫秒数；`sleep` 的完成/拒绝；`toAdapterError` 的 `AiSdkModelAdapterError`。
+- 错误语义：`sleep` 入口或等待中取消 → 拒绝 `signal.reason`，缺省 `DOMException("Aborted", "AbortError")`。
+- 时序与并发：`sleep` 可被取消打断；计时器与监听在完成/拒绝时清理。
+- 幂等：`calculateRetryDelay` 同输入同输出（`jitter` 时含随机成分）；`toAdapterError` 对已是适配错误的输入走「补缺」不新建。
+- 资源释放：`sleep` 的 `finally` 等价清理（清计时器、摘监听）。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt。
+- 日志级别：`logRetryDelayDecision` 用 **debug**，消息逐字 `Model retry decision`（字段 attempt、canRetry、delayMs、reason、requestId）。
+- 语义常量：延迟公式 `raw = baseDelayMs × backoffFactor^(attempt-1)`、`delay = min(maxDelayMs, raw)`；`Retry-After` 覆盖条件（`retryAfterMs ≥ 0` 且（`≤ 300_000` **或** `< raw`））命中则 `delay = retryAfterMs`；`jitter` 为真时最终值 `round(delay × (0.5 + rand×0.5))`，否则 `round(delay)`，并 `max(0, ·)`。`TerminalStreamChunkError`：`name = "TerminalStreamChunkError"`、消息取适配错误消息、`cause` 与 `adapterError` 都指向该适配错误。`toAdapterError`：入参已是 `AiSdkModelAdapterError` → `enrichContext({ ...statusContext, attempt, ...additional })`（B19 补缺语义）；否则新建 `AiSdkModelAdapterError(failure.code, failure.message, { cause: error, context: { ...statusContext, attempt, reason, retryReason, retryable, statusCode, retryAfterMs, ...additional } })`（`undefined` 值字段照写）。
+- （依据：runner-retry.ts 1-90 行）
+
+### B56 结果归一（用量、reasoning、流事件、工具调用/结果、来源）
+
+- 输入：AI SDK 的 generate 结果或流式 chunk。
+- 输出：契约层的 `ModelUsage`、reasoning 块、`ModelStreamEvent`、工具调用/结果、来源数组（空集合归一为 `undefined`）。
+- 错误语义：不抛错（未知 chunk 类型返回 `undefined` 被丢弃）。
+- 时序与并发：流事件逐条转换，顺序保持。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：仅工具入参归一失败时由 B33 warn。
+- 语义常量：用量映射——`inputTokens`/`outputTokens`/`totalTokens` 直取；`cacheReadTokens`/`cacheWriteTokens` 取 `inputTokenDetails`；`reasoningTokens` 取 `outputTokenDetails`。reasoning 归一——只留有 `text` 或 `providerMetadata` 的块，`text ?? ""`，`providerMetadata` 为对象时映射为 `providerOptions`，全空返回 `undefined`。流事件映射（chunk `type` → 事件）——`start`→`start`；`text-start`/`text-end`→`text_start`/`text_end`（`id: String(value.id)`）；`text-delta`→`text_delta`（`id` 字符串否则 undefined、`text: String(text ?? delta ?? "")`）；`reasoning-start/-delta/-end`→对应事件（带 `providerMetadata`）；`tool-input-start`（`id: String(id ?? toolCallId)`、`toolName: String(toolName ?? "")`、`providerExecuted === true`）；`tool-input-delta`（`delta: String(delta ?? "")`）；`tool-input-end`；`tool-call`（`toolCallId ?? id ?? ""`，name 经 B43 的名字归一、input 经 B33）；`finish`（`finishReason: String(finishReason ?? "unknown")`、usage 取 `totalUsage`、带 `providerMetadata`）；`error`（`error` 原样）；其余 → `undefined`。工具调用归一（generate）——`id = toolCallId`、`name` 归一、`input` 归一（`source: "generateText"`）、`providerExecuted` 透传，空列表 → `undefined`。工具结果归一——`input` 优先取同 id 归一调用的 input、否则原值；空 → `undefined`。来源：非空原样，空 → `undefined`。
+- （依据：runner-normalization.ts 1-164 行）
+
+### B57 终局业务错误探测（范围外模块，经 runner 路径锁定）
+
+- 输入：generate 结果或流的 raw chunk / finish 事件的 `providerMetadata`。
+- 输出：`ProviderBusinessError` 或 `undefined`。
+- 错误语义：不抛错。
+- 时序与并发：流式探测在 finish 事件处理时执行（先 raw 后 `providerMetadata`，先命中先返回）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 的终局检查。
+- 日志级别：不适用。
+- 语义常量：体解析复用 B5；**显式失败条件** = 源对象 `success === false` **或** 提取出的 `providerCode` 非空（两者皆否则返回 `undefined`，避免把普通正文误判为失败）；`providerCode` 强制字符串化；`providerKind` 仅 `anthropic`/`openai` 保持，其余归 `openai-compatible`。模块 `provider-finish-business-error` **不在本包替换范围**，本条只锁定 runner 路径的可观察行为。
+- （依据：provider-finish-business-error.ts 1-46 行）
+
+### B58 流诊断计数与零输出补全判定
+
+- 输入：流 chunk 序列 / 汇总输入（finishReason、reasoning 长度、文本长度、工具调用数、usage）。
+- 输出：诊断计数器；布尔判定。
+- 错误语义：不适用。
+- 时序与并发：逐 chunk 累计。
+- 幂等：计数器单调；判定同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 的诊断对象。
+- 日志级别：**debug**：`Model generate completed`（attempt、durationMs、requestId、toolCallCount、usage）、`Model stream completed`（attempt、durationMs、requestId、diagnostics）、`Ignored model stream chunk`（attempt、requestId、type）；**warn**：`Model stream failed`（attempt、canRetry、durationMs、reason、requestId、diagnostics）。
+- 语义常量：零输出判定 = `textLength === 0 && reasoningLength === 0 && toolCallCount === 0 && !usage.inputTokens && !usage.outputTokens && !usage.totalTokens`（用量三项任一非零即不算零输出）；计数器语义——chunk 类型缺省记 `unknown`；`text-delta`/`reasoning-delta` 的字符数取 `text ?? delta ?? ""`；`finish` 记 `finishReason ?? ""` 与 `rawFinishReason`；`error` 计数并留最后一条；`tool-call` 计数；可疑判定 `isSuspiciousStreamDiagnostics` = 有 error chunk，或（无 finishReason 且字符与调用全为 0）。
+- （依据：runner-diagnostics.ts 7-158 行）
+
+### B59 归因头与会话类型（语义常量条目）
+
+- 输入：状态上下文 / 显式会话类型 + `modelCall` 观察。
+- 输出：归因 header 表；会话类型值；会话 id 归一值。
+- 错误语义：不适用。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用（header 随请求）。
+- 日志级别：不适用。
+- 语义常量：会话 id 归一——`undefined`/`null` → `undefined`；字符串化后去掉开头 `sess_` 前缀；结果为空串 → `undefined`。会话类型——显式 `main`/`subagent`/`other` 直接采纳；否则 `actorKind === "subagent"` 或 `operation` 字符串含 `subagent` → `subagent`；`actorKind === "main"` → `main`；其余 → `other`。归因头（键名逐字）：恒有 `x-knorvia-request-id`、`x-knorvia-trace-id`（`String(traceId)`）、`x-knorvia-session-type`；`queryId` 真值时加 `x-knorvia-query-id`；归一后会话 id 非空时加 `x-knorvia-session-id`。
+- （依据：runner-attribution.ts 1-42 行）
+
+### B60 网络头脱敏（敏感头清单逐字）
+
+- 输入：任意形状的 header 表。
+- 输出：字符串值的 header 表，敏感头替换为 `[REDACTED]`。
+- 错误语义：不适用（非对象输入返回 `{}`）。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：敏感键正则（大小写不敏感）`^(authorization|proxy-authorization|x-api-key|api-key|cookie|set-cookie)$` → 值 `[REDACTED]`；非字符串值条目**丢弃**；非对象输入 → `{}`。
+- （依据：runner-network-headers.ts 1-12 行）
+
+### B61 attempt 级运行时头刷新
+
+- 输入：`attempt`、请求（含可选 `refreshRuntimeHeadersBeforeAttempt`）、`resolveModel(requestAuth?)`。
+- 输出：刷新后的 `ResolvedAiSdkModel`。
+- 错误语义：刷新失败 → `RuntimeHeadersRefreshError`（`name = "RuntimeHeadersRefreshError"`，消息逐字 `Runtime model headers could not be refreshed`，cause 保留）；**取消优先**：入口或失败时信号已中止 → 直接抛 `signal.reason`。
+- 时序与并发：事件序列「临时解析 → 刷新（带 accountAccess、attempt、reason、abortSignal、providerId、modelId、traceContext）→ 以 `refreshed.requestAuth` 重解析」。
+- 幂等：每次 attempt 调用一次。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt。
+- 日志级别：不适用。
+- 语义常量：无刷新钩子时直接返回临时解析结果；`reason` 缺省 `"model-request"`。
+- （依据：runner-runtime-headers.ts 1-35 行）
+
+### B62 记录字段工具与失败遥测归因
+
+- 输入：任意值 / 失败分类 + 错误 / 响应头。
+- 输出：字段提取结果、`exceptionKind` 归因、`exceptionType`、provider 细节、provider 请求 id。
+- 错误语义：不抛错。
+- 时序与并发：不适用。
+- 幂等：同输入同输出（`modelFailureStatusFields` 除外，它依赖 B25）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：记录工具——`isRecord` 为「对象且非 null」（**含数组**）；`asRecord` 非记录回 `{}`；`stringProperty` 只取字符串；`numberProperty` 只取有限数；`stringMetadata` 只认字符串。失败归因——`errorPhase` 优先取显式入参，其次 `context.errorPhase`，再次错误本体 `errorPhase`（仅字符串）；`exceptionKind` 判定顺序：业务错误（B25）→ `provider_business`；`reason === "invalid_request"` → `protocol`；`reason` 属于 `network_error`/`proxy_error`/`tls_error`/`timeout`/`stream_idle_timeout`/`cancelled` → `transport`；其余 → `api_call`。`modelFailureStatusFields` = `{ errorCode, errorPhase, exceptionType, …provider 细节, retryAfterMs }`，`exceptionType` = `Error.name` 否则链上字符串 `code`。provider 请求 id 提取：header 名（大小写不敏感）首个命中 `^(x-request-id|request-id|x-amzn-requestid|cf-ray)$` 的值。
+- （依据：runner-record.ts 1-22 行、runner-telemetry.ts 1-58 行）
