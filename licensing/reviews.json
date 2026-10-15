@@ -141250,7 +141250,7 @@
     },
     {
       "path": "specs/contracts/core-tool-handlers-workflow-01/gate-old.json",
-      "normalizedSha256": "a1487c58ff9f2911660be0566576ae0627ccb3505c7889e2717c0eda063c11f7",
+      "normalizedSha256": "717f35cee89f10a2deb02ca761538d43d32b4a7b0b61d42e94a9bfb6aa561d01",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
