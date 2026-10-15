@@ -10,14 +10,14 @@ const core = await loadModule("task-realtime-core");
 
 test("B42 口径①：workspaceKey = identity.trim() || path", () => {
   assert.equal(
-    core.resolveWorkspaceKey({ workspacePath: "/ws", workspaceIdentity: " ws-identity-1 " }),
+    core.resolveWorkspaceKey({ workspacePath: "ws", workspaceIdentity: " ws-identity-1 " }),
     golden.resolveWorkspaceKey.withIdentity,
   );
   assert.equal(
-    core.resolveWorkspaceKey({ workspacePath: "/ws", workspaceIdentity: "  " }),
+    core.resolveWorkspaceKey({ workspacePath: "ws", workspaceIdentity: "  " }),
     golden.resolveWorkspaceKey.noIdentity,
   );
-  assert.equal(core.resolveWorkspaceKey({ workspacePath: "/ws" }), "/ws");
+  assert.equal(core.resolveWorkspaceKey({ workspacePath: "ws" }), "ws");
 });
 
 test("B42 口径⑦：reason 14 项与 delivered extend 面（金样 constants）", () => {

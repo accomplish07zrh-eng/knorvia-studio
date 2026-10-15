@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 // shared-03 契约测试：workspace-hook 六件（behavior B1–B12，金样②）。
+// 金样口径：绝对路径不是契约面——夹具以 <ROOT> 占位记录，测试端按运行时根反归一重建、
+// 再把运行结果归一后逐字段比对；摘要载荷只吃相对路径，逐字节比对（B6/B8）。
 import assert from "node:assert/strict";
 import test from "node:test";
+import { resolve } from "node:path";
 
 import { loadModule } from "./entry.mjs";
 import { workspaceHookGolden as golden } from "./fixtures.mjs";
@@ -10,6 +13,33 @@ const config = await loadModule("workspace-hook-config");
 const digest = await loadModule("workspace-hook-digest");
 const trust = await loadModule("workspace-hook-trust-store-file");
 const review = await loadModule("workspace-hook-review-monotonicity");
+
+const runtimeRoot = resolve("ws").split("\\").join("/");
+const denormalize = (value) => {
+  if (typeof value === "string") {
+    return value.startsWith("<ROOT>") ? runtimeRoot + value.slice("<ROOT>".length) : value;
+  }
+  if (Array.isArray(value)) return value.map(denormalize);
+  if (value && typeof value === "object") {
+    const out = {};
+    for (const [k, v] of Object.entries(value)) out[k] = denormalize(v);
+    return out;
+  }
+  return value;
+};
+const normalize = (value) => {
+  if (typeof value === "string") {
+    const flat = value.split("\\").join("/");
+    return flat.startsWith(runtimeRoot) ? "<ROOT>" + flat.slice(runtimeRoot.length) : flat;
+  }
+  if (Array.isArray(value)) return value.map(normalize);
+  if (value && typeof value === "object") {
+    const out = {};
+    for (const [k, v] of Object.entries(value)) out[k] = normalize(v);
+    return out;
+  }
+  return value;
+};
 
 test("B1 语义常量逐字冻结", () => {
   assert.equal(config.WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION, golden.constants.digestSchemaVersion);
@@ -70,23 +100,25 @@ test("B5 配置态门（金样 gateCases）", () => {
 });
 
 test("B7/B8 条目解析与 bundle 摘要逐字节（金样）", () => {
-  const runtimeRoot = { enabled: true, timeoutMs: 60000, maxOutputBytes: 32768 };
+  const runtimeRootInput = { enabled: true, timeoutMs: 60000, maxOutputBytes: 32768 };
+  // 两端都走 createWorkspaceHookSourceInput（同一原始输入）——绝对路径不是契约面，摘要载荷只吃相对路径
+  const sources = golden.sourceInputs.map((input) => config.createWorkspaceHookSourceInput(input));
   const rebuilt = digest.resolveWorkspaceHookEntries({
-    workspacePath: "/ws",
-    sources: [golden.sources, golden.sourceB],
-    runtimeRoot,
+    workspacePath: "ws",
+    sources,
+    runtimeRoot: runtimeRootInput,
   });
-  assert.deepEqual(rebuilt, golden.entries, "entries 逐字段一致");
+  assert.deepEqual(rebuilt, golden.entries, "entries 逐字段一致（源相对路径与摘要逐字节）");
   assert.equal(rebuilt.length, 5);
   const snapshot = digest.buildWorkspaceHookBundleSnapshot({
     workspaceIdentity: "ws-identity-1",
-    workspacePath: "/ws",
-    sources: [golden.sources, golden.sourceB],
-    runtimeRoot,
+    workspacePath: "ws",
+    sources,
+    runtimeRoot: runtimeRootInput,
     discoveredAt: "2026-01-01T00:00:00.000Z",
   });
-  assert.deepEqual(snapshot, golden.snapshot, "快照逐字节");
-  assert.equal(snapshot.bundleDigest, golden.snapshot.bundleDigest);
+  assert.deepEqual(normalize(snapshot), golden.snapshot, "快照逐字段（绝对路径按根归一）");
+  assert.equal(snapshot.bundleDigest, golden.snapshot.bundleDigest, "bundleDigest 逐字节");
   assert.equal(golden.bundleDigestStable, golden.snapshot.bundleDigest, "discoveredAt 不入摘要");
   assert.ok(Object.isFrozen(snapshot), "快照深冻结");
 });

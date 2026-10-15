@@ -14,81 +14,79 @@
     ],
     "trustSchemaVersion": 1
   },
-  "sources": {
-    "canonicalPath": "D:\\ws\\.knorvia-studio\\config.json",
-    "baseDir": "D:\\ws",
-    "discoveryOrder": 0,
-    "configFileKind": ".knorvia-studio/config.json",
-    "explicitProjectConfig": false,
-    "editable": true,
-    "hooks": {
-      "enabled": true,
-      "timeoutMs": 30000,
-      "events": {
-        "PreToolUse": [
-          {
-            "matcher": "Bash",
-            "hooks": [
-              {
-                "type": "command",
-                "command": "check.sh",
-                "enabled": true,
-                "shell": true,
-                "timeout": 2
-              },
-              {
-                "type": "process",
-                "command": "node",
-                "args": ["a.js", "b"],
-                "statusMessage": "检查中"
-              }
-            ]
-          },
-          {
-            "hooks": [
-              {
-                "type": "command",
-                "command": "only.sh"
-              }
-            ]
-          }
-        ],
-        "Stop": [
-          {
-            "hooks": [
-              {
-                "type": "process",
-                "command": "tail.sh",
-                "timeoutMs": 1500
-              }
-            ]
-          }
-        ]
-      }
+  "sourceInputs": [
+    {
+      "path": "ws/.knorvia-studio/config.json",
+      "workingDirectory": "ws",
+      "hooks": {
+        "enabled": true,
+        "timeoutMs": 30000,
+        "events": {
+          "PreToolUse": [
+            {
+              "matcher": "Bash",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "check.sh",
+                  "enabled": true,
+                  "shell": true,
+                  "timeout": 2
+                },
+                {
+                  "type": "process",
+                  "command": "node",
+                  "args": ["a.js", "b"],
+                  "statusMessage": "检查中"
+                }
+              ]
+            },
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "only.sh"
+                }
+              ]
+            }
+          ],
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "process",
+                  "command": "tail.sh",
+                  "timeoutMs": 1500
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "discoveryOrder": 0,
+      "explicitProjectConfig": false
+    },
+    {
+      "path": "ws/knorvia.json",
+      "workingDirectory": "ws",
+      "hooks": {
+        "events": {
+          "SessionStart": [
+            {
+              "hooks": [
+                {
+                  "type": "process",
+                  "command": "hello.sh"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "discoveryOrder": 1,
+      "explicitProjectConfig": false
     }
-  },
-  "sourceB": {
-    "canonicalPath": "D:\\ws\\knorvia.json",
-    "baseDir": "D:\\ws",
-    "discoveryOrder": 1,
-    "configFileKind": "knorvia.json",
-    "explicitProjectConfig": false,
-    "editable": false,
-    "hooks": {
-      "events": {
-        "SessionStart": [
-          {
-            "hooks": [
-              {
-                "type": "process",
-                "command": "hello.sh"
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
+  ],
   "entries": [
     {
       "reviewItemId": "workspace-hook-0-PreToolUse-0-0",
@@ -200,8 +198,8 @@
     "discoveredAt": "2026-01-01T00:00:00.000Z",
     "sourceFiles": [
       {
-        "canonicalPath": "D:\\ws\\.knorvia-studio\\config.json",
-        "baseDir": "D:\\ws",
+        "canonicalPath": "<ROOT>/.knorvia-studio/config.json",
+        "baseDir": "<ROOT>",
         "discoveryOrder": 0,
         "configFileKind": ".knorvia-studio/config.json",
         "explicitProjectConfig": false,
@@ -212,8 +210,8 @@
         }
       },
       {
-        "canonicalPath": "D:\\ws\\knorvia.json",
-        "baseDir": "D:\\ws",
+        "canonicalPath": "<ROOT>/knorvia.json",
+        "baseDir": "<ROOT>",
         "discoveryOrder": 1,
         "configFileKind": "knorvia.json",
         "explicitProjectConfig": false,
@@ -329,6 +327,7 @@
     "digestAlgorithm": "sha256",
     "bundleDigest": "0e6f9232ea7cc0a32e7128a46d9a7bc7e4c98221cc2fd77670ccf2976c2adb45"
   },
+  "recordedRoot": "<ROOT>",
   "bundleDigestStable": "0e6f9232ea7cc0a32e7128a46d9a7bc7e4c98221cc2fd77670ccf2976c2adb45",
   "parseCases": [
     {

@@ -141469,7 +141469,7 @@
     },
     {
       "path": "specs/contracts/shared-03/fixtures/task-realtime-gate.json",
-      "normalizedSha256": "dabbc271e7d9ab070efc8756a982c27e09cb2ac23e95e0d8a048a39dcd31e493",
+      "normalizedSha256": "0372d1e5e410443d8701c6592b2ffa875a32be4885eb7e66a7bc6a95dfe209da",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-03. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
@@ -141480,7 +141480,7 @@
     },
     {
       "path": "specs/contracts/shared-03/fixtures/workspace-hook-golden.json",
-      "normalizedSha256": "26e4f524dc0ae432f76e60633f093867c8be223b0f7215797b1001125cb8abbb",
+      "normalizedSha256": "e635d91a8337a4568d1b0eb92704948d96988a975b948be48a6697bc7474c186",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-03. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
@@ -141491,7 +141491,7 @@
     },
     {
       "path": "specs/contracts/shared-03/gate-old.json",
-      "normalizedSha256": "c9462148b7653f929ccd1514d7aae990491d85b9d5a5e15461ac377e3629d1a4",
+      "normalizedSha256": "392eac2961e208e26203c6e789607a7de513dcfa7f2826a4c7de19605b96d243",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-03. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
@@ -141986,7 +141986,7 @@
     },
     {
       "path": "specs/contracts/shared-03/tests/task-realtime.test.mjs",
-      "normalizedSha256": "e1402b0f333579b079d05140120c2e71dbc2e3f29b3293134edead53f398be29",
+      "normalizedSha256": "e07885a85a2e9b8776397f5b7ce7046714b415000ef7c78d35c889837d10a50c",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-03. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
@@ -142019,7 +142019,7 @@
     },
     {
       "path": "specs/contracts/shared-03/tests/workspace-hook.test.mjs",
-      "normalizedSha256": "b7661661c1016e2c8c86226639cdf95d5bebe3fee84a1389d139cffe98679f1b",
+      "normalizedSha256": "de5d9f98c527fa6cb65961e1a4833c0e04066aee05291eab825414cd8cae2448",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-03. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",

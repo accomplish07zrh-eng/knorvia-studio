@@ -1,7 +1,7 @@
 {
   "resolveWorkspaceKey": {
     "withIdentity": "ws-identity-1",
-    "noIdentity": "/ws"
+    "noIdentity": "ws"
   },
   "batchEvent": {
     "type": "task_stream_mirror_batch",
