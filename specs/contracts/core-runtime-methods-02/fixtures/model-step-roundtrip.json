@@ -1,0 +1,260 @@
+{
+  "note": "模型步往返金样：旧实现 performModelStep 真实路径录制；时间戳/会话标识符号化；形状与值域逐字节。",
+  "outcome": "break",
+  "modelRequest": {
+    "kind": "model.request",
+    "keys": [
+      "abortSignal",
+      "assistantMessageId",
+      "events",
+      "maxOutputTokens",
+      "latestRealUserMessageIndex",
+      "messages",
+      "sourceEntries",
+      "model",
+      "onStreamSnapshot",
+      "onModelNetworkStatus",
+      "onStreamReasoningDelta",
+      "onStreamTextDelta",
+      "onStreamToolCall",
+      "streamRecovery",
+      "tools",
+      "traceContext"
+    ],
+    "maxOutputTokens": "$ms"
+  },
+  "journal": [
+    {
+      "kind": "log.steering",
+      "messages": [
+        {
+          "role": "user",
+          "content": "【虚构】用户输入"
+        }
+      ],
+      "modelStepCount": 0,
+      "traceContext": {
+        "traceId": "trace_rec",
+        "queryId": "query_rec",
+        "spanId": "8f5970de-0c7d-42",
+        "parentSpanId": "span_rec",
+        "parentId": "span_rec",
+        "turnId": "turn_rec",
+        "attributes": {
+          "providerId": "fictional",
+          "modelId": "model-rec",
+          "iteration": 0,
+          "querySource": "main_turn"
+        }
+      }
+    },
+    {
+      "kind": "persist.assistant",
+      "messageId": "$assistantMessageId",
+      "parent": "msg_mv9ubwvw_c46304a7-3ac0-4811-b257-2e33deb07076",
+      "createdAt": 1792087002429,
+      "model": {
+        "providerId": "fictional",
+        "modelId": "model-rec"
+      }
+    },
+    {
+      "kind": "persist.part",
+      "part": {
+        "id": "part_mv9ubwvx_2042c58c-1388-4f98-a7e2-4647de4251c3",
+        "sessionID": "session_rec",
+        "messageID": "$assistantMessageId",
+        "type": "step-start"
+      }
+    },
+    {
+      "kind": "create.event",
+      "type": "model_request",
+      "payload": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "【虚构】用户输入"
+          }
+        ],
+        "providerId": "fictional",
+        "modelId": "model-rec",
+        "querySource": "main_turn",
+        "toolCount": 0,
+        "iteration": 0
+      }
+    },
+    {
+      "kind": "append.event",
+      "type": "model_request"
+    },
+    {
+      "kind": "model.request",
+      "keys": [
+        "abortSignal",
+        "assistantMessageId",
+        "events",
+        "maxOutputTokens",
+        "latestRealUserMessageIndex",
+        "messages",
+        "sourceEntries",
+        "model",
+        "onStreamSnapshot",
+        "onModelNetworkStatus",
+        "onStreamReasoningDelta",
+        "onStreamTextDelta",
+        "onStreamToolCall",
+        "streamRecovery",
+        "tools",
+        "traceContext"
+      ],
+      "maxOutputTokens": "$ms"
+    },
+    {
+      "kind": "log.info",
+      "message": "Model response diagnostics",
+      "traceId": "trace_rec",
+      "queryId": "query_rec",
+      "spanId": "8f5970de-0c7d-42",
+      "parentSpanId": "span_rec",
+      "turnId": "turn_rec",
+      "providerId": "fictional",
+      "modelId": "model-rec",
+      "iteration": 0,
+      "querySource": "main_turn",
+      "event": "model.response.diagnostics",
+      "finishReason": "stop",
+      "module": "core.runtime",
+      "providerMetadataKeys": ["vendor", "recoveredFromStreamFailure"],
+      "responseEmpty": false,
+      "responseLength": 10,
+      "status": "completed",
+      "toolCallCount": 0,
+      "usageCacheReadTokens": 0,
+      "usageCacheWriteTokens": 0,
+      "usageInputTokens": 12,
+      "usageOutputTokens": 34,
+      "usageReasoningTokens": 0,
+      "usageTotalTokens": 46
+    },
+    {
+      "kind": "persist.part",
+      "part": {
+        "id": "part_mv9ubwvz_92be6a83-eec2-4556-aa99-aba13a0a7e52",
+        "sessionID": "session_rec",
+        "messageID": "$assistantMessageId",
+        "type": "text",
+        "text": "【虚构】模型回复正文",
+        "time": {
+          "start": 1792087002429,
+          "end": 1792087002431
+        }
+      }
+    },
+    {
+      "kind": "create.event",
+      "type": "model_complete",
+      "payload": {
+        "content": "【虚构】模型回复正文",
+        "contextWindow": 32000,
+        "querySource": "main_turn",
+        "stopReason": "stop",
+        "usage": {
+          "inputTokens": 12,
+          "outputTokens": 34,
+          "totalTokens": 46,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 0
+        },
+        "cacheHit": {
+          "inputTokens": 12,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "latestHitRate": 0,
+          "hitRate": 0,
+          "hitRateRequestCount": 1,
+          "totalInputTokens": 12,
+          "totalCacheReadTokens": 0,
+          "totalCacheWriteTokens": 0
+        },
+        "toolCallCount": 0
+      }
+    },
+    {
+      "kind": "append.event",
+      "type": "model_complete"
+    },
+    {
+      "kind": "log.info",
+      "message": "Model request completed",
+      "traceId": "trace_rec",
+      "queryId": "query_rec",
+      "spanId": "8f5970de-0c7d-42",
+      "parentSpanId": "span_rec",
+      "turnId": "turn_rec",
+      "providerId": "fictional",
+      "modelId": "model-rec",
+      "iteration": 0,
+      "querySource": "main_turn",
+      "durationMs": 3,
+      "event": "model.request.completed",
+      "module": "core.runtime",
+      "status": "completed",
+      "totalTokens": 46,
+      "toolCallCount": 0
+    },
+    {
+      "kind": "persist.part",
+      "part": {
+        "id": "part_mv9ubww0_cb7b9f75-6021-48ae-8ccd-adc236f42047",
+        "sessionID": "session_rec",
+        "messageID": "$assistantMessageId",
+        "type": "step-finish",
+        "reason": "stop",
+        "cost": 0,
+        "tokens": {
+          "cache": {
+            "read": 0,
+            "write": 0
+          },
+          "reasoning": 0,
+          "output": 34,
+          "input": 12,
+          "total": 46
+        }
+      }
+    },
+    {
+      "kind": "persist.assistant",
+      "messageId": "$assistantMessageId",
+      "parent": "msg_mv9ubwvw_c46304a7-3ac0-4811-b257-2e33deb07076",
+      "createdAt": 1792087002429,
+      "finish": {
+        "completed": 1792087002432,
+        "finish": "stop",
+        "tokens": {
+          "cache": {
+            "read": 0,
+            "write": 0
+          },
+          "reasoning": 0,
+          "output": 34,
+          "input": 12,
+          "total": 46
+        }
+      },
+      "model": {
+        "providerId": "fictional",
+        "modelId": "model-rec"
+      }
+    }
+  ],
+  "finalState": {
+    "modelStepCount": 1,
+    "modelResponse": "【虚构】模型回复正文",
+    "tokenCount": 46,
+    "historyRoundCount": 1,
+    "toolCallCount": 0
+  }
+}

@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: Apache-2.0
+// 推理块入口：登记与复用规则在 support/reasoning-blocks.ts，这里保持兼容导出面。
 import type { ModelReasoningContentBlock } from "../deps.js";
-
-const DEFAULT_REASONING_STREAM_ID = "__knorvia_default_reasoning__";
+import { obtainReasoningBlock } from "./support/reasoning-blocks.js";
 
 export function getOrCreateReasoningBlock(input: {
   id?: string;
@@ -8,21 +9,8 @@ export function getOrCreateReasoningBlock(input: {
   reasoning: ModelReasoningContentBlock[];
   reasoningById: Map<string, ModelReasoningContentBlock>;
 }): ModelReasoningContentBlock {
-  const id = input.id ?? DEFAULT_REASONING_STREAM_ID;
-  const existing = input.reasoningById.get(id);
-  if (existing) {
-    return existing;
-  }
-
-  // Anthropic-compatible providers can emit thinking deltas without a
-  // distinct start event. Preserve the block so later tool_result requests can
-  // replay assistant thinking alongside tool_use.
-  const block: ModelReasoningContentBlock = {
-    type: "reasoning",
-    text: "",
-    providerOptions: input.providerMetadata,
-  };
-  input.reasoningById.set(id, block);
-  input.reasoning.push(block);
-  return block;
+  return obtainReasoningBlock(
+    { list: input.reasoning, byId: input.reasoningById },
+    { id: input.id, providerMetadata: input.providerMetadata },
+  );
 }

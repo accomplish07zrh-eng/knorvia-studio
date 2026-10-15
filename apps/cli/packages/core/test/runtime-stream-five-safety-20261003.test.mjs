@@ -422,7 +422,7 @@ if (process.argv.includes("--baseline"))
   );
 else {
   const t = await read("test/runtime-stream-five-current-20261003.json");
-  assert.equal(hash(t), "75a05ebc09bc18fd194a963d5f3cdc76939a01b85870dfb01c84b78504b00e46");
+  assert.equal(hash(t), "9de9d8950264681758e9b0beac224a8e07e45662302eda92559a56e9ebbd35bc");
   const pins = JSON.parse(t).files;
   const verify = async (reader) => {
     for (const [p, h] of Object.entries(pins)) assert.equal(hash(await reader(p)), h, p);

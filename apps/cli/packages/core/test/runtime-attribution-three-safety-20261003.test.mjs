@@ -335,7 +335,7 @@ function cancellationLog(o) {
 }
 
 const currentText = await read("test/runtime-attribution-three-current-20261003.json");
-assert.equal(hash(currentText), "9c52d65292f6553eb1114882302d55bbf4255e7a4a4b3a5c9c5253582de5902a");
+assert.equal(hash(currentText), "2b5d427b86b6770f42a91a783687ab32ceb4ff06e8950c9880224e072546a1b6");
 const currentPins = JSON.parse(currentText).files;
 async function select(reader = read) {
   for (const [p, h] of Object.entries(currentPins)) assert.equal(hash(await reader(p)), h, p);
