@@ -1,0 +1,12 @@
+{
+  "allFail": true,
+  "entry": "source",
+  "exitCode": 1,
+  "tests": 68,
+  "pass": 0,
+  "fail": 68,
+  "skipped": 0,
+  "todo": 0,
+  "outputTail": "\ntest at specs\\contracts\\apps-cli-packages-01-model\\tests\\stream-compat.test.ts:1:11683\n✖ B46 OpenAI Responses JSON 兼容 (0.265ms)\n  Error: not implemented: apps-cli-packages-01-model\n      at createOpenAIResponsesJsonCompatFetch (D:\\knorvia studio开发\\wt\\apps-model\\apps\\cli\\packages\\adapters\\src\\model\\openai-responses-json-compat.ts:4:9)\n      at TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\apps-model\\specs\\contracts\\apps-cli-packages-01-model\\tests\\stream-compat.test.ts:368:19)\n      at Test.runInAsyncScope (node:async_hooks:228:14)\n      at Test.run (node:internal/test_runner/test:1118:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)\n      at Test.postRun (node:internal/test_runner/test:1247:19)\n      at Test.run (node:internal/test_runner/test:1175:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)",
+  "note": "桩只含 interface.md 导出与签名；纯类型模块的用例随所在用例整体失败（见 known-differences 第二节）"
+}

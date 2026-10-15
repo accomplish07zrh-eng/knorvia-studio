@@ -1,0 +1,158 @@
+{
+  "corpus": [
+    {
+      "role": "system",
+      "content": "sys one",
+      "cacheControl": "ephemeral"
+    },
+    {
+      "role": "user",
+      "content": ""
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "hello"
+        },
+        {
+          "type": "image",
+          "dataUrl": "data:image/png;base64,AAEC",
+          "mediaType": "image/png"
+        },
+        {
+          "type": "video",
+          "dataUrl": "data:video/mp4;base64,AAAA",
+          "mediaType": "video/mp4"
+        },
+        {
+          "type": "file",
+          "name": "report.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0=",
+          "mediaType": "application/pdf"
+        },
+        {
+          "type": "resource_link",
+          "title": "doc",
+          "uri": "https://example.invalid/a"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "step"
+        },
+        {
+          "type": "reasoning",
+          "text": "why",
+          "providerOptions": {
+            "think": {
+              "signature": "sig"
+            }
+          }
+        }
+      ],
+      "toolCalls": [
+        {
+          "id": "call-1",
+          "name": "",
+          "input": {
+            "a": 1
+          }
+        },
+        {
+          "id": "call-2",
+          "name": "lookup",
+          "input": {
+            "b": 2
+          },
+          "providerExecuted": true
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "toolCallId": "call-1",
+      "toolName": "call-one-tool",
+      "content": [
+        {
+          "type": "text",
+          "text": "result text"
+        },
+        {
+          "type": "image",
+          "dataUrl": "data:image/png;base64,AAEC",
+          "mediaType": "image/png"
+        },
+        {
+          "type": "image",
+          "dataUrl": "data:image/png;base64,AAEC",
+          "mediaType": "image/png"
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "toolCallId": "call-2",
+      "toolName": "lookup",
+      "isError": true,
+      "content": [
+        {
+          "type": "reasoning",
+          "text": "hidden"
+        }
+      ]
+    }
+  ],
+  "inputFormat": {
+    "supportsImage": true,
+    "supportsPdf": true,
+    "supportsVideo": false
+  },
+  "tools": [
+    {
+      "name": "plain",
+      "description": "plain tool",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string"
+          }
+        },
+        "required": ["q"]
+      },
+      "strict": true,
+      "readOnly": true
+    },
+    {
+      "name": "refs",
+      "description": "ref tool",
+      "inputSchema": {
+        "$defs": {
+          "item": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "properties": {
+          "item": {
+            "$ref": "#/$defs/item"
+          }
+        }
+      }
+    }
+  ],
+  "optionValues": {
+    "reasoningLevel": "high",
+    "maxOutputTokens": 4096
+  },
+  "optionRequestBody": {
+    "model": "m",
+    "messages": []
+  }
+}
