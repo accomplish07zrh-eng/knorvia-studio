@@ -1,124 +1,128 @@
-export interface TelemetryRendererContext {
-  clientTimezone: string;
-  clientLanguage: string;
-  screenResolution: string;
-}
+// SPDX-License-Identifier: Apache-2.0
+// 遥测事件的主机名/错误/详情消毒与 renderer 上下文采集（B18）。
+// 产品无遥测上报端点（env.ts 恒 false/空串）；本模块只做本地换算与脱敏。
 
-export interface TelemetryEventPayload {
-  elementName: string;
-  eventRegion: string;
-  eventType: string;
-  eventText?: string;
-  eventExtraDetail: Record<string, string>;
-  userId?: string;
-  talkId?: string;
-  messageId?: string;
-}
+export type TelemetryRendererContext = {
+  clientTimezone: /* 客户端时区标识 */ string;
+  clientLanguage: /* 客户端语言标识 */ string;
+  screenResolution: /* "<宽>x<高>" 文本 */ string;
+};
 
-export interface RendererTelemetryEventPayload extends TelemetryEventPayload {
-  context: TelemetryRendererContext;
-}
+export type TelemetryEventPayload = {
+  elementName: /* 触发元素名 */ string;
+  eventRegion: /* 事件区域 */ string;
+  eventType: /* 事件类型 */ string;
+  eventText?: /* 事件文本（先脱敏） */ string;
+  eventExtraDetail: /* 附加详情键值 */ Record<string, string>;
+  userId?: /* 用户标识 */ string;
+  talkId?: /* 会话标识 */ string;
+  messageId?: /* 消息标识 */ string;
+};
 
-export interface ArmsCustomEventPayload {
-  name: string;
-  group: string;
-  value?: number;
-  properties?: Record<string, string | number | boolean | undefined>;
-}
+export type RendererTelemetryEventPayload = TelemetryEventPayload & {
+  context: /* 采集时的渲染端环境 */ TelemetryRendererContext;
+};
 
-export interface FinalArmsCustomEventPayload {
-  name: string;
-  type: "custom";
-  group: string;
-  value: number;
-  properties: Record<string, string>;
-}
+export type ArmsCustomEventPayload = {
+  name: /* 事件名 */ string;
+  group: /* 事件分组 */ string;
+  value?: /* 数值载荷 */ number;
+  properties?: /* 附加属性 */ Record<string, string | number | boolean | undefined>;
+};
 
-export interface FinalArmsCustomEventE2EEntry {
-  sequence: number;
-  recordedAt: number;
-  payload: FinalArmsCustomEventPayload;
-}
+export type FinalArmsCustomEventPayload = {
+  name: /* 事件名 */ string;
+  type: /* 固定字面量：custom */ "custom";
+  group: /* 事件分组 */ string;
+  value: /* 数值载荷 */ number;
+  properties: /* 附加属性（值全为字符串） */ Record<string, string>;
+};
 
-export interface ConfigureFinalArmsCustomEventE2ERequest {
-  suppressedEventNames: string[];
-}
+export type FinalArmsCustomEventE2EEntry = {
+  sequence: /* 录制序号 */ number;
+  recordedAt: /* 录制时刻毫秒 */ number;
+  payload: /* 录制的事件载荷 */ FinalArmsCustomEventPayload;
+};
 
-export function resolveSafeTelemetryHostname(value: string | null | undefined): string {
-  const candidate = value?.trim();
+export type ConfigureFinalArmsCustomEventE2ERequest = {
+  suppressedEventNames: /* 被压制的事件名列表 */ string[];
+};
+
+export function resolveSafeTelemetryHostname(input: string | null | undefined): string {
+  const candidate = input?.trim();
   if (!candidate) {
     return "";
   }
 
+  let hostname = "";
   try {
-    const parsed = new URL(candidate);
-    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-      return "";
-    }
-    return parsed.hostname.toLowerCase();
+    const parsedUrl = new URL(candidate);
+    const protocolOk = parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+    hostname = protocolOk ? parsedUrl.hostname.toLowerCase() : "";
   } catch {
-    return "";
+    hostname = ""; // 不是合法 URL 就没有可信主机名
   }
+  return hostname;
 }
 
-export function sanitizeTelemetryErrorMessage(value: string | null | undefined): string {
-  return value ? "[redacted]" : "";
+export function sanitizeTelemetryErrorMessage(input: string | null | undefined): string {
+  return input ? "[redacted]" : ""; // 消息正文永不外传
 }
 
-function sanitizeTelemetryLoginHostname(value: string): string {
-  const hostname = resolveSafeTelemetryHostname(value);
-  if (hostname) {
-    return hostname;
+function sanitizeTelemetryLoginHostname(input: string): string {
+  const hostText = resolveSafeTelemetryHostname(input);
+  if (hostText) {
+    return hostText;
   }
 
-  const normalized = value.trim().toLowerCase();
-  if (normalized && resolveSafeTelemetryHostname("https://" + normalized) === normalized) {
-    return normalized;
-  }
-  return "";
+  const lowered = input.trim().toLowerCase();
+  const bareHostAccepted =
+    lowered !== "" && resolveSafeTelemetryHostname(`https://${lowered}`) === lowered;
+  return bareHostAccepted ? lowered : "";
 }
 
 export function sanitizeTelemetryEventDetail(
-  elementName: string,
-  detail: Readonly<Record<string, string>>,
+  elementKey: string,
+  detailMap: Readonly<Record<string, string>>,
 ): Record<string, string> {
-  return Object.fromEntries(
-    Object.entries(detail).map(([key, value]) => {
-      if (key === "error_msg") {
-        return [key, sanitizeTelemetryErrorMessage(value)];
+  const cleaned: Array<[string, string]> = Object.entries(detailMap).map(
+    ([detailKey, detailValue]) => {
+      if (detailKey === "error_msg") {
+        return [detailKey, sanitizeTelemetryErrorMessage(detailValue)];
       }
-      if (elementName === "app_login_ck" && key === "login_url") {
-        return [key, sanitizeTelemetryLoginHostname(value)];
+      if (elementKey === "app_login_ck" && detailKey === "login_url") {
+        return [detailKey, sanitizeTelemetryLoginHostname(detailValue)];
       }
-      return [key, value];
-    }),
+      return [detailKey, detailValue];
+    },
   );
+  return Object.fromEntries(cleaned);
 }
 
-interface TelemetryScreenLike {
-  width: number;
-  height: number;
-}
+type TelemetryScreenLike = {
+  width: /* 屏幕宽 */ number;
+  height: /* 屏幕高 */ number;
+};
 
-interface TelemetryWindowLike {
-  intlLocale?: string;
-  timeZone?: string;
-  screen: TelemetryScreenLike;
-}
+type TelemetryWindowLike = {
+  intlLocale?: /* 显式语言标识 */ string;
+  timeZone?: /* 显式时区标识 */ string;
+  screen: /* 屏幕尺寸来源 */ TelemetryScreenLike;
+};
 
 export function collectTelemetryRendererContext(
-  options?: TelemetryWindowLike,
+  windowLike?: TelemetryWindowLike,
 ): TelemetryRendererContext {
-  const resolved =
+  const intlFallback =
     typeof Intl !== "undefined" ? Intl.DateTimeFormat().resolvedOptions() : undefined;
-  const timeZone = options?.timeZone ?? resolved?.timeZone ?? "UTC";
-  const clientLanguage = options?.intlLocale ?? resolved?.locale ?? "en-US";
-  const runtimeScreen = (globalThis as { screen?: TelemetryScreenLike }).screen;
-  const screen = options?.screen ?? runtimeScreen ?? { width: 0, height: 0 };
-
-  return {
-    clientTimezone: timeZone,
-    clientLanguage,
-    screenResolution: screen.width + "x" + screen.height,
+  const timezone = windowLike?.timeZone ?? intlFallback?.timeZone ?? "UTC";
+  const language = windowLike?.intlLocale ?? intlFallback?.locale ?? "en-US";
+  const globalScreen = (globalThis as { screen?: TelemetryScreenLike }).screen;
+  const activeScreen = windowLike?.screen ?? globalScreen ?? { width: 0, height: 0 };
+  const context: TelemetryRendererContext = {
+    clientTimezone: timezone,
+    clientLanguage: language,
+    screenResolution: `${activeScreen.width}x${activeScreen.height}`,
   };
+  return context;
 }
