@@ -24,8 +24,8 @@ export function resolveModelStreamIdleTimeoutMs(allowance: {
 
 class ModelStreamIdleTimeoutError extends Error {
   readonly code = TIMEOUT_ERROR_CODE;
-  readonly idleMs: number; // 观察到的空闲毫秒
-  readonly timeoutMs: number; // 生效额度
+  readonly idleMs!: number; // 观察到的空闲毫秒
+  readonly timeoutMs!: number; // 生效额度
 
   constructor(span: { idleMs: number; timeoutMs: number }) {
     super(`Model stream produced no event for ${span.idleMs}ms`);

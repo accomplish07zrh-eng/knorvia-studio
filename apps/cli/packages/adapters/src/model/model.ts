@@ -1,115 +1,107 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// 模型对象：创建时冻结身份/能力/绑定选项，bind 浅合并出新对象；每次调用先做选项与能力校验
+// 再进执行器。校验文案与 context 形状是对外可见面，逐字保持。契约形状住在 support/model-contract。
+
 import type {
   Model,
   ModelEvent,
   ModelOptionSpecs,
   ModelOptions,
   ModelPropertiesInput,
-  ModelId,
-  ModelProviderId,
   ModelRequest,
   ModelResult,
 } from "@knorvia/contracts";
 import { AiSdkModelAdapterError } from "./errors.js";
-export interface ModelExecutionRequest extends Omit<ModelRequest, "options"> {
-  options: Required<ModelOptions>;
+import type { CreateModelOptions, ModelExecutionRequest } from "./support/model-contract.js";
+
+export type {
+  CreateModelOptions,
+  ModelExecutionRequest,
+  ModelExecutor,
+} from "./support/model-contract.js";
+
+type RequestBlock = Extract<ModelRequest["messages"][number]["content"], unknown[]>[number];
+
+function invalidRequest(message: string, tagged: boolean): AiSdkModelAdapterError {
+  const base = { reason: "invalid_request", retryable: false };
+  const context = tagged ? { ...base, source: "runtime" } : base;
+  return new AiSdkModelAdapterError("invalid_model_request", message, { context });
 }
-export interface ModelExecutor {
-  generateText(request: ModelExecutionRequest): Promise<ModelResult>;
-  streamText(request: ModelExecutionRequest): AsyncIterable<ModelEvent>;
-}
-export interface CreateModelOptions {
-  providerId: ModelProviderId;
-  modelId: ModelId;
-  displayName?: string;
-  properties: ModelPropertiesInput;
-  optionSpecs: ModelOptionSpecs;
-  options?: ModelOptions;
-  executor: ModelExecutor;
-}
-function validateOptions(specs: ModelOptionSpecs, options: ModelOptions): Required<ModelOptions> {
-  const reasoning = options.reasoningLevel ?? specs.reasoningLevel.values[0];
-  const max = options.maxOutputTokens ?? specs.maxOutputTokens.max;
-  if (!specs.reasoningLevel.values.includes(reasoning))
-    throw new AiSdkModelAdapterError(
-      "invalid_model_request",
-      `Unsupported reasoningLevel: ${reasoning}`,
-      { context: { reason: "invalid_request", retryable: false, source: "runtime" } },
+
+function validateOptions(spec: ModelOptionSpecs, requested: ModelOptions): Required<ModelOptions> {
+  const reasoning = requested.reasoningLevel ?? spec.reasoningLevel.values[0];
+  const max = requested.maxOutputTokens ?? spec.maxOutputTokens.max;
+  if (!spec.reasoningLevel.values.includes(reasoning)) {
+    throw invalidRequest(`Unsupported reasoningLevel: ${reasoning}`, true);
+  }
+  const ceiling = spec.maxOutputTokens.max;
+  const withinCeiling = Number.isInteger(max) && max > 0 && max <= ceiling;
+  if (!withinCeiling) {
+    throw invalidRequest(
+      `maxOutputTokens must be a positive integer no greater than ${ceiling}`,
+      true,
     );
-  if (!Number.isInteger(max) || max <= 0 || max > specs.maxOutputTokens.max)
-    throw new AiSdkModelAdapterError(
-      "invalid_model_request",
-      `maxOutputTokens must be a positive integer no greater than ${specs.maxOutputTokens.max}`,
-      { context: { reason: "invalid_request", retryable: false, source: "runtime" } },
-    );
+  }
   return { reasoningLevel: reasoning, maxOutputTokens: max };
 }
-function validateRequest(request: ModelRequest, properties: ModelPropertiesInput): void {
-  if (request.tools?.length && !properties.supportsToolCall)
-    throw new AiSdkModelAdapterError(
-      "invalid_model_request",
-      "Selected model does not support tools",
-      { context: { reason: "invalid_request", retryable: false } },
-    );
-  if (request.responseJsonSchema && !properties.supportsJsonSchemaOutput)
-    throw new AiSdkModelAdapterError(
-      "invalid_model_request",
-      "Selected model does not support structured output",
-      { context: { reason: "invalid_request", retryable: false } },
-    );
+
+function mediaRejection(
+  block: RequestBlock,
+  capabilities: ModelPropertiesInput,
+): string | undefined {
+  if (block.type === "image")
+    return capabilities.inputFormat.supportsImage ? undefined : "image input";
+  if (block.type === "video")
+    return capabilities.inputFormat.supportsVideo ? undefined : "video input";
+  const pdfish = block.type === "file" && /^application\/pdf(?:;|$)/i.test(block.mediaType);
+  return pdfish && !capabilities.inputFormat.supportsPdf ? "PDF input" : undefined;
+}
+
+function validateRequest(request: ModelRequest, capabilities: ModelPropertiesInput): void {
+  if (request.tools?.length && !capabilities.supportsToolCall) {
+    throw invalidRequest("Selected model does not support tools", false);
+  }
+  if (request.responseJsonSchema && !capabilities.supportsJsonSchemaOutput) {
+    throw invalidRequest("Selected model does not support structured output", false);
+  }
   for (const message of request.messages) {
     if (!Array.isArray(message.content)) continue;
     for (const block of message.content) {
-      const unsupported =
-        block.type === "image" && !properties.inputFormat.supportsImage
-          ? "image input"
-          : block.type === "video" && !properties.inputFormat.supportsVideo
-            ? "video input"
-            : block.type === "file" &&
-                /^application\/pdf(?:;|$)/i.test(block.mediaType) &&
-                !properties.inputFormat.supportsPdf
-              ? "PDF input"
-              : undefined;
-      if (unsupported)
-        throw new AiSdkModelAdapterError(
-          "invalid_model_request",
-          `Selected model does not support ${unsupported}`,
-          { context: { reason: "invalid_request", retryable: false, source: "runtime" } },
-        );
+      const rejection = mediaRejection(block, capabilities);
+      if (rejection !== undefined) {
+        throw invalidRequest(`Selected model does not support ${rejection}`, true);
+      }
     }
   }
 }
-export function createModel(input: CreateModelOptions): Model {
-  const bound = Object.freeze({ ...input.options });
-  const build = (options: ModelOptions): Model => {
-    const resolved = Object.freeze(validateOptions(input.optionSpecs, options));
-    const model: Model = {
-      providerId: input.providerId,
-      modelId: input.modelId,
-      displayName: input.displayName,
-      properties: Object.freeze(input.properties),
-      optionSpecs: Object.freeze(input.optionSpecs),
+
+export function createModel(assembly: CreateModelOptions): Model {
+  const bound = Object.freeze({ ...assembly.options });
+  const spawn = (options: ModelOptions): Model => {
+    const resolved = Object.freeze(validateOptions(assembly.optionSpecs, options));
+    const prepare = (request: ModelRequest): ModelExecutionRequest => {
+      validateRequest(request, assembly.properties);
+      return {
+        ...request,
+        options: validateOptions(assembly.optionSpecs, { ...resolved, ...request.options }),
+      };
+    };
+    const runGenerate = (request: ModelRequest): Promise<ModelResult> =>
+      assembly.executor.generateText(prepare(request));
+    const runStream = (request: ModelRequest): AsyncIterable<ModelEvent> =>
+      assembly.executor.streamText(prepare(request));
+    const model = {
+      providerId: assembly.providerId,
+      modelId: assembly.modelId,
+      displayName: assembly.displayName,
+      properties: Object.freeze(assembly.properties),
+      optionSpecs: Object.freeze(assembly.optionSpecs),
       options: Object.freeze(options),
-      bind(next = {}) {
-        return build({ ...options, ...next });
-      },
-      async generateText(request) {
-        validateRequest(request, input.properties);
-        return input.executor.generateText({
-          ...request,
-          options: validateOptions(input.optionSpecs, { ...resolved, ...request.options }),
-        });
-      },
-      streamText(request) {
-        validateRequest(request, input.properties);
-        return input.executor.streamText({
-          ...request,
-          options: validateOptions(input.optionSpecs, { ...resolved, ...request.options }),
-        });
-      },
+      bind: (next: ModelOptions = {}) => spawn({ ...options, ...next }),
+      generateText: runGenerate,
+      streamText: runStream,
     };
     return Object.freeze(model);
   };
-  return build(bound);
+  return spawn(bound);
 }

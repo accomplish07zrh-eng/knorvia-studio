@@ -70,7 +70,10 @@ export function repairReasoningHistoryAfterSignatureRejection(
     if (!Array.isArray(entry.content)) return entry;
     const content = entry.content.map((chunk) => {
       if (chunk.type !== "reasoning" || !chunk.providerOptions) return chunk;
-      return { ...chunk, providerOptions: scrubValue(chunk.providerOptions, state) };
+      return {
+        ...chunk,
+        providerOptions: scrubValue(chunk.providerOptions, state) as Record<string, unknown>,
+      };
     });
     return { ...entry, content };
   });
