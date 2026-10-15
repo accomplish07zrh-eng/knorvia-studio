@@ -1,36 +1,4 @@
-import type { BashReadonlyCommandPolicy } from "./bash-readonly-policy-types.js";
-import {
-  dockerCommandIsDangerous,
-  ghCommandIsDangerous,
-} from "./bash-readonly-policy-callbacks.js";
-import { DOCKER_INSPECT_SAFE_FLAGS, DOCKER_LOGS_SAFE_FLAGS } from "./bash-readonly-policy-flags.js";
-
-export const READONLY_MULTIWORD_POLICY_ENTRIES_CORE = [
-  [
-    "docker inspect",
-    {
-      safeFlags: DOCKER_INSPECT_SAFE_FLAGS,
-      additionalCommandIsDangerousCallback: dockerCommandIsDangerous,
-    },
-  ],
-  [
-    "docker logs",
-    {
-      safeFlags: DOCKER_LOGS_SAFE_FLAGS,
-      additionalCommandIsDangerousCallback: dockerCommandIsDangerous,
-    },
-  ],
-  [
-    "gh auth status",
-    {
-      safeFlags: {
-        "-a": "none",
-        "-h": "string",
-        "--active": "none",
-        "--hostname": "string",
-        "--json": "string",
-      },
-      additionalCommandIsDangerousCallback: ghCommandIsDangerous,
-    },
-  ],
-] as const satisfies readonly (readonly [string, BashReadonlyCommandPolicy])[];
+// SPDX-License-Identifier: Apache-2.0
+// 兼容面：docker 与 gh auth 的多词前缀画像数据已按公开文档重组于
+// bash-rules/families/multiword.ts，导出面不变。
+export { READONLY_MULTIWORD_POLICY_ENTRIES_CORE } from "./bash-rules/families/multiword.js";
