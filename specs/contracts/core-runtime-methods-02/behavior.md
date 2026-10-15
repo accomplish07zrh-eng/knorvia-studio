@@ -529,3 +529,92 @@
 - **状态所有者**：`stableProductStartMessageId`/`stableBoundaryAssistantMessageId`/
   `stopHookContinuationCount`/`turnMachine`/`activeTurn.steerable` 写点见三分支。
 - **日志级别**：无（hook 面自管）。
+
+### B52 compact 编排组（`compact.ts` + `compact-log-context.ts` / `context-history-entries.ts` / `context-refresh.ts`）
+
+- **输入**：`executeManualCompact(this, input, customInstructions, turnId, turnTraceContext,
+  abortSignal?, inputId?, model?)`；`autoCompactIfNeeded(this, turnTraceContext, events,
+  abortSignal, AutoCompactLoopContext)`；`reactiveCompactAfterContextExceeded(this, originalError,
+  turnTraceContext, events, abortSignal, ReactiveCompactLoopContext)`；
+  `estimateCurrentModelInputTokens(messages, sourceEntries?)`；组内三件
+  `autoCompactDecisionLogContext(decision)` / `buildContextHistoryEntries(...)` /
+  `rebuildContextPrefix(runtime, {model, turnRequestEntries})`（B50 调用）。
+- **输出**：
+  - **手动 /compact**：`beginActiveTurn(turnId, ..., "compact", false)` → info
+    `compact.started` → `ensureSessionPersisted` → `TurnStarted` 事件（**`inputVisibility:
+    "model-only"`**——维护命令不渲染 user bubble，注释钉明）→ `compactActiveConversation(
+    {compactReason: UserRequested, phase: StandaloneTurn, sourceCommandId?/model?})` →
+    `TurnComplete` 事件（`{response: displayText, tokenCount, usage, toolCallCount: 0,
+    historyRoundCount: 1, duration, resultType: "success", cacheStats}`）→ `recordTurnUsageFact`
+    → `turnNumber++` → `rebuildProjection()` → info `compact.completed` → `TurnResult`；
+    失败路 `createTurnFailureError(error, abortSignal, "Compact failed")`，取消且非
+    `preserveQueueAutoDrainOnCancel` 时**队列重暂停**（`queueAutoDrain = false` +
+    `queueExternalDrainActive = false`，与 Stop 语义一致注释钉明）→ `appendTurnOutcomeEvent(
+    {turnPhase: "compact", fallbackMessage: "Compact failed", logEvent: "compact.failed"})` →
+    `recordTurnUsageFact`（cancelled/error）→ 抛 `coreError`；`finally finishActiveTurn`。
+  - **autoCompactIfNeeded** → `"skipped" | "compacted" | "failed" | "rapid_refill_blocked"`：
+    策略面 `AutoCompactPolicyConfig`（contextWindow + config.compact + `maxOutputTokens:
+    resolveNormalRequestMaxOutputTokens({modelMaxOutputTokens})` + modelContextBudgetStrategy）；
+    `shouldAutoCompact` 不命中 → debug `compact.auto.skipped` → `"skipped"`；
+    `rapidRefill.shouldBlock` → warn `compact.rapid_refill_breaker`（trigger: Auto）→
+    `"rapid_refill_blocked"`；命中 → info `compact.auto.started` → 压缩（`compactContextTelemetry:
+    {inputTokens: decision.tokenCount, policyContextWindowTokens: decision.contextWindow,
+    thresholdTokens, tokenSource}` + `autoCompactThreshold` + trigger Auto）→ skipped 短路 /
+    `entries` 回写 `context.turnRequestState.entries` + `autoCompactConsecutiveFailures = 0` +
+    info `compact.auto.completed` → `"compacted"`；取消冒泡，其余 `autoCompactConsecutiveFailures++`
+    + warn `compact.auto.failed` → `"failed"`。
+  - **reactiveCompactAfterContextExceeded** → `"skipped" | "compacted" | "failed"`：
+    `config.compact.enabled === false` → warn `compact.reactive.skipped`（reason `"disabled"`）→
+    `"skipped"`；`hasEnoughMessagesToCompact` 不足 → warn（reason `"not_enough_messages"`）→
+    `"skipped"`；否则 warn `compact.reactive.started` → 压缩（`compactReason: ProviderOverflow`、
+    `initialPromptTooLongCause: originalError`、`phase: Reactive`、`trigger: Reactive`、
+    `policyContextWindowTokens` **有限正数取 `Math.floor(contextWindow)` 否则
+    `DEFAULT_COMPACT_CONTEXT_WINDOW`**、tokenSource `provider_usage`/`estimate`）→ 成功回写
+    entries + 复位失败计数 + info `compact.reactive.completed; retrying model request` →
+    `"compacted"`；取消冒泡、其余失败计数 +1 + warn `compact.reactive.failed` → `"failed"`。
+  - **`buildProviderUsageTokenOverride`**（内部）：`findLatestCommittedAssistantUsage` 命中且
+    `messageIndex < messages.length` 才构造——`incrementalStartIndex` 在 `contextUsageTokens`
+    存在时为 `messageIndex + 1` 否则 `messageIndex`；`providerBaseTokenCount =
+    contextUsageTokens ?? inputTokens`；`tokenCount = base + incremental`（源码注释钉明：usage
+    归属已提交 assistant、反向扫描随 history replacement 自然移动、不依赖绝对 cursor）。
+    `estimateCurrentModelInputTokens` = override?.tokenCount ?? `estimateMessageTokens(messages)`。
+- **错误语义**：见各路；取消一律冒泡。
+- **时序与并发**：三路均先 `throwIfTurnAborted`；`compactActiveConversation` outcome
+  `"skipped"` 短路不回写；turn-local compact 的 canonical 前缀保护见 B40。
+- **幂等**：`autoCompactConsecutiveFailures` 复位/递增口径唯一；entries 回写一次。
+- **资源释放**：`finishActiveTurn` 在 finally。
+- **平台差异**：无。
+- **状态所有者**：`autoCompactConsecutiveFailures`/`queueAutoDrain`/`queueExternalDrainActive`/
+  `turnNumber`/`turnRequestState.entries` 写点见各路。
+- **日志级别**：手动 started/completed `info`、failed 走 outcome 事件；auto skipped `debug`、
+  started/completed `info`、breaker/failed `warn`；reactive skipped/started/failed `warn`、
+  completed `info`。
+
+## 事件序列五组（gate 握手样式标注；无 sleep/固定超时，同 tick 断言）
+
+| 组 | 序列 | 载体条目 | 断言样式 |
+| --- | --- | --- | --- |
+| S1 模型步请求持久化序 | steer 日志 → 助手骨架 → step-start 分部 → ModelRequest 事件（push）→ finishPreparation → 协调器 → 请求 | B33 | gateNextAppend 逐拍握手；同 tick 断 createEvent/append 次序 |
+| S2 模型步成功收尾序 | 诊断日志 → 推理分部（数组序）→ 文本分部 → ModelComplete 事件 → usage 记账 → machine 接纳 → drain 流式结果 → 三分支收尾 | B33/B34/B36/B40/B49 | 事件/分部交错顺序逐条；无 sleep |
+| S3 工具批执行序 | 声明循环（closed 账本/合成错误）→ schedule 两段 → scheduled 事件 + queued 账本 → onBatchStart（分部+started）→ 结果归并 → nested usage → completeTool/aggregate → 逐结果（usage→媒体→终态→addToolResult→结果条目→checkpoint→anchor+committed→follow-up）→ 批收尾三分支 | B42–B48 | declarationIndex 序 + 账本状态序断言；gate 握手 |
+| S4 停止收尾序 | commit 判定 →（丢弃路径 removeMessage+指针回滚）/（step-finish 分部 → 消息收尾）→ historyRound → 三分支（automation/guide/stop hooks） | B41/B49/B50 | stable 对赋值时刻断言（只在 break 前）；无 sleep |
+| S5 紧凑恢复序 | 判定（auto/reactive）→ 熔断/跳过分支 → 压缩调用（telemetry 字段）→ entries 回写 + 失败计数 → completed 日志 | B37/B52 | 熔断与跳过分支事件字段逐项；同 tick |
+
+## 语义常量对照表（续：compact/工具批尾批）
+
+| 常量 | 值 | 所在 | 条目 |
+| --- | --- | --- | --- |
+| 手动 compact 输入可见性 | `"model-only"` | compact | B52 |
+| 手动 compact 失败文案/事件 | `"Compact failed"` / `"compact.failed"` | compact | B52 |
+| compact 生命周期事件 | `"compact.started"`/`"compact.completed"`/`"compact.auto.skipped"`/`"compact.auto.started"`/`"compact.auto.completed"`/`"compact.auto.failed"`/`"compact.rapid_refill_breaker"`/`"compact.reactive.skipped"`/`"compact.reactive.started"`/`"compact.reactive.completed"`/`"compact.reactive.failed"` | compact/turn-model-step-recovery | B52/B37 |
+| `DEFAULT_COMPACT_CONTEXT_WINDOW` | deps 常量（reactive 非有限正 contextWindow 的 fallback） | compact | B52 |
+| token override 来源 | `"provider_usage"` / `"estimate"` | compact | B52 |
+| reactive 跳过 reason | `"disabled"` / `"not_enough_messages"` | compact | B52 |
+| 空工具名投影 | `"empty_tool_name"`（+ `providerToolName` 保留原名） | tool-part-persistence | B48 |
+| 工具用量 id 前缀 | `` `usage_tool_${sessionId}_${toolCallId}` `` | turn-tool-usage | B45 |
+| 用量写失败事件 | `"usage.tool.write.failed"` | turn-tool-usage | B45 |
+| 跟进 steer 事件 | `"tool.follow_up_user_input.queued"` / `"tool.follow_up_user_input.rejected"` | turn-tool-batch-follow-up | B44 |
+| tool 停止/automation 限额事件 | `"tool.turn_control.stop"` / `"automation.create_limit.text_only_continuation"` | turn-tools | B42 |
+| guide 回退 reasonCode | `"guide.noToolBoundary"` | turn-tools/turn-stop | B42/B49 |
+| 嵌套用量 stopReason | `"tool_internal"` | turn-nested-model-usage | B51 |
+| 异常告警类别 | `"tool_call_budget"` / `"repeated_tool_call"`（severity `"warning"`） | turn-tool-warnings | B46 |
