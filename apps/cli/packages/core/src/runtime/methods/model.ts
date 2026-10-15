@@ -1,22 +1,15 @@
-import { beginLocalTurnPreparation } from "@knorvia/contracts";
-import { runWithModelInvocationContext, traceContextToLogContext } from "../deps.js";
-import type { ModelUsage, ToolCallId } from "../deps.js";
-import {
-  logModelRequestMediaSummary,
-  logMediaBudgetProjection,
-  logMediaCapabilityProjection,
-  normalizeStreamError,
-  normalizeModelToolCallsForRuntime,
-  projectMessagesWithMediaAttachmentPaths,
-  projectMessagesForInputFormat,
-  projectMessagesForMediaBudget,
-} from "../helpers/index.js";
-import type { RunModelTextRequestOptions, RuntimeModelTextResult } from "../types.js";
+// SPDX-License-Identifier: Apache-2.0
+// 模型请求入口（B1/B2）：装配管线与流消费循环在 support/（model-request-assembly /
+// stream-consume），这里保持兼容导出面并按 shouldStreamModelText 二分。
+import { runWithModelInvocationContext } from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
-import { modelRequestTokenLimitLogContext } from "./model-token-limits.js";
-import { getOrCreateReasoningBlock } from "./reasoning-stream.js";
-import { createRefreshRuntimeHeadersBeforeModelAttempt } from "./model-runtime-headers.js";
-import { resolveModelRequestSessionTypeFromTaskType } from "./model-request-session-type.js";
+import { normalizeModelToolCallsForRuntime } from "../helpers/index.js";
+import type { RunModelTextRequestOptions, RuntimeModelTextResult } from "../types.js";
+import {
+  assembleRequestPipeline,
+  finalizeNonStreamingResult,
+} from "./support/model-request-assembly.js";
+import { consumeModelStream, type StreamConsumeRequest } from "./support/stream-consume.js";
 import {
   createModelRequestStreamState,
   inspectModelRequestStreamResult,
@@ -25,335 +18,82 @@ import {
 export async function runModelTextRequest(
   this: AgentRuntimeInternal,
   options: RunModelTextRequestOptions,
-): Promise<RuntimeModelTextResult> {
-  const completeAssembly = beginLocalTurnPreparation(options.traceContext, "request_assembly");
+): Promise<RuntimeModelTextResult> /* 模型文本结果 */ {
+  const assembly = await assembleRequestPipeline(this, options);
+  const runtime = this;
   const model = options.model;
-  const modelSelection = { providerId: model.providerId, modelId: model.modelId };
-  const pathMessages = await projectMessagesWithMediaAttachmentPaths(
-    options.messages,
-    this.artifactStore,
-  );
-  const capabilityProjection = projectMessagesForInputFormat(
-    pathMessages,
-    model.properties.inputFormat,
-  );
-  logMediaCapabilityProjection(this.logger, options.traceContext, capabilityProjection, {
-    event: "model.request.media_capability_projection",
-    message: "Model request media capability projection",
-    model: `${model.providerId}/${model.modelId}`,
-  });
-  const mediaProjection = projectMessagesForMediaBudget(capabilityProjection.messages, {
-    latestRealUserMessageIndex: options.latestRealUserMessageIndex,
-  });
-  logMediaBudgetProjection(this.logger, options.traceContext, mediaProjection, {
-    event: "model.request.media_projection",
-    message: "Model request media budget projection",
-  });
-  const projectedOptions =
-    mediaProjection.messages === options.messages
-      ? options
-      : { ...options, messages: mediaProjection.messages };
-  logModelRequestMediaSummary(this.logger, projectedOptions.traceContext, {
-    incomingMessages: options.messages,
-    mediaProjection,
-    providerMessages: projectedOptions.messages,
-  });
-  // 状态端口可能重入改变 trace；ea6fa91 的反例要求后续读取保持实时。
-  const invocationContext = {
-    metadata: traceContextToLogContext(projectedOptions.traceContext),
-    modelRequestSessionType: resolveModelRequestSessionTypeFromTaskType(this.config.taskType),
-    modelCall: {
-      actorKind: this.agentTelemetry.actorKind,
-      operation: "agent_step" as const,
-      operationId: projectedOptions.traceContext.spanId,
-      ...(projectedOptions.streamRecovery
-        ? {
-            callCause: "recovery" as const,
-            attributes: { streamRecoveryNumber: projectedOptions.streamRecovery.retryNumber },
-          }
-        : {}),
-    },
-    statusSink: this.createModelStatusSink(projectedOptions.traceContext, projectedOptions.events, {
-      ...(projectedOptions.onModelNetworkStatus
-        ? { onStatus: projectedOptions.onModelNetworkStatus }
-        : {}),
-      ...(projectedOptions.streamRecovery
-        ? { streamRecovery: projectedOptions.streamRecovery }
-        : {}),
-    }),
-    traceContext: projectedOptions.traceContext,
-    refreshRuntimeHeadersBeforeAttempt: createRefreshRuntimeHeadersBeforeModelAttempt(this, {
-      abortSignal: projectedOptions.abortSignal,
-      model,
-      traceContext: projectedOptions.traceContext,
-    }),
-    streamIdleTimeoutRetryNumber: projectedOptions.streamRecovery?.retryNumber,
-    streamRecovery: projectedOptions.streamRecovery,
-  };
-  const request = {
-    messages: projectedOptions.messages,
-    tools: projectedOptions.tools,
-    abortSignal: projectedOptions.abortSignal,
-    ...(projectedOptions.maxOutputTokens !== undefined
-      ? { options: { maxOutputTokens: projectedOptions.maxOutputTokens } }
-      : {}),
-  };
-  this.logger?.debug(
-    "Model request token limits",
-    modelRequestTokenLimitLogContext({
-      contextWindow: model.properties.contextWindow,
-      maxOutputTokens: projectedOptions.maxOutputTokens,
-      modelContextBudgetStrategy: this.config.modelContextBudgetStrategy,
-      traceContext: projectedOptions.traceContext,
-    }),
-  );
-  const contextUsageSnapshot = this.buildContextUsageSnapshot(projectedOptions);
-  const contextUsageBreakdown = this.buildContextUsageBreakdownFromSnapshot(contextUsageSnapshot);
-  this.logContextUsageSnapshot(projectedOptions, contextUsageSnapshot);
+  const { request } = assembly;
+
+  // 非流式二分：生成一次、归一工具调用、条件附加用量分解。
   if (!this.shouldStreamModelText()) {
-    const result = await runWithModelInvocationContext(invocationContext, () =>
-      model.generateText(request),
-    );
-    const toolCalls = normalizeModelToolCallsForRuntime(result.toolCalls, {
+    const raw = (await runWithModelInvocationContext(assembly.invocationContext as never, () =>
+      model.generateText(request as never),
+    )) as unknown as Record<string, unknown>;
+    const normalized = normalizeModelToolCallsForRuntime(raw.toolCalls as never, {
       logger: this.logger,
-      model: modelSelection,
+      model: assembly.modelSelection as never,
       source: "generateText",
-      traceContext: projectedOptions.traceContext,
+      traceContext: options.traceContext,
     });
-    return {
-      ...result,
-      ...(contextUsageBreakdown.length > 0 ? { contextUsageBreakdown } : {}),
-      toolCalls,
-    };
+    return finalizeNonStreamingResult(assembly, raw as never, normalized);
   }
 
-  let text = "";
-  let finishReason = "unknown";
-  let usage: ModelUsage = {};
-  let providerMetadata: Record<string, unknown> | undefined;
-  const {
-    queue,
-    reasoning,
-    reasoningById,
-    toolCalls,
-    finalToolCallIds,
-    toolInputBuffers,
-    enqueue,
-    enqueueTerminal,
-    flushToolInput,
-    bufferToolInput,
-    flushAllToolInputs,
-  } = createModelRequestStreamState(this, options);
-  const publishSnapshot = () => options.onStreamSnapshot?.({ reasoning, text });
-  const stream = runWithModelInvocationContext(invocationContext, () => model.streamText(request));
-  completeAssembly();
-  try {
-    for await (const event of stream) {
-      switch (event.type) {
-        case "start":
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "start",
-          });
-          break;
-        case "text_start":
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "text_start",
-          });
-          break;
-        case "text_end":
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "text_end",
-          });
-          break;
-        case "text_delta":
-          text += event.text;
-          options.onStreamTextDelta?.(event.text);
-          publishSnapshot();
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: event.text,
-            done: false,
-            kind: "text_delta",
-          });
-          break;
-        case "reasoning_start": {
-          const block = getOrCreateReasoningBlock({
-            id: event.id,
-            providerMetadata: event.providerMetadata,
-            reasoning,
-            reasoningById,
-          });
-          if (event.providerMetadata) block.providerOptions = event.providerMetadata;
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "reasoning_start",
-          });
-          break;
-        }
-        case "reasoning_delta": {
-          const block = getOrCreateReasoningBlock({
-            id: event.id,
-            providerMetadata: event.providerMetadata,
-            reasoning,
-            reasoningById,
-          });
-          block.text += event.text;
-          options.onStreamReasoningDelta?.(event.text);
-          if (event.providerMetadata) block.providerOptions = event.providerMetadata;
-          publishSnapshot();
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: event.text,
-            done: false,
-            kind: "reasoning_delta",
-          });
-          break;
-        }
-        case "reasoning_end": {
-          const block = reasoningById.get(event.id);
-          if (block && event.providerMetadata) block.providerOptions = event.providerMetadata;
-          reasoningById.delete(event.id);
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "reasoning_end",
-          });
-          break;
-        }
-        case "tool_input_start":
-          toolInputBuffers.delete(event.id);
-          this.logger?.debug("Model streaming tool input started", {
-            ...traceContextToLogContext(options.traceContext),
-            event: "model.streaming.tool_input_start",
-            module: "core.runtime",
-            providerExecuted: event.providerExecuted,
-            toolCallId: event.id as ToolCallId,
-            toolName: event.toolName,
-          });
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "tool_input_start",
-            providerExecuted: event.providerExecuted,
-            toolCallId: event.id as ToolCallId,
-            toolName: event.toolName,
-          });
-          break;
-        case "tool_input_delta":
-          await bufferToolInput(event.id, event.delta);
-          break;
-        case "tool_input_end":
-          await flushToolInput(event.id);
-          this.logger?.debug("Model streaming tool input ended", {
-            ...traceContextToLogContext(options.traceContext),
-            event: "model.streaming.tool_input_end",
-            module: "core.runtime",
-            toolCallId: event.id as ToolCallId,
-          });
-          await enqueue({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "tool_input_end",
-            toolCallId: event.id as ToolCallId,
-          });
-          break;
-        case "tool_call": {
-          const call = normalizeModelToolCallsForRuntime([event.toolCall], {
-            logger: this.logger,
-            model: modelSelection,
-            source: "streamText",
-            traceContext: options.traceContext,
-          })?.[0];
-          if (!call) break;
-          await flushToolInput(call.id);
-          if (finalToolCallIds.has(call.id)) break;
-          finalToolCallIds.add(call.id);
-          toolCalls.push(call);
-          this.logger?.debug("Model streaming tool call completed", {
-            ...traceContextToLogContext(options.traceContext),
-            event: "model.streaming.tool_call",
-            inputKeys:
-              call.input && typeof call.input === "object" && !Array.isArray(call.input)
-                ? Object.keys(call.input)
-                : [],
-            module: "core.runtime",
-            toolCallId: call.id as ToolCallId,
-            toolName: call.name,
-          });
-          await enqueueTerminal({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: false,
-            kind: "tool_call",
-            input: call.input,
-            toolCallId: call.id as ToolCallId,
-            toolName: call.name,
-          });
-          options.onStreamToolCall?.(call);
-          break;
-        }
-        case "finish":
-          finishReason = event.finishReason;
-          usage = event.usage;
-          providerMetadata = event.providerMetadata;
-          await flushAllToolInputs();
-          await enqueueTerminal({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: true,
-            kind: "finish",
-          });
-          break;
-        case "error":
-          await flushAllToolInputs();
-          await enqueueTerminal({
-            assistantMessageId: options.assistantMessageId,
-            delta: "",
-            done: true,
-            kind: "error",
-          });
-          throw normalizeStreamError(event.error);
-      }
-    }
-  } catch (error) {
-    await queue.drain();
-    throw error;
-  }
-  await queue.drain();
-
-  inspectModelRequestStreamResult(
-    this,
-    {
-      finishReason,
-      providerMetadata,
-      usage,
-      text,
-      toolCalls,
+  // 流式分支：先起流（同 tick 内完成 assembly 收尾），再按产生顺序消费。
+  const state = createModelRequestStreamState(this, options);
+  const stream = runWithModelInvocationContext(assembly.invocationContext as never, () =>
+    model.streamText(request as never),
+  );
+  assembly.completeAssembly();
+  const consumeRequest: StreamConsumeRequest = {
+    stream: stream as never,
+    publish: {
+      enqueue: state.enqueue,
+      enqueueTerminal: state.enqueueTerminal,
+      drain: () => state.queue.drain(),
     },
-    modelSelection,
+    state: {
+      reasoning: state.reasoning,
+      reasoningById: state.reasoningById,
+      toolCalls: state.toolCalls,
+      finalToolCallIds: state.finalToolCallIds,
+      toolInputBuffers: state.toolInputBuffers,
+      flushToolInput: state.flushToolInput,
+      bufferToolInput: state.bufferToolInput,
+      flushAllToolInputs: state.flushAllToolInputs,
+    },
+    logDebug: (message, fields) => {
+      this.logger?.debug(message, fields);
+    },
+    assistantMessageId: options.assistantMessageId,
+    traceContext: options.traceContext,
+    modelSelection: assembly.modelSelection,
+    onStreamSnapshot: options.onStreamSnapshot,
+    onStreamTextDelta: options.onStreamTextDelta,
+    onStreamReasoningDelta: options.onStreamReasoningDelta,
+    onStreamToolCall: options.onStreamToolCall as never,
+  };
+  const outcome = await consumeModelStream(consumeRequest);
+  inspectModelRequestStreamResult(
+    runtime,
+    {
+      finishReason: outcome.finishReason,
+      providerMetadata: outcome.providerMetadata,
+      usage: outcome.usage as never,
+      text: outcome.text,
+      toolCalls: state.toolCalls as never,
+    },
+    assembly.modelSelection,
     options,
   );
-  return {
-    ...(contextUsageBreakdown.length > 0 ? { contextUsageBreakdown } : {}),
-    finishReason,
-    providerMetadata,
-    reasoning: reasoning.length > 0 ? reasoning : undefined,
-    text,
-    toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
-    usage,
-  };
+  const body = {} as Record<string, unknown>;
+  if (assembly.contextUsageBreakdown.length > 0) {
+    body.contextUsageBreakdown = assembly.contextUsageBreakdown;
+  }
+  body.finishReason = outcome.finishReason;
+  body.providerMetadata = outcome.providerMetadata;
+  body.reasoning = state.reasoning.length > 0 ? state.reasoning : undefined;
+  body.text = outcome.text;
+  body.toolCalls = state.toolCalls.length > 0 ? state.toolCalls : undefined;
+  body.usage = outcome.usage as never;
+  return body as unknown as RuntimeModelTextResult;
 }

@@ -1,8 +1,9 @@
-import { createPartId } from "../deps.js";
+// SPDX-License-Identifier: Apache-2.0
+// 取消流快照持久化入口：逐块落盘口径在 support/cancel-snapshot.ts，这里保持兼容导出面。
 import type { MessageId, TraceContext } from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 import type { RuntimeModelStreamSnapshot } from "../types.js";
-import { hasAssistantReasoningContent } from "./turn-output-token-continuation.js";
+import { persistCancelledParts } from "./support/cancel-snapshot.js";
 
 export async function persistCancelledStreamSnapshot(
   runtime: AgentRuntimeInternal,
@@ -13,32 +14,5 @@ export async function persistCancelledStreamSnapshot(
     traceContext: TraceContext;
   },
 ): Promise<void> {
-  const completedAt = Date.now();
-  for (const reasoning of options.snapshot.reasoning) {
-    if (!hasAssistantReasoningContent(reasoning)) continue;
-    await runtime.persistPart(
-      {
-        id: createPartId(),
-        sessionID: runtime.sessionId,
-        messageID: options.assistantMessageId,
-        type: "reasoning",
-        text: reasoning.text,
-        metadata: reasoning.providerOptions,
-        time: { start: options.assistantCreatedAt, end: completedAt },
-      },
-      options.traceContext,
-    );
-  }
-  if (!options.snapshot.text) return;
-  await runtime.persistPart(
-    {
-      id: createPartId(),
-      sessionID: runtime.sessionId,
-      messageID: options.assistantMessageId,
-      type: "text",
-      text: options.snapshot.text,
-      time: { start: options.assistantCreatedAt, end: completedAt },
-    },
-    options.traceContext,
-  );
+  await persistCancelledParts(runtime, options);
 }

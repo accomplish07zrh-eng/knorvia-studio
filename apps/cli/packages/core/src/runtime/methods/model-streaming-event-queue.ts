@@ -1,8 +1,10 @@
+// SPDX-License-Identifier: Apache-2.0
+// 流式事件写入队列入口：串行尾链、背压与失败缓存在 support/write-queue.ts，这里接线端口面。
 import type { ModelStreamingPayload, SessionEvent, TraceContext } from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
+import { createStreamingWriteQueue, type StreamingQueuePayload } from "./support/write-queue.js";
 
-const MODEL_STREAMING_EVENT_WRITE_HIGH_WATER_MARK = 128;
-
+/** 队列句柄：入队（同步登记）、排空、背压三出口。 */
 interface ModelStreamingEventQueue {
   drain(): Promise<void>;
   enqueue(payload: ModelStreamingPayload): void;
@@ -15,51 +17,13 @@ export function createModelStreamingEventQueue(params: {
   runtime: AgentRuntimeInternal;
   traceContext: TraceContext;
 }): ModelStreamingEventQueue {
-  const highWaterMark = params.highWaterMark ?? MODEL_STREAMING_EVENT_WRITE_HIGH_WATER_MARK;
-  let pending = 0;
-  let failure: unknown;
-  let tail: Promise<void> = Promise.resolve();
-
-  async function awaitQueuedWrites(): Promise<void> {
-    await tail;
-    if (failure) {
-      throw failure;
-    }
-  }
-
-  function enqueue(payload: ModelStreamingPayload): void {
-    if (failure) {
-      throw failure;
-    }
-    pending += 1;
-    tail = tail
-      .then(async () => {
-        if (failure) {
-          return;
-        }
-        await params.runtime.emitModelStreamingEvent(payload, params.traceContext, params.events);
-      })
-      .catch((reason: unknown) => {
-        failure ??= reason;
-      })
-      .finally(() => {
-        pending -= 1;
-      });
-  }
-
-  return {
-    async drain(): Promise<void> {
-      await awaitQueuedWrites();
-    },
-    enqueue,
-    async maybeApplyBackpressure(): Promise<void> {
-      if (failure) {
-        throw failure;
-      }
-      if (pending < highWaterMark) {
-        return;
-      }
-      await awaitQueuedWrites();
-    },
-  };
+  return createStreamingWriteQueue({
+    writeCeiling: params.highWaterMark,
+    write: (payload: StreamingQueuePayload) =>
+      params.runtime.emitModelStreamingEvent(
+        payload as unknown as ModelStreamingPayload,
+        params.traceContext,
+        params.events,
+      ),
+  }) as unknown as ModelStreamingEventQueue;
 }

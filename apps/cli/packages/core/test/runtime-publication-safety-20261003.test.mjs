@@ -11,7 +11,7 @@ const core = new URL("../", import.meta.url),
     "workspace-checkpoints": "955bf4c5064e06b6cb23f9b54760ea947025e301e64d8e537426d674697306d2",
   };
 const pinsText = await read("test/runtime-publication-current-20261003.json");
-assert.equal(hash(pinsText), "e6a6c58e52e020582da1948531d98ef68a361d7c33711ee9b37ea5f8aa7dafa0");
+assert.equal(hash(pinsText), "9248ccc5301c40dd5441ce9f4f74e31d15f7185928a2026f10df9c0fce8ac9b2");
 const pins = JSON.parse(pinsText);
 async function select(reader = read) {
   for (const [p, h] of Object.entries(pins.files)) assert.equal(hash(await reader(p)), h, p);
