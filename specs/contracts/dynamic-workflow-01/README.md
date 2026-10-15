@@ -100,7 +100,7 @@ node --import tsx --test "specs/contracts/dynamic-workflow-01/tests/*.test.mjs"
 | B17 locale 独立性                   | `analysis.test.mjs`「B17 locale 独立性：ASCII id 排序在不同 locale 下一致」                                                 |
 | B18 模块路径兼容面（源码侧）        | `surface.test.mjs`「B18 模块路径兼容面：55 个范围文件存在」                                                                 |
 | B19 dist 产物存在（dist 入口模式）  | `surface.test.mjs`「B19 dist 入口模式下 55 个产物存在」                                                                     |
-| B20 桩面一致性                      | `surface.test.mjs`「B20 桩面：stubs/ 与 53 个重写目标一一对应且只含签名」                             |
+| B20 桩面一致性                      | `surface.test.mjs`「B20 桩面：stubs/ 与 53 个重写目标一一对应且只含签名」                                                   |
 
 B1–B20 全部有条目、全部有测试（无空行）；324 个 golden 样例的整体等价由 `golden.test.mjs` 承担（首行）。
 
