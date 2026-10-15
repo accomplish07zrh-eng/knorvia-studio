@@ -1,79 +1,100 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// 流式工具调用装配：tool_input_* 增量攒成完整调用，tool_input_end 后立即提交；
+// provider 直给的 tool_call 只在「未被增量流占用且未提交」时采纳，同 id 只提交一次。
+// 快照与冲刷都按提交顺序返回。
+
 import type { Logger, ModelStreamEvent, ModelToolCall } from "@knorvia/contracts";
 import { normalizeModelToolInput } from "./tool-input-normalization.js";
 import { normalizeModelToolName } from "./tool-call-validation.js";
-interface StreamingToolCallAssemblerOptions {
+
+interface AssemblerOptions {
   logger?: Logger;
 }
-interface Pending {
-  id: string;
-  name: string;
-  input: string;
+
+type Accumulator = {
+  open: true;
+  toolName: string;
+  text: string;
   providerExecuted?: boolean;
-  ended: boolean;
-}
+  sealed: boolean;
+};
+type RegistryEntry = Accumulator | { open: false };
+
 export class StreamingToolCallAssembler {
-  private readonly logger?: Logger;
-  private readonly pending = new Map<string, Pending>();
-  private readonly calls = new Map<string, ModelToolCall>();
-  constructor(options: StreamingToolCallAssemblerOptions = {}) {
-    this.logger = options.logger;
+  private readonly warn?: Logger;
+  private readonly registry = new Map<string, RegistryEntry>();
+  private readonly adopted: ModelToolCall[] = [];
+
+  constructor(options: AssemblerOptions = {}) {
+    this.warn = options.logger;
   }
+
   snapshotNormalizedToolCalls(): ModelToolCall[] {
-    return [...this.calls.values()];
+    return [...this.adopted];
   }
-  handle(event: ModelStreamEvent): ModelStreamEvent[] {
-    if (event.type === "tool_input_start") {
-      this.pending.set(event.id, {
-        id: event.id,
-        name: event.toolName,
-        input: "",
-        providerExecuted: event.providerExecuted,
-        ended: false,
-      });
-      return [event];
+
+  handle(incoming: ModelStreamEvent): ModelStreamEvent[] {
+    switch (incoming.type) {
+      case "tool_input_start":
+        this.registry.set(incoming.id, {
+          open: true,
+          toolName: incoming.toolName,
+          text: "",
+          providerExecuted: incoming.providerExecuted,
+          sealed: false,
+        });
+        break;
+      case "tool_input_delta": {
+        const slot = this.registry.get(incoming.id);
+        if (slot?.open) slot.text += incoming.delta;
+        break;
+      }
+      case "tool_input_end": {
+        const slot = this.registry.get(incoming.id);
+        if (slot?.open) slot.sealed = true;
+        return [incoming, ...this.commit(incoming.id)];
+      }
+      case "tool_call": {
+        const slot = this.registry.get(incoming.toolCall.id);
+        if (slot && !slot.open) return [];
+        if (slot?.open && !slot.sealed) return [];
+        this.adopt(incoming.toolCall);
+        break;
+      }
+      default:
+        break;
     }
-    if (event.type === "tool_input_delta") {
-      const state = this.pending.get(event.id);
-      if (state) state.input += event.delta;
-      return [event];
-    }
-    if (event.type === "tool_input_end") {
-      const state = this.pending.get(event.id);
-      if (state) state.ended = true;
-      return [event, ...this.commit(event.id)];
-    }
-    if (event.type === "tool_call") {
-      const id = event.toolCall.id;
-      if (this.calls.has(id)) return [];
-      const pending = this.pending.get(id);
-      if (pending && !pending.ended) return [];
-      this.calls.set(id, event.toolCall);
-    }
-    return [event];
+    return [incoming];
   }
+
   flush(): ModelStreamEvent[] {
-    return [...this.pending.keys()].flatMap((id) => this.commit(id));
+    const pending: ModelStreamEvent[] = [];
+    for (const key of [...this.registry.keys()]) pending.push(...this.commit(key));
+    return pending;
   }
-  private commit(id: string): ModelStreamEvent[] {
-    const state = this.pending.get(id);
-    if (!state || this.calls.has(id)) return [];
-    const call = {
-      id,
-      name: normalizeModelToolName(state.name, {
-        toolCallId: id,
-        providerExecuted: state.providerExecuted,
+
+  private adopt(call: ModelToolCall): void {
+    this.registry.set(call.id, { open: false });
+    this.adopted.push(call);
+  }
+
+  private commit(key: string): ModelStreamEvent[] {
+    const slot = this.registry.get(key);
+    if (!slot || !slot.open) return [];
+    const assembled = {
+      id: key,
+      name: normalizeModelToolName(slot.toolName, {
+        toolCallId: key,
+        providerExecuted: slot.providerExecuted,
       }),
-      input: normalizeModelToolInput(state.input, {
-        logger: this.logger,
+      input: normalizeModelToolInput(slot.text, {
+        logger: this.warn,
         source: "streamText",
-        toolName: state.name,
+        toolName: slot.toolName,
       }),
-      providerExecuted: state.providerExecuted,
+      providerExecuted: slot.providerExecuted,
     } as ModelToolCall;
-    this.calls.set(id, call);
-    this.pending.delete(id);
-    return [{ type: "tool_call", toolCall: call }];
+    this.adopt(assembled);
+    return [{ type: "tool_call", toolCall: assembled }];
   }
 }

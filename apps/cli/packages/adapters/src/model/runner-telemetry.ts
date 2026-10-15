@@ -1,58 +1,73 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// 失败遥测归因：把失败分类折成事件携带的 errorPhase/exceptionKind/exceptionType 三件套，
+// provider 细节复用业务错误检视；provider 请求 id 只认既有网关头集合。
+
 import type { ModelApiErrorPhase, ModelFailureExceptionKind } from "@knorvia/contracts";
 import type { ClassifiedModelFailure } from "./failure-classifier.js";
 import { getErrorCode } from "./failure-inspection.js";
 import { inspectProviderFailure } from "./failure-classifier.js";
 import { findProviderBusinessError } from "./failure-classifier.js";
 import { readMappedAiSdkProviderBusinessError } from "./failure-ai-sdk-provider-error.js";
-export function readModelFailureErrorPhase(error: unknown): ModelApiErrorPhase | undefined {
-  if (typeof error !== "object" || error === null) return undefined;
-  const value =
-    (error as { context?: { errorPhase?: unknown }; errorPhase?: unknown }).context?.errorPhase ??
-    (error as { errorPhase?: unknown }).errorPhase;
-  return typeof value === "string" ? (value as ModelApiErrorPhase) : undefined;
+
+const REQUEST_ID_HEADER = /^(x-request-id|request-id|x-amzn-requestid|cf-ray)$/iu;
+const TRANSPORT_REASONS = new Set([
+  "network_error",
+  "proxy_error",
+  "tls_error",
+  "timeout",
+  "stream_idle_timeout",
+  "cancelled",
+]);
+
+function phaseOf(candidate: unknown): ModelApiErrorPhase | undefined {
+  if (typeof candidate !== "object" || candidate === null) return undefined;
+  const bag = candidate as { context?: { errorPhase?: unknown }; errorPhase?: unknown };
+  const picked = bag.context?.errorPhase ?? bag.errorPhase;
+  return typeof picked === "string" ? (picked as ModelApiErrorPhase) : undefined;
 }
+
+export function readModelFailureErrorPhase(candidate: unknown): ModelApiErrorPhase | undefined {
+  return phaseOf(candidate);
+}
+
+function kindOf(candidate: unknown, verdict: ClassifiedModelFailure): ModelFailureExceptionKind {
+  const business =
+    findProviderBusinessError(candidate) ?? readMappedAiSdkProviderBusinessError(candidate);
+  if (business) return "provider_business";
+  if (verdict.reason === "invalid_request") return "protocol";
+  return TRANSPORT_REASONS.has(verdict.reason) ? "transport" : "api_call";
+}
+
 export function modelFailureAttributionFields(
-  error: unknown,
-  failure: ClassifiedModelFailure,
-  errorPhase: unknown,
+  candidate: unknown,
+  verdict: ClassifiedModelFailure,
+  claimedPhase: unknown,
 ): { errorPhase?: ModelApiErrorPhase; exceptionKind: ModelFailureExceptionKind } {
-  const phase =
-    typeof errorPhase === "string"
-      ? (errorPhase as ModelApiErrorPhase)
-      : readModelFailureErrorPhase(error);
-  const business = findProviderBusinessError(error) ?? readMappedAiSdkProviderBusinessError(error);
-  const kind: ModelFailureExceptionKind = business
-    ? "provider_business"
-    : failure.reason === "invalid_request"
-      ? "protocol"
-      : failure.reason === "network_error" ||
-          failure.reason === "proxy_error" ||
-          failure.reason === "tls_error" ||
-          failure.reason === "timeout" ||
-          failure.reason === "stream_idle_timeout" ||
-          failure.reason === "cancelled"
-        ? "transport"
-        : "api_call";
-  return { errorPhase: phase, exceptionKind: kind };
+  const resolvedPhase =
+    typeof claimedPhase === "string" ? (claimedPhase as ModelApiErrorPhase) : phaseOf(candidate);
+  return { errorPhase: resolvedPhase, exceptionKind: kindOf(candidate, verdict) };
 }
+
 export function modelFailureStatusFields(
-  error: unknown,
-  failure: ClassifiedModelFailure,
-  errorPhase: ModelApiErrorPhase,
+  candidate: unknown,
+  verdict: ClassifiedModelFailure,
+  resolvedPhase: ModelApiErrorPhase,
 ) {
-  const details = inspectProviderFailure(error);
-  return {
-    errorCode: failure.code,
-    errorPhase,
-    exceptionType: error instanceof Error ? error.name : getErrorCode(error),
-    ...details,
-    retryAfterMs: failure.retryAfterMs,
+  const providerDetails = inspectProviderFailure(candidate);
+  const fields = {
+    errorCode: verdict.code,
+    errorPhase: resolvedPhase,
+    exceptionType: candidate instanceof Error ? candidate.name : getErrorCode(candidate),
+    ...providerDetails,
+    retryAfterMs: verdict.retryAfterMs,
   };
+  return fields;
 }
-export function providerRequestIdFromHeaders(headers: Record<string, string>): string | undefined {
-  for (const [name, value] of Object.entries(headers))
-    if (/^(x-request-id|request-id|x-amzn-requestid|cf-ray)$/i.test(name)) return value;
-  return undefined;
+
+export function providerRequestIdFromHeaders(bag: Record<string, string>): string | undefined {
+  let found: string | undefined;
+  for (const name of Object.keys(bag)) {
+    if (found === undefined && REQUEST_ID_HEADER.test(name)) found = bag[name];
+  }
+  return found;
 }
