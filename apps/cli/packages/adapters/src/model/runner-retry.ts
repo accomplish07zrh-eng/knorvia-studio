@@ -1,90 +1,102 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// 重试执行工具：退避延迟计算（Retry-After 优先 + 抖动）、可取消等待、重试决策 debug 日志、
+// 以及把失败分类折成适配错误（补缺式 enrichContext）。延迟公式与日志文案逐字保持。
+
 import type { Logger } from "@knorvia/contracts";
 import type { ClassifiedModelFailure } from "./failure-classifier.js";
 import { AiSdkModelAdapterError } from "./errors.js";
 import type { ResolvedAiSdkModelRetryOptions } from "./retry-policy.js";
 import type { ModelStatusContext } from "./runner-status.js";
+
+const CHUNK_ERROR_NAME = "TerminalStreamChunkError";
+
 export class TerminalStreamChunkError extends Error {
   readonly adapterError: AiSdkModelAdapterError;
-  constructor(adapterError: AiSdkModelAdapterError) {
-    super(adapterError.message, { cause: adapterError });
-    this.name = "TerminalStreamChunkError";
-    this.adapterError = adapterError;
+
+  constructor(wrapped: AiSdkModelAdapterError) {
+    super(wrapped.message, { cause: wrapped });
+    this.name = CHUNK_ERROR_NAME;
+    this.adapterError = wrapped;
   }
 }
+
 export function calculateRetryDelay(
-  retry: ResolvedAiSdkModelRetryOptions,
-  attempt: number,
-  retryAfterMs?: number,
+  settings: ResolvedAiSdkModelRetryOptions,
+  round: number,
+  retryAfterHint?: number,
 ): number {
-  const raw = retry.baseDelayMs * retry.backoffFactor ** Math.max(0, attempt - 1);
-  let delay = Math.min(retry.maxDelayMs, raw);
-  if (
-    retryAfterMs !== undefined &&
-    retryAfterMs >= 0 &&
-    (retryAfterMs <= 300_000 || retryAfterMs < raw)
-  )
-    delay = retryAfterMs;
-  return Math.max(0, Math.round(retry.jitter ? delay * (0.5 + Math.random() * 0.5) : delay));
+  const exponent = Math.max(0, round - 1);
+  const raw = settings.baseDelayMs * settings.backoffFactor ** exponent;
+  let delay = Math.min(settings.maxDelayMs, raw);
+  const hintUsable =
+    retryAfterHint !== undefined &&
+    retryAfterHint >= 0 &&
+    (retryAfterHint <= 300_000 || retryAfterHint < raw);
+  if (hintUsable) delay = retryAfterHint;
+  const scaled = settings.jitter ? delay * (0.5 + Math.random() * 0.5) : delay;
+  return Math.max(0, Math.round(scaled));
 }
-export function sleep(delayMs: number, abortSignal?: AbortSignal): Promise<void> {
-  if (abortSignal?.aborted)
-    return Promise.reject(abortSignal.reason ?? new DOMException("Aborted", "AbortError"));
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(done, Math.max(0, delayMs));
-    function done() {
-      cleanup();
-      resolve();
-    }
-    function abort() {
-      cleanup();
-      reject(abortSignal?.reason ?? new DOMException("Aborted", "AbortError"));
-    }
-    function cleanup() {
-      clearTimeout(timer);
-      abortSignal?.removeEventListener("abort", abort);
-    }
-    abortSignal?.addEventListener("abort", abort, { once: true });
+
+export function sleep(pauseMs: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((settle, reject) => {
+    const abortReason = () => signal?.reason ?? new DOMException("Aborted", "AbortError");
+    if (signal?.aborted) throw abortReason();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const cancelWait = () => {
+      if (timer !== undefined) clearTimeout(timer);
+      signal?.removeEventListener("abort", cancelWait);
+      reject(abortReason());
+    };
+    timer = setTimeout(
+      () => {
+        signal?.removeEventListener("abort", cancelWait);
+        settle();
+      },
+      Math.max(0, pauseMs),
+    );
+    signal?.addEventListener("abort", cancelWait, { once: true });
   });
 }
-export function logRetryDelayDecision(input: {
-  attempt: number;
-  canRetry: boolean;
-  delayMs?: number;
-  failure: ClassifiedModelFailure;
-  logger?: Logger;
-  responseHeaders: Record<string, string>;
-  statusContext: ModelStatusContext;
-}): void {
-  input.logger?.debug("Model retry decision", {
-    attempt: input.attempt,
-    canRetry: input.canRetry,
-    delayMs: input.delayMs,
-    reason: input.failure.reason,
-    requestId: input.statusContext.requestId,
+
+interface RetryDecisionLog {
+  attempt: number; // 当前物理序号
+  canRetry: boolean; // 本轮裁决结果
+  delayMs?: number; // 拟退避毫秒
+  failure: ClassifiedModelFailure; // 失败分类
+  logger?: Logger; // 诊断日志口
+  responseHeaders: Record<string, string>; // 响应头快照
+  statusContext: ModelStatusContext; // 归因上下文
+}
+
+export function logRetryDelayDecision(decision: RetryDecisionLog): void {
+  decision.logger?.debug("Model retry decision", {
+    attempt: decision.attempt,
+    canRetry: decision.canRetry,
+    delayMs: decision.delayMs,
+    reason: decision.failure.reason,
+    requestId: decision.statusContext.requestId,
   });
 }
+
 export function toAdapterError(
-  error: unknown,
-  failure: ClassifiedModelFailure,
-  statusContext: ModelStatusContext,
-  attempt: number,
-  additionalContext: Record<string, unknown> = {},
+  origin: unknown,
+  verdict: ClassifiedModelFailure,
+  contextBag: ModelStatusContext,
+  round: number,
+  extra: Record<string, unknown> = {},
 ): AiSdkModelAdapterError {
-  if (error instanceof AiSdkModelAdapterError)
-    return error.enrichContext({ ...statusContext, attempt, ...additionalContext });
-  return new AiSdkModelAdapterError(failure.code, failure.message, {
-    cause: error,
-    context: {
-      ...statusContext,
-      attempt,
-      reason: failure.reason,
-      retryReason: failure.retryReason,
-      retryable: failure.retryable,
-      statusCode: failure.statusCode,
-      retryAfterMs: failure.retryAfterMs,
-      ...additionalContext,
-    },
-  });
+  if (origin instanceof AiSdkModelAdapterError) {
+    return origin.enrichContext({ ...contextBag, attempt: round, ...extra });
+  }
+  const context = {
+    ...contextBag,
+    attempt: round,
+    reason: verdict.reason,
+    retryReason: verdict.retryReason,
+    retryable: verdict.retryable,
+    statusCode: verdict.statusCode,
+    retryAfterMs: verdict.retryAfterMs,
+    ...extra,
+  };
+  return new AiSdkModelAdapterError(verdict.code, verdict.message, { cause: origin, context });
 }

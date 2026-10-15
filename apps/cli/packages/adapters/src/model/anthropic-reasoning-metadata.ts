@@ -1,17 +1,25 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// reasoning 块的 provider 侧选项透传：块上带了非空选项才包装一层，
+// 否则返回空对象，投影层据此决定是否附带 providerOptions。选项原样透传、不按 provider 分流。
+
 import type { ModelReasoningContentBlock } from "@knorvia/contracts";
-type ReasoningTransformOptions = {
-  providerKind?: "openai" | "anthropic" | "openai-compatible" | "gateway" | "custom";
-};
-type ReasoningProviderOptions =
-  | { providerOptions: Record<string, unknown> }
-  | Record<string, never>;
+
+type ProviderKind = "openai" | "anthropic" | "openai-compatible" | "gateway" | "custom";
+type TransformContext = { providerKind?: ProviderKind };
+interface OptionCarrier {
+  providerOptions: Record<string, unknown>;
+}
+type ReasoningProviderOptions = OptionCarrier | Record<string, never>;
+
+function carriesOptions(entry: ModelReasoningContentBlock): boolean {
+  return entry.providerOptions !== undefined && Object.keys(entry.providerOptions).length > 0;
+}
+
 export function providerOptionsForReasoningBlock(
-  block: ModelReasoningContentBlock,
-  options: ReasoningTransformOptions,
+  entry: ModelReasoningContentBlock,
+  transform: TransformContext,
 ): ReasoningProviderOptions {
-  if (!block.providerOptions || Object.keys(block.providerOptions).length === 0) return {};
-  void options;
-  return { providerOptions: block.providerOptions };
+  void transform;
+  if (!carriesOptions(entry)) return {};
+  return { providerOptions: entry.providerOptions as Record<string, unknown> };
 }

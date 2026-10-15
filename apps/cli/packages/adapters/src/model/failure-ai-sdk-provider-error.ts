@@ -1,5 +1,7 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// AI SDK 抛出的 provider 错误兜底映射：从错误链取 data/errorData 或响应体，
+// 提取业务失败要素后补成 ProviderBusinessError（providerId 未知、种类归兼容端）。
+
 import { ProviderBusinessError, readProviderBusinessFailureFromBody } from "./model-execution.js";
 import {
   getApiCallErrorData,
@@ -7,20 +9,25 @@ import {
   getResponseHeaders,
   getStatusCode,
 } from "./failure-inspection.js";
+
+const UNKNOWN_PROVIDER = "unknown";
+const FALLBACK_KIND = "openai-compatible" as const;
+
 export function readMappedAiSdkProviderBusinessError(
-  error: unknown,
+  candidate: unknown,
 ): ProviderBusinessError | undefined {
-  const failure = readProviderBusinessFailureFromBody(
-    getApiCallErrorData(error) ?? getApiCallResponseBody(error),
-  );
-  if (!failure) return undefined;
+  const payload = getApiCallErrorData(candidate) ?? getApiCallResponseBody(candidate);
+  const extraction = readProviderBusinessFailureFromBody(payload);
+  if (!extraction) return undefined;
+  const httpStatus = getStatusCode(candidate);
   return new ProviderBusinessError({
-    ...failure,
-    providerCode: failure.providerCode === undefined ? undefined : String(failure.providerCode),
-    providerId: "unknown",
-    providerKind: "openai-compatible",
-    responseHeaders: getResponseHeaders(error),
-    responseStatus: getStatusCode(error),
-    statusCode: failure.statusCode ?? getStatusCode(error),
+    ...extraction,
+    providerCode:
+      extraction.providerCode === undefined ? undefined : String(extraction.providerCode),
+    providerId: UNKNOWN_PROVIDER,
+    providerKind: FALLBACK_KIND,
+    responseHeaders: getResponseHeaders(candidate),
+    responseStatus: httpStatus,
+    statusCode: extraction.statusCode ?? httpStatus,
   });
 }

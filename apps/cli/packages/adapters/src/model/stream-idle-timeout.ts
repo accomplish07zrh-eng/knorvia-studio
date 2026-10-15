@@ -1,97 +1,125 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// 流空闲超时：额度 = 基础 + 重试号 × 30 秒增量（基础 ≤ 0 视为禁用）；读取下一条时把
+// 「迭代 / 取消 / 计时」三者竞速，先到先生效。超时错误带 idleMs/timeoutMs 两字段，
+// 识别兼容 duck typing（code 命中即算）。增量与错误文案是协议面，逐字保持。
+
 export { DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS } from "@knorvia/contracts";
 import { DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS } from "@knorvia/contracts";
-const RETRY_INCREMENT_MS = 30_000;
-export function resolveModelStreamIdleTimeoutMs(options: {
-  baseTimeoutMs?: number;
-  retryNumber?: number;
+
+const RETRY_INCREMENT_MS = 30_000; // 每次重试叠加的增量
+const TIMEOUT_ERROR_NAME = "ModelStreamIdleTimeoutError";
+const TIMEOUT_ERROR_CODE = "MODEL_STREAM_IDLE_TIMEOUT";
+const ABORT_ONCE = { once: true };
+type TimerHandle = ReturnType<typeof setTimeout>;
+
+export function resolveModelStreamIdleTimeoutMs(allowance: {
+  baseTimeoutMs?: number; // 基础额度（缺省取契约默认）
+  retryNumber?: number; // 重试递增号
 }): number {
-  const base = options.baseTimeoutMs ?? DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS;
-  if (!Number.isFinite(base) || base <= 0) return 0;
-  const retry = Math.max(0, Math.floor(options.retryNumber ?? 0));
-  return base + retry * RETRY_INCREMENT_MS;
+  const base = allowance.baseTimeoutMs ?? DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS;
+  const usable = Number.isFinite(base) && base > 0;
+  const retry = Math.max(0, Math.floor(allowance.retryNumber ?? 0));
+  return usable ? base + retry * RETRY_INCREMENT_MS : 0;
 }
+
 class ModelStreamIdleTimeoutError extends Error {
-  readonly code = "MODEL_STREAM_IDLE_TIMEOUT";
-  readonly idleMs: number;
-  readonly timeoutMs: number;
-  constructor(options: { idleMs: number; timeoutMs: number }) {
-    super(`Model stream produced no event for ${options.idleMs}ms`);
-    this.name = "ModelStreamIdleTimeoutError";
-    this.idleMs = options.idleMs;
-    this.timeoutMs = options.timeoutMs;
+  readonly code = TIMEOUT_ERROR_CODE;
+  readonly idleMs!: number; // 观察到的空闲毫秒
+  readonly timeoutMs!: number; // 生效额度
+
+  constructor(span: { idleMs: number; timeoutMs: number }) {
+    super(`Model stream produced no event for ${span.idleMs}ms`);
+    Object.assign(this, {
+      name: TIMEOUT_ERROR_NAME,
+      idleMs: span.idleMs,
+      timeoutMs: span.timeoutMs,
+    });
   }
 }
+
 export function isModelStreamIdleTimeoutError(
-  error: unknown,
-): error is ModelStreamIdleTimeoutError {
-  return (
-    error instanceof ModelStreamIdleTimeoutError ||
-    (typeof error === "object" &&
-      error !== null &&
-      (error as { code?: unknown }).code === "MODEL_STREAM_IDLE_TIMEOUT")
-  );
+  candidate: unknown,
+): candidate is ModelStreamIdleTimeoutError {
+  if (candidate instanceof ModelStreamIdleTimeoutError) return true;
+  const record =
+    typeof candidate === "object" && candidate !== null
+      ? (candidate as { code?: unknown })
+      : undefined;
+  return record?.code === TIMEOUT_ERROR_CODE;
 }
+
 interface LinkedAbortController {
-  controller: AbortController;
-  signal: AbortSignal;
-  cleanup(): void;
+  controller: AbortController; // 关联后的控制器
+  signal: AbortSignal; // 关联后的信号
+  cleanup(): void; // 解除父监听
 }
-export function createLinkedAbortController(parentSignal?: AbortSignal): LinkedAbortController {
-  const controller = new AbortController();
-  const abort = () => controller.abort(parentSignal?.reason);
-  if (parentSignal?.aborted) abort();
-  else parentSignal?.addEventListener("abort", abort, { once: true });
-  return {
-    controller,
-    signal: controller.signal,
-    cleanup: () => parentSignal?.removeEventListener("abort", abort),
+
+export function createLinkedAbortController(parent?: AbortSignal): LinkedAbortController {
+  const controller: AbortController = new AbortController();
+  const state = { detached: false };
+  const forward = () => controller.abort(parent?.reason);
+  const detach = () => {
+    if (state.detached) return;
+    state.detached = true;
+    parent?.removeEventListener("abort", forward);
   };
+  if (parent?.aborted) forward();
+  else parent?.addEventListener("abort", forward, ABORT_ONCE);
+  return { controller, signal: controller.signal, cleanup: detach };
 }
+
+interface ReadAllowance {
+  abortController: AbortController; // 取消控制器（超时时以超时错误中止）
+  onTimeout?: (error: ModelStreamIdleTimeoutError) => void | Promise<void>; // 超时观察回调
+  timeoutMs: number; // 生效额度（≤ 0 禁用）
+}
+
 export async function readNextWithStreamIdleTimeout<T>(
   iterator: AsyncIterator<T>,
-  options: {
-    abortController: AbortController;
-    onTimeout?: (error: ModelStreamIdleTimeoutError) => void | Promise<void>;
-    timeoutMs: number;
-  },
+  allowance: ReadAllowance,
 ): Promise<IteratorResult<T>> {
-  const signal = options.abortController.signal;
-  if (signal.aborted) throw signal.reason ?? new DOMException("Aborted", "AbortError");
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  let onAbort: (() => void) | undefined;
+  const signal = allowance.abortController.signal;
+  const rejection = () => signal.reason ?? new DOMException("Aborted", "AbortError");
+  if (signal.aborted) throw rejection();
+  let timer: TimerHandle | undefined;
+  let detachAbort: (() => void) | undefined;
   try {
-    const pending: Promise<IteratorResult<T>>[] = [
-      iterator.next(),
-      new Promise<never>((_, reject) => {
-        onAbort = () => {
-          const reason = signal.reason ?? new DOMException("Aborted", "AbortError");
-          if (!isModelStreamIdleTimeoutError(reason)) reject(reason);
-        };
-        signal.addEventListener("abort", onAbort, { once: true });
-      }),
-    ];
-    if (options.timeoutMs > 0)
-      pending.push(
-        new Promise<never>((_, reject) => {
-          timer = setTimeout(async () => {
-            const error = new ModelStreamIdleTimeoutError({
-              idleMs: options.timeoutMs,
-              timeoutMs: options.timeoutMs,
-            });
-            options.abortController.abort(error);
-            try {
-              await options.onTimeout?.(error);
-            } finally {
-              reject(error);
-            }
-          }, options.timeoutMs);
-        }),
-      );
-    return await Promise.race(pending);
+    // 一次性竞速容器：迭代、取消、计时三方先到先得
+    return await new Promise<IteratorResult<T>>((settle, reject) => {
+      let done = false;
+      const finish = (apply: () => void) => {
+        if (done) return;
+        done = true;
+        apply();
+      };
+      function onAbort() {
+        const reason = rejection();
+        if (!isModelStreamIdleTimeoutError(reason)) finish(() => reject(reason));
+      }
+      detachAbort = () => signal.removeEventListener("abort", onAbort);
+      signal.addEventListener("abort", onAbort, ABORT_ONCE);
+      iterator
+        .next()
+        .then((step) => finish(() => settle(step)))
+        .catch((error) => finish(() => reject(error)));
+      if (allowance.timeoutMs > 0) {
+        timer = setTimeout(async () => {
+          const timeout = new ModelStreamIdleTimeoutError({
+            idleMs: allowance.timeoutMs,
+            timeoutMs: allowance.timeoutMs,
+          });
+          allowance.abortController.abort(timeout);
+          try {
+            await allowance.onTimeout?.(timeout);
+          } finally {
+            finish(() => reject(timeout));
+          }
+        }, allowance.timeoutMs);
+      }
+    });
   } finally {
-    if (timer) clearTimeout(timer);
-    if (onAbort) signal.removeEventListener("abort", onAbort);
+    // 清理计时与监听：任何出口都不留悬挂
+    if (timer !== undefined) clearTimeout(timer);
+    if (detachAbort) detachAbort();
   }
 }
