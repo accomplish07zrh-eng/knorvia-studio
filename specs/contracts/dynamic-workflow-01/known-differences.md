@@ -1,0 +1,69 @@
+# dynamic-workflow-01 既存差异（known-differences.md）
+
+v1。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得"顺手修掉"这里列出的任何一条。
+
+## 1. 不在本包范围的相邻文件
+
+| 相邻面                                                        | 归属                                        | 说明                                                                                                                                              |
+| ------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/engine/**`（24 文件）                                    | dynamic-workflow-02                         | 执行引擎。不 import 本包分析模块（只经 facade/schema 间接依赖），本包重写不影响它。                                                               |
+| `src/facade/**`（5 文件）                                     | dynamic-workflow-02                         | facade `.d.ts` 资产与 registry/caps。`compile.ts` **import** 它（`FACADE_DTS`、`FACADE_FILE_NAME`），该依赖方向是兼容面。                         |
+| `src/lowering/**`、`src/schema/**`                            | dynamic-workflow-02                         | 它们 import 本包的 `analysis/sites`、`analysis/facade-misuse`、`analysis/interpret`、`analysis/graph`、`compiler/compile`——**相对路径是兼容面**。 |
+| `src/index.ts`、`src/projections.ts`                          | 两个入口桶（不重写）                        | 再导出本包符号；导出名集合冻结在 `fixtures/entry-exports.json`（B14）。                                                                           |
+| `compiler/libs.generated.ts`                                  | 构建期生成物（`scripts/generate-libs.mjs`） | 不进 git、不在 `licensing/current-files.json`；重写 `compile.ts` 时它照常生成，无需合同覆盖。                                                     |
+| `analysis/operators.ts`、`analysis/placeholder-resolution.ts` | `unreviewed`（M0-2/M0-3 复核范围）          | 分类为 unreviewed，**不重写、不删**（同 shared-01 口径）。它们被 `taint.ts`/`state.ts` import，重写后新实现可继续按相对路径引用。                 |
+
+## 2. 旧行为特征（保持原样，勿"修"）
+
+### K1 `Node<T>` 不是 `Promise<T>`——不能 `.catch()`，不能塞进 `Promise<T>[]`
+
+`agent().ask()` 返回 `Node<T>`，facade 里 `interface Node<T> extends PromiseLike<T> {}`（**不是** `Promise<T>`）。因此：
+
+- `a.ask("x").catch(…)` → TS2339（`catch` 不存在）；正确写法是 `a.ask("x").then(onOk, onErr)` 或 `try/catch await`。
+- `const held: Promise<string>[] = [a.ask("x")]` → TS2345/2739；正确写法是 `Node<string>[]`。
+
+语料 `async/then-catch-recover`、`fanout/forEach-side-effect`、`fanout/reduce-to-nodes`、`async/queue-chain-then` 按旧行为录制（golden）。重写不得把 `Node` 改成 `Promise`。
+
+### K2 `ask<T>` 的类型参数从上下文推断——`const n: number = await a.ask("x")` 是合法的
+
+`ask<T = string>` 的 T 由赋值上下文推断；`const n: number = await a.ask("x")` 推出 `T = number`，编译通过（golden `errors/assign-string-to-number` 原始版本即此行为，现语料改为经 string 中转以获得真正的 2322）。这不是 bug，是泛型默认值 + 上下文推断的正常组合，**保持**。
+
+### K3 别名 `log` 合法、别名 `report` / `ask` / `phase` / `files.read` / `git.status` / `artifact.*` 非法（9001）
+
+facade-siting 检查按调用点判定：`const r = log;` 不产生站点，直接放行；`const r = report;` / `const s = git.status;` / `const m = artifact.metrics;` 等**会**产生站点或有 journal 语义，逃逸进值空间即 9001。golden `misuse/alias-log`（clean）与 `misuse/alias-report`、`misuse/alias-git-status`、`misuse/alias-artifact-metrics`（9001）钉住这条不对称。
+
+### K4 `phase("…")` 尾随标记（后面没有 ask/world.run）编译期**不报错**
+
+facade 文档要求"每个 phase 必须包含至少一个 subagent ask 或 world.run"，但编译器不在编译期强制——尾随空阶段照常 `ok: true`（golden `phases/trailing-marker-no-work`）。该规则属于展示层/引擎层关切。**保持**：重写不得新增这条编译期诊断。
+
+### K5 `await` 非 thenable 合法
+
+`const v = await 5;` 是 TS 合法代码（await 非 thenable 直接返回原值），分析器报 `ok: true`（golden `errors/await-non-thenable`）。**保持**。
+
+### K6 编译期错误短路时 `declaredArtifacts` 恒为空数组
+
+编译诊断或 facade-misuse 非空 → `declaredArtifacts: []`（不是 undefined）——"拿到的永远是数组，不必在每个消费点分辨'没有产物'与'没能分析'"（`analyze.ts` 注释语义，B4）。**保持**该"缺省而不是缺席"设计。
+
+### K7 9006 保留全部图、其余作者检查扣图
+
+fan-out 静态 actor 名（9006）是唯一不清空图的诊断（B6）；其余作者检查（9003/9004/9005/9007/9008/9009）非空时图被扣下。**保持**该不对称。
+
+### K8 `collectDuplicateActorNames`（9005）不从包入口导出
+
+9005 的正门在引擎运行期（`createActor` 的 `DuplicateActorName`）；编译期这条只是"字面量能看穿的那部分提前到便宜的一侧"，其函数**不**经 `src/index.ts` 导出（`analysis.test.mjs`「B15」断言入口上不存在）。重写不得顺手导出它。
+
+## 3. core 测试夹具的 sha256 pin（替换阶段的已知作业）
+
+以下 core 测试文件用**字符串路径**动态 import 本包深层模块，并 pin 了 `src/analysis/*` 与 `dist/analysis/*` 的 sha256：
+
+- `apps/cli/packages/core/test/causality-reduction-fixture.ts`（pin `causality-reduce.ts` 源码/产物/声明三份 sha）
+- `apps/cli/packages/core/test/fanout-cardinality-fixture.ts`
+- `apps/cli/packages/core/test/may-set-lane-expansion-fixture.ts`
+- `apps/cli/packages/core/test/causality-order-settlement-fixture.ts`
+- `apps/cli/packages/core/test/causality-order-strands-fixture.ts`
+
+**替换阶段**改写这些被 pin 的文件时，必须按 GATE-PLAYBOOK D 节做**范围化 re-pin**（只刷新被断言文件的 sha 记录，不改变上游证据语义）；本合同阶段不动它们。行为判据以合同套件两入口为准。
+
+## 4. 语料 expect 分类以旧实现为准
+
+`fixtures/corpus.mjs` 每个样例的 `expect`（clean/diagnostics）是对旧实现 `ok` 的分类断言；录制时已逐例校验与旧实现一致（0 不符）。golden 文件里录制的 `expect` 与语料交叉核对（`golden.test.mjs` 第一例）。新增语料必须先在旧实现上验证分类再落盘。
