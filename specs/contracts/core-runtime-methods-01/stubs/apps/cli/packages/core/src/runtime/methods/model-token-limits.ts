@@ -17,4 +17,3 @@ export function resolveModelStepMaxOutputTokens(..._args: unknown[]): unknown {
 export function resolveNormalRequestMaxOutputTokens(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-01");
 }
-

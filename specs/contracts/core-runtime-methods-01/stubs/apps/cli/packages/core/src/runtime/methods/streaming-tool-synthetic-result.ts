@@ -13,4 +13,3 @@ export function createSyntheticStreamedToolResult(..._args: unknown[]): unknown 
 export function emitSyntheticStreamedToolError(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-01");
 }
-

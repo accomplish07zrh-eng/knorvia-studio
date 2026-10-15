@@ -90,7 +90,7 @@
 
 - **输入**：`resolveNormalRequestMaxOutputTokens({modelMaxOutputTokens})`；
   `resolveModelStepMaxOutputTokens({baselineMaxOutputTokens, contextWindow,
-  estimatedCurrentUsage, modelContextBudgetStrategy})`；`modelRequestTokenLimitLogContext`
+estimatedCurrentUsage, modelContextBudgetStrategy})`；`modelRequestTokenLimitLogContext`
   （contextWindow / maxOutputTokens / modelContextBudgetStrategy / traceContext）。
 - **输出**（语义常量）：normal 两级中的第一级——模型未声明输出预算（`undefined`、非有限数或
   ≤ 0）时默认 **32,000**（`DEFAULT_NORMAL_REQUEST_MAX_OUTPUT_TOKENS`，仅默认值，不是全局上限）；
@@ -118,8 +118,8 @@
 ### B5 模型请求前的运行时请求头刷新（`model-runtime-headers.ts`）
 
 - **输入**：`createRefreshRuntimeHeadersBeforeModelAttempt(runtime, {abortSignal, model,
-  traceContext})`；返回的刷新函数按 attempt 接收 `{accountAccess?, attempt, reason?,
-  abortSignal?}`。
+traceContext})`；返回的刷新函数按 attempt 接收 `{accountAccess?, attempt, reason?,
+abortSignal?}`。
 - **输出**：`runtime.providerRuntimeHeadersPort` 缺席，或端口的
   `shouldRefreshBeforeModelRequest({providerId, modelId})` 显式返回 `false`（缺省视为 `true`）时
   返回 `undefined`（不装刷新钩子）；否则返回异步刷新函数，结果透传端口的
@@ -148,12 +148,12 @@
 - **输出**：`publish` 顺序固定——① 若构造时给了 `streamRecovery`，先把
   `streamRecovery` 字段并入事件载荷；② 调 `options.onStatus?.(载荷)`；③
   `logModelNetworkStatus(载荷, traceContext)`；④ `createEvent(SessionEventType.ModelNetworkStatus,
-  载荷, traceContext)` + `await appendEvent`；⑤ `events.push(event)`。
+载荷, traceContext)` + `await appendEvent`；⑤ `events.push(event)`。
   `logModelNetworkStatus` 的公共元数据字段固定：`attempt`、`baseURL`、`maxAttempts`、`modelId`、
   `providerId`、`providerKind`、`requestId`、`transport` 以及
   `streamRecoveryAnchorId`/`streamRecoveryFromRequestId`/`streamRecoveryMaxRetries`/
   `streamRecoveryRetryNumber`（取 `statusEvent.streamRecovery?.anchorId/recoveredFromRequestId/
-  maxRetries/retryNumber`）+ trace 上下文。
+maxRetries/retryNumber`）+ trace 上下文。
 - **错误语义**：`appendEvent` 失败原样冒泡（`onStatus` 与日志已完成——先观测后持久化）；
   未知 `type` 只输出公共元数据、不打类型日志。
 - **时序与并发**：`publish` 为异步串行（一次一个状态事件）；日志在事件持久化**之前**。
@@ -181,7 +181,7 @@
 - **输入**：`createModelStreamingEventQueue({events, runtime, traceContext, highWaterMark?})`；
   `enqueue(payload)` 接收 `ModelStreamingPayload`。
 - **输出**：队列把每个 payload 交给 `runtime.emitModelStreamingEvent(payload, traceContext,
-  events)`（B8），**写入严格串行**（promise 尾链）；`drain()` 等尾链清空；
+events)`（B8），**写入严格串行**（promise 尾链）；`drain()` 等尾链清空；
   `maybeApplyBackpressure()` 在未达高水位时立即返回，否则等尾链。
 - **错误语义**：任一写入失败被记为队列级失败（`failure`）：后续 `enqueue`/`drain`/
   `maybeApplyBackpressure` 都抛该首个失败原因；失败后不再执行后续写入（尾链吞掉）。
@@ -248,11 +248,11 @@
 ### B11 流结果体检：上下文超限与可疑空响应（`model-request-stream-state.ts` 的 `inspectModelRequestStreamResult`）
 
 - **输入**：`(runtime, {finishReason, providerMetadata, usage, text, toolCalls}, modelSelection,
-  options)`。
+options)`。
 - **输出**：`rawFinishReason = readRawFinishReason(providerMetadata)`；
   `outputTokenLimit = isOutputTokenLimitFinishReason(finishReason, rawFinishReason)`；
   `contextExceeded = toolCalls.length === 0 && !outputTokenLimit &&
-  isContextExceededFinishReason(...)`。命中 contextExceeded 打 `warn`
+isContextExceededFinishReason(...)`。命中 contextExceeded 打 `warn`
   （`model.runtime.stream.context_exceeded`，含 `finishReason`、`rawFinishReason`、
   `modelProviderId`、`modelId`、`textLength`、`toolCallCount`）；否则非 outputTokenLimit 且
   `isSuspiciousEmptyModelResult(finishReason, text.length, toolCalls.length, usage)` 命中时打
@@ -273,9 +273,9 @@
 
 - **输入**：`createRuntimeModel(runtime, input)`（`RuntimeModelFactoryInput` 去掉必选
   `selection` 约束，`selection` 可 `undefined`）；`withModelInvocationContext(model,
-  createContext)`（`createContext: (request) => ModelInvocationContext`）。
+createContext)`（`createContext: (request) => ModelInvocationContext`）。
 - **输出**：`createRuntimeModel`——`selection` 缺失时抛 `createCoreError(
-  CoreErrorType.ConfigurationError, "Select a model before continuing", {recoverable: true})`
+CoreErrorType.ConfigurationError, "Select a model before continuing", {recoverable: true})`
   （仅执行入口拒绝缺失选择）；否则经 `runtime.modelFactory` 造模型并包一层
   `withRuntimeInvocationLayer`：调用上下文在句柄工厂**绑定一次**，含
   `modelRetryBudget: resolveModelRetryBudgetFromTaskType(runtime.config.taskType)`（B3）与
@@ -302,7 +302,7 @@
 ### B13 取消流快照持久化（`cancelled-stream-persistence.ts`）（事件序列）
 
 - **输入**：`persistCancelledStreamSnapshot(runtime, {assistantCreatedAt, assistantMessageId,
-  snapshot, traceContext})`（snapshot 含 `reasoning` 块数组与 `text`）。
+snapshot, traceContext})`（snapshot 含 `reasoning` 块数组与 `text`）。
 - **输出**（持久化记录口径）：`completedAt = Date.now()` 只取一次；先逐块持久化 reasoning——
   仅当 `hasAssistantReasoningContent(reasoning)` 为真（空推理块跳过），每块 `persistPart` 一个
   `type: "reasoning"` 分部（`id: createPartId()`、`sessionID: runtime.sessionId`、
@@ -339,7 +339,7 @@
 ### B15 Start Plan busy 判定、退避与耗尽错误（`streaming-recovery.ts`）
 
 - **输入**：错误对象（可含 `cause` 链）；`getStartPlanBusyAdmissionRetryDelayMs({error,
-  providerId, state, turnNumber})`。
+providerId, state, turnNumber})`。
 - **输出**（语义常量）：错误 cause 链遍历深度上限 `MAX_ERROR_CAUSE_DEPTH = 6`
   （含环检测；从顶层起至多 7 个记录）；busy 判定 `isStartPlanBusyStreamRecoveryFailure`
   ⟺ 链上任一记录的 `providerCode`/`code`（记录本身或其 `context` 内，字段优先级
@@ -354,7 +354,7 @@
   `"Start Plan is busy and automatic model stream recovery reached the maximum retry count."`）、
   `name = "StartPlanBusyAutoRetryExhaustedError"`、`code = "model_rate_limited"`、
   `context = {providerCode, reason: "rate_limited", retryable: false,
-  startPlanBusyAutoRetryExhausted: true}`（`providerCode` 取链上首个 busy 码，未命中回默认
+startPlanBusyAutoRetryExhausted: true}`（`providerCode` 取链上首个 busy 码，未命中回默认
   **`"3010"`**）、`cause` 仅当入参是 `Error` 时挂原错误。
 - **错误语义**：本组不抛异常（只判定与构造）。
 - **时序与并发**：同步纯判定。
@@ -364,10 +364,10 @@
 - **状态所有者**：无（退避档位消耗由 B14 的计数体现）。
 - **日志级别**：无日志。
 
-### B16 流恢复事件组与锚点选择（`streaming-recovery.ts` 的 emit* 两函数）（事件序列）
+### B16 流恢复事件组与锚点选择（`streaming-recovery.ts` 的 emit\* 两函数）（事件序列）
 
 - **输入**：`emitStreamRecoveryStarted(runtime, state, {assistantMessageId, failedRequestId?,
-  traceContext}, error, recoveryAttempt)`；
+traceContext}, error, recoveryAttempt)`；
   `emitStreamRecoveryRetryEvents(runtime, state, 同 options, recovery)`（recovery =
   尝试信息 + `discardedReasoningBytes`/`discardedTextBytes` + `reason` + `toolCallIds`）。
 - **输出**：`emitStreamRecoveryStarted` 发
@@ -388,11 +388,11 @@
   **`` `${assistantMessageId}:previous-message-anchor` ``**。随后**按序**发三个事件（每个
   `appendEvent` 成功后才 `state.events.push`）：
   ① `StreamRecoveryAnchorSelected`——`{attemptId, anchorId, reason, committedToolCallIds:
-  toolCallIds}`（`reason` 串取 `"latest_committed_tool_result" | "no_tool_committed"`）；
+toolCallIds}`（`reason` 串取 `"latest_committed_tool_result" | "no_tool_committed"`）；
   ② `StreamRecoveryTailDiscarded`——`{attemptId, anchorId, assistantMessageId,
-  discardedReasoningBytes, discardedTextBytes, discardedToolCallIds: []}`（固定空数组）；
+discardedReasoningBytes, discardedTextBytes, discardedToolCallIds: []}`（固定空数组）；
   ③ `StreamRecoveryRetryStarted`——`{attemptId, anchorId, retryNumber, maxRetries,
-  streamMode: "sse"}` + 可选 `failedRequestId`。最后写
+streamMode: "sse"}` + 可选 `failedRequestId`。最后写
   `state.pendingStreamRecoveryRequest = {attemptId, anchorId, maxRetries, retryNumber}` +
   可选 `recoveredFromRequestId: failedRequestId`（事件与 pending identity 读取同一 live
   options）。
@@ -409,24 +409,24 @@
 ### B17 部分输出失败的流恢复编排（`streaming-recovery.ts` 的 `recoverPartialAssistantOutputFailure`）
 
 - **输入**：`{abortController, assistantCreatedAt, discardedReasoningBytes, discardedTextBytes,
-  error, options: {assistantMessageId, failedRequestId?, model, traceContext}, runtime, state,
-  turnAbortListener}`。
+error, options: {assistantMessageId, failedRequestId?, model, traceContext}, runtime, state,
+turnAbortListener}`。
 - **输出**：返回 `boolean`。**短路**：`discardedReasoningBytes + discardedTextBytes <= 0` 或
   错误不满足可重试判定（见下）→ `false`（不 abort、不发事件）。否则顺序执行：
   ① `abortController.abort()`；② `beginStreamRecoveryAttempt(state)`（B14）；
   ③ `emitStreamRecoveryStarted`（B16）；④ `persistAssistantMessage(assistantMessageId,
-  state.currentUserMessageId, assistantCreatedAt, {completed: Date.now(), error: {
-  name: STREAM_RECOVERY_DISCARDED_ERROR_NAME, data: {message: "Partial assistant output was
-  discarded before a streaming retry.", retryNumber}, finish: STREAM_RECOVERY_DISCARDED_FINISH},
-  traceContext, model)`（丢弃标记的持久化记录口径）；⑤ 重置 `state.modelResponse = ""`、
+state.currentUserMessageId, assistantCreatedAt, {completed: Date.now(), error: {
+name: STREAM_RECOVERY_DISCARDED_ERROR_NAME, data: {message: "Partial assistant output was
+discarded before a streaming retry.", retryNumber}, finish: STREAM_RECOVERY_DISCARDED_FINISH},
+traceContext, model)`（丢弃标记的持久化记录口径）；⑤ 重置 `state.modelResponse = ""`、
   `state.modelStepCount += 1`、`recordModelHistoryRound(state)`，turnMachine 连续两步
   `receiveModelResponse("")` → `aggregateResults()`（各包一层 `TurnMachineImpl`）；
   ⑥ `emitStreamRecoveryRetryEvents` 固定 `reason: "no_tool_committed"`、`toolCallIds: []`
   （B16）；⑦ `turnAbortSignal.removeEventListener("abort", turnAbortListener)`；
   返回 `true`。可重试判定（`retryableFailure`，cause 链 ≤ 深度 6）：任一记录或其 `context`
   `retryable === true`；或 `code`/`context.code` 命中瞬变码集 `{model_request_timeout,
-  model_rate_limited, model_server_error, model_network_error, MODEL_REQUEST_TIMEOUT,
-  MODEL_RATE_LIMITED, MODEL_SERVER_ERROR, MODEL_NETWORK_ERROR}`；或 `reason`/`context.reason`
+model_rate_limited, model_server_error, model_network_error, MODEL_REQUEST_TIMEOUT,
+MODEL_RATE_LIMITED, MODEL_SERVER_ERROR, MODEL_NETWORK_ERROR}`；或 `reason`/`context.reason`
   命中 `{stream_idle_timeout, rate_limited, server_error, network_error, timeout}`；或
   `name === "ModelStreamIdleTimeoutError"`；或 message 匹配
   `\b(stream idle|stream stalled|timeout|timed out|ECONNRESET|EPIPE|ETIMEDOUT)\b`（忽略大小写）。
@@ -443,7 +443,7 @@
 ### B18 流式工具准入、接受与 delta 记账（`streaming-tool-coordinator.ts`）
 
 - **输入**：`createStreamingToolCoordinator(runtime, state, {assistantMessageId, model,
-  traceContext})` 产出协调器：`accept(toolCall)`、`abandon(reason)`、`drain(toolCalls)`、
+traceContext})` 产出协调器：`accept(toolCall)`、`abandon(reason)`、`drain(toolCalls)`、
   `recordReasoningDelta(text)`、`recordTextDelta(text)`、`recoverFromModelFailure(...)`。
 - **输出**：`accept` 保存声明副本后按准入判定（`permitsStreamingLaunch`，语义常量）决定是否
   **流中启动**执行：`toolCall.providerExecuted` 为真、`name.trim()` 为空、
@@ -493,7 +493,7 @@
 ### B20 流中工具执行管线（`streaming-tool-execution.ts` 的 `executeStreamingTool`）
 
 - **输入**：`(runtime, state, declaration: ModelToolCall, {assistantMessageId,
-  declarationIndex, model, signal, traceContext})`。
+declarationIndex, model, signal, traceContext})`。
 - **输出**：返回 `StreamedToolExecutionResult | undefined`（执行批次无结果时 `undefined`）。
   管线顺序固定：① `throwIfTurnAborted(state.turnAbortSignal)`；②
   `requireRuntimeToolCallName` 校验工具名（helpers 口径，来源
@@ -520,15 +520,15 @@
 ### B21 合成工具结果与错误事件（`streaming-tool-synthetic-result.ts`）
 
 - **输入**：`createSyntheticStreamedToolResult(toolCall, reason: "not_executed" |
-  "unknown_execution_state")`；`emitSyntheticStreamedToolError(runtime, events, traceContext,
-  result)`。
+"unknown_execution_state")`；`emitSyntheticStreamedToolError(runtime, events, traceContext,
+result)`。
 - **输出**（语义常量）：合成结果 `success: false`、`output: null`、`durationMs: 0`、
   `startedAt === completedAt`（同一 `new Date()`）、`error.type` 固定
   **`"stream_recovery_interrupted_tool"`**；`modelContent`/`error.message` 按 reason 取文案：
   `not_executed` → `"Tool execution was interrupted during streaming recovery before this tool
-  was executed. Treat this tool call as failed and do not retry blindly."`；
+was executed. Treat this tool call as failed and do not retry blindly."`；
   `unknown_execution_state` → `"Tool execution was interrupted during streaming recovery before
-  a result was committed. Side effects may be unknown; inspect current state before retrying."`。
+a result was committed. Side effects may be unknown; inspect current state before retrying."`。
   外层 `StreamedToolExecutionResult`：`input: toRecordInput(toolCall.input)`、
   **`ledgerRecorded: false`**、`partID: createPartId()`、`toolCallId`。
   `emitSyntheticStreamedToolError`：`result.error` 缺席直接返回；否则发
@@ -555,7 +555,7 @@
   `toolCallCount += 结果数`、`commitTurnRequestEntries`（空 assistant 文本 + 声明工具表）、
   `turnMachine.receiveModelResponse("")`；⑦ `executeToolCallsForModelStep` 以
   `result: {finishReason: "tool-calls", providerMetadata: {recoveredFromStreamFailure: true},
-  text: "", toolCalls, usage: {}}` + `streamedToolResults` 补执行（含合成结果）；⑧
+text: "", toolCalls, usage: {}}` + `streamedToolResults` 补执行（含合成结果）；⑧
   `emitStreamRecoveryRetryEvents`（B16）固定 `reason: "latest_committed_tool_result"`、
   `toolCallIds` = 补执行结果的 toolCallId 序；⑨ 移除 abort 监听；返回 `true`。
 - **错误语义**：⑤–⑦ 的持久化/执行错误原样冒泡（⑨ 不执行，由调用方处置）；合成结果兜底保证
@@ -574,10 +574,10 @@
 ### B23 事件创建与追加管线（`events.ts` 的 `createEvent`/`isSessionPersisted`/`appendEvent`）（事件序列）
 
 - **输入**：`createEvent(this, type, payload, traceContext)`；`appendEvent(this, event,
-  traceContext)`；`isSessionPersisted(this)`。生命周期类型集（语义常量）：`SessionTitleUpdated`、
+traceContext)`；`isSessionPersisted(this)`。生命周期类型集（语义常量）：`SessionTitleUpdated`、
   `TurnStarted`、`ModelRequest`、`ModelComplete`、`TurnComplete`、`TurnError`。
 - **输出**：`createEvent` = `createSessionEvent(type, this.sessionId, payload, {turnId:
-  traceContext.turnId, traceId: traceContext.traceId})`；`isSessionPersisted` 读
+traceContext.turnId, traceId: traceContext.traceId})`；`isSessionPersisted` 读
   `this.sessionPersisted`。`appendEvent` 管线（phase 串用于失败日志）：`eventStore.append`
   （phase `event_store.append`）→ `persistDurableEvent`（`session_event.persist_durable`，B26）
   → `recordToolUsageFromEvent`（`session_event.record_usage`，B30）→ `notifyEventSinks`
@@ -626,15 +626,15 @@
 - **输出**：`sessionStore` 缺席或 `this.sessionPersisted` 已真 → 直接返回。否则顺序落盘：
   ① `createSession`（`id: this.sessionId`、`projectID: projectIdFromDirectory(workingDirectory)`、
   `workspaceID: config.workspaceIdentity ?? trim(memory.workspaceIdentity)`、`parentID:
-  config.parentSessionId`、`traceID`、`taskType`、`slug: slugify(sessionId)`、
+config.parentSessionId`、`traceID`、`taskType`、`slug: slugify(sessionId)`、
   `directory`/`path` = `config.workspacePath ?? workingDirectory`、`title: titleFromInput(input)`、
   `titleSource: "first_input"`、`version: appVersion`、`permission: {mode: config.mode ??
-  "build"}`）；② 有模型选择时 `persistRuntimeModelSelection`；③
+"build"}`）；② 有模型选择时 `persistRuntimeModelSelection`；③
   `persistSessionShellEnvironmentSnapshot`；④ `saveSessionEntry(buildExecutionStateEntry(...))`；
   ⑤ 置 `this.sessionPersisted = true`；⑥ `appendEvent(SessionTitleUpdated, {previousTitle: "",
-  source: "first_input", title})`（走 B23 管线）。返回 `void`。
+source: "first_input", title})`（走 B23 管线）。返回 `void`。
 - **错误语义**：任一步抛错打 `warn` `Session persistence failed`（`event:
-  "session.persistence.failed"`、`phase`、`durationMs`、`errorMessage`）后原样重抛；
+"session.persistence.failed"`、`phase`、`durationMs`、`errorMessage`）后原样重抛；
   `sessionPersisted` 在 ⑤ 之前保持 `false`（失败可重试整段）。
 - **时序与并发**（日志序列）：`info Session persistence started`
   （`session.persistence.started`）→ 落盘 ①–④ → `debug Session persisted`
@@ -657,8 +657,8 @@
   `persistWorkspaceFileRewindEntry`（两者错误冒泡）；`UserInputAutoResolutionUpdated` →
   `saveSessionEntry`（id `user-input-auto-resolution:<interactionId>`、type
   `SESSION_ENTRY_USER_INPUT_AUTO_RESOLUTION`、time `{created: autoResolution.startedAt,
-  updated: event.timestamp}`、data 含 `interactionId/toolCallId/autoResolution/eventId/
-  sequenceNumber/traceId/turnId?`）；`TurnSteerQueued` → `saveSessionInput`（id =
+updated: event.timestamp}`、data 含 `interactionId/toolCallId/autoResolution/eventId/
+sequenceNumber/traceId/turnId?`）；`TurnSteerQueued` → `saveSessionInput`（id =
   `pendingInputId`、`kind` = `intent.kind ?? commandKind ?? "sendText"`、`delivery` =
   `payload.delivery ?? "queue"`、payload 含 `text`/`intent?`/`conversationInputIntent?`）；
   `TurnSteerDeliveryChanged` → `updateSessionInputs`（`delivery: admittedDelivery`）；
@@ -668,13 +668,13 @@
   `SESSION_ENTRY_TARGET_COMPLETION_VERIFICATION`）+ `persistAssistantTimelinePartForSession`
   （`partID = createPartId("goal_verify_<key>_timeline")`，key =
   `goalIteration !== undefined ? "<targetId>_<goalIteration>" : verificationId`；`messageID =
-  createMessageId("goal_verify_<key>")`；`parentID = anchorAssistantMessageId`；已有 timeline
+createMessageId("goal_verify_<key>")`；`parentID = anchorAssistantMessageId`；已有 timeline
   分部时沿用其 `message.info.time.created`/`part.time.start`，否则用事件时间戳；
   `completed`/`time.end` 在 `status === "started"` 时为 `undefined`；`finish: payload.status`；
   timeline 类型 `goal_verification`、`display: "separator"`）。其余类型 no-op。
 - **错误语义**：checkpoint/rewind 分派错误**冒泡**；会话账本类（auto-resolution、
   steer 三类、target verification）失败只 `warn`（事件名 `user_input_auto_resolution.
-  persist_failed`、`session_input.admit_failed`、`session_input.delivery_change_failed`、
+persist_failed`、`session_input.admit_failed`、`session_input.delivery_change_failed`、
   `session_input.settle_failed`、`session_entry.target_completion_verification.persist_failed`）
   并吞掉（持久化尽力而为，不阻塞事件管线）；`TurnSteerDiscarded` 逐 id 失败不中断后续 id。
 - **时序与并发**：单事件内顺序执行；`TurnSteerDiscarded` 的多 id settle 串行。
@@ -715,15 +715,15 @@
 ### B28 模型用量事实（`usage-observability.ts` 的 `recordModelUsageFact`）
 
 - **输入**：`(runtime, RecordModelUsageInput)`——`{assistantMessageId?, attemptIndex?, error?,
-  events, model, networkEventStartIndex, parentUserMessageId?, querySource, result?, startedAt,
-  status: "completed" | "error" | "cancelled", toolCallCount?, traceContext}`。
+events, model, networkEventStartIndex, parentUserMessageId?, querySource, result?, startedAt,
+status: "completed" | "error" | "cancelled", toolCallCount?, traceContext}`。
 - **输出**：`sessionStore` 需同时具备 `recordModelUsage/upsertTurnUsage/upsertToolUsage/
-  pruneUsage` 四个方法，缺一**静默返回**（usage 为可选增强面）。写入 `recordModelUsage` 的
+pruneUsage` 四个方法，缺一**静默返回**（usage 为可选增强面）。写入 `recordModelUsage` 的
   记账口径：`id` = `usage_model_<querySource>_<logical>_<attemptIndex ?? 0>`，`logical` 先冻结为
   `assistantMessageId ?? traceContext.spanId ?? "<querySource>_<startedAt>"`；
   `logicalRequestId` = `assistantMessageId ?? traceContext.spanId ?? "<querySource>:<startedAt>"`
   （两处兜底分隔符不同：`_` 与 `:`，语义常量）；token 映射 `inputTokens/outputTokens/
-  reasoningTokens` 直取 usage，`cacheCreationInputTokens ← usage.cacheWriteTokens`、
+reasoningTokens` 直取 usage，`cacheCreationInputTokens ← usage.cacheWriteTokens`、
   `cacheReadInputTokens ← usage.cacheReadTokens`、`providerTotalTokens ← usage.totalTokens`、
   `rawUsage: usage`；`retryCount` = 网络观测中 `model_retry_scheduled` 计数；
   `failed` = 最后一条 `model_request_failed`；`firstTokenAt`/`timeToFirstTokenMs` 见 B31；
@@ -731,11 +731,11 @@
   `mode` = `config.mode ?? "build"`、`taskType` = `config.taskType ?? "interactive"`、
   `querySource` 透传（`"main_turn"`/`"compact"`/`"session_title"`/
   `"goal_completion_verification"` 或自由字符串）；`retryable` = `errorInfo.retryable ??
-  retryCount > 0`；`cancelledByUser` = `status === "cancelled"`；`contextExceeded` =
+retryCount > 0`；`cancelledByUser` = `status === "cancelled"`；`contextExceeded` =
   `isModelContextExceededError(error) || failed?.reason === "context_exceeded"`；错误三字段取
   B31 的 `usageErrorInfo`。
 - **错误语义**：写入失败只 `warn` `Usage model fact write failed`（`event:
-  "usage.model.write.failed"`）并吞掉（用量观测不阻塞回合）。
+"usage.model.write.failed"`）并吞掉（用量观测不阻塞回合）。
 - **时序与并发**：单次 await；`completedAt` 与 `durationMs` 在写入前一次性取样。
 - **幂等**：`id` 由逻辑身份决定，重复写同一事实 upsert 收敛（存储层）。
 - **资源释放**：无。
@@ -746,7 +746,7 @@
 ### B29 回合用量事实（`usage-observability.ts` 的 `recordTurnUsageFact`）
 
 - **输入**：`(runtime, {completedAt, error?, events, startedAt, status, traceContext, turnId,
-  userMessageId?})`。
+userMessageId?})`。
 - **输出**：同样的四方法门槛，缺一静默返回。写入 `upsertTurnUsage`：`modelRequestCount` =
   `ModelRequest` 事件数；`firstModelStartAt` = 首个 `ModelRequest` 事件时间；
   `modelRetryCount` = 网络观测中 `model_retry_scheduled` 计数；`toolCallCount` =
@@ -803,7 +803,7 @@
   `"text_delta"`/`"reasoning_delta"`、`delta` 存在且 **`delta.length > 0`** 的事件，返回其
   `timestamp`（毫秒）；无则 `undefined`。`usageErrorInfo`——`isCoreError(error)` 时返回
   `{code, message, retryable, type: error.type}`；`Error` 实例返回 `{message,
-  retryable: failed?.retryable, type: failed?.reason ?? error.name}`；无 error 但有 failed 返回
+retryable: failed?.retryable, type: failed?.reason ?? error.name}`；无 error 但有 failed 返回
   `{message: failed.message, retryable: failed.retryable, type: failed.reason}`；否则 `{}`。
   `nonemptyString`——字符串且长度 > 0 才返回。`usageCount`——有限数返回
   **`Math.max(0, Math.trunc(value))`**（负数归 0、小数截断），否则 `0`。
@@ -814,5 +814,3 @@
 - **平台差异**：时间戳为毫秒 epoch，与平台无关。
 - **状态所有者**：无（「Interpret recorded observations; this module performs no writes」）。
 - **日志级别**：无日志。
-
-

@@ -13,4 +13,3 @@ export function admitAppendSummary(..._args: unknown[]): unknown {
 export function flushAppendSummaries(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-01");
 }
-

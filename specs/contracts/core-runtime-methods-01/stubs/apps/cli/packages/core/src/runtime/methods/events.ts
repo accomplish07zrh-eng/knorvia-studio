@@ -22,4 +22,3 @@ export function isSessionPersisted(..._args: unknown[]): unknown {
 export function notifyEventSinks(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-01");
 }
-

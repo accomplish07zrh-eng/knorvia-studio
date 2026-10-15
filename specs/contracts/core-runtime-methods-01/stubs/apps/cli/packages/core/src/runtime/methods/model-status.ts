@@ -13,4 +13,3 @@ export function createModelStatusSink(..._args: unknown[]): unknown {
 export function logModelNetworkStatus(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-01");
 }
-
