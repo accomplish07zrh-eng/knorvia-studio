@@ -163,6 +163,13 @@ async function buildProjectionGoldens() {
     requiresMfjsToolSchema: true,
   });
   writeFixture("projection/tools.json", toolSet);
+  writeFixture("projection/inputs.json", {
+    corpus,
+    inputFormat,
+    tools,
+    optionValues: { reasoningLevel: "high", maxOutputTokens: 4096 },
+    optionRequestBody: { model: "m", messages: [] },
+  });
 
   // 选项映射 fetch：改写后的请求体与捕获对象。
   const { compileModelOptionMaps } = await import(
@@ -198,7 +205,14 @@ async function buildProjectionGoldens() {
     sessionId: "sess_golden",
   });
   writeFixture("projection/anthropic-metadata.json", {
-    userIdShape: userId === undefined ? null : JSON.parse(userId),
+    userIdShape:
+      userId === undefined
+        ? null
+        : {
+            device_id: JSON.parse(userId).device_id ? "<non-empty-device-id>" : "",
+            account_uuid: JSON.parse(userId).account_uuid,
+            session_id: JSON.parse(userId).session_id,
+          },
     redacted: metadata.redactAnthropicRequestMetadata({
       user_id: "u",
       userId: "u2",

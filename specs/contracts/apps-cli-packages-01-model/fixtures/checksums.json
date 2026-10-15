@@ -5,8 +5,9 @@
     "projection/messages-openai-compatible.json": "d3e6d6a1510d6bf15355c5585ef5b0a5272154a9520873c2e674b6e7c93418c4",
     "projection/messages-strip-media.json": "0e75c4d01820c0fe3c85898b22ac66738e2a46d8c4b417884ade1d5f23212a6a",
     "projection/tools.json": "6fc3af5286e593cfef8445adbe1280184230e7c8e146f3def180dff23e515af3",
+    "projection/inputs.json": "a7b20265ea5adb7fd69325ff17387f830cb62301532dcba7d5e89a7060c09034",
     "projection/option-map-body.json": "27657cd4b060a22db4d7687c8bebc3b9af409e5653202aa24b2f20035d6f6e3b",
-    "projection/anthropic-metadata.json": "f0e6f3a6c5e7611f1e0de1b36773370860a130128ce351c5ac05155d35ccb511",
-    "model-io/written/golden-session.jsonl": "6591e2c6d7ff14cb08197bd2e0791fc47c45da16d3c15c5909d3a3d987ffaee6"
+    "projection/anthropic-metadata.json": "1abb8dc4783c6b61b5302e44ebef41e8e0ccee4a163e0dd62b34d21030ee9b9e",
+    "model-io/written/golden-session.jsonl": "0f179f59b16b7a31edb449aeb6c787561c07f178aae7e6ce7f391f7e888ae4d8"
   }
 }
