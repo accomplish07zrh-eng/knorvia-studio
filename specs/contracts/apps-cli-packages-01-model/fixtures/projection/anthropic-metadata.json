@@ -1,0 +1,21 @@
+{
+  "userIdShape": {
+    "device_id": "<non-empty-device-id>",
+    "account_uuid": "",
+    "session_id": "sess_golden"
+  },
+  "redacted": {
+    "user_id": "[REDACTED]",
+    "userId": "[REDACTED]",
+    "nested": {
+      "USERID": "[REDACTED]",
+      "keep": "v"
+    },
+    "list": [
+      {
+        "user": "x",
+        "uid_keep": 1
+      }
+    ]
+  }
+}

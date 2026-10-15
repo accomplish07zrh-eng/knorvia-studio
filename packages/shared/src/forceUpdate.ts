@@ -1,4 +1,7 @@
-import type { ForceUpdateConfig } from "./coding-plan-subscription.js";
+/** 远端配置里的强制升级要求；原定义在已删除的 coding-plan-subscription 残留模块中，随删除迁入唯一使用方。 */
+export interface ForceUpdateConfig {
+  minimalVersion: string;
+}
 
 export interface ForceUpdateRequirement {
   currentVersion: string;

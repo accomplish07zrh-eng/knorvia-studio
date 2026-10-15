@@ -21,46 +21,77 @@ const FOLLOW_POLL_MS = 500;
 const STATE_BYTES = 24;
 const STATE_ID_LENGTH = 16;
 
-export type McpInteractiveAuthorizationOutcome =
-  | { status: "authorized" }
-  | { status: "already-authorized" }
-  | { status: "pending"; authorizationUrl?: string }
-  | { status: "failed"; error: unknown };
+export type { McpInteractiveAuthorizationOutcome } from "./oauth-interactive-types.js";
 
-interface McpInteractiveAuthorizationInput {
-  adapterInstanceId?: string;
-  config: Extract<McpOAuthConfig, { type: "authorization_code" }>;
-  credentialStore: SharedKnorviaCredentialStore;
-  fetchFn?: FetchLike;
-  forceReauthorization?: boolean;
-  keyPrefix: string;
-  logger?: Logger;
-  onAuthorizationRequired?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
-  openAuthorizationUrl?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
-  requestedScope?: string;
-  resourceMetadataUrl?: URL;
-  serverName: string;
-  serverUrl: string;
-  signal?: AbortSignal;
-  transactionTtlMs?: number;
-}
+import type {
+  McpInteractiveAuthorizationInput,
+  McpInteractiveAuthorizationOutcome,
+} from "./oauth-interactive-types.js";
 
+// 基线代次：缺席表示调用方没有基线快照，判定语义与空串不同。
+type Generation = string | undefined;
+
+// 快照是否比基线更新：有令牌且 generation 前进过。
 function hasNewerCredentials(
   current: CanonicalCredentialSnapshot | undefined,
-  baselineGeneration: string | undefined,
+  baseline: Generation,
 ): boolean {
-  return Boolean(current?.tokens && current.generation !== baselineGeneration);
+  return Boolean(current?.tokens && current.generation !== baseline);
 }
 
-function outerLogContext(input: McpInteractiveAuthorizationInput, state?: string) {
-  return {
+/** 日志公共字段：一次算好，四处日志复用（字段名逐字保留）。 */
+function logFields(input: McpInteractiveAuthorizationInput, oauthState?: string) {
+  return /* 日志公共字段 */ {
     adapterInstanceId: input.adapterInstanceId,
     credentialKeyPrefix: input.keyPrefix,
     mcpServerName: input.serverName,
-    ...(state
-      ? { oauthStateId: createHash("sha256").update(state).digest("hex").slice(0, STATE_ID_LENGTH) }
-      : {}),
     processId: process.pid,
+    ...(oauthState
+      ? {
+          oauthStateId: createHash("sha256")
+            .update(oauthState)
+            .digest("hex")
+            .slice(0, STATE_ID_LENGTH),
+        }
+      : /* 无扩展 */ {}),
+  };
+}
+
+/** 统一日志出口：event/status 由调用点给出，其余字段按需附加。 */
+function emitLog(
+  input: McpInteractiveAuthorizationInput,
+  level: "info" | "warn",
+  event: string,
+  message: string,
+  status: "cancelled" | "completed" | "failed" | "started" | "waiting",
+  extra: Record<string, unknown> = {},
+  oauthState?: string,
+): void {
+  input.logger?.[level](message, { event, ...logFields(input, oauthState), status, ...extra });
+}
+
+/** SDK 鉴权选项：字段顺序固定为 serverUrl → code/iss → scope → resource → fetchFn → force。 */
+function sdkAuthOptions(
+  input: McpInteractiveAuthorizationInput,
+  extra: { authorizationCode?: string; iss?: string } = {},
+) {
+  /* 授权码按「存在即传」处理：空串也是合法回调值（缺失与空必须区分）。 */
+  const hasCode = extra.authorizationCode !== undefined;
+  return /* 构造返回值 */ {
+    serverUrl: input.serverUrl,
+    ...(hasCode ? { authorizationCode: extra.authorizationCode } : {}),
+    ...(extra.iss !== undefined && extra.iss !== "" ? { iss: extra.iss } : {}),
+    ...(input.requestedScope ? { scope: input.requestedScope } : /* 无扩展 */ {}),
+    ...(input.resourceMetadataUrl
+      ? { resourceMetadataUrl: input.resourceMetadataUrl }
+      : /* 无扩展 */ {}),
+    ...(input.fetchFn ? { fetchFn: input.fetchFn } : /* 无扩展 */ {}),
+    // forceReauthorization 只作用于首个授权请求；带授权码的交换腿不再携带。
+    ...(hasCode
+      ? {}
+      : input.forceReauthorization
+        ? { forceReauthorization: true }
+        : /* 无扩展 */ {}),
   };
 }
 
@@ -69,37 +100,55 @@ function waitForPoll(signal?: AbortSignal): Promise<void> {
   return new Promise((resolve) => {
     const onAbort = () => {
       clearTimeout(timer);
-      resolve();
+      resolve(/* 授权流程结束，兑现等待中的 promise */);
     };
     const timer = setTimeout(() => {
       signal?.removeEventListener("abort", onAbort);
-      resolve();
+      resolve(/* 授权流程结束，兑现等待中的 promise */);
     }, FOLLOW_POLL_MS);
     signal?.addEventListener("abort", onAbort, { once: true });
   });
 }
 
-async function followAuthorization(
+/** 单次轮询结果：done 表示本次等待可以结束（已有更新的凭据）。 */
+interface PollResult {
+  announcedUrl?: string;
+  done: boolean;
+}
+
+/** 单次轮询：先看凭据是否已被别的进程刷新，再看是否有待授权记录可展示。 */
+async function pollOnce(
+  input: McpInteractiveAuthorizationInput,
+  baselineGeneration: Generation,
+): Promise<PollResult> {
+  const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
+  if (hasNewerCredentials(current, baselineGeneration)) return { done: true };
+  const pending = await loadPendingAuthorization(input.credentialStore, input.keyPrefix);
+  return { done: false, ...(pending ? { announcedUrl: pending.authorizationUrl } : {}) };
+}
+
+async function /* 跟进授权：轮询等待用户在浏览器完成 */ followAuthorization(
   input: McpInteractiveAuthorizationInput,
   ttlMs: number,
-  baselineGeneration: string | undefined,
+  baselineGeneration: Generation,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const deadline = Date.now() + ttlMs;
-  let projectedUrl: string | undefined;
-  input.logger?.info("MCP OAuth authorization is already in progress elsewhere", {
-    event: "mcp.oauth.authorization.following",
-    ...outerLogContext(input),
-    status: "waiting",
-  });
+  let projectedUrl: /* 已向用户播报过的授权地址 */ string | undefined;
+  emitLog(
+    input,
+    "info",
+    "mcp.oauth.authorization.following",
+    "MCP OAuth authorization is already in progress elsewhere",
+    "waiting",
+  );
   while (Date.now() < deadline && !input.signal?.aborted) {
-    const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
-    if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
-    const pending = await loadPendingAuthorization(input.credentialStore, input.keyPrefix);
-    if (pending && pending.authorizationUrl !== projectedUrl) {
-      projectedUrl = pending.authorizationUrl;
+    const polled = await pollOnce(input, baselineGeneration);
+    if (polled.done) return { status: "already-authorized" };
+    if (polled.announcedUrl !== undefined && polled.announcedUrl !== projectedUrl) {
+      projectedUrl = polled.announcedUrl;
       await input.onAuthorizationRequired?.({
         authorizationUrl: projectedUrl,
-        redirectUrl: "",
+        redirectUrl: /* 初始为空 */ "",
         serverName: input.serverName,
       });
     }
@@ -108,11 +157,35 @@ async function followAuthorization(
   return { status: "pending", ...(projectedUrl ? { authorizationUrl: projectedUrl } : {}) };
 }
 
-async function leadAuthorization(
+/** 事务 provider 的直传字段：必填四项 + 仅在存在时传入的四项可选项。 */
+function passthroughFields(input: McpInteractiveAuthorizationInput) {
+  const required = {
+    config: input.config,
+    credentialStore: input.credentialStore,
+    keyPrefix: input.keyPrefix,
+    serverName: input.serverName,
+  };
+  const optional = {
+    ...(input.logger ? { logger: input.logger } : /* 无扩展 */ {}),
+    ...(input.onAuthorizationRequired
+      ? { onAuthorizationRequired: input.onAuthorizationRequired }
+      : /* 无扩展 */ {}),
+    ...(input.openAuthorizationUrl
+      ? { openAuthorizationUrl: input.openAuthorizationUrl }
+      : /* 无扩展 */ {}),
+    // 空串也是合法的作用域选择：只有缺席（undefined）才不透传。
+    ...(input.requestedScope !== undefined
+      ? { requestedScope: input.requestedScope }
+      : /* 无扩展 */ {}),
+  };
+  return { ...required, ...optional };
+}
+
+async function /* 主导授权：发起挑战并等待回调 */ leadAuthorization(
   input: McpInteractiveAuthorizationInput,
   attemptId: string,
   ttlMs: number,
-  baselineGeneration: string | undefined,
+  baselineGeneration: Generation,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const state = randomBytes(STATE_BYTES).toString("base64url");
   const fallbackPath = `/oauth/callback/mcp/${encodeURIComponent(input.serverName)}`;
@@ -123,42 +196,32 @@ async function leadAuthorization(
       ? customPath
       : `/${customPath}`;
   let callback: Awaited<ReturnType<typeof createLocalhostOAuthCallbackServer>>;
-  try {
+  try /* 本段可能抛错，收尾统一交给下方 finally */ {
     callback = await createLocalhostOAuthCallbackServer({ callbackPath, state });
   } catch (error) {
-    input.logger?.warn("MCP OAuth callback listener failed", {
-      event: "mcp.oauth.callback_listener.failed",
-      ...outerLogContext(input, state),
-      error: error instanceof Error ? error.message : String(error),
-      status: "failed",
-    });
+    emitLog(
+      input,
+      "warn",
+      "mcp.oauth.callback_listener.failed",
+      "MCP OAuth callback listener failed",
+      "failed",
+      { error: error instanceof Error ? error.message : String(error) },
+      /* 授权流程状态：仅用于日志关联 */ state,
+    );
     return { status: "failed", error };
   }
 
   // 保留构造阶段边界：事务 provider 成功创建后，才进入 callback 的关闭范围。
   const provider = createInteractiveTransactionProvider({
-    config: input.config,
-    credentialStore: input.credentialStore,
-    keyPrefix: input.keyPrefix,
-    logger: input.logger,
-    onAuthorizationRequired: input.onAuthorizationRequired,
-    openAuthorizationUrl: input.openAuthorizationUrl,
-    requestedScope: input.requestedScope,
-    serverName: input.serverName,
-    callback,
+    ...passthroughFields(input),
     attemptId,
     baselineGeneration,
+    callback,
+    /* 授权流程状态：仅用于日志关联 */ state,
     ttlMs,
-    state,
   });
-  try {
-    const result = await auth(provider, {
-      serverUrl: input.serverUrl,
-      ...(input.requestedScope ? { scope: input.requestedScope } : {}),
-      ...(input.resourceMetadataUrl ? { resourceMetadataUrl: input.resourceMetadataUrl } : {}),
-      ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
-      ...(input.forceReauthorization ? { forceReauthorization: true } : {}),
-    });
+  try /* 本段可能抛错，收尾统一交给下方 finally */ {
+    const result = await auth(provider, sdkAuthOptions(input));
     if (result === "AUTHORIZED") return { status: "authorized" };
     const response = await withTimeout(
       callback.waitForCallback(),
@@ -170,36 +233,42 @@ async function leadAuthorization(
     const authorizationCode = callbackUrl.searchParams.get("code") ?? response.code;
     const issuer = callbackUrl.searchParams.get("iss");
     // 交换及其 saveTokens 完成后才离开此范围，不用人机等待超时提前释放 lease。
-    await auth(provider, {
-      serverUrl: input.serverUrl,
-      authorizationCode,
-      ...(issuer ? { iss: issuer } : {}),
-      ...(input.requestedScope ? { scope: input.requestedScope } : {}),
-      ...(input.resourceMetadataUrl ? { resourceMetadataUrl: input.resourceMetadataUrl } : {}),
-      ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
-    });
-    input.logger?.info("MCP OAuth authorization completed", {
-      event: "mcp.oauth.authorization.completed",
-      ...outerLogContext(input, state),
-      status: "completed",
-    });
+    await auth(
+      provider,
+      sdkAuthOptions(input, {
+        /* 授权码：来自回调 query */ authorizationCode,
+        ...(issuer ? { iss: issuer } : /* 无扩展 */ {}),
+      }),
+    );
+    emitLog(
+      input,
+      "info",
+      "mcp.oauth.authorization.completed",
+      "MCP OAuth authorization completed",
+      "completed",
+      {},
+      /* 授权流程状态：仅用于日志关联 */ state,
+    );
     return { status: "authorized" };
   } catch (error) {
     const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
     if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
-    input.logger?.warn("MCP OAuth authorization failed", {
-      event: "mcp.oauth.authorization.failed",
-      ...outerLogContext(input, state),
-      error: error instanceof Error ? error.message : String(error),
-      status: "failed",
-    });
+    emitLog(
+      input,
+      "warn",
+      "mcp.oauth.authorization.failed",
+      "MCP OAuth authorization failed",
+      "failed",
+      { error: error instanceof Error ? error.message : String(error) },
+      /* 授权流程状态：仅用于日志关联 */ state,
+    );
     return { status: "failed", error };
-  } finally {
+  } finally /* 无论成败都要归还租约，避免泄漏 */ {
     await callback.close().catch(() => undefined);
   }
 }
 
-export async function runMcpInteractiveAuthorization(
+export async function /* 交互式授权入口 */ runMcpInteractiveAuthorization(
   input: McpInteractiveAuthorizationInput,
 ): Promise<McpInteractiveAuthorizationOutcome> {
   const ttlMs = input.transactionTtlMs ?? MCP_OAUTH_AUTHORIZATION_TRANSACTION_TTL_MS;
@@ -210,17 +279,29 @@ export async function runMcpInteractiveAuthorization(
     keyPrefix: input.keyPrefix,
   });
   if (!lease) return await followAuthorization(input, ttlMs, baselineGeneration);
-  try {
+  return await runWithAuthorizationLease(input, lease, ttlMs, baselineGeneration);
+}
+
+type AuthorizationLease = NonNullable<Awaited<ReturnType<typeof tryAcquireAuthorizationLease>>>;
+
+// 租约路径：拿到租约后重新读一次凭据（别人可能已授权），再走 lead 流程；
+// 无论成败都清理待授权记录并释放租约——清理失败只忽略返回 Promise 的拒绝，release 的拒绝保留优先级。
+async function runWithAuthorizationLease(
+  input: McpInteractiveAuthorizationInput,
+  lease: AuthorizationLease,
+  ttlMs: number,
+  baselineGeneration: Generation | undefined,
+): Promise<McpInteractiveAuthorizationOutcome> {
+  try /* 本段可能抛错，收尾统一交给下方 finally */ {
     const current = await loadCanonicalCredentials(input.credentialStore, input.keyPrefix);
     if (hasNewerCredentials(current, baselineGeneration)) return { status: "already-authorized" };
     return await leadAuthorization(input, lease.attemptId, ttlMs, baselineGeneration);
-  } finally {
-    // 仅忽略返回 Promise 的清理拒绝；同步调用失败及最终 release 拒绝仍保留优先级。
+  } finally /* 无论成败都要归还租约，避免泄漏 */ {
     await deletePendingAuthorizationIfOwned(
       input.credentialStore,
       input.keyPrefix,
-      lease.attemptId,
-    ).catch(() => undefined);
-    await lease.release();
+      /* 本次尝试标识：用于幂等归属判定 */ lease.attemptId,
+    ).catch(/* 清理失败不应影响主流程 */ () => undefined);
+    await lease.release(/* 幂等释放：重复调用无副作用 */);
   }
 }

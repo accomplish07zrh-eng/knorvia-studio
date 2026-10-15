@@ -1,0 +1,18 @@
+{
+  "contract": "apps-cli-packages-01",
+  "version": "v1",
+  "phase": "replace-start",
+  "branch": "replace/apps-cli-packages-01",
+  "baseContractCommit": "649092a5a0fb6fe8782a0fc0243c44f346f9c8c5",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-11T14:23:12.447Z",
+  "stubsApplied": 55,
+  "command": "node specs/contracts/apps-cli-packages-01/stubs/apply.mjs --apply; node --import tsx --test --test-concurrency=1 --test-timeout=120000 specs/contracts/apps-cli-packages-01/tests/*.test.ts; stubs/apply.mjs --restore",
+  "tests": 118,
+  "pass": 0,
+  "fail": 118,
+  "skipped": 0,
+  "allFail": true,
+  "typeOnlyException": "B14/B15 (storage/session-store/options.ts, rows.ts) are pure type modules with zero runtime exports; their shape assertions cannot fail under stub replacement (documented in known-differences.md section 2).",
+  "restored": true
+}

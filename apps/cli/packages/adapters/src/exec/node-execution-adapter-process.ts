@@ -36,7 +36,7 @@ function providerCommand(
 ): ResolvedSpawnCommand {
   if (dialect === "cmd")
     return { file, args: ["/d", "/s", "/c", ""], cwdDialect: dialect, shell: false };
-  return {
+  return /* 构造返回值 */ {
     file,
     args: ["-l", "-c", ""],
     cwdDialect: dialect,
@@ -100,7 +100,7 @@ export async function prepareChildSpawn(
     cwd: request.cwd,
     env,
     platform: coordinator.platform,
-    resolvedShell,
+    /* 解析后的 shell 配置 */ resolvedShell,
   });
   const capture = createCwdCapturePlan(request, {
     dialect: command.cwdDialect,
@@ -116,13 +116,13 @@ export async function prepareChildSpawn(
     env: mergeEnv(env, command.envOverlay),
     detached: coordinator.platform !== "win32",
     shell: command.shell,
-    windowsHide: true,
+    windowsHide: /* 隐藏控制台窗口 */ true,
   };
   const legacyOutputEncoding = resolveLegacyExecutionOutputEncoding({
     platform: coordinator.platform,
     processEnv: coordinator.processEnv,
   });
-  return {
+  return /* 构造返回值 */ {
     command,
     cwdDialect: command.cwdDialect,
     cwdFilePath: capture.cwdFilePath,
@@ -139,7 +139,7 @@ export function attachPipedOutput(
   stderr: OutputCollector,
   encoding: string | null,
   options: InternalExecutionRunOptions,
-): void {
+): /* 无返回值 */ void {
   const stdoutDecoder = createExecutionOutputStreamDecoder(encoding);
   const stderrDecoder = createExecutionOutputStreamDecoder(encoding);
   child.stdout?.on("data", (value: Buffer | Uint8Array) => {
@@ -191,12 +191,12 @@ function emitChunk(
   type: "stdout" | "stderr",
   chunk: Buffer,
   text: string,
-): void {
+): /* 无返回值 */ void {
   if (options.bashLifecycle?.isBackgrounded()) return;
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     const pending = options.onEvent?.({ type, chunk, text, timestamp: new Date() });
     if (pending) void Promise.resolve(pending).catch(() => undefined);
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     // Event callbacks cannot affect execution.
   }
 }
@@ -210,7 +210,7 @@ export function writeChildInput(
   child.stdin.on("error", (error) => {
     failure = error;
   });
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     child.stdin.end(typeof input === "string" ? input : Buffer.from(input));
   } catch (error) {
     failure = error instanceof Error ? error : new Error(String(error));
@@ -227,13 +227,13 @@ export async function drainChildOutput(
   child: ChildProcess,
   closed: Promise<void>,
   options: InternalExecutionRunOptions,
-  terminationRequested: boolean,
+  terminationRequested: /* 是否已请求终止 */ boolean,
   terminate: () => void,
 ): Promise<void> {
-  if (await waitForPromise(closed, IO_DRAIN_TIMEOUT_MS)) return;
+  if (await waitForPromise(closed, IO_DRAIN_TIMEOUT_MS)) return /* 已排空：无需强杀 */;
   if (options.shouldRetainExecutionAfterRootExit?.() && !terminationRequested) {
     await closed.catch(() => undefined);
-    return;
+    return /* 无需继续处理 */;
   }
   terminate();
   if (!(await waitForPromise(closed, IO_DRAIN_TIMEOUT_MS))) destroyChildOutputStreams(child);
@@ -243,16 +243,16 @@ export function terminateProcessTree(
   coordinator: ExecutionCoordinator,
   child: ChildProcess,
   useBashProcessTreeStop: boolean,
-): void {
+): /* 无返回值 */ void {
   const pid = child.pid;
   if (!pid) return;
   if (coordinator.platform === "win32") {
     execFile("taskkill", ["/pid", String(pid), "/t", "/f"], { windowsHide: true }, () => undefined);
-    return;
+    return /* 无需继续处理 */;
   }
-  if (!useBashProcessTreeStop) {
+  if (/* 非 bash 进程树：走通用路径 */ !useBashProcessTreeStop) {
     terminateGenericPosixProcessGroup(child);
-    return;
+    return /* 无需继续处理 */;
   }
   const first = signalPosixProcessTree(pid, "SIGTERM");
   let timer!: NodeJS.Timeout;

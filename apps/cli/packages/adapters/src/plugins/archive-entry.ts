@@ -5,14 +5,14 @@ import { isAbsolute, relative, resolve } from "node:path";
 import type { Entry } from "yauzl";
 
 export class ArchiveGitRequiredError extends Error {
-  constructor(message: string) {
+  constructor(message: /* ZIP 条目非法时的诊断文案 */ string) {
     super(message);
     this.name = "ArchiveGitRequiredError";
   }
 }
 
 export function inspectArchiveEntry(
-  root: string,
+  root: /* 解压目标根目录 */ string,
   entry: Entry,
 ): {
   path: string;

@@ -1,2 +1,2 @@
-// Provider adapters - model integrations
+// Provider 适配层占位：模型集成实现位于本目录，当前对外没有导出。
 export {};

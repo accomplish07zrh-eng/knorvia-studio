@@ -19,32 +19,34 @@ import {
   type ResolvedZipPluginSourceRoot,
 } from "./zip-source.js";
 
+const GIT_FALLBACK_REASON_PREFIX = "GitHub Archive requires system Git fallback";
+
 class GitRequired extends Error {
-  constructor(reason: string) {
-    super(`GitHub Archive requires system Git fallback: ${reason}`);
-    this.name = "GitHubArchiveRequiresGitError";
+  constructor(reason: /* 触发回退的原因 */ string) {
+    super(`${GIT_FALLBACK_REASON_PREFIX}: ${reason}`);
+    this.name = /* 稳定错误名（测试与调用方按名匹配） */ "GitHubArchiveRequiresGitError";
   }
 }
 
 function githubCoordinates(value: string): { owner: string; repository: string } {
-  let url: URL;
+  let parsed: URL;
   try {
-    url = new URL(value);
+    parsed = new URL(value);
   } catch {
     throw new GitRequired(
       `source is not a public GitHub HTTPS repository: ${redactSourceReference(value)}`,
     );
   }
-  const coordinates = /^\/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\/?$/u.exec(url.pathname);
+  const coordinates = /^\/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\/?$/u.exec(parsed.pathname);
   const owner = coordinates?.[1];
   const repository = coordinates?.[2]?.replace(/\.git$/u, "");
   if (
-    url.protocol !== "https:" ||
-    (url.hostname !== "github.com" && url.hostname !== "www.github.com") ||
-    url.username ||
-    url.password ||
-    url.search ||
-    url.hash ||
+    parsed.protocol !== "https:" ||
+    (parsed.hostname !== "github.com" && parsed.hostname !== "www.github.com") ||
+    parsed.username ||
+    parsed.password ||
+    parsed.search ||
+    parsed.hash ||
     !owner ||
     !repository ||
     !/^[a-zA-Z0-9_.-]+$/u.test(owner) ||
@@ -62,9 +64,9 @@ async function directoryUsesLfs(directory: string, signal?: AbortSignal): Promis
   let content: string;
   try {
     content = await readFile(join(directory, ".gitattributes"), "utf8");
-  } catch (error) {
-    if (isNotFoundError(error)) return false;
-    throw error;
+  } catch (failure) {
+    if (isNotFoundError(failure)) return false;
+    throw failure;
   }
   return /(?:^|\s)filter=lfs(?:\s|$)/u.test(content);
 }
@@ -78,12 +80,12 @@ async function subtreeUsesLfs(root: string, signal?: AbortSignal): Promise<boole
       if (entry.isDirectory()) pending.push(join(directory, entry.name));
     }
   }
-  return false;
+  return /* 遍历完未见 LFS 过滤器 */ false;
 }
 
 async function requireArchiveSemantics(
-  repositoryRoot: string,
-  selectedRoot: string,
+  /* 含 .git 的仓库根 */ repositoryRoot: string,
+  /* 解包后选中的插件根 */ selectedRoot: string,
   signal?: AbortSignal,
 ): Promise<void> {
   assertAtomicNotAborted(signal);
@@ -96,35 +98,33 @@ async function requireArchiveSemantics(
   }
   if (await directoryUsesLfs(repositoryRoot, signal))
     throw new GitRequired("repository declares Git LFS filters");
-  for (
-    let parent = dirname(selectedRoot);
-    resolve(parent) !== resolve(repositoryRoot);
-    parent = dirname(parent)
-  ) {
+  let parent = dirname(selectedRoot);
+  while (resolve(parent) !== resolve(repositoryRoot)) {
     if (await directoryUsesLfs(parent, signal))
       throw new GitRequired("selected plugin path inherits Git LFS filters");
+    parent = dirname(parent);
   }
   if (await subtreeUsesLfs(selectedRoot, signal))
     throw new GitRequired("selected plugin path declares Git LFS filters");
 }
 
 export async function resolveGitHubArchiveSource(input: {
-  path?: string;
-  pin?: string;
-  signal?: AbortSignal;
-  url: string;
+  /* 仓库内相对插件子目录 */ path?: string;
+  /* 分支/标签/提交 */ pin?: string;
+  /* 取消信号 */ signal?: AbortSignal;
+  /* 公开仓库 HTTPS 地址 */ url: string;
 }): Promise<ResolvedZipPluginSourceRoot> {
   assertAtomicNotAborted(input.signal);
   const { owner, repository } = githubCoordinates(input.url);
   const pin = input.pin?.trim() || "HEAD";
   const source = await resolveHttpZipSource({
     url: `https://api.github.com/repos/${owner}/${repository}/zipball/${encodeURIComponent(pin)}`,
-    headers: {
-      Accept: "application/vnd.github+json",
+    headers: /* 版本协商与客户端标识 */ {
+      Accept: /* GitHub REST 媒体类型 */ "application/vnd.github+json",
       "User-Agent": "Knorvia Studio-Plugin-Installer",
     },
-    requireSingleRoot: true,
-    stripRoot: true,
+    requireSingleRoot: /* 归档只允许单一顶层目录 */ true,
+    stripRoot: /* 解包时剥掉顶层目录 */ true,
     ...(input.signal ? { signal: input.signal } : {}),
   });
   try {
@@ -135,9 +135,9 @@ export async function resolveGitHubArchiveSource(input: {
     await requireArchiveSemantics(source.path, selected, input.signal);
     assertAtomicNotAborted(input.signal);
     return { path: selected, cleanup: source.cleanup };
-  } catch (error) {
+  } catch (failure) {
     throw appendPluginSourceCleanupError(
-      error,
+      failure,
       await cleanupPluginSourceBestEffort(source.cleanup),
     );
   }

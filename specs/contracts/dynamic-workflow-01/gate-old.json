@@ -1,0 +1,47 @@
+{
+  "contract": "dynamic-workflow-01",
+  "commit": "3d1499bac4adcb4440c9a6c175b2caa6c468d011",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-15T01:24:57.545Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/dynamic-workflow-01/tests/analysis.test.mjs",
+    "specs/contracts/dynamic-workflow-01/tests/golden.test.mjs",
+    "specs/contracts/dynamic-workflow-01/tests/surface.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 39,
+      "pass": 39,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ golden 回放（source 入口）：settle 族 5 例 (190.1972ms)\n✔ golden 回放（source 入口）：taint 族 19 例 (754.5988ms)\n✔ golden 回放（source 入口）：world 族 26 例 (971.177ms)\n✔ B18 模块路径兼容面：55 个范围文件存在（source） (7.358ms)\n✔ B19 dist 入口模式下 55 个产物存在（source） (0.1679ms)\n✔ B20 桩面：stubs/ 与 53 个重写目标一一对应且只含签名 (7.2834ms)\nℹ tests 39\nℹ suites 0\nℹ pass 39\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 17786.1311"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 39,
+      "pass": 39,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ golden 回放（dist 入口）：settle 族 5 例 (163.0121ms)\n✔ golden 回放（dist 入口）：taint 族 19 例 (698.0135ms)\n✔ golden 回放（dist 入口）：world 族 26 例 (990.3256ms)\n✔ B18 模块路径兼容面：55 个范围文件存在（dist） (7.5641ms)\n✔ B19 dist 入口模式下 55 个产物存在（dist） (15.0574ms)\n✔ B20 桩面：stubs/ 与 53 个重写目标一一对应且只含签名 (8.7688ms)\nℹ tests 39\nℹ suites 0\nℹ pass 39\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16470.874",
+      "environment": {
+        "KNORVIA_DW01_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 53,
+    "tests": 3,
+    "pass": 0,
+    "fail": 3,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "\n✖ failing tests:\n\ntest at specs\\contracts\\dynamic-workflow-01\\tests\\analysis.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-dw\\specs\\contracts\\dynamic-workflow-01\\tests\\analysis.test.mjs (1709.8012ms)\n  'test failed'\n\ntest at specs\\contracts\\dynamic-workflow-01\\tests\\golden.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-dw\\specs\\contracts\\dynamic-workflow-01\\tests\\golden.test.mjs (1200.0848ms)\n  'test failed'\n\ntest at specs\\contracts\\dynamic-workflow-01\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-5-dw\\specs\\contracts\\dynamic-workflow-01\\tests\\surface.test.mjs (1312.3589ms)\n  'test failed'"
+  },
+  "pass": true
+}

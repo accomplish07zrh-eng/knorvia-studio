@@ -1,0 +1,384 @@
+{
+  "family": "errors",
+  "samples": [
+    {
+      "id": "errors/type-mismatch",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2322,
+          "column": 7,
+          "line": 1,
+          "message": "Type 'string' is not assignable to type 'number'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/unknown-identifier",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2304,
+          "column": 8,
+          "line": 1,
+          "message": "Cannot find name 'missingFunction'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/wrong-arg-type",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2345,
+          "column": 42,
+          "line": 1,
+          "message": "Argument of type 'number' is not assignable to parameter of type 'string'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/syntax-error",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1005,
+          "column": 20,
+          "line": 1,
+          "message": "')' expected."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/declare-modifier",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1184,
+          "column": 1,
+          "line": 1,
+          "message": "The `declare` modifier is not allowed in a workflow script: the script is compiled inside a function body, where ambient declarations are illegal. Remove `declare` and write a plain declaration (e.g. `interface Foo { ... }`)."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/export-modifier",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1184,
+          "column": 1,
+          "line": 1,
+          "message": "`export` is not allowed in a workflow script: the script is compiled inside a function body. Remove `export` — the workflow's output is its final `return` value."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/await-non-thenable",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "declaredArtifacts": [],
+      "core": "region seq#1 seq entered\njump return seq#1 in=seq#1 phase=unphased\n",
+      "causality": "\n",
+      "flow": "edge entry -> sink jump via=return\n",
+      "handoff": "\n",
+      "site": "node source\nnode sink\n",
+      "actor": "\n"
+    },
+    {
+      "id": "errors/duplicate-const",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9005,
+          "column": 34,
+          "line": 1,
+          "message": "two actors are named \"a\" (the first is on line 1): an actor name must be unique within a run. The name is the identity key an amended re-run matches its imported cache against, and any run can become the predecessor of one, so a repeated name makes that match ambiguous. Give this one its own name, or drop the name entirely — anonymous actors are legal (they just never reuse cached work)."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/missing-interface-body",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1005,
+          "column": 18,
+          "line": 1,
+          "message": "'{' expected."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/process-ambient-missing",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2591,
+          "column": 12,
+          "line": 1,
+          "message": "Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/require-missing",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2591,
+          "column": 12,
+          "line": 1,
+          "message": "Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/fetch-ambient-missing",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2304,
+          "column": 17,
+          "line": 1,
+          "message": "Cannot find name 'fetch'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/misuse-and-type-error",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2322,
+          "column": 36,
+          "line": 1,
+          "message": "Type 'string' is not assignable to type 'number'."
+        },
+        {
+          "code": 2345,
+          "column": 71,
+          "line": 1,
+          "message": "Argument of type 'number' is not assignable to parameter of type 'string'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/assign-string-to-number",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2322,
+          "column": 65,
+          "line": 1,
+          "message": "Type 'string' is not assignable to type 'number'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/missing-interface-property",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2339,
+          "column": 95,
+          "line": 1,
+          "message": "Property 'missing' does not exist on type 'P'."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/call-non-function",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2349,
+          "column": 49,
+          "line": 1,
+          "message": "This expression is not callable.\n  Type 'Number' has no call signatures."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/assign-to-const",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2588,
+          "column": 51,
+          "line": 1,
+          "message": "Cannot assign to 'x' because it is a constant."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/wrong-generic-arity",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2558,
+          "column": 45,
+          "line": 1,
+          "message": "Expected 0-1 type arguments, but got 2."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    },
+    {
+      "id": "errors/missing-return-annotated",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2355,
+          "column": 21,
+          "line": 1,
+          "message": "A function whose declared type is neither 'undefined', 'void', nor 'any' must return a value."
+        }
+      ],
+      "declaredArtifacts": [],
+      "core": null,
+      "causality": null,
+      "flow": null,
+      "handoff": null,
+      "site": null,
+      "actor": null
+    }
+  ]
+}

@@ -31,7 +31,7 @@ interface HttpZipSourceInput {
   sha256?: string;
   signal?: AbortSignal;
   stripRoot?: boolean;
-  url: string;
+  url: /* 下载地址 */ string;
 }
 
 const pluginDirectories = [".knorvia-plugin", ".claude-plugin", ".codex-plugin"];
@@ -82,7 +82,7 @@ export async function resolveHttpZipSource(
   });
   const { response } = downloaded;
   if (response.status < 200 || response.status >= 300) {
-    throw new PluginZipDownloadError(
+    throw /* 下载失败：带 URL 与状态码抛出 */ new PluginZipDownloadError(
       `Plugin ZIP download failed with HTTP ${response.status}`,
       downloaded.url,
       response.status,
@@ -96,7 +96,7 @@ export async function resolveHttpZipSource(
   const cleanup = async () => {
     await rm(scratch, { recursive: true, force: true });
   };
-  try {
+  try /* 解压/落盘可能失败：统一附加清理信息 */ {
     const archive = join(scratch, "source.zip");
     const root = join(scratch, "contents");
     await writeFile(archive, response.body);
@@ -113,23 +113,26 @@ export async function resolveHttpZipSource(
   }
 }
 
-export async function resolveZipPluginSource(
+export async function /* 解析 zip 插件源（必须带 sha256） */ resolveZipPluginSource(
   input: Omit<HttpZipSourceInput, "requireSingleRoot" | "sha256"> & {
-    sha256: string;
+    sha256: /* 期望摘要（64 位十六进制） */ string;
   },
 ): Promise<ResolvedZipPluginSourceRoot> {
   requireDigest(input.sha256);
   return resolveHttpZipSource(input);
 }
 
-export function isZipPluginUrlSource(source: unknown): source is {
-  source: "url";
-  type: "zip";
-  sha256: string;
-  url: string;
-} {
+/* zip URL 源的判定形状：四要素齐备才接受 */
+interface ZipUrlSourceShape {
+  /* 来源类别固定为 url */ source: "url";
+  /* 载荷类型固定为 zip */ type: "zip";
+  /* 期望摘要（64 位十六进制） */ sha256: string;
+  /* 下载地址 */ url: string;
+}
+
+export function isZipPluginUrlSource(source: unknown): source is ZipUrlSourceShape {
   return (
-    isRecord(source) &&
+    /* 四项齐备才算 zip URL 源 */ isRecord(source) &&
     source.source === "url" &&
     source.type === "zip" &&
     typeof source.url === "string" &&
@@ -137,6 +140,8 @@ export function isZipPluginUrlSource(source: unknown): source is {
   );
 }
 
-export function readZipPluginSourceSha256(source: unknown): string | undefined {
+export function /* 读取 zip 源摘要 */ readZipPluginSourceSha256(
+  source: unknown,
+): /* 摘要或 undefined */ string | undefined {
   return isZipPluginUrlSource(source) ? source.sha256 : undefined;
 }
