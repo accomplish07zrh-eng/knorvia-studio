@@ -64,8 +64,10 @@ export async function resolveWorkspaceHookTrustStorePath(
   options: WorkspaceHookTrustStorePathOptions = {},
 ): Promise<string> {
   const { homeDir, userConfigPath } = options;
+  // 空串的 homeDir：私有根按「未提供」回落到产品数据根，而相对配置仍以当前目录为家。
+  const hasHomeOption = homeDir !== undefined && homeDir.length > 0;
   const home = resolve(homeDir ?? homedir());
-  const privateRoot = privateRootFor(home, homeDir !== undefined);
+  const privateRoot = privateRootFor(home, hasHomeOption);
   const configPath = resolve(userConfigPath ?? join(privateRoot, CLI_DIR_NAME, CONFIG_FILE_NAME));
   const config = await readConfig(configPath);
   const configured = rootForConfigured(

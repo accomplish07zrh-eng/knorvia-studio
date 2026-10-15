@@ -18,17 +18,16 @@ import type { CreateMcpOAuthTokenProviderInput } from "./oauth-provider-types.js
 
 type McpAuthorizationCodeOAuthConfig = Extract<McpOAuthConfig, { type: "authorization_code" }>;
 
-/** 刷新入参：创建时捕获一次，可空字段只在有值时出现。 */
+/** 刷新入参：创建时捕获一次；字段按「存储 → fetch → 前缀 → 日志 → 服务 → 配置」逐个读取。 */
 function refreshInputsFor(request: CreateMcpOAuthTokenProviderInput) {
-  const { config, credentialStore, fetchFn, keyPrefix, logger, serverName, serverUrl } = request;
   return {
-    credentialStore,
-    keyPrefix,
-    serverName,
-    serverUrl,
-    ...(fetchFn ? { fetchFn } : {}),
-    ...(logger ? { logger } : {}),
-    ...(config.clientId ? { staticClientId: config.clientId } : {}),
+    credentialStore: request.credentialStore,
+    ...(request.fetchFn ? { fetchFn: request.fetchFn } : {}),
+    keyPrefix: request.keyPrefix,
+    ...(request.logger ? { logger: request.logger } : {}),
+    serverName: request.serverName,
+    serverUrl: request.serverUrl,
+    ...(request.config.clientId ? { staticClientId: request.config.clientId } : {}),
   };
 }
 

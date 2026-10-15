@@ -42,15 +42,15 @@ export async function queryTaskUsage(
     .all(request.sessionID);
   const result: TaskUsageQueryResult = {
     sessionID: request.sessionID,
-    inputBaselineBySource: {},
-    modelErrorCount: 0,
-    modelRequestCount: 0,
-    cacheReadTokens: 0,
-    cacheCreationTokens: 0,
-    reasoningTokens: 0,
-    outputTokens: 0,
-    inputTokens: 0,
     totalTokens: 0,
+    inputTokens: 0,
+    outputTokens: 0,
+    reasoningTokens: 0,
+    cacheCreationTokens: 0,
+    cacheReadTokens: 0,
+    modelRequestCount: 0,
+    modelErrorCount: 0,
+    inputBaselineBySource: {},
   };
   for (const record of records) {
     const total = Number(record.provider_total_tokens ?? record.computed_total_tokens ?? 0);

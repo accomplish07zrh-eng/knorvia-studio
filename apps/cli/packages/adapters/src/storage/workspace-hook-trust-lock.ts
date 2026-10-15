@@ -50,7 +50,13 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function readOwner(lockPath: string): Promise<Owner | null> {
   return readFile(lockPath, "utf8").then(
     (raw) => {
-      const decoded: unknown = JSON.parse(raw);
+      // 锁文件可能是坏内容：坏 JSON 一律按「无主」处理，交给陈旧回收判定。
+      let decoded: unknown;
+      try {
+        decoded = JSON.parse(raw);
+      } catch {
+        return null;
+      }
       if (!isRecord(decoded)) return null;
       const { pid, token, startTime, startTimeBasis } = decoded;
       if (typeof pid !== "number" || typeof token !== "string") return null;

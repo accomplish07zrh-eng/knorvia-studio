@@ -56,7 +56,15 @@ export function decodeInputPayload(encoded: string): SessionInputRecord["payload
   if (!isInputDocument(parsed)) return { ...EMPTY_PAYLOAD };
   const payload = {} as SessionInputRecord["payload"];
   payload.text = "";
-  Object.assign(payload, parsed);
+  // 逐键定义复制：`__proto__` 这类键必须成为自有属性，而不是走原型 setter。
+  for (const key of Object.keys(parsed)) {
+    Object.defineProperty(payload, key, {
+      configurable: true,
+      enumerable: true,
+      value: (parsed as Record<string, unknown>)[key],
+      writable: true,
+    });
+  }
   return payload;
 }
 

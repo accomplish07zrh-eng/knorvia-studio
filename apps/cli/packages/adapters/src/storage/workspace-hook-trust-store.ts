@@ -189,7 +189,15 @@ export class FileWorkspaceHookTrustStore {
     usedAt?: string;
   }): Promise<WorkspaceHookTrustStoreFile> {
     const usedAt = input.usedAt ?? new Date(this.#clock()).toISOString();
-    return this.#mutate((records) => applyTouch(records, input, usedAt));
+    // 摘要列表在调用时快照；工作区身份允许晚读（归属可能在等待期间才确定）。
+    const digests = [...input.hookDeclarationDigests];
+    return this.#mutate((records) =>
+      applyTouch(
+        records,
+        { workspaceIdentity: input.workspaceIdentity, hookDeclarationDigests: digests },
+        usedAt,
+      ),
+    );
   }
 
   compact(settings: WorkspaceHookTrustStoreCompactOptions): Promise<WorkspaceHookTrustStoreFile> {
