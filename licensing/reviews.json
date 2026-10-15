@@ -138570,7 +138570,7 @@
     },
     {
       "path": "docs/knorvia-shared-02-acceptance.md",
-      "normalizedSha256": "a51a9ba8b3d28dcc4d111f9da4d730e13e1a68ac6664d8579b842f79e0315098",
+      "normalizedSha256": "435d9263a524b89c0f3e58756fd3e490b216c1930615d9c874657d1600344421",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. acceptance.md records per-file similarity gate readings; platform-service.ts is a rewritten domain module of the split platform contract. Old gate 81/81 both entries.",

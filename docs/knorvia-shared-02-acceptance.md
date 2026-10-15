@@ -97,8 +97,24 @@
   全局改名伤 `value` 字段键（grep 审计发现并修回）、fmt 挪 `foo?(` 后注释（改放闭合行尾）。
 - test-ids-workflow 一条导出被注释折叠吞并（B48/B49 断言抓）→ 修复后 81/81。
 - z.enum 字面量联合装载时先误用字符联合类型 → 改类型别名保字面量联合（tsc + 快照断言双确认）。
+- **CI 抓获键序回归（Linux run 38716410281）**：`getCapturedKnorviaCuaBrokerCredentials()` 空态回退对象的键序被改成 `[pluginAuthority, socket]`，被 `packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs` 的 `Object.keys` 断言（期望 `[socket, pluginAuthority]`）抓获——键序是可观察契约（deepEqual 不查、Object.keys/JSON 快照查）。修实现对齐旧实现：回退对象恢复声明序，`normalizeUnknownError` 两个返回点同理恢复 `{ message, code }` 序；复跑 packages/shared 自有套件 **789/789**。
 
-## 5. 未覆盖 / 说明
+## 5. 门禁输出（SHA 4ec720de，CI run 38721494946：linux/quality + windows/quality 全绿）
+
+| 检查                                             | 结论                                           |
+| ------------------------------------------------ | ---------------------------------------------- |
+| typecheck（含 desktop main）                     | success                                        |
+| lint                                             | success                                        |
+| fmt:check                                        | success                                        |
+| architecture:check（全量）                       | success                                        |
+| build:cli-packages（cua driver 离线暂存）        | success                                        |
+| provenance:check                                 | success（reviewProblems=0、missingReviews=[]） |
+| test:studio（Offline Studio regression，双平台） | success                                        |
+| 契约两入口                                       | 81/81 × 2                                      |
+| verify-replace                                   | 7/7                                            |
+| knip                                             | 无新增未使用文件/导出（存量条目与 main 一致）  |
+
+## 6. 未覆盖 / 说明
 
 - 计分降级的 6 个文件（表中加粗）按裁决标注理由，两门实测均在案。
 - `platform.ts` 拆分产生的 `internal-s02/*` 四件登记 `original`（basis 见 `licensing/reviews.json`）。
