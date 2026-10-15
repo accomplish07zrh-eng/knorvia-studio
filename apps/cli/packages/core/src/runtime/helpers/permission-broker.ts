@@ -1,25 +1,6 @@
-import type {
-  PermissionBrokerPort,
-  PermissionBrokerRequest,
-  PermissionBrokerResult,
-} from "../deps.js";
+// SPDX-License-Identifier: Apache-2.0
+// 权限 broker 能力判定的兼容面（B14）：实现见 ./permission/capability-guards.js。
+import * as guards from "./permission/capability-guards.js";
 
-interface ResolvablePermissionBroker extends PermissionBrokerPort {
-  resolvePermission(requestIdOrToolCallId: string, result: PermissionBrokerResult): boolean;
-}
-
-interface InspectablePermissionBroker extends PermissionBrokerPort {
-  listPendingRequests(): PermissionBrokerRequest[];
-}
-
-export function isResolvablePermissionBroker(
-  broker: PermissionBrokerPort,
-): broker is ResolvablePermissionBroker {
-  return typeof (broker as Partial<ResolvablePermissionBroker>).resolvePermission === "function";
-}
-
-export function isInspectablePermissionBroker(
-  broker: PermissionBrokerPort,
-): broker is InspectablePermissionBroker {
-  return typeof (broker as Partial<InspectablePermissionBroker>).listPendingRequests === "function";
-}
+export const isResolvablePermissionBroker = guards.isResolvablePermissionBroker;
+export const isInspectablePermissionBroker = guards.isInspectablePermissionBroker;

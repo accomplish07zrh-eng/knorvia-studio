@@ -1,0 +1,14 @@
+{
+  "echoedBody": {
+    "model": "m",
+    "messages": [],
+    "reasoning_effort": "high",
+    "max_tokens": 4096
+  },
+  "captureBody": {
+    "model": "m",
+    "messages": [],
+    "reasoning_effort": "high",
+    "max_tokens": 4096
+  }
+}

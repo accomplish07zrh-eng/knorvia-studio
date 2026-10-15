@@ -1,200 +1,163 @@
-import type {
-  BashOutput,
-  ExecutionResult,
-  FileSystemStatResult,
-  TraceContext,
-} from "@knorvia/contracts";
-import { relative } from "node:path";
+// SPDX-License-Identifier: Apache-2.0
+// bash 的 read-state 效果：命令完成后做两件事——① 命令带写嫌疑且已读文件被改动时，
+// 给输出加「先 Read 再编辑」的过期提示；② 模型用 cat/head/tail/sed 直读过的文件，
+// 把可见内容回填进 read-state，维持 read-before-write 语义。
+import type { BashOutput, ExecutionResult } from "@knorvia/contracts";
 import { resolveWorkspacePath } from "../path-policy.js";
 import {
   createReadFileStateKey,
   findLatestReadFileState,
   normalizeReadFileStateMtimeMs,
 } from "../read-file-state.js";
-import type { ReadFileStateEntry, ToolExecutionContext } from "../types.js";
+import type { ToolExecutionContext } from "../types.js";
+import {
+  buildReadStateRecord,
+  buildStateTrace,
+  composeStaleHint,
+  effectsBlocked,
+  statMtimeValue,
+} from "./bash-exec/read-state-effects-util.js";
 import { collectBashReadFileSources, selectReadContent } from "./bash-read-file-sources.js";
-import { isBashProviderErrorStatus } from "./bash-semantics.js";
 
-const MAX_BASH_READ_STATE_FILE_BYTES = 10 * 1024 * 1024;
-const MAX_STALE_HINT_DISPLAY_PATHS = 5;
-const WRITE_COMMAND_MARKERS = new RegExp(
-  [
-    "--write",
-    "--fix",
-    "--in-place",
-    "--auto-correct",
-    "\\brun\\s+format\\b",
-    "\\brun\\s+fix\\b",
-    "\\b(yarn|pnpm)\\s+format\\b",
-    "\\blint:file\\b",
-    "\\blint:fix\\b",
-    "\\bblack\\b",
-    "\\bisort\\b",
-    "\\bruff\\s+format\\b",
-    "\\bcargo\\s+(fmt|fix)\\b",
-    "\\brustfmt\\b",
-    "\\bgo\\s+fmt\\b",
-    "\\bterraform\\s+fmt\\b",
-    "\\bdprint\\s+fmt\\b",
-    "\\bswiftformat\\b",
-    "\\bphpcbf\\b",
-  ].join("|"),
+type BashDiskPort = NonNullable<ToolExecutionContext["fileSystemPort"]>;
+type BashReadStateRegistry = NonNullable<ToolExecutionContext["readFileState"]>;
+
+const BACKFILL_SIZE_CEILING_BYTES = 10 * 1024 * 1024;
+// 写嫌疑标记：原地改写旗标与常见格式化/修复型脚本动作（依据各工具公开文档）。
+const WRITE_SUSPICION_MARKERS = new RegExp(
+  (
+    "--write --fix --in-place --auto-correct \\brun\\s+format\\b \\b(yarn|pnpm)\\s+format\\b " +
+    "\\brun\\s+fix\\b \\blint:file\\b \\blint:fix\\b \\bblack\\b \\bisort\\b \\bruff\\s+format\\b " +
+    "\\bcargo\\s+(fmt|fix)\\b \\brustfmt\\b \\bgo\\s+fmt\\b \\bterraform\\s+fmt\\b \\bdprint\\s+fmt\\b " +
+    "\\bswiftformat\\b \\bphpcbf\\b"
+  )
+    .split(" ")
+    .join("|"),
 );
 
 interface BashReadFileStateEffectsInput {
-  command: string;
-  context: ToolExecutionContext;
   output: BashOutput;
   result: ExecutionResult;
+  command: string;
+  context: ToolExecutionContext;
 }
 
 export async function applyBashReadFileStateEffects(
-  input: BashReadFileStateEffectsInput,
+  effects: BashReadFileStateEffectsInput,
 ): Promise<void> {
-  const staleHint = await createStaleReadFileStateHint(input);
-  if (staleHint) input.output.staleReadFileStateHint = staleHint;
-  await backfillReadFileStateFromBash(input);
+  const staleHint = await detectStaleReadHint(effects);
+  if (staleHint) effects.output.staleReadFileStateHint = staleHint;
+  await backfillFromObservedReads(effects);
 }
 
-async function createStaleReadFileStateHint(
-  input: BashReadFileStateEffectsInput,
+// 过期提示：写嫌疑命令跑完后，逐个 stat 已读文件——比命令开始时间新且比记录新即视为被改。
+async function detectStaleReadHint(
+  effects: BashReadFileStateEffectsInput,
 ): Promise<string | undefined> {
-  if (shouldSkipBashReadFileStateEffects(input.output)) return undefined;
-  if (!WRITE_COMMAND_MARKERS.test(input.command)) return undefined;
-  const fileSystemPort = input.context.fileSystemPort;
-  const readFileState = input.context.readFileState;
-  if (!fileSystemPort || !readFileState) return undefined;
+  if (effectsBlocked(effects.output)) return undefined;
+  if (!WRITE_SUSPICION_MARKERS.test(effects.command)) return undefined;
+  const disk = effects.context.fileSystemPort;
+  const registry = effects.context.readFileState;
+  if (!disk || !registry) return undefined;
 
-  const changedPaths = new Set<string>();
-  const trace = createBashReadFileStateTrace(input.context);
-  await Promise.all(
-    Array.from(readFileState.values(), async (entry) => {
-      const entryMtimeMs = normalizeReadFileStateMtimeMs(entry.mtimeMs);
-      if (entryMtimeMs === undefined) return;
-      try {
-        const stat = await fileSystemPort.stat(
-          { path: entry.path, trace },
-          { signal: input.context.abortSignal },
-        );
-        const currentMtimeMs = currentStatMtimeMs(stat);
-        if (currentMtimeMs === undefined) return;
-        if (currentMtimeMs > input.result.startedAt.getTime() && currentMtimeMs > entryMtimeMs) {
-          changedPaths.add(entry.path);
-        }
-      } catch {
-        // 无法 stat 的已读文件不阻断 Bash result。
-      }
-    }),
+  const touched = new Set<string>();
+  const probe = buildStateTrace(effects.context);
+  const startedAtMs = effects.result.startedAt.getTime();
+  const observations = [...registry.values()].map(async (record) => {
+    const recordedMtime = normalizeReadFileStateMtimeMs(record.mtimeMs);
+    if (recordedMtime === undefined) return;
+    const liveMtime = await currentMtimeOf(disk, record.path, probe, effects.context);
+    if (liveMtime === undefined) return;
+    const freshAfterRun = liveMtime > startedAtMs && liveMtime > recordedMtime;
+    if (freshAfterRun) touched.add(record.path);
+  });
+  await Promise.all(observations);
+  if (touched.size === 0) return undefined;
+  return composeStaleHint([...touched], effects.context.workingDirectory);
+}
+
+async function currentMtimeOf(
+  disk: BashDiskPort,
+  path: string,
+  probe: ReturnType<typeof buildStateTrace>,
+  ctx: ToolExecutionContext,
+): Promise<number | undefined> {
+  try {
+    const metadata = await disk.stat({ path, trace: probe }, { signal: ctx.abortSignal });
+    return statMtimeValue(metadata);
+  } catch {
+    // 无法 stat 的已读文件不阻断 Bash result。
+    return undefined;
+  }
+}
+
+// 回填：只信「模型确实看到的内容」——stdout 被截断时回读完整文件会绕过 read-before-write。
+async function backfillFromObservedReads(effects: BashReadFileStateEffectsInput): Promise<void> {
+  if (effectsBlocked(effects.output)) return;
+  if (effects.output.stdoutTruncated === true) return;
+  const disk = effects.context.fileSystemPort;
+  const registry = effects.context.readFileState;
+  if (!disk || !registry) return;
+
+  const reads = collectBashReadFileSources(effects.command).filter(
+    (observed) => !observed.requiresExitZero || effects.result.exitCode === 0,
   );
+  if (reads.length === 0) return;
 
-  const paths = [...changedPaths];
-  if (paths.length === 0) return undefined;
-  return formatStaleReadFileStateHint(paths, input.context.workingDirectory);
-}
-
-async function backfillReadFileStateFromBash(input: BashReadFileStateEffectsInput): Promise<void> {
-  if (shouldSkipBashReadFileStateEffects(input.output)) return;
-  // Bash cat/head/tail/sed 的 read-state 只能代表模型已经看到的内容；
-  // stdout 被截断时回读完整文件会绕过 Edit/Write 的 read-before-write 语义。
-  if (input.output.stdoutTruncated === true) return;
-  const fileSystemPort = input.context.fileSystemPort;
-  const readFileState = input.context.readFileState;
-  if (!fileSystemPort || !readFileState) return;
-
-  const sources = collectBashReadFileSources(input.command).filter(
-    (source) => !source.requiresExitZero || input.result.exitCode === 0,
+  const probe = buildStateTrace(effects.context);
+  const ingests = reads.map((observed) =>
+    ingestObservedRead(disk, registry, observed, effects, probe),
   );
-  if (sources.length === 0) return;
-
-  const trace = createBashReadFileStateTrace(input.context);
-  await Promise.all(
-    sources.map(async (source) => {
-      const resolvedPath = resolveWorkspacePath({
-        inputPath: source.filePath,
-        operation: "read",
-        workingDirectory: input.context.workingDirectory,
-        workspaceRoot: input.context.workspaceRoot,
-      });
-      if (findLatestReadFileState(readFileState, resolvedPath)) return;
-
-      try {
-        const stat = await fileSystemPort.stat(
-          { path: resolvedPath, trace },
-          { signal: input.context.abortSignal },
-        );
-        if (stat.kind !== "file") return;
-        if (stat.sizeBytes > MAX_BASH_READ_STATE_FILE_BYTES) return;
-        if (input.context.abortSignal.aborted) return;
-
-        const read = await fileSystemPort.readTextFile(
-          {
-            path: resolvedPath,
-            maxBytes: MAX_BASH_READ_STATE_FILE_BYTES,
-            trace,
-          },
-          { signal: input.context.abortSignal },
-        );
-        if (read.truncated) return;
-        const selected = selectReadContent(read.content, source);
-        if (!selected) return;
-
-        const entry: ReadFileStateEntry = {
-          path: resolvedPath,
-          content: selected.content,
-
-          // (offset ?? 1) <= 1 && limit === undefined；grep/cat 这类整文件
-          // Bash 回填保持 offset undefined，但显式 offset=1 的 Read 也仍算整文件读。
-          offset: selected.offset,
-          limit: selected.limit,
-          isPartialView: false,
-          readAt: new Date(),
-          revisionId: read.revision?.id ?? stat.revision?.id,
-          mtimeMs: normalizeReadFileStateMtimeMs(
-            read.revision?.mtimeMs ?? stat.revision?.mtimeMs ?? stat.mtimeMs,
-          ),
-          sizeBytes: read.revision?.sizeBytes ?? stat.revision?.sizeBytes ?? stat.sizeBytes,
-        };
-        readFileState.set(
-          createReadFileStateKey(resolvedPath, selected.offset ?? 1, selected.limit),
-          entry,
-        );
-      } catch {
-        // Bash 已经返回，read-state 回填失败不能改变 Bash 结果。
-      }
-    }),
-  );
+  await Promise.all(ingests);
 }
 
-function shouldSkipBashReadFileStateEffects(output: BashOutput): boolean {
-  // provider 错误应在 stale/backfill 前返回，避免失败结果污染 read-state。
-  return (
-    output.backgroundTaskId !== undefined ||
-    output.isImage === true ||
-    output.interrupted === true ||
-    isBashProviderErrorStatus(output)
-  );
-}
+async function ingestObservedRead(
+  disk: BashDiskPort,
+  registry: BashReadStateRegistry,
+  observed: ReturnType<typeof collectBashReadFileSources>[number],
+  effects: BashReadFileStateEffectsInput,
+  probe: ReturnType<typeof buildStateTrace>,
+): Promise<void> {
+  const absolutePath = resolveWorkspacePath({
+    inputPath: observed.filePath,
+    operation: "read",
+    workingDirectory: effects.context.workingDirectory,
+    workspaceRoot: effects.context.workspaceRoot,
+  });
+  if (findLatestReadFileState(registry, absolutePath)) return;
 
-function currentStatMtimeMs(stat: FileSystemStatResult): number | undefined {
-  return normalizeReadFileStateMtimeMs(stat.revision?.mtimeMs ?? stat.mtimeMs);
-}
+  try {
+    const metadata = await disk.stat(
+      { path: absolutePath, trace: probe },
+      { signal: effects.context.abortSignal },
+    );
+    if (metadata.kind !== "file") return;
+    if (metadata.sizeBytes > BACKFILL_SIZE_CEILING_BYTES) return;
+    if (effects.context.abortSignal.aborted) return;
 
-function formatStaleReadFileStateHint(paths: string[], workingDirectory: string): string {
-  const displayPaths = paths
-    .slice(0, MAX_STALE_HINT_DISPLAY_PATHS)
-    .map((path) => relative(workingDirectory, path) || path);
-  const hiddenCount = paths.length - MAX_STALE_HINT_DISPLAY_PATHS;
-  const hiddenSuffix = hiddenCount > 0 ? ` and ${hiddenCount} more` : "";
-  const fileWord = paths.length === 1 ? "file" : "files";
-  return `[This command modified ${paths.length} ${fileWord} you've previously read: ${displayPaths.join(", ")}${hiddenSuffix}. Call Read before editing.]`;
-}
+    const file = await disk.readTextFile(
+      { path: absolutePath, maxBytes: BACKFILL_SIZE_CEILING_BYTES, trace: probe },
+      { signal: effects.context.abortSignal },
+    );
+    if (file.truncated) return;
+    const visible = selectReadContent(file.content, observed);
+    if (!visible) return;
 
-function createBashReadFileStateTrace(context: ToolExecutionContext): TraceContext {
-  return {
-    traceId: context.traceId,
-    spanId: context.spanId,
-    parentSpanId: context.parentSpanId,
-    sessionId: context.sessionId,
-    turnId: context.turnId,
-  } as unknown as TraceContext;
+    const revisionId = file.revision?.id ?? metadata.revision?.id;
+    const observedMtime = normalizeReadFileStateMtimeMs(
+      file.revision?.mtimeMs ?? metadata.revision?.mtimeMs ?? metadata.mtimeMs,
+    );
+    const observedSize =
+      file.revision?.sizeBytes ?? metadata.revision?.sizeBytes ?? metadata.sizeBytes;
+    const record = buildReadStateRecord(
+      absolutePath,
+      visible,
+      revisionId,
+      observedMtime,
+      observedSize,
+    );
+    registry.set(createReadFileStateKey(absolutePath, visible.offset ?? 1, visible.limit), record);
+  } catch {
+    // Bash 已经返回，read-state 回填失败不能改变 Bash 结果。
+  }
 }

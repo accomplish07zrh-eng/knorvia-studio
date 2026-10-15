@@ -1,0 +1,50 @@
+{
+  "contract": "core-tool-handlers-workflow-01",
+  "commit": "654e1d7098c38d8545b73e8a15b79e6fc82a440b",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-15T08:05:05.083Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-tool-handlers-workflow-01/tests/ask-user-question.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/fixtures.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-amend.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-create.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-file-io.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-graph.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-notes.test.ts",
+    "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-save-eval.test.ts"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 94,
+      "pass": 94,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B-ev-2 path 来源整文件即片段，连元数据块样式的第一行也不剥 (3.0916ms)\n✔ B-ev-3 端口缺席：诚实的未执行失败，不假装跑过 (0.2626ms)\n✔ B-ev-4 端口在场：诊断/失败/完成三种终态各自成文，超时缺省 60s (0.7479ms)\n✔ B-ev-5 确认门只落在携带 world.run 的干净片段上 (183.1675ms)\n✔ B-tp-4 EvalWorkflowSnippet 工具声明：瞬态实验通道，取消 bestEffort (0.2265ms)\n✔ B-sw-9 保存输出的模型面只回 response 文本，坏输出回兜底句 (0.4073ms)\nℹ tests 94\nℹ suites 0\nℹ pass 94\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 23846.9325"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 94,
+      "pass": 94,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B-ev-2 path 来源整文件即片段，连元数据块样式的第一行也不剥 (3.0109ms)\n✔ B-ev-3 端口缺席：诚实的未执行失败，不假装跑过 (0.2034ms)\n✔ B-ev-4 端口在场：诊断/失败/完成三种终态各自成文，超时缺省 60s (0.5815ms)\n✔ B-ev-5 确认门只落在携带 world.run 的干净片段上 (144.5573ms)\n✔ B-tp-4 EvalWorkflowSnippet 工具声明：瞬态实验通道，取消 bestEffort (0.1632ms)\n✔ B-sw-9 保存输出的模型面只回 response 文本，坏输出回兜底句 (0.3449ms)\nℹ tests 94\nℹ suites 0\nℹ pass 94\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 36501.3556",
+      "environment": {},
+      "loader": "specs/contracts/core-tool-handlers-workflow-01/dist-entry-loader.mjs"
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 22,
+    "tests": 8,
+    "pass": 0,
+    "fail": 8,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-2-hwf01\\specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-file-io.test.ts (623.8812ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-graph.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-2-hwf01\\specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-graph.test.ts (625.4437ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-notes.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-2-hwf01\\specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-notes.test.ts (628.1887ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-save-eval.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-2-hwf01\\specs\\contracts\\core-tool-handlers-workflow-01\\tests\\workflow-save-eval.test.ts (606.4086ms)\n  'test failed'"
+  },
+  "pass": true
+}

@@ -1,16 +1,5 @@
-import type { FilePartSource, TurnAttachment } from "../../deps.js";
-import type { ResolvedTurnAttachment } from "../../types.js";
-import { resolvedPlaceholderAttachment } from "../attachment-placeholder.js";
+// SPDX-License-Identifier: Apache-2.0
+// 本地读取失败占位的兼容面（B7）：实现见 ../attachments/local-media-readers.js。
+import * as impl from "../attachments/local-media-readers.js";
 
-export function localReadFailed(
-  attachment: TurnAttachment,
-  filename: string,
-  mime: string,
-  source: FilePartSource,
-): ResolvedTurnAttachment {
-  return resolvedPlaceholderAttachment(attachment, attachment.path!, "attachment_read_failed", {
-    filename,
-    mime,
-    source,
-  });
-}
+export const localReadFailed = impl.localReadFailed;

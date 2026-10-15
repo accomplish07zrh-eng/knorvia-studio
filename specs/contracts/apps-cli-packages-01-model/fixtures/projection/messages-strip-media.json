@@ -1,0 +1,121 @@
+[
+  {
+    "role": "system",
+    "content": "sys one",
+    "providerOptions": {
+      "cacheControl": "ephemeral"
+    }
+  },
+  {
+    "role": "user",
+    "content": "[Empty user message]"
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "hello"
+      },
+      {
+        "type": "text",
+        "text": "[Media omitted]"
+      },
+      {
+        "type": "text",
+        "text": "[Attached video/mp4]\n[Media omitted from provider request because the selected model does not support video input.]"
+      },
+      {
+        "type": "text",
+        "text": "[Media omitted]"
+      },
+      {
+        "type": "text",
+        "text": "[Resource: doc]"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "step"
+      },
+      {
+        "type": "reasoning",
+        "text": "why",
+        "providerOptions": {
+          "think": {
+            "signature": "sig"
+          }
+        }
+      },
+      {
+        "type": "tool-call",
+        "toolCallId": "call-1",
+        "toolName": "unnamed_tool",
+        "input": {
+          "a": 1
+        }
+      },
+      {
+        "type": "tool-call",
+        "toolCallId": "call-2",
+        "toolName": "lookup",
+        "input": {
+          "b": 2
+        },
+        "providerExecuted": true
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "content": [
+      {
+        "type": "tool-result",
+        "toolCallId": "call-1",
+        "toolName": "call-one-tool",
+        "output": {
+          "type": "json",
+          "value": [
+            {
+              "type": "text",
+              "text": "result text"
+            },
+            {
+              "type": "image",
+              "dataUrl": "data:image/png;base64,AAEC",
+              "mediaType": "image/png"
+            },
+            {
+              "type": "image",
+              "dataUrl": "data:image/png;base64,AAEC",
+              "mediaType": "image/png"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "content": [
+      {
+        "type": "tool-result",
+        "toolCallId": "call-2",
+        "toolName": "lookup",
+        "output": {
+          "type": "error-text",
+          "value": [
+            {
+              "type": "reasoning",
+              "text": "hidden"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
