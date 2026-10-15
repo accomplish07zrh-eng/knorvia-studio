@@ -1,0 +1,31 @@
+{
+  "plain": {
+    "description": "plain tool",
+    "inputSchema": {
+      "jsonSchema": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string"
+          }
+        },
+        "required": ["q"],
+        "additionalProperties": false
+      }
+    },
+    "strict": true
+  },
+  "refs": {
+    "description": "ref tool",
+    "inputSchema": {
+      "jsonSchema": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

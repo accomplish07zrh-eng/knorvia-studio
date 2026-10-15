@@ -1,0 +1,21 @@
+{
+  "userIdShape": {
+    "device_id": "546125aa-1669-4691-83e4-256ce9087ec6",
+    "account_uuid": "",
+    "session_id": "sess_golden"
+  },
+  "redacted": {
+    "user_id": "[REDACTED]",
+    "userId": "[REDACTED]",
+    "nested": {
+      "USERID": "[REDACTED]",
+      "keep": "v"
+    },
+    "list": [
+      {
+        "user": "x",
+        "uid_keep": 1
+      }
+    ]
+  }
+}
