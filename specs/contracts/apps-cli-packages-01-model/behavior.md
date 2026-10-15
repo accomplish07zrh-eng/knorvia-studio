@@ -150,3 +150,117 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 日志级别：不适用。
 - 语义常量：仅当 origin 等于 `https://opencode.ai` 且 pathname 匹配 `^\/zen\/go\/v1\/?$`（允许尾斜杠）时为 true；空值/缺省为 false。
 - （依据：opencode-session.ts 1-11 行）
+
+## 批次 B：重试、准入与失败裁决（retry-policy / retry-budget / offpeak-retry / empty-completion-retry / request-admission / workflow-model-failure-policy）
+
+### B11 重试选项解析与默认值（语义常量条目）
+
+- 输入：可选的 `AiSdkModelRetryOptions` 与环境变量表 `env`。
+- 输出：补齐后的重试参数（`maxAttempts`、`baseDelayMs`、`backoffFactor`、`maxDelayMs`、`jitter`）。
+- 错误语义：非法值不抛错，静默回退默认值。
+- 时序与并发：不适用（纯函数）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用（调用方持有解析结果）。
+- 日志级别：不适用。
+- 语义常量：默认值 `maxAttempts = 11`、`baseDelayMs = 2000`、`backoffFactor = 2`、`maxDelayMs = 60000`、`jitter = true`；覆盖键（**键名不得改**）`KNORVIA_MODEL_MAX_ATTEMPTS`、`KNORVIA_MODEL_RETRY_BASE_DELAY_MS`、`KNORVIA_MODEL_RETRY_BACKOFF_FACTOR`、`KNORVIA_MODEL_RETRY_MAX_DELAY_MS`、`KNORVIA_MODEL_RETRY_JITTER`；**显式 options 优先于 env**（`options.X ?? env.X`）；数值解析：字符串按 `Number` 转换，非有限数或 ≤ 0 回退默认，`maxAttempts` 向下取整；布尔解析：`true`/`"true"`/`"1"` 为真、`false`/`"false"`/`"0"` 为假，其余回退默认。
+- （依据：retry-policy.ts 1-53 行）
+
+### B12 重试预算（有界 / workflow 无界）的判定
+
+- 输入：`ModelRetryBudget`（可缺省）、当前预算内尝试数 / 循环尝试数、`maxAttempts` / `loopMaxAttempts`。
+- 输出：布尔判定与换算后的最大尝试数。
+- 错误语义：不适用。
+- 时序与并发：不适用（纯函数）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：逻辑请求的预算状态（由调用方持有）。
+- 日志级别：不适用。
+- 语义常量：`UNBOUNDED_RETRY_MAX_ATTEMPTS = 0`（无界预算对外换算出的最大尝试数是 0，不是无穷大）；无界判定为 `budget === ModelRetryBudget.Unbounded`；`retryBudgetAllows` = 无界或 `retryBudgetAttempt < maxAttempts`（严格小于）；`retryAttemptLoopContinues` = 无界或 `attempt <= loopMaxAttempts`（含等号）；`retryBudgetMaxAttempts` = 无界取 0、否则取入参。
+- （依据：retry-budget.ts 1-27 行）
+
+### B13 空补全重试：条件、事件与等待
+
+- 输入：空补全判定的入参（`abortSignal`、`attempt`、`maxAttempts`、`retryCount`）；调度入参（计时、header、状态上下文、重试参数）。
+- 输出：`canRetryEmptyCompletion` 布尔；`scheduleEmptyCompletionRetry` 先发状态事件再等待退避。
+- 错误语义：等待中被取消按取消语义结束（不抛业务错误）。
+- 时序与并发：事件序列固定为「`model_retry_scheduled` 事件 → 退避等待」；事件字段先于等待发布。
+- 幂等：判定函数同输入同输出；调度每次调用恰好发一个事件。
+- 资源释放：等待接受 `abortSignal`，可被打断。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt。
+- 日志级别：事件经 `publishModelStatus` 转发给 logger 与状态接收端（级别由该通道定，本模块不直接打日志）。
+- 语义常量：允许重试的条件 = 未取消 **且** `attempt < maxAttempts` **且** `retryCount < 1`（空补全最多重试一次）；事件 `type: "model_retry_scheduled"`、`reason: "stale_connection"`、`message: "Provider returned an empty completion"`、`nextAttempt = attempt + 1`、`delayMs = calculateRetryDelay(retry, retryBudgetAttempt)`、`timestamp` 为 ISO 字符串，带 `requestHeaders`/`responseHeaders`。
+- （依据：empty-completion-retry.ts 1-53 行）
+
+### B14 attempt 准入（admission）的排队与票据释放
+
+- 输入：可选的 `ModelRequestAdmission`、请求目标 `model`、取消信号、`onQueued`/`onAdmitted` 回调。
+- 输出：`AttemptAdmission`（`ticket` 与幂等的 `release()`）。
+- 错误语义：进入时或排队后信号已取消 → 抛 `signal.reason`，缺省抛 `DOMException("Aborted", "AbortError")`。
+- 时序与并发：快路径（`tryAcquire` 立即拿到票据）不发排队回调；慢路径事件序列为「`onQueued()` → `acquire()` 返回 → 取消复查 → `onAdmitted(queuedMs)`」，`queuedMs = Date.now() - queuedAt`。
+- 幂等：`release()` 幂等（内部 released 标志，只释放一次票据）。
+- 资源释放：票据释放在所有终止路径由调用方触发；无 admission 时 `release()` 为空操作。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 持有票据；准入端口由外部注入。
+- 日志级别：不适用。
+- 语义常量：`onQueued`/`onAdmitted` **只在 admission 提供 `tryAcquire` 时才可能触发**（纯 `acquire` 端口不发这两个回调）；`acquire` 入参 `{ model, signal }`，`tryAcquire` 入参 `{ model }`。
+- （依据：request-admission.ts 1-41 行）
+
+### B15 off-peak 特例（票据过期与重新排队）
+
+- 输入：`offPeak` 标志、失败分类、原始错误。
+- 输出：`null` / `{ kind: "ticketExpired" }` / `{ kind: "queued", delayMs }`。
+- 错误语义：不适用（纯判定）。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 的重试裁决。
+- 日志级别：不适用。
+- 语义常量：非 off-peak 直接 `null`；业务码（字符串化后）`3102` / `3001` → 票据过期；`3105` 或 HTTP `statusCode === 429` → 排队，`delayMs = min(300000, max(0, retryAfterMs ?? 60000))`；过期消息模板 `<原文> [off-peak-ticket-expired]`，标记常量 `OFF_PEAK_TICKET_EXPIRED_MARKER = "off-peak-ticket-expired"`。
+- （依据：offpeak-retry.ts 1-27 行）
+
+### B16 workflow 模型失败裁决表（语义常量条目）
+
+- 输入：失败分类的 `code`/`reason`/`retryable` 与 provider 业务码（字符串，可缺省）。
+- 输出：`WorkflowModelFailurePolicy`：`retry` / `stop`（kind 五选一）/ `context_exceeded` / `cancelled`。
+- 错误语义：不适用（纯判定）。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：workflow 驱动侧的 run 裁决（bootstrap 经 `inspectWorkflowModelFailure` 消费）。
+- 日志级别：不适用。
+- 语义常量：**判定顺序**（先命中先生效）：`reason === "cancelled"` → `cancelled`；provider 码在配额码表内 → `stop(quota)`；`reason === "context_exceeded"` 或 `code === "model_context_exceeded"` → `context_exceeded`；`reason === "auth_failed"` → `stop(auth)`；`reason === "provider_not_configured"` 或 `code === "provider_not_configured"` → `stop(not_configured)`；`code === "model_not_found"` → `stop(model_unavailable)`；`reason === "invalid_request"` 或 `code === "invalid_model_request"` → `stop(invalid_request)`；其余 → `retry`。stop kind 集合：`auth`、`not_configured`、`model_unavailable`、`invalid_request`、`quota`、`other`（`other` 保留在类型里，本表不产生）。**配额码表（逐字，键名 `WORKFLOW_QUOTA_PROVIDER_CODES`）**：`1005`、`2056`、`20097`、`1304`、`1308`、`1310`、`1313`、`1316`、`1317`、`1318`、`1319`、`1320`、`1321`、`insufficient_quota`、`credit_balance_exhausted`、`organization_spend_limit_exceeded`、`project_spend_limit_exceeded`、`organization_usage_limit_exceeded`、`exceeded_current_quota_error`。
+- （依据：workflow-model-failure-policy.ts 6-55 行）
+
+### B17 重试许可的双轨裁决
+
+- 输入：失败分类、重试预算、provider 业务码。
+- 输出：布尔。
+- 错误语义：不适用。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 的重试裁决。
+- 日志级别：不适用。
+- 语义常量：**workflow 无界预算**走策略表（仅 `decision === "retry"` 才允许）；**普通有界预算**直接看 `failure.retryable`（布尔裁决与策略表不能互相替代）。
+- （依据：workflow-model-failure-policy.ts 56-64 行）
+
+### B18 workflow 侧失败检视（inspectWorkflowModelFailure）
+
+- 输入：任意错误值（含一层 `cause`）。
+- 输出：`WorkflowModelFailureInspection`（`policy`、`reason`、`providerCode?`、`providerId?`、`modelId?`、`rawMessage?`、`resetAt?`）或 `undefined`。
+- 错误语义：不抛错；找不到匹配返回 `undefined`。
+- 时序与并发：不适用（纯检视）。
+- 幂等：同输入同输出（`resetAt` 例外：`Date.now() + retryAfterMs`，随调用时刻变化）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：只认 `name === "AiSdkModelAdapterError"` 且带对象 `context` 的候选（先看错误本体，再看一层 `cause`，先命中先返回）；`reason` 取 `context.reason`（非字符串时 `"unknown"`）；`code` 取 `context.code`，缺省 `"model_request_failed"`；`retryable` 仅当 `context.retryable === true`；`providerCode` 取 `context.providerErrorCode`（字符串）；`retryAfterMs`（数字）换算 `resetAt = Date.now() + retryAfterMs`；`providerId`/`modelId` 取 context 同名字符串；`rawMessage` 取错误的 `message` 字符串。
+- （依据：workflow-model-failure-policy.ts 65-112 行）
