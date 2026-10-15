@@ -23,7 +23,7 @@ const text = await readFile(
   "utf8",
 );
 // 合并 origin/main 后 receipt 正文变化，断言值取合并产物的实测 sha（只改常量，不改断言结构）。
-assert.equal(sha(text), "c9e1ccfc2819468f18c2eeac2b93dde721a86d8ba3b6b9e75483d40ae2454144");
+assert.equal(sha(text), "be6e3eac7f58b4b534fdf98a795a8a9502ddb833fb35865701fad54f14803c4a");
 const receipt: CurrentReceipt = JSON.parse(text);
 assert.equal(receipt.formatVersion, 3);
 assert.equal(receipt.sourceCheckpoint, "c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9");

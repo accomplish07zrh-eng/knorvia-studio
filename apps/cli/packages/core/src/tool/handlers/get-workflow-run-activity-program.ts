@@ -73,14 +73,17 @@ export function renderWorkflowRunActivity(
   clock: number,
   questionTimes: ReadonlyMap<string, number>,
 ): string {
-  const ask = actor.currentAsk;
+  // getter 读取序是冻结契约（frozen route/getter tape）：三个 state 判定在前，ask 取值在后。
   const parked = actor.state === "parked" && actor.parkedOn !== undefined;
   if (parked) return parkedLine(actor, clock, questionTimes);
   const waiting = actor.state === "waiting";
-  if (waiting) return actor.wait === undefined ? "" : waitLine(actor.wait, clock);
-  const unfinished = actor.state === "unfinished" && ask !== undefined;
-  if (unfinished) return `${askLabel(ask!)} was in flight at the stop`; // 停时在飞
-  if (ask !== undefined) return askDetailLine(ask, clock);
+  if (waiting) {
+    const wait = actor.wait; // 只取一次（读取序契约）
+    return wait === undefined ? "" : waitLine(wait, clock);
+  }
+  const unfinished = actor.state === "unfinished" && actor.currentAsk !== undefined;
+  if (unfinished) return `${askLabel(actor.currentAsk!)} was in flight at the stop`; // 停时在飞
+  if (actor.currentAsk !== undefined) return askDetailLine(actor.currentAsk, clock); // 读取序契约：判定+取值各一次
   const quiet = actor.stepsSettled === 0 && actor.stepsFailed === 0;
   if (quiet) return ""; // 安静的子代理没有活动行
   return stepsLine(actor);
