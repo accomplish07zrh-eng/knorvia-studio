@@ -110,4 +110,94 @@ export function retryScheduledEvent(
   } as never;
 }
 
+// ---------- 流式专属事件（B52 序列） ----------
+
+export function streamStalledEvent(
+  context: ModelStatusContext,
+  attempt: number,
+  idleMs: number,
+  timeoutMs: number,
+  message: string,
+): ModelNetworkStatusEvent {
+  return {
+    ...context,
+    type: "model_stream_stalled", // 流停滞事件（协议面）
+    timestamp: new Date().toISOString(), // 发布时刻
+    attempt, // 物理序号
+    idleMs, // 实际空闲时长
+    timeoutMs, // 超时额度
+    message, // 人类可读消息
+  } as never;
+}
+
+export function streamEmptyFailedEvent(
+  context: ModelStatusContext,
+  attempt: number,
+  startedAt: number,
+): ModelNetworkStatusEvent {
+  return {
+    ...context,
+    type: "model_request_failed", // 失败事件（协议面）
+    timestamp: new Date().toISOString(), // 发布时刻
+    attempt, // 物理序号
+    durationMs: Date.now() - startedAt, // 本次耗时
+    reason: "stale_connection", // 空输出按陈旧连接归因
+    retryable: true, // 空输出可重试
+    message: "Provider returned an empty completion", // 对外可见文案
+    errorCode: "model_request_failed", // 对外错误码
+    errorPhase: "stream", // 失败阶段
+    streamOutputCommitted: false, // 未对外提交
+  } as never;
+}
+
+export function streamFailedEvent(
+  context: ModelStatusContext,
+  attempt: number,
+  startedAt: number,
+  failure: {
+    reason: string; // 失败归因
+    retryable: boolean; // 是否计划重试
+    message: string; // 人类可读消息
+    statusCode?: number; // HTTP 状态
+    code: string; // 对外错误码
+  },
+  replayBoundary: boolean, // 是否已回放边界（对外可见）
+): ModelNetworkStatusEvent {
+  return {
+    ...context,
+    type: "model_request_failed", // 失败事件（协议面）
+    timestamp: new Date().toISOString(), // 发布时刻
+    attempt, // 物理序号
+    durationMs: Date.now() - startedAt, // 本次耗时
+    reason: failure.reason, // 失败归因
+    retryable: failure.retryable, // 是否计划重试
+    message: failure.message, // 人类可读消息
+    statusCode: failure.statusCode, // HTTP 状态（可缺省）
+    errorCode: failure.code, // 对外错误码
+    streamOutputCommitted: replayBoundary, // 提交标志（边界回放即已提交）
+  } as never;
+}
+
+export function streamCompletedEvent(
+  context: ModelStatusContext,
+  attempt: number,
+  startedAt: number,
+  finishEvent: { finishReason: string; usage?: unknown } | undefined,
+  firstContentAt: number | undefined,
+  committed: boolean,
+): ModelNetworkStatusEvent {
+  return {
+    ...context,
+    type: "model_request_completed", // 完成事件（协议面）
+    timestamp: new Date().toISOString(), // 发布时刻
+    attempt, // 物理序号
+    durationMs: Date.now() - startedAt, // 本次耗时
+    // 修复对话底部 tok/s 恒为「—」、步数与缓存不随请求更新：流式路径此前不上报用量与首内容耗时，
+    // 会话调试统计（session-debug）因此无法计算生成速度。与非流式路径（runner-generate）保持一致。
+    ...(finishEvent ? { finishReason: finishEvent.finishReason, usage: finishEvent.usage } : {}),
+    ...(firstContentAt !== undefined ? { timeToFirstContentMs: firstContentAt - startedAt } : {}),
+    streamOutputCommitted: committed, // 提交标志
+  } as never;
+}
+
 export type { PublishSinkOptions };
