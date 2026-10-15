@@ -29,6 +29,7 @@ import {
 import { tmpdir } from "node:os";
 import { isAbsolute, join, relative, resolve } from "node:path";
 import process from "node:process";
+import { pathToFileURL } from "node:url";
 
 const repoRoot = process.cwd();
 const argv = process.argv.slice(2);
@@ -192,7 +193,8 @@ if (options.distLoader || options.distEnv.length > 0) {
       console.error(`contract-gate: dist loader 不存在：${options.distLoader}`);
       process.exit(2);
     }
-    extraArgs.push("--import", loaderPath);
+    // node --import 在 Windows 上要求绝对路径是 file:// URL（裸 "D:\\..." 会被当作裸包名）。
+    extraArgs.push("--import", pathToFileURL(loaderPath).href);
   }
   const entries = Object.fromEntries(
     options.distEnv.map((item) => [

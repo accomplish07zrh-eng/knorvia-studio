@@ -1,4 +1,6 @@
-// sessions-index topic：列表活性数据源；conflated 最新态，永不溢出。
+// SPDX-License-Identifier: Apache-2.0
+// sessions-index：侧栏列表的活性数据源（conflated 最新态，永不溢出）。topic 键的构造与解析
+// 是一对互逆函数（B38）；快照/增量与 summary schema 见 B39。
 import { z } from "zod";
 import { timestampSchema } from "./core.js";
 import { sessionWorkflowActivitySchema } from "./sessions-index-workflow-activity.js";
@@ -8,6 +10,9 @@ import {
   sessionMetaStateSchema,
   sessionPhaseSchema,
 } from "./snapshot.js";
+
+/** sessions-index topic 键的固定前缀；构造与解析共用，避免两处漂移。 */
+const INDEX_TOPIC_PREFIX = "sessions-index/";
 
 export const sessionPendingInteractionSummarySchema = z.object({
   interactionId: z.string(),
@@ -29,27 +34,21 @@ export type PendingInteractionSummary = z.infer<typeof pendingInteractionSummary
 export const sessionSummarySchema = z.object({
   sessionId: z.string(),
   workspaceId: z.string(),
-  // fork 树。
   parentSessionId: z.string().optional(),
   title: z.string(),
-  // custom = 用户显式重命名；default/generated 都不是产品语义上的手动标题。
-  // optional 是为了兼容旧 sessions-index frame / 旧持久化摘要。
+  // custom = 用户显式重命名；optional 兼容旧 frame / 旧持久化摘要。
   titleSource: sessionMetaStateSchema.shape.titleSource.optional(),
   phase: sessionPhaseSchema,
   sessionEnded: z.boolean(),
-  // 列表小圆点用（此处保留布尔，避免为侧栏订阅整个 backgroundWorks）。
   hasBackgroundWork: z.boolean(),
-  // 侧栏工作流运行行：有界的 run 摘要，
-  // 只装画迷你轨道要的字段；会话没有任何 run 时缺席。optional 兼容旧 frame / 旧 CLI。
+  // 侧栏工作流运行行：有界 run 摘要，会话没有任何 run 时缺席；optional 兼容旧 frame。
   workflowActivity: sessionWorkflowActivitySchema.optional(),
   pendingInteraction: sessionPendingInteractionSummarySchema.optional(),
-  // 侧栏只需要 kind/count，不下发问题、命令或答案等敏感 payload。
-  // optional 兼容旧 sessions-index frame / stored summary。
+  // 侧栏只需 kind/count，不下发问题、命令或答案等敏感 payload。
   pendingInteractionSummary: pendingInteractionSummarySchema.optional(),
   goalStatus: goalStateSchema.shape.status.optional(),
   // 未读推导：客户端本地记 lastSeenActivityAt 比较（不用 seq，epoch 会重置）。
   lastActivityAt: timestampSchema,
-  // ≤120 字符。
   lastAssistantPreview: z.string().optional(),
   createdAt: timestampSchema,
 });
@@ -72,14 +71,14 @@ export const sessionsIndexDeltaSchema = z.discriminatedUnion("op", [
 ]);
 export type SessionsIndexDelta = z.infer<typeof sessionsIndexDeltaSchema>;
 
-/** sessions-index topic key 构造（与 parseSessionsIndexTopic 对偶）。 */
+/** 构造 sessions-index topic 键（与 parseSessionsIndexTopic 对偶）。 */
 export function sessionsIndexTopic(workspaceId: string): string {
-  return `sessions-index/${workspaceId}`;
+  return INDEX_TOPIC_PREFIX + workspaceId;
 }
 
-/** sessions-index topic key 解析（"sessions-index/<workspaceId>"）。 */
+/** 解析 "sessions-index/<workspaceId>"；前缀不符或空 id 返回 null（空 id 不算）。 */
 export function parseSessionsIndexTopic(topic: string): string | null {
-  if (!topic.startsWith("sessions-index/")) return null;
-  const workspaceId = topic.slice("sessions-index/".length);
-  return workspaceId.length > 0 ? workspaceId : null;
+  if (!topic.startsWith(INDEX_TOPIC_PREFIX)) return null;
+  const identifier = topic.slice(INDEX_TOPIC_PREFIX.length);
+  return identifier === "" ? null : identifier;
 }

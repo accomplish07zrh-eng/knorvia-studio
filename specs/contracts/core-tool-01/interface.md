@@ -28,8 +28,8 @@ export interface BashTimeoutPolicy {
   defaultTimeoutMs: number;
   maxTimeoutMs: number;
 }
-DEFAULT_BASH_TIMEOUT_MS = 120_000;
-DEFAULT_BASH_MAX_TIMEOUT_MS = 600_000;
+export const DEFAULT_BASH_TIMEOUT_MS = 120_000;
+export const DEFAULT_BASH_MAX_TIMEOUT_MS = 600_000;
 export const DEFAULT_BASH_TIMEOUT_POLICY: BashTimeoutPolicy;
 export function resolveBashTimeoutPolicy(
   env: Readonly<Record<string, string | undefined>>,
@@ -45,7 +45,7 @@ export function resolveBashTimeoutMs(
 继承分类 `upstream-unchanged`，24 行。导出 3 个声明、0 条 re-export。
 
 ```ts
-TASK_TOOL_NAME = "Task";
+export const TASK_TOOL_NAME = "Task";
 export function isSubagentDispatchToolName(toolName: string | undefined): boolean;
 export function hookMatcherToolNamesForTool(toolName: string): readonly string[];
 ```
@@ -638,8 +638,8 @@ export function buildWorkflowReportsManifestSection(
 继承分类 `upstream-unchanged`，235 行。导出 6 个声明、0 条 re-export。
 
 ```ts
-WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8;
-WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32;
+export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8;
+export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32;
 export function formatPublishedArtifactLine(artifact: PublishedArtifactSummary): string;
 export function buildWorkflowArtifactsNotificationSection(
   artifacts: readonly PublishedArtifactSummary[] | undefined,
@@ -724,7 +724,7 @@ export function orderProviderVisibleToolContracts<T extends { name: string }>(
 继承分类 `upstream-modified`，118 行。导出 6 个声明、0 条 re-export。
 
 ```ts
-READ_FILE_STATE_METADATA_SCHEMA_VERSION = 1;
+export const READ_FILE_STATE_METADATA_SCHEMA_VERSION = 1;
 export type PersistedReadFileStateTool = "Read" | "Write" | "Edit";
 export interface PersistedReadFileStateMetadata {
   schemaVersion: typeof READ_FILE_STATE_METADATA_SCHEMA_VERSION;

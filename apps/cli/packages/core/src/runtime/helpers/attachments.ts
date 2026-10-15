@@ -30,9 +30,6 @@ import {
   resolvedPathReferenceAttachment,
 } from "./attachment-path-reference.js";
 
-export { parseDataUrlHeader } from "./attachment-data-url.js";
-export { inferImageMimeFromPath, prepareImageDataUrl } from "./attachment-image.js";
-
 type ResolveAttachmentOptions = {
   abortSignal?: AbortSignal;
   artifactStore?: ToolArtifactStorePort;

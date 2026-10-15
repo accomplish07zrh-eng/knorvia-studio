@@ -1,116 +1,143 @@
-/**
- * workflow run 的**用户面产物**在模型面的一行投影，被三处共用：
- * 完成通知的 `<artifacts>` 节（background-tasks.ts）、manifest 载荷的 `artifacts[]`（同上）、
- * 以及 `GetWorkflowRun` 模型文本的 `<artifacts>` 截面（handlers/get-workflow-run.ts）。
- *
- * ⚠ 术语：本文件里的 artifact 是**脚本经 `artifact.*` 发布
- * 给用户看的产出**——一个文件、一段 markdown、或一张由标签 `report` 喂养的图 / 表 / 指标 /
- * 看板。它与隔壁 `workflow-artifact.ts` 的 `serializeWorkflowArtifact` 是**两件不同的东西**：
- * 那个 artifact 是脚本的顶层返回值（引擎内部的 `RunSettlement.artifact`），给模型看的。
- * 两者在完成通知里同时出现（`<result>` 与 `<artifacts>`），所以文件也刻意分开。
- *
- * 为什么一行的格式只写一遍：三处的读者是同一个模型，格式分叉会让它以为通知里的产物和
- * `GetWorkflowRun` 里的产物是两套东西。
- */
+// 脚本「发布给用户看的产物」在模型面的投影层。三个消费者共用同一份事实：
+// 完成通知的 `<artifacts>` 节、manifest 载荷的 `artifacts[]`（都在 background-tasks.ts），
+// 以及 `GetWorkflowRun` 文本里的 `<artifacts>` 截面（handlers/get-workflow-run.ts）。
+//
+// 名词边界：这里的产物指脚本通过 `artifact.*` 发布的内容（文件、markdown，或由 `report` 标签
+// 喂养的图 / 表 / 指标 / 看板）。它与 `workflow-artifact.ts` 里的 `serializeWorkflowArtifact` 不是一回事——
+// 后者是脚本的顶层返回值（引擎内部 `RunSettlement.artifact`）。两者会在同一条完成通知里并排出现
+// （`<result>` 与 `<artifacts>`），所以刻意分成两个文件。
+//
+// 一行的格式只在这里写一遍：三个消费者是同一个模型，格式一旦分叉，它会把通知里的产物和
+// `GetWorkflowRun` 里的产物当成两套东西。
+//
+// 本层三个出口：给模型的一行文本、通知节、给 GUI 的 manifest 载荷（结构化字段）。
+// 截断必须在构造之前做完——载荷随 turnHeader row 进协议，超界会在落库时被 zod 整行拒收。
 
-/** 一件产物在模型面需要的全部事实。三处的输入形状不同，取交集后收成这一个结构。 */
+//  三个消费者各自输入形状不同，取交集后的最小事实集。
 interface PublishedArtifactSummary {
-  id: string;
-  kind: string;
-  version: number;
-  title?: string;
-  contentType?: string;
-  /** 内容产物（file / markdown）最新版的字节数。预置看板没有字节。 */
-  bytes?: number;
-  /** 预置看板收到的标签 `report` 条数（数据量）。内容产物恒 0。 */
-  itemCount?: number;
-  /** run 的交付物：清单以它带头，行上标 `primary`。 */
-  primary?: true;
-  /** 只有交付物的这一句进 manifest：完成卡把它画成带文字的一行。 */
-  description?: string;
+  readonly id: string;
+  readonly kind: string;
+  readonly version: number;
+  readonly title?: string;
+  readonly contentType?: string;
+  //  内容产物最新版的字节数；预置看板不产出字节。
+  readonly bytes?: number;
+  //  预置看板收到的 `report` 条数，充当它的「大小」；内容产物恒为 0。
+  readonly itemCount?: number;
+  //  本 run 的交付物：清单由它带头，行上额外标 `primary`。
+  readonly primary?: true;
+  //  仅交付物带这一句，完成卡据此画出带文字的一行。
+  readonly description?: string;
 }
 
-/** manifest 里交付物 `description` 的界（`ARTIFACT_CAPS.maxDescriptionLength`，与 shared 的 zod 同值）。 */
-const WORKFLOW_ARTIFACT_DESCRIPTION_MAX_CHARS = 500;
+type ArtifactSummary = PublishedArtifactSummary;
+type ManifestKind = WorkflowArtifactManifestEntry["kind"];
+type OptionalText = string | undefined;
+// 一行的行数预算。
+type LineBudget = number;
 
-/**
- * 交付物带头，其余保持原顺序（稳定排序）。三处清单都先过这一步再截，所以上界砍不到交付物。
- * 端口的 `artifactsOf` 已经排过；这里再排一次是为了快照与通知那条路（它们读的是投影的顺序）。
- */
-function primaryFirst<T extends { primary?: true }>(artifacts: readonly T[]): T[] {
-  return [...artifacts].sort(
-    (left, right) => Number(right.primary === true) - Number(left.primary === true),
-  );
+// 版本号在行上带 v 前缀；单独成函数便于格式统一。
+function versionLabel(version: number): string {
+  return `v${version}`;
+}
+type OptionalCount = number | undefined;
+
+//  与 shared 侧 zod 的 ARTIFACT_CAPS 同值的一张表：四处长度界集中在一处，便于逐条对照。
+const ARTIFACT_LIMITS = {
+  description: 500,
+  title: 120,
+  id: 64,
+  contentType: 255,
+} as const;
+
+//  完成通知 `<artifacts>` 的行数上限；文本行数与载荷上界刻意保持同一个值。
+export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8 as const;
+//  `GetWorkflowRun` 文本截面的行数上限，取自 `ARTIFACT_CAPS` 的每 run 上界（32）。
+export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32 as const;
+//  预置看板的四个种类：不产出字节，数据量取自 report 标签条数。
+const PRESET_ARTIFACT_KIND_LIST: readonly string[] = ["chart", "table", "metrics", "board"];
+const PRESET_ARTIFACT_KINDS: ReadonlySet<string> = new Set(PRESET_ARTIFACT_KIND_LIST);
+
+const PRIMARY_MARKER = "primary";
+const LINE_PREFIX = "- ";
+
+// 把交付物提到最前，其余保持相对顺序（稳定排序）。
+// 三个出口都先排序再截断，因此上界永远砍不到交付物。端口的 `artifactsOf` 已排过一遍；
+// 这里再排是为了快照与通知那条路径——它们拿到的是投影顺序，不保证已排。
+// 交付物排 0、其余排 1：比较函数只读这一个序号，排序因此是稳定的。
+function primaryRank(artifact: { primary?: true }): number {
+  return artifact.primary === true ? 0 : 1;
 }
 
-/** 完成通知里 `<artifacts>` 最多列几行。载荷上界（≤ 8）与文本行数刻意同值。 */
-export const WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES = 8;
-/** `GetWorkflowRun` 的 `<artifacts>` 截面上界（有界 32 = `ARTIFACT_CAPS` 的每 run 上限）。 */
-export const WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES = 32;
-/** manifest 载荷里 title 的界（`ARTIFACT_CAPS.maxTitleLength`，与 shared 的 zod 同值）。 */
-const WORKFLOW_ARTIFACT_TITLE_MAX_CHARS = 120;
-/** id 的界（`ARTIFACT_CAPS.maxIdLength`，与 shared 的 zod 同值）。 */
-const WORKFLOW_ARTIFACT_ID_MAX_CHARS = 64;
-/** contentType 的界（与 shared 的 zod 同值；MIME 本身没有这么长的合法形态）。 */
-const WORKFLOW_ARTIFACT_CONTENT_TYPE_MAX_CHARS = 255;
+function primaryFirst<Item extends { primary?: true }>(artifacts: readonly Item[]): Item[] {
+  const ordered = [...artifacts];
+  ordered.sort((left, right) => primaryRank(left) - primaryRank(right));
+  return ordered;
+}
 
-/** 预置看板的四个成员：它们没有字节，数据量是标签 report 的条数。 */
-const PRESET_ARTIFACT_KINDS: ReadonlySet<string> = new Set(["chart", "table", "metrics", "board"]);
+// 预置看板的「大小」是点数不是字节：字节数对一张图没有意义（它根本没有字节）。
+function itemLabel(count: number): string {
+  return `${count} item${count === 1 ? "" : "s"}`;
+}
 
-/**
- * 一件产物 → 一行：`- {id} ({kind}, v{version}, {contentType}, {bytes} bytes): {title}`。
- *
- * 缺席的部件整段省略而不是留一个空位——`(file, v2, , : )` 读起来像数据坏了。预置看板把字节
- * 换成 `{n} items`：一张图的「大小」是它有多少个点，字节数对它没有意义（它根本没有字节）。
- * `title` 缺席时连冒号一起省略（facade 的默认 title 就是 id，重复一遍没有信息）。
- *
- * 刻意**不给 `uri`**：模型读不了 tool-artifact store。要内容就走 `GetWorkflowRun`，或者让
- * 子代理去读工作区里的原路径。
- */
-export function formatPublishedArtifactLine(artifact: PublishedArtifactSummary): string {
-  // `primary` 紧跟种类：`- report (markdown, primary, v2, …)`——模型据它知道该先把哪一件交给用户。
-  const parts = artifact.primary === true ? [artifact.kind, "primary"] : [artifact.kind];
-  parts.push(`v${artifact.version}`);
-  if (artifact.contentType !== undefined && artifact.contentType.length > 0) {
-    parts.push(artifact.contentType);
-  }
+function sizeLabel(artifact: ArtifactSummary): OptionalText {
   if (PRESET_ARTIFACT_KINDS.has(artifact.kind)) {
-    if (artifact.itemCount !== undefined) {
-      parts.push(`${artifact.itemCount} item${artifact.itemCount === 1 ? "" : "s"}`);
-    }
-  } else if (artifact.bytes !== undefined) {
-    parts.push(`${artifact.bytes} bytes`);
+    return artifact.itemCount === undefined ? undefined : itemLabel(artifact.itemCount);
   }
-  const head = `- ${artifact.id} (${parts.join(", ")})`;
-  const title = artifact.title?.trim();
-  return title === undefined || title.length === 0 ? head : `${head}: ${title}`;
+  return artifact.bytes === undefined ? undefined : `${artifact.bytes} bytes`;
 }
 
-/** `<artifacts count shown>` 一节所需的三件事，与 `<reports>` 那一节同形。 */
-interface WorkflowArtifactsNotificationSection {
-  /** **真实总件数**（不是列出来的行数）。 */
-  count: number;
-  /** 实际列出的行数；小于 count 即清单是局部的。 */
-  shown: number;
-  preview: string;
+// 括号里按固定顺序拼：种类（交付物紧跟 primary）→ 版本 → 内容类型 → 大小。
+function lineParts(artifact: ArtifactSummary): string[] {
+  const parts = artifact.primary === true ? [artifact.kind, PRIMARY_MARKER] : [artifact.kind];
+  parts.push(versionLabel(artifact.version));
+  const contentType = artifact.contentType;
+  if (contentType !== undefined && contentType.length > 0) {
+    parts.push(contentType);
+  }
+  const size = sizeLabel(artifact);
+  if (size !== undefined) parts.push(size);
+  return parts;
 }
 
-/**
- * 产物清单 → 完成通知 / `GetWorkflowRun` 的 `<artifacts>` 一节。
- *
- * 与 `<reports>` 同规：`count` 恒是真实总数，`count ≠ shown` 就是「清单是局部的、全量经 run id
- * 可取」的那个信号。零件时返回 `undefined`，调用方据此让整节缺席——不发一节空的 `<artifacts>`。
- */
+// 把一件产物压成一行：`- {id} ({kind}, v{version}, {contentType}, {bytes} bytes): {title}`。
+//
+// 缺哪个部件就整段不写，不留占位——`(file, v2, , : )` 会被读成数据坏了。预置看板的位置写
+// `{n} items`：图的「大小」是点数，字节对它无意义。title 缺失时冒号一起省掉（facade 默认
+// title 就是 id，重复没有信息量）。
+//
+// 不给 `uri`：模型读不到 tool-artifact store。要正文就调 `GetWorkflowRun`，或让子代理读工作区原路径。
+export function formatPublishedArtifactLine(artifact: ArtifactSummary): string {
+  const head = `${LINE_PREFIX}${artifact.id} (${lineParts(artifact).join(", ")})`;
+  const title = trimmed(artifact.title);
+  if (title === undefined || title.length === 0) return head;
+  return `${head}: ${title}`;
+}
+
+//  `<artifacts count shown>` 需要的三个值，形状与 `<reports>` 一节一致。
+interface ArtifactNotificationSection {
+  //  真实总件数，不是列出来的行数。
+  readonly count: number;
+  //  实际列出的行数；小于 count 说明清单只是局部。
+  readonly shown: number;
+  readonly preview: string;
+}
+
+// 产物清单 → 完成通知与 `GetWorkflowRun` 共用的 `<artifacts>` 一节。
+//
+// 规则同 `<reports>`：count 永远是真实总数，count 与 shown 不等就是「这里只是局部清单、
+// 全量可按 run id 取」的信号。没有产物时返回 undefined，让调用方整节不写，而不是写一节空的。
 export function buildWorkflowArtifactsNotificationSection(
-  artifacts: readonly PublishedArtifactSummary[] | undefined,
-  maxLines: number,
-): WorkflowArtifactsNotificationSection | undefined {
+  artifacts: readonly ArtifactSummary[] | undefined,
+  maxLines: LineBudget,
+): ArtifactNotificationSection | undefined {
   if (artifacts === undefined || artifacts.length === 0) return undefined;
-  const lines = primaryFirst(artifacts).slice(0, maxLines).map(formatPublishedArtifactLine);
+  const ordered = primaryFirst(artifacts);
+  const lines = ordered.slice(0, maxLines).map(formatPublishedArtifactLine);
   return { count: artifacts.length, shown: lines.length, preview: lines.join("\n") };
 }
 
-/** manifest 载荷（`WorkflowNotificationMeta.artifacts`）的一条。shared 的 zod 是同一组界。 */
+//  manifest 载荷（`WorkflowNotificationMeta.artifacts`）里的一条，界与 shared 侧 zod 一致。
 interface WorkflowArtifactManifestEntry {
   id: string;
   kind: "file" | "markdown" | "chart" | "table" | "metrics" | "board";
@@ -118,67 +145,11 @@ interface WorkflowArtifactManifestEntry {
   version: number;
   contentType?: string;
   primary?: true;
-  /** 只在 `primary` 的条目上（完成卡的交付物行念它；其余 chip 放不下也不需要）。 */
+  //  只出现在 `primary` 条目上：完成卡的交付物行要念它，其余 chip 放不下也用不到。
   description?: string;
 }
 
-/**
- * manifest 载荷的 `artifacts` 与 `artifactsTruncated`。
- *
- * 与上面那一节**同源不同形**：GUI 把每条渲染成一枚 chip（图标 + 截短的 title），所以载荷带的是
- * 结构化字段而不是拼好的一行；`bytes` / `itemCount` 刻意不进载荷——chip 上放不下，点开侧板即可
- * 看到全部。截断在**构造前**完成：载荷随 turnHeader row 走协议，超界会让整行落库时 zod 拒收。
- *
- * `kind` 不在六个字面量里的条目整条丢弃（不猜、不归一）：一个未知种类的 chip 在 GUI 上没有
- * 图标可画，而放行它会让整个载荷被 zod 拒掉，连带其余 chip 一起消失。
- *
- * 零件时返回 `undefined`，调用方据此让两个字段一起缺席。
- */
-export function buildWorkflowArtifactsManifestSection(
-  artifacts: readonly PublishedArtifactSummary[] | undefined,
-): { artifacts: WorkflowArtifactManifestEntry[]; artifactsTruncated?: true } | undefined {
-  if (artifacts === undefined || artifacts.length === 0) return undefined;
-  const entries: WorkflowArtifactManifestEntry[] = [];
-  // 交付物先进清单：8 的上界永远砍不到它。
-  for (const artifact of primaryFirst(artifacts)) {
-    if (entries.length >= WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES) break;
-    const kind = manifestArtifactKind(artifact.kind);
-    // id 是 chip 的身份键，截短就是编造一个不存在的产物——超界只能整条丢，与未知 kind 同规。
-    // 两者都是「一条坏行不该把其余 chip 一起带走」：放行会让 zod 拒收整份载荷。
-    if (kind === undefined || artifact.id.length === 0) continue;
-    if (artifact.id.length > WORKFLOW_ARTIFACT_ID_MAX_CHARS) continue;
-    // 版本号是 chip 的定位键之一，shared 的 zod 要求正整数；非正整数同样整条丢。
-    if (!Number.isInteger(artifact.version) || artifact.version < 1) continue;
-    const title = artifact.title?.trim();
-    // contentType 只是 chip 上的装饰，超界丢这一个键而不是整条。
-    const contentType =
-      artifact.contentType !== undefined &&
-      artifact.contentType.length <= WORKFLOW_ARTIFACT_CONTENT_TYPE_MAX_CHARS
-        ? artifact.contentType
-        : undefined;
-    const description = artifact.primary === true ? artifact.description?.trim() : undefined;
-    entries.push({
-      id: artifact.id,
-      kind,
-      ...(title === undefined || title.length === 0
-        ? {}
-        : { title: title.slice(0, WORKFLOW_ARTIFACT_TITLE_MAX_CHARS) }),
-      version: artifact.version,
-      ...(contentType === undefined ? {} : { contentType }),
-      ...(artifact.primary === true ? { primary: true as const } : {}),
-      ...(description === undefined || description.length === 0
-        ? {}
-        : { description: description.slice(0, WORKFLOW_ARTIFACT_DESCRIPTION_MAX_CHARS) }),
-    });
-  }
-  if (entries.length === 0) return undefined;
-  // 截断诚实：被上界砍掉的、以及被种类过滤掉的，都算「还有更多没画出来」——判据因此是
-  // 「画出来的比总数少」，而不是「命中了上界」。
-  const truncated = entries.length < artifacts.length;
-  return { artifacts: entries, ...(truncated ? { artifactsTruncated: true as const } : {}) };
-}
-
-const MANIFEST_ARTIFACT_KINDS: readonly WorkflowArtifactManifestEntry["kind"][] = [
+const MANIFEST_ARTIFACT_KINDS: readonly ManifestKind[] = [
   "file",
   "markdown",
   "chart",
@@ -187,48 +158,156 @@ const MANIFEST_ARTIFACT_KINDS: readonly WorkflowArtifactManifestEntry["kind"][] 
   "board",
 ];
 
-function manifestArtifactKind(kind: string): WorkflowArtifactManifestEntry["kind"] | undefined {
-  return MANIFEST_ARTIFACT_KINDS.find((known) => known === kind);
+const MANIFEST_ARTIFACT_KIND_SET: ReadonlySet<string> = new Set(MANIFEST_ARTIFACT_KINDS);
+
+function manifestArtifactKind(kind: string): ManifestKind | undefined {
+  return MANIFEST_ARTIFACT_KIND_SET.has(kind) ? (kind as ManifestKind) : undefined;
 }
 
-/**
- * 快照 / 端口详情上的产物 → 本模块的输入形状。`bytes` 只在版本项上（端口的顶层刻意不带它），
- * 所以从**最新版**取——那正是清单要描述的那一版。
- *
- * 形状照样防御性检查：输入跨包而来（端口实现、或一条冷恢复回来的行），一个坏条目不该让整节
- * 消失。不合形的整条跳过。
- */
-export function toPublishedArtifactSummaries(
-  value: unknown,
-): PublishedArtifactSummary[] | undefined {
+function trimmed(value: OptionalText): OptionalText {
+  const result = value?.trim();
+  return result === undefined || result.length === 0 ? undefined : result;
+}
+
+// 超界与空值一律整条丢弃的字段：id（chip 的身份键）、version（zod 要求正整数）。
+function hasUsableIdentity(artifact: ArtifactSummary): boolean {
+  if (artifact.id.length === 0 || artifact.id.length > ARTIFACT_LIMITS.id) return false;
+  return Number.isInteger(artifact.version) && artifact.version >= 1;
+}
+
+// contentType 只是 chip 上的装饰：超界丢这一个键，而不是整条。
+function usableContentType(artifact: ArtifactSummary): OptionalText {
+  const value = artifact.contentType;
+  if (value === undefined || value.length > ARTIFACT_LIMITS.contentType) {
+    return undefined;
+  }
+  return value;
+}
+
+// 一条产物 → manifest 条目；种类未知或身份不可用返回 undefined（调用方整条跳过）。
+function manifestEntryFor(artifact: ArtifactSummary): WorkflowArtifactManifestEntry | undefined {
+  const kind = manifestArtifactKind(artifact.kind);
+  if (kind === undefined || !hasUsableIdentity(artifact)) return undefined;
+
+  const entry: WorkflowArtifactManifestEntry = {
+    id: artifact.id,
+    kind,
+    version: artifact.version,
+  };
+
+  const title = trimmed(artifact.title);
+  if (title !== undefined) entry.title = title.slice(0, ARTIFACT_LIMITS.title);
+
+  const contentType = usableContentType(artifact);
+  if (contentType !== undefined) entry.contentType = contentType;
+
+  if (artifact.primary === true) {
+    entry.primary = true;
+    const description = trimmed(artifact.description);
+    if (description !== undefined) {
+      entry.description = description.slice(0, ARTIFACT_LIMITS.description);
+    }
+  }
+  return entry;
+}
+
+// 构造 manifest 载荷的 `artifacts` 与 `artifactsTruncated`。
+//
+// 与上一节同源但形状不同：GUI 每条画一枚 chip（图标 + 截短 title），所以这里给结构化字段而不是
+// 拼好的文本。`bytes` 与 `itemCount` 不进载荷——chip 放不下，展开侧板就能看到。
+// 截断在构造前完成：载荷随 turnHeader row 进协议，超界会被 zod 拒收整行。
+//
+// kind 不在这六个字面量里的条目整条丢弃，不猜也不归一：未知种类在 GUI 上没有图标可画，
+// 而放行它会让整份载荷被 zod 拒掉，其余 chip 跟着一起消失。
+//
+// 没有产物时返回 undefined，调用方据此让两个字段同时缺席。
+export function buildWorkflowArtifactsManifestSection(
+  artifacts: readonly ArtifactSummary[] | undefined,
+): { artifacts: WorkflowArtifactManifestEntry[]; artifactsTruncated?: true } | undefined {
+  if (artifacts === undefined || artifacts.length === 0) return undefined;
+
+  const entries: WorkflowArtifactManifestEntry[] = [];
+  // 交付物先进清单：8 的上界永远砍不到它。
+  for (const artifact of primaryFirst(artifacts)) {
+    if (entries.length >= WORKFLOW_ARTIFACTS_NOTIFICATION_MAX_LINES) break;
+    // 一条坏行不该把其余 chip 一起带走：放行会让 zod 拒收整份载荷，所以坏条目整条丢。
+    const entry = manifestEntryFor(artifact);
+    if (entry === undefined) continue;
+    entries.push(entry);
+  }
+  if (entries.length === 0) return undefined;
+
+  // 截断诚实：被上界砍掉的、以及被种类过滤掉的，都算「还有更多没画出来」——判据因此是
+  // 「画出来的比总数少」，而不是「命中了上界」。
+  if (entries.length < artifacts.length) return { artifacts: entries, artifactsTruncated: true };
+  return { artifacts: entries };
+}
+
+//  原样照抄的文本字段：类型不对就整键不写。
+const SUMMARY_TEXT_FIELDS: readonly string[] = ["title", "contentType", "description"];
+//  原样照抄的数值字段。
+const SUMMARY_COUNT_FIELDS: readonly string[] = ["itemCount"];
+
+// 按字段名表照抄文本键：坏类型（或缺失）的键直接不出现，而不是写成 undefined。
+function copyTextFields(
+  source: Record<string, unknown>,
+  target: Record<string, unknown>,
+  keys: readonly string[],
+): void {
+  for (const key of keys) {
+    const value = source[key];
+    if (typeof value === "string") target[key] = value;
+  }
+}
+
+function copyCountFields(
+  source: Record<string, unknown>,
+  target: Record<string, unknown>,
+  keys: readonly string[],
+): void {
+  for (const key of keys) {
+    const value = source[key];
+    if (typeof value === "number") target[key] = value;
+  }
+}
+
+// 最新版的字节数：端口的顶层刻意不带 bytes，只有版本项上有，而清单要描述的正是最新版。
+function latestVersionBytes(record: Record<string, unknown>): OptionalCount {
+  const versions = Array.isArray(record.versions) ? record.versions : undefined;
+  const latest = versions?.[versions.length - 1];
+  if (latest === null || typeof latest !== "object") return undefined;
+  const bytes = (latest as Record<string, unknown>).bytes;
+  return typeof bytes === "number" ? bytes : undefined;
+}
+
+function summaryOf(record: Record<string, unknown>): ArtifactSummary | undefined {
+  const id = typeof record.id === "string" ? record.id : undefined;
+  const kind = typeof record.kind === "string" ? record.kind : undefined;
+  const version = typeof record.version === "number" ? record.version : undefined;
+  if (id === undefined || kind === undefined || version === undefined) return undefined;
+
+  const summary = { id, kind, version } as Record<string, unknown>;
+  copyTextFields(record, summary, SUMMARY_TEXT_FIELDS);
+  const bytes = latestVersionBytes(record);
+  if (bytes !== undefined) summary.bytes = bytes;
+  copyCountFields(record, summary, SUMMARY_COUNT_FIELDS);
+  if (record.primary === true) summary.primary = true;
+  return summary as unknown as ArtifactSummary;
+}
+
+// 把快照 / 端口详情里的产物转成本模块的输入形状。`bytes` 只挂在版本项上（端口顶层刻意不带），
+// 因此取最新版——那正是清单要描述的那一版。
+//
+// 输入跨包而来（端口实现或冷恢复的行），所以照样做形状检查：坏条目整条跳过，
+// 不让它把整节拖没。
+export function toPublishedArtifactSummaries(value: unknown): ArtifactSummary[] | undefined {
   if (!Array.isArray(value) || value.length === 0) return undefined;
-  const summaries: PublishedArtifactSummary[] = [];
+
+  const summaries: ArtifactSummary[] = [];
   for (const entry of value) {
     if (entry === null || typeof entry !== "object") continue;
-    const record = entry as Record<string, unknown>;
-    const id = typeof record.id === "string" ? record.id : undefined;
-    const kind = typeof record.kind === "string" ? record.kind : undefined;
-    const version = typeof record.version === "number" ? record.version : undefined;
-    if (id === undefined || kind === undefined || version === undefined) continue;
-    const versions = Array.isArray(record.versions) ? record.versions : undefined;
-    const latest = versions?.[versions.length - 1];
-    const bytes =
-      latest !== null &&
-      typeof latest === "object" &&
-      typeof (latest as Record<string, unknown>).bytes === "number"
-        ? ((latest as Record<string, unknown>).bytes as number)
-        : undefined;
-    summaries.push({
-      id,
-      kind,
-      version,
-      ...(typeof record.title === "string" ? { title: record.title } : {}),
-      ...(typeof record.contentType === "string" ? { contentType: record.contentType } : {}),
-      ...(bytes === undefined ? {} : { bytes }),
-      ...(typeof record.itemCount === "number" ? { itemCount: record.itemCount } : {}),
-      ...(record.primary === true ? { primary: true as const } : {}),
-      ...(typeof record.description === "string" ? { description: record.description } : {}),
-    });
+    const summary = summaryOf(entry as Record<string, unknown>);
+    if (summary !== undefined) summaries.push(summary);
   }
   return summaries.length === 0 ? undefined : summaries;
 }
