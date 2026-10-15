@@ -240,3 +240,51 @@
 | 模型选择持久化失败事件 | `"session.model_selection.persist_failed"` | turn-model | B38 |
 | 诊断/可疑空事件 | `"model.response.diagnostics"` / `"model.response.suspicious_empty"` | turn-model-step-records | B34 |
 | 快速回填熔断事件 | `"compact.rapid_refill_breaker"` | turn-model-step-recovery | B37 |
+| 输出续写提示词 | `"Output token limit hit. Resume directly — no apology, no recap of what you were doing. Pick up mid-thought if that is where the cut happened. Break remaining work into smaller pieces."` | turn-output-token-continuation | B40 |
+| 输出上限错误文案 | `"The model's response exceeded the output token maximum."` | turn-output-token-continuation | B40 |
+| `MAX_OUTPUT_TOKEN_CONTINUATIONS` | `3` | turn-output-token-continuation | B40 |
+| `OUTPUT_LIMIT_RAW_REASONS` | `{"max_tokens","max_output_tokens","model_context_window_exceeded"}` | turn-output-token-continuation | B40 |
+| 续写条目 `queryScope` | `"output_token_continuation"` | turn-output-token-continuation | B40 |
+| step-finish 缺模型错误 | `"Model-backed turn step finish requires the loop Model"` | turn-step-finish | B41 |
+
+### B40 输出 token 续写（`turn-output-token-continuation.ts`）
+
+- **输入**：`classifyOutputTokenContinuation({finishReason, rawFinishReason, toolCallCount,
+  continuationCount})`；`isOutputTokenLimitFinishReason(finish, raw)`；条目过滤/保留三件
+  （`filterOutputTokenContinuationEntries`/`preserveCanonicalContextPrefix`/
+  `hasAssistantReasoningContent`）；请求状态四件（`appendTurnRequestEntries`/
+  `commitTurnRequestEntries`/`commitAssistantToTurnRequest`/`appendOutputTokenContinuation`+
+  `completeOutputTokenRecovery`/`finishOutputTokenRecovery`）。
+- **输出**：判定三态 `"continue" | "exhausted" | "none"`——`toolCallCount > 0` 即 `"none"`；
+  非输出上限结束（`finishReason === "length"` 或 `OUTPUT_LIMIT_RAW_REASONS` 命中 raw）即 `"none"`；
+  `continuationCount < 3 → "continue"` 否则 `"exhausted"`。续写条目 = 用户条目 +
+  `queryScope: "output_token_continuation"`（提示词逐字见常量表）。`preserveCanonicalContextPrefix`
+  取「当前 canonical 前缀（`countContextPrefixMessages`）+ turn-local 尾」（配置刷新替换 canonical
+  前缀、恢复链持旧 prefix 的撤销防护）。`commitAssistantToTurnRequest`：内容非空
+  （`modelResponse`/过滤后 reasoning/`toolCalls` 三有其一）才提交；**assistant 归因用 Turn 已绑定
+  `state.model`**（provider result metadata 可能报别的模型——恢复链旧身份防护注释钉明）；
+  返回是否提交。
+- **错误语义**：纯函数/原地状态，不抛。
+- **时序与并发**：`appendOutputTokenContinuation`（+1）在截断判定后；`completeOutputTokenRecovery`
+  （清 0）在输出续写成功/有工具可执行时（B33 两处）；**压缩与异常重试不追加 Continue 也不重置
+  次数**；第四次仍截断按输出上限报错、不再额外尝试 Reactive Compact（源码长注释即契约）。
+- **幂等**：过滤/保留纯函数；计数单调（append）/归零（complete）。
+- **资源释放**：`TurnRequestState` 随 Turn 结束释放。
+- **平台差异**：无。
+- **状态所有者**：`turnRequestState.outputTokenContinuationCount` 唯一写者（append/complete）。
+- **日志级别**：无。
+
+### B41 工具步收尾持久化（`turn-step-finish.ts` 的 `persistToolModelStepFinish`）
+
+- **输入**：`(runtime, state, {assistantCreatedAt, assistantMessageId, modelTraceContext, result})`；
+  `state.model` 缺失时 **抛 `Error("Model-backed turn step finish requires the loop Model")`**。
+- **输出**：两段持久化序——① `step-finish` 分部（`reason: result.finishReason`、`cost: 0`、
+  `tokens: toTokenUsageInfo(result.usage)`）；② `persistAssistantMessage` 收尾
+  （`{completed: Date.now(), finish: result.finishReason, tokens: toTokenUsageInfo(...)}`）。
+- **错误语义**：缺模型同步抛（上条）；持久化失败按持久化面传播。
+- **时序与并发**：先分部后消息收尾，两段 await 顺序即契约（工具批执行的步收尾点，B42 调用）。
+- **幂等**：分部 id `createPartId()` 每次唯一；收尾为覆盖式字段更新。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读 state（`model`/`currentUserMessageId`）。
+- **日志级别**：无。
