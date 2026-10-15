@@ -165,9 +165,9 @@ node scripts/contract-gate.mjs --contract specs/contracts/shared-02 --tests "*.t
 - 桩替换（58 个目标文件，import 即抛 `not implemented: shared-02`）：8 个测试文件
   **pass=0** fail=8 → `allFail=true`：契约测试确实测到公开行为
 - 预登记差异：**无**；跳过：0；详细输出见 [`gate-old.json`](gate-old.json)
-- 基线：Node **v24.14.0**、`commit` = `2bfceaf1`（合同分支合入最新 main
-  `7d280b0e` 后的合并提交；58 个合同文件与 `origin/main` 逐字节一致，
-  `scope-files.json` 的 sha256 可复核）。
+- 基线：Node **v24.14.0**；旧门运行的主仓提交以 [`gate-old.json`](gate-old.json) 的
+  `commit` 字段为准（该提交是合同分支合入当时最新 main 后的合并提交；58 个合同文件
+  与 `origin/main` 逐字节一致，`scope-files.json` 的 sha256 可复核）。
 
 ## 八、运行契约测试（两个入口）
 

@@ -139341,7 +139341,7 @@
     },
     {
       "path": "specs/contracts/shared-02/acceptance.md",
-      "normalizedSha256": "4ce34237d944a3b2d42b705353e948350ee309abfef0d47b48f4911081cca8a2",
+      "normalizedSha256": "5ac012aa03c06cc5fbbe35d568f1ea4196abe15812091656e1a158b7a84f9dc4",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
@@ -139377,7 +139377,7 @@
     },
     {
       "path": "specs/contracts/shared-02/gate-old.json",
-      "normalizedSha256": "d3a6c5f0afa86150e10fca06232d0c63d8c655c1fad2020a89dab9b01a64c52c",
+      "normalizedSha256": "ea35b1ea6d6cbbfff403fa44093ea9b93a2b919a94de3d9b770402132dacf18a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
@@ -139437,7 +139437,7 @@
     },
     {
       "path": "specs/contracts/shared-02/README.md",
-      "normalizedSha256": "3ac8f7d832b5b8608c28d38d1d220a5d5a3aa398572f72a0c88c17516f1829a9",
+      "normalizedSha256": "ce8b6eb63c003f0809d8ae03298987b12823587af419cc5167c266627e7cbe6f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",

@@ -49,8 +49,8 @@ node scripts/contract-gate.mjs --contract specs/contracts/shared-02 --tests "*.t
 | 桩替换（58 个模块路径，import 即抛 `not implemented: shared-02`）   |     8 |    0 |    8 | `allFail=true`：测试确实测到公开行为 |
 
 - 预登记差异：**无**（81/81 全过，没有放宽或跳过的断言）。
-- 运行基线：`gate-old.json` 的 `commit` = `2bfceaf1`（合同分支合入最新 main
-  `7d280b0e` 后的合并提交；58 个合同文件与 `origin/main` 逐字节一致，
+- 运行基线：旧门运行的主仓提交以 `gate-old.json` 的 `commit` 字段为准（合同分支合入
+  当时最新 main 后的合并提交；58 个合同文件与 `origin/main` 逐字节一致，
   `scope-files.json` 的 sha256 可复核）。
 - 完整报告见 [`gate-old.json`](gate-old.json)（含两入口输出尾部与桩替换输出尾部）。
 - 录制口径：金样全部由旧实现录制（临时脚本 `.scratch-exec4/s02-record-fixtures.mjs`，
