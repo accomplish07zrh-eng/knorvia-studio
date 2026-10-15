@@ -1,4 +1,8 @@
-// Source-exposed compatibility/prose; applicable repository LICENSE/NOTICE.md remain.
+// SPDX-License-Identifier: Apache-2.0
+// 花名册「正在做什么」活动行：按子代理相位分叉出一句描述——停驻的说等哪个问题、在等的说等什么、
+// 未完结的说停时在飞、在跑的说 ask 与工具详情、安静的报步数。文案逐字（金样 B-ga 锁定）。
+// 纪律：不知道就不说——没有时间戳就不拼年龄，没有 wait 就给空串，绝不造 0 冒充事实。
+
 import type { GetWorkflowRunSubagent } from "@knorvia/contracts";
 import {
   escapeWorkflowRunText,
@@ -6,62 +10,75 @@ import {
   formatWorkflowRunDuration,
 } from "./workflow-run-introspection.js";
 
-function askLabel(ask: NonNullable<GetWorkflowRunSubagent["currentAsk"]>): string {
-  let step = "";
-  if (ask.actorSeq !== undefined) step = ` (step ${ask.actorSeq + 1})`;
-  return `${escapeWorkflowRunText(ask.siteId)}@${ask.ordinal}${step}`;
+type Ask = NonNullable<GetWorkflowRunSubagent["currentAsk"]>;
+type Wait = NonNullable<GetWorkflowRunSubagent["wait"]>;
+
+/** ask 定位标签：地址 + 可选步号（actorSeq 从 0 计，显示步号从 1 起）。 */
+function askLabel(ask: Ask): string {
+  const step = ask.actorSeq === undefined ? "" : ` (step ${ask.actorSeq + 1})`;
+  return `${escapeWorkflowRunText(ask.siteId)}@${ask.ordinal}${step}`; // 地址@序号（步号）
+}
+
+/** 相对年龄进时长段：去掉「ago」再接在「for」后面。 */
+function elapsedSuffix(age: string | undefined): string {
+  return age === undefined ? "" : ` for ${age.replace(/ ago$/u, "")}`;
+}
+
+function parkedLine(
+  actor: GetWorkflowRunSubagent,
+  clock: number,
+  questionTimes: ReadonlyMap<string, number>,
+): string {
+  const qid = escapeWorkflowRunText(actor.parkedOn!);
+  const age = formatRelativeAge(clock, questionTimes.get(actor.parkedOn!));
+  return `on question ${qid}${elapsedSuffix(age)}`;
+}
+
+function waitLine(wait: Wait, clock: number): string {
+  const elapsed = elapsedSuffix(formatRelativeAge(clock, wait.since));
+  if (wait.cause === "slot") return `waiting for a slot${elapsed}`; // 等并发槽位
+  const reason = wait.reason === undefined ? "" : ` after ${escapeWorkflowRunText(wait.reason)}`;
+  const retry =
+    wait.retryAfterMs === undefined ? "" : `, retry in ${formatWorkflowRunDuration(wait.retryAfterMs)}`;
+  return `backoff${reason}${elapsed}${retry}`; // 退避（原因/时长/下次重试）
+}
+
+function askDetailLine(ask: Ask, clock: number): string {
+  const details = [askLabel(ask)]; // 地址行头
+  const age = formatRelativeAge(clock, ask.startedAt);
+  if (age !== undefined) details.push(`${age.replace(/ ago$/u, "")} on this step`); // 本步时长
+  if (ask.turn !== undefined) details.push(`turn ${ask.turn}`); // 回合数
+  if (ask.toolCalls !== undefined) {
+    details.push(`${ask.toolCalls} tool call${ask.toolCalls === 1 ? "" : "s"}`); // 工具调用数（单复数）
+  }
+  if (ask.lastTool !== undefined) {
+    const target = ask.lastTool.target === undefined ? "" : ` ${escapeWorkflowRunText(ask.lastTool.target)}`;
+    const toolAge = formatRelativeAge(clock, ask.lastTool.at);
+    const suffix = toolAge === undefined ? "" : ` ${toolAge}`;
+    details.push(`last ${escapeWorkflowRunText(ask.lastTool.name)}${target}${suffix}`); // 最近工具
+  }
+  return details.join(", ");
+}
+
+function stepsLine(actor: GetWorkflowRunSubagent): string {
+  const failures = actor.stepsFailed > 0 ? `, ${actor.stepsFailed} failed` : "";
+  return `${actor.stepsSettled} step${actor.stepsSettled === 1 ? "" : "s"}${failures}`; // 步数（单复数）
 }
 
 export function renderWorkflowRunActivity(
-  subagent: GetWorkflowRunSubagent,
-  now: number,
-  askedAtByQid: ReadonlyMap<string, number>,
+  actor: GetWorkflowRunSubagent,
+  clock: number,
+  questionTimes: ReadonlyMap<string, number>,
 ): string {
-  if (subagent.state === "parked" && subagent.parkedOn !== undefined) {
-    const age = formatRelativeAge(now, askedAtByQid.get(subagent.parkedOn));
-    const elapsed = age === undefined ? "" : ` for ${age.replace(/ ago$/u, "")}`;
-    return `on question ${escapeWorkflowRunText(subagent.parkedOn)}${elapsed}`;
-  }
-
-  if (subagent.state === "waiting") {
-    const wait = subagent.wait;
-    if (wait === undefined) return "";
-    const age = formatRelativeAge(now, wait.since);
-    const elapsed = age === undefined ? "" : ` for ${age.replace(/ ago$/u, "")}`;
-    if (wait.cause === "slot") return `waiting for a slot${elapsed}`;
-    let reason = "";
-    if (wait.reason !== undefined) reason = ` after ${escapeWorkflowRunText(wait.reason)}`;
-    let retry = "";
-    if (wait.retryAfterMs !== undefined)
-      retry = `, retry in ${formatWorkflowRunDuration(wait.retryAfterMs)}`;
-    return `backoff${reason}${elapsed}${retry}`;
-  }
-
-  if (subagent.state === "unfinished" && subagent.currentAsk !== undefined)
-    return `${askLabel(subagent.currentAsk)} was in flight at the stop`;
-
-  if (subagent.currentAsk !== undefined) {
-    const ask = subagent.currentAsk;
-    const details = [askLabel(ask)];
-    const age = formatRelativeAge(now, ask.startedAt);
-    if (age !== undefined) details.push(`${age.replace(/ ago$/u, "")} on this step`);
-    if (ask.turn !== undefined) details.push(`turn ${ask.turn}`);
-    if (ask.toolCalls !== undefined)
-      details.push(`${ask.toolCalls} tool call${ask.toolCalls === 1 ? "" : "s"}`);
-    if (ask.lastTool !== undefined) {
-      let target = "";
-      if (ask.lastTool.target !== undefined)
-        target = ` ${escapeWorkflowRunText(ask.lastTool.target)}`;
-      const toolAge = formatRelativeAge(now, ask.lastTool.at);
-      details.push(
-        `last ${escapeWorkflowRunText(ask.lastTool.name)}${target}${toolAge === undefined ? "" : ` ${toolAge}`}`,
-      );
-    }
-    return details.join(", ");
-  }
-
-  if (subagent.stepsSettled === 0 && subagent.stepsFailed === 0) return "";
-  let failures = "";
-  if (subagent.stepsFailed > 0) failures = `, ${subagent.stepsFailed} failed`;
-  return `${subagent.stepsSettled} step${subagent.stepsSettled === 1 ? "" : "s"}${failures}`;
+  const ask = actor.currentAsk;
+  const parked = actor.state === "parked" && actor.parkedOn !== undefined;
+  if (parked) return parkedLine(actor, clock, questionTimes);
+  const waiting = actor.state === "waiting";
+  if (waiting) return actor.wait === undefined ? "" : waitLine(actor.wait, clock);
+  const unfinished = actor.state === "unfinished" && ask !== undefined;
+  if (unfinished) return `${askLabel(ask!)} was in flight at the stop`; // 停时在飞
+  if (ask !== undefined) return askDetailLine(ask, clock);
+  const quiet = actor.stepsSettled === 0 && actor.stepsFailed === 0;
+  if (quiet) return ""; // 安静的子代理没有活动行
+  return stepsLine(actor);
 }
