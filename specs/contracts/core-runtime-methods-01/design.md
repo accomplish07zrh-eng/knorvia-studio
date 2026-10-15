@@ -26,29 +26,29 @@
 `runtime/methods/support/`（新文件，普通模式计分，内部导出一律不入公开面——防「导出集合与
 interface.md 一致」契约红）。簇划分与内核落点：
 
-| 簇 | 公开门面（旧文件→门面） | support 内核（新写） | 覆盖条目 |
-| --- | --- | --- | --- |
-| C1 纯函数 | model-request-session-type、model-token-limits、reasoning-stream、model-streaming-event、usage-observability-projection | `support/session-type-table.ts`、`support/token-budget.ts`、`support/reasoning-blocks.ts`、`support/usage-projection.ts` | B3/B4/B9/B31（+B8 落点） |
-| C2 流状态 | model-request-stream-state、model-streaming-event-queue、model-runtime-headers、model-status | `support/write-queue.ts`（尾链+背压+失败缓存）、`support/tool-input-buffers.ts`、`support/status-log-table.ts`（7 type 表驱动）、`support/header-refresh.ts` | B5/B6/B7/B10/B11 |
-| C3 取消与恢复 | cancelled-stream-persistence、streaming-recovery、streaming-tool-synthetic-result | `support/cancel-snapshot.ts`、`support/recovery-plan.ts`（预算/attempt/锚点/failureKind/retryable 判定表）、`support/recovery-emit.ts`、`support/synthetic-results.ts` | B13–B17、B21 |
-| C4 流式工具 | streaming-tool-coordinator、streaming-tool-execution | `support/admission-table.ts`（准入七条件判定表）、`support/during-stream-run.ts`（B20 管线）、`support/collect-results.ts`（250ms 竞速收采）、`support/recover-step.ts`（B22 编排） | B18–B20、B22 |
-| C5 事件管线 | events、events-durable、events-session、events-summary | `support/event-pipeline.ts`（append 四步+日志序列）、`support/sink-notify.ts`、`support/session-persist.ts`（五 phase）、`support/durable-dispatch.ts`（八类分派表）、`support/append-summary.ts` | B23–B27 |
-| C6 用量与入口 | usage-observability、model、runtime-model | `support/model-request-assembly.ts`（B1 组装+三段投影缝）、`support/stream-consume.ts`（B2 映射循环）、`support/usage-model-fact.ts`、`support/usage-turn-fact.ts`、`support/usage-tool-fact.ts`、`support/invocation-layer.ts`（B12 合并层） | B1/B2/B12/B28–B30 |
+| 簇            | 公开门面（旧文件→门面）                                                                                                 | support 内核（新写）                                                                                                                                                                                                                          | 覆盖条目                 |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| C1 纯函数     | model-request-session-type、model-token-limits、reasoning-stream、model-streaming-event、usage-observability-projection | `support/session-type-table.ts`、`support/token-budget.ts`、`support/reasoning-blocks.ts`、`support/usage-projection.ts`                                                                                                                      | B3/B4/B9/B31（+B8 落点） |
+| C2 流状态     | model-request-stream-state、model-streaming-event-queue、model-runtime-headers、model-status                            | `support/write-queue.ts`（尾链+背压+失败缓存）、`support/tool-input-buffers.ts`、`support/status-log-table.ts`（7 type 表驱动）、`support/header-refresh.ts`                                                                                  | B5/B6/B7/B10/B11         |
+| C3 取消与恢复 | cancelled-stream-persistence、streaming-recovery、streaming-tool-synthetic-result                                       | `support/cancel-snapshot.ts`、`support/recovery-plan.ts`（预算/attempt/锚点/failureKind/retryable 判定表）、`support/recovery-emit.ts`、`support/synthetic-results.ts`                                                                        | B13–B17、B21             |
+| C4 流式工具   | streaming-tool-coordinator、streaming-tool-execution                                                                    | `support/admission-table.ts`（准入七条件判定表）、`support/during-stream-run.ts`（B20 管线）、`support/collect-results.ts`（250ms 竞速收采）、`support/recover-step.ts`（B22 编排）                                                           | B18–B20、B22             |
+| C5 事件管线   | events、events-durable、events-session、events-summary                                                                  | `support/event-pipeline.ts`（append 四步+日志序列）、`support/sink-notify.ts`、`support/session-persist.ts`（五 phase）、`support/durable-dispatch.ts`（八类分派表）、`support/append-summary.ts`                                             | B23–B27                  |
+| C6 用量与入口 | usage-observability、model、runtime-model                                                                               | `support/model-request-assembly.ts`（B1 组装+三段投影缝）、`support/stream-consume.ts`（B2 映射循环）、`support/usage-model-fact.ts`、`support/usage-turn-fact.ts`、`support/usage-tool-fact.ts`、`support/invocation-layer.ts`（B12 合并层） | B1/B2/B12/B28–B30        |
 
 簇内先内核后门面；门面仅 `export` 转发（形如 core-03/试点 1 的薄壳口径）。
 
 ## 2. 状态所有者（不变，仅换持有位置）
 
-| 状态 | 所有者 | 备注 |
-| --- | --- | --- |
-| 流状态（reasoning/toolCalls/缓冲/finalToolCallIds） | `createModelRequestStreamState` 返回的句柄（C2 内核构造） | 一次性请求生命周期 |
-| 队列 pending/失败/尾链 | write-queue 内核闭包 | 进入序=enqueue 序契约 |
-| 协调器声明表/执行表/abort 控制器/丢弃字节 | `createStreamingToolCoordinator` 闭包（C4） | 同 id 不重复启动 |
-| 恢复预算计数/pending identity/events | `RegularTurnLoopState`（回合循环持有，C3 读写） | 非并发安全，调用方串行 |
-| 事件数组 `options.events` | 调用方 | 先持久化后 push |
-| 汇总条目 | 模块级 WeakMap（keyed by runtime，C5） | 冲刷即清空 |
-| usage 账本 | `UsageStorePort`（sessionStore 扩展面，四方法门槛） | 写入失败 warn 吞掉 |
-| 会话持久化位 | `runtime.sessionPersisted`（B25 唯一写者） | 失败不置位 |
+| 状态                                                | 所有者                                                    | 备注                   |
+| --------------------------------------------------- | --------------------------------------------------------- | ---------------------- |
+| 流状态（reasoning/toolCalls/缓冲/finalToolCallIds） | `createModelRequestStreamState` 返回的句柄（C2 内核构造） | 一次性请求生命周期     |
+| 队列 pending/失败/尾链                              | write-queue 内核闭包                                      | 进入序=enqueue 序契约  |
+| 协调器声明表/执行表/abort 控制器/丢弃字节           | `createStreamingToolCoordinator` 闭包（C4）               | 同 id 不重复启动       |
+| 恢复预算计数/pending identity/events                | `RegularTurnLoopState`（回合循环持有，C3 读写）           | 非并发安全，调用方串行 |
+| 事件数组 `options.events`                           | 调用方                                                    | 先持久化后 push        |
+| 汇总条目                                            | 模块级 WeakMap（keyed by runtime，C5）                    | 冲刷即清空             |
+| usage 账本                                          | `UsageStorePort`（sessionStore 扩展面，四方法门槛）       | 写入失败 warn 吞掉     |
+| 会话持久化位                                        | `runtime.sessionPersisted`（B25 唯一写者）                | 失败不置位             |
 
 ## 3. 事件顺序不变量（重写后必须逐条对测）
 
