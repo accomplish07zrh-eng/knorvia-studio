@@ -429,3 +429,103 @@
 - **平台差异**：无。
 - **状态所有者**：只读。
 - **日志级别**：无（helpers 侧可 warn）。
+
+### B46 工具调用异常告警（`turn-tool-warnings.ts` 的 `handleToolCallAnomalyWarnings`）
+
+- **输入**：`(runtime, state, {modelTraceContext, toolCalls})`；预算告警
+  `detectToolCallBudgetWarning(state.toolCallCount, toolCalls.length, state, config.modelAnomalyGuard)`；
+  重复告警 `detectRepeatedToolCallWarnings(toolCalls, state, config.modelAnomalyGuard)`。
+- **输出**：预算告警命中 → `warningInjected` 时提交 `systemReminderAttachmentEntry("model_anomaly",
+  buildToolCallBudgetReminderBody(observedCount))` → `ModelAnomalyWarning` 事件
+  `{category: "tool_call_budget", severity: "warning", observedCount, threshold, warningInjected}`
+  （append + state.events push）。重复告警逐条 → 注入
+  `buildRepeatedToolCallReminderBody(toolName, observedCount)`（同上条件）→ 事件
+  `{category: "repeated_tool_call", severity: "warning", observedCount, threshold, toolCallId,
+  toolName, warningInjected}`（append + push）。
+- **错误语义**：事件/提交失败按持久化面传播。
+- **时序与并发**：B42 批收尾无停止分支的**第一步**（step-finish 之前）。
+- **幂等**：检测函数的状态推进由 helpers 面定义（`repeatedToolCallSignature/StreakCount`）。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读（检测函数可经 state 更新重复签名）。
+- **日志级别**：无（告警走事件，不走日志）。
+
+### B50 步边界 guide 排空（`turn-guide-drain.ts` 的 `drainInlineGuideForNextRequest`）
+
+- **输入**：`(runtime, state)`；无 `activeTurn` 或 `hasInlineGuidePendingInput` 不命中即 `false`。
+- **输出**：`Promise<boolean>`。序（顺序即契约）：`drainPendingInput`（`pendingInputIds` 空 →
+  false）→ 记 `state.drainedSteerForNextRequest` → `appendTurnRequestEntries(runtimeEntries)` →
+  **固定执行模型（`modelSelectionScope === "execution"`）只禁切模、不丢 Guide 权限/Plan 意图**
+  （intent 走 `applyRuntimeExecutionState({source: "command"})`、guideModel 置 undefined）→
+  否则 `applySubmissionExecutionState`；guideModel 有值时比较 **Loop 执行选择**（不是 Session）
+  决定 `selectionChanged`，变化才 `rebuildContextPrefix` → `currentUserMessageId = latestMessageId`
+  → `queryIds[0]` 存在则覆盖 `turnTraceContext.queryId`（guide 以 user role 续上 active turn）→
+  `toolDisallowlist` 并集合并（automation guide 不重新 start turn）→ 重置
+  `repeatedToolCallSignature/StreakCount` → `true`。
+- **错误语义**：各 apply/drain 失败按对应面传播。
+- **时序与并发**：B42 批收尾常规分支的倒数第二步（每 model-step 边界最多消费一条 guide——
+  SendMessage 可能在 child model request 中到达，doc 注释钉明）。
+- **幂等**：单次调用至多消费一条（drainPendingInput 口径）；重复签名重置即新计数周期。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：`drainedSteerForNextRequest`/`turnRequestState.entries`/`model`/
+  `currentUserMessageId`/`turnTraceContext`/`toolDisallowlist`/`repeatedToolCall*` 的写点见主序。
+- **日志级别**：无。
+
+### B51 嵌套模型用量事件（`turn-nested-model-usage.ts` 的 `emitNestedModelUsageEvents`）
+
+- **输入**：`(runtime, {events, results, traceContext})`；结果输出需含 `output.modelUsage`
+  （record 型）。
+- **输出**：逐结果提取 `extractNestedModelUsage(output)`（六 token 字段取有限数值 +
+  `serverToolUse: {webFetchRequests, webSearchRequests}` 条件附着；非 record/缺 modelUsage →
+  undefined 跳过），命中则造 `ModelComplete` 事件 `{content: "", stopReason: "tool_internal",
+  usage, toolCallCount: 0}`（append + state.events push）。
+- **错误语义**：事件失败按持久化面传播。
+- **时序与并发**：B42 结果收口序（`completeTool` 之前）。
+- **幂等**：每结果至多一事件（提取唯一）。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读（事件进 state.events）。
+- **日志级别**：无。
+
+### B49 停止收尾与助手持久化（`turn-stop.ts`）
+
+- **输入**：`captureAssistantPersistenceAnchor(runtime)`（快照三个指针：`latestAssistantMessageId`/
+  `latestAssistantTurnId`/`latestConversationMessageId`）；`persistCompletedAssistantStep(runtime,
+  state, {anchor, assistantCreatedAt, assistantMessageId, includeEmptyAssistant, modelTraceContext,
+  result})`；`persistOutputTokenLimitErrorCarrier(runtime, state, {error, finishReason, model,
+  modelTraceContext})`；`finishModelStepWithoutToolCalls(this, state, options)`。
+- **输出**：
+  - `persistCompletedAssistantStep` → boolean。`state.model` 缺失**抛
+    `"Model-backed assistant persistence requires the loop Model"`**。提交序：
+    `commitAssistantToTurnRequest(result, undefined)` → 未提交且 `includeEmptyAssistant` 时补
+    空助手条目（`createRuntimeAssistantEntry("", ..., model, tokens)`）→ 仍未提交则 **丢弃路径**：
+    `sessionStore.removeMessage` + **只回滚仍属本消息的指针**（`latestConversationMessageId`/
+    `latestAssistantMessageId`（连带 `latestAssistantTurnId`）等于 `assistantMessageId` 才还原
+    anchor 快照——注释「Restore only pointers still owned by this discarded message」钉明）→
+    `false`；已提交则 `step-finish` 分部（`reason: result.finishReason, cost: 0, tokens`）→
+    `persistAssistantMessage` 收尾 → `true`。
+  - `persistOutputTokenLimitErrorCarrier`：**carrier 有独立消息身份与分段持久化**（注释钉明）：
+    `persistAssistantMessage` 骨架 → `step-finish` 分部（空 tokens）→ `persistAssistantMessage`
+    收尾（`{completed, error: {name, data}, finish: finishReason, tokens: emptyTokenUsageInfo()}`）。
+  - `finishModelStepWithoutToolCalls` → `"continue" | "break"`（`state.model` 缺失**抛
+    `"Model-backed turn stop requires the loop Model"`**）：`persistCompletedAssistantStep(
+    includeEmptyAssistant: true)`，committed 时 `recordModelHistoryRound`；三分支：
+    ① `automationCreateLimitReached` → `fallbackPendingGuidesToQueue("guide.noToolBoundary")` +
+    `steerable = false` + 记 `stableProductStartMessageId/stableBoundaryAssistantMessageId` +
+    `complete(modelResponse, "success")` → `"break"`；
+    ② `drainInlineGuideForNextRequest` 命中 → `aggregateResults()` → `"continue"`；
+    ③ `runStopHooks(modelResponse, toolCallCount, trace, signal, stopHookContinuationCount > 0)`
+    → `shouldContinueAfterStopHooks` 命中则 `stopHookContinuationCount++` + 注入
+    `injectHookAdditionalContextIntoMessageHistory(HookEventName.Stop, additionalContexts)` +
+    `aggregateResults()` → `"continue"`；否则 guide 回退 + `steerable = false` + stable 对 +
+    `complete(...)` → `"break"`。
+- **错误语义**：缺模型两处固定抛错；持久化失败冒泡。
+- **时序与并发**：B33 无工具分支（含 `includeEmptyAssistant: true`）；B42 批收尾的 step-finish
+  走 `persistToolModelStepFinish`（B41）。stable 对只在确定不再 continue 时赋值。
+- **幂等**：锚点快照纯读；`removeMessage`+指针回滚按属主判断不误伤。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：`stableProductStartMessageId`/`stableBoundaryAssistantMessageId`/
+  `stopHookContinuationCount`/`turnMachine`/`activeTurn.steerable` 写点见三分支。
+- **日志级别**：无（hook 面自管）。
