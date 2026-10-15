@@ -39,7 +39,9 @@ function waitLine(wait: Wait, clock: number): string {
   if (wait.cause === "slot") return `waiting for a slot${elapsed}`; // 等并发槽位
   const reason = wait.reason === undefined ? "" : ` after ${escapeWorkflowRunText(wait.reason)}`;
   const retry =
-    wait.retryAfterMs === undefined ? "" : `, retry in ${formatWorkflowRunDuration(wait.retryAfterMs)}`;
+    wait.retryAfterMs === undefined
+      ? ""
+      : `, retry in ${formatWorkflowRunDuration(wait.retryAfterMs)}`;
   return `backoff${reason}${elapsed}${retry}`; // 退避（原因/时长/下次重试）
 }
 
@@ -52,7 +54,8 @@ function askDetailLine(ask: Ask, clock: number): string {
     details.push(`${ask.toolCalls} tool call${ask.toolCalls === 1 ? "" : "s"}`); // 工具调用数（单复数）
   }
   if (ask.lastTool !== undefined) {
-    const target = ask.lastTool.target === undefined ? "" : ` ${escapeWorkflowRunText(ask.lastTool.target)}`;
+    const target =
+      ask.lastTool.target === undefined ? "" : ` ${escapeWorkflowRunText(ask.lastTool.target)}`;
     const toolAge = formatRelativeAge(clock, ask.lastTool.at);
     const suffix = toolAge === undefined ? "" : ` ${toolAge}`;
     details.push(`last ${escapeWorkflowRunText(ask.lastTool.name)}${target}${suffix}`); // 最近工具

@@ -126,7 +126,8 @@ function toolBudget() {
     maxInlineBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 24k 内联上限
     maxModelBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 24k 模型面上限
     strategy: "truncate" as const, // 超限截断
-    preview: { // 预览
+    preview: {
+      // 预览
       maxBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 预览同预算
       direction: "head" as const,
     },

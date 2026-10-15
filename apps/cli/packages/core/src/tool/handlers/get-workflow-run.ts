@@ -56,9 +56,13 @@ const DESCRIPTION_BULLETS = [
 ];
 
 function composeDescription(): string {
-  return [DESCRIPTION_INTRO, "", WORKFLOW_RUN_INTROSPECTION_STEERING, "", ...DESCRIPTION_BULLETS].join(
-    "\n",
-  );
+  return [
+    DESCRIPTION_INTRO,
+    "",
+    WORKFLOW_RUN_INTROSPECTION_STEERING,
+    "",
+    ...DESCRIPTION_BULLETS,
+  ].join("\n");
 }
 
 const GET_WORKFLOW_RUN_DESCRIPTION = composeDescription();

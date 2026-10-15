@@ -31,7 +31,8 @@ function fromClause(
 const CONTRIBS: readonly Contribution[] = [
   {
     essential: true,
-    read: (run, clock, terminal) => `${readWorkflowSummaryClause("status", run, clock, terminal)!}${readWorkflowSummaryClause("phase", run)!}.`,
+    read: (run, clock, terminal) =>
+      `${readWorkflowSummaryClause("status", run, clock, terminal)!}${readWorkflowSummaryClause("phase", run)!}.`,
   },
   {
     essential: true,

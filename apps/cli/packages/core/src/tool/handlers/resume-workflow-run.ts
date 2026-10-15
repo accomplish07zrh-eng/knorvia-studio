@@ -177,7 +177,8 @@ function toolPermission(): ToolEntry["permission"] {
   // 权限面：拦截面仍在 PreToolUse deny 与项目 deny 规则
   const surface = {
     permission: "resumeWorkflowRun" as const, // 权限名
-    reason: "resumeWorkflowRun.runConfirmation: resuming continues executing a stopped workflow run", // 理由（协议面）
+    reason:
+      "resumeWorkflowRun.runConfirmation: resuming continues executing a stopped workflow run", // 理由（协议面）
     riskLevel: "low" as const,
     sideEffectScope: "none" as const,
     needsApproval: false, // 与 UI 按钮同一风险档

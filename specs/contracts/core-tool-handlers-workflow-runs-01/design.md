@@ -11,6 +11,7 @@
 ## 换骨配方全册（逐簇）
 
 **总原则**（继承 apps-cli-packages-01-model 与 -01 的手法沉淀）：
+
 1. 换模块切法/换控制流/换数据形状——structural 指标去注释计分，注解只救 containment/run，救不了 structural。
 2. 「被迫逐字」的协议面（文案、判别键、失败码、块标签）逐行行内注解（逗号/分号结尾行才有效；`{` 行尾注解会被 fmt 挪走）。
 3. 同形常量数组改空格串 split / 查表；`filter/map` 链改显式循环；闭包改具名函数；`for(;;)` 改 `while (true)`。
@@ -19,29 +20,29 @@
 
 ### 簇 1：单 run 内省（6 件，878 行）
 
-| 文件 | 换骨配方 |
-| --- | --- |
-| `get-workflow-run.ts`（183） | 端口门/投影流水拆具名阶段（`readRunDetail` → `projectSnapshot` → `finishOutput`）；`applyWorkflowRunOutputFields` 调用表化（字段三态「defined/truthy/nonempty」改查表）；ToolEntry 字面量逐行注解 |
-| `get-workflow-run-summary.ts`（119） | 贡献表 `SUMMARY_CONTRIBUTIONS` 已表化——换 `fitSummaryPrefix` 为「预算分配」形态（先算 required 保底再贪心裁尾）；clause 包装函数拆直调表 |
-| `get-workflow-run-roster-output.ts`（107） | 三投影的可选键展开式（`...(x!==undefined?{k:x}:{})`）改 `pickDefined(entries)` 收集器（换数据形状）；ask/wait 投影改字段探针表 |
-| `get-workflow-run-format.ts`（199） | 块序列表化（`BLOCKS: Array<{when, render}>` 顺序表 + 过滤拼装）；routing/amendable 文案分支改「状态→段落」查表 |
-| `get-workflow-run-format-roster.ts`（219） | 表格列构造拆 `row(cells)` 管线；`phaseColumnWidth` 求值序语义保持（Math.min getter 先读——B-gt-5）；health/phases/subagents/log_tail 四块各拆 render 函数 |
-| `get-workflow-run-activity-program.ts`（61） | 六分支改「相位→活动描述」分派表（cause/state 查表 + 具名描述器）；年龄拼接拆 `withElapsed(base, age)` |
+| 文件                                         | 换骨配方                                                                                                                                                                                          |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get-workflow-run.ts`（183）                 | 端口门/投影流水拆具名阶段（`readRunDetail` → `projectSnapshot` → `finishOutput`）；`applyWorkflowRunOutputFields` 调用表化（字段三态「defined/truthy/nonempty」改查表）；ToolEntry 字面量逐行注解 |
+| `get-workflow-run-summary.ts`（119）         | 贡献表 `SUMMARY_CONTRIBUTIONS` 已表化——换 `fitSummaryPrefix` 为「预算分配」形态（先算 required 保底再贪心裁尾）；clause 包装函数拆直调表                                                          |
+| `get-workflow-run-roster-output.ts`（107）   | 三投影的可选键展开式（`...(x!==undefined?{k:x}:{})`）改 `pickDefined(entries)` 收集器（换数据形状）；ask/wait 投影改字段探针表                                                                    |
+| `get-workflow-run-format.ts`（199）          | 块序列表化（`BLOCKS: Array<{when, render}>` 顺序表 + 过滤拼装）；routing/amendable 文案分支改「状态→段落」查表                                                                                    |
+| `get-workflow-run-format-roster.ts`（219）   | 表格列构造拆 `row(cells)` 管线；`phaseColumnWidth` 求值序语义保持（Math.min getter 先读——B-gt-5）；health/phases/subagents/log_tail 四块各拆 render 函数                                          |
+| `get-workflow-run-activity-program.ts`（61） | 六分支改「相位→活动描述」分派表（cause/state 查表 + 具名描述器）；年龄拼接拆 `withElapsed(base, age)`                                                                                             |
 
 ### 簇 2：列表（3 件，361 行）
 
-| 文件 | 换骨配方 |
-| --- | --- |
-| `list-workflow-runs.ts`（149） | 单行属性序列改「属性收集器」（`rowOf([...])` 过滤空段拼接）；header 属性同法 |
-| `list-saved-workflows.ts`（130） | escapeAttribute 拆替换链（三步显式）；空清单分支与 invalid 块拆 render |
-| `list-models.ts`（82） | 声明面为主——ToolEntry 字面量逐行注解 + 描述文案行断点重排（格式器不折字符串） |
+| 文件                             | 换骨配方                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------- |
+| `list-workflow-runs.ts`（149）   | 单行属性序列改「属性收集器」（`rowOf([...])` 过滤空段拼接）；header 属性同法  |
+| `list-saved-workflows.ts`（130） | escapeAttribute 拆替换链（三步显式）；空清单分支与 invalid 块拆 render        |
+| `list-models.ts`（82）           | 声明面为主——ToolEntry 字面量逐行注解 + 描述文案行断点重排（格式器不折字符串） |
 
 ### 簇 3：执行入口（2 件，397 行）
 
-| 文件 | 换骨配方 |
-| --- | --- |
-| `resume-workflow-run.ts`（223） | 失败码表 + 六分支改「reason→构造器」分派表（`FAILURE_BUILDERS`）；成功输出字面量逐行注解；`formatResumeWorkflowRunModelContent` 薄壳注解 |
-| `resolve-workflow-question.ts`（186） | 同上（四分支表 + message 透传保持）；码表常量注解 |
+| 文件                                  | 换骨配方                                                                                                                                 |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `resume-workflow-run.ts`（223）       | 失败码表 + 六分支改「reason→构造器」分派表（`FAILURE_BUILDERS`）；成功输出字面量逐行注解；`formatResumeWorkflowRunModelContent` 薄壳注解 |
+| `resolve-workflow-question.ts`（186） | 同上（四分支表 + message 透传保持）；码表常量注解                                                                                        |
 
 ## 红线保留（逐条对照 behavior/acceptance）
 

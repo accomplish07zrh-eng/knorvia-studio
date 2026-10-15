@@ -45,7 +45,9 @@ export function formatGetWorkflowRunModelContent(raw: unknown): ModelMessageCont
 
   const snapshot: GetWorkflowRunOutput = parsed.data;
   const settled =
-    snapshot.status === "completed" || snapshot.status === "errored" || snapshot.status === "stopped";
+    snapshot.status === "completed" ||
+    snapshot.status === "errored" ||
+    snapshot.status === "stopped";
   const blocks: BlockList = [];
 
   blocks.push(`<summary>${escapeWorkflowRunText(snapshot.summary)}</summary>`); // 一句话情势
@@ -53,18 +55,30 @@ export function formatGetWorkflowRunModelContent(raw: unknown): ModelMessageCont
   const labelBlock = `<label ${workflowRunAttribute("source", snapshot.labelSource)}>${escapeWorkflowRunText(snapshot.label)}</label>`;
   blocks.push(labelBlock); // 展示名（source 属性）
   blocks.push(`<status>${escapeWorkflowRunText(snapshot.status)}</status>`); // 生命周期
-  pushWhen(blocks, snapshot.stopReason, () =>
-    `<stop_reason>${escapeWorkflowRunText(snapshot.stopReason!)}</stop_reason>`,
+  pushWhen(
+    blocks,
+    snapshot.stopReason,
+    () => `<stop_reason>${escapeWorkflowRunText(snapshot.stopReason!)}</stop_reason>`,
   );
-  pushWhen(blocks, snapshot.resumedFrom, () =>
-    `<resumed_from>${escapeWorkflowRunText(snapshot.resumedFrom!)}</resumed_from>`,
+  pushWhen(
+    blocks,
+    snapshot.resumedFrom,
+    () => `<resumed_from>${escapeWorkflowRunText(snapshot.resumedFrom!)}</resumed_from>`,
   );
-  pushWhen(blocks, snapshot.maxConcurrency, () => `<max_concurrency>${snapshot.maxConcurrency}</max_concurrency>`);
-  pushWhen(blocks, snapshot.subagentModel, () =>
-    `<subagent_model>${escapeWorkflowRunText(snapshot.subagentModel!)}</subagent_model>`,
+  pushWhen(
+    blocks,
+    snapshot.maxConcurrency,
+    () => `<max_concurrency>${snapshot.maxConcurrency}</max_concurrency>`,
   );
-  pushWhen(blocks, snapshot.supersededBy, () =>
-    `<superseded_by>${escapeWorkflowRunText(snapshot.supersededBy!)}</superseded_by>`,
+  pushWhen(
+    blocks,
+    snapshot.subagentModel,
+    () => `<subagent_model>${escapeWorkflowRunText(snapshot.subagentModel!)}</subagent_model>`,
+  );
+  pushWhen(
+    blocks,
+    snapshot.supersededBy,
+    () => `<superseded_by>${escapeWorkflowRunText(snapshot.supersededBy!)}</superseded_by>`,
   );
   blocks.push(`<owned_by_this_session>${snapshot.ownedByThisSession}</owned_by_this_session>`);
   if (snapshot.possiblyInterrupted) {
@@ -72,10 +86,12 @@ export function formatGetWorkflowRunModelContent(raw: unknown): ModelMessageCont
       "<possibly_interrupted>true — this session cannot confirm the run is still alive</possibly_interrupted>", // 不可知标注
     );
   }
-  blocks.push( // 起始时刻块
+  blocks.push(
+    // 起始时刻块
     `<created_at>${formatWorkflowRunInstant(snapshot.generatedAt, snapshot.createdAt)}</created_at>`, // 起始时刻
   );
-  blocks.push( // 更新时刻块
+  blocks.push(
+    // 更新时刻块
     `<updated_at>${formatWorkflowRunInstant(snapshot.generatedAt, snapshot.updatedAt)}</updated_at>`, // 更新时刻
   );
 
@@ -169,7 +185,7 @@ function questionRow(
 function routingBlocks(snapshot: GetWorkflowRunOutput): BlockList {
   const superseded = snapshot.stopReason === "superseded";
   if (superseded) {
-  const successor = // 继任者引用（无 id 就说 its successor）
+    const successor = // 继任者引用（无 id 就说 its successor）
       snapshot.supersededBy === undefined
         ? "its successor"
         : `run ${escapeWorkflowRunText(snapshot.supersededBy)}`;

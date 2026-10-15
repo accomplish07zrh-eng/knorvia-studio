@@ -38,9 +38,13 @@ const DESCRIPTION_BULLETS = [
 ];
 
 function composeDescription(): string {
-  return [DESCRIPTION_INTRO, "", WORKFLOW_RUN_INTROSPECTION_STEERING, "", ...DESCRIPTION_BULLETS].join(
-    "\n",
-  );
+  return [
+    DESCRIPTION_INTRO,
+    "",
+    WORKFLOW_RUN_INTROSPECTION_STEERING,
+    "",
+    ...DESCRIPTION_BULLETS,
+  ].join("\n");
 }
 
 const LIST_WORKFLOW_RUNS_DESCRIPTION = composeDescription();
@@ -100,7 +104,9 @@ function rowAttributes(run: RowShape): string[] {
     workflowRunAttribute("id", run.runId), // run 身份
     workflowRunAttribute("status", run.status), // 生命周期
     ...(run.stopReason === undefined ? [] : [workflowRunAttribute("stop_reason", run.stopReason)]), // 停因
-    ...(run.resumedFrom === undefined ? [] : [workflowRunAttribute("resumed_from", run.resumedFrom)]), // 续自
+    ...(run.resumedFrom === undefined
+      ? []
+      : [workflowRunAttribute("resumed_from", run.resumedFrom)]), // 续自
     ...(run.supersededBy === undefined
       ? []
       : [workflowRunAttribute("superseded_by", run.supersededBy)]), // 继任者

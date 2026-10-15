@@ -85,7 +85,9 @@ const resolveWorkflowQuestionHandler: ToolHandler = async (call, scope: ToolExec
 
   const port = scope.dynamicWorkflowRunPort;
   const answer =
-    port && typeof port.resolveQuestion === "function" ? port.resolveQuestion.bind(port) : undefined;
+    port && typeof port.resolveQuestion === "function"
+      ? port.resolveQuestion.bind(port)
+      : undefined;
   if (!answer) return resolveQuestionUnavailableFailure(); // 能力缺口（端口/方法缺席同形）
 
   const result = await answer(parsed.question_id, parsed.answer); // 恰好一次端口调用

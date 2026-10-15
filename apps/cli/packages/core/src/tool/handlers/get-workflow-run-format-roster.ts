@@ -17,7 +17,10 @@ const TASK_LINE_INDENT = "  "; // task 行缩进
 
 /** 单元格管线：去空段 → 双空格接 → 剪行尾补白。 */
 function rowOf(cells: readonly string[]): string {
-  return cells.filter((cell) => cell.length > 0).join(COLUMN_GAP).trimEnd();
+  return cells
+    .filter((cell) => cell.length > 0)
+    .join(COLUMN_GAP)
+    .trimEnd();
 }
 
 function padTo(value: string, width: number): string {
@@ -58,7 +61,10 @@ function healthLeftoverNote(run: GetWorkflowRunOutput, terminal: boolean): strin
   } of the exited process, not live work.`; // 残留说明（单复数两形）
 }
 
-export function formatWorkflowRunHealthBlock(snapshot: GetWorkflowRunOutput, terminal: boolean): string {
+export function formatWorkflowRunHealthBlock(
+  snapshot: GetWorkflowRunOutput,
+  terminal: boolean,
+): string {
   const clock = snapshot.generatedAt;
   const cells: string[] = [];
   const lastProgress = formatRelativeAge(clock, snapshot.health.lastProgressAt);
@@ -138,11 +144,17 @@ interface RosterWidths {
   stateWidth: number;
 }
 
-function rosterRow(run: GetWorkflowRunOutput, index: number, widths: RosterWidths, askedAtByQid: ReadonlyMap<string, number>): string {
+function rosterRow(
+  run: GetWorkflowRunOutput,
+  index: number,
+  widths: RosterWidths,
+  askedAtByQid: ReadonlyMap<string, number>,
+): string {
   const actor = run.subagents[index]!;
   const name = actor.name === undefined ? "" : escapeWorkflowRunText(actor.name);
   const address = `${escapeWorkflowRunText(actor.siteId)}@${actor.ordinal}`;
-  const phase = actor.phaseName === undefined ? "" : `phase ${escapeWorkflowRunText(actor.phaseName)}`;
+  const phase =
+    actor.phaseName === undefined ? "" : `phase ${escapeWorkflowRunText(actor.phaseName)}`;
   const tokens = actor.tokens > 0 ? `${formatWorkflowRunCount(actor.tokens)} tokens` : "";
   return rowOf([
     padTo(name, widths.nameWidth),
@@ -158,7 +170,8 @@ export function formatWorkflowRunSubagentsBlock(snapshot: GetWorkflowRunOutput):
   const nobody = snapshot.subagents.length === 0;
   if (nobody) return "<subagents>No subagents created yet.</subagents>"; // 空册也要说一句话
   const askedAtByQid = new Map<string, number>();
-  for (const question of snapshot.pendingQuestions ?? []) askedAtByQid.set(question.qid, question.askedAt);
+  for (const question of snapshot.pendingQuestions ?? [])
+    askedAtByQid.set(question.qid, question.askedAt);
 
   const names = snapshot.subagents.map((actor) =>
     actor.name === undefined ? "" : escapeWorkflowRunText(actor.name),

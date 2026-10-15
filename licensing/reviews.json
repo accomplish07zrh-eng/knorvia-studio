@@ -142088,10 +142088,10 @@
       "normalizedSha256": "b093be5d2cb2bfd96424a23c127b64acc511567daf7ed017a87f49a2ebdcec1a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142099,10 +142099,10 @@
       "normalizedSha256": "28e513dea3f286bb660169767551d93cb21d97b006097684308040fedec76ac7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142110,10 +142110,10 @@
       "normalizedSha256": "4e2405152bb3426d39e37e005dd1d2350ef3e1fdf6698f64003f218b2d3f3909",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142132,32 +142132,32 @@
       "normalizedSha256": "662ca59a0dc90d4358cf72ccca08a1daff29127e73605c514f596bfe278c46cc",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
       "path": "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-      "normalizedSha256": "c9805ce60188d2a088302a1ffd8faca7aeab29d01a6170de1c9ce226adae8dc6",
+      "normalizedSha256": "ddf79f332180515a6a255da0b216902edf4a3e9baf2a7a1008abcf77c0f6ea28",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
       "path": "specs/contracts/core-tool-handlers-workflow-runs-01/gate-old.json",
-      "normalizedSha256": "32a064a2a771dee1179825781e7ee7d9fefb6cd3e4f917d812793a50ce051e74",
+      "normalizedSha256": "f223e2f031165a224def7142452eea2a97c7ff208fa05e35245db0972d2e3cd8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142165,10 +142165,10 @@
       "normalizedSha256": "67c540520dbdeec9cb395ece76a14680848bb6b73ff2a286fa4562cf5c7f7031",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142286,142 +142286,142 @@
       "normalizedSha256": "2a41d09a352eaf5f8358d8027a191634ac86ff4a147763f4efbcfdf0a91e9d18",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/targets.txt",
-      "normalizedSha256": "56265686414b1474d2a08db277df568ba6e59cc843ebff15d99d1617a634d2e0",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "normalizedSha256": "29369b3704e19b227d215f7e77f776a9b05675b25aa4059461cfffb18c18ee81",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
-      "normalizedSha256": "786adcb6764117b6e6890b8ca50191033dce329f2bf57a640fc5c843aa29bd3d",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "normalizedSha256": "20d4e9fdeeb4e6c495ae76ff1cdd77f9eff415d6c417bba7d9acac0e82a91c48",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
-      "normalizedSha256": "7374131f88a726253b6a08484147fef879bfa7ae4156a63af0ebdcd84272b214",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "normalizedSha256": "ff15436a7805ed76c882993836b5e6f16fb9c36ef4ebd6b4bdfd916fbf84f57a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
-      "normalizedSha256": "46ad9d42d8be998ff19665be18124c6ee297fdc075595af8bd475989d37abc6b",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "normalizedSha256": "2ab7ad3e01419c692d74b531793c4966b42c70ad42903e71b01c28e4fd4c71d7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
-      "normalizedSha256": "a3c67f2f20d92d148445ad212158a104cba525b62d28cbee14bab9d7e0435446",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "normalizedSha256": "0436a26416315965bb35ead1f65460ddc7454a1b8afb73cd6139716dbb230afb",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
-      "normalizedSha256": "6a74dbb0c60f9b84e7fb4b165369cf07f6fbe4ab63641046a1d02e688404c324",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "normalizedSha256": "7c7e56b97f568a82e2c1e7eff7626c2813ac9011ec5c3c564bc77e78c11a7274",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
-      "normalizedSha256": "a5fda87c7ab0c489103794b4e6d0ce6eb131f668d86cadcd5561232b863286f8",
+      "path": "apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
+      "normalizedSha256": "3643302d179ef14fc9592b67347cf1db3625e82fff6622f0410e4606c6a9ba3e",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/list-models.ts",
-      "normalizedSha256": "c4aa1ffcdd56080119deb77124973769c98cdea4290c95841a18254b4197ba39",
+      "path": "apps/cli/packages/core/src/tool/handlers/list-saved-workflows.ts",
+      "normalizedSha256": "4e3e0bc9ef2521dd14c25fe828c913609593beb4af3c403a0cb676049f71f2fa",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/list-saved-workflows.ts",
-      "normalizedSha256": "0916c09d1aaf968d4bd9d0d42ff8339a4ef3fecd6fee14b778220d52158a0e15",
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "normalizedSha256": "5ce81f1580302cc2a8d39025540e74030c846308f8840608ce921cc34fc2915a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
-      "normalizedSha256": "4ce38c2f6ac51effec841cc6f125dd449bfea90c85d4403890835350c8d89dcf",
+      "path": "apps/cli/packages/core/src/tool/handlers/resume-workflow-run.ts",
+      "normalizedSha256": "f00fdc6b9434518b5e5ec3207dab7b44a0d6351a8fa75e2fc840294960640cf8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/resolve-workflow-question.ts",
-      "normalizedSha256": "8b982879eb567cc1754a475076efba40b1f4854b69503f6b5e0739d858dae893",
+      "path": "apps/cli/packages/core/src/tool/handlers/resolve-workflow-question.ts",
+      "normalizedSha256": "a85cae74b267bbe3c30fcb3c62d7e74b158a02f455e78e3713cb24687c27c8d9",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/resume-workflow-run.ts",
-      "normalizedSha256": "9bc617db62bb7d504f94ae478ba6063f4d9b8c828fe75e8534969a2a301e5129",
+      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/design.md",
+      "normalizedSha256": "149aed0e1382baa87bcc2a8afd21d5e989b51df275b78a22d41bd49abd19e41b",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     }
   ]
