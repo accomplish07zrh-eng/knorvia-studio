@@ -364,7 +364,7 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 平台差异：不适用。
 - 状态所有者：不适用。
 - 日志级别：不适用。
-- 语义常量：提取顺序 `data` / `errorData` 优先于 `responseBody` / `response.body`，两者都走 B5 的体解析；映射出的错误 `providerId` 固定 `"unknown"`、`providerKind` 固定 `"openai-compatible"`；`providerCode` 强制字符串化；`statusCode` 取体内的 `status`，缺省用 cause 链上的 HTTP 状态。
+- 语义常量：提取顺序 `data` / `errorData` 优先于 `responseBody` / `response.body`，两者都走 B5 的体解析；映射出的错误 `providerId` 固定 `"unknown"`、`providerKind` 固定 `"openai-compatible"`；`providerCode` 强制字符串化；`statusCode` 取 B5 从体内解析出的 `status`，缺省用错误链上的 `statusCode`/`status`/`responseStatus`（B20 的键集，**不含** `response.status`）。
 - （依据：failure-ai-sdk-provider-error.ts 1-26 行）
 
 ### B25 业务错误定位与 provider 细节提取
