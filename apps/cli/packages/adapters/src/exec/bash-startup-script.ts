@@ -8,17 +8,19 @@ import { windowsPathToGitBashPath } from "@knorvia/contracts";
 import { buildEmbeddedSearchPreludeContent } from "./embedded-search-prelude.js";
 import { sanitizePathSegment } from "./execution-utils.js";
 
-export type StartupShellDialect = ExecutionShellDialect | "legacy-shell";
-interface BashSourceScript {
+export type /* 启动方言：执行方言 + 遗留 shell */ StartupShellDialect =
+  | ExecutionShellDialect
+  | "legacy-shell";
+interface /* 需 source 的脚本：路径与 shell 路径 */ BashSourceScript {
   path: string;
-  shellPath: string;
+  shellPath: /* git-bash 下用于改写路径 */ string;
   optional?: boolean;
 }
-interface ApplyBashSourcesOptions {
-  leadingSources?: BashSourceScript[];
+interface /* 应用 source 的选项 */ ApplyBashSourcesOptions {
+  leadingSources?: /* 前置脚本（可缺省） */ BashSourceScript[];
   rootDir: string;
   sessionId: string;
-  shellDialect: StartupShellDialect;
+  shellDialect: /* 目标方言：决定路径改写方式 */ StartupShellDialect;
 }
 
 function quote(value: string): string {
@@ -32,25 +34,25 @@ function materializePrelude(content: string, rootDir: string, sessionId: string)
   mkdirSync(directory, { recursive: true, mode: 0o700 });
   let current: string | undefined;
   if (existsSync(target)) {
-    try {
+    try /* 读取既有文件可能失败：视为未命中缓存 */ {
       current = readFileSync(target, "utf8");
-    } catch {
+    } catch /* 读失败：按未命中处理 */ {
       current = undefined;
     }
   }
   if (current !== content) writeFileSync(target, content, { encoding: "utf8", mode: 0o600 });
-  try {
+  try /* 设置权限可能失败：非 POSIX 文件系统忽略 */ {
     chmodSync(target, 0o600);
-  } catch {
+  } catch /* 非 POSIX 文件系统：忽略权限设置 */ {
     // Windows and some mounted filesystems do not implement POSIX modes.
   }
   return target;
 }
 
-export function applyBashSourcesToExecutionRequest(
+export function /* 入口：把 source 指令前置到命令 */ applyBashSourcesToExecutionRequest(
   request: ExecutionRequest,
   options: ApplyBashSourcesOptions,
-): ExecutionRequest {
+): /* 改写后的执行请求 */ ExecutionRequest {
   if (request.command.mode !== "shell" || request.command.shellProfile !== "posix-bash")
     return request;
   if (options.shellDialect !== "posix" && options.shellDialect !== "git-bash") return request;
@@ -71,7 +73,7 @@ export function applyBashSourcesToExecutionRequest(
     const load = `. ${quote(selected)}`;
     return source.optional ? `[ ! -r ${quote(selected)} ] || ${load}` : load;
   });
-  return {
+  return /* 改写后的请求：source 前置 */ {
     ...request,
     command: {
       ...request.command,

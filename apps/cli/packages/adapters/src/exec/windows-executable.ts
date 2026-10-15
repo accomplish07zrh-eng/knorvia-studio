@@ -9,27 +9,27 @@ export function getWindowsEnvValue(env: NodeJS.ProcessEnv, key: string): string 
   for (const [candidate, value] of Object.entries(env)) {
     if (candidate.toLowerCase() === wanted) return value;
   }
-  return undefined;
+  return /* 未找到该环境变量 */ undefined;
 }
 
-function executableNames(file: string, env: NodeJS.ProcessEnv): string[] {
+function executableNames(file: string, env: NodeJS.ProcessEnv): /* 候选可执行文件名 */ string[] {
   if (path.win32.extname(file) !== "") return [file];
   const configured = getWindowsEnvValue(env, "PATHEXT")
-    ?.split(";")
+    /* PATHEXT 以分号分隔 */ ?.split(";")
     .map((value) => value.trim().toLowerCase())
     .filter(Boolean);
   const suffixes = configured?.length ? configured : DEFAULT_PATHEXT;
-  return [
+  /* 文件本体 + 各候选后缀 */ return [
     file,
     ...suffixes.map((suffix) => `${file}${suffix.startsWith(".") ? suffix : `.${suffix}`}`),
   ];
 }
 
-export function windowsExecutableCandidates(
+export function /* 候选可执行文件名（含 PATHEXT 后缀） */ windowsExecutableCandidates(
   file: string,
   env: NodeJS.ProcessEnv,
   cwd = process.cwd(),
-): string[] {
+): /* 候选可执行文件名 */ string[] {
   const names = executableNames(file, env);
   const hasSeparator = file.includes("/") || file.includes("\\");
   if (hasSeparator) {

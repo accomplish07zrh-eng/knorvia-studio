@@ -38,36 +38,39 @@ const UPSERT_ENTRY = `
     END
 `;
 
-export function saveSessionEntry(db: DatabaseSync, input: SessionEntryInfo): void {
+export function saveSessionEntry(database: DatabaseSync, request: SessionEntryInfo): void {
   const data = encodeJson(
-    input.type === SESSION_ENTRY_MODEL_SELECTION
-      ? { modelSelection: input.data ?? null }
-      : input.data,
+    request.type === SESSION_ENTRY_MODEL_SELECTION
+      ? { modelSelection: request.data ?? null }
+      : request.data,
   );
   if (!data) throw new Error(INVALID_ENTRY_DATA);
 
   // 独立条目与 touch 一起提交；有外层事务时，提交和撤销仍由外层负责。
-  withWriteTransaction(db, "borrow", () => {
-    db.prepare(UPSERT_ENTRY).run(
-      input.id,
-      input.sessionID,
-      input.type,
-      input.time.created,
-      input.time.updated,
-      data,
-      SESSION_ENTRY_MODEL_SELECTION,
-    );
-    if (input.touchSession !== false) touchSession(db, input.sessionID, input.time.updated);
+  withWriteTransaction(database, "borrow", () => {
+    database
+      .prepare(UPSERT_ENTRY)
+      .run(
+        request.id,
+        request.sessionID,
+        request.type,
+        request.time.created,
+        request.time.updated,
+        data,
+        SESSION_ENTRY_MODEL_SELECTION,
+      );
+    if (request.touchSession !== false)
+      touchSession(database, request.sessionID, request.time.updated);
   });
 }
 
 export function sessionEntries(
-  db: DatabaseSync,
-  input: { sessionID: SessionId; type?: SessionEntryType | string },
+  database: DatabaseSync,
+  request: { sessionID: SessionId; type?: SessionEntryType | string },
 ): SessionEntryInfo[] {
-  const type = input.type;
-  const parameters = type ? [input.sessionID, type] : [input.sessionID];
-  const rows = db
+  const type = request.type;
+  const parameters = type ? [request.sessionID, type] : [request.sessionID];
+  const entries = database
     .prepare(`
       SELECT id, session_id, type, time_created, time_updated, data
       FROM session_entry
@@ -75,5 +78,5 @@ export function sessionEntries(
       ORDER BY time_created ASC, rowid ASC
     `)
     .all(...parameters) as unknown as SessionEntryRow[];
-  return rows.map(decodeSessionEntryRow);
+  return entries.map(decodeSessionEntryRow);
 }

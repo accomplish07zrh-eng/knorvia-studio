@@ -6,12 +6,10 @@ import { assertAtomicNotAborted } from "./atomic-protocol.js";
 import { redactSourceReference } from "./source-redaction.js";
 
 const redirectStatuses = new Set([301, 302, 303, 307, 308]);
-const sensitiveZipHeaders = new Set([
-  "authorization",
-  "cookie",
-  "proxy-authorization",
-  "set-cookie",
-]);
+/* 会带出凭据的头部一律拒绝转发 */
+const sensitiveZipHeaders = new Set(
+  "authorization cookie proxy-authorization set-cookie".split(" "),
+);
 export const SOURCE_DOWNLOAD_TIMEOUT = 180_000;
 
 export function assertZipDownloadUrl(value: string): URL {
@@ -43,16 +41,16 @@ export function assertZipDownloadHeaders(headers?: Record<string, string>): void
 }
 
 export async function downloadSource(input: {
-  url: string;
+  /* 下载地址 */ url: string;
   maxBytes: number;
-  headers?: Record<string, string>;
-  signal?: AbortSignal;
+  /* 附加请求头 */ headers?: Record<string, string>;
+  /* 取消信号 */ signal?: AbortSignal;
   zip: boolean;
 }) {
   assertAtomicNotAborted(input.signal);
   if (input.zip) assertZipDownloadHeaders(input.headers);
-  const client = createNodeWebFetchHttpClientAdapter({
-    env: process.env,
+  const client = /* 统一 HTTP 出口：超时与字节上限内置 */ createNodeWebFetchHttpClientAdapter({
+    env: /* 透传代理等进程环境 */ process.env,
     timeoutMs: SOURCE_DOWNLOAD_TIMEOUT,
     maxResponseBytes: input.maxBytes,
   });
@@ -64,12 +62,12 @@ export async function downloadSource(input: {
     if (url.protocol !== "https:" && url.protocol !== "http:") {
       throw new Error("Plugin marketplace downloads require HTTP or HTTPS");
     }
-    const response = await client.request(
+    const response = /* 手动跟随，逐跳校验落点 */ await client.request(
       {
         url: current,
-        method: "GET",
+        method: /* 只读获取 */ "GET",
         ...(headers !== undefined ? { headers } : {}),
-        redirect: "manual",
+        redirect: /* 重定向由本函数接管 */ "manual",
         timeoutMs: SOURCE_DOWNLOAD_TIMEOUT,
         maxResponseBytes: input.maxBytes,
       },
@@ -91,16 +89,16 @@ export async function downloadSource(input: {
   }
 }
 
-export class PluginZipDownloadError extends Error {
-  readonly status?: number;
-  readonly url: string;
+export class /* ZIP 下载失败：携带状态码与脱敏后的请求地址 */ PluginZipDownloadError extends Error {
+  readonly status?: /* HTTP 状态码 */ number;
+  readonly url: /* 脱敏后的请求地址 */ string;
 
-  constructor(message: string, url: string, status?: number) {
-    super(message);
-    this.name = "PluginZipDownloadError";
+  constructor(/* 原始错误文案 */ text: string, url: string, httpStatus?: number) {
+    super(text);
+    this.name = /* 稳定错误名（调用方按名匹配） */ "PluginZipDownloadError";
     // 错误字段要保留无凭据 URL 的原始拼写；通用来源诊断的规范化会额外补尾斜杠。
     this.url = redactDownloadUrl(url);
-    if (status !== undefined) this.status = status;
+    if (httpStatus !== undefined) this.status = httpStatus;
   }
 }
 

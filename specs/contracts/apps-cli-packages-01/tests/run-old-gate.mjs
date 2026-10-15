@@ -128,6 +128,9 @@ if (process.argv.includes("--with-stubs")) {
 }
 
 writeFileSync(join(contractDir, "gate-old.json"), `${JSON.stringify(gate, null, 2)}\n`, "utf8");
+// 给自动化核对器（lead/verify-replace.mjs）一行机器可读的结论：两种入口都必须 fail 0。
+console.log(`contract source ${source.pass}/${source.tests} fail ${source.fail}`);
+console.log(`contract dist ${dist.pass}/${dist.tests} fail ${dist.fail}`);
 console.log(
   JSON.stringify(
     {

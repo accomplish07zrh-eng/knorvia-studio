@@ -4,10 +4,10 @@ import type { KnorviaOfficialMcpAuthConfig, McpOfficialProvenance } from "@knorv
 import { isRecord } from "./helpers.js";
 
 export function parseKnorviaOfficialAuth(
-  value: unknown,
-  mcpKey: string,
+  value: /* 待校验的认证配置原文 */ unknown,
+  mcpKey: /* 目标 MCP 服务键 */ string,
 ): KnorviaOfficialMcpAuthConfig | undefined {
-  if (value === undefined) return undefined;
+  if (value === undefined) return /* 缺少配置视为未启用官方认证 */ undefined;
   if (
     !isRecord(value) ||
     Object.keys(value).length !== 2 ||
@@ -18,9 +18,9 @@ export function parseKnorviaOfficialAuth(
   }
   return { type: "knorvia_official", provider: "jwt_token" };
 }
-export function buildOfficialProvenance(identity: {
-  mcpKey: string;
-  pluginId: string;
-}): McpOfficialProvenance {
+export function /* 汇总官方 MCP 归属信息 */ buildOfficialProvenance(identity: {
+  /* 服务键 */ mcpKey: string;
+  /* 所属插件 */ pluginId: string;
+}): /* 插件来源的归属记录 */ McpOfficialProvenance {
   return { source: "plugin", pluginId: identity.pluginId, mcpKey: identity.mcpKey };
 }

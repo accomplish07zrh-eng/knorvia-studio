@@ -8,13 +8,13 @@ import { diagnostic, validIdentity } from "./discovery-diagnostics.js";
 import type { LoadedPlugin, PluginCandidate } from "./types.js";
 
 export function readCandidate(
-  candidate: PluginCandidate,
-  diagnostics: PluginDiagnostic[],
+  /* 待读取候选 */ candidate: PluginCandidate,
+  /* 逐条诊断收集器 */ diagnostics: PluginDiagnostic[],
 ): LoadedPlugin | undefined {
   try {
     if (!statSync(candidate.rootPath).isDirectory()) {
       diagnostic(
-        diagnostics,
+        /* 根目录缺失诊断 */ diagnostics,
         "plugin_root_not_found",
         "Plugin root is not a directory",
         undefined,
@@ -23,9 +23,9 @@ export function readCandidate(
       );
       return undefined;
     }
-  } catch {
+  } catch /* 根目录不可访问：按缺失候选处理 */ {
     diagnostic(
-      diagnostics,
+      /* 根目录不可读诊断 */ diagnostics,
       "plugin_root_not_found",
       "Plugin root cannot be read",
       undefined,
@@ -35,21 +35,25 @@ export function readCandidate(
     return undefined;
   }
   for (const directory of [".knorvia-plugin", ".claude-plugin", ".codex-plugin"]) {
-    const manifestPath = join(candidate.rootPath, directory, "plugin.json");
+    const manifestPath = /* 该候选目录下的清单路径 */ join(
+      candidate.rootPath,
+      directory,
+      "plugin.json",
+    );
     let content: string;
     try {
       content = readFileSync(manifestPath, "utf8");
     } catch (error) {
-      if (isNotFoundError(error)) continue;
+      if (isNotFoundError(error)) /* 尚未尝试完全部支持的目录 */ continue;
       diagnostic(
-        diagnostics,
+        /* 清单不可读诊断 */ diagnostics,
         "plugin_manifest_invalid",
         "Plugin manifest cannot be read",
         undefined,
-        manifestPath,
+        /* 该清单路径 */ manifestPath,
         "error",
       );
-      return undefined;
+      return /* 清单不可读：不再尝试其它目录 */ undefined;
     }
     try {
       const raw: unknown = JSON.parse(content);
@@ -65,8 +69,8 @@ export function readCandidate(
         version: typeof raw.version === "string" ? raw.version : "0.0.0",
       } as PluginManifest;
       return {
-        id: `${manifest.name}@${candidate.marketplace}`,
-        manifest,
+        id: /* 标识为 插件名@市场 */ `${manifest.name}@${candidate.marketplace}`,
+        /* 已校验清单 */ manifest,
         manifestPath,
         marketplace: candidate.marketplace,
         rootPath: candidate.rootPath,
@@ -74,14 +78,14 @@ export function readCandidate(
       };
     } catch {
       diagnostic(
-        diagnostics,
+        /* 清单形状非法诊断 */ diagnostics,
         "plugin_manifest_invalid",
         "Plugin manifest must contain a valid plugin identity and metadata",
         undefined,
-        manifestPath,
+        /* 该清单路径 */ manifestPath,
         "error",
       );
-      return undefined;
+      return /* 形状非法：诊断已入列 */ undefined;
     }
   }
   diagnostic(

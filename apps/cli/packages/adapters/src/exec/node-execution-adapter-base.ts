@@ -123,7 +123,7 @@ export class ExecutionCoordinator {
     const pair = completionPair<void>();
     let completed = false;
     this.activeExecutions.set(id, {
-      stop,
+      /* 停止回调 */ stop,
       completion: pair.promise,
       resolveCompletion: () => {
         if (completed) return;
@@ -137,26 +137,26 @@ export class ExecutionCoordinator {
   completeActiveExecution(executionId: string): void {
     const record = this.activeExecutions.get(executionId);
     if (!record) return;
-    this.activeExecutions.delete(executionId);
+    /* 从活跃表移除 */ this.activeExecutions.delete(executionId);
     record.resolveCompletion();
   }
 
   createBackgroundTaskRecord(args: {
-    controller: AbortController;
-    outputPaths: ExecutionOutputPaths;
+    controller: /* 取消控制器 */ AbortController;
+    outputPaths: /* 输出落盘路径 */ ExecutionOutputPaths;
     startedAt: Date;
-    taskId: string;
+    taskId: /* 后台任务标识 */ string;
     request: ExecutionRequest;
     isBash: boolean;
-  }): BackgroundTaskRecord {
+  }): /* 后台任务记录 */ BackgroundTaskRecord {
     const pair = completionPair<BackgroundExecutionSnapshot>();
-    return {
+    return /* 构造记录 */ {
       taskId: args.taskId,
       status: "running",
       startedAt: args.startedAt,
       sessionId: args.request.trace?.sessionId ? String(args.request.trace.sessionId) : undefined,
       isBash: args.isBash,
-      legacyOutputEncoding: null,
+      legacyOutputEncoding: /* 无遗留编码 */ null,
       controller: args.controller,
       completion: pair.promise,
       resolveCompletion: pair.resolve,
@@ -222,7 +222,7 @@ export class ExecutionCoordinator {
   }
 
   close(): Promise<void> {
-    this.closePromise ??= this.shutdown();
+    /* 只关闭一次 */ this.closePromise ??= this.shutdown();
     return this.closePromise;
   }
 
@@ -246,6 +246,6 @@ export class ExecutionCoordinator {
     for (const [, timer] of kills) timer.ref();
     await Promise.allSettled(kills.map(([promise]) => promise));
     await Promise.resolve(this.shellInitRetentionCleanup).catch(() => undefined);
-    await this.shellInitSnapshots.cleanup();
+    /* 清理 shell 初始化快照 */ await this.shellInitSnapshots.cleanup();
   }
 }

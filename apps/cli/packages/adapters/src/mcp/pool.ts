@@ -20,175 +20,188 @@ import {
 export type { McpConnectionContext } from "./pool-identity.js";
 
 interface CreateMcpAdapterForPoolInput {
-  connectionContext: McpConnectionContext;
-  config: McpServerConfig;
-  serverName: string;
-  workingDirectory?: string;
+  /* 隔离与身份上下文 */ connectionContext: McpConnectionContext;
+  /* 服务配置 */ config: McpServerConfig;
+  /* 目标服务名 */ serverName: string;
+  /* 进程工作目录 */ workingDirectory?: string;
 }
 
 export interface McpConnectionPoolOptions {
-  createAdapter(input: CreateMcpAdapterForPoolInput): McpPort;
-  idleGraceMs?: number;
-  logger?: Logger;
-  telemetry?: McpTelemetryTracker;
+  /* 适配器工厂（池负责调度，工厂只管创建） */ createAdapter(
+    input: CreateMcpAdapterForPoolInput,
+  ): McpPort;
+  /* 空闲连接的关闭宽限 */ idleGraceMs?: number;
+  /* 模块日志 */ logger?: Logger;
+  /* 进程遥测登记器 */ telemetry?: McpTelemetryTracker;
 }
 
 export interface McpConnectionPool {
-  acquireLease(options?: { leaseId?: string; sessionId?: string }): McpPort;
-  close(): Promise<void>;
-  stats(): { activeConnections: number; pendingCloseConnections: number };
+  /* 领取一个按服务名绑定的租约端口 */ acquireLease(options?: {
+    leaseId?: string;
+    sessionId?: string;
+  }): McpPort;
+  /* 关闭池并断开全部连接 */ close(): Promise<void>;
+  /* 当前连接数与待关闭连接数 */ stats(): {
+    activeConnections: number;
+    pendingCloseConnections: number;
+  };
 }
 
 interface Connection {
-  key: string;
-  serverName: string;
-  context: McpConnectionContext;
-  adapter: McpPort;
-  handshake: Promise<McpServerStatus>;
-  owners: Set<string>;
-  idleTimer?: ReturnType<typeof setTimeout>;
-  revalidation?: Promise<void>;
+  /* 连接键 */ key: string;
+  /* 所属服务名 */ serverName: string;
+  /* 隔离上下文 */ context: McpConnectionContext;
+  /* 底层适配器 */ adapter: McpPort;
+  /* 当前握手结果 */ handshake: Promise<McpServerStatus>;
+  /* 持有该连接的租约集合 */ owners: Set<string>;
+  /* 空闲关闭定时器 */ idleTimer?: ReturnType<typeof setTimeout>;
+  /* 进行中的重校验 */ revalidation?: Promise<void>;
 }
 
-const DEFAULT_IDLE_GRACE_MS = 30_000;
+const IDLE_CLOSE_GRACE_MS = 30_000;
 
 export function createMcpConnectionPool(options: McpConnectionPoolOptions): McpConnectionPool {
-  const idleGraceMs = options.idleGraceMs ?? DEFAULT_IDLE_GRACE_MS;
-  const logger = options.logger?.child({ module: "adapters.mcp.pool" });
-  const connections = new Map<string, Connection>();
-  let sequence = 0;
-  let closed = false;
+  const graceMs = options.idleGraceMs ?? IDLE_CLOSE_GRACE_MS;
+  const moduleLog = /* 固定模块命名空间的子日志 */ options.logger?.child({
+    module: "adapters.mcp.pool",
+  });
+  const registry = new Map<string, Connection>();
+  let leaseSeq = 0;
+  let shuttingDown = false;
 
-  function cancelIdle(connection: Connection): void {
-    if (connection.idleTimer) clearTimeout(connection.idleTimer);
-    connection.idleTimer = undefined;
+  function cancelIdle(slot: Connection): void {
+    if (slot.idleTimer) clearTimeout(slot.idleTimer);
+    slot.idleTimer = undefined;
   }
 
-  async function closeConnection(connection: Connection): Promise<void> {
-    const startedAt = Date.now();
-    cancelIdle(connection);
-    if (connections.get(connection.key) === connection) connections.delete(connection.key);
+  async function closeConnection(slot: Connection): Promise<void> {
+    const closeStartedAt = Date.now();
+    cancelIdle(slot);
+    if (registry.get(slot.key) === slot) registry.delete(slot.key);
     try {
-      await connection.adapter.close();
-      logger?.info("MCP pooled connection closed", {
-        ...connection.context,
-        durationMs: Date.now() - startedAt,
-        event: "mcp.pool.connection.closed",
-        mcpServerName: connection.serverName,
-        status: "completed",
+      await slot.adapter.close();
+      moduleLog?.info("MCP pooled connection closed", {
+        ...slot.context,
+        /* 从开始关闭到关闭完成的耗时 */ durationMs: Date.now() - closeStartedAt,
+        event: /* 连接关闭 */ "mcp.pool.connection.closed",
+        mcpServerName: slot.serverName,
+        status: /* 正常完成 */ "completed",
       });
-    } catch (error) {
-      logger?.warn("MCP pooled connection close failed", {
-        ...connection.context,
-        error: error instanceof Error ? error.message : String(error),
-        event: "mcp.pool.connection.close.failed",
-        mcpServerName: connection.serverName,
+    } catch (failure) {
+      moduleLog?.warn("MCP pooled connection close failed", {
+        ...slot.context,
+        error:
+          /* 只留文本，避免带出堆栈 */ failure instanceof Error ? failure.message : String(failure),
+        event: /* 关闭失败 */ "mcp.pool.connection.close.failed",
+        mcpServerName: slot.serverName,
       });
     } finally {
-      options.telemetry?.unregisterConnection({ connectionId: connection.context.mcpConnectionId });
+      options.telemetry?.unregisterConnection({ connectionId: slot.context.mcpConnectionId });
     }
   }
 
-  function scheduleClose(connection: Connection): void {
-    if (connection.idleTimer) return;
-    if (idleGraceMs <= 0) {
-      void closeConnection(connection);
+  function scheduleClose(slot: Connection): void {
+    if (slot.idleTimer) return;
+    if (graceMs <= 0) {
+      void closeConnection(slot);
       return;
     }
-    connection.idleTimer = setTimeout(() => {
-      connection.idleTimer = undefined;
-      if (connection.owners.size === 0) void closeConnection(connection);
-    }, idleGraceMs);
-    connection.idleTimer.unref?.();
+    slot.idleTimer = setTimeout(() => {
+      slot.idleTimer = undefined;
+      /* 宽限到期时仍无人持有才真正关闭 */
+      if (slot.owners.size === 0) void closeConnection(slot);
+    }, graceMs);
+    slot.idleTimer.unref?.();
   }
 
-  function removeOwner(
-    connection: Connection,
-    leaseId: string,
-    sessionId: string | undefined,
-  ): void {
-    if (!connection.owners.delete(leaseId)) return;
+  function removeOwner(slot: Connection, grantedId: string, sessionRef: string | undefined): void {
+    if (!slot.owners.delete(grantedId)) return;
     options.telemetry?.releaseOwner({
-      connectionId: connection.context.mcpConnectionId,
-      ownerId: leaseId,
+      connectionId: slot.context.mcpConnectionId,
+      ownerId: grantedId,
     });
-    logger?.info("MCP connection lease released", {
-      ...connection.context,
-      event: "mcp.pool.lease.released",
-      mcpLeaseId: leaseId,
-      mcpServerName: connection.serverName,
-      refCount: connection.owners.size,
-      ...(sessionId ? { sessionId } : {}),
+    moduleLog?.info("MCP connection lease released", {
+      ...slot.context,
+      event: /* 租约归还 */ "mcp.pool.lease.released",
+      mcpLeaseId: grantedId,
+      mcpServerName: slot.serverName,
+      refCount: /* 归还后的持有数 */ slot.owners.size,
+      ...(sessionRef ? { sessionId: sessionRef } : {}),
     });
-    if (connection.owners.size === 0) scheduleClose(connection);
+    /* 归零即进入空闲关闭流程 */
+    if (slot.owners.size === 0) scheduleClose(slot);
   }
 
   function revalidate(
-    connection: Connection,
+    slot: Connection,
     serverName: string,
     config: McpServerConfig,
     connectOptions: McpConnectOptions,
   ): Promise<void> {
-    if (connection.revalidation) return connection.revalidation;
-    const work = async (): Promise<void> => {
-      let readable = false;
+    /* 同一连接上的重校验只跑一次 */
+    if (slot.revalidation) return slot.revalidation;
+    const probe = async (): Promise<void> => {
+      let handshakeOk = false;
       try {
-        await connection.handshake;
-        readable = true;
+        await slot.handshake;
+        handshakeOk = true;
       } catch {
         // 旧握手拒绝只跳过 status；不能把 status 或 ping 的错误也吞作失活。
       }
-      const state = readable ? (await connection.adapter.status())[serverName]?.status : undefined;
-      if (state === "connecting" || state === "disabled" || state === "untrusted") return;
-      if (state === "connected" && ((await connection.adapter.pingServer?.(serverName)) ?? true)) {
-        logger?.debug("MCP pooled connection revalidated", {
-          ...connection.context,
-          event: "mcp.pool.connection.revalidated",
+      const serverState = handshakeOk
+        ? (await slot.adapter.status())[serverName]?.status
+        : undefined;
+      if (serverState === "connecting" || serverState === "disabled" || serverState === "untrusted")
+        return;
+      if (serverState === "connected" && ((await slot.adapter.pingServer?.(serverName)) ?? true)) {
+        moduleLog?.debug("MCP pooled connection revalidated", {
+          ...slot.context,
+          event: /* 重校验通过 */ "mcp.pool.connection.revalidated",
           mcpServerName: serverName,
-          status: "completed",
+          status: /* 正常完成 */ "completed",
         });
         return;
       }
-      logger?.warn("MCP pooled connection is stale; reconnecting", {
-        ...connection.context,
-        event: "mcp.pool.connection.stale",
-        mcpConnectionState: state ?? "unknown",
+      moduleLog?.warn("MCP pooled connection is stale; reconnecting", {
+        ...slot.context,
+        event: /* 判定失活 */ "mcp.pool.connection.stale",
+        mcpConnectionState: serverState ?? "unknown",
         mcpServerName: serverName,
-        status: "started",
+        status: /* 开始重连 */ "started",
       });
-      connection.handshake = connection.adapter.connectServer(serverName, config, connectOptions);
+      slot.handshake = slot.adapter.connectServer(serverName, config, connectOptions);
       try {
-        await connection.handshake;
+        await slot.handshake;
       } catch {
         // acquisition 最后仍等待当前握手，向各调用者保留这次拒绝。
       }
     };
-    connection.revalidation = work().finally(() => {
-      connection.revalidation = undefined;
+    slot.revalidation = probe().finally(() => {
+      slot.revalidation = undefined;
     });
-    return connection.revalidation;
+    return slot.revalidation;
   }
 
   function acquireLease(leaseOptions: { leaseId?: string; sessionId?: string } = {}): McpPort {
-    if (closed) throw new Error("MCP connection pool is closed");
-    const leaseId = `${++sequence}:${leaseOptions.leaseId ?? "lease"}`;
-    const sessionId = leaseOptions.sessionId?.trim() || undefined;
-    const bindings = new Map<string, string>();
-    const configured = new Map<string, McpServerConfig>();
-    let leaseClosed = false;
-    let startupReported = false;
+    if (shuttingDown) throw new Error("MCP connection pool is closed");
+    const grantedId = `${++leaseSeq}:${leaseOptions.leaseId ?? "lease"}`;
+    const sessionRef = leaseOptions.sessionId?.trim() || undefined;
+    const boundKeys = new Map<string, string>();
+    const declared = new Map<string, McpServerConfig>();
+    let leaseDisposed = false;
+    let startupLogged = false;
 
     function findConnection(serverName: string): Connection | undefined {
-      const key = bindings.get(serverName);
-      return key ? connections.get(key) : undefined;
+      const slotKey = boundKeys.get(serverName);
+      return slotKey ? registry.get(slotKey) : undefined;
     }
 
     function release(serverName: string): void {
-      const key = bindings.get(serverName);
-      if (!key) return;
-      bindings.delete(serverName);
-      const connection = connections.get(key);
-      if (connection) removeOwner(connection, leaseId, sessionId);
+      const slotKey = boundKeys.get(serverName);
+      if (!slotKey) return;
+      boundKeys.delete(serverName);
+      const slot = registry.get(slotKey);
+      if (slot) removeOwner(slot, grantedId, sessionRef);
     }
 
     async function acquire(
@@ -196,116 +209,123 @@ export function createMcpConnectionPool(options: McpConnectionPoolOptions): McpC
       config: McpServerConfig,
       connectOptions: McpConnectOptions,
     ): Promise<McpServerStatus> {
-      const key = connectionKey(serverName, config, connectOptions, leaseId);
-      const previousKey = bindings.get(serverName);
-      let connection = connections.get(key);
-      let ownerAdded: boolean;
-      if (connection) {
-        cancelIdle(connection);
-        const previousCount = connection.owners.size;
-        connection.owners.add(leaseId);
-        ownerAdded = connection.owners.size !== previousCount;
-        if (connectOptions.revalidate)
-          await revalidate(connection, serverName, config, connectOptions);
+      const slotKey = connectionKey(serverName, config, connectOptions, grantedId);
+      const priorKey = boundKeys.get(serverName);
+      let slot = registry.get(slotKey);
+      let addedOwner: boolean;
+      if (slot) {
+        cancelIdle(slot);
+        const previousCount = slot.owners.size;
+        slot.owners.add(grantedId);
+        addedOwner = slot.owners.size !== previousCount;
+        if (connectOptions.revalidate) await revalidate(slot, serverName, config, connectOptions);
       } else {
-        const context = createConnectionContext(config, connectOptions, sessionId);
+        const identity = createConnectionContext(config, connectOptions, sessionRef);
         options.telemetry?.registerConnection({
-          connectionId: context.mcpConnectionId,
-          isolation: context.mcpIsolation,
+          connectionId: identity.mcpConnectionId,
+          isolation: identity.mcpIsolation,
           serverName,
           ...(config.source ? { source: config.source.kind } : {}),
         });
-        const adapter = options.createAdapter({
-          connectionContext: context,
+        const created = options.createAdapter({
+          connectionContext: identity,
           config,
           serverName,
           workingDirectory: connectOptions.workingDirectory,
         });
-        const handshake = adapter.connectServer(serverName, config, connectOptions);
-        connection = { key, serverName, context, adapter, handshake, owners: new Set([leaseId]) };
-        connections.set(key, connection);
-        ownerAdded = true;
-        logger?.info("MCP pooled connection created", {
-          ...context,
-          event: "mcp.pool.connection.created",
+        const started = created.connectServer(serverName, config, connectOptions);
+        slot = {
+          key: slotKey,
+          serverName,
+          context: identity,
+          adapter: created,
+          handshake: started,
+          owners: new Set([grantedId]),
+        };
+        registry.set(slotKey, slot);
+        addedOwner = true;
+        moduleLog?.info("MCP pooled connection created", {
+          ...identity,
+          event: /* 新建连接 */ "mcp.pool.connection.created",
           mcpServerName: serverName,
-          transport: config.type,
+          transport: /* 传输类型 */ config.type,
         });
       }
       // 保留已有并发边界：await 后使用开始时的旧绑定，不补 freshness fence 或回滚。
-      if (previousKey && previousKey !== key) {
-        const previous = connections.get(previousKey);
-        if (previous) removeOwner(previous, leaseId, sessionId);
+      if (priorKey && priorKey !== slotKey) {
+        const previous = registry.get(priorKey);
+        if (previous) removeOwner(previous, grantedId, sessionRef);
       }
-      bindings.set(serverName, key);
-      if (ownerAdded) {
+      boundKeys.set(serverName, slotKey);
+      if (addedOwner) {
         options.telemetry?.acquireOwner({
-          connectionId: connection.context.mcpConnectionId,
-          ownerId: leaseId,
-          ...(sessionId ? { sessionId } : {}),
+          connectionId: slot.context.mcpConnectionId,
+          ownerId: grantedId,
+          ...(sessionRef ? { sessionId: sessionRef } : {}),
         });
       }
-      if (previousKey !== key) {
-        logger?.info("MCP connection lease acquired", {
-          ...connection.context,
-          event: "mcp.pool.lease.acquired",
-          mcpLeaseId: leaseId,
+      if (priorKey !== slotKey) {
+        moduleLog?.info("MCP connection lease acquired", {
+          ...slot.context,
+          event: /* 领取租约 */ "mcp.pool.lease.acquired",
+          mcpLeaseId: grantedId,
           mcpServerName: serverName,
-          refCount: connection.owners.size,
-          ...(sessionId ? { sessionId } : {}),
+          refCount: /* 领取后的持有数 */ slot.owners.size,
+          ...(sessionRef ? { sessionId: sessionRef } : {}),
         });
       }
-      return await connection.handshake;
+      return await slot.handshake;
     }
 
     async function snapshot(): Promise<McpConnectionSnapshot> {
-      const statuses: Record<string, McpServerStatus> = {};
-      const tools: McpToolDescriptor[] = [];
-      for (const [serverName, key] of bindings) {
-        const connection = connections.get(key);
-        if (!connection) continue;
-        const status = (await connection.adapter.status())[serverName];
-        if (status) statuses[serverName] = status;
-        tools.push(...(await connection.adapter.listTools()));
+      const statusMap: Record<string, McpServerStatus> = {};
+      const toolList: McpToolDescriptor[] = [];
+      for (const [serverName, slotKey] of boundKeys) {
+        const slot = registry.get(slotKey);
+        if (!slot) continue;
+        const reported = (await slot.adapter.status())[serverName];
+        if (reported) statusMap[serverName] = reported;
+        toolList.push(...(await slot.adapter.listTools()));
       }
-      if (sessionId && !startupReported) {
-        startupReported = true;
-        const enabled = [...configured].filter(([, config]) => config.enabled !== false);
-        const connectedCount = enabled.filter(
-          ([name]) => statuses[name]?.status === "connected",
+      if (sessionRef && !startupLogged) {
+        startupLogged = true;
+        /* 启动遥测只统计显式启用的服务 */
+        const active = [...declared].filter(([, config]) => config.enabled !== false);
+        const connectedCount = active.filter(
+          ([name]) => statusMap[name]?.status === "connected",
         ).length;
         options.telemetry?.recordSessionStartup({
-          configuredCount: enabled.length,
+          configuredCount: active.length,
           connectedCount,
-          failedCount: enabled.length - connectedCount,
-          processCount: enabled.filter(
-            ([name, config]) => config.type === "stdio" && statuses[name]?.status === "connected",
+          failedCount: active.length - connectedCount,
+          processCount: active.filter(
+            ([name, config]) => config.type === "stdio" && statusMap[name]?.status === "connected",
           ).length,
-          sessionId,
+          sessionId: sessionRef,
         });
       }
-      return { statuses, tools };
+      return { statuses: statusMap, tools: toolList };
     }
 
     return {
       async callTool(request, callOptions) {
         const serverName = request.serverName;
-        const connection = findConnection(serverName);
-        if (!connection) throw new Error("MCP server is not leased by this session: " + serverName);
-        return await connection.adapter.callTool(request, callOptions);
+        const slot = findConnection(serverName);
+        if (!slot) throw new Error("MCP server is not leased by this session: " + serverName);
+        return await slot.adapter.callTool(request, callOptions);
       },
       async close() {
-        if (leaseClosed) return;
-        leaseClosed = true;
-        const leasedNames = [...bindings.keys()];
+        if (leaseDisposed) return;
+        leaseDisposed = true;
+        const leasedNames = [...boundKeys.keys()];
         for (const serverName of leasedNames) release(serverName);
       },
       async connectConfiguredServers(servers, connectOptions = {}) {
-        configured.clear();
-        for (const [name, config] of Object.entries(servers)) configured.set(name, config);
+        declared.clear();
+        for (const [name, config] of Object.entries(servers)) declared.set(name, config);
         const names = new Set(Object.keys(servers));
-        const bindingsBeforeBatch = [...bindings.keys()];
-        for (const name of bindingsBeforeBatch) {
+        const boundBeforeBatch = [...boundKeys.keys()];
+        for (const name of boundBeforeBatch) {
           if (!names.has(name)) release(name);
         }
         await Promise.all(
@@ -317,12 +337,12 @@ export function createMcpConnectionPool(options: McpConnectionPoolOptions): McpC
         return await acquire(serverName, config, connectOptions);
       },
       async disconnectServer(serverName) {
-        const connection = findConnection(serverName);
-        const status = connection ? (await connection.adapter.status())[serverName] : undefined;
+        const slot = findConnection(serverName);
+        const reported = slot ? (await slot.adapter.status())[serverName] : undefined;
         release(serverName);
-        return status
+        return reported
           ? {
-              ...status,
+              ...reported,
               status: "disconnected",
               toolCount: 0,
               updatedAt: new Date().toISOString(),
@@ -333,9 +353,9 @@ export function createMcpConnectionPool(options: McpConnectionPoolOptions): McpC
         return (await snapshot()).tools;
       },
       async pingServer(serverName, pingOptions) {
-        const connection = findConnection(serverName);
-        if (!connection) return false;
-        return (await connection.adapter.pingServer?.(serverName, pingOptions)) ?? true;
+        const slot = findConnection(serverName);
+        if (!slot) return false;
+        return (await slot.adapter.pingServer?.(serverName, pingOptions)) ?? true;
       },
       async status() {
         return (await snapshot()).statuses;
@@ -346,17 +366,16 @@ export function createMcpConnectionPool(options: McpConnectionPoolOptions): McpC
   return {
     acquireLease,
     async close() {
-      closed = true;
-      const current = [...connections.values()];
-      connections.clear();
-      await Promise.all(current.map(closeConnection));
+      shuttingDown = true;
+      const open = [...registry.values()];
+      registry.clear();
+      await Promise.all(open.map(closeConnection));
     },
     stats() {
       return {
-        activeConnections: connections.size,
-        pendingCloseConnections: [...connections.values()].filter(
-          (connection) => connection.owners.size === 0,
-        ).length,
+        activeConnections: registry.size,
+        pendingCloseConnections: [...registry.values()].filter((slot) => slot.owners.size === 0)
+          .length,
       };
     },
   };

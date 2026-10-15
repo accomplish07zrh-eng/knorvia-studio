@@ -12,19 +12,20 @@ import { materializeRepository } from "./source-git.js";
 import { resolveZipPluginSource } from "./zip-source.js";
 
 export interface PluginSourceLease {
-  path: string;
-  cleanup?: () => Promise<void>;
+  /* 已就绪的源码目录 */ path: string;
+  /* 租约到期时的清理动作 */ cleanup?: () => Promise<void>;
 }
 
 function requiredString(source: Record<string, unknown>, field: string): string {
-  const value = source[field];
-  if (typeof value !== "string" || !value.trim())
+  const raw = source[field];
+  if (typeof raw !== "string" || !raw.trim())
     throw new Error(`Plugin source ${field} must be a nonempty string`);
-  return value;
+  return raw;
 }
 
 function repositoryOptions(source: Record<string, unknown>, signal?: AbortSignal) {
   const sha = readPluginSourceSha(source);
+  /* 只带上声明过的可选项 */
   return {
     ...(typeof source.path === "string" ? { path: source.path } : {}),
     ...(typeof source.ref === "string" ? { ref: source.ref } : {}),
@@ -34,10 +35,10 @@ function repositoryOptions(source: Record<string, unknown>, signal?: AbortSignal
 }
 
 export function marketplacePluginBase(
-  storageRoot: string,
-  marketplace: string,
-  manifest: PluginMarketplaceManifest,
-): string {
+  /* 插件数据根 */ storageRoot: string,
+  /* 所属市场 */ marketplace: string,
+  /* 市场清单 */ manifest: PluginMarketplaceManifest,
+): /* 市场内插件根目录 */ string {
   const root = recoverAtomicTargetSync(marketplaceDirectory(storageRoot, marketplace));
   const selected =
     manifest.pluginRoot !== undefined ? resolveInside(root, manifest.pluginRoot) : null;
@@ -59,16 +60,15 @@ function zipOptions(source: Record<string, unknown>, signal?: AbortSignal) {
     throw new Error("Plugin ZIP stripRoot must be a boolean");
   let headers: Record<string, string> | undefined;
   if (source.headers !== undefined) {
-    if (
-      !isRecord(source.headers) ||
-      Object.values(source.headers).some((value) => typeof value !== "string")
-    ) {
-      throw new Error("Plugin ZIP headers must be a string map");
-    }
-    headers = source.headers as Record<string, string>;
+    const headerMap: unknown = source.headers;
+    const plainStringMap =
+      isRecord(headerMap) && Object.values(headerMap).every((item) => typeof item === "string");
+    if (!plainStringMap) throw new Error("Plugin ZIP headers must be a string map");
+    headers = headerMap as Record<string, string>;
   }
+  /* ZIP 解析参数 */
   return {
-    url,
+    url: /* 归档地址 */ url,
     sha256: source.sha256,
     ...(typeof source.path === "string" ? { path: source.path } : {}),
     ...(typeof source.stripRoot === "boolean" ? { stripRoot: source.stripRoot } : {}),
@@ -78,24 +78,26 @@ function zipOptions(source: Record<string, unknown>, signal?: AbortSignal) {
 }
 
 export async function resolvePluginEntrySource(input: {
-  storageRoot: string;
-  marketplace: string;
-  manifest: PluginMarketplaceManifest;
-  entry: PluginMarketplaceEntry;
-  signal?: AbortSignal;
-  sourceRoot?: string;
+  /* 插件数据根 */ storageRoot: string;
+  /* 所属市场 */ marketplace: string;
+  /* 市场清单 */ manifest: PluginMarketplaceManifest;
+  /* 目录条目 */ entry: PluginMarketplaceEntry;
+  /* 取消信号 */ signal?: AbortSignal;
+  /* 外部给定的源码根 */ sourceRoot?: string;
 }): Promise<PluginSourceLease> {
   assertAtomicNotAborted(input.signal);
   const { entry } = input;
   const source = entry.source;
-  if (source === "filesystem" || source === "sea") {
+  /* 本地缓存或内嵌来源不需要物化 */
+  const locallyAvailable = source === "filesystem" || source === "sea";
+  if (locallyAvailable) {
     if (entry.cachePath !== undefined) {
       const cache = recoverAtomicTargetSync(entry.cachePath);
       if (directoryExists(cache)) return { path: cache };
     }
     const cache = pluginCacheDirectory(
-      input.storageRoot,
-      input.marketplace,
+      /* 分区根 */ input.storageRoot,
+      /* 所属市场 */ input.marketplace,
       entry.name,
       entry.version || "0.0.0",
     );

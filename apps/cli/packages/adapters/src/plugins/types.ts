@@ -11,28 +11,28 @@ import type {
   SkillRoot,
 } from "@knorvia/contracts";
 
-export interface PluginCandidate {
-  defaultEnabled: boolean;
-  marketplace: string;
+export interface /* 候选插件 */ PluginCandidate {
+  defaultEnabled: /* 默认是否启用 */ boolean;
+  marketplace: /* 所属市场标识 */ string;
   rootPath: string;
-  source: PluginSource;
+  source: /* 插件来源 */ PluginSource;
 }
-export interface LoadedPlugin {
+export interface /* 已加载插件 */ LoadedPlugin {
   id: string;
-  manifest: PluginManifest;
-  manifestPath: string;
-  marketplace: string;
+  manifest: /* 插件清单 */ PluginManifest;
+  manifestPath: /* 清单文件路径 */ string;
+  marketplace: /* 所属市场标识 */ string;
   rootPath: string;
-  source: PluginSource;
+  source: /* 插件来源 */ PluginSource;
 }
-export interface PluginComponents {
+export interface /* 插件组件集合 */ PluginComponents {
   commandRoots: CustomCommandRoot[];
   hooks: Partial<Record<HookEventName, HookMatcherConfig[]>>;
-  hookDetails: PluginHookDetail[];
+  hookDetails: /* 钩子明细 */ PluginHookDetail[];
   mcpServers: Record<string, McpServerConfig>;
-  skillCount: number;
+  skillCount: /* 技能数量 */ number;
   skillRoots: SkillRoot[];
 }
-export interface PluginAbortOptions {
+export interface /* 中止选项 */ PluginAbortOptions {
   signal?: AbortSignal;
 }

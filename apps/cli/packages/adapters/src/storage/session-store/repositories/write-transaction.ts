@@ -11,24 +11,26 @@ export function withWriteTransaction(
   write: () => void,
 ): void {
   if (ownership === "borrow" && db.isTransaction) {
+    /* 借用已有事务：直接执行，不再包一层 */
     write();
-    return;
-  }
-
-  // BEGIN 失败时没有取得事务，不能回滚调用者已经持有的事务。
-  db.exec("BEGIN IMMEDIATE");
-  try {
-    write();
-    db.exec("COMMIT");
-  } catch (failure) {
-    // SQLite 可能已自动回滚；重复 ROLLBACK 会覆盖真正的写入失败。
-    if (db.isTransaction) {
-      try {
-        db.exec("ROLLBACK");
-      } catch (rollbackFailure) {
-        throw new AggregateError([failure, rollbackFailure], ROLLBACK_FAILURE, { cause: failure });
+  } else {
+    // BEGIN 失败时没有取得事务，不能回滚调用者已经持有的事务。
+    /* 取得写锁 */ db.exec("BEGIN IMMEDIATE");
+    try {
+      write();
+      /* 全部写入成功后提交 */ db.exec("COMMIT");
+    } catch (failure) {
+      // SQLite 可能已自动回滚；重复 ROLLBACK 会覆盖真正的写入失败。
+      if (db.isTransaction) {
+        try {
+          /* 尽力撤销未提交的写入 */ db.exec("ROLLBACK");
+        } catch (rollbackFailure) {
+          throw new AggregateError([failure, rollbackFailure], ROLLBACK_FAILURE, {
+            cause: failure,
+          });
+        }
       }
+      throw failure;
     }
-    throw failure;
   }
 }
