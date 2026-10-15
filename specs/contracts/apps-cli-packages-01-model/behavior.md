@@ -700,3 +700,99 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 日志级别：不适用。
 - 语义常量：仅 2xx、非 SSE、`content-type` 含 `json` 的响应进入补全；递归修补两处——`type: "message"` 且 `id` 非字符串 → 补 `id: msg_<uuid>`（前缀逐字 `msg_`）；`type: "output_text"` 且 `annotations` 非数组 → 补 `[]`；替换体时删除 `content-length`。
 - （依据：openai-responses-json-compat.ts 1-35 行）
+
+## 批次 F：runner 核心编排（runner / runner-runtime / runner-options / runner-generate / runner-stream）
+
+### B47 适配器构造、默认值与状态接收端组合（语义常量条目）
+
+- 输入：`AiSdkModelAdapterOptions`。
+- 输出：适配器实例；`setModelIoFullRetentionEnabled` 切换全量保留；`addStatusSink` 追加接收端。
+- 错误语义：构造不抛业务错误。
+- 时序与并发：`addStatusSink` 的组合是**纯转发**：组合后的接收端只有 `publish` 一个方法，向先后两个接收端并发投递（`allSettled`，单个失败不影响另一个，也不影响请求结果），**不转发** `failureError` 等扩展参数（历史兼容限制：组合只转发普通 publish）。
+- 幂等：构造幂等；`setModelIoFullRetentionEnabled` 为显式可变开关（适配器实例级）。
+- 资源释放：不适用。
+- 平台差异：数据根目录解析跨平台（`resolveKnorviaDataRoot`）。
+- 状态所有者：适配器实例持有默认重试参数、调试目录、全量保留开关与状态接收端。
+- 日志级别：不适用（日志经注入的 logger）。
+- 语义常量：`env` 缺省 `{}`；调试目录缺省 `<data root>/cli/debug`（`KNORVIA_RUNTIME_ENV === "development"`）否则 `<data root>/cli/rollout`（显式 `debugDir` 优先）；`streamIdleTimeoutMs` 缺省 **90_000**；`modelIoFullRetentionEnabled` 缺省 **false**；重试参数按 B11 从 options 与 env 解析。
+- > 往返候选：调试/rollout 目录布局与记录文件是持久化数据（见 B54）。
+- （依据：runner.ts 43-108 行）
+
+### B48 createModel 装配与请求准备（调用上下文合并、鉴权刷新）
+
+- 输入：`CreateAiSdkModelOptions`（provider/model 身份、配置、选项规格、可选请求依赖）；每次调用的 `AiSdkModelTextRequest`。
+- 输出：`Model` 对象（B7/B8/B9 的语义叠加）；`makeRequest` 产出「准备好的请求 + 惰性 `resolveModel` + 初始 `resolved`」。
+- 错误语义：鉴权刷新缺凭据 → `AiSdkModelAdapterError` code `model_request_auth_missing`，消息 `Model request authentication is missing`，context `{ reason: "auth_failed", retryable: false, source: "runtime" }`（**pre-start 抛出时不补发 failed 事件**，见 known-differences）。
+- 时序与并发：每个 attempt 重新执行「刷新鉴权 → 重解析模型 → 投影选项」；`resolveModel` 惰性求值，读取请求上的 `__requestAuth`。
+- 幂等：请求准备不修改调用方消息数组（reasoning 归一产出副本）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：模型对象冻结身份；调用期覆盖只属于本次请求（鉴权写在请求对象上，不回写静态 registry）。
+- 日志级别：不适用。
+- 语义常量：调用上下文合并（`getCurrentModelInvocationContext()`）：`metadata` 为「invocation 先、request 后覆盖」的浅合并；`statusSink`、`traceContext`、`modelCall`、`modelRequestSessionType`、`modelRetryBudget`、`modelRequestAdmission`、`streamIdleTimeoutRetryNumber`、`preserveProviderStreamBoundaries` 均「请求值 ?? invocation 值」；reasoning 历史按 B36 以 `{providerId, modelId}` 为目标归一；`accountAccess` 取 `providerConfig.access.type === "zhipu-account"`（其余不带）；`refreshRuntimeHeadersBeforeAttempt` 仅在有 accountAccess 且（外部刷新或 `requestDependencies.requestAuth`）时包装：外部刷新优先，否则经 `authSource.source.resolve(input)` 取鉴权、缺失即抛上面的错误、成功返回 `{ headersApplied: true, requestAuth }`；选项取值 `reasoningLevel = request.providerOptions.reasoningLevel ?? specs.reasoningLevel.values[0]`、`maxOutputTokens = request.maxOutputTokens ?? specs.maxOutputTokens.max`；`generateText`/`streamText` 包装把模型选项映射回请求（`maxOutputTokens`、`providerOptions.reasoningLevel`）。
+- （依据：runner.ts 109-248 行）
+
+### B49 SDK 请求选项装配（语义常量条目）
+
+- 输入：`anthropicMetadataUserId`、`request`、`resolved`、`statusContext`、`includeModelIO`、`env`。
+- 输出：AI SDK `generateText`/`streamText` 选项对象（缺省键被剔除）。
+- 错误语义：不适用（结构化输出缺省值的运行期错误见 B51）。
+- 时序与并发：每次 attempt 装配一次。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt。
+- 日志级别：不适用。
+- 语义常量：`providerOptions` 合并顺序 `resolved.providerOptions` → `request.providerOptions`；带 `anthropicMetadataUserId` 时写入 `providerOptions.anthropic.metadata.userId`（B35 的值）；OpenCode 会话头：`isOpenCodeGoBaseUrl(resolved.baseURL)` 且 `sessionId !== undefined` 时追加 `x-opencode-session: <String(sessionId)>`；`responseJsonSchema` 存在时 `output = Output.object({ schema: jsonSchema(schema) })`，否则无 `output` 键；请求头合并顺序 `resolved.headers` → OpenCode 会话头 → 归因头（B53）；**`maxRetries: 0` 固定**（SDK 内置重试关闭，全部物理重试由适配器管理）；透传字段 `toolChoice`、`temperature`、`maxOutputTokens`、`topP`、`topK`、`presencePenalty`、`frequencyPenalty`、`stopSequences`、`seed`、`abortSignal`、`tools`（B32）、`messages`（B27–B36）；值为 `undefined` 的键不出现在输出对象（`omitUndefined`）。`createStreamTextOptions` 与本条同构（同一装配）。
+- （依据：runner-options.ts 18-84 行）
+
+### B50 运行时端口与请求扩展字段
+
+- 输入：`AiSdkModelRuntime`（可注入，默认 `defaultRuntime` = AI SDK 的 `generateText`/`streamText` 直通）。
+- 输出：运行时端口对象与请求扩展类型语义。
+- 错误语义：不适用。
+- 时序与并发：不适用（端口声明）。
+- 幂等：不适用。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：适配器实例持有 runtime（默认全局）。
+- 日志级别：不适用。
+- 语义常量：请求扩展字段（兼容面）：`abortSignal`、`traceContext`、`refreshRuntimeHeadersBeforeAttempt`（入参含 `accountAccess`、`attempt`、`reason: "model-request"`、`abortSignal`、`providerId`、`modelId`、`traceContext`；返回 `{ headersApplied, requestAuth? }`）、`streamIdleTimeoutRetryNumber`、`preserveProviderStreamBoundaries`。
+- （依据：runner-runtime.ts 1-59 行）
+
+### B51 runGenerateText 的 attempt 状态机（事件序列）
+
+- 输入：见 `RunStreamTextInput` 同构入参（generate 版）。
+- 输出：`ModelTextResult`（`text`、`finishReason`、`usage`、`reasoning`、`toolCalls`、`toolResults`、`sources`、`providerMetadata`）。
+- 错误语义：不重试的失败经 `toAdapterError`（B55）转为适配错误；鉴权缺失且未发 started 时**原样抛出**。
+- 时序与并发：单请求串行循环；每个物理 attempt 事件序列固定：
+  `（准入 queued?）→ （准入 admitted?）→ model_request_started → [runtime.generateText] → model_request_completed` 或失败序列
+  `model_request_failed → (model_retry_scheduled → 退避等待)`。
+- 幂等：attempt 编号单调递增（`attempt` 为物理次数、`retryBudgetAttempt` 为预算内计数、`emptyRetryCount` 单独计数）。
+- 资源释放：准入票据在**所有终止路径**释放（`finally` 兜底 + 各分支显式释放，含退避前）。
+- 平台差异：不适用。
+- 状态所有者：逻辑请求（trace/session/turn 归因）+ 物理 attempt（requestId、票据、计时）。
+- 日志级别：状态事件经 `publishModelStatus` 转发；调试记录见 B54。
+- 语义常量：成功路径细节——「刷新鉴权（B48）→ 重解析模型 → Anthropic 元数据（B35）→ 装配选项（B49）→ started（带 `requestHeaders: resolved.headers`）→ `runtime.generateText`（可被 `abortSignal` 竞速打断）→ 终局业务错误探测（B57）→ 归一（B56）」；`responseJsonSchema` 时结果缺 `output` 抛 `Structured model output is missing`，序列化失败抛 `Structured model output cannot be serialized`（cause 保留），`text` 取 `JSON.stringify(output)`；零输出补全（B58 判定 + B13 条件）走「记录调试 → model_request_failed（reason `stale_connection`、retryable true、errorCode `model_request_failed`、errorPhase `response`、消息 `Provider returned an empty completion`）→ 释放票据 → 空补全重试调度（B13）→ `emptyRetryCount+1`、`retryBudgetAttempt+1` → 继续循环」。失败路径细节——「分类（B26）→ 已装配选项则记录调试 → off-peak 裁决（B15）→ 重试许可 = offPeak 排队 **或**（B17 裁决 且 B12 预算）→ model_request_failed（字段：reason、retryable=canRetry、message、statusCode、errorCode、retryAfterMs、errorPhase `response`）→ 票据过期则抛（消息加 B15 后缀、retryable 置 false、errorPhase `response`）→ 不可重试则抛 → 可重试：延迟 = offPeak 排队延迟（B15）否则 `calculateRetryDelay(retry, retryBudgetAttempt, failure.retryAfterMs)`（B55）；`model_retry_scheduled` 的 reason = `offpeak_queued` 否则 `failure.retryReason` → 释放票据 → 退避等待 → 非 offPeak 排队时 `retryBudgetAttempt+1`」。
+- （依据：runner-generate.ts 42-378 行）
+
+### B52 runStreamText 的 attempt 状态机（输出提交门与前奏缓冲）
+
+- 输入：`RunStreamTextInput`。
+- 输出：`AsyncGenerator<ModelStreamEvent>`（事件序列见下）。
+- 错误语义：同 B51；compact 模式的额外规则见下。
+- 时序与并发：与 B51 同骨架（准入、刷新、started、重试、票据释放），差异在流式路径：
+  1. **前奏缓冲**：重放安全事件（B40）在「首个对外可见内容」之前缓存不发；首个非安全事件或首个非空增量到达时一次性冲刷前奏；
+  2. **可见性**：非空 `text_delta` / `reasoning_delta` 累计长度并置 `visible`；`tool_call` 置 `visible`；
+  3. **compact 模式**（`preserveProviderStreamBoundaries`）：`raw` 事件除 `ping` 外触发「前奏冲刷 + 边界映射（B39）」，`content_block_stop` 置 `committed`；`tool_call` 在未 `committed` 时先补发 `inferred_content_block_stop` 边界；错误体重试另受 B41 约束；
+  4. **空补全重试**只在非 compact 模式生效（B13 + B58），事件 `errorPhase: "stream"`、`streamOutputCommitted: false`；
+  5. 收尾序列：「冲刷前奏 → 冲刷装配器未决调用（B43）→ 发 finish（若 provider 给了）→ completed 事件」，completed 带 `finishReason`/`usage`（有 finish 时）、`timeToFirstContentMs = firstContentAt - startedAt`（有首内容时）、`streamOutputCommitted`（非 compact 时 `committed ||= visible`）；
+  6. 失败路径：清理流（B42）→ 分类 → 重试许可 = （offPeak 排队 或（compact 重试许可（B41）且 B17 且 B12））**且 `!visible && !replayBoundary`**（**输出提交门**：已对外可见即不再重放）→ `model_request_failed` 的 `streamOutputCommitted: replayBoundary` → 取消类失败不写调试记录 → 票据过期抛出（errorPhase `stream`、`streamOutputCommitted: committed`）；
+  7. `finally`：compact 模式下「started 后未收尾」的 attempt 走 B42 的放弃关闭（`streamOutputCommitted: committed`），随后中止并清理关联控制器、释放票据。
+- 幂等：同 B51；前奏只冲刷一次（`splice` 语义）。
+- 资源释放：B42 的 1 秒上限清理 + 关联控制器清理 + 票据释放。
+- 平台差异：不适用。
+- 状态所有者：同 B51。
+- 日志级别：同 B51。
+- 语义常量：`firstContentAt` 取**首个可见内容**时刻；流式完成事件补报 `usage` 与首内容耗时（历史缺陷修复：对话底部 tok/s 恒「—」、步数与缓存不更新；与非流式路径一致，保持）。
+- （依据：runner-stream.ts 35-412 行）
