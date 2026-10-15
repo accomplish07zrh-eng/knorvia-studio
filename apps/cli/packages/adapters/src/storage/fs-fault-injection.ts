@@ -95,14 +95,20 @@ function normalizeRule(fields: Record<string, unknown>, index: number): Rule {
   if (typeof maximum !== "number" || !Number.isInteger(maximum) || maximum < 0) {
     throw invalidRule(index, "maxMatches must be a non-negative integer");
   }
+  // 字段校验顺序（合同固定）：maxMatches → pathRegex 类型 → code → id → message →
+  // operations → pathEndsWith → pathIncludes → 最后才构造正则（原生 SyntaxError）。
   const regexSource = optionalString(fields, "pathRegex", index);
+  const code = requiredString(fields, "code", index);
+  const id = requiredString(fields, "id", index);
+  const message = optionalString(fields, "message", index);
+  const selectedOperations = operationSet(fields.operations, index);
   const ending = optionalString(fields, "pathEndsWith", index);
   const inclusion = optionalString(fields, "pathIncludes", index);
   return {
-    id: requiredString(fields, "id", index),
-    code: requiredString(fields, "code", index),
-    message: optionalString(fields, "message", index),
-    operations: operationSet(fields.operations, index),
+    id,
+    code,
+    message,
+    operations: selectedOperations,
     pathEndsWith: ending === undefined ? undefined : slashes(ending),
     pathIncludes: inclusion === undefined ? undefined : slashes(inclusion),
     expression: regexSource === undefined ? undefined : new RegExp(regexSource),
@@ -146,12 +152,17 @@ function initializeRules(): Rule[] {
   return (decoded as Record<string, unknown>[]).map(normalizeRule);
 }
 
-/** 规则是否命中：次数上限 → 操作集合 → 路径后缀/包含/正则，逐层过滤。 */
-function ruleMatches(rule: Rule, fault: FaultSite, path: string): boolean {
+/** 预算与操作门：先于路径访问，操作不匹配时完全不触碰 path（可缺席）。 */
+function passesBudgetAndOperation(rule: Rule, fault: FaultSite): boolean {
   if (rule.maximum > 0 && rule.consumed >= rule.maximum) return false;
   if (rule.operations && !rule.operations.has("any") && !rule.operations.has(fault.operation)) {
     return false;
   }
+  return true;
+}
+
+/** 路径层过滤：后缀 → 包含 → 正则（此时 path 已经是必有的字符串）。 */
+function pathMatches(rule: Rule, path: string): boolean {
   if (rule.pathEndsWith !== undefined && !path.endsWith(rule.pathEndsWith)) return false;
   if (rule.pathIncludes !== undefined && !path.includes(rule.pathIncludes)) return false;
   if (rule.expression && !rule.expression.test(path)) return false;
@@ -174,8 +185,10 @@ export function maybeThrowStorageFsFault(input: FaultSite): void {
   // 完整初始化成功才落缓存；失败后下一次调用仍可读取更新后的环境。
   const rules = cachedRules ?? (cachedRules = initializeRules());
   for (const rule of rules) {
+    if (!passesBudgetAndOperation(rule, input)) continue;
+    // 操作匹配后才触碰路径：缺席路径按既有边界抛 TypeError，不做兜底也不消耗预算。
     const path = slashes(input.path);
-    if (!ruleMatches(rule, input, path)) continue;
+    if (!pathMatches(rule, path)) continue;
     rule.consumed++;
     throw injectedFault(rule, input);
   }

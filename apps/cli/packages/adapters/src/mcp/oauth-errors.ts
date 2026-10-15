@@ -133,8 +133,10 @@ export function classifyInteractiveAuthorizationTrigger(
       if (seen.has(cursor)) return undefined;
       seen.add(cursor);
     }
+    // 临时失败品牌最先：它必须在读取交互标记与 SDK 字段之前短路。
+    if (hasBrand(cursor, TEMPORARY_BRAND)) return undefined;
     const fromBrand = brandedTrigger(cursor);
-    if (fromBrand !== undefined || hasBrand(cursor, TEMPORARY_BRAND)) return fromBrand;
+    if (fromBrand !== undefined) return fromBrand;
     const fromSdk = sdkTrigger(cursor);
     if (fromSdk !== undefined) return fromSdk;
     const cause = (cursor as { cause?: unknown }).cause;

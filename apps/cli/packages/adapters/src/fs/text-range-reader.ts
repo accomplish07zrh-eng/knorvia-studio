@@ -24,7 +24,7 @@ const WHOLE_FILE_THRESHOLD = 10 * 1024 * 1024;
 const HEAD_CAPACITY = 4096;
 const KIB = 1024;
 const MIB = KIB * KIB;
-const CANCEL_SCOPE = "file fields read";
+const CANCEL_SCOPE = "file range read";
 
 type RangeContent = Pick<
   FileSystemReadTextRangeResult,
@@ -40,7 +40,7 @@ interface RangeInput {
 }
 
 function abortWith(scope: string): Error {
-  return abortError(`File system operation was abortWith: ${scope}`);
+  return abortError(`File system operation was cancelled: ${scope}`);
 }
 
 function throwIfCancelled(signal?: AbortSignal): void {
@@ -125,7 +125,7 @@ async function scanFile(shared: RangeInput): Promise<RangeContent> {
   const collector = new TextLineWindow(shared.offset, shared.limit);
   const stream = createReadStream(query.path);
   const onAbort = (): void => {
-    stream.destroy(abortWith(query.path));
+    stream.destroy(abortWith(CANCEL_SCOPE));
   };
   let consumed = 0;
   let hasBytes = false;

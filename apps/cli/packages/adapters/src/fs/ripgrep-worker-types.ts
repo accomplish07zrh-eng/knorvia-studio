@@ -27,7 +27,7 @@ type WorkerErrorPayload = { code?: unknown; message?: string; name?: string; sta
 export interface WorkerMessage {
   error?: WorkerErrorPayload;
   result?: RipgrepBufferedResult;
-  kind?: string;
+  type?: string;
 }
 
 /** 单次结算的载荷：成功带 value，失败带 problem（二者必有其一）。 */

@@ -20,10 +20,14 @@ interface DeviceMidRequest {
 
 /** 读状态：文件缺失、非法 JSON、非对象都归一成空对象。 */
 async function readState(file: string): Promise<StateRecord> {
-  const parsed = await readFile(file, ENCODING).then(
-    (text) => JSON.parse(text) as unknown,
-    () => undefined,
-  );
+  const text = await readFile(file, ENCODING).catch(() => undefined);
+  if (text === undefined) return {};
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text) as unknown;
+  } catch {
+    return {};
+  }
   return parsed !== null && typeof parsed === "object" && !Array.isArray(parsed)
     ? (parsed as StateRecord)
     : {};
@@ -96,10 +100,12 @@ async function claimLocked(request: DeviceMidRequest, generate: () => string): P
   const handle = await open(request.lock, "wx");
   try {
     await handle.writeFile(JSON.stringify({ createdAt: Date.now(), pid: process.pid }), ENCODING);
-    const existing = deviceMidOf(await readState(request.file));
+    // 锁下只读一次：复用与发布共用同一份快照，不二次读盘。
+    const state = await readState(request.file);
+    const existing = deviceMidOf(state);
     if (existing) return existing;
     const assigned = generate();
-    await publishState(request.file, { ...(await readState(request.file)), deviceMid: assigned });
+    await publishState(request.file, { ...state, deviceMid: assigned });
     return assigned;
   } finally {
     // 合同保留：close 失败时不继续 unlink，外层采用同请求的 fallback。

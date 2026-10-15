@@ -111,6 +111,9 @@ export class NodeToolArtifactStore implements ToolArtifactStorePort {
   }
 
   primeMediaAttachmentPath(input: MediaAttachmentPathPrimeRequest): MediaFlight {
+    // 同 uri 已有在途发布：直接复用，不再读取入参的 mediaType/bytes（它们可能不可用）。
+    const pending = this.#flights.get(input.uri);
+    if (pending) return pending;
     const bytes = Buffer.from(input.bytes);
     return this.#singleFlight(input.uri, () =>
       publishMedia(this.#cache, input.uri, input.mediaType, bytes),

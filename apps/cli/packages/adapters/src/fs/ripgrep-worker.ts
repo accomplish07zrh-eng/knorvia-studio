@@ -31,11 +31,11 @@ const WORKER_PROGRAM = [
   "    buffer: true, env: {}, nodeWasi: false,",
   "    preopens: channel.workerData.preopens, returnOnExit: true",
   "  }))",
-  '  .then(result => report({kind: "result", result}), problem => {',
+  '  .then(result => report({type: "result", result}), problem => {',
   "    const error = problem instanceof Error",
   '      ? {code: "code" in problem ? problem.code : undefined, message: problem.message, name: problem.name, stack: problem.stack}',
   '      : {message: String(problem), name: "Error"};',
-  '    report({kind: "error", error});',
+  '    report({type: "error", error});',
   "  });",
   "",
 ].join("\n");
@@ -144,12 +144,12 @@ function runInWorker(input: ExecuteInput): Promise<RipgrepBufferedResult> {
     worker.once("message", (message: unknown) => {
       if (settled) return;
       const parsed = message as WorkerMessage;
-      if (parsed.kind === "result" && parsed.result) {
+      if (parsed.type === "result" && parsed.result) {
         finish({ problem: undefined, value: parsed.result });
         return;
       }
       const problem =
-        parsed.kind === "error" ? errorFromMessage(parsed) : new Error(UNKNOWN_MESSAGE);
+        parsed.type === "error" ? errorFromMessage(parsed) : new Error(UNKNOWN_MESSAGE);
       finish({ problem, value: undefined });
     });
     worker.once("error", (error) => finish({ problem: error, value: undefined }));

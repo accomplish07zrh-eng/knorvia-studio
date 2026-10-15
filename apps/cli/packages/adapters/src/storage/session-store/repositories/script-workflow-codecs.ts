@@ -36,133 +36,105 @@ import type {
   SessionTaskLinkRow,
 } from "./script-workflow-rows.js";
 
-/** 定义行的可空列：脚本路径与 meta 文档。 */
-function applyDefinitionOptionals(
-  target: ScriptWorkflowDefinitionRecord,
-  record: WorkflowDefinitionRow,
-): void {
-  if (record.script_path !== null) target.scriptPath = record.script_path;
-  target.meta = JSON.parse(record.meta_json) as ScriptWorkflowDefinitionRecord["meta"];
-}
-
 export function decodeDefinition(record: WorkflowDefinitionRow): ScriptWorkflowDefinitionRecord {
   const definition = {} as ScriptWorkflowDefinitionRecord;
-  definition.id = record.id;
-  definition.name = record.name;
-  definition.source = record.source;
-  definition.scope = record.scope;
   definition.enabled = record.enabled === 1;
-  definition.trusted = record.trusted === 1;
+  definition.id = record.id;
+  definition.meta = JSON.parse(record.meta_json) as ScriptWorkflowDefinitionRecord["meta"];
+  definition.name = record.name;
+  definition.scope = record.scope;
   definition.scriptHash = record.script_hash;
+  definition.scriptPath = record.script_path ?? undefined;
+  definition.source = record.source;
   definition.timeCreated = record.time_created;
   definition.timeUpdated = record.time_updated;
-  applyDefinitionOptionals(definition, record);
+  definition.trusted = record.trusted === 1;
   return definition;
-}
-
-/** 运行行的可空列：父会话、预算、阶段、起止时间与两个 JSON 文档。 */
-function applyRunOptionals(target: ScriptWorkflowRunRecord, record: WorkflowRunRow): void {
-  if (record.args_hash !== null) target.argsHash = record.args_hash;
-  if (record.budget_total !== null) target.budgetTotal = record.budget_total;
-  if (record.current_phase !== null) target.currentPhase = record.current_phase;
-  if (record.definition_id !== null) target.definitionId = record.definition_id;
-  if (record.parent_session_id !== null) target.parentSessionId = record.parent_session_id;
-  if (record.script_path !== null) target.scriptPath = record.script_path;
-  if (record.time_completed !== null) target.completedAt = record.time_completed;
-  if (record.time_started !== null) target.startedAt = record.time_started;
-  target.args = decodeJson<ScriptWorkflowRunRecord["args"]>(record.args_json);
-  target.stats = decodeJson<ScriptWorkflowRunRecord["stats"]>(record.stats_json);
-  target.failure = decodeJson<ScriptWorkflowRunRecord["failure"]>(record.failure_json);
 }
 
 export function decodeRun(record: WorkflowRunRow): ScriptWorkflowRunRecord {
   const run = {} as ScriptWorkflowRunRecord;
-  run.id = record.id;
-  run.name = record.name;
-  run.kind = record.kind;
-  run.cwd = record.cwd;
-  run.scriptHash = record.script_hash;
+  run.args = decodeJson<ScriptWorkflowRunRecord["args"]>(record.args_json);
+  run.argsHash = record.args_hash ?? undefined;
   run.budgetSpent = record.budget_spent;
-  run.status = record.status as ScriptWorkflowRunStatus;
+  run.budgetTotal = record.budget_total ?? undefined;
+  run.completedAt = record.time_completed ?? undefined;
   run.createdAt = record.time_created;
+  run.currentPhase = record.current_phase ?? undefined;
+  run.cwd = record.cwd;
+  run.definitionId = record.definition_id ?? undefined;
+  // JSON 列按 args → failure → stats 的顺序解码：多列同时损坏时报第一个。
+  run.failure = decodeJson<ScriptWorkflowRunRecord["failure"]>(record.failure_json);
+  run.id = record.id;
+  run.kind = record.kind;
+  run.name = record.name;
+  run.parentSessionId = (record.parent_session_id ?? undefined) as SessionId | undefined;
+  run.scriptHash = record.script_hash;
+  run.scriptPath = record.script_path ?? undefined;
+  run.startedAt = record.time_started ?? undefined;
+  run.stats = decodeJson<ScriptWorkflowRunRecord["stats"]>(record.stats_json);
+  run.status = record.status as ScriptWorkflowRunStatus;
   run.updatedAt = record.time_updated;
-  applyRunOptionals(run, record);
   return run;
-}
-
-/** 活动行的可空列：父子 id、阶段/标签/提示词与三个 JSON 文档。 */
-function applyActivityOptionals(
-  target: ScriptWorkflowActivityRecord,
-  record: WorkflowActivityRow,
-): void {
-  if (record.child_session_id !== null) target.childSessionId = record.child_session_id;
-  if (record.label !== null) target.label = record.label;
-  if (record.parent_activity_id !== null) target.parentActivityId = record.parent_activity_id;
-  if (record.phase !== null) target.phase = record.phase;
-  if (record.prompt !== null) target.prompt = record.prompt;
-  if (record.time_completed !== null) target.completedAt = record.time_completed;
-  if (record.time_started !== null) target.startedAt = record.time_started;
-  target.opts = decodeJson<ScriptWorkflowActivityRecord["opts"]>(record.opts_json);
-  target.error = decodeJson<ScriptWorkflowActivityRecord["error"]>(record.error_json);
-  target.result = decodeJson<ScriptWorkflowActivityRecord["result"]>(record.result_json);
 }
 
 export function decodeActivity(record: WorkflowActivityRow): ScriptWorkflowActivityRecord {
   const activity = {} as ScriptWorkflowActivityRecord;
-  activity.id = record.id;
-  activity.runId = record.run_id;
+  activity.attempt = record.attempt;
   activity.callIndex = record.call_index;
   activity.callPath = record.call_path;
-  activity.attempt = record.attempt;
-  activity.type = record.type;
-  activity.inputHash = record.input_hash;
-  activity.status = record.status as ScriptWorkflowActivityStatus;
+  activity.childSessionId = (record.child_session_id ?? undefined) as SessionId | undefined;
+  activity.completedAt = record.time_completed ?? undefined;
   activity.createdAt = record.time_created;
+  // JSON 列按 error → opts → result 的顺序解码：多列同时损坏时报第一个。
+  activity.error = decodeJson<ScriptWorkflowActivityRecord["error"]>(record.error_json);
+  activity.id = record.id;
+  activity.inputHash = record.input_hash;
+  activity.label = record.label ?? undefined;
+  activity.opts = decodeJson<ScriptWorkflowActivityRecord["opts"]>(record.opts_json);
+  activity.parentActivityId = record.parent_activity_id ?? undefined;
+  activity.phase = record.phase ?? undefined;
+  activity.prompt = record.prompt ?? undefined;
+  activity.result = decodeJson<ScriptWorkflowActivityRecord["result"]>(record.result_json);
+  activity.runId = record.run_id;
+  activity.startedAt = record.time_started ?? undefined;
+  activity.status = record.status as ScriptWorkflowActivityStatus;
+  activity.type = record.type;
   activity.updatedAt = record.time_updated;
-  applyActivityOptionals(activity, record);
   return activity;
 }
 
-/** 事件行的可空列：来源活动 id 与阶段。 */
-function applyEventOptionals(target: ScriptWorkflowEventRecord, record: WorkflowEventRow): void {
-  if (record.activity_id !== null) target.activityId = record.activity_id;
-  if (record.phase !== null) target.phase = record.phase;
-  target.payload = decodeJson<ScriptWorkflowEventRecord["payload"]>(record.payload_json);
-}
-
+/** 事件行的可空列：来源活动 id 与阶段（缺席时保留自有键，值为 undefined）。 */
 export function decodeEvent(record: WorkflowEventRow): ScriptWorkflowEventRecord {
   const event = {} as ScriptWorkflowEventRecord;
+  event.activityId = record.activity_id ?? undefined;
+  event.createdAt = record.time_created;
   event.id = record.id;
+  event.payload = decodeJson<ScriptWorkflowEventRecord["payload"]>(record.payload_json);
+  event.phase = record.phase ?? undefined;
   event.runId = record.run_id;
   event.sequence = record.sequence;
   event.type = record.type;
-  event.createdAt = record.time_created;
-  applyEventOptionals(event, record);
   return event;
-}
-
-/** 任务链接行的可空列：活动、模型、标签、父链接与阶段。 */
-function applyTaskLinkOptionals(target: SessionTaskLinkRecord, record: SessionTaskLinkRow): void {
-  if (record.activity_id !== null) target.activityId = record.activity_id;
-  if (record.agent_type !== null) target.agentType = record.agent_type;
-  if (record.label !== null) target.label = record.label;
-  if (record.model !== null) target.model = record.model;
-  if (record.parent_link_id !== null) target.parentLinkId = record.parent_link_id;
-  if (record.parent_session_id !== null) target.parentSessionId = record.parent_session_id;
-  if (record.phase !== null) target.phase = record.phase;
-  if (record.root_workflow_run_id !== null) target.rootWorkflowRunId = record.root_workflow_run_id;
 }
 
 export function decodeTaskLink(record: SessionTaskLinkRow): SessionTaskLinkRecord {
   const link = {} as SessionTaskLinkRecord;
-  link.id = record.id;
+  link.activityId = record.activity_id ?? undefined;
+  link.agentType = record.agent_type ?? undefined;
   link.childSessionId = record.child_session_id as SessionId;
-  link.role = record.role;
-  link.depth = record.depth;
-  link.path = record.path;
-  link.status = record.status;
   link.createdAt = record.time_created;
+  link.depth = record.depth;
+  link.id = record.id;
+  link.label = record.label ?? undefined;
+  link.model = record.model ?? undefined;
+  link.parentLinkId = record.parent_link_id ?? undefined;
+  link.parentSessionId = (record.parent_session_id ?? undefined) as SessionId | undefined;
+  link.path = record.path;
+  link.phase = record.phase ?? undefined;
+  link.role = record.role;
+  link.rootWorkflowRunId = record.root_workflow_run_id ?? undefined;
+  link.status = record.status;
   link.updatedAt = record.time_updated;
-  applyTaskLinkOptionals(link, record);
   return link;
 }

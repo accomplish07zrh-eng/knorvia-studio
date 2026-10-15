@@ -468,8 +468,11 @@ export function createMcpTelemetryTracker(
 
   const tracker: TrackerContext = {
     arch,
+    // 盐按注册时点实时读取：调用方可以在创建后调整 idSalt（金样要求）。
+    get idSalt() {
+      return settings.idSalt;
+    },
     publish,
-    idSalt: settings.idSalt,
     now,
     platform,
     randomId,
@@ -485,16 +488,16 @@ export function createMcpTelemetryTracker(
 
   return {
     acquireOwner: (request) => acquireOwner(tracker, request),
-    listProcesses: () => listProcesses(tracker),
-    recordProcessClosed: (request) => recordClosed(tracker, request),
     recordProcessCrashed: (request) => recordCrashed(tracker, request),
+    recordProcessClosed: (request) => recordClosed(tracker, request),
     recordProcessStarted: (request) => recordStarted(tracker, request),
     recordSessionStartup: (request) => recordStartup(tracker, request),
-    registerConnection: (request) => registerConnection(tracker, request),
     releaseOwner: (request) => releaseOwnerRole(tracker, request),
+    registerConnection: (request) => registerConnection(tracker, request),
+    unregisterConnection: (request) => unregisterConnection(tracker, request),
+    listProcesses: () => listProcesses(tracker),
     sampleNow: sampler.sampleNow,
     start: sampler.start,
     stop: sampler.stop,
-    unregisterConnection: (request) => unregisterConnection(tracker, request),
   };
 }
