@@ -1,0 +1,16 @@
+{
+  "locale": "zh-CN",
+  "onboardingOccupation": "developer",
+  "providerFamilyConnectionSelections": {
+    "zai": {
+      "kind": "team-coding-plan",
+      "productId": "p-1",
+      "organizationId": "o-1",
+      "projectId": "pr-1"
+    },
+    "bigmodel": {
+      "kind": "start-plan"
+    }
+  },
+  "recentProjects": ["/tmp/demo", ""]
+}

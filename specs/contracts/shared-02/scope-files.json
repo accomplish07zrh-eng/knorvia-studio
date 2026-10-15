@@ -1,0 +1,1059 @@
+{
+  "contract": "shared-02",
+  "generatedBy": "build-scope-files.mjs（生成器按 shared-01 先例留在执行工作区，不入库）",
+  "counts": {
+    "upstream-unchanged": 23,
+    "upstream-modified": 35
+  },
+  "total": 58,
+  "deletedResidues": [
+    "packages/shared/src/coding-plan-reset.ts",
+    "packages/shared/src/coding-plan-subscription.ts"
+  ],
+  "files": [
+    {
+      "path": "packages/shared/src/account-provider-state.ts",
+      "kind": "file",
+      "sha256": "c81ac7579c053458c7fef4cd72b287be016ac43e30e2e107a7e29c22bf67a6ff",
+      "normalizedSha256": "c81ac7579c053458c7fef4cd72b287be016ac43e30e2e107a7e29c22bf67a6ff",
+      "bytes": 479,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/account-provider-state.ts",
+        "blob": "040dde02286808f29b06dfe8ab4c40e3c4f8bb6b",
+        "normalizedSha256": "c81ac7579c053458c7fef4cd72b287be016ac43e30e2e107a7e29c22bf67a6ff",
+        "contentMatchedPaths": ["packages/shared/src/account-provider-state.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/api.ts",
+      "kind": "file",
+      "sha256": "21ef31be2455796de2461757e0209787e9d19d030faeaf7213858debe2333c4d",
+      "normalizedSha256": "21ef31be2455796de2461757e0209787e9d19d030faeaf7213858debe2333c4d",
+      "bytes": 874,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/api.ts",
+        "blob": "8adb67b3d56bd7ab73500d24ddd9bec6304597a3",
+        "normalizedSha256": "21ef31be2455796de2461757e0209787e9d19d030faeaf7213858debe2333c4d",
+        "contentMatchedPaths": ["packages/shared/src/api.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/automation-types.ts",
+      "kind": "file",
+      "sha256": "c72d0ddec74ff91029137c80ed4610f1bbd3d8b413a65a66669379261b349907",
+      "normalizedSha256": "c72d0ddec74ff91029137c80ed4610f1bbd3d8b413a65a66669379261b349907",
+      "bytes": 8522,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/automation-types.ts",
+        "blob": "e3d4b8b1925c84959bdfc9076c6492070f138a67",
+        "normalizedSha256": "a4cf0270af163d27297132e5363350ab407116f06693f6bdd12aabeb57365a90",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "kind": "file",
+      "sha256": "61e0532045f2e2b0d15cb8735076295204e17a013ff87787c33be5aa8687e156",
+      "normalizedSha256": "61e0532045f2e2b0d15cb8735076295204e17a013ff87787c33be5aa8687e156",
+      "bytes": 48950,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/channels.ts",
+        "blob": "50db4f3a71023f7c01f494432b43d9b5bb5f0d6f",
+        "normalizedSha256": "c0da7f4b7fdef4a58290bc75260084867b654d9be1745afa9ca50bc6988659e9",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/command-types.ts",
+      "kind": "file",
+      "sha256": "33b3490b912dd66e6ba5360b890d7c43b8a34becb817a239b4569bfbd246c785",
+      "normalizedSha256": "33b3490b912dd66e6ba5360b890d7c43b8a34becb817a239b4569bfbd246c785",
+      "bytes": 2246,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/command-types.ts",
+        "blob": "09d66ec4783a6d8ed90249a49586ae3dbbe2d66d",
+        "normalizedSha256": "24e59c2dc17e4346332d44037e999b2678b5d1bdaf9ff5384744c613fff54bd5",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/config-schema.ts",
+      "kind": "file",
+      "sha256": "6abe56703524faac950d25b8d77d904facd36d059e11ac7be83d282e2c9301d5",
+      "normalizedSha256": "6abe56703524faac950d25b8d77d904facd36d059e11ac7be83d282e2c9301d5",
+      "bytes": 405,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/config-schema.ts",
+        "blob": "2d75eadbcb8177ec5106f5f2ff9bd377d4966374",
+        "normalizedSha256": "6abe56703524faac950d25b8d77d904facd36d059e11ac7be83d282e2c9301d5",
+        "contentMatchedPaths": ["packages/shared/src/config-schema.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/cuaAccessibilitySettings.ts",
+      "kind": "file",
+      "sha256": "576817fb9f6e227d5f38ca75b14d7828a81cd723b15794c3ae9d98b7412ea04f",
+      "normalizedSha256": "576817fb9f6e227d5f38ca75b14d7828a81cd723b15794c3ae9d98b7412ea04f",
+      "bytes": 1898,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/cuaAccessibilitySettings.ts",
+        "blob": "3f465e0bcdd743dd93a2cf36a44fac1394210df5",
+        "normalizedSha256": "55696dfbd8436fb862da644ee3fddcc6cc39146b12655fbaebc9c640e4eef0b4",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/custom-model-value.ts",
+      "kind": "file",
+      "sha256": "b825ca3b3f32cebf4f1876457c79d683cd37fd5b2a24c20c0547519de3b0b493",
+      "normalizedSha256": "b825ca3b3f32cebf4f1876457c79d683cd37fd5b2a24c20c0547519de3b0b493",
+      "bytes": 1501,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/custom-model-value.ts",
+        "blob": "47e8582242ea138e2af3197053f6bacf5432c058",
+        "normalizedSha256": "b825ca3b3f32cebf4f1876457c79d683cd37fd5b2a24c20c0547519de3b0b493",
+        "contentMatchedPaths": ["packages/shared/src/custom-model-value.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/env.ts",
+      "kind": "file",
+      "sha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3",
+      "normalizedSha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3",
+      "bytes": 2620,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/env.ts",
+        "blob": "e2baa3c76cfd038a679a92b7521412f721d0b3a5",
+        "normalizedSha256": "69c7f96325027d874be61367da3e80f92e751508070275305209ad739da65d2c",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/errors.ts",
+      "kind": "file",
+      "sha256": "3b498f94d3930a039e4a05ba6936dfd5ec43528eb839c712203b96ff4e1f0f0e",
+      "normalizedSha256": "3b498f94d3930a039e4a05ba6936dfd5ec43528eb839c712203b96ff4e1f0f0e",
+      "bytes": 2324,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/errors.ts",
+        "blob": "6034619cbf6977fd2f1308cd4a94937d7f7097e9",
+        "normalizedSha256": "df7ab65a6516c62a0d78561dd99a1ea0333dc6aec54f254a53c6fcdffc61d49b",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/forceUpdate.ts",
+      "kind": "file",
+      "sha256": "6ce4c94edaa1c1ac77125cb30d77040a0456975a3e3cd8ed46f3cc3555c6ff32",
+      "normalizedSha256": "6ce4c94edaa1c1ac77125cb30d77040a0456975a3e3cd8ed46f3cc3555c6ff32",
+      "bytes": 3247,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/forceUpdate.ts",
+        "blob": "fe2dcacd1a04fe50b60860ae363e53332836f5f9",
+        "normalizedSha256": "96967ddad919457ed79d4a7c96d3df03dfb9d9fbba1376688340bb8f8617c356",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "kind": "file",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+      "normalizedSha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+      "bytes": 7623,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/git.ts",
+        "blob": "72f335e9037b3df574cb0c02bbea6ce38e3c94f9",
+        "normalizedSha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+        "contentMatchedPaths": ["packages/shared/src/git.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/handshake.ts",
+      "kind": "file",
+      "sha256": "0bdf8844b4540d07e8b75d7bb7957cbf6d9626e74f86db09b9b29f43b8c0c2c0",
+      "normalizedSha256": "0bdf8844b4540d07e8b75d7bb7957cbf6d9626e74f86db09b9b29f43b8c0c2c0",
+      "bytes": 235,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/handshake.ts",
+        "blob": "1cf9de79d4a20955cfe32f626326f71e0c349146",
+        "normalizedSha256": "f1108969943cce5bbf13b9a09f6d3a2bea1189caaea950b5f7d41419ae695f7b",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/hooks.ts",
+      "kind": "file",
+      "sha256": "665169b0fe01c4fd4418c76c279eab30ce9acb682957ad88ac358398e7556118",
+      "normalizedSha256": "665169b0fe01c4fd4418c76c279eab30ce9acb682957ad88ac358398e7556118",
+      "bytes": 2205,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/hooks.ts",
+        "blob": "59e4d74251503ace2a5d4f16e27790832fb864ee",
+        "normalizedSha256": "0763096faffec633cb0e0667ecaf6ed6db2ff22ee59316683764729835bb8a4d",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/legacy-model-provider-identity.ts",
+      "kind": "file",
+      "sha256": "fb5feaa066c67b685ea185e75c0651b6a627494d1d808ad960b67270cddda312",
+      "normalizedSha256": "fb5feaa066c67b685ea185e75c0651b6a627494d1d808ad960b67270cddda312",
+      "bytes": 1784,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/legacy-model-provider-identity.ts",
+        "blob": "1351ffa03aaeb3b730e5493f05bd76a72bd21dff",
+        "normalizedSha256": "fb5feaa066c67b685ea185e75c0651b6a627494d1d808ad960b67270cddda312",
+        "contentMatchedPaths": ["packages/shared/src/legacy-model-provider-identity.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/log-format.ts",
+      "kind": "file",
+      "sha256": "d30c2e09c722d7c2e975e80f48468c62fb17ac52299ff0f20101a272ded5c618",
+      "normalizedSha256": "d30c2e09c722d7c2e975e80f48468c62fb17ac52299ff0f20101a272ded5c618",
+      "bytes": 1196,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/log-format.ts",
+        "blob": "61d4182b23302db3c8d7c7c3e4607484e78dff55",
+        "normalizedSha256": "d30c2e09c722d7c2e975e80f48468c62fb17ac52299ff0f20101a272ded5c618",
+        "contentMatchedPaths": ["packages/shared/src/log-format.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/mcp-sync.ts",
+      "kind": "file",
+      "sha256": "d55cb52ce630eb9018b9d352b6fa361ba90269d268730225381b715dbddc31d5",
+      "normalizedSha256": "d55cb52ce630eb9018b9d352b6fa361ba90269d268730225381b715dbddc31d5",
+      "bytes": 1105,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/mcp-sync.ts",
+        "blob": "ffff874b9ff3ed7d6ac3521ae475da4c878bfd2a",
+        "normalizedSha256": "afecc41173e07cd55481f710df2e3b4055c620d5c995e383bf69ff89882aea09",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/media-preview.ts",
+      "kind": "file",
+      "sha256": "cb5662582f863a3c1c679324c3707d2c028cef2b5d5e02350e82042455f4f76e",
+      "normalizedSha256": "cb5662582f863a3c1c679324c3707d2c028cef2b5d5e02350e82042455f4f76e",
+      "bytes": 1281,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/media-preview.ts",
+        "blob": "8dd3fb5bdcaa52fb7ca92555c025eaf21e401945",
+        "normalizedSha256": "cb5662582f863a3c1c679324c3707d2c028cef2b5d5e02350e82042455f4f76e",
+        "contentMatchedPaths": ["packages/shared/src/media-preview.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-provider-family.ts",
+      "kind": "file",
+      "sha256": "e1c4a2695042d1305af4f8b40a3d2780c78b6ef6dbacc1a2b0722cecff947a93",
+      "normalizedSha256": "e1c4a2695042d1305af4f8b40a3d2780c78b6ef6dbacc1a2b0722cecff947a93",
+      "bytes": 5826,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/model-provider-family.ts",
+        "blob": "52ab99c89ed38f6102e83fa691a573479ae2cd55",
+        "normalizedSha256": "de6921dc0fce1e776a62010bfcf5488145ea4f4aa86cced5207cf6785f726e71",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-provider-types.ts",
+      "kind": "file",
+      "sha256": "7136b3e33dc7274e747e14f6c66cb4acf908dc6f2d8cf2b28adfc569bee218e8",
+      "normalizedSha256": "7136b3e33dc7274e747e14f6c66cb4acf908dc6f2d8cf2b28adfc569bee218e8",
+      "bytes": 3104,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/model-provider-types.ts",
+        "blob": "259ce8e06d127278db0d1aeea8453dfe7aedae5e",
+        "normalizedSha256": "7136b3e33dc7274e747e14f6c66cb4acf908dc6f2d8cf2b28adfc569bee218e8",
+        "contentMatchedPaths": ["packages/shared/src/model-provider-types.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-selection-key.ts",
+      "kind": "file",
+      "sha256": "8f64d5853cd8495384eb1aef0b0b16415977c84d635a379fbdaf8e10290ce2ed",
+      "normalizedSha256": "8f64d5853cd8495384eb1aef0b0b16415977c84d635a379fbdaf8e10290ce2ed",
+      "bytes": 2457,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/model-selection-key.ts",
+        "blob": "4fcf00ebd56d625556512e47b05267a75e153529",
+        "normalizedSha256": "e230f4450b64163f442e1f8acaa364b46d5f7adb56c31974e47b6fa6618ff636",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-selection-types.ts",
+      "kind": "file",
+      "sha256": "25253fd06b9667942bd5fcd39f3734d8b5aa772630e29d2ebe4e7a4d083c137f",
+      "normalizedSha256": "25253fd06b9667942bd5fcd39f3734d8b5aa772630e29d2ebe4e7a4d083c137f",
+      "bytes": 863,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/model-selection-types.ts",
+        "blob": "7d0f9adbc5819067f1305663f92d61a41b7546da",
+        "normalizedSha256": "dfaa0f3475d3bb1c293287ccc26d5e486f59e2e4b6f7cacec748fab4beffb7a6",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-selection.ts",
+      "kind": "file",
+      "sha256": "da166344b20f39f73c7743257425b9b856d0abd2867a33742ceee9d3acdc4e59",
+      "normalizedSha256": "da166344b20f39f73c7743257425b9b856d0abd2867a33742ceee9d3acdc4e59",
+      "bytes": 2463,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/model-selection.ts",
+        "blob": "5f46f4c929ff0d0f63f8cdf1e8cfbf3eab84a522",
+        "normalizedSha256": "653a4671723d4a3302e84ba13f29d4d55a17e5e8082b44d54ba1f9087dbd3e44",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/off-peak-types.ts",
+      "kind": "file",
+      "sha256": "036c20ca841739950842ef698843754706bece4986b776da38b6f011d1a8951b",
+      "normalizedSha256": "036c20ca841739950842ef698843754706bece4986b776da38b6f011d1a8951b",
+      "bytes": 8437,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/off-peak-types.ts",
+        "blob": "54872d8a17112a81b18e607bbd97bec46c8fccf2",
+        "normalizedSha256": "86e8a99e1e43e9aae717b93fc97d42bec071ac937a715adbbb171f2ba28629fa",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/official-glm-model-id.ts",
+      "kind": "file",
+      "sha256": "8c6eae025b9042e19d25444b181df6ec3907f054688c16db39f64becbc6617b9",
+      "normalizedSha256": "8c6eae025b9042e19d25444b181df6ec3907f054688c16db39f64becbc6617b9",
+      "bytes": 978,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/official-glm-model-id.ts",
+        "blob": "068cef354b276387411d351f9ca039b1313ab34f",
+        "normalizedSha256": "8c6eae025b9042e19d25444b181df6ec3907f054688c16db39f64becbc6617b9",
+        "contentMatchedPaths": ["packages/shared/src/official-glm-model-id.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "kind": "file",
+      "sha256": "0970da0d9589cb239c0dd7b4eae2ef35c1a745becfe5a3daa405c23cb2541b8a",
+      "normalizedSha256": "0970da0d9589cb239c0dd7b4eae2ef35c1a745becfe5a3daa405c23cb2541b8a",
+      "bytes": 36883,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/platform.ts",
+        "blob": "63069d095f0cf9ffdb11478cb7f052a297eb4313",
+        "normalizedSha256": "6c2f02be08f5378f4625bd79c1588471d805e57ddb1fb82943dc433dcf3e04db",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/plugin-sync.ts",
+      "kind": "file",
+      "sha256": "dd156e67990c89db47285d652ff5cc39981c1606500dd684ffa32e4be287de1f",
+      "normalizedSha256": "dd156e67990c89db47285d652ff5cc39981c1606500dd684ffa32e4be287de1f",
+      "bytes": 1633,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/plugin-sync.ts",
+        "blob": "f50ffb42bb5a8a3d9650369c0f521337f0ead883",
+        "normalizedSha256": "dd156e67990c89db47285d652ff5cc39981c1606500dd684ffa32e4be287de1f",
+        "contentMatchedPaths": ["packages/shared/src/plugin-sync.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/plugin-types.ts",
+      "kind": "file",
+      "sha256": "40c1fb178f771bdee104c7c38e681961c8787c22fdac0c30aa67ef8fe1bd2ae5",
+      "normalizedSha256": "40c1fb178f771bdee104c7c38e681961c8787c22fdac0c30aa67ef8fe1bd2ae5",
+      "bytes": 1560,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/plugin-types.ts",
+        "blob": "1957dfb89278a117910ac157b8f9943ce520b367",
+        "normalizedSha256": "40c1fb178f771bdee104c7c38e681961c8787c22fdac0c30aa67ef8fe1bd2ae5",
+        "contentMatchedPaths": ["packages/shared/src/plugin-types.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "kind": "file",
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "normalizedSha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "bytes": 15340,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/protocol.ts",
+        "blob": "395c43631ff8a599e1d9991de5e09cb7c8e041cb",
+        "normalizedSha256": "8ca196294184cb0f41961bbc57360fbdccfe4ae41b95987286a47516411a6f9e",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/provider-family-connection-selection.ts",
+      "kind": "file",
+      "sha256": "6476dca87ec40391ba3545dae56c920f6d4785e08e28d49528458ebd46ad4600",
+      "normalizedSha256": "6476dca87ec40391ba3545dae56c920f6d4785e08e28d49528458ebd46ad4600",
+      "bytes": 1050,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/provider-family-connection-selection.ts",
+        "blob": "fa6ee43a38326db4462057aca45b3883f902d36a",
+        "normalizedSha256": "6476dca87ec40391ba3545dae56c920f6d4785e08e28d49528458ebd46ad4600",
+        "contentMatchedPaths": ["packages/shared/src/provider-family-connection-selection.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/providers.ts",
+      "kind": "file",
+      "sha256": "c5a5ea9ddf86bdb019ee338870df4fd94758cfcdc17b17da8b132f43222e7f0d",
+      "normalizedSha256": "c5a5ea9ddf86bdb019ee338870df4fd94758cfcdc17b17da8b132f43222e7f0d",
+      "bytes": 509,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/providers.ts",
+        "blob": "fa5ceaaf41102c39d46edf6f91a5e87fcadec7a0",
+        "normalizedSha256": "f5272b6b75f997d686428b8b360028b3fdcd8abc61bb8854395b76ba0221bbf7",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteAssetInstallMode.ts",
+      "kind": "file",
+      "sha256": "918dcc8a86921af3185e5af96d2b9a189899e58a0e86fb20de44c47934f6ff8c",
+      "normalizedSha256": "918dcc8a86921af3185e5af96d2b9a189899e58a0e86fb20de44c47934f6ff8c",
+      "bytes": 479,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remoteAssetInstallMode.ts",
+        "blob": "a197044996617dc13b3b45f2677753d7b45ebece",
+        "normalizedSha256": "918dcc8a86921af3185e5af96d2b9a189899e58a0e86fb20de44c47934f6ff8c",
+        "contentMatchedPaths": ["packages/shared/src/remoteAssetInstallMode.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteEnvironmentKey.ts",
+      "kind": "file",
+      "sha256": "75ed5429fede87351ff000ff88a2929dfe454c3e45e177558c32dc3e739c998a",
+      "normalizedSha256": "75ed5429fede87351ff000ff88a2929dfe454c3e45e177558c32dc3e739c998a",
+      "bytes": 594,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remoteEnvironmentKey.ts",
+        "blob": "2e7a3d14ba47d0c8ad910d1e42f816c9bec55852",
+        "normalizedSha256": "75ed5429fede87351ff000ff88a2929dfe454c3e45e177558c32dc3e739c998a",
+        "contentMatchedPaths": ["packages/shared/src/remoteEnvironmentKey.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteResourcePackages.ts",
+      "kind": "file",
+      "sha256": "941cd1d1e7333b072136fd3ffc66c3ddb5b4e03d283176896d9fb0e8dec33d4d",
+      "normalizedSha256": "941cd1d1e7333b072136fd3ffc66c3ddb5b4e03d283176896d9fb0e8dec33d4d",
+      "bytes": 2980,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/remoteResourcePackages.ts",
+        "blob": "e0f3e95b5e6e72a8bd3d4b39ea54247d5a3a49ac",
+        "normalizedSha256": "8041390aafed41e42d272215b4c2485d027c00f9812df8307bf40d906b526e1f",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteSshHostKey.ts",
+      "kind": "file",
+      "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "normalizedSha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "bytes": 3184,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/remoteSshHostKey.ts",
+        "blob": "3057acd946c7e6ea0eafacb9aee7dac5cf4149fa",
+        "normalizedSha256": "1359d0dc69d76771cf84d2a432d2d0a1e119be381d3d0a49537279b67e10641d",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteTarget.ts",
+      "kind": "file",
+      "sha256": "37bd8a045310956ab5ff484a5775e9f7d8992fb17e46d07f107f22715b336cdc",
+      "normalizedSha256": "37bd8a045310956ab5ff484a5775e9f7d8992fb17e46d07f107f22715b336cdc",
+      "bytes": 1128,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remoteTarget.ts",
+        "blob": "090289c0ed9ef4f2ce8f29d5c8fcdb8403c8ead6",
+        "normalizedSha256": "37bd8a045310956ab5ff484a5775e9f7d8992fb17e46d07f107f22715b336cdc",
+        "contentMatchedPaths": ["packages/shared/src/remoteTarget.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/runtimeEnv.ts",
+      "kind": "file",
+      "sha256": "1726498b016f0c930a2e6a6ffd92548746ddcd68d6412975972794411ce563bd",
+      "normalizedSha256": "1726498b016f0c930a2e6a6ffd92548746ddcd68d6412975972794411ce563bd",
+      "bytes": 9289,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/runtimeEnv.ts",
+        "blob": "c7a919fe2ddebca1fcd93bb458984ea656eea9ab",
+        "normalizedSha256": "3e74414915d475ebf90ee68d2d2b25f0470aeb8692277e9555ed60d596a0f650",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/sessionCreateSource.ts",
+      "kind": "file",
+      "sha256": "9a1fa633aef4eb3845f481832c2cdc77b26bc36b49fa67b1d7a153431bdc0c4b",
+      "normalizedSha256": "9a1fa633aef4eb3845f481832c2cdc77b26bc36b49fa67b1d7a153431bdc0c4b",
+      "bytes": 155,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/sessionCreateSource.ts",
+        "blob": "1e5e30eb72839ba7b54a575a02205bee7691e418",
+        "normalizedSha256": "9a1fa633aef4eb3845f481832c2cdc77b26bc36b49fa67b1d7a153431bdc0c4b",
+        "contentMatchedPaths": ["packages/shared/src/sessionCreateSource.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/settings-errors.ts",
+      "kind": "file",
+      "sha256": "daeb7cb34e3f8f5b8a4fed3ccf979fd008739e6bbf58ff4613d0100a8e4ac919",
+      "normalizedSha256": "daeb7cb34e3f8f5b8a4fed3ccf979fd008739e6bbf58ff4613d0100a8e4ac919",
+      "bytes": 501,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/settings-errors.ts",
+        "blob": "5623c70bb9923a6ac4dd6264d4866d5e6a444235",
+        "normalizedSha256": "daeb7cb34e3f8f5b8a4fed3ccf979fd008739e6bbf58ff4613d0100a8e4ac919",
+        "contentMatchedPaths": ["packages/shared/src/settings-errors.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/settings-source.ts",
+      "kind": "file",
+      "sha256": "f9f696b11eb1050a0b49fa1c118fe2dcb6c0c1b53c089841fca22deb252bd3b4",
+      "normalizedSha256": "f9f696b11eb1050a0b49fa1c118fe2dcb6c0c1b53c089841fca22deb252bd3b4",
+      "bytes": 294,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/settings-source.ts",
+        "blob": "6ff55fd3e4c23abe384eaa96757a11cd191edfff",
+        "normalizedSha256": "2599bf5f47df27072065d08e4a0ae0eb57ed7c32873b1e60feaaaf39f5b8466e",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/settings-sync.ts",
+      "kind": "file",
+      "sha256": "f95af13a9cc616fee2c1f26310da875ad6f6e9419fe90eadffb03332ecde8b36",
+      "normalizedSha256": "f95af13a9cc616fee2c1f26310da875ad6f6e9419fe90eadffb03332ecde8b36",
+      "bytes": 5296,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/settings-sync.ts",
+        "blob": "4cc980f24269cd4881612a65e8d9276d95426683",
+        "normalizedSha256": "63a2aec9aeb8c3cb7a3db68ec8dd83c140968395901fa2516bd9a2d0b3231ba4",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/shortcutCommands.ts",
+      "kind": "file",
+      "sha256": "468349f6f745769e5b21d8c598360311c78082b575f3fbc8731bf7189b1a1ff7",
+      "normalizedSha256": "468349f6f745769e5b21d8c598360311c78082b575f3fbc8731bf7189b1a1ff7",
+      "bytes": 5339,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/shortcutCommands.ts",
+        "blob": "60d4038a984f21941ff44e3f7572e6b0b06f36a5",
+        "normalizedSha256": "82873bfb3a6d6aa79494a2f2fd26b6abf862b5b7d441076cd50384d7952e8a3f",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/skill-sync.ts",
+      "kind": "file",
+      "sha256": "b4845cb033083c06c2070d8a715889ca3f944d772a57bd5bdd52ec218b0b292b",
+      "normalizedSha256": "b4845cb033083c06c2070d8a715889ca3f944d772a57bd5bdd52ec218b0b292b",
+      "bytes": 1267,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/skill-sync.ts",
+        "blob": "4d59747a4a4924a5e76512307ea9967707804e0f",
+        "normalizedSha256": "b4845cb033083c06c2070d8a715889ca3f944d772a57bd5bdd52ec218b0b292b",
+        "contentMatchedPaths": ["packages/shared/src/skill-sync.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/skills-types.ts",
+      "kind": "file",
+      "sha256": "e721461584883f9db7caeb5c6903a9b553ed85db1ffc4b936991077e2374461e",
+      "normalizedSha256": "e721461584883f9db7caeb5c6903a9b553ed85db1ffc4b936991077e2374461e",
+      "bytes": 1997,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/skills-types.ts",
+        "blob": "1ad33b1c7dc748a22e73ea78e71a99767719937b",
+        "normalizedSha256": "ed087503ae21992ec109acbb464ec3c7a17fbc8b0410fe6146195c2444e67dc3",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/storage.ts",
+      "kind": "file",
+      "sha256": "bb23cb4eafa1c85361709e6e1e11680b4aa634b4f9ccaf0f93a0474904a5dedb",
+      "normalizedSha256": "bb23cb4eafa1c85361709e6e1e11680b4aa634b4f9ccaf0f93a0474904a5dedb",
+      "bytes": 5263,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/storage.ts",
+        "blob": "ecbbd1697217a48e13275418189097fe6cfea18f",
+        "normalizedSha256": "c1d3ae3e3a46100fb7a4260b1dead7cd205e640525578957707b86f464f35a57",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/subagents-types.ts",
+      "kind": "file",
+      "sha256": "5957bd4ef51fadea0daeea99ef9055a0b3417fcea3bf14a0b60d3a04f8ce61e4",
+      "normalizedSha256": "5957bd4ef51fadea0daeea99ef9055a0b3417fcea3bf14a0b60d3a04f8ce61e4",
+      "bytes": 4263,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/subagents-types.ts",
+        "blob": "9ed944f60972a6f95deea124be5218128f6a63af",
+        "normalizedSha256": "2a59561fedccb3c4374afca0f4c73dd4550dbae400c63845a65ddf04e12fdd93",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/task-realtime.ts",
+      "kind": "file",
+      "sha256": "79c9675774a4739116f911eaa9d8c7b3fa8553520ec0bf2a1c971ed0b7656fbd",
+      "normalizedSha256": "79c9675774a4739116f911eaa9d8c7b3fa8553520ec0bf2a1c971ed0b7656fbd",
+      "bytes": 6069,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/task-realtime.ts",
+        "blob": "7dae06dc32d1a0518d6f9d3a993fb5523394712d",
+        "normalizedSha256": "0de5f736d7238cdc8e55b1013c90af7e7efbe9fbca40d0fe3ee652cfcdb31f80",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/telemetry.ts",
+      "kind": "file",
+      "sha256": "5799d23a22afc28d0416f1e9e8d70a089990e5b955b83d3f957b37c04ef5d5c5",
+      "normalizedSha256": "5799d23a22afc28d0416f1e9e8d70a089990e5b955b83d3f957b37c04ef5d5c5",
+      "bytes": 3224,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/telemetry.ts",
+        "blob": "0fe4c667f392e3528e62a26536ac9cbeb35ac906",
+        "normalizedSha256": "9083cdb68f1047912c47bb84eba040319ff859e2bd986ff2ed919dad940aeeba",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/telemetryRedaction.ts",
+      "kind": "file",
+      "sha256": "50c7b7a6c7beee53f0e652043bed63649146590c5e669937d9bdf356a6b38cc2",
+      "normalizedSha256": "50c7b7a6c7beee53f0e652043bed63649146590c5e669937d9bdf356a6b38cc2",
+      "bytes": 5772,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/telemetryRedaction.ts",
+        "blob": "dcc87147cf21a8852e21ab508a6b1bc1afa74cc8",
+        "normalizedSha256": "321952311f5e36187edbe7b365c51ceded8f67869c0faffec986b370e6540d60",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/test-ids-workflow.ts",
+      "kind": "file",
+      "sha256": "8b7d03b6a5c9c22e7f067fc6eca73fd333a8afa42e33dc40577e8f65640f689a",
+      "normalizedSha256": "8b7d03b6a5c9c22e7f067fc6eca73fd333a8afa42e33dc40577e8f65640f689a",
+      "bytes": 3850,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/test-ids-workflow.ts",
+        "blob": "2fe92b36dd1e1b9db362b2d5c3dbf7f82915214d",
+        "normalizedSha256": "26e54f724a227afb03ce333f423b71360a94ca99700f3dad71396209c687f403",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/test-ids.ts",
+      "kind": "file",
+      "sha256": "6f632a0c4bdea6044e9265184d00985f19afa1e0eba86d1873165795db1deb59",
+      "normalizedSha256": "6f632a0c4bdea6044e9265184d00985f19afa1e0eba86d1873165795db1deb59",
+      "bytes": 42967,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/test-ids.ts",
+        "blob": "5b4dba3c7922fa4958a69829b57825da3b88d246",
+        "normalizedSha256": "6f632a0c4bdea6044e9265184d00985f19afa1e0eba86d1873165795db1deb59",
+        "contentMatchedPaths": ["packages/shared/src/test-ids.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/usage-quota.ts",
+      "kind": "file",
+      "sha256": "d1d24da014972689fedbcb22fd97151ab46ed5462b60f7998e880546eba3fd5d",
+      "normalizedSha256": "d1d24da014972689fedbcb22fd97151ab46ed5462b60f7998e880546eba3fd5d",
+      "bytes": 2388,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/usage-quota.ts",
+        "blob": "b8f0a61295fe3cc4e8320deb3fa243b9e0d3d93d",
+        "normalizedSha256": "d1d24da014972689fedbcb22fd97151ab46ed5462b60f7998e880546eba3fd5d",
+        "contentMatchedPaths": ["packages/shared/src/usage-quota.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/usage-stats.ts",
+      "kind": "file",
+      "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081",
+      "normalizedSha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081",
+      "bytes": 15523,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/usage-stats.ts",
+        "blob": "4e4785a092302800f9edf358c7192d8918b28113",
+        "normalizedSha256": "82851d43984eec4b589a6a1c36eb3fe4ee1127fde6b77ad0bbfb3b4ebaaa178b",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/uuid.ts",
+      "kind": "file",
+      "sha256": "0653054b84b349a058840a8348cbe3d8d350cbd4629211333de32e8193c1ffa6",
+      "normalizedSha256": "0653054b84b349a058840a8348cbe3d8d350cbd4629211333de32e8193c1ffa6",
+      "bytes": 2046,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/uuid.ts",
+        "blob": "44c40932ab24b2460aba2fefabc664373aaa4b3a",
+        "normalizedSha256": "0653054b84b349a058840a8348cbe3d8d350cbd4629211333de32e8193c1ffa6",
+        "contentMatchedPaths": ["packages/shared/src/uuid.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/validation.ts",
+      "kind": "file",
+      "sha256": "27c20a5a2e76a1f3300b79273da4eca3d0db86f29aa15ff6b9a019edacdac7c4",
+      "normalizedSha256": "27c20a5a2e76a1f3300b79273da4eca3d0db86f29aa15ff6b9a019edacdac7c4",
+      "bytes": 44442,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/validation.ts",
+        "blob": "52260263b62088fa0c06b7c27f56433589a55883",
+        "normalizedSha256": "66371653bd7bf30388f26afe1e0647d817ce0579583ecafd57fca2ac61a1c32c",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "kind": "file",
+      "sha256": "24312cbd6b7f3298882933e406a82e9b1c5829534749588505a42d92ecf884c5",
+      "normalizedSha256": "24312cbd6b7f3298882933e406a82e9b1c5829534749588505a42d92ecf884c5",
+      "bytes": 19825,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/validationAppSettings.ts",
+        "blob": "3cb58a11836e9c6938007368f527a513ec46fd13",
+        "normalizedSha256": "5f5cb7f634e9b21063e27dfdd4b17995140ec26214794ff09c25b4241ac3bbdb",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/version.ts",
+      "kind": "file",
+      "sha256": "212bafb37bfea57fea69672991fdad94e65652c17c300a28ab39753820ef7b49",
+      "normalizedSha256": "212bafb37bfea57fea69672991fdad94e65652c17c300a28ab39753820ef7b49",
+      "bytes": 725,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/version.ts",
+        "blob": "3044074e0635665677fc8988f6af5dd41ff7898c",
+        "normalizedSha256": "76560f6f961c947d6fcd5d5c1f15302945bfff1886c490547036b9b7fa443f2c",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/workspacePurpose.ts",
+      "kind": "file",
+      "sha256": "1673bb8e44793108bbf2165b23f0a7c5961bbebe892484db2d217cc525563050",
+      "normalizedSha256": "1673bb8e44793108bbf2165b23f0a7c5961bbebe892484db2d217cc525563050",
+      "bytes": 137,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/workspacePurpose.ts",
+        "blob": "7c581d72660bbb9228c8cef4d97ae32bd6feb5fc",
+        "normalizedSha256": "1673bb8e44793108bbf2165b23f0a7c5961bbebe892484db2d217cc525563050",
+        "contentMatchedPaths": ["packages/shared/src/workspacePurpose.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "review": null
+    }
+  ]
+}
