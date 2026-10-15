@@ -47,7 +47,11 @@
       "entry": ["test/knorvia-notification-sound.test.ts"]
     },
     "apps/cli/packages/core": {
-      "entry": ["test/core-hooks-entry.mjs", "test/fixtures/core-hooks-builders.mjs"]
+      "entry": [
+        "test/core-hooks-entry.mjs",
+        "test/fixtures/core-hooks-builders.mjs",
+        "src/runtime/helpers/{attachments,media,permission,steering,runtime-reminders,session,compact,model,turn,provider,tooling,memory,context}/**"
+      ]
     }
   },
   "ignore": [".agents/**", "docs/**", "packages/ui/src/components/**", "specs/contracts/*/stubs/**"]
