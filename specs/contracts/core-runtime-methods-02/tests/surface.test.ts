@@ -10,7 +10,7 @@ test("interface.md × 运行时导出：24 模块 / 98 导出逐名一致", asyn
   const text = readFileSync(new URL("../interface.md", import.meta.url), "utf8");
   const rows: Array<[string, string, boolean]> = [];
   for (const line of text.split("\n")) {
-    const match = /^\| `([^`]+\.ts)` \| `([^`]+)` \| ([a-z/]+) \| (是|否) \|/.exec(line);
+    const match = /^\|\s*`([^`]+\.ts)`\s*\|\s*`([^`]+)`\s*\|\s*([a-z/]+)\s*\|\s*(是|否)\s*\|/.exec(line);
     if (match) rows.push([match[1], match[2], match[4] === "是"]);
   }
   assert.equal(rows.length, 98);
