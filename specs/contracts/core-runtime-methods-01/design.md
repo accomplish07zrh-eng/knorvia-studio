@@ -83,7 +83,7 @@ KD-1（B26 checkpoint 吞错/rewind 冒泡）、KD-2（B22 flag 仅传参）、K
 ## 6. 簇序与验收
 
 C1 → C2 → C3 → C4 → C5 → C6。每簇：写内核+门面 → fmt → 契约 35 例双入口 → 双门计分 →
-lint/arch/tsc → 小步提交。全簇完成后：删旧删桩（`not implemented: core-runtime-methods-01`
-全仓 0）→ 登记最后一步 → L 节门禁（cua driver `KNORVIA_CUA_DRIVER_ARCHIVE`）→
+lint/arch/tsc → 小步提交。全簇完成后：删旧删桩（桩的 not-implemented 抛错串全仓 0）→
+登记最后一步 → L 节门禁（cua driver `KNORVIA_CUA_DRIVER_ARCHIVE`）→
 `docs/knorvia-core-runtime-methods-01-acceptance.md` → prepare-merge → 替换 PR → CI 双绿 →
 squash 合并（勿 --delete-branch）→ issue 记录。

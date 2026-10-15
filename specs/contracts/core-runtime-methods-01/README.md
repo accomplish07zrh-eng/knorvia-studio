@@ -41,14 +41,14 @@
 | `fixtures/`                            | 模型请求/响应投影往返金样与流事件序列夹具，脱敏虚构数据                                               |
 | `known-differences.md`                 | 预登记差异与边界裁定，每条都有理由与对应测试                                                          |
 | `acceptance.md`                        | 范围、旧门结果、覆盖与未覆盖项                                                                        |
-| `stubs/`（21 个「import 即抛」最小桩） | 桩替换全失败的证据留存 `gate-old.json`；进入替换阶段后随合同桩目录退役                                |
+| `stubs/`（已退役）                       | 21 个「import 即抛」最小桩：旧门桩替换证据留存 `gate-old.json`；替换阶段完成后整目录退役            |
 | `gate-old.json`                        | 旧门证据：源码入口 / dist 入口 / 桩替换全失败                                                         |
 | `scope-files.json`                     | 21 个继承文件与继承分类                                                                               |
 
 ## 运行
 
 ```powershell
-# 源码 + dist + 桩替换（需先构建 core 包）
+# 源码 + dist + 桩替换（历史命令：桩替换需先恢复已退役的 stubs/ 目录）
 node scripts/contract-gate.mjs --contract specs/contracts/core-runtime-methods-01 `
   --dist-env KNORVIA_CORE_RUNTIME_METHODS_01_ENTRY=dist `
   --stub-root specs/contracts/core-runtime-methods-01/stubs `
