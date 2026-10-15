@@ -1,0 +1,102 @@
+{
+  "//": "旧写金样（2026-10-15 由旧实现的真实写入面录制：SaveWorkflow handler 落盘的保存定义字节、writeWorkflowDraft 铸出的草稿名）。替换实现必须复现同一文件格式与铸名规则；契约测试用它做『旧写 → 新读 → 新写 → 旧读』往返锚定。路径为相对会话工作目录的 POSIX 写法，测试在宿主上用 path.join 复原。",
+  "savedCases": [
+    {
+      "name": "pr-review",
+      "input": {
+        "name": "pr-review",
+        "scope": "project",
+        "description": "Review a pull request file by file and summarize findings.",
+        "whenToUse": "Use when the user asks for a PR review workflow.",
+        "args": {
+          "pr": {
+            "type": "string",
+            "required": true,
+            "description": "Pull request number."
+          },
+          "depth": {
+            "type": "number",
+            "default": 3,
+            "description": "Review depth."
+          },
+          "verbose": {
+            "type": "boolean"
+          },
+          "payload": {
+            "type": "json"
+          }
+        }
+      },
+      "script": "phase(\"Research each changed file in parallel\")\nreturn { files: 1 };\n",
+      "fileRel": ".knorvia-studio/workflows/pr-review.dwf.ts",
+      "bodyLineOffset": 17,
+      "goldenFile": "/* knorvia-workflow\ndescription: Review a pull request file by file and summarize findings.\nwhenToUse: Use when the user asks for a PR review workflow.\nargs:\n  pr:\n    type: string\n    description: Pull request number.\n    required: true\n  depth:\n    type: number\n    description: Review depth.\n    default: 3\n  verbose:\n    type: boolean\n  payload:\n    type: json\n*/\nphase(\"Research each changed file in parallel\")\nreturn { files: 1 };\n",
+      "metaAfterRead": {
+        "description": "Review a pull request file by file and summarize findings.",
+        "whenToUse": "Use when the user asks for a PR review workflow.",
+        "args": {
+          "pr": {
+            "type": "string",
+            "description": "Pull request number.",
+            "required": true
+          },
+          "depth": {
+            "type": "number",
+            "description": "Review depth.",
+            "default": 3
+          },
+          "verbose": {
+            "type": "boolean"
+          },
+          "payload": {
+            "type": "json"
+          }
+        }
+      }
+    },
+    {
+      "name": "minimal",
+      "input": {
+        "name": "minimal",
+        "scope": "project",
+        "description": "The smallest saved definition."
+      },
+      "script": "phase(\"单步\")\nreturn 2;\n",
+      "fileRel": ".knorvia-studio/workflows/minimal.dwf.ts",
+      "bodyLineOffset": 3,
+      "goldenFile": "/* knorvia-workflow\ndescription: The smallest saved definition.\n*/\nphase(\"单步\")\nreturn 2;\n",
+      "metaAfterRead": {
+        "description": "The smallest saved definition."
+      }
+    }
+  ],
+  "draftCases": [
+    {
+      "name": "PR review #12",
+      "source": "phase(\"Research each changed file in parallel\")\nreturn { files: 1 };\n",
+      "fileRel": ".knorvia-studio/workflow-drafts/PR-review-12.dwf.ts"
+    },
+    {
+      "name": "  汇总报告 v2  ",
+      "source": "phase(\"单步\")\nreturn 2;\n",
+      "fileRel": ".knorvia-studio/workflow-drafts/汇总报告-v2.dwf.ts"
+    },
+    {
+      "name": "../../evil/name?",
+      "source": "phase(\"单步\")\nreturn 2;\n",
+      "fileRel": ".knorvia-studio/workflow-drafts/evilname.dwf.ts"
+    },
+    {
+      "name": "！！！",
+      "source": "phase(\"单步\")\nreturn 2;\n",
+      "fileRel": ".knorvia-studio/workflow-drafts/workflow.dwf.ts"
+    },
+    {
+      "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "source": "phase(\"单步\")\nreturn 2;\n",
+      "fileRel": ".knorvia-studio/workflow-drafts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.dwf.ts"
+    }
+  ],
+  "draftGitignore": "*\n",
+  "collisionNames": ["same-name.dwf.ts", "same-name-2.dwf.ts", "same-name-3.dwf.ts"]
+}

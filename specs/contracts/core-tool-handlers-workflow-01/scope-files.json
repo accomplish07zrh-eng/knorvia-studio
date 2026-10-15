@@ -1,0 +1,138 @@
+{
+  "package": "core-tool-handlers-workflow-01",
+  "root": "apps/cli/packages/core/src/tool/handlers",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/amend-workflow-description.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 36
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/amend-workflow-resolve.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 269
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/amend-workflow-source.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 213
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/amend-workflow.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 311
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "classification": "unreviewed",
+      "license": "NOASSERTION",
+      "lines": 51
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 100
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-description.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 114
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 257
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 164
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-source.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 348
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 396
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet-description.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 44
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 323
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/save-workflow-description.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 70
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/save-workflow.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 317
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 47
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-drafts.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 148
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-path-source.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 118
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 89
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-analysis.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 24
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 54
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-path.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 33
+    }
+  ]
+}
