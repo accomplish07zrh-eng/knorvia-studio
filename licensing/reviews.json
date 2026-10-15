@@ -138999,6 +138999,1026 @@
         "specs/contracts/dynamic-workflow-01/gate-old.json",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "specs/contracts/shared-02/acceptance.md",
+      "normalizedSha256": "4ce34237d944a3b2d42b705353e948350ee309abfef0d47b48f4911081cca8a2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/behavior.md",
+      "normalizedSha256": "1c2181da745d7219de54b70e7f5bb4793e18b734fb344be609de8fbc001b8d14",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/callers.md",
+      "normalizedSha256": "e9e7dcd66ae8a34c6948ca0370257beec4a6722c41f9a4df4478e1ed3cc09adb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/gate-old.json",
+      "normalizedSha256": "d3a6c5f0afa86150e10fca06232d0c63d8c655c1fad2020a89dab9b01a64c52c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/interface-appendix.json",
+      "normalizedSha256": "c12d6eaf69ece18c60ab826ebe62cfa2cbed57711873588d3884c3dd1956ba1a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/interface-appendix.md",
+      "normalizedSha256": "5894d96f9c287abedefd54e7b604b097eb724849b949de9e8b4f6611d91486d5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/interface.md",
+      "normalizedSha256": "c412e44aa1c113b4149af31f57c491c9c52e29bdccf13d36aaebb718f46e334f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/known-differences.md",
+      "normalizedSha256": "a0c7494235bedc8c4134cfbf5ce5a4ce68375ebd6e3a53c29050c17da86e5ea1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/README.md",
+      "normalizedSha256": "3ac8f7d832b5b8608c28d38d1d220a5d5a3aa398572f72a0c88c17516f1829a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/scope-files.json",
+      "normalizedSha256": "8667c62e267689352b6f0bf50b03c407b403c91f9b5d6368d8efb378318daa4f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/fixtures/constants-snapshot.json",
+      "normalizedSha256": "0543cbd257574b4565396dc5b7ab3c7f02c6568405d8ccec766f3b488467f1a1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/fixtures/test-ids-snapshot.json",
+      "normalizedSha256": "1e0117e0f972ab51d7081e34a08e2712860cbaee2b266bf876b3b9a5d47c3933",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/fixtures/old-write/app-settings.defaults.json",
+      "normalizedSha256": "b3960e604680e7c1759506fef6e1230c73998b86db55891516f96f90db5fd779",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/fixtures/old-write/app-settings.input.json",
+      "normalizedSha256": "39dfd46bf665b472e51fe5ca544fa9ea3460520f7cc2b3d202ba0810a7bc8db6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/fixtures/old-write/app-settings.parsed.json",
+      "normalizedSha256": "9307590912f6f45a2679421ce74278cda7170757a55384c33bffbe4946d4d277",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/fixtures/old-write/app-settings.patch.json",
+      "normalizedSha256": "46bea94114fc70ef4b903b62dda622989f86b6e449ee4a3d16763de3e6901524",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/build-stubs.mjs",
+      "normalizedSha256": "bc50b86525add4e20c8c9433bb555bc5146b06c0719870699c57a171e918bf2d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/targets.txt",
+      "normalizedSha256": "57ea1591044d7c4f5e5111012f9bb1f48a69e80374ab7c00b3b82ec4bbb29733",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/account-provider-state.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/api.ts",
+      "normalizedSha256": "6726efdf4e71fff6d776b27899f5867c972385083843c67026c4cfb66d33d9f3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/automation-types.ts",
+      "normalizedSha256": "1b3ae3d31fa42c1af659e527235d3e0716a2ed681006e1261df32c846e6b1da2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/channels.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/command-types.ts",
+      "normalizedSha256": "b370664c58776e3ea31c0118f6e8ab99a692ea91cb2092a92e152c9cc95c1c46",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/config-schema.ts",
+      "normalizedSha256": "04e42375609de4fca806ff6b7a4bcc33720ecfdca301bb616dc036a0e4138361",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/cuaAccessibilitySettings.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/custom-model-value.ts",
+      "normalizedSha256": "ee95c7a7313fc242394833263e6a076bfa30a864cf2e613faabc5e6fbacc741e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/env.ts",
+      "normalizedSha256": "bf96442fefe3a9fe4b4004e9d59b3a96e6fbb9bb153953dd94b6d9b06e70581e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/errors.ts",
+      "normalizedSha256": "87fb38b877e7e7cbc671d7b50fa025835172c5196936ca6637a98845b0ad88f8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/forceUpdate.ts",
+      "normalizedSha256": "3b7f137976f3a22c1eacd6262d7f53f5580a01ccc79960522f96b656d68496f0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/git.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/handshake.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/hooks.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/legacy-model-provider-identity.ts",
+      "normalizedSha256": "f27baebd4a98be9bb3e220699d13cf706cacbc1f50cf71d937c846a0e6ae2240",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/log-format.ts",
+      "normalizedSha256": "b103e5e5e78ccd108e56ffb8c138a844c1d255f77bc4b3406339878a6c28ff1f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/mcp-sync.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/media-preview.ts",
+      "normalizedSha256": "d66cdfd75d86925f4441ecaf4b645fb25828d04dab41865dad14384b6509615a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/model-provider-family.ts",
+      "normalizedSha256": "44bce79c4aa75c768941fc4f9d7fb325f33c54be545bdc1cd724fe3b1d06c323",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/model-provider-types.ts",
+      "normalizedSha256": "25634c6a6fdf0ac3c62987453685e258cd5d098af22fd64ce6dbf9e5bab3899e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/model-selection-key.ts",
+      "normalizedSha256": "e3ab63b0fc040f13a5a0cd6adce21f0b3653233820d7c5166714033b955fa55c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/model-selection-types.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/model-selection.ts",
+      "normalizedSha256": "086b771dc5b5eb3add0d58fef99b63662c0fcb886745becbe510ffcb5b85cb37",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/off-peak-types.ts",
+      "normalizedSha256": "a0dd0764177fc606d8e41a89e55fedeabd4c6513323987a1c593ed97b60b3f57",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/official-glm-model-id.ts",
+      "normalizedSha256": "2e8c70a82289f26d85d78ee100469de83db92d33cdaf35e87126698be4f79eda",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/platform.ts",
+      "normalizedSha256": "e1372fb87e2a5844a9b75253afeda7cad842e3ec85b674eb7c5e541421784210",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/plugin-sync.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/plugin-types.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/protocol.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/provider-family-connection-selection.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/providers.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/remoteAssetInstallMode.ts",
+      "normalizedSha256": "e07d04a597a795b2f2b2baee846f018413cfd4fa6eaae58edf344845dc2092a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/remoteEnvironmentKey.ts",
+      "normalizedSha256": "30c3342261c52a1a6e0ec004d7f34e0a33be333306f28fa4057aeba84d2f7b6d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/remoteResourcePackages.ts",
+      "normalizedSha256": "ac724afd722535747ddb430d0c2f380a648a8097851d6e33469dcb30be1da2c6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/remoteSshHostKey.ts",
+      "normalizedSha256": "41b61ffaf326a21bcd9481ca946804a9a9ef8160aaa749d2da44530c45224633",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/remoteTarget.ts",
+      "normalizedSha256": "7aade4408cf94258c8bcef10f2f85d696ae3a323e7f9da2a5182a5c3dc62cc55",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/runtimeEnv.ts",
+      "normalizedSha256": "702d91d41386c4b4f1c62f97ddaba0e52a238e8e807741536b65b4fa90d49e7e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/sessionCreateSource.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/settings-errors.ts",
+      "normalizedSha256": "f23dd47a7846703c7b62a56bd9713315d011254fe4e6b6d1d173deb1162e7d49",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/settings-source.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/settings-sync.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/shortcutCommands.ts",
+      "normalizedSha256": "a8af8d8aa14a93b1d4068f550587a91b5b16e4fbcd27a0fc7a0415661b1b3af8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/skill-sync.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/skills-types.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/storage.ts",
+      "normalizedSha256": "7ce4af9c03bd9161764e7649c66aa3dd9fbe9981e693f66008cdde1ef4a4116e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/subagents-types.ts",
+      "normalizedSha256": "c6479ee57d792ddd2a7c696a9288ea9f2c9538a12ad49e5f8bb86b8647ddbe51",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/task-realtime.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/telemetry.ts",
+      "normalizedSha256": "713a529619a30b736f79fa859a29807760ba1947319b6926e74230fe3afda058",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/telemetryRedaction.ts",
+      "normalizedSha256": "c28b9ff800797af588d7934c7f5b4a994242a24260dd49fed0e072e3493de445",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/test-ids-workflow.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/test-ids.ts",
+      "normalizedSha256": "33d009f21adf3ba577044439ce5c7c6cec78e992f18799a7b41b99411d825104",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/usage-quota.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/usage-stats.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/uuid.ts",
+      "normalizedSha256": "01422fb46707e811ad358ca41cf7b85a93c3d3772742b694adc308b96518addc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/validation.ts",
+      "normalizedSha256": "061a1795f9a991f4c4912e87aaf612f34c200c0a3e701f2650168fbea814d82a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/validationAppSettings.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/version.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/stubs/packages/shared/src/workspacePurpose.ts",
+      "normalizedSha256": "ee77d5174d605120f33123325a99c5a1536f2c16cd1c933f0f4358b7e4a32bb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/domain-constants.test.mjs",
+      "normalizedSha256": "ec5d8eaa578ef8bf055051c4216f29302426d7379ae98dfc04ab7f39710a0222",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/entry.mjs",
+      "normalizedSha256": "841c3691e4f5e733566e642e41855658178dc6dd7cde93e8293430cd33016820",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/identity-tools.test.mjs",
+      "normalizedSha256": "110a8ec0ad866552d3507f8e057a38bc193b82128cc84538673650e44e8acde8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/model-provider.test.mjs",
+      "normalizedSha256": "16bc325e0d102a4cba352195e7f4c3601d34f585da6500e0abb940a46cf042a5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/remote-identity.test.mjs",
+      "normalizedSha256": "7c0bf9beaf55fdda9555d67f93cc2f62b8e22ac629310cae36631459ad19f750",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/runtime-env.test.mjs",
+      "normalizedSha256": "bfbb1ddb551416853cf0fab23199ca9eb17954b73824b95cfcd5fbd133300b6c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/shortcuts-storage.test.mjs",
+      "normalizedSha256": "8348400b837815e60e43623bc93f6fc4b94247da1b74a64fa179b48bef818b20",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/surface.test.mjs",
+      "normalizedSha256": "9dc82dfaa384e5ec76052ca627d5fdacc56b510eaa016c45cf026dcf96c3f1f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/shared-02/tests/telemetry-redaction.test.mjs",
+      "normalizedSha256": "a682e40a0e9e64265fa903143eae2f4122fb7677701fb52844c7f7607ef802d8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
+      "evidence": [
+        "specs/contracts/shared-02/acceptance.md",
+        "specs/contracts/shared-02/gate-old.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
