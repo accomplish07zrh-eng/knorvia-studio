@@ -338,3 +338,40 @@
   的写点见主序。
 - **日志级别**：`Executing tools`/`Tools executed`/`Injecting tool results`/`addToolResult`/
   `After inject, message count` 为 `debug`；automation 限额与 tool 停止为 `info`。
+
+### B43 工具分部状态构造（`turn-tool-batch-parts.ts`）
+
+- **输入**：`ToolBatchPartFacts`（`declarationIndex`/`partID`/`input`/`startedAt`）+ 三态构造器
+  `runningToolBatchState`/`completedToolBatchState`/`failedToolBatchState` + 诊断
+  `toolBatchResultDiagnostic`。
+- **输出**：三态形状钉值——`running`：`{status, input, title: boundary.toolName, metadata:
+  mcpToolPartMetadata(registry mcpPresentation) ?? {}, time: {start: part.startedAt}}`；
+  `completed`：`{status, input, output, title, metadata: {…completedToolPartMetadata(result),
+  ...(media ? {modelContentLayout} : {})}, time: {start: result.startedAt.getTime(), end:
+  result.completedAt.getTime()}, ...(media ? {attachments: media.attachments} : {})}`；
+  `error`：`{status, input, error: result.error?.message ?? output, metadata: {…mcp 元数据,
+  ...(string modelContent ? {modelContent} : {})}, time: {start, end}}`。
+  诊断形状：`{resultCount, results: [{toolName, success, output: string 截 50 或 "[object]"}]}`。
+- **错误语义**：纯构造不抛。
+- **时序与并发**：构造发生在 B42 的对应记录构造点（终态选择位置 = facc708 案底要求）。
+- **幂等**：纯函数。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：无。
+- **日志级别**：无（诊断形状供 debug 用）。
+
+### B44 工具结果跟进输入（`turn-tool-batch-follow-up.ts` 的 `steerToolBatchFollowUp`）
+
+- **输入**：`(runtime, state, result, traceContext)`；`result.followUpUserInput`（`{input,
+  reasonSource}`）为空或 `input.trim()` 为空时直接返回。
+- **输出**：`runtime.steerTurn({delivery: "guide", expectedTurnId: state.activeTurn?.turnId, input,
+  source: followUp.reasonSource, traceContext})` 二路：`kind === "queued"` → debug
+  `tool.follow_up_user_input.queued`（`pendingInputId`/`reasonSource`/`toolCallId`/`toolName`）；
+  否则 **warn** `tool.follow_up_user_input.rejected`（`activeTurnId`/`reason`/`reasonSource`）。
+- **错误语义**：steer 失败不抛（以 warn 记录）；其它异常按调用面传播。
+- **时序与并发**：在 B42 逐结果持久化序的最后一步（每结果一次）。
+- **幂等**：每结果至多一次 steer（调用点唯一）。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读 state（`activeTurn.turnId`）。
+- **日志级别**：queued `debug`、rejected `warn`。
