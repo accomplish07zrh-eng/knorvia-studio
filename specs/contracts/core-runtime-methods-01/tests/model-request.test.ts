@@ -14,6 +14,7 @@ const reasoningStream = await methods("reasoning-stream");
 const streamQueue = await methods("model-streaming-event-queue");
 const streamEvent = await methods("model-streaming-event");
 const streamState = await methods("model-request-stream-state");
+const modelRequest = await methods("model");
 
 const trace = {
   spanId: "span-contract-0001",
@@ -476,4 +477,226 @@ test("B11 流结果体检", () => {
   assert.equal(suspiciousContext.finishReason, "provider_odd_stop");
   assert.equal(suspiciousContext.textLength, 0);
   assert.equal(suspiciousContext.toolCallCount, 0);
+});
+
+/** 脚本化模型适配器：按序产出流事件并捕获组装出的请求。 */
+function scriptedModel(script: unknown[], generateResult?: Record<string, unknown>) {
+  const captured: { generate?: unknown; stream?: unknown } = {};
+  return {
+    captured,
+    model: {
+      providerId: "provider-contract",
+      modelId: "model-contract",
+      properties: {},
+      async generateText(request: unknown) {
+        captured.generate = request;
+        return generateResult ?? { finishReason: "stop", text: "", toolCalls: [], usage: {} };
+      },
+      async *streamText(request: unknown) {
+        captured.stream = request;
+        for (const event of script) yield event;
+      },
+    },
+  };
+}
+
+const baseMessages = [{ role: "user", content: "contract input" }];
+
+const runOptions = (
+  script: unknown[],
+  fields: Record<string, unknown> = {},
+  generateResult?: Record<string, unknown>,
+) => {
+  const fake = createMethodsRuntime();
+  const harness = scriptedModel(script, generateResult);
+  const callbacks = {
+    deltas: [] as string[],
+    reasoningDeltas: [] as string[],
+    snapshots: 0,
+    toolCalls: [] as unknown[],
+  };
+  const options = {
+    abortSignal: new AbortController().signal,
+    assistantMessageId: "assistant-msg-0001",
+    events: [],
+    messages: baseMessages,
+    model: harness.model,
+    onStreamReasoningDelta: (delta: string) => callbacks.reasoningDeltas.push(delta),
+    onStreamSnapshot: () => {
+      callbacks.snapshots += 1;
+    },
+    onStreamTextDelta: (delta: string) => callbacks.deltas.push(delta),
+    onStreamToolCall: (call: unknown) => callbacks.toolCalls.push(call),
+    tools: [{ name: "tool-alpha" }],
+    traceContext: trace,
+    ...fields,
+  } as never;
+  return { callbacks, fake, harness, options };
+};
+
+test("B2 流式事件映射与终止语义", async () => {
+  // 全 kind 映射 + 缓冲冲刷先于 tool_call + 重复 toolCallId 去重。
+  const script = [
+    { type: "start" },
+    { type: "text_start" },
+    { type: "text_delta", text: "Hel" },
+    { type: "text_delta", text: "lo" },
+    { type: "text_end" },
+    { type: "reasoning_start", id: "r1", providerMetadata: { vendor: "alpha" } },
+    { type: "reasoning_delta", id: "r1", text: "think" },
+    { type: "reasoning_end", id: "r1" },
+    { type: "tool_input_start", id: "call-1", toolName: "tool-alpha", providerExecuted: false },
+    { type: "tool_input_delta", id: "call-1", delta: '{"a"' },
+    { type: "tool_input_delta", id: "call-1", delta: ":1}" },
+    { type: "tool_call", toolCall: { id: "call-1", name: "tool-alpha", input: { a: 1 } } },
+    { type: "tool_call", toolCall: { id: "call-1", name: "tool-alpha", input: { a: 1 } } },
+    {
+      type: "finish",
+      finishReason: "stop",
+      usage: { totalTokens: 7 },
+      providerMetadata: { raw: 1 },
+    },
+  ];
+  const { callbacks, fake, harness, options } = runOptions(script);
+  const result = await modelRequest.runModelTextRequest.call(fake.runtime, options);
+
+  assert.deepEqual(
+    fake.journal.filter((line) => line.startsWith("enter:emit:") || line.startsWith("exit:emit:")),
+    [
+      "enter:emit:start",
+      "exit:emit:start",
+      "enter:emit:text_start",
+      "exit:emit:text_start",
+      "enter:emit:text_delta",
+      "exit:emit:text_delta",
+      "enter:emit:text_delta",
+      "exit:emit:text_delta",
+      "enter:emit:text_end",
+      "exit:emit:text_end",
+      "enter:emit:reasoning_start",
+      "exit:emit:reasoning_start",
+      "enter:emit:reasoning_delta",
+      "exit:emit:reasoning_delta",
+      "enter:emit:reasoning_end",
+      "exit:emit:reasoning_end",
+      "enter:emit:tool_input_start",
+      "exit:emit:tool_input_start",
+      "enter:emit:tool_input_delta",
+      "exit:emit:tool_input_delta",
+      "enter:emit:tool_call",
+      "exit:emit:tool_call",
+      "enter:emit:finish",
+      "exit:emit:finish",
+    ],
+    "消费顺序即适配器产生序；同一 tool_call 的缓冲冲刷先于 tool_call 入队；重复 id 不重复入账",
+  );
+  assert.deepEqual(callbacks.deltas, ["Hel", "lo"]);
+  assert.deepEqual(callbacks.reasoningDeltas, ["think"]);
+  assert.equal(callbacks.snapshots, 3, "text/reasoning delta 各触发快照回调");
+  assert.equal(callbacks.toolCalls.length, 1);
+  assert.equal(result.text, "Hello");
+  assert.equal(result.finishReason, "stop");
+  assert.deepEqual(result.usage, { totalTokens: 7 });
+  assert.deepEqual(result.providerMetadata, { raw: 1 });
+  assert.deepEqual(
+    (result.reasoning as { text: string }[]).map((block) => block.text),
+    ["think"],
+  );
+  assert.deepEqual(
+    (result.toolCalls as { id: string }[]).map((call) => call.id),
+    ["call-1"],
+  );
+  assert.equal("contextUsageBreakdown" in result, false, "空用量分解不附加键");
+
+  // error：先冲刷全部缓冲再入终止事件，随后抛归一化错误。
+  const failing = runOptions([
+    { type: "tool_input_start", id: "call-2", toolName: "tool-alpha", providerExecuted: false },
+    { type: "tool_input_delta", id: "call-2", delta: "buffered" },
+    { type: "error", error: new Error("stream broke") },
+  ]);
+  await assert.rejects(
+    modelRequest.runModelTextRequest.call(failing.fake.runtime, failing.options),
+  );
+  assert.deepEqual(
+    failing.fake.journal.filter((line) => line.startsWith("enter:emit:")),
+    ["enter:emit:tool_input_start", "enter:emit:tool_input_delta", "enter:emit:error"],
+    "error 先冲刷缓冲再入终止事件",
+  );
+  assert.equal(failing.fake.journal.at(-1), "exit:emit:error", "终止事件落盘完成后才抛");
+
+  // finish 同样先冲刷全部缓冲。
+  const finishing = runOptions([
+    { type: "tool_input_start", id: "call-3", toolName: "tool-alpha", providerExecuted: false },
+    { type: "tool_input_delta", id: "call-3", delta: "tail" },
+    { type: "finish", finishReason: "stop", usage: {} },
+  ]);
+  await modelRequest.runModelTextRequest.call(finishing.fake.runtime, finishing.options);
+  assert.deepEqual(
+    finishing.fake.journal.filter((line) => line.startsWith("enter:emit:")),
+    ["enter:emit:tool_input_start", "enter:emit:tool_input_delta", "enter:emit:finish"],
+  );
+
+  // 循环内异常（含队列写入失败）：drain 后原样重抛。
+  const broken = runOptions([{ type: "start" }, { type: "text_delta", text: "x" }]);
+  const boom = new Error("queue write broke");
+  broken.fake.failNextEmit(boom);
+  await assert.rejects(
+    modelRequest.runModelTextRequest.call(broken.fake.runtime, broken.options),
+    boom,
+  );
+
+  // 流式分支：toolCalls/reasoning 为空时省略该键。
+  const empty = runOptions([
+    { type: "text_delta", text: "plain" },
+    { type: "finish", finishReason: "stop", usage: {} },
+  ]);
+  const emptyResult = await modelRequest.runModelTextRequest.call(
+    empty.fake.runtime,
+    empty.options,
+  );
+  assert.equal(emptyResult.toolCalls, undefined, "流式分支无工具调用时 toolCalls 为 undefined");
+  assert.equal(emptyResult.reasoning, undefined, "流式分支无推理块时 reasoning 为 undefined");
+});
+
+test("B1 请求组装与投影管线", async () => {
+  // 组装出的请求只含 messages/tools/abortSignal；maxOutputTokens 条件附加。
+  const stream = runOptions([{ type: "finish", finishReason: "stop", usage: {} }]);
+  await modelRequest.runModelTextRequest.call(stream.fake.runtime, stream.options);
+  const streamRequest = stream.harness.captured.stream as Record<string, unknown>;
+  assert.deepEqual(Object.keys(streamRequest), ["messages", "tools", "abortSignal"]);
+  assert.equal(streamRequest.messages, baseMessages, "投影未改动消息时保持原对象");
+  assert.deepEqual(streamRequest.tools, [{ name: "tool-alpha" }]);
+  assert.equal("options" in streamRequest, false, "maxOutputTokens 缺省不附加");
+
+  const budgeted = runOptions([{ type: "finish", finishReason: "stop", usage: {} }], {
+    maxOutputTokens: 4_096,
+  });
+  await modelRequest.runModelTextRequest.call(budgeted.fake.runtime, budgeted.options);
+  assert.deepEqual((budgeted.harness.captured.stream as { options: unknown }).options, {
+    maxOutputTokens: 4_096,
+  });
+
+  // 非流式二分：走 generateText，toolCalls 归一后返回。
+  const generated = runOptions(
+    [],
+    {},
+    {
+      finishReason: "stop",
+      text: "answer",
+      toolCalls: [{ id: "call-g", name: "tool-alpha", input: { q: 2 } }],
+      usage: {},
+    },
+  );
+  generated.fake.preferStreaming(false);
+  const generatedResult = await modelRequest.runModelTextRequest.call(
+    generated.fake.runtime,
+    generated.options,
+  );
+  const generateRequest = generated.harness.captured.generate as Record<string, unknown>;
+  assert.deepEqual(Object.keys(generateRequest), ["messages", "tools", "abortSignal"]);
+  assert.deepEqual(
+    (generatedResult.toolCalls as { id: string }[]).map((call) => call.id),
+    ["call-g"],
+  );
+  assert.equal(generatedResult.text, "answer");
 });

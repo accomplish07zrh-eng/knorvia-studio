@@ -101,6 +101,8 @@ export type FakeMethodsRuntime = {
   failNextEmit(reason?: unknown): void;
   /** 让下一次 executeTools 以给定原因失败（流中执行降级断言用）。 */
   failNextExecution(reason?: unknown): void;
+  /** 切换 shouldStreamModelText（B1 流式/非流式二分）。 */
+  preferStreaming(enabled: boolean): void;
 };
 
 /**
@@ -121,6 +123,7 @@ export function createMethodsRuntime(): FakeMethodsRuntime {
   let emitGate: { promise: Promise<void>; close(): void } | undefined;
   let emitFailure: unknown;
   let executionFailure: unknown;
+  let streamingPreferred = true;
 
   const label = (event: EventLike): string => {
     const payload = (event.payload ?? {}) as Record<string, unknown>;
@@ -259,7 +262,31 @@ export function createMethodsRuntime(): FakeMethodsRuntime {
     },
     config: {
       modelStreaming: "on",
+      modelContextBudgetStrategy: undefined as string | undefined,
       streamingToolExecution: undefined as string | undefined,
+      taskType: undefined as string | undefined,
+    },
+    // model.ts（B1/B2）调用面：媒体投影端口、用量快照与状态 sink 均为注入缝。
+    artifactStore: {} as Record<string, unknown>,
+    agentTelemetry: { actorKind: "agent" },
+    createModelStatusSink() {
+      return {
+        async publish() {
+          return undefined;
+        },
+      };
+    },
+    buildContextUsageSnapshot() {
+      return {};
+    },
+    buildContextUsageBreakdownFromSnapshot() {
+      return [];
+    },
+    logContextUsageSnapshot() {
+      return undefined;
+    },
+    shouldStreamModelText() {
+      return streamingPreferred;
     },
     logger,
   };
@@ -304,6 +331,9 @@ export function createMethodsRuntime(): FakeMethodsRuntime {
     },
     failNextExecution(reason?: unknown) {
       executionFailure = reason ?? new Error("contract-injected execution failure");
+    },
+    preferStreaming(enabled: boolean) {
+      streamingPreferred = enabled;
     },
   };
 }
