@@ -1,0 +1,52 @@
+{
+  "contract": "shared-02",
+  "commit": "2bfceaf149217053f0e83f2f999543b3f0e8df69",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-15T02:58:53.241Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/shared-02/tests/domain-constants.test.mjs",
+    "specs/contracts/shared-02/tests/identity-tools.test.mjs",
+    "specs/contracts/shared-02/tests/model-provider.test.mjs",
+    "specs/contracts/shared-02/tests/remote-identity.test.mjs",
+    "specs/contracts/shared-02/tests/runtime-env.test.mjs",
+    "specs/contracts/shared-02/tests/shortcuts-storage.test.mjs",
+    "specs/contracts/shared-02/tests/surface.test.mjs",
+    "specs/contracts/shared-02/tests/telemetry-redaction.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 81,
+      "pass": 81,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B19 redactTelemetryText：URL、令牌、邮箱、路径、控制字符与截断 (1.3566ms)\n✔ B19 redactTelemetryText 重跑：已脱敏占位符不再二次吞并（旧实现字面行为） (0.1786ms)\n✔ B20 redactTelemetryUrl：协议哨兵、local_file、路由段脱敏与长度上限 (0.2804ms)\n✔ B21 供应商 scope 收敛：内置保留、旧 builtin 识别、其余归 custom (0.2382ms)\n✔ B21 模型 ID 收敛：安全名单小写命中、未知归 custom、unknown scope 空串 (0.2209ms)\n✔ B21 sanitizeTelemetryModelValue：三种输入形态 (0.2231ms)\nℹ tests 81\nℹ suites 0\nℹ pass 81\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 14814.7532"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 81,
+      "pass": 81,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B19 redactTelemetryText：URL、令牌、邮箱、路径、控制字符与截断 (1.3325ms)\n✔ B19 redactTelemetryText 重跑：已脱敏占位符不再二次吞并（旧实现字面行为） (0.1625ms)\n✔ B20 redactTelemetryUrl：协议哨兵、local_file、路由段脱敏与长度上限 (0.2478ms)\n✔ B21 供应商 scope 收敛：内置保留、旧 builtin 识别、其余归 custom (0.2049ms)\n✔ B21 模型 ID 收敛：安全名单小写命中、未知归 custom、unknown scope 空串 (0.231ms)\n✔ B21 sanitizeTelemetryModelValue：三种输入形态 (0.2079ms)\nℹ tests 81\nℹ suites 0\nℹ pass 81\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 9137.8145",
+      "environment": {
+        "KNORVIA_SHARED_02_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 58,
+    "tests": 8,
+    "pass": 0,
+    "fail": 8,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-02\\tests\\runtime-env.test.mjs (1433.641ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-02\\tests\\shortcuts-storage.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-02\\tests\\shortcuts-storage.test.mjs (1593.4361ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-02\\tests\\surface.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-02\\tests\\surface.test.mjs (1437.7555ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-02\\tests\\telemetry-redaction.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-02\\tests\\telemetry-redaction.test.mjs (1623.7362ms)\n  'test failed'"
+  },
+  "pass": true
+}
