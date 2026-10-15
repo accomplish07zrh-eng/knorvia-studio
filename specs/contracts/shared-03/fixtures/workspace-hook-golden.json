@@ -1,0 +1,654 @@
+{
+  "constants": {
+    "digestSchemaVersion": 1,
+    "defaultTimeoutMs": 60000,
+    "defaultMaxOutputBytes": 32768,
+    "eventNames": [
+      "SessionStart",
+      "UserPromptSubmit",
+      "PreToolUse",
+      "PermissionRequest",
+      "PostToolUse",
+      "PostToolUseFailure",
+      "Stop"
+    ],
+    "trustSchemaVersion": 1
+  },
+  "sourceInputs": [
+    {
+      "path": "ws/.knorvia-studio/config.json",
+      "workingDirectory": "ws",
+      "hooks": {
+        "enabled": true,
+        "timeoutMs": 30000,
+        "events": {
+          "PreToolUse": [
+            {
+              "matcher": "Bash",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "check.sh",
+                  "enabled": true,
+                  "shell": true,
+                  "timeout": 2
+                },
+                {
+                  "type": "process",
+                  "command": "node",
+                  "args": ["a.js", "b"],
+                  "statusMessage": "检查中"
+                }
+              ]
+            },
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "only.sh"
+                }
+              ]
+            }
+          ],
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "process",
+                  "command": "tail.sh",
+                  "timeoutMs": 1500
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "discoveryOrder": 0,
+      "explicitProjectConfig": false
+    },
+    {
+      "path": "ws/knorvia.json",
+      "workingDirectory": "ws",
+      "hooks": {
+        "events": {
+          "SessionStart": [
+            {
+              "hooks": [
+                {
+                  "type": "process",
+                  "command": "hello.sh"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "discoveryOrder": 1,
+      "explicitProjectConfig": false
+    }
+  ],
+  "entries": [
+    {
+      "reviewItemId": "workspace-hook-0-PreToolUse-0-0",
+      "event": "PreToolUse",
+      "matcherIndex": 0,
+      "hookIndex": 0,
+      "sourceFileIndex": 0,
+      "sourceRelativePath": ".knorvia-studio/config.json",
+      "matcher": "Bash",
+      "command": "check.sh",
+      "resolvedTimeoutMs": 2000,
+      "resolvedMaxOutputBytes": 32768,
+      "sourceRootEnabled": true,
+      "declarationEnabled": true,
+      "runtimeHooksEnabled": true,
+      "configuredEnabled": true,
+      "editable": true,
+      "declarationDigestAlgorithm": "sha256",
+      "hookDeclarationDigest": "912734693a76adef9a701299709eef9d576ef8831161a931370898cafa9addab",
+      "type": "command",
+      "shell": true
+    },
+    {
+      "reviewItemId": "workspace-hook-0-PreToolUse-0-1",
+      "event": "PreToolUse",
+      "matcherIndex": 0,
+      "hookIndex": 1,
+      "sourceFileIndex": 0,
+      "sourceRelativePath": ".knorvia-studio/config.json",
+      "matcher": "Bash",
+      "command": "node",
+      "resolvedTimeoutMs": 60000,
+      "resolvedMaxOutputBytes": 32768,
+      "statusMessage": "检查中",
+      "sourceRootEnabled": true,
+      "declarationEnabled": true,
+      "runtimeHooksEnabled": true,
+      "configuredEnabled": true,
+      "editable": true,
+      "declarationDigestAlgorithm": "sha256",
+      "hookDeclarationDigest": "a1b0ed409cdcaf691890da9f2ed9688f5ff5a674be710562c2df12b327fa82bf",
+      "type": "process",
+      "args": ["a.js", "b"]
+    },
+    {
+      "reviewItemId": "workspace-hook-0-PreToolUse-1-0",
+      "event": "PreToolUse",
+      "matcherIndex": 1,
+      "hookIndex": 0,
+      "sourceFileIndex": 0,
+      "sourceRelativePath": ".knorvia-studio/config.json",
+      "matcher": null,
+      "command": "only.sh",
+      "resolvedTimeoutMs": 60000,
+      "resolvedMaxOutputBytes": 32768,
+      "sourceRootEnabled": true,
+      "declarationEnabled": true,
+      "runtimeHooksEnabled": true,
+      "configuredEnabled": true,
+      "editable": true,
+      "declarationDigestAlgorithm": "sha256",
+      "hookDeclarationDigest": "26aeef73d9c3cfd0fcd143611b841237336ec81e55257e516b745f63cabbab1e",
+      "type": "command"
+    },
+    {
+      "reviewItemId": "workspace-hook-0-Stop-0-0",
+      "event": "Stop",
+      "matcherIndex": 0,
+      "hookIndex": 0,
+      "sourceFileIndex": 0,
+      "sourceRelativePath": ".knorvia-studio/config.json",
+      "matcher": null,
+      "command": "tail.sh",
+      "resolvedTimeoutMs": 1500,
+      "resolvedMaxOutputBytes": 32768,
+      "sourceRootEnabled": true,
+      "declarationEnabled": true,
+      "runtimeHooksEnabled": true,
+      "configuredEnabled": true,
+      "editable": true,
+      "declarationDigestAlgorithm": "sha256",
+      "hookDeclarationDigest": "311fb7b11b8454ae56edb04ebf61c1db4697168f02c7649a4e17b73c96a6cbc7",
+      "type": "process"
+    },
+    {
+      "reviewItemId": "workspace-hook-1-SessionStart-0-0",
+      "event": "SessionStart",
+      "matcherIndex": 0,
+      "hookIndex": 0,
+      "sourceFileIndex": 1,
+      "sourceRelativePath": "knorvia.json",
+      "matcher": null,
+      "command": "hello.sh",
+      "resolvedTimeoutMs": 60000,
+      "resolvedMaxOutputBytes": 32768,
+      "sourceRootEnabled": true,
+      "declarationEnabled": true,
+      "runtimeHooksEnabled": true,
+      "configuredEnabled": true,
+      "editable": false,
+      "declarationDigestAlgorithm": "sha256",
+      "hookDeclarationDigest": "5ebd6677a9e2fb38d5138197deec0f7618c103f2504963962155412ebf5bec8d",
+      "type": "process"
+    }
+  ],
+  "snapshot": {
+    "schemaVersion": 1,
+    "workspaceIdentity": "ws-identity-1",
+    "discoveredAt": "2026-01-01T00:00:00.000Z",
+    "sourceFiles": [
+      {
+        "canonicalPath": "<ROOT>/.knorvia-studio/config.json",
+        "baseDir": "<ROOT>",
+        "discoveryOrder": 0,
+        "configFileKind": ".knorvia-studio/config.json",
+        "explicitProjectConfig": false,
+        "editable": true,
+        "hooksRoot": {
+          "enabled": true,
+          "timeoutMs": 30000
+        }
+      },
+      {
+        "canonicalPath": "<ROOT>/knorvia.json",
+        "baseDir": "<ROOT>",
+        "discoveryOrder": 1,
+        "configFileKind": "knorvia.json",
+        "explicitProjectConfig": false,
+        "editable": false,
+        "hooksRoot": {}
+      }
+    ],
+    "hooks": [
+      {
+        "reviewItemId": "workspace-hook-0-PreToolUse-0-0",
+        "event": "PreToolUse",
+        "matcherIndex": 0,
+        "hookIndex": 0,
+        "sourceFileIndex": 0,
+        "sourceRelativePath": ".knorvia-studio/config.json",
+        "matcher": "Bash",
+        "command": "check.sh",
+        "resolvedTimeoutMs": 2000,
+        "resolvedMaxOutputBytes": 32768,
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true,
+        "editable": true,
+        "declarationDigestAlgorithm": "sha256",
+        "hookDeclarationDigest": "912734693a76adef9a701299709eef9d576ef8831161a931370898cafa9addab",
+        "type": "command",
+        "shell": true
+      },
+      {
+        "reviewItemId": "workspace-hook-0-PreToolUse-0-1",
+        "event": "PreToolUse",
+        "matcherIndex": 0,
+        "hookIndex": 1,
+        "sourceFileIndex": 0,
+        "sourceRelativePath": ".knorvia-studio/config.json",
+        "matcher": "Bash",
+        "command": "node",
+        "resolvedTimeoutMs": 60000,
+        "resolvedMaxOutputBytes": 32768,
+        "statusMessage": "检查中",
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true,
+        "editable": true,
+        "declarationDigestAlgorithm": "sha256",
+        "hookDeclarationDigest": "a1b0ed409cdcaf691890da9f2ed9688f5ff5a674be710562c2df12b327fa82bf",
+        "type": "process",
+        "args": ["a.js", "b"]
+      },
+      {
+        "reviewItemId": "workspace-hook-0-PreToolUse-1-0",
+        "event": "PreToolUse",
+        "matcherIndex": 1,
+        "hookIndex": 0,
+        "sourceFileIndex": 0,
+        "sourceRelativePath": ".knorvia-studio/config.json",
+        "matcher": null,
+        "command": "only.sh",
+        "resolvedTimeoutMs": 60000,
+        "resolvedMaxOutputBytes": 32768,
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true,
+        "editable": true,
+        "declarationDigestAlgorithm": "sha256",
+        "hookDeclarationDigest": "26aeef73d9c3cfd0fcd143611b841237336ec81e55257e516b745f63cabbab1e",
+        "type": "command"
+      },
+      {
+        "reviewItemId": "workspace-hook-0-Stop-0-0",
+        "event": "Stop",
+        "matcherIndex": 0,
+        "hookIndex": 0,
+        "sourceFileIndex": 0,
+        "sourceRelativePath": ".knorvia-studio/config.json",
+        "matcher": null,
+        "command": "tail.sh",
+        "resolvedTimeoutMs": 1500,
+        "resolvedMaxOutputBytes": 32768,
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true,
+        "editable": true,
+        "declarationDigestAlgorithm": "sha256",
+        "hookDeclarationDigest": "311fb7b11b8454ae56edb04ebf61c1db4697168f02c7649a4e17b73c96a6cbc7",
+        "type": "process"
+      },
+      {
+        "reviewItemId": "workspace-hook-1-SessionStart-0-0",
+        "event": "SessionStart",
+        "matcherIndex": 0,
+        "hookIndex": 0,
+        "sourceFileIndex": 1,
+        "sourceRelativePath": "knorvia.json",
+        "matcher": null,
+        "command": "hello.sh",
+        "resolvedTimeoutMs": 60000,
+        "resolvedMaxOutputBytes": 32768,
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true,
+        "editable": false,
+        "declarationDigestAlgorithm": "sha256",
+        "hookDeclarationDigest": "5ebd6677a9e2fb38d5138197deec0f7618c103f2504963962155412ebf5bec8d",
+        "type": "process"
+      }
+    ],
+    "digestAlgorithm": "sha256",
+    "bundleDigest": "0e6f9232ea7cc0a32e7128a46d9a7bc7e4c98221cc2fd77670ccf2976c2adb45"
+  },
+  "recordedRoot": "<ROOT>",
+  "bundleDigestStable": "0e6f9232ea7cc0a32e7128a46d9a7bc7e4c98221cc2fd77670ccf2976c2adb45",
+  "parseCases": [
+    {
+      "name": "valid-minimal",
+      "value": {
+        "events": {
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "x"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "parsed": {
+        "events": {
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "x"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "ok": true
+    },
+    {
+      "name": "passthrough-extra-key",
+      "value": {
+        "events": {
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "x",
+                  "extra": 1
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "parsed": {
+        "events": {
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "x",
+                  "extra": 1
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "ok": true
+    },
+    {
+      "name": "strict-root-rejects",
+      "value": {
+        "unknownRoot": true
+      },
+      "expectFail": true,
+      "parsed": null,
+      "ok": false
+    },
+    {
+      "name": "strict-matcher-rejects",
+      "value": {
+        "events": {
+          "Stop": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "x"
+                }
+              ],
+              "extra": 2
+            }
+          ]
+        }
+      },
+      "expectFail": true,
+      "parsed": null,
+      "ok": false
+    },
+    {
+      "name": "empty-hooks-rejects",
+      "value": {
+        "events": {
+          "Stop": [
+            {
+              "hooks": []
+            }
+          ]
+        }
+      },
+      "expectFail": true,
+      "parsed": null,
+      "ok": false
+    }
+  ],
+  "timeoutCases": [
+    {
+      "hook": {
+        "type": "command",
+        "command": "x",
+        "timeoutMs": 500
+      },
+      "defaultTimeoutMs": 60000,
+      "expected": 500,
+      "actual": 500
+    },
+    {
+      "hook": {
+        "type": "command",
+        "command": "x",
+        "timeout": 2.4
+      },
+      "defaultTimeoutMs": 60000,
+      "expected": 2400,
+      "actual": 2400
+    },
+    {
+      "hook": {
+        "type": "process",
+        "command": "x"
+      },
+      "defaultTimeoutMs": 60000,
+      "expected": 60000,
+      "actual": 60000
+    },
+    {
+      "hook": {
+        "type": "command",
+        "command": "x",
+        "timeoutMs": 0.4
+      },
+      "defaultTimeoutMs": 60000,
+      "expected": 1,
+      "actual": 1
+    }
+  ],
+  "gateCases": [
+    {
+      "input": {
+        "runtimeHooksEnabled": true
+      },
+      "expected": {
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true
+      },
+      "actual": {
+        "sourceRootEnabled": true,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": true
+      }
+    },
+    {
+      "input": {
+        "sourceEnabled": true,
+        "declarationEnabled": false,
+        "runtimeHooksEnabled": true
+      },
+      "expected": {
+        "sourceRootEnabled": true,
+        "declarationEnabled": false,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": false
+      },
+      "actual": {
+        "sourceRootEnabled": true,
+        "declarationEnabled": false,
+        "runtimeHooksEnabled": true,
+        "configuredEnabled": false
+      }
+    },
+    {
+      "input": {
+        "sourceEnabled": false,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": false
+      },
+      "expected": {
+        "sourceRootEnabled": false,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": false,
+        "configuredEnabled": false
+      },
+      "actual": {
+        "sourceRootEnabled": false,
+        "declarationEnabled": true,
+        "runtimeHooksEnabled": false,
+        "configuredEnabled": false
+      }
+    }
+  ],
+  "trustCases": [
+    {
+      "name": "valid",
+      "content": "{\"schemaVersion\":1,\"records\":[{\"workspaceIdentity\":\"ws-identity-1\",\"hookDeclarationDigest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"digestAlgorithm\":\"sha256\",\"decision\":\"trusted\",\"grantedAt\":\"2026-01-01T00:00:00.000Z\"}]}",
+      "result": {
+        "status": "invalid"
+      }
+    },
+    {
+      "name": "dup-keys",
+      "content": "{\"schemaVersion\":1,\"records\":[{\"workspaceIdentity\":\"ws-identity-1\",\"hookDeclarationDigest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"digestAlgorithm\":\"sha256\",\"decision\":\"trusted\",\"grantedAt\":\"2026-01-01T00:00:00.000Z\"},{\"workspaceIdentity\":\"ws-identity-1\",\"hookDeclarationDigest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"digestAlgorithm\":\"sha256\",\"decision\":\"trusted\",\"grantedAt\":\"2026-01-02T00:00:00.000Z\"}]}",
+      "result": {
+        "status": "invalid"
+      }
+    },
+    {
+      "name": "bad-json",
+      "content": "{oops",
+      "result": {
+        "status": "invalid"
+      }
+    },
+    {
+      "name": "bad-schema",
+      "content": "{\"schemaVersion\":2,\"records\":[]}",
+      "result": {
+        "status": "invalid"
+      }
+    }
+  ],
+  "reviewCases": [
+    {
+      "name": "no_current",
+      "candidate": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "verdict": "no_current"
+    },
+    {
+      "name": "cross_flow",
+      "current": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "candidate": {
+        "reviewFlowId": "flow-2",
+        "generation": 1,
+        "interactionId": "i-2"
+      },
+      "verdict": "cross_flow"
+    },
+    {
+      "name": "same_flow_advance",
+      "current": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "candidate": {
+        "reviewFlowId": "flow-1",
+        "generation": 3,
+        "interactionId": "i-2"
+      },
+      "verdict": "same_flow_advance"
+    },
+    {
+      "name": "same_flow_stale",
+      "current": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "candidate": {
+        "reviewFlowId": "flow-1",
+        "generation": 1,
+        "interactionId": "i-2"
+      },
+      "verdict": "same_flow_stale"
+    },
+    {
+      "name": "same_flow_replay",
+      "current": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "candidate": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "verdict": "same_flow_replay"
+    },
+    {
+      "name": "same_flow_conflict",
+      "current": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-1"
+      },
+      "candidate": {
+        "reviewFlowId": "flow-1",
+        "generation": 2,
+        "interactionId": "i-2"
+      },
+      "verdict": "same_flow_conflict"
+    }
+  ]
+}

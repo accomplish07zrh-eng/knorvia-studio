@@ -1,0 +1,128 @@
+{
+  "constants": {
+    "schemaVersion": 1
+  },
+  "pathnameCases": [
+    {
+      "url": "https://x.example/share/abc-123",
+      "expect": {
+        "rawCode": "abc-123",
+        "locale": "en-US"
+      },
+      "actual": {
+        "rawCode": "abc-123",
+        "locale": "en-US"
+      }
+    },
+    {
+      "url": "https://x.example/cn/share/zz_9",
+      "expect": {
+        "rawCode": "zz_9",
+        "locale": "zh-CN"
+      },
+      "actual": {
+        "rawCode": "zz_9",
+        "locale": "zh-CN"
+      }
+    },
+    {
+      "url": "https://x.example/other",
+      "expect": null,
+      "actual": null
+    }
+  ],
+  "localizeCases": [
+    {
+      "url": "https://x.example/share/abc-123",
+      "locale": "zh-CN",
+      "expect": "https://x.example/cn/share/abc-123",
+      "actual": "https://x.example/cn/share/abc-123"
+    },
+    {
+      "url": "https://x.example/cn/share/zz_9",
+      "locale": "en-US",
+      "expect": "https://x.example/share/zz_9",
+      "actual": "https://x.example/share/zz_9"
+    },
+    {
+      "url": "https://x.example/home",
+      "locale": "zh-CN",
+      "expect": "https://x.example/home",
+      "actual": "https://x.example/home"
+    }
+  ],
+  "decoded": {
+    "rows": [
+      {
+        "rowId": 1,
+        "turnId": "t-1",
+        "entityId": "e-1",
+        "productTurnId": "pt-1",
+        "createdAt": 1700000000000,
+        "createdAtSeq": 1,
+        "kind": "userInput",
+        "text": "hello",
+        "origin": "realUser"
+      },
+      {
+        "rowId": 2,
+        "turnId": "t-1",
+        "entityId": "e-2",
+        "productTurnId": "pt-1",
+        "createdAt": 1700000001000,
+        "createdAtSeq": 2,
+        "kind": "assistantText",
+        "text": "hi",
+        "state": "complete"
+      }
+    ],
+    "unsupportedCount": 1,
+    "unsupportedKinds": ["future_kind"]
+  },
+  "caps": {
+    "capabilities": {
+      "ttl_ms": 60000,
+      "max_rows": 1000,
+      "max_payload_bytes": 1000000,
+      "max_artifact_count": 9,
+      "max_artifact_bytes": 5000000,
+      "max_total_artifact_bytes": 20000000,
+      "schema_version": 1,
+      "access_modes": ["public_readonly", "public_readonly"],
+      "allowed_artifacts": [
+        {
+          "type": "md",
+          "extensions": [".md"],
+          "mime_types": ["text/markdown"]
+        },
+        {
+          "type": "md",
+          "extensions": [".md"],
+          "mime_types": ["text/markdown"]
+        }
+      ]
+    },
+    "unsupportedArtifactTypes": ["unknown_type"],
+    "unsupportedAccessModes": ["future_mode"]
+  },
+  "versionCases": [
+    {
+      "v": 1,
+      "actual": true
+    },
+    {
+      "v": 2,
+      "actual": false
+    },
+    {
+      "v": 0,
+      "actual": true
+    },
+    {
+      "v": -1,
+      "actual": true
+    }
+  ],
+  "envelopeSuccessOk": true,
+  "envelopeErrorOk": true
+}

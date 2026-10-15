@@ -1,0 +1,789 @@
+{
+  "scope": "shared-03",
+  "generatedFrom": "ts-morph Project (tsconfig.base.json)",
+  "totalRuntime": 195,
+  "totalTypes": 90,
+  "files": [
+    {
+      "path": "packages/shared/src/workspace-hook-config.ts",
+      "runtime": [
+        "DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES",
+        "DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS",
+        "WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION",
+        "WORKSPACE_HOOK_EVENT_NAMES",
+        "createWorkspaceHookSourceInput",
+        "discoverWorkspaceHookConfigPaths",
+        "readWorkspaceHookProjectSources",
+        "resolveWorkspaceHookConfiguredGates",
+        "resolveWorkspaceHookMaxOutputBytes",
+        "resolveWorkspaceHookRuntimeRoot",
+        "resolveWorkspaceHookTimeoutMs",
+        "workspaceHookCommandConfigSchema",
+        "workspaceHookMatcherConfigSchema",
+        "workspaceHookProcessConfigSchema",
+        "workspaceHooksConfigSchema"
+      ],
+      "pureTypes": [
+        "WorkspaceHookConfigFileKind",
+        "WorkspaceHookConfigPathRef",
+        "WorkspaceHookDefinition",
+        "WorkspaceHookEventName",
+        "WorkspaceHookRuntimeRoot",
+        "WorkspaceHookSourceInput",
+        "WorkspaceHookSourceReadError",
+        "WorkspaceHooksConfig"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES",
+        "DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS",
+        "WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION",
+        "WORKSPACE_HOOK_EVENT_NAMES",
+        "createWorkspaceHookSourceInput",
+        "discoverWorkspaceHookConfigPaths",
+        "readWorkspaceHookProjectSources",
+        "resolveWorkspaceHookConfiguredGates",
+        "resolveWorkspaceHookMaxOutputBytes",
+        "resolveWorkspaceHookRuntimeRoot",
+        "resolveWorkspaceHookTimeoutMs",
+        "workspaceHookCommandConfigSchema",
+        "workspaceHookMatcherConfigSchema",
+        "workspaceHookProcessConfigSchema",
+        "workspaceHooksConfigSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-digest.ts",
+      "runtime": [
+        "buildWorkspaceHookBundleSnapshot",
+        "createWorkspaceHookDeclarationDigest",
+        "resolveWorkspaceHookEntries"
+      ],
+      "pureTypes": ["CanonicalWorkspaceHookEntryData", "WorkspaceHookBundleSnapshotData"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "buildWorkspaceHookBundleSnapshot",
+        "createWorkspaceHookDeclarationDigest",
+        "resolveWorkspaceHookEntries"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-discovery.ts",
+      "runtime": [
+        "DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES",
+        "DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS",
+        "WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION",
+        "WORKSPACE_HOOK_EVENT_NAMES",
+        "buildWorkspaceHookBundleSnapshot",
+        "createWorkspaceHookDeclarationDigest",
+        "createWorkspaceHookSourceInput",
+        "discoverWorkspaceHookConfigPaths",
+        "readWorkspaceHookProjectSources",
+        "resolveWorkspaceHookConfiguredGates",
+        "resolveWorkspaceHookEntries",
+        "resolveWorkspaceHookMaxOutputBytes",
+        "resolveWorkspaceHookRuntimeRoot",
+        "resolveWorkspaceHookTimeoutMs",
+        "workspaceHookCommandConfigSchema",
+        "workspaceHookMatcherConfigSchema",
+        "workspaceHookProcessConfigSchema",
+        "workspaceHooksConfigSchema"
+      ],
+      "pureTypes": [
+        "CanonicalWorkspaceHookEntryData",
+        "WorkspaceHookBundleSnapshotData",
+        "WorkspaceHookConfigFileKind",
+        "WorkspaceHookConfigPathRef",
+        "WorkspaceHookDefinition",
+        "WorkspaceHookEventName",
+        "WorkspaceHookRuntimeRoot",
+        "WorkspaceHookSourceInput",
+        "WorkspaceHookSourceReadError",
+        "WorkspaceHooksConfig"
+      ],
+      "reexportStars": ["./workspace-hook-config.js", "./workspace-hook-digest.js"],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES",
+        "DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS",
+        "WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION",
+        "WORKSPACE_HOOK_EVENT_NAMES",
+        "buildWorkspaceHookBundleSnapshot",
+        "createWorkspaceHookDeclarationDigest",
+        "createWorkspaceHookSourceInput",
+        "discoverWorkspaceHookConfigPaths",
+        "readWorkspaceHookProjectSources",
+        "resolveWorkspaceHookConfiguredGates",
+        "resolveWorkspaceHookEntries",
+        "resolveWorkspaceHookMaxOutputBytes",
+        "resolveWorkspaceHookRuntimeRoot",
+        "resolveWorkspaceHookTimeoutMs",
+        "workspaceHookCommandConfigSchema",
+        "workspaceHookMatcherConfigSchema",
+        "workspaceHookProcessConfigSchema",
+        "workspaceHooksConfigSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-mutation.ts",
+      "runtime": [
+        "WorkspaceHookMutationError",
+        "atomicWriteWorkspaceHookConfig",
+        "writeWorkspaceHookConfiguredToggle"
+      ],
+      "pureTypes": ["AtomicWorkspaceHookConfigWriteOptions"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "WorkspaceHookMutationError",
+        "atomicWriteWorkspaceHookConfig",
+        "writeWorkspaceHookConfiguredToggle"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-review-monotonicity.ts",
+      "runtime": ["verdictWorkspaceHookReviewRequest"],
+      "pureTypes": ["WorkspaceHookReviewIdentity", "WorkspaceHookReviewMonotonicityVerdict"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["verdictWorkspaceHookReviewRequest"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
+      "runtime": [
+        "WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION",
+        "parseWorkspaceHookTrustStoreContent",
+        "workspaceHookTrustRecordSchema",
+        "workspaceHookTrustStoreFileSchema"
+      ],
+      "pureTypes": [
+        "WorkspaceHookTrustRecord",
+        "WorkspaceHookTrustStoreFile",
+        "WorkspaceHookTrustStoreParseResult"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION",
+        "parseWorkspaceHookTrustStoreContent",
+        "workspaceHookTrustRecordSchema",
+        "workspaceHookTrustStoreFileSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/background-task-controls.ts",
+      "runtime": [
+        "collectVisibleKnorviaBackgroundTaskControlItems",
+        "getKnorviaBackgroundTaskControlItemElapsedMs",
+        "isActiveKnorviaBackgroundTaskControlItem",
+        "parseKnorviaBackgroundTaskControlItems",
+        "resolveKnorviaBackgroundTaskControlKind"
+      ],
+      "pureTypes": ["KnorviaBackgroundTaskControlItem", "KnorviaBackgroundTaskControlStatus"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "collectVisibleKnorviaBackgroundTaskControlItems",
+        "getKnorviaBackgroundTaskControlItemElapsedMs",
+        "isActiveKnorviaBackgroundTaskControlItem",
+        "parseKnorviaBackgroundTaskControlItems",
+        "resolveKnorviaBackgroundTaskControlKind"
+      ]
+    },
+    {
+      "path": "packages/shared/src/background-task-notifications.ts",
+      "runtime": [
+        "attachKnorviaBackgroundTaskNotificationToRaw",
+        "collectKnorviaBackgroundTaskNotificationsByToolUseId",
+        "knorviaBackgroundTaskNotificationToolUpdateStatus",
+        "parseKnorviaBackgroundTaskNotificationText"
+      ],
+      "pureTypes": ["KnorviaBackgroundTaskNotificationInfo"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "attachKnorviaBackgroundTaskNotificationToRaw",
+        "collectKnorviaBackgroundTaskNotificationsByToolUseId",
+        "knorviaBackgroundTaskNotificationToolUpdateStatus",
+        "parseKnorviaBackgroundTaskNotificationText"
+      ]
+    },
+    {
+      "path": "packages/shared/src/background-task-control-merge.ts",
+      "runtime": ["mergeKnorviaBackgroundTaskControlItems"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["mergeKnorviaBackgroundTaskControlItems"]
+    },
+    {
+      "path": "packages/shared/src/background-bash-jobs.ts",
+      "runtime": [
+        "collectVisibleKnorviaBackgroundBashJobs",
+        "getKnorviaBackgroundBashJobElapsedMs",
+        "isActiveKnorviaBackgroundBashJob",
+        "parseKnorviaBackgroundBashJobs"
+      ],
+      "pureTypes": ["KnorviaBackgroundBashJob", "KnorviaBackgroundBashJobStatus"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "collectVisibleKnorviaBackgroundBashJobs",
+        "getKnorviaBackgroundBashJobElapsedMs",
+        "isActiveKnorviaBackgroundBashJob",
+        "parseKnorviaBackgroundBashJobs"
+      ]
+    },
+    {
+      "path": "packages/shared/src/background-bash-output.ts",
+      "runtime": [
+        "BACKGROUND_BASH_OUTPUT_MAX_BYTES",
+        "backgroundBashOutputResultSchema",
+        "backgroundBashOutputSchema"
+      ],
+      "pureTypes": ["BackgroundBashOutput", "BackgroundBashOutputResult"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "BACKGROUND_BASH_OUTPUT_MAX_BYTES",
+        "backgroundBashOutputResultSchema",
+        "backgroundBashOutputSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/bash-output-display.ts",
+      "runtime": ["bashOutputDisplaySchema"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["bashOutputDisplaySchema"]
+    },
+    {
+      "path": "packages/shared/src/conversation-message-projection-policy.ts",
+      "runtime": [
+        "getConversationMessageProjectionPolicy",
+        "getConversationModelOnlyTurnTriggerSource",
+        "isConversationHiddenSyntheticMessage",
+        "isConversationProviderContextOnlyMessage",
+        "isConversationRealUserTurnStarter",
+        "isConversationTimelineOnlyMessage"
+      ],
+      "pureTypes": [
+        "ConversationMessageProjectionPolicy",
+        "ConversationProjectionMessage",
+        "ConversationProjectionMessageSemantics",
+        "ConversationProjectionPart"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "getConversationMessageProjectionPolicy",
+        "getConversationModelOnlyTurnTriggerSource",
+        "isConversationHiddenSyntheticMessage",
+        "isConversationProviderContextOnlyMessage",
+        "isConversationRealUserTurnStarter",
+        "isConversationTimelineOnlyMessage"
+      ]
+    },
+    {
+      "path": "packages/shared/src/conversation-preview-artifacts.ts",
+      "runtime": [
+        "CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT",
+        "CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT",
+        "buildConversationPreviewArtifactCandidates",
+        "buildConversationPreviewArtifactCandidatesFromReferences",
+        "conversationArtifactTypeSchema",
+        "extractConversationPreviewFileReferences",
+        "getConversationPreviewFileType",
+        "resolveConversationPreviewPath"
+      ],
+      "pureTypes": [
+        "ConversationPreviewArtifactCandidate",
+        "ConversationPreviewArtifactType",
+        "ConversationPreviewFileChange",
+        "ConversationPreviewFileKind",
+        "ConversationPreviewFileReference"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [
+        {
+          "name": "conversationArtifactTypeSchema",
+          "from": ""
+        }
+      ],
+      "staticRuntimeNames": [
+        "CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT",
+        "CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT",
+        "buildConversationPreviewArtifactCandidates",
+        "buildConversationPreviewArtifactCandidatesFromReferences",
+        "conversationArtifactTypeSchema",
+        "extractConversationPreviewFileReferences",
+        "getConversationPreviewFileType",
+        "resolveConversationPreviewPath"
+      ]
+    },
+    {
+      "path": "packages/shared/src/conversation-share.ts",
+      "runtime": [
+        "CONVERSATION_SHARE_SCHEMA_VERSION",
+        "conversationShareAccessModeSchema",
+        "conversationShareArtifactDescriptorSchema",
+        "conversationShareArtifactUploadDataSchema",
+        "conversationShareCapabilitiesDataSchema",
+        "conversationShareCapabilitiesWireSchema",
+        "conversationShareConfirmDataSchema",
+        "conversationShareConfirmRequestSchema",
+        "conversationShareContinuationArtifactSchema",
+        "conversationShareContinuationDataSchema",
+        "conversationShareContinuationRequestSchema",
+        "conversationShareErrorEnvelopeSchema",
+        "conversationShareInboundArtifactDescriptorSchema",
+        "conversationShareIntegritySchema",
+        "conversationShareKnownErrorCodeSchema",
+        "conversationSharePreparationDataSchema",
+        "conversationSharePreparationRequestSchema",
+        "conversationSharePreviewArtifactSchema",
+        "conversationSharePreviewDataSchema",
+        "conversationShareSha256Schema",
+        "createConversationShareSuccessEnvelopeSchema",
+        "decodeConversationShareRows",
+        "isConversationShareSchemaVersionSupported",
+        "localizeConversationShareUrl",
+        "narrowConversationShareCapabilities",
+        "parseConversationSharePathname"
+      ],
+      "pureTypes": [
+        "ConversationShareAccessMode",
+        "ConversationShareApiErrorCode",
+        "ConversationShareArtifactDescriptor",
+        "ConversationShareArtifactUpload",
+        "ConversationShareCapabilities",
+        "ConversationShareCapabilitiesWire",
+        "ConversationShareConfirmRequest",
+        "ConversationShareContinuation",
+        "ConversationShareContinuationRequest",
+        "ConversationShareContinuationWire",
+        "ConversationShareErrorEnvelope",
+        "ConversationShareIntegrity",
+        "ConversationSharePreparation",
+        "ConversationSharePreparationRequest",
+        "ConversationSharePreview",
+        "ConversationSharePreviewWire",
+        "ConversationShareRecord"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "CONVERSATION_SHARE_SCHEMA_VERSION",
+        "conversationShareAccessModeSchema",
+        "conversationShareArtifactDescriptorSchema",
+        "conversationShareArtifactUploadDataSchema",
+        "conversationShareCapabilitiesDataSchema",
+        "conversationShareCapabilitiesWireSchema",
+        "conversationShareConfirmDataSchema",
+        "conversationShareConfirmRequestSchema",
+        "conversationShareContinuationArtifactSchema",
+        "conversationShareContinuationDataSchema",
+        "conversationShareContinuationRequestSchema",
+        "conversationShareErrorEnvelopeSchema",
+        "conversationShareInboundArtifactDescriptorSchema",
+        "conversationShareIntegritySchema",
+        "conversationShareKnownErrorCodeSchema",
+        "conversationSharePreparationDataSchema",
+        "conversationSharePreparationRequestSchema",
+        "conversationSharePreviewArtifactSchema",
+        "conversationSharePreviewDataSchema",
+        "conversationShareSha256Schema",
+        "createConversationShareSuccessEnvelopeSchema",
+        "decodeConversationShareRows",
+        "isConversationShareSchemaVersionSupported",
+        "localizeConversationShareUrl",
+        "narrowConversationShareCapabilities",
+        "parseConversationSharePathname"
+      ]
+    },
+    {
+      "path": "packages/shared/src/assistant-message-parts.ts",
+      "runtime": [
+        "appendAssistantMessagePart",
+        "getLatestAssistantContentPart",
+        "getLatestAssistantContentText"
+      ],
+      "pureTypes": ["KnorviaAssistantMessagePart"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "appendAssistantMessagePart",
+        "getLatestAssistantContentPart",
+        "getLatestAssistantContentText"
+      ]
+    },
+    {
+      "path": "packages/shared/src/assistant-presentation.ts",
+      "runtime": ["buildKnorviaAssistantPresentation"],
+      "pureTypes": [
+        "BuildKnorviaAssistantPresentationOptions",
+        "KnorviaAssistantPresentation",
+        "KnorviaAssistantPresentationBlock",
+        "KnorviaAssistantPresentationToolCall"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["buildKnorviaAssistantPresentation"]
+    },
+    {
+      "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
+      "runtime": [
+        "WORKSPACE_FILE_ENTRIES_CHUNK_SIZE",
+        "packWorkspaceFileEntries",
+        "unpackWorkspaceFileEntries"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "WORKSPACE_FILE_ENTRIES_CHUNK_SIZE",
+        "packWorkspaceFileEntries",
+        "unpackWorkspaceFileEntries"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspaceFileSearch.ts",
+      "runtime": [
+        "WORKSPACE_FILE_SEARCH_DISPLAY_CAP",
+        "filterWorkspaceFileSearchCandidates",
+        "getWorkspaceFileSearchCandidateScore",
+        "hasWorkspaceFileSearchQuery",
+        "mapWorkspaceFileEntriesToSearchCandidates",
+        "scoreWorkspaceFileFuzzyMatch"
+      ],
+      "pureTypes": ["FilterWorkspaceFileSearchCandidatesOptions", "WorkspaceFileSearchCandidate"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "WORKSPACE_FILE_SEARCH_DISPLAY_CAP",
+        "filterWorkspaceFileSearchCandidates",
+        "getWorkspaceFileSearchCandidateScore",
+        "hasWorkspaceFileSearchQuery",
+        "mapWorkspaceFileEntriesToSearchCandidates",
+        "scoreWorkspaceFileFuzzyMatch"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspaceSessionRestore.ts",
+      "runtime": ["resolveStartupLocalWorkspaceSessionIndex"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["resolveStartupLocalWorkspaceSessionIndex"]
+    },
+    {
+      "path": "packages/shared/src/tool-call-summary.ts",
+      "runtime": [
+        "getCompactToolCallStatusMessageId",
+        "getCompactToolCallSummary",
+        "isCompactToolCallFinishedState",
+        "isCompactToolCallRunningState"
+      ],
+      "pureTypes": [
+        "CompactToolCallState",
+        "ToolCallChangeStat",
+        "ToolCallSummary",
+        "ToolCallSummarySource"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "getCompactToolCallStatusMessageId",
+        "getCompactToolCallSummary",
+        "isCompactToolCallFinishedState",
+        "isCompactToolCallRunningState"
+      ]
+    },
+    {
+      "path": "packages/shared/src/tool-identity.ts",
+      "runtime": [
+        "KNORVIA_KNOWN_TOOL_NAMES",
+        "getKnorviaToolFamilyForName",
+        "isKnorviaFileContentWriteToolName",
+        "isKnorviaToolFamily",
+        "normalizeKnorviaToolName"
+      ],
+      "pureTypes": ["KnorviaKnownToolName", "KnorviaToolFamily"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "KNORVIA_KNOWN_TOOL_NAMES",
+        "getKnorviaToolFamilyForName",
+        "isKnorviaFileContentWriteToolName",
+        "isKnorviaToolFamily",
+        "normalizeKnorviaToolName"
+      ]
+    },
+    {
+      "path": "packages/shared/src/tool-plan-adapter.ts",
+      "runtime": [
+        "extractPlanStepsFromToolInput",
+        "extractPlanStepsFromToolOutput",
+        "isMainAgentToolProjectionSource",
+        "isTodoPlanToolName"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "extractPlanStepsFromToolInput",
+        "extractPlanStepsFromToolOutput",
+        "isMainAgentToolProjectionSource",
+        "isTodoPlanToolName"
+      ]
+    },
+    {
+      "path": "packages/shared/src/streaming-tool-input-preview.ts",
+      "runtime": [
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_EAGER_DELTA_COUNT",
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS",
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_RAW_GROWTH",
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_TIME_BUDGET_MAX_RAW_INPUT",
+        "KNORVIA_FILE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS",
+        "appendKnorviaStreamingToolInputDelta",
+        "buildKnorviaStreamingToolInputPreview",
+        "isKnorviaFileStreamingToolInputPreviewTool",
+        "markKnorviaStreamingToolInputPreviewMaterialized",
+        "shouldMaterializeKnorviaStreamingToolInputPreview"
+      ],
+      "pureTypes": [
+        "KnorviaStreamingToolInputPreview",
+        "KnorviaStreamingToolInputPreviewMode",
+        "KnorviaStreamingToolInputState"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_EAGER_DELTA_COUNT",
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS",
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_RAW_GROWTH",
+        "KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_TIME_BUDGET_MAX_RAW_INPUT",
+        "KNORVIA_FILE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS",
+        "appendKnorviaStreamingToolInputDelta",
+        "buildKnorviaStreamingToolInputPreview",
+        "isKnorviaFileStreamingToolInputPreviewTool",
+        "markKnorviaStreamingToolInputPreviewMaterialized",
+        "shouldMaterializeKnorviaStreamingToolInputPreview"
+      ]
+    },
+    {
+      "path": "packages/shared/src/execution-output-preview.ts",
+      "runtime": ["executionOutputPreviewSchema"],
+      "pureTypes": ["ExecutionOutputPreview"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["executionOutputPreviewSchema"]
+    },
+    {
+      "path": "packages/shared/src/execution-state.ts",
+      "runtime": ["executionPermissionModeSchema", "executionStateSchema", "resolveExecutionState"],
+      "pureTypes": ["ExecutionState"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "executionPermissionModeSchema",
+        "executionStateSchema",
+        "resolveExecutionState"
+      ]
+    },
+    {
+      "path": "packages/shared/src/permission-request-preview.ts",
+      "runtime": ["getPermissionRequestPreview"],
+      "pureTypes": [
+        "PermissionRequestFileChange",
+        "PermissionRequestPreview",
+        "PermissionRequestScope"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["getPermissionRequestPreview"]
+    },
+    {
+      "path": "packages/shared/src/runtime-tool-runtime.ts",
+      "runtime": [
+        "REMOTE_RUNTIME_TOOL_RUNTIME",
+        "RUNTIME_TOOL_RUNTIME",
+        "getRemoteRuntimeToolsForPlatform",
+        "getRuntimeToolRuntime"
+      ],
+      "pureTypes": [
+        "RemoteRuntimeToolDescriptor",
+        "ResolvedRemoteRuntimeTool",
+        "RuntimeToolId",
+        "RuntimeToolRuntimeDescriptor"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "REMOTE_RUNTIME_TOOL_RUNTIME",
+        "RUNTIME_TOOL_RUNTIME",
+        "getRemoteRuntimeToolsForPlatform",
+        "getRuntimeToolRuntime"
+      ]
+    },
+    {
+      "path": "packages/shared/src/process-diagnostic.ts",
+      "runtime": [
+        "KNORVIA_AGENT_LIFECYCLE_LOG_MARKER",
+        "KNORVIA_PROCESS_DIAGNOSTIC_MAX_LINE_CHARS",
+        "KNORVIA_PROCESS_DIAGNOSTIC_MESSAGE_MAX_CHARS",
+        "KNORVIA_PROCESS_DIAGNOSTIC_NAME_MAX_CHARS",
+        "KNORVIA_PROCESS_DIAGNOSTIC_PREFIX",
+        "KNORVIA_PROCESS_DIAGNOSTIC_STACK_MAX_CHARS",
+        "knorviaProcessDiagnosticSchema",
+        "parseKnorviaProcessDiagnostic"
+      ],
+      "pureTypes": ["KnorviaProcessDiagnostic"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "KNORVIA_AGENT_LIFECYCLE_LOG_MARKER",
+        "KNORVIA_PROCESS_DIAGNOSTIC_MAX_LINE_CHARS",
+        "KNORVIA_PROCESS_DIAGNOSTIC_MESSAGE_MAX_CHARS",
+        "KNORVIA_PROCESS_DIAGNOSTIC_NAME_MAX_CHARS",
+        "KNORVIA_PROCESS_DIAGNOSTIC_PREFIX",
+        "KNORVIA_PROCESS_DIAGNOSTIC_STACK_MAX_CHARS",
+        "knorviaProcessDiagnosticSchema",
+        "parseKnorviaProcessDiagnostic"
+      ]
+    },
+    {
+      "path": "packages/shared/src/process-names.ts",
+      "runtime": [
+        "formatKnorviaAgentProcessName",
+        "formatKnorviaGpuProcessName",
+        "formatKnorviaHostProcessName",
+        "formatKnorviaMainProcessName",
+        "formatKnorviaRendererProcessName",
+        "formatKnorviaUtilityProcessName"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "formatKnorviaAgentProcessName",
+        "formatKnorviaGpuProcessName",
+        "formatKnorviaHostProcessName",
+        "formatKnorviaMainProcessName",
+        "formatKnorviaRendererProcessName",
+        "formatKnorviaUtilityProcessName"
+      ]
+    },
+    {
+      "path": "packages/shared/src/processResourceTelemetry.ts",
+      "runtime": [
+        "ARMS_CUSTOM_EVENT_PROPERTY_LIMIT",
+        "KNORVIA_CLI_RESOURCE_SAMPLE_INTERVAL_MS",
+        "PERF_PROCESS_WINDOW_PROPERTY_KEYS",
+        "PERF_SYSTEM_WINDOW_PROPERTY_KEYS",
+        "PERF_TOOL_EXEC_RESOURCE_PROPERTY_KEYS",
+        "PROCESS_RESOURCE_CLI_LANES",
+        "PROCESS_RESOURCE_EVENT_NAMES",
+        "PROCESS_RESOURCE_FORBIDDEN_PROPERTY_KEY_PATTERN",
+        "PROCESS_RESOURCE_ROLES",
+        "checkProcessResourceEventProperties",
+        "resolveCliProcessResourceRole"
+      ],
+      "pureTypes": [
+        "ProcessResourceCliLane",
+        "ProcessResourceEventName",
+        "ProcessResourceEventPropertyCheck",
+        "ProcessResourceRole",
+        "ProcessResourceRuntimeSurface"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "ARMS_CUSTOM_EVENT_PROPERTY_LIMIT",
+        "KNORVIA_CLI_RESOURCE_SAMPLE_INTERVAL_MS",
+        "PERF_PROCESS_WINDOW_PROPERTY_KEYS",
+        "PERF_SYSTEM_WINDOW_PROPERTY_KEYS",
+        "PERF_TOOL_EXEC_RESOURCE_PROPERTY_KEYS",
+        "PROCESS_RESOURCE_CLI_LANES",
+        "PROCESS_RESOURCE_EVENT_NAMES",
+        "PROCESS_RESOURCE_FORBIDDEN_PROPERTY_KEY_PATTERN",
+        "PROCESS_RESOURCE_ROLES",
+        "checkProcessResourceEventProperties",
+        "resolveCliProcessResourceRole"
+      ]
+    },
+    {
+      "path": "packages/shared/src/subagent-markdown-selection.ts",
+      "runtime": [
+        "formatSubagentMarkdownModel",
+        "migrateSubagentMarkdownProvider",
+        "parseSubagentMarkdownSelection"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "formatSubagentMarkdownModel",
+        "migrateSubagentMarkdownProvider",
+        "parseSubagentMarkdownSelection"
+      ]
+    },
+    {
+      "path": "packages/shared/src/subagent-state-migration.ts",
+      "runtime": ["importSubagentStateSelections"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["importSubagentStateSelections"]
+    },
+    {
+      "path": "packages/shared/src/task-realtime-core.ts",
+      "runtime": [
+        "resolveWorkspaceKey",
+        "taskOwnerCommandDeliverySchema",
+        "taskOwnerCommandErrorCodeSchema",
+        "taskOwnerCommandRequestSchema",
+        "taskOwnerCommandResultSchema",
+        "taskRealtimeDeliveredEventSchema",
+        "taskRealtimeDeliveryPurposeSchema",
+        "taskRealtimeEventSchema",
+        "taskRealtimeHostDeliveryKindSchema",
+        "taskRealtimeReasonSchema",
+        "taskRunLeaseAcquireRequestSchema",
+        "taskRunLeaseResultSchema",
+        "taskRunLeaseTargetSchema",
+        "taskSnapshotInvalidatedEventSchema",
+        "taskStreamMirrorOpSchema",
+        "taskStreamMirrorPublishOpSchema",
+        "taskStreamMirrorTargetSchema",
+        "workspaceTaskListInvalidatedEventSchema"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "resolveWorkspaceKey",
+        "taskOwnerCommandDeliverySchema",
+        "taskOwnerCommandErrorCodeSchema",
+        "taskOwnerCommandRequestSchema",
+        "taskOwnerCommandResultSchema",
+        "taskRealtimeDeliveredEventSchema",
+        "taskRealtimeDeliveryPurposeSchema",
+        "taskRealtimeEventSchema",
+        "taskRealtimeHostDeliveryKindSchema",
+        "taskRealtimeReasonSchema",
+        "taskRunLeaseAcquireRequestSchema",
+        "taskRunLeaseResultSchema",
+        "taskRunLeaseTargetSchema",
+        "taskSnapshotInvalidatedEventSchema",
+        "taskStreamMirrorOpSchema",
+        "taskStreamMirrorPublishOpSchema",
+        "taskStreamMirrorTargetSchema",
+        "workspaceTaskListInvalidatedEventSchema"
+      ]
+    }
+  ]
+}

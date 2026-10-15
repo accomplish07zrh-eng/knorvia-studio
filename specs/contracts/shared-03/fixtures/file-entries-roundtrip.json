@@ -1,0 +1,87 @@
+{
+  "chunkSize": 4000000,
+  "cases": [
+    {
+      "root": "C:\\ws",
+      "entries": [
+        {
+          "name": "a.ts",
+          "path": "C:\\ws\\a.ts",
+          "relativePath": "a.ts",
+          "type": "file"
+        },
+        {
+          "name": "sub",
+          "path": "C:\\ws\\sub",
+          "relativePath": "sub",
+          "type": "directory"
+        }
+      ],
+      "packed": "file\ta.ts\ndirectory\tsub",
+      "roundtrip": [
+        {
+          "name": "a.ts",
+          "path": "C:\\ws\\a.ts",
+          "relativePath": "a.ts",
+          "type": "file"
+        },
+        {
+          "name": "sub",
+          "path": "C:\\ws\\sub",
+          "relativePath": "sub",
+          "type": "directory"
+        }
+      ]
+    },
+    {
+      "root": "/home/u/ws",
+      "entries": [
+        {
+          "name": "x y.md",
+          "path": "/home/u/ws/x y.md",
+          "relativePath": "x y.md",
+          "type": "file"
+        },
+        {
+          "name": "tab\tnl\nname",
+          "path": "/home/u/ws/tab\tnl\nname",
+          "relativePath": "tab\tnl\nname",
+          "type": "file"
+        },
+        {
+          "name": "back\\slash",
+          "path": "/home/u/ws/back\\slash",
+          "relativePath": "back\\slash",
+          "type": "file"
+        }
+      ],
+      "packed": "file\tx y.md\nfile\ttab\\tnl\\nname\nfile\tback\\\\slash",
+      "roundtrip": [
+        {
+          "name": "x y.md",
+          "path": "/home/u/ws/x y.md",
+          "relativePath": "x y.md",
+          "type": "file"
+        },
+        {
+          "name": "tab\tnl\nname",
+          "path": "/home/u/ws/tab\tnl\nname",
+          "relativePath": "tab\tnl\nname",
+          "type": "file"
+        },
+        {
+          "name": "back\\slash",
+          "path": "/home/u/ws/back\\slash",
+          "relativePath": "back\\slash",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "root": "/root/ws/",
+      "entries": [],
+      "packed": "",
+      "roundtrip": []
+    }
+  ]
+}
