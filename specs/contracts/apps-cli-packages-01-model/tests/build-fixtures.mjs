@@ -7,7 +7,7 @@
 // 用法（仓库根目录，Node 与 mise.toml 一致，先 pnpm build:cli-packages）：
 //   node --import tsx specs/contracts/apps-cli-packages-01-model/tests/build-fixtures.mjs
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -223,6 +223,7 @@ async function buildProjectionGoldens() {
 }
 
 async function buildDebugGoldens() {
+  rmSync(join(fixturesDir, "model-io"), { recursive: true, force: true });
   const debug = await loadSource("model/runner-debug");
   const sessionKey = "golden-session";
   const request = {
