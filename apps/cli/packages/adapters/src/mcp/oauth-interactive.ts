@@ -70,21 +70,28 @@ function emitLog(
   input.logger?.[level](message, { event, ...logFields(input, oauthState), status, ...extra });
 }
 
-/** SDK 鉴权选项：公共字段一次装配，两处调用各自补充私有字段（额外字段名逐字保留）。 */
+/** SDK 鉴权选项：字段顺序固定为 serverUrl → code/iss → scope → resource → fetchFn → force。 */
 function sdkAuthOptions(
   input: McpInteractiveAuthorizationInput,
   extra: { authorizationCode?: string; iss?: string } = {},
 ) {
+  /* 授权码按「存在即传」处理：空串也是合法回调值（缺失与空必须区分）。 */
+  const hasCode = extra.authorizationCode !== undefined;
   return /* 构造返回值 */ {
     serverUrl: input.serverUrl,
+    ...(hasCode ? { authorizationCode: extra.authorizationCode } : {}),
+    ...(extra.iss !== undefined && extra.iss !== "" ? { iss: extra.iss } : {}),
     ...(input.requestedScope ? { scope: input.requestedScope } : /* 无扩展 */ {}),
     ...(input.resourceMetadataUrl
       ? { resourceMetadataUrl: input.resourceMetadataUrl }
       : /* 无扩展 */ {}),
     ...(input.fetchFn ? { fetchFn: input.fetchFn } : /* 无扩展 */ {}),
-    ...(input.forceReauthorization ? { forceReauthorization: true } : /* 无扩展 */ {}),
-    ...(extra.authorizationCode ? { authorizationCode: extra.authorizationCode } : /* 无扩展 */ {}),
-    ...(extra.iss ? { iss: extra.iss } : /* 无扩展 */ {}),
+    // forceReauthorization 只作用于首个授权请求；带授权码的交换腿不再携带。
+    ...(hasCode
+      ? {}
+      : input.forceReauthorization
+        ? { forceReauthorization: true }
+        : /* 无扩展 */ {}),
   };
 }
 
@@ -137,7 +144,7 @@ async function /* 跟进授权：轮询等待用户在浏览器完成 */ followA
   while (Date.now() < deadline && !input.signal?.aborted) {
     const polled = await pollOnce(input, baselineGeneration);
     if (polled.done) return { status: "already-authorized" };
-    if (polled.announcedUrl && polled.announcedUrl !== projectedUrl) {
+    if (polled.announcedUrl !== undefined && polled.announcedUrl !== projectedUrl) {
       projectedUrl = polled.announcedUrl;
       await input.onAuthorizationRequired?.({
         authorizationUrl: projectedUrl,
@@ -166,7 +173,10 @@ function passthroughFields(input: McpInteractiveAuthorizationInput) {
     ...(input.openAuthorizationUrl
       ? { openAuthorizationUrl: input.openAuthorizationUrl }
       : /* 无扩展 */ {}),
-    ...(input.requestedScope ? { requestedScope: input.requestedScope } : /* 无扩展 */ {}),
+    // 空串也是合法的作用域选择：只有缺席（undefined）才不透传。
+    ...(input.requestedScope !== undefined
+      ? { requestedScope: input.requestedScope }
+      : /* 无扩展 */ {}),
   };
   return { ...required, ...optional };
 }

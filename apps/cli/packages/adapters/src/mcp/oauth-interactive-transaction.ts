@@ -114,11 +114,12 @@ async function publishTokens(
   });
 }
 
-/** 授权跳转：登记待授权记录 → 记录等待日志 → 依次触发两个回调。 */
+/** 授权跳转：登记待授权记录 → 记录等待日志 → 以 provider 为接收者依次触发两个回调。 */
 async function redirectForAuthorization(
   context: TxContext,
   url: URL,
   redirectUrl: string,
+  receiver: object,
 ): Promise<void> {
   const authorizationUrl = url.toString();
   await publishPendingAuthorization(context.store, context.keyPrefix, {
@@ -139,8 +140,8 @@ async function redirectForAuthorization(
     redirectUrl,
     serverName: context.serverName,
   };
-  await context.onRequired?.call(undefined, callbackContext);
-  await context.onOpen?.call(undefined, callbackContext);
+  await context.onRequired?.call(receiver, callbackContext);
+  await context.onOpen?.call(receiver, callbackContext);
 }
 
 export function createInteractiveTransactionProvider(input: TransactionInput): OAuthClientProvider {
@@ -224,7 +225,7 @@ export function createInteractiveTransactionProvider(input: TransactionInput): O
       await publishTokens(context, tokens, clientInformation);
     },
     async redirectToAuthorization(url: URL): Promise<void> {
-      await redirectForAuthorization(context, url, provider.redirectUrl);
+      await redirectForAuthorization(context, url, provider.redirectUrl, provider);
     },
     saveCodeVerifier(value: string): void {
       tx.verifier = value;

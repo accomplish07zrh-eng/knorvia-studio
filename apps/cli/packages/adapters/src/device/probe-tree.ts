@@ -21,23 +21,19 @@ function buildEdges(edges: readonly ProcessRelation[]): EdgeIndex {
   return index;
 }
 
-/** 单棵树逐层展开：先入队，再按层产出成员，重复出现只算一次。 */
+/** 单棵树深度优先展开：先入队根，再按输入顺序递归子节点，重复出现只算一次。 */
 function treeMembers(index: EdgeIndex, root: number): number[] {
   const pids: number[] = [];
   const queued = new Set<number>([root]);
-  let frontier: number[] = [root];
-  while (frontier.length > 0) {
-    const next: number[] = [];
-    for (const pid of frontier) {
-      pids.push(pid);
-      for (const child of index.get(pid) ?? []) {
-        if (queued.has(child)) continue;
-        queued.add(child);
-        next.push(child);
-      }
+  const walk = (pid: number): void => {
+    pids.push(pid);
+    for (const child of index.get(pid) ?? []) {
+      if (queued.has(child)) continue;
+      queued.add(child);
+      walk(child);
     }
-    frontier = next;
-  }
+  };
+  walk(root);
   return pids;
 }
 

@@ -4,7 +4,6 @@ import {
   execFile as nodeExecFile,
   type ExecFileOptionsWithStringEncoding,
 } from "node:child_process";
-import { promisify } from "node:util";
 import {
   PROCESS_PROBE_SAMPLE_TIMEOUT_MS,
   ProcessProbeFailure,
@@ -42,19 +41,25 @@ export async function runProbeCommand(
   throw new ProcessProbeFailure(`${file} 采样失败: ${failureDetail(response)}`);
 }
 
-/** 默认执行器：把 child_process 的失败也转成结果对象，永不 reject。 */
-export async function defaultProbeExecFile(
+/** 默认执行器：回调风格直连 child_process（测试可整体替换该入口），失败也转成结果对象，永不 reject。 */
+export function defaultProbeExecFile(
   file: string,
   args: readonly string[],
   options: ExecFileOptionsWithStringEncoding,
 ): Promise<ProcessProbeCommandResult> {
-  const run = promisify(nodeExecFile);
-  try {
-    const outcome = await run(file, args, options);
-    return { status: 0, stderr: outcome.stderr, stdout: outcome.stdout };
-  } catch (error) {
-    return failureResult(error);
-  }
+  return new Promise((resolveResult) => {
+    nodeExecFile(file, [...args], options, (error, stdout, stderr) => {
+      if (error === null) {
+        resolveResult({ status: 0, stderr, stdout });
+        return;
+      }
+      const failure = failureResult(error);
+      // 回调在失败时也可能带回部分输出：以回调实参为准。
+      failure.stderr = stderr ?? failure.stderr;
+      failure.stdout = stdout ?? failure.stdout;
+      resolveResult(failure);
+    });
+  });
 }
 
 /** 失败结果：退出码与输出能从错误对象上取到就取，取不到则给安全默认值。 */

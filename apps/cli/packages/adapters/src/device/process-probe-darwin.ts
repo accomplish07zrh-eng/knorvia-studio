@@ -10,28 +10,38 @@ const SECONDS_PER_DAY = 24 * 60 * 60;
 const MILLIS_PER_SECOND = 1_000;
 /** 从最低位开始的时间分量权重：秒、分、小时。 */
 const WEIGHT = [1, 60, 60 * 60];
-/** ps 的 cputime 列：`[dd-]hh:mm[:ss]`。 */
-const ELAPSED_TEXT = /^\d+(?:-\d+)?(?::\d+){1,3}$/u;
+/**
+ * 单个时间分量：历史实现对 `ps` 的 cputime 一直很宽容——容忍前导正负号与空串、
+ * 接受小数秒（`1.23456`、`0:0.001`）与科学计数（`1e2`）；只有非数字与负数才拒绝。
+ */
+function componentSeconds(text: string): number | undefined {
+  const normalized = text.replace(/^[+-]/u, "");
+  if (normalized === "") return 0;
+  const value = Number(normalized);
+  return Number.isFinite(value) && value >= 0 ? value : undefined;
+}
 
-/** `[dd-]hh:mm[:ss]` → 毫秒；段数过多或出现负数/非数字时返回 undefined。 */
+/** `[dd-]hh:mm[:ss]` → 毫秒；分量过多或出现非法/负数时返回 undefined。 */
 function clockToMillis(text: string): number | undefined {
   const daySplit = text.split("-");
   if (daySplit.length > 2) return undefined;
-  const days = daySplit.length === 2 ? Number(daySplit[0]) : 0;
-  if (!Number.isFinite(days) || days < 0) return undefined;
-  const units = (daySplit[daySplit.length - 1] ?? "").split(":").map(Number);
-  if (units.length > WEIGHT.length) return undefined;
-  if (units.some((unit) => !Number.isFinite(unit) || unit < 0)) return undefined;
+  const days = daySplit.length === 2 ? componentSeconds(daySplit[0]!) : 0;
+  if (days === undefined) return undefined;
+  const parts = (daySplit[daySplit.length - 1] ?? "").split(":");
+  if (parts.length > WEIGHT.length) return undefined;
   let seconds = days * SECONDS_PER_DAY;
-  for (let index = 0; index < units.length; index += 1) {
-    seconds += units[units.length - 1 - index]! * WEIGHT[index]!;
+  // 末位恒为秒；向左依次是分、时（`1:` 是一分钟，`1::2` 是一时零分两秒）。
+  for (let index = 0; index < parts.length; index += 1) {
+    const value = componentSeconds(parts[parts.length - 1 - index]!);
+    if (value === undefined) return undefined;
+    seconds += value * WEIGHT[index]!;
   }
   return Math.round(seconds * MILLIS_PER_SECOND);
 }
 
-/** cputime 列：看起来不像时间就直接给 undefined（该行仍然保留）。 */
+/** cputime 列：解析不了就按缺列处理（该行仍然保留）。 */
 function cpuMillis(cell: string | undefined): number | undefined {
-  if (cell === undefined || !ELAPSED_TEXT.test(cell)) return undefined;
+  if (cell === undefined) return undefined;
   return clockToMillis(cell);
 }
 
