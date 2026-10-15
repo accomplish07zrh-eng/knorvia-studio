@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 交互式授权的形状声明：导出的结果联合由 oauth-interactive.ts 原样再导出，公开面不变。
 // 字段说明：McpInteractiveAuthorizationOutcome 四态（authorized / already-authorized / pending / failed ✓）；

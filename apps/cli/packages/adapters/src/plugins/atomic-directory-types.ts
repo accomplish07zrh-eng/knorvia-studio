@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 目录事务形状：由 atomic-directory.ts 引入（activation 由其实现文件原样再导出，公开面不变）。
 // 字段说明（字段名是契约）：transactionId 本次目录事务的唯一标识；finalize 提交事务；

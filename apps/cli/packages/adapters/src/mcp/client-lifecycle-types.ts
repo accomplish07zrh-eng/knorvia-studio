@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 建立过程的形状声明：由 client-lifecycle.ts 原样再导出，公开面不变。
 // 字段说明：name/config/generation/timeoutMs/started 是建立标识；stderr 是子进程输出捕获；

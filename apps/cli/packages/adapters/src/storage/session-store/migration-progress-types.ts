@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 迁移进度与选项的形状声明：由 migration-runner.ts 再导出，公开面不变。
 // 稳定性说明：

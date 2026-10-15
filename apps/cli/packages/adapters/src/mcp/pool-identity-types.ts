@@ -1,5 +1,5 @@
 // Copyright (c) Knorvia contributors
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // 连接上下文的形状声明：由 pool-identity.ts 原样再导出，公开面不变。
 // 字段说明（字段名是契约）：
 // mcpConnectionId：连接的唯一 id，用于日志与清理。

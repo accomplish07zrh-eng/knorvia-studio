@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: MIT
-// Independent reimplementation; review pending.
+// SPDX-License-Identifier: Apache-2.0
 // 本地回环 OAuth 回调的形状声明：由 localhost-callback.ts 原样再导出，公开面不变。
 // 字段/方法说明（字段名与方法名是契约）：
 // code/url：回调带回的授权码与完整回调 URL。

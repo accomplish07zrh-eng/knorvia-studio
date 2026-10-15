@@ -1,5 +1,5 @@
 // Copyright (c) Knorvia contributors
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // 遥测的形状声明：三个导出类型由 telemetry.ts 原样再导出，公开面不变。
 // McpProcessTelemetryIdentity：进程遥测身份（mcpId + 实例 id）。
 // McpTrackedProcess：可枚举的被跟踪进程（pid / 服务名 / 来源 / 可选插件名）。

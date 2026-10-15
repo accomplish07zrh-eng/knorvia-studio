@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: MIT
-// Independent reimplementation; review pending.
+// SPDX-License-Identifier: Apache-2.0
 // 浏览器打开的形状声明：由 browser.ts 原样再导出，公开面不变。
 // 字段说明（调用方按这些字段读取结果/构造选项，字段名是契约）：
 // command：实际使用的命令名（open / cmd.exe / xdg-open），失败时也返回，便于排障。

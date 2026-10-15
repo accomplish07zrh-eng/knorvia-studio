@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 安装卸载入口形状：由 catalog-install.ts 引入（仅供实现文件导入，不新增公开面）。
 // 字段说明（字段名是契约）：marketplace 所属市场标识；name 插件名；signal 中止信号；

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // OAuth 令牌提供者的输入形状：新模块导出、实现文件仅内部导入（原本就不是公开导出）。
 // 字段说明（字段名由调用方构造对象决定）：

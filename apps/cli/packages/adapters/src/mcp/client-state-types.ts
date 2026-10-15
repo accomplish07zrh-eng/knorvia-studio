@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // MCP 客户端状态的形状声明：由 client-state.ts 原样再导出，公开面不变。
 // 字段说明（字段名是契约）：CreateMcpAdapterOptions 是门面配置；ServerRecord 是单服务记录；

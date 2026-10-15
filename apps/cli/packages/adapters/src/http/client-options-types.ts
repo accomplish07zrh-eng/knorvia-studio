@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // Node HTTP 客户端适配器的形状声明：由 http/index.ts 原样再导出，公开面不变。
 // 字段说明（调用方按这些字段构造对象，字段名是契约）：

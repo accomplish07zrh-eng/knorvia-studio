@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 代理 fetch 的形状声明：由 proxy-fetch.ts 再导出，公开面不变。
 // 字段说明（调用方按这些字段构造对象，因此字段名是契约）：

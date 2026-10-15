@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: MIT
-// Independent reimplementation; review pending.
+// SPDX-License-Identifier: Apache-2.0
 // 共享凭据存储的形状声明：由 shared-credentials.ts 原样再导出，公开面不变。
 // 字段与方法说明（调用方按这些名字读写，字段名/方法名是契约）：
 // filePath：最终使用的凭据文件绝对路径（只读）。

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 //
 // script workflow 的行形状：列名即数据库列名（数据格式），逐字保留；由 script-workflow-codecs.ts 再导出。

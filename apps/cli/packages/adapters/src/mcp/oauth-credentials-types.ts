@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // OAuth 凭据的形状声明：导出的三个类型由 oauth-credentials.ts 原样再导出，公开面不变。
 // 字段说明：McpOAuthCanonicalCredentials 是落盘结构（版本/发布者/generation ✓）；

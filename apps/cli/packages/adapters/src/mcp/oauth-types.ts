@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // MCP OAuth 运行期选项的形状声明：由 oauth.ts 原样再导出，公开面不变。
 // 字段说明（字段名是契约）：

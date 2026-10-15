@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 原子事务协议形状：由 atomic-protocol.ts 引入（四名形状由其实现文件原样再导出，公开面不变）。
 // 字段说明（字段名是契约）：target 规范化目标路径；parent 父目录；marker 事务标记文件路径；

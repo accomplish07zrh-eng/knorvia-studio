@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 市场源租约形状：由 catalog-load-source.ts 引入（MarketplaceSourceLease 由其实现文件原样再导出，公开面不变）。
 // 字段说明（字段名是契约）：manifest 已解码的市场清单；sourceRoot 源根目录（文件/目录源才有）；

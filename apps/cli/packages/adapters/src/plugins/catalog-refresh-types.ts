@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // 市场增删改入口形状：由 catalog-refresh.ts 引入（仅供实现文件导入，不新增公开面）。
 // 字段说明（字段名是契约）：expectedId 期望的市场标识（与清单名不一致则拒绝）；

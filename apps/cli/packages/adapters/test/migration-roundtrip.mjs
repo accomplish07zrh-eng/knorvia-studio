@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 //
 // 会话存储迁移的往返验证（独立于 118 条契约用例，供验收留证）：

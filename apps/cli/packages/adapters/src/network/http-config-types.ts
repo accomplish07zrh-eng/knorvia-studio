@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // HTTP 代理与 TLS 的形状声明：仅由 http-config.ts 内部使用，不对外新增导出。
 // 字段说明（调用方按这些字段构造对象，因此字段名是契约）：
