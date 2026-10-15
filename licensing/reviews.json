@@ -2009,7 +2009,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/model-execution.ts",
-      "normalizedSha256": "b58817ef4b14e29629d4c6d0627b0a9182c18bc8747f935331913c60cb3f7b4e",
+      "normalizedSha256": "317342ef7994c6d754b881bd3df682f111ed8d3d927fea6762a80f7e7189f58f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
@@ -2042,7 +2042,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/model.ts",
-      "normalizedSha256": "e1fe9c856e9ffef9ffab831de93aca8d03d02c1c837cf1756a70c3167fe7c106",
+      "normalizedSha256": "6faf162697828933265c73047bba215d2ad44cac98c765a7ce974ef2d2f9b3af",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
@@ -141403,10 +141403,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/support/provider-routing.ts",
-      "normalizedSha256": "cfd995682ed0f3a1ef14dec4902eed56d3a0b04af39407ef7c049c81d01560d7",
+      "normalizedSha256": "c09cd99df23ccc9040a18660ca6e2d17d09d67adf05e514affcefa0971532e08",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
         "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
         "specs/contracts/apps-cli-packages-01-model/behavior.md"
