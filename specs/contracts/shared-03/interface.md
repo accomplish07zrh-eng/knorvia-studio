@@ -5,16 +5,19 @@
 「导出集合与附录一致」脚本比对的口径。逐文件完整导出清单（机器生成）见
 [`interface-appendix.md`](interface-appendix.md) / [`interface-appendix.json`](interface-appendix.json)。
 
-## 1. 公开入口
+## 1. 公开入口（实测口径）
 
-本包 34 件全部经根 barrel `@knorvia/shared`（`index.ts`，**不在本包**，归 shared-04 末包）可达；
-另有两条既有子路径间接面：
+`packages/shared/package.json` 的 `exports` 映射是正式入口面；34 件按入口分四类：
 
-| 入口 | 说明 |
-| --- | --- |
-| `@knorvia/shared`（根 barrel） | 34 件的运行时导出全部 `export *` 或具名再导出可达（B 条目口径） |
-| `@knorvia/shared/protocol`、`/protocol-v4` | `bash-output-display`、`background-bash-output`、`execution-output-preview`、`process-diagnostic` 经这两桶再导出（协议面） |
-| 模块路径直引 | `packages/services`、`packages/ui`、`apps/cli` 存在相对/别名直引（见 callers.md） |
+| 入口类 | 文件 | 说明 |
+| --- | --- | --- |
+| 根 barrel `@knorvia/shared` | 22 件 | `index.ts` `export *` / 具名再导出可达 |
+| 子路径 `@knorvia/shared/<x>` | `runtime-tool-runtime`、`process-diagnostic`、`workspaceFileSearch`、`workspaceFileEntriesCodec`、`workspace-hook-discovery`、`workspace-hook-mutation`、`workspace-hook-review-monotonicity`、`workspace-hook-trust-store-file` | `exports` 映射直接给出；其中 `workspace-hook-discovery` 星再导出 config+digest → **workspace-hook-config/digest 的公开面即此入口** |
+| 协议桶再导出 | `background-bash-output`、`execution-output-preview` | 经 `@knorvia/shared/protocol`、`/protocol-v4` 两桶 `export *` 可达（wire 契约面） |
+| 无独立入口（模块路径兼容面） | `subagent-state-migration` | 仅 `packages/shared/src/node/**` 内部消费；路径与导出面仍按 B51 守 |
+
+**注意（实测修正）**：`packages/ui`、`packages/services` 下存在同名 `workspaceFileSearch.ts` shim
+（`export * from "@knorvia/shared/workspaceFileSearch"` 等）——真实消费经子路径入口，不是相对直引。
 
 ## 2. 模块路径面（34 个）
 
