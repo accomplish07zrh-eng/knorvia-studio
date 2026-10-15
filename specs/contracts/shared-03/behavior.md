@@ -388,4 +388,46 @@
 
 ---
 
-（H4 起续写：B27…）
+## H4. workspaceFile 三件（B27–B29）
+
+### B27 条目编解码（`workspaceFileEntriesCodec.ts`）— **往返金样重点**
+
+- 语义常量（逐字冻结）：`WORKSPACE_FILE_ENTRIES_CHUNK_SIZE = 4_000_000`。
+- **打包** `packWorkspaceFileEntries(entries)`：每条一行 `<type>\t<escaped(relativePath)>`，`\n` 连接。
+  `escapeField`：`\`→`\\`、`\t`→`\\t`、`\n`→`\\n`（替换顺序即反斜杠先）。
+- **解包** `unpackWorkspaceFileEntries(packed, rootPath)`：`packed` 空串 → `[]`；
+  分隔符按 `rootPath` 是否含 `\` 选 `\`（Windows）或 `/`；prefix = rootPath 补足尾分隔符；
+  逐行（`split("\n")`，空行跳过、无制表符跳过）取 `unescapeField`（`\\(.)` 折叠：`t`→Tab、`n`→LF、
+  其余取字面）；`name` = 相对路径最后一段；`path` = prefix +（Windows 时把相对路径 `/` 换 `\`）；
+  `type` = 前缀串恰为 `"directory"` → "directory"，**其余一律 "file"**。
+- **往返不变量**（金样断言口径）：`unpack(pack(entries), root)` 对「相对路径不含换行/制表符/反斜杠怪形」
+  的条目集逐字段还原（name/path/relativePath/type）；含 `\`、`\t`、`\n` 的 relativePath 经转义往返一致；
+  空数组往返为空数组。**注意**：`name` 取自相对路径分段，`type` 归一为两值——往返按此口径逐字节。
+- 平台差异：根路径形态决定输出分隔符（实测两平台）；纯函数；无状态；无日志。
+
+### B28 文件搜索打分与过滤（`workspaceFileSearch.ts`）
+
+- 语义常量（逐字冻结）：`WORKSPACE_FILE_SEARCH_DISPLAY_CAP = 1000`。
+- `mapWorkspaceFileEntriesToSearchCandidates`：id=relativePath；三个小写缓存键按 `trim().toLowerCase()`。
+- `scoreWorkspaceFileFuzzyMatch(text, query)`：两者 trim+小写；text 空 → null；query 空 → 0；
+  前缀命中 → `len(text)-len(query)`；子串命中 → `100+index`；否则**逐字符递进模糊**
+  （`indexOf` 从上次位置 +1；任一字符找不到 → null）得分 `200 + Σ(跳跃距离) + len(text)-len(query)`。
+- `getWorkspaceFileSearchCandidateScore`：name/relativePath/path 三路打分（归一版同规则）；
+  keyword = min(relative+300, path+300)；总分 = min(name, relative+25, keyword)；全 null → null。
+- `filterWorkspaceFileSearchCandidates(candidates, query, options)`：
+  query trim 空 → `requireQuery ? [] :` 默认列表（**目录优先** stable 排序后按 limit 截断）；
+  否则逐条打分，维护**长度 ≤ limit（缺省 1000）的有序 bestMatches**（比较序：score 升序 → 输入 index 升序
+  → `name.localeCompare`），满员时与末位比可短路跳过，插入后超长弹尾。
+- 平台差异：localeCompare 排序受运行环境 locale（测试以行为断言为准）；纯函数；无状态；无日志。
+
+### B29 启动本地会话索引（`workspaceSessionRestore.ts` `resolveStartupLocalWorkspaceSessionIndex`）
+
+- 输入：`persistedSessions`（`kind` 可判 `"local"`）、`lastActiveTabIndex?: number`。
+- 输出：空表 → null；起始位 = `clamp(lastActiveTabIndex ?? 0, 0, len-1)`；先向后找首个 `kind==="local"`
+  （含起始位），找不到再从 0 到起始位（**不含**）回绕找；都没有 → null。
+- 语义要点：**远程 workspace 只恢复为断连 tab，不能当预热目标**；回绕保证 renderer active tab 与
+  main 预热目标一致。纯函数；无状态；无日志；平台差异无。
+
+---
+
+（H5 起续写：B30…）
