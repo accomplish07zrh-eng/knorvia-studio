@@ -141205,6 +141205,435 @@
       ]
     },
     {
+      "path": "specs/contracts/core-runtime-methods-01/README.md",
+      "normalizedSha256": "574282a3306307539f050622c8c72fb2a00580a62e2c54ce30ebc86a784661a1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/acceptance.md",
+      "normalizedSha256": "ae459f26b09ecd08c350cf56696fadc3d9a049d8ceb2240920db0d9dd197f48e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/behavior.md",
+      "normalizedSha256": "bb1b6af6f84b760f16561457f7aca84776ea95e2f091755885c0f1e7e4a79026",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/callers.md",
+      "normalizedSha256": "fe6d15f34b5369b6e0f07a1549e679113e38a1594238f56d427c9f2a4c16af3b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/fixtures/model-request-roundtrip.json",
+      "normalizedSha256": "20d33fd52b1a4645a039425d2fe0a9a0147438379db10d54086590d8410e6498",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/fixtures/stream-usage-roundtrip.json",
+      "normalizedSha256": "32143fc8821d0d09df4301942402c129452bd3de495dce866d0beeeea19238f2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/gate-old.json",
+      "normalizedSha256": "ee3393bc3fdf48e47765fc6fce31d6bd3b5f09811f6294c97b8ceba4b27c436e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/interface.md",
+      "normalizedSha256": "604c1351244aa918ee5fd6860717ac8ecdc97c442efa62ac5683131dda7210b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/known-differences.md",
+      "normalizedSha256": "d22a0c3eda3b639a34b7e3adfa16d1a679f2556c600160095084648e4b7b0fb2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/scope-files.json",
+      "normalizedSha256": "0ef6629aa903d3f4b7162e57243bd56eeaba082bee8772c9980de84e40de50b0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/cancelled-stream-persistence.ts",
+      "normalizedSha256": "d4f5273147fb0bc0da4d2b21ed6bdf909100e3dfc2484ee6c0ff0c14b0a51a6b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/events-durable.ts",
+      "normalizedSha256": "5260ea4a32eb6fefccfbf6865cc5a94cc99c82d4ccaf43899c13037d560ebb4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/events-session.ts",
+      "normalizedSha256": "ab8e4483bb8c055483aabc3fd7ff5b59c23ee5ea15714cb10bd9ecbc9c308190",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/events-summary.ts",
+      "normalizedSha256": "33a3822ffafe5a480677407eb6b5c7560bbae74012d2a96173e14310e2f00339",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/events.ts",
+      "normalizedSha256": "94af1c9e4c0e5dfc3d8e5ee3f52c4901e1c44b15924058f655eb7e9f0af18d38",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-request-session-type.ts",
+      "normalizedSha256": "3a61d3edf0d6f30b7edd5aae9e7c14da2f957f455f97d9c676edcb490174c037",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-request-stream-state.ts",
+      "normalizedSha256": "5427d37de1fdad76264924c476e9d52f940d8d09bdab3c09363f241441e860aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-runtime-headers.ts",
+      "normalizedSha256": "17cc4b219dbc542c1bec68ad3404d081a4efc7463d868ca2bdcd376328bf4557",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-status.ts",
+      "normalizedSha256": "740b185a956f2e80d84ec79c46973847738414f721dc47b315626fc345b5c717",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-streaming-event-queue.ts",
+      "normalizedSha256": "605441cfec3e0024457d247f05323cdee30451936153036d6dcf928ce37be69f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-streaming-event.ts",
+      "normalizedSha256": "c3710a87a88c315dfd7be622be86ebd6bdfb9709a8a01a6a6459f586cc6f15c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model-token-limits.ts",
+      "normalizedSha256": "e3bd1be2976ef81442543c70300a51d1bce0c080fed6bfef216d67f2f571e9de",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/model.ts",
+      "normalizedSha256": "2168cdc53d111c4ab108cf47dfaa097f2494e724ebb88f94e13633e1fee26c19",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/reasoning-stream.ts",
+      "normalizedSha256": "9d8baa8e96cf048d9466177107a3e1d9c60f87aa28c9e148d8fcd84520ef6ad8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/runtime-model.ts",
+      "normalizedSha256": "f44d457c9fd25167acd1a27031eb8fb9a969460bc8e6c904cd43ade9cfb4ea93",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/streaming-recovery.ts",
+      "normalizedSha256": "d06b7cb4842d90baebc65172c70c490ad9c9efea16f7f7cecec7449cf197c5cd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts",
+      "normalizedSha256": "31275e9d6906b27802a55a25c6cbb6ffe9c04308a7702927bd52cbbee4741e92",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/streaming-tool-execution.ts",
+      "normalizedSha256": "f197478a4ebf9a7d39e1cf7dc257a646dde3c94667bbd5736deffcd5bc22e195",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/streaming-tool-synthetic-result.ts",
+      "normalizedSha256": "8a9c0dff638dcdbcf87f13d77f8accb97ca530ad19bc5080ecc46cdaac19c38d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/usage-observability-projection.ts",
+      "normalizedSha256": "19d7ab19424662e6a15ad0236549cf6e7d8baf0177ef232554cb46e3c405c643",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+      "normalizedSha256": "106536a39ad315da84a3fc7366b4ed5f855234f19d36fc6bf21e78bb21e90ca4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/build-stubs.mjs",
+      "normalizedSha256": "c475d71124ef36d05c65ab074189240ceca35f101a11fae1719e83dee0d620a1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/stubs/targets.txt",
+      "normalizedSha256": "43a6c44d964f34f7aa6c5040da87c554acb39afc4a35516d1eb15c4b8c1df840",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/tests/entry.mjs",
+      "normalizedSha256": "fce754bfbdf100b1f395e59f40c78e19dadda5da58de63cc62109176748a1028",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/tests/events-usage.test.ts",
+      "normalizedSha256": "7a26422dfbb201015914d9f7276af788a65644f3ba71d8e19e0642eedb4b71c5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/tests/fixtures.ts",
+      "normalizedSha256": "cb66f90d09616ed1ab37a1aa89a88c246ba7a7f442868c5ed2505ba754a234d0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/tests/model-request.test.ts",
+      "normalizedSha256": "3440f10fd6bd195ced3a78da11b46c45b68e81b3383f9b5103a47216d06114e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/tests/streaming.test.ts",
+      "normalizedSha256": "203235b204bce2e5a193fd5851db229f30ff18b2258f0815e5875e45e0e559a1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-01/tests/surface.test.ts",
+      "normalizedSha256": "12a9f547f471e541737456ad78eb1c1320e7d458a57acdde3d27177f5cf1d26a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-01: authored contract documentation, black-box contract tests, golden fixtures, stub skeletons and gate evidence for the independent replacement of the model-call and streaming-event slice; no upstream code copied.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/README.md",
+        "specs/contracts/core-runtime-methods-01/behavior.md"
+      ]
+    },
+    {
       "path": "specs/contracts/core-tool-handlers-workflow-01/acceptance.md",
       "normalizedSha256": "85bdf27d1d59c1877c959745093acaa7e02e433961327be39226f9c2b9e27e1c",
       "decision": "original",
