@@ -176,4 +176,87 @@
 
 ---
 
-（H2 起的条目续写：B13…）
+## H2. background-task 六件（B13–B19）
+
+### B13 后台任务控制项解析（`background-task-controls.ts`）
+
+- 输入：`parseKnorviaBackgroundTaskControlItems(value: unknown)`；子件 `resolveKnorviaBackgroundTaskControlKind`。
+- kind 判别顺序：① 显式字段 `taskKind|task_kind|taskType|task_type` 经 `controlToken`
+  （trim→小写→非 `[a-z0-9]` 折 `_`）查 `namedKinds`（agent/local_agent/subagent/background_agent→agent；
+  bash/local_bash/shell/terminal/background_bash/background_shell→bash）；② `toolName|tool_name`
+  归一为 `"task"` → agent，否则再查 namedKinds；③ `type|kind|category` 查 `backgroundKinds`
+  （local_agent/subagent/background_agent/agent_background→agent；local_bash/background_bash/
+  background_shell/bash_background/shell_background→bash）。无命中 → undefined → 该条丢弃。
+- command 取值：`commandValue`（串 trim 非空；数组则逐项字符串 trim 非空后空格拼接）；
+  agent 优先 `description|summary|title|label`，回退 `command|cmd|script`（含 `record.input` 嵌套层）；
+  bash 与之相反。无 command → 丢弃。
+- jobId：`taskId|task_id|backgroundTaskId|background_task_id|jobId|job_id|backgroundJobId|background_job_id|id`
+  首个非空 trim 串；否则合成 `background-task:${pid ?? "no-pid"}:${startedAt ?? "no-start"}:${command}`
+  （**任务标识优先于 toolCallId**，避免同一工具调用下任务相互覆盖）。
+- status：`status|state|phase` 归一后查六组 token 表：pending(queued/scheduled/starting/pending)、
+  running(running/in_progress/started/active)、completed(completed/complete/success/succeeded/done)、
+  failed(failed/failure/error/spawn_error)、killed(killed/cancelled/canceled/stopped/terminated/timed_out/timeout)、
+  lost(lost/unknown)；**无命中/缺席 → "running"**。
+- 可选字段仅在有效值时在场：`toolCallId`、`title`（title/name/label/description）、`stdoutTail`/`stderrTail`/
+  `outputTail`、`startedAt`（数字或 Date.parse 可解析串）、`pid`、`elapsedMs`（正有限数或数字串）、
+  `cancellable`（布尔或 true/yes/1、false/no/0 串）；`raw` 恒为原值。
+- 解析入口：非数组 → `[]`；逐条 normalize 后按 `jobId` 入 Map（**后条覆盖前值、保首次插入位**），输出 Map 值序。
+- 时序：纯函数；幂等；资源无；平台差异无（时间解析按 Date.parse）；状态所有者无；日志无。
+
+### B14 活跃/时长/可见（`background-task-controls.ts`）
+
+- `isActive…(job)`：`status === "running"`（killed/lost 均不活跃）。
+- `get…ElapsedMs(job, now = Date.now())`：`clock = startedAt === undefined ? 0 : max(0, now - startedAt)`；
+  返回 `max(clock, elapsedMs ?? 0)`。
+- `collectVisible…(jobs, now = Date.now(), thresholdMs = 30000)`：仅活跃且 `elapsedMs >= thresholdMs`，
+  返回浅拷贝 `{...job, elapsedMs}`，按 elapsedMs **降序**（稳定排序）。
+- 其余八项同通用约定（`now`/`thresholdMs` 可注入便于测试）。
+
+### B15 控制项合并（`background-task-control-merge.ts` `mergeKnorviaBackgroundTaskControlItems`）
+
+- 输入：`current`、`updates` 两个只读数组。输出：按 `jobId` 的 Map 归并——current 依序先入、
+  updates 依序覆盖同 id 并追加新 id 尾部；结果为 Map 值序（**首次出现位保留、后值生效**）。
+- 幂等：同 updates 再合并结果相同。其余八项同通用约定。
+
+### B16 bash 作业视图（`background-bash-jobs.ts`）
+
+- `parseKnorviaBackgroundBashJobs(value)` = B13 解析后过滤 `taskKind === "bash"`；
+  `isActive/elapsed/collectVisible` 三个包装与 B14 语义一致（含默认 `thresholdMs = 30_000`）。
+- 类型：`KnorviaBackgroundBashJob = KnorviaBackgroundTaskControlItem & { taskKind: "bash" }`；
+  `KnorviaBackgroundBashJobStatus = KnorviaBackgroundTaskControlStatus`（六态同集）。
+
+### B17 后台输出 schema（`background-bash-output.ts`）
+
+- 语义常量（逐字冻结）：`BACKGROUND_BASH_OUTPUT_MAX_BYTES = 8192`。
+- `backgroundBashOutputSchema`（strictObject）：`kind:"output"`、`workId` 非空、`status` 六枚举
+  （running/completed/failed/timed_out/cancelled/spawn_error）、`output` ≤8192 字符、`truncated` 布尔、
+  `outputPath` 非空。
+- `backgroundBashOutputResultSchema` = union(outputSchema, strictObject{kind: unavailable|unsupported|read_failed,
+  workId 非空, code? 可选串})。**后台详情是单次文件快照**，不进 conversation snapshot、不持久化。
+- 其余八项同通用约定。
+
+### B18 bash 展示 schema（`bash-output-display.ts`）
+
+- `bashOutputDisplaySchema`（strict）：`kind:"bash_output"`、`output` ≤150_000、`truncated` 布尔、
+  `outputPath` 可选（1..32_768）。**协议面只传有界头部与真实截断/文件保留事实**，原始文件不进协议。
+- 其余八项同通用约定。
+
+### B19 通知解析与装配（`background-task-notifications.ts`）
+
+- `parseKnorviaBackgroundTaskNotificationText(text)`：内容 trim 后必须以 `<task-notification>` 开头否则 null；
+  标签抽取 `<tag>…</tag>`（非贪婪、`s` 语义）、body trim 非空；实体反转顺序固定
+  `&quot;→"`、`&apos;→'`、`&lt;→<`、`&gt;→>`、`&amp;→&`（**&amp; 最后**，避免二次反转）。
+  `tool-use-id` 缺失 → null；返回 `{notification, toolUseId}`，notification 六字段
+  （error/output-file/result/status/summary/task-id）未给即 undefined。
+- `collectKnorviaBackgroundTaskNotificationsByToolUseId(messages)`：仅 `info.role === "user"` 消息，
+  文本取 `textFromKnorviaMessageParts(parts)`；同 toolUseId 后写覆盖；输出 Map（插入序）。
+- `knorviaBackgroundTaskNotificationToolUpdateStatus(status)`：failed/lost → `"failed"`；
+  stopped/killed → `"stopped"`（**中止不得映射为完成**）；其余（含 undefined）→ `"completed"`。
+- `attachKnorviaBackgroundTaskNotificationToRaw(raw, notification)`：notification 缺席 → raw 原样；
+  否则浅拷贝 raw 并把 notification 挂到 `_meta.knorvia.taskNotification`（三层浅展开保留其余键；
+  raw 非对象按 `{}` 起底）。
+- 其余八项同通用约定。
+
+---
+
+（H3 起续写：B20…）
