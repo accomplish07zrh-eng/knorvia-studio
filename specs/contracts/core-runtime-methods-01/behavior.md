@@ -653,8 +653,9 @@ source: "first_input", title})`（走 B23 管线）。返回 `void`。
 
 - **输入**：`(runtime, event, traceContext)`。
 - **输出**（按 `event.type` 分派，命中即 return）：无 `sessionStore` 直接返回；
-  `CheckpointCreated` → `persistWorkspaceCheckpointEntry`；`RewindTriggered` →
-  `persistWorkspaceFileRewindEntry`（两者错误冒泡）；`UserInputAutoResolutionUpdated` →
+  `CheckpointCreated` → `persistWorkspaceCheckpointEntry`（落账失败吞错转 warn
+  `checkpoint.persist.failed`）；`RewindTriggered` →
+  `persistWorkspaceFileRewindEntry`（分派/校验错误冒泡）；`UserInputAutoResolutionUpdated` →
   `saveSessionEntry`（id `user-input-auto-resolution:<interactionId>`、type
   `SESSION_ENTRY_USER_INPUT_AUTO_RESOLUTION`、time `{created: autoResolution.startedAt,
 updated: event.timestamp}`、data 含 `interactionId/toolCallId/autoResolution/eventId/
@@ -672,7 +673,8 @@ createMessageId("goal_verify_<key>")`；`parentID = anchorAssistantMessageId`；
   分部时沿用其 `message.info.time.created`/`part.time.start`，否则用事件时间戳；
   `completed`/`time.end` 在 `status === "started"` 时为 `undefined`；`finish: payload.status`；
   timeline 类型 `goal_verification`、`display: "separator"`）。其余类型 no-op。
-- **错误语义**：checkpoint/rewind 分派错误**冒泡**；会话账本类（auto-resolution、
+- **错误语义**：rewind 分派错误**冒泡**；checkpoint 落账失败吞错转 warn
+  （`checkpoint.persist.failed`）；会话账本类（auto-resolution、
   steer 三类、target verification）失败只 `warn`（事件名 `user_input_auto_resolution.
 persist_failed`、`session_input.admit_failed`、`session_input.delivery_change_failed`、
   `session_input.settle_failed`、`session_entry.target_completion_verification.persist_failed`）

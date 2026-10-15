@@ -8,7 +8,41 @@
 
 ## 旧门结果
 
-（占位：`gate-old.json` 生成后回填——源码入口 / dist 入口 / 桩替换全失败三跑的用例数与结论。）
+实测 [`gate-old.json`](gate-old.json)（commit `9e6a14b6`，Node v24.14.0，`scripts/contract-gate.mjs`）：
+
+| 跑                                                        | 结果                                                      |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| 源码入口                                                  | 33 用例 / 33 通过 / 0 失败（4 个测试文件），exit 0        |
+| dist 入口（`KNORVIA_CORE_RUNTIME_METHODS_01_ENTRY=dist`） | 33 用例 / 33 通过 / 0 失败，exit 0                        |
+| 桩替换（21 个目标换成 import 即抛桩）                     | 5 个加载单元 / 0 通过 / 全失败（`allFail: true`），exit 1 |
+
+`gate-old.json` 的 `pass: true`。此后新增两个金样回放用例（B1/B28 各一），全量 **35 用例双入口
+全绿**（门禁输出见 PR 描述）。
+
+## 首败与起草修正
+
+- **B22 `recoveredFromStreamFailure` 观察面**（Lead 裁定）：该 flag 由 `recoverFromModelFailure`
+  传入补执行的 `result.providerMetadata`，消费方在 methods-02 的 turn-model-step-\*，本切片无
+  黑盒观察面。断言面收窄为补执行可见面（step-finish `reason: "tool-calls"`、
+  `committedToolCallIds` 与声明表等长同序、恢复事件交错序），README 对照表 B22 行同步回改；
+  **直接观察面留给 methods-02 合同补**（对应测试 `streaming.test.ts ·「B22 模型失败恢复编排」`）。
+  不伪造观察面、断言强度不空转。
+- **B26 起草修正**（Lead 裁定）：起草文本「checkpoint/rewind 分派错误两者冒泡」与实现（=旧实现）
+  真值不一致——`CheckpointCreated` 落账本失败**吞错转 warn**（`checkpoint.persist.failed`），
+  `RewindTriggered` 落账本失败**冒泡**。v1 未发版，按真值修正 behavior.md B26 文本（属合同写错
+  修正，非放宽断言），记录见 known-differences。rewind 成功落账的载荷形状未探明（zod 必填项），
+  该分支按部分覆盖记（冒泡语义已断言）。
+- **B1 媒体三段投影观察面**（与 B22 同口径）：媒体附件路径物化 / 输入格式能力投影 / 媒体预算
+  投影的中间形态不经公开入口暴露（投影输出即请求的 `messages`）。已断言「投影未改动消息时
+  保持原对象引用」与请求组装面；三段投影的逐段形态无黑盒观察面，如实记未覆盖（相关行为已由
+  `core-runtime-helpers-01` 的 media 系列合同覆盖）。
+
+## 逐文件计分模式预标注（替换阶段用）
+
+21 个文件均为实现型模块（函数体为主，签名行占比 < 20%）——**全部预标注普通模式**
+（包含率 < 0.20、最长相同段 < 8、结构 < 0.40）；替换实测中若某文件被判定「导出声明占主体」，
+再按 GATE-PLAYBOOK 改 `--declaration --interface` 并记录变更。`usage-observability-projection.ts`
+（1 纯类型 + 5 纯函数）为唯一潜在声明型候选，届时按残差口径实测定夺。
 
 ## 覆盖项
 

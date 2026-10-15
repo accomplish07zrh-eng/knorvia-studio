@@ -79,40 +79,40 @@ node --import tsx --test specs/contracts/core-runtime-methods-01/tests/*.test.ts
 
 ## 条目 → 测试对照表
 
-| 条目   | 测试用例（`tests/` 下文件 · 用例名）                                   | 关键断言                                                                             |
-| ------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------- |
-| B1     | `model-request.test.ts` ·「B1 请求组装与三段投影…」                    | 请求只含 messages/tools/abortSignal；maxOutputTokens 条件附加；投影不动时保持原对象  |
-| B2     | `model-request.test.ts` ·「B2 流式事件映射与终止语义」（事件序列）     | kind 映射全表；error 先冲刷再终止；catch drain 后重抛；toolCall 去重                 |
-| B3     | `model-request.test.ts` ·「B3 会话类型与重试预算解析」                 | subagent_child/workflow_child/其余三分支；Unbounded 仅 workflow 系                   |
-| B4     | `model-request.test.ts` ·「B4 max output token 两级限额」              | 32,000 默认、模型值原样、预留 1,000、≤0 回 baseline、log 字段全                      |
-| B5     | `model-request.test.ts` ·「B5 请求头刷新钩子…」                        | 端口缺席/拒绝装钩子；headersApplied=false 抛固定文案；attempt 级参数                 |
-| B6     | `model-request.test.ts` ·「B6 状态 sink 与七类状态日志」               | publish 五步顺序；7 个 type 的 level/label/event 字段逐个对                          |
-| B7     | `model-request.test.ts` ·「B7 流式事件队列进入顺序」（事件序列）       | 进入序=enqueue 序；128 高水位背压；失败缓存后三出口都抛                              |
-| B8     | `model-request.test.ts` ·「B8 流式事件落盘…」                          | ModelStreaming 事件先 append 后入数组                                                |
-| B9     | `model-request.test.ts` ·「B9 推理块按需创建」                         | 默认 id 常量、同 id 复用、Map 与数组同登                                             |
-| B10    | `model-request.test.ts` ·「B10 工具输入缓冲与冲刷」                    | 四种换行/转义触发、4,096 阈值、flush 清缓冲、flushAll 顺序                           |
-| B11    | `model-request.test.ts` ·「B11 流结果体检…」                           | contextExceeded 与 suspicious_empty 两 warn；有工具调用不判超限                      |
-| B12    | `model-request.test.ts` ·「B12 模型句柄与上下文合并」                  | 选择缺失抛 ConfigurationError；runtime 层压过调用层；bind 递归包                     |
-| B13    | `streaming.test.ts` ·「B13 取消快照持久化」（事件序列 · 持久化记录序） | reasoning 块按序逐条 + text 收尾；空块跳过；time.start/end 口径                      |
-| B14    | `streaming.test.ts` ·「B14 恢复预算与尝试记账」                        | 10/2 上限、计数递增、maxRetries 取值                                                 |
-| B15    | `streaming.test.ts` ·「B15 Start Plan busy 判定/退避/耗尽错误」        | 3008/3009/3010、[1000,2000]、providerId 双值、耗尽错误全字段与默认 3010              |
-| B16    | `streaming.test.ts` ·「B16 恢复事件组与锚点」（事件序列）              | 三事件进入序=完成序；anchor id 后缀与 previous-message-anchor 兜底；reason 串        |
-| B17    | `streaming.test.ts` ·「B17 部分输出失败恢复」                          | 短路两条件、丢弃标记记录、abort 监听移除、no_tool_committed                          |
-| B18    | `streaming.test.ts` ·「B18 流式工具准入…」                             | 准入七条件逐个否决；UTF-8 字节记账；执行失败降级 warn                                |
-| B19    | `streaming.test.ts` ·「B19 取消与收尾交错」（事件序列 · 完成顺序交错） | gate 握手：先启动后完成、drain 恒按调用表序、abandon 状态串与 250ms 上限常量         |
-| B20    | `streaming.test.ts` ·「B20 流中工具执行管线」（事件序列）              | pending 分部→tool_call_closed→调度→tool_queued→running→tool_started 序               |
-| B21    | `streaming.test.ts` ·「B21 合成工具结果与错误事件」                    | 两段固定文案、stream_recovery_interrupted_tool、ledgerRecorded:false                 |
-| B22    | `streaming.test.ts` ·「B22 模型失败恢复编排」（事件序列）              | 短路、合成结果等长同序、recoveredFromStreamFailure、latest_committed_tool_result     |
-| B23    | `events-usage.test.ts` ·「B23 事件管线与日志序列」（事件序列）         | 四步管线序；生命周期 info/warn 序；汇总命中跳过 appended debug                       |
-| B24    | `events-usage.test.ts` ·「B24 sink 通知…」                             | 串行通知；单 sink 失败 warn 后继续                                                   |
-| B25    | `events-usage.test.ts` ·「B25 会话持久化」（事件序列 · 日志序列）      | 五 phase 顺序、sessionPersisted 置位点、标题事件载荷、started/persisted/completed 序 |
-| B26    | `events-usage.test.ts` ·「B26 持久化事件分派…」                        | 八类事件分派；账本类失败 warn 吞掉、checkpoint/rewind 冒泡；promoted no-op           |
-| B27    | `events-usage.test.ts` ·「B27 汇总节流…」                              | 四类汇总、键 `<turnId                                                                | session>:<type>`、100 计数阈值、payloadKinds `<missing>` |
-| B28    | `events-usage.test.ts` ·「B28 模型用量事实」                           | id/两处 logical 兜底分隔符、token 映射（cacheWrite→cacheCreation）、retryCount       |
-| B29    | `events-usage.test.ts` ·「B29 回合用量事实」                           | 请求/工具/错误去重计数、firstModelStartAt、汇总 token 口径                           |
-| B30    | `events-usage.test.ts` ·「B30 工具用量事实」                           | 九类事件→upsert 形状、cancel 判定、usageCount 归一、unknown 兜底                     |
-| B31    | `events-usage.test.ts` ·「B31 用量投影纯函数」                         | firstModelTokenAt delta.length>0、usageErrorInfo 四分支、usageCount 截断             |
-| 接口面 | `surface.test.ts` 全部用例                                             | 49 导出逐名比对、21 模块路径存在、两入口一致、范围清单 21 文件                       |
+| 条目   | 测试用例（`tests/` 下文件 · 用例名）                                                | 关键断言                                                                                                                                                                     |
+| ------ | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| B1     | `model-request.test.ts` ·「B1 请求组装与投影管线」+「B1 模型请求/响应投影金样往返」 | 请求只含 messages/tools/abortSignal；maxOutputTokens 条件附加；投影不动时保持原对象；金样往返（媒体三段逐段形态无观察面，见 KD-3）                                           |
+| B2     | `model-request.test.ts` ·「B2 流式事件映射与终止语义」（事件序列）                  | kind 映射全表；error 先冲刷再终止；catch drain 后重抛；toolCall 去重                                                                                                         |
+| B3     | `model-request.test.ts` ·「B3 会话类型与重试预算解析」                              | subagent_child/workflow_child/其余三分支；Unbounded 仅 workflow 系                                                                                                           |
+| B4     | `model-request.test.ts` ·「B4 max output token 两级限额」                           | 32,000 默认、模型值原样、预留 1,000、≤0 回 baseline、log 字段全                                                                                                              |
+| B5     | `model-request.test.ts` ·「B5 请求头刷新钩子…」                                     | 端口缺席/拒绝装钩子；headersApplied=false 抛固定文案；attempt 级参数                                                                                                         |
+| B6     | `model-request.test.ts` ·「B6 状态 sink 与七类状态日志」                            | publish 五步顺序；7 个 type 的 level/label/event 字段逐个对                                                                                                                  |
+| B7     | `model-request.test.ts` ·「B7 流式事件队列进入顺序」（事件序列）                    | 进入序=enqueue 序；128 高水位背压；失败缓存后三出口都抛                                                                                                                      |
+| B8     | `model-request.test.ts` ·「B8 流式事件落盘…」                                       | ModelStreaming 事件先 append 后入数组                                                                                                                                        |
+| B9     | `model-request.test.ts` ·「B9 推理块按需创建」                                      | 默认 id 常量、同 id 复用、Map 与数组同登                                                                                                                                     |
+| B10    | `model-request.test.ts` ·「B10 工具输入缓冲与冲刷」                                 | 四种换行/转义触发、4,096 阈值、flush 清缓冲、flushAll 顺序                                                                                                                   |
+| B11    | `model-request.test.ts` ·「B11 流结果体检…」                                        | contextExceeded 与 suspicious_empty 两 warn；有工具调用不判超限                                                                                                              |
+| B12    | `model-request.test.ts` ·「B12 模型句柄与上下文合并」                               | 选择缺失抛 ConfigurationError；runtime 层压过调用层；bind 递归包                                                                                                             |
+| B13    | `streaming.test.ts` ·「B13 取消快照持久化」（事件序列 · 持久化记录序）              | reasoning 块按序逐条 + text 收尾；空块跳过；time.start/end 口径                                                                                                              |
+| B14    | `streaming.test.ts` ·「B14 恢复预算与尝试记账」                                     | 10/2 上限、计数递增、maxRetries 取值                                                                                                                                         |
+| B15    | `streaming.test.ts` ·「B15 Start Plan busy 判定/退避/耗尽错误」                     | 3008/3009/3010、[1000,2000]、providerId 双值、耗尽错误全字段与默认 3010                                                                                                      |
+| B16    | `streaming.test.ts` ·「B16 恢复事件组与锚点」（事件序列）                           | 三事件进入序=完成序；anchor id 后缀与 previous-message-anchor 兜底；reason 串                                                                                                |
+| B17    | `streaming.test.ts` ·「B17 部分输出失败恢复」                                       | 短路两条件、丢弃标记记录、abort 监听移除、no_tool_committed                                                                                                                  |
+| B18    | `streaming.test.ts` ·「B18 流式工具准入…」                                          | 准入七条件逐个否决；UTF-8 字节记账；执行失败降级 warn                                                                                                                        |
+| B19    | `streaming.test.ts` ·「B19 取消与收尾交错」（事件序列 · 完成顺序交错）              | gate 握手：先启动后完成、drain 恒按调用表序、abandon 状态串与 250ms 上限常量                                                                                                 |
+| B20    | `streaming.test.ts` ·「B20 流中工具执行管线」（事件序列）                           | pending 分部→tool_call_closed→调度→tool_queued→running→tool_started 序                                                                                                       |
+| B21    | `streaming.test.ts` ·「B21 合成工具结果与错误事件」                                 | 两段固定文案、stream_recovery_interrupted_tool、ledgerRecorded:false                                                                                                         |
+| B22    | `streaming.test.ts` ·「B22 模型失败恢复编排」（事件序列）                           | 短路、合成结果等长同序（committedToolCallIds）、latest_committed_tool_result、step-finish reason:"tool-calls"（recoveredFromStreamFailure 直接观察面留 methods-02，见 KD-2） |
+| B23    | `events-usage.test.ts` ·「B23 事件管线与日志序列」（事件序列）                      | 四步管线序；生命周期 info/warn 序；汇总命中跳过 appended debug                                                                                                               |
+| B24    | `events-usage.test.ts` ·「B24 sink 通知…」                                          | 串行通知；单 sink 失败 warn 后继续                                                                                                                                           |
+| B25    | `events-usage.test.ts` ·「B25 会话持久化」（事件序列 · 日志序列）                   | 五 phase 顺序、sessionPersisted 置位点、标题事件载荷、started/persisted/completed 序                                                                                         |
+| B26    | `events-usage.test.ts` ·「B26 持久化事件分派…」                                     | 八类事件分派；账本类失败 warn 吞掉、checkpoint/rewind 冒泡；promoted no-op                                                                                                   |
+| B27    | `events-usage.test.ts` ·「B27 汇总节流…」                                           | 四类汇总、键 `<turnId                                                                                                                                                        | session>:<type>`、100 计数阈值、payloadKinds `<missing>` |
+| B28    | `events-usage.test.ts` ·「B28 模型用量事实」+「B28 流事件→用量/账本金样往返」       | id/两处 logical 兜底分隔符、token 映射（cacheWrite→cacheCreation）、retryCount、金样往返                                                                                     |
+| B29    | `events-usage.test.ts` ·「B29 回合用量事实」                                        | 请求/工具/错误去重计数、firstModelStartAt、汇总 token 口径                                                                                                                   |
+| B30    | `events-usage.test.ts` ·「B30 工具用量事实」                                        | 九类事件→upsert 形状、cancel 判定、usageCount 归一、unknown 兜底                                                                                                             |
+| B31    | `events-usage.test.ts` ·「B31 用量投影纯函数」                                      | firstModelTokenAt delta.length>0、usageErrorInfo 四分支、usageCount 截断                                                                                                     |
+| 接口面 | `surface.test.ts` 全部用例                                                          | 49 导出逐名比对、21 模块路径存在、两入口一致、范围清单 21 文件                                                                                                               |
 
 ## 门槛口径
 
