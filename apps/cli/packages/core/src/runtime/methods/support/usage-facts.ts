@@ -134,12 +134,14 @@ const usagePortOf = (runtime: AgentRuntimeInternal): UsageStorePort | undefined 
   return gateSatisfied(candidate) ? (candidate as UsageStorePort) : undefined;
 };
 
-/** 逻辑身份先冻结再取来源（两处兜底分隔符：`_` 与 `:`）。 */
+/** 逻辑身份先冻结再取来源（两处兜底分隔符：`_` 与 `:`）。
+ *  读取顺序即契约：assistantMessageId → spanId → 兜底串，先于其它入参读取（identity-freeze）。 */
 const modelFactId = (input: ModelUsageFactInput): string => {
-  const fallbackLogical = `${input.querySource}_${input.startedAt}`;
-  const logical = input.assistantMessageId ?? input.traceContext.spanId ?? fallbackLogical;
-  const attempt = input.attemptIndex ?? 0;
-  return `usage_model_${input.querySource}_${logical}_${attempt}`;
+  const logical =
+    input.assistantMessageId ??
+    input.traceContext.spanId ??
+    `${input.querySource}_${input.startedAt}`;
+  return `usage_model_${input.querySource}_${logical}_${input.attemptIndex ?? 0}`;
 };
 
 /** 模型事实写入（失败只 warn 吞掉）。 */

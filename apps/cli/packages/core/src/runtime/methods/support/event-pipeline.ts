@@ -103,14 +103,11 @@ export async function appendPipelineEvent(
     phase = PHASE_USAGE;
     await recordToolUsageFromEvent(runtime, storedEvent, traceContext);
     phase = PHASE_SINKS;
-    await notifySessionEventSinks({
-      sinks: ports.eventSinks,
-      event: storedEvent,
+    // 走运行时方法（保持方法分派语义：装配层可覆写/打桩）。
+    await (runtime.notifyEventSinks as (e: SessionEvent, t: TraceContext) => Promise<void>)(
+      storedEvent,
       traceContext,
-      warn: (message, fields) => {
-        log?.warn(message, fields);
-      },
-    });
+    );
     if (lifecycle) {
       log?.info(PIPELINE_LOG_TEXT.completed, {
         ...traceContextToLogContext(traceContext),

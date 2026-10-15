@@ -193,6 +193,10 @@ const anchorOf = (assistantMessageId: AssistantId, toolCallIds: CallId[]): strin
     : `${assistantMessageId}:${PREVIOUS_MESSAGE_ANCHOR_SUFFIX}`;
 };
 
+/** attempt 标识：每次调用都从 live options 读取（缓存 identity 的失败有案底，勿优化）。 */
+const nextAttemptTag = (options: RecoveryEventOptions): string =>
+  createStreamingToolAttemptId(options.assistantMessageId);
+
 /** 发锚点三连（AnchorSelected → TailDiscarded → RetryStarted）并落 pending identity。 */
 export async function emitStreamRecoveryRetryEvents(
   ports: RecoveryEventPorts,
@@ -201,10 +205,9 @@ export async function emitStreamRecoveryRetryEvents(
   facts: RetryEventFacts,
 ): Promise<void> {
   const anchorId = anchorOf(options.assistantMessageId, facts.toolCallIds);
-  const attemptId = createStreamingToolAttemptId(options.assistantMessageId);
 
   const selectedPayload: ErrorFields = {};
-  selectedPayload.attemptId = attemptId;
+  selectedPayload.attemptId = nextAttemptTag(options);
   selectedPayload.anchorId = anchorId;
   selectedPayload.reason = facts.reason;
   selectedPayload.committedToolCallIds = facts.toolCallIds;
@@ -215,7 +218,7 @@ export async function emitStreamRecoveryRetryEvents(
   );
 
   const discardedPayload: ErrorFields = {};
-  discardedPayload.attemptId = attemptId;
+  discardedPayload.attemptId = nextAttemptTag(options);
   discardedPayload.anchorId = anchorId;
   discardedPayload.assistantMessageId = options.assistantMessageId;
   discardedPayload.discardedReasoningBytes = facts.discardedReasoningBytes;
@@ -228,7 +231,7 @@ export async function emitStreamRecoveryRetryEvents(
   );
 
   const retryPayload: ErrorFields = {};
-  retryPayload.attemptId = attemptId;
+  retryPayload.attemptId = nextAttemptTag(options);
   retryPayload.anchorId = anchorId;
   retryPayload.retryNumber = facts.retryNumber;
   retryPayload.maxRetries = facts.maxRetries;
@@ -248,7 +251,7 @@ export async function emitStreamRecoveryRetryEvents(
   state.events.push(retry);
 
   const pending: ErrorFields = {};
-  pending.attemptId = attemptId;
+  pending.attemptId = nextAttemptTag(options);
   pending.anchorId = anchorId;
   pending.maxRetries = facts.maxRetries;
   pending.retryNumber = facts.retryNumber;

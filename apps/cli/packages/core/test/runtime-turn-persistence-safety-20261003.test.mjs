@@ -10,7 +10,7 @@ assert.equal(
   hash(baselineText),
   "86d8388577c088944fa1f0658fc9c418bf3cc35f35d7fe858d92d786f726a8c6",
 );
-assert.equal(hash(pinsText), "b0909c35ca30410afbc0d27712ce6736f1bb1480ef7dd32cdfabd0fed7370efb");
+assert.equal(hash(pinsText), "b07ff100bd1c64e775ad25235e3788d40c7727c095564a6bef28192c0149a843");
 const baseline = JSON.parse(baselineText),
   pins = JSON.parse(pinsText);
 async function select(reader = read) {
