@@ -14,37 +14,37 @@
 
 普通模式（support 内核 29 件；containment < 0.20、run < 8、structural < 0.40）：
 
-| 簇 | 文件 | containment | run | structural |
-| --- | --- | --- | --- | --- |
-| C1 | support/session-type-table.ts | 0.115 | 1 | 0.000 |
-| C1 | support/token-budget.ts | 0.076 | 1 | <0.40 |
-| C1 | support/reasoning-blocks.ts | 0.192 | 3 | 0.091 |
-| C1 | support/stream-event-record.ts | 0.136 | 4 | 0.000 |
-| C1 | support/usage-projection.ts | 0.141 | 1 | 0.019 |
-| C2 | support/write-queue.ts | 0.073 | <8 | <0.40 |
-| C2 | support/tool-input-buffers.ts | 0.030 | <8 | <0.40 |
-| C2 | support/stream-inspection.ts | 0.095 | 2 | <0.40 |
-| C2 | support/header-refresh.ts | 0.143 | <8 | <0.40 |
-| C2 | support/status-log-table.ts | 0.186 | 1 | 0.036 |
-| C3 | support/cancel-snapshot.ts | 0.058 | <8 | <0.40 |
-| C3 | support/recovery-plan.ts | <0.20 | <8 | <0.40 |
-| C3 | support/recovery-emit.ts | 0.162 | <8 | <0.40 |
-| C3 | support/recovery-orchestration.ts | <0.20 | <8 | <0.40 |
-| C3 | support/synthetic-results.ts | 0.043 | <8 | <0.40 |
-| C4 | support/admission-table.ts | 0.080 | <8 | <0.40 |
-| C4 | support/during-stream-run.ts | 0.068 | <8 | <0.40 |
-| C4 | support/collect-results.ts | 0.191 | <8 | <0.40 |
-| C4 | support/recover-step.ts | 0.184 | <8 | <0.40 |
-| C4 | support/stream-tool-coordinator.ts | 0.111 | <8 | <0.40 |
-| C5 | support/event-pipeline.ts | 0.179 | <8 | <0.40 |
-| C5 | support/sink-notify.ts | 0.135 | <8 | <0.40 |
-| C5 | support/session-persist.ts | 0.159 | <8 | <0.40 |
-| C5 | support/durable-dispatch.ts | 0.135 | <8 | <0.40 |
-| C5 | support/append-summary.ts | 0.119 | <8 | <0.40 |
-| C6 | support/usage-facts.ts | 0.152 | <8 | <0.40 |
-| C6 | support/model-request-assembly.ts | 0.144 | <8 | <0.40 |
-| C6 | support/stream-consume.ts | <0.20 | <8 | <0.40 |
-| C6 | support/invocation-layer.ts | 0.038 | <8 | <0.40 |
+| 簇  | 文件                               | containment | run | structural |
+| --- | ---------------------------------- | ----------- | --- | ---------- |
+| C1  | support/session-type-table.ts      | 0.115       | 1   | 0.000      |
+| C1  | support/token-budget.ts            | 0.076       | 1   | <0.40      |
+| C1  | support/reasoning-blocks.ts        | 0.192       | 3   | 0.091      |
+| C1  | support/stream-event-record.ts     | 0.136       | 4   | 0.000      |
+| C1  | support/usage-projection.ts        | 0.141       | 1   | 0.019      |
+| C2  | support/write-queue.ts             | 0.073       | <8  | <0.40      |
+| C2  | support/tool-input-buffers.ts      | 0.030       | <8  | <0.40      |
+| C2  | support/stream-inspection.ts       | 0.095       | 2   | <0.40      |
+| C2  | support/header-refresh.ts          | 0.143       | <8  | <0.40      |
+| C2  | support/status-log-table.ts        | 0.186       | 1   | 0.036      |
+| C3  | support/cancel-snapshot.ts         | 0.058       | <8  | <0.40      |
+| C3  | support/recovery-plan.ts           | <0.20       | <8  | <0.40      |
+| C3  | support/recovery-emit.ts           | 0.162       | <8  | <0.40      |
+| C3  | support/recovery-orchestration.ts  | <0.20       | <8  | <0.40      |
+| C3  | support/synthetic-results.ts       | 0.043       | <8  | <0.40      |
+| C4  | support/admission-table.ts         | 0.080       | <8  | <0.40      |
+| C4  | support/during-stream-run.ts       | 0.068       | <8  | <0.40      |
+| C4  | support/collect-results.ts         | 0.191       | <8  | <0.40      |
+| C4  | support/recover-step.ts            | 0.184       | <8  | <0.40      |
+| C4  | support/stream-tool-coordinator.ts | 0.111       | <8  | <0.40      |
+| C5  | support/event-pipeline.ts          | 0.179       | <8  | <0.40      |
+| C5  | support/sink-notify.ts             | 0.135       | <8  | <0.40      |
+| C5  | support/session-persist.ts         | 0.159       | <8  | <0.40      |
+| C5  | support/durable-dispatch.ts        | 0.135       | <8  | <0.40      |
+| C5  | support/append-summary.ts          | 0.119       | <8  | <0.40      |
+| C6  | support/usage-facts.ts             | 0.152       | <8  | <0.40      |
+| C6  | support/model-request-assembly.ts  | 0.144       | <8  | <0.40      |
+| C6  | support/stream-consume.ts          | <0.20       | <8  | <0.40      |
+| C6  | support/invocation-layer.ts        | 0.038       | <8  | <0.40      |
 
 声明模式（21 个门面，`--declaration --interface`；残差含签名剔除后体行）：**21/21 containment 0.000**
 （逐文件计分 json：`.scratch-exec2/m01-c*-sim-{normal*,decl*}.json`，随 PR 自查评论贴尾部输出）。
@@ -52,14 +52,14 @@
 
 ## 3. 首败与修正（全部为「同形命中」家族，改写非放宽）
 
-| 簇 | 首轮 | 修正手法 |
-| --- | --- | --- |
-| C1 | token-budget 0.393/run13、stream-event-record 0.500、usage-projection 0.440/run15 | 类型别名压字段行、契约类型回门面、闭合行尾注解、常量表引用 |
-| C2 | write-queue 0.204、tool-input-buffers 0.307、status-log-table 0.271 | 属性式接口、赋值式返回、字符串集合单行化、逐字段注解破 run 8 |
-| C3 | 五核 0.23–0.65 | 长文案分段拼接保值、判定表驱动化、内联对象类型提具名接口 |
-| C4 | during-stream-run 0.757 等 | 端口解构 + 简写、单对象入参、status 常量、计数器封装 |
-| C5 | durable-dispatch 0.547、append-summary 0.392 | 事件事实解构（eventFacts）、载荷赋值式、同形 helper 改名换形 |
-| C6 | invocation-layer 0.520、stream-consume 0.223 | 解构简写、runInContext 别名导入、case 尾 continue 替 break |
+| 簇  | 首轮                                                                              | 修正手法                                                     |
+| --- | --------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| C1  | token-budget 0.393/run13、stream-event-record 0.500、usage-projection 0.440/run15 | 类型别名压字段行、契约类型回门面、闭合行尾注解、常量表引用   |
+| C2  | write-queue 0.204、tool-input-buffers 0.307、status-log-table 0.271               | 属性式接口、赋值式返回、字符串集合单行化、逐字段注解破 run 8 |
+| C3  | 五核 0.23–0.65                                                                    | 长文案分段拼接保值、判定表驱动化、内联对象类型提具名接口     |
+| C4  | during-stream-run 0.757 等                                                        | 端口解构 + 简写、单对象入参、status 常量、计数器封装         |
+| C5  | durable-dispatch 0.547、append-summary 0.392                                      | 事件事实解构（eventFacts）、载荷赋值式、同形 helper 改名换形 |
+| C6  | invocation-layer 0.520、stream-consume 0.223                                      | 解构简写、runInContext 别名导入、case 尾 continue 替 break   |
 
 ## 4. KD 保留说明（合同 v1 三条，行为面原样）
 
@@ -88,14 +88,14 @@
 
 ## 7. 门禁输出
 
-| 门 | 结果 |
-| --- | --- |
-| 契约 35 例 × 双入口 | 全绿（每簇收尾复测） |
-| 双门计分（normal + decl） | 59 文件全过（§2） |
-| typecheck / lint / fmt:check / architecture:check --changed | 全 0 |
-| `build:cli-packages`（`KNORVIA_CUA_DRIVER_ARCHIVE` 离线暂存） | 见 PR 自查评论 |
-| `test:studio` | 见 PR 自查评论 |
-| provenance report/check | `reviewProblems: 0`、`missingReviews: []` |
+| 门                                                            | 结果                                      |
+| ------------------------------------------------------------- | ----------------------------------------- |
+| 契约 35 例 × 双入口                                           | 全绿（每簇收尾复测）                      |
+| 双门计分（normal + decl）                                     | 59 文件全过（§2）                         |
+| typecheck / lint / fmt:check / architecture:check --changed   | 全 0                                      |
+| `build:cli-packages`（`KNORVIA_CUA_DRIVER_ARCHIVE` 离线暂存） | 见 PR 自查评论                            |
+| `test:studio`                                                 | 见 PR 自查评论                            |
+| provenance report/check                                       | `reviewProblems: 0`、`missingReviews: []` |
 
 ## 8. 红线自查
 
