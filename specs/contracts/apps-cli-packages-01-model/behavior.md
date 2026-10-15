@@ -264,3 +264,154 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 日志级别：不适用。
 - 语义常量：只认 `name === "AiSdkModelAdapterError"` 且带对象 `context` 的候选（先看错误本体，再看一层 `cause`，先命中先返回）；`reason` 取 `context.reason`（非字符串时 `"unknown"`）；`code` 取 `context.code`，缺省 `"model_request_failed"`；`retryable` 仅当 `context.retryable === true`；`providerCode` 取 `context.providerErrorCode`（字符串）；`retryAfterMs`（数字）换算 `resetAt = Date.now() + retryAfterMs`；`providerId`/`modelId` 取 context 同名字符串；`rawMessage` 取错误的 `message` 字符串。
 - （依据：workflow-model-failure-policy.ts 65-112 行）
+
+## 批次 C：错误体系、失败分类与业务码表（errors / failure-\*）
+
+### B19 错误对象体系与本地 provider 配置错误上下文
+
+- 输入：`AiSdkModelAdapterError` 的 `code`、`message`、可选 `cause`/`context`；`enrichContext` 的增量键值。
+- 输出：带稳定识别特征的错误对象；`createLocalProviderConfigurationErrorContext` 产出补齐后的上下文。
+- 错误语义：`name` 固定 `AiSdkModelAdapterError`（workflow 检视靠它识别）；`cause` 仅在显式提供时传给 `Error`（不制造 `cause: undefined` 可枚举差异）。
+- 时序与并发：不适用。
+- 幂等：`enrichContext` 只**补缺**——已有键不覆盖（first-wins）；无 `context` 时先建空对象并以可枚举属性补挂，再补键。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：错误对象自身。
+- 日志级别：不适用（错误向上冒泡，不在本层打日志）。
+- 语义常量：`ModelErrorSource` 三值 `network` / `provider` / `runtime`；本地 provider 配置错误上下文固定 `reason = ModelFailureReason.ProviderNotConfigured`、`retryable = false`、`source = "runtime"`，可带 `envKey`、`modelId`、`providerId`（`providerId` 必填）。
+- （依据：errors.ts 1-50 行）
+
+### B20 错误链检视工具（cause 链遍历与字段提取）
+
+- 输入：任意错误值（含 `cause` 链）。
+- 输出：状态码、响应体、错误数据、header、错误码等提取结果。
+- 错误语义：不抛错；遍历有环检测（同一对象不再访问）。
+- 时序与并发：不适用（纯函数）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：`Headers` 实例按标准 Web API 处理；其余按普通对象。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：遍历顺序沿 `cause` 一层层向下，访问过的对象跳过；状态码键候选 `statusCode` / `status` / `responseStatus`；HTTP 响应状态取 `response.status`；响应体取 `responseBody`，其次 `response.body`；错误数据取 `data`，其次 `errorData`；header 归一：`Headers` 实例转条目表，普通对象只收字符串值条目，**空表按无 header 处理**；响应 header 取 `responseHeaders`，其次 `response.headers`；错误码取字符串 `code`；`unwrapRetryError`：`name` 为 `RetryError` 或 `AI_RetryError` 时取 `errors` 数组最后一个，否则 `lastError` → `cause` → 本体；取消判定（`isAbortFailure`）：信号已取消，或 `name === "AbortError"`，或 `code` 为 `ABORT_ERR` / `ERR_ABORTED`；超时判定（`isTimeoutFailure`）：状态 408/504，或错误码匹配 `TIMEOUT|TIMEDOUT|ETIMEDOUT`（大小写不敏感），或 `Error.message` 匹配 `timed?\s*out`；上下文超限判定：消息（含 cause 链上的消息）匹配 `context.{0,20}(length|window|limit|exceed)|too many tokens|maximum context`；代理判定：错误码匹配 `PROXY|ERR_PROXY`；网络判定：错误码匹配 `^(ECONN|EPIPE|ENET|EHOST|EAI_|UND_ERR|CONNECTIONCLOSED|ERR_NETWORK)`（大小写不敏感）；provider 标记可重试：cause 链上 `isRetryable` 或 `retryable` 布尔为真。
+- （依据：failure-inspection.ts 1-126 行）
+
+### B21 Retry-After 响应头解析（语义常量条目）
+
+- 输入：响应 header 表（可缺省，键大小写任意）。
+- 输出：毫秒数或 `undefined`。
+- 错误语义：不抛错；解析失败返回 `undefined`。
+- 时序与并发：绝对时刻分支相对当前时间换算。
+- 幂等：同一 header 表在不同时刻解析，日期分支结果不同（相对剩余时间）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：键按小写归一；`x-should-retry` 为 `false` 或 `0`（大小写不敏感）→ 直接 `undefined`；`retry-after-ms` 为有限数 → `max(0, 毫秒)`；`retry-after` 为有限数 → 按**秒**换算 `max(0, 秒 × 1000)`；否则按日期解析 `max(0, Date.parse(值) - Date.now())`；非有限值一律 `undefined`。
+- （依据：failure-inspection.ts 112-126 行）
+
+### B22 provider 业务码映射表（语义常量条目，逐码锁定）
+
+- 输入：provider 业务码（字符串）。
+- 输出：`{ code, reason, retryReason, retryable, message? }` 映射或 `undefined`。
+- 错误语义：不适用（纯查表）。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：模块级只读表（初始化即冻结语义，不含运行期可变状态）。
+- 日志级别：不适用。
+- 语义常量：**整表逐字锁定**（码 → code / reason / retryReason / retryable）：
+
+| 业务码                                                                                                                                                                                                                                                                                                              | code                      | reason                | retryReason           | retryable |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------- | --------------------- | --------- |
+| `500`、`1120`、`1230`、`2007`                                                                                                                                                                                                                                                                                       | `model_request_failed`    | `server_error`        | `server_error`        | true      |
+| `1234`                                                                                                                                                                                                                                                                                                              | `model_request_failed`    | `network_error`       | `network_error`       | true      |
+| `1312`、`engine_overloaded_error`、`overloaded_error`                                                                                                                                                                                                                                                               | `model_request_failed`    | `provider_overloaded` | `provider_overloaded` | true      |
+| `1302`、`1303`、`1305`、`3002`、`rate_limit_reached_error`、`rate_limit_error`                                                                                                                                                                                                                                      | `model_rate_limited`      | `rate_limited`        | `rate_limited`        | true      |
+| `3008`、`3009`、`3010`、`1304`、`1308`、`1310`、`1313`、`insufficient_quota`、`credit_balance_exhausted`、`organization_spend_limit_exceeded`、`project_spend_limit_exceeded`、`organization_usage_limit_exceeded`、`exceeded_current_quota_error`、`2056`、`20097`、`1316`、`1317`、`1318`、`1319`、`1320`、`1321` | `model_rate_limited`      | `rate_limited`        | `rate_limited`        | false     |
+| `1006`                                                                                                                                                                                                                                                                                                              | `provider_not_configured` | `auth_failed`         | `auth_refresh`        | false     |
+| `3007`                                                                                                                                                                                                                                                                                                              | `invalid_model_request`   | `auth_failed`         | `auth_refresh`        | false     |
+| `3006`                                                                                                                                                                                                                                                                                                              | `model_not_found`         | `invalid_request`     | `network_error`       | false     |
+| `3001`                                                                                                                                                                                                                                                                                                              | `invalid_model_request`   | `invalid_request`     | `network_error`       | false     |
+| `1261`                                                                                                                                                                                                                                                                                                              | `model_context_exceeded`  | `context_exceeded`    | `network_error`       | false     |
+| `1005`                                                                                                                                                                                                                                                                                                              | `model_request_failed`    | `invalid_request`     | `network_error`       | false     |
+| `1113`、`1309`、`1311`、`1008`、`1314`、`1315`                                                                                                                                                                                                                                                                      | `model_request_failed`    | `unknown`             | `network_error`       | false     |
+
+- （依据：failure-provider-business-codes.ts 9-121 行）
+
+### B23 业务错误的网络/超时可重试判定
+
+- 输入：`ProviderBusinessError`、其业务码（可缺省）、HTTP 状态码（可缺省）。
+- 输出：布尔。
+- 错误语义：不适用。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：**业务码命中映射表即不可重试**（表优先于文案判定）；网络类：消息（`providerMessage` + `message` 拼接）匹配 `internal network|connection reset|socket hang up`（大小写不敏感）→ 可重试；超时类：HTTP `408`/`504` 或消息匹配 `timed?\s*out` → 可重试。
+- （依据：failure-provider-business-codes.ts 122-141 行）
+
+### B24 AI SDK 错误到业务错误的兜底映射
+
+- 输入：AI SDK 抛出的任意错误（含 cause 链）。
+- 输出：`ProviderBusinessError` 或 `undefined`。
+- 错误语义：不抛错。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：提取顺序 `data` / `errorData` 优先于 `responseBody` / `response.body`，两者都走 B5 的体解析；映射出的错误 `providerId` 固定 `"unknown"`、`providerKind` 固定 `"openai-compatible"`；`providerCode` 强制字符串化；`statusCode` 取体内的 `status`，缺省用 cause 链上的 HTTP 状态。
+- （依据：failure-ai-sdk-provider-error.ts 1-26 行）
+
+### B25 业务错误定位与 provider 细节提取
+
+- 输入：任意错误值。
+- 输出：`findProviderBusinessError` 给出业务错误对象；`inspectProviderFailure` 给出 `{ providerErrorCode, providerErrorMessage, providerRequestId }` 或空对象。
+- 错误语义：不抛错；找不到返回 `undefined` / 空对象。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：查找沿 `cause` 与 `error` 两个引用位深度优先（带 WeakSet 环守卫，先 `cause` 后 `error`）；识别兼容 duck typing（`isProviderBusinessError === true`）；业务码解析顺序：`providerCode` 字段 → `responseBodySummary` 顶层/`error` 子对象的 `providerCode` / `error_code` / `code` → 消息里 `[dddd]` 前缀正则 `^\[(\d{4})\](?=\[)`（先 `providerMessage` 后 `message`）。
+- （依据：failure-classifier.ts 46-88 行）
+
+### B26 失败分类裁决表（classifyModelFailure，语义常量条目）
+
+- 输入：任意错误、可选 `AbortSignal`。
+- 输出：`ClassifiedModelFailure`（`code`、`message`、`reason`、`retryReason`、`retryable`、可选 `retryAfterMs`、`statusCode`）。
+- 错误语义：不抛错；`message` 取 `Error.message`，非 Error 用 `String(error)`，空值用 `"Model request failed"`。
+- 时序与并发：不适用（纯判定）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 的失败裁决。
+- 日志级别：不适用。
+- 语义常量：**裁决顺序逐条锁定**（先命中先返回；`statusCode` 与 `retryAfterMs`（来自 B21）随结果透出）：
+
+| #   | 条件                                              | code                      | reason                | retryReason           | retryable                                                            |
+| --- | ------------------------------------------------- | ------------------------- | --------------------- | --------------------- | -------------------------------------------------------------------- |
+| 1   | 取消（B20）                                       | `model_request_cancelled` | `cancelled`           | `network_error`       | false                                                                |
+| 2   | 流空闲超时错误（`isModelStreamIdleTimeoutError`） | `model_request_timeout`   | `stream_idle_timeout` | `stream_idle_timeout` | true                                                                 |
+| 3a  | 业务错误且业务码命中 B22 表                       | 表值                      | 表值                  | 表值                  | 表值（消息取 `providerMessage` 优先，状态取业务错误的 `statusCode`） |
+| 3b  | 业务错误且 B23 超时判定为真                       | `model_request_timeout`   | `timeout`             | `timeout`             | true                                                                 |
+| 3c  | 业务错误且 B23 网络判定为真                       | `model_request_failed`    | `network_error`       | `network_error`       | true                                                                 |
+| 4   | 超时（B20）                                       | `model_request_timeout`   | `timeout`             | `timeout`             | true                                                                 |
+| 5   | HTTP 429                                          | `model_rate_limited`      | `rate_limited`        | `rate_limited`        | true                                                                 |
+| 6   | HTTP 529                                          | `model_request_failed`    | `provider_overloaded` | `provider_overloaded` | true                                                                 |
+| 7   | HTTP 401 / 403                                    | `provider_not_configured` | `auth_failed`         | `auth_refresh`        | false                                                                |
+| 8   | 上下文超限（B20）                                 | `model_context_exceeded`  | `context_exceeded`    | `network_error`       | false                                                                |
+| 9   | HTTP 400 / 422                                    | `invalid_model_request`   | `invalid_request`     | `network_error`       | false                                                                |
+| 10  | HTTP ≥ 500                                        | `model_request_failed`    | `server_error`        | `server_error`        | true                                                                 |
+| 11  | TLS 失败（`isTlsFailure(code)`）                  | `model_request_failed`    | `tls_error`           | `network_error`       | true                                                                 |
+| 12  | 代理失败（B20）                                   | `model_request_failed`    | `proxy_error`         | `network_error`       | true                                                                 |
+| 13  | 网络失败（B20）                                   | `model_request_failed`    | `network_error`       | `network_error`       | true                                                                 |
+| 14  | 其余                                              | `model_request_failed`    | `unknown`             | `network_error`       | `isProviderMarkedRetryable`                                          |
+
+- 另：`isRetryableFailure(failure)` 直接返回 `failure.retryable`。
+- （依据：failure-classifier.ts 89-224 行）
