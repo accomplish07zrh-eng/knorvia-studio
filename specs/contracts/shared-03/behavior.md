@@ -415,7 +415,8 @@
 - `getWorkspaceFileSearchCandidateScore`：name/relativePath/path 三路打分（归一版同规则）；
   keyword = min(relative+300, path+300)；总分 = min(name, relative+25, keyword)；全 null → null。
 - `filterWorkspaceFileSearchCandidates(candidates, query, options)`：
-  query trim 空 → `requireQuery ? [] :` 默认列表（**目录优先** stable 排序后按 limit 截断）；
+  query trim 空 → `requireQuery ? [] :` 默认列表（**文件优先、目录在后**：priority 文件 0/目录 1 升序、
+  同优先级保输入序，再按 limit 截断）；
   否则逐条打分，维护**长度 ≤ limit（缺省 1000）的有序 bestMatches**（比较序：score 升序 → 输入 index 升序
   → `name.localeCompare`），满员时与末位比可短路跳过，插入后超长弹尾。
 - 平台差异：localeCompare 排序受运行环境 locale（测试以行为断言为准）；纯函数；无状态；无日志。
@@ -460,7 +461,7 @@
 
 ### B33 工具身份（`tool-identity.ts`）
 
-- `KNORVIA_KNOWN_TOOL_NAMES`：**32 项、此序、逐字冻结**（含 `web_search` 小写双形、`mcp__node_repl__*`
+- `KNORVIA_KNOWN_TOOL_NAMES`：**31 项、此序、逐字冻结**（含 `web_search` 小写双形、`mcp__node_repl__*`
   三前缀形、`AmendWorkflow`、`submit_result`——下划线必须字面在场，否则 UI identity 退回 unknown、
   动态工作流 actor 提交落 raw fallback）。
 - `KnorviaToolFamily` 14 值；`TOOL_FAMILY_BY_NAME` 全映射（Write/Edit/ApplyPatch→file-write；Bash→shell；
