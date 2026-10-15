@@ -154,13 +154,7 @@
       "stream_mirror_gap",
       "stream_mirror_owner_lost"
     ],
-    "deliveryPurposes": [
-      "observer",
-      "relay_owner"
-    ],
-    "hostDeliveryKinds": [
-      "desktop_window",
-      "relay_bridge"
-    ]
+    "deliveryPurposes": ["observer", "relay_owner"],
+    "hostDeliveryKinds": ["desktop_window", "relay_bridge"]
   }
 }

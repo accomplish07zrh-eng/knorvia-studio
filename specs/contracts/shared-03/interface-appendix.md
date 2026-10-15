@@ -97,7 +97,7 @@
 
 - 运行时（8）：`CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT`、`CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT`、`buildConversationPreviewArtifactCandidates`、`buildConversationPreviewArtifactCandidatesFromReferences`、`conversationArtifactTypeSchema`、`extractConversationPreviewFileReferences`、`getConversationPreviewFileType`、`resolveConversationPreviewPath`
 - 纯类型（5）：`ConversationPreviewArtifactCandidate`、`ConversationPreviewArtifactType`、`ConversationPreviewFileChange`、`ConversationPreviewFileKind`、`ConversationPreviewFileReference`
-- 具名再导出（1）：`conversationArtifactTypeSchema` ← 
+- 具名再导出（1）：`conversationArtifactTypeSchema` ←
 - 星再导出：无
 
 ## packages/shared/src/conversation-share.ts
@@ -239,4 +239,3 @@
 - 纯类型（0）：无
 - 具名再导出：无
 - 星再导出：无
-

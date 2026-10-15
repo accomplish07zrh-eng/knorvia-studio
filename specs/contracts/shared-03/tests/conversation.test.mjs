@@ -39,7 +39,11 @@ test("B21 呈现组装：root 判定、去重、latestPart 取消语义", () => 
       { toolId: "t1", kind: "Bash", input: {}, status: "done" },
     ],
   });
-  assert.deepEqual(built.messageParts.map((p) => p.type), ["thought", "tool-call", "tool-call", "content"], "messageParts 保留重复 root 条目，blocks 才去重");
+  assert.deepEqual(
+    built.messageParts.map((p) => p.type),
+    ["thought", "tool-call", "tool-call", "content"],
+    "messageParts 保留重复 root 条目，blocks 才去重",
+  );
   const toolBlocks = built.blocks.filter((b) => b.type === "tool-call");
   assert.equal(toolBlocks.length, 1, "只渲染 root 且首见");
   assert.equal(built.latestPart?.content, "hello");
@@ -59,7 +63,9 @@ test("B22 投影策略判定序（抽样七路）", () => {
     "providerContextOnly",
   );
   assert.equal(
-    policy.getConversationMessageProjectionPolicy(msg({ role: "user", source: "subagent" }, undefined)),
+    policy.getConversationMessageProjectionPolicy(
+      msg({ role: "user", source: "subagent" }, undefined),
+    ),
     "providerContextOnly",
   );
   assert.equal(
@@ -93,7 +99,7 @@ test("B23 预览常量与引用抽取", () => {
   assert.equal(preview.CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT, 15);
   assert.equal(preview.CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT, 10);
   const refs = preview.extractConversationPreviewFileReferences(
-    '看到 `docs/a.md` 与 [link](docs/b.pdf) 和 file:///ws/docs/c.xlsx',
+    "看到 `docs/a.md` 与 [link](docs/b.pdf) 和 file:///ws/docs/c.xlsx",
     "/ws",
   );
   const paths = refs.map((r) => r.path);
@@ -130,6 +136,9 @@ test("B25/B26 分享金样：pathname/localize/decode/narrow/envelope/version", 
   // 信封：成功 msg 非 literal、错误 code 不设枚举
   assert.equal(golden.envelopeSuccessOk, true);
   assert.equal(golden.envelopeErrorOk, true);
-  const error = share.conversationShareErrorEnvelopeSchema.safeParse({ code: 9999, msg: "future code" });
+  const error = share.conversationShareErrorEnvelopeSchema.safeParse({
+    code: 9999,
+    msg: "future code",
+  });
   assert.equal(error.success, true);
 });

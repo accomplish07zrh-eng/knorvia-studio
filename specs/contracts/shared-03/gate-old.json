@@ -1,0 +1,52 @@
+{
+  "contract": "shared-03",
+  "commit": "d70488ecefb7be99a09df06e055e79c8b9e87890",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-15T13:45:55.310Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/shared-03/tests/background-task.test.mjs",
+    "specs/contracts/shared-03/tests/conversation.test.mjs",
+    "specs/contracts/shared-03/tests/process-subagent.test.mjs",
+    "specs/contracts/shared-03/tests/surface.test.mjs",
+    "specs/contracts/shared-03/tests/task-realtime.test.mjs",
+    "specs/contracts/shared-03/tests/tool-execution.test.mjs",
+    "specs/contracts/shared-03/tests/workspace-file.test.mjs",
+    "specs/contracts/shared-03/tests/workspace-hook.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 47,
+      "pass": 47,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B1 schema 形态：strict/宽容边界（金样 parseCases） (6.1188ms)\n✔ B4 限额解析（金样 timeoutCases） (0.2657ms)\n✔ B5 配置态门（金样 gateCases） (0.3096ms)\n✔ B7/B8 条目解析与 bundle 摘要逐字节（金样） (1.9758ms)\n✔ B10 trust store：fail-closed 与唯一键（金样 trustCases） (2.9314ms)\n✔ B9 review 单调性六 verdict（金样 reviewCases） (0.2692ms)\nℹ tests 47\nℹ suites 0\nℹ pass 47\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26799.3755"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 47,
+      "pass": 47,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B1 schema 形态：strict/宽容边界（金样 parseCases） (6.2408ms)\n✔ B4 限额解析（金样 timeoutCases） (0.2897ms)\n✔ B5 配置态门（金样 gateCases） (0.3201ms)\n✔ B7/B8 条目解析与 bundle 摘要逐字节（金样） (2.1568ms)\n✔ B10 trust store：fail-closed 与唯一键（金样 trustCases） (3.3923ms)\n✔ B9 review 单调性六 verdict（金样 reviewCases） (0.2909ms)\nℹ tests 47\nℹ suites 0\nℹ pass 47\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16148.1163",
+      "environment": {
+        "KNORVIA_SHARED_03_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 34,
+    "tests": 8,
+    "pass": 0,
+    "fail": 8,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-03\\tests\\task-realtime.test.mjs (2897.3284ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-03\\tests\\tool-execution.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-03\\tests\\tool-execution.test.mjs (3270.7019ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-03\\tests\\workspace-file.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-03\\tests\\workspace-file.test.mjs (2948.2502ms)\n  'test failed'\n\ntest at specs\\contracts\\shared-03\\tests\\workspace-hook.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-4-s02\\specs\\contracts\\shared-03\\tests\\workspace-hook.test.mjs (2875.4521ms)\n  'test failed'"
+  },
+  "pass": true
+}

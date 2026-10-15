@@ -61,7 +61,10 @@ test("B28 过滤：requireQuery 与 limit 有序池", () => {
     { name: "dir", path: "/ws/dir", relativePath: "dir", type: "directory" },
   ]);
   assert.equal(candidates[0].lowercaseRelativePath, "a.ts");
-  assert.deepEqual(search.filterWorkspaceFileSearchCandidates(candidates, "  ", { requireQuery: true }), []);
+  assert.deepEqual(
+    search.filterWorkspaceFileSearchCandidates(candidates, "  ", { requireQuery: true }),
+    [],
+  );
   const all = search.filterWorkspaceFileSearchCandidates(candidates, "");
   assert.equal(all.length, 3);
   assert.equal(all[0].type, "file", "空 query 列表文件优先、目录在后");
@@ -75,7 +78,11 @@ test("B28 过滤：requireQuery 与 limit 有序池", () => {
 test("B29 启动索引：本地优先与回绕", () => {
   const sessions = [{ kind: "remote" }, { kind: "local" }, { kind: "local" }, { kind: "remote" }];
   assert.equal(restore.resolveStartupLocalWorkspaceSessionIndex([], 0), null);
-  assert.equal(restore.resolveStartupLocalWorkspaceSessionIndex(sessions, 3), 1, "回绕后从 0 起首个本地项");
+  assert.equal(
+    restore.resolveStartupLocalWorkspaceSessionIndex(sessions, 3),
+    1,
+    "回绕后从 0 起首个本地项",
+  );
   assert.equal(restore.resolveStartupLocalWorkspaceSessionIndex(sessions, 0), 1);
   const remoteOnly = [{ kind: "remote" }, { kind: "remote" }];
   assert.equal(restore.resolveStartupLocalWorkspaceSessionIndex(remoteOnly, 1), null);

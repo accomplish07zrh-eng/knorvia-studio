@@ -9,12 +9,12 @@
 
 `packages/shared/package.json` 的 `exports` 映射是正式入口面；34 件按入口分四类：
 
-| 入口类 | 文件 | 说明 |
-| --- | --- | --- |
-| 根 barrel `@knorvia/shared` | 22 件 | `index.ts` `export *` / 具名再导出可达 |
+| 入口类                       | 文件                                                                                                                                                                                                                             | 说明                                                                                                                               |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 根 barrel `@knorvia/shared`  | 22 件                                                                                                                                                                                                                            | `index.ts` `export *` / 具名再导出可达                                                                                             |
 | 子路径 `@knorvia/shared/<x>` | `runtime-tool-runtime`、`process-diagnostic`、`workspaceFileSearch`、`workspaceFileEntriesCodec`、`workspace-hook-discovery`、`workspace-hook-mutation`、`workspace-hook-review-monotonicity`、`workspace-hook-trust-store-file` | `exports` 映射直接给出；其中 `workspace-hook-discovery` 星再导出 config+digest → **workspace-hook-config/digest 的公开面即此入口** |
-| 协议桶再导出 | `background-bash-output`、`execution-output-preview` | 经 `@knorvia/shared/protocol`、`/protocol-v4` 两桶 `export *` 可达（wire 契约面） |
-| 无独立入口（模块路径兼容面） | `subagent-state-migration` | 仅 `packages/shared/src/node/**` 内部消费；路径与导出面仍按 B51 守 |
+| 协议桶再导出                 | `background-bash-output`、`execution-output-preview`                                                                                                                                                                             | 经 `@knorvia/shared/protocol`、`/protocol-v4` 两桶 `export *` 可达（wire 契约面）                                                  |
+| 无独立入口（模块路径兼容面） | `subagent-state-migration`                                                                                                                                                                                                       | 仅 `packages/shared/src/node/**` 内部消费；路径与导出面仍按 B51 守                                                                 |
 
 **注意（实测修正）**：`packages/ui`、`packages/services` 下存在同名 `workspaceFileSearch.ts` shim
 （`export * from "@knorvia/shared/workspaceFileSearch"` 等）——真实消费经子路径入口，不是相对直引。
@@ -24,14 +24,14 @@
 `packages/shared/src/<相对路径>.ts` 与 `dist/<相对路径>.js` 两侧替换后必须仍然存在
 （B 条目口径同 shared-02 B51；内部怎么拆由替换 Agent 定，路径上的导出面必须保持）。
 
-| 组 | 文件 |
-| --- | --- |
-| workspace-hook | `workspace-hook-config.ts`、`workspace-hook-digest.ts`、`workspace-hook-discovery.ts`、`workspace-hook-mutation.ts`、`workspace-hook-review-monotonicity.ts`、`workspace-hook-trust-store-file.ts` |
-| background-task | `background-task-controls.ts`、`background-task-notifications.ts`、`background-task-control-merge.ts`、`background-bash-jobs.ts`、`background-bash-output.ts`、`bash-output-display.ts` |
-| conversation/assistant | `conversation-message-projection-policy.ts`、`conversation-preview-artifacts.ts`、`conversation-share.ts`、`assistant-message-parts.ts`、`assistant-presentation.ts` |
-| workspaceFile | `workspaceFileEntriesCodec.ts`、`workspaceFileSearch.ts`、`workspaceSessionRestore.ts` |
-| tool/execution | `tool-call-summary.ts`、`tool-identity.ts`、`tool-plan-adapter.ts`、`streaming-tool-input-preview.ts`、`execution-output-preview.ts`、`execution-state.ts`、`permission-request-preview.ts`、`runtime-tool-runtime.ts` |
-| process/subagent/task-realtime-core | `process-diagnostic.ts`、`process-names.ts`、`processResourceTelemetry.ts`、`subagent-markdown-selection.ts`、`subagent-state-migration.ts`、`task-realtime-core.ts` |
+| 组                                  | 文件                                                                                                                                                                                                                   |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| workspace-hook                      | `workspace-hook-config.ts`、`workspace-hook-digest.ts`、`workspace-hook-discovery.ts`、`workspace-hook-mutation.ts`、`workspace-hook-review-monotonicity.ts`、`workspace-hook-trust-store-file.ts`                     |
+| background-task                     | `background-task-controls.ts`、`background-task-notifications.ts`、`background-task-control-merge.ts`、`background-bash-jobs.ts`、`background-bash-output.ts`、`bash-output-display.ts`                                |
+| conversation/assistant              | `conversation-message-projection-policy.ts`、`conversation-preview-artifacts.ts`、`conversation-share.ts`、`assistant-message-parts.ts`、`assistant-presentation.ts`                                                   |
+| workspaceFile                       | `workspaceFileEntriesCodec.ts`、`workspaceFileSearch.ts`、`workspaceSessionRestore.ts`                                                                                                                                 |
+| tool/execution                      | `tool-call-summary.ts`、`tool-identity.ts`、`tool-plan-adapter.ts`、`streaming-tool-input-preview.ts`、`execution-output-preview.ts`、`execution-state.ts`、`permission-request-preview.ts`、`runtime-tool-runtime.ts` |
+| process/subagent/task-realtime-core | `process-diagnostic.ts`、`process-names.ts`、`processResourceTelemetry.ts`、`subagent-markdown-selection.ts`、`subagent-state-migration.ts`、`task-realtime-core.ts`                                                   |
 
 ## 3. 导出面规则
 

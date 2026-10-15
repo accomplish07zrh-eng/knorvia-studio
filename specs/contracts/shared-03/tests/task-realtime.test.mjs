@@ -23,8 +23,14 @@ test("B42 口径①：workspaceKey = identity.trim() || path", () => {
 test("B42 口径⑦：reason 14 项与 delivered extend 面（金样 constants）", () => {
   assert.deepEqual([...core.taskRealtimeReasonSchema.options], golden.constants.reasons);
   assert.equal(golden.constants.reasons.length, 14);
-  assert.deepEqual([...core.taskRealtimeDeliveryPurposeSchema.options], ["observer", "relay_owner"]);
-  assert.deepEqual([...core.taskRealtimeHostDeliveryKindSchema.options], ["desktop_window", "relay_bridge"]);
+  assert.deepEqual(
+    [...core.taskRealtimeDeliveryPurposeSchema.options],
+    ["observer", "relay_owner"],
+  );
+  assert.deepEqual(
+    [...core.taskRealtimeHostDeliveryKindSchema.options],
+    ["desktop_window", "relay_bridge"],
+  );
 });
 
 test("B42/B43 口径②③：gate 握手金样逐条（schemaResults）", () => {
@@ -50,7 +56,10 @@ test("B42/B43 口径②③：gate 握手金样逐条（schemaResults）", () => 
     workspaceKey: "wrong",
   });
   assert.equal(keyBad.success, false);
-  assert.equal(keyBad.error.issues[0].message, "workspaceKey must match workspaceIdentity fallback rule");
+  assert.equal(
+    keyBad.error.issues[0].message,
+    "workspaceKey must match workspaceIdentity fallback rule",
+  );
   const runBad = core.taskRealtimeEventSchema.safeParse({ ...golden.batchEvent, runId: "run-2" });
   assert.equal(runBad.success, false);
   assert.equal(runBad.error.issues[0].message, "runId must match traceId");
@@ -75,7 +84,10 @@ test("B42 口径④：remoteSessionId ⇒ workspaceIdentity（金样逐字文案
     remoteSessionId: "r-1",
   });
   assert.equal(bad.success, false);
-  assert.equal(bad.error.issues[0].message, "remote workspace Hook review response requires workspaceIdentity");
+  assert.equal(
+    bad.error.issues[0].message,
+    "remote workspace Hook review response requires workspaceIdentity",
+  );
 });
 
 test("B43 口径⑤⑥：lease 判别双态与附件 5-kind 全集", () => {
@@ -95,21 +107,25 @@ test("B43 口径⑤⑥：lease 判别双态与附件 5-kind 全集", () => {
   // 附件 5-kind：经 user_message op 的 attachments 面断言（金样 op 内含全集）
   const op = golden.batchEvent.ops[0];
   assert.equal(op.attachments.length, 5);
-  assert.deepEqual(op.attachments.map((a) => a.kind), ["image", "audio", "video", "pdf", "file"]);
+  assert.deepEqual(
+    op.attachments.map((a) => a.kind),
+    ["image", "audio", "video", "pdf", "file"],
+  );
   const fileMissingSize = core.taskRealtimeEventSchema.safeParse({
     ...golden.batchEvent,
-    ops: [{ ...op, attachments: [{ kind: "file", filename: "f", mimeType: "text/plain" }], seq: 11 }],
+    ops: [
+      { ...op, attachments: [{ kind: "file", filename: "f", mimeType: "text/plain" }], seq: 11 },
+    ],
     toSeq: 11,
   });
   assert.equal(fileMissingSize.success, false, "file 缺 sizeBytes 必须拒");
 });
 
 test("B43 owner-command 七形态与错误码三值（抽查+金样）", () => {
-  assert.deepEqual([...core.taskOwnerCommandErrorCodeSchema.options], [
-    "NO_ACTIVE_TASK_OWNER",
-    "STALE_TASK_OWNER_COMMAND",
-    "OWNER_COMMAND_FAILED",
-  ]);
+  assert.deepEqual(
+    [...core.taskOwnerCommandErrorCodeSchema.options],
+    ["NO_ACTIVE_TASK_OWNER", "STALE_TASK_OWNER_COMMAND", "OWNER_COMMAND_FAILED"],
+  );
   const ok = core.taskOwnerCommandRequestSchema.safeParse({
     type: "cancel_task_command",
     commandRequestId: "c-9",

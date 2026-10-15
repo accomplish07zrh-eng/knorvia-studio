@@ -34,7 +34,7 @@
 - 语义常量（逐字冻结）：`WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION = 1`、
   `DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS = 60000`、`DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES = 32768`、
   `WORKSPACE_HOOK_EVENT_NAMES = ["SessionStart","UserPromptSubmit","PreToolUse","PermissionRequest",
-  "PostToolUse","PostToolUseFailure","Stop"]`（7 项、此序）。
+"PostToolUse","PostToolUseFailure","Stop"]`（7 项、此序）。
 
 ### B2 配置发现与读取（`workspace-hook-config.ts`）
 
@@ -81,12 +81,12 @@
 ### B6 声明摘要（`workspace-hook-digest.ts` `createWorkspaceHookDeclarationDigest`）
 
 - 输入：`{sourceRelativePath, sourceDiscoveryOrder, event, matcher, matcherIndex, hookIndex, hook,
-  defaultTimeoutMs, resolvedMaxOutputBytes}`。
+defaultTimeoutMs, resolvedMaxOutputBytes}`。
 - 输出：sha256 hex（64 小写）of `JSON.stringify(payload)`，payload 元组序：
   `["workspace-hook-declaration", 1, sourceRelativePath, sourceDiscoveryOrder, event, matcher,
-  matcherIndex, hookIndex, execution, resolvedTimeoutMs, resolvedMaxOutputBytes]`。
+matcherIndex, hookIndex, execution, resolvedTimeoutMs, resolvedMaxOutputBytes]`。
   `execution`：process → `["process", command, args副本]`；command → `["command", command, async===true,
-  shellMarker]`，`shellMarker` = undefined→`["unset"]`、true→`["true"]`、字符串→`["string", shell]`。
+shellMarker]`，`shellMarker` = undefined→`["unset"]`、true→`["true"]`、字符串→`["string", shell]`。
   `resolvedTimeoutMs` 用**传入的 defaultTimeoutMs**（审阅时默认）走 B4 同一换算。
 - 摘要依赖 JSON.stringify 的键序与数组序 → 载荷结构与顺序是契约的一部分（金样敏感）。
 - 其余八项同通用约定（纯函数）。
@@ -291,7 +291,7 @@
   ① `semantics.kind === "compact_summary"` 或 `info.summary !== undefined` → providerContextOnly；
   ② semantics 存在时：`kind==="timeline_event"`→timelineOnly；`origin==="real_user"` 且非 synthetic 且
   visibility≠model-only→realUserInput；`role=assistant && kind=assistant_response && uiVisibility=visible &&
-  transcriptVisibility=visible`→visibleAssistant；`providerVisibility==="visible"`→providerContextOnly；
+transcriptVisibility=visible`→visibleAssistant；`providerVisibility==="visible"`→providerContextOnly；
   `kind==="fork_notice"`→timelineOnly；`origin==="agent_runtime"` 或 ui/transcriptVisibility==="hidden"
   →hiddenSynthetic；
   ③ `info.visibility==="model-only"` 或任一 part 的 `metadata.visibility==="model-only"`/`source==="goal-continuation"`
@@ -343,7 +343,7 @@
   （路径经 resolve+absoluteKey 归一）；对引用按 `start 降序` 处理：类型不认→丢；`enforceWorkspaceBoundary !== false`
   时越界（`within`：等根或根前缀 `/`）→丢；**markdown/html 要求 active 命中且未 reverted**（requiresFileChanges），
   其余不要求；`absoluteKey(path)` 去重；产出候选 `{artifactType, displayName(leaf), mimeType, previewKind,
-  productTurnId, sourceKind:"assistant_preview_card", sourceRef:reference.path, requiresFileChanges}`；
+productTurnId, sourceKind:"assistant_preview_card", sourceRef:reference.path, requiresFileChanges}`；
   最终 `slice(0, 15)`。
 - `buildConversationPreviewArtifactCandidates` = 抽取 + 上述构造（`enforceWorkspaceBoundary` 缺省生效）。
 - 时序：纯函数；幂等；无资源；日志无。
@@ -360,8 +360,8 @@
 ### B26 分享载荷 schema 族（`conversation-share.ts`）
 
 - 语义常量（逐字冻结）：`CONVERSATION_SHARE_SCHEMA_VERSION = 1`；accessMode 三值
-  （private/public_readonly/public_importable）；已知错误码 17 个数值字面（3001、3002、3200、3201、3203–3215）；
-  descriptor `ref` 正则 `^knorvia-artifact:\/\/share\/[A-Za-z0-9._~-]+$`；sha256 正则 `^[0-9a-f]{64}$`。
+  （private/public*readonly/public_importable）；已知错误码 17 个数值字面（3001、3002、3200、3201、3203–3215）；
+  descriptor `ref` 正则 `^knorvia-artifact:\/\/share\/[A-Za-z0-9.*~-]+$`；sha256 正则 `^[0-9a-f]{64}$`。
 - **出站 strict / 入站宽容**是本族总纪律：出站请求（preparation/confirm/continuation/integrity）严格
   （多字段=本端 bug，当场拒）；入站 wire（capabilities/preview/continuation/integrity/descriptor）非 strict
   （服务端可加字段）。
@@ -369,7 +369,7 @@
   版本收口用 `z.number().int().positive()` 而非 z.literal）。
 - `decodeConversationShareRows(rows)`：逐行 `conversationRowSchema.safeParse`；失败**跳过并计数**，
   kind 标签（无 kind→"unknown"）去重保序进 `unsupportedKinds`；返回 `{rows, unsupportedCount,
-  unsupportedKinds}`；**传输层不理解 row 语义**——新 kind/新 enum/新 timelineMarker 都由同一机制消化，
+unsupportedKinds}`；**传输层不理解 row 语义**——新 kind/新 enum/新 timelineMarker 都由同一机制消化，
   不做 .catch 枚举兜底（猜错枚举比丢行危险）。
 - `narrowConversationShareCapabilities(wire)`：未知 artifact type / access mode **丢弃并计数**；
   已知者收窄为严格 data 形状。丢弃对「客户端产不出的类型」无损；若本地可抽某扩展名预览而未入
@@ -445,7 +445,7 @@
   读取边界接受**）；`executionStateSchema` = `{mode, planEnabled}`（非 strict）。
 - `resolveExecutionState(input, current = {mode:"build", planEnabled:false})`：mode 解析成功取新值、
   失败取 `current.mode`；`planEnabled = input.planEnabled ?? (input.mode === "plan" ? true :
-  (mode 解析成功 ? false : current.planEnabled))`。**在接纳边界固定旧请求语义**，队列消费不得按当前
+(mode 解析成功 ? false : current.planEnabled))`。**在接纳边界固定旧请求语义**，队列消费不得按当前
   配置重新解释。纯函数；无状态；无日志。
 
 ### B32 运行时工具运行时表（`runtime-tool-runtime.ts`）
@@ -466,7 +466,7 @@
   动态工作流 actor 提交落 raw fallback）。
 - `KnorviaToolFamily` 14 值；`TOOL_FAMILY_BY_NAME` 全映射（Write/Edit/ApplyPatch→file-write；Bash→shell；
   Glob/Grep/WebFetch/WebSearch/web_search→search；TodoRead/TodoWrite→todo；Agent/Task→agent；
-  TaskOutput/TaskStop→task-control；js*/mcp__node_repl__*→node-repl；CreateWorkflow/AmendWorkflow/
+  TaskOutput/TaskStop→task-control；js\*/mcp**node_repl\***→node-repl；CreateWorkflow/AmendWorkflow/
   submit_result→workflow；GoalRead→goal；ReadSessionContext→session-context；AskUserQuestion→
   ask-user-question；SendMessage/RespondToCoordinator→message；Skill→skill；Read→file-read）。
 - `normalizeKnorviaToolName`：trim 后按小写查表，未登记 → null；`getKnorviaToolFamilyForName` 经归一；
@@ -502,7 +502,7 @@
 - `appendKnorviaStreamingToolInputDelta(state, delta)`：spread + `deltaCount+1` + `rawInput` 相接
   （state 缺席按空串）。
 - `buildKnorviaStreamingToolInputPreview(rawInput, completeInput?)`：completeInput 给定 → `{complete:true,
-  input:completeInput}`；否则 JSON.parse 成功 → complete:true；失败 → `{complete:false, input:部分字段}`。
+input:completeInput}`；否则 JSON.parse 成功 → complete:true；失败 → `{complete:false, input:部分字段}`。
 - `isKnorviaFileStreamingToolInputPreviewTool(name)` = trim 小写后 `write` 或 `edit`。
 - `shouldMaterialize…(state, {mode, now, toolName})`：background-summary → false；
   `deltaCount <= 1` → true；file 工具按 1000ms 间隔，其余按 750ms **且** raw 增长 ≥8KB 双条件。

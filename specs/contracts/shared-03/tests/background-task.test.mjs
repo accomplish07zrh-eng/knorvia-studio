@@ -44,9 +44,15 @@ test("B13 jobId 合成与 status 缺席按 running", () => {
 test("B14 活跃/时长/可见", () => {
   const job = { jobId: "j", taskKind: "bash", command: "x", status: "running", startedAt: 1000 };
   assert.equal(controls.isActiveKnorviaBackgroundTaskControlItem(job), true);
-  assert.equal(controls.isActiveKnorviaBackgroundTaskControlItem({ ...job, status: "killed" }), false);
+  assert.equal(
+    controls.isActiveKnorviaBackgroundTaskControlItem({ ...job, status: "killed" }),
+    false,
+  );
   assert.equal(controls.getKnorviaBackgroundTaskControlItemElapsedMs(job, 3000), 2000);
-  assert.equal(controls.getKnorviaBackgroundTaskControlItemElapsedMs({ ...job, elapsedMs: 5000 }, 3000), 5000);
+  assert.equal(
+    controls.getKnorviaBackgroundTaskControlItemElapsedMs({ ...job, elapsedMs: 5000 }, 3000),
+    5000,
+  );
   const visible = controls.collectVisibleKnorviaBackgroundTaskControlItems(
     [job, { ...job, jobId: "j2", startedAt: 2000, status: "completed" }],
     3000,
@@ -67,7 +73,10 @@ test("B15 合并保位语义", () => {
       { jobId: "c", taskKind: "bash", command: "3", status: "running" },
     ],
   );
-  assert.deepEqual(merged.map((x) => x.jobId), ["a", "b", "c"]);
+  assert.deepEqual(
+    merged.map((x) => x.jobId),
+    ["a", "b", "c"],
+  );
   assert.equal(merged[1].command, "2x", "后值生效");
 });
 
@@ -122,7 +131,7 @@ test("B17/B18 输出 schema 边界（8192 与 150000/32768）", () => {
 
 test("B19 通知解析/状态映射/装配", () => {
   const parsed = notifications.parseKnorviaBackgroundTaskNotificationText(
-    '<task-notification><tool-use-id>tu-1</tool-use-id><status>killed</status><summary>a &amp; b</summary></task-notification>',
+    "<task-notification><tool-use-id>tu-1</tool-use-id><status>killed</status><summary>a &amp; b</summary></task-notification>",
   );
   assert.equal(parsed.toolUseId, "tu-1");
   assert.equal(parsed.notification.status, "killed");
@@ -135,9 +144,15 @@ test("B19 通知解析/状态映射/装配", () => {
     null,
     "tool-use-id 缺失 → null",
   );
-  assert.equal(notifications.knorviaBackgroundTaskNotificationToolUpdateStatus("killed"), "stopped");
+  assert.equal(
+    notifications.knorviaBackgroundTaskNotificationToolUpdateStatus("killed"),
+    "stopped",
+  );
   assert.equal(notifications.knorviaBackgroundTaskNotificationToolUpdateStatus("lost"), "failed");
-  assert.equal(notifications.knorviaBackgroundTaskNotificationToolUpdateStatus(undefined), "completed");
+  assert.equal(
+    notifications.knorviaBackgroundTaskNotificationToolUpdateStatus(undefined),
+    "completed",
+  );
   const raw = { id: 1, _meta: { keep: true } };
   const attached = notifications.attachKnorviaBackgroundTaskNotificationToRaw(raw, {
     status: "killed",

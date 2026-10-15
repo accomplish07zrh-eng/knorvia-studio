@@ -77,9 +77,7 @@
       }
     ],
     "unsupportedCount": 1,
-    "unsupportedKinds": [
-      "future_kind"
-    ]
+    "unsupportedKinds": ["future_kind"]
   },
   "caps": {
     "capabilities": {
@@ -90,37 +88,22 @@
       "max_artifact_bytes": 5000000,
       "max_total_artifact_bytes": 20000000,
       "schema_version": 1,
-      "access_modes": [
-        "public_readonly",
-        "public_readonly"
-      ],
+      "access_modes": ["public_readonly", "public_readonly"],
       "allowed_artifacts": [
         {
           "type": "md",
-          "extensions": [
-            ".md"
-          ],
-          "mime_types": [
-            "text/markdown"
-          ]
+          "extensions": [".md"],
+          "mime_types": ["text/markdown"]
         },
         {
           "type": "md",
-          "extensions": [
-            ".md"
-          ],
-          "mime_types": [
-            "text/markdown"
-          ]
+          "extensions": [".md"],
+          "mime_types": ["text/markdown"]
         }
       ]
     },
-    "unsupportedArtifactTypes": [
-      "unknown_type"
-    ],
-    "unsupportedAccessModes": [
-      "future_mode"
-    ]
+    "unsupportedArtifactTypes": ["unknown_type"],
+    "unsupportedAccessModes": ["future_mode"]
   },
   "versionCases": [
     {

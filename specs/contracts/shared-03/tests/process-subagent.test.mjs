@@ -30,7 +30,11 @@ test("B37 进程诊断六常量与 parse fail-safe", () => {
   const parsed = diagnostic.parseKnorviaProcessDiagnostic(line);
   assert.equal(parsed?.name, "Error");
   assert.equal(diagnostic.parseKnorviaProcessDiagnostic("other line"), undefined);
-  assert.equal(diagnostic.parseKnorviaProcessDiagnostic(`${diagnostic.KNORVIA_PROCESS_DIAGNOSTIC_PREFIX}{bad`), undefined, "损坏帧不打断");
+  assert.equal(
+    diagnostic.parseKnorviaProcessDiagnostic(`${diagnostic.KNORVIA_PROCESS_DIAGNOSTIC_PREFIX}{bad`),
+    undefined,
+    "损坏帧不打断",
+  );
 });
 
 test("B38 进程命名形态", () => {
@@ -38,12 +42,18 @@ test("B38 进程命名形态", () => {
   assert.equal(names.formatKnorviaGpuProcessName(), "knorvia-gpu");
   assert.equal(names.formatKnorviaHostProcessName("Worker 2"), "knorvia-host-worker-2");
   assert.equal(names.formatKnorviaRendererProcessName(), "knorvia-renderer-main");
-  assert.equal(names.formatKnorviaRendererProcessName("Resource Manager"), "knorvia-renderer-resource-manager");
+  assert.equal(
+    names.formatKnorviaRendererProcessName("Resource Manager"),
+    "knorvia-renderer-resource-manager",
+  );
   assert.equal(
     names.formatKnorviaRendererProcessName("Knorvia Studio - Alpha"),
     "knorvia-renderer-remote-alpha",
   );
-  assert.equal(names.formatKnorviaAgentProcessName("Zai", "/home/u/my ws"), "knorvia-agent-zai-my-ws");
+  assert.equal(
+    names.formatKnorviaAgentProcessName("Zai", "/home/u/my ws"),
+    "knorvia-agent-zai-my-ws",
+  );
 });
 
 test("B39 遥测角色/车道/属性检查", () => {
@@ -77,8 +87,12 @@ test("B40 subagent markdown 选择解析与迁移保真", () => {
   });
   assert.equal(sel?.providerId, "anthropic");
   assert.equal(sel?.options?.reasoningLevel, "high");
-  const content = '---\nmodel: anthropic/claude-3\n---\nbody';
-  assert.equal(markdownSelection.migrateSubagentMarkdownProvider(content), content, "未变化逐字节原样");
+  const content = "---\nmodel: anthropic/claude-3\n---\nbody";
+  assert.equal(
+    markdownSelection.migrateSubagentMarkdownProvider(content),
+    content,
+    "未变化逐字节原样",
+  );
   const quoted = '---\nmodel: "anthropic/claude-3" # note\n---\nx';
   assert.equal(markdownSelection.migrateSubagentMarkdownProvider(quoted), quoted);
 });

@@ -43,15 +43,21 @@ test("B31 执行状态：接纳边界固定旧语义", () => {
     mode: "yolo",
     planEnabled: false,
   });
-  assert.deepEqual(state.resolveExecutionState({ mode: "unknown" }, { mode: "edit", planEnabled: true }), {
-    mode: "edit",
-    planEnabled: true,
-  });
+  assert.deepEqual(
+    state.resolveExecutionState({ mode: "unknown" }, { mode: "edit", planEnabled: true }),
+    {
+      mode: "edit",
+      planEnabled: true,
+    },
+  );
   assert.deepEqual(state.resolveExecutionState({}, { mode: "yolo", planEnabled: false }), {
     mode: "yolo",
     planEnabled: false,
   });
-  assert.deepEqual([...state.executionPermissionModeSchema.options], ["build", "edit", "yolo", "auto"]);
+  assert.deepEqual(
+    [...state.executionPermissionModeSchema.options],
+    ["build", "edit", "yolo", "auto"],
+  );
 });
 
 test("B32 运行时工具表逐字冻结", () => {
@@ -91,7 +97,11 @@ test("B34 摘要与变更行计数", () => {
   assert.ok(s.changeStat, "edit 形态给出变更统计");
   assert.equal(s.changeStat.removed, 2);
   assert.equal(s.changeStat.added, 3);
-  const none = summary.getCompactToolCallSummary({ title: "Read", kind: "read", input: { file_path: "/a" } });
+  const none = summary.getCompactToolCallSummary({
+    title: "Read",
+    kind: "read",
+    input: { file_path: "/a" },
+  });
   assert.equal(none.changeStat, undefined);
   const plain = summary.getCompactToolCallSummary({ kind: "bash", input: "just text" });
   assert.equal(plain.primaryText, "tool");
@@ -102,7 +112,9 @@ test("B35 流式预览：部分字段解析与节流常量", () => {
   assert.equal(streaming.KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS, 750);
   assert.equal(streaming.KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_RAW_GROWTH, 8 * 1024);
   assert.equal(streaming.KNORVIA_FILE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS, 1000);
-  const preview = streaming.buildKnorviaStreamingToolInputPreview('{"file_path": "/a/b.ts", "content": "x');
+  const preview = streaming.buildKnorviaStreamingToolInputPreview(
+    '{"file_path": "/a/b.ts", "content": "x',
+  );
   assert.equal(preview.complete, false);
   assert.equal(preview.input.file_path, "/a/b.ts", "未闭合串也能出预览");
   const complete = streaming.buildKnorviaStreamingToolInputPreview('{"a":1}');

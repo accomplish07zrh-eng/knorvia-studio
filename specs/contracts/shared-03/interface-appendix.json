@@ -60,10 +60,7 @@
         "createWorkspaceHookDeclarationDigest",
         "resolveWorkspaceHookEntries"
       ],
-      "pureTypes": [
-        "CanonicalWorkspaceHookEntryData",
-        "WorkspaceHookBundleSnapshotData"
-      ],
+      "pureTypes": ["CanonicalWorkspaceHookEntryData", "WorkspaceHookBundleSnapshotData"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -106,10 +103,7 @@
         "WorkspaceHookSourceReadError",
         "WorkspaceHooksConfig"
       ],
-      "reexportStars": [
-        "./workspace-hook-config.js",
-        "./workspace-hook-digest.js"
-      ],
+      "reexportStars": ["./workspace-hook-config.js", "./workspace-hook-digest.js"],
       "reexportNamed": [],
       "staticRuntimeNames": [
         "DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES",
@@ -139,9 +133,7 @@
         "atomicWriteWorkspaceHookConfig",
         "writeWorkspaceHookConfiguredToggle"
       ],
-      "pureTypes": [
-        "AtomicWorkspaceHookConfigWriteOptions"
-      ],
+      "pureTypes": ["AtomicWorkspaceHookConfigWriteOptions"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -152,18 +144,11 @@
     },
     {
       "path": "packages/shared/src/workspace-hook-review-monotonicity.ts",
-      "runtime": [
-        "verdictWorkspaceHookReviewRequest"
-      ],
-      "pureTypes": [
-        "WorkspaceHookReviewIdentity",
-        "WorkspaceHookReviewMonotonicityVerdict"
-      ],
+      "runtime": ["verdictWorkspaceHookReviewRequest"],
+      "pureTypes": ["WorkspaceHookReviewIdentity", "WorkspaceHookReviewMonotonicityVerdict"],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "verdictWorkspaceHookReviewRequest"
-      ]
+      "staticRuntimeNames": ["verdictWorkspaceHookReviewRequest"]
     },
     {
       "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
@@ -196,10 +181,7 @@
         "parseKnorviaBackgroundTaskControlItems",
         "resolveKnorviaBackgroundTaskControlKind"
       ],
-      "pureTypes": [
-        "KnorviaBackgroundTaskControlItem",
-        "KnorviaBackgroundTaskControlStatus"
-      ],
+      "pureTypes": ["KnorviaBackgroundTaskControlItem", "KnorviaBackgroundTaskControlStatus"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -218,9 +200,7 @@
         "knorviaBackgroundTaskNotificationToolUpdateStatus",
         "parseKnorviaBackgroundTaskNotificationText"
       ],
-      "pureTypes": [
-        "KnorviaBackgroundTaskNotificationInfo"
-      ],
+      "pureTypes": ["KnorviaBackgroundTaskNotificationInfo"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -232,15 +212,11 @@
     },
     {
       "path": "packages/shared/src/background-task-control-merge.ts",
-      "runtime": [
-        "mergeKnorviaBackgroundTaskControlItems"
-      ],
+      "runtime": ["mergeKnorviaBackgroundTaskControlItems"],
       "pureTypes": [],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "mergeKnorviaBackgroundTaskControlItems"
-      ]
+      "staticRuntimeNames": ["mergeKnorviaBackgroundTaskControlItems"]
     },
     {
       "path": "packages/shared/src/background-bash-jobs.ts",
@@ -250,10 +226,7 @@
         "isActiveKnorviaBackgroundBashJob",
         "parseKnorviaBackgroundBashJobs"
       ],
-      "pureTypes": [
-        "KnorviaBackgroundBashJob",
-        "KnorviaBackgroundBashJobStatus"
-      ],
+      "pureTypes": ["KnorviaBackgroundBashJob", "KnorviaBackgroundBashJobStatus"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -270,10 +243,7 @@
         "backgroundBashOutputResultSchema",
         "backgroundBashOutputSchema"
       ],
-      "pureTypes": [
-        "BackgroundBashOutput",
-        "BackgroundBashOutputResult"
-      ],
+      "pureTypes": ["BackgroundBashOutput", "BackgroundBashOutputResult"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -284,15 +254,11 @@
     },
     {
       "path": "packages/shared/src/bash-output-display.ts",
-      "runtime": [
-        "bashOutputDisplaySchema"
-      ],
+      "runtime": ["bashOutputDisplaySchema"],
       "pureTypes": [],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "bashOutputDisplaySchema"
-      ]
+      "staticRuntimeNames": ["bashOutputDisplaySchema"]
     },
     {
       "path": "packages/shared/src/conversation-message-projection-policy.ts",
@@ -445,9 +411,7 @@
         "getLatestAssistantContentPart",
         "getLatestAssistantContentText"
       ],
-      "pureTypes": [
-        "KnorviaAssistantMessagePart"
-      ],
+      "pureTypes": ["KnorviaAssistantMessagePart"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -458,9 +422,7 @@
     },
     {
       "path": "packages/shared/src/assistant-presentation.ts",
-      "runtime": [
-        "buildKnorviaAssistantPresentation"
-      ],
+      "runtime": ["buildKnorviaAssistantPresentation"],
       "pureTypes": [
         "BuildKnorviaAssistantPresentationOptions",
         "KnorviaAssistantPresentation",
@@ -469,9 +431,7 @@
       ],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "buildKnorviaAssistantPresentation"
-      ]
+      "staticRuntimeNames": ["buildKnorviaAssistantPresentation"]
     },
     {
       "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
@@ -499,10 +459,7 @@
         "mapWorkspaceFileEntriesToSearchCandidates",
         "scoreWorkspaceFileFuzzyMatch"
       ],
-      "pureTypes": [
-        "FilterWorkspaceFileSearchCandidatesOptions",
-        "WorkspaceFileSearchCandidate"
-      ],
+      "pureTypes": ["FilterWorkspaceFileSearchCandidatesOptions", "WorkspaceFileSearchCandidate"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -516,15 +473,11 @@
     },
     {
       "path": "packages/shared/src/workspaceSessionRestore.ts",
-      "runtime": [
-        "resolveStartupLocalWorkspaceSessionIndex"
-      ],
+      "runtime": ["resolveStartupLocalWorkspaceSessionIndex"],
       "pureTypes": [],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "resolveStartupLocalWorkspaceSessionIndex"
-      ]
+      "staticRuntimeNames": ["resolveStartupLocalWorkspaceSessionIndex"]
     },
     {
       "path": "packages/shared/src/tool-call-summary.ts",
@@ -558,10 +511,7 @@
         "isKnorviaToolFamily",
         "normalizeKnorviaToolName"
       ],
-      "pureTypes": [
-        "KnorviaKnownToolName",
-        "KnorviaToolFamily"
-      ],
+      "pureTypes": ["KnorviaKnownToolName", "KnorviaToolFamily"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -626,28 +576,16 @@
     },
     {
       "path": "packages/shared/src/execution-output-preview.ts",
-      "runtime": [
-        "executionOutputPreviewSchema"
-      ],
-      "pureTypes": [
-        "ExecutionOutputPreview"
-      ],
+      "runtime": ["executionOutputPreviewSchema"],
+      "pureTypes": ["ExecutionOutputPreview"],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "executionOutputPreviewSchema"
-      ]
+      "staticRuntimeNames": ["executionOutputPreviewSchema"]
     },
     {
       "path": "packages/shared/src/execution-state.ts",
-      "runtime": [
-        "executionPermissionModeSchema",
-        "executionStateSchema",
-        "resolveExecutionState"
-      ],
-      "pureTypes": [
-        "ExecutionState"
-      ],
+      "runtime": ["executionPermissionModeSchema", "executionStateSchema", "resolveExecutionState"],
+      "pureTypes": ["ExecutionState"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -658,9 +596,7 @@
     },
     {
       "path": "packages/shared/src/permission-request-preview.ts",
-      "runtime": [
-        "getPermissionRequestPreview"
-      ],
+      "runtime": ["getPermissionRequestPreview"],
       "pureTypes": [
         "PermissionRequestFileChange",
         "PermissionRequestPreview",
@@ -668,9 +604,7 @@
       ],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "getPermissionRequestPreview"
-      ]
+      "staticRuntimeNames": ["getPermissionRequestPreview"]
     },
     {
       "path": "packages/shared/src/runtime-tool-runtime.ts",
@@ -707,9 +641,7 @@
         "knorviaProcessDiagnosticSchema",
         "parseKnorviaProcessDiagnostic"
       ],
-      "pureTypes": [
-        "KnorviaProcessDiagnostic"
-      ],
+      "pureTypes": ["KnorviaProcessDiagnostic"],
       "reexportStars": [],
       "reexportNamed": [],
       "staticRuntimeNames": [
@@ -801,15 +733,11 @@
     },
     {
       "path": "packages/shared/src/subagent-state-migration.ts",
-      "runtime": [
-        "importSubagentStateSelections"
-      ],
+      "runtime": ["importSubagentStateSelections"],
       "pureTypes": [],
       "reexportStars": [],
       "reexportNamed": [],
-      "staticRuntimeNames": [
-        "importSubagentStateSelections"
-      ]
+      "staticRuntimeNames": ["importSubagentStateSelections"]
     },
     {
       "path": "packages/shared/src/task-realtime-core.ts",

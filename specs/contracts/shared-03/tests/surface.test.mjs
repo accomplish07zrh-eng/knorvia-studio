@@ -11,7 +11,9 @@ const appendix = JSON.parse(
   readFileSync(resolve(repoRoot, "specs/contracts/shared-03/interface-appendix.json"), "utf8"),
 );
 
-const NAMES = appendix.files.map((f) => f.path.replace("packages/shared/src/", "").replace(/\.ts$/u, ""));
+const NAMES = appendix.files.map((f) =>
+  f.path.replace("packages/shared/src/", "").replace(/\.ts$/u, ""),
+);
 
 test(`B51 34 个模块路径在 ${entryLabel} 入口全部可达`, async () => {
   assert.equal(NAMES.length, 34);
@@ -42,7 +44,10 @@ test("子路径入口与再导出面在场（interface.md §1）", async () => {
   assert.ok("resolveWorkspaceHookEntries" in discovery, "星再导出自 digest");
   const protocolV4 = await loadModule("protocol-v4/index");
   assert.ok("bashOutputDisplaySchema" in protocolV4, "协议桶再导出 bashOutputDisplaySchema");
-  assert.ok("executionOutputPreviewSchema" in protocolV4, "协议桶再导出 executionOutputPreviewSchema");
+  assert.ok(
+    "executionOutputPreviewSchema" in protocolV4,
+    "协议桶再导出 executionOutputPreviewSchema",
+  );
 });
 
 test("根 barrel 采样可达（22 件口径）", () => {

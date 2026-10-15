@@ -17,9 +17,20 @@ test("B1 语义常量逐字冻结", () => {
   assert.equal(config.DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES, 32768);
   assert.deepEqual(
     [...config.WORKSPACE_HOOK_EVENT_NAMES],
-    ["SessionStart", "UserPromptSubmit", "PreToolUse", "PermissionRequest", "PostToolUse", "PostToolUseFailure", "Stop"],
+    [
+      "SessionStart",
+      "UserPromptSubmit",
+      "PreToolUse",
+      "PermissionRequest",
+      "PostToolUse",
+      "PostToolUseFailure",
+      "Stop",
+    ],
   );
-  assert.equal(trust.WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION, golden.constants.trustSchemaVersion);
+  assert.equal(
+    trust.WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION,
+    golden.constants.trustSchemaVersion,
+  );
 });
 
 test("B1 schema 形态：strict/宽容边界（金样 parseCases）", () => {
