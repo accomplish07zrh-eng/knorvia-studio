@@ -558,3 +558,145 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 日志级别：不适用。
 - 语义常量：归一剔除 reasoning 块的两种情形——①`text` 为空且 `providerOptions` 缺省/空对象；②目标 `providerId` 含 `openai`（大小写不敏感，缺省目标按空串）且 `providerOptions` 带 `itemId` 或 `item_id`（「已存 reasoning 不重放」）；剔除后 assistant 消息既无内容又无 `toolCalls` 则整条剔除；字符串内容消息浅拷贝保留。修复触发条件：错误消息匹配 `signature|thinking(?:[_ -]?block)?`（大小写不敏感）；修复动作：递归删除 `providerOptions` 里的 `signature`、`thinking_signature`、`encrypted_content` 键（含数组递归），仅当实际删过键才返回新序列。
 - （依据：reasoning-history-normalization.ts 1-67 行）
+
+## 批次 E：流式边界、清理与 provider 兼容（stream-\* / anthropic-stream-compat / openai-responses-json-compat）
+
+### B37 流空闲超时的额度与错误形状（语义常量条目）
+
+- 输入：`baseTimeoutMs`（可缺省）、`retryNumber`（可缺省）。
+- 输出：本次 attempt 的空闲超时毫秒数；超时错误对象形状。
+- 错误语义：超时抛 `ModelStreamIdleTimeoutError`（见下）；输入非法不抛错。
+- 时序与并发：不适用（纯换算 + 工厂）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt。
+- 日志级别：不适用（超时经调用方发状态事件）。
+- 语义常量：基础额度缺省取 `DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS`（由 `@knorvia/contracts` 再导出，值以契约为准）；`baseTimeoutMs` 非有限数或 ≤ 0 → **返回 0（禁用计时）**；`retryNumber` 向下取整且不小于 0；额度公式 `base + retryNumber × 30000`（`RETRY_INCREMENT_MS = 30_000`）；错误 `name = "ModelStreamIdleTimeoutError"`、`code = "MODEL_STREAM_IDLE_TIMEOUT"`、消息逐字 `Model stream produced no event for <idleMs>ms`，带 `idleMs`、`timeoutMs` 字段；识别兼容 duck typing（`code === "MODEL_STREAM_IDLE_TIMEOUT"` 的对象也算）。
+- （依据：stream-idle-timeout.ts 1-35 行）
+
+### B38 关联取消与带空闲计时的迭代读取
+
+- 输入：父信号（可缺省）；迭代器与 `abortController`、`timeoutMs`、`onTimeout` 回调。
+- 输出：下一条迭代结果；或抛出取消/超时错误。
+- 错误语义：进入时已取消 → 抛 `signal.reason`，缺省 `DOMException("Aborted", "AbortError")`；等待中取消 → 以 `signal.reason` 拒绝；超时 → 抛 `ModelStreamIdleTimeoutError`（并把控制器以该错误中止）。
+- 时序与并发：事件序列「迭代下一条 / 取消拒绝 / 计时拒绝」三者竞速，先到先生效；超时分支顺序为「构造超时错误 → `abortController.abort(error)` → 等待 `onTimeout` 回调（若有）→ 以该错误拒绝」。
+- 幂等：读取本身不幂等（推进迭代器）；关联控制器构造幂等。
+- 资源释放：`finally` 总是清计时器与 abort 监听；关联控制器的 `cleanup()` 解除父监听（父已中止时保持同步中止语义）。
+- 平台差异：不适用（`AbortController`/`DOMException` 为标准 API）。
+- 状态所有者：物理 attempt 的取消控制器。
+- 日志级别：不适用。
+- 语义常量：关联控制器以 `parentSignal.reason` 传递中止原因（含父已中止时的立即中止）；取消拒绝时**若 reason 是空闲超时错误则不拒绝**（超时路径自行处理，避免双重拒绝）；`timeoutMs > 0` 才挂计时器（0 表示禁用）。
+- （依据：stream-idle-timeout.ts 36-97 行）
+
+### B39 compact 流边界映射（provider 事件 → 内部边界事件）
+
+- 输入：provider 原始流事件（`type`、`index`、`content_block`、`delta`）。
+- 输出：`compact_stream_boundary` 事件或 `undefined`（不识别）。
+- 错误语义：不抛错。
+- 时序与并发：逐事件调用，顺序保持。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：compact 回放边界跟踪（消费方）。
+- 日志级别：不适用。
+- 语义常量：映射表——`message_start` → boundary `provider_response_start`；`content_block_start` → `provider_content_block_start`（`blockType` 取 `content_block.type`，缺省 null；`index` 数字否则 null）；`content_block_delta` → `provider_content_block_delta`（`deltaType` 取 `delta.type`，缺省 null）；`content_block_stop` → `provider_content_block_stop`；`message_delta` → `provider_stop_reason`（`present` = `stop_reason` 非 null 且非 undefined）；其余类型 → `undefined`。
+- （依据：stream-retry-boundary.ts 31-67 行）
+
+### B40 重放安全前奏事件的判定
+
+- 输入：一条内部流事件。
+- 输出：布尔（是否属于「未对外可见、可整体重放」的前奏）。
+- 错误语义：不适用。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：输出提交门（调用方）。
+- 日志级别：不适用。
+- 语义常量：安全集合 `start`、`text_start`、`text_end`、`reasoning_start`、`reasoning_end`、`tool_input_start`、`tool_input_delta`、`tool_input_end`；`text_delta` 与 `reasoning_delta` **仅当 `text` 为空串**才算安全；其余一律不安全（含 `tool_call`、`finish`、`error` 等）。
+- （依据：stream-retry-boundary.ts 12-30 行）
+
+### B41 compact 体失败后的重试许可
+
+- 输入：失败错误、`errorChunkObserved` 标志。
+- 输出：布尔。
+- 错误语义：不适用。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：compact 流的重试裁决。
+- 日志级别：不适用。
+- 语义常量：「体失败」= 已观察到 error-chunk **或** 响应 `content-type`（小写）含 `text/event-stream` **或** 错误链上能取到响应体；非体失败 → 允许重试；体失败时仅两种情形允许：空闲超时错误（B37），或**无 HTTP 状态码**且错误码（大写）属于 `ECONNRESET` / `EPIPE` / `CONNECTIONCLOSED`。
+- （依据：stream-retry-boundary.ts 68-84 行）
+
+### B42 流清理与被放弃流的关闭（含 1 秒上限与日志级别）
+
+- 输入：迭代器、可选 `consumeStream`、logger；关闭入参另有 `abortController`、`attempt`、`committed`、状态上下文与接收端。
+- 输出：清理完成（void）；关闭路径另发一条失败状态事件。
+- 错误语义：清理失败不抛错，仅告警；不影响原始错误。
+- 时序与并发：`iterator.return()` 与 `consumeStream()` **并发**执行、`allSettled` 等待；整体以 **1000ms** 为上限竞速，超时即放弃等待。
+- 幂等：清理可重复调用（以迭代器自身语义为准）。
+- 资源释放：本条即资源释放语义（迭代器收尾 + SDK consume 清理）。
+- 平台差异：不适用。
+- 状态所有者：物理 attempt 的终态清理。
+- 日志级别：**warn**（两条逐字消息）：清理子任务失败 `Model stream cleanup failed`（附 `error`）；清理超时 `Model stream cleanup exceeded 1000ms`。
+- 语义常量：被放弃流的关闭序列——「以 `DOMException("Model stream consumer closed", "AbortError")` 中止 → 清理（若有迭代器）→ 发布 `model_request_failed`」，失败事件字段 `reason: "cancelled"`、`retryable: false`、`errorCode: "model_request_cancelled"`、`message` 为该 DOMException 消息、`streamOutputCommitted` 透传 `committed` 标志。
+- （依据：stream-retry-boundary.ts 85-141 行）
+
+### B43 流式工具调用装配器（状态机）
+
+- 输入：内部流事件序列；`flush()` 无入参。
+- 输出：透传/追加的事件序列；`snapshotNormalizedToolCalls()` 给出已提交工具调用列表。
+- 错误语义：不抛错（坏入参经 B33 归一）。
+- 时序与并发：单会话串行；事件顺序保持（`tool_input_end` 后**紧随**合成的 `tool_call`）。
+- 幂等：同一 `toolCallId` 只提交一次（重复 `tool_call` 抑制）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：装配器实例（pending 与已提交两张登记表，均按插入序）。
+- 日志级别：仅入参归一失败时由 B33 发 warn。
+- 语义常量：`tool_input_start` 登记（id、toolName、空 input、`providerExecuted`）并透传；`tool_input_delta` 累加文本并透传；`tool_input_end` 标记结束后输出「原事件 + 合成 `tool_call`」；合成调用的 `name` 经 `normalizeModelToolName`（带 `toolCallId`、`providerExecuted`）、`input` 经 `normalizeModelToolInput`（`source: "streamText"`）；`tool_call` 事件：同 id 已有提交 → 输出空数组（丢弃）；对应 pending 未结束 → 丢弃；否则登记并透传；`flush()` 按插入序提交全部未决（每项输出一个合成 `tool_call`）。
+- （依据：streaming-tool-call-assembler.ts 1-79 行）
+
+### B44 Anthropic 兼容 fetch：请求体归一
+
+- 输入：请求 `init.body`（JSON 字符串）。
+- 输出：归一后的请求体字符串（解析失败原样转发）。
+- 错误语义：JSON 解析失败不抛错，**原样交给 provider**（保留 provider 的报错语义）。
+- 时序与并发：不适用（纯包装）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：请求级包装。
+- 日志级别：不适用。
+- 语义常量：`system` 字符串 → 单元素 `[{ type: "text", text }]` 数组；`messages` 里 `role: "system"` 且 content 恰为单个 text 块 → content 收拢为字符串；递归修补 thinking 块：`type: "thinking"` 且 `signature` 不是字符串 → 补 `signature: ""`；`tool_result` 块的归一：带字符串 `name` → 转 `tool_use`（`id` 取 `id ?? tool_use_id ?? tool_<uuid>`，`input ?? {}`），不带 `name` → 转 `text`（content 字符串直用，否则 `JSON.stringify(content ?? "")`）。
+- （依据：anthropic-stream-compat.ts 5-51、140-149 行）
+
+### B45 Anthropic 兼容 fetch：响应侧 SSE/JSON 修补（含签名补发）
+
+- 输入：响应（SSE 流或 JSON 体）。
+- 输出：修补后的等价响应（状态、statusText 保持；替换体时删除 `content-length`）。
+- 错误语义：体解析失败原样返回原响应，不抛错。
+- 时序与并发：SSE 修补是流式逐块（按空行分帧，跨块拼接残余）；帧内 `data:` 行按序合并。
+- 幂等：同输入同输出（uuid 例外：缺 id 的 `tool_use` 生成随机 id）。
+- 资源释放：不适用。
+- 平台差异：换行风格保持（`\r\n` 帧分隔用 `\r\n` 重拼，否则 `\n`）。
+- 状态所有者：请求级包装（签名状态表按 `index` 作用域）。
+- 日志级别：不适用。
+- 语义常量：仅 2xx 响应进入修补；`content-type` 含 `text/event-stream` → SSE 修补；含 `json` → JSON 修补（递归补 `signature: ""`）；其余原样。SSE 规则：`data:` 行取 `data:` 后内容去前导空白、以 `\n` 合并；空数据或 `[DONE]` 帧原样透传；解析非对象透传；`content_block_start` 的 `content_block` 走 B44 的 `tool_result` 归一，thinking 块带非空字符串 `signature` 时按 `index` 记忆；`content_block_delta` 的 `signature_delta` 标记该 index 已观察到增量；`content_block_stop` 时若该 index 记忆了签名且**没观察到增量**，在该帧前注入一条合成帧 `content_block_delta`（`delta: { type: "signature_delta", signature }`，逐字 `event: content_block_delta`）；输出帧保留非 data 行 + 重写后的 `data: <JSON>`。
+- （依据：anthropic-stream-compat.ts 52-139、150-175 行）
+
+### B46 OpenAI Responses JSON 兼容：响应形状补全
+
+- 输入：响应。
+- 输出：补全后的等价响应（或原响应）。
+- 错误语义：JSON 解析失败原样返回。
+- 时序与并发：不适用。
+- 幂等：同输入同输出（uuid 例外：缺 id 的 `message` 生成随机 id）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：请求级包装。
+- 日志级别：不适用。
+- 语义常量：仅 2xx、非 SSE、`content-type` 含 `json` 的响应进入补全；递归修补两处——`type: "message"` 且 `id` 非字符串 → 补 `id: msg_<uuid>`（前缀逐字 `msg_`）；`type: "output_text"` 且 `annotations` 非数组 → 补 `[]`；替换体时删除 `content-length`。
+- （依据：openai-responses-json-compat.ts 1-35 行）
