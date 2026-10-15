@@ -61,23 +61,30 @@ function healthLeftoverNote(run: GetWorkflowRunOutput, terminal: boolean): strin
   } of the exited process, not live work.`; // 残留说明（单复数两形）
 }
 
+/**
+ * run 整体还在不在动，一行 `key=value`。
+ *
+ * `stalled` 只对活着的 run 有意义（一个终态 run 当然不动了），而终态 run 多出一句
+ * **leftover 说明**：下面那些标着 running 的行是进程死在它们下面的残留，不是活的工作。
+ * 这是本工具仅有的两处「把不知道说出口」之一——沉默会被读成「它们还在跑」。
+ */
 export function formatWorkflowRunHealthBlock(
-  snapshot: GetWorkflowRunOutput,
+  run: GetWorkflowRunOutput,
   terminal: boolean,
 ): string {
-  const clock = snapshot.generatedAt;
+  const clock = run.generatedAt;
   const cells: string[] = [];
-  const lastProgress = formatRelativeAge(clock, snapshot.health.lastProgressAt);
+  const lastProgress = formatRelativeAge(clock, run.health.lastProgressAt);
   if (lastProgress !== undefined) cells.push(`last_progress=${lastProgress}`); // 有时刻才有年龄
-  const concurrency = healthConcurrencyCell(snapshot);
+  const concurrency = healthConcurrencyCell(run);
   if (concurrency.length > 0) cells.push(concurrency);
   if (!terminal) {
-    const stalledAge = formatRelativeAge(clock, snapshot.health.stalledSince);
+    const stalledAge = formatRelativeAge(clock, run.health.stalledSince);
     cells.push(`stalled=${stalledAge === undefined ? "no" : `since ${stalledAge}`}`); // 终态不谈停滞
   }
-  cells.push(`consecutive_failures=${snapshot.health.consecutiveFailures}`);
-  cells.push(`cached_steps=${snapshot.health.cachedSteps}`);
-  return `<health>${rowOf(cells)}${healthLeftoverNote(snapshot, terminal)}</health>`;
+  cells.push(`consecutive_failures=${run.health.consecutiveFailures}`);
+  cells.push(`cached_steps=${run.health.cachedSteps}`);
+  return `<health>${rowOf(cells)}${healthLeftoverNote(run, terminal)}</health>`;
 }
 
 // —— 阶段表 ——
@@ -118,11 +125,12 @@ function phaseRow(
   ]);
 }
 
+/** 阶段表：一行一个阶段，声明序。`ahead` 的行只有名字和状态——它还没发生过。 */
 export function formatWorkflowRunPhasesBlock(
-  snapshot: GetWorkflowRunOutput,
+  run: GetWorkflowRunOutput,
   terminal: boolean,
 ): string | undefined {
-  const phases = snapshot.phases;
+  const phases = run.phases;
   const empty = phases === undefined || phases.length === 0;
   if (empty) return undefined; // 没有阶段就没有这张表
   const names = phases!.map((phase) => escapeWorkflowRunText(phase.name));
@@ -131,7 +139,7 @@ export function formatWorkflowRunPhasesBlock(
     stateWidth: fitWidth(phases!.map((phase) => phase.state)),
   };
   const lines = phases!.map((phase, index) =>
-    phaseRow(phase, index, names, widths, snapshot.generatedAt, terminal),
+    phaseRow(phase, index, names, widths, run.generatedAt, terminal),
   );
   return `<phases>\n${lines.join("\n")}\n</phases>`; // 表容器
 }
@@ -145,8 +153,8 @@ interface RosterWidths {
 }
 
 /**
- * 一行子代理。**getter 访问序是冻结契约**（activity 档 frozen route/getter 断言逐次记录）：
- * 状态 → 阶段 → 活动（读 generatedAt）→ tokens，拼行时名字/地址/状态序保持。
+ * 一行子代理。**getter 访问序是冻结契约**（activity/phase 档 frozen route/getter 断言逐次记录）：
+ * 数组字面量从左到右求值 = 名 → 地址 → 状态 → 阶段 → 活动（读 generatedAt）→ tokens。
  */
 function rosterRow(
   run: GetWorkflowRunOutput,
@@ -156,50 +164,60 @@ function rosterRow(
   widths: RosterWidths,
   askedAtByQid: ReadonlyMap<string, number>,
 ): string {
-  const state = padTo(actor.state, widths.stateWidth);
-  const phase =
-    actor.phaseName === undefined ? "" : `phase ${escapeWorkflowRunText(actor.phaseName)}`;
-  const activity = renderWorkflowRunActivity(actor, run.generatedAt, askedAtByQid);
-  const tokens = actor.tokens > 0 ? `${formatWorkflowRunCount(actor.tokens)} tokens` : "";
-  return rowOf([padTo(name, widths.nameWidth), padTo(address, widths.addressWidth), state, phase, activity, tokens]);
+  return rowOf([
+    padTo(name, widths.nameWidth), // 名列
+    padTo(address, widths.addressWidth), // 地址列
+    padTo(actor.state, widths.stateWidth), // 状态列（第 3 位读取）
+    actor.phaseName === undefined ? "" : `phase ${escapeWorkflowRunText(actor.phaseName)}`, // 阶段列
+    renderWorkflowRunActivity(actor, run.generatedAt, askedAtByQid), // 活动列（读 generatedAt）
+    actor.tokens > 0 ? `${formatWorkflowRunCount(actor.tokens)} tokens` : "", // token 列
+  ]);
 }
 
-export function formatWorkflowRunSubagentsBlock(snapshot: GetWorkflowRunOutput): string {
-  const nobody = snapshot.subagents.length === 0;
+/**
+ * 花名册：一行一个子代理，外加一行缩进的 `task:`（有任务摘要时）。
+ *
+ * 一行的读法是「谁 · 在哪 · 什么相位 · 在哪个阶段 · 正在做什么 · 花了多少 token」，
+ * 其中「正在做什么」按相位分叉——在跑的说它的 ask 和工具，在等的说等什么，停驻的说等哪个
+ * 问题、等了多久。这正是这个工具存在的理由：模型要能一眼看出「谁卡住了」。
+ */
+export function formatWorkflowRunSubagentsBlock(run: GetWorkflowRunOutput): string {
+  const nobody = run.subagents.length === 0;
   if (nobody) return "<subagents>No subagents created yet.</subagents>"; // 空册也要说一句话
   const askedAtByQid = new Map<string, number>();
-  for (const question of snapshot.pendingQuestions ?? [])
+  for (const question of run.pendingQuestions ?? [])
     askedAtByQid.set(question.qid, question.askedAt);
 
-  const names = snapshot.subagents.map((actor) =>
+  const names = run.subagents.map((actor) =>
     actor.name === undefined ? "" : escapeWorkflowRunText(actor.name),
   );
-  const addresses = snapshot.subagents.map(
+  const addresses = run.subagents.map(
     (actor) => `${escapeWorkflowRunText(actor.siteId)}@${actor.ordinal}`, // 地址列
   );
   const widths: RosterWidths = {
     nameWidth: fitWidth(names),
     addressWidth: fitWidth(addresses),
-    stateWidth: fitWidth(snapshot.subagents.map((actor) => actor.state)),
+    stateWidth: fitWidth(run.subagents.map((actor) => actor.state)),
   };
 
   const lines: string[] = [];
-  snapshot.subagents.forEach((actor, index) => {
-    lines.push(rosterRow(snapshot, actor, names[index]!, addresses[index]!, widths, askedAtByQid));
+  run.subagents.forEach((actor, index) => {
+    lines.push(rosterRow(run, actor, names[index]!, addresses[index]!, widths, askedAtByQid));
     const head = actor.currentAsk?.instructionsHead;
     if (head !== undefined && head.length > 0) {
       lines.push(`${TASK_LINE_INDENT}task: ${escapeWorkflowRunText(head)}`);
     }
   });
   const truncated =
-    snapshot.subagentsTruncated === true
-      ? `\nOnly the first ${snapshot.subagents.length} subagents are listed; this run has more.`
+    run.subagentsTruncated === true
+      ? `\nOnly the first ${run.subagents.length} subagents are listed; this run has more.`
       : "";
   return `<subagents>\n${lines.join("\n")}${truncated}\n</subagents>`;
 }
 
 // —— 叙事尾巴 ——
 
+/** 叙事尾巴。事件带落库时刻时前缀年龄；老 journal 上没有这一列，那些行就只有序号。 */
 export function formatWorkflowRunLogTailBlock(run: GetWorkflowRunOutput): string {
   if (run.logTail.length === 0) return "<log_tail>No log() narration recorded yet.</log_tail>";
   const lines = run.logTail.map((entry) => {
