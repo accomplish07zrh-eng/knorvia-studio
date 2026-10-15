@@ -1,27 +1,5 @@
-import type { AgentRuntimeConfig } from "../types.js";
-import { resolveProjectMemoryRoot } from "../../memory/project-root.js";
+// SPDX-License-Identifier: Apache-2.0
+// 项目记忆根启用判定的兼容面（B45）：实现见 ./memory/project-memory-root.js。
+import * as memoryRoot from "./memory/project-memory-root.js";
 
-export function resolveEnabledProjectMemoryRoot(
-  config: AgentRuntimeConfig,
-  workspacePath: string,
-): string | undefined {
-  const memory = config.memory;
-  if (!memory?.enabled || memory.use === false || !memory.cliStorageRoot) return undefined;
-  if (!isMainMemoryTaskType(config.taskType)) return undefined;
-
-  return resolveProjectMemoryRoot({
-    cliStorageRoot: memory.cliStorageRoot,
-    workspaceIdentity: memory.workspaceIdentity,
-    workspacePath,
-  });
-}
-
-function isMainMemoryTaskType(taskType: AgentRuntimeConfig["taskType"]): boolean {
-  return (
-    taskType === undefined ||
-    taskType === "interactive" ||
-    taskType === "fork" ||
-    taskType === "selection_side_chat" ||
-    taskType === "workflow_parent"
-  );
-}
+export const resolveEnabledProjectMemoryRoot = memoryRoot.resolveEnabledProjectMemoryRoot;

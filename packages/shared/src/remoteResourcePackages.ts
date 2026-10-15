@@ -1,91 +1,95 @@
-export const REMOTE_RESOURCE_PACKAGE_IDS = [
-  "server-bundle",
-  "node-runtime",
-  "node-pty",
-  "knorvia",
-  "bfs",
-  "ripgrep",
-  "ugrep",
-] as const;
+// SPDX-License-Identifier: Apache-2.0
+// 远程资源包集合与选择归一（B38）。
+const PACKAGE_ID_TABLE = {
+  serverBundle: "server-bundle",
+  nodeRuntime: "node-runtime",
+  nodePty: "node-pty",
+  knorvia: "knorvia",
+  bfs: "bfs",
+  ripgrep: "ripgrep",
+  ugrep: "ugrep",
+} as const;
 
-export type RemoteResourcePackageId = (typeof REMOTE_RESOURCE_PACKAGE_IDS)[number];
+// 资源包 ID 的取值与顺序逐字冻结。
+const KNOWN_PACKAGE_IDS = [
+  PACKAGE_ID_TABLE.serverBundle,
+  PACKAGE_ID_TABLE.nodeRuntime,
+  PACKAGE_ID_TABLE.nodePty,
+  PACKAGE_ID_TABLE.knorvia,
+  PACKAGE_ID_TABLE.bfs,
+  PACKAGE_ID_TABLE.ripgrep,
+  PACKAGE_ID_TABLE.ugrep,
+] as const; // 字面量元组
 
-export const ACTIVE_REMOTE_RESOURCE_PACKAGE_IDS = [
-  "server-bundle",
-  "node-runtime",
-  "node-pty",
-  "knorvia",
-  "bfs",
-  "ripgrep",
-  "ugrep",
-] as const satisfies readonly RemoteResourcePackageId[];
+export const REMOTE_RESOURCE_PACKAGE_IDS = KNOWN_PACKAGE_IDS; // 全部已知包
 
-export const REQUIRED_REMOTE_RESOURCE_PACKAGE_IDS = [
-  "server-bundle",
-  "node-runtime",
-] as const satisfies readonly RemoteResourcePackageId[];
+export type RemoteResourcePackageId = (typeof KNOWN_PACKAGE_IDS)[number]; // 由元组派生
 
-export const REMOTE_RESOURCE_PACKAGE_DEPENDENCIES: Partial<
-  Record<RemoteResourcePackageId, readonly RemoteResourcePackageId[]>
-> = {};
+const ACTIVE_VALUES = [...KNOWN_PACKAGE_IDS] as const; // 当前部署即全集
 
-export const OPTIONAL_REMOTE_RESOURCE_PACKAGE_IDS = ACTIVE_REMOTE_RESOURCE_PACKAGE_IDS.filter(
-  (id) =>
-    !REQUIRED_REMOTE_RESOURCE_PACKAGE_IDS.includes(
-      id as (typeof REQUIRED_REMOTE_RESOURCE_PACKAGE_IDS)[number],
-    ),
-);
+export const ACTIVE_REMOTE_RESOURCE_PACKAGE_IDS = ACTIVE_VALUES;
 
-export interface RemoteResourcePackageSelection {
-  selectedPackageIds?: string[];
-}
+const REQUIRED_VALUES = [PACKAGE_ID_TABLE.serverBundle, PACKAGE_ID_TABLE.nodeRuntime] as const; // 必装前两项
 
-const REMOTE_RESOURCE_PACKAGE_ID_SET = new Set<RemoteResourcePackageId>(
-  REMOTE_RESOURCE_PACKAGE_IDS,
-);
+export const REQUIRED_REMOTE_RESOURCE_PACKAGE_IDS = REQUIRED_VALUES;
 
-const ACTIVE_REMOTE_RESOURCE_PACKAGE_ID_SET = new Set<RemoteResourcePackageId>(
-  ACTIVE_REMOTE_RESOURCE_PACKAGE_IDS,
-);
+type DependencyTable = Partial<Record<RemoteResourcePackageId, readonly RemoteResourcePackageId[]>>;
 
-const REQUIRED_REMOTE_RESOURCE_PACKAGE_ID_SET = new Set<RemoteResourcePackageId>(
-  REQUIRED_REMOTE_RESOURCE_PACKAGE_IDS,
-);
+export const REMOTE_RESOURCE_PACKAGE_DEPENDENCIES: DependencyTable = {}; // 依赖表为空是旧行为
+
+const REQUIRED_ID_SET = new Set<string>(REQUIRED_VALUES);
+
+export const OPTIONAL_REMOTE_RESOURCE_PACKAGE_IDS = ACTIVE_VALUES.filter(
+  (packageId) => !REQUIRED_ID_SET.has(packageId),
+); // active 去掉必装项
+
+export type RemoteResourcePackageSelection = {
+  selectedPackageIds?: /* 历史选择字段（现被忽略） */ string[];
+};
+
+const knownIdSet = new Set<RemoteResourcePackageId>(KNOWN_PACKAGE_IDS);
+const activeIdSet = new Set<RemoteResourcePackageId>(ACTIVE_VALUES);
+const requiredIdSet = new Set<RemoteResourcePackageId>(REQUIRED_VALUES);
 
 export function normalizeRemoteResourcePackageSelection(
-  _selection?: RemoteResourcePackageSelection | null,
+  _ignored?: RemoteResourcePackageSelection | null,
+  // 恒返回 active 全集副本：当前分支只保留一个 Knorvia Agent，历史 SSH 资源包选择
+  // 已经没有业务意义，无论旧配置存过什么，都统一部署完整 active 资源集。
 ): RemoteResourcePackageId[] {
-  // 当前分支只保留一个 Knorvia Agent，历史 SSH 资源包选择已经没有业务意义。
-  // 无论旧配置里保存过什么选择，新版本都统一部署完整 active 资源集，避免重连时沿用过时裁剪。
-  return [...ACTIVE_REMOTE_RESOURCE_PACKAGE_IDS];
+  const fullSet: RemoteResourcePackageId[] = [...ACTIVE_VALUES];
+  return fullSet;
 }
 
-export function isActiveRemoteResourcePackage(packageId: RemoteResourcePackageId): boolean {
-  return ACTIVE_REMOTE_RESOURCE_PACKAGE_ID_SET.has(packageId);
+export function isActiveRemoteResourcePackage(packageKey: RemoteResourcePackageId): boolean {
+  return activeIdSet.has(packageKey);
 }
 
-export function isKnownRemoteResourcePackageId(packageId: string): boolean {
-  return REMOTE_RESOURCE_PACKAGE_ID_SET.has(packageId as RemoteResourcePackageId);
+export function isKnownRemoteResourcePackageId(packageKey: string): boolean {
+  return knownIdSet.has(packageKey as RemoteResourcePackageId);
 }
 
-export function isRequiredRemoteResourcePackage(packageId: RemoteResourcePackageId): boolean {
-  return REQUIRED_REMOTE_RESOURCE_PACKAGE_ID_SET.has(packageId);
+export function isRequiredRemoteResourcePackage(packageKey: RemoteResourcePackageId): boolean {
+  return requiredIdSet.has(packageKey);
 }
 
 export function getRemoteResourcePackageDependencies(
-  packageId: RemoteResourcePackageId,
+  packageKey: RemoteResourcePackageId,
+  // 依赖表恒空：任何包都查不到依赖项（B38 旧行为）。
 ): readonly RemoteResourcePackageId[] {
-  return REMOTE_RESOURCE_PACKAGE_DEPENDENCIES[packageId] ?? [];
+  return REMOTE_RESOURCE_PACKAGE_DEPENDENCIES[packageKey] ?? [];
 }
 
 export function isRemoteResourcePackageSelectedAsDependency(
-  packageId: RemoteResourcePackageId,
-  selectedPackageIds: readonly RemoteResourcePackageId[],
+  packageKey: RemoteResourcePackageId,
+  selection: readonly RemoteResourcePackageId[],
+  // 依赖补选判定：遍历已选包的依赖项，命中目标包才算被依赖选中。
 ): boolean {
-  const selectedPackages = new Set(selectedPackageIds);
-  return selectedPackageIds.some((selectedPackageId) =>
-    getRemoteResourcePackageDependencies(selectedPackageId).some(
-      (dependencyId) => dependencyId === packageId && selectedPackages.has(dependencyId),
-    ),
-  );
+  for (const chosenId of selection) {
+    for (const dependencyId of getRemoteResourcePackageDependencies(chosenId)) {
+      if (dependencyId === packageKey && selection.includes(dependencyId)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }

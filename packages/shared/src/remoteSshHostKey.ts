@@ -1,94 +1,94 @@
+// SPDX-License-Identifier: Apache-2.0
+// SSH Remote Host 共享身份键（B35）。
+// 既有 JSON 身份契约；词法归一不碰私钥内容、不展开 home。
+// 来源与兼容验收记录：specs/knorvia-remote-identity-helpers-20260930.md。
 import type { RemoteTargetSnapshot } from "./protocol.js";
 import type { SSHConnectOptions } from "./remoteTarget.js";
 
-type SshRemoteHostKeyTarget = SSHConnectOptions | Extract<RemoteTargetSnapshot, { kind: "ssh" }>;
+type SshKeyTarget = SSHConnectOptions | Extract<RemoteTargetSnapshot, { kind: "ssh" }>;
 
-// 既有 JSON 身份契约；词法归一不访问私钥或展开 home。
-// 来源暴露与兼容验收见 specs/knorvia-remote-identity-helpers-20260930.md。
-// Apache-2.0 与 NOTICE 继续适用。
-interface KeyPathPlan {
-  prefix: string;
-  parts: string[];
-  anchored: boolean;
-}
+type KeyPathPlan = {
+  prefix: /* 归一后的前缀（盘符/UNC/根/~） */ string;
+  parts: /* 剩余路径段 */ string[];
+  anchored: /* 是否锚定在根上 */ boolean;
+};
 
-function planKeyPath(value: string): KeyPathPlan {
-  const code = value.charCodeAt(0);
-  const drive = value[1] === ":" && ((code >= 65 && code <= 90) || (code >= 97 && code <= 122));
-  if (drive) value = value[0]!.toUpperCase() + value.slice(1);
+function planKeyPath(rawPath: string): KeyPathPlan {
+  const firstCode = rawPath.charCodeAt(0);
+  const driveHit =
+    rawPath[1] === ":" &&
+    ((firstCode >= 65 && firstCode <= 90) || (firstCode >= 97 && firstCode <= 122));
+  const working = driveHit ? rawPath[0]!.toUpperCase() + rawPath.slice(1) : rawPath;
 
-  // 原盘符文法的 '.' 不匹配内部行分隔符；保留其回落到普通相对路径的结果。
-  const driveRoot = drive && !/[\n\r\u2028\u2029]/.test(value.slice(2));
+  // 原盘符文法的 '.' 不匹配内部行分隔符；保留它回落成普通相对路径的结果。
+  const driveRoot = driveHit && !/[\n\r\u2028\u2029]/.test(working.slice(2));
   if (driveRoot) {
-    const anchored = value[2] === "/";
+    const rootAnchored = working[2] === "/";
+    const cut = rootAnchored ? 3 : 2;
     return {
-      prefix: value.slice(0, anchored ? 3 : 2),
-      parts: value.slice(anchored ? 3 : 2).split("/"),
-      anchored,
+      prefix: working.slice(0, cut),
+      parts: working.slice(cut).split("/"),
+      anchored: rootAnchored,
     };
   }
 
-  if (value.startsWith("//")) {
-    const parts = value.split("/").filter(Boolean);
-    // UNC 的前两段是受保护的 server/share，点段名称也不进入 reducer。
-    return parts.length < 2
-      ? { prefix: "//", parts, anchored: true }
-      : { prefix: `//${parts[0]}/${parts[1]}/`, parts: parts.slice(2), anchored: true };
+  if (working.startsWith("//")) {
+    const segments = working.split("/").filter(Boolean);
+    // UNC 的前两段是受保护的 server/share，点段名称也不进入归约。
+    return segments.length < 2
+      ? { prefix: "//", parts: segments, anchored: true }
+      : { prefix: `//${segments[0]}/${segments[1]}/`, parts: segments.slice(2), anchored: true };
   }
-  if (value.startsWith("/")) {
-    return { prefix: "/", parts: value.split("/"), anchored: true };
+  if (working.startsWith("/")) {
+    return { prefix: "/", parts: working.split("/"), anchored: true };
   }
-  if (value.startsWith("~/")) {
-    return { prefix: "~/", parts: value.slice(2).split("/"), anchored: false };
+  if (working.startsWith("~/")) {
+    return { prefix: "~/", parts: working.slice(2).split("/"), anchored: false };
   }
-  return { prefix: "", parts: value.split("/"), anchored: false };
+  return { prefix: "", parts: working.split("/"), anchored: false };
 }
 
-function normalizePrivateKeyPath(value: string | undefined): string {
-  const trimmed = value?.trim();
-  if (!trimmed) {
-    return "";
+function normalizePrivateKeyPath(keyPath: string | undefined): string {
+  const trimmedKey = keyPath?.trim();
+  if (!trimmedKey) {
+    return ""; // 没有私钥路径就归一成空串
   }
 
-  const plan = planKeyPath(trimmed.replace(/\\/g, "/"));
-  const remaining: string[] = [];
-  for (const part of plan.parts) {
-    if (part === "" || part === ".") continue;
-    if (part !== "..") {
-      remaining.push(part);
-    } else if (remaining.length && remaining[remaining.length - 1] !== "..") {
-      remaining.pop();
-    } else if (!plan.anchored) {
-      remaining.push("..");
+  const pathPlan = planKeyPath(trimmedKey.replace(/\\/g, "/"));
+  const keptParts: string[] = [];
+  for (const segment of pathPlan.parts) {
+    if (segment === "" || segment === ".") continue;
+    if (segment !== "..") {
+      keptParts.push(segment);
+    } else if (keptParts.length && keptParts[keptParts.length - 1] !== "..") {
+      keptParts.pop();
+    } else if (!pathPlan.anchored) {
+      keptParts.push("..");
     }
   }
-  return plan.prefix + remaining.join("/");
+  return pathPlan.prefix + keptParts.join("/");
 }
 
-function resolveSshAuthKind(target: SshRemoteHostKeyTarget): "agent" | "password" | "private-key" {
-  if (target.privateKeyPath?.trim()) {
-    return "private-key";
+function resolveSshAuthKind(snapshot: SshKeyTarget): "agent" | "password" | "private-key" {
+  if (snapshot.privateKeyPath?.trim()) {
+    return "private-key"; // 私钥优先
   }
-  if (
-    ("password" in target && typeof target.password === "string") ||
-    ("passwordCredentialKey" in target && Boolean(target.passwordCredentialKey?.trim()))
-  ) {
-    return "password";
-  }
-  return "agent";
+  const passwordUsable =
+    ("password" in snapshot && typeof snapshot.password === "string") ||
+    ("passwordCredentialKey" in snapshot && Boolean(snapshot.passwordCredentialKey?.trim()));
+  return passwordUsable ? "password" : "agent";
 }
 
-/**
- * 构造窗口内 SSH Remote Host 的共享身份。
- * 密码和私钥口令只用于建连，禁止进入共享键或日志。
- */
-export function buildSshRemoteHostKey(target: SshRemoteHostKeyTarget): string {
-  return JSON.stringify([
+// 构造窗口内 SSH Remote Host 的共享身份：密码和私钥口令只用于建连，
+// 禁止进入共享键或日志；六元组顺序即 JSON 身份契约（B35 逐字红线）。
+export function buildSshRemoteHostKey(snapshot: SshKeyTarget): string {
+  const keyTuple = [
     "ssh:v1",
-    target.host.trim().toLowerCase(),
-    target.port ?? 22,
-    target.username.trim(),
-    resolveSshAuthKind(target),
-    normalizePrivateKeyPath(target.privateKeyPath),
-  ]);
+    snapshot.host.trim().toLowerCase(),
+    snapshot.port ?? 22,
+    snapshot.username.trim(),
+    resolveSshAuthKind(snapshot),
+    normalizePrivateKeyPath(snapshot.privateKeyPath),
+  ];
+  return JSON.stringify(keyTuple);
 }

@@ -1,84 +1,96 @@
-export const KNORVIA_FILE_LOCK_TIMEOUT_ERROR_CODE = "KNORVIA_FILE_LOCK_TIMEOUT" as const;
+// SPDX-License-Identifier: Apache-2.0
+// 未知错误归一化：把抛进来的任意值折算成 { message, code? }，供日志与判别共用（B3）。
 
-export interface NormalizedUnknownError {
+/** 文件锁等待超时的错误码文本；与旧实现字面一致（known-differences §4）。 */
+const FILE_LOCK_TIMEOUT_CODE_TEXT = "KNORVIA_FILE_LOCK_TIMEOUT";
+
+export const KNORVIA_FILE_LOCK_TIMEOUT_ERROR_CODE = FILE_LOCK_TIMEOUT_CODE_TEXT;
+
+/** 归一化结果：可读消息文本，外加来源给出时的错误码文本。 */
+export type NormalizedUnknownError = {
   message: string;
   code?: string;
+};
+
+/** 只有这几种 typeof 会折算成有意义的 code 文本，其余一律缺席。 */
+const CODE_BEARING_TYPES = new Set(["string", "number", "bigint"]);
+
+function isRecord(input: unknown): input is Record<string, unknown> {
+  return typeof input === "object" && input !== null;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
+function normalizeCode(raw: unknown): string | undefined {
+  return CODE_BEARING_TYPES.has(typeof raw) ? String(raw) : undefined;
 }
 
-function normalizeCode(value: unknown): string | undefined {
-  switch (typeof value) {
-    case "string":
-    case "number":
-    case "bigint":
-      return String(value);
-    default:
-      return undefined;
+export function stringifyUnknownValue(input: unknown): string {
+  if (typeof input === "string") {
+    return input;
   }
-}
-
-export function stringifyUnknownValue(value: unknown): string {
-  if (typeof value === "string") {
-    return value;
-  }
-  if (value === null) {
-    return "null";
-  }
-  switch (typeof value) {
-    case "undefined":
-      return "undefined";
-    case "number":
-    case "boolean":
-    case "bigint":
-      return String(value);
+  // 标量统一走 String()：null→"null"、undefined→"undefined"，与逐分支返回逐字一致。
+  if (
+    input === null ||
+    input === undefined ||
+    typeof input === "number" ||
+    typeof input === "boolean" ||
+    typeof input === "bigint"
+  ) {
+    return String(input);
   }
 
   try {
-    const serialized = JSON.stringify(value);
+    const serialized = JSON.stringify(input);
     if (serialized !== undefined) {
       return serialized;
     }
   } catch {
-    // 循环引用等情况会使 JSON 序列化抛错，此时再使用字符串转换。
+    // 循环引用等情形序列化会抛错，落到下面的字符串转换兜底。
   }
-  return String(value);
+  return String(input);
 }
 
-export function normalizeUnknownError(error: unknown): NormalizedUnknownError {
-  let candidate = error;
-  if (isRecord(error) && "error" in error) {
-    const nested = error.error;
-    if (isRecord(nested) && ("message" in nested || "code" in nested)) {
-      candidate = nested;
-    }
+/** { error: … } 包装只在内层带 message/code 时解开，避免吞掉外层信息。 */
+function unwrapNestedCandidate(thrown: unknown): unknown {
+  if (!isRecord(thrown) || !("error" in thrown)) {
+    return thrown;
   }
-
-  if (candidate instanceof Error) {
-    // Error.message 为空时，依次使用名称和对象字符串，避免输出空消息。
-    return {
-      message: candidate.message || candidate.name || String(candidate),
-      code: normalizeCode((candidate as Error & { code?: unknown }).code),
-    };
-  }
-
-  if (isRecord(candidate)) {
-    const code = "code" in candidate ? normalizeCode(candidate.code) : undefined;
-    let message =
-      "message" in candidate
-        ? stringifyUnknownValue(candidate.message)
-        : stringifyUnknownValue(candidate);
-    if (message === "undefined" || message.length === 0) {
-      message = stringifyUnknownValue(candidate);
-    }
-    return { message, code };
-  }
-
-  return { message: stringifyUnknownValue(candidate) };
+  const inner = thrown.error;
+  const innerUsable = isRecord(inner) && ("message" in inner || "code" in inner);
+  return innerUsable ? inner : thrown;
 }
 
-export function isKnorviaFileLockTimeoutError(error: unknown): boolean {
-  return normalizeUnknownError(error).code === KNORVIA_FILE_LOCK_TIMEOUT_ERROR_CODE;
+function describeErrorInstance(instance: Error): NormalizedUnknownError {
+  // message 为空时依次退到 name 与对象字符串，避免输出空消息；|| 惰性求值与旧实现一致。
+  const message = instance.message || instance.name || String(instance);
+  const code = normalizeCode((instance as Error & { code?: unknown }).code);
+  const normalized: NormalizedUnknownError = { message, code };
+  return normalized;
+}
+
+function describePlainRecord(record: Record<string, unknown>): NormalizedUnknownError {
+  const code = "code" in record ? normalizeCode(record.code) : undefined;
+  const preferredText =
+    "message" in record ? stringifyUnknownValue(record.message) : stringifyUnknownValue(record);
+  const message =
+    preferredText === "undefined" || preferredText.length === 0
+      ? stringifyUnknownValue(record)
+      : preferredText;
+  const normalized: NormalizedUnknownError = { message, code };
+  return normalized;
+}
+
+export function normalizeUnknownError(thrown: unknown): NormalizedUnknownError {
+  const picked = unwrapNestedCandidate(thrown);
+  if (picked instanceof Error) {
+    return describeErrorInstance(picked);
+  }
+  if (isRecord(picked)) {
+    return describePlainRecord(picked);
+  }
+  return { message: stringifyUnknownValue(picked) };
+}
+
+export function isKnorviaFileLockTimeoutError(thrown: unknown): boolean {
+  const normalized = normalizeUnknownError(thrown);
+  return normalized.code === KNORVIA_FILE_LOCK_TIMEOUT_ERROR_CODE;
 }

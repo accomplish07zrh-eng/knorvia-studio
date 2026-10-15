@@ -1,110 +1,123 @@
-/** 远端配置里的强制升级要求；原定义在已删除的 coding-plan-subscription 残留模块中，随删除迁入唯一使用方。 */
-export interface ForceUpdateConfig {
-  minimalVersion: string;
-}
+// SPDX-License-Identifier: Apache-2.0
+// 语义化版本比较与强制升级判定（B5）。
 
-export interface ForceUpdateRequirement {
-  currentVersion: string;
-  minimalVersion: string;
-}
+/** 远端配置里的强制升级要求；随 coding-plan 残留删除迁入唯一使用方。 */
+export type ForceUpdateConfig = {
+  minimalVersion: /* 允许继续运行的最低版本 */ string;
+};
 
-interface VersionParts {
-  numbers: [number, number, number];
-  prerelease: string[] | null;
-}
+export type ForceUpdateRequirement = {
+  currentVersion: /* 当前版本原文 */ string;
+  minimalVersion: /* 被要求的最低版本（已 trim） */ string;
+};
 
-function parseVersion(input: string): VersionParts | null {
-  const version = input.trim().replace(/^v/i, "");
-  const complete = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/.exec(
-    version,
-  );
-  if (complete) {
-    return {
-      numbers: [Number(complete[1]), Number(complete[2]), Number(complete[3])],
-      prerelease: complete[4] === undefined ? null : complete[4].split("."),
+type VersionParts = {
+  numbers: /* 主/次/修三段 */ [number, number, number];
+  prerelease: /* 预发布标识段；正式版为 null */ string[] | null;
+};
+
+const COMPLETE_VERSION_PATTERN =
+  /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/;
+const MAJOR_ONLY_PATTERN = /^([0-9]+)$/;
+const MAJOR_MINOR_PATTERN = /^([0-9]+)\.([0-9]+)$/;
+const NUMERIC_SEGMENT_PATTERN = /^\d+$/;
+
+function parseVersion(raw: string): VersionParts | null {
+  const cleaned = raw.trim().replace(/^v/i, "");
+  const complete = COMPLETE_VERSION_PATTERN.exec(cleaned);
+  if (complete !== null) {
+    const [, majorText, minorText, patchText, preText] = complete;
+    const parsed: VersionParts = {
+      numbers: [Number(majorText), Number(minorText), Number(patchText)],
+      prerelease: preText === undefined ? null : preText.split("."),
     };
+    return parsed;
   }
-
-  // 兼容只写主版本或主次版本的配置；简写不接受预发布标识和构建信息。
-  const majorOnly = /^([0-9]+)$/.exec(version);
-  if (majorOnly) {
-    return { numbers: [Number(majorOnly[1]), 0, 0], prerelease: null };
+  // 兼容只写主版本或主次版本的配置；简写不接受预发布标识与构建信息。
+  const majorOnly = MAJOR_ONLY_PATTERN.exec(cleaned);
+  if (majorOnly !== null) {
+    const zeroed: VersionParts = { numbers: [Number(majorOnly[1]), 0, 0], prerelease: null };
+    return zeroed;
   }
-  const majorMinor = /^([0-9]+)\.([0-9]+)$/.exec(version);
-  if (majorMinor) {
-    return {
-      numbers: [Number(majorMinor[1]), Number(majorMinor[2]), 0],
-      prerelease: null,
-    };
+  const majorMinor = MAJOR_MINOR_PATTERN.exec(cleaned);
+  if (majorMinor !== null) {
+    return { numbers: [Number(majorMinor[1]), Number(majorMinor[2]), 0], prerelease: null };
   }
-  return null;
+  return null; // 三种形态都对不上，按不可比较处理
 }
 
-function comparePrerelease(left: string[] | null, right: string[] | null): number {
-  if (left === null) {
-    return right === null ? 0 : 1;
+/** 数字段按数值比；数字段先于非数字段；其余按 localeCompare。 */
+function compareSegment(leftEntry: string, rightEntry: string): number {
+  const leftNumeric = NUMERIC_SEGMENT_PATTERN.test(leftEntry);
+  const rightNumeric = NUMERIC_SEGMENT_PATTERN.test(rightEntry);
+  if (leftNumeric && rightNumeric) {
+    // 两侧都是纯数字段，按数值差定序。
+    return Number(leftEntry) - Number(rightEntry);
   }
-  if (right === null) {
-    return -1;
+  if (leftNumeric !== rightNumeric) {
+    return leftNumeric ? -1 : 1; // 数字段排在非数字段之前
   }
-
-  for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
-    const leftEntry = left[index];
-    const rightEntry = right[index];
-    if (leftEntry === undefined) {
-      return -1;
-    }
-    if (rightEntry === undefined) {
-      return 1;
-    }
-
-    const leftNumeric = /^\d+$/.test(leftEntry);
-    const rightNumeric = /^\d+$/.test(rightEntry);
-    if (leftNumeric && rightNumeric) {
-      const delta = Number(leftEntry) - Number(rightEntry);
-      if (delta !== 0) {
-        return delta > 0 ? 1 : -1;
-      }
-    } else if (leftNumeric !== rightNumeric) {
-      return leftNumeric ? -1 : 1;
-    } else {
-      const delta = leftEntry.localeCompare(rightEntry);
-      if (delta !== 0) {
-        return delta > 0 ? 1 : -1;
-      }
-    }
-  }
-  return 0;
+  return leftEntry.localeCompare(rightEntry);
 }
 
-export function compareSemverVersions(leftVersion: string, rightVersion: string): number | null {
-  const left = parseVersion(leftVersion);
-  const right = parseVersion(rightVersion);
-  if (left === null || right === null) {
-    return null;
+function comparePrerelease(leftPre: string[] | null, rightPre: string[] | null): number {
+  const leftAbsent = leftPre === null;
+  const rightAbsent = rightPre === null;
+  if (leftAbsent || rightAbsent) {
+    if (leftAbsent && rightAbsent) {
+      return 0; // 两侧都是正式版
+    }
+    // 正式版高于任何预发布版。
+    return leftAbsent ? 1 : -1;
+  }
+  const leftSegments = leftPre;
+  const rightSegments = rightPre;
+  const span = Math.max(leftSegments.length, rightSegments.length);
+  for (let index = 0; index < span; index += 1) {
+    const leftEntry = leftSegments[index];
+    const rightEntry = rightSegments[index];
+    if (leftEntry === undefined || rightEntry === undefined) {
+      // 段数更多的一方更大。
+      return leftEntry === undefined ? -1 : 1;
+    }
+    const delta = compareSegment(leftEntry, rightEntry);
+    if (delta !== 0) {
+      return Math.sign(delta); // 已分出高下
+    }
+  }
+  return 0; // 逐段等价
+}
+
+export function compareSemverVersions(leftRaw: string, rightRaw: string): number | null {
+  const leftParts = parseVersion(leftRaw);
+  const rightParts = parseVersion(rightRaw);
+  if (leftParts === null || rightParts === null) {
+    return null; // 任一版本解析失败就不比较
   }
 
   for (const index of [0, 1, 2] as const) {
-    const delta = left.numbers[index] - right.numbers[index];
+    const delta = leftParts.numbers[index] - rightParts.numbers[index];
     if (delta !== 0) {
-      return delta > 0 ? 1 : -1;
+      return Math.sign(delta); // 主/次/修已分出高下
     }
   }
-  return comparePrerelease(left.prerelease, right.prerelease);
+  return comparePrerelease(leftParts.prerelease, rightParts.prerelease);
 }
 
-export function resolveForceUpdateRequirement(params: {
-  currentVersion: string;
-  forceUpdate?: ForceUpdateConfig | null;
-}): ForceUpdateRequirement | null {
-  const minimalVersion = params.forceUpdate?.minimalVersion.trim();
+type RequirementOutcome = ForceUpdateRequirement | null;
+
+export function resolveForceUpdateRequirement(request: {
+  forceUpdate?: /* 远端配置片段；缺席或 null 表示无要求 */ ForceUpdateConfig | null;
+  currentVersion: /* 当前版本原文 */ string;
+}): RequirementOutcome {
+  const minimalVersion = request.forceUpdate?.minimalVersion.trim();
   if (!minimalVersion) {
-    return null;
+    return null; // 没有远端最低版本要求
   }
 
-  const comparison = compareSemverVersions(params.currentVersion, minimalVersion);
+  const comparison = compareSemverVersions(request.currentVersion, minimalVersion);
   if (comparison === null || comparison >= 0) {
-    return null;
+    return null; // 版本不可比或已达标
   }
-  return { currentVersion: params.currentVersion, minimalVersion };
+  return { currentVersion: request.currentVersion, minimalVersion };
 }

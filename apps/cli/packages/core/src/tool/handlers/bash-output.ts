@@ -1,6 +1,11 @@
+// SPDX-License-Identifier: Apache-2.0
+// bash 输出投影与命令 span 遥测：执行端口的原始结果折算成 BashOutput——
+// 截断路径、字节数、退出码读数、gh 限流提示与图片探测都在这里收口；
+// 同时生成命令执行的性能 span（类别、安全名、状态、哈希）。
 import type {
   BashInput,
   BashOutput,
+  CommandExecutionTelemetry,
   ExecutionResult,
   ToolCommandStatus,
   ToolExecutionTelemetry,
@@ -27,141 +32,137 @@ export interface BashProgressTiming {
   firstOutputMs?: number;
 }
 
-function performanceStatus(result: ExecutionResult): ToolCommandStatus {
-  if (result.timedOut) return "timed_out";
-  if (result.cancelled) return "cancelled";
-  if (result.status === "completed" && result.exitCode !== undefined && result.exitCode !== 0) {
-    return "failed";
-  }
-  return result.status;
+// span 状态优先级：超时 > 取消 > 非零退出（completed 时）> 端口终态。
+function spanStatusFor(outcome: ExecutionResult): ToolCommandStatus {
+  if (outcome.timedOut) return "timed_out";
+  if (outcome.cancelled) return "cancelled";
+  const nonZeroCompleted =
+    outcome.status === "completed" && outcome.exitCode !== undefined && outcome.exitCode !== 0;
+  if (nonZeroCompleted) return "failed";
+  return outcome.status;
 }
 
-function executionTelemetry(
-  input: BashInput,
-  result: ExecutionResult,
-  progressTiming: BashProgressTiming | undefined,
+function buildCommandSpan(
+  spec: BashInput,
+  outcome: ExecutionResult,
+  timing: BashProgressTiming | undefined,
 ): ToolExecutionTelemetry | undefined {
-  const outputBytes = result.stdout.bytes + result.stderr.bytes;
-  const firstOutputMs = progressTiming?.firstOutputMs;
-  return compactToolExecutionTelemetry({
-    detail: {
-      kind: "command",
-      command: {
-        runMs: roundNonNegativeMs(result.durationMs),
-        firstOutputMs,
-        noOutputMs: firstOutputMs ?? roundNonNegativeMs(result.durationMs),
-        exitCode: result.exitCode,
-        timedOut: result.timedOut,
-        outputBytes,
-        category: classifyCommand(input.command),
-        ...classifySafeCommandIdentity(input.command),
-        status: performanceStatus(result),
-        hash: commandHash(input.command),
-      },
-    },
-  });
+  const totalBytes = outcome.stdout.bytes + outcome.stderr.bytes;
+  const firstOutputMs = timing?.firstOutputMs;
+  const spanFields: Record<string, unknown> = {
+    runMs: roundNonNegativeMs(outcome.durationMs),
+    firstOutputMs,
+    noOutputMs: firstOutputMs ?? roundNonNegativeMs(outcome.durationMs),
+    exitCode: outcome.exitCode,
+    timedOut: outcome.timedOut,
+    outputBytes: totalBytes,
+    category: classifyCommand(spec.command),
+    ...classifySafeCommandIdentity(spec.command),
+    status: spanStatusFor(outcome),
+    hash: commandHash(spec.command),
+  };
+  return wrapCommandSpan(spanFields);
+}
+
+// 三类 span（运行中/空命令/后台）共用的外层形状：detail.kind 恒为 command。
+function wrapCommandSpan(spanFields: Record<string, unknown>): ToolExecutionTelemetry | undefined {
+  const commandSpan = spanFields as CommandExecutionTelemetry;
+  return compactToolExecutionTelemetry({ detail: { kind: "command", command: commandSpan } });
 }
 
 export async function toBashOutput(
-  result: ExecutionResult,
-  input: BashInput,
-  context: ToolExecutionContext,
-  options: { progressTiming?: BashProgressTiming; stderrSuffix?: string } = {},
+  outcome: ExecutionResult,
+  spec: BashInput,
+  ctx: ToolExecutionContext,
+  overrides: { progressTiming?: BashProgressTiming; stderrSuffix?: string } = {},
 ): Promise<BashOutput> {
-  const stdoutPath = result.stdout.artifactPath;
-  const stderrPath = result.stderr.artifactPath;
-  const persistedPath = stdoutPath ?? stderrPath;
-  const stdoutArtifactBytes = result.stdout.artifactBytes;
-  const stderrArtifactBytes = result.stderr.artifactBytes;
-  const persistedOutputSize = persistedPath
-    ? (stdoutPath ? result.stdout.bytes : 0) + (stderrPath ? result.stderr.bytes : 0)
-    : undefined;
-  const stderr = appendBashCwdStderrSuffix(
-    result.stderr.text || result.error?.message || "",
-    options.stderrSuffix,
+  const stdoutArtifact = outcome.stdout.artifactPath;
+  const stderrArtifact = outcome.stderr.artifactPath;
+  const persistedArtifact = stdoutArtifact ?? stderrArtifact;
+  const combinedPersistedSize =
+    persistedArtifact === undefined
+      ? undefined
+      : (stdoutArtifact === undefined ? 0 : outcome.stdout.bytes) +
+        (stderrArtifact === undefined ? 0 : outcome.stderr.bytes);
+  const mergedStderr = appendBashCwdStderrSuffix(
+    outcome.stderr.text || outcome.error?.message || "",
+    overrides.stderrSuffix,
   );
-  const returnCodeInterpretation = interpretBashReturnCode(input.command, result);
-  const providerError = isBashProviderErrorStatus({
-    exitCode: result.exitCode,
-    returnCodeInterpretation,
-    status: result.status,
+  const reading = interpretBashReturnCode(spec.command, outcome);
+  const failedReading = isBashProviderErrorStatus({
+    exitCode: outcome.exitCode,
+    returnCodeInterpretation: reading,
+    status: outcome.status,
   });
-  const capturedStdout = result.stdout.text;
-  const image = providerError
+  const capturedStdout = outcome.stdout.text;
+  const image = failedReading
     ? undefined
-    : await prepareBashImageOutput(
-        {
-          artifactPath: stdoutPath,
-          artifactSize: stdoutArtifactBytes,
-          inline: capturedStdout,
-        },
-        context,
-      );
-  const stdout = image?.stdout ?? capturedStdout;
-  const isImage = image !== undefined;
-  const ghRateLimitHint = providerError
+    : await probeImageOutput(stdoutArtifact, outcome.stdout.artifactBytes, capturedStdout, ctx);
+  const ghRateLimitHint = failedReading
     ? undefined
-    : getGhRateLimitHint(input.command, result.stdout.text);
-  const output = {
-    stdout,
-    stderr,
-    interrupted: result.timedOut || result.cancelled,
-    isImage,
-    noOutputExpected: isSilentBashCommand(input.command),
-    status: result.status,
-    exitCode: result.exitCode,
-    signal: result.signal,
-    timedOut: result.timedOut,
-    cancelled: result.cancelled,
-    stdoutTruncated: result.stdout.truncated,
-    stderrTruncated: result.stderr.truncated,
-    stdoutBytes: result.stdout.bytes,
-    stderrBytes: result.stderr.bytes,
-    rawOutputPath: persistedPath,
-    dangerouslyDisableSandbox: input.dangerouslyDisableSandbox,
-    returnCodeInterpretation,
-    persistedOutputPath: persistedPath,
-    stdoutPersistedOutputPath: stdoutPath,
-    stderrPersistedOutputPath: stderrPath,
-    persistedOutputSize,
-    stdoutPersistedOutputSize: stdoutArtifactBytes,
-    stderrPersistedOutputSize: stderrArtifactBytes,
-    ...(ghRateLimitHint ? { ghRateLimitHint } : {}),
+    : getGhRateLimitHint(spec.command, outcome.stdout.text);
+
+  const projection: Record<string, unknown> = {
+    stdout: image?.stdout ?? capturedStdout,
+    stderr: mergedStderr,
+    interrupted: outcome.timedOut || outcome.cancelled,
+    isImage: image !== undefined,
+    noOutputExpected: isSilentBashCommand(spec.command),
+    status: outcome.status,
+    exitCode: outcome.exitCode,
+    signal: outcome.signal,
+    timedOut: outcome.timedOut,
+    cancelled: outcome.cancelled,
+    stdoutTruncated: outcome.stdout.truncated,
+    stderrTruncated: outcome.stderr.truncated,
+    stdoutBytes: outcome.stdout.bytes,
+    stderrBytes: outcome.stderr.bytes,
+    rawOutputPath: persistedArtifact,
+    dangerouslyDisableSandbox: spec.dangerouslyDisableSandbox,
+    returnCodeInterpretation: reading,
+    persistedOutputPath: persistedArtifact,
+    stdoutPersistedOutputPath: stdoutArtifact,
+    stderrPersistedOutputPath: stderrArtifact,
+    persistedOutputSize: combinedPersistedSize,
+    stdoutPersistedOutputSize: outcome.stdout.artifactBytes,
+    stderrPersistedOutputSize: outcome.stderr.artifactBytes,
   };
-  const progressTiming = options.progressTiming;
-  const telemetry = executionTelemetry(input, result, progressTiming);
-  return attachToolExecutionTelemetry(output, telemetry);
+  if (ghRateLimitHint) projection.ghRateLimitHint = ghRateLimitHint;
+
+  const span = buildCommandSpan(spec, outcome, overrides.progressTiming);
+  return attachToolExecutionTelemetry(projection as unknown as BashOutput, span);
+}
+
+async function probeImageOutput(
+  artifactPath: string | undefined,
+  artifactSize: number | undefined,
+  captured: string,
+  ctx: ToolExecutionContext,
+): Promise<{ stdout: string } | undefined> {
+  return prepareBashImageOutput({ artifactPath, artifactSize, inline: captured }, ctx);
 }
 
 export function createBashBackgroundPerformanceTelemetry(
-  input: BashInput,
+  spec: BashInput,
 ): ToolExecutionTelemetry | undefined {
-  return compactToolExecutionTelemetry({
-    detail: {
-      kind: "command",
-      command: {
-        category: classifyCommand(input.command),
-        ...classifySafeCommandIdentity(input.command),
-        status: "backgrounded",
-        hash: commandHash(input.command),
-      },
-    },
-  });
+  const spanFields: Record<string, unknown> = {
+    category: classifyCommand(spec.command),
+    ...classifySafeCommandIdentity(spec.command),
+    status: "backgrounded",
+    hash: commandHash(spec.command),
+  };
+  return wrapCommandSpan(spanFields);
 }
 
 export function createEmptyBashPerformanceTelemetry(
-  input: BashInput,
+  spec: BashInput,
 ): ToolExecutionTelemetry | undefined {
-  return compactToolExecutionTelemetry({
-    detail: {
-      kind: "command",
-      command: {
-        category: "empty",
-        count: 0,
-        name: "empty",
-        status: "completed",
-        hash: commandHash(input.command),
-      },
-    },
-  });
+  const spanFields: Record<string, unknown> = {
+    category: "empty",
+    count: 0,
+    name: "empty",
+    status: "completed",
+    hash: commandHash(spec.command),
+  };
+  return wrapCommandSpan(spanFields);
 }

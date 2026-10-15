@@ -1,24 +1,5 @@
-import type { RuntimeMessageEntry } from "../../agent/message-history.js";
-import type { Model } from "../deps.js";
-import type { AgentRuntimeConfig } from "../types.js";
-import {
-  buildProviderRequestMessages,
-  type ProviderRequestMessageProjectionResult,
-} from "./provider-request-messages.js";
+// SPDX-License-Identifier: Apache-2.0
+// 运行时请求消息入口的兼容面（B34）：实现见 ./provider/request-message-pipeline.js。
+import * as pipeline from "./provider/request-message-pipeline.js";
 
-export function buildRuntimeProviderRequestMessages(
-  runtime: { readonly config: Pick<AgentRuntimeConfig, "midConversationSystem"> },
-  input: {
-    entries: readonly RuntimeMessageEntry[];
-    applyCacheControl?: boolean;
-    model: Model;
-  },
-): ProviderRequestMessageProjectionResult {
-  const useMidConversationSystem =
-    runtime.config.midConversationSystem?.mode === "force" ||
-    input.model.properties.supportsMidConversationSystem;
-  return buildProviderRequestMessages({
-    ...input,
-    useMidConversationSystem,
-  });
-}
+export const buildRuntimeProviderRequestMessages = pipeline.buildRuntimeProviderRequestMessages;
