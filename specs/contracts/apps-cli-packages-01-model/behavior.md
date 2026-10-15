@@ -670,7 +670,7 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 平台差异：不适用。
 - 状态所有者：请求级包装。
 - 日志级别：不适用。
-- 语义常量：`system` 字符串 → 单元素 `[{ type: "text", text }]` 数组；`messages` 里 `role: "system"` 且 content 恰为单个 text 块 → content 收拢为字符串；递归修补 thinking 块：`type: "thinking"` 且 `signature` 不是字符串 → 补 `signature: ""`；`tool_result` 块的归一：带字符串 `name` → 转 `tool_use`（`id` 取 `id ?? tool_use_id ?? tool_<uuid>`，`input ?? {}`），不带 `name` → 转 `text`（content 字符串直用，否则 `JSON.stringify(content ?? "")`）。
+- 语义常量：`system` 字符串 → 单元素 `[{ type: "text", text }]` 数组；`messages` 里 `role: "system"` 且 content 恰为单个 text 块 → content 收拢为字符串；递归修补 thinking 块：`type: "thinking"` 且 `signature` 不是字符串 → 补 `signature: ""`；请求体里的 `tool_result` 块**原样透传**（`tool_result` 的归一只发生在响应侧 SSE 的 `content_block_start`，见 B45）。
 - （依据：anthropic-stream-compat.ts 5-51、140-149 行）
 
 ### B45 Anthropic 兼容 fetch：响应侧 SSE/JSON 修补（含签名补发）
@@ -684,7 +684,7 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 - 平台差异：换行风格保持（`\r\n` 帧分隔用 `\r\n` 重拼，否则 `\n`）。
 - 状态所有者：请求级包装（签名状态表按 `index` 作用域）。
 - 日志级别：不适用。
-- 语义常量：仅 2xx 响应进入修补；`content-type` 含 `text/event-stream` → SSE 修补；含 `json` → JSON 修补（递归补 `signature: ""`）；其余原样。SSE 规则：`data:` 行取 `data:` 后内容去前导空白、以 `\n` 合并；空数据或 `[DONE]` 帧原样透传；解析非对象透传；`content_block_start` 的 `content_block` 走 B44 的 `tool_result` 归一，thinking 块带非空字符串 `signature` 时按 `index` 记忆；`content_block_delta` 的 `signature_delta` 标记该 index 已观察到增量；`content_block_stop` 时若该 index 记忆了签名且**没观察到增量**，在该帧前注入一条合成帧 `content_block_delta`（`delta: { type: "signature_delta", signature }`，逐字 `event: content_block_delta`）；输出帧保留非 data 行 + 重写后的 `data: <JSON>`。
+- 语义常量：仅 2xx 响应进入修补；`content-type` 含 `text/event-stream` → SSE 修补；含 `json` → JSON 修补（递归补 `signature: ""`）；其余原样。SSE 规则：`data:` 行取 `data:` 后内容去前导空白、以 `\n` 合并；空数据或 `[DONE]` 帧原样透传；解析非对象透传；`content_block_start` 的 `content_block` 若是 `tool_result`：带字符串 `name` → 转 `tool_use`（**保留 `name`**，`id` 取 `id ?? tool_use_id ?? tool_<uuid>`，`input ?? {}`）；不带 `name` → 转 `text`（content 字符串直用，否则 `JSON.stringify(content ?? "")`）；thinking 块带非空字符串 `signature` 时按 `index` 记忆；`content_block_delta` 的 `signature_delta` 标记该 index 已观察到增量；`content_block_stop` 时若该 index 记忆了签名且**没观察到增量**，在该帧前注入一条合成帧 `content_block_delta`（`delta: { type: "signature_delta", signature }`，逐字 `event: content_block_delta`）；输出帧保留非 data 行 + 重写后的 `data: <JSON>`。
 - （依据：anthropic-stream-compat.ts 52-139、150-175 行）
 
 ### B46 OpenAI Responses JSON 兼容：响应形状补全
