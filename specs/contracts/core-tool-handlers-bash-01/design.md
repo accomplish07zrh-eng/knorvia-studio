@@ -6,21 +6,44 @@
 
 **不变量**：`interface.md` 列出的 38 个模块路径与 209 个导出全部保留、签名不变（接口默认不可变）；`index.ts` 桶、workflow 簇、`-02` 簇、`generated/bash-command-registry.ts` 不在本包范围，不触碰。
 
-**原则**：不沿用旧文件的函数切分与顺序。公开路径按兼容面保留，实现按「判定管线阶段 / 命令族」重新组织；旧路径里只留签名与转发，重型实现与数据表搬进两个新的内部目录：
+**原则**：不沿用旧文件的函数切分与顺序。公开路径按兼容面保留，实现按「判定管线阶段 / 命令族」重新组织；旧路径里只留签名与转发，重型实现与数据表搬进两个新的内部目录（实施完成后的最终清单）：
 
 ```text
 apps/cli/packages/core/src/tool/handlers/
   bash-rules/                  ← 新：只读规则表内部实现（按命令公开文档重组）
-    policy-types.ts            规则策略的内部类型与取值语义（SafeFlagValue 解释）
-    argv-flow.ts               包装剥离、env 赋值/重定向闸门、UNC 拒绝、git 全局危险选项闸门
-    plain-gates.ts             直接判定闸门（find 写选项、cd 参数个数、sed -i、tree 输出、xargs 平台分支等）
-    flag-walker.ts             safeFlags 表驱动消费器（单函数遍历 argv，形态与旧文件不同）
-    multiword-matcher.ts       多词前缀策略匹配（按前缀词数优先，数据驱动）
-    danger-checks.ts           各命令危险性回调（按命令族分组的表 + 共用谓词）
-    families/                  按命令族组织的规则数据（text、files、git、gh、docker、process-net、shell）
-    git-subcommands.ts         git 只读子命令策略数据（按子命令族分组）
-  bash-exec/                   ← 新：执行簇内部实现（管线阶段组织）
-    (按簇实施时落点细化：解析辅助、输出投影、遥测助手、IO 端口适配)
+    policy-shapes.ts           策略形状（SafeFlagValue 语义说明；类型兼容声明块上移到公开壳）
+    env-gates.ts               env 赋值/重定向/UNC 闸门
+    wrapper-peeling.ts         command/builtin/noglob 包装剥离
+    direct-shape-gates.ts      直接判定（find 写选项、printf 格式、定长参数命令、docker 前缀）
+    git-subcommand-gates.ts    git 全局旗标消毒 + 子命令族最长前缀匹配
+    main-chain.ts              判定主链（闸门 → 直接判定 → 多词 → 简单命令族）
+    flag-walker.ts             safeFlags 画像的单遍历消费器
+    flag-builder.ts            画像紧凑声明器（开关串 + 带值对）
+    danger-checks.ts           非 git 命令族危险性复核（jq/sed/date/ps/man/lsof/tput/ss/test/xargs/gh/docker）
+    git-danger-checks.ts       git 族危险性复核（format 签名/reflog/ls-remote/remote show/tag/branch）
+    families/
+      plain-commands.ts        简单命令族数据（git 全局旗标、观察类集合、单命令画像表）
+      text-flags.ts            文本工具族画像（cat/grep/rg/sed/jq/file/tree/xargs/head-tail/wc）
+      file-flags.ts            文件检查与系统信息族画像（fd/sort/base64/摘要和/date/hostname）
+      git-flags.ts             git 展示预设 + log/diff/show/grep/status 专属画像
+      process-flags.ts         进程/网络/容器/测试族画像（ps/pgrep/lsof/ss/netstat/man/tput/test/docker/gh 旗标组）
+      git-subcommand-core.ts   git 只读子命令（查询与内容检视族）
+      git-subcommand-history.ts git 只读子命令（历史与远端信息族）
+      multiword.ts             docker 与 gh auth 多词前缀
+      gh-multiword.ts          GitHub CLI 查询族多词前缀
+      entry-builder.ts         子命令条目声明器（前缀 + 画像 + 可选复核）
+  bash-exec/                   ← 新：执行簇内部实现（按管线阶段组织）
+    command-analysis.ts        基于 unbash AST 的命令段分析（动态成分/重定向/操作符标注）
+    rule-evaluation.ts         bash 权限规则求值
+    permission-policy.ts       权限规则策略（授权计划派生 + 装配）
+    action-folding.ts          稳定动作前缀折叠（包装剥离 + Fig 注册表下钻）
+    background-lifecycle.ts    后台生命周期能力判定
+    gh-reminder-text.ts        gh 限流识别信号与提醒文案
+    handler-run.ts             执行编排（空命令短路/分派/cwd 跟随/投影串联）
+    tool-profile.ts            工具画像（只读能力、超时预算、schema 定制、描述）
+    command-span.ts            命令 span 遥测（开启/终态收尾/分类）
+    request-build.ts           ExecutionRequest 构造 + ToolCallProgress 事件转发
+    read-state-effects-util.ts read-state 效果辅助（trace/mtime/提示文案/记录组装）
 ```
 
 **公开路径的三种角色**（替换后）：

@@ -14,7 +14,7 @@ import {
   type ExecutionRunOptions,
 } from "@knorvia/contracts";
 import type { BashTimeoutPolicy } from "../../bash-timeout-policy.js";
-import type { ToolEntry, ToolExecutionContext, ToolHandler } from "../../types.js";
+import type { ToolExecutionContext, ToolHandler } from "../../types.js";
 import {
   supportsBashBackgroundLifecycle,
   type BashBackgroundLifecycleResult,
