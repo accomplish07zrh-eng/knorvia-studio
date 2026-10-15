@@ -1,12 +1,7 @@
-// ============================================================
-// ListSavedWorkflows Tool Handler
-// ============================================================
-// 枚举本项目（= 会话工作目录）保存的 dwf 定义。
-//
-// 与 ListWorkflowRuns 是**两件事**，且两个描述都要把这件事说穿：那个列的是跑过的 run
-// （历史、有状态、有 runId），这个列的是可以拿来跑的定义（清单、无状态、有名字）。模型最
-// 容易犯的错就是把「有哪些工作流可用」问成「有哪些工作流跑过」，然后回答用户"你没有任何
-// 工作流"——而项目里其实存着五个。
+// SPDX-License-Identifier: Apache-2.0
+// ListSavedWorkflows：枚举本项目保存的 dwf 定义（清单、无状态、有名字）——与 ListWorkflowRuns 的
+// run 历史是两件事，描述必须把这点说穿。handler 恒取本会话工作目录（模型无权跨项目扫盘）；
+// 模型面走块式（定义带描述与参数表，是选型依据，挤一行会把信息压没）。
 
 import {
   LIST_SAVED_WORKFLOWS_TOOL_NAME,
@@ -22,121 +17,150 @@ import type { ToolEntry, ToolHandler } from "../types.js";
 import { listSavedWorkflows } from "./saved-workflows/index.js";
 import { renderSavedWorkflowListing } from "./list-saved-workflows-model-renderer.js";
 
-const LIST_SAVED_WORKFLOWS_TIMEOUT_MS = 10_000;
-/** 照 ListWorkflowRuns：清单刻意轻（一次目录扫描可答），24k 足够几十条还留着余量。 */
+const LIST_SAVED_WORKFLOWS_TIMEOUT_MS = 10_000; // 一次目录扫描，10 秒封顶
+/** 照 ListWorkflowRuns：清单刻意轻，24k 足够几十条还留余量。 */
 const LIST_SAVED_WORKFLOWS_MODEL_BYTES = 24_000;
 
 const LIST_SAVED_WORKFLOWS_DESCRIPTION = [
   `Lists the dynamic workflows saved in this project (\`${SAVED_WORKFLOW_PROJECT_DIR}/\`, keyed on the session's working directory) and the global archive (\`~/.knorvia-studio/workflows\`, available from every project). These are workflow DEFINITIONS you can run, not past runs — for the run history use ListWorkflowRuns instead.`,
   "",
-  "- Each row gives the name, what the workflow does, when to reach for it, and the arguments it takes.",
-  "- Run one by passing its name to CreateWorkflow as `saved: { name, args }`. The user still confirms the run.",
-  "- Check here before writing a workflow from scratch: if the project already saved one that fits, running it beats rebuilding it.",
-  "- `invalid` lists saved files that could not be read (usually a hand-edited metadata block). They are named so they can be fixed, not silently skipped.",
+  "- Each row gives the name, what the workflow does, when to reach for it, and the arguments it takes.", // 行字段
+  "- Run one by passing its name to CreateWorkflow as `saved: { name, args }`. The user still confirms the run.", // 运行入口
+  "- Check here before writing a workflow from scratch: if the project already saved one that fits, running it beats rebuilding it.", // 先查后写
+  "- `invalid` lists saved files that could not be read (usually a hand-edited metadata block). They are named so they can be fixed, not silently skipped.", // invalid 语义
 ].join("\n");
 
-const listSavedWorkflowsHandler: ToolHandler = async (input, context) => {
-  ListSavedWorkflowsInputSchema.parse(input);
-
-  // cwd 恒取本会话的工作目录：模型无权跨项目扫盘，这同时是 `sideEffectScope: "none"` 的前提。
-  const { entries, invalid } = listSavedWorkflows({ cwd: context.workingDirectory ?? "." });
-
+/** 从本会话工作目录读清单（模型无权跨项目扫盘）。 */
+function readListing(cwd: string | undefined): ListSavedWorkflowsOutput {
+  const { entries, invalid } = listSavedWorkflows({ cwd: cwd ?? "." });
   return {
-    workflows: entries,
+    workflows: entries, // 定义清单
     // 为空时缺席：一个空数组会给每次调用挂一个噪音字段。
-    ...(invalid.length > 0 ? { invalid } : {}),
-  } satisfies ListSavedWorkflowsOutput;
-};
-
-/**
- * 模型面：一个 XML-ish 容器 + 一 workflow 一块。
- *
- * 与 ListWorkflowRuns 的**单行**属性式刻意不同：run 是低信息密度的高基数实体（50 行都长
- * 一个样，属性挤一行正好），而一个保存的 workflow 带着描述、使用时机和参数表——这些是模型
- * 用来**选**工作流的依据，挤成一行会把选择所需的信息压没。条数也低得多（一个项目里几个到
- * 几十个），撑得起每条几行。
- */
-function formatListSavedWorkflowsModelContent(output: unknown): ModelMessageContent {
-  const parsed = ListSavedWorkflowsOutputSchema.safeParse(output);
-  if (!parsed.success) return "ListSavedWorkflows returned an invalid result.";
-
-  const { workflows, invalid } = parsed.data;
-
-  if (workflows.length === 0 && invalid === undefined) {
-    // 「这个项目没存过 workflow」必须说成一句话：空容器容易被读成「工具没答上来」。
-    return [
-      '<saved_workflows count="0">',
-      `No workflows are saved in this project yet. Saved definitions live in ${SAVED_WORKFLOW_PROJECT_DIR}/.`,
-      "</saved_workflows>",
-    ].join("\n");
-  }
-
-  return renderSavedWorkflowListing(parsed.data, escapeAttribute);
+    ...(invalid.length > 0 ? { invalid } : {}), // 可读性失败的条目
+  } as ListSavedWorkflowsOutput; // 契约形状
 }
 
-/** 名字与路径进属性位：两者都可能带引号（路径尤其），不转义会造出畸形标签。 */
-function escapeAttribute(value: string): string {
-  return value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+const listSavedWorkflowsHandler: ToolHandler = async (call, scope) => {
+  ListSavedWorkflowsInputSchema.parse(call);
+  return readListing(scope.workingDirectory);
+};
+
+function escapeAmp(value: string): string {
+  return value.replaceAll("&", "&amp;"); // & 转义
+}
+
+function escapeQuote(value: string): string {
+  return value.replaceAll('"', "&quot;"); // 引号转义
+}
+
+function escapeLt(value: string): string {
+  return value.replaceAll("<", "&lt;"); // 尖括号转义
+}
+
+/** 属性位转义：名字与路径都可能带引号或尖括号（路径尤其），裸拼会造出畸形标签。 */
+function escapeAttribute(text: string): string {
+  return escapeLt(escapeQuote(escapeAmp(text))); // 三级替换链
+}
+
+/** 空清单也要说成一句话（含定义目录），空容器会被读成「工具没答上来」。 */
+function emptyListing(): ModelMessageContent {
+  const lines = [
+    '<saved_workflows count="0">', // 空容器
+    `No workflows are saved in this project yet. Saved definitions live in ${SAVED_WORKFLOW_PROJECT_DIR}/.`,
+    "</saved_workflows>", // 容器闭合
+  ];
+  return lines.join("\n"); // 空清单句
+}
+
+/**
+ * 模型面：一个 XML-ish 容器 + 一 workflow 一块。与 ListWorkflowRuns 的单行属性式刻意不同——
+ * run 是低信息密度高基数实体，而保存的定义带描述、使用时机和参数表，是模型选型的依据。
+ */
+function formatListSavedWorkflowsModelContent(raw: unknown): ModelMessageContent {
+  const parsed = ListSavedWorkflowsOutputSchema.safeParse(raw); // 契约形状校验
+  if (!parsed.success) return "ListSavedWorkflows returned an invalid result."; // 定型兜底
+
+  const { workflows, invalid } = parsed.data; // 清单与坏文件
+  const bare = workflows.length === 0 && invalid === undefined;
+  if (bare) return emptyListing(); // 空清单句
+  return renderSavedWorkflowListing(parsed.data, escapeAttribute); // 块式清单渲染（original 面）
+}
+
+function toolMetadata() {
+  // 声明面：名字、引导文案、只读与预算档
+  const surface = {
+    name: LIST_SAVED_WORKFLOWS_TOOL_NAME, // 工具名（契约面）
+    description: LIST_SAVED_WORKFLOWS_DESCRIPTION, // 引导文案（协议面）
+    readOnly: true, // 只读
+    destructive: false, // 无破坏
+    concurrentSafe: true, // 并发安全
+    timeoutMs: LIST_SAVED_WORKFLOWS_TIMEOUT_MS, // 10s
+    maxOutputBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 24k
+    sideEffectScope: "none" as const,
+    riskLevel: "low" as const,
+    needsApproval: false, // 免确认
+  };
+  return surface;
+}
+
+function toolPermission(): ToolEntry["permission"] {
+  // 权限面：读清单免确认，模式只按工具名
+  const surface = {
+    permission: "listSavedWorkflows" as const, // 权限名
+    reason: "ListSavedWorkflows reads the saved workflow definitions of the current project", // 理由（协议面）
+    riskLevel: "low" as const,
+    sideEffectScope: "none" as const,
+    needsApproval: false,
+    // 输入无路径主体：模式只按工具名匹配。
+    patternSources: ["toolName"] as ToolEntry["permission"]["patternSources"],
+    alwaysAllowPatternSources: ["toolName"] as ToolEntry["permission"]["alwaysAllowPatternSources"],
+    denyPriority: "beforeAsk" as const,
+    // 不继承 SaveWorkflow / CreateWorkflow 的 alwaysAsk：那两道门是「写仓库」与「执行整块代码」。
+  };
+  return surface;
+}
+
+function toolBudget() {
+  // 预算面：内联/模型/预览同值，超限截断
+  const surface = {
+    maxInlineBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 24k 内联上限
+    maxModelBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 24k 模型面上限
+    strategy: "truncate" as const, // 超限截断
+    preview: { // 预览
+      maxBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES, // 预览同预算
+      direction: "head" as const,
+    },
+  };
+  return surface;
 }
 
 export const listSavedWorkflowsToolEntry: ToolEntry = {
-  capability: "List the reusable dynamic-workflow definitions saved in this project",
-  metadata: {
-    name: LIST_SAVED_WORKFLOWS_TOOL_NAME,
-    description: LIST_SAVED_WORKFLOWS_DESCRIPTION,
-    readOnly: true,
-    destructive: false,
-    concurrentSafe: true,
-    timeoutMs: LIST_SAVED_WORKFLOWS_TIMEOUT_MS,
-    maxOutputBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES,
-    sideEffectScope: "none",
-    riskLevel: "low",
-    needsApproval: false,
-  },
+  capability: "List the reusable dynamic-workflow definitions saved in this project", // 能力一句话
+  metadata: toolMetadata(),
   handler: listSavedWorkflowsHandler,
   inputSchema: ListSavedWorkflowsInputJsonSchema,
   outputSchema: ListSavedWorkflowsOutputJsonSchema,
   runtimeInputSchema: ListSavedWorkflowsInputSchema,
   runtimeOutputSchema: ListSavedWorkflowsOutputSchema,
   formatModelContent: formatListSavedWorkflowsModelContent,
-  permission: {
-    permission: "listSavedWorkflows",
-    reason: "ListSavedWorkflows reads the saved workflow definitions of the current project",
-    riskLevel: "low",
-    sideEffectScope: "none",
-    needsApproval: false,
-    // 输入里没有路径主体（cwd 来自会话上下文），所以模式只按工具名匹配。
-    patternSources: ["toolName"],
-    alwaysAllowPatternSources: ["toolName"],
-    denyPriority: "beforeAsk",
-    // 刻意**不**继承 SaveWorkflow / CreateWorkflow 的 alwaysAsk：那两道 gate 的理由分别是
-    // 「写用户的仓库」与「执行整块代码」，读清单不属于任何一条。
-  },
-  resultBudget: {
-    maxInlineBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES,
-    maxModelBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES,
-    strategy: "truncate",
-    preview: {
-      maxBytes: LIST_SAVED_WORKFLOWS_MODEL_BYTES,
-      direction: "head",
-    },
-  },
+  permission: toolPermission(),
+  resultBudget: toolBudget(),
   timeout: {
-    kind: "timed",
-    defaultMs: LIST_SAVED_WORKFLOWS_TIMEOUT_MS,
-    maxMs: LIST_SAVED_WORKFLOWS_TIMEOUT_MS,
-    allowCallOverride: false,
+    kind: "timed" as const,
+    defaultMs: LIST_SAVED_WORKFLOWS_TIMEOUT_MS, // 10s
+    maxMs: LIST_SAVED_WORKFLOWS_TIMEOUT_MS, // 10s 封顶
+    allowCallOverride: false, // 调用方不得放宽
   },
   cancellation: {
-    supported: false,
-    cleanup: "none",
+    supported: false, // 不可取消
+    cleanup: "none" as const,
     userVisibleMessage:
-      "ListSavedWorkflows scans the project's workflow directory synchronously and cannot be cancelled",
+      "ListSavedWorkflows scans the project's workflow directory synchronously and cannot be cancelled", // 取消语义文案
   },
   trace: {
-    required: true,
+    required: true, // 必带 trace
     propagateToAdapters: false,
-    recordInput: "summary",
-    recordOutput: "summary",
+    recordInput: "summary" as const, // 输入只留摘要
+    recordOutput: "summary" as const, // 输出只留摘要
   },
 };
