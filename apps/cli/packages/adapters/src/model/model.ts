@@ -86,10 +86,12 @@ export function createModel(assembly: CreateModelOptions): Model {
         options: validateOptions(assembly.optionSpecs, { ...resolved, ...request.options }),
       };
     };
-    const runGenerate = (request: ModelRequest): Promise<ModelResult> =>
+    // 能力/选项校验失败必须落在 Promise/迭代器边界内（rejects 语义，不裸抛）
+    const runGenerate = async (request: ModelRequest): Promise<ModelResult> =>
       assembly.executor.generateText(prepare(request));
-    const runStream = (request: ModelRequest): AsyncIterable<ModelEvent> =>
-      assembly.executor.streamText(prepare(request));
+    async function* runStream(request: ModelRequest): AsyncIterable<ModelEvent> {
+      yield* assembly.executor.streamText(prepare(request));
+    }
     const model = {
       providerId: assembly.providerId,
       modelId: assembly.modelId,

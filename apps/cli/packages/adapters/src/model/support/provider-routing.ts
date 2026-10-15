@@ -31,37 +31,78 @@ export interface ProviderShim {
   providerId: string; // SDK name 用（openai-compatible）
 }
 
-export function readProviderShim(
+// 绑定快照：providerConfig 的 api/access/providerOptions 在 bindModel 时定格，
+// 请求期鉴权只改 key 与 headers（「execution binds a provider snapshot」语义）。
+export interface ProviderSnapshot {
+  kind: AiSdkProviderKind;
+  baseURL?: string;
+  staticHeaders?: Record<string, string>;
+  staticKey?: string;
+  providerOptions?: Record<string, unknown>;
+  providerId: string;
+  defaultHeaders?: Readonly<Record<string, string>>;
+}
+
+export function snapshotProviderShim(
   providerConfig: RegistryProviderConfig,
-  requestAuth: ModelRequestAuth | undefined,
   executionConfig: AiSdkModelExecutionConfig,
   providerId: string,
-): ProviderShim {
+): ProviderSnapshot {
   const config = providerConfig as unknown as Record<string, unknown>;
   const api = isRecord(config.api) ? config.api : {};
   const access = isRecord(config.access) ? config.access : {};
   const apiType = String(api.type ?? DEFAULT_API_TYPE);
   const kind = KIND_BY_API_TYPE[apiType];
   if (!kind) throw new Error(`Unsupported provider API format: ${apiType}`);
-  const baseURL = typeof api.baseUrl === "string" ? api.baseUrl : undefined;
-  const staticKey = typeof access.apiKey === "string" ? access.apiKey : undefined;
-  const apiKey = requestAuth?.apiKey ?? staticKey;
-  const staticHeaders = isRecord(api.headers) ? (api.headers as Record<string, string>) : undefined;
+  return {
+    kind,
+    baseURL: typeof api.baseUrl === "string" ? api.baseUrl : undefined,
+    staticHeaders: isRecord(api.headers) ? (api.headers as Record<string, string>) : undefined,
+    staticKey: typeof access.apiKey === "string" ? access.apiKey : undefined,
+    providerOptions: isRecord(config.providerOptions)
+      ? (config.providerOptions as Record<string, unknown>)
+      : undefined,
+    providerId,
+    defaultHeaders: executionConfig.defaultHeaders,
+  };
+}
+
+export function resolveProviderShim(
+  snapshot: ProviderSnapshot,
+  requestAuth: ModelRequestAuth | undefined,
+): ProviderShim {
+  const apiKey = requestAuth?.apiKey ?? snapshot.staticKey;
   const headers = mergeModelRequestHeaders(
-    executionConfig.defaultHeaders as Record<string, string> | undefined,
-    staticHeaders,
+    snapshot.defaultHeaders as Record<string, string> | undefined,
+    snapshot.staticHeaders,
     requestAuth?.headers,
   );
   const hasAuthorization = Object.keys(headers).some(
     (key) => key.toLowerCase() === "authorization",
   );
-  if (kind === "anthropic" && !hasAuthorization && apiKey) {
+  if (snapshot.kind === "anthropic" && !hasAuthorization && apiKey) {
     headers["Authorization"] = `Bearer ${apiKey}`;
   }
-  const providerOptions = isRecord(config.providerOptions)
-    ? (config.providerOptions as Record<string, unknown>)
-    : undefined;
-  return { kind, baseURL, headers, apiKey, providerOptions, providerId };
+  return {
+    kind: snapshot.kind,
+    baseURL: snapshot.baseURL,
+    headers,
+    apiKey,
+    providerOptions: snapshot.providerOptions,
+    providerId: snapshot.providerId,
+  };
+}
+
+export function readProviderShim(
+  providerConfig: RegistryProviderConfig,
+  requestAuth: ModelRequestAuth | undefined,
+  executionConfig: AiSdkModelExecutionConfig,
+  providerId: string,
+): ProviderShim {
+  return resolveProviderShim(
+    snapshotProviderShim(providerConfig, executionConfig, providerId),
+    requestAuth,
+  );
 }
 
 export function normalizeAnthropicBase(baseURL: string): string {

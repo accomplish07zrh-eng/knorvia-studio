@@ -17,7 +17,11 @@ import type {
   AiSdkModelExecutionOptions,
   AiSdkResolvedModel,
 } from "./support/execution-contract.js";
-import { buildLanguageModel, readProviderShim } from "./support/provider-routing.js";
+import {
+  buildLanguageModel,
+  snapshotProviderShim,
+  resolveProviderShim,
+} from "./support/provider-routing.js";
 import { createProviderBusinessErrorFetch } from "./support/business-error.js";
 
 export type {
@@ -64,18 +68,19 @@ export class AiSdkModelExecution {
   }): AiSdkBoundModelResolution {
     let maps: ReturnType<typeof compileMaps> | undefined;
     const capture: RawRequestBodyCapture = {};
+    // 绑定时定格 provider 快照：请求期鉴权只改 key/headers，不动 baseURL/选项
+    const snapshot = snapshotProviderShim(
+      input.providerConfig,
+      this.executionConfig,
+      input.providerId,
+    );
     const compileMaps = () =>
       compileModelOptionMaps({
         reasoningLevel: { map: input.optionSpecs.reasoningLevel.map },
         maxOutputTokens: { map: input.optionSpecs.maxOutputTokens.map },
       });
     const resolve = (requestAuth?: ModelRequestAuth, options?: ModelOptionValues) => {
-      const shim = readProviderShim(
-        input.providerConfig,
-        requestAuth,
-        this.executionConfig,
-        input.providerId,
-      );
+      const shim = resolveProviderShim(snapshot, requestAuth);
       if (options) {
         maps ??= compileMaps();
         capture.body = undefined;
