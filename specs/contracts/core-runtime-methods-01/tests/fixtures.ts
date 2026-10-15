@@ -91,10 +91,14 @@ export type FakeMethodsRuntime = {
   scheduledBatches: string[][];
   /** 让下一次 appendEvent 挂起，用于观察并发进入/完成顺序。 */
   gateNextAppend(): { close(): void };
+  /** 让下一次流式事件写入挂起，用于观察队列串行写入。 */
+  gateNextEmit(): { close(): void };
   /** 挂起某个工具调用的 executeTools 返回，制造完成顺序交错。 */
   gateExecution(toolCallId: string): ExecutionGate;
   /** 让下一次 appendEvent 以给定原因失败（错误冒泡断言用）。 */
   failNextAppend(reason?: unknown): void;
+  /** 让下一次流式事件写入以给定原因失败（队列级失败语义用）。 */
+  failNextEmit(reason?: unknown): void;
   /** 让下一次 executeTools 以给定原因失败（流中执行降级断言用）。 */
   failNextExecution(reason?: unknown): void;
 };
@@ -114,6 +118,8 @@ export function createMethodsRuntime(): FakeMethodsRuntime {
   const registryEntries = new Map<string, RegistryEntry>();
   let appendGate: { promise: Promise<void>; close(): void } | undefined;
   let appendFailure: unknown;
+  let emitGate: { promise: Promise<void>; close(): void } | undefined;
+  let emitFailure: unknown;
   let executionFailure: unknown;
 
   const label = (event: EventLike): string => {
@@ -151,6 +157,25 @@ export function createMethodsRuntime(): FakeMethodsRuntime {
     async emitFileMutationCheckpoint() {
       journal.push("fileMutationCheckpoint");
       return undefined;
+    },
+    async emitModelStreamingEvent(
+      payload: { kind?: string },
+      _trace: unknown,
+      events: { type: string }[],
+    ) {
+      const kind = String(payload?.kind ?? "payload");
+      journal.push(`enter:emit:${kind}`);
+      if (emitFailure !== undefined) {
+        const reason = emitFailure;
+        emitFailure = undefined;
+        journal.push(`failed:emit:${kind}`);
+        throw reason;
+      }
+      const gate = emitGate;
+      emitGate = undefined;
+      if (gate) await gate.promise;
+      events.push({ type: "model_streaming", payload });
+      journal.push(`exit:emit:${kind}`);
     },
     async emitToolScheduledEvents(tools: { id: string }[]) {
       const ids = tools.map((tool) => tool.id).join(",");
@@ -265,6 +290,17 @@ export function createMethodsRuntime(): FakeMethodsRuntime {
     },
     failNextAppend(reason?: unknown) {
       appendFailure = reason ?? new Error("contract-injected append failure");
+    },
+    failNextEmit(reason?: unknown) {
+      emitFailure = reason ?? new Error("contract-injected streaming emit failure");
+    },
+    gateNextEmit() {
+      let close = () => undefined;
+      const promise = new Promise<void>((done) => {
+        close = () => done();
+      });
+      emitGate = { close, promise };
+      return { close };
     },
     failNextExecution(reason?: unknown) {
       executionFailure = reason ?? new Error("contract-injected execution failure");
