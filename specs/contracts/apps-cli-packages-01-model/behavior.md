@@ -415,3 +415,146 @@ README 第八节；语义常量条目必须有锁值断言（M1 教训）。
 
 - 另：`isRetryableFailure(failure)` 直接返回 `failure.retryable`。
 - （依据：failure-classifier.ts 89-224 行）
+
+## 批次 D：消息、工具与媒体投影（transform / tool-transform / media-transform-policy / tool-result-media-projection / tool-input-normalization / anthropic-\*-metadata / reasoning-history-normalization）
+
+### B27 输入消息到 AI SDK 消息的投影（总则与 system/user/assistant）
+
+- 输入：`ModelInputMessage[]` 与投影选项（`apiFormat`、`providerOptions`、`providerKind`、`stripMedia`、`inputFormat`）。
+- 输出：AI SDK 消息数组（角色、内容形状见下）。
+- 错误语义：tool 消息缺 `toolCallId` 或 `toolName` 抛 `AiSdkModelAdapterError`（code `invalid_model_request`，消息 `Tool messages require toolCallId and toolName`，context `{ reason: "invalid_request", retryable: false, source: "runtime" }`）。
+- 时序与并发：单遍顺序投影，消息顺序保持。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用（纯投影）。
+- 日志级别：不适用。
+- 语义常量：`providerKind === "openai-compatible"` 时先做 system 消息归一（范围外模块 `system-message-compat`，其行为经本投影的测试锁定，不另设条目）；system 块内容为字符串直用，块数组只取 `text` 块并以 `\n` 连接；user/assistant 消息带 `cacheControl` 时输出 `providerOptions.cacheControl`（无则整个 `providerOptions` 不出现）；user 字符串内容为空串时占位 `[Empty user message]`；user 单个 text 块与 assistant 单个 text 块**塌缩为纯字符串**；assistant 的 reasoning 块仅在有 `text` 或 `providerOptions` 时投影，`providerOptions` 非空对象时附带（B34）；tool 调用块投影 `toolCallId`/`toolName`/`input`，空工具名闭合：anthropic 用空串 `""`，其余用 `unnamed_tool`；`providerExecuted` 仅在显式提供时出现。
+- （依据：transform.ts 24-156 行）
+
+### B28 tool 结果投影与连续 tool 媒体的合并（保持既有修复行为）
+
+- 输入：tool 角色消息（`toolCallId`、`toolName`、`content`、`isError`）与投影选项。
+- 输出：`role: "tool"` 消息（单条 `tool-result`）+ 追加的媒体 user 消息（见时序）。
+- 错误语义：见 B27（缺标识即抛）。
+- 时序与并发：**连续 tool 结果的图片/媒体不逐条插入**——暂存后在该段结束（下一条非 tool 消息或序列末尾）合并为**一条** user 消息，顺序保持（历史缺陷：逐条插入会产生 tool① → user(图片①) → tool② 序列，AI SDK 报 MissingToolResultsError；现行行为 tool① → tool② → user(图片①, 图片②)）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用（投影期局部暂存）。
+- 日志级别：不适用。
+- 语义常量：结果内容选择顺序——①帧引用媒体不可投递（B31）→ `{ type: "error-text", value: <固定文案> }`；②需要文本化（B31 判定或结果含视频媒体）→ `isError ? "error-text" : "text"`，值为结构化文本（B31）；③其余 → `isError ? "error-text" : "json"`，值为原始内容数组。
+- （依据：transform.ts 116-205 行）
+
+### B29 user/assistant 内容块投影细则
+
+- 输入：一条 user 或 assistant 消息的内容（字符串或块数组）与选项。
+- 输出：AI SDK 内容（字符串或 part 数组）。
+- 错误语义：无效 data URL 不抛错，落固定占位文案（见下）。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：user：空串内容 → `[Empty user message]`；空 text 块同占位；不支持媒体（B30）或 `stripMedia` 命中（image/video/file 三类）→ text 占位（不支持时为 B30 文案、stripMedia 时为 `[Media omitted]`）；image 解析成功 → `{ type: "image", image, mediaType }`，失败 → `[Invalid image data]`；video 解析成功 → `{ type: "file", data, mediaType }`，失败 → `[Invalid video data]`；file 块**先 text 后 dataUrl**（有 `text` 就投影文本，不看 dataUrl），dataUrl 解析成功 → `{ type: "file", data, mediaType, filename? }`（`name` 缺省时无 `filename` 键），失败 → `[Invalid file data]`；`resource_link` → 文本 `[Resource: <title ?? name ?? uri>]`；全空的 user 内容 → `[Empty user message]`。assistant：空串内容跳过；text 块为空跳过；tool 调用见 B27。
+- （依据：transform.ts 24-106 行）
+
+### B30 data URL 解析与不支持媒体的占位文案（语义常量条目）
+
+- 输入：data URL 字符串；内容块与 `inputFormat` 能力表。
+- 输出：`{ mediaType, data }` 或 `undefined`；不支持文案或 `undefined`。
+- 错误语义：不抛错。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：data URL 正则 `^data:([^;,]+);base64,([A-Za-z0-9+/=\r\n]+)$`（data 段允许换行，解析后**剔除全部 CR/LF**）；不支持判定矩阵：`image` 且 `!supportsImage` → `image input`；`video`，或 `file` 且 mediaType（小写）以 `video/` 开头，且 `!supportsVideo` → `video input`；`file` 且 mediaType 去参数后等于 `application/pdf` 且带 `dataUrl`，且 `!supportsPdf` → `PDF input`；`inputFormat` 缺省时不判定（一切可投递）；文案模板 `[Attached <label>]\n[Media omitted from provider request because the selected model does not support <类>]`，`label` 取 `name`（非空）否则 mediaType 否则块类型。
+- （依据：media-transform-policy.ts 1-30 行）
+
+### B31 工具结果媒体与 CUA 帧引用的邻接规则
+
+- 输入：工具结果内容、投影选项。
+- 输出：文本化判定、结构化文本、可投递媒体 part 列表、不可投递提示文案。
+- 错误语义：不抛错。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：文本化判定 = `providerKind === "openai-compatible"` **或** `apiFormat === "openai-chat-completions"`（结构化工具结果文本化）；含视频媒体判定 = video/file 块且 mediaType 以 `video/` 开头且带非空 `dataUrl`；结构化文本按块拼接（`"\n\n"` 连接、空段剔除）：text 原文、reasoning → 空、file 有 text 用 text、`resource_link` → `[Resource: <title ?? name ?? uri>]`、其余 → `[Attached <mediaType ?? "media">]`；可投递判定 = 非 `stripMedia`、非不支持媒体、image/video/file 三类且 `dataUrl` 能解析（B30）；媒体 part：image → `{ type: "image", image, mediaType }`，video/file → `{ type: "file", data, mediaType, filename: <name ?? undefined> }`；**CUA 邻接**：媒体块后紧跟的 text 块若含官方 CUA 图片凭据文本（`containsOfficialCuaImageRefCredentialText`）则该文本随媒体一起投影并被消费（不再单独投影）；帧引用不可投递的提示文案（逐字）：`Tool result omitted because its frame reference media could not be delivered to the selected model.`（出现在结果首块，或其前一块不可投递时触发，整条结果以 error-text 形态返回该文案）。
+- （依据：tool-result-media-projection.ts 1-106 行）
+
+### B32 工具契约到 AI SDK 工具集（含 provider 原生工具与 strict schema）
+
+- 输入：`ModelToolContract[]` 与选项（`requiresMfjsToolSchema`、`supportsNativeWebSearch`、`providerKind`、`modelId`）。
+- 输出：`ToolSet` 或 `undefined`（无工具时）。
+- 错误语义：provider 原生工具在非 anthropic 或不支持原生 web 搜索时抛 `invalid_model_request`，消息 `Native web search is not supported by this model`，context `{ reason: "invalid_request", retryable: false }`；schema 本地引用无法解析抛 `invalid_model_request`，消息 `Tool <name> has an unresolved local schema reference: <ref>`，context 带 `toolName`、`ref`、`reason: "invalid_request"`、`retryable: false`、`source: "runtime"`。
+- 时序与并发：不适用（纯装配）。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：`contract.providerNative` 时固定装配 `anthropic.tools.webSearch_20260209(contract.providerNative.args)`；`requiresMfjsToolSchema` 时展开本地 `$ref`（`#/` 指针、`~1`/`~0` 转义），环引用保留 `$ref` 原样，`$defs`/`definitions` 键被剥除，展开目标与同级键合并（对象目标直接合并，非对象目标有同级键时包 `allOf`）；strict schema 仅当 `contract.strict` **且** `providerKind === "anthropic"` **且** `isAnthropicFirstPartyModelId(modelId)`，命中时 `strict: true` 显式给出（否则 `strict: undefined`）；execute 包装把工具元数据（`readOnly`、`destructive`、`concurrentSafe`、`requiresUserInteraction`、`sideEffectScope`、`maxOutputBytes`、`timeoutMs`、`needsApproval`、`permission`、`resultBudget`）放进 `metadata`，并透传 `toolCallId`、`abortSignal`。
+- （依据：tool-transform.ts 1-128 行）
+
+### B33 工具入参归一（含日志级别）
+
+- 输入：任意工具入参、`source`（generateText/streamText）、可选 `toolName` 与 logger。
+- 输出：归一后的入参对象。
+- 错误语义：JSON 解析失败不抛错，回退空对象并告警。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：**warn**（仅解析失败时；消息逐字 `Invalid model tool input; using an empty object`，附 `source`、`toolName`、`error` 字段）。
+- 语义常量：`undefined` 或空串 → `{}`；非字符串原样返回（`null` 归一为 `{}`）；字符串按 JSON 解析，解析结果 `null` 归一为 `{}`。
+- （依据：tool-input-normalization.ts 1-25 行）
+
+### B34 reasoning 块的 providerOptions 透传
+
+- 输入：reasoning 内容块。
+- 输出：`{}` 或 `{ providerOptions }`。
+- 错误语义：不适用。
+- 时序与并发：不适用。
+- 幂等：同输入同输出。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用。
+- 日志级别：不适用。
+- 语义常量：`providerOptions` 缺省或空对象 → 输出空对象（不产出 `providerOptions` 键）；否则原样透传（不按 provider 分流）。
+- （依据：anthropic-reasoning-metadata.ts 1-17 行）
+
+### B35 Anthropic 请求元数据：user id 生成与脱敏
+
+- 输入：`env`、`providerKind`、可选 `sessionId`；脱敏入参为任意 JSON 形状值。
+- 输出：元数据 user id 字符串或 `undefined`；脱敏后的同形状值。
+- 错误语义：设备标识获取失败按空值处理（返回 `undefined`），不抛错。
+- 时序与并发：user id 生成是异步（读取设备标识）；脱敏是纯函数。
+- 幂等：脱敏同输入同输出；user id 稳定（设备标识不变时逐字节一致）。
+- 资源释放：不适用。
+- 平台差异：设备标识的落盘路径由 `ensureCliDeviceMid` 决定（跨平台）。
+- 状态所有者：设备标识文件（既有模块所有）；元数据随请求。
+- 日志级别：不适用。
+- 语义常量：仅 `providerKind === "anthropic"` 生成，其余为 `undefined`；序列化形状（逐字）`{"device_id":<设备标识>,"account_uuid":"","session_id":<sessionId 字符串化，缺省空串>}`；脱敏规则：键名匹配 `^(user_?id)$`（大小写不敏感）→ 值替换为 `[REDACTED]`，数组逐项递归、对象逐键递归、原始值原样。
+- > 往返候选：元数据 JSON 形状随请求金样固定；脱敏输出是调试记录的安全边界。
+- （依据：anthropic-request-metadata.ts 1-27 行）
+
+### B36 reasoning 历史归一与签名拒绝后的修复
+
+- 输入：消息序列（可含 reasoning 块）；修复入参另有错误值。
+- 输出：归一后的消息序列；修复输出为新序列或 `undefined`（无需修复）。
+- 错误语义：不抛错。
+- 时序与并发：不适用（纯变换）。
+- 幂等：同输入同输出（修复：未命中签名键返回 `undefined`）。
+- 资源释放：不适用。
+- 平台差异：不适用。
+- 状态所有者：不适用（不修改 canonical history，只产出投影副本）。
+- 日志级别：不适用。
+- 语义常量：归一剔除 reasoning 块的两种情形——①`text` 为空且 `providerOptions` 缺省/空对象；②目标 `providerId` 含 `openai`（大小写不敏感，缺省目标按空串）且 `providerOptions` 带 `itemId` 或 `item_id`（「已存 reasoning 不重放」）；剔除后 assistant 消息既无内容又无 `toolCalls` 则整条剔除；字符串内容消息浅拷贝保留。修复触发条件：错误消息匹配 `signature|thinking(?:[_ -]?block)?`（大小写不敏感）；修复动作：递归删除 `providerOptions` 里的 `signature`、`thinking_signature`、`encrypted_content` 键（含数组递归），仅当实际删过键才返回新序列。
+- （依据：reasoning-history-normalization.ts 1-67 行）
