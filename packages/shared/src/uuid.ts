@@ -1,38 +1,57 @@
-function byteToHex(byte: number): string {
-  return byte.toString(16).padStart(2, "0");
+// SPDX-License-Identifier: Apache-2.0
+// UUID 生成工具：普通命令与后台唤醒共用 v7 形态，兼容层另提供 v4 形态（B1/B2）。
+// 字节布局（48 位时间戳大端、版本位、变体位）是消费方依赖的兼容面，逐字节保持。
+
+const HEX_DIGITS = "0123456789abcdef";
+
+/** 字节到两位十六进制的查表，模块加载时建立一次。 */
+function buildByteHexTable(): string[] {
+  const table: string[] = [];
+  for (let value = 0; value <= 0xff; value += 1) {
+    table.push(`${HEX_DIGITS[value >> 4]}${HEX_DIGITS[value & 0x0f]}`);
+  }
+  return table;
 }
 
-/** 普通 main command 与 background wake 共用 UUID v7（48-bit 时间戳 + 随机位）。 */
+const BYTE_HEX_TABLE = buildByteHexTable();
+
+/** 分段渲染的字节区间：8-4-4-4-12 十六进制分组对应 4/2/2/2/6 字节。 */
+const UUID_BYTE_SEGMENTS: ReadonlyArray<readonly [number, number]> = [
+  [0, 4],
+  [4, 6],
+  [6, 8],
+  [8, 10],
+  [10, 16],
+];
+
+/** 把 16 字节缓冲渲染成分段的 UUID 文本。 */
+function renderUuidText(buffer: Uint8Array): string {
+  return UUID_BYTE_SEGMENTS.map(([start, end]) =>
+    Array.from(buffer.subarray(start, end), (byte) => BYTE_HEX_TABLE[byte]!).join(""),
+  ).join("-");
+}
+
+/** 给随机字节打上 v4 的版本位与变体位后渲染。 */
+function renderRandomUuid(randomBytes: Uint8Array): string {
+  const shaped = new Uint8Array(randomBytes);
+  shaped[6] = (shaped[6]! & 0x0f) | 0x40;
+  shaped[8] = (shaped[8]! & 0x3f) | 0x80;
+  return renderUuidText(shaped);
+}
+
 export function uuidv7(now: number = Date.now()): string {
-  const bytes = new Uint8Array(16);
-  crypto.getRandomValues(bytes);
-  const ts = BigInt(now);
-  bytes[0] = Number((ts >> 40n) & 0xffn);
-  bytes[1] = Number((ts >> 32n) & 0xffn);
-  bytes[2] = Number((ts >> 24n) & 0xffn);
-  bytes[3] = Number((ts >> 16n) & 0xffn);
-  bytes[4] = Number((ts >> 8n) & 0xffn);
-  bytes[5] = Number(ts & 0xffn);
-  bytes[6] = 0x70 | (bytes[6]! & 0x0f);
-  bytes[8] = 0x80 | (bytes[8]! & 0x3f);
-  const hex = Array.from(bytes, byteToHex).join("");
-  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
-}
-
-function formatUuid(bytes: Uint8Array): string {
-  const normalized = new Uint8Array(bytes);
-  normalized[6] = (normalized[6]! & 0x0f) | 0x40;
-  normalized[8] = (normalized[8]! & 0x3f) | 0x80;
-
-  const segments = [
-    normalized.slice(0, 4),
-    normalized.slice(4, 6),
-    normalized.slice(6, 8),
-    normalized.slice(8, 10),
-    normalized.slice(10, 16),
-  ];
-
-  return segments.map((segment) => Array.from(segment, byteToHex).join("")).join("-");
+  const buffer = new Uint8Array(16);
+  crypto.getRandomValues(buffer);
+  // 低 48 位放毫秒时间戳（大端序），从最低位字节倒着写入。
+  let timestamp = BigInt(now);
+  for (let index = 5; index >= 0; index -= 1) {
+    buffer[index] = Number(timestamp & 0xffn);
+    timestamp >>= 8n;
+  }
+  // 高 4 位固定版本 7，变体位固定 10（随机低位保持不动）。
+  buffer[6] = 0x70 | (buffer[6]! & 0x0f);
+  buffer[8] = 0x80 | (buffer[8]! & 0x3f);
+  return renderUuidText(buffer);
 }
 
 export function createUuid(): string {
@@ -41,18 +60,15 @@ export function createUuid(): string {
     return runtimeCrypto.randomUUID();
   }
 
+  const randomBytes = new Uint8Array(16);
   if (runtimeCrypto?.getRandomValues) {
-    const bytes = new Uint8Array(16);
-    runtimeCrypto.getRandomValues(bytes);
-    return formatUuid(bytes);
+    runtimeCrypto.getRandomValues(randomBytes);
+  } else {
+    // 部分移动端 WebView 的 crypto 两项能力都没有；退回 Math.random 填充，
+    // 保证首屏仍能生成 tab / history / request 需要的临时 ID 而不崩。
+    for (let index = 0; index < randomBytes.length; index += 1) {
+      randomBytes[index] = Math.floor(Math.random() * 256);
+    }
   }
-
-  // 部分移动端 WebView 只有 `crypto` 对象但没有 `randomUUID()`，
-  // 之前 UI 初始化直接调用会在首屏崩掉。这里退回到最小可用的随机实现，
-  // 保证移动端至少能生成 tab / history / request 所需的临时 ID。
-  const bytes = new Uint8Array(16);
-  for (let index = 0; index < bytes.length; index += 1) {
-    bytes[index] = Math.floor(Math.random() * 256);
-  }
-  return formatUuid(bytes);
+  return renderRandomUuid(randomBytes);
 }

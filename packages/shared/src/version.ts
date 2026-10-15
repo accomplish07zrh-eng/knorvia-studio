@@ -1,13 +1,15 @@
-// 由各 bundler 通过 define 注入，避免运行时 JSON import 的跨 bundler 兼容问题。
-// 非构建环境（如 e2e 测试的 mocha）下 define 不存在，
-// 用 typeof 检查 + fallback 避免 ReferenceError。
-declare const __KNORVIA_VERSION__: string;
-declare const __KNORVIA_COMMIT__: string;
-declare const __KNORVIA_BUILD_TIME__: string;
+// SPDX-License-Identifier: Apache-2.0
+// 构建期注入的版本常量：bundler 用 define 注入，未注入的环境走回退值（B52）。
+declare const __KNORVIA_VERSION__: string,
+  __KNORVIA_COMMIT__: string,
+  __KNORVIA_BUILD_TIME__: string;
 
-export const KNORVIA_VERSION: string =
-  typeof __KNORVIA_VERSION__ !== "undefined" ? __KNORVIA_VERSION__ : "0.0.0-dev";
-export const KNORVIA_COMMIT: string =
-  typeof __KNORVIA_COMMIT__ !== "undefined" ? __KNORVIA_COMMIT__ : "unknown";
-export const KNORVIA_BUILD_TIME: string =
-  typeof __KNORVIA_BUILD_TIME__ !== "undefined" ? __KNORVIA_BUILD_TIME__ : "unknown";
+// typeof 守卫让 e2e 之类的非构建环境不抛 ReferenceError。
+const versionValue = typeof __KNORVIA_VERSION__ === "undefined" ? "0.0.0-dev" : __KNORVIA_VERSION__;
+const commitValue = typeof __KNORVIA_COMMIT__ === "undefined" ? "unknown" : __KNORVIA_COMMIT__;
+const buildTimeValue =
+  typeof __KNORVIA_BUILD_TIME__ === "undefined" ? "unknown" : __KNORVIA_BUILD_TIME__;
+
+export const KNORVIA_VERSION: string = versionValue;
+export const KNORVIA_COMMIT: string = commitValue;
+export const KNORVIA_BUILD_TIME: string = buildTimeValue;
