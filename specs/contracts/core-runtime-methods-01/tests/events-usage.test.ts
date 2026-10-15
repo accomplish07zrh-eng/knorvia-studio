@@ -3,10 +3,11 @@
 // B23/B25 的日志序列与 B24 的串行通知都用 gate 握手断言，无 sleep、无固定超时。
 import assert from "node:assert/strict";
 import test from "node:test";
-import { contractsBundle, methods } from "./entry.mjs";
+import { contractsBundle, coreDeps, methods } from "./entry.mjs";
 import { createMethodsRuntime, type FakeMethodsRuntime } from "./fixtures.js";
 
 const { SessionEventType } = await contractsBundle();
+const { CoreErrorType } = await coreDeps();
 const eventsModule = await methods("events");
 const eventsSummary = await methods("events-summary");
 const eventsSession = await methods("events-session");
@@ -442,4 +443,394 @@ test("B27 追加汇总节流", () => {
   const thresholdContext = thresholdFlush.context[0] as Record<string, unknown>;
   assert.equal(thresholdContext.flushReason, "count_threshold");
   assert.equal(thresholdContext.eventCount, 100);
+});
+
+/** Proxy sessionStore：任意方法都记录后返回 undefined（usage/持久化分派断言用）。 */
+function recordingStore() {
+  const calls: { args: unknown[]; method: string }[] = [];
+  const store = new Proxy(
+    {},
+    {
+      get(_target, method: string) {
+        return (...args: unknown[]) => {
+          calls.push({ args, method });
+          return undefined;
+        };
+      },
+    },
+  );
+  return { calls, store };
+}
+
+test("B26 持久化事件分派", async () => {
+  const durable = await methods("events-durable");
+
+  // 无 sessionStore 直接返回。
+  const bare = createMethodsRuntime();
+  await durable.persistDurableEvent(
+    bare.runtime,
+    { type: SessionEventType.CheckpointCreated, payload: {}, id: "evt-1", sequenceNumber: 1 },
+    trace,
+  );
+  assert.deepEqual(bare.logger.records, []);
+
+  const run = async (event: Record<string, unknown>) => {
+    const fake = createMethodsRuntime();
+    const { calls, store } = recordingStore();
+    (fake.runtime as unknown as Record<string, unknown>).sessionStore = store;
+    await durable.persistDurableEvent(fake.runtime, event, trace);
+    return { calls, fake };
+  };
+
+  // checkpoint / rewind：走工作区账本。
+  const checkpoint = await run({
+    type: SessionEventType.CheckpointCreated,
+    payload: {
+      checkpointId: "checkpoint-0001",
+      messageId: "msg-0001",
+      scope: "workspace",
+      snapshotRef: "snapshot-ref-0001",
+    },
+    id: "evt-cp",
+    sequenceNumber: 2,
+    timestamp: new Date(1_700_000_000_000),
+  });
+  assert.ok(
+    checkpoint.calls.length > 0,
+    `CheckpointCreated 落工作区账本 ${JSON.stringify(checkpoint.fake.logger.records)}`,
+  );
+  const checkpointEntry = checkpoint.calls.at(-1)?.args[0] as Record<string, unknown>;
+  assert.equal(checkpointEntry.id, "workspace-checkpoint:evt-cp");
+  // RewindTriggered：分派错误冒泡（无效载荷被 zod 校验拒绝，错误原样上抛）。
+  const rewindFake = createMethodsRuntime();
+  const rewindRecording = recordingStore();
+  (rewindFake.runtime as unknown as Record<string, unknown>).sessionStore = rewindRecording.store;
+  await assert.rejects(
+    durable.persistDurableEvent(
+      rewindFake.runtime,
+      {
+        type: SessionEventType.RewindTriggered,
+        payload: { rewindId: "rw-1" },
+        id: "evt-rw",
+        sequenceNumber: 3,
+        timestamp: new Date(1_700_000_000_000),
+      },
+      trace,
+    ),
+    /Required/,
+    "rewind 分派错误冒泡",
+  );
+
+  // TurnSteerDiscarded：promoted 不落盘；其余按 id settle。
+  const promoted = await run({
+    type: SessionEventType.TurnSteerDiscarded,
+    payload: { reason: "promoted", pendingInputIds: ["in-1"] },
+    id: "evt-p",
+    sequenceNumber: 4,
+    timestamp: new Date(1_700_000_000_000),
+  });
+  assert.deepEqual(promoted.calls, [], "promoted 不落盘");
+  const discarded = await run({
+    type: SessionEventType.TurnSteerDiscarded,
+    payload: { reason: "session_resumed", pendingInputIds: ["in-1", "in-2"] },
+    id: "evt-d",
+    sequenceNumber: 5,
+    timestamp: new Date(1_700_000_000_000),
+  });
+  assert.equal(discarded.calls.length, 2, "逐 id settle 串行");
+
+  // 其余类型 no-op。
+  const unrelated = await run({
+    type: SessionEventType.TurnStarted,
+    payload: {},
+    id: "evt-u",
+    sequenceNumber: 6,
+    timestamp: new Date(1_700_000_000_000),
+  });
+  assert.deepEqual(unrelated.calls, [], "不在分派表的类型 no-op");
+});
+
+test("B28 模型用量事实", async () => {
+  const usage = await methods("usage-observability");
+  const events = [
+    {
+      type: SessionEventType.ModelNetworkStatus,
+      payload: { type: "model_retry_scheduled", reason: "rate_limited" },
+    },
+    {
+      type: SessionEventType.ModelNetworkStatus,
+      payload: { type: "model_request_failed", reason: "network_error", retryable: false },
+    },
+  ];
+  const startedAt = Date.now() - 42;
+
+  // 四方法门槛：缺一静默返回。
+  const gated = createMethodsRuntime();
+  (gated.runtime as unknown as Record<string, unknown>).sessionStore = {
+    recordModelUsage() {
+      throw new Error("must not be called");
+    },
+  };
+  await usage.recordModelUsageFact(gated.runtime, {
+    assistantMessageId: "assistant-msg-0001",
+    events,
+    model: { modelId: "model-contract", providerId: "provider-contract" },
+    networkEventStartIndex: 0,
+    querySource: "main_turn",
+    startedAt,
+    status: "completed",
+    traceContext: trace,
+  } as never);
+  assert.deepEqual(gated.logger.records, [], "四方法缺一静默返回");
+
+  // 记账口径：id/两处 logical 兜底分隔符/token 映射/retryCount。
+  const full = createMethodsRuntime();
+  const { calls, store } = recordingStore();
+  (full.runtime as unknown as Record<string, unknown>).sessionStore = store;
+  await usage.recordModelUsageFact(full.runtime, {
+    assistantMessageId: "assistant-msg-0001",
+    attemptIndex: 2,
+    error: Object.assign(new Error("model broke"), { code: "model_server_error" }),
+    events,
+    model: { modelId: "model-contract", options: {}, providerId: "provider-contract" },
+    networkEventStartIndex: 0,
+    querySource: "main_turn",
+    result: {
+      usage: {
+        cacheReadTokens: 11,
+        cacheWriteTokens: 22,
+        inputTokens: 33,
+        outputTokens: 44,
+        reasoningTokens: 5,
+        totalTokens: 99,
+      },
+    },
+    startedAt,
+    status: "error",
+    traceContext: trace,
+  } as never);
+  const modelCall = calls.find((entry) => entry.method === "recordModelUsage");
+  assert.ok(modelCall, "写入 recordModelUsage");
+  const record = modelCall?.args[0] as Record<string, unknown>;
+  assert.equal(record.id, "usage_model_main_turn_assistant-msg-0001_2");
+  assert.equal(record.logicalRequestId, "assistant-msg-0001");
+  assert.equal(record.inputTokens, 33);
+  assert.equal(record.outputTokens, 44);
+  assert.equal(record.reasoningTokens, 5);
+  assert.equal(record.cacheCreationInputTokens, 22, "cacheWriteTokens → cacheCreationInputTokens");
+  assert.equal(record.cacheReadInputTokens, 11);
+  assert.equal(record.providerTotalTokens, 99);
+  assert.equal(record.retryCount, 1, "model_retry_scheduled 计数");
+  assert.equal(record.cancelledByUser, false);
+  assert.equal(record.querySource, "main_turn");
+
+  // 无 assistantMessageId：logical 用 `_` 分隔符、logicalRequestId 用 `:`（语义常量）。
+  const fallback = createMethodsRuntime();
+  const fallbackRecording = recordingStore();
+  (fallback.runtime as unknown as Record<string, unknown>).sessionStore = fallbackRecording.store;
+  await usage.recordModelUsageFact(fallback.runtime, {
+    events: [],
+    model: { modelId: "m", options: {}, providerId: "p" },
+    networkEventStartIndex: 0,
+    querySource: "compact",
+    startedAt,
+    status: "cancelled",
+    traceContext: { traceId: "trace-contract-0001", turnId: "turn-contract-0001" },
+  } as never);
+  const fallbackRecord = fallbackRecording.calls[0]?.args[0] as Record<string, unknown>;
+  assert.ok(String(fallbackRecord.id).includes("compact_"), "id 含 querySource");
+  assert.ok(
+    String(fallbackRecord.id).slice("usage_model_compact_".length).includes("_"),
+    "logical 兜底分隔符 `_`",
+  );
+  assert.ok(
+    String(fallbackRecord.logicalRequestId).includes(":"),
+    "logicalRequestId 兜底分隔符 `:`",
+  );
+  assert.equal(fallbackRecord.cancelledByUser, true);
+});
+
+test("B29 回合用量事实", async () => {
+  const usage = await methods("usage-observability");
+  const fake = createMethodsRuntime();
+  const { calls, store } = recordingStore();
+  (fake.runtime as unknown as Record<string, unknown>).sessionStore = store;
+  const events = [
+    { type: SessionEventType.ModelRequest, payload: {}, timestamp: new Date(1_000) },
+    { type: SessionEventType.ModelRequest, payload: {}, timestamp: new Date(2_000) },
+    { type: SessionEventType.ModelNetworkStatus, payload: { type: "model_retry_scheduled" } },
+    { type: SessionEventType.ToolCallScheduled, payload: { toolCallId: "call-1" } },
+    { type: SessionEventType.ToolCallScheduled, payload: { toolCallId: "call-1" } },
+    { type: SessionEventType.ToolCallScheduled, payload: { toolCallId: "call-2" } },
+    {
+      type: SessionEventType.ToolCallError,
+      payload: { toolCallId: "call-1", error: { type: "ToolExecutionFailed" } },
+    },
+    {
+      type: SessionEventType.ToolCallError,
+      payload: { toolCallId: "call-1", error: { type: "ToolExecutionFailed" } },
+    },
+  ];
+  await usage.recordTurnUsageFact(fake.runtime, {
+    completedAt: 5_000,
+    events,
+    startedAt: 1_000,
+    status: "completed",
+    traceContext: trace,
+    turnId: "turn-contract-0001",
+    userMessageId: "user-msg-0001",
+  } as never);
+  const turnCall = calls.find((entry) => entry.method === "upsertTurnUsage");
+  assert.ok(turnCall, "写入 upsertTurnUsage");
+  const record = turnCall?.args[0] as Record<string, unknown>;
+  assert.equal(record.modelRequestCount, 2);
+  assert.equal(record.modelRetryCount, 1);
+  assert.equal(record.toolCallCount, 2, "ToolCallScheduled 去重 toolCallId");
+  assert.equal(record.toolErrorCount, 1, "ToolCallError 去重 toolCallId");
+  assert.equal(record.durationMs, 4_000, "completedAt - startedAt");
+});
+
+test("B30 工具用量事实", async () => {
+  const usage = await methods("usage-observability");
+  const run = async (event: Record<string, unknown>) => {
+    const fake = createMethodsRuntime();
+    const { calls, store } = recordingStore();
+    (fake.runtime as unknown as Record<string, unknown>).sessionStore = store;
+    await usage.recordToolUsageFromEvent(fake.runtime, event, trace);
+    return calls.find((entry) => entry.method === "upsertToolUsage")?.args[0] as
+      | Record<string, unknown>
+      | undefined;
+  };
+
+  // 无 toolCallId / 空串直接返回。
+  assert.equal(await run({ type: SessionEventType.ToolCallScheduled, payload: {} }), undefined);
+  assert.equal(
+    await run({ type: SessionEventType.ToolCallScheduled, payload: { toolCallId: "" } }),
+    undefined,
+  );
+
+  const scheduled = (await run({
+    type: SessionEventType.ToolCallScheduled,
+    payload: { toolCallId: "call-1", toolName: "tool-alpha" },
+    timestamp: new Date(7_000),
+  })) as Record<string, unknown>;
+  assert.equal(scheduled.id, "usage_tool_session-contract-0001_call-1");
+  assert.equal(scheduled.toolName, "tool-alpha");
+  assert.equal(scheduled.status, "running");
+  assert.equal(scheduled.approvalStatus, "none");
+
+  const denied = (await run({
+    type: SessionEventType.PermissionDenied,
+    payload: { toolCallId: "call-2", toolName: "tool-alpha" },
+    timestamp: new Date(7_000),
+  })) as Record<string, unknown>;
+  assert.equal(denied.status, "error");
+  assert.equal(denied.approvalStatus, "denied");
+
+  const resolved = (await run({
+    type: SessionEventType.PermissionResolved,
+    payload: { toolCallId: "call-3", decision: "deny" },
+    timestamp: new Date(7_000),
+  })) as Record<string, unknown>;
+  assert.equal(resolved.status, "running");
+  assert.equal(resolved.approvalStatus, "denied");
+
+  const completed = (await run({
+    type: SessionEventType.ToolCallResult,
+    payload: {
+      toolCallId: "call-4",
+      toolName: "tool-alpha",
+      duration: 12.7,
+      result: { returnedBytes: 100, truncated: true },
+    },
+    timestamp: new Date(7_000),
+  })) as Record<string, unknown>;
+  assert.equal(completed.status, "completed");
+  assert.equal(completed.durationMs, 12, "usageCount 截断口径");
+  assert.equal(completed.outputBytes, 100);
+  assert.equal(completed.truncated, true);
+
+  const errored = (await run({
+    type: SessionEventType.ToolCallError,
+    payload: {
+      toolCallId: "call-5",
+      toolName: "tool-alpha",
+      error: { type: "operation_cancelled", message: "cancelled" },
+    },
+    timestamp: new Date(7_000),
+  })) as Record<string, unknown>;
+  assert.equal(errored.status, "cancelled", "errorType 含 cancel 归 cancelled");
+  assert.equal(errored.cancelledByUser, true);
+
+  const failed = (await run({
+    type: SessionEventType.ToolCallError,
+    payload: {
+      toolCallId: "call-6",
+      toolName: "",
+      error: { message: "boom" },
+    },
+    timestamp: new Date(7_000),
+  })) as Record<string, unknown>;
+  assert.equal(failed.toolName, "unknown", "toolName 缺省 unknown");
+  assert.equal(failed.status, "error");
+  assert.equal(failed.cancelledByUser, false);
+});
+
+test("B31 用量投影纯函数", async () => {
+  const projection = await methods("usage-observability-projection");
+  const events = [
+    {
+      type: SessionEventType.ModelNetworkStatus,
+      payload: { type: "model_retry_scheduled", reason: "rate_limited" },
+    },
+    { type: SessionEventType.ModelNetworkStatus, payload: { note: "no type" } },
+    {
+      type: SessionEventType.ModelStreaming,
+      payload: { kind: "text_delta", delta: "" },
+      timestamp: new Date(10),
+    },
+    {
+      type: SessionEventType.ModelStreaming,
+      payload: { kind: "reasoning_delta", delta: "x" },
+      timestamp: new Date(42),
+    },
+  ] as never;
+
+  assert.deepEqual(projection.modelNetworkObservations(events), [
+    { type: "model_retry_scheduled", reason: "rate_limited" },
+  ]);
+  assert.equal(projection.firstModelTokenAt(events, 0), 42, "delta.length > 0 才算首 token");
+  assert.equal(projection.firstModelTokenAt([], 0), undefined);
+
+  const coreError = Object.assign(new Error("limited"), {
+    code: "model_rate_limited",
+    recoverable: true,
+    retryable: false,
+    type: CoreErrorType.ModelError,
+  });
+  const coreInfo = projection.usageErrorInfo(coreError, undefined);
+  assert.equal(coreInfo.type, CoreErrorType.ModelError);
+  assert.equal(coreInfo.message, "limited");
+  assert.equal(coreInfo.retryable, false);
+  assert.equal(coreInfo.code, "model_rate_limited");
+  assert.deepEqual(
+    projection.usageErrorInfo(new Error("plain"), { retryable: true, reason: "network_error" }),
+    { message: "plain", retryable: true, type: "network_error" },
+  );
+  assert.deepEqual(
+    projection.usageErrorInfo(undefined, {
+      message: "failed",
+      retryable: false,
+      reason: "timeout",
+    }),
+    { message: "failed", retryable: false, type: "timeout" },
+  );
+  assert.deepEqual(projection.usageErrorInfo(undefined, undefined), {});
+
+  assert.equal(projection.nonemptyString("x"), "x");
+  assert.equal(projection.nonemptyString(""), undefined);
+  assert.equal(projection.nonemptyString(5), undefined);
+  assert.equal(projection.usageCount(12.9), 12);
+  assert.equal(projection.usageCount(-3), 0);
+  assert.equal(projection.usageCount(Number.NaN), 0);
 });
