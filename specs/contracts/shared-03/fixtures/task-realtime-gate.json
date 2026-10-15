@@ -1,0 +1,166 @@
+{
+  "resolveWorkspaceKey": {
+    "withIdentity": "ws-identity-1",
+    "noIdentity": "/ws"
+  },
+  "batchEvent": {
+    "type": "task_stream_mirror_batch",
+    "eventId": "ev-1",
+    "workspacePath": "/ws",
+    "workspaceIdentity": "ws-identity-1",
+    "workspaceKey": "ws-identity-1",
+    "traceId": "run-1",
+    "createdAt": 1700000000000,
+    "taskId": "t-1",
+    "runId": "run-1",
+    "batchSeq": 3,
+    "fromSeq": 11,
+    "toSeq": 12,
+    "ops": [
+      {
+        "kind": "user_message",
+        "seq": 11,
+        "messageId": "m-1",
+        "content": "hi",
+        "attachments": [
+          {
+            "kind": "image",
+            "filename": "a.png",
+            "mimeType": "image/png",
+            "sizeBytes": 5
+          },
+          {
+            "kind": "audio",
+            "filename": "b.mp3",
+            "mimeType": "audio/mpeg"
+          },
+          {
+            "kind": "video",
+            "filename": "c.mp4",
+            "mimeType": "video/mp4",
+            "sizeBytes": 7
+          },
+          {
+            "kind": "pdf",
+            "filename": "d.pdf",
+            "mimeType": "application/pdf",
+            "sizeBytes": 9
+          },
+          {
+            "kind": "file",
+            "filename": "e.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 3
+          }
+        ],
+        "timestamp": 1700000000100
+      },
+      {
+        "kind": "stream_event",
+        "seq": 12,
+        "event": {
+          "type": "custom",
+          "taskId": "t-1",
+          "traceId": "run-1"
+        }
+      }
+    ],
+    "terminal": true
+  },
+  "gateCases": [
+    {
+      "name": "batch-valid",
+      "expectOk": true,
+      "expectIssue": null
+    },
+    {
+      "name": "workspaceKey-mismatch",
+      "expectOk": false,
+      "expectIssue": "workspaceKey must match workspaceIdentity fallback rule"
+    },
+    {
+      "name": "runId-traceId-mismatch",
+      "expectOk": false,
+      "expectIssue": "runId must match traceId"
+    }
+  ],
+  "schemaResults": {
+    "event-batch": {
+      "ok": true,
+      "issues": null
+    },
+    "event-batch-key-bad": {
+      "ok": false,
+      "issues": [
+        {
+          "path": "workspaceKey",
+          "message": "workspaceKey must match workspaceIdentity fallback rule"
+        }
+      ]
+    },
+    "event-batch-run-bad": {
+      "ok": false,
+      "issues": [
+        {
+          "path": "runId",
+          "message": "runId must match traceId"
+        }
+      ]
+    },
+    "delivered-batch": {
+      "ok": true,
+      "issues": null
+    },
+    "lease-result-acquired": {
+      "ok": true,
+      "issues": null
+    },
+    "lease-result-denied": {
+      "ok": true,
+      "issues": null
+    },
+    "owner-command": {
+      "ok": true,
+      "issues": null
+    },
+    "owner-command-remote-no-identity": {
+      "ok": false,
+      "issues": [
+        {
+          "path": "workspaceIdentity",
+          "message": "remote workspace Hook review response requires workspaceIdentity"
+        }
+      ]
+    },
+    "owner-command-result-error": {
+      "ok": true,
+      "issues": null
+    }
+  },
+  "constants": {
+    "reasons": [
+      "task_created",
+      "user_message_saved",
+      "assistant_message_saved",
+      "task_status_changed",
+      "task_meta_changed",
+      "task_model_changed",
+      "task_title_changed",
+      "task_pinned",
+      "task_unpinned",
+      "task_archived",
+      "task_unarchived",
+      "task_deleted",
+      "stream_mirror_gap",
+      "stream_mirror_owner_lost"
+    ],
+    "deliveryPurposes": [
+      "observer",
+      "relay_owner"
+    ],
+    "hostDeliveryKinds": [
+      "desktop_window",
+      "relay_bridge"
+    ]
+  }
+}
