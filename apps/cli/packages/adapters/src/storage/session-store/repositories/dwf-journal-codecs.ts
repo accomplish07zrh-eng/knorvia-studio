@@ -1,108 +1,58 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// dwf journal 的解码器：行 → 契约记录。行形状见 dwf-journal-rows.ts，本文件原样再导出。
+//
+// 解码约定：
+// 一、可空列一律「有值才赋值」，产出的对象不带 null；调用方只需判 undefined。
+// 二、JSON 列统一走 decodeJson（容错解析），只有明确需要抛出时才用 JSON.parse。
+// 三、运行行的状态与失败信息必须由 decodeRunState 统一映射，不要在这里另写判断。
+// 四、列名到字段名的映射是契约的一部分：签名与字段名不得随意调整。
 
-import type {
-  ActorRecord,
-  NodeKind,
-  NodeRecord,
-  NodeRecordStatus,
-  RunRecord,
-  StoredEvent,
-} from "@knorvia/dynamic-workflow";
+import type { ActorRecord, NodeRecord, RunRecord, StoredEvent } from "@knorvia/dynamic-workflow";
 import { decodeJson } from "../json.js";
 import { decodeRunState } from "./dwf-journal-run-state.js";
+import type {
+  DwfActorRow,
+  DwfEventRow,
+  DwfNodeRow,
+  DwfRunDetailRow,
+  DwfRunListItem,
+  DwfRunMetadataRow,
+  DwfRunRow,
+  DwfRunSessionListItem,
+  DwfRunSessionRow,
+} from "./dwf-journal-rows.js";
 
 export { encodeRunSettlement, encodeRunStatusPredicate } from "./dwf-journal-run-state.js";
-
-export type DwfRunPhysicalStatus = "pending" | "running" | "completed" | "failed" | "cancelled";
-export interface DwfRunRow {
-  args_json: string | null;
-  caps_max_concurrency: number;
-  cwd: string | null;
-  failure_json: string | null;
-  id: string;
-  name: string | null;
-  parent_session_id: string | null;
-  result_json: string | null;
-  resumed_from: string | null;
-  script_hash: string | null;
-  script_text: string | null;
-  spent_tokens: number;
-  status: DwfRunPhysicalStatus;
-  time_created: number;
-  time_updated: number;
-  tool_call_id: string | null;
-}
-export type DwfRunMetadataRow = Omit<DwfRunRow, "result_json">;
-export interface DwfRunTimestamps {
-  timeCreated: number;
-  timeUpdated: number;
-}
-export type DwfRunListItem = Omit<RunRecord, "failure" | "result"> & DwfRunTimestamps;
-export type DwfRunDetailRow = RunRecord & DwfRunTimestamps;
-export type DwfRunSessionRow = DwfRunMetadataRow;
-export type DwfRunSessionListItem = DwfRunListItem & Pick<RunRecord, "failure">;
-
-export interface DwfActorRow {
-  id: number;
-  name: string | null;
-  ordinal: number;
-  persona_json: string | null;
-  resolved_model: string | null;
-  run_id: string;
-  session_id: string | null;
-  site_id: string;
-  time_created: number;
-  time_updated: number;
-}
-export interface DwfNodeRow {
-  actor_ordinal: number | null;
-  actor_seq: number | null;
-  actor_site_id: string | null;
-  artifact_id: string | null;
-  error_json: string | null;
-  id: number;
-  input_hash: string;
-  input_json: string | null;
-  kind: NodeKind;
-  message_boundary: number | null;
-  ordinal: number;
-  result_json: string | null;
-  run_id: string;
-  site_id: string;
-  stats_json: string | null;
-  status: NodeRecordStatus;
-  time_created: number;
-  time_updated: number;
-}
-export interface DwfWorldNodeRow extends Omit<NodeRecord, "result">, DwfRunTimestamps {
-  resultBytes?: number;
-  resultCount?: number;
-  exitCode?: number;
-  stdoutBytes?: number;
-  stderrBytes?: number;
-}
-export interface DwfEventRow {
-  id: number;
-  payload_json: string;
-  run_id: string;
-  sequence: number;
-  time_created: number;
-  type: string;
-}
+export type {
+  DwfActorRow,
+  DwfEventRow,
+  DwfNodeRow,
+  DwfRunDetailRow,
+  DwfRunListItem,
+  DwfRunMetadataRow,
+  DwfRunPhysicalStatus,
+  DwfRunRow,
+  DwfRunSessionListItem,
+  DwfRunSessionRow,
+  DwfRunTimestamps,
+  DwfWorldNodeRow,
+} from "./dwf-journal-rows.js";
 
 export function encodeResultJson(value: unknown): string | null {
-  return value === undefined ? null : (JSON.stringify(value) ?? null);
+  if (value === undefined) return null;
+  return JSON.stringify(value) ?? null;
 }
 
+/** 运行元数据：只填必需字段与有值字段，活动字段缺失即不出现。 */
 function runMetadata(row: DwfRunMetadataRow): RunRecord {
   const state = decodeRunState(row);
-  const run: RunRecord = {
-    runId: row.id,
-    caps: { maxConcurrency: row.caps_max_concurrency },
-    spentTokens: row.spent_tokens,
-    status: state.status,
-  };
+  const run = {} as RunRecord;
+  run.runId = row.id;
+  run.caps = { maxConcurrency: row.caps_max_concurrency };
+  run.spentTokens = row.spent_tokens;
+  run.status = state.status;
   if (state.stopReason !== undefined) run.stopReason = state.stopReason;
   if (state.supersededBy !== undefined) run.supersededBy = state.supersededBy;
   if (row.parent_session_id !== null) run.parentSessionId = row.parent_session_id;
@@ -125,22 +75,33 @@ export function decodeRun(row: DwfRunRow): RunRecord {
 }
 
 export function decodeRunListItem(row: DwfRunMetadataRow): DwfRunListItem {
-  return { ...runMetadata(row), timeCreated: row.time_created, timeUpdated: row.time_updated };
+  const item = {} as DwfRunListItem;
+  Object.assign(item, runMetadata(row));
+  item.timeCreated = row.time_created;
+  item.timeUpdated = row.time_updated;
+  return item;
 }
 
 export function decodeRunDetailRow(row: DwfRunRow): DwfRunDetailRow {
-  return { ...decodeRun(row), timeCreated: row.time_created, timeUpdated: row.time_updated };
+  const detail = {} as DwfRunDetailRow;
+  Object.assign(detail, decodeRun(row));
+  detail.timeCreated = row.time_created;
+  detail.timeUpdated = row.time_updated;
+  return detail;
 }
 
 export function decodeRunSessionListItem(row: DwfRunSessionRow): DwfRunSessionListItem {
-  const run: DwfRunSessionListItem = decodeRunListItem(row);
+  const item: DwfRunSessionListItem = decodeRunListItem(row);
   const { failure } = decodeRunState(row);
-  if (failure !== undefined) run.failure = failure;
-  return run;
+  if (failure !== undefined) item.failure = failure;
+  return item;
 }
 
 export function decodeActor(row: DwfActorRow): ActorRecord {
-  const actor: ActorRecord = { runId: row.run_id, siteId: row.site_id, ordinal: row.ordinal };
+  const actor = {} as ActorRecord;
+  actor.runId = row.run_id;
+  actor.siteId = row.site_id;
+  actor.ordinal = row.ordinal;
   if (row.name !== null) actor.name = row.name;
   const persona = decodeJson<ActorRecord["persona"]>(row.persona_json);
   if (persona !== undefined) actor.persona = persona;
@@ -150,14 +111,13 @@ export function decodeActor(row: DwfActorRow): ActorRecord {
 }
 
 export function decodeNode(row: DwfNodeRow): NodeRecord {
-  const node: NodeRecord = {
-    runId: row.run_id,
-    siteId: row.site_id,
-    ordinal: row.ordinal,
-    kind: row.kind,
-    inputHash: row.input_hash,
-    status: row.status,
-  };
+  const node = {} as NodeRecord;
+  node.runId = row.run_id;
+  node.siteId = row.site_id;
+  node.ordinal = row.ordinal;
+  node.kind = row.kind;
+  node.inputHash = row.input_hash;
+  node.status = row.status;
   if (row.actor_site_id !== null) node.actorSiteId = row.actor_site_id;
   if (row.actor_ordinal !== null) node.actorOrdinal = row.actor_ordinal;
   if (row.actor_seq !== null) node.actorSeq = row.actor_seq;
@@ -174,9 +134,9 @@ export function decodeNode(row: DwfNodeRow): NodeRecord {
 }
 
 export function decodeEvent(row: DwfEventRow): StoredEvent {
-  return {
-    sequence: row.sequence,
-    event: JSON.parse(row.payload_json),
-    timeCreated: row.time_created,
-  };
+  const event = {} as StoredEvent;
+  event.sequence = row.sequence;
+  event.event = JSON.parse(row.payload_json);
+  event.timeCreated = row.time_created;
+  return event;
 }

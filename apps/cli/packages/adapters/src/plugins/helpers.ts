@@ -4,90 +4,88 @@
 import { statSync } from "node:fs";
 import { isAbsolute, relative, resolve } from "node:path";
 
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
+export function isRecord(candidate: unknown): candidate is Record<string, unknown> {
+  return candidate !== null && typeof candidate === "object" && !Array.isArray(candidate);
 }
 
-export function resolveInside(rootPath: string, rawPath: string): string | null {
-  if (isAbsolute(rawPath)) return null;
-  const result = resolve(rootPath, rawPath);
-  const displacement = relative(rootPath, result);
-  return displacement.startsWith("..") || isAbsolute(displacement) ? null : result;
+export function resolveInside(baseDir: string, supplied: string): string | null {
+  if (isAbsolute(supplied)) return null;
+  const target = resolve(baseDir, supplied);
+  const escape = relative(baseDir, target);
+  return escape.startsWith("..") || isAbsolute(escape) ? null : target;
 }
 
-export function sanitizePluginId(pluginId: string): string {
-  return pluginId.replace(/[^a-zA-Z0-9_.@-]/g, "-");
+export function sanitizePluginId(identifier: string): string {
+  return identifier.replace(/[^a-zA-Z0-9_.@-]/g, "-");
 }
 
-export function parsePathList(value: unknown): string[] {
-  if (typeof value === "string") return [value];
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === "string")
-    : [];
+export function parsePathList(raw: unknown): string[] {
+  if (typeof raw === "string") return [raw];
+  return Array.isArray(raw) ? raw.filter((item): item is string => typeof item === "string") : [];
 }
 
-export function isPluginOptionValue(value: unknown): value is string | number | boolean {
-  return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
+export function isPluginOptionValue(candidate: unknown): candidate is string | number | boolean {
+  return (
+    typeof candidate === "string" || typeof candidate === "number" || typeof candidate === "boolean"
+  );
 }
 
-export function directoryExists(path: string): boolean {
+/** stat 的薄包装：路径不存在或不可读时返回 undefined，调用方按缺失处理。 */
+function tryStat(target: string) {
   try {
-    return statSync(path).isDirectory();
+    return statSync(target);
   } catch {
-    return false;
+    return undefined;
   }
 }
 
-export function fileExists(path: string): boolean {
+export function directoryExists(candidate: string): boolean {
+  return tryStat(candidate)?.isDirectory() ?? false;
+}
+
+export function fileExists(candidate: string): boolean {
+  return tryStat(candidate)?.isFile() ?? false;
+}
+
+export function isMissingPath(target: string): boolean {
   try {
-    return statSync(path).isFile();
-  } catch {
-    return false;
+    statSync(target);
+    return /* 已存在就不算缺失 */ false;
+  } catch (failure) {
+    return isRecord(failure) && (failure.code === "ENOENT" || failure.code === "ENOTDIR");
   }
 }
 
-export function isMissingPath(path: string): boolean {
-  try {
-    statSync(path);
-    return false;
-  } catch (error) {
-    return isRecord(error) && (error.code === "ENOENT" || error.code === "ENOTDIR");
-  }
+export function isNotFoundError(subject: unknown): boolean {
+  return isRecord(subject) && subject.code === "ENOENT";
 }
 
-export function isNotFoundError(error: unknown): boolean {
-  return isRecord(error) && error.code === "ENOENT";
-}
-
-export async function cleanupPluginSourceBestEffort(
-  cleanup: (() => Promise<void>) | undefined,
-  retryDelaysMs: readonly number[] = [0, 25, 100],
-): Promise<unknown> {
-  if (!cleanup) return undefined;
-  let failure: unknown;
-  for (const delay of retryDelaysMs) {
-    if (delay > 0) await new Promise<void>((done) => setTimeout(done, delay));
+export async function /* 尽力执行插件源清理：按延迟重试，返回最后一次失败 */ cleanupPluginSourceBestEffort(
+  dispose: /* 解包时登记的清理回调 */ (() => Promise<void>) | undefined,
+  attemptDelaysMs: /* 各次尝试之间的等待表 */ readonly number[] = [0, 25, 100],
+): /* 最后一次失败原因；全部成功为 undefined */ Promise<unknown> {
+  if (!dispose) return undefined;
+  let lastFailure: unknown;
+  for (const waitMs of attemptDelaysMs) {
+    if (waitMs > 0) await new Promise<void>((done) => setTimeout(done, waitMs));
     try {
-      await cleanup();
+      await dispose();
       return undefined;
-    } catch (error) {
-      failure = error;
+    } catch (failure) {
+      lastFailure = failure;
     }
   }
-  return failure;
+  return lastFailure;
 }
 
-export function appendPluginSourceCleanupError(
-  primaryError: unknown,
-  cleanupError: unknown,
-): unknown {
-  if (primaryError instanceof Error && cleanupError !== undefined) {
-    const detail = cleanupError instanceof Error ? cleanupError.message : String(cleanupError);
-    primaryError.message += `; plugin source cleanup also failed: ${detail}`;
+export function appendPluginSourceCleanupError(primary: unknown, secondary: unknown): unknown {
+  if (primary instanceof Error && secondary !== undefined) {
+    const detail = secondary instanceof Error ? secondary.message : String(secondary);
+    primary.message += `; plugin source cleanup also failed: ${detail}`;
   }
-  return primaryError;
+  return primary;
 }
 
-export function throwIfAborted(options: { signal?: AbortSignal } | undefined): void {
-  if (options?.signal?.aborted) throw new Error("Plugin operation cancelled");
+export function throwIfAborted(settings: { signal?: AbortSignal } | undefined): void {
+  if (settings?.signal?.aborted) throw new Error("Plugin operation cancelled");
 }

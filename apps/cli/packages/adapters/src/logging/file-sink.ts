@@ -6,16 +6,29 @@ import { join } from "node:path";
 import { maybeThrowStorageFsFault } from "../storage/fs-fault-injection.js";
 import { formatLocalLogDate } from "./retention.js";
 
-export function appendLogRecord(directory: string, json: string): void {
+const RECORD_EXTENSION = ".jsonl";
+const FILE_PREFIX = "knorvia-";
+
+/** 目录缺失时按需创建；故障注入只影响真实 IO。 */
+function ensureDirectory(logDirectory: string): void {
+  if (existsSync(logDirectory)) return;
+  maybeThrowStorageFsFault({ operation: "mkdir", path: logDirectory });
+  mkdirSync(logDirectory, { recursive: true });
+}
+
+/** 当天日志文件：`knorvia-<本地日期>.jsonl`。 */
+function recordPath(logDirectory: string, at: Date): string {
+  const stamp = formatLocalLogDate(at);
+  return join(logDirectory, FILE_PREFIX + stamp + RECORD_EXTENSION);
+}
+
+export function appendLogRecord(logDirectory: string, payload: string): void {
   try {
-    if (!existsSync(directory)) {
-      maybeThrowStorageFsFault({ operation: "mkdir", path: directory });
-      mkdirSync(directory, { recursive: true });
-    }
-    const destination = join(directory, `knorvia-${formatLocalLogDate(new Date())}.jsonl`);
-    maybeThrowStorageFsFault({ operation: "appendFile", path: destination });
-    appendFileSync(destination, json + "\n", "utf8");
+    ensureDirectory(logDirectory);
+    const target = recordPath(logDirectory, new Date());
+    maybeThrowStorageFsFault({ operation: "appendFile", path: target });
+    appendFileSync(target, payload + "\n", "utf8");
   } catch {
-    // Logger 的 void 合同要求文件失败不阻断执行；JSON/脱敏与 console 错误在调用层传播。
+    // 写入失败按 void 合同吞掉：调用层仍会收到 JSON/脱敏与 console 的错误。
   }
 }

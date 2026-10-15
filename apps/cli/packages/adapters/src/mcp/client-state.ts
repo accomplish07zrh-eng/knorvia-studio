@@ -19,38 +19,19 @@ import type { OfficialMcpServerResponseInfo } from "./official-auth.js";
 import type { McpConnectionContext } from "./pool.js";
 import type { McpTelemetryTracker } from "./telemetry.js";
 
-export interface CreateMcpAdapterOptions {
-  clientName?: string;
-  clientVersion?: string;
-  connectionContext?: McpConnectionContext;
-  env?: NodeJS.ProcessEnv;
-  logger?: Logger;
-  telemetry?: McpTelemetryTracker;
-  mcpOAuth?: McpOAuthRuntimeOptions;
-  network?: NetworkEgressEnvPolicy;
-  officialMcpAuth?: {
-    authHeadersPort?: OfficialMcpAuthHeadersPort;
-    trustedOrigins: OfficialMcpTrustedOriginRegistry;
-    resolveKnorviaApiOrigin?: () => string;
-    workspaceIdentity?: string;
-  };
-  workingDirectory?: string;
-}
+export type {
+  ConnectionDiagnostic,
+  CreateMcpAdapterOptions,
+  ProtocolTransport,
+  ServerRecord,
+} from "./client-state-types.js";
 
-export type ProtocolTransport = Parameters<Client["connect"]>[0];
-export interface ServerRecord {
-  config: McpServerConfig;
-  status: McpServerStatus;
-  tools: McpToolDescriptor[];
-  client?: Client;
-  transport?: ProtocolTransport;
-  pending?: Promise<McpServerStatus>;
-  owner?: AbortController;
-}
-export interface ConnectionDiagnostic {
-  failureKind: McpServerFailureKind;
-  serverRequestId?: string;
-}
+import type {
+  ConnectionDiagnostic,
+  CreateMcpAdapterOptions,
+  ProtocolTransport,
+  ServerRecord,
+} from "./client-state-types.js";
 
 const MAX_TOOL_RESPONSE_IDS = 64;
 export const DEFAULT_CONNECTION_MS = 30_000;
@@ -86,11 +67,11 @@ export class McpClientState {
   readonly official: CreateMcpAdapterOptions["officialMcpAuth"];
   readonly telemetry: McpTelemetryTracker | undefined;
   readonly workingDirectory: string | undefined;
-  readonly records = new Map<string, ServerRecord>();
   readonly generations = new Map<string, number>();
-  readonly authFailures = new Map<string, OfficialMcpAuthFailureKind>();
+  readonly records = new Map<string, ServerRecord>();
   readonly diagnostics = new Map<string, ConnectionDiagnostic>();
-  private readonly toolResponseIds = new Map<string, string>();
+  private readonly responseIdCache = new Map<string, string>();
+  readonly authFailures = new Map<string, OfficialMcpAuthFailureKind>();
   credentialStore: SharedKnorviaCredentialStore | undefined;
 
   constructor(options: CreateMcpAdapterOptions) {
@@ -137,17 +118,26 @@ export class McpClientState {
       return;
     }
     if (!info.serverRequestId) return;
-    this.toolResponseIds.set(info.spanId, info.serverRequestId);
-    if (this.toolResponseIds.size > MAX_TOOL_RESPONSE_IDS) {
-      const first = this.toolResponseIds.keys().next();
-      if (!first.done) this.toolResponseIds.delete(first.value);
+    this.responseIdCache.set(info.spanId, info.serverRequestId);
+    if (this.responseIdCache.size > MAX_TOOL_RESPONSE_IDS) {
+      const first = this.responseIdCache.keys().next();
+      if (!first.done) this.responseIdCache.delete(first.value);
     }
   }
 
   consumeToolResponse(spanId: string | undefined): string | undefined {
     if (!spanId) return undefined;
-    const response = this.toolResponseIds.get(spanId);
-    this.toolResponseIds.delete(spanId);
+    const response = this.responseIdCache.get(spanId);
+    this.responseIdCache.delete(spanId);
     return response;
   }
 }
+// 状态语义（跨模块读取点很多，字段与方法名不可改）：
+// 一、generations 是「连接代号」：每次 advance 递增，异步回调据此判断自己是否已过期。
+// 二、records 保存每个服务的配置、状态、工具与当前 client/transport；重连时整体替换。
+// 三、diagnostics 记录最近一次失败诊断，成功路径不清理它，由上层在需要时读走。
+// 四、responseIdCache 只保留最近 64 条工具响应 id，超出后按插入顺序淘汰最旧一条。
+// 五、consumeToolResponse 是「读后即删」：同一 spanId 只能取到一次响应 id。
+// 六、logger 由 options.logger 派生子作用域，附带连接上下文与 module 标记。
+// 七、credentialStore 是可变字段：由门面在启动后注入，供 OAuth 刷新使用。
+// 八、状态对象本身不做并发保护：调用方在同一事件循环内串行访问（见门面与生命周期模块）。

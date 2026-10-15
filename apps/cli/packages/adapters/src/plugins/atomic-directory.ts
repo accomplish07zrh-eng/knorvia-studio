@@ -20,23 +20,18 @@ import {
 } from "./atomic-owner.js";
 import { recoverAtomicTargetSync } from "./atomic-recovery.js";
 import { appendPluginSourceCleanupError, cleanupPluginSourceBestEffort } from "./helpers.js";
+import type {
+  AtomicDirectoryActivation,
+  AtomicDirectoryActivationInput,
+} from "./atomic-directory-types.js";
 
 export { recoverAtomicTargetSync } from "./atomic-recovery.js";
 export { writeFileAtomically } from "./atomic-file.js";
+export type { AtomicDirectoryActivation } from "./atomic-directory-types.js";
 
-export interface AtomicDirectoryActivation {
-  transactionId: string;
-  finalize: () => Promise<void>;
-  rollback: () => Promise<void>;
-}
-
-export async function activateDirectoryAtomically(input: {
-  authorityPath?: string;
-  prepare?: (stagedPath: string) => Promise<void>;
-  signal?: AbortSignal;
-  sourcePath?: string;
-  targetPath: string;
-}): Promise<AtomicDirectoryActivation> {
+export async function activateDirectoryAtomically(
+  input: AtomicDirectoryActivationInput,
+): Promise<AtomicDirectoryActivation> {
   const paths = pathsForAtomicTarget(input.targetPath);
   assertAtomicNotAborted(input.signal);
   assertAtomicTargetUnreserved(paths);

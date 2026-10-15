@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 会话待办：读取按 position 升序，更新是「整份替换 + 触碰会话时间」。
+// 三条 SQL 与 position 语义属于数据格式，逐字保留。
 
 import type { DatabaseSync } from "node:sqlite";
 import type { SessionId, TodoItem } from "@knorvia/contracts";
@@ -18,27 +21,40 @@ const INSERT_TODO = `
   VALUES (?, ?, ?, ?, ?, ?, ?)
 `;
 
+function readTodoRows(database: DatabaseSync, sessionID: SessionId): TodoRow[] {
+  const query = database.prepare(READ_TODOS);
+  return query.all(sessionID) as unknown as TodoRow[];
+}
+
 export async function readTodos(
-  db: DatabaseSync,
-  input: { sessionID: SessionId },
+  database: DatabaseSync,
+  request: { sessionID: SessionId },
 ): Promise<TodoItem[]> {
-  const rows = db.prepare(READ_TODOS).all(input.sessionID) as unknown as TodoRow[];
-  return rows.map(decodeTodoRow);
+  return readTodoRows(database, request.sessionID).map(decodeTodoRow);
+}
+
+/** 写入：先清空再逐条插入，position 取数组下标（0 起）。 */
+function replaceTodos(
+  database: DatabaseSync,
+  sessionID: SessionId,
+  todos: readonly TodoItem[],
+  at: number,
+): void {
+  database.prepare(DELETE_TODOS).run(sessionID);
+  if (todos.length === 0) return;
+  const statement = database.prepare(INSERT_TODO);
+  for (const [position, item] of todos.entries()) {
+    statement.run(sessionID, item.content, item.status, item.priority, position, at, at);
+  }
 }
 
 export async function updateTodos(
-  db: DatabaseSync,
-  input: { sessionID: SessionId; todos: TodoItem[] },
+  database: DatabaseSync,
+  request: { sessionID: SessionId; todos: TodoItem[] },
 ): Promise<void> {
-  const now = Date.now();
-  withWriteTransaction(db, "own", () => {
-    db.prepare(DELETE_TODOS).run(input.sessionID);
-    if (input.todos.length > 0) {
-      const insert = db.prepare(INSERT_TODO);
-      for (const [position, todo] of input.todos.entries()) {
-        insert.run(input.sessionID, todo.content, todo.status, todo.priority, position, now, now);
-      }
-    }
-    touchSession(db, input.sessionID, now);
+  const at = Date.now();
+  withWriteTransaction(database, "own", () => {
+    replaceTodos(database, request.sessionID, request.todos, at);
+    touchSession(database, request.sessionID, at);
   });
 }

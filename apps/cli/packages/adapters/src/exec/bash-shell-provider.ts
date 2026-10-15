@@ -6,31 +6,31 @@ import type { ExecutionShellDialect, ExecutionShellSelection } from "@knorvia/co
 import { windowsExecutableCandidates } from "./windows-executable.js";
 
 type ExecutableCheck = (path: string) => boolean;
-type EffectiveBashShellResolveOptions = {
+type /* 解析选项：可显式覆盖 */ EffectiveBashShellResolveOptions = {
   env: NodeJS.ProcessEnv;
   platform: NodeJS.Platform | string;
   exists?: ExecutableCheck;
-  override?: ExecutionShellSelection;
+  override?: /* 显式指定的 shell 选择（可缺省） */ ExecutionShellSelection;
 };
 
-export interface BashShellProvider {
-  dialect: ExecutionShellDialect;
+export interface /* shell 提供者：方言与 shell 设定 */ BashShellProvider {
+  dialect: /* 该提供者的方言 */ ExecutionShellDialect;
   envOverlay?: Record<string, string>;
   file: string;
-  shell: boolean | string;
+  shell: /* false=禁用；字符串=可执行文件路径 */ boolean | string;
 }
 
-interface EffectiveBashShellResolution {
+interface /* 解析结果：方言 + shell 设定 */ EffectiveBashShellResolution {
   selection: ExecutionShellSelection;
   provider?: BashShellProvider;
 }
 
 const defaultExecutableCheck: ExecutableCheck = (candidate) => {
-  try {
+  try /* 探测可执行文件是否存在 */ {
     accessSync(candidate, process.platform === "win32" ? constants.F_OK : constants.X_OK);
-    return true;
-  } catch {
-    return false;
+    return /* 可用 */ true;
+  } catch /* 探测失败：视为不可用 */ {
+    return /* 不可用 */ false;
   }
 };
 
@@ -58,10 +58,10 @@ function providerFor(value: ExecutionShellSelection): BashShellProvider | undefi
   if (value.dialect === "cmd") {
     return { dialect: "cmd", file: value.path, shell: false };
   }
-  return {
+  return /* 解析结果 */ {
     dialect: value.dialect,
     file: value.path,
-    shell: false,
+    shell: /* 禁用 shell */ false,
     envOverlay: { SHELL: value.path, GIT_EDITOR: "true" },
   };
 }
@@ -74,7 +74,7 @@ function pathCandidates(names: readonly string[], env: NodeJS.ProcessEnv): strin
 function resolveRecorded(
   value: ExecutionShellSelection,
   exists: ExecutableCheck,
-): EffectiveBashShellResolution {
+): /* 解析结果 */ EffectiveBashShellResolution {
   if (!value.path) return { selection: value };
   const bareCmd = value.dialect === "cmd" && value.path.toLowerCase() === "cmd.exe";
   if (!bareCmd && !isExecutableCandidate(value.path, exists)) return { selection: value };
@@ -85,7 +85,7 @@ function resolveWindows(
   env: NodeJS.ProcessEnv,
   exists: ExecutableCheck,
   override?: ExecutionShellSelection,
-): EffectiveBashShellResolution {
+): /* 解析结果 */ EffectiveBashShellResolution {
   if (override?.source === "user-config" && override.path) {
     const base = path.win32.basename(override.path).toLowerCase();
     const accepted =
@@ -121,7 +121,7 @@ function resolvePosix(
   env: NodeJS.ProcessEnv,
   exists: ExecutableCheck,
   override?: ExecutionShellSelection,
-): EffectiveBashShellResolution {
+): /* 解析结果 */ EffectiveBashShellResolution {
   if (override?.source === "user-config") return resolveRecorded(override, exists);
   const preferred = env.SHELL;
   const names = preferred && /(?:^|\/)(?:ba|z)sh$/.test(preferred) ? [preferred] : [];
@@ -144,9 +144,9 @@ function resolvePosix(
   return { selection: selected };
 }
 
-export function resolveEffectiveBashShellSelection(
+export function /* 入口：解析生效的 shell 选择 */ resolveEffectiveBashShellSelection(
   options: EffectiveBashShellResolveOptions,
-): EffectiveBashShellResolution {
+): /* 解析结果 */ EffectiveBashShellResolution {
   const exists = options.exists ?? defaultExecutableCheck;
   if (options.override && options.override.source !== "user-config") {
     return resolveRecorded(options.override, exists);

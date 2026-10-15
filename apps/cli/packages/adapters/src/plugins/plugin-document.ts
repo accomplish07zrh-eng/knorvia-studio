@@ -20,9 +20,9 @@ export function validPluginName(value: unknown): value is string {
 }
 
 export interface PluginDocument {
-  manifest: PluginManifest;
-  raw: Record<string, unknown>;
-  path: string;
+  /* 规范化后的清单 */ manifest: PluginManifest;
+  /* 清单原文 */ raw: Record<string, unknown>;
+  /* 清单文件路径 */ path: string;
 }
 
 export function findPluginManifestPath(root: string): string | undefined {
@@ -35,29 +35,29 @@ export function readPluginDocument(root: string): PluginDocument | undefined {
     if (!fileExists(path)) continue;
     return readPluginDocumentAt(path);
   }
-  return undefined;
+  return /* 任何位置都没有清单 */ undefined;
 }
 
 export function readPluginDocumentAt(path: string): PluginDocument {
-  let value: unknown;
+  let parsed: unknown;
   try {
-    value = JSON.parse(readFileSync(path, "utf8"));
+    parsed = JSON.parse(readFileSync(path, "utf8"));
   } catch {
     throw new CatalogOperationError(
       "plugin_manifest_invalid",
       `Cannot read plugin manifest: ${path}`,
     );
   }
-  const name = isRecord(value) && typeof value.name === "string" ? value.name.trim() : undefined;
-  if (!isRecord(value) || !validPluginName(name)) {
+  const name = isRecord(parsed) && typeof parsed.name === "string" ? parsed.name.trim() : undefined;
+  if (!isRecord(parsed) || !validPluginName(name)) {
     throw new CatalogOperationError("plugin_manifest_invalid", `Invalid plugin manifest: ${path}`);
   }
   const manifest = {
-    ...value,
-    name,
-    version: typeof value.version === "string" ? value.version : "0.0.0",
+    ...parsed,
+    name: /* 规范化后的清单名 */ name,
+    version: typeof parsed.version === "string" ? parsed.version : "0.0.0",
   } as PluginManifest;
-  return { manifest, raw: value, path };
+  return { manifest, raw: parsed, path };
 }
 
 export function installationVersion(entry: PluginMarketplaceEntry, root: string): string {
@@ -76,44 +76,34 @@ export function installationVersion(entry: PluginMarketplaceEntry, root: string)
 }
 
 export function syntheticPluginManifest(entry: PluginMarketplaceEntry): PluginManifest {
-  const removed = new Set([
-    "source",
-    "category",
-    "tags",
-    "strict",
-    "displayName",
-    "displayName_i18n",
-    "description_i18n",
-    "icon",
-    "privacyPolicy",
-    "termsOfService",
-    "heroImage",
-    "examplePrompts",
-    "examplePrompts_i18n",
-    "requiresPaidPlan",
-  ]);
-  return {
+  /* 条目专属字段不进合成清单 */
+  const removed = new Set(
+    "source category tags strict displayName displayName_i18n description_i18n icon privacyPolicy termsOfService heroImage examplePrompts examplePrompts_i18n requiresPaidPlan".split(
+      " ",
+    ),
+  );
+  return /* 剥离条目字段后的合成清单 */ {
     ...Object.fromEntries(Object.entries(entry.raw).filter(([key]) => !removed.has(key))),
-    name: entry.name,
+    name: /* 清单名取目录条目名 */ entry.name,
     version: entry.version ?? "0.0.0",
   } as PluginManifest;
 }
 
 export function requireZipPluginManifest(
   root: string,
-  entry: PluginMarketplaceEntry,
-  marketplace: string,
-): void {
-  const manifest =
+  /* 目录条目 */ entry: PluginMarketplaceEntry,
+  /* 所属市场 */ marketplace: string,
+): /* 读不到或不匹配即抛错 */ void {
+  const resolved =
     readPluginDocument(root)?.manifest ??
     (entry.strict === false ? syntheticPluginManifest(entry) : undefined);
-  if (!manifest) {
+  if (!resolved) {
     throw new CatalogOperationError(
       "plugin_manifest_not_found",
       `Plugin manifest not found: ${entry.name}@${marketplace}`,
     );
   }
-  if (manifest.name !== entry.name) {
+  if (resolved.name !== entry.name) {
     throw new CatalogOperationError(
       "plugin_manifest_invalid",
       `Plugin manifest name does not match ${entry.name}`,
@@ -123,7 +113,7 @@ export function requireZipPluginManifest(
 
 export async function ensureInstallManifest(
   root: string,
-  entry: PluginMarketplaceEntry,
+  /* 宽松条目缺清单时补写 */ entry: PluginMarketplaceEntry,
 ): Promise<void> {
   if (entry.strict !== false || findPluginManifestPath(root)) return;
   const path = join(root, ".claude-plugin", "plugin.json");

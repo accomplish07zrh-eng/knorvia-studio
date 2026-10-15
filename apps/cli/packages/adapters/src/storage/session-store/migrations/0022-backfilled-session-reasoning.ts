@@ -1,38 +1,22 @@
-// 0020 可能以不带档位的 assistant 回填会话选择；只能给迁移后未动过的会话补同模型 user 档位。
-// 本表冻结 0020/0021 的身份规则，不引用实时目录，也不改旧 migration 的内容或 checksum。
-const officialProviders = [
-  "account:zai-start-plan",
-  "account:bigmodel-start-plan",
-  "account:zai-individual-coding-plan",
-  "account:bigmodel-individual-coding-plan",
-  "account:zai-team-coding-plan",
-  "account:bigmodel-team-coding-plan",
-];
-const officialModels = [
-  "GLM-5.3",
-  "GLM-5.3-Flash",
-  "GLM-5V-Turbo",
-  "GLM-5.2",
-  "GLM-5.1",
-  "GLM-5.1-Highspeed",
-  "GLM-5",
-  "GLM-5-Turbo",
-  "GLM-4.7",
-  "GLM-4.7-FlashX",
-  "GLM-4.7-Flash",
-  "GLM-4.6",
-  "GLM-4.5-Air",
-  "GLM-4.5",
-  "GLM-4.6V",
-  "GLM-4.6V-Flash",
-  "GLM-4.6V-FlashX",
-  "GLM-4.1V-Thinking-FlashX",
-  "GLM-4.1V-Thinking-Flash",
-  "GLM-4-FlashX-250414",
-  "GLM-4-Flash-250414",
-  "GLM-4V-Flash",
-];
+// TS 侧说明（SQL 字节按合同保留，见 specs/contracts/apps-cli-packages-01/sql-freeze.md）：
+// 一、两个名单是发布时的官方订阅 provider 与模型展示名快照：provider 用于匹配可迁移来源，
+//     模型名同时充当「小写 id → 官方展示名」的映射表（顺序即 SQL 里的 WHEN 顺序）。
+// 二、名单以空格分隔的规格串声明，运行时 split 成数组：一处维护、避免逐行散落。
+// 三、名单只读；迁移 SQL 通过插值引用它们，因此改动名单会改变生成 SQL 的字节。
+// 四、改动任一名单都必须同步刷新 checksum 账本与 sql-freeze.md 的对应条目。
+// 五、provider 名单与 0021 的白名单保持一致，避免两条迁移对同一批账号给出不同结论。
 
+/** 官方订阅 provider 快照（6 个来源，顺序无关）。 */
+const OFFICIAL_PROVIDER_IDS =
+  "account:zai-start-plan account:bigmodel-start-plan account:zai-individual-coding-plan account:bigmodel-individual-coding-plan account:zai-team-coding-plan account:bigmodel-team-coding-plan".split(
+    " ",
+  );
+
+/** 官方模型展示名快照（22 项，顺序即映射顺序）。 */
+const OFFICIAL_MODEL_NAMES =
+  "GLM-5.3 GLM-5.3-Flash GLM-5V-Turbo GLM-5.2 GLM-5.1 GLM-5.1-Highspeed GLM-5 GLM-5-Turbo GLM-4.7 GLM-4.7-FlashX GLM-4.7-Flash GLM-4.6 GLM-4.5-Air GLM-4.5 GLM-4.6V GLM-4.6V-Flash GLM-4.6V-FlashX GLM-4.1V-Thinking-FlashX GLM-4.1V-Thinking-Flash GLM-4-FlashX-250414 GLM-4-Flash-250414 GLM-4V-Flash".split(
+    " ",
+  );
 export const BACKFILLED_SESSION_REASONING_MIGRATION_SQL = `
 WITH last_user AS (
   SELECT session_id, data, row_number() OVER (
@@ -62,9 +46,9 @@ WITH last_user AS (
     AND length(trim(json_extract(data, '$.modelSelection.options.reasoningLevel'))) > 0
 ), canonical_user AS (
   SELECT session_id, provider_id, level,
-    CASE WHEN provider_id IN (${officialProviders.map((id) => `'${id}'`).join(", ")})
+    CASE WHEN provider_id IN (${OFFICIAL_PROVIDER_IDS.map((id) => `'${id}'`).join(", ")})
       THEN CASE lower(model_id)
-        ${officialModels.map((id) => `WHEN '${id.toLowerCase()}' THEN '${id}'`).join("\n        ")}
+        ${OFFICIAL_MODEL_NAMES.map((id) => `WHEN '${id.toLowerCase()}' THEN '${id}'`).join("\n        ")}
         ELSE model_id END
       ELSE model_id END AS model_id
   FROM normalized_user

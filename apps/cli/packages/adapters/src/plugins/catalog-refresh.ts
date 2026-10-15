@@ -20,25 +20,27 @@ import {
   loadKnownMarketplacesSync,
   marketplaceDirectory,
 } from "./catalog-repository.js";
+import type { KnownMarketplaceRecord, PluginMarketplaceManifest } from "./catalog-types.js";
 import type {
-  KnownMarketplaceRecord,
-  MarketplaceSource,
-  PluginMarketplaceManifest,
-} from "./catalog-types.js";
+  AddMarketplaceInput,
+  EnsureMarketplaceManifestAvailableInput,
+  RemoveMarketplaceInput,
+  UpdateMarketplaceInput,
+} from "./catalog-refresh-types.js";
 import { appendPluginSourceCleanupError, cleanupPluginSourceBestEffort } from "./helpers.js";
 import { writeCdnOfficialMarketplacePartitionSync } from "./official-marketplace.js";
 import { getPluginSourceDiagnosticCode } from "./source-errors.js";
 
 export function loadMarketplaceManifestSync(
-  storageRoot: string,
-  marketplace: string,
-): PluginMarketplaceManifest | null {
+  /* 市场数据根目录 */ storageRoot: string,
+  /* 市场标识 */ marketplace: string,
+): /* 清单缺失或损坏时按未安装处理 */ PluginMarketplaceManifest | null {
   const root = recoverAtomicTargetSync(marketplaceDirectory(storageRoot, marketplace));
   try {
     return decodeMarketplaceManifest(
       JSON.parse(readFileSync(join(root, "marketplace.json"), "utf8")),
     );
-  } catch {
+  } catch /* 读取或解码失败：按清单不存在 */ {
     return null;
   }
 }
@@ -61,13 +63,7 @@ function guardMarketplaceIdentity(name: string, expectedId?: string, trustedId?:
   }
 }
 
-export async function addMarketplace(input: {
-  expectedId?: string;
-  signal?: AbortSignal;
-  source: MarketplaceSource;
-  storageRoot: string;
-  trustedId?: string;
-}): Promise<KnownMarketplaceRecord> {
+export async function addMarketplace(input: AddMarketplaceInput): Promise<KnownMarketplaceRecord> {
   const source = await loadMarketplaceSource(input.source, input.signal);
   let activation: AtomicDirectoryActivation | undefined;
   let published: KnownMarketplaceRecord | undefined;
@@ -77,11 +73,11 @@ export async function addMarketplace(input: {
   try {
     let manifest = source.manifest;
     guardMarketplaceIdentity(manifest.name, input.expectedId, input.trustedId);
-    assertAtomicNotAborted(input.signal);
+    assertAtomicNotAborted(/* 清单到手后再查中止，避免已取消还写盘 */ input.signal);
     const official = isOfficialMarketplaceId(manifest.name);
     if (official) {
       const merged = writeCdnOfficialMarketplacePartitionSync({
-        storageRoot: input.storageRoot,
+        storageRoot: /* 市场数据根目录 */ input.storageRoot,
         manifest: manifest.raw,
       });
       const decoded = decodeMarketplaceManifest(merged);
@@ -94,7 +90,7 @@ export async function addMarketplace(input: {
     }
     if (!official || source.sourceRoot) {
       activation = await activateDirectoryAtomically({
-        authorityPath: knownAuthorityPath(input.storageRoot),
+        authorityPath: /* 市场权威记录路径 */ knownAuthorityPath(input.storageRoot),
         targetPath: marketplaceDirectory(input.storageRoot, manifest.name),
         ...(source.sourceRoot !== undefined ? { sourcePath: source.sourceRoot } : {}),
         ...(input.signal ? { signal: input.signal } : {}),
@@ -112,7 +108,7 @@ export async function addMarketplace(input: {
       assertAtomicNotAborted(input.signal);
       predecessor = records.find((record) => record.id === currentManifest.name);
       const now = new Date().toISOString();
-      const record: KnownMarketplaceRecord = {
+      const record: /* 市场权威记录：字段名是契约 */ KnownMarketplaceRecord = {
         id: currentManifest.name,
         source: input.source,
         name: currentManifest.name,
@@ -173,11 +169,9 @@ export async function addMarketplace(input: {
   return published!;
 }
 
-export async function ensureMarketplaceManifestAvailable(input: {
-  marketplace: string;
-  signal?: AbortSignal;
-  storageRoot: string;
-}): Promise<KnownMarketplaceRecord | null> {
+export async function ensureMarketplaceManifestAvailable(
+  input: EnsureMarketplaceManifestAvailableInput,
+): Promise<KnownMarketplaceRecord | null> {
   assertAtomicNotAborted(input.signal);
   const known = loadKnownMarketplacesSync(input.storageRoot).find(
     (record) => record.id === input.marketplace,
@@ -193,11 +187,9 @@ export async function ensureMarketplaceManifestAvailable(input: {
   });
 }
 
-export async function updateMarketplace(input: {
-  marketplace?: string;
-  signal?: AbortSignal;
-  storageRoot: string;
-}): Promise<KnownMarketplaceRecord[]> {
+export async function updateMarketplace(
+  input: UpdateMarketplaceInput,
+): Promise<KnownMarketplaceRecord[]> {
   const records = loadKnownMarketplacesSync(input.storageRoot);
   const selected =
     input.marketplace !== undefined
@@ -206,13 +198,13 @@ export async function updateMarketplace(input: {
   if (input.marketplace !== undefined && selected.length === 0)
     throw new Error(`Marketplace not found: ${input.marketplace}`);
   const updated: KnownMarketplaceRecord[] = [];
-  for (const record of selected) {
+  for (const record of /* 逐市场串行刷新，失败单独记录 */ selected) {
     assertAtomicNotAborted(input.signal);
     try {
       updated.push(
         await addMarketplace({
           source: record.source,
-          storageRoot: input.storageRoot,
+          storageRoot: /* 市场数据根目录 */ input.storageRoot,
           expectedId: record.id,
           trustedId: record.id,
           ...(input.signal ? { signal: input.signal } : {}),
@@ -246,10 +238,7 @@ export async function updateMarketplace(input: {
   return updated;
 }
 
-export async function removeMarketplace(input: {
-  marketplace: string;
-  storageRoot: string;
-}): Promise<void> {
+export async function removeMarketplace(input: RemoveMarketplaceInput): Promise<void> {
   await changeKnownRecords(input.storageRoot, (records) => ({
     records: records.filter((record) => record.id !== input.marketplace),
     result: undefined,

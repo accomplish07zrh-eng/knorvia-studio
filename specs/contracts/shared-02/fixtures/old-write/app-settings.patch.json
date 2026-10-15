@@ -1,0 +1,12 @@
+{
+  "input": {
+    "locale": "en-US",
+    "onboardingOccupation": null,
+    "releaseChecksEnabled": false
+  },
+  "parsed": {
+    "releaseChecksEnabled": false,
+    "locale": "en-US",
+    "onboardingOccupation": null
+  }
+}

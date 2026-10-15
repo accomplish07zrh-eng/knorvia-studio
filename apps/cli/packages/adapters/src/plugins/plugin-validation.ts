@@ -21,18 +21,19 @@ import { getPluginSourceDiagnosticCode } from "./source-errors.js";
 import type { LoadedPlugin } from "./types.js";
 
 export function diagnosticForError(
-  error: unknown,
-  pluginId?: string,
-  path?: string,
+  /* 被包装的原始异常 */ error: unknown,
+  /* 归属插件 */ pluginId?: string,
+  /* 相关文件路径 */ path?: string,
 ): PluginValidationDiagnostic {
+  /* 诊断对象：错误码优先取来源分类，其次取目录错误的专用码 */
   return {
     code:
       getPluginSourceDiagnosticCode(error) ??
       (error instanceof CatalogOperationError
         ? error.diagnosticCode
         : "plugin_marketplace_invalid"),
-    message: error instanceof Error ? error.message : String(error),
-    severity: "error",
+    message: /* 保留原始错误文本，不改写 */ error instanceof Error ? error.message : String(error),
+    severity: /* 硬失败 */ "error",
     ...(pluginId !== undefined ? { pluginId } : {}),
     ...(path !== undefined ? { path } : {}),
   };
@@ -49,21 +50,22 @@ function hasUnsupportedBundle(value: unknown): boolean {
       for (const nested of item) pending.push(nested);
     }
   }
-  return false;
+  return /* 遍历完没有发现捆绑包引用 */ false;
 }
 
 export function appendCompatibilityDiagnostics(
-  manifest: Record<string, unknown> | PluginManifest,
-  pluginId: string,
-  path: string | undefined,
-  diagnostics: PluginValidationDiagnostic[],
+  /* 清单（原文或合成） */ manifest: Record<string, unknown> | PluginManifest,
+  /* 归属插件 */ pluginId: string,
+  /* 定位路径 */ path: string | undefined,
+  /* 逐条累积的诊断 */ diagnostics: PluginValidationDiagnostic[],
 ): void {
   const add = (code: PluginValidationDiagnostic["code"], message: string) =>
+    /* 统一补上归属后追加 */
     diagnostics.push({
       code,
       message,
-      severity: "warning",
-      pluginId,
+      severity: /* 非阻断警告 */ "warning",
+      pluginId: /* 透传归属 */ pluginId,
       ...(path !== undefined ? { path } : {}),
     });
   for (const key of ["channels", "lspServers", "outputStyles", "settings"]) {
@@ -85,67 +87,71 @@ export function appendCompatibilityDiagnostics(
 }
 
 export function loadedForRoot(
-  rootPath: string,
-  marketplace: string,
-  manifest: PluginManifest,
+  /* 插件根目录 */ pluginRoot: string,
+  /* 所属市场 */ market: string,
+  /* 规范化清单 */ manifest: PluginManifest,
   manifestPath?: string,
 ): LoadedPlugin {
+  /* 组装可装载上下文 */
   return {
-    id: `${manifest.name}@${marketplace}`,
-    marketplace,
-    rootPath,
+    id: `${manifest.name}@${market}`,
+    marketplace: market,
+    rootPath: pluginRoot,
     manifest,
-    manifestPath: manifestPath ?? join(rootPath, ".claude-plugin", "plugin.json"),
-    source: isOfficialMarketplaceId(marketplace) ? "official" : "cache",
+    manifestPath: manifestPath ?? join(pluginRoot, ".claude-plugin", "plugin.json"),
+    source: isOfficialMarketplaceId(market) ? "official" : "cache",
   };
 }
 
 export function validatePluginRoot(input: {
-  root: string;
-  marketplace: string;
-  entry: PluginMarketplaceEntry;
-  storageRoot: string;
-  document?: PluginDocument;
-}): PluginValidationDiagnostic[] {
+  /* 插件根目录 */ root: string;
+  /* 所属市场 */ marketplace: string;
+  /* 目录条目 */ entry: PluginMarketplaceEntry;
+  /* 插件数据根 */ storageRoot: string;
+  /* 已读到的清单文档 */ document?: PluginDocument;
+}): /* 校验产出的诊断列表 */ PluginValidationDiagnostic[] {
   const id = `${input.entry.name}@${input.marketplace}`;
   const diagnostics: PluginDiagnostic[] = [];
   let document: PluginDocument | undefined;
   try {
     document = input.document ?? readPluginDocument(input.root);
-  } catch (error) {
+  } catch (failure) {
+    /* 清单读不出来直接判定为无效 */
     return [
       {
-        code: "plugin_manifest_invalid",
-        severity: "error",
-        message: error instanceof Error ? error.message : String(error),
-        path: input.root,
+        code: /* 清单不可解析 */ "plugin_manifest_invalid",
+        severity: /* 硬失败 */ "error",
+        message:
+          /* 保留原始错误文本 */ failure instanceof Error ? failure.message : String(failure),
+        path: /* 定位到插件根 */ input.root,
         pluginId: id,
       },
     ];
   }
-  const manifest =
+  const resolved =
     document?.manifest ??
     (input.entry.strict === false ? syntheticPluginManifest(input.entry) : undefined);
-  if (!manifest)
+  if (!resolved)
+    /* 宽松模式之外读不到清单即失败 */
     return [
       {
-        code: "plugin_manifest_not_found",
-        severity: "error",
+        code: /* 清单缺失 */ "plugin_manifest_not_found",
+        severity: /* 硬失败 */ "error",
         message: `Plugin manifest not found: ${id}`,
         path: input.root,
         pluginId: id,
       },
     ];
-  if (manifest.name !== input.entry.name)
+  if (resolved.name !== input.entry.name)
     diagnostics.push({
-      code: "plugin_manifest_invalid",
-      severity: "error",
+      code: /* 清单名不匹配 */ "plugin_manifest_invalid",
+      severity: /* 硬失败 */ "error",
       message: `Plugin manifest name does not match ${input.entry.name}`,
       path: input.root,
       pluginId: id,
     });
-  appendCompatibilityDiagnostics(manifest, id, input.root, diagnostics);
-  const loaded = loadedForRoot(input.root, input.marketplace, manifest, document?.path);
+  appendCompatibilityDiagnostics(resolved, id, input.root, diagnostics);
+  const loaded = loadedForRoot(input.root, input.marketplace, resolved, document?.path);
   try {
     const definitions = loadPluginMcpServerDefinitions({ diagnostics, loaded });
     resolvePluginMcpServers({
@@ -157,8 +163,8 @@ export function validatePluginRoot(input: {
       loaded,
       workingDirectory: process.cwd(),
     });
-  } catch (error) {
-    diagnostics.push(diagnosticForError(error, id, input.root));
+  } catch (failure) {
+    diagnostics.push(diagnosticForError(failure, id, input.root));
   }
   return diagnostics;
 }

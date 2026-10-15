@@ -62,6 +62,7 @@ export function resolveHooks(
     const raw =
       source.wrapper && isRecord(source.rawHooks) ? source.rawHooks.hooks : source.rawHooks;
     if (!isRecord(raw)) {
+      /* hook 映射不是对象：记录诊断后跳过该来源 */
       diagnostic(
         diagnostics,
         "plugin_hook_invalid",
@@ -69,10 +70,11 @@ export function resolveHooks(
         loaded,
         source.sourcePath,
       );
-      continue;
+      continue; /* 跳过该来源 */
     }
     for (const [name, matchers] of Object.entries(raw)) {
       if (!events.has(name)) {
+        /* 事件名不在支持清单里 */
         diagnostic(
           diagnostics,
           "plugin_hook_unsupported_event",
@@ -80,9 +82,10 @@ export function resolveHooks(
           loaded,
           source.sourcePath,
         );
-        continue;
+        continue; /* 跳过该事件名 */
       }
       if (!Array.isArray(matchers)) {
+        /* 事件名对应的匹配器不是数组 */
         diagnostic(
           diagnostics,
           "plugin_hook_invalid",
@@ -90,12 +93,13 @@ export function resolveHooks(
           loaded,
           source.sourcePath,
         );
-        continue;
+        continue; /* 跳过该匹配器组 */
       }
       const event = name as HookEventName;
       for (const matcher of matchers) {
         const parsed = HookMatcherConfigSchema.safeParse(matcher);
         if (!parsed.success) {
+          /* 单条 matcher 不合法：只影响这一条 */
           diagnostic(
             diagnostics,
             "plugin_hook_invalid",
@@ -103,7 +107,7 @@ export function resolveHooks(
             loaded,
             source.sourcePath,
           );
-          continue;
+          continue; /* 跳过这一条 matcher */
         }
         const owned = parsed.data.hooks.map((hook) =>
           ownedHook(hook, loaded, dataPath, source.sourcePath),
@@ -114,7 +118,7 @@ export function resolveHooks(
         };
         (hooks[event] ??= []).push(projected);
         for (const hook of owned) {
-          const detail: PluginHookDetail = {
+          const hookDetail: PluginHookDetail = {
             event,
             type: hook.type,
             command: hook.command,
@@ -124,13 +128,13 @@ export function resolveHooks(
             ...(hook.statusMessage === undefined ? {} : { statusMessage: hook.statusMessage }),
             ...(hook.timeoutMs === undefined ? {} : { timeoutMs: hook.timeoutMs }),
           };
-          if (hook.type === "process" && hook.args) detail.args = [...hook.args];
+          if (hook.type === "process" && hook.args) hookDetail.args = [...hook.args];
           if (hook.type === "command") {
-            if (hook.async !== undefined) detail.async = hook.async;
-            if (hook.timeout !== undefined) detail.timeout = hook.timeout;
-            if (hook.shell !== undefined) detail.shell = hook.shell;
+            if (hook.async !== undefined) hookDetail.async = hook.async;
+            if (hook.timeout !== undefined) hookDetail.timeout = hook.timeout;
+            if (hook.shell !== undefined) hookDetail.shell = hook.shell;
           }
-          details.push(detail);
+          details.push(hookDetail);
         }
       }
     }

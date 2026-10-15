@@ -4,10 +4,10 @@
 export function redactSourceReference(source: string): string {
   const input = source.trim();
   try {
-    const url = new URL(input);
-    url.username = "";
-    url.password = "";
-    return url.toString();
+    const parsed = new URL(input);
+    /* 用户名与密码都要抹掉，再取规范化形式 */
+    for (const field of ["username", "password"] as const) parsed[field] = "";
+    return /* 规范化且无凭据的地址 */ parsed.toString();
   } catch {
     return /^[^\s:]+:[^\s@]+@/u.test(input) ? "configured Git source" : input;
   }

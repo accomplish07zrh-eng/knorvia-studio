@@ -22,14 +22,14 @@ const READ_INPUT = `
   FROM session_input
 `;
 
-export async function saveSessionInput(db: DatabaseSync, input: Admission): Promise<void> {
-  saveSessionInputSync(db, input);
+export async function saveSessionInput(database: DatabaseSync, request: Admission): Promise<void> {
+  saveSessionInputSync(database, request);
 }
 
 // 复合提交必须在同步临界段完成入账，避免 await 将其他会话写入卷进本次事务。
-export function saveSessionInputSync(db: DatabaseSync, input: Admission): void {
+export function saveSessionInputSync(database: DatabaseSync, request: Admission): void {
   const time = Date.now();
-  const statement = db.prepare(`
+  const statement = database.prepare(`
     INSERT INTO session_input (
       id, session_id, kind, delivery, payload, admitted_sequence, status, time_created, time_updated
     ) VALUES (?, ?, ?, ?, ?, (
@@ -40,82 +40,94 @@ export function saveSessionInputSync(db: DatabaseSync, input: Admission): void {
       payload = excluded.payload, time_updated = excluded.time_updated
   `);
   statement.run(
-    input.id,
-    input.sessionID,
-    input.kind,
-    input.delivery,
-    encodeJson(input.payload) ?? "{}",
-    input.sessionID,
+    request.id,
+    request.sessionID,
+    request.kind,
+    request.delivery,
+    encodeJson(request.payload) ?? "{}",
+    request.sessionID,
     time,
     time,
   );
 }
 
-export async function updateSessionInputs(db: DatabaseSync, input: Edits): Promise<void> {
-  if (input.updates.length === 0) return;
-  const read = db.prepare(`
+export async function updateSessionInputs(database: DatabaseSync, request: Edits): Promise<void> {
+  if (request.updates.length === 0) return;
+  const read = database.prepare(`
     SELECT payload, delivery FROM session_input WHERE id = ? AND session_id = ? AND status = 'admitted'
   `);
-  const write = db.prepare(`
+  const write = database.prepare(`
     UPDATE session_input SET delivery = ?, payload = ?, time_updated = ?
     WHERE id = ? AND session_id = ? AND status = 'admitted'
   `);
   // 只复用既有自有事务边界，避免 SQLite 已自动回滚后再次清理而覆盖首因。
-  withWriteTransaction(db, "own", () => {
+  withWriteTransaction(database, "own", () => {
     const time = Date.now();
-    for (const patch of input.updates) {
-      const row = read.get(patch.id, input.sessionID) as
+    for (const patch of request.updates) {
+      const entry = read.get(patch.id, request.sessionID) as
         | Pick<SessionInputRow, "payload" | "delivery">
         | undefined;
-      if (!row) continue;
-      const payload = editInputPayload(row.payload, patch);
+      if (!entry) continue;
+      const payload = editInputPayload(entry.payload, patch);
       write.run(
-        patch.delivery ?? row.delivery,
+        patch.delivery ?? entry.delivery,
         encodeJson(payload) ?? "{}",
         time,
         patch.id,
-        input.sessionID,
+        request.sessionID,
       );
     }
   });
 }
 
-export async function markSessionInputPromoted(db: DatabaseSync, input: Marker): Promise<void> {
-  const statement = db.prepare(`
+export async function markSessionInputPromoted(
+  database: DatabaseSync,
+  request: Marker,
+): Promise<void> {
+  const statement = database.prepare(`
     UPDATE session_input SET status = 'promoted', promoted_message_id = ?, promoted_sequence = (
       SELECT COALESCE(MAX(promoted_sequence), -1) + 1 FROM session_input WHERE session_id = ?
     ), time_updated = ? WHERE id = ? AND session_id = ? AND status = 'admitted'
   `);
-  statement.run(input.promotedMessageID, input.sessionID, Date.now(), input.id, input.sessionID);
+  statement.run(
+    request.promotedMessageID,
+    request.sessionID,
+    Date.now(),
+    request.id,
+    request.sessionID,
+  );
 }
 
-export async function settleSessionInput(db: DatabaseSync, input: Settlement): Promise<void> {
-  const statement = db.prepare(`
+export async function settleSessionInput(
+  database: DatabaseSync,
+  request: Settlement,
+): Promise<void> {
+  const statement = database.prepare(`
     UPDATE session_input SET status = ?, status_reason = ?, time_updated = ?
     WHERE id = ? AND session_id = ? AND status = 'admitted'
   `);
-  statement.run(input.status, input.reason ?? null, Date.now(), input.id, input.sessionID);
+  statement.run(request.status, request.reason ?? null, Date.now(), request.id, request.sessionID);
 }
 
 export async function listSessionInputs(
-  db: DatabaseSync,
-  input: ListQuery,
+  database: DatabaseSync,
+  request: ListQuery,
 ): Promise<SessionInputRecord[]> {
-  const statement = db.prepare(`${READ_INPUT}
-    WHERE session_id = ?${input.status ? " AND status = ?" : ""} ORDER BY admitted_sequence ASC
+  const statement = database.prepare(`${READ_INPUT}
+    WHERE session_id = ?${request.status ? " AND status = ?" : ""} ORDER BY admitted_sequence ASC
   `);
-  const rows = input.status
-    ? statement.all(input.sessionID, input.status)
-    : statement.all(input.sessionID);
-  return rows.map((row) => projectSessionInput(row as unknown as SessionInputRow));
+  const entries = request.status
+    ? statement.all(request.sessionID, request.status)
+    : statement.all(request.sessionID);
+  return entries.map((entry) => projectSessionInput(entry as unknown as SessionInputRow));
 }
 
 export async function getSessionInputById(
-  db: DatabaseSync,
+  database: DatabaseSync,
   id: string,
 ): Promise<SessionInputRecord | null> {
-  const row = db.prepare(`${READ_INPUT} WHERE id = ?`).get(id) as unknown as
+  const entry = database.prepare(`${READ_INPUT} WHERE id = ?`).get(id) as unknown as
     | SessionInputRow
     | undefined;
-  return row ? projectSessionInput(row) : null;
+  return entry ? projectSessionInput(entry) : null;
 }

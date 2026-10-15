@@ -7,6 +7,7 @@ import { assertAtomicNotAborted } from "./atomic-protocol.js";
 import { CatalogOperationError } from "./catalog-dependencies.js";
 import { decodeMarketplaceManifest } from "./catalog-manifest.js";
 import type { MarketplaceSource, PluginMarketplaceManifest } from "./catalog-types.js";
+import type { MarketplaceSourceLease } from "./catalog-load-source-types.js";
 import {
   appendPluginSourceCleanupError,
   cleanupPluginSourceBestEffort,
@@ -16,11 +17,7 @@ import {
 import { downloadSource } from "./source-download.js";
 import { materializeRepository } from "./source-git.js";
 
-export interface MarketplaceSourceLease {
-  manifest: PluginMarketplaceManifest;
-  sourceRoot?: string;
-  cleanup?: () => Promise<void>;
-}
+export type { MarketplaceSourceLease } from "./catalog-load-source-types.js";
 
 function requiredManifest(value: unknown, settings = false): PluginMarketplaceManifest {
   const manifest = decodeMarketplaceManifest(value, settings);
