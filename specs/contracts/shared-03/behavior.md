@@ -430,4 +430,97 @@
 
 ---
 
-（H5 起续写：B30…）
+## H5. tool/execution 八件（B30–B36）
+
+### B30 执行输出预览 schema（`execution-output-preview.ts`）
+
+- 常量：`OUTPUT_PREVIEW_MAX_CHARACTERS = 4096`（模块内）。schema（strict）：`text`/`fullText` 各 ≤4096、
+  `totalLines`/`totalBytes` 非负整数、`linesEstimated` 布尔。**两端共用的 Bash 有界输出内容**，
+  不含 replayable 传输恢复状态。其余同通用约定。
+
+### B31 执行状态（`execution-state.ts`）
+
+- `executionPermissionModeSchema` = 四值 `build|edit|yolo|auto`（**auto 保留为内部权限；plan 仅在旧格式
+  读取边界接受**）；`executionStateSchema` = `{mode, planEnabled}`（非 strict）。
+- `resolveExecutionState(input, current = {mode:"build", planEnabled:false})`：mode 解析成功取新值、
+  失败取 `current.mode`；`planEnabled = input.planEnabled ?? (input.mode === "plan" ? true :
+  (mode 解析成功 ? false : current.planEnabled))`。**在接纳边界固定旧请求语义**，队列消费不得按当前
+  配置重新解释。纯函数；无状态；无日志。
+
+### B32 运行时工具运行时表（`runtime-tool-runtime.ts`）
+
+- 语义常量（逐字冻结）：`RuntimeToolId = "bfs"|"ripgrep"|"ugrep"`；
+  `binaryEnvVar` 三值 `KNORVIA_BFS_BINARY`/`KNORVIA_RG_BINARY`/`KNORVIA_UGREP_BINARY`；
+  `bundledResourceDir` 三值 `bfs`/`ripgrep`/`ugrep`；入口段名 `bfs`/`rg`/`ugrep`（win32 追加 `.exe`）；
+  远端版本表：bfs{linux:"v4.1.1-2"}、ripgrep{darwin:"v13.0.0-10", linux:"v14.1.1-1"}、
+  ugrep{linux:"v7.8.4-1"}`（**按平台解析部署集合**——Linux 已切 native-search 三工具、Darwin 仍 legacy rg13，
+  不能用一个全局版本互相覆盖）。
+- `getRemoteRuntimeToolsForPlatform(platform)`：三工具依表序，仅输出该平台有版本者（含 runtime 描述）；
+  `getRuntimeToolRuntime(id)`：直查本地表。纯函数；无状态；无日志；平台差异仅 `.exe` 后缀。
+
+### B33 工具身份（`tool-identity.ts`）
+
+- `KNORVIA_KNOWN_TOOL_NAMES`：**32 项、此序、逐字冻结**（含 `web_search` 小写双形、`mcp__node_repl__*`
+  三前缀形、`AmendWorkflow`、`submit_result`——下划线必须字面在场，否则 UI identity 退回 unknown、
+  动态工作流 actor 提交落 raw fallback）。
+- `KnorviaToolFamily` 14 值；`TOOL_FAMILY_BY_NAME` 全映射（Write/Edit/ApplyPatch→file-write；Bash→shell；
+  Glob/Grep/WebFetch/WebSearch/web_search→search；TodoRead/TodoWrite→todo；Agent/Task→agent；
+  TaskOutput/TaskStop→task-control；js*/mcp__node_repl__*→node-repl；CreateWorkflow/AmendWorkflow/
+  submit_result→workflow；GoalRead→goal；ReadSessionContext→session-context；AskUserQuestion→
+  ask-user-question；SendMessage/RespondToCoordinator→message；Skill→skill；Read→file-read）。
+- `normalizeKnorviaToolName`：trim 后按小写查表，未登记 → null；`getKnorviaToolFamilyForName` 经归一；
+  `isKnorviaToolFamily` 等值；`isKnorviaFileContentWriteToolName` = 归一恰为 `"Write"`。
+  **大小写不敏感归一、家族表不吞修订入口**（按名先分流、family 兜底不得吃掉 AmendWorkflow/submit_result）。
+
+### B34 工具调用摘要（`tool-call-summary.ts`）
+
+- `CompactToolCallState` 五值；`statusMessageIds` i18n 键表（逐字冻结）：
+  input-streaming→chat.toolCall.status.pending、input-available→…running、
+  output-available→…done、output-denied→…denied、output-error→…error。
+- `summarizeInput(input)`：非对象 → ""；换行/连空白折叠为单空格；`tool_kind` 字段前置为
+  `` `[${kind}]` `` 段；字符串字段取首个非空、截 200 字符；其余字段同规则附加。
+- `countLines(text)`：`\n` 计数（charCodeAt 10），**尾随 LF 不计入**（0 长 → 0）。
+- `getChangeStat(kind, input, output, raw)`：kind 匹配 `/edit|patch|replace|multi.?edit/i` 才继续；
+  文本对在 input → output → raw 链上找（`findTextPair`：对象里 after/new_string/content 与
+  before/old_string 的组合）；`removed=countLines(before)`、`added=countLines(after)`；
+  双零 → undefined。
+- `getCompactToolCallSummary`：primaryText = title 归一或 `"tool"`；secondaryText = summarizeInput；
+  changeStat 同上。纯函数；无状态；无日志。
+
+### B35 流式工具输入预览（`streaming-tool-input-preview.ts`）
+
+- 语义常量（逐字冻结）：`KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_EAGER_DELTA_COUNT = 1`、
+  `KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS = 750`、
+  `KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_RAW_GROWTH = 8 * 1024`、
+  `KNORVIA_FILE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS = 1000`、
+  `KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_TIME_BUDGET_MAX_RAW_INPUT = 8 * 1024`；
+  `partialStringFields` 24 字段名表（file_path…script，序即扫描序）。
+- `readPartialStringFields(rawInput)`：逐字段 `"<field>"\s*:\s*"` 定位后逐字符扫到闭合引号
+  （反斜杠转义感知）；未闭合时截掉残缺 `\u[0-9a-fA-F]{0,3}` 与尾 `\`；`JSON.parse('"…"')` 成功即用、
+  失败手工反转义（`\n \r \t \" \\`）。**不解析 JSON、不做 schema**——输入中途即可展示。
+- `appendKnorviaStreamingToolInputDelta(state, delta)`：spread + `deltaCount+1` + `rawInput` 相接
+  （state 缺席按空串）。
+- `buildKnorviaStreamingToolInputPreview(rawInput, completeInput?)`：completeInput 给定 → `{complete:true,
+  input:completeInput}`；否则 JSON.parse 成功 → complete:true；失败 → `{complete:false, input:部分字段}`。
+- `isKnorviaFileStreamingToolInputPreviewTool(name)` = trim 小写后 `write` 或 `edit`。
+- `shouldMaterialize…(state, {mode, now, toolName})`：background-summary → false；
+  `deltaCount <= 1` → true；file 工具按 1000ms 间隔，其余按 750ms **且** raw 增长 ≥8KB 双条件。
+  纯函数；时间可注入；无状态；无日志。
+
+### B36 权限请求预览（`permission-request-preview.ts`）
+
+- `normalizeInline`：折叠连续空白；`normalizeCommand`：同上并剥 `` ` ``；`getInputSource(raw)` =
+  `raw?.input`（record 时）否则 raw。
+- `collectPaths`：递归找 `path`/`file_path`/`pattern` 的字符串叶子与同名数组元素（trim 非空），
+  `seen` 对象集去环。`findCommand`：`command` 字符串叶子或数组字符串元素拼接（顶层优先、递归兜底）。
+- `collectChanges`：`state` 必须是 `reverted`/`active` 才计；`content`/`new_string`/`text`+path → after；
+  `old_string`/`text`+path → before；`removed = countLines(before)`、`added = countLines(after)`
+  （after>before 计 added、反向计 removed 的方向语义保持）。
+- `getPermissionRequestPreview({title, description, kind, raw})`：title 回退链
+  title→description→kind→`"permission"`（normalizeInline 后空串即回落）；`scope` =
+  有 command→"command"、否则有路径→"file"、否则"generic"；`fileChange` 仅恰好一条时导出，
+  多条/零条为 null（全量在 `fileChanges`）。纯函数；seen 去环；无状态；无日志。
+
+---
+
+（H6 起续写：B37…）
