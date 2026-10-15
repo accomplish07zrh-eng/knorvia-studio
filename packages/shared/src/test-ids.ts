@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- data-testid 单一来源集中维护，拆分会让 E2E 断言面散落。 */
 // 统一管理所有 data-testid，UI 组件和 E2E 测试共用此单一来源。 新增 testid 时请在此文件添加，不要在组件中硬编码字符串。 并且每个都需要中文注释
 
 // Login entry

@@ -263,6 +263,13 @@ export interface IPlatformService {
   openExternalFile?(path: string): Promise<{ success: boolean; error?: string }>; // 默认应用打开
   openExternal(url: string): void; // 打开外部 URL
 
+  // 从自动发现的本机 Chrome Profile 一次性导入 Cookie 与 LocalStorage。
+  importChromeBrowserData?(
+    options?: ChromeBrowserDataImportOptions,
+  ): Promise<ChromeBrowserDataImportResult>; // Chrome 数据一次性导入
+
+  // 清理内置浏览器持久化分区；cache 模式保留认证数据，all 模式清全部站点数据。
+  clearEmbeddedBrowserData?(mode: "cache" | "all"): Promise<EmbeddedBrowserDataClearResult>; // 浏览器数据清理
   // ── 编辑器与应用图标 ────────────────────────────────────────────
   getInstalledEditors(): Promise<EditorInfo[]>; // 已安装编辑器/终端
   openInEditor(

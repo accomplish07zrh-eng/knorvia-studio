@@ -23,8 +23,25 @@ import { providerFamilyConnectionSelectionSettingsSchema } from "./provider-fami
 // 职业枚举 14 值文本装载（取值逐字冻结，B45）。
 const OCCUPATION_CHOICE_TEXT =
   "office developer independent infrastructure product design student creator operations marketing finance accounting legal other";
+// 职业取值的字面量联合（类型面与旧实现一致，逐值冻结）。
+type OccupationChoice =
+  | "office"
+  | "developer"
+  | "independent"
+  | "infrastructure"
+  | "product"
+  | "design"
+  | "student"
+  | "creator"
+  | "operations"
+  | "marketing"
+  | "finance"
+  | "accounting"
+  | "legal"
+  | "other";
 const occupationChoiceValues = OCCUPATION_CHOICE_TEXT.split(" ") as [
-  (typeof OCCUPATION_CHOICE_TEXT)[number],
+  OccupationChoice,
+  ...OccupationChoice[],
 ];
 const occupationChoiceSchema = z.enum(occupationChoiceValues); // 职业枚举
 
