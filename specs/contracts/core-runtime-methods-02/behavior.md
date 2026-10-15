@@ -375,3 +375,57 @@
 - **平台差异**：无。
 - **状态所有者**：只读 state（`activeTurn.turnId`）。
 - **日志级别**：queued `debug`、rejected `warn`。
+
+### B45 结果路径工具用量记账（`turn-tool-usage.ts` 的 `recordToolUsageFromResult`）
+
+- **输入**：`(runtime, result, traceContext)`；usage 四方法门槛（同 methods-01 口径，缺一静默）。
+- **输出**：`upsertToolUsage` 记录——`id` = `` `usage_tool_${sessionId}_${toolCallId}` ``、
+  `approvalStatus: "none"`、`status: result.success ? "completed" : "error"`、
+  `firstOutputAt = completedAt`、`timeToFirstOutputMs = completedAt - startedAt`、
+  `exitCode` 仅 `performance.detail.kind === "command"` 时取 `command.exitCode`、
+  `outputBytes`（`serialization.returnedBytes` 优先，否则 string 输出 `TextEncoder` 字节长）、
+  `truncated: result.serialization?.truncated`、`retryCount: 0`、`retryable: false`、
+  `cancelledByUser: errorType?.includes("cancel") ?? false`。
+- **错误语义**：写入失败**吞错转 warn** `usage.tool.write.failed`（源码注释钉明：SQLite 磁盘/锁
+  异常绝不能阻断后续 Tool Result 持久化与模型续跑）。
+- **时序与并发**：B42 逐结果持久化序第一步。
+- **幂等**：同 `id` 覆盖写。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读 registry 元数据（sideEffectScope/readOnly/destructive）。
+- **日志级别**：失败 `warn`。
+
+### B47 工具分部元数据（`tool-part-metadata.ts`）
+
+- **输入**：`mcpToolPartMetadata(presentation)`（`{serverName, toolName, description?}`）；
+  `completedToolPartMetadata(result)`。
+- **输出**：MCP 元数据 = `createMcpToolDisplay(presentation)` 命中时
+  `{schemaVersion: COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION, display}` 否则 undefined；
+  完成元数据 = `{schemaVersion, ...(display), ...(serialization: {truncated, originalBytes,
+  returnedBytes, budgetStrategy, ...(artifactPath)}), ...(readFileState: result.readFileStateMetadata)}`
+  （**resume 需要模型当时真实读到的文件快照**——只依赖 tool_result 文本会把主路径绑死在 provider
+  展示格式上，注释钉明）。
+- **错误语义**：纯构造不抛。
+- **时序与并发**：分部构造点（B42/B43）。
+- **幂等**：纯函数。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：无。
+- **日志级别**：无。
+
+### B48 待决工具分部持久化与名称边界（`tool-part-persistence.ts`）
+
+- **输入**：`projectToolNameForNonEmptyBoundary(toolName)`；`persistPendingToolPart(runtime,
+  {assistantMessageId, declarationIndex, input, partID, toolCall, traceContext, metadata?, model})`。
+- **输出**：名称边界投影——名称 trim 非空原样；**空名投影** `{toolName: "empty_tool_name",
+  metadata: {providerToolName: 原名}}`（B42/B43 全部经此）。`persistPendingToolPart`：空名走
+  投影、否则 `requireRuntimeToolCallName`（helpers 面）；落 `tool` 分部
+  `{status: "pending", input, raw: JSON.stringify({tool, input})}`（`metadata` = 投影 metadata
+  与调用方 metadata 合并、调用方在后）。
+- **错误语义**：`requireRuntimeToolCallName` 失败按 helpers 面传播；持久化失败冒泡。
+- **时序与并发**：B42 声明循环内（declarationIndex 顺序）。
+- **幂等**：partID 唯一，同 id 覆盖。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读。
+- **日志级别**：无（helpers 侧可 warn）。
