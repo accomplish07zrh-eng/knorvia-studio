@@ -288,3 +288,53 @@
 - **平台差异**：无。
 - **状态所有者**：只读 state（`model`/`currentUserMessageId`）。
 - **日志级别**：无。
+
+### B42 工具批执行主流程（`turn-tools.ts` 的 `executeToolCallsForModelStep`）
+
+- **输入**：`(this: runtime, state, {assistantCreatedAt, assistantMessageId, modelTraceContext,
+  result, streamedToolResults?, toolCalls})`；`state.model` 缺失**抛
+  `"Model-backed tool execution requires the loop Model"`**；准入时保留归因字段读取
+  （`void {providerId, modelId}`，执行端口在调度 await 后读当前 loop handle——注释钉明）。
+- **输出**：`"continue" | "break"`。主序（顺序即契约）：
+  1. **声明循环**（`declarationIndex` 计数即契约）：流式已录（`entry.ledgerRecorded !== false`）
+     跳过；否则 `persistPendingToolPart`（含 MCP 元数据）→ `emitStreamingToolLedgerUpdate(
+     status: "tool_call_closed")`（流式补 `executionTiming: "during_stream"`）→ 流式未录错误
+     补 `emitSyntheticStreamedToolError`；
+  2. `scheduleTools` → `TurnMachineImpl(scheduleTools(...))` → `startToolExecution()`（两段 machine
+     接纳）；非流式 pending 走 `emitToolScheduledEvents` + 逐条 `tool_queued` 账本 + debug
+     `"Executing tools"`（streamedToolCallCount/toolCallCount/tools 名单）；
+  3. `executeTools` 入参带 `automationTurn`/`offPeakTurn`（B39 三重信号判据）/`signal`/`model`；
+     `onBatchStart` 逐 id 写 `tool` 分部（`runningToolBatchState` + 名称边界投影
+     `projectToolNameForNonEmptyBoundary`）+ `tool_started` 账本（aborted 则整体跳过）；
+  4. **结果收口序**：streamed/pending 结果按**声明序**归并 → `recordBrowserTurnToolResult` 逐条 →
+     `emitNestedModelUsageEvents` → 逐条 `completeTool`（success 内容 `modelContentForToolResult`、
+     失败 `error?.message ?? stringifyToolResultOutput`）→ `aggregateResults` → 两条 debug
+     （`Tools executed`（`toolBatchResultDiagnostic`）、`Injecting tool results`）；
+  5. **逐结果持久化序**：`recordToolUsageFromResult` → 成功则 `persistToolResultMediaAttachments`
+     → `tool` 分部终态（**facc708 案底：终态选择必须位于记录构造阶段**——端口读取可改 result；
+     success=`completedToolBatchState` 否则 `failedToolBatchState`）→ debug `addToolResult` →
+     `commitTurnRequestEntries`（`createRuntimeToolResultEntry`，`isError = isErrorForToolResult`）
+     → `emitFileMutationCheckpoint`（**取消错误吞入 `checkpointCancellation` 并 continue**，
+     其余冒泡）→ `emitStreamRecoveryAnchor`（anchorId=`createStreamRecoveryAnchorId`）+
+     `tool_result_committed` 账本（`executionTiming`: 流式 `during_stream`/非流式 `end_of_stream`）
+     → `steerToolBatchFollowUp`；
+  6. **批收尾**：`checkpointCancellation` 若有最终抛出；`turnControl.stopTurnAfterResult` 命中 →
+     `persistToolModelStepFinish` →（`reason === "automation_create_limit"` 时置
+     `automationCreateLimitReached` + `recordCompletedToolBatch` + info
+     `"automation.create_limit.text_only_continuation"` + 返回 `"continue"`）否则
+     `fallbackPendingGuidesToQueue(reasonCode: "guide.noToolBoundary")` + info
+     `"tool.turn_control.stop"` + `steerable = false` + `complete(modelResponse, "success")` +
+     返回 `"break"`；无停止 → `handleToolCallAnomalyWarnings` → `persistToolModelStepFinish` →
+     `drainInlineGuideForNextRequest` → `recordCompletedToolBatch` → debug
+     `"After inject, message count"` → `"continue"`。
+- **错误语义**：缺模型/取消错误按上文；checkpoint 取消聚合到批末抛出；其余逐层冒泡。
+- **时序与并发**：批内工具并行执行（scheduleTools/executeTools 语义），但分部/账本/结果收口
+  全部按声明序或结果归并序严格顺序；同 tick 契约由 B43/B44 钉。
+- **幂等**：流式已录账本不重录（`ledgerRecorded`）；machine 一律新实例接纳（machine-red）。
+- **资源释放**：媒体附件走 artifactStore 持久化；signal 贯穿取消。
+- **平台差异**：媒体持久化与工具执行的平台差异在各自适配面（不改本序）。
+- **状态所有者**：`turnMachine`（schedule/start/complete/aggregate 四段）、`turnRequestState`
+  （结果条目）、`events`（scheduled/push）、`automationCreateLimitReached`、`activeTurn.steerable`
+  的写点见主序。
+- **日志级别**：`Executing tools`/`Tools executed`/`Injecting tool results`/`addToolResult`/
+  `After inject, message count` 为 `debug`；automation 限额与 tool 停止为 `info`。
