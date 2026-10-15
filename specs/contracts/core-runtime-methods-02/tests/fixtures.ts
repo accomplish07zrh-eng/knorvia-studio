@@ -193,9 +193,7 @@ export const createFakeRuntime = (options: {
     }),
     scheduleTools: async () => ({ accepted: [] }),
     toScheduleState: (schedule: unknown) => schedule,
-    executeTools: async (
-      calls: Array<{ id: string; name: string; input: unknown }>,
-    ) => ({
+    executeTools: async (calls: Array<{ id: string; name: string; input: unknown }>) => ({
       results: calls.map((call) => ({
         toolCallId: call.id,
         toolName: call.name,
@@ -207,9 +205,7 @@ export const createFakeRuntime = (options: {
       })),
       events: [],
     }),
-    emitToolScheduledEvents: async (
-      calls: Array<{ id: string; name: string; input: unknown }>,
-    ) => {
+    emitToolScheduledEvents: async (calls: Array<{ id: string; name: string; input: unknown }>) => {
       const events = calls.map((call) => ({
         id: `event_sched_${call.id}`,
         type: "tool_call_scheduled",

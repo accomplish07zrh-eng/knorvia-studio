@@ -30,4 +30,4 @@
   「output 是否存在」可能被历史归一化抹平——此时 provider input 只覆盖 assistant 之前的请求、
   assistant 本身仍进本地增量（源码注释即契约，behavior B52 钉值）。
 - **裁定**：合同按注释口径断言 `incrementalStartIndex` 双分支与 `tokenCount = base +
-  incremental`；不承诺扫描到的 assistant 一定携带 output。
+incremental`；不承诺扫描到的 assistant 一定携带 output。

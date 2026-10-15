@@ -37,4 +37,3 @@ export function recordCompletedToolBatch(..._args: unknown[]): unknown {
 export function recordModelHistoryRound(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-

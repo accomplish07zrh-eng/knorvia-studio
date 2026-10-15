@@ -13,4 +13,3 @@ export function completedToolPartMetadata(..._args: unknown[]): unknown {
 export function mcpToolPartMetadata(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-

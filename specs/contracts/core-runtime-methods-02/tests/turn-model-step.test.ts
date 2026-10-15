@@ -12,22 +12,12 @@ import {
 } from "./fixtures.js";
 import { methods } from "./entry.mjs";
 
-const {
-  buildTurnModelRequest,
-  stepStartPart,
-  completedAssistantFields,
-  recoveryFields,
-} = await methods("turn-model-step-fields");
-const {
-  querySourceForTask,
-  findLatestCommittedAssistantUsage,
-  recordMainTurnModelUsage,
-} = await methods("turn-model-step-usage");
-const {
-  logTurnModelDiagnostics,
-  persistedFailure,
-  prepareFailureFacts,
-} = await methods("turn-model-step-records");
+const { buildTurnModelRequest, stepStartPart, completedAssistantFields, recoveryFields } =
+  await methods("turn-model-step-fields");
+const { querySourceForTask, findLatestCommittedAssistantUsage, recordMainTurnModelUsage } =
+  await methods("turn-model-step-usage");
+const { logTurnModelDiagnostics, persistedFailure, prepareFailureFacts } =
+  await methods("turn-model-step-records");
 const { recoverTurnModelContext } = await methods("turn-model-step-recovery");
 const { performModelStep } = await methods("turn-model-step-operation");
 const { runModelBackedTurnStep } = await methods("turn-model-step");
@@ -50,7 +40,11 @@ const stepOptions = () => ({
 
 test("B32 回合模型步入口与遥测收尾", async () => {
   const { journal, runtime, state } = harness();
-  const outcome = await runModelBackedTurnStep.call(runtime as never, state as never, stepOptions() as never);
+  const outcome = await runModelBackedTurnStep.call(
+    runtime as never,
+    state as never,
+    stepOptions() as never,
+  );
   assert.equal(outcome, "break");
   journal.assertSubsequence(["persist.assistant", "model.request", "telemetry"]);
   const telemetry = journal.ofKind("telemetry");
@@ -95,7 +89,9 @@ test("B34 诊断与失败记录（KD-2 观察面）", () => {
     10,
     [] as never,
   );
-  const diag = journal.ofKind("log.info").find((mark) => mark.message === "Model response diagnostics");
+  const diag = journal
+    .ofKind("log.info")
+    .find((mark) => mark.message === "Model response diagnostics");
   assert.ok(diag);
   assert.deepEqual(diag.providerMetadataKeys, ["vendor", "recoveredFromStreamFailure"]);
   const facts = prepareFailureFacts(new Error("【虚构】失败"), state as never);
@@ -154,10 +150,13 @@ test("B35 请求/分部/收尾字段构造", () => {
     scriptedResult() as never,
   );
   assert.equal(done.includeEmptyAssistant, false);
-  assert.deepEqual(recoveryFields("assistant_b35" as never, undefined, state.turnTraceContext as never), {
-    assistantMessageId: "assistant_b35",
-    traceContext: state.turnTraceContext,
-  });
+  assert.deepEqual(
+    recoveryFields("assistant_b35" as never, undefined, state.turnTraceContext as never),
+    {
+      assistantMessageId: "assistant_b35",
+      traceContext: state.turnTraceContext,
+    },
+  );
 });
 
 test("B36 主回合用量记账", async () => {
@@ -204,7 +203,12 @@ test("B37 反应式上下文恢复", async () => {
 
 test("S1 模型步请求持久化序列", async () => {
   const { journal, runtime, state } = harness();
-  await performModelStep(runtime as never, state as never, stepOptions() as never, "assistant_s1" as never);
+  await performModelStep(
+    runtime as never,
+    state as never,
+    stepOptions() as never,
+    "assistant_s1" as never,
+  );
   journal.assertSubsequence([
     "log.steering",
     "persist.assistant",
@@ -220,7 +224,12 @@ test("S1 模型步请求持久化序列", async () => {
 
 test("S2 模型步成功收尾序列", async () => {
   const { journal, runtime, state } = harness();
-  await performModelStep(runtime as never, state as never, stepOptions() as never, "assistant_s2" as never);
+  await performModelStep(
+    runtime as never,
+    state as never,
+    stepOptions() as never,
+    "assistant_s2" as never,
+  );
   journal.assertSubsequence([
     "model.request",
     "persist.part",

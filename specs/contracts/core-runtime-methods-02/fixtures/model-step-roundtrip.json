@@ -125,10 +125,7 @@
       "event": "model.response.diagnostics",
       "finishReason": "stop",
       "module": "core.runtime",
-      "providerMetadataKeys": [
-        "vendor",
-        "recoveredFromStreamFailure"
-      ],
+      "providerMetadataKeys": ["vendor", "recoveredFromStreamFailure"],
       "responseEmpty": false,
       "responseLength": 10,
       "status": "completed",

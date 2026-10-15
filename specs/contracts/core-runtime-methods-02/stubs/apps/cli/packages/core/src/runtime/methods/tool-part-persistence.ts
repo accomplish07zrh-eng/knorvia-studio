@@ -13,4 +13,3 @@ export function persistPendingToolPart(..._args: unknown[]): unknown {
 export function projectToolNameForNonEmptyBoundary(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-

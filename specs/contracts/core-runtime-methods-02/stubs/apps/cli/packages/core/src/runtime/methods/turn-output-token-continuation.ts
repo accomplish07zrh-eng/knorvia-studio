@@ -50,4 +50,3 @@ export const OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE: unknown = undefined;
 export function preserveCanonicalContextPrefix(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-

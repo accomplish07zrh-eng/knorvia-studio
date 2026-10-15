@@ -7,29 +7,29 @@
 
 ## 编号规划（B32 起，防重排；已写条目不改号）
 
-| 区 | 编号 | 文件 |
-| --- | --- | --- |
-| A 回合模型步编排 | B32 | turn-model-step.ts |
-| A 回合模型步编排 | B33 | turn-model-step-operation.ts |
-| A 回合模型步编排 | B34 | turn-model-step-records.ts |
-| A 回合模型步编排 | B35 | turn-model-step-fields.ts |
-| A 回合模型步编排 | B36 | turn-model-step-usage.ts |
-| A 回合模型步编排 | B37 | turn-model-step-recovery.ts |
-| A 回合模型步编排 | B38 | turn-model.ts |
-| B 状态与续写 | B39 | turn-loop-state.ts |
-| B 状态与续写 | B40 | turn-output-token-continuation.ts |
-| B 状态与续写 | B41 | turn-step-finish.ts |
-| C 工具批执行 | B42 | turn-tools.ts |
-| C 工具批执行 | B43 | turn-tool-batch-parts.ts |
-| C 工具批执行 | B44 | turn-tool-batch-follow-up.ts |
-| C 工具批执行 | B45 | turn-tool-usage.ts |
-| C 工具批执行 | B46 | turn-tool-warnings.ts |
-| C 工具批执行 | B47 | tool-part-metadata.ts |
-| C 工具批执行 | B48 | tool-part-persistence.ts |
-| D 停止与引导 | B49 | turn-stop.ts |
-| D 停止与引导 | B50 | turn-guide-drain.ts |
-| E 用量与 compact | B51 | turn-nested-model-usage.ts |
-| E 用量与 compact | B52 | compact.ts / compact-log-context.ts / context-history-entries.ts / context-refresh.ts（四件一组） |
+| 区               | 编号 | 文件                                                                                              |
+| ---------------- | ---- | ------------------------------------------------------------------------------------------------- |
+| A 回合模型步编排 | B32  | turn-model-step.ts                                                                                |
+| A 回合模型步编排 | B33  | turn-model-step-operation.ts                                                                      |
+| A 回合模型步编排 | B34  | turn-model-step-records.ts                                                                        |
+| A 回合模型步编排 | B35  | turn-model-step-fields.ts                                                                         |
+| A 回合模型步编排 | B36  | turn-model-step-usage.ts                                                                          |
+| A 回合模型步编排 | B37  | turn-model-step-recovery.ts                                                                       |
+| A 回合模型步编排 | B38  | turn-model.ts                                                                                     |
+| B 状态与续写     | B39  | turn-loop-state.ts                                                                                |
+| B 状态与续写     | B40  | turn-output-token-continuation.ts                                                                 |
+| B 状态与续写     | B41  | turn-step-finish.ts                                                                               |
+| C 工具批执行     | B42  | turn-tools.ts                                                                                     |
+| C 工具批执行     | B43  | turn-tool-batch-parts.ts                                                                          |
+| C 工具批执行     | B44  | turn-tool-batch-follow-up.ts                                                                      |
+| C 工具批执行     | B45  | turn-tool-usage.ts                                                                                |
+| C 工具批执行     | B46  | turn-tool-warnings.ts                                                                             |
+| C 工具批执行     | B47  | tool-part-metadata.ts                                                                             |
+| C 工具批执行     | B48  | tool-part-persistence.ts                                                                          |
+| D 停止与引导     | B49  | turn-stop.ts                                                                                      |
+| D 停止与引导     | B50  | turn-guide-drain.ts                                                                               |
+| E 用量与 compact | B51  | turn-nested-model-usage.ts                                                                        |
+| E 用量与 compact | B52  | compact.ts / compact-log-context.ts / context-history-entries.ts / context-refresh.ts（四件一组） |
 
 ## A 回合模型步编排
 
@@ -72,7 +72,7 @@
   3. busy 耗尽（`streamRecoveryRetryCount > 0` 且未取消且 busy 判定命中）→ `finalError` 换
      `createStartPlanBusyAutoRetryExhaustedError(error)`；
   4. `abandon(aborted ? "cancelled" : "model_failed")`；取消且属取消错误 → `persistCancelledStreamSnapshot`
-     + `commitCancelledAssistantSnapshot`；
+     - `commitCancelledAssistantSnapshot`；
   5. `persistAssistantMessage({completed, error: persistedFailure(...)})`（失败形状见 B34）；
   6. 上下文超限（`isModelContextExceededError`）且 `recoverContext` 成功 → `"continue"`；否则抛 `finalError`。
 - **时序与并发**：持久化序（B33 锚点）= steer 日志 → `persistAssistantMessage` 骨架 → `persistPart`
@@ -118,8 +118,8 @@
   `messages`、`sourceEntries`、`model`、`onStreamSnapshot`、`onModelNetworkStatus`、
   `onStreamReasoningDelta`、`onStreamTextDelta`、`onStreamToolCall`、`streamRecovery`、`tools`、
   `traceContext`；其中 `maxOutputTokens = resolveModelStepMaxOutputTokens({baselineMaxOutputTokens:
-  normalBudget, contextWindow, estimatedCurrentUsage: estimateCurrentModelInputTokens(messages,
-  sourceEntries), modelContextBudgetStrategy})`；三个流回调分别接协调器
+normalBudget, contextWindow, estimatedCurrentUsage: estimateCurrentModelInputTokens(messages,
+sourceEntries), modelContextBudgetStrategy})`；三个流回调分别接协调器
   `recordReasoningDelta`/`recordTextDelta`/`accept`。
 - **错误语义**：纯构造不抛（预算解析边界行为见 model-token-limits，methods-01 面）。
 - **时序与并发**：构造发生在持久化序的相应节点（B33）；分部 id 用 `createPartId()` 全局唯一。
@@ -155,13 +155,13 @@
 - **输出**：`Promise<boolean>`——`true` 仅当 `reactiveCompactAfterContextExceeded(...) === "compacted"`。
   命中后：`recordCompactSuccess(state, decision)` + `recordCompactHistoryRound(state)` +
   **机器重建** `state.turnMachine = new TurnMachineImpl(TurnMachineImpl.create(sessionId,
-  turnNumber, state.input, state.traceId, state.turnId).start())`（machine-red 案底口径）。
+turnNumber, state.input, state.traceId, state.turnId).start())`（machine-red 案底口径）。
 - **错误语义**：快速回填熔断命中（`evaluateRapidRefill(state.compactTracking).shouldBlock`）→
   `warn("Reactive compact rapid-refill breaker tripped", {event: "compact.rapid_refill_breaker",
-  consecutiveRapidRefills, modelStepIndex, toolTurnsSinceCompact, trigger: CompactTrigger.Reactive,
-  ...})` 后 **抛 `createCompactRapidRefillError({consecutiveRapidRefills, maxConsecutiveRapidRefills:
-  MAX_CONSECUTIVE_RAPID_REFILLS, toolTurnThreshold: RAPID_REFILL_TOOL_TURN_THRESHOLD,
-  toolTurnsSinceCompact})`**。
+consecutiveRapidRefills, modelStepIndex, toolTurnsSinceCompact, trigger: CompactTrigger.Reactive,
+...})` 后 **抛 `createCompactRapidRefillError({consecutiveRapidRefills, maxConsecutiveRapidRefills:
+MAX_CONSECUTIVE_RAPID_REFILLS, toolTurnThreshold: RAPID_REFILL_TOOL_TURN_THRESHOLD,
+toolTurnsSinceCompact})`**。
 - **时序与并发**：每模型步至多一次（`state.reactiveCompactAttemptedInCurrentModelStep` 命中
   即返回 false，不重复尝试）；机器重建在记录之后。
 - **幂等**：上述一次性旗标即幂等边界。
@@ -175,7 +175,7 @@
 
 - **输入**：`createTurnModel(runtime, {selection?, requestDependencies?})`（选择缺省取
   `runtime.getSessionModelSelection()`）；`applySubmissionExecutionState(runtime, intent,
-  traceContext, modelExecution?, preparedModel?)`；`sameModelSelection(left, right)`；
+traceContext, modelExecution?, preparedModel?)`；`sameModelSelection(left, right)`；
   `persistRuntimeModelSelection(runtime, selection)`。
 - **输出**：`createTurnModel` = `createRuntimeModel`（methods-01 面）再 `withModelInvocationContext`
   追加 `refreshRuntimeHeadersBeforeAttempt`（traceContext 取当前调用上下文 ?? `runtime.rootTraceContext`）。
@@ -210,8 +210,8 @@
   同构（`offPeakTaskId` > 前缀 `offpeak-` > denylist 含哨兵 `OffPeakCreate`——旧 host 可能未带
   新增工具）；`evaluateRapidRefill`：`toolTurnsSinceCompact < RAPID_REFILL_TOOL_TURN_THRESHOLD(3)`
   时 `consecutiveRapidRefills + 1` 否则清 0，`shouldBlock = consecutiveRapidRefills >=
-  MAX_CONSECUTIVE_RAPID_REFILLS(3)`；`recordCompactSuccess` 记 `{consecutiveRapidRefills,
-  toolTurnsSinceCompact: 0}`；`recordCompletedToolBatch` **复位** `reactiveCompactAttemptedInCurrentModelStep`
+MAX_CONSECUTIVE_RAPID_REFILLS(3)`；`recordCompactSuccess` 记 `{consecutiveRapidRefills,
+toolTurnsSinceCompact: 0}`；`recordCompletedToolBatch` **复位** `reactiveCompactAttemptedInCurrentModelStep`
   （旧 guard 活满整用户 turn 会挡住后续真实 overflow——修复注释钉明）并 `toolTurnsSinceCompact += 1`；
   两个 historyRound 记录各 `historyRoundCount += 1`（并行工具按数量展开不等于模型写史轮次；
   compact summary 独立计一次）。
@@ -227,30 +227,30 @@
 
 ## 语义常量对照表（v1，随条目滚动补全；逐字钉值）
 
-| 常量 | 值 | 所在 | 条目 |
-| --- | --- | --- | --- |
-| `RAPID_REFILL_TOOL_TURN_THRESHOLD` | `3` | turn-loop-state | B37/B39 |
-| `MAX_CONSECUTIVE_RAPID_REFILLS` | `3` | turn-loop-state | B37/B39 |
-| `AUTOMATION_MUTATION_TOOL_NAMES` | `["CronCreate","CronUpdate","CronDelete"]` | turn-loop-state | B39 |
-| `AUTOMATION_QUERY_ID_PREFIX` | `"automation-"` | turn-loop-state | B39 |
-| `OFF_PEAK_MUTATION_TOOL_NAMES` | `["OffPeakCreate","SendMessage","Workflow"]` | turn-loop-state | B39 |
-| `OFF_PEAK_QUERY_ID_PREFIX` | `"offpeak-"` | turn-loop-state | B39 |
-| querySource 映射 | `"subagent"` / `"workflow_child"` / `"main_turn"` | turn-model-step-usage | B36 |
-| 模型选择条目 id | `` `${sessionId}:runtime-model-selection` `` | turn-model | B38 |
-| 模型选择持久化失败事件 | `"session.model_selection.persist_failed"` | turn-model | B38 |
-| 诊断/可疑空事件 | `"model.response.diagnostics"` / `"model.response.suspicious_empty"` | turn-model-step-records | B34 |
-| 快速回填熔断事件 | `"compact.rapid_refill_breaker"` | turn-model-step-recovery | B37 |
-| 输出续写提示词 | `"Output token limit hit. Resume directly — no apology, no recap of what you were doing. Pick up mid-thought if that is where the cut happened. Break remaining work into smaller pieces."` | turn-output-token-continuation | B40 |
-| 输出上限错误文案 | `"The model's response exceeded the output token maximum."` | turn-output-token-continuation | B40 |
-| `MAX_OUTPUT_TOKEN_CONTINUATIONS` | `3` | turn-output-token-continuation | B40 |
-| `OUTPUT_LIMIT_RAW_REASONS` | `{"max_tokens","max_output_tokens","model_context_window_exceeded"}` | turn-output-token-continuation | B40 |
-| 续写条目 `queryScope` | `"output_token_continuation"` | turn-output-token-continuation | B40 |
-| step-finish 缺模型错误 | `"Model-backed turn step finish requires the loop Model"` | turn-step-finish | B41 |
+| 常量                               | 值                                                                                                                                                                                          | 所在                           | 条目    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------- |
+| `RAPID_REFILL_TOOL_TURN_THRESHOLD` | `3`                                                                                                                                                                                         | turn-loop-state                | B37/B39 |
+| `MAX_CONSECUTIVE_RAPID_REFILLS`    | `3`                                                                                                                                                                                         | turn-loop-state                | B37/B39 |
+| `AUTOMATION_MUTATION_TOOL_NAMES`   | `["CronCreate","CronUpdate","CronDelete"]`                                                                                                                                                  | turn-loop-state                | B39     |
+| `AUTOMATION_QUERY_ID_PREFIX`       | `"automation-"`                                                                                                                                                                             | turn-loop-state                | B39     |
+| `OFF_PEAK_MUTATION_TOOL_NAMES`     | `["OffPeakCreate","SendMessage","Workflow"]`                                                                                                                                                | turn-loop-state                | B39     |
+| `OFF_PEAK_QUERY_ID_PREFIX`         | `"offpeak-"`                                                                                                                                                                                | turn-loop-state                | B39     |
+| querySource 映射                   | `"subagent"` / `"workflow_child"` / `"main_turn"`                                                                                                                                           | turn-model-step-usage          | B36     |
+| 模型选择条目 id                    | `` `${sessionId}:runtime-model-selection` ``                                                                                                                                                | turn-model                     | B38     |
+| 模型选择持久化失败事件             | `"session.model_selection.persist_failed"`                                                                                                                                                  | turn-model                     | B38     |
+| 诊断/可疑空事件                    | `"model.response.diagnostics"` / `"model.response.suspicious_empty"`                                                                                                                        | turn-model-step-records        | B34     |
+| 快速回填熔断事件                   | `"compact.rapid_refill_breaker"`                                                                                                                                                            | turn-model-step-recovery       | B37     |
+| 输出续写提示词                     | `"Output token limit hit. Resume directly — no apology, no recap of what you were doing. Pick up mid-thought if that is where the cut happened. Break remaining work into smaller pieces."` | turn-output-token-continuation | B40     |
+| 输出上限错误文案                   | `"The model's response exceeded the output token maximum."`                                                                                                                                 | turn-output-token-continuation | B40     |
+| `MAX_OUTPUT_TOKEN_CONTINUATIONS`   | `3`                                                                                                                                                                                         | turn-output-token-continuation | B40     |
+| `OUTPUT_LIMIT_RAW_REASONS`         | `{"max_tokens","max_output_tokens","model_context_window_exceeded"}`                                                                                                                        | turn-output-token-continuation | B40     |
+| 续写条目 `queryScope`              | `"output_token_continuation"`                                                                                                                                                               | turn-output-token-continuation | B40     |
+| step-finish 缺模型错误             | `"Model-backed turn step finish requires the loop Model"`                                                                                                                                   | turn-step-finish               | B41     |
 
 ### B40 输出 token 续写（`turn-output-token-continuation.ts`）
 
 - **输入**：`classifyOutputTokenContinuation({finishReason, rawFinishReason, toolCallCount,
-  continuationCount})`；`isOutputTokenLimitFinishReason(finish, raw)`；条目过滤/保留三件
+continuationCount})`；`isOutputTokenLimitFinishReason(finish, raw)`；条目过滤/保留三件
   （`filterOutputTokenContinuationEntries`/`preserveCanonicalContextPrefix`/
   `hasAssistantReasoningContent`）；请求状态四件（`appendTurnRequestEntries`/
   `commitTurnRequestEntries`/`commitAssistantToTurnRequest`/`appendOutputTokenContinuation`+
@@ -292,13 +292,13 @@
 ### B42 工具批执行主流程（`turn-tools.ts` 的 `executeToolCallsForModelStep`）
 
 - **输入**：`(this: runtime, state, {assistantCreatedAt, assistantMessageId, modelTraceContext,
-  result, streamedToolResults?, toolCalls})`；`state.model` 缺失**抛
+result, streamedToolResults?, toolCalls})`；`state.model` 缺失**抛
   `"Model-backed tool execution requires the loop Model"`**；准入时保留归因字段读取
   （`void {providerId, modelId}`，执行端口在调度 await 后读当前 loop handle——注释钉明）。
 - **输出**：`"continue" | "break"`。主序（顺序即契约）：
   1. **声明循环**（`declarationIndex` 计数即契约）：流式已录（`entry.ledgerRecorded !== false`）
      跳过；否则 `persistPendingToolPart`（含 MCP 元数据）→ `emitStreamingToolLedgerUpdate(
-     status: "tool_call_closed")`（流式补 `executionTiming: "during_stream"`）→ 流式未录错误
+status: "tool_call_closed")`（流式补 `executionTiming: "during_stream"`）→ 流式未录错误
      补 `emitSyntheticStreamedToolError`；
   2. `scheduleTools` → `TurnMachineImpl(scheduleTools(...))` → `startToolExecution()`（两段 machine
      接纳）；非流式 pending 走 `emitToolScheduledEvents` + 逐条 `tool_queued` 账本 + debug
@@ -345,12 +345,12 @@
   `runningToolBatchState`/`completedToolBatchState`/`failedToolBatchState` + 诊断
   `toolBatchResultDiagnostic`。
 - **输出**：三态形状钉值——`running`：`{status, input, title: boundary.toolName, metadata:
-  mcpToolPartMetadata(registry mcpPresentation) ?? {}, time: {start: part.startedAt}}`；
+mcpToolPartMetadata(registry mcpPresentation) ?? {}, time: {start: part.startedAt}}`；
   `completed`：`{status, input, output, title, metadata: {…completedToolPartMetadata(result),
-  ...(media ? {modelContentLayout} : {})}, time: {start: result.startedAt.getTime(), end:
-  result.completedAt.getTime()}, ...(media ? {attachments: media.attachments} : {})}`；
+...(media ? {modelContentLayout} : {})}, time: {start: result.startedAt.getTime(), end:
+result.completedAt.getTime()}, ...(media ? {attachments: media.attachments} : {})}`；
   `error`：`{status, input, error: result.error?.message ?? output, metadata: {…mcp 元数据,
-  ...(string modelContent ? {modelContent} : {})}, time: {start, end}}`。
+...(string modelContent ? {modelContent} : {})}, time: {start, end}}`。
   诊断形状：`{resultCount, results: [{toolName, success, output: string 截 50 或 "[object]"}]}`。
 - **错误语义**：纯构造不抛。
 - **时序与并发**：构造发生在 B42 的对应记录构造点（终态选择位置 = facc708 案底要求）。
@@ -363,9 +363,9 @@
 ### B44 工具结果跟进输入（`turn-tool-batch-follow-up.ts` 的 `steerToolBatchFollowUp`）
 
 - **输入**：`(runtime, state, result, traceContext)`；`result.followUpUserInput`（`{input,
-  reasonSource}`）为空或 `input.trim()` 为空时直接返回。
+reasonSource}`）为空或 `input.trim()` 为空时直接返回。
 - **输出**：`runtime.steerTurn({delivery: "guide", expectedTurnId: state.activeTurn?.turnId, input,
-  source: followUp.reasonSource, traceContext})` 二路：`kind === "queued"` → debug
+source: followUp.reasonSource, traceContext})` 二路：`kind === "queued"` → debug
   `tool.follow_up_user_input.queued`（`pendingInputId`/`reasonSource`/`toolCallId`/`toolName`）；
   否则 **warn** `tool.follow_up_user_input.rejected`（`activeTurnId`/`reason`/`reasonSource`）。
 - **错误语义**：steer 失败不抛（以 warn 记录）；其它异常按调用面传播。
@@ -402,7 +402,7 @@
 - **输出**：MCP 元数据 = `createMcpToolDisplay(presentation)` 命中时
   `{schemaVersion: COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION, display}` 否则 undefined；
   完成元数据 = `{schemaVersion, ...(display), ...(serialization: {truncated, originalBytes,
-  returnedBytes, budgetStrategy, ...(artifactPath)}), ...(readFileState: result.readFileStateMetadata)}`
+returnedBytes, budgetStrategy, ...(artifactPath)}), ...(readFileState: result.readFileStateMetadata)}`
   （**resume 需要模型当时真实读到的文件快照**——只依赖 tool_result 文本会把主路径绑死在 provider
   展示格式上，注释钉明）。
 - **错误语义**：纯构造不抛。
@@ -416,9 +416,9 @@
 ### B48 待决工具分部持久化与名称边界（`tool-part-persistence.ts`）
 
 - **输入**：`projectToolNameForNonEmptyBoundary(toolName)`；`persistPendingToolPart(runtime,
-  {assistantMessageId, declarationIndex, input, partID, toolCall, traceContext, metadata?, model})`。
+{assistantMessageId, declarationIndex, input, partID, toolCall, traceContext, metadata?, model})`。
 - **输出**：名称边界投影——名称 trim 非空原样；**空名投影** `{toolName: "empty_tool_name",
-  metadata: {providerToolName: 原名}}`（B42/B43 全部经此）。`persistPendingToolPart`：空名走
+metadata: {providerToolName: 原名}}`（B42/B43 全部经此）。`persistPendingToolPart`：空名走
   投影、否则 `requireRuntimeToolCallName`（helpers 面）；落 `tool` 分部
   `{status: "pending", input, raw: JSON.stringify({tool, input})}`（`metadata` = 投影 metadata
   与调用方 metadata 合并、调用方在后）。
@@ -436,12 +436,12 @@
   `detectToolCallBudgetWarning(state.toolCallCount, toolCalls.length, state, config.modelAnomalyGuard)`；
   重复告警 `detectRepeatedToolCallWarnings(toolCalls, state, config.modelAnomalyGuard)`。
 - **输出**：预算告警命中 → `warningInjected` 时提交 `systemReminderAttachmentEntry("model_anomaly",
-  buildToolCallBudgetReminderBody(observedCount))` → `ModelAnomalyWarning` 事件
+buildToolCallBudgetReminderBody(observedCount))` → `ModelAnomalyWarning` 事件
   `{category: "tool_call_budget", severity: "warning", observedCount, threshold, warningInjected}`
   （append + state.events push）。重复告警逐条 → 注入
   `buildRepeatedToolCallReminderBody(toolName, observedCount)`（同上条件）→ 事件
   `{category: "repeated_tool_call", severity: "warning", observedCount, threshold, toolCallId,
-  toolName, warningInjected}`（append + push）。
+toolName, warningInjected}`（append + push）。
 - **错误语义**：事件/提交失败按持久化面传播。
 - **时序与并发**：B42 批收尾无停止分支的**第一步**（step-finish 之前）。
 - **幂等**：检测函数的状态推进由 helpers 面定义（`repeatedToolCallSignature/StreakCount`）。
@@ -479,7 +479,7 @@
 - **输出**：逐结果提取 `extractNestedModelUsage(output)`（六 token 字段取有限数值 +
   `serverToolUse: {webFetchRequests, webSearchRequests}` 条件附着；非 record/缺 modelUsage →
   undefined 跳过），命中则造 `ModelComplete` 事件 `{content: "", stopReason: "tool_internal",
-  usage, toolCallCount: 0}`（append + state.events push）。
+usage, toolCallCount: 0}`（append + state.events push）。
 - **错误语义**：事件失败按持久化面传播。
 - **时序与并发**：B42 结果收口序（`completeTool` 之前）。
 - **幂等**：每结果至多一事件（提取唯一）。
@@ -492,9 +492,9 @@
 
 - **输入**：`captureAssistantPersistenceAnchor(runtime)`（快照三个指针：`latestAssistantMessageId`/
   `latestAssistantTurnId`/`latestConversationMessageId`）；`persistCompletedAssistantStep(runtime,
-  state, {anchor, assistantCreatedAt, assistantMessageId, includeEmptyAssistant, modelTraceContext,
-  result})`；`persistOutputTokenLimitErrorCarrier(runtime, state, {error, finishReason, model,
-  modelTraceContext})`；`finishModelStepWithoutToolCalls(this, state, options)`。
+state, {anchor, assistantCreatedAt, assistantMessageId, includeEmptyAssistant, modelTraceContext,
+result})`；`persistOutputTokenLimitErrorCarrier(runtime, state, {error, finishReason, model,
+modelTraceContext})`；`finishModelStepWithoutToolCalls(this, state, options)`。
 - **输出**：
   - `persistCompletedAssistantStep` → boolean。`state.model` 缺失**抛
     `"Model-backed assistant persistence requires the loop Model"`**。提交序：
@@ -510,7 +510,7 @@
     收尾（`{completed, error: {name, data}, finish: finishReason, tokens: emptyTokenUsageInfo()}`）。
   - `finishModelStepWithoutToolCalls` → `"continue" | "break"`（`state.model` 缺失**抛
     `"Model-backed turn stop requires the loop Model"`**）：`persistCompletedAssistantStep(
-    includeEmptyAssistant: true)`，committed 时 `recordModelHistoryRound`；三分支：
+includeEmptyAssistant: true)`，committed 时 `recordModelHistoryRound`；三分支：
     ① `automationCreateLimitReached` → `fallbackPendingGuidesToQueue("guide.noToolBoundary")` +
     `steerable = false` + 记 `stableProductStartMessageId/stableBoundaryAssistantMessageId` +
     `complete(modelResponse, "success")` → `"break"`；
@@ -533,36 +533,35 @@
 ### B52 compact 编排组（`compact.ts` + `compact-log-context.ts` / `context-history-entries.ts` / `context-refresh.ts`）
 
 - **输入**：`executeManualCompact(this, input, customInstructions, turnId, turnTraceContext,
-  abortSignal?, inputId?, model?)`；`autoCompactIfNeeded(this, turnTraceContext, events,
-  abortSignal, AutoCompactLoopContext)`；`reactiveCompactAfterContextExceeded(this, originalError,
-  turnTraceContext, events, abortSignal, ReactiveCompactLoopContext)`；
+abortSignal?, inputId?, model?)`；`autoCompactIfNeeded(this, turnTraceContext, events,
+abortSignal, AutoCompactLoopContext)`；`reactiveCompactAfterContextExceeded(this, originalError,
+turnTraceContext, events, abortSignal, ReactiveCompactLoopContext)`；
   `estimateCurrentModelInputTokens(messages, sourceEntries?)`；组内三件
   `autoCompactDecisionLogContext(decision)` / `buildContextHistoryEntries(...)` /
   `rebuildContextPrefix(runtime, {model, turnRequestEntries})`（B50 调用）。
 - **输出**：
   - **手动 /compact**：`beginActiveTurn(turnId, ..., "compact", false)` → info
     `compact.started` → `ensureSessionPersisted` → `TurnStarted` 事件（**`inputVisibility:
-    "model-only"`**——维护命令不渲染 user bubble，注释钉明）→ `compactActiveConversation(
-    {compactReason: UserRequested, phase: StandaloneTurn, sourceCommandId?/model?})` →
+"model-only"`**——维护命令不渲染 user bubble，注释钉明）→ `compactActiveConversation(
+{compactReason: UserRequested, phase: StandaloneTurn, sourceCommandId?/model?})` →
     `TurnComplete` 事件（`{response: displayText, tokenCount, usage, toolCallCount: 0,
-    historyRoundCount: 1, duration, resultType: "success", cacheStats}`）→ `recordTurnUsageFact`
+historyRoundCount: 1, duration, resultType: "success", cacheStats}`）→ `recordTurnUsageFact`
     → `turnNumber++` → `rebuildProjection()` → info `compact.completed` → `TurnResult`；
     失败路 `createTurnFailureError(error, abortSignal, "Compact failed")`，取消且非
     `preserveQueueAutoDrainOnCancel` 时**队列重暂停**（`queueAutoDrain = false` +
     `queueExternalDrainActive = false`，与 Stop 语义一致注释钉明）→ `appendTurnOutcomeEvent(
-    {turnPhase: "compact", fallbackMessage: "Compact failed", logEvent: "compact.failed"})` →
+{turnPhase: "compact", fallbackMessage: "Compact failed", logEvent: "compact.failed"})` →
     `recordTurnUsageFact`（cancelled/error）→ 抛 `coreError`；`finally finishActiveTurn`。
   - **autoCompactIfNeeded** → `"skipped" | "compacted" | "failed" | "rapid_refill_blocked"`：
     策略面 `AutoCompactPolicyConfig`（contextWindow + config.compact + `maxOutputTokens:
-    resolveNormalRequestMaxOutputTokens({modelMaxOutputTokens})` + modelContextBudgetStrategy）；
+resolveNormalRequestMaxOutputTokens({modelMaxOutputTokens})` + modelContextBudgetStrategy）；
     `shouldAutoCompact` 不命中 → debug `compact.auto.skipped` → `"skipped"`；
     `rapidRefill.shouldBlock` → warn `compact.rapid_refill_breaker`（trigger: Auto）→
     `"rapid_refill_blocked"`；命中 → info `compact.auto.started` → 压缩（`compactContextTelemetry:
-    {inputTokens: decision.tokenCount, policyContextWindowTokens: decision.contextWindow,
-    thresholdTokens, tokenSource}` + `autoCompactThreshold` + trigger Auto）→ skipped 短路 /
+{inputTokens: decision.tokenCount, policyContextWindowTokens: decision.contextWindow,
+thresholdTokens, tokenSource}` + `autoCompactThreshold` + trigger Auto）→ skipped 短路 /
     `entries` 回写 `context.turnRequestState.entries` + `autoCompactConsecutiveFailures = 0` +
-    info `compact.auto.completed` → `"compacted"`；取消冒泡，其余 `autoCompactConsecutiveFailures++`
-    + warn `compact.auto.failed` → `"failed"`。
+    info `compact.auto.completed` → `"compacted"`；取消冒泡，其余 `autoCompactConsecutiveFailures++` - warn `compact.auto.failed` → `"failed"`。
   - **reactiveCompactAfterContextExceeded** → `"skipped" | "compacted" | "failed"`：
     `config.compact.enabled === false` → warn `compact.reactive.skipped`（reason `"disabled"`）→
     `"skipped"`；`hasEnoughMessagesToCompact` 不足 → warn（reason `"not_enough_messages"`）→
@@ -575,7 +574,7 @@
   - **`buildProviderUsageTokenOverride`**（内部）：`findLatestCommittedAssistantUsage` 命中且
     `messageIndex < messages.length` 才构造——`incrementalStartIndex` 在 `contextUsageTokens`
     存在时为 `messageIndex + 1` 否则 `messageIndex`；`providerBaseTokenCount =
-    contextUsageTokens ?? inputTokens`；`tokenCount = base + incremental`（源码注释钉明：usage
+contextUsageTokens ?? inputTokens`；`tokenCount = base + incremental`（源码注释钉明：usage
     归属已提交 assistant、反向扫描随 history replacement 自然移动、不依赖绝对 cursor）。
     `estimateCurrentModelInputTokens` = override?.tokenCount ?? `estimateMessageTokens(messages)`。
 - **错误语义**：见各路；取消一律冒泡。
@@ -592,29 +591,29 @@
 
 ## 事件序列五组（gate 握手样式标注；无 sleep/固定超时，同 tick 断言）
 
-| 组 | 序列 | 载体条目 | 断言样式 |
-| --- | --- | --- | --- |
-| S1 模型步请求持久化序 | steer 日志 → 助手骨架 → step-start 分部 → ModelRequest 事件（push）→ finishPreparation → 协调器 → 请求 | B33 | gateNextAppend 逐拍握手；同 tick 断 createEvent/append 次序 |
-| S2 模型步成功收尾序 | 诊断日志 → 推理分部（数组序）→ 文本分部 → ModelComplete 事件 → usage 记账 → machine 接纳 → drain 流式结果 → 三分支收尾 | B33/B34/B36/B40/B49 | 事件/分部交错顺序逐条；无 sleep |
-| S3 工具批执行序 | 声明循环（closed 账本/合成错误）→ schedule 两段 → scheduled 事件 + queued 账本 → onBatchStart（分部+started）→ 结果归并 → nested usage → completeTool/aggregate → 逐结果（usage→媒体→终态→addToolResult→结果条目→checkpoint→anchor+committed→follow-up）→ 批收尾三分支 | B42–B48 | declarationIndex 序 + 账本状态序断言；gate 握手 |
-| S4 停止收尾序 | commit 判定 →（丢弃路径 removeMessage+指针回滚）/（step-finish 分部 → 消息收尾）→ historyRound → 三分支（automation/guide/stop hooks） | B41/B49/B50 | stable 对赋值时刻断言（只在 break 前）；无 sleep |
-| S5 紧凑恢复序 | 判定（auto/reactive）→ 熔断/跳过分支 → 压缩调用（telemetry 字段）→ entries 回写 + 失败计数 → completed 日志 | B37/B52 | 熔断与跳过分支事件字段逐项；同 tick |
+| 组                    | 序列                                                                                                                                                                                                                                                                   | 载体条目            | 断言样式                                                    |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------- |
+| S1 模型步请求持久化序 | steer 日志 → 助手骨架 → step-start 分部 → ModelRequest 事件（push）→ finishPreparation → 协调器 → 请求                                                                                                                                                                 | B33                 | gateNextAppend 逐拍握手；同 tick 断 createEvent/append 次序 |
+| S2 模型步成功收尾序   | 诊断日志 → 推理分部（数组序）→ 文本分部 → ModelComplete 事件 → usage 记账 → machine 接纳 → drain 流式结果 → 三分支收尾                                                                                                                                                 | B33/B34/B36/B40/B49 | 事件/分部交错顺序逐条；无 sleep                             |
+| S3 工具批执行序       | 声明循环（closed 账本/合成错误）→ schedule 两段 → scheduled 事件 + queued 账本 → onBatchStart（分部+started）→ 结果归并 → nested usage → completeTool/aggregate → 逐结果（usage→媒体→终态→addToolResult→结果条目→checkpoint→anchor+committed→follow-up）→ 批收尾三分支 | B42–B48             | declarationIndex 序 + 账本状态序断言；gate 握手             |
+| S4 停止收尾序         | commit 判定 →（丢弃路径 removeMessage+指针回滚）/（step-finish 分部 → 消息收尾）→ historyRound → 三分支（automation/guide/stop hooks）                                                                                                                                 | B41/B49/B50         | stable 对赋值时刻断言（只在 break 前）；无 sleep            |
+| S5 紧凑恢复序         | 判定（auto/reactive）→ 熔断/跳过分支 → 压缩调用（telemetry 字段）→ entries 回写 + 失败计数 → completed 日志                                                                                                                                                            | B37/B52             | 熔断与跳过分支事件字段逐项；同 tick                         |
 
 ## 语义常量对照表（续：compact/工具批尾批）
 
-| 常量 | 值 | 所在 | 条目 |
-| --- | --- | --- | --- |
-| 手动 compact 输入可见性 | `"model-only"` | compact | B52 |
-| 手动 compact 失败文案/事件 | `"Compact failed"` / `"compact.failed"` | compact | B52 |
-| compact 生命周期事件 | `"compact.started"`/`"compact.completed"`/`"compact.auto.skipped"`/`"compact.auto.started"`/`"compact.auto.completed"`/`"compact.auto.failed"`/`"compact.rapid_refill_breaker"`/`"compact.reactive.skipped"`/`"compact.reactive.started"`/`"compact.reactive.completed"`/`"compact.reactive.failed"` | compact/turn-model-step-recovery | B52/B37 |
-| `DEFAULT_COMPACT_CONTEXT_WINDOW` | deps 常量（reactive 非有限正 contextWindow 的 fallback） | compact | B52 |
-| token override 来源 | `"provider_usage"` / `"estimate"` | compact | B52 |
-| reactive 跳过 reason | `"disabled"` / `"not_enough_messages"` | compact | B52 |
-| 空工具名投影 | `"empty_tool_name"`（+ `providerToolName` 保留原名） | tool-part-persistence | B48 |
-| 工具用量 id 前缀 | `` `usage_tool_${sessionId}_${toolCallId}` `` | turn-tool-usage | B45 |
-| 用量写失败事件 | `"usage.tool.write.failed"` | turn-tool-usage | B45 |
-| 跟进 steer 事件 | `"tool.follow_up_user_input.queued"` / `"tool.follow_up_user_input.rejected"` | turn-tool-batch-follow-up | B44 |
-| tool 停止/automation 限额事件 | `"tool.turn_control.stop"` / `"automation.create_limit.text_only_continuation"` | turn-tools | B42 |
-| guide 回退 reasonCode | `"guide.noToolBoundary"` | turn-tools/turn-stop | B42/B49 |
-| 嵌套用量 stopReason | `"tool_internal"` | turn-nested-model-usage | B51 |
-| 异常告警类别 | `"tool_call_budget"` / `"repeated_tool_call"`（severity `"warning"`） | turn-tool-warnings | B46 |
+| 常量                             | 值                                                                                                                                                                                                                                                                                                   | 所在                             | 条目    |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------- |
+| 手动 compact 输入可见性          | `"model-only"`                                                                                                                                                                                                                                                                                       | compact                          | B52     |
+| 手动 compact 失败文案/事件       | `"Compact failed"` / `"compact.failed"`                                                                                                                                                                                                                                                              | compact                          | B52     |
+| compact 生命周期事件             | `"compact.started"`/`"compact.completed"`/`"compact.auto.skipped"`/`"compact.auto.started"`/`"compact.auto.completed"`/`"compact.auto.failed"`/`"compact.rapid_refill_breaker"`/`"compact.reactive.skipped"`/`"compact.reactive.started"`/`"compact.reactive.completed"`/`"compact.reactive.failed"` | compact/turn-model-step-recovery | B52/B37 |
+| `DEFAULT_COMPACT_CONTEXT_WINDOW` | deps 常量（reactive 非有限正 contextWindow 的 fallback）                                                                                                                                                                                                                                             | compact                          | B52     |
+| token override 来源              | `"provider_usage"` / `"estimate"`                                                                                                                                                                                                                                                                    | compact                          | B52     |
+| reactive 跳过 reason             | `"disabled"` / `"not_enough_messages"`                                                                                                                                                                                                                                                               | compact                          | B52     |
+| 空工具名投影                     | `"empty_tool_name"`（+ `providerToolName` 保留原名）                                                                                                                                                                                                                                                 | tool-part-persistence            | B48     |
+| 工具用量 id 前缀                 | `` `usage_tool_${sessionId}_${toolCallId}` ``                                                                                                                                                                                                                                                        | turn-tool-usage                  | B45     |
+| 用量写失败事件                   | `"usage.tool.write.failed"`                                                                                                                                                                                                                                                                          | turn-tool-usage                  | B45     |
+| 跟进 steer 事件                  | `"tool.follow_up_user_input.queued"` / `"tool.follow_up_user_input.rejected"`                                                                                                                                                                                                                        | turn-tool-batch-follow-up        | B44     |
+| tool 停止/automation 限额事件    | `"tool.turn_control.stop"` / `"automation.create_limit.text_only_continuation"`                                                                                                                                                                                                                      | turn-tools                       | B42     |
+| guide 回退 reasonCode            | `"guide.noToolBoundary"`                                                                                                                                                                                                                                                                             | turn-tools/turn-stop             | B42/B49 |
+| 嵌套用量 stopReason              | `"tool_internal"`                                                                                                                                                                                                                                                                                    | turn-nested-model-usage          | B51     |
+| 异常告警类别                     | `"tool_call_budget"` / `"repeated_tool_call"`（severity `"warning"`）                                                                                                                                                                                                                                | turn-tool-warnings               | B46     |

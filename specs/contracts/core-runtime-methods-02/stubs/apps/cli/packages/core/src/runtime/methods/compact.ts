@@ -21,4 +21,3 @@ export function executeManualCompact(..._args: unknown[]): unknown {
 export function reactiveCompactAfterContextExceeded(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-

@@ -14,24 +14,20 @@ import {
 } from "./fixtures.js";
 import { methods, coreModule } from "./entry.mjs";
 
-const { createTurnModel, sameModelSelection, persistRuntimeModelSelection } = await methods("turn-model");
+const { createTurnModel, sameModelSelection, persistRuntimeModelSelection } =
+  await methods("turn-model");
 const {
   classifyOutputTokenContinuation,
   isOutputTokenLimitFinishReason,
   OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE,
 } = await methods("turn-output-token-continuation");
 const { persistToolModelStepFinish } = await methods("turn-step-finish");
-const {
-  persistCompletedAssistantStep,
-  finishModelStepWithoutToolCalls,
-} = await methods("turn-stop");
+const { persistCompletedAssistantStep, finishModelStepWithoutToolCalls } =
+  await methods("turn-stop");
 const { drainInlineGuideForNextRequest } = await methods("turn-guide-drain");
 const { emitNestedModelUsageEvents } = await methods("turn-nested-model-usage");
-const {
-  executeManualCompact,
-  autoCompactIfNeeded,
-  estimateCurrentModelInputTokens,
-} = await methods("compact");
+const { executeManualCompact, autoCompactIfNeeded, estimateCurrentModelInputTokens } =
+  await methods("compact");
 const { logTurnModelDiagnostics } = await methods("turn-model-step-records");
 const { performModelStep } = await methods("turn-model-step-operation");
 const { persistWorkspaceFileRewindEntry } = await coreModule(
@@ -39,12 +35,7 @@ const { persistWorkspaceFileRewindEntry } = await coreModule(
 );
 
 const golden = (name: string) =>
-  JSON.parse(
-    readFileSync(
-      new URL(`../fixtures/${name}`, import.meta.url),
-      "utf8",
-    ),
-  );
+  JSON.parse(readFileSync(new URL(`../fixtures/${name}`, import.meta.url), "utf8"));
 
 const harness = () => {
   const clock = createFakeClock();
@@ -71,10 +62,13 @@ test("B38 回合模型句柄与提交侧模型选择", async () => {
     false,
   );
   // 选择持久化：sessionStore 缺 saveSessionEntry 时静默返回（不抛）。
-  await persistRuntimeModelSelection(runtime as never, {
-    providerId: "fictional",
-    modelId: "model_test",
-  } as never);
+  await persistRuntimeModelSelection(
+    runtime as never,
+    {
+      providerId: "fictional",
+      modelId: "model_test",
+    } as never,
+  );
   assert.equal(journal.marks.length, 0);
   const model = createTurnModel(runtime as never, {
     selection: { providerId: "fictional", modelId: "model_test" } as never,
@@ -83,7 +77,10 @@ test("B38 回合模型句柄与提交侧模型选择", async () => {
 });
 
 test("B40 输出 token 续写", () => {
-  assert.equal(OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE, "The model's response exceeded the output token maximum.");
+  assert.equal(
+    OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE,
+    "The model's response exceeded the output token maximum.",
+  );
   assert.equal(isOutputTokenLimitFinishReason("length", undefined), true);
   assert.equal(isOutputTokenLimitFinishReason("stop", "max_tokens"), true);
   assert.equal(isOutputTokenLimitFinishReason("stop", "model_context_window_exceeded"), true);
@@ -126,13 +123,18 @@ test("B41 工具步收尾持久化", async () => {
     result: scriptedResult() as never,
   });
   journal.assertSubsequence(["persist.part", "persist.assistant"]);
-  await assert.rejects(() =>
-    persistToolModelStepFinish(runtime as never, { ...state, model: undefined } as never, {
-      assistantCreatedAt: 1000,
-      assistantMessageId: "assistant_b41" as never,
-      modelTraceContext: state.turnTraceContext as never,
-      result: scriptedResult() as never,
-    } as never),
+  await assert.rejects(
+    () =>
+      persistToolModelStepFinish(
+        runtime as never,
+        { ...state, model: undefined } as never,
+        {
+          assistantCreatedAt: 1000,
+          assistantMessageId: "assistant_b41" as never,
+          modelTraceContext: state.turnTraceContext as never,
+          result: scriptedResult() as never,
+        } as never,
+      ),
     /Model-backed turn step finish requires the loop Model/,
   );
 });
@@ -211,7 +213,9 @@ test("B52 compact 编排组", async () => {
     } as never,
   );
   assert.equal(skipped, "skipped");
-  const estimate = estimateCurrentModelInputTokens([{ role: "user", content: "【虚构】" }] as never);
+  const estimate = estimateCurrentModelInputTokens([
+    { role: "user", content: "【虚构】" },
+  ] as never);
   assert.equal(typeof estimate, "number");
   const manual = await executeManualCompact.call(
     runtime as never,

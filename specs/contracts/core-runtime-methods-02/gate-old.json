@@ -1,0 +1,48 @@
+{
+  "contract": "core-runtime-methods-02",
+  "commit": "74aa24009d5f1c29d08cea7d0e17b857dcd0ea36",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-15T18:29:52.134Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-runtime-methods-02/tests/surface.test.ts",
+    "specs/contracts/core-runtime-methods-02/tests/turn-finish-compact.test.ts",
+    "specs/contracts/core-runtime-methods-02/tests/turn-model-step.test.ts",
+    "specs/contracts/core-runtime-methods-02/tests/turn-tools.test.ts"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 31,
+      "pass": 31,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B44 工具结果跟进输入 (0.7851ms)\n✔ B45 结果路径工具用量记账 (0.5493ms)\n✔ B46 工具调用异常告警 (0.432ms)\n✔ B47 工具分部元数据 (0.2927ms)\n✔ B48 待决工具分部持久化与名称边界 (0.6525ms)\n✔ S3 工具批执行序列 (8.7485ms)\nℹ tests 31\nℹ suites 0\nℹ pass 31\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 59563.3806"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 31,
+      "pass": 31,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B44 工具结果跟进输入 (0.5818ms)\n✔ B45 结果路径工具用量记账 (0.5097ms)\n✔ B46 工具调用异常告警 (0.3215ms)\n✔ B47 工具分部元数据 (0.229ms)\n✔ B48 待决工具分部持久化与名称边界 (0.5018ms)\n✔ S3 工具批执行序列 (7.4964ms)\nℹ tests 31\nℹ suites 0\nℹ pass 31\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 59008.0161",
+      "environment": {
+        "KNORVIA_CORE_RUNTIME_METHODS_02_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 24,
+    "tests": 5,
+    "pass": 0,
+    "fail": 5,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)\n\ntest at specs\\contracts\\core-runtime-methods-02\\tests\\turn-finish-compact.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\contract-methods01\\specs\\contracts\\core-runtime-methods-02\\tests\\turn-finish-compact.test.ts (10118.8229ms)\n  'test failed'\n\ntest at specs\\contracts\\core-runtime-methods-02\\tests\\turn-model-step.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\contract-methods01\\specs\\contracts\\core-runtime-methods-02\\tests\\turn-model-step.test.ts (11129.1946ms)\n  'test failed'\n\ntest at specs\\contracts\\core-runtime-methods-02\\tests\\turn-tools.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\contract-methods01\\specs\\contracts\\core-runtime-methods-02\\tests\\turn-tools.test.ts (11436.3062ms)\n  'test failed'"
+  },
+  "pass": true
+}

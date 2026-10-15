@@ -9,4 +9,3 @@ throw new Error("not implemented: core-runtime-methods-02");
 export function rebuildContextPrefix(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-

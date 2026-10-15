@@ -32,10 +32,8 @@ const { steerToolBatchFollowUp } = await methods("turn-tool-batch-follow-up");
 const { recordToolUsageFromResult } = await methods("turn-tool-usage");
 const { handleToolCallAnomalyWarnings } = await methods("turn-tool-warnings");
 const { mcpToolPartMetadata, completedToolPartMetadata } = await methods("tool-part-metadata");
-const {
-  projectToolNameForNonEmptyBoundary,
-  persistPendingToolPart,
-} = await methods("tool-part-persistence");
+const { projectToolNameForNonEmptyBoundary, persistPendingToolPart } =
+  await methods("tool-part-persistence");
 const { executeToolCallsForModelStep } = await methods("turn-tools");
 
 const harness = () => {
@@ -154,9 +152,17 @@ test("B43 工具分部状态构造", () => {
 
 test("B44 工具结果跟进输入", async () => {
   const { journal, runtime, state } = harness();
-  await steerToolBatchFollowUp(runtime as never, state as never, {} as never, state.turnTraceContext as never);
+  await steerToolBatchFollowUp(
+    runtime as never,
+    state as never,
+    {} as never,
+    state.turnTraceContext as never,
+  );
   assert.equal(journal.marks.length, 0);
-  (runtime as { steerTurn?: unknown }).steerTurn = async () => ({ kind: "queued", pendingInputId: "p1" });
+  (runtime as { steerTurn?: unknown }).steerTurn = async () => ({
+    kind: "queued",
+    pendingInputId: "p1",
+  });
   await steerToolBatchFollowUp(
     runtime as never,
     state as never,
@@ -167,7 +173,9 @@ test("B44 工具结果跟进输入", async () => {
     } as never,
     state.turnTraceContext as never,
   );
-  const queued = journal.ofKind("log.debug").find((m) => m.message === "Queued follow-up user input from tool result");
+  const queued = journal
+    .ofKind("log.debug")
+    .find((m) => m.message === "Queued follow-up user input from tool result");
   assert.ok(queued);
   assert.equal(queued.event, "tool.follow_up_user_input.queued");
 });
@@ -175,15 +183,19 @@ test("B44 工具结果跟进输入", async () => {
 test("B45 结果路径工具用量记账", async () => {
   const { journal, runtime } = harness();
   // usage 四方法门槛缺失 → 静默（不记账不抛）。
-  await recordToolUsageFromResult(runtime as never, {
-    toolCallId: "call_1",
-    toolName: "EchoTool",
-    success: true,
-    startedAt: new Date(1000),
-    completedAt: new Date(2000),
-    durationMs: 1000,
-    output: "【虚构】输出",
-  } as never, createState().turnTraceContext as never);
+  await recordToolUsageFromResult(
+    runtime as never,
+    {
+      toolCallId: "call_1",
+      toolName: "EchoTool",
+      success: true,
+      startedAt: new Date(1000),
+      completedAt: new Date(2000),
+      durationMs: 1000,
+      output: "【虚构】输出",
+    } as never,
+    createState().turnTraceContext as never,
+  );
   assert.equal(journal.ofKind("log.warn").length, 0);
 });
 

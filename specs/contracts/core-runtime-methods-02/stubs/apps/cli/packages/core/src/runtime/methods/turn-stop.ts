@@ -21,4 +21,3 @@ export function persistCompletedAssistantStep(..._args: unknown[]): unknown {
 export function persistOutputTokenLimitErrorCarrier(..._args: unknown[]): unknown {
   throw new Error("not implemented: core-runtime-methods-02");
 }
-
