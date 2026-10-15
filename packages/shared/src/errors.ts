@@ -63,7 +63,8 @@ function describeErrorInstance(instance: Error): NormalizedUnknownError {
   // message 为空时依次退到 name 与对象字符串，避免输出空消息；|| 惰性求值与旧实现一致。
   const message = instance.message || instance.name || String(instance);
   const code = normalizeCode((instance as Error & { code?: unknown }).code);
-  return { code, message };
+  const normalized: NormalizedUnknownError = { message, code };
+  return normalized;
 }
 
 function describePlainRecord(record: Record<string, unknown>): NormalizedUnknownError {
@@ -74,7 +75,8 @@ function describePlainRecord(record: Record<string, unknown>): NormalizedUnknown
     preferredText === "undefined" || preferredText.length === 0
       ? stringifyUnknownValue(record)
       : preferredText;
-  return { code, message };
+  const normalized: NormalizedUnknownError = { message, code };
+  return normalized;
 }
 
 export function normalizeUnknownError(thrown: unknown): NormalizedUnknownError {

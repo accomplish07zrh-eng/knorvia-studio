@@ -198,7 +198,8 @@ export function getCapturedKnorviaCuaBrokerCredentials(): BrokerCredentialView {
   if (brokerCredentialsSlot) {
     return { ...brokerCredentialsSlot };
   }
-  return { pluginAuthority: undefined, socket: undefined };
+  const emptyView: BrokerCredentialView = { socket: undefined, pluginAuthority: undefined };
+  return emptyView;
 }
 
 export function resetCapturedKnorviaCuaBrokerCredentialsForTest(): void {
