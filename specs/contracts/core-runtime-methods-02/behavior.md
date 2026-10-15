@@ -170,3 +170,73 @@
 - **状态所有者**：`reactiveCompactAttemptedInCurrentModelStep`/`compactTracking`/`turnMachine`
   的唯一写者（本函数）。
 - **日志级别**：熔断 `warn`。
+
+### B38 回合模型句柄与提交侧模型选择（`turn-model.ts`）
+
+- **输入**：`createTurnModel(runtime, {selection?, requestDependencies?})`（选择缺省取
+  `runtime.getSessionModelSelection()`）；`applySubmissionExecutionState(runtime, intent,
+  traceContext, modelExecution?, preparedModel?)`；`sameModelSelection(left, right)`；
+  `persistRuntimeModelSelection(runtime, selection)`。
+- **输出**：`createTurnModel` = `createRuntimeModel`（methods-01 面）再 `withModelInvocationContext`
+  追加 `refreshRuntimeHeadersBeforeAttempt`（traceContext 取当前调用上下文 ?? `runtime.rootTraceContext`）。
+  `applySubmissionExecutionState`：有 `intent.modelSelection` 时造/复用 preparedModel；**仅当
+  `modelExecution?.selectionScope !== "execution"`** 才 `cloneModelSelection` → `setSessionModelSelection`
+  → 持久化 → 变化时 `emitModelSelected`（带 `effectiveReasoningLevel`、`supportedThoughtLevels`、
+  `previousModelSelection`）；`intent.mode/planEnabled` 有值时 `applyRuntimeExecutionState(..., {source: "command"})`；
+  返回模型（可 undefined）。
+- **错误语义**：选择持久化**吞错转 warn**（`session.model_selection.persist_failed`，字段含
+  `modelId`/`providerId`/`thoughtLevel`）；其余按调用面传播。
+- **时序与并发**：选择变更序 = 造模型 → setSessionModelSelection → 持久化 → emit（只在变化时）；
+  execution scope 把「本次请求的模型」与「会话常驻选择」隔离。
+- **幂等**：`sameModelSelection` 三元比较（providerId、modelId、options.reasoningLevel）保证
+  同值不重发 emit；`persistRuntimeModelSelection` 条目 id 固定 `${sessionId}:runtime-model-selection`
+  （覆盖写）。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：会话模型选择的唯一写者（setSessionModelSelection + 持久化条目）；
+  `modelSelectionScope: "execution"` 时本函数不写。
+- **日志级别**：持久化失败 `warn`。
+
+### B39 回合循环状态与紧凑计数（`turn-loop-state.ts`）
+
+- **输入**：`RegularTurnLoopState` 状态形状（60+ 字段，关键：`events`/`turnRequestState`
+  （`{entries, outputTokenContinuationCount}`）/`model`（固定句柄，配置变化只影响以后 Loop）/
+  `modelSelectionScope?: "execution"`/`pendingStreamRecoveryRequest`/`compactTracking?`）；
+  三个判据函数（`isAutomationMutationRestrictedTurn`/`isOffPeakCreateRestrictedTurn`/
+  `evaluateRapidRefill`）与四个记录函数（`recordCompactSuccess`/`recordCompletedToolBatch`/
+  `recordModelHistoryRound`/`recordCompactHistoryRound`）。
+- **输出**：自动化受限判据 = **三重信号**（显式 `automationId` 非空 > `queryId` 前缀
+  `automation-` > denylist **三工具全含**（`AUTOMATION_MUTATION_TOOL_NAMES`））；闲时受限判据
+  同构（`offPeakTaskId` > 前缀 `offpeak-` > denylist 含哨兵 `OffPeakCreate`——旧 host 可能未带
+  新增工具）；`evaluateRapidRefill`：`toolTurnsSinceCompact < RAPID_REFILL_TOOL_TURN_THRESHOLD(3)`
+  时 `consecutiveRapidRefills + 1` 否则清 0，`shouldBlock = consecutiveRapidRefills >=
+  MAX_CONSECUTIVE_RAPID_REFILLS(3)`；`recordCompactSuccess` 记 `{consecutiveRapidRefills,
+  toolTurnsSinceCompact: 0}`；`recordCompletedToolBatch` **复位** `reactiveCompactAttemptedInCurrentModelStep`
+  （旧 guard 活满整用户 turn 会挡住后续真实 overflow——修复注释钉明）并 `toolTurnsSinceCompact += 1`；
+  两个 historyRound 记录各 `historyRoundCount += 1`（并行工具按数量展开不等于模型写史轮次；
+  compact summary 独立计一次）。
+- **错误语义**：纯函数/原地计数，不抛。
+- **时序与并发**：`recordCompletedToolBatch` 在完整工具批结束时（B42 调用点）；
+  `recordCompactHistoryRound` 在 compact 成功后（B37）。
+- **幂等**：计数函数单调；判据纯函数。
+- **资源释放**：`turnRequestState` 为 provider-local history，Turn 结束释放。
+- **平台差异**：无。
+- **状态所有者**：`RegularTurnLoopState` 的字段各有唯一写者（见各条）；`toolDisallowlist`
+  由 Host admission 注入、本层只读。
+- **日志级别**：无。
+
+## 语义常量对照表（v1，随条目滚动补全；逐字钉值）
+
+| 常量 | 值 | 所在 | 条目 |
+| --- | --- | --- | --- |
+| `RAPID_REFILL_TOOL_TURN_THRESHOLD` | `3` | turn-loop-state | B37/B39 |
+| `MAX_CONSECUTIVE_RAPID_REFILLS` | `3` | turn-loop-state | B37/B39 |
+| `AUTOMATION_MUTATION_TOOL_NAMES` | `["CronCreate","CronUpdate","CronDelete"]` | turn-loop-state | B39 |
+| `AUTOMATION_QUERY_ID_PREFIX` | `"automation-"` | turn-loop-state | B39 |
+| `OFF_PEAK_MUTATION_TOOL_NAMES` | `["OffPeakCreate","SendMessage","Workflow"]` | turn-loop-state | B39 |
+| `OFF_PEAK_QUERY_ID_PREFIX` | `"offpeak-"` | turn-loop-state | B39 |
+| querySource 映射 | `"subagent"` / `"workflow_child"` / `"main_turn"` | turn-model-step-usage | B36 |
+| 模型选择条目 id | `` `${sessionId}:runtime-model-selection` `` | turn-model | B38 |
+| 模型选择持久化失败事件 | `"session.model_selection.persist_failed"` | turn-model | B38 |
+| 诊断/可疑空事件 | `"model.response.diagnostics"` / `"model.response.suspicious_empty"` | turn-model-step-records | B34 |
+| 快速回填熔断事件 | `"compact.rapid_refill_breaker"` | turn-model-step-recovery | B37 |
