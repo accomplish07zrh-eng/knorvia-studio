@@ -72,34 +72,34 @@ type SnapshotFields = Omit<GetWorkflowRunOutput, "summary">;
 /** 情势截面字段表：缺席语义（defined/truthy/nonempty）由各表项第三元声明。 */
 function projectBase(
   detail: DynamicWorkflowRunDetail,
+  result: string | undefined,
   generatedAt: number,
   workingDirectory: () => string | undefined,
 ): SnapshotFields {
   const roster = toGetWorkflowRunSubagents(detail.subagents); // 花名册投影
   const phases = toGetWorkflowRunPhases(detail.phases); // 阶段投影
   const snapshot = projectGetWorkflowRunSnapshotFields(detail, generatedAt, workingDirectory);
-  const pending = detail.pendingQuestions ?? [];
-  const artifacts = detail.artifacts ?? [];
   return applyWorkflowRunOutputFields<SnapshotFields>(snapshot, [
     ["phases", () => phases, "defined"], // 无阶段不造字段
     ["subagents", () => roster.subagents], // 花名册恒在（可空数组）
     ["subagentsTruncated", () => roster.truncated, "truthy", () => true], // 截断才写 true
     ["health", () => toGetWorkflowRunHealth(detail.health)], // 健康投影
-    ["result", () => serializeWorkflowArtifact(detail.result), "defined"], // 三态产物
+    ["result", () => result, "defined"], // 三态产物（handler 顶部已序列化）
     ["error", () => detail.error, "defined", () => projectWorkflowRunError(detail)], // 失败投影
     [
       "pendingQuestions", // 零条时整字段缺席
-      () => pending,
+      () => detail.pendingQuestions,
       "nonempty", // 非空才出
-      () => pending.map((question) => projectWorkflowRunQuestion(question)),
+      // 错误消息保真：坏形状要抛原始 TypeError 文本（表项内联读取，不预取变量）。
+      () => detail.pendingQuestions!.map((question) => projectWorkflowRunQuestion(question)),
     ],
     [
       "artifacts", // 零件时缺席；上界 32 = ARTIFACT_CAPS.maxArtifactsPerRun
-      () => artifacts,
+      () => detail.artifacts,
       "nonempty", // 非空才出
       () =>
-        artifacts
-          .slice(0, WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES)
+        detail
+          .artifacts!.slice(0, WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES)
           .map((artifact) => projectWorkflowRunArtifact(artifact)),
     ],
   ]);
@@ -117,8 +117,10 @@ const getWorkflowRunHandler: ToolHandler = async (call, scope) => {
   // 空对象会让模型以为 run 存在但没内容；未知 runId 是一等失败。
   if (detail === undefined) return workflowRunNotFoundFailure(parsed.run_id);
 
+  // 读取序契约：result 序列化（detail.result）→ 读时钟 → 情势截面。
+  const result = serializeWorkflowArtifact(detail.result);
   const generatedAt = Date.now(); // 一次读数：所有年龄同源可比
-  const base = projectBase(detail, generatedAt, () => scope.workingDirectory);
+  const base = projectBase(detail, result, generatedAt, () => scope.workingDirectory);
   return { ...base, summary: buildWorkflowRunSummary(base) } satisfies GetWorkflowRunOutput; // 摘要最后拼
 };
 

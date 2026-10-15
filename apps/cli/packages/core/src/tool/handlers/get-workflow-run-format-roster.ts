@@ -24,8 +24,8 @@ function rowOf(cells: readonly string[]): string {
 }
 
 function padTo(value: string, width: number): string {
-  const missing = width - value.length;
-  return missing <= 0 ? value : value + " ".repeat(missing);
+  // 读取序契约：value.length 两次（判定 + 减法）——收敛成一次会打破 frozen tape。
+  return value.length >= width ? value : value + " ".repeat(width - value.length);
 }
 
 /** 列宽就地量体：本批行里最长者为准，但不越过 24。 */
