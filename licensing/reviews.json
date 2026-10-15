@@ -61893,6 +61893,14 @@
       ]
     },
     {
+      "path": "docs/knorvia-shared-01-acceptance.md",
+      "normalizedSha256": "73261bf2202c50a5eda2cb3e1b02a5e8631f3066480b4272db201610f374e6a4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Acceptance record for the shared-01 replacement against contract v2: scope, old-gate re-run on the replaced implementation, new implementation results on both entries, both similarity gates with per-file scores, the intake gate output summary, first failures and fixes (including the clock-leeway regression found via lint), and the uncovered items. Written from the measured runs; no upstream or replaced implementation text is reproduced.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
       "path": "docs/knorvia-shared-preview-merge-root-handoff-20261003.md",
       "normalizedSha256": "79724da6be767a3c62472fce5f6bf911f14b8a158cacf3cc6f9f405dee3fc2a2",
       "decision": "original",
@@ -108134,6 +108142,174 @@
       "normalizedSha256": "1bc26d66eb7f8d4dc5bfd5003009781bfda986ebcf600f54a20b52be66e4811a"
     },
     {
+      "path": "packages/shared/src/node/atomicFileLock.ts",
+      "normalizedSha256": "53840bd18c4fd4b70452c5cb67955c0b6f140445222bf704e87648c918990a30",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/lockInstanceObserver.ts",
+      "normalizedSha256": "c65b1c98060a124369cd54914bbb7d69c26d8abe0a3919b82739d8bb21adb3b8",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
+      "normalizedSha256": "4284524b5eca3648f844bdf996e09005fca46db86b74d08b9013db815301d652",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/officialPluginCache.ts",
+      "normalizedSha256": "84bcd5e4f19a80aad5442e081ab59511f407f778741fe492ad103eb128ce2c33",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "normalizedSha256": "3ba7576f0d03e1c8aa539fbe0b9a81332d5a0cefc7f61674dbd0459644fa4e16",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/node/subagentMarkdownMigration.ts",
+      "normalizedSha256": "4b699ded2b4417121b74e879ae0a4b294bedd136babeecead8601358264acdda",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/attachment-ref.ts",
+      "normalizedSha256": "c9d87155eb0a191af7fb6da488143d01593ce8074e48318f8dee32824362489e",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/create-workflow-display.ts",
+      "normalizedSha256": "aba7c32998c6d5254c395f46a3f41c384db2b32b1c588f6f816d90efc7548cb3",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/cuaPermission.ts",
+      "normalizedSha256": "b4df04c43fb060b0d477850c0a63e1534a1eab0805ed2a0b1b17b6787353be03",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/delta.ts",
+      "normalizedSha256": "8c5220c5241b02ba47582dab191f29938f1234ab2b2508f306470b6b7cee6b18",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/fork.ts",
+      "normalizedSha256": "a3d59f7deb846707d10021ae3dd65b74fd9f3b46f19d2ef1d967bf91235f8437",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/input-intent.ts",
+      "normalizedSha256": "8342ba2f5ecaba9098cef980d7c7fd435372f3f45a1688bcf9da4d67215c88eb",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/profiles.ts",
+      "normalizedSha256": "5dd725cbf07b52e51d8f7c2dc8838ffbe6351be8e6c8405d7a7eb694a2e7ae1a",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/session-config.ts",
+      "normalizedSha256": "52ae1a5282e6571068c9940c05d6c14462d198c178f9c9dc960a35c63eef7801",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/sessions-index.ts",
+      "normalizedSha256": "165d9fee985f2b6207e0f62a6b8e4b8f8e1fc925393ff0f9e82f68a379423812",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/shared-context-import.ts",
+      "normalizedSha256": "925353aca2ffd6d6c4f867443b09930c3b2100ba083bedf2f829779740d015ff",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/shared-context-ref.ts",
+      "normalizedSha256": "8d4599549e79ba53c0103a00aefe9dddb864eb6c32390d1803eba656e9e5125e",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/submission.ts",
+      "normalizedSha256": "1aa56cd1fc9d3167af63571cc064d75b79ad6146085b2def198037446acd6a96",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "normalizedSha256": "177c8725847ac34315165777b7adf68854da9621f10cb75c74dfdad5b2048eff",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire.ts",
+      "normalizedSha256": "d20407b82c7c3ee5876e3ba16cbf46612aabc3d7ed9fed2fa4fad8cfe5cf84d9",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-artifact.ts",
+      "normalizedSha256": "bda621284d521ac59780953ee0a65c6eed4f86f7c0c512d85edc0dfc68e319f5",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
       "path": "packages/shared/src/protocol-v4/workflow-run-collections.ts",
       "decision": "original",
       "license": "Apache-2.0",
@@ -108144,6 +108320,54 @@
         "scripts/provenance/similarity.mjs"
       ],
       "normalizedSha256": "1856bc0f22218678c0190622f9edf1d57e31d8dce1a7406d3be12895d8d62ca9"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-run-settings-command.ts",
+      "normalizedSha256": "828a5b20ac39730e7afbde61b1f2e8e4f1e1b6e07fd14769b96e716922fc5d33",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-lineage.ts",
+      "normalizedSha256": "1c9a70ab79974a3be74ecfe876636307f8e5250e5fe0c2b231a03431870f5475",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-started.ts",
+      "normalizedSha256": "93426581b8903bc3f3d14e98d705c6c92b12b6e35f2ed956ea70a0c2e6f54f26",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs.ts",
+      "normalizedSha256": "aad59cce7df74417fd6b8be0d489d1c31d87b1164ab750c09a024d8ad986b70b",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-workspace.ts",
+      "normalizedSha256": "446c0e2c125d55deca0488a7eee1e4e10197da789244d1002d5a01eb3efaeff4",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workspace-hook-review.ts",
+      "normalizedSha256": "c58a1eba6888876ee87b4c4ae4ff0e583407b9fa971dc95a3c30d3dfd78ec9c3",
+      "decision": "independent-replacement",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
     },
     {
       "path": "packages/shared/src/sessionHandoff.ts",
@@ -128604,6 +128828,886 @@
       ]
     },
     {
+      "path": "specs/contracts/core-runtime-helpers-01/acceptance.md",
+      "normalizedSha256": "c0a370f187336b2e0b64c84b2465e2f86c9d05aeb8e19504445ecd1bf5a03186",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/behavior.md",
+      "normalizedSha256": "b0fb8da0e6d31d040a1c0db89094bba0a8b1db761456bedfdbf1bf5a6843b97e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/callers.md",
+      "normalizedSha256": "62d6095c416f1434df71c17924554cc3186ecd0d913119d5c9ebc9503b38975d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/fixtures/model-stream-events.json",
+      "normalizedSha256": "8a163c14b5c7a6c6adb8062fc4e6c8f3109d5f3c5c626999208f4f6d04a9d104",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/gate-old.json",
+      "normalizedSha256": "bb916cca246854185b153d391859cf14e7d20321a7e6ae84ffa60419f5774d9a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/interface.md",
+      "normalizedSha256": "7abd98c368279e42265fb0c4f3dbe366f584a117e2a85828f774029828e67fce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/known-differences.md",
+      "normalizedSha256": "e5f69c706e6b23ab8019f57fd09de7d8b9b7b53e7b8533daad9db751980a19fa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/README.md",
+      "normalizedSha256": "a97a5fb8ffd7590417bc8bfe5000e72a11b1d5ee58dcd8dd54569c29d4be2442",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/scope-files.json",
+      "normalizedSha256": "70421d9f7d1ddb61269f8db2bd37c74a57765bf704a7340b77fe49692f4c103d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "normalizedSha256": "9d5fc4b5935c455ec83e68b71eb23aecc3b00ca63a485f6d59c5255e11a31c0f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "normalizedSha256": "247006e9909c4873d334dfd3dc535be98d8ce29871ce3e0e4a9562a447a34a95",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "normalizedSha256": "e3c65197acbe0a75f4481c259667ee81a34815740d4992815184131d0b917abb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "normalizedSha256": "747db2e64a53a4fb80377a99cc14f7ddb8536d3beeb416829c9e711cc8298eb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "normalizedSha256": "03733dc08998b815272d4713cea52e15cccbffe8104ec60a7f2b8a8a8662d2da",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "normalizedSha256": "9f1994b0caff26e58b1a564f59e26b9890dcf9542ca3e250ce7f7436c958ef88",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "normalizedSha256": "82386691dfc607419583eb3debdae1a899c1adeb0e2448ef909c82e63f26cfd0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "normalizedSha256": "45e6a783c26bfcbbc1739e67572dbdb1172c7cca2659cc1aa2abe4eedfc37676",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "normalizedSha256": "6d7167579d3d2af7a14c8f15fe96c28f2f839ae630d463de9d4a4be592aa3763",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "normalizedSha256": "5761f7ca07394249db7e05564229fa35f7e9e370171776be740589cc89d37a06",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "normalizedSha256": "b01df07e051c965f46d4d073eec3212118445d7028f63569755473742c006438",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "normalizedSha256": "2979a767bc876f801b92bdd98d241336be69d6812d636663fe92cb559b64489f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "normalizedSha256": "8ebfc44e50243f8cb9982b5c1b4aa03b19dba2804541f8822832d2db4bb9da9c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "normalizedSha256": "2a469cdb0650ffa52c6cc461d4c40917be85bf8aa1ec2dcdefc6a402cd06ea3d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "normalizedSha256": "b14b36e08387224f47a859c07715fa4275aeb517084c80764f8134a98bbe0218",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "normalizedSha256": "3bae122b9d8d45d87b40706332fb446b65e34edb7687d2f4bb0e06c10d32e30b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/child-client-ports.ts",
+      "normalizedSha256": "0e312668073502bc85a69f364ea3c2e27b566ec71b8b347b720ab92e27891fec",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/commands.ts",
+      "normalizedSha256": "0c4822025c601654d12be5e28ba5c72261d087610b58055517ebeeecc50cba3c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+      "normalizedSha256": "e4634241833f03154bb2e8735726b6b4497ba919c2556314dd9d9b62c3887957",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "normalizedSha256": "631e55a1c516231b1f393d0ded3d26124c2b689d290117f50abb7967456df857",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/compact-preservation.ts",
+      "normalizedSha256": "b072c01fd2fc0baf5d20accc9bc34f859c1d6f4c39d258bc0952758f0cebf4a4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/compact-selection.ts",
+      "normalizedSha256": "9340c4b299d98794ea77a34067334e67c974ad67a19b7c9f1de486d5037a67b1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/compact.ts",
+      "normalizedSha256": "51b892255d1136ff5dc2fa97967e4fa76d5df7a5dcfba2e34577e5b147c5d3ed",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+      "normalizedSha256": "9d87debc870bfedef39a3e23a6476a4aedb946a7d32e71876fc90f1b7d6e0acb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "normalizedSha256": "32a0c75c7b87300fdd411f0053119e9c92152edaff09a81c2c1f7eeec528e2a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "normalizedSha256": "a2ccc4ef5c688023cf7467e809cc21d90814dca9d7afe1f703e0c36dfed9cca1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/index.ts",
+      "normalizedSha256": "9a76434ba067527f8f232979856fe27c9d5baad4a2e69e486949bc8cd3661450",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "normalizedSha256": "55c8a4bb7649535f6fa6c52d4f4c9ac8857e552aa47e0b4c4e3e65f2ac421db7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "normalizedSha256": "a1a520895b54726269b5b2ef779bd49efc58d50a9129551091587c496b0ef697",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "normalizedSha256": "6aba690b8f7391c2a2d6726ab077c0320e1eaf3aabd9fa2eba3f9d0baca87e50",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "normalizedSha256": "dff84bb1a86c889c2b411becb616827915ec44fdcc18e9794f527d259d8770a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "normalizedSha256": "a256710a66164dba2b624c7f22f133fcafce706ee69b33102af2c70448795caa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "normalizedSha256": "834c4c6c800889e8bb5bd5f3df378cf9847bb9a196bbc6207c472e0b078390b0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "normalizedSha256": "6421b46ca531bf99f781b0515b5cef0c562ee3c295ea86f0039aa9564b47a05f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "normalizedSha256": "aa30313205fdb2c7d58feddd117e68b719e6530839eedc87d224ae5b79101e6d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/permission-broker.ts",
+      "normalizedSha256": "cd9ee1ebfa597eda4b030eb468be9297a67628928d5d8cb56cc1bb53ffc9299b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "normalizedSha256": "ffc51535b2b86bba70414fe5c1a0c99936ab8575251202bbd89e2260989c1182",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+      "normalizedSha256": "a0e2289f3095117445d499a85d771256ed2e44ab2fbb06abb7be032825c8d68f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "normalizedSha256": "f60b77c2ce7b60122908b9dc1061be1afdfed88baafdc16bb4806e540188e074",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "normalizedSha256": "082bf9468b1eb8f7319666a46c0a67d734f8d72dc80a30e1d8b842637bba843b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "normalizedSha256": "26f2591c57e96ac365ad19c48950599062109094775810e1cb720a4c74e3db8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "normalizedSha256": "1e258a3dd33aa8aa601cc8320ef44ef0688e3543f2fa9c75faf1d95f94384909",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/project.ts",
+      "normalizedSha256": "7550983abd12ac9ab03cb8bafc4a296f98e736f59f60a1734154131e9cb0537f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "normalizedSha256": "612da82e648d86d65dc53cb3bb4847e8e3804bf30a8d70e8d312430dfa520dde",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "normalizedSha256": "386d2808b8db0c677ca77b83ec8510ca756a28ae53e2143fa26599090c10fca6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "normalizedSha256": "1d0033421569b2ea4b3202b70cb7283a2f25cf4adda31137bed2817a12b5d942",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "normalizedSha256": "da8ce22b77f595665bae8f0757fead4fa679c9895ac095345362132224ca5148",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/rewind.ts",
+      "normalizedSha256": "a10b93b6c97f57ad241f37a7157bd17fd090c610aff080bf3a2795d1ff069dca",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "normalizedSha256": "984650bc8bfca109666e686f70e4180951a00451f3fd4839f21ed89e8498d7e5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "normalizedSha256": "84a646c60c41e2d1bd06bfacb6a09586b0fde7b854294b93ac764914377d15c3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "normalizedSha256": "816902accbb876f3407804601e706dc0927ced7c042bf77c201f7337af91ef64",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/steering.ts",
+      "normalizedSha256": "fa88fdf3482b0984cd29b157b16da04ced6b8a2f84fa59f7aca92e12f18f42b4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "normalizedSha256": "71a1fd6beb644d7a9edc7de2c800dfd1f0b75e492b0594ab24e7870f885940e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/subagent-interaction-broker.ts",
+      "normalizedSha256": "e67f5e2f5c7de8309aae46af39702539a7e642da41cca8f65349156735269b7f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/subagent-selection.ts",
+      "normalizedSha256": "6b0425d1ed4cf70eea422f088f21aea5ee0061b33c33db9951cf64921ff18dfd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "normalizedSha256": "a17fa22a91930f681a817991d8a6fab54bd181e710bb7d5c8fd9051bbbb7c88a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "normalizedSha256": "7d877001b07b41ac7506754a357ef4b1fd28b5b72210a06526bf85e4dff117a3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "normalizedSha256": "211b45e031f9597e0af37a6672246e7f8e50a8387710939214f2131473f2ebf1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "normalizedSha256": "9878ae2d86540b9ed0b4c60f29204304db530e1e273d7f18f37aca2f6f3829ac",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "normalizedSha256": "de6f2b009e8269806b6499a9b10ec58a74c11882c7d9d6c8a20e0c01b08ecd93",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/build-stubs.mjs",
+      "normalizedSha256": "df32db1c2805fc4ffc3b37cdc52d25d67a6f6733887addd3f3a5995c6785f058",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/stubs/targets.txt",
+      "normalizedSha256": "8d4fa47ff9a3befc909a45a1dfe8c20f34647e61a8abb38a52a23f1db8470596",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/attachments.test.ts",
+      "normalizedSha256": "e45687e6d0a9cb2508530fa18fb70dfbd94d29355d7de6290233b7a25c955fc3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/compact-provider.test.ts",
+      "normalizedSha256": "7437abedc0653f640f7c0285ae08032e394fe59bd475c6e57e5c9eae78995bd6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/entry.mjs",
+      "normalizedSha256": "e80eaeda993c576d15ebccc7706ef34b99fb57d2f43c123e72d001bbb99d870c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/errors-timing.test.ts",
+      "normalizedSha256": "2ed35821f666a78a6c4797c5bbc59ef8156ae9f3e1690bef2b201a3235e68070",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/fixtures.ts",
+      "normalizedSha256": "8feee08fdc24200d08b461db6cad962d180ef89ba7da6ab29e8e704bcd1d7595",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/media.test.ts",
+      "normalizedSha256": "5d2fca33b725b35a2da22d9cbf235c088be5be8613b5fe65a3046cc81d71a295",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/permission-steering.test.ts",
+      "normalizedSha256": "f49807437a17b1f37f8027d4600286aea9ca5facd02dfbb44b904190687aa3c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/runtime-session.test.ts",
+      "normalizedSha256": "9b3f1f48c13d2670589c4c8c6233575600291f195722040aee1d44a28da22c54",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-helpers-01/tests/surface.test.ts",
+      "normalizedSha256": "20cf7c5a7ba7bdc4370ded209c47ca5254f8abd41e96a9103d0d142384fa88d8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "core-runtime-helpers-01 contract v1: contract suite for the 60 inherited runtime helper modules (README, behavior B1-B47, interface surface, callers, known-differences, acceptance), black-box contract tests with event-sequence assertions over source and dist entries, sanitized model-stream fixture, and old-gate evidence (source 63/63, dist 63/63, stub replacement 0 pass).",
+      "evidence": [
+        "licensing/current-files.json",
+        "specs/contracts/core-runtime-helpers-01/gate-old.json"
+      ]
+    },
+    {
       "path": "specs/contracts/core-tool-01/acceptance.md",
       "normalizedSha256": "ca2955ffbed556fa7d8a4a6cdfb58f6ef80380566f02175f20d127ccdc434f9a",
       "decision": "original",
@@ -129513,7 +130617,7 @@
     },
     {
       "path": "specs/contracts/shared-01/acceptance.md",
-      "normalizedSha256": "b800e364fda4f731c851f43d6b87ad5fb6317e3e1817de6fc16955e8e3d6841a",
+      "normalizedSha256": "4676776692cae356fb04dbb04b9c428b60bef8b69c8f08f4286231e6f00ebac7",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -129546,6 +130650,14 @@
         "specs/contracts/shared-01/gate-old.json",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "specs/contracts/shared-01/design.md",
+      "normalizedSha256": "9bc164d729fe2f062b9d471b20c99fcf3822180da5ea41c82acb8a202562ed87",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Design document for the shared-01 replacement against contract v2: module split, state owners, key data structures, async event order (file lock, in-process queue, atomic write, migration sweep, run reducers) and the B1-B44 landing points, written from the implemented modules and the frozen contract. Describes the rewrite as shipped; no upstream or replaced implementation text is reproduced.",
+      "evidence": ["specs/contracts/shared-01/README.md", "docs/knorvia-shared-01-acceptance.md"]
     },
     {
       "path": "specs/contracts/shared-01/fixtures/frames/encode-cases.json",
@@ -129633,7 +130745,7 @@
     },
     {
       "path": "specs/contracts/shared-01/gate-old.json",
-      "normalizedSha256": "274d20e985e9d8ded06a1b5552cb009dc8297dd07d76abc08bf9f117bfbadc33",
+      "normalizedSha256": "516d776fb85d0a5dd65affac21e44c23ee0a68c4884319524c1afa4967a5c18e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -129669,7 +130781,7 @@
     },
     {
       "path": "specs/contracts/shared-01/known-differences.md",
-      "normalizedSha256": "31a220fcefa3637b42537fc5590d8fc9527954c0192dc4a7b94c3fb83c8f6e2c",
+      "normalizedSha256": "88181975b67bcb4b40b861f848f110be3e3f512864dd6a8d216448b13c79a145",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -129681,7 +130793,7 @@
     },
     {
       "path": "specs/contracts/shared-01/README.md",
-      "normalizedSha256": "252fffea61a4753e5b85fd00711bf8f3b5bdf639a10f0703654565d649ba3dd2",
+      "normalizedSha256": "1f53eec0a6dd85a49b6b6ec05f37da27c0a8cbaefa7a8578562d9adf96a8eab0",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
@@ -129694,354 +130806,6 @@
     {
       "path": "specs/contracts/shared-01/scope-files.json",
       "normalizedSha256": "de3cd7335df83c3dfe9e78f1edb91fa00518fe1818a5b5bb85b4cd0f32023f11",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/build-stubs.mjs",
-      "normalizedSha256": "d36798d9a801f4d3a6e43f82cb716fdda468b3691b6278448fe2cee8fa66758e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/atomicFileLock.ts",
-      "normalizedSha256": "a8b62bbe424f9258782fa914b535dd57486826b01124bf45ae43fcc346836924",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/lockInstanceObserver.ts",
-      "normalizedSha256": "5be87bba1e6189e1c0508d7ea19710c9c9b23ac9aee73a5f213d1e9bdabdabca",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/nodeSelfResourceTelemetry.ts",
-      "normalizedSha256": "28b7051395e339b3c9c7adaf04db77d7c736fbcc0fe68bc60cad9ba26f577773",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/officialPluginCache.ts",
-      "normalizedSha256": "77044a4e40f13947bbab7ee16cc9bc33a5adbfc958718267c569f0be3eaf33de",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/privateFilePersistence.ts",
-      "normalizedSha256": "c9aa21793a6438e11e58b86f50b5dce5d96018de63db21c566f311dcfd5914e0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/node/subagentMarkdownMigration.ts",
-      "normalizedSha256": "96d5d235a35eb1ef9ed93d3e3cd992b03c0992106d5335b0fad16341745f1d7a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/attachment-ref.ts",
-      "normalizedSha256": "51f0c989aefff3a12eb1d1d1a56eac3d58817278f41e7e7d179a16fa79dc68cc",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/create-workflow-display.ts",
-      "normalizedSha256": "187ea39175cb60e041c0ec607d8961f5270409403408773f2fd6871ee65880b7",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/cuaPermission.ts",
-      "normalizedSha256": "b3b0655469538606186cf51cc1ba837f4b24ff64bb25e9c54cd50cf07101034f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/delta.ts",
-      "normalizedSha256": "533adf79dd9d2d8763e5a1a83b0071162eab5c4e615e1ba13f8806ac05b84fa2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/fork.ts",
-      "normalizedSha256": "928dc372725a5ff561c490dec2fbbfe7cc03c1bbf934fc7a78852108cb240a3b",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/input-intent.ts",
-      "normalizedSha256": "0948f151e6270abc3475bcd83534d81b979b32086ab2317df5ee0fc2eb7f47dd",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/profiles.ts",
-      "normalizedSha256": "fe667dfd357306f7fcd2ab7618001e767728b9073ff48f709e9c7132a4c0877e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/session-config.ts",
-      "normalizedSha256": "b081692668a05b8362c5c7b4566c7788ef28ebb7188e24ec2682f9a2470bdfd2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/sessions-index.ts",
-      "normalizedSha256": "a7cd2016928bb3ca705c4f1adeab5451816b98ddc7c31c132471469b701f8648",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/shared-context-import.ts",
-      "normalizedSha256": "bb42097a32565ea91ffde31f63e18333c0414becf07d65ae349924261cbfd353",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/shared-context-ref.ts",
-      "normalizedSha256": "7e39b24976b36b7e6422a6e933155b269dc5e5960844bb58855eb02113a9c7d4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/submission.ts",
-      "normalizedSha256": "7f4e2dd4c34571c2f681159dc4fa2fc2858ac764077207c273ba6e8ee674bf14",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/wire-codec.ts",
-      "normalizedSha256": "e00161ad8ba0e4037e4eaec5a7c895e7b9fe8489afe31f38e3d71fa0d1fc2d89",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/wire.ts",
-      "normalizedSha256": "fcf5c441507d446a33e9f6bdd83529037674d81b28ab5eddafad7d2b86f9c0db",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-artifact.ts",
-      "normalizedSha256": "9317dbe1a56a02badbc0e5d93b3a7c80b16e1fd7b133aba83bf1599f9b971934",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-run-settings-command.ts",
-      "normalizedSha256": "0ee43b33d4a4375f41b7d24995b59780f9cbe4c3780ac59b5ba74fb7c376e1e1",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-runs-lineage.ts",
-      "normalizedSha256": "d94161d583da6c895db7cab0e0e9e5cff2dbe76d92c65a1036d52ee9003d02d2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-runs-started.ts",
-      "normalizedSha256": "06ed7b1fd8c5171a089fcce1b2e12a21c16d16b128b0876653a80f744b7653b4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-runs.ts",
-      "normalizedSha256": "62656dc437b34f08d097563ed534cf273d84ff055f2ba45b3526d5d49932ad92",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workflow-workspace.ts",
-      "normalizedSha256": "8cfffd6ce137bb67b25bea56cf7dfca2fc1dc39693860429a1570509a7560797",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/packages/shared/src/protocol-v4/workspace-hook-review.ts",
-      "normalizedSha256": "c34d820a3f1d11cdfeb1917da7c8669fc08b1a3783beaa2b96622ffe80dc6de6",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",
-      "evidence": [
-        "specs/contracts/shared-01/acceptance.md",
-        "specs/contracts/shared-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-01/stubs/targets.txt",
-      "normalizedSha256": "04a87212edc2ac37d390c518ea8abf3aa30ea7b44e969712974ea8a944d89557",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-01 contract artifact for @knorvia/shared (M3 first package: node utilities and protocol-v4; 27 inherited files). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the two public entries (@knorvia/shared/node and @knorvia/shared/protocol-v4) in both source and dist modes, the fixtures are synthetic goldens recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-01. Old gate: source 56/56, dist 56/56, stub replacement 6/6 failed (allFail).",

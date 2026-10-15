@@ -1,30 +1,22 @@
-/**
- * workflow run 里**任意脚本值**（顶层返回的产物、`report(item)` 的条目）→ 给模型或读者看的
- * 文本。规则：string 原样；其余 `JSON.stringify(v, null, 2)`；stringify 回 undefined 或抛错
- * 时退 `String(v)`；`undefined` 回 `undefined`（调用方据此让整个字段缺席）。
- *
- * 原住 contracts（dynamic-workflow-run.port.ts），因为它当时的三个跨包消费者——完成通知的
- * `<result>` / `<reports>`（core）、runtime task 条目上的 `resultText`（core，TaskOutput 的
- * 唯一来源）、`workflowRuns.reports[].preview`（v4 投影，详情页 Results 区的那一行）——给出
- * 的文本必须逐字节相同。第四个消费者出现后搬到这里：`reports[].preview` 的归约随共享
- * reducer 下沉进本包（workflow-runs-reducer.ts），而依赖方向是 contracts → shared，本包
- * import 不了 contracts。contracts 原位保留 re-export，core 侧的消费者一行不改。
- *
- * 同理这里不设长度上限：通知端有 120k 截断、TaskOutput 端有 artifact 预算、投影端有
- * `maxReportPreviewLength`，界属于各自的边界。
- *
- * 产物形状不受约束——record、数组、字符串、数字、null 都合法，所以这里没有 `isRecord` 门
- * （原实现按 legacy `Workflow` 的 `output.response` 取值，正是那个桌面实测 bug 的成因）。
- */
-export function serializeWorkflowArtifact(value: unknown): string | undefined {
-  if (value === undefined) return undefined;
-  if (typeof value === "string") return value;
+// SPDX-License-Identifier: Apache-2.0
+// 脚本产物 → 面向模型/读者的文本。工作流脚本顶层返回值、report(item) 的条目都走这里换算。
+// 规则固定：undefined 交回 undefined（调用方据此让整个字段缺席）；字符串原样；其余值用两空格
+// 缩进的 JSON。JSON.stringify 对函数/symbol/undefined 会回 undefined、对循环引用会抛错——这两种
+// 退化路径一律退回 String(value)，绝不把值整段丢掉。产物形状不受约束（record/数组/字符串/数字/
+// null 都合法），因此这里不设长度上限：截断属于各自的边界（完成通知、TaskOutput、投影各自限长）。
+export function serializeWorkflowArtifact(payload: unknown): string | undefined {
+  const sort = typeof payload;
+  if (sort === "undefined") return undefined;
+  if (sort === "string") return payload as string;
+
+  let rendered: string | undefined;
   try {
-    // JSON.stringify 对 undefined / function / symbol 回 undefined，对循环引用抛错——
-    // 两种情况都退到 String(value)，绝不把值整段丢掉。
-    const text = JSON.stringify(value, null, 2);
-    return text === undefined ? String(value) : text;
+    rendered = JSON.stringify(payload, null, 2);
   } catch {
-    return String(value);
+    // 循环引用等：退回可读的字符串表示，不向上抛。
+    return String(payload);
   }
+
+  // stringify 回 undefined（function / symbol）时同样退回 String(payload)。
+  return rendered === undefined ? String(payload) : rendered;
 }
