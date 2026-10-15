@@ -259,4 +259,133 @@
 
 ---
 
-（H3 起续写：B20…）
+## H3. conversation/assistant 五件（B20–B26）
+
+### B20 助手消息分段（`assistant-message-parts.ts`）
+
+- 形态：`KnorviaAssistantMessagePart = {type:"content",content} | {type:"thought",content} | {type:"tool-call",toolId}`。
+- `appendAssistantMessagePart(parts, nextPart)`：`parts` 缺席按 `[]`；**仅当**末段与新段 `type` 相同且
+  同属 content/thought 时合并（`content` 相接），返回「截尾 + 合并段」；否则追加。两分支都返回**新数组**，
+  不改原数组；`tool-call` 永不合并。合并存在的理由：UI latestPart 与第三方完成消息依赖 part 边界，
+  连续文本 chunk 不合并会被按 token 边界误判最新正文。
+- `getLatestAssistantContentPart(parts)`：倒序找首个 `type==="content"`，无则 `null`；
+  `getLatestAssistantContentText` = 其 `content ?? ""`。
+- 其余八项同通用约定（纯函数、无状态）。
+
+### B21 助手呈现组装（`assistant-presentation.ts` `buildKnorviaAssistantPresentation`）
+
+- 输入：`{content, thought?, toolCalls? = [], parts?, streaming?, interrupted?, settling?}`。
+- `toolsById`：按 `toolId` 建 Map（**后条覆盖**）；`isRoot(tool)` = 无 `parentToolUseId` 或等于自身 id
+  或父 id 不在表中。
+- `messageParts`：给了非空 `parts` 则**逐条复制**；否则按 `thought`（若给）→ root tool-calls（表序）
+  → `content`（非空才带）构造。
+- `blocks`：content/thought 直映；tool-call 段仅当 `toolsById` 命中、**未曾渲染**且 isRoot 才输出
+  （renderedToolIds 去重）。`latestPart`：仅 `!streaming && !interrupted && !settling` 时，从 blocks 的
+  content 段按文本相等选**最后一个**（`selectedIndex` 同步记录）；否则 null。
+  `historyBlocks` = blocks 去掉 selectedIndex 那条。
+- 错误语义：不抛。幂等：纯函数。状态所有者无。日志无。
+
+### B22 消息投影策略（`conversation-message-projection-policy.ts`）
+
+- `getConversationMessageProjectionPolicy(message)` 判定序（先语义层后来源层，前命中即返回）：
+  ① `semantics.kind === "compact_summary"` 或 `info.summary !== undefined` → providerContextOnly；
+  ② semantics 存在时：`kind==="timeline_event"`→timelineOnly；`origin==="real_user"` 且非 synthetic 且
+  visibility≠model-only→realUserInput；`role=assistant && kind=assistant_response && uiVisibility=visible &&
+  transcriptVisibility=visible`→visibleAssistant；`providerVisibility==="visible"`→providerContextOnly；
+  `kind==="fork_notice"`→timelineOnly；`origin==="agent_runtime"` 或 ui/transcriptVisibility==="hidden"
+  →hiddenSynthetic；
+  ③ `info.visibility==="model-only"` 或任一 part 的 `metadata.visibility==="model-only"`/`source==="goal-continuation"`
+  →providerContextOnly；
+  ④ 时间线投影（kind=timeline_event / source=fork / metadata.forkContext.kind=session_fork /
+  part.type=timeline / compaction 且带 timelineStatus 或 summaryMessageId）→timelineOnly；
+  ⑤ 来源解析 `messageSource`（`info.source` → `info.metadata.source` → `semantics.source` →
+  首个 part 的 `metadata.source`）：`"fork"`→timelineOnly；命中 `providerSyntheticSources`（**17 项**：
+  agent_control_message、background_task、goal-continuation、goal_completion_verification、goal_state_change、
+  plugin_reference、queued_system_notification、resume_goal_state、resume_referenced_session_context、rewind、
+  selection_side_chat、subagent、subagent_message、target_continuation、task_notification、task_status、
+  todo_reminder）→providerContextOnly；legacy 提醒文本（`<system-reminder source="goal-continuation">` 开头、
+  或 `<system-reminder>` 且含两条固定文案、或含 "Conversation rewind applied."/"Workspace rewind applied."）
+  →providerContextOnly；
+  ⑥ synthetic（info 或任一 part）且 legacy 通知文本（`<task-notification>`/`<subagent-notification>` 开头）
+  →providerContextOnly；仅 synthetic→hiddenSynthetic；
+  ⑦ 兜底：`role==="assistant"`→visibleAssistant，否则 realUserInput。
+- `isConversationRealUserTurnStarter` = role user 且 policy=realUserInput；
+  `getConversationModelOnlyTurnTriggerSource` = role user 且 policy=providerContextOnly 时，
+  来源命中 `modelOnlyTurnTriggerSources`（**6 项**：background_task、task_notification、subagent、
+  subagent_message、goal-continuation、target_continuation）→返回该来源；legacy 通知文本→`"background_task"`；
+  否则 null。三个布尔便捷函数即 policy 等值判断。
+- 名单顺序与文本匹配都是契约（金样敏感）；纯函数、无状态、无日志。
+
+### B23 预览文件引用抽取（`conversation-preview-artifacts.ts`）
+
+- 语义常量（逐字冻结）：`CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT = 15`、
+  `CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT = 10`。
+- 文件类型定义表：md/html(htm)/docx/xlsx/pptx/pdf 六种固定（mimeType、artifactType 冻结）+
+  `MEDIA_PREVIEW_FORMATS` 11 项派生（kind=video|audio、artifactType=kind）。`getConversationPreviewFileType`
+  按小写后缀**首个命中**。
+- `resolveConversationPreviewPath(workspacePath, rawPath)`：`clean`（trim、去尾部标点、去 `:行(:列)` 后缀）；
+  `~/` 开头拒绝（null）；`file://` 走 URL 解析（protocol 必须 file、decodeURI 失败保留原 pathname、
+  `/X:/` 去首斜、非 localhost 主机名转 UNC 形态）；绝对路径（`/`、`X:\`、`\\`）走 `absoluteKey`；
+  相对路径折叠 `.`/`..`（**越根返回 null**）后拼到 workspace 绝对键下（去尾斜）。
+  `\`→`/`、重复斜杠折叠。
+- `extractConversationPreviewFileReferences(content, workspacePath)`：五类引用按序扫描——
+  ① citation 指令 `:…-file-citation{…}`（保护区；`path=` 参数；`artifact_kind` 限定 document→docx、
+  presentation→pptx、workbook→xlsx，且只认 docx/xlsx/pptx/pdf/video/audio）；② markdown 链接
+  （`[text](url)`，尖括号剥壳）；③ `file://` URL（clean 后）；④ 引号路径（成对引号内、带扩展名、
+  记录内层起点）；⑤ 裸路径（边界字符集含中英文标点）。后四类遇**保护区重叠**跳过；②③④⑤ 命中后
+  加保护区。仅接受解析成功且类型表命中的引用，产出 `{start,end,kind,path,raw}`。
+  输出按 `start 降序、end 降序` 排序后按 `absoluteKey(path)` **去重保首次**，再反转为升序。
+- 平台差异：路径归一同时接受 `/` 与 `\`；`X:\` 与 UNC `\\` 视为绝对。其余同通用约定。
+
+### B24 预览候选构造（`conversation-preview-artifacts.ts`）
+
+- `buildConversationPreviewArtifactCandidatesFromReferences`：`fileChanges` 先分 active/reverted 两集合
+  （路径经 resolve+absoluteKey 归一）；对引用按 `start 降序` 处理：类型不认→丢；`enforceWorkspaceBoundary !== false`
+  时越界（`within`：等根或根前缀 `/`）→丢；**markdown/html 要求 active 命中且未 reverted**（requiresFileChanges），
+  其余不要求；`absoluteKey(path)` 去重；产出候选 `{artifactType, displayName(leaf), mimeType, previewKind,
+  productTurnId, sourceKind:"assistant_preview_card", sourceRef:reference.path, requiresFileChanges}`；
+  最终 `slice(0, 15)`。
+- `buildConversationPreviewArtifactCandidates` = 抽取 + 上述构造（`enforceWorkspaceBoundary` 缺省生效）。
+- 时序：纯函数；幂等；无资源；日志无。
+
+### B25 分享路径解析与语言化（`conversation-share.ts`）
+
+- 前缀表（逐字冻结）：`zh-CN → "/cn"`、`en-US → ""`；pathname 正则 `^\/(cn\/)?share\/([^/]+)\/?$`。
+- `parseConversationSharePathname`：只认 `/share/<code>` 与 `/cn/share/<code>`；返回
+  `{rawCode: 未解码 code 段, locale}`（`cn` 存在→zh-CN，否则 en-US）；形状不符 → null。
+- `localizeConversationShareUrl(shareUrl, locale)`：URL 解析失败原样返回；pathname 不匹配分享形状原样返回；
+  匹配时**只替换语言前缀**、code 段原样拼回（不 decode/encode），返回 `url.toString()`。
+  未来服务端换 URL 形状时安静不作为（不改错）。
+
+### B26 分享载荷 schema 族（`conversation-share.ts`）
+
+- 语义常量（逐字冻结）：`CONVERSATION_SHARE_SCHEMA_VERSION = 1`；accessMode 三值
+  （private/public_readonly/public_importable）；已知错误码 17 个数值字面（3001、3002、3200、3201、3203–3215）；
+  descriptor `ref` 正则 `^knorvia-artifact:\/\/share\/[A-Za-z0-9._~-]+$`；sha256 正则 `^[0-9a-f]{64}$`。
+- **出站 strict / 入站宽容**是本族总纪律：出站请求（preparation/confirm/continuation/integrity）严格
+  （多字段=本端 bug，当场拒）；入站 wire（capabilities/preview/continuation/integrity/descriptor）非 strict
+  （服务端可加字段）。
+- `isConversationShareSchemaVersionSupported(v)` = `v <= 1`（版本新→「请升级」而非契约错误；
+  版本收口用 `z.number().int().positive()` 而非 z.literal）。
+- `decodeConversationShareRows(rows)`：逐行 `conversationRowSchema.safeParse`；失败**跳过并计数**，
+  kind 标签（无 kind→"unknown"）去重保序进 `unsupportedKinds`；返回 `{rows, unsupportedCount,
+  unsupportedKinds}`；**传输层不理解 row 语义**——新 kind/新 enum/新 timelineMarker 都由同一机制消化，
+  不做 .catch 枚举兜底（猜错枚举比丢行危险）。
+- `narrowConversationShareCapabilities(wire)`：未知 artifact type / access mode **丢弃并计数**；
+  已知者收窄为严格 data 形状。丢弃对「客户端产不出的类型」无损；若本地可抽某扩展名预览而未入
+  `conversationArtifactTypeSchema`，会被误削（历史教训：md 曾被误判；video/audio 是只用于内部预览
+  warning 的例外，不入可上传枚举）。
+- `createConversationShareSuccessEnvelopeSchema(data)`：`code:0` + `msg: z.string()`（**非 literal**——
+  后端回 "ok" 不得判契约错）+ `data`。
+- `conversationShareErrorEnvelopeSchema`：`code: z.number().int()`（**不设枚举**，新业务码照常取 msg）、
+  `msg: z.string()`。
+- preparation 判别联合按 `status`（preparing/confirmed+share）；confirm 请求含 `selected_product_turn_ids`
+  （≥1）、`projection.rows`（正式 row schema、≥1、strict）、outbound integrity（**仅两个摘要**，
+  不含 payload_sha256）、disclosure_confirmation（version 字面 1、acknowledged_no_secret_detection 字面 true）。
+- preview/continuation 的 rows 为 `unknown[]`，对外类型以解码后形状导出（rows: ConversationRow[] +
+  `unsupportedRowCount`；continuation 另带 `rawRows` 原样留档避免未知字段被抹）。
+- 平台差异：无（纯 schema）。状态所有者：无。日志：无。
+
+---
+
+（H4 起续写：B27…）
