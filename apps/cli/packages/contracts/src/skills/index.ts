@@ -1,8 +1,9 @@
-// ============================================================
-// Skill Contracts - reusable local instruction packs
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// 技能（skill）域的公开类型面：只声明类型与端口，不引入任何运行时值——
+// 入口命名空间必须保持为空，否则 `./skills` 与包根的运行时表面会变化。
+// 这些形状由合同 B6 的编译期用例冻结：放宽字段或联合取值都会让用例编译失败。
 
-import type { ExecutionContext, TraceContext } from "../tracing/tracer.js";
+// ---- 取值域 ----
 
 export type SkillScope = "project" | "user" | "system" | "admin";
 
@@ -25,12 +26,14 @@ export type SkillDiagnosticCode =
   | "skill_too_large"
   | "skill_not_found";
 
+// ---- 发现与加载 ----
+
 export interface SkillRoot {
   path: string;
   scope: SkillScope;
   source: SkillSource;
   priority: number;
-  /** 所属 plugin 的完整 id；仅 plugin root 可用。 */
+  // 所属 plugin 的完整 id；只有 plugin root 会带这个字段。
   pluginId?: string;
 }
 
@@ -43,7 +46,7 @@ export interface SkillMetadata {
   description: string;
   whenToUse?: string;
   pluginName?: string;
-  /** 所属 plugin 的完整 id；非 plugin skill 不设置。 */
+  // 所属 plugin 的完整 id；非 plugin skill 不设置。
   pluginId?: string;
   qualifiedName?: string;
   path: string;
@@ -56,7 +59,7 @@ export interface SkillMetadata {
   policy?: SkillPolicy;
 }
 
-/** Skill tool result 中允许跨边界传播的最小 metadata；不包含正文或 description。 */
+// Skill tool 结果里允许跨边界传播的最小元数据：不含正文，也不含 description。
 export interface SkillTelemetryMetadata {
   qualifiedName?: string;
   pluginId?: string;
@@ -89,7 +92,7 @@ export interface SkillContent {
 export interface SkillDiscoverRequest {
   workingDirectory: string;
   roots?: SkillRoot[];
-  trace?: TraceContext;
+  trace?: import("../tracing/tracer.js").TraceContext;
 }
 
 export interface SkillLoadRequest {
@@ -97,13 +100,15 @@ export interface SkillLoadRequest {
   workingDirectory: string;
   roots?: SkillRoot[];
   maxBytes?: number;
-  trace?: TraceContext;
+  trace?: import("../tracing/tracer.js").TraceContext;
 }
 
 export interface SkillOperationOptions {
   signal?: AbortSignal;
-  context?: ExecutionContext;
+  context?: import("../tracing/tracer.js").ExecutionContext;
 }
+
+// ---- 端口与配置 ----
 
 export interface SkillPort {
   discoverSkills(

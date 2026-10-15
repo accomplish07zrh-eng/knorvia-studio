@@ -1,0 +1,24 @@
+{
+  "pluginReferenceMarkdown": "[one](plugin://plugin-a@1.0.0) [dup](plugin://plugin-a@1.0.0) [bad](plugin://not-valid) [external](https://example.com/x) [angle](<plugin://plugin-b@2.0.0>)",
+  "pluginStableIds": {
+    "valid": ["plugin-a@1.0.0", "a@b", "x_y.z-1@2.3"],
+    "invalid": ["", "no-at", "@1.0.0", "a@", "a@b@c", "a b@1"]
+  },
+  "sessionReferenceText": "see #sess_abc.1 and #sess_abc.1 and #sess_def",
+  "draftWrite": {
+    "draftsDir": ".knorvia-studio/workflow-drafts",
+    "workingDirectory": "C:/proj",
+    "inside": ".knorvia-studio/workflow-drafts/draft.ts",
+    "outside": "src/index.ts"
+  },
+  "auxiliaryModel": {
+    "reasoningLevels": ["low", "medium", "high"],
+    "maxOutputTokens": 100000
+  },
+  "expected": {
+    "maxPluginReferencesPerTurn": 8,
+    "auxiliaryMaxOutputTokens": 5000,
+    "notificationTruncateChars": 120000,
+    "memoryRecallTypes": ["user", "feedback", "project", "reference"]
+  }
+}

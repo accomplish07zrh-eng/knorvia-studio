@@ -1,12 +1,10 @@
-// ============================================================
-// Context Builder exports
-// ============================================================
-
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// context 区的公开桶：类型、builder 与估算工具整体转出，各 section builder 逐条列名转出。
 export * from "./types.js";
 export * from "./builder.js";
 export * from "./utils.js";
 
-// Section builders (for testing)
 export { buildCliPrefixSection } from "./sections/cli-prefix.js";
 export { buildIdentitySection } from "./sections/identity.js";
 export { buildWorkflowActorIdentitySection } from "./sections/workflow-actor.js";

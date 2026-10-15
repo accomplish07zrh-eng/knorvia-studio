@@ -1,14 +1,11 @@
-// ============================================================
 // WebFetch Tool - URL fetch and extraction
-// ============================================================
 
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";
 import { toToolJsonSchema } from "./json-schema.js";
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
+// 输入 schema（冻结面）。
 
 export const WebFetchInputSchema = z.object({
   url: z.string().url().describe("The URL to fetch content from"),
@@ -19,9 +16,7 @@ export type WebFetchInput = z.infer<typeof WebFetchInputSchema>;
 
 export const WebFetchInputJsonSchema = toToolJsonSchema(WebFetchInputSchema);
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出类型与错误码。
 
 export interface WebFetchRedirect {
   from: string;
@@ -73,9 +68,7 @@ export const WebFetchOutputSchema = z
 
 export const WebFetchOutputJsonSchema = toToolJsonSchema(WebFetchOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 工具调用结构：供 handler 与结果投影读取的字段。
 
 export interface WebFetchToolCall {
   id: ToolCallId;
@@ -92,9 +85,7 @@ export interface WebFetchToolResult {
   durationMs: number;
 }
 
-// -----------------------------------------------
-// WebFetch Errors
-// -----------------------------------------------
+// WebFetch 的错误码枚举。
 
 export const WebFetchErrorCode = {
   InvalidUrl: "webfetch_invalid_url",

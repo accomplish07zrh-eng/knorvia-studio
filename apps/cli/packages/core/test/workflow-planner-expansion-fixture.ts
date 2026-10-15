@@ -21,7 +21,7 @@ export async function loadHistorical(reader = read) {
 }
 export const archive = await loadHistorical();
 const text = await read(new URL("./workflow-planner-expansion-current.json", import.meta.url));
-assert.equal(sha(text), "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91");
+assert.equal(sha(text), "4b41ceea1f0d1817c33a3c52037ced749404610f125f27158f2aaec060cc2628");
 const pins: { files: Record<string, string> } = JSON.parse(text);
 export async function loadCurrent(reader = read) {
   await verifyCurrentArtifacts(

@@ -1,3 +1,13 @@
+// SPDX-License-Identifier: Apache-2.0
+// 模型 API telemetry 的公开面：取值表与 observation 归一放在内部模块，这里只保留公开名、
+// 类型声明与两个薄壳函数。类型声明是合同冻结的兼容面（B6 用编译期用例固定形状）。
+import { normalizeModelApiCallObservation } from "./model-api-observation_core.js";
+import {
+  ModelApiActorKind as MODEL_API_ACTOR_KINDS,
+  ModelApiOperation as MODEL_API_OPERATIONS,
+  ModelFailureExceptionKind as MODEL_FAILURE_EXCEPTION_KINDS,
+  mapModelApiOperationToAgentOperation as identityOperationMap,
+} from "./model-api-tables_core.js";
 import type { ModelId, ModelProviderId } from "../model/index.js";
 import type {
   AgentExecutionTelemetryPort,
@@ -10,39 +20,34 @@ import type {
 
 export * from "./agent-execution.js";
 
-export const ModelApiOperation = {
-  AgentStep: "agent_step",
-  ContextCompaction: "context_compaction",
-  GoalTitle: "goal_title_generation",
-  GoalVerification: "goal_completion_verification",
-  GitCommitMessage: "workspace_git_commit_message",
-  ProjectMemoryExtract: "project_memory_extract",
-  ReadSessionContextExtract: "read_session_context_extract",
-  ReadSessionContextSynthesize: "read_session_context_synthesize",
-  SessionTitle: "session_title_generation",
-  ToolInternalModelCall: "tool_internal_model_call",
-  WebFetch: "web_fetch_processing",
-  WebSearch: "web_search",
-  WorkspaceGenerateText: "workspace_generate_text",
-} as const;
-
+/** 13 个模型 API 语义 → 线上取值；键名与取值都是兼容面。 */
+export const ModelApiOperation = MODEL_API_OPERATIONS;
 export type ModelApiOperation = (typeof ModelApiOperation)[keyof typeof ModelApiOperation];
 
+/** 调用方角色。 */
+export const ModelApiActorKind = MODEL_API_ACTOR_KINDS;
+export type ModelApiActorKind = (typeof ModelApiActorKind)[keyof typeof ModelApiActorKind];
+
+/** 失败异常分类。 */
+export const ModelFailureExceptionKind = MODEL_FAILURE_EXCEPTION_KINDS;
+export type ModelFailureExceptionKind =
+  (typeof ModelFailureExceptionKind)[keyof typeof ModelFailureExceptionKind];
+
+/** 恒等映射：两张 operation 表的语义一一对应、取值相同。 */
 export function mapModelApiOperationToAgentOperation(
   operation: ModelApiOperation,
 ): AgentTelemetryOperation {
-  return operation;
+  return identityOperationMap(operation);
 }
 
-export const ModelApiActorKind = {
-  MainAgent: "main",
-  Subagent: "subagent",
-  WorkflowChild: "workflow_child",
-  System: "system",
-  Tool: "tool",
-} as const;
-
-export type ModelApiActorKind = (typeof ModelApiActorKind)[keyof typeof ModelApiActorKind];
+/** 归一 querySource 与 observation：默认判定 → 逐字段覆盖 → 补 logicalCallId。 */
+export function resolveModelApiCallObservation(
+  querySource: string | undefined,
+  observation: ModelApiCallObservation | undefined,
+): Required<Pick<ModelApiCallObservation, "operation" | "actorKind" | "logicalCallId">> &
+  ModelApiCallObservation {
+  return normalizeModelApiCallObservation(querySource, observation);
+}
 export type ModelApiCallCause = "initial" | "continuation" | "fallback_replacement" | "recovery";
 export type ModelApiRuntimeSurface =
   | "standalone_cli"
@@ -57,17 +62,7 @@ export type ModelApiErrorPhase =
   | "parse"
   | "validation"
   | "unhandled";
-export const ModelFailureExceptionKind = {
-  ApiCall: "api_call",
-  Generic: "generic",
-  Protocol: "protocol",
-  ProviderBusiness: "provider_business",
-  Transport: "transport",
-  TypeError: "type_error",
-  Validation: "validation",
-} as const;
-export type ModelFailureExceptionKind =
-  (typeof ModelFailureExceptionKind)[keyof typeof ModelFailureExceptionKind];
+
 export type ModelReasoningCapabilityStatus = "supported" | "unsupported" | "unknown";
 export type ModelReasoningState = "enabled" | "disabled" | "provider_default" | "unknown";
 export type ModelReasoningControlType =
@@ -78,7 +73,7 @@ export type ModelReasoningControlType =
   | "provider_default"
   | "unknown";
 
-/** 调用点只声明用户/业务请求的 reasoning 意图，Provider Adapter 决定最终事实。 */
+// 调用点只表达用户/业务想要的 reasoning 意图；最终事实由 Provider Adapter 决定。
 export interface ModelReasoningCallHint {
   requestedLevel?: string;
   explicit?: {
@@ -89,7 +84,7 @@ export interface ModelReasoningCallHint {
   };
 }
 
-/** 一次最终 Provider 请求的 canonical reasoning 事实。 */
+// 一次最终 Provider 请求的 reasoning 事实（capability/requested/effective 三段）。
 export interface ModelReasoningObservation {
   capability: ModelReasoningCapabilityStatus;
   requestedState: ModelReasoningState;
@@ -102,9 +97,7 @@ export interface ModelReasoningObservation {
   effectiveBudgetTokens?: number;
 }
 
-/**
- * 受控调用专属事实。禁止 prompt、message、header、body、原始 URL、命令和工具 I/O。
- */
+// 受控调用专属事实：禁止 prompt、message、header、body、原始 URL、命令与工具 I/O。
 export interface ModelApiCustomAttributes {
   compactionOuterAttempt?: number;
   compactionTrigger?: string;
@@ -131,79 +124,6 @@ export type ResolvedModelApiCallObservation = Omit<ModelApiCallObservation, "rea
   actorKind: ModelApiActorKind;
   reasoning: ModelReasoningObservation;
 };
-
-export function resolveModelApiCallObservation(
-  querySource: string | undefined,
-  observation: ModelApiCallObservation | undefined,
-): Required<Pick<ModelApiCallObservation, "operation" | "actorKind" | "logicalCallId">> &
-  ModelApiCallObservation {
-  const mapped = mapQuerySourceToModelApiOperation(querySource);
-  return {
-    ...mapped,
-    ...observation,
-    operation: observation?.operation ?? mapped.operation,
-    actorKind: observation?.actorKind ?? mapped.actorKind,
-    logicalCallId: observation?.logicalCallId?.trim() || crypto.randomUUID(),
-  };
-}
-
-function mapQuerySourceToModelApiOperation(querySource: string | undefined): {
-  operation: ModelApiOperation;
-  actorKind: ModelApiActorKind;
-} {
-  switch (querySource?.trim()) {
-    case "main_turn":
-      return { operation: ModelApiOperation.AgentStep, actorKind: ModelApiActorKind.MainAgent };
-    case "subagent":
-      return { operation: ModelApiOperation.AgentStep, actorKind: ModelApiActorKind.Subagent };
-    case "workflow_child":
-      return {
-        operation: ModelApiOperation.AgentStep,
-        actorKind: ModelApiActorKind.WorkflowChild,
-      };
-    case "compact":
-      return {
-        operation: ModelApiOperation.ContextCompaction,
-        actorKind: ModelApiActorKind.System,
-      };
-    case "session_title":
-      return {
-        operation: ModelApiOperation.SessionTitle,
-        actorKind: ModelApiActorKind.System,
-      };
-    case "goal_summary_title":
-      return { operation: ModelApiOperation.GoalTitle, actorKind: ModelApiActorKind.System };
-    case "target_completion_verification":
-      return {
-        operation: ModelApiOperation.GoalVerification,
-        actorKind: ModelApiActorKind.System,
-      };
-    case "git_commit_message":
-      return {
-        operation: ModelApiOperation.GitCommitMessage,
-        actorKind: ModelApiActorKind.System,
-      };
-    case "web_search_tool":
-      return { operation: ModelApiOperation.WebSearch, actorKind: ModelApiActorKind.Tool };
-    case "web_fetch_processing":
-      return { operation: ModelApiOperation.WebFetch, actorKind: ModelApiActorKind.Tool };
-    case "read_session_context":
-      return {
-        operation: ModelApiOperation.ReadSessionContextExtract,
-        actorKind: ModelApiActorKind.Tool,
-      };
-    case "project_memory_extract":
-      return {
-        operation: ModelApiOperation.ProjectMemoryExtract,
-        actorKind: ModelApiActorKind.System,
-      };
-    default:
-      return {
-        operation: ModelApiOperation.ToolInternalModelCall,
-        actorKind: ModelApiActorKind.System,
-      };
-  }
-}
 
 export interface ProviderEndpointIdentity {
   origin: string;
@@ -251,7 +171,7 @@ export type ModelAttemptFailureStage =
   | "validation"
   | "unhandled";
 
-/** Provider/SDK 实际返回的有界结束原因，不在领域层折叠成 other。 */
+// Provider/SDK 实际返回的有界结束原因：保持原字符串，不在领域层折叠成 other。
 export type ModelFinishReason = string;
 
 export interface ResolvedModelTelemetryDescriptor {
@@ -353,9 +273,7 @@ export interface ModelExecutionTelemetryPort {
   startCall(input: ModelCallTraceStart): ModelCallSpanWriter;
 }
 
-/**
- * App 注入和 Standalone 初始化共用的进程级 Owner。一个 CLI 进程只能创建一个 Owner。
- */
+// App 注入与 Standalone 初始化共用的进程级 Owner：一个 CLI 进程只创建一个。
 export interface AgentTelemetryRuntimeOwner {
   readonly agentExecution: AgentExecutionTelemetryPort;
   readonly enabled: boolean;

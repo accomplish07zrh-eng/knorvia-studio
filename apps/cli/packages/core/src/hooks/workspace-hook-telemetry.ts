@@ -1,101 +1,72 @@
+// SPDX-License-Identifier: Apache-2.0
+// 受限遥测发射端：把一次准入/审核事件压成"短摘要 + 稳定 reason"，任何能还原命令、脚本或
+// 真实路径的内容都不出现在这里。事件名与字段的声明在 types.ts（兼容面），本文件只发射。
 import { createHash } from "node:crypto";
-import type { Logger, WorkspaceHookReasonCode } from "@knorvia/contracts";
+import type { Logger } from "@knorvia/contracts";
+import type { WorkspaceHookTelemetryEvent, WorkspaceHookTelemetryFields } from "./types.js";
 
-export type WorkspaceHookTelemetryEvent =
-  | "workspace_hook.feature_disabled"
-  | "workspace_hook.review_request_created"
-  | "workspace_hook.trust_selected"
-  | "workspace_hook.review_timeout"
-  | "workspace_hook.review_superseded"
-  | "workspace_hook.snapshot_mismatch"
-  | "workspace_hook.policy_blocked"
-  | "workspace_hook.trust_store_failure"
-  | "workspace_hook.toggle_failure"
-  | "workspace_hook.config_rebuild_failure"
-  // revoke 需要专门观测：排查「撤销后面板失效」时，必须能从日志判断
-  // 撤销是否成功、并区分随后的失败属于撤销还是授权，否则定位缓慢。
-  | "workspace_hook.revoked"
-  | "workspace_hook.stale_response";
+export type { WorkspaceHookTelemetryEvent, WorkspaceHookTelemetryFields } from "./types.js";
 
-export interface WorkspaceHookTelemetryFields {
-  workspaceIdentity?: string;
-  bundleDigest?: string;
-  declarationDigest?: string;
-  reasonCode?: WorkspaceHookReasonCode;
-  source?: string;
-  action?: string;
-  generation?: number;
-  /**
-   * 调用侧传入的 errorMessage 需要透传：否则原始错误在 emit 时被静默丢弃，
-   * 日志里只剩 reasonCode，实际排查无法定位真实 cause。
-   * 仅承载领域错误自身的短消息，不携带命令、脚本内容或 Trust payload。
-   */
-  errorMessage?: string;
-  /**
-   * Trust 落盘条数诊断：store 写入少于已选择声明时，decisionAccepted
-   * 未抛错），日志无从判断是 request 少带了 item 还是写入阶段丢了记录。
-   *
-   * requestItemCount / requestEnabledCount 记录审核请求实际携带的条数；
-   * grantedRecordCount 记录本次真正写入的条数。三者对不上即为静默丢失。
-   */
-  requestItemCount?: number;
-  requestEnabledCount?: number;
-  grantedRecordCount?: number;
-  /** revoke 实际撤销的声明条数（与 grantedRecordCount 分开，避免语义混用）。 */
-  revokedCount?: number;
-}
+const SHORT_ID_LENGTH = 12;
+const TEXT_BUDGET = 300;
+const LOG_TEXT = "Workspace Hook Trust telemetry";
+const LOG_MODULE = "workspace_hook_trust";
 
-const MAX_TELEMETRY_ERROR_MESSAGE_LENGTH = 300;
-
-/**
- * Workspace Hook 的观测统一复用现有 Logger Port。
- * 只发送稳定 reason、generation 和摘要，不发送命令、脚本内容、路径或 Trust payload。
- */
-export function emitWorkspaceHookTelemetry(
-  logger: Logger | undefined,
-  event: WorkspaceHookTelemetryEvent,
-  fields: WorkspaceHookTelemetryFields = {},
-): void {
-  if (!logger) return;
-  logger.info("Workspace Hook Trust telemetry", {
-    event,
-    module: "workspace_hook_trust",
-    ...(fields.workspaceIdentity
-      ? { workspaceIdentityDigest: workspaceIdentitySummary(fields.workspaceIdentity) }
-      : {}),
-    ...(fields.bundleDigest ? { bundleDigest: digestSummary(fields.bundleDigest) } : {}),
-    ...(fields.declarationDigest
-      ? { declarationDigest: digestSummary(fields.declarationDigest) }
-      : {}),
-    ...(fields.reasonCode ? { reasonCode: fields.reasonCode } : {}),
-    ...(fields.source ? { source: fields.source } : {}),
-    ...(fields.action ? { action: fields.action } : {}),
-    ...(fields.generation === undefined ? {} : { generation: fields.generation }),
-    ...(fields.errorMessage
-      ? { errorMessage: fields.errorMessage.slice(0, MAX_TELEMETRY_ERROR_MESSAGE_LENGTH) }
-      : {}),
-    ...(fields.requestItemCount === undefined ? {} : { requestItemCount: fields.requestItemCount }),
-    ...(fields.requestEnabledCount === undefined
-      ? {}
-      : { requestEnabledCount: fields.requestEnabledCount }),
-    ...(fields.grantedRecordCount === undefined
-      ? {}
-      : { grantedRecordCount: fields.grantedRecordCount }),
-    ...(fields.revokedCount === undefined ? {} : { revokedCount: fields.revokedCount }),
-  });
-}
-
+/** 只保留前 12 个字符：够关联同一次评估，不足以还原原始摘要。 */
 export function digestSummary(value: string): string {
-  return value.length <= 12 ? value : value.slice(0, 12);
+  const head = value.substring(0, SHORT_ID_LENGTH);
+  return head.length === value.length ? value : head;
+}
+
+/** workspace identity 可能是绝对路径，先哈希再取前缀。 */
+export function workspaceIdentitySummary(value: string): string {
+  const digest = createHash("sha256");
+  return digest.update(value).digest("hex").substring(0, SHORT_ID_LENGTH);
 }
 
 /**
- * workspace identity 的 SHA-256 短摘要。
- *
- * 本实现的 identity 就是绝对路径，明文要求 telemetry 不上传
- * 完整 workspace path、不记录 source path，因此任何要进入 telemetry 的文本
- * （含领域错误的 message）都必须先经此脱敏，而不是依赖下游过滤。
+ * 字段清单：`[输出键, 取值函数]`。取值为 undefined 的条目整体丢弃，
+ * 因此这里不需要每个字段各写一次条件展开。
  */
-export function workspaceIdentitySummary(value: string): string {
-  return createHash("sha256").update(value).digest("hex").slice(0, 12);
+function fieldPlan(fields: WorkspaceHookTelemetryFields): readonly [string, unknown][] {
+  return [
+    [
+      "workspaceIdentityDigest",
+      fields.workspaceIdentity ? workspaceIdentitySummary(fields.workspaceIdentity) : undefined,
+    ],
+    ["bundleDigest", fields.bundleDigest ? digestSummary(fields.bundleDigest) : undefined],
+    [
+      "declarationDigest",
+      fields.declarationDigest ? digestSummary(fields.declarationDigest) : undefined,
+    ],
+    ["reasonCode", fields.reasonCode],
+    ["source", fields.source],
+    ["action", fields.action],
+    ["generation", fields.generation],
+    ["errorMessage", fields.errorMessage ? fields.errorMessage.slice(0, TEXT_BUDGET) : undefined],
+    ["requestItemCount", fields.requestItemCount],
+    ["requestEnabledCount", fields.requestEnabledCount],
+    ["grantedRecordCount", fields.grantedRecordCount],
+    ["revokedCount", fields.revokedCount],
+  ];
+}
+
+/** 单一出口：没有 logger 时静默返回，调用点不需要各自判空。 */
+function publishTelemetry(
+  sink: Logger | undefined,
+  marker: WorkspaceHookTelemetryEvent,
+  detail: WorkspaceHookTelemetryFields,
+): void {
+  if (sink === undefined) return;
+  const present = fieldPlan(detail).filter(([, value]) => value !== undefined);
+  const envelope = [["event", marker], ["module", LOG_MODULE], ...present];
+  sink.info(LOG_TEXT, Object.fromEntries(envelope));
+}
+
+export function emitWorkspaceHookTelemetry(
+  target: Logger | undefined,
+  marker: WorkspaceHookTelemetryEvent,
+  detail: WorkspaceHookTelemetryFields = {},
+): void {
+  publishTelemetry(target, marker, detail);
 }

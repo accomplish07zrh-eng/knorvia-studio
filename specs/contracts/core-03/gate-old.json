@@ -1,0 +1,20 @@
+{
+  "commit": "d2acfdf31d6fe13855e4a291209c47146481a974",
+  "node": "v24.14.0",
+  "source": {
+    "pass": 16,
+    "fail": 0,
+    "total": 16
+  },
+  "dist": {
+    "pass": 16,
+    "fail": 0,
+    "total": 16
+  },
+  "stubReplacement": {
+    "pass": 0,
+    "fail": 3,
+    "total": 3
+  },
+  "stubTargets": 35
+}

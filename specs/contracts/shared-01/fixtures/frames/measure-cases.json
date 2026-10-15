@@ -1,0 +1,75 @@
+{
+  "cases": [
+    {
+      "name": "complete-candidate",
+      "wire": {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "initial",
+        "logicalFrameId": "lf-1",
+        "logicalFrameOrdinal": 1,
+        "topic": "conv/abc",
+        "subscriptionId": "sub-1",
+        "frame": {
+          "topic": "conversation/frame",
+          "subscriptionId": "sub-1",
+          "seq": 1,
+          "text": "hello"
+        }
+      },
+      "expected": {
+        "cliNdjsonBytes": 284,
+        "channelSocketBytes": 278,
+        "mobileRelayBytes": 1092,
+        "maxBytes": 1092
+      }
+    },
+    {
+      "name": "fragment-candidate",
+      "wire": {
+        "wireVersion": 3,
+        "kind": "fragment",
+        "deliveryKind": "recovery",
+        "logicalFrameId": "lf-3",
+        "logicalFrameOrdinal": 3,
+        "topic": "conv/def",
+        "subscriptionId": "sub-3",
+        "fragmentIndex": 1,
+        "fragmentCount": 4,
+        "logicalBytes": 812,
+        "checksum": {
+          "algorithm": "crc32",
+          "value": "89abcdef"
+        },
+        "dataBase64": "QQ=="
+      },
+      "expected": {
+        "cliNdjsonBytes": 325,
+        "channelSocketBytes": 319,
+        "mobileRelayBytes": 1144,
+        "maxBytes": 1144
+      }
+    },
+    {
+      "name": "unicode-payload",
+      "wire": {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "lf-9",
+        "logicalFrameOrdinal": 9,
+        "topic": "conv/中文 主题",
+        "subscriptionId": "sub-9",
+        "frame": {
+          "text": "中文换行\r\n测试"
+        }
+      },
+      "expected": {
+        "cliNdjsonBytes": 248,
+        "channelSocketBytes": 242,
+        "mobileRelayBytes": 1044,
+        "maxBytes": 1044
+      }
+    }
+  ]
+}

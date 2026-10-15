@@ -1,16 +1,13 @@
-// ============================================================
-// Write Tool - File Writing Tool
-// ============================================================
+// Write 工具声明：写入文件（新建或整体覆盖）。
 // Reference: file write input / output shape
 
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";
 import { toToolJsonSchema } from "./json-schema.js";
 import { ToolExecutionTelemetrySchema } from "./performance.js";
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
+// 输入 schema（冻结面）。
 
 export const WriteInputSchema = z.object({
   /**
@@ -29,9 +26,7 @@ export type WriteInput = z.infer<typeof WriteInputSchema>;
 
 export const WriteInputJsonSchema = toToolJsonSchema(WriteInputSchema);
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出类型与错误码。
 
 export interface WriteOutput {
   /**
@@ -122,9 +117,7 @@ export const WriteOutputSchema = z
 
 export const WriteOutputJsonSchema = toToolJsonSchema(WriteOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 工具调用结构：供 handler 与结果投影读取的字段。
 
 export interface WriteToolCall {
   id: ToolCallId;
@@ -141,9 +134,7 @@ export interface WriteToolResult {
   durationMs: number;
 }
 
-// -----------------------------------------------
-// Write Errors
-// -----------------------------------------------
+// Write 的错误码枚举。
 
 export const WriteErrorCode = {
   FILE_NOT_READ: "write_file_not_read",

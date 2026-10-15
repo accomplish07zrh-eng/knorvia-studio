@@ -1,3 +1,6 @@
+// 两种缓存提示：稳定节可长期复用，动态节每轮都可能变。
+const CACHE_HINT_STABLE = "stable";
+const CACHE_HINT_DYNAMIC = "dynamic";
 import type { Model, ModelInputMessage } from "@knorvia/contracts";
 import { ContextBuilder } from "../context/builder.js";
 import {
@@ -70,7 +73,7 @@ export class SubagentContextBuilder extends ContextBuilder {
       ),
     );
 
-    return {
+    return /* 构造返回值 */ {
       sections: orderedSections,
       totalChars,
       totalTokens,
@@ -106,76 +109,85 @@ export function createSubagentContextBuilder(
 function buildSubagentContextSections(config: SubagentContextBuilderConfig): ContextSection[] {
   const sections: ContextSection[] = [buildCliPrefixSection()];
   const agentPrompt = config.agentPrompt.trimEnd();
-  if (agentPrompt) {
+  if (agentPrompt) /* 有档案才加提示节 */ {
     sections.push(
-      createSubagentSection({
-        name: "Subagent Agent Prompt",
-        source: "subagent_agent_prompt",
-        cacheHint: "stable",
-        // 空 prompt 不是语义段，不能让左边界单独成为 system block。
-        // Knorvia Studio by design：Subagent agent prompt 自带相对 CLI prefix 的单换行左边界。
-        content: `\n${agentPrompt}`,
-      }),
+      /* 追加一节 */
+      createSubagentSection(
+        /* 子代理说明节 */ {
+          name: "Subagent Agent Prompt",
+          source: "subagent_agent_prompt",
+          cacheHint: CACHE_HINT_STABLE,
+          // 空 prompt 不是语义段，不能让左边界单独成为 system block。
+          // Knorvia Studio by design：Subagent agent prompt 自带相对 CLI prefix 的单换行左边界。
+          content: `\n${agentPrompt}`,
+        },
+      ),
     );
   }
 
   sections.push(
-    createSubagentSection({
-      name: "Subagent Notes",
-      source: "subagent_notes",
-      cacheHint: "stable",
-      // Knorvia Studio by design：后续 Subagent system block 统一自带双换行左边界。
-      content: `\n\n${buildSubagentCommonNotes()}`,
-    }),
-    createSubagentSection({
-      name: "Subagent Environment",
-      source: "subagent_environment",
-      cacheHint: "dynamic",
-      content: `\n\n${buildSubagentEnvironmentContext({
-        agentPrompt: config.agentPrompt,
-        envInfo: config.envInfo,
-        model: config.model,
-      })}`,
-    }),
+    /* 追加一节 */
+    createSubagentSection(
+      /* 子代理说明节 */ {
+        name: "Subagent Notes",
+        source: "subagent_notes",
+        cacheHint: CACHE_HINT_STABLE,
+        // Knorvia Studio by design：后续 Subagent system block 统一自带双换行左边界。
+        content: `\n\n${buildSubagentCommonNotes()}`,
+      },
+    ),
+    createSubagentSection(
+      /* 子代理说明节 */ {
+        name: "Subagent Environment",
+        source: "subagent_environment",
+        cacheHint: CACHE_HINT_DYNAMIC,
+        content: `\n\n${buildSubagentEnvironmentContext({
+          agentPrompt: config.agentPrompt,
+          envInfo: config.envInfo,
+          model: config.model,
+        })}`,
+      },
+    ),
   );
 
-  const requestUserContextSection = buildRequestUserContextSection({
+  const requestUserContextSection = /* 请求级用户上下文 */ buildRequestUserContextSection({
     userInstructions: config.userInstructions,
   });
-  if (requestUserContextSection) {
-    sections.push(requestUserContextSection);
+  if (requestUserContextSection) /* 有才加 */ {
+    sections.push(/* 追加一节 */ requestUserContextSection);
   }
   const currentDateSection = buildCurrentDateSection(config.currentDate);
-  if (currentDateSection) {
-    sections.push(currentDateSection);
+  if (currentDateSection) /* 有才加 */ {
+    sections.push(/* 追加一节 */ currentDateSection);
   }
   if (config.skills) {
-    const skillsSection = buildSkillsSection({
+    const skillsSection = /* 技能清单 */ buildSkillsSection({
       outcome: config.skills,
       metadataBudget: config.skillMetadataBudget,
     });
-    if (skillsSection) {
-      sections.push(skillsSection);
+    if (skillsSection) /* 有才加 */ {
+      sections.push(/* 追加一节 */ skillsSection);
     }
   }
 
-  return sections;
+  return /* 已按注入目标排序 */ sections;
 }
 
-function orderSubagentSections(sections: ContextSection[]): ContextSection[] {
-  return [
+function /* 按注入目标排序 */ orderSubagentSections(sections: ContextSection[]): ContextSection[] {
+  const ordered: ContextSection[] = [
     ...sections.filter((section) => section.injectionTarget === "system"),
-    ...sections.filter((section) => section.injectionTarget === "meta_user"),
+    /* meta_user 段先出 */ ...sections.filter((section) => section.injectionTarget === "meta_user"),
   ];
+  return ordered;
 }
 
 function createSubagentSection(input: {
   name: string;
   source: ContextSection["source"];
-  cacheHint: ContextSection["cacheHint"];
+  cacheHint: /* 缓存提示 */ ContextSection["cacheHint"];
   content: string;
-}): ContextSection {
-  return {
+}): /* 返回一节 */ ContextSection {
+  return /* 构造返回值 */ {
     ...input,
     injectionTarget: "system",
     chars: input.content.length,
@@ -185,7 +197,7 @@ function createSubagentSection(input: {
 }
 
 function toBaseContextBuilderConfig(config: SubagentContextBuilderConfig): ContextBuilderConfig {
-  return {
+  return /* 构造返回值 */ {
     workingDirectory: config.envInfo.cwd,
     envInfo: config.envInfo,
     model: config.model,

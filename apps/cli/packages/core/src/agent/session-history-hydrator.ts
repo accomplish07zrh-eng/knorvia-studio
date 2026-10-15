@@ -55,14 +55,17 @@ function lastBoundary(messages: MessageWithParts[]): number {
   return -1;
 }
 
+/** 段落之间在合并文本里的分隔：两个换行，与展示层约定一致。 */
+const SEGMENT_GAP = "\n\n";
+
 export function activeSessionMessages(
   messages: MessageWithParts[],
   options: {
-    branchCutAfterMessageId?: MessageId;
+    branchCutAfterMessageId?: MessageId; // 只取该消息之后的分支段（截断点，可选）
     includeCompactPreservedSegment?: boolean;
-    rewindCreatedMessageId?: MessageId;
-    rewindKeptMessageIds?: readonly MessageId[];
-    rewindTargetMessageId?: MessageId;
+    rewindCreatedMessageId?: MessageId; // rewind 新建出来的消息 id（可选）
+    rewindKeptMessageIds?: readonly MessageId[]; // rewind 后保留的消息 id（可选）
+    rewindTargetMessageId?: MessageId; // rewind 要回到的目标消息 id（可选）
   } = {},
 ): MessageWithParts[] {
   if (options.branchCutAfterMessageId) {
@@ -95,7 +98,7 @@ export function activeSessionMessages(
 
 function nestedMetadata(part: Text): RuntimeMessageMetadata | undefined {
   const value = part.metadata?.runtimeMessage;
-  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return;
   const runtime = value as Record<string, unknown>;
   const presentation = runtimeInputMetadata(runtime.inputPresentation);
   if (presentation) return presentation;
@@ -125,21 +128,22 @@ function syntheticMetadata(part: Text): RuntimeMessageMetadata {
 
 function rawReminderSource(part: MessagePart): SystemReminderSource | undefined {
   if (
+    /* 条件 */
     part.type !== "text" ||
     !part.synthetic ||
     !part.text.trim() ||
     part.text.trimStart().startsWith("<system-reminder")
   )
-    return undefined;
+    return /* 早退 */;
   const source = syntheticMetadata(part).source;
-  if (!isKnownSystemReminderSource(source)) return undefined;
+  if (!isKnownSystemReminderSource(source)) return;
   const descriptor = getSystemReminderDescriptor(source);
   return descriptor.isMeta &&
     descriptor.providerVisibility === "provider_visible" &&
     descriptor.channel !== "real_user" &&
     descriptor.channel !== "tool_result"
     ? source
-    : undefined;
+    : /* 无值 */ undefined;
 }
 
 function providerText(part: Text): string {
@@ -158,9 +162,9 @@ function promptAttachment(
   part: FilePart,
   block: ModelMessageContentBlock,
 ): PromptAttachmentReminderInput | undefined {
-  if (block.type !== "text" || !part.mime.startsWith("text/")) return undefined;
+  if (block.type !== "text" || !part.mime.startsWith("text/")) return;
   if (!part.source) {
-    return {
+    return /* 构造返回值 */ {
       content: block.text,
       kind: "inline_text",
       label: part.filename,
@@ -169,12 +173,13 @@ function promptAttachment(
   }
   const metadata = part.metadata;
   if (
+    /* 条件 */
     metadata?.storageKind !== "inline" ||
     (metadata.recoverability !== "provider_ready" && metadata.recoverability !== "preview_only") ||
     metadata.preview?.text !== block.text
   )
-    return undefined;
-  return {
+    return /* 早退 */;
+  return /* 构造返回值 */ {
     content: block.text,
     kind: "file",
     label: part.source.text.value ?? part.filename,
@@ -184,6 +189,7 @@ function promptAttachment(
 
 function userMetadata(parts: MessagePart[]): RuntimeMessageMetadata {
   if (
+    /* 条件 */
     parts.some(
       (part) =>
         part.type === "file" ||
@@ -205,11 +211,12 @@ async function appendUser(
 ): Promise<boolean> {
   const info = message.info;
   if (
+    /* 条件 */
     info.role === "user" &&
     info.source === "shared_context" &&
     info.metadata !== null &&
     typeof info.metadata === "object"
-  ) {
+  ) /* 条件结束 */ {
     const status = info.metadata.sharedContextStatus;
     if (status !== undefined && status !== "attached") return false;
   }
@@ -219,7 +226,7 @@ async function appendUser(
     const source = rawReminderSource(only);
     if (source && only.type === "text") {
       input.history.addAttachment(source, only.text);
-      return true;
+      return /* 命中 */ true;
     }
   }
   const attachments: ModelMessageContentBlock[] = [];
@@ -259,8 +266,8 @@ async function appendUser(
               block.type === "text",
           )
           .map((block) => block.text)
-          .filter(Boolean)
-          .join("\n\n");
+          .filter((entry) => Boolean(entry))
+          .join(SEGMENT_GAP);
   const meaningful = !!modelMessageContentToText(content).trim();
   const metadata = userMetadata(parts);
   const restoreEnvelope =
@@ -277,7 +284,7 @@ async function appendUser(
         )
       : entries,
   );
-  return true;
+  return /* 命中 */ true;
 }
 
 function providerToolName(part: ToolPart): string {
@@ -287,12 +294,12 @@ function providerToolName(part: ToolPart): string {
 
 export async function hydrateMessageHistoryFromSession(input: {
   artifactStore?: ToolArtifactStorePort;
-  branchCutAfterMessageId?: MessageId;
+  branchCutAfterMessageId?: MessageId; // 只取该消息之后的分支段（截断点，可选）
   history: MessageHistory;
   messages: MessageWithParts[];
-  rewindCreatedMessageId?: MessageId;
-  rewindKeptMessageIds?: readonly MessageId[];
-  rewindTargetMessageId?: MessageId;
+  rewindCreatedMessageId?: MessageId; // rewind 新建出来的消息 id（可选）
+  rewindKeptMessageIds?: readonly MessageId[]; // rewind 后保留的消息 id（可选）
+  rewindTargetMessageId?: MessageId; // rewind 要回到的目标消息 id（可选）
 }): Promise<SessionHistoryHydrationResult> {
   const messages = activeSessionMessages(input.messages, {
     branchCutAfterMessageId: input.branchCutAfterMessageId,
@@ -307,14 +314,15 @@ export async function hydrateMessageHistoryFromSession(input: {
     const parts = [...byId.values()];
     counts.partCount += parts.length;
     const info = message.info;
-    if (info.role === "user") {
-      if (await appendUser(input, message, parts)) counts.appliedMessageCount++;
-      continue;
+    const isUserMessage = info.role === "user";
+    if (isUserMessage && (await appendUser(input, message, parts))) {
+      counts.appliedMessageCount++;
     }
+    if (isUserMessage) continue;
     const text = parts
       .filter((part): part is Text => part.type === "text" && !part.ignored)
       .map((part) => part.text)
-      .join("\n\n");
+      .join(SEGMENT_GAP);
     const reasoning: ModelReasoningContentBlock[] = parts
       .filter((part) => part.type === "reasoning")
       .map((part) => ({
@@ -325,13 +333,13 @@ export async function hydrateMessageHistoryFromSession(input: {
     const tools = selectToolPartsForHistory(
       parts.filter((part): part is ToolPart => part.type === "tool"),
     );
-    if (
+    // 空回合：既没有文本、推理与工具，也没有可继承的 token 基线 → 整条跳过。
+    const hasNothingToSend =
       !text.trim() &&
       !reasoning.length &&
       !tools.length &&
-      !persistedTokenUsageBaseline(info.tokens)
-    )
-      continue;
+      !persistedTokenUsageBaseline(info.tokens);
+    if (hasNothingToSend) continue;
     const calls: ToolCallInput[] = tools.map((part) => ({
       id: part.callID,
       input: part.state.input,
@@ -340,7 +348,7 @@ export async function hydrateMessageHistoryFromSession(input: {
     const model =
       info.modelId && info.providerId
         ? { modelId: info.modelId, providerId: info.providerId }
-        : undefined;
+        : /* 无值 */ undefined;
     input.history.addAssistant(text, calls, reasoning, model, info.tokens);
     counts.appliedMessageCount++;
     for (const part of tools) {
@@ -352,10 +360,10 @@ export async function hydrateMessageHistoryFromSession(input: {
                 filePartToContentBlock(attachment, input.artifactStore),
               ),
             )
-          : [];
+          : /* 空集 */ [];
         const projection = blocks.length
           ? projectPersistedToolMediaContent(part.state.metadata?.modelContentLayout, blocks)
-          : undefined;
+          : /* 无值 */ undefined;
         input.history.addToolResult(part.callID, name, projection ?? part.state.output, true);
       } else if (part.state.status === "error") {
         const persisted = part.state.metadata?.modelContent;
@@ -363,20 +371,20 @@ export async function hydrateMessageHistoryFromSession(input: {
           part.callID,
           name,
           typeof persisted === "string" ? persisted : part.state.error,
-          false,
+          /* 不合成 */ false,
         );
-      } else {
+      } else /* 其余角色 */ {
         counts.interruptedToolCount++;
         input.history.addToolResult(
           part.callID,
           name,
           "[Tool execution was interrupted before resume]",
-          false,
+          /* 不合成 */ false,
         );
       }
     }
   }
-  return {
+  return /* 构造返回值 */ {
     appliedMessageCount: counts.appliedMessageCount,
     interruptedToolCount: counts.interruptedToolCount,
     messageCount: messages.length,

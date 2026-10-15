@@ -1,0 +1,234 @@
+{
+  "package": "core-tool-handlers-bash-01",
+  "root": "apps/cli/packages/core/src/tool/handlers",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-background-lifecycle.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 37
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-background-policy.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 10
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-command-parser.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 277
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-command-permission-policy.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 384
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-command-rule-evaluator.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 51
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-cwd-policy.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 121
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-gh-rate-limit.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 17
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-git-runtime-safety.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 212
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-image-output.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 92
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-metadata.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 37
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 133
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 168
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-prompt.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 24
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-read-file-sources.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 276
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-read-file-state.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 201
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-argv-direct.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 147
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-argv-flags.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 182
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-argv-git.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 80
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-argv-io.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 100
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-argv.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 109
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-callbacks.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 355
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-commands.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 25
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-flags-file.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 196
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-flags-git.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 244
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-flags-process.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 324
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-flags-text.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 363
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-flags.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 5
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-git-callbacks.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 122
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-git-subcommands-core.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 203
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-git-subcommands-history.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 228
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-multiword-core.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 37
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-multiword-gh.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 346
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-simple-commands.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 224
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy-types.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 15
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-readonly-policy.ts",
+      "classification": "upstream-unchanged",
+      "license": "NOASSERTION",
+      "lines": 6
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-semantics.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 175
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 570
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/tool-perf.ts",
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "lines": 135
+    }
+  ]
+}

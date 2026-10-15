@@ -1,15 +1,12 @@
-// ============================================================
-// Glob Tool - File Pattern Matching Tool
-// ============================================================
+// Glob 工具声明：按文件名模式匹配查找文件。
 // Reference: glob-style file matching tool
 
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 import type { ToolCallId, TraceId } from "../interfaces/shared.js";
 import { toToolJsonSchema } from "./json-schema.js";
 
-// -----------------------------------------------
-// Input Schema
-// -----------------------------------------------
+// 输入 schema（冻结面）。
 
 export const GlobInputSchema = z.object({
   /**
@@ -31,9 +28,7 @@ export type GlobInput = z.infer<typeof GlobInputSchema>;
 
 export const GlobInputJsonSchema = toToolJsonSchema(GlobInputSchema);
 
-// -----------------------------------------------
-// Output Types
-// -----------------------------------------------
+// 输出类型与错误码。
 
 export interface GlobOutput {
   durationMs: number;
@@ -53,9 +48,7 @@ export const GlobOutputSchema = z
 
 export const GlobOutputJsonSchema = toToolJsonSchema(GlobOutputSchema);
 
-// -----------------------------------------------
-// Tool Call Structure
-// -----------------------------------------------
+// 工具调用结构：供 handler 与结果投影读取的字段。
 
 export interface GlobToolCall {
   id: ToolCallId;
@@ -72,9 +65,7 @@ export interface GlobToolResult {
   durationMs: number;
 }
 
-// -----------------------------------------------
-// Glob Errors
-// -----------------------------------------------
+// Glob 的错误码枚举。
 
 export const GlobErrorCode = {
   INVALID_PATTERN: "glob_invalid_pattern",

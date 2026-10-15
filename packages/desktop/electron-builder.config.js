@@ -1,6 +1,6 @@
 /* eslint-disable max-lines -- Electron Builder config keeps related packaging hooks together so build order stays explicit. */
-import { cpSync, existsSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
-import { readdir, writeFile } from "node:fs/promises";
+import { existsSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
+import { cp, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { createRequire } from "node:module";
@@ -373,7 +373,12 @@ async function injectHoistedRuntimeModulesIntoAsar(context) {
     const stagingNodeModulesDir = resolve(stagingDir, "node_modules");
     mkdirSync(stagingNodeModulesDir, { recursive: true });
 
-    runTimedSync("afterPack:copy-runtime-modules", () => {
+    // Bug 原因：Windows + Node 24.14.0 上 fs.cpSync(..., { recursive: true }) 会以
+    // 0xC0000409（STATUS_STACK_BUFFER_OVERRUN）原生崩掉整个进程，连拷贝 4 个文件的目录都必崩
+    // （M0 打包实测里 afterPack:copy-runtime-modules 4/4 复现，最小用例同样崩溃），
+    // 而异步的 fs.promises.cp 正常。修复依据：只把递归拷贝换成等价的异步实现，不改赋值目标与顺序。
+    // 详见 docs/knorvia-desktop-packaging-m0-<日期>.md；desktop-scripts-01（M4）会按合同重写该脚本。
+    await runTimedAsync("afterPack:copy-runtime-modules", async () => {
       for (const runtimeModule of missingRuntimeModules) {
         const { moduleName, sourceModulePath } = runtimeModule;
         const targetModulePath = resolve(stagingNodeModulesDir, moduleName);
@@ -395,7 +400,7 @@ async function injectHoistedRuntimeModulesIntoAsar(context) {
         // 所以在 afterPack 阶段直接重写 app.asar，先把这些运行时包补进去，再交给后续签名和出包。
         mkdirSync(dirname(targetModulePath), { recursive: true });
         rmSync(targetModulePath, { force: true, recursive: true });
-        cpSync(sourceModulePath, targetModulePath, { recursive: true });
+        await cp(sourceModulePath, targetModulePath, { recursive: true });
       }
     });
 

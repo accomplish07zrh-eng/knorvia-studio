@@ -7,19 +7,21 @@ import type { AgentRuntimeConfig, MemoryRuntimeConfig } from "../runtime/types.j
 import type { AgentProfile, AgentMemoryScope } from "./profile.js";
 import { buildPersistentAgentMemoryPrompt } from "./persistent-memory-prompt.js";
 
-const PERSISTENT_MEMORY_TOOLS = ["Write", "Edit"] as const;
+const /* 允许写记忆的工具 */ PERSISTENT_MEMORY_TOOLS = ["Write", "Edit"] as const;
 
-function sanitizePersistentAgentMemoryKey(agentName: string): string {
-  const key = agentName.replace(/[^a-zA-Z0-9_-]/g, "-");
-  return key === "" ? "unknown" : key;
+function /* 把 agent 名压成可作目录名的 key */ sanitizePersistentAgentMemoryKey(
+  agentName: string,
+): string {
+  const key = /* 非字母数字下划线连字符一律替换 */ agentName.replace(/[^a-zA-Z0-9_-]/g, "-");
+  return key === "" ? /* 空名兜底 */ "unknown" : key;
 }
 
 function resolvePersistentAgentMemoryRoot(input: {
-  agentName: string;
+  /* 子代理名 */ agentName: string;
   scope: AgentMemoryScope;
-  storageRoot: string;
+  /* 存储根 */ storageRoot: string;
   workspaceRoot: string;
-}): string {
+}): /* 返回记忆目录 */ string {
   const agentKey = sanitizePersistentAgentMemoryKey(input.agentName);
   if (input.scope === "user") {
     return join(input.storageRoot, "agent-memory", agentKey);
@@ -30,7 +32,7 @@ function resolvePersistentAgentMemoryRoot(input: {
     : join(workspace, ".knorvia-studio", "agent-memory-local", agentKey);
 }
 
-function isPersistentAgentMemoryEnabled(
+function /* 是否启用持久记忆 */ isPersistentAgentMemoryEnabled(
   memory: MemoryRuntimeConfig | undefined,
 ): memory is MemoryRuntimeConfig & { storageRoot: string } {
   return memory?.enabled === true && memory.use !== false && Boolean(memory.storageRoot);
@@ -53,9 +55,9 @@ export function projectPersistentAgentMemoryTools(config: AgentRuntimeConfig): A
 
   const projected = profiles.map(withPersistentAgentMemoryTools);
   if (projected.every((profile, index) => profile === profiles[index])) return config;
-  return {
+  return /* 构造返回值 */ {
     ...config,
-    subagents: {
+    subagents: /* 子代理级记忆 */ {
       ...config.subagents,
       profiles: projected,
     },
@@ -92,14 +94,14 @@ export async function loadPersistentAgentMemory(input: {
   );
 
   let indexContent = "";
-  try {
+  try /* 读取失败按未启用处理 */ {
     indexContent = (await input.fileSystemPort.readTextFile({ path: join(rootDir, "MEMORY.md") }))
       .content;
-  } catch {
+  } catch /* 读取失败 */ {
     // 不存在或不可读的 MEMORY.md 都使用基线的 empty index 文案。
   }
 
-  return {
+  return /* 构造返回值 */ {
     rootDir,
     prompt: buildPersistentAgentMemoryPrompt({
       indexContent,

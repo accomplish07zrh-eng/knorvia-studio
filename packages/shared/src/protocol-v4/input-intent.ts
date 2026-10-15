@@ -1,5 +1,6 @@
-// CLI admission 后的自包含输入事实。
-// queue / guide / runtime / transcript 只能携带同一个 intent，不允许各层重建字段。
+// SPDX-License-Identifier: Apache-2.0
+// 输入意图：CLI admission 之后的自包含输入事实（B24）。queue / guide / runtime / transcript
+// 只能携带同一个 intent，不允许各层重建字段。整个对象 strict；attachments 缺席补 []。
 import { z } from "zod";
 import { timestampSchema } from "./core.js";
 import { attachmentRefSchema } from "./attachment-ref.js";
@@ -45,7 +46,7 @@ export const conversationInputIntentSchema = z
     kind: z.enum(["sendText", "sendGoalCommand", "compact"]),
     text: z.string(),
     attachments: z.array(attachmentRefSchema).default([]),
-    // optional 只服务旧 snapshot hydration；新 admission 必须填入完整 Submission。
+    // 以下 optional 只服务旧 snapshot hydration；新 admission 必须填入完整 Submission。
     modelSelection: modelSelectionSchema.optional(),
     mode: submissionModeSchema.optional(),
     planEnabled: z.boolean().optional(),

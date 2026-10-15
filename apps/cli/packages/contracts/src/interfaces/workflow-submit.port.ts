@@ -1,26 +1,41 @@
-// ============================================================
-// Workflow Submit Port - actor terminal-result verdict boundary
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// 工作流提交端口：actor 交出自己的结构化终态结果，由引擎裁决接受、或退回让它改。
+// 与 {@link WorkflowEscalatePort} 是两条独立时序：这里结算的是引擎对结果的裁决，不是问答。
+
+// ── 章节：一 裁决语汇 · 二 违规明细与提交入参 · 三 端口本体
 
 import type { TraceContext } from "../tracing/tracer.js";
 import type { ToolCallId } from "./shared.js";
 
-/**
- * 校验器产出的单条违规，设计成可直接进入修复用的 tool_result：一行一条，包含
- * JSON 路径、期望（expected）与实得（got）。
- *
- * 结构与 dynamic-workflow 合成侧的 Violation 一致；driver 负责把引擎
- * 的 Violation 原样映射到本端口，contracts 不反向依赖 dynamic-workflow。
- */
+// ── 一、裁决语汇 ────────────────────────────────────────────────────
+
+/** 引擎接受本次提交：actor 这一轮应当在结果返回后终止。 */
+export interface SubmitAccepted {
+  accept: true;
+}
+
+/** 引擎拒绝本次提交：带上违规列表，模型可以在同一会话里改完再交。 */
+export interface SubmitRejected {
+  accept: false;
+  violations: readonly SubmitViolation[];
+}
+
+/** 裁决的判别联合，消费方按 `accept` 分支处理。 */
+export type SubmitVerdict = SubmitAccepted | SubmitRejected;
+
+// ── 二、违规明细与提交入参 ──────────────────────────────────────────
+
+/** 校验器给出的单条违规，形态上能直接塞进修复用的 tool_result：一行一条，带上 JSON 路径、 期望取值的描述与实际取值的描述。 结构与 dynamic-workflow 合成侧的 Violation 对齐；由 driver 负责把引擎的违规原样映射到本 端口，contracts 不反向依赖 dynamic-workflow。 */
 export interface SubmitViolation {
-  /** 违规所在位置的 JSON 路径，形如 `$`、`$.foo`、`$.items[0]`。 */
+  /** 违规位置的 JSON 路径，形如 `$`、`$.foo`、`$.items[0]`。 */
   path: string;
-  /** 期望的形状/取值的简短描述。 */
+  /** 期望形状或取值的简短描述。 */
   expected: string;
-  /** 实际取到的值的简短描述。 */
+  /** 实际拿到的值的简短描述。 */
   got: string;
 }
 
+/** 提交请求：模型给出的原始 JSON 结果，本端口不做预校验。 */
 export interface SubmitResultRequest {
   /** 发起 submit_result 调用的 actor 子会话内的 tool call id。 */
   toolCallId: ToolCallId | string;
@@ -29,28 +44,9 @@ export interface SubmitResultRequest {
   trace: TraceContext;
 }
 
-/** 引擎接受本次提交：actor turn 应当在结果返回后终止。 */
-export interface SubmitAccepted {
-  accept: true;
-}
+// ── 三、端口本体 ────────────────────────────────────────────────────
 
-/** 引擎拒绝本次提交：返回违规列表供模型在同一会话内修复重试。 */
-export interface SubmitRejected {
-  accept: false;
-  violations: readonly SubmitViolation[];
-}
-
-export type SubmitVerdict = SubmitAccepted | SubmitRejected;
-
+/** 提交能力。`respond` 阻塞到引擎给出裁决为止：引擎可能在带外跑多轮修复与预算判定，耗时没有 上限。取消不在本端口表达，而是中止该 tool call（abort），由 driver 把带外的 ask 取消转成 turn abort。 instance / actor / session 这些路由身份由端口 closure 绑定，模型覆盖不了。 */
 export interface WorkflowSubmitPort {
-  /**
-   * 提交 actor 的结构化终态结果并等待引擎裁决。
-   *
-   * 与 CoordinatorResponsePort 不同，这里 **阻塞** 直到引擎完成校验：引擎可能在带外
-   * 跑多轮修复/预算判定，因此 resolve 可能耗时任意长。取消不由本端口表达——由中止
-   * 该 tool call（abort）来处理，driver 会把带外的 ask 取消转成 turn abort。
-   *
-   * 路由身份（instance/actor/session）由端口 closure 绑定，模型无法覆盖。
-   */
   respond(request: SubmitResultRequest): Promise<SubmitVerdict>;
 }

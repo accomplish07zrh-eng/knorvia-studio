@@ -1,10 +1,10 @@
-# apps-cli-packages-01 合同（v1：范围与边界）
+# apps-cli-packages-01 合同（v3：范围与边界）
 
 `apps/cli/packages/adapters`（含 browser、commands、config 等子目录）与 `apps/cli/packages/browser-use-plugin` 的替换合同。计划书「每包流程」第一步的产物。
 
 - 分支：`contract/apps-cli-packages-01`（从 `origin/main` @ `6ea4cbe7` 检出；替换分支 `replace/apps-cli-packages-01`）
 - 工作树：`wt/exec-3-adapters`
-- 状态：**v1 范围修订（2026-10-15，Lead 裁决见 issue #149 评论）**：`model/` 移出本包，重切为 `apps-cli-packages-01-model`（见文末第十一节）；其余范围与 v0 一致。
+- 状态：**范围已定并完成重切**。版本线：v1（合同初版合并 #120/#125 前称 v0）→ v2（B49 环境假设修复，2026-10-12）→ **v3（2026-10-15，Lead 裁决见 issue #149 评论）**：`model/` 移出本包重切为 `apps-cli-packages-01-model`（见文末第十一节），其余范围与 v2 一致。
 
 ## 一、候选范围与继承分类
 
@@ -139,7 +139,10 @@ browser-use-plugin/tsconfig.json              u-unchanged
 3. 本包内 knip 确认无用的代码删除（单独提交；`debug` 已在 M0-5 删除，不再删）。
 4. `README` / `behavior.md`（B 编号）/ `interface.md` / `callers.md` 初稿。
 5. `tests/` + `fixtures/`（含会话存储迁移往返测试）。
-6. `stubs/` + 旧门（源码入口与 dist 入口都过）→ `gate-old.json` → `known-differences.md` / `acceptance.md` → PR `contract: apps-cli-packages-01 v1`。
+6. `stubs/` + 旧门（源码入口与 dist 入口都过）→ `gate-old.json` → `known-differences.md` / `acceptance.md` → PR `contract: apps-cli-packages-01 v1`（已合并为 main `02dfa2d9`）。
+7. **v2（2026-10-12）**：修 B49 的环境假设缺陷——默认路径期望值改为按同一解析入口推导（默认 →
+   `KNORVIA_DATA_BASE_DIR` → `KNORVIA_HOME`），兼容 `test:studio` 注入的临时数据根；断言语义不变。
+   → PR `contract: apps-cli-packages-01 v2`，旧门两入口重跑（源码 + dist 各 118/118）。
 
 门禁顺序：`fmt` → `fmt:check` → `provenance:report` → `provenance:check` → commit。
 
@@ -368,7 +371,7 @@ node specs/contracts/apps-cli-packages-01/tests/run-old-gate.mjs --with-stubs
 4. **删除顺序**：先用桩替换确认契约测试全部失败（本 PR 已记录），再删旧文件与 `owners.test.mjs`
    （依据 B48），最后跑两道相似度门槛与接入门禁。
 
-## 十一、v1 范围修订：`model/` 移出为独立分包（不在本合同范围的相邻文件）
+## 十一、v3 范围修订：`model/` 移出为独立分包（不在本合同范围的相邻文件）
 
 **依据**：计划书默认裁决表「包太大或依赖成环 → 按依赖重切，单包不超过 60 个文件」。替换阶段实测本包继承数远超上限（model 44 + plugins 33 + mcp 31 + exec 20 + storage 15+），其中 `model/` 整体未开工、边界干净（只被同包内的 provider/exec/workflow 适配层调用，无反向依赖），因此移出（Lead 裁决 2026-10-15，issue #149 评论）。
 
@@ -385,4 +388,4 @@ node specs/contracts/apps-cli-packages-01/tests/run-old-gate.mjs --with-stubs
 3. **跨包调用方**：`packages/services` 等经 `@knorvia/adapters/model` 公开入口调用，属稳定兼容面，两个包的替换都不改变它；
 4. **旧门与契约证据**：`model/` 的相似度计分与登记随新包进行；本包 `gate-old.json`/契约测试（118 用例）不覆盖 `model/`，本次移出**不减少**既有契约面。
 
-（v0 → v1：仅范围边界修订；`behavior.md`/`interface.md`/`callers.md` 的 B 条目与用例映射不变，第十一节为新增。）
+（v2 → v3：仅范围边界修订；`behavior.md`/`interface.md`/`callers.md` 的 B 条目与用例映射不变，第十一节为新增。）

@@ -1,39 +1,43 @@
-// ============================================================
-// Cron automation tools - session-level scheduled task management
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// 自动化（cron）工具的声明面：会话级定时任务的创建 / 更新 / 列举 / 删除，
+// 外加它们共用的调度规则与任务快照形状。
 
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
 
-const nonEmptyString = z.string().trim().min(1);
-// contracts 仍使用 Zod 3，而 shared protocol 使用 Zod 4；跨版本 schema 实例不可组合。
-// 字段契约与 shared ModelSelection 保持逐叶一致，后续统一 Zod 版本后删除本地声明。
-const cronModelSelectionSchema = z
-  .object({
-    providerId: nonEmptyString,
-    modelId: nonEmptyString,
-    options: z
-      .object({
-        reasoningLevel: nonEmptyString.optional(),
-        maxOutputTokens: z.number().int().positive().optional(),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
+// 本文件里所有短标识（id、providerId、title…）共用同一形状：先 trim 再要求非空，
+// 于是「全是空白」与「完全缺席」会被同等拒绝。
+const trimmedText = z.string().trim().min(1);
+const positiveInt = z.number().int().positive();
+// 需要「拒绝未知键」的对象一律经它构造，这条规则只在这里写一次。
+const strictObject = <T extends z.ZodRawShape>(shape: T) => z.object(shape).strict();
 
-/** 相对任务判定的唯一口径：只有显式的正整数才是相对延迟。
- * delayMinutes 曾是必填 nullable，普通 cron 创建被迫显式传 null——
- * 省略字段的旧调用方/不稳定保留 null 的 provider 会直接 parse 失败，或在
- * `!== null` 判定下把 undefined 误走相对分支、把 recurring 任务错建成一次性。
- * undefined 与 null 都表示“非相对”，向后兼容既有 { cron, prompt, title } 协议。 */
+// 模型选择的本地镜像。contracts 仍使用 Zod 3，而 shared protocol 使用 Zod 4，
+// 两个版本的 schema 实例不可组合；字段契约与 shared ModelSelection 逐叶一致，
+// 待整体统一 Zod 版本后删除本地声明、改回引用 shared 的类型。
+const modelOptionSchema = strictObject({
+  reasoningLevel: trimmedText.optional(),
+  maxOutputTokens: positiveInt.optional(),
+});
+const cronModelSelectionSchema = strictObject({
+  providerId: trimmedText,
+  modelId: trimmedText,
+  options: modelOptionSchema.optional(),
+});
+
+// 判定「这是一次相对延迟」的唯一口径：只有显式的正整数才算。
+// delayMinutes 曾经是必填可空，普通 cron 创建也得显式写 null；省略字段的旧调用方、
+// 或把 null 当成「不稳定值」而不回传的 provider，会直接 parse 失败；更糟的是在
+// `!== null` 判定下 undefined 会掉进相对延迟分支，把 recurring 任务错建成一次性。
+// 所以 undefined 与 null 一律视为「非相对」，与既有 { cron, prompt, title } 协议兼容。
 export function hasRelativeDelayMinutes(input: { delayMinutes?: number | null }): boolean {
-  return typeof input.delayMinutes === "number";
+  const delay = input.delayMinutes;
+  return typeof delay === "number";
 }
 
 export const CronCreateInputSchema = z
   .object({
-    cron: nonEmptyString
+    cron: trimmedText
       .optional()
       .describe(
         "Standard 5-field cron expression in the user's local timezone: minute hour day-of-month month day-of-week. Use it only for an absolute named date/time or a recurring schedule; required unless delayMinutes is set. For any relative delay such as 'in 8 minutes'/'8分钟后' or 'in 2 hours'/'2小时后', omit cron and use delayMinutes instead — never convert a relative phrase into a fixed clock time or calendar date, because a just-passed one-shot time silently rolls a full year forward. Examples: '*/20 * * * *' means every 20 minutes, '0 * * * *' means hourly, and '0 9 * * 1-5' means weekdays at 09:00. Do not convert to UTC.",
@@ -48,10 +52,10 @@ export const CronCreateInputSchema = z
       .describe(
         "For any relative delay from now — 'in 3 minutes' (3), '8分钟后' (8), 'in 2 hours' (120), 'later'/'稍后' — set the exact positive delay in whole minutes and omit cron. The host calculates the future local schedule from its real current clock, so never compute an absolute time or cron yourself. For an absolute named date/time or a recurring schedule, omit it (or set null) and provide cron.",
       ),
-    prompt: nonEmptyString.describe(
+    prompt: trimmedText.describe(
       "Complete prompt to send at every scheduled fire. Include all instructions needed when the automation runs. Describe the final work directly; do not ask it to create or schedule another automation or call CronCreate.",
     ),
-    title: nonEmptyString.describe(
+    title: trimmedText.describe(
       "Concise automation title that preserves the user's natural-language schedule phrase verbatim. For example, for '每20分钟提醒我喝水', use '每20分钟喝水提醒', not '喝水提醒'.",
     ),
     recurring: z
@@ -128,59 +132,52 @@ export const CronCreateInputSchema = z
 export type CronCreateInput = z.infer<typeof CronCreateInputSchema>;
 export const CronCreateInputJsonSchema = toToolJsonSchema(CronCreateInputSchema);
 
-const CronUpdateInputObjectSchema = z
-  .object({
-    id: nonEmptyString.describe("Automation id returned by CronCreate or CronList"),
-    cron: nonEmptyString
-      .optional()
-      .describe(
-        "Replacement standard 5-field cron expression in the user's local timezone. Omit to preserve the existing schedule. Do not convert to UTC.",
-      ),
-    prompt: nonEmptyString
-      .optional()
-      .describe(
-        "Replacement prompt for future scheduled fires. Omit to preserve the existing prompt.",
-      ),
-    // title 可选时，模型只改 cron/prompt 会把旧时间或旧任务语义留在标题中。
-    // 会话更新必须显式提交最终标题，让同一次原地更新同步持久化并回显一致结果。
-    title: nonEmptyString.describe(
-      "Required synchronized automation title describing the task after this update. Keep the user's natural-language schedule phrase consistent with cron (for example, changing every 5 minutes to every 6 minutes must also change the title), and update the title when the prompt meaning changes.",
-    ),
-    recurring: z
-      .boolean()
-      .optional()
-      .describe(
-        "Replacement recurrence mode. true repeats indefinitely and clears any old finite maxRuns limit; false is finite. Do not combine true with a numeric maxRuns.",
-      ),
-    maxRuns: z
-      .number()
-      .int()
-      .positive()
-      .nullable()
-      .optional()
-      .describe(
-        "Replacement maximum successful scheduled dispatch count for recurring=false. null clears the existing limit and is valid only when recurring=true is included in the same update; when recurring=true is supplied without maxRuns, the service clears the old limit automatically.",
-      ),
-    // 自定义重复 carrier，语义同 create 侧 intervalUnit+interval（每 N 单位统一经 scheduleRule 执行）。
-    intervalUnit: z
-      .enum(["minute", "hourly", "daily", "weekly", "monthly", "yearly"])
-      .optional()
-      .describe(
-        "Switch this automation to a long recurring interval whose step exceeds a cron field ceiling (hourly N>24, daily N>31, etc.). Pair with interval and submit a legal compatible cron (omit cron to keep the existing schedule's minute).",
-      ),
-    interval: z
-      .number()
-      .int()
-      .min(1)
-      .max(200)
-      .optional()
-      .describe(
-        "Positive integer interval paired with intervalUnit. Must be set together with intervalUnit.",
-      ),
-  })
-  .strict();
+// 更新面的模型可见文案与基础形状各抽一份，字段行因此都能收成一行；文案内容与旧实现
+// 逐字一致（模型按它决定该传什么），这里改的只是它在源码里的组织方式。
+const CRON_ID_DESCRIPTION = "Automation id returned by CronCreate or CronList";
+const UPDATE_CRON_DESCRIPTION =
+  "Replacement standard 5-field cron expression in the user's local timezone. Omit to preserve the existing schedule. Do not convert to UTC.";
+const UPDATE_PROMPT_DESCRIPTION =
+  "Replacement prompt for future scheduled fires. Omit to preserve the existing prompt.";
+const UPDATE_TITLE_DESCRIPTION =
+  "Required synchronized automation title describing the task after this update. Keep the user's natural-language schedule phrase consistent with cron (for example, changing every 5 minutes to every 6 minutes must also change the title), and update the title when the prompt meaning changes.";
+const UPDATE_RECURRING_DESCRIPTION =
+  "Replacement recurrence mode. true repeats indefinitely and clears any old finite maxRuns limit; false is finite. Do not combine true with a numeric maxRuns.";
+const UPDATE_MAX_RUNS_DESCRIPTION =
+  "Replacement maximum successful scheduled dispatch count for recurring=false. null clears the existing limit and is valid only when recurring=true is included in the same update; when recurring=true is supplied without maxRuns, the service clears the old limit automatically.";
+const UPDATE_INTERVAL_UNIT_DESCRIPTION =
+  "Switch this automation to a long recurring interval whose step exceeds a cron field ceiling (hourly N>24, daily N>31, etc.). Pair with interval and submit a legal compatible cron (omit cron to keep the existing schedule's minute).";
+const UPDATE_INTERVAL_DESCRIPTION =
+  "Positive integer interval paired with intervalUnit. Must be set together with intervalUnit.";
+const CRON_INTERVAL_UNITS = [
+  "minute",
+  "hourly",
+  "daily",
+  "weekly",
+  "monthly",
+  "yearly",
+] as const satisfies readonly [string, ...string[]];
+const nullishMaxRuns = z.number().int().positive().nullable();
+const intervalStep = z.number().int().min(1).max(200);
 
-const CRON_UPDATE_FIELDS = [
+// 更新面的对象形状（不含组合不变量）：不导出，组合规则在下面那个 refine 链上。
+// title 在这里是必填：只改 cron/prompt 而留下旧标题，会把旧时间或旧任务语义留在卡上；
+// 会话更新必须显式提交更新后的最终标题，同一次原地更新才能同步持久化、回显一致。
+const CronUpdateInputObjectSchema = strictObject({
+  id: trimmedText.describe(CRON_ID_DESCRIPTION),
+  cron: trimmedText.optional().describe(UPDATE_CRON_DESCRIPTION),
+  prompt: trimmedText.optional().describe(UPDATE_PROMPT_DESCRIPTION),
+  title: trimmedText.describe(UPDATE_TITLE_DESCRIPTION),
+  recurring: z.boolean().optional().describe(UPDATE_RECURRING_DESCRIPTION),
+  maxRuns: nullishMaxRuns.optional().describe(UPDATE_MAX_RUNS_DESCRIPTION),
+  // 自定义重复 carrier 的语义与 create 侧 intervalUnit+interval 相同：每 N 个单位的间隔
+  // 统一由 scheduleRule 执行，cron 只负责合法兼容展示。
+  intervalUnit: z.enum(CRON_INTERVAL_UNITS).optional().describe(UPDATE_INTERVAL_UNIT_DESCRIPTION),
+  interval: intervalStep.optional().describe(UPDATE_INTERVAL_DESCRIPTION),
+});
+
+// 「至少改一个字段」这条不变量要按字段名清点，所以名字单独留一份。
+const UPDATABLE_CRON_FIELDS = [
   "cron",
   "prompt",
   "title",
@@ -188,9 +185,9 @@ const CRON_UPDATE_FIELDS = [
   "maxRuns",
   "intervalUnit",
   "interval",
-] as const;
+] as const satisfies readonly [string, ...string[]];
 export const CronUpdateInputSchema = CronUpdateInputObjectSchema.refine(
-  (input) => CRON_UPDATE_FIELDS.some((field) => input[field] !== undefined),
+  (input) => UPDATABLE_CRON_FIELDS.some((field) => input[field] !== undefined),
   { message: "CronUpdate requires at least one field to update" },
 )
   .refine((input) => input.maxRuns !== null || input.recurring === true, {
@@ -237,18 +234,16 @@ export const CronListInputJsonSchema = toToolJsonSchema(CronListInputSchema);
 
 export const CronDeleteInputSchema = z
   .object({
-    id: nonEmptyString.describe("Automation id returned by CronCreate or CronList"),
+    id: trimmedText.describe("Automation id returned by CronCreate or CronList"),
   })
   .strict();
 export type CronDeleteInput = z.infer<typeof CronDeleteInputSchema>;
 export const CronDeleteInputJsonSchema = toToolJsonSchema(CronDeleteInputSchema);
 
-/**
- * 自定义重复规则的 contract 层镜像 schema（zod v3）。
- * 与 @knorvia/shared 的 KnorviaAutomationScheduleRule 结构同步——此处不 import shared，
- * 避免 agent contracts 的 zod v3 与 shared zod v4 交叉依赖（同 browser-control 镜像约定）。
- * cronExpr 保留为兼容展示，调度以本字段为权威；会话侧长间隔 carrier 归一化后由本字段承载。
- */
+// 自定义重复规则在 contract 层的镜像 schema（zod v3）。结构与 @knorvia/shared 的
+// KnorviaAutomationScheduleRule 同步，但这里不 import shared——zod v3 与 v4 实例不能组合，
+// 两侧只能各留一份（与 browser-control 的镜像约定相同）。cronExpr 仅供兼容展示，
+// 真正的调度以本字段为权威；会话侧的长间隔 carrier 归一化后也由本字段承载。
 export const CronAutomationScheduleRuleSchema = z
   .object({
     unit: z.enum(["minute", "hourly", "daily", "weekly", "monthly", "yearly"]),
@@ -267,10 +262,10 @@ export type CronAutomationScheduleRule = z.infer<typeof CronAutomationScheduleRu
 
 export const CronAutomationSchema = z
   .object({
-    automationId: nonEmptyString,
+    automationId: trimmedText,
     title: z.string(),
-    cronExpr: nonEmptyString,
-    prompt: nonEmptyString,
+    cronExpr: trimmedText,
+    prompt: trimmedText,
     enabled: z.boolean(),
     lifecycleStatus: z.enum(["active", "completed", "failed", "paused"]),
     nextRunAt: z.number().int().nonnegative().optional(),
@@ -290,7 +285,7 @@ export type CronAutomation = z.infer<typeof CronAutomationSchema>;
 export const CronCreateOutputSchema = z
   .object({
     automation: CronAutomationSchema,
-    message: nonEmptyString,
+    message: trimmedText,
   })
   .strict();
 export type CronCreateOutput = z.infer<typeof CronCreateOutputSchema>;
@@ -299,7 +294,7 @@ export const CronCreateOutputJsonSchema = toToolJsonSchema(CronCreateOutputSchem
 export const CronUpdateOutputSchema = z
   .object({
     automation: CronAutomationSchema,
-    message: nonEmptyString,
+    message: trimmedText,
   })
   .strict();
 export type CronUpdateOutput = z.infer<typeof CronUpdateOutputSchema>;
@@ -316,8 +311,8 @@ export const CronListOutputJsonSchema = toToolJsonSchema(CronListOutputSchema);
 export const CronDeleteOutputSchema = z
   .object({
     deleted: z.boolean(),
-    id: nonEmptyString,
-    message: nonEmptyString,
+    id: trimmedText,
+    message: trimmedText,
   })
   .strict();
 export type CronDeleteOutput = z.infer<typeof CronDeleteOutputSchema>;
