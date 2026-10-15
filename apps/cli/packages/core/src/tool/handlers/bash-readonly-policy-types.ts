@@ -1,14 +1,4 @@
-export type SafeFlagValue = "{}" | "EOF" | "char" | "none" | "number" | "optionalString" | "string";
-
-export interface BashReadonlyCommandPolicy {
-  additionalCommandIsDangerousCallback?: (
-    commandText: string,
-    argsAfterPrefix: readonly string[],
-  ) => boolean;
-  allowAnyArgs?: boolean;
-  allowCompactNumericCountFlag?: boolean;
-  commandOnly?: boolean;
-  regex?: RegExp;
-  respectsDoubleDash?: boolean;
-  safeFlags?: Readonly<Record<string, SafeFlagValue>>;
-}
+// SPDX-License-Identifier: Apache-2.0
+// 兼容面：只读策略的形状定义已集中到 bash-rules/policy-shapes.ts（声明块唯一集中点），
+// 此模块路径与导出名保持不变，供既有 import 继续使用。
+export type { BashReadonlyCommandPolicy, SafeFlagValue } from "./bash-rules/policy-shapes.js";
