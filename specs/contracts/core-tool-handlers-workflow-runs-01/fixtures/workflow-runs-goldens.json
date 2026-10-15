@@ -1,0 +1,347 @@
+{
+  "contract": "core-tool-handlers-workflow-runs-01",
+  "recordedWith": "pre-replacement implementation (inherited sources at origin/main 5f878295)",
+  "generatedAtNow": 1760000000000,
+  "inputs": {
+    "RUNNING": {
+      "runId": "dwfr-golden-run",
+      "label": "nightly index rebuild",
+      "labelSource": "script",
+      "status": "running",
+      "ownedByThisSession": true,
+      "generatedAt": 1760000000000,
+      "createdAt": 1759998200000,
+      "updatedAt": 1759999940000,
+      "maxConcurrency": 4,
+      "subagentModel": "prov/mod$high",
+      "usage": {
+        "spentTokens": 12345,
+        "nodesObserved": 9,
+        "nodesRunning": 2,
+        "nodesCompleted": 6,
+        "nodesFailed": 1
+      },
+      "health": {
+        "lastProgressAt": 1759999880000,
+        "concurrency": {
+          "effective": 2,
+          "cap": 4,
+          "reason": "provider quota",
+          "since": 1759999400000
+        },
+        "consecutiveFailures": 1,
+        "cachedSteps": 3,
+        "pendingQuestionsKnown": true
+      },
+      "phases": [
+        {
+          "name": "collect",
+          "state": "done",
+          "rounds": 1,
+          "nodesSettled": 3,
+          "nodesRunning": 0,
+          "enteredAt": 1759998200000,
+          "exitedAt": 1759998800000
+        },
+        {
+          "name": "merge",
+          "state": "running",
+          "rounds": 2,
+          "nodesSettled": 3,
+          "nodesRunning": 2,
+          "enteredAt": 1759998800000
+        },
+        {
+          "name": "publish",
+          "state": "ahead",
+          "rounds": 0,
+          "nodesSettled": 0,
+          "nodesRunning": 0
+        }
+      ],
+      "subagents": [
+        {
+          "siteId": "collector",
+          "ordinal": 0,
+          "name": "indexer",
+          "state": "executing",
+          "phaseName": "merge",
+          "stepsSettled": 3,
+          "stepsFailed": 0,
+          "tokens": 4200,
+          "lastProgressAt": 1759999940000,
+          "currentAsk": {
+            "siteId": "collector",
+            "ordinal": 0,
+            "actorSeq": 2,
+            "instructionsHead": "rebuild the shard index",
+            "startedAt": 1759999760000,
+            "turn": 3,
+            "toolCalls": 2,
+            "lastTool": {
+              "name": "grep",
+              "target": "src/",
+              "at": 1759999940000
+            }
+          }
+        },
+        {
+          "siteId": "merger",
+          "ordinal": 1,
+          "state": "waiting",
+          "phaseName": "merge",
+          "stepsSettled": 3,
+          "stepsFailed": 1,
+          "tokens": 8145,
+          "wait": {
+            "cause": "backoff",
+            "reason": "provider 429",
+            "retryAfterMs": 30000,
+            "since": 1759999940000
+          }
+        },
+        {
+          "siteId": "asker",
+          "ordinal": 2,
+          "state": "parked",
+          "phaseName": "merge",
+          "stepsSettled": 2,
+          "stepsFailed": 0,
+          "tokens": 100,
+          "parkedOn": "dwfq-golden-1",
+          "currentAsk": {
+            "siteId": "asker",
+            "ordinal": 2,
+            "actorSeq": 1,
+            "instructionsHead": "pick the winner",
+            "startedAt": 1759999700000
+          }
+        },
+        {
+          "siteId": "idle",
+          "ordinal": 3,
+          "state": "waiting",
+          "stepsSettled": 0,
+          "stepsFailed": 0,
+          "tokens": 0,
+          "wait": {
+            "cause": "slot",
+            "since": 1759999880000
+          }
+        }
+      ],
+      "subagentsTruncated": true,
+      "pendingQuestions": [
+        {
+          "qid": "dwfq-golden-1",
+          "actor": "asker",
+          "actorName": "asker",
+          "question": "Two shards conflict on `name`; which wins?",
+          "askedAt": 1759999700000,
+          "context": "shard A has the newer timestamp"
+        }
+      ],
+      "logTail": [
+        {
+          "sequence": 1,
+          "message": "collect finished",
+          "at": 1759998740000
+        },
+        {
+          "sequence": 2,
+          "message": "merge started",
+          "at": 1759998800000
+        },
+        {
+          "sequence": 3,
+          "message": "429 from provider, backing off"
+        }
+      ],
+      "artifacts": [
+        {
+          "title": "Index report",
+          "kind": "document",
+          "primary": true,
+          "updatedAt": 1759999820000
+        },
+        {
+          "title": "Live dashboard",
+          "kind": "dashboard",
+          "updatedAt": 1759999940000
+        }
+      ]
+    },
+    "COMPLETED": {
+      "runId": "dwfr-golden-done",
+      "label": "finished run",
+      "labelSource": "name",
+      "status": "completed",
+      "ownedByThisSession": false,
+      "generatedAt": 1760000000000,
+      "createdAt": 1759996400000,
+      "updatedAt": 1759999400000,
+      "usage": {
+        "spentTokens": 900,
+        "nodesObserved": 4,
+        "nodesRunning": 0,
+        "nodesCompleted": 4,
+        "nodesFailed": 0
+      },
+      "health": {
+        "lastProgressAt": 1759999400000,
+        "concurrency": {
+          "effective": 2,
+          "cap": 4,
+          "reason": "provider quota",
+          "since": 1759999400000
+        },
+        "consecutiveFailures": 0,
+        "cachedSteps": 4,
+        "pendingQuestionsKnown": true,
+        "leftoverRunning": 1
+      },
+      "phases": [
+        {
+          "name": "only",
+          "state": "done",
+          "rounds": 1,
+          "nodesSettled": 4,
+          "nodesRunning": 1,
+          "enteredAt": 1759996400000,
+          "exitedAt": 1759999400000
+        }
+      ],
+      "subagents": [
+        {
+          "siteId": "solo",
+          "ordinal": 0,
+          "state": "unfinished",
+          "stepsSettled": 4,
+          "stepsFailed": 0,
+          "tokens": 900,
+          "currentAsk": {
+            "siteId": "solo",
+            "ordinal": 0,
+            "actorSeq": 4,
+            "startedAt": 1759999340000
+          }
+        }
+      ],
+      "logTail": [
+        {
+          "sequence": 9,
+          "message": "done",
+          "at": 1759999400000
+        }
+      ],
+      "result": "null",
+      "artifacts": [
+        {
+          "title": "Final doc",
+          "kind": "document",
+          "primary": true,
+          "updatedAt": 1759999400000
+        }
+      ]
+    },
+    "STOPPED": {
+      "runId": "dwfr-golden-stopped",
+      "label": "stopped run",
+      "labelSource": "script",
+      "status": "stopped",
+      "stopReason": "provider",
+      "ownedByThisSession": true,
+      "generatedAt": 1760000000000,
+      "createdAt": 1759998800000,
+      "updatedAt": 1759999700000,
+      "usage": {
+        "spentTokens": 10,
+        "nodesObserved": 1,
+        "nodesRunning": 0,
+        "nodesCompleted": 0,
+        "nodesFailed": 1
+      },
+      "health": {
+        "lastProgressAt": 1759999880000,
+        "concurrency": {
+          "effective": 2,
+          "cap": 4,
+          "reason": "provider quota",
+          "since": 1759999400000
+        },
+        "consecutiveFailures": 2,
+        "cachedSteps": 3,
+        "pendingQuestionsKnown": false
+      },
+      "logTail": [],
+      "error": {
+        "code": "model_request_failed",
+        "message": "provider quota exhausted"
+      },
+      "scriptPath": "workflows/golden.dwf.ts"
+    },
+    "SUPERSEDED": {
+      "runId": "dwfr-golden-super",
+      "label": "stopped run",
+      "labelSource": "script",
+      "status": "stopped",
+      "stopReason": "superseded",
+      "ownedByThisSession": true,
+      "generatedAt": 1760000000000,
+      "createdAt": 1759998800000,
+      "updatedAt": 1759999700000,
+      "usage": {
+        "spentTokens": 10,
+        "nodesObserved": 1,
+        "nodesRunning": 0,
+        "nodesCompleted": 0,
+        "nodesFailed": 1
+      },
+      "health": {
+        "lastProgressAt": 1759999880000,
+        "concurrency": {
+          "effective": 2,
+          "cap": 4,
+          "reason": "provider quota",
+          "since": 1759999400000
+        },
+        "consecutiveFailures": 2,
+        "cachedSteps": 3,
+        "pendingQuestionsKnown": false
+      },
+      "logTail": [],
+      "scriptPath": "workflows/golden.dwf.ts",
+      "supersededBy": "dwfr-golden-successor"
+    }
+  },
+  "summary": {
+    "RUNNING": "Running for 30m 00s, across 3 phases. 7 of 9 dispatched steps settled, 2 running (1 executing, 2 waiting, 1 parked). 1 question awaiting your answer. Last progress 2m 00s ago.",
+    "COMPLETED": "Completed in 50m 00s, across 1 phase. 4 of 4 dispatched steps settled; 1 was still running when the owning process exited and will be re-dispatched on resume. Deliverable: Final doc (document, primary). Owned by another session.",
+    "STOPPED": "Stopped (provider) 5m 00s ago after 15m 00s. 1 step settled, 1 failed, 10 tokens. Failure: model_request_failed. Pending questions are unknown from this session.",
+    "SUPERSEDED": "Stopped (superseded) 5m 00s ago after 15m 00s. 1 step settled, 1 failed, 10 tokens. Pending questions are unknown from this session."
+  },
+  "modelContent": {
+    "RUNNING": "GetWorkflowRun returned an invalid result.",
+    "COMPLETED": "GetWorkflowRun returned an invalid result.",
+    "STOPPED": "GetWorkflowRun returned an invalid result.",
+    "SUPERSEDED": "GetWorkflowRun returned an invalid result."
+  },
+  "rosterBlocks": {
+    "healthRunning": "<health>last_progress=2m 00s ago  concurrency=2/4 (provider quota since 10m 00s ago)  stalled=no  consecutive_failures=1  cached_steps=3</health>",
+    "healthCompleted": "<health>last_progress=10m 00s ago  concurrency=2/4 (provider quota since 10m 00s ago)  consecutive_failures=0  cached_steps=4\nThe 1 \"running\" step below is a leftover of the exited process, not live work.</health>",
+    "phases": "<phases>\n1. collect  done     1 round  3 steps settled  10m 00s\n2. merge    running  2 rounds  3 settled, 2 running  20m 00s so far\n3. publish  ahead\n</phases>",
+    "subagents": "<subagents>\nindexer  collector@0  executing  phase merge  collector@0 (step 3), 4m 00s on this step, turn 3, 2 tool calls, last grep src/ 1m 00s ago  4,200 tokens\n  task: rebuild the shard index\n         merger@1     waiting    phase merge  backoff after provider 429 for 1m 00s, retry in 30s  8,145 tokens\n         asker@2      parked     phase merge  on question dwfq-golden-1 for 5m 00s  100 tokens\n  task: pick the winner\n         idle@3       waiting    waiting for a slot for 2m 00s\nOnly the first 4 subagents are listed; this run has more.\n</subagents>",
+    "logTail": "<log_tail>\n[1]  21m 00s ago  collect finished\n[2]  20m 00s ago  merge started\n[3]  429 from provider, backing off\n</log_tail>",
+    "logTailEmpty": "<log_tail>No log() narration recorded yet.</log_tail>"
+  },
+  "activities": {
+    "collector@0": "collector@0 (step 3), 4m 00s on this step, turn 3, 2 tool calls, last grep src/ 1m 00s ago",
+    "merger@1": "backoff after provider 429 for 1m 00s, retry in 30s",
+    "asker@2": "on question dwfq-golden-1 for 5m 00s",
+    "idle@3": "waiting for a slot for 2m 00s"
+  },
+  "guidance": {
+    "resumeResponse": "The workflow run dwfr-golden-stopped has been resumed and is running in the background. It is still running — you will be notified with the final output when it completes. Do not wait for it or poll it with TaskOutput; continue with other work unless the user asked you to wait.",
+    "resolveResponse": "Answer delivered for question dwfq-golden-1. The subagent that asked has resumed its turn with your answer; the run keeps going as before."
+  }
+}
