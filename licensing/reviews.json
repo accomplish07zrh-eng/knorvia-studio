@@ -142762,7 +142762,7 @@
     },
     {
       "path": "specs/contracts/core-runtime-methods-02/tests/surface.test.ts",
-      "normalizedSha256": "c3fcd41f5debed22e834e529451493bf0a2313a21a424b6b83b7dc335f69ed57",
+      "normalizedSha256": "c9ac5b91e34b41d222c1a45404b7940bf7664decf744a0f917e756d2a763b569",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
