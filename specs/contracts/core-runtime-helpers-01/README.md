@@ -41,14 +41,14 @@ steering、提醒与压缩选择等运行时助手（M2 · 高难度 · 60 个�
 | `fixtures/`            | 事件序列夹具（模拟模型流：并发工具 → 压缩触发点 → 中途取消），脱敏虚构数据                            |
 | `known-differences.md` | 预登记差异与边界裁定，每条都有理由与对应测试                                                          |
 | `acceptance.md`        | 范围、旧门结果、覆盖与未覆盖项                                                                        |
-| `stubs/`               | 60 个「import 即抛」最小桩（生成器 `stubs/build-stubs.mjs`），替换阶段退役                            |
+| `stubs/`（60 个「import 即抛」最小桩）                  | 替换完成已删除；桩替换全失败的证据留存 `gate-old.json`，该验证不再可复跑（历史项）            |
 | `gate-old.json`        | 旧门证据：源码入口 / dist 入口 / 桩替换全失败                                                         |
 | `scope-files.json`     | 60 个继承文件与继承分类                                                                               |
 
 ## 运行
 
 ```powershell
-# 源码 + dist + 桩替换（需先构建 core 包）
+# 源码 + dist + 桩替换（需先构建 core 包；桩替换一步为历史项，stubs/ 已随替换删除）
 node scripts/contract-gate.mjs --contract specs/contracts/core-runtime-helpers-01 `
   --dist-env KNORVIA_CORE_RUNTIME_HELPERS_01_ENTRY=dist `
   --stub-root specs/contracts/core-runtime-helpers-01/stubs `
