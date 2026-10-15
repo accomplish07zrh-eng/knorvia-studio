@@ -1,0 +1,55 @@
+{
+  "releaseInfoUrl": "",
+  "releaseChecksEnabled": true,
+  "recentProjects": ["/tmp/demo", ""],
+  "locale": "zh-CN",
+  "localePreference": "zh-CN",
+  "terminalInheritSystemProfile": true,
+  "embeddedBrowserAllowInsecureCertificates": false,
+  "embeddedBrowserViewportPreference": {
+    "mode": "normal",
+    "viewport": {
+      "width": 393,
+      "height": 852
+    },
+    "zoom": "fit"
+  },
+  "computerUseComposerEntryHidden": true,
+  "taskAutoArchiveEnabled": false,
+  "taskAutoArchiveOlderThanDays": 7,
+  "closeToTrayOnWindows": true,
+  "closeToTrayOnWindowsMigrationInitialized": true,
+  "keepAwakeWhileRunning": false,
+  "desktopChromiumHardwareAccelerationEnabled": true,
+  "messageStreamShowReasoning": true,
+  "messageStreamShowReasoningMigrationInitialized": true,
+  "messageStreamShowTodos": false,
+  "toolGroupingExploreEnabled": true,
+  "toolGroupingTerminalEnabled": true,
+  "toolGroupingChangesEnabled": false,
+  "knorviaInteractionBehavior": "queue",
+  "askUserQuestionAutoResolutionEnabled": true,
+  "modelIoFullRetentionEnabled": false,
+  "startPlanRecommendationDismissed": false,
+  "providerFamilyConnectionSelections": {
+    "zai": {
+      "kind": "team-coding-plan",
+      "productId": "p-1",
+      "organizationId": "o-1",
+      "projectId": "pr-1"
+    },
+    "bigmodel": {
+      "kind": "start-plan"
+    }
+  },
+  "providerFamilyDomainMigrated": false,
+  "nativeSearchEnhancementsEnabled": true,
+  "onboardingOccupation": "developer",
+  "studioFirstRunGuideStatus": "pending",
+  "memoryEnabled": false,
+  "lastWorkspaceSession": [],
+  "lastActiveTabIndex": 0,
+  "receivePreviewUpdates": false,
+  "autoDownloadAndInstallUpdates": false,
+  "skippedElectronUpdateVersions": {}
+}
