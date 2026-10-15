@@ -45,6 +45,7 @@ interface DispositionInput {
   retry: ResolvedAiSdkModelRetryOptions; // 重试参数（延迟计算依据）
   retryBudgetAttempt: number; // 预算计数
   maxAttempts: number; // 尝试上限
+  retryGate?: boolean; // 流式侧「未对外可见且允许重放」门（缺省 true）
 }
 
 export function decideFailureDisposition(input: DispositionInput): FailureDisposition {
@@ -74,7 +75,8 @@ export function decideFailureDisposition(input: DispositionInput): FailureDispos
     input.retryBudgetAttempt,
     input.maxAttempts,
   );
-  const canRetry = offPeak?.kind === "queued" || (policyAllows && budgetAllows);
+  const gate = input.retryGate ?? true; // 生成式恒真；流式看可见性与重放门
+  const canRetry = (offPeak?.kind === "queued" && gate) || (gate && policyAllows && budgetAllows);
   if (offPeak?.kind === "ticketExpired") {
     // 票过期：换文案抛出（事件已发）
     return {
