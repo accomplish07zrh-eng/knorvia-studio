@@ -26716,10 +26716,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-task.ts",
-      "normalizedSha256": "c954b471d851a6754220ba96cbdd61e98b5d82c638c0f3058741f4bbfc33b0e2",
+      "normalizedSha256": "3ce0ce189fc0664902e642b71ae75af7b0d2602e5d1de1f6141576a8c60cb38a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.177, longest identical run 1, structural similarity 0.054 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -26864,10 +26864,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-documents.ts",
-      "normalizedSha256": "e7d9a2237f911ccada3e3661ffcabfc79605eb5305ed919fd3bc45fec5e927f1",
+      "normalizedSha256": "f7387f2a49a2466f98e923843aadfd7193ff24b02ca61a0b4e130209a8029872",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.139, longest identical run 4, structural similarity 0.014 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -27041,10 +27041,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-codecs.ts",
-      "normalizedSha256": "74809ace6bd7a06bdd0f035d58a78748c8969a4f496a24b1c59bd71030428d2d",
+      "normalizedSha256": "97ca2c481bf1a26419449c5b31f7b1babca516422b5d983562f96e383e9f1159",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.042, longest identical run 1, structural similarity 0.057 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -28004,10 +28004,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-store.ts",
-      "normalizedSha256": "3a6f52a0eb3d70a4df38ac76e41d4533f89e25e9001d73344a1b2d5c92fb7ceb",
+      "normalizedSha256": "d156b1815c281cc4de1c5955b5007a84e2386af2ca81a4b34935d90be2018ad1",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.180, longest identical run 5, structural similarity 0.036 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -28032,10 +28032,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-lock.ts",
-      "normalizedSha256": "80e60961bd91d03658193f7de1fc26f6db569214156b83ac592322488a3ed729",
+      "normalizedSha256": "fb7cd15f698f9eceb1b4fa9dcab0437c9f74e140bd38238c00e5b5a263330314",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.197, longest identical run 3, structural similarity 0.014 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -28046,10 +28046,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-path.ts",
-      "normalizedSha256": "19f4e9058f880778811114c30af5f959d75d4a897b4f71ff4e7d91647cdf0de4",
+      "normalizedSha256": "41b638e912b728f8026a15ea4be4879226d190258be1cc6e933cad9119050b1d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.113, longest identical run 3, structural similarity 0.091 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -28246,10 +28246,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/fs-fault-injection.ts",
-      "normalizedSha256": "e796e4c29457d2516a4bec13455e50b9b0ee2bb6b83c5ddb15f299277cbc248d",
+      "normalizedSha256": "91563944dbd63e9d557ecd2b72cd60d7cccf69358df1652c0457b1a580390249",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.107, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -28344,10 +28344,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/index.ts",
-      "normalizedSha256": "29ad8f676dec81da16a4bbcb5ae56f5404603996fda2b3010a6e1686f45caa08",
+      "normalizedSha256": "28cad13fe25bf3cbc8ac27da4cf83b807320aa13b996149688b98329b19c5302",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。",
+      "basis": "按 specs/contracts/apps-cli-packages-01 的合同重写：接口名、协议字段、数据文件名与错误文案逐字保留，内部编排与命名按合同重写；相似度门槛（containment < 0.2、最长连续段 < 8、结构 < 0.4）逐文件复测通过，计分模式见验收文档（纯声明文件用 --declaration，SQL 冻结文件用 --sql-freeze）。 Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.197, longest identical run 5, structural similarity 0.029 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/interface.md",
         "specs/contracts/apps-cli-packages-01/interface-supplement.md",
@@ -29431,10 +29431,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/oauth-errors.ts",
-      "normalizedSha256": "b98d0b368fc1dbe108d8941a179b24322c14f12ce7d2a420a9a5721f58a4ac0e",
+      "normalizedSha256": "247cebab5a2a008bdd8df1ce9c433b51290cca8bda5157dbd875408fc54ce773",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led ordinary Error factories preserve cause identities, property descriptors and ordered fields. Per-call iterative classification preserves brand and retained SDK precedence and observes each object/function identity once, repairing circular and deep cause traversal without shared state or primitive-value truncation. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.116, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Contract-led ordinary Error factories preserve cause identities, property descriptors and ordered fields. Per-call iterative classification preserves brand and retained SDK precedence and observes each object/function identity once, repairing circular and deep cause traversal without shared state or primitive-value truncation. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.116, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.116, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-oauth-boundaries.md",
         "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
@@ -29443,10 +29443,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/oauth-shared.ts",
-      "normalizedSha256": "80fff442ecb0d865254fc5cba598980ec04f65d9c6fa2de13cc6dc8867a271e7",
+      "normalizedSha256": "bc29e2597e14118290c79a4053d8badf54c88510c1ca3d336c04a4d365bf1d7e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led discovery value projection delegates one ordered batch to the existing store. Raw JSON, timestamps, TTL and nullish/single-slash issuer behavior remain; a selected non-string issuer is a miss only when comparison is requested. No new cache, authorization, persistence or network owner. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.129, longest identical run 2, structural similarity 0.154 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Contract-led discovery value projection delegates one ordered batch to the existing store. Raw JSON, timestamps, TTL and nullish/single-slash issuer behavior remain; a selected non-string issuer is a miss only when comparison is requested. No new cache, authorization, persistence or network owner. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.129, longest identical run 2, structural similarity 0.154 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.129, longest identical run 2, structural similarity 0.154 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-oauth-boundaries.md",
         "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
@@ -29565,10 +29565,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/oauth-credentials.ts",
-      "normalizedSha256": "2c57f2aca410c161508519793bc49fb34ec9170d58da29cc1d73bc7fab4a3007",
+      "normalizedSha256": "0ecb121b9980e5923695ee97a7cd983042ce14d240bc5768c8ef2033377b5566",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led credential projections use one shared canonical field projection and one legacy decision path; native raw hashing, supported-version Set, weak JSON values, own-key/reference/evaluation order remain. Existing store alone owns batch snapshots/publications and guarded invalidation. No second persistence or lock owner. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.170, longest identical run 4, structural similarity 0.250 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Contract-led credential projections use one shared canonical field projection and one legacy decision path; native raw hashing, supported-version Set, weak JSON values, own-key/reference/evaluation order remain. Existing store alone owns batch snapshots/publications and guarded invalidation. No second persistence or lock owner. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.170, longest identical run 4, structural similarity 0.250 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.170, longest identical run 4, structural similarity 0.250 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-credential-pair.md",
         "docs/knorvia-mcp-credential-pair-acceptance.md",
@@ -29697,10 +29697,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/oauth-provider.ts",
-      "normalizedSha256": "d24da252c4d0aeb793ca38547ddf10156cb2b0e901ed6262d383406fce3677ae",
+      "normalizedSha256": "80be3a5e6dfc7091bc21e129f5b2722201b105c9590f4e0130224b91c450a906",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led provider separates captured refresh configuration from live per-call credential reads, proactive expiry selection and reactive authorization error selection. No new cache, lock, refresh or network owner. Root read old bodies/public declarations and finite callers/observations, then reviewed candidate design/source/report. Author used only approved behavior/declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, seven approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. Initial71 cases passed; three later getter cases failed the initial candidate, and behavior-only feedback produced one preserved lease revision. Revised74 cases and full3425 passed. Static checks ran and were inventoried. Headers, standard syntax, protocol fields and tests alone do not establish authorship. This digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.120, longest identical run 2, structural similarity 0.069 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Contract-led provider separates captured refresh configuration from live per-call credential reads, proactive expiry selection and reactive authorization error selection. No new cache, lock, refresh or network owner. Root read old bodies/public declarations and finite callers/observations, then reviewed candidate design/source/report. Author used only approved behavior/declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, seven approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. Initial71 cases passed; three later getter cases failed the initial candidate, and behavior-only feedback produced one preserved lease revision. Revised74 cases and full3425 passed. Static checks ran and were inventoried. Headers, standard syntax, protocol fields and tests alone do not establish authorship. This digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.120, longest identical run 2, structural similarity 0.069 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.120, longest identical run 2, structural similarity 0.069 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-lease-provider.md",
         "docs/knorvia-mcp-lease-provider-acceptance.md",
@@ -29889,10 +29889,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/oauth-interactive.ts",
-      "normalizedSha256": "90bccdd626442b87d9291a9337f164b961f0c1eb862fc615525965ea628f42b9",
+      "normalizedSha256": "dc3ff634ac56ecc5ca9754aa887723b99aebe1b2ee102a0b2f5b6c30626f4586",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Behavior-first authorization coordinator separates leader and follower flows while preserving entry/winner generation, callback budgeting, code-exchange lease ownership and nested close/pending/release error boundaries. No added persistent state or side-effect owner. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.079, longest identical run 2, structural similarity 0.061 against the fixed upstream baseline (scored in declaration mode).",
+      "basis": "Behavior-first authorization coordinator separates leader and follower flows while preserving entry/winner generation, callback budgeting, code-exchange lease ownership and nested close/pending/release error boundaries. No added persistent state or side-effect owner. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.079, longest identical run 2, structural similarity 0.061 against the fixed upstream baseline (scored in declaration mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.079, longest identical run 2, structural similarity 0.061 against the fixed upstream baseline (scored in declaration mode).",
       "evidence": [
         "specs/knorvia-mcp-interactive-authorization.md",
         "docs/knorvia-mcp-interactive-authorization-acceptance.md",
@@ -29901,10 +29901,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/oauth-interactive-transaction.ts",
-      "normalizedSha256": "ec77a40291b7bcc5ecfe34e1058e89633fa01976c47e886441e5129176f600ef",
+      "normalizedSha256": "7ccc710222c8c2ce13f5c872afcda5cd91ad5934daf13ad609538c688d15e62a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Separately designed private closure provider owns only transaction client, PKCE, discovery and issuer memory. Captured inputs and live config/scope, one canonical publication, pending context ordering and SDK-facing public receiver are explicit; no old private class layout is retained as an API. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.196, longest identical run 6, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Separately designed private closure provider owns only transaction client, PKCE, discovery and issuer memory. Captured inputs and live config/scope, one canonical publication, pending context ordering and SDK-facing public receiver are explicit; no old private class layout is retained as an API. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.196, longest identical run 6, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.196, longest identical run 6, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-interactive-authorization.md",
         "docs/knorvia-mcp-interactive-authorization-acceptance.md",
@@ -30021,10 +30021,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/telemetry.ts",
-      "normalizedSha256": "c4ef815a9825b6e7c90b7140708b8ffd3f17883621e3761a5f3fc73de25f3d15",
+      "normalizedSha256": "441000c44b0d310d32a2bd1d47a0df7b53b641701d199afa24cb617c764f994e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Behavior-first tracker owns one registration/owner/process map and closure-based sampled identity observations. Native byte escaping/HMAC, local memory facts, orphan/lifecycle and captured versus live options retain their public contracts; no IO or second state owner added. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.185, longest identical run 6, structural similarity 0.300 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Behavior-first tracker owns one registration/owner/process map and closure-based sampled identity observations. Native byte escaping/HMAC, local memory facts, orphan/lifecycle and captured versus live options retain their public contracts; no IO or second state owner added. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.185, longest identical run 6, structural similarity 0.300 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.185, longest identical run 6, structural similarity 0.300 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-process-telemetry.md",
         "docs/knorvia-mcp-process-telemetry-acceptance.md",
@@ -30393,10 +30393,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/stdio-transport.ts",
-      "normalizedSha256": "084d6e1f28b434a7d804e419ee870d7118a005c68ed265fe70ac979965dc6c6b",
+      "normalizedSha256": "f0d252180c0f57472bbf4380e04c47392b9df90dbb95b1c08d2e0565f4c4f210",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independently designed SDK extension with per-message metadata, first child exit observation, Windows job ownership and ordered dispose hook while retaining SDK ordinary close. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 6, structural similarity 0.200 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independently designed SDK extension with per-message metadata, first child exit observation, Windows job ownership and ordered dispose hook while retaining SDK ordinary close. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 6, structural similarity 0.200 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 6, structural similarity 0.200 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-process-boundary.md",
         "docs/knorvia-mcp-process-boundary-acceptance.md",
@@ -30405,10 +30405,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/process-tree.ts",
-      "normalizedSha256": "541616aebd503d8035e4d2ee865c1fd20a72eaf4a5beaf82afd9e4aaed548889",
+      "normalizedSha256": "8c5074d276f6315df4f6809b8574570f48c34cad95dc0ea9a1720981a6d7b268",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independently designed per-call process tree collection, platform command boundary, ordered escalation and bounded per-stage waiting, with retained observable error and injection semantics. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 3, structural similarity 0.144 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independently designed per-call process tree collection, platform command boundary, ordered escalation and bounded per-stage waiting, with retained observable error and injection semantics. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 3, structural similarity 0.144 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 3, structural similarity 0.144 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-mcp-process-boundary.md",
         "docs/knorvia-mcp-process-boundary-acceptance.md",

@@ -96,92 +96,96 @@
 
 <!-- FINAL-SCORES:START -->
 
-| 文件                                                              | 计分模式 | containment | run | structural |
-| ----------------------------------------------------------------- | -------- | ----------- | --- | ---------- |
-| `mcp/client-api.ts`                                               | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/client-auth.ts`                                              | 普通     | 0.110       | 2   | 0.000      |
-| `mcp/client-cleanup.ts`                                           | 普通     | 0.198       | 3   | 0.043      |
-| `mcp/client-connection.ts`                                        | 普通     | 0.186       | 4   | 0.055      |
-| `mcp/client-lifecycle-types.ts`                                   | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/client-lifecycle.ts`                                         | 普通     | 0.195       | 2   | 0.000      |
-| `mcp/client-official.ts`                                          | 普通     | 0.198       | 4   | 0.100      |
-| `mcp/client-state-types.ts`                                       | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/client-state.ts`                                             | 普通     | 0.195       | 4   | 0.050      |
-| `mcp/client-stdio-log.ts`                                         | 普通     | 0.032       | 2   | 0.000      |
-| `mcp/client-tools.ts`                                             | 声明     | 0.136       | 2   | 0.000      |
-| `mcp/client-transport.ts`                                         | 普通     | 0.197       | 2   | 0.000      |
-| `mcp/descriptor.ts`                                               | 普通     | 0.177       | 6   | 0.026      |
-| `mcp/index.ts`                                                    | 普通     | 0.182       | 2   | 0.000      |
-| `mcp/network.ts`                                                  | 普通     | 0.183       | 4   | 0.071      |
-| `mcp/oauth-credentials-types.ts`                                  | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/oauth-credentials.ts`                                        | 普通     | 0.170       | 4   | 0.250      |
-| `mcp/oauth-error-types.ts`                                        | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/oauth-errors.ts`                                             | 普通     | 0.116       | 3   | 0.000      |
-| `mcp/oauth-interactive-transaction.ts`                            | 普通     | 0.196       | 6   | 0.026      |
-| `mcp/oauth-interactive-types.ts`                                  | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/oauth-interactive.ts`                                        | 声明     | 0.079       | 2   | 0.061      |
-| `mcp/oauth-lease.ts`                                              | 声明     | 0.167       | 1   | 0.000      |
-| `mcp/oauth-provider-types.ts`                                     | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/oauth-provider.ts`                                           | 普通     | 0.120       | 2   | 0.069      |
-| `mcp/oauth-refresh.ts`                                            | 普通     | 0.196       | 3   | 0.020      |
-| `mcp/oauth-shared-types.ts`                                       | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/oauth-shared.ts`                                             | 普通     | 0.129       | 2   | 0.154      |
-| `mcp/oauth-types.ts`                                              | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/oauth.ts`                                                    | 普通     | 0.103       | 1   | 0.000      |
-| `mcp/official-auth-response.ts`                                   | 普通     | 0.185       | 2   | 0.025      |
-| `mcp/official-auth.ts`                                            | 声明     | 0.064       | 1   | 0.049      |
-| `mcp/pool-identity-types.ts`                                      | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/pool-identity.ts`                                            | 普通     | 0.175       | 2   | 0.000      |
-| `mcp/pool.ts`                                                     | 普通     | 0.192       | 4   | 0.237      |
-| `mcp/process-tree-types.ts`                                       | 声明     | 0.091       | 1   | 0.000      |
-| `mcp/process-tree.ts`                                             | 普通     | 0.195       | 3   | 0.144      |
-| `mcp/resource-telemetry.ts`                                       | 普通     | 0.118       | 2   | 0.276      |
-| `mcp/stdio-transport-types.ts`                                    | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/stdio-transport.ts`                                          | 普通     | 0.195       | 6   | 0.200      |
-| `mcp/telemetry-types.ts`                                          | 声明     | 0.000       | 0   | 0.000      |
-| `mcp/telemetry.ts`                                                | 普通     | 0.185       | 6   | 0.300      |
-| `mcp/timeout.ts`                                                  | 普通     | 0.183       | 4   | 0.140      |
-| `mcp/windows-job-object.ts`                                       | 普通     | 0.149       | 6   | 0.149      |
-| `plugins/archive-entry.ts`                                        | 普通     | 0.156       | 1   | 0.033      |
-| `plugins/atomic-directory-types.ts`                               | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/atomic-directory.ts`                                     | 普通     | 0.176       | 4   | 0.000      |
-| `plugins/atomic-protocol-types.ts`                                | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/atomic-protocol.ts`                                      | 普通     | 0.177       | 3   | 0.000      |
-| `plugins/catalog-describe-types.ts`                               | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/catalog-describe.ts`                                     | 普通     | 0.164       | 1   | 0.000      |
-| `plugins/catalog-install-types.ts`                                | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/catalog-install.ts`                                      | 普通     | 0.144       | 2   | 0.011      |
-| `plugins/catalog-listing.ts`                                      | 普通     | 0.089       | 2   | 0.037      |
-| `plugins/catalog-load-source-types.ts`                            | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/catalog-load-source.ts`                                  | 普通     | 0.187       | 2   | 0.065      |
-| `plugins/catalog-refresh-types.ts`                                | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/catalog-refresh.ts`                                      | 普通     | 0.188       | 3   | 0.000      |
-| `plugins/catalog-repository.ts`                                   | 普通     | 0.155       | 3   | 0.033      |
-| `plugins/catalog-types.ts`                                        | 声明     | 0.000       | 0   | 0.000      |
-| `plugins/catalog-validation.ts`                                   | 普通     | 0.172       | 2   | 0.250      |
-| `plugins/discovery-candidates.ts`                                 | 普通     | 0.169       | 1   | 0.026      |
-| `plugins/discovery-manifest.ts`                                   | 普通     | 0.192       | 4   | 0.000      |
-| `plugins/discovery-runtime.ts`                                    | 普通     | 0.161       | 2   | 0.000      |
-| `plugins/github-archive-source.ts`                                | 普通     | 0.123       | 2   | 0.000      |
-| `plugins/helpers.ts`                                              | 普通     | 0.130       | 2   | 0.043      |
-| `plugins/hook-runtime.ts`                                         | 声明     | 0.122       | 2   | 0.000      |
-| `plugins/hook-sources.ts`                                         | 普通     | 0.171       | 2   | 0.000      |
-| `plugins/mcp-official-auth.ts`                                    | 普通     | 0.167       | 2   | 0.000      |
-| `plugins/mcp-templates.ts`                                        | 普通     | 0.078       | 2   | 0.000      |
-| `plugins/mcp.ts`                                                  | 普通     | 0.165       | 2   | 0.111      |
-| `plugins/official-marketplace.ts`                                 | 普通     | 0.094       | 1   | 0.024      |
-| `plugins/plugin-document.ts`                                      | 普通     | 0.098       | 2   | 0.000      |
-| `plugins/plugin-source.ts`                                        | 普通     | 0.068       | 1   | 0.000      |
-| `plugins/plugin-validation.ts`                                    | 普通     | 0.168       | 3   | 0.000      |
-| `plugins/source-download.ts`                                      | 普通     | 0.050       | 2   | 0.045      |
-| `plugins/source-errors.ts`                                        | 普通     | 0.075       | 1   | 0.111      |
-| `plugins/source-redaction.ts`                                     | 普通     | 0.143       | 1   | 0.000      |
-| `plugins/types.ts`                                                | 声明     | 0.077       | 1   | 0.000      |
-| `plugins/version-compare.ts`                                      | 普通     | 0.036       | 1   | 0.313      |
-| `plugins/zip-source.ts`                                           | 声明     | 0.071       | 1   | 0.000      |
-| `storage/session-store/migration-execution.ts`                    | 普通     | 0.105       | 2   | 0.000      |
-| `storage/session-store/repositories/dwf-journal-introspection.ts` | 普通     | 0.115       | 2   | 0.216      |
-| `storage/session-store/repositories/write-transaction.ts`         | 普通     | 0.167       | 1   | 0.000      |
+| 文件                                                              | 计分模式   | containment | run | structural |
+| ----------------------------------------------------------------- | ---------- | ----------- | --- | ---------- |
+| `mcp/client-api.ts`                                               | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/client-auth.ts`                                              | 普通       | 0.110       | 2   | 0.000      |
+| `mcp/client-cleanup.ts`                                           | 普通       | 0.198       | 3   | 0.043      |
+| `mcp/client-connection.ts`                                        | 普通       | 0.186       | 4   | 0.055      |
+| `mcp/client-lifecycle-types.ts`                                   | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/client-lifecycle.ts`                                         | 普通       | 0.195       | 2   | 0.000      |
+| `mcp/client-official.ts`                                          | 普通       | 0.198       | 4   | 0.100      |
+| `mcp/client-state-types.ts`                                       | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/client-state.ts`                                             | 普通       | 0.195       | 4   | 0.050      |
+| `mcp/client-stdio-log.ts`                                         | 普通       | 0.032       | 2   | 0.000      |
+| `mcp/client-tools.ts`                                             | 声明       | 0.136       | 2   | 0.000      |
+| `mcp/client-transport.ts`                                         | 普通       | 0.197       | 2   | 0.000      |
+| `mcp/descriptor.ts`                                               | 普通       | 0.177       | 6   | 0.026      |
+| `mcp/index.ts`                                                    | 普通       | 0.182       | 2   | 0.000      |
+| `mcp/network.ts`                                                  | 普通       | 0.183       | 4   | 0.071      |
+| `mcp/oauth-credentials-types.ts`                                  | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/oauth-credentials.ts`                                        | 普通       | 0.170       | 4   | 0.250      |
+| `mcp/oauth-error-types.ts`                                        | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/oauth-errors.ts`                                             | 普通       | 0.116       | 3   | 0.000      |
+| `mcp/oauth-interactive-transaction.ts`                            | 普通       | 0.196       | 6   | 0.026      |
+| `mcp/oauth-interactive-types.ts`                                  | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/oauth-interactive.ts`                                        | 声明       | 0.079       | 2   | 0.061      |
+| `mcp/oauth-lease.ts`                                              | 声明       | 0.167       | 1   | 0.000      |
+| `mcp/oauth-provider-types.ts`                                     | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/oauth-provider.ts`                                           | 普通       | 0.120       | 2   | 0.069      |
+| `mcp/oauth-refresh.ts`                                            | 普通       | 0.196       | 3   | 0.020      |
+| `mcp/oauth-shared-types.ts`                                       | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/oauth-shared.ts`                                             | 普通       | 0.129       | 2   | 0.154      |
+| `mcp/oauth-types.ts`                                              | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/oauth.ts`                                                    | 普通       | 0.103       | 1   | 0.000      |
+| `mcp/official-auth-response.ts`                                   | 普通       | 0.185       | 2   | 0.025      |
+| `mcp/official-auth.ts`                                            | 声明       | 0.064       | 1   | 0.049      |
+| `mcp/pool-identity-types.ts`                                      | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/pool-identity.ts`                                            | 普通       | 0.175       | 2   | 0.000      |
+| `mcp/pool.ts`                                                     | 普通       | 0.192       | 4   | 0.237      |
+| `mcp/process-tree.ts`                                             | 普通       | 0.195       | 3   | 0.144      |
+| `mcp/resource-telemetry.ts`                                       | 普通       | 0.118       | 2   | 0.276      |
+| `mcp/stdio-transport-types.ts`                                    | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/stdio-transport.ts`                                          | 普通       | 0.195       | 6   | 0.200      |
+| `mcp/telemetry-types.ts`                                          | 声明       | 0.000       | 0   | 0.000      |
+| `mcp/telemetry.ts`                                                | 普通       | 0.185       | 6   | 0.300      |
+| `mcp/timeout.ts`                                                  | 普通       | 0.183       | 4   | 0.140      |
+| `mcp/windows-job-object.ts`                                       | 普通       | 0.149       | 6   | 0.149      |
+| `plugins/archive-entry.ts`                                        | 普通       | 0.156       | 1   | 0.033      |
+| `plugins/atomic-directory-types.ts`                               | （无数据） |             |     |            |
+| `plugins/atomic-directory.ts`                                     | 普通       | 0.176       | 4   | 0.000      |
+| `plugins/atomic-protocol-types.ts`                                | （无数据） |             |     |            |
+| `plugins/atomic-protocol.ts`                                      | 普通       | 0.177       | 3   | 0.000      |
+| `plugins/catalog-describe-types.ts`                               | （无数据） |             |     |            |
+| `plugins/catalog-describe.ts`                                     | 普通       | 0.164       | 1   | 0.000      |
+| `plugins/catalog-install-types.ts`                                | （无数据） |             |     |            |
+| `plugins/catalog-install.ts`                                      | 普通       | 0.144       | 2   | 0.011      |
+| `plugins/catalog-listing.ts`                                      | 普通       | 0.089       | 2   | 0.037      |
+| `plugins/catalog-load-source-types.ts`                            | （无数据） |             |     |            |
+| `plugins/catalog-load-source.ts`                                  | 普通       | 0.187       | 2   | 0.065      |
+| `plugins/catalog-refresh-types.ts`                                | （无数据） |             |     |            |
+| `plugins/catalog-refresh.ts`                                      | 普通       | 0.188       | 3   | 0.000      |
+| `plugins/catalog-repository.ts`                                   | 普通       | 0.155       | 3   | 0.033      |
+| `plugins/catalog-validation.ts`                                   | 普通       | 0.172       | 2   | 0.250      |
+| `plugins/discovery-candidates.ts`                                 | 普通       | 0.169       | 1   | 0.026      |
+| `plugins/discovery-manifest.ts`                                   | 普通       | 0.192       | 4   | 0.000      |
+| `plugins/discovery-runtime.ts`                                    | 普通       | 0.161       | 2   | 0.000      |
+| `plugins/github-archive-source.ts`                                | 普通       | 0.123       | 2   | 0.000      |
+| `plugins/helpers.ts`                                              | 普通       | 0.130       | 2   | 0.043      |
+| `plugins/hook-runtime.ts`                                         | 声明       | 0.122       | 2   | 0.000      |
+| `plugins/hook-sources.ts`                                         | 普通       | 0.171       | 2   | 0.000      |
+| `plugins/mcp-official-auth.ts`                                    | 普通       | 0.167       | 2   | 0.000      |
+| `plugins/mcp-templates.ts`                                        | 普通       | 0.078       | 2   | 0.000      |
+| `plugins/mcp.ts`                                                  | 普通       | 0.165       | 2   | 0.111      |
+| `plugins/official-marketplace.ts`                                 | 普通       | 0.094       | 1   | 0.024      |
+| `plugins/plugin-document.ts`                                      | 普通       | 0.098       | 2   | 0.000      |
+| `plugins/plugin-source.ts`                                        | 普通       | 0.068       | 1   | 0.000      |
+| `plugins/plugin-validation.ts`                                    | 普通       | 0.168       | 3   | 0.000      |
+| `plugins/source-download.ts`                                      | 普通       | 0.050       | 2   | 0.045      |
+| `plugins/source-errors.ts`                                        | 普通       | 0.075       | 1   | 0.111      |
+| `plugins/source-redaction.ts`                                     | 普通       | 0.143       | 1   | 0.000      |
+| `plugins/types.ts`                                                | 声明       | 0.077       | 1   | 0.000      |
+| `plugins/version-compare.ts`                                      | 普通       | 0.036       | 1   | 0.313      |
+| `plugins/zip-source.ts`                                           | 声明       | 0.071       | 1   | 0.000      |
+| `storage/session-store/migration-execution.ts`                    | 普通       | 0.105       | 2   | 0.000      |
+| `storage/session-store/repositories/dwf-journal-introspection.ts` | 普通       | 0.115       | 2   | 0.216      |
+| `storage/session-store/repositories/write-transaction.ts`         | 普通       | 0.167       | 1   | 0.000      |
+| `plugins/atomic-directory-types.ts`                               | 声明       | 0.000       | 0   | 0.000      |
+| `plugins/atomic-protocol-types.ts`                                | 声明       | 0.000       | 0   | 0.000      |
+| `plugins/catalog-describe-types.ts`                               | 声明       | 0.000       | 0   | 0.000      |
+| `plugins/catalog-install-types.ts`                                | 声明       | 0.000       | 0   | 0.000      |
+| `plugins/catalog-load-source-types.ts`                            | 声明       | 0.000       | 0   | 0.000      |
+| `plugins/catalog-refresh-types.ts`                                | 声明       | 0.000       | 0   | 0.000      |
 
 <!-- FINAL-SCORES:END -->
 
@@ -189,21 +193,22 @@
 
 ## 九、门禁与登记（收尾实测，2026-10-15）
 
-| 项                                            | 结果                                                                                                                    |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| 契约测试（源码入口 / dist 入口）              | **118/118 ×2**，0 失败 0 跳过（`run-old-gate.mjs`，Node 24.14.0；`gate-old.json` 保持合同阶段冻结记录）                 |
-| 行为测试（adapters `test/` 抽样全绿）         | plugins 7 文件 45/45、`mcp-connection-pool` 5 文件 33/33、迁移 48/48、事务 54/54、插件+MCP 客户端 17 文件 126/126       |
-| `pnpm typecheck`（根，含 i18n）               | 0 错误                                                                                                                  |
-| `pnpm --dir apps/cli typecheck`               | 0 错误                                                                                                                  |
-| `pnpm lint`（根，CI 口径）                    | 0 错误（6 warnings 既有）                                                                                               |
-| 包级 `oxlint src`                             | 3 errors 全部为 `known-differences.md` §三登记的既有基线（`migrations.ts` 821 行等 max-lines），无新增                  |
-| `pnpm fmt:check`                              | 通过                                                                                                                    |
-| `pnpm architecture:check --changed`           | OK，violations 0                                                                                                        |
-| `pnpm perf:baseline`                          | 通过                                                                                                                    |
-| `pnpm build:cli-packages`                     | 通过（Node 24）                                                                                                         |
-| `pnpm provenance:report` / `provenance:check` | **reviewProblems 154 → 0**，check 通过；57 条桩条目已删、98 条 stale 摘要与 basis 已刷新、mcp 3 历史件改登记 `original` |
-| 桩与回退                                      | 合同桩目录已删；`not implemented: apps-cli-packages-01` 在产品路径（packages/apps/scripts）为 **0**                     |
-| `pnpm knip`                                   | 全仓 exit 1 为既有状态；按条目级与 `origin/main` 基线对比（见第十节）                                                   |
+| 项                                            | 结果                                                                                                                                                     |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 契约测试（源码入口 / dist 入口）              | **118/118 ×2**，0 失败 0 跳过（`run-old-gate.mjs`，Node 24.14.0；`gate-old.json` 保持合同阶段冻结记录）                                                  |
+| adapters 全量离线测试                         | **2050/2050**（173 个文件，`--experimental-test-module-mocks --test-concurrency=2`，与 `test:studio` 同参）                                              |
+| `pnpm test:studio`（全仓，Node 24）           | **8555 例 / 8548 通过 / 2 失败**：仅 `health loss withdraws preview…` 与 `official-plugin-staging`（与 `origin/main` 基线一致的本机环境类失败，CI 为准） |
+| `pnpm typecheck`（根，含 i18n）               | 0 错误                                                                                                                                                   |
+| `pnpm --dir apps/cli typecheck`               | 0 错误                                                                                                                                                   |
+| `pnpm lint`（根，CI 口径）                    | 0 错误（6 warnings 既有）                                                                                                                                |
+| 包级 `oxlint src`                             | 3 errors 全部为 `known-differences.md` §三登记的既有基线（`migrations.ts` 821 行等 max-lines），无新增                                                   |
+| `pnpm fmt:check`                              | 通过                                                                                                                                                     |
+| `pnpm architecture:check --changed`           | OK，violations 0                                                                                                                                         |
+| `pnpm perf:baseline`                          | 通过                                                                                                                                                     |
+| `pnpm build:cli-packages`                     | 通过（Node 24）                                                                                                                                          |
+| `pnpm provenance:report` / `provenance:check` | **reviewProblems 154 → 0**，check 通过；57 条桩条目已删、98 条 stale 摘要与 basis 已刷新、mcp 3 历史件改登记 `original`                                  |
+| 桩与回退                                      | 合同桩目录已删；`not implemented: apps-cli-packages-01` 在产品路径（packages/apps/scripts）为 **0**                                                      |
+| `pnpm knip`                                   | 全仓 exit 1 为既有状态；按条目级与 `origin/main` 基线对比（见第十节）                                                                                    |
 
 ## 十、例外与已知差异（如实登记，含本次新增）
 
@@ -211,7 +216,8 @@
 2. **分支相对 main 多出的 1 项第三方义务**（`.agents/skills/react-best-practices`）非本包引入；合入 main 后自动消失。
 3. **Jimp 类型双解析**属依赖/tsconfig 层问题，包内以最小转型 + 注释处理，`typecheck` 为 0。
 4. **裸 `//` 分隔行**：已过线文件中不做全量清理；`workflow/index.ts` 收尾时两处裸 `//` 因命中上游被替换为具名分隔注释。
-5. **本机既有失败（改动前即失败，以 CI 为准）**：`mcp-interactive-*`/OAuth 5 例、`mcp-telemetry-tracker` 2 例；已用 stash / `HEAD~1` 复跑确认与本次改动无关（loopback/环境类）。
+5. **本机环境类失败（与 `origin/main` 基线一致，以 CI 为准）**：`health loss withdraws preview…`（studio UI 计时）与 `packages/desktop/test/official-plugin-staging.test.mjs`；全量 `test:studio` 8555 例中仅此 2 例失败。前一轮曾报的 mcp-interactive / tracker / storage 等失败已全部修复（见第 9 条）。
 6. **`interface-supplement.md` 补充名单的全局效应**：给 `plugins/catalog-types.ts` 登记形状后，声明模式剥离集变化，扰动了 5 个此前「按旧剥离集过线」的文件（`mcp/client-api`、`plugins/hook-runtime`、`plugins/version-compare`、`plugins/zip-source`、`workflow/index`）；已逐一复检并在各自指定模式下重新过线（见第八节），未调门槛。
 7. **`src/config/owners.test.mjs` 保留**：B48 契约用例断言其存在（`existsSync === true`）且未被 `test:studio` 收集；合同 README §十.4 的删除指令与该断言互锁，按默认裁决表「前后不一致选更保守」保留文件，交 Lead 复核。
 8. **三方材料未决义务 26 条**为 `provenance:report` 的既有提示（不置退出码、CI 不拦），与本包替换无关。
+9. **冻结契约金样对齐（早前批次欠账，本线代偿）**：全量 `test:studio` 首跑暴露早前批次（mcp / device / fs / storage 等）遗留约 80 例金样失配（键序、参数名、worker 协议字段、cputime 解析边界、字段读取顺序、快照时机等）。按「不改测试断言与金样、修实现对齐」分 4 批修复（`acdcac8a`、`29f53be0`、`a3e5219f`、`b5c6847a` 等），复验：adapters 全量 2050/2050、契约 118/118×2、相似度三模式并集 331/331 保持全绿。其间 `mcp/process-tree-types.ts` 因边界契约（fixture 依赖面）收紧而内联回 `process-tree.ts`（`interface-supplement.md` 形状清单节保留并注明）。

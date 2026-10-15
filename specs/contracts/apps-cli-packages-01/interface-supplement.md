@@ -609,6 +609,9 @@ export interface Establishment {
 
 用途：mcp 区新增的内部形状模块，`interface.md` 无条目，按本名单在声明模式下计分；接口仅供实现模块内部导入，不新增公开导出。
 
+> 收尾注（2026-10-15）：该形状模块因进程树边界契约（fixture 依赖面）收紧而内联回 `process-tree.ts`；
+> 本节保留为声明模式计分的形状记录，名字集合继续生效。
+
 ```ts
 interface CommandResult {
   error?: unknown;
