@@ -106,3 +106,67 @@
 - **平台差异**：无。
 - **状态所有者**：无（读 state 只取 model 模型选择）。
 - **日志级别**：诊断 `info`、可疑空 `warn`。
+
+### B35 请求/分部/收尾字段构造（`turn-model-step-fields.ts`）
+
+- **输入**：纯构造函数族——`buildTurnModelRequest`（`ModelStepInputs` + `RequestFields`）、
+  `stepStartPart`/`reasoningPart`（分部形状）、`modelRequestPayload`/`steeringFields`/
+  `modelStepTrace`（事件/日志字段）、`stopFields`/`completedAssistantFields`/`errorCarrierFields`/
+  `recoveryFields`（收尾参数）。
+- **输出**：`buildTurnModelRequest` 返回 `RunModelTextRequestOptions`，**键序即契约**：
+  `abortSignal`、`assistantMessageId`、`events`、`maxOutputTokens`、`latestRealUserMessageIndex`、
+  `messages`、`sourceEntries`、`model`、`onStreamSnapshot`、`onModelNetworkStatus`、
+  `onStreamReasoningDelta`、`onStreamTextDelta`、`onStreamToolCall`、`streamRecovery`、`tools`、
+  `traceContext`；其中 `maxOutputTokens = resolveModelStepMaxOutputTokens({baselineMaxOutputTokens:
+  normalBudget, contextWindow, estimatedCurrentUsage: estimateCurrentModelInputTokens(messages,
+  sourceEntries), modelContextBudgetStrategy})`；三个流回调分别接协调器
+  `recordReasoningDelta`/`recordTextDelta`/`accept`。
+- **错误语义**：纯构造不抛（预算解析边界行为见 model-token-limits，methods-01 面）。
+- **时序与并发**：构造发生在持久化序的相应节点（B33）；分部 id 用 `createPartId()` 全局唯一。
+- **幂等**：纯函数；`recoveryFields` 仅在 `failedRequestId` 存在时携带该键。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：无（只读 state/输入）。
+- **日志级别**：无。
+
+### B36 主回合用量记账（`turn-model-step-usage.ts`）
+
+- **输入**：`recordMainTurnModelUsage(runtime, state, input)`（`assistantMessageId`、`model`、
+  `modelTraceContext`、`networkEventStartIndex`、`result?`、`startedAt`、`status`、`error?`、
+  `toolCallCount?`）；`querySourceForTask(taskType)`；`findLatestCommittedAssistantUsage(sourceEntries)`；
+  `mainTurnCacheHitAggregateFromMessages({activeMessages, persistedMessages})`。
+- **输出**：记账委托 `recordModelUsageFact`（methods-01 面），**model 只消费步开始时的不可变
+  快照**（运行中切模不得把旧请求 token 归到新模型——源码注释钉明）；`querySource` 三值映射：
+  `subagent_child → "subagent"`、`workflow_child | nested_workflow_child → "workflow_child"`、
+  其余 `"main_turn"`；`findLatestCommittedAssistantUsage` **从尾向前**找首个非 attachment 的
+  assistant 条目且 `persistedTokenUsageBaseline(entry.tokens)` 命中，返回 `{messageIndex, baseline}`；
+  `mainTurnCacheHitAggregateFromMessages` 只聚合「活跃集内、assistant、非 summary」的持久化消息。
+- **错误语义**：记账失败按 methods-01 的 warn 吞掉面；本模块不另抛。
+- **时序与并发**：记账在 ModelComplete 事件之后（B33 成功序）/请求抛错后第一动作（错误路 1）。
+- **幂等**：同一输入只记一次（调用点唯一）。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：只读 `state.events`/`currentUserMessageId`。
+- **日志级别**：无（记账面自带 warn）。
+
+### B37 反应式上下文恢复（`turn-model-step-recovery.ts` 的 `recoverTurnModelContext`）
+
+- **输入**：`(runtime, state, contextError, modelStepIndex, requestEntries)`。
+- **输出**：`Promise<boolean>`——`true` 仅当 `reactiveCompactAfterContextExceeded(...) === "compacted"`。
+  命中后：`recordCompactSuccess(state, decision)` + `recordCompactHistoryRound(state)` +
+  **机器重建** `state.turnMachine = new TurnMachineImpl(TurnMachineImpl.create(sessionId,
+  turnNumber, state.input, state.traceId, state.turnId).start())`（machine-red 案底口径）。
+- **错误语义**：快速回填熔断命中（`evaluateRapidRefill(state.compactTracking).shouldBlock`）→
+  `warn("Reactive compact rapid-refill breaker tripped", {event: "compact.rapid_refill_breaker",
+  consecutiveRapidRefills, modelStepIndex, toolTurnsSinceCompact, trigger: CompactTrigger.Reactive,
+  ...})` 后 **抛 `createCompactRapidRefillError({consecutiveRapidRefills, maxConsecutiveRapidRefills:
+  MAX_CONSECUTIVE_RAPID_REFILLS, toolTurnThreshold: RAPID_REFILL_TOOL_TURN_THRESHOLD,
+  toolTurnsSinceCompact})`**。
+- **时序与并发**：每模型步至多一次（`state.reactiveCompactAttemptedInCurrentModelStep` 命中
+  即返回 false，不重复尝试）；机器重建在记录之后。
+- **幂等**：上述一次性旗标即幂等边界。
+- **资源释放**：无。
+- **平台差异**：无。
+- **状态所有者**：`reactiveCompactAttemptedInCurrentModelStep`/`compactTracking`/`turnMachine`
+  的唯一写者（本函数）。
+- **日志级别**：熔断 `warn`。
