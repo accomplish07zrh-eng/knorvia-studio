@@ -1,275 +1,248 @@
+// SPDX-License-Identifier: Apache-2.0
+// bash 读文件来源识别：模型用 cat/head/tail/sed/grep 直读文件时，把「读了哪个文件的
+// 哪一段」折算成来源描述，供 read-state 回填判定模型已见过的内容。
+// 出现管道/重定向、不可解析语法或任何写嫌疑的段落都放弃识别（宁缺勿错）。
 import {
   analyzeBashCommand,
   isBashCommandPermissionSafe,
   type BashCommandInvocation,
 } from "./bash-command-parser.js";
 
-const DEFAULT_HEAD_LINES = 10;
-const DEFAULT_TAIL_LINES = 10;
-const SED_RANGE_PRINT_RE = /^(\d+),(\d+)p$/;
-const SED_SINGLE_PRINT_RE = /^(\d+)p$/;
-const SIMPLE_IGNORED_COMMAND_RE = /^\s*(echo|printf|true|:)\b/;
-const GREP_SHORT_FLAGS_RE = /^-[niwxEFGPHh]+$/;
-const GREP_CONTEXT_SHORT_RE = /^-[ABC]\d+$/;
-const GREP_CONTEXT_LONG_RE = /^--(?:after-context|before-context|context)=\d+$/;
-const GREP_ALLOWED_LONG_FLAGS = new Set([
-  "--line-number",
-  "--ignore-case",
-  "--word-regexp",
-  "--line-regexp",
-  "--extended-regexp",
-  "--fixed-strings",
-  "--basic-regexp",
-  "--perl-regexp",
-  "--with-filename",
-  "--no-filename",
-  "--color=never",
-  "--color=auto",
-]);
+const DEFAULT_HEAD_COUNT = 10;
+const DEFAULT_TAIL_COUNT = 10;
+const SED_RANGE_SHAPE = /^(\d+),(\d+)p$/u;
+const SED_SINGLE_SHAPE = /^(\d+)p$/u;
+const NOISE_COMMAND_HEAD = /^\s*(echo|printf|true|:)\b/u;
+const GREP_SHORT_CLUSTER = /^-[niwxEFGPHh]+$/u;
+const GREP_CONTEXT_TAIL = /^-[ABC]\d+$/u;
+const GREP_CONTEXT_LONG = /^--(?:after-context|before-context|context)=\d+$/u;
+const GREP_READING_LONG_FLAGS = new Set(
+  (
+    "--line-number --ignore-case --word-regexp --line-regexp --extended-regexp --fixed-strings " +
+    "--basic-regexp --perl-regexp --with-filename --no-filename --color=never --color=auto"
+  ).split(" "),
+);
 
 interface BashReadFileSource {
-  filePath: string;
-  startLine?: number;
-  endLine?: number;
-  tailLines?: number;
   requiresExitZero?: boolean;
+  tailLines?: number;
+  endLine?: number;
+  startLine?: number;
+  filePath: string;
 }
 
 interface SelectedReadContent {
-  content: string;
-  offset?: number;
   limit?: number;
+  offset?: number;
+  content: string;
 }
 
-export function collectBashReadFileSources(command: string): BashReadFileSource[] {
-  if (/[|<>]/.test(command)) return [];
-  const analysis = analyzeBashCommand(command);
-  if (!isBashCommandPermissionSafe(analysis) || analysis.hasRedirects) return [];
-  if (analysis.commands.length === 0) return [];
+export function collectBashReadFileSources(rawText: string): BashReadFileSource[] {
+  if (/[|<>]/u.test(rawText)) return [];
+  const parsed = analyzeBashCommand(rawText);
+  if (!isBashCommandPermissionSafe(parsed) || parsed.hasRedirects) return [];
+  if (parsed.commands.length === 0) return [];
 
-  const sources: BashReadFileSource[] = [];
-  for (const commandPart of analysis.commands) {
-    const source =
-      parseSedPrintSource(commandPart) ??
-      parseCatSource(commandPart) ??
-      parseHeadSource(commandPart) ??
-      parseTailSource(commandPart) ??
-      (analysis.commands.length === 1 ? parseGrepSource(commandPart) : undefined);
-    if (source) {
-      sources.push(source);
+  const loneSegment = parsed.commands.length === 1;
+  const collected: BashReadFileSource[] = [];
+  for (const segment of parsed.commands) {
+    const picked =
+      sedPrintRange(segment) ??
+      catWholeFile(segment) ??
+      headPrefixLines(segment) ??
+      tailSuffixLines(segment) ??
+      (loneSegment ? grepMatchedFile(segment) : undefined);
+    if (picked !== undefined) {
+      collected.push(picked);
       continue;
     }
-    if (analysis.commands.length > 1 && SIMPLE_IGNORED_COMMAND_RE.test(commandPart.commandText)) {
-      continue;
-    }
+    const harmlessFiller = !loneSegment && NOISE_COMMAND_HEAD.test(segment.commandText);
+    if (harmlessFiller) continue;
     return [];
   }
-  return sources;
+  return collected;
 }
 
 export function selectReadContent(
-  content: string,
-  source: BashReadFileSource,
+  text: string,
+  origin: BashReadFileSource,
 ): SelectedReadContent | undefined {
-  if (source.tailLines !== undefined) {
-    const lines = content.split("\n");
-    if (lines.length > 0 && lines.at(-1) === "") lines.pop();
-    if (lines.length === 0) return undefined;
-    const limit = Math.min(source.tailLines, lines.length);
-    const offset = lines.length - limit + 1;
-    return {
-      content: lines.slice(offset - 1).join("\n"),
-      offset,
-      limit,
-    };
-  }
-
-  if (source.startLine === undefined) {
-    return { content };
-  }
-
-  const lines = content.split("\n");
-  const start = Math.max(1, source.startLine);
-  const end = Math.max(start, source.endLine ?? start);
-  if (start > lines.length) return undefined;
-  return {
-    content: lines.slice(start - 1, end).join("\n"),
-    offset: start,
-    limit: end - start + 1,
-  };
+  if (origin.tailLines !== undefined) return tailWindow(text, origin.tailLines);
+  if (origin.startLine === undefined) return { content: text };
+  return lineWindow(text, origin.startLine, origin.endLine ?? origin.startLine);
 }
 
-function parseCatSource(commandPart: BashCommandInvocation): BashReadFileSource | undefined {
-  const argv = commandPart.argv;
-  if (argv[0] !== "cat") return undefined;
-  let filePath: string | undefined;
-  for (const arg of argv.slice(1)) {
-    if (arg.startsWith("-")) {
-      if (arg !== "-n" && arg !== "--number") return undefined;
+// tail 窗口：文件末尾 N 行；行数不足时给整份内容并如实标注窗口。
+function tailWindow(text: string, tailLines: number): SelectedReadContent | undefined {
+  const rows = text.split("\n");
+  if (rows.length > 0 && rows.at(-1) === "") rows.pop();
+  if (rows.length === 0) return undefined;
+  const windowSize = Math.min(tailLines, rows.length);
+  const windowStart = rows.length - windowSize + 1;
+  const windowed: SelectedReadContent = {
+    content: rows.slice(windowStart - 1).join("\n"),
+    offset: windowStart,
+    limit: windowSize,
+  };
+  return windowed;
+}
+
+// 行号窗口：起止都夹在 [1, 行数] 内；起点越界则放弃（内容与读取时可能已不同）。
+function lineWindow(text: string, start: number, end: number): SelectedReadContent | undefined {
+  const rows = text.split("\n");
+  const from = Math.max(1, start);
+  const to = Math.max(from, end);
+  if (from > rows.length) return undefined;
+  const windowed: SelectedReadContent = {
+    content: rows.slice(from - 1, to).join("\n"),
+    offset: from,
+    limit: to - from + 1,
+  };
+  return windowed;
+}
+
+function catWholeFile(segment: BashCommandInvocation): BashReadFileSource | undefined {
+  const [tool, ...rest] = segment.argv;
+  if (tool !== "cat") return undefined;
+  let chosenPath: string | undefined;
+  for (const token of rest) {
+    if (token.startsWith("-")) {
+      if (token !== "-n" && token !== "--number") return undefined;
       continue;
     }
-    if (filePath !== undefined) return undefined;
-    filePath = arg;
+    if (chosenPath !== undefined) return undefined;
+    chosenPath = token;
   }
-  if (!isConcreteFilePath(filePath)) return undefined;
-  return { filePath };
+  return usablePath(chosenPath) ? { filePath: chosenPath } : undefined;
 }
 
-function parseHeadSource(commandPart: BashCommandInvocation): BashReadFileSource | undefined {
-  const parsed = parseHeadTailCount(commandPart.argv, DEFAULT_HEAD_LINES);
-  if (!parsed || commandPart.argv[0] !== "head") return undefined;
-  return {
-    filePath: parsed.filePath,
-    startLine: 1,
-    endLine: parsed.count,
-  };
+function headPrefixLines(segment: BashCommandInvocation): BashReadFileSource | undefined {
+  const bounded = headTailWindow(segment.argv, DEFAULT_HEAD_COUNT);
+  if (!bounded || segment.argv[0] !== "head") return undefined;
+  return { filePath: bounded.filePath, startLine: 1, endLine: bounded.count };
 }
 
-function parseTailSource(commandPart: BashCommandInvocation): BashReadFileSource | undefined {
-  const parsed = parseHeadTailCount(commandPart.argv, DEFAULT_TAIL_LINES);
-  if (!parsed || commandPart.argv[0] !== "tail") return undefined;
-  return {
-    filePath: parsed.filePath,
-    tailLines: parsed.count,
-  };
+function tailSuffixLines(segment: BashCommandInvocation): BashReadFileSource | undefined {
+  const bounded = headTailWindow(segment.argv, DEFAULT_TAIL_COUNT);
+  if (!bounded || segment.argv[0] !== "tail") return undefined;
+  return { filePath: bounded.filePath, tailLines: bounded.count };
 }
 
-function parseHeadTailCount(
-  argv: readonly string[],
-  defaultCount: number,
+function headTailWindow(
+  words: readonly string[],
+  fallbackCount: number,
 ): { count: number; filePath: string } | undefined {
-  let count: number | undefined;
-  let filePath: string | undefined;
-  for (let index = 1; index < argv.length; index += 1) {
-    const arg = argv[index]!;
-    if (arg === "-n" || arg === "--lines") {
-      const value = argv[++index];
-      if (!isPositiveIntegerString(value)) return undefined;
-      count = Number(value);
+  let lineCount: number | undefined;
+  let chosenPath: string | undefined;
+  for (let cursor = 1; cursor < words.length; cursor += 1) {
+    const token = words[cursor]!;
+    if (token === "-n" || token === "--lines") {
+      const raw = words[++cursor];
+      if (!countAboveZero(raw)) return undefined;
+      lineCount = Number(raw);
       continue;
     }
-    if (arg.startsWith("--lines=")) {
-      const value = arg.slice("--lines=".length);
-      if (!isPositiveIntegerString(value)) return undefined;
-      count = Number(value);
+    if (token.startsWith("--lines=")) {
+      const raw = token.slice("--lines=".length);
+      if (!countAboveZero(raw)) return undefined;
+      lineCount = Number(raw);
       continue;
     }
-    if (/^-n\d+$/.test(arg)) {
-      count = Number(arg.slice(2));
+    if (/^-n\d+$/u.test(token)) {
+      lineCount = Number(token.slice(2));
       continue;
     }
-    if (/^-\d+$/.test(arg)) {
-      count = Number(arg.slice(1));
+    if (/^-\d+$/u.test(token)) {
+      lineCount = Number(token.slice(1));
       continue;
     }
-    if (arg.startsWith("-")) return undefined;
-    if (filePath !== undefined) return undefined;
-    filePath = arg;
+    if (token.startsWith("-")) return undefined;
+    if (chosenPath !== undefined) return undefined;
+    chosenPath = token;
   }
-  if (!isConcreteFilePath(filePath)) return undefined;
-  return {
-    count: count ?? defaultCount,
-    filePath,
-  };
+  if (!usablePath(chosenPath)) return undefined;
+  const bounded = { count: lineCount ?? fallbackCount, filePath: chosenPath };
+  return bounded;
 }
 
-function parseSedPrintSource(commandPart: BashCommandInvocation): BashReadFileSource | undefined {
-  const argv = commandPart.argv;
-  if (argv[0] !== "sed") return undefined;
-  let quiet = false;
-  let expression: string | undefined;
-  let filePath: string | undefined;
+// sed 只认「安静模式 + 单条行号打印脚本」的形态；就地/多脚本一律放弃。
+function sedPrintRange(segment: BashCommandInvocation): BashReadFileSource | undefined {
+  const [tool, ...rest] = segment.argv;
+  if (tool !== "sed") return undefined;
+  let quietMode = false;
+  let script: string | undefined;
+  let chosenPath: string | undefined;
 
-  for (const arg of argv.slice(1)) {
-    if (arg.startsWith("-")) {
-      if (arg.startsWith("--")) {
-        if (arg === "--in-place" || arg.startsWith("--in-place=")) return undefined;
-        if (arg === "--expression") return undefined;
-        if (arg === "--quiet" || arg === "--silent") quiet = true;
+  for (const token of rest) {
+    if (token.startsWith("-")) {
+      if (token.startsWith("--")) {
+        if (token === "--in-place" || token.startsWith("--in-place=")) return undefined;
+        if (token === "--expression") return undefined;
+        if (token === "--quiet" || token === "--silent") quietMode = true;
       } else {
-        if (arg.includes("i")) return undefined;
-        if (arg === "-e") return undefined;
-        if (arg.includes("n")) quiet = true;
+        if (token.includes("i")) return undefined;
+        if (token === "-e") return undefined;
+        if (token.includes("n")) quietMode = true;
       }
       continue;
     }
-    if (expression === undefined) {
-      expression = arg;
-    } else if (filePath === undefined) {
-      filePath = arg;
-    } else {
-      return undefined;
-    }
+    if (script === undefined) script = token;
+    else if (chosenPath === undefined) chosenPath = token;
+    else return undefined;
   }
 
-  if (!quiet || expression === undefined || !isConcreteFilePath(filePath)) return undefined;
-  const rangeMatch = SED_RANGE_PRINT_RE.exec(expression);
-  if (rangeMatch) {
-    return {
-      filePath,
-      startLine: Number(rangeMatch[1]),
-      endLine: Number(rangeMatch[2]),
-    };
+  if (!quietMode || script === undefined || !usablePath(chosenPath)) return undefined;
+  const ranged = SED_RANGE_SHAPE.exec(script);
+  if (ranged) {
+    return { filePath: chosenPath, startLine: Number(ranged[1]), endLine: Number(ranged[2]) };
   }
-  const singleMatch = SED_SINGLE_PRINT_RE.exec(expression);
-  if (!singleMatch) return undefined;
-  const line = Number(singleMatch[1]);
-  return {
-    filePath,
-    startLine: line,
-    endLine: line,
-  };
+  const single = SED_SINGLE_SHAPE.exec(script);
+  if (!single) return undefined;
+  const lineNumber = Number(single[1]);
+  return { filePath: chosenPath, startLine: lineNumber, endLine: lineNumber };
 }
 
-function parseGrepSource(commandPart: BashCommandInvocation): BashReadFileSource | undefined {
-  const argv = commandPart.argv;
-  if (argv[0] !== "grep" && argv[0] !== "egrep" && argv[0] !== "fgrep") return undefined;
+// grep 只在单段命令里识别：模式 + 单个具体文件（排除 glob），命不中不算「已读」。
+function grepMatchedFile(segment: BashCommandInvocation): BashReadFileSource | undefined {
+  const [tool, ...rest] = segment.argv;
+  if (tool !== "grep" && tool !== "egrep" && tool !== "fgrep") return undefined;
   let pattern: string | undefined;
-  let filePath: string | undefined;
+  let chosenPath: string | undefined;
 
-  for (let index = 1; index < argv.length; index += 1) {
-    const arg = argv[index]!;
-    if (arg.startsWith("-") && arg !== "-") {
-      if (arg === "-A" || arg === "-B" || arg === "-C") {
-        const value = argv[++index];
-        if (!isNonNegativeIntegerString(value)) return undefined;
+  for (let cursor = 0; cursor < rest.length; cursor += 1) {
+    const token = rest[cursor]!;
+    if (token.startsWith("-") && token !== "-") {
+      if (token === "-A" || token === "-B" || token === "-C") {
+        const raw = rest[++cursor];
+        if (!digitsOnly(raw)) return undefined;
         continue;
       }
-      if (
-        GREP_CONTEXT_SHORT_RE.test(arg) ||
-        GREP_CONTEXT_LONG_RE.test(arg) ||
-        GREP_SHORT_FLAGS_RE.test(arg) ||
-        GREP_ALLOWED_LONG_FLAGS.has(arg)
-      ) {
-        continue;
-      }
-      return undefined;
+      const acceptedFlag =
+        GREP_CONTEXT_TAIL.test(token) ||
+        GREP_CONTEXT_LONG.test(token) ||
+        GREP_SHORT_CLUSTER.test(token) ||
+        GREP_READING_LONG_FLAGS.has(token);
+      if (!acceptedFlag) return undefined;
+      continue;
     }
-    if (pattern === undefined) {
-      pattern = arg;
-    } else if (filePath === undefined) {
-      filePath = arg;
-    } else {
-      return undefined;
-    }
+    if (pattern === undefined) pattern = token;
+    else if (chosenPath === undefined) chosenPath = token;
+    else return undefined;
   }
 
-  if (pattern === undefined || !isConcreteFilePath(filePath)) return undefined;
-  if (/[*?[{]/.test(filePath)) return undefined;
-  return {
-    filePath,
-    requiresExitZero: true,
-  };
+  if (pattern === undefined || !usablePath(chosenPath)) return undefined;
+  if (/[*?[{]/u.test(chosenPath)) return undefined;
+  return { filePath: chosenPath, requiresExitZero: true };
 }
 
-function isConcreteFilePath(value: string | undefined): value is string {
+function usablePath(value: string | undefined): value is string {
   return value !== undefined && value.length > 0 && value !== "-";
 }
 
-function isPositiveIntegerString(value: string | undefined): value is string {
-  return value !== undefined && /^\d+$/.test(value) && Number(value) > 0;
+function countAboveZero(value: string | undefined): value is string {
+  return value !== undefined && /^\d+$/u.test(value) && Number(value) > 0;
 }
 
-function isNonNegativeIntegerString(value: string | undefined): value is string {
-  return value !== undefined && /^\d+$/.test(value);
+function digitsOnly(value: string | undefined): value is string {
+  return value !== undefined && /^\d+$/u.test(value);
 }
