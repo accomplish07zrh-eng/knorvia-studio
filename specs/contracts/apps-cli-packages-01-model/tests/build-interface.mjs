@@ -163,8 +163,20 @@ const next =
   current.slice(0, startIndex + start.length) + "\n\n" + block + "\n\n" + current.slice(endIndex);
 
 if (process.argv.includes("--check")) {
-  if (next !== current) {
-    process.stderr.write("build-interface: interface.md 的 INTERFACE 块已落后，请重新生成\n");
+  // oxfmt 会重排 Markdown 与代码块折行（长对象类型展开/收拢、签名重折、去尾随逗号）：
+  // 按「去全部空白、去参数尾随逗号」的语义文本比较，只认标识符与标点差异。
+  const normalize = (text) => text.replace(/\s+/gu, "").replace(/,\)/gu, ")");
+  const normalizedNext = normalize(next);
+  const normalizedCurrent = normalize(current);
+  if (normalizedNext !== normalizedCurrent) {
+    let index = 0;
+    while (index < normalizedNext.length && normalizedNext[index] === normalizedCurrent[index])
+      index += 1;
+    process.stderr.write(
+      `build-interface: interface.md 的 INTERFACE 块已落后（首个差异 @${index}）：\n` +
+        `  生成: …${normalizedNext.slice(Math.max(0, index - 20), index + 40)}…\n` +
+        `  现状: …${normalizedCurrent.slice(Math.max(0, index - 20), index + 40)}…\n`,
+    );
     process.exit(1);
   }
   process.stdout.write("build-interface: interface.md 的 INTERFACE 块与源码一致\n");

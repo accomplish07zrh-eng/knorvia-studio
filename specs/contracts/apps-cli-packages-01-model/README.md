@@ -165,3 +165,104 @@ helper；替换 PR #166 的验收记录也把它们记为「公开兼容 helper�
 `publishModelTelemetryMilestone`）等。
 
 **结论：第 4 步没有可安全删除的文件或导出，本次提交只记录证据与决定，不删任何文件。**
+
+## 七、条目 → 测试对照表
+
+每个 B 条目至少一个用例；表由 `node specs/contracts/apps-cli-packages-01-model/tests/build-case-map.mjs`
+生成（`--check` 在缺条目或表落后时退出码非 0）。
+
+<!-- CASE-MAP:START -->
+
+| 条目 | 测试文件                                                         | 用例                                                                        |
+| ---- | ---------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| B1   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B1 provider API 格式到 SDK 种类的路由                                       |
+| B2   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B2 请求期鉴权与 header 合并（大小写不敏感、后者覆盖前者）                   |
+| B3   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B3 三种 provider 的 SDK 构造与 baseURL 归一                                 |
+| B4   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B4 选项映射 fetch 包装（请求体改写与原始体捕获）                            |
+| B5   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B5 provider 业务错误体的提取（readProviderBusinessFailureFromBody）         |
+| B6   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B6 非 2xx 响应转 ProviderBusinessError（含清理路径）                        |
+| B7   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B7 模型对象的不可变绑定与 bind 合并                                         |
+| B8   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B8 选项校验与默认值（语义常量）                                             |
+| B9   | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B9 请求能力校验（工具、结构化输出、输入媒体）                               |
+| B10  | [tests/model-core.test.ts](./tests/model-core.test.ts)           | B10 OpenCode Go base URL 判定                                               |
+| B11  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B11 重试选项解析与默认值（语义常量）                                        |
+| B12  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B12 重试预算（有界 / workflow 无界）的判定                                  |
+| B13  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B13 空补全重试：条件、事件与等待                                            |
+| B14  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B14 attempt 准入（admission）的排队与票据释放                               |
+| B15  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B15 off-peak 特例（票据过期与重新排队）                                     |
+| B16  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B16 workflow 模型失败裁决表（语义常量）                                     |
+| B17  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B17 重试许可的双轨裁决                                                      |
+| B18  | [tests/retry-admission.test.ts](./tests/retry-admission.test.ts) | B18 workflow 侧失败检视（inspectWorkflowModelFailure）                      |
+| B19  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B19 错误对象体系与本地 provider 配置错误上下文                              |
+| B20  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B20 错误链检视工具（cause 链遍历与字段提取）                                |
+| B21  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B21 Retry-After 响应头解析（语义常量）                                      |
+| B22  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B22 provider 业务码映射表（逐码锁定）                                       |
+| B23  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B23 业务错误的网络/超时可重试判定                                           |
+| B24  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B24 AI SDK 错误到业务错误的兜底映射                                         |
+| B25  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B25 业务错误定位与 provider 细节提取                                        |
+| B26  | [tests/errors.test.ts](./tests/errors.test.ts)                   | B26 失败分类裁决表（classifyModelFailure）                                  |
+| B27  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（默认 provider）                                       |
+| B27  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（openai-compatible 文本化路径）（另有用例）            |
+| B27  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（stripMedia 路径）（另有用例）                         |
+| B27  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27 tool 消息缺标识即抛（含空串）（另有用例）                               |
+| B28  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（默认 provider）                                       |
+| B28  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（openai-compatible 文本化路径）（另有用例）            |
+| B28  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（stripMedia 路径）（另有用例）                         |
+| B28  | [tests/projection.test.ts](./tests/projection.test.ts)           | B28 连续 tool 媒体合并（防 MissingToolResultsError 的既有修复）（另有用例） |
+| B29  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（默认 provider）                                       |
+| B29  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（openai-compatible 文本化路径）（另有用例）            |
+| B29  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（stripMedia 路径）（另有用例）                         |
+| B29  | [tests/projection.test.ts](./tests/projection.test.ts)           | B29 空占位与塌缩规则（另有用例）                                            |
+| B30  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（默认 provider）                                       |
+| B30  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（openai-compatible 文本化路径）（另有用例）            |
+| B30  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（stripMedia 路径）（另有用例）                         |
+| B30  | [tests/projection.test.ts](./tests/projection.test.ts)           | B30 data URL 解析与不支持媒体占位文案（语义常量）（另有用例）               |
+| B31  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（默认 provider）                                       |
+| B31  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（openai-compatible 文本化路径）（另有用例）            |
+| B31  | [tests/projection.test.ts](./tests/projection.test.ts)           | B27–B31 消息投影金样（stripMedia 路径）（另有用例）                         |
+| B31  | [tests/projection.test.ts](./tests/projection.test.ts)           | B31 工具结果媒体与 CUA 帧引用邻接（另有用例）                               |
+| B32  | [tests/projection.test.ts](./tests/projection.test.ts)           | B32 工具契约到 AI SDK 工具集（金样 + 两个错误面）                           |
+| B33  | [tests/projection.test.ts](./tests/projection.test.ts)           | B33 工具入参归一（含 warn 日志）                                            |
+| B34  | [tests/projection.test.ts](./tests/projection.test.ts)           | B34 reasoning 块的 providerOptions 透传                                     |
+| B35  | [tests/projection.test.ts](./tests/projection.test.ts)           | B35 Anthropic 元数据与脱敏（金样）                                          |
+| B36  | [tests/projection.test.ts](./tests/projection.test.ts)           | B36 reasoning 历史归一与签名拒绝修复                                        |
+| B37  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B37 流空闲超时的额度与错误形状（语义常量）                                  |
+| B38  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B38 关联取消与带空闲计时的迭代读取                                          |
+| B39  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B39 compact 流边界映射                                                      |
+| B40  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B40 重放安全前奏事件的判定                                                  |
+| B41  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B41 compact 体失败后的重试许可                                              |
+| B42  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B42 流清理与被放弃流的关闭                                                  |
+| B43  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B43 流式工具调用装配器（状态机）                                            |
+| B44  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B44 Anthropic 兼容 fetch：请求体归一                                        |
+| B45  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B45 Anthropic 兼容 fetch：响应侧修补                                        |
+| B46  | [tests/stream-compat.test.ts](./tests/stream-compat.test.ts)     | B46 OpenAI Responses JSON 兼容                                              |
+| B47  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B47 适配器构造、默认值与状态接收端组合                                      |
+| B48  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B48 请求准备：鉴权刷新与 reasoning 归一                                     |
+| B49  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B49 SDK 请求选项装配（语义常量）                                            |
+| B50  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B50 运行时端口默认实现                                                      |
+| B51  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B51 runGenerateText 的 attempt 状态机（事件序列）                           |
+| B51  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B51 空补全重试（事件序列）（另有用例）                                      |
+| B51  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B51 鉴权缺失 pre-start 原样抛出（不补 failed 事件）（另有用例）             |
+| B52  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B52 runStreamText 的 attempt 状态机（前奏缓冲与提交门）                     |
+| B52  | [tests/runner-core.test.ts](./tests/runner-core.test.ts)         | B52 输出提交门：可见后失败不再重放（另有用例）                              |
+| B53  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B53 状态上下文、attempt 上下文与事件发布                                    |
+| B54  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B54 调试持久化往返：旧写金样 → 新读 → 新写 → 旧读                           |
+| B55  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B55 重试延迟、退避等待与适配错误                                            |
+| B56  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B56 结果归一（用量、reasoning、流事件、工具、来源）                         |
+| B57  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B57 终局业务错误探测                                                        |
+| B58  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B58 流诊断计数与零输出判定                                                  |
+| B59  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B59 归因头与会话类型（语义常量）                                            |
+| B60  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B60 网络头脱敏（敏感头清单）                                                |
+| B61  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B61 attempt 级运行时头刷新                                                  |
+| B62  | [tests/runner-support.test.ts](./tests/runner-support.test.ts)   | B62 记录字段工具与失败遥测归因                                              |
+
+<!-- CASE-MAP:END -->
+
+## 八、旧门与桩替换（结果见 `gate-old.json` / `stub-gate.json`）
+
+命令（仓库根目录，Node 与 `mise.toml` 一致）：
+
+```text
+pnpm build:cli-packages
+node --import tsx specs/contracts/apps-cli-packages-01-model/tests/run-old-gate.mjs --with-stubs
+```
