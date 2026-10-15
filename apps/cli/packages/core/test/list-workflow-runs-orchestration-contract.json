@@ -22,7 +22,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -74,7 +77,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -100,7 +106,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -152,7 +161,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 1
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -178,7 +190,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -230,7 +245,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 1
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -256,7 +274,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -308,7 +329,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 1
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -334,7 +358,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -386,7 +413,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -412,7 +442,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -464,7 +497,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 50
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -490,7 +526,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -542,7 +581,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 50
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -557,7 +599,9 @@
               "code": "invalid_type",
               "expected": "number",
               "received": "nan",
-              "path": ["limit"],
+              "path": [
+                "limit"
+              ],
               "message": "Expected number, received nan"
             }
           ]
@@ -579,7 +623,9 @@
               "expected": "integer",
               "received": "float",
               "message": "Expected integer, received float",
-              "path": ["limit"]
+              "path": [
+                "limit"
+              ]
             },
             {
               "code": "too_big",
@@ -588,7 +634,9 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 50",
-              "path": ["limit"]
+              "path": [
+                "limit"
+              ]
             }
           ]
         },
@@ -608,7 +656,9 @@
               "code": "invalid_type",
               "expected": "number",
               "received": "null",
-              "path": ["limit"],
+              "path": [
+                "limit"
+              ],
               "message": "Expected number, received null"
             }
           ]
@@ -629,7 +679,9 @@
               "code": "invalid_type",
               "expected": "number",
               "received": "string",
-              "path": ["limit"],
+              "path": [
+                "limit"
+              ],
               "message": "Expected number, received string"
             }
           ]
@@ -661,7 +713,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -713,7 +768,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -739,7 +797,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -792,7 +853,11 @@
             "limit": 20,
             "statuses": []
           },
-          "keys": ["cwd", "limit", "statuses"]
+          "keys": [
+            "cwd",
+            "limit",
+            "statuses"
+          ]
         }
       ]
     },
@@ -818,7 +883,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -869,9 +937,17 @@
           "request": {
             "cwd": "synthetic/../project/é",
             "limit": 20,
-            "statuses": ["running", "pending", "running"]
+            "statuses": [
+              "running",
+              "pending",
+              "running"
+            ]
           },
-          "keys": ["cwd", "limit", "statuses"]
+          "keys": [
+            "cwd",
+            "limit",
+            "statuses"
+          ]
         }
       ]
     },
@@ -885,8 +961,17 @@
             {
               "received": "bad",
               "code": "invalid_enum_value",
-              "options": ["completed", "errored", "pending", "running", "stopped"],
-              "path": ["statuses", 0],
+              "options": [
+                "completed",
+                "errored",
+                "pending",
+                "running",
+                "stopped"
+              ],
+              "path": [
+                "statuses",
+                0
+              ],
               "message": "Invalid enum value. Expected 'completed' | 'errored' | 'pending' | 'running' | 'stopped', received 'bad'"
             }
           ]
@@ -907,7 +992,9 @@
               "code": "invalid_type",
               "expected": "array",
               "received": "null",
-              "path": ["statuses"],
+              "path": [
+                "statuses"
+              ],
               "message": "Expected array, received null"
             }
           ]
@@ -989,7 +1076,9 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": ["cwd"],
+              "keys": [
+                "cwd"
+              ],
               "path": [],
               "message": "Unrecognized key(s) in object: 'cwd'"
             }
@@ -1008,9 +1097,15 @@
           "errorCode": 1,
           "message": "workflow_introspection_unavailable: this session cannot read workflow runs — workflow execution is not available here, so no run history is reachable. This is a capability gap, not an empty project."
         },
-        "keys": ["result", "errorCode", "message"],
+        "keys": [
+          "result",
+          "errorCode",
+          "message"
+        ],
         "model": "ListWorkflowRuns returned an invalid result.",
-        "tape": ["context.dynamicWorkflowRunPort"]
+        "tape": [
+          "context.dynamicWorkflowRunPort"
+        ]
       },
       "calls": []
     },
@@ -1022,7 +1117,9 @@
           "message": "Cannot read properties of null (reading 'listRuns')"
         },
         "sameFailure": false,
-        "tape": ["context.dynamicWorkflowRunPort"]
+        "tape": [
+          "context.dynamicWorkflowRunPort"
+        ]
       },
       "calls": []
     },
@@ -1034,9 +1131,15 @@
           "errorCode": 1,
           "message": "workflow_introspection_unavailable: this session cannot read workflow runs — workflow execution is not available here, so no run history is reachable. This is a capability gap, not an empty project."
         },
-        "keys": ["result", "errorCode", "message"],
+        "keys": [
+          "result",
+          "errorCode",
+          "message"
+        ],
         "model": "ListWorkflowRuns returned an invalid result.",
-        "tape": ["context.dynamicWorkflowRunPort"]
+        "tape": [
+          "context.dynamicWorkflowRunPort"
+        ]
       },
       "calls": []
     },
@@ -1048,9 +1151,15 @@
           "errorCode": 1,
           "message": "workflow_introspection_unavailable: this session cannot read workflow runs — workflow execution is not available here, so no run history is reachable. This is a capability gap, not an empty project."
         },
-        "keys": ["result", "errorCode", "message"],
+        "keys": [
+          "result",
+          "errorCode",
+          "message"
+        ],
         "model": "ListWorkflowRuns returned an invalid result.",
-        "tape": ["context.dynamicWorkflowRunPort"]
+        "tape": [
+          "context.dynamicWorkflowRunPort"
+        ]
       },
       "calls": []
     },
@@ -1078,7 +1187,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1106,7 +1218,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1135,7 +1250,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1165,7 +1283,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1191,7 +1312,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1245,7 +1369,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1271,7 +1398,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1325,7 +1455,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1353,7 +1486,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1383,7 +1519,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1413,7 +1552,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1443,7 +1585,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1453,7 +1598,9 @@
         "output": {
           "runs": []
         },
-        "keys": ["runs"],
+        "keys": [
+          "runs"
+        ],
         "rowKeys": [],
         "model": "<workflow_runs count=\"0\">\nNo workflow runs recorded for this project.\n</workflow_runs>",
         "tape": [
@@ -1475,7 +1622,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1515,7 +1665,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1596,7 +1749,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1617,7 +1773,9 @@
             }
           ]
         },
-        "keys": ["runs"],
+        "keys": [
+          "runs"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1662,7 +1820,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1674,7 +1835,9 @@
           "message": "Synthetic journal failure"
         },
         "sameFailure": true,
-        "tape": ["context.dynamicWorkflowRunPort"]
+        "tape": [
+          "context.dynamicWorkflowRunPort"
+        ]
       },
       "calls": []
     },
@@ -1700,7 +1863,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1752,7 +1918,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1764,7 +1933,10 @@
           "message": "Synthetic journal failure"
         },
         "sameFailure": true,
-        "tape": ["context.dynamicWorkflowRunPort", "port.listRuns"]
+        "tape": [
+          "context.dynamicWorkflowRunPort",
+          "port.listRuns"
+        ]
       },
       "calls": []
     },
@@ -1776,7 +1948,11 @@
           "message": "Synthetic journal failure"
         },
         "sameFailure": true,
-        "tape": ["context.dynamicWorkflowRunPort", "port.listRuns", "port.listRuns"]
+        "tape": [
+          "context.dynamicWorkflowRunPort",
+          "port.listRuns",
+          "port.listRuns"
+        ]
       },
       "calls": []
     },
@@ -1819,7 +1995,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1871,7 +2050,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1901,7 +2083,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -1927,7 +2112,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -1979,7 +2167,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2010,7 +2201,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2036,7 +2230,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -2088,7 +2285,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2123,7 +2323,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2159,7 +2362,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2204,7 +2410,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2230,7 +2439,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -2282,7 +2494,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2328,7 +2543,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2354,7 +2572,10 @@
           ],
           "truncated": true
         },
-        "keys": ["runs", "truncated"],
+        "keys": [
+          "runs",
+          "truncated"
+        ],
         "rowKeys": [
           [
             "runId",
@@ -2406,7 +2627,10 @@
             "cwd": "synthetic/../project/é",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     }
@@ -2567,15 +2791,21 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "setOutputBytes",
-          "args": [388]
+          "args": [
+            388
+          ]
         },
         {
           "name": "setOutputTruncated",
-          "args": [false]
+          "args": [
+            false
+          ]
         },
         {
           "name": "finishCompleted",
@@ -2596,7 +2826,10 @@
             "cwd": ".",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2651,7 +2884,9 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "finishFailed",
@@ -2752,17 +2987,27 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "finishFailed",
-          "args": ["handler", "internal", {}]
+          "args": [
+            "handler",
+            "internal",
+            {}
+          ]
         }
       ],
       "terminal": [
         {
           "name": "finishFailed",
-          "args": ["handler", "internal", {}]
+          "args": [
+            "handler",
+            "internal",
+            {}
+          ]
         }
       ],
       "calls": [
@@ -2773,7 +3018,10 @@
             "cwd": ".",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2823,17 +3071,27 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "finishFailed",
-          "args": ["handler", "internal", {}]
+          "args": [
+            "handler",
+            "internal",
+            {}
+          ]
         }
       ],
       "terminal": [
         {
           "name": "finishFailed",
-          "args": ["handler", "internal", {}]
+          "args": [
+            "handler",
+            "internal",
+            {}
+          ]
         }
       ],
       "calls": [
@@ -2844,7 +3102,10 @@
             "cwd": ".",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -2969,15 +3230,21 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "setOutputBytes",
-          "args": [388]
+          "args": [
+            388
+          ]
         },
         {
           "name": "setOutputTruncated",
-          "args": [false]
+          "args": [
+            false
+          ]
         },
         {
           "name": "finishCompleted",
@@ -2998,7 +3265,10 @@
             "cwd": ".",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -3123,15 +3393,21 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "setOutputBytes",
-          "args": [388]
+          "args": [
+            388
+          ]
         },
         {
           "name": "setOutputTruncated",
-          "args": [false]
+          "args": [
+            false
+          ]
         },
         {
           "name": "finishCompleted",
@@ -3152,7 +3428,10 @@
             "cwd": ".",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     },
@@ -3176,13 +3455,17 @@
       "telemetry": [
         {
           "name": "finishCancelled",
-          "args": ["abort_signal"]
+          "args": [
+            "abort_signal"
+          ]
         }
       ],
       "terminal": [
         {
           "name": "finishCancelled",
-          "args": ["abort_signal"]
+          "args": [
+            "abort_signal"
+          ]
         }
       ],
       "calls": []
@@ -3216,21 +3499,31 @@
           }
         }
       ],
-      "timeline": ["PreToolUse", "permission", "permission_denied"],
+      "timeline": [
+        "PreToolUse",
+        "permission",
+        "permission_denied"
+      ],
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["denied"]
+          "args": [
+            "denied"
+          ]
         },
         {
           "name": "finishDenied",
-          "args": ["user_denied"]
+          "args": [
+            "user_denied"
+          ]
         }
       ],
       "terminal": [
         {
           "name": "finishDenied",
-          "args": ["user_denied"]
+          "args": [
+            "user_denied"
+          ]
         }
       ],
       "calls": []
@@ -3264,7 +3557,9 @@
           }
         }
       ],
-      "timeline": ["tool_call_error"],
+      "timeline": [
+        "tool_call_error"
+      ],
       "telemetry": [
         {
           "name": "finishFailed",
@@ -3368,15 +3663,21 @@
       "telemetry": [
         {
           "name": "setPermissionDecision",
-          "args": ["not_required"]
+          "args": [
+            "not_required"
+          ]
         },
         {
           "name": "setOutputBytes",
-          "args": [86]
+          "args": [
+            86
+          ]
         },
         {
           "name": "setOutputTruncated",
-          "args": [false]
+          "args": [
+            false
+          ]
         },
         {
           "name": "finishCompleted",
@@ -3397,7 +3698,10 @@
             "cwd": ".",
             "limit": 20
           },
-          "keys": ["cwd", "limit"]
+          "keys": [
+            "cwd",
+            "limit"
+          ]
         }
       ]
     }
@@ -3411,7 +3715,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3436,7 +3744,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3461,7 +3773,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3486,7 +3802,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3519,7 +3839,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3552,7 +3876,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3585,7 +3913,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3618,7 +3950,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3651,7 +3987,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3684,7 +4024,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3709,7 +4053,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3734,7 +4082,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3759,7 +4111,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3784,7 +4140,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3809,7 +4169,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3842,7 +4206,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3875,7 +4243,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3908,7 +4280,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -3941,7 +4317,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3966,7 +4346,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -3991,7 +4375,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4024,7 +4412,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4057,7 +4449,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4090,7 +4486,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4123,7 +4523,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4156,7 +4560,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4189,7 +4597,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4222,7 +4634,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -4247,7 +4663,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -4272,7 +4692,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4305,7 +4729,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4338,7 +4766,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4371,7 +4803,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4404,7 +4840,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4437,7 +4877,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4470,7 +4914,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4503,7 +4951,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -4528,7 +4980,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -4553,7 +5009,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4586,7 +5046,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4619,7 +5083,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4652,7 +5120,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4685,7 +5157,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4718,7 +5194,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4751,7 +5231,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4784,7 +5268,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -4809,7 +5297,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": false,
         "error": {
@@ -4834,7 +5326,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4867,7 +5363,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4900,7 +5400,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4933,7 +5437,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4966,7 +5474,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -4999,7 +5511,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -5032,7 +5548,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "success": true,
         "output": {
@@ -5065,7 +5585,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5114,17 +5638,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -5139,7 +5669,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5188,17 +5722,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -5213,7 +5753,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5262,17 +5806,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -5287,7 +5837,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5409,15 +5963,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -5442,7 +6002,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5564,15 +6128,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -5597,7 +6167,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5719,15 +6293,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -5752,7 +6332,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -5874,15 +6458,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -5907,7 +6497,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6029,15 +6623,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -6062,7 +6662,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6184,15 +6788,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -6217,7 +6827,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6266,17 +6880,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -6291,7 +6911,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6340,17 +6964,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -6365,7 +6995,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6414,17 +7048,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -6439,7 +7079,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6488,17 +7132,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -6513,7 +7163,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6562,17 +7216,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -6587,7 +7247,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6709,15 +7373,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -6742,7 +7412,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -6864,15 +7538,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -6897,7 +7577,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7019,15 +7703,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -7052,7 +7742,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7174,15 +7868,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -7207,7 +7907,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7256,17 +7960,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -7281,7 +7991,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7330,17 +8044,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -7355,7 +8075,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7477,15 +8201,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -7510,7 +8240,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7632,15 +8366,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -7665,7 +8405,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7787,15 +8531,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -7820,7 +8570,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -7942,15 +8696,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -7975,7 +8735,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8097,15 +8861,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -8130,7 +8900,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8252,15 +9026,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -8285,7 +9065,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8407,15 +9191,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -8440,7 +9230,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8489,17 +9283,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -8514,7 +9314,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8563,17 +9367,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -8588,7 +9398,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8710,15 +9524,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -8743,7 +9563,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -8865,15 +9689,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -8898,7 +9728,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9020,15 +9854,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -9053,7 +9893,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9175,15 +10019,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -9208,7 +10058,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9330,15 +10184,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -9363,7 +10223,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9485,15 +10349,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -9518,7 +10388,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9640,15 +10514,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -9673,7 +10553,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9722,17 +10606,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -9747,7 +10637,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9796,17 +10690,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -9821,7 +10721,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -9943,15 +10847,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -9976,7 +10886,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10098,15 +11012,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -10131,7 +11051,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10253,15 +11177,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -10286,7 +11216,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10408,15 +11342,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -10441,7 +11381,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10563,15 +11507,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -10596,7 +11546,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10718,15 +11672,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -10751,7 +11711,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10873,15 +11837,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -10906,7 +11876,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -10955,17 +11929,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -10980,7 +11960,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11029,17 +12013,23 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "terminal": [
           {
             "name": "finishCancelled",
-            "args": ["abort_signal"]
+            "args": [
+              "abort_signal"
+            ]
           }
         ],
         "calls": []
@@ -11054,7 +12044,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11176,15 +12170,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -11209,7 +12209,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11331,15 +12335,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -11364,7 +12374,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11486,15 +12500,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -11519,7 +12539,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11641,15 +12665,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -11674,7 +12704,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11796,15 +12830,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -11829,7 +12869,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -11951,15 +12995,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -11984,7 +13034,11 @@
       "early": false,
       "fired": true,
       "calls": 1,
-      "tape": ["port.accepted", "row.complete", "result.complete"],
+      "tape": [
+        "port.accepted",
+        "row.complete",
+        "result.complete"
+      ],
       "observed": {
         "result": {
           "toolCallId": "fixture-call",
@@ -12106,15 +13160,21 @@
         "telemetry": [
           {
             "name": "setPermissionDecision",
-            "args": ["not_required"]
+            "args": [
+              "not_required"
+            ]
           },
           {
             "name": "setOutputBytes",
-            "args": [388]
+            "args": [
+              388
+            ]
           },
           {
             "name": "setOutputTruncated",
-            "args": [false]
+            "args": [
+              false
+            ]
           },
           {
             "name": "finishCompleted",
@@ -12155,7 +13215,9 @@
     {
       "options": {
         "includeDynamicWorkflow": true,
-        "allowedTools": ["ListWorkflowRuns"]
+        "allowedTools": [
+          "ListWorkflowRuns"
+        ]
       },
       "present": true,
       "same": true
@@ -12163,7 +13225,9 @@
     {
       "options": {
         "includeDynamicWorkflow": true,
-        "disallowedTools": ["ListWorkflowRuns"]
+        "disallowedTools": [
+          "ListWorkflowRuns"
+        ]
       },
       "present": false,
       "same": false
@@ -12198,7 +13262,13 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["completed", "errored", "pending", "running", "stopped"]
+            "enum": [
+              "completed",
+              "errored",
+              "pending",
+              "running",
+              "stopped"
+            ]
           },
           "description": "Optional status filter. Omit to see every run in this project. Pass [\"running\", \"pending\"] to see only what is still in flight."
         }
@@ -12223,15 +13293,30 @@
               },
               "labelSource": {
                 "type": "string",
-                "enum": ["name", "script"]
+                "enum": [
+                  "name",
+                  "script"
+                ]
               },
               "status": {
                 "type": "string",
-                "enum": ["completed", "errored", "pending", "running", "stopped"]
+                "enum": [
+                  "completed",
+                  "errored",
+                  "pending",
+                  "running",
+                  "stopped"
+                ]
               },
               "stopReason": {
                 "type": "string",
-                "enum": ["user", "model", "provider", "interrupted", "superseded"]
+                "enum": [
+                  "user",
+                  "model",
+                  "provider",
+                  "interrupted",
+                  "superseded"
+                ]
               },
               "resumedFrom": {
                 "type": "string",
@@ -12274,7 +13359,9 @@
           "type": "boolean"
         }
       },
-      "required": ["runs"],
+      "required": [
+        "runs"
+      ],
       "additionalProperties": false,
       "$schema": "https://json-schema.org/draft/2020-12/schema"
     },
@@ -12284,8 +13371,12 @@
       "riskLevel": "low",
       "sideEffectScope": "none",
       "needsApproval": false,
-      "patternSources": ["toolName"],
-      "alwaysAllowPatternSources": ["toolName"],
+      "patternSources": [
+        "toolName"
+      ],
+      "alwaysAllowPatternSources": [
+        "toolName"
+      ],
       "denyPriority": "beforeAsk"
     },
     "resultBudget": {

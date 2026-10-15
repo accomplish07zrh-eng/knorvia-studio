@@ -144,26 +144,24 @@ interface RosterWidths {
   stateWidth: number;
 }
 
+/**
+ * 一行子代理。**getter 访问序是冻结契约**（activity 档 frozen route/getter 断言逐次记录）：
+ * 状态 → 阶段 → 活动（读 generatedAt）→ tokens，拼行时名字/地址/状态序保持。
+ */
 function rosterRow(
   run: GetWorkflowRunOutput,
-  index: number,
+  actor: GetWorkflowRunOutput["subagents"][number],
+  name: string,
+  address: string,
   widths: RosterWidths,
   askedAtByQid: ReadonlyMap<string, number>,
 ): string {
-  const actor = run.subagents[index]!;
-  const name = actor.name === undefined ? "" : escapeWorkflowRunText(actor.name);
-  const address = `${escapeWorkflowRunText(actor.siteId)}@${actor.ordinal}`;
+  const state = padTo(actor.state, widths.stateWidth);
   const phase =
     actor.phaseName === undefined ? "" : `phase ${escapeWorkflowRunText(actor.phaseName)}`;
+  const activity = renderWorkflowRunActivity(actor, run.generatedAt, askedAtByQid);
   const tokens = actor.tokens > 0 ? `${formatWorkflowRunCount(actor.tokens)} tokens` : "";
-  return rowOf([
-    padTo(name, widths.nameWidth),
-    padTo(address, widths.addressWidth),
-    padTo(actor.state, widths.stateWidth),
-    phase,
-    renderWorkflowRunActivity(actor, run.generatedAt, askedAtByQid),
-    tokens,
-  ]);
+  return rowOf([padTo(name, widths.nameWidth), padTo(address, widths.addressWidth), state, phase, activity, tokens]);
 }
 
 export function formatWorkflowRunSubagentsBlock(snapshot: GetWorkflowRunOutput): string {
@@ -187,7 +185,7 @@ export function formatWorkflowRunSubagentsBlock(snapshot: GetWorkflowRunOutput):
 
   const lines: string[] = [];
   snapshot.subagents.forEach((actor, index) => {
-    lines.push(rosterRow(snapshot, index, widths, askedAtByQid));
+    lines.push(rosterRow(snapshot, actor, names[index]!, addresses[index]!, widths, askedAtByQid));
     const head = actor.currentAsk?.instructionsHead;
     if (head !== undefined && head.length > 0) {
       lines.push(`${TASK_LINE_INDENT}task: ${escapeWorkflowRunText(head)}`);

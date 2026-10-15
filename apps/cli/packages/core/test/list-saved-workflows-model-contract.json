@@ -88,7 +88,12 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": ["string", "number", "boolean", "json"],
+                      "enum": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "json"
+                      ],
                       "description": "Value type. \"json\" accepts any JSON value without further checking."
                     },
                     "description": {
@@ -103,7 +108,9 @@
                       "description": "Value used when the caller omits this argument."
                     }
                   },
-                  "required": ["type"],
+                  "required": [
+                    "type"
+                  ],
                   "additionalProperties": false
                 },
                 "propertyNames": {
@@ -112,14 +119,22 @@
               },
               "scope": {
                 "type": "string",
-                "enum": ["project", "global"]
+                "enum": [
+                  "project",
+                  "global"
+                ]
               },
               "path": {
                 "type": "string",
                 "minLength": 1
               }
             },
-            "required": ["name", "description", "scope", "path"],
+            "required": [
+              "name",
+              "description",
+              "scope",
+              "path"
+            ],
             "additionalProperties": false
           }
         },
@@ -137,12 +152,17 @@
                 "minLength": 1
               }
             },
-            "required": ["path", "reason"],
+            "required": [
+              "path",
+              "reason"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["workflows"],
+      "required": [
+        "workflows"
+      ],
       "additionalProperties": false,
       "$schema": "https://json-schema.org/draft/2020-12/schema"
     },
@@ -152,8 +172,12 @@
       "riskLevel": "low",
       "sideEffectScope": "none",
       "needsApproval": false,
-      "patternSources": ["toolName"],
-      "alwaysAllowPatternSources": ["toolName"],
+      "patternSources": [
+        "toolName"
+      ],
+      "alwaysAllowPatternSources": [
+        "toolName"
+      ],
       "denyPriority": "beforeAsk"
     },
     "resultBudget": {
@@ -186,6 +210,12 @@
   "ordinary": {
     "success": true,
     "model": "<saved_workflows count=\"1\">\n<workflow name=\"synthetic&lt;&amp;&quot;\" scope=\"project\">\n  Synthetic description\nsecond line\n  When to use: \n  arg z (json, required, default null) — \n  arg a (boolean, default false)\n  arg n (number, default 0)\n  arg synthetic (json, default \"synthetic default\")\n</workflow>\n</saved_workflows>",
-    "tape": ["then", "then", "then", "workflows", "invalid"]
+    "tape": [
+      "then",
+      "then",
+      "then",
+      "workflows",
+      "invalid"
+    ]
   }
 }
