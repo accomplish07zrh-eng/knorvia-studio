@@ -1,5 +1,8 @@
-// SPDX-License-Identifier: MIT
-// Knorvia independent replacement; per-file review pending.
+// SPDX-License-Identifier: Apache-2.0
+// 输入消息 → AI SDK 消息投影：角色保序、system 归一（openai-compatible）、user/assistant 内容块
+// 投影、tool 结果投影与连续 tool 媒体合并（防 MissingToolResultsError 的既有修复保持）。
+// 占位与提示文案是对外可见文本，逐字保持。
+
 import type { ModelMessage as AiSdkModelMessage } from "ai";
 import type { ModelInputMessage, ModelInputFormat } from "@knorvia/contracts";
 import { dataUrlToDataContent, unsupportedInputMediaText } from "./media-transform-policy.js";
@@ -15,190 +18,207 @@ import {
 import { AiSdkModelAdapterError } from "./errors.js";
 
 export interface AiSdkMessageTransformOptions {
-  apiFormat?: string;
-  providerOptions?: Record<string, unknown>;
-  providerKind?: "openai" | "anthropic" | "openai-compatible" | "gateway" | "custom";
-  stripMedia?: boolean;
-  inputFormat?: ModelInputFormat;
+  apiFormat?: string; // provider API 形态
+  providerOptions?: Record<string, unknown>; // provider 侧选项
+  providerKind?: "openai" | "anthropic" | "openai-compatible" | "gateway" | "custom"; // SDK 种类
+  stripMedia?: boolean; // 媒体剥离开关
+  inputFormat?: ModelInputFormat; // 模型输入能力表
 }
+
+const EMPTY_TEXT = "[Empty user message]";
+const OMITTED_MEDIA = "[Media omitted]";
+const INVALID_IMAGE = "[Invalid image data]";
+const INVALID_VIDEO = "[Invalid video data]";
+const INVALID_FILE = "[Invalid file data]";
+const UNNAMED_TOOL = "unnamed_tool";
+
+type DecodedMedia = { mediaType: string; data: string };
+
+function textPart(text: string): unknown {
+  return { type: "text", text }; // 文本段
+}
+
+function imagePart(decoded: DecodedMedia): unknown {
+  return { type: "image", image: decoded.data, mediaType: decoded.mediaType }; // 图片段
+}
+
+function videoPart(decoded: DecodedMedia): unknown {
+  return { type: "file", data: decoded.data, mediaType: decoded.mediaType }; // 视频按文件段投递
+}
+
+function filePart(name: string | undefined, decoded: DecodedMedia): unknown {
+  const extras = name === undefined ? {} : { filename: name };
+  return { type: "file", data: decoded.data, mediaType: decoded.mediaType, ...extras }; // 文件段
+}
+
+function resourceText(block: { title?: string; name?: string; uri: string }): string {
+  return `[Resource: ${block.title ?? block.name ?? block.uri}]`;
+}
+
 function userParts(
-  message: ModelInputMessage,
-  options: AiSdkMessageTransformOptions,
+  entry: ModelInputMessage,
+  view: AiSdkMessageTransformOptions,
 ): unknown[] | string {
-  if (typeof message.content === "string") return message.content || "[Empty user message]";
+  if (typeof entry.content === "string") return entry.content || EMPTY_TEXT;
   const parts: unknown[] = [];
-  for (const block of message.content) {
-    const unsupported = unsupportedInputMediaText(block, options.inputFormat);
-    if (
-      unsupported ||
-      (options.stripMedia &&
-        (block.type === "image" || block.type === "video" || block.type === "file"))
-    ) {
-      parts.push({ type: "text", text: unsupported ?? "[Media omitted]" });
-      continue;
-    }
-    if (block.type === "text")
-      parts.push({ type: "text", text: block.text || "[Empty user message]" });
-    else if (block.type === "image") {
-      const data = dataUrlToDataContent(block.dataUrl);
-      parts.push(
-        data
-          ? { type: "image", image: data.data, mediaType: data.mediaType }
-          : { type: "text", text: "[Invalid image data]" },
-      );
+  for (const block of entry.content) {
+    const unsupported = unsupportedInputMediaText(block, view.inputFormat);
+    const stripped =
+      view.stripMedia &&
+      (block.type === "image" || block.type === "video" || block.type === "file");
+    if (unsupported || stripped) {
+      parts.push(textPart(unsupported ?? OMITTED_MEDIA));
+    } else if (block.type === "text") {
+      parts.push(textPart(block.text || EMPTY_TEXT));
+    } else if (block.type === "image") {
+      const decoded = dataUrlToDataContent(block.dataUrl);
+      parts.push(decoded ? imagePart(decoded) : textPart(INVALID_IMAGE));
     } else if (block.type === "video") {
-      const data = dataUrlToDataContent(block.dataUrl);
-      parts.push(
-        data
-          ? { type: "file", data: data.data, mediaType: data.mediaType }
-          : { type: "text", text: "[Invalid video data]" },
-      );
+      const decoded = dataUrlToDataContent(block.dataUrl);
+      parts.push(decoded ? videoPart(decoded) : textPart(INVALID_VIDEO));
     } else if (block.type === "file") {
-      if (block.text) parts.push({ type: "text", text: block.text });
+      if (block.text) parts.push(textPart(block.text));
       else if (block.dataUrl) {
-        const data = dataUrlToDataContent(block.dataUrl);
-        parts.push(
-          data
-            ? {
-                type: "file",
-                data: data.data,
-                mediaType: data.mediaType,
-                ...(block.name === undefined ? {} : { filename: block.name }),
-              }
-            : { type: "text", text: "[Invalid file data]" },
-        );
+        const decoded = dataUrlToDataContent(block.dataUrl);
+        parts.push(decoded ? filePart(block.name, decoded) : textPart(INVALID_FILE));
       }
-    } else if (block.type === "resource_link")
-      parts.push({ type: "text", text: `[Resource: ${block.title ?? block.name ?? block.uri}]` });
+    } else if (block.type === "resource_link") {
+      parts.push(textPart(resourceText(block)));
+    }
   }
-  if (parts.length === 1 && (parts[0] as { type?: unknown }).type === "text")
-    return (parts[0] as { text: string }).text;
-  return parts.length ? parts : "[Empty user message]";
+  const onlyText = parts.length === 1 && (parts[0] as { type?: unknown }).type === "text";
+  if (onlyText) return (parts[0] as { text: string }).text;
+  return parts.length ? parts : EMPTY_TEXT;
 }
+
 function assistantParts(
-  message: ModelInputMessage,
-  options: AiSdkMessageTransformOptions,
+  entry: ModelInputMessage,
+  view: AiSdkMessageTransformOptions,
 ): unknown[] | string {
   const parts: unknown[] = [];
-  if (typeof message.content === "string") {
-    if (message.content) parts.push({ type: "text", text: message.content });
-  } else
-    for (const block of message.content) {
-      if (block.type === "text" && block.text) parts.push({ type: "text", text: block.text });
-      if (block.type === "reasoning" && (block.text || block.providerOptions))
+  if (typeof entry.content === "string") {
+    if (entry.content) parts.push(textPart(entry.content));
+  } else {
+    for (const block of entry.content) {
+      if (block.type === "text" && block.text) parts.push(textPart(block.text));
+      if (block.type === "reasoning" && (block.text || block.providerOptions)) {
         parts.push({
-          type: "reasoning",
-          text: block.text,
-          ...providerOptionsForReasoningBlock(block, options),
+          type: "reasoning", // 推理段
+          text: block.text, // 推理文本
+          ...providerOptionsForReasoningBlock(block, view),
         });
+      }
     }
-  for (const call of message.toolCalls ?? [])
+  }
+  for (const call of entry.toolCalls ?? []) {
+    const fallback = view.providerKind === "anthropic" ? "" : UNNAMED_TOOL;
     parts.push({
-      type: "tool-call",
-      toolCallId: call.id,
-      toolName: call.name || (options.providerKind === "anthropic" ? "" : "unnamed_tool"),
-      input: call.input,
-      ...(call.providerExecuted === undefined ? {} : { providerExecuted: call.providerExecuted }),
+      type: "tool-call", // 工具调用段
+      toolCallId: call.id, // 调用 id
+      toolName: call.name || fallback, // 空名闭合（anthropic 空串，其余 unnamed_tool）
+      input: call.input, // 入参
+      ...(call.providerExecuted === undefined ? {} : { providerExecuted: call.providerExecuted }), // 执行标记按需附带
     });
-  return parts.length === 1 && (parts[0] as { type?: string }).type === "text"
-    ? (parts[0] as { text: string }).text
-    : parts;
+  }
+  const onlyText = parts.length === 1 && (parts[0] as { type?: string }).type === "text";
+  return onlyText ? (parts[0] as { text: string }).text : parts;
 }
+
+function joinTextBlocks(content: Extract<ModelInputMessage["content"], unknown[]>): string {
+  const lines: string[] = [];
+  for (const block of content) {
+    if (block.type === "text") lines.push((block as { text: string }).text);
+  }
+  return lines.join("\n");
+}
+
+function systemMessage(entry: ModelInputMessage): unknown {
+  const content = typeof entry.content === "string" ? entry.content : joinTextBlocks(entry.content);
+  const shaped = { role: "system", content };
+  return entry.cacheControl
+    ? { ...shaped, providerOptions: { cacheControl: entry.cacheControl } }
+    : shaped;
+}
+
+function toolMessage(entry: ModelInputMessage, view: AiSdkMessageTransformOptions): unknown {
+  const failed = undeliverableFrameReferenceText(entry.content, {
+    stripMedia: view.stripMedia,
+    inputFormat: view.inputFormat,
+  });
+  const textify =
+    shouldTextifyStructuredToolResults({
+      apiFormat: view.apiFormat,
+      providerKind: view.providerKind,
+    }) || toolResultHasVideoMedia(entry.content);
+  const body = failed
+    ? { type: "error-text", value: failed }
+    : textify
+      ? {
+          type: entry.isError ? "error-text" : "text",
+          value: toStructuredToolResultText(entry.content, { inputFormat: view.inputFormat }),
+        }
+      : { type: entry.isError ? "error-text" : "json", value: entry.content };
+  return {
+    role: "tool", // 工具角色（协议面）
+    content: [
+      {
+        type: "tool-result", // 工具结果段
+        toolCallId: entry.toolCallId!, // 调用 id
+        toolName: entry.toolName!, // 工具名
+        output: body, // 结果体（三形态见 B28）
+      },
+    ],
+  };
+}
+
 export function toAiSdkMessages(
-  messages: ModelInputMessage[],
-  options: AiSdkMessageTransformOptions = {},
+  history: ModelInputMessage[],
+  view: AiSdkMessageTransformOptions = {},
 ): AiSdkModelMessage[] {
-  const source =
-    options.providerKind === "openai-compatible"
-      ? normalizeOpenAiCompatibleSystemMessages(messages)
-      : messages;
+  const compatible = view.providerKind === "openai-compatible";
+  const source = compatible ? normalizeOpenAiCompatibleSystemMessages(history) : history;
   const output: unknown[] = [];
-  // 修复依据：并行工具调用的结果是连续的 tool 消息。若每条结果后立刻插入其图片（user 消息），
-  // 序列会变成 tool① → user(图片①) → tool②，AI SDK 遇到 user 时发现 tool② 未回填，
-  // 抛出 MissingToolResultsError 中断对话。这里先暂存同一段连续 tool 结果的图片，
-  // 段结束后按原顺序合并为一条 user 消息：tool① → tool② → user(图片①, 图片②)。
+  // 连续 tool 结果的媒体段先暂存、段尾合并成一条 user 消息（保持既有修复）。
   let pendingToolMedia: unknown[] = [];
   const flushToolMedia = () => {
     if (pendingToolMedia.length) output.push({ role: "user", content: pendingToolMedia });
     pendingToolMedia = [];
   };
-  for (const message of source) {
-    if (message.role !== "tool") flushToolMedia();
-    if (message.role === "system")
-      output.push({
-        role: "system",
-        content:
-          typeof message.content === "string"
-            ? message.content
-            : message.content
-                .filter((b) => b.type === "text")
-                .map((b) => (b as { text: string }).text)
-                .join("\n"),
-        ...(message.cacheControl
-          ? { providerOptions: { cacheControl: message.cacheControl } }
-          : {}),
-      });
-    else if (message.role === "user")
-      output.push({
-        role: "user",
-        content: userParts(message, options),
-        ...(message.cacheControl
-          ? { providerOptions: { cacheControl: message.cacheControl } }
-          : {}),
-      });
-    else if (message.role === "assistant")
-      output.push({
-        role: "assistant",
-        content: assistantParts(message, options),
-        ...(message.cacheControl
-          ? { providerOptions: { cacheControl: message.cacheControl } }
-          : {}),
-      });
-    else {
-      if (!message.toolCallId || !message.toolName)
+  for (const entry of source) {
+    if (entry.role !== "tool") flushToolMedia();
+    if (entry.role === "system") {
+      output.push(systemMessage(entry));
+    } else if (entry.role === "user") {
+      const shaped = { role: "user", content: userParts(entry, view) };
+      output.push(
+        entry.cacheControl
+          ? { ...shaped, providerOptions: { cacheControl: entry.cacheControl } }
+          : shaped,
+      );
+    } else if (entry.role === "assistant") {
+      const shaped = { role: "assistant", content: assistantParts(entry, view) };
+      output.push(
+        entry.cacheControl
+          ? { ...shaped, providerOptions: { cacheControl: entry.cacheControl } }
+          : shaped,
+      );
+    } else {
+      if (!entry.toolCallId || !entry.toolName) {
         throw new AiSdkModelAdapterError(
           "invalid_model_request",
           "Tool messages require toolCallId and toolName",
           { context: { reason: "invalid_request", retryable: false, source: "runtime" } },
         );
-      const failed = undeliverableFrameReferenceText(message.content, {
-        stripMedia: options.stripMedia,
-        inputFormat: options.inputFormat,
+      }
+      output.push(toolMessage(entry, view));
+      const trailingMedia = toToolResultMediaUserParts(entry.content, {
+        apiFormat: view.apiFormat,
+        providerKind: view.providerKind,
+        stripMedia: view.stripMedia,
+        inputFormat: view.inputFormat,
+        toolName: entry.toolName,
       });
-      const textify =
-        shouldTextifyStructuredToolResults({
-          apiFormat: options.apiFormat,
-          providerKind: options.providerKind,
-        }) || toolResultHasVideoMedia(message.content);
-      const content = failed
-        ? { type: "error-text", value: failed }
-        : textify
-          ? {
-              type: message.isError ? "error-text" : "text",
-              value: toStructuredToolResultText(message.content, {
-                inputFormat: options.inputFormat,
-              }),
-            }
-          : { type: message.isError ? "error-text" : "json", value: message.content };
-      output.push({
-        role: "tool",
-        content: [
-          {
-            type: "tool-result",
-            toolCallId: message.toolCallId,
-            toolName: message.toolName,
-            output: content,
-          },
-        ],
-      });
-      const media = toToolResultMediaUserParts(message.content, {
-        apiFormat: options.apiFormat,
-        providerKind: options.providerKind,
-        stripMedia: options.stripMedia,
-        inputFormat: options.inputFormat,
-        toolName: message.toolName,
-      });
-      pendingToolMedia.push(...media);
+      pendingToolMedia.push(...trailingMedia);
     }
   }
   flushToolMedia();
