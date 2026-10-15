@@ -141203,6 +141203,457 @@
         "specs/contracts/apps-cli-packages-01-model/README.md",
         "specs/contracts/apps-cli-packages-01-model/gate-old.json"
       ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/acceptance.md",
+      "normalizedSha256": "85bdf27d1d59c1877c959745093acaa7e02e433961327be39226f9c2b9e27e1c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/behavior.md",
+      "normalizedSha256": "19b6f88d77a1b0a2dd2e71a66ecb917a11f7df4a9c283b468be720584338e1db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/callers.md",
+      "normalizedSha256": "05b69ab06129b25a3f8129d79a56b9026c3dae4cab95e4e80fe94870bc0de1df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/dist-entry-loader.mjs",
+      "normalizedSha256": "e9a381ea8092b3c295ce44e1e4dcd4a01448097b9a6dd701b11b1ed7bf9a016c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/gate-old.json",
+      "normalizedSha256": "717f35cee89f10a2deb02ca761538d43d32b4a7b0b61d42e94a9bfb6aa561d01",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/interface.md",
+      "normalizedSha256": "5ac2282f6d5a00bbe0d0f8ab0627a924ba1bc3deb87a2a86eb6a692cfe5e5805",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/known-differences.md",
+      "normalizedSha256": "2a0cb9d6baf49580129286513a0f91fa36081db2e0ba807579080a56f817a4ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/README.md",
+      "normalizedSha256": "0bd881def2c4a6a68098c39af0e4178a138ac602df5759d36d18c3a2cc7afef8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/scope-files.json",
+      "normalizedSha256": "acf8ef2999e835d8d234dab6a2005c02c5ed0fef390213c9012f0e772703f212",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/fixtures/workflow-file-goldens.json",
+      "normalizedSha256": "35ac2d3855cb5ffeba5a616c84dbcbc9f641ae91e342325758494c29b88aa239",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/targets.txt",
+      "normalizedSha256": "443d58124d5ca43af5c5a7dd10cf0f7b92f592076c558e36b94a1cf7c3450e4d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/amend-workflow-description.ts",
+      "normalizedSha256": "c58f1900c19a8c912ec09cbc165489ec6c1fab4844bf1b27cffe14524b2d9e36",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/amend-workflow-resolve.ts",
+      "normalizedSha256": "aa3ba16f85a8f0a4c07f129a0b4d8877f64768217e6a965a96c0b14eb1f7a906",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/amend-workflow-source.ts",
+      "normalizedSha256": "9715e767112a5fe7f657f91dfd057282d59ae8f21f4e4577c5a35228ff5acd9d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/amend-workflow.ts",
+      "normalizedSha256": "1a36b2fd9e3be4c9efcfd290fda76056f19002da93773773433c81e844574f69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "normalizedSha256": "3c1e4887f5d750863dd4c88af0475a19e4f198b42a0a926bb26acbf4886e7e53",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "normalizedSha256": "6cdda0743c25defedc5c8cc88a2d89b727a47841ed1657da07e22346b6595b15",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/create-workflow-description.ts",
+      "normalizedSha256": "d35d95dbd25d10061364af24bf50af1e8f2334c984af4a544f22b0e956a19c64",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "normalizedSha256": "05c84166ac412e2e8527fcc715ebe53c1d3a8a85939fc55faa20dc2b804e1237",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "normalizedSha256": "8d22a0c4f2273ad364a37917d8a3800e9352276d47875361278876175dc45d26",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/create-workflow-source.ts",
+      "normalizedSha256": "00f138e162ca15987785a916d2bfddec9887fa065d156dab91b9ae0de6fb653a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/create-workflow.ts",
+      "normalizedSha256": "d6ff1f2486a40e4134dc1c9bd074c0c2bb9a0b99dbde0c3e60c84e77ec961459",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet-description.ts",
+      "normalizedSha256": "636f6eb038e3561e814f48fc6fccab2528d69b4d4f1e0153de39a17fe3fae5ef",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts",
+      "normalizedSha256": "04297bee45a572d5f2b8a115ae30d3592304437060646a02ac523e2fdb9912c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/save-workflow-description.ts",
+      "normalizedSha256": "9a7560966ac7121da8897d6e28216f19cfa8c0a07b6dd071beb3bd5e68c5ad1f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/save-workflow.ts",
+      "normalizedSha256": "31ce555f32b075156b83a7e779a73f32a7481dfc0b9c51e5c7eb9597a1c192d6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts",
+      "normalizedSha256": "e1c34d1edf334f885359e23871d1f21dbc4bfef0a100fb68988cf97e0961dc1f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-drafts.ts",
+      "normalizedSha256": "5c9fae2ba9aae85d87be53ab0d235d26963e996b82787cf5551859a2131835ec",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-path-source.ts",
+      "normalizedSha256": "16d36b0ac3dc412286ecb032f479a5e9f33f088c0441ac9d58f7f1b69478d3ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "normalizedSha256": "b14a3cc7b8ef1e5a391d0d1a9546d499b0eeda4f64b89390a38371a685cf07fc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-script-analysis.ts",
+      "normalizedSha256": "c693abfc33a0f5c3bc07468541e9a2d49090122a12a2e45a489e0c52c3fc64a3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "normalizedSha256": "4eabe8848de3b54d8a9710b717b45f738336ed893cc6501f1313b25c7d236dc4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/stubs/apps/cli/packages/core/src/tool/handlers/workflow-script-path.ts",
+      "normalizedSha256": "83b088da1f3cf26d05cd3f0913ca851f22abddf20e4c5a8791b8347f9ff7c9b7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/ask-user-question.test.ts",
+      "normalizedSha256": "a34eb2ba1fb97d9b8461c3acb9e175aa245e6d2016dbdf14783746a8eb927cea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/fixtures.test.ts",
+      "normalizedSha256": "29e0f27e04d95a626d8d1db4a7f38e280d62ddfaa7d745ea079da79660bcfb61",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-amend.test.ts",
+      "normalizedSha256": "adc1435efc909ed5d66d4c388c7a9729ea6c7e84f70aab92bcb63a07232d163f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-create.test.ts",
+      "normalizedSha256": "a49695f8021b609e45a786b7cb4b47b1104595933bc044f3d6a002edcb77c4e5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-file-io.test.ts",
+      "normalizedSha256": "1d2952061b00828ee840b55d01be42b4318ff397283b7fe9953f35afdcbe9d74",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-graph.test.ts",
+      "normalizedSha256": "3c2044c09e8b3e26197bbdeba95209ad6ff2818847215efe0c89fc36c26a9913",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-notes.test.ts",
+      "normalizedSha256": "8c26d17de578548278e2aa2616c24c546e4ae0fd04b0b546bf8c8bed77ea9db1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/core-tool-handlers-workflow-01/tests/workflow-save-eval.test.ts",
+      "normalizedSha256": "2507f7161e40b8e31f322e035ef3dbcd7a37ce26ae044b3d04ea5727dae607c9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia contract for core-tool-handlers-workflow-01 v1 (behavior spec B-cw/B-aw/B-sw/B-ev/B-df/B-fl/B-an/B-nt/B-in/B-au/B-tp, machine-generated interface, dep-refs callers, black-box contract tests, golden round-trip fixtures recorded on the old write surface, 22 import-throw stubs and the two-entry old-gate record) authored against the old implementation's recorded behavior; workflow file format captured as golden bytes per the replacement plan's storage round-trip requirement, no upstream code copied, renamed or line-rewritten. Old gate: source 94/94, dist 94/94, 22-stub replacement 0/94 (all-fail).",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-01/README.md",
+        "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
     }
   ]
 }
