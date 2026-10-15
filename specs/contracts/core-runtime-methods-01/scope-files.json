@@ -1,0 +1,132 @@
+{
+  "package": "core-runtime-methods-01",
+  "root": "apps/cli/packages/core/src/runtime/methods",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-request-session-type.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-request-stream-state.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-runtime-headers.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-status.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-streaming-event-queue.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-streaming-event.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-token-limits.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/reasoning-stream.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/runtime-model.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/cancelled-stream-persistence.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/streaming-recovery.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/streaming-tool-execution.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/streaming-tool-synthetic-result.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": "unchanged",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/events-durable.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/events-session.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/events-summary.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": "modified",
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/usage-observability-projection.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    }
+  ]
+}

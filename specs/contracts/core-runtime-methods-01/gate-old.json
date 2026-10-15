@@ -1,0 +1,48 @@
+{
+  "contract": "core-runtime-methods-01",
+  "commit": "9e6a14b6d98936b11c78cf033ec85e54cf8f78e4",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-15T10:15:24.371Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/core-runtime-methods-01/tests/events-usage.test.ts",
+    "specs/contracts/core-runtime-methods-01/tests/model-request.test.ts",
+    "specs/contracts/core-runtime-methods-01/tests/streaming.test.ts",
+    "specs/contracts/core-runtime-methods-01/tests/surface.test.ts"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B19 取消与收尾交错 (255.1876ms)\n✔ B20 流中工具执行管线 (0.764ms)\n✔ B21 合成工具结果与错误事件 (0.3422ms)\n✔ B22 模型失败恢复编排 (2.3998ms)\n✔ interface.md × 运行时导出：21 模块 / 49 导出逐名一致 (5925.8088ms)\n✔ 21 个模块路径均可按公开路径导入，且入口取值受控 (0.3799ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26103.5641"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B19 取消与收尾交错 (256.8278ms)\n✔ B20 流中工具执行管线 (1.2643ms)\n✔ B21 合成工具结果与错误事件 (0.5354ms)\n✔ B22 模型失败恢复编排 (4.8464ms)\n✔ interface.md × 运行时导出：21 模块 / 49 导出逐名一致 (4070.4402ms)\n✔ 21 个模块路径均可按公开路径导入，且入口取值受控 (0.4386ms)\nℹ tests 33\nℹ suites 0\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26388.5843",
+      "environment": {
+        "KNORVIA_CORE_RUNTIME_METHODS_01_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 21,
+    "tests": 5,
+    "pass": 0,
+    "fail": 5,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "      at async TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\contract-methods01\\specs\\contracts\\core-runtime-methods-01\\tests\\surface.test.ts:91:24)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)\n\ntest at specs\\contracts\\core-runtime-methods-01\\tests\\surface.test.ts:1:3438\n✖ 21 个模块路径均可按公开路径导入，且入口取值受控 (1.6975ms)\n  Error: not implemented: core-runtime-methods-01\n      at <anonymous> (D:\\knorvia studio开发\\wt\\contract-methods01\\apps\\cli\\packages\\core\\src\\runtime\\methods\\model.ts:7:7)\n      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n      at async methods (D:\\knorvia studio开发\\wt\\contract-methods01\\specs\\contracts\\core-runtime-methods-01\\tests\\entry.mjs:47:21)\n      at async TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\contract-methods01\\specs\\contracts\\core-runtime-methods-01\\tests\\surface.test.ts:91:24)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)"
+  },
+  "pass": true
+}

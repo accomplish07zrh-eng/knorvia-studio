@@ -1,0 +1,161 @@
+{
+  "request": {
+    "keys": ["messages", "tools", "abortSignal"],
+    "messagesIdentityPreserved": true,
+    "tools": [
+      {
+        "name": "lookup",
+        "description": "Fictional lookup tool."
+      }
+    ]
+  },
+  "emitted": [
+    {
+      "kind": "start",
+      "done": false
+    },
+    {
+      "kind": "text_start",
+      "done": false
+    },
+    {
+      "kind": "text_delta",
+      "done": false
+    },
+    {
+      "kind": "text_delta",
+      "done": false
+    },
+    {
+      "kind": "text_end",
+      "done": false
+    },
+    {
+      "kind": "reasoning_start",
+      "done": false
+    },
+    {
+      "kind": "reasoning_delta",
+      "done": false
+    },
+    {
+      "kind": "reasoning_end",
+      "done": false
+    },
+    {
+      "kind": "tool_input_start",
+      "done": false
+    },
+    {
+      "kind": "tool_input_delta",
+      "done": false
+    },
+    {
+      "kind": "tool_call",
+      "done": false
+    },
+    {
+      "kind": "finish",
+      "done": true
+    }
+  ],
+  "result": {
+    "finishReason": "stop",
+    "providerMetadata": {
+      "raw": 1
+    },
+    "reasoning": [
+      {
+        "type": "reasoning",
+        "text": "plan",
+        "providerOptions": {
+          "vendor": "fictional"
+        }
+      }
+    ],
+    "text": "Hello",
+    "toolCalls": [
+      {
+        "id": "call-1",
+        "name": "lookup",
+        "input": {
+          "q": 1
+        }
+      }
+    ],
+    "usage": {
+      "totalTokens": 7
+    }
+  },
+  "script": [
+    {
+      "type": "start"
+    },
+    {
+      "type": "text_start"
+    },
+    {
+      "type": "text_delta",
+      "text": "Hel"
+    },
+    {
+      "type": "text_delta",
+      "text": "lo"
+    },
+    {
+      "type": "text_end"
+    },
+    {
+      "type": "reasoning_start",
+      "id": "r1",
+      "providerMetadata": {
+        "vendor": "fictional"
+      }
+    },
+    {
+      "type": "reasoning_delta",
+      "id": "r1",
+      "text": "plan"
+    },
+    {
+      "type": "reasoning_end",
+      "id": "r1"
+    },
+    {
+      "type": "tool_input_start",
+      "id": "call-1",
+      "toolName": "lookup",
+      "providerExecuted": false
+    },
+    {
+      "type": "tool_input_delta",
+      "id": "call-1",
+      "delta": "{\"q\":"
+    },
+    {
+      "type": "tool_input_delta",
+      "id": "call-1",
+      "delta": "1}"
+    },
+    {
+      "type": "tool_call",
+      "toolCall": {
+        "id": "call-1",
+        "name": "lookup",
+        "input": {
+          "q": 1
+        }
+      }
+    },
+    {
+      "type": "finish",
+      "finishReason": "stop",
+      "usage": {
+        "totalTokens": 7
+      },
+      "providerMetadata": {
+        "raw": 1
+      }
+    }
+  ]
+}
