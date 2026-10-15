@@ -68,10 +68,7 @@ function healthLeftoverNote(run: GetWorkflowRunOutput, terminal: boolean): strin
  * **leftover 说明**：下面那些标着 running 的行是进程死在它们下面的残留，不是活的工作。
  * 这是本工具仅有的两处「把不知道说出口」之一——沉默会被读成「它们还在跑」。
  */
-export function formatWorkflowRunHealthBlock(
-  run: GetWorkflowRunOutput,
-  terminal: boolean,
-): string {
+export function formatWorkflowRunHealthBlock(run: GetWorkflowRunOutput, terminal: boolean): string {
   const clock = run.generatedAt;
   const cells: string[] = [];
   const lastProgress = formatRelativeAge(clock, run.health.lastProgressAt);

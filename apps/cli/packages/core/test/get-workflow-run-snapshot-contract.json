@@ -196,9 +196,7 @@
           "description": "The workflow run ID to inspect (as returned by CreateWorkflow or ListWorkflowRuns)"
         }
       },
-      "required": [
-        "run_id"
-      ],
+      "required": ["run_id"],
       "additionalProperties": false,
       "$schema": "https://json-schema.org/draft/2020-12/schema"
     },
@@ -214,30 +212,15 @@
         },
         "labelSource": {
           "type": "string",
-          "enum": [
-            "name",
-            "script"
-          ]
+          "enum": ["name", "script"]
         },
         "status": {
           "type": "string",
-          "enum": [
-            "completed",
-            "errored",
-            "pending",
-            "running",
-            "stopped"
-          ]
+          "enum": ["completed", "errored", "pending", "running", "stopped"]
         },
         "stopReason": {
           "type": "string",
-          "enum": [
-            "user",
-            "model",
-            "provider",
-            "interrupted",
-            "superseded"
-          ]
+          "enum": ["user", "model", "provider", "interrupted", "superseded"]
         },
         "resumedFrom": {
           "type": "string",
@@ -319,10 +302,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "siteId",
-              "ordinal"
-            ],
+            "required": ["siteId", "ordinal"],
             "additionalProperties": false
           }
         },
@@ -341,10 +321,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "sequence",
-              "message"
-            ],
+            "required": ["sequence", "message"],
             "additionalProperties": false
           }
         },
@@ -360,12 +337,7 @@
               },
               "state": {
                 "type": "string",
-                "enum": [
-                  "done",
-                  "current",
-                  "ahead",
-                  "unfinished"
-                ]
+                "enum": ["done", "current", "ahead", "unfinished"]
               },
               "rounds": {
                 "type": "integer",
@@ -386,13 +358,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "name",
-              "state",
-              "rounds",
-              "nodesSettled",
-              "nodesRunning"
-            ],
+            "required": ["name", "state", "rounds", "nodesSettled", "nodesRunning"],
             "additionalProperties": false
           },
           "maxItems": 32
@@ -416,15 +382,7 @@
               },
               "state": {
                 "type": "string",
-                "enum": [
-                  "idle",
-                  "executing",
-                  "waiting",
-                  "parked",
-                  "done",
-                  "failed",
-                  "unfinished"
-                ]
+                "enum": ["idle", "executing", "waiting", "parked", "done", "failed", "unfinished"]
               },
               "phaseName": {
                 "type": "string",
@@ -476,16 +434,11 @@
                         "type": "number"
                       }
                     },
-                    "required": [
-                      "name"
-                    ],
+                    "required": ["name"],
                     "additionalProperties": false
                   }
                 },
-                "required": [
-                  "siteId",
-                  "ordinal"
-                ],
+                "required": ["siteId", "ordinal"],
                 "additionalProperties": false
               },
               "wait": {
@@ -493,10 +446,7 @@
                 "properties": {
                   "cause": {
                     "type": "string",
-                    "enum": [
-                      "slot",
-                      "backoff"
-                    ]
+                    "enum": ["slot", "backoff"]
                   },
                   "reason": {
                     "type": "string",
@@ -510,9 +460,7 @@
                     "type": "number"
                   }
                 },
-                "required": [
-                  "cause"
-                ],
+                "required": ["cause"],
                 "additionalProperties": false
               },
               "parkedOn": {
@@ -534,14 +482,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "siteId",
-              "ordinal",
-              "state",
-              "stepsSettled",
-              "stepsFailed",
-              "tokens"
-            ],
+            "required": ["siteId", "ordinal", "state", "stepsSettled", "stepsFailed", "tokens"],
             "additionalProperties": false
           },
           "maxItems": 64
@@ -578,10 +519,7 @@
                   "type": "number"
                 }
               },
-              "required": [
-                "effective",
-                "cap"
-              ],
+              "required": ["effective", "cap"],
               "additionalProperties": false
             },
             "consecutiveFailures": {
@@ -600,11 +538,7 @@
               "type": "boolean"
             }
           },
-          "required": [
-            "consecutiveFailures",
-            "cachedSteps",
-            "pendingQuestionsKnown"
-          ],
+          "required": ["consecutiveFailures", "cachedSteps", "pendingQuestionsKnown"],
           "additionalProperties": false
         },
         "result": {
@@ -664,17 +598,11 @@
                   "type": "number"
                 }
               },
-              "required": [
-                "kind",
-                "reason"
-              ],
+              "required": ["kind", "reason"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "code",
-            "message"
-          ],
+          "required": ["code", "message"],
           "additionalProperties": false
         },
         "pendingQuestions": {
@@ -701,12 +629,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "qid",
-              "actor",
-              "question",
-              "askedAt"
-            ],
+            "required": ["qid", "actor", "question", "askedAt"],
             "additionalProperties": false
           }
         },
@@ -720,14 +643,7 @@
               },
               "kind": {
                 "type": "string",
-                "enum": [
-                  "file",
-                  "markdown",
-                  "chart",
-                  "table",
-                  "metrics",
-                  "board"
-                ]
+                "enum": ["file", "markdown", "chart", "table", "metrics", "board"]
               },
               "title": {
                 "type": "string"
@@ -752,12 +668,7 @@
                 "const": true
               }
             },
-            "required": [
-              "id",
-              "kind",
-              "version",
-              "itemCount"
-            ],
+            "required": ["id", "kind", "version", "itemCount"],
             "additionalProperties": false
           }
         }
@@ -787,13 +698,8 @@
       "riskLevel": "low",
       "sideEffectScope": "none",
       "needsApproval": false,
-      "patternSources": [
-        "toolName",
-        "input"
-      ],
-      "alwaysAllowPatternSources": [
-        "toolName"
-      ],
+      "patternSources": ["toolName", "input"],
+      "alwaysAllowPatternSources": ["toolName"],
       "denyPriority": "beforeAsk"
     },
     "resultBudget": {
@@ -901,20 +807,8 @@
         "result",
         "summary"
       ],
-      "actorKeys": [
-        [
-          "siteId",
-          "ordinal",
-          "name"
-        ]
-      ],
-      "logKeys": [
-        [
-          "sequence",
-          "message",
-          "at"
-        ]
-      ],
+      "actorKeys": [["siteId", "ordinal", "name"]],
+      "logKeys": [["sequence", "message", "at"]],
       "model": "<summary>Running for 20468d 12h. 2 of 3 dispatched steps settled, 1 running. Owned by another session.</summary>\n\n<run_id>synthetic-run</run_id>\n\n<label source=\"name\">Synthetic &lt;&amp;&gt; run</label>\n\n<status>running</status>\n\n<stop_reason>provider</stop_reason>\n\n<resumed_from>synthetic-old</resumed_from>\n\n<max_concurrency>2</max_concurrency>\n\n<subagent_model>fake/model</subagent_model>\n\n<superseded_by>synthetic-next</superseded_by>\n\n<owned_by_this_session>false</owned_by_this_session>\n\n<possibly_interrupted>true — this session cannot confirm the run is still alive</possibly_interrupted>\n\n<created_at>1970-01-01T00:00:00.000Z (20468d 12h ago)</created_at>\n\n<updated_at>1970-01-01T00:00:00.001Z (20468d 11h ago)</updated_at>\n\n<health>stalled=no  consecutive_failures=0  cached_steps=0</health>\n\n<subagents>No subagents created yet.</subagents>\n\n<log_tail>\n[0]  20468d 12h ago  synthetic log &lt;&amp;&gt;\n</log_tail>\n\n<usage>spent_tokens=7 nodes_observed=3 nodes_running=1 nodes_completed=1 nodes_failed=1</usage>\n\n<result>\n{\n  \"synthetic\": true\n}\n</result>\n\n<amendable>AmendWorkflow with run_id \"synthetic-run\" supersedes this run with a revised script and imports its finished work as cache. Its script is at synthetic.dwf.ts: edit that file in place and pass `path: \"synthetic.dwf.ts\"` to AmendWorkflow instead of a script.</amendable>",
       "tape": [
         "context.port",
@@ -978,9 +872,7 @@
       {
         "receiver": true,
         "argc": 1,
-        "args": [
-          "synthetic-run"
-        ]
+        "args": ["synthetic-run"]
       }
     ]
   }
