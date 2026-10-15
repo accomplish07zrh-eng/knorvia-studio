@@ -101,27 +101,29 @@ function phaseProgressCell(phase: GetWorkflowRunPhase, terminal: boolean): strin
 }
 
 function phaseTimingCell(phase: GetWorkflowRunPhase, clock: number, terminal: boolean): string {
+  // 求值序契约（frozen tape）：enteredAt 判定 → exitedAt 判定 → exitedAt 取值 → enteredAt 减数。
   if (phase.enteredAt === undefined) return ""; // 没进过就没有时长段
-  const departed = phase.exitedAt;
-  if (departed !== undefined) return formatWorkflowRunDuration(departed - phase.enteredAt);
+  if (phase.exitedAt !== undefined) {
+    return formatWorkflowRunDuration((phase.exitedAt as number) - phase.enteredAt);
+  }
   return terminal ? "" : `${formatWorkflowRunDuration(clock - phase.enteredAt)} so far`;
 }
 
 function phaseRow(
+  run: GetWorkflowRunOutput,
   phase: GetWorkflowRunPhase,
   index: number,
   names: readonly string[],
   widths: { nameWidth: number; stateWidth: number },
-  clock: number,
   terminal: boolean,
 ): string {
-  const rounds = phase.rounds === 0 ? "" : `${phase.rounds} round${phase.rounds === 1 ? "" : "s"}`;
+  // 求值序契约：state（第 2 位）→ rounds（第 3 位）——rounds 不得提前取值。
   return rowOf([
     `${index + 1}. ${padTo(names[index]!, widths.nameWidth)}`,
     padTo(phase.state, widths.stateWidth),
-    rounds,
+    phase.rounds === 0 ? "" : `${phase.rounds} round${phase.rounds === 1 ? "" : "s"}`,
     phaseProgressCell(phase, terminal),
-    phaseTimingCell(phase, clock, terminal),
+    phaseTimingCell(phase, run.generatedAt, terminal), // generatedAt 契约上在此读取（不提前）
   ]);
 }
 
@@ -138,9 +140,7 @@ export function formatWorkflowRunPhasesBlock(
     nameWidth: fitWidth(names),
     stateWidth: fitWidth(phases!.map((phase) => phase.state)),
   };
-  const lines = phases!.map((phase, index) =>
-    phaseRow(phase, index, names, widths, run.generatedAt, terminal),
-  );
+  const lines = phases!.map((phase, index) => phaseRow(run, phase, index, names, widths, terminal));
   return `<phases>\n${lines.join("\n")}\n</phases>`; // 表容器
 }
 

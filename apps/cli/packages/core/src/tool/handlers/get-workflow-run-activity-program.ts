@@ -29,8 +29,9 @@ function parkedLine(
   clock: number,
   questionTimes: ReadonlyMap<string, number>,
 ): string {
-  const qid = escapeWorkflowRunText(actor.parkedOn!);
+  // 求值序契约（changing 序列逐读取映射）：先 age 的表查询（第 2 次 parkedOn），后 qid 的转义（第 3 次）。
   const age = formatRelativeAge(clock, questionTimes.get(actor.parkedOn!));
+  const qid = escapeWorkflowRunText(actor.parkedOn!);
   return `on question ${qid}${elapsedSuffix(age)}`;
 }
 
