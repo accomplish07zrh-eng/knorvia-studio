@@ -1,0 +1,46 @@
+{
+  "note": "KD-1 尾巴：rewind 成功落账载荷（旧实现实测）",
+  "input": {
+    "id": "event_rewind",
+    "type": "workspace_file_rewind_triggered",
+    "timestamp": "$time",
+    "sessionId": "session_rec",
+    "traceId": "trace_rec",
+    "turnId": "turn_rec",
+    "sequenceNumber": 7,
+    "payload": {
+      "rewindId": "rw_rec",
+      "scope": "workspace",
+      "strategy": "file_only",
+      "reason": "file_summary_rewind",
+      "targetMessageId": "msg_rec"
+    }
+  },
+  "saved": [
+    {
+      "kind": "saveSessionEntry",
+      "entry": {
+        "id": "workspace-file-rewind:rw_rec",
+        "sessionID": "session_rec",
+        "type": "runtime/workspace_file_rewind",
+        "time": {
+          "created": 1000,
+          "updated": 1000
+        },
+        "data": {
+          "eventId": "event_rewind",
+          "payload": {
+            "rewindId": "rw_rec",
+            "scope": "workspace",
+            "strategy": "file_only",
+            "targetMessageId": "msg_rec",
+            "reason": "file_summary_rewind"
+          },
+          "sequenceNumber": 7,
+          "traceId": "trace_rec",
+          "turnId": "turn_rec"
+        }
+      }
+    }
+  ]
+}

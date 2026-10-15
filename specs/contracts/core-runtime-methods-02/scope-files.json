@@ -1,0 +1,150 @@
+{
+  "package": "core-runtime-methods-02",
+  "root": "apps/cli/packages/core/src/runtime/methods",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact-log-context.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/context-history-entries.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/context-refresh.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/tool-part-metadata.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/tool-part-persistence.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-guide-drain.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-loop-state.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-operation.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-records.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-usage.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-nested-model-usage.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-output-token-continuation.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-step-finish.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-stop.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-parts.ts",
+      "classification": "unreviewed",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tool-usage.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tool-warnings.ts",
+      "classification": "upstream-unchanged",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "classification": "upstream-modified",
+      "upstreamRelation": null,
+      "license": "NOASSERTION"
+    }
+  ]
+}

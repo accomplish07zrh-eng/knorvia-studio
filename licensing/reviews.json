@@ -142463,6 +142463,334 @@
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
         "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
       ]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/README.md",
+      "normalizedSha256": "2ee28f79590f2b64d8f38bbd92716c828bc4807f366bda50897d148c031a569c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/acceptance.md",
+      "normalizedSha256": "2f9336a06f8b4366604db04cff8ae87d6959fc1adaec728d6d41ba72cad77834",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/behavior.md",
+      "normalizedSha256": "5c3786ff83b80d792fa21cb0e4ac499d01e2331f28b8d23fe3accdca33636d15",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/callers.md",
+      "normalizedSha256": "9169bc962e80f645f2d5a31ec9733bda519d0043e8345da76d42c8967736d1f7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/fixtures/model-step-roundtrip.json",
+      "normalizedSha256": "a7a734d5bbaf86f69b3406c571da2f0e35e4530199df989b590236f2cba5cff0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/fixtures/rewind-success-payload.json",
+      "normalizedSha256": "3d7e882c943a58b6b2bf5dcbd45187e77f7b4649d39fee511acf02fe90f2ff79",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/interface.md",
+      "normalizedSha256": "111eaee955b62f270f3d4d58dd4760112e13339f404a0364e15a6704cc55cf1f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/known-differences.md",
+      "normalizedSha256": "6cd144ff7d2588175eae438f3f847358f70a69e613b5187acb2e2826d086321d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/scope-files.json",
+      "normalizedSha256": "7d6bbfd1eae06a09a9310bcb20e458f990db2e5dda7e350bc5c3f65ae12043b7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/compact-log-context.ts",
+      "normalizedSha256": "c804f6ec17093b69183a458fb15bdb590e8d720ac36fb635dc9f4a4c3633071a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/compact.ts",
+      "normalizedSha256": "2a98a63aa6d12cbdb4ab77e18e71cda74e3e243d2d5aa5226a8f012db2b602e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/context-history-entries.ts",
+      "normalizedSha256": "f659cfa8f72fe1d035452c8bcb9e5924898b8d10179e40a1644ce09464ac337c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/context-refresh.ts",
+      "normalizedSha256": "ed0dbcbf57fd1959af1d13a9f59328543394957cd9de9fc48a666d27d4088141",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/tool-part-metadata.ts",
+      "normalizedSha256": "520b032811e19377b5369a95ba7e240e0c40ac79fb957729e407655e724c66e1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/tool-part-persistence.ts",
+      "normalizedSha256": "b812c3d1810660881f0d89133f19aa4c53574540c0138e4382b78ffa7277d61e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-guide-drain.ts",
+      "normalizedSha256": "a08178b90db3dc95ecb6e664ed5312d268f68197869aea43a84f1c5b025aa41b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-loop-state.ts",
+      "normalizedSha256": "430cf0a8e247f4e94bfd3d9f9cc6437587695abfe0037a2b16769e577721815f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+      "normalizedSha256": "af452843b774e441c9be55132fbb269c3cbc60251433732d3334ee609f43b431",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model-step-operation.ts",
+      "normalizedSha256": "f0a381a232358a9f6a6f3f91ae28b89a80022938b6d168c44c507b0961c4ac69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model-step-records.ts",
+      "normalizedSha256": "c72a7e86d4f88be645b2b6db8939e5a071a4efcd1136c2d96981b6843799a619",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts",
+      "normalizedSha256": "2972fbb641dd28c6b41d31528910c08ced695098cf8335f9010a6e6ca8de0161",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model-step-usage.ts",
+      "normalizedSha256": "0fae0c6fe7d8a7614d67e1f6b3c59648a73835b208f45cb4eab0545e027cbe23",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+      "normalizedSha256": "b62b604e9b91a6f4ace2187bf5b3135328880e9495a368b05915639a60b96a9f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-model.ts",
+      "normalizedSha256": "e9c2c9ce7bc096c7812f2ccb02264b7b37ba8f440ad114be79af0668afc934ab",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-nested-model-usage.ts",
+      "normalizedSha256": "eb242a2e11a60cd65e653efd1991e9db1101df626a09affb1d399a8d5e6802b4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-output-token-continuation.ts",
+      "normalizedSha256": "df6a7072ef874f2962cd3783784ef4ba880086cb3bd607504ef4b178680d2f73",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-step-finish.ts",
+      "normalizedSha256": "bb87290e6d4a54263ae9619d32c1934ce6a75f46c67f2393583cb312212bdf0d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-stop.ts",
+      "normalizedSha256": "a4cf7503cbe9c20337e7aef29dab1d682db32bd095f4d02106b9ab7d57bc8db0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "normalizedSha256": "af12e1a048dd3e61a52af8a5fd56f54c1ae4176da8354014949be990020e21b7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-tool-batch-parts.ts",
+      "normalizedSha256": "bc70787027f7f64ea7a296ffbf143c3b37a87db1479426db2b29713261b6c0d2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-tool-usage.ts",
+      "normalizedSha256": "78040f71a3a363c5784b356671ea15a46c6b7618a8dd010156536b8988b66de5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-tool-warnings.ts",
+      "normalizedSha256": "7a4921d055441c6ad6087a3b535e4d6e6ea5b30f08951b8888d93bee5d9abf23",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "normalizedSha256": "8e475cad5d7888c9a197ffa16e8415790fcf432b82b9b0aa419698a465046514",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/build-stubs.mjs",
+      "normalizedSha256": "21c78e9185ece80b7a0b28c5656634d88649df43d671cbe552f863248fd24d58",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/stubs/targets.txt",
+      "normalizedSha256": "4981996f289952c3f022c23ce4cac6cf2132206c7c5d7a2beb14e9230a37dcdf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/tests/entry.mjs",
+      "normalizedSha256": "5a547ea84683fa68c73fc43ac8e8bffeb76a8f6902327322385c2e90aec54a0c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/tests/fixtures.ts",
+      "normalizedSha256": "2d64dbc84d35a586579119cc1807228e9079cdc3a2685f70a6319597af550cea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/tests/surface.test.ts",
+      "normalizedSha256": "c9ac5b91e34b41d222c1a45404b7940bf7664decf744a0f917e756d2a763b569",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/tests/turn-finish-compact.test.ts",
+      "normalizedSha256": "7cd3287a178cb9be30185d2c5ec1932415a8cef472552a610555ef51bac41d0d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/tests/turn-model-step.test.ts",
+      "normalizedSha256": "7ed9e0fd674c0fb6cbc707876b8763c41073410181e711d071f34162aa84c8b1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/core-runtime-methods-02/tests/turn-tools.test.ts",
+      "normalizedSha256": "4f70d30603b45c3b192b764603b4da7b764c7b79596e09307500f9a5a4d7d473",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
+      "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
     }
   ]
 }
