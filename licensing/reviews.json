@@ -1875,110 +1875,101 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/anthropic-reasoning-metadata.ts",
-      "normalizedSha256": "8c65e1ba181fea9617babfffd261f9be56c49b56737df32b7d7b9c1542a4d31a",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "2c55bf75f34231242989b3978ab724d2c9f919e7f8ef2fd61c6f0fa3e059a4c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/anthropic-request-metadata.ts",
-      "normalizedSha256": "4f2e753f956d9062ad035bf6b07e0018a7bdbf92e985a66cecc29c7e3890c0e6",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "17c4c8410aa6cff40eb4ece1efc15302e0f213d99846a179967e0238c771354d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/anthropic-stream-compat.ts",
-      "normalizedSha256": "df5f82db17410de5a20130c040c42c537816aaaef5950b1a23e706a874834780",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "3335548f282c7bcffdcd477e1e6409565e6d299777557a5996ad59c990179e07",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/empty-completion-retry.ts",
-      "normalizedSha256": "ddd31d37e631ce62628cda42d3dd36be00382239d73679a931e4f3762cd1c55d",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "65a9e0c503f176c4b91cd2e3fc06f355ff0727f475c56ab532cdceedccddd835",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/errors.ts",
-      "normalizedSha256": "70319903e1404584e231a9ba37e61e2a0101d410516ef4fd49ffda0d4cf8b9f5",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "bf41dde0ade12996b0bd485ba5d3c160d9904da6b51189f91f4ed029268c819e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/failure-ai-sdk-provider-error.ts",
-      "normalizedSha256": "0b54d0680516ca5b5c51d5ca83f8a49f0090aa6f86ccfdec716d311843270b7f",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "3d90d83af3884b948ca283e9f6559d20001dce66ef2447a6464a87e1ed096796",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/failure-classifier.ts",
-      "normalizedSha256": "7650b3f62cf4ccfcf36e3912610cd77b7b81444178af75245fa93f883d5c598f",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "675ac14369b5f3a5c6710c0817b1f0f9b3efe9a02aadbbf510b5ec35709a25db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/failure-inspection.ts",
-      "normalizedSha256": "5277bedc6a72a79c616fb03d9c841d4da8ae99a57b056a28b18132257d43ddfb",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "405e60e61f0f78d1c31d41b264c4b504b66829d02d2519b30973c2113d4c2789",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/failure-provider-business-codes.ts",
-      "normalizedSha256": "ab2ce50ff26f30a25f16a2af28448d7477d83bb8029b1da2329e9488d811cca8",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "c066a4e676ce419c76eeb5888653fbbab18ae64a0e85e248995dc6fce7d2c26a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
@@ -2007,98 +1998,90 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/media-transform-policy.ts",
-      "normalizedSha256": "c248cfeddb669c4e6dca5c52cd11bd25b57fa45c11e824d905e3927657881c9b",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "eb590f934277f5d39c4edd5bde933a2f4beaaf4667a060b785f02a54e3c91753",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/model-execution.ts",
-      "normalizedSha256": "6b400fcca2f99c29517bb2eec806a72932e792e4783bc0c3c7c9502df05b0d08",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root. 2026-10-08 repair (specs/knorvia-composer-polish-20261008.md): OpenAI-compatible models are created with includeUsage so streamed responses return token usage; written in this repository from the user-reported stale footer.",
+      "normalizedSha256": "317342ef7994c6d754b881bd3df682f111ed8d3d927fea6762a80f7e7189f58f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/model-option-map-fetch.ts",
-      "normalizedSha256": "3832898e812e3b73276401aa7462ca0378f56eabe44c4c3c4d958472919003f3",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "253a941e592bd82a7aba7aaaf80bc80928b357382a348b883a947e75a3f8ed3a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/model-request-headers.ts",
-      "normalizedSha256": "92a7e2ce42a77e25b8389c4214b8847350b40b935b2d2a61804f207ab33de34f",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "9b848d0a6941f4d62bace09dd5e6a2af4ee08567efab819f371be96c6ecbf1e1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/model.ts",
-      "normalizedSha256": "ea28d772ba1a7953faefabe0a83df653d2fec6ae4d4289162c39e96e1d19977a",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "6faf162697828933265c73047bba215d2ad44cac98c765a7ce974ef2d2f9b3af",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/offpeak-retry.ts",
-      "normalizedSha256": "cdf0ed022759fcf8dc4d30ef2a8ba35439f33707d6bbe7869c6a8defe2e7e11f",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "fbf1ceb2523290eff7a931e4aebd48efd15d44c4c283522e0cd16b8981c2469d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/openai-responses-json-compat.ts",
-      "normalizedSha256": "5a5fbc0260f6f72ca0ef27f1b4dbcabe2da8443d6a96e30b9efc626ab0c50139",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "b6065d04a795266c0bde56fc5841e85ac242e881ea57bde0447e87369447f821",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/opencode-session.ts",
-      "normalizedSha256": "cd2f13f4f580a2a91732347c35ca6447c31d530b2adcaabb299d9629d39bb79c",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "fcc72096e4bb8cbc2bb5c63375d7b99d769618718c69bdc25980ab174837d96b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
@@ -2115,62 +2098,57 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/reasoning-history-normalization.ts",
-      "normalizedSha256": "49dc9a3f45be03b7063ea9e7b19cf4227a338045cdd4ffd34d2e18f3ff633281",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "96060716a48d0cbc5082349e1e9838b155ea5d70dda630a8d83d5a0bf9a3559b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/request-admission.ts",
-      "normalizedSha256": "55fdfdda72d520933578d7b0db7eb5413dbb854ab830332b3fd91d2bfe4ca929",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "55a2c6502b447854b018c4b3bd991efff0e758590cba160da1b284f36e32d792",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/retry-budget.ts",
-      "normalizedSha256": "1aa31332f34f9412253605e34687c586ce7bcf73360e729d7cf7ad979a8c534f",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "8535c8276aca12c8569c6dc022c9ce1b822ab02ea4a538f261f8d1fe941f3c6d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/retry-policy.ts",
-      "normalizedSha256": "f277b3c636d8798fe036afd863c49026a707074dcc1113da68e9aed644b67e96",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "bae5e6d9f2e0463bdd9ee2b53787e20ec12a97d82331c968a433b773c27563a8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-attribution.ts",
-      "normalizedSha256": "c8c77fa2db112b7e44a97ad2feabdcac468b03899c5b6f3fa159a0aea4adf265",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "061003560ff4af9565ca0be7938047bf47a2204284a5ed878f9f2a703d6121ea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
@@ -2187,206 +2165,189 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-debug.ts",
-      "normalizedSha256": "cc7fa6285192fb013d4f4cccc1bfe224e654c96e621be213814ac7e65ad922ed",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "8aa7716d953c805546d2c7b35b00340742a42040241298b26d3fe38c55a818aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-diagnostics.ts",
-      "normalizedSha256": "67350b4bdd9513dae9cbd92c03ae8fe2387a14b7f172b0631e7b3c81d47ee16b",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "e310ed3fac555637a3b8ce3c549a40fcf9ab3f4108eb5aed78b5d74a8818ffc7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-generate.ts",
-      "normalizedSha256": "5ad9867397c5b71fea68e144d5acd124905457585f13d61a02b191f5363d32df",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "bdcb515258d090fd3b10604f92db46a582895c3c0ca9849d2ad7d74de440d6e9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-network-headers.ts",
-      "normalizedSha256": "3e29f6c23a4261bfc4c3cb87510add1a22a578e9b3fa71f2a23265c40cc4adf5",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "de48b5f1bf44e6a0f953b20f9b306ffc5f0f9bd9ac33e79d7d77aa67bca55928",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-normalization.ts",
-      "normalizedSha256": "a78ef8577e38105398f71337d31fd3f4e848b14b437a7bd062128a60f8fc7d8d",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "24a96c335e8d604ad1c305bb6f145fbf63935417850d888a6b093eb72e491669",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-options.ts",
-      "normalizedSha256": "3896a7b23ed3d4262564148426de04ddfb5460c215e4c2ff07b581ce65554585",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "dc2089a990312e87bc91242d9c68c19244c7f9a95ca8aa2ac12bfe68cc41dfbe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-record.ts",
-      "normalizedSha256": "dc808f55a13d7b5fc6ae8a479bdce47f58623a65a753d6cd65ea8ef84b9c6540",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "f0544647830022b66dd39ad080b02fc3f103d6fd6f7ff84c7a6b5558116ac31e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-retry.ts",
-      "normalizedSha256": "5f1c92a620d4934f248bc1b49e87014b8f4f2f09644b81ccf5e02ed092c73d67",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "4ddd6cef55fd880a2056b2fa60a73afde703bd773ac0a95fb0fec1628d9506dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-runtime-headers.ts",
-      "normalizedSha256": "f32d5fce0d04792984ae354fcb68eb4a23047694029c21e9fd5e20627bc9fdf8",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "5bf598eeee9e847fca41c9946cc28d2dcf67f9010fbdb7c4fbc2436c91756ccc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-runtime.ts",
-      "normalizedSha256": "a51470c574e96b21906f3a542eabde4cba7f9609ce9b9b196db9aeb20901fc54",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "1b6b8e878c87ba4ae29ca633c209f31fbb638a6eafbfb2f3bb75ea7c9159d292",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-status.ts",
-      "normalizedSha256": "88db845c9e25864c9d5e7ec8b91c185aa0340b2f354333b41d8d027fb2bd92ff",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "4ef7d8b662d66d165ba77e5022da250d3c2cd74ac870a1c50de723b45c2df04e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-stream.ts",
-      "normalizedSha256": "b14684734426eb3520e5adb43d323e26f908f799f41014253ad5384ac798d6a6",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root. 2026-10-08 repair (specs/knorvia-composer-polish-20261008.md): the stream runner now records the first visible content time per attempt and adds usage, finishReason and timeToFirstContentMs to model_request_completed, matching the non-streaming runner, so the chat footer can compute throughput and per-request cache usage; written in this repository from the user-reported stale footer and covered by the runner-stream contract case added to the 76/76 suite.",
+      "normalizedSha256": "36aa4ae37e1445d57d682bb58d92721c7af89ed099be582410a6e9e02731a5c6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner-telemetry.ts",
-      "normalizedSha256": "d0d874aca5165a6c814186cf618d77ad64dfb98f8afa226f42c7fcc52bf9f7c3",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "74435c476022660ea87a29ba51bba13ffbb141418e6a27a4ef02a3da6bae26c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/runner.ts",
-      "normalizedSha256": "76424b82f5c69608ee1d9ccf7eea20685092bf693dc61aa609a1baea351ab799",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "d857dd31a9f8ccb223a01d7c459e49e22f99bcd9f8f76a938f7cea5522c34067",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/stream-idle-timeout.ts",
-      "normalizedSha256": "b944a6746597e0baecc2e8427ad7b435304d1832f06667b030178f6e37b70852",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "a597078931caaf7e27f5da1b311056d930dc783b55b135646ba9a0295644b0bc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/stream-retry-boundary.ts",
-      "normalizedSha256": "cdb4ca880999e0bf8ddb01e9e3a5ddf49554a1d57e40246c3b8653ce55e7695e",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "77efac3fabeb7262d64d37ba2ea77924a4b75d291ff436c0c3639f25350b088c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/streaming-tool-call-assembler.ts",
-      "normalizedSha256": "fc05ac70962ecb0860deef950a7f59ceb2b41eee87ac2ef8f40d59dd741ff036",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "3aa8ddc9ede4883318dbd1454d7d726f360393275d98c3a48282ac6548905305",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
@@ -2427,62 +2388,57 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/model/tool-input-normalization.ts",
-      "normalizedSha256": "fdfdf9b40c69c351252f5921814fd6927d4bcb77165407678864914d2548f24b",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "3f51aed76c8ce13aba2ae59813ab367c0c3d1fa8b5115f64a2dcd23414368284",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/tool-result-media-projection.ts",
-      "normalizedSha256": "6e24ca827690eb855c673ced72a18fb3e9ce66c57bdc1d70a292eaf7febc16b8",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "aa1aea95c4472ea7046fa8c03a5eb71d52c8378889d37d9a99d83a85be61f07e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/tool-transform.ts",
-      "normalizedSha256": "3c498c4a131af92422c54317ac6bc6115323c5244adc54ddacdd766aa003a3b8",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "da11e8a1aba9588be7deda60853f666677e1d1c7d025f0e0dc712d270f830a27",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/transform.ts",
-      "normalizedSha256": "390ac90a89284d1afec1e2e78c32b7f50f773c9575effe7232e4d57df5f383f4",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root. 2026-10-05 repair (specs/knorvia-tool-result-media-order.md): toAiSdkMessages now buffers tool-result media across a consecutive run of tool messages and emits one ordered user message after the run, fixing MissingToolResultsError for parallel image reads; the change was written in this repository from the user-reported failure and its offline reproduction, touches only that ordering, and is covered by apps/cli/packages/adapters/test/tool-result-media-order.test.ts.",
+      "normalizedSha256": "d788ed1e2b324213874f92d79b57ff8b447f49e9cb5c4f7dc449c47a9bf9843f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
       "path": "apps/cli/packages/adapters/src/model/workflow-model-failure-policy.ts",
-      "normalizedSha256": "adc763cc443444381c5ec7260c33a0d532e3ee0e20f54253f203a0982ac81f9b",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "normalizedSha256": "d901aa9a23898f3f43494760860b02eac0f3c293ff12af9970fa314ff33c75a0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
       "evidence": [
-        "specs/knorvia-model-adapter-runtime.md",
-        "docs/knorvia-model-adapter-runtime-acceptance.md",
-        "licensing/evidence/model-adapter-runtime.md"
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     },
     {
@@ -141410,6 +141366,94 @@
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-01/README.md",
         "specs/contracts/core-tool-handlers-workflow-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/model-contract.ts",
+      "normalizedSha256": "839d6e7fe4d7886f9a42e9986c70de7f70f368a7f50e78866a052f84555cea8f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/status-contract.ts",
+      "normalizedSha256": "d683963161f800fb290b7e485098502421e45606b6c551c72c8ed2a465597339",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/execution-contract.ts",
+      "normalizedSha256": "7fff677baaa7f3aa332ef1d04e022ae2110ecff61f5b6909f054e78e78b37914",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/provider-routing.ts",
+      "normalizedSha256": "c09cd99df23ccc9040a18660ca6e2d17d09d67adf05e514affcefa0971532e08",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite: independent implementation per contract v1 (behavior B1-B62, 68 golden cases), similarity gates passed (see docs/knorvia-apps-cli-packages-01-model-acceptance.md)",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/business-error.ts",
+      "normalizedSha256": "6286abef5c98bb379ae2c05a941b0edfa4d85a3d757c72f7f359faf1f25f64ec",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/attempt-events.ts",
+      "normalizedSha256": "8d7d1d83bb2c50adde7a8f561251f483ec51bcd799ddf2352442b67be15e5981",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/support/failure-disposition.ts",
+      "normalizedSha256": "050b99b77d8779be8147dcbf093cfe735f0d08a625ab17a56f82071c3eda9f81",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+      "normalizedSha256": "22dba98486c54a6e1454c414eb9dce9e86d31eccb764bd9360cc88bb529480d2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia apps-cli-packages-01-model rewrite deliverables: support internals and acceptance record",
+      "evidence": [
+        "docs/knorvia-apps-cli-packages-01-model-acceptance.md",
+        "specs/contracts/apps-cli-packages-01-model/behavior.md"
       ]
     }
   ]
