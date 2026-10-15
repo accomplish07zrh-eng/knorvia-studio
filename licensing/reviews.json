@@ -138030,7 +138030,7 @@
     },
     {
       "path": "specs/contracts/dynamic-workflow-01/gate-old.json",
-      "normalizedSha256": "05331f5e098ed6d90e330398381aa3ecc2095568357e3077686b54840dd30b93",
+      "normalizedSha256": "ad203b7c791ff527f6e7e64022456bf9f20fd3c51436dd690a223d94e16f27ef",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
